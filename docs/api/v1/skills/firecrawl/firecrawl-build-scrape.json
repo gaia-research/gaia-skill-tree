@@ -139,6 +139,12 @@
       "action": "evidence_added",
       "contributor": "marcotiongson",
       "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 346.02, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

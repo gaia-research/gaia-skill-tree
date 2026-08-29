@@ -19,7 +19,7 @@ tags:
 - claude-code
 - tool-creation
 createdAt: '2026-04-30'
-updatedAt: '2026-07-05'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -66,8 +66,13 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
     (type: benchmark-result)'
-trustMagnitude: 90.0
-overallTrustGrade: B
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.0 -> 211.52, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 211.52
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -116,7 +121,7 @@ evidence:
   benchmarkInputHash: 6fa69c944f0e74add4ed3a136321e0247224eb1a8cebab1e0a85763532d6daf5
 verification:
   firstEvidenceAt: '2026-06-19T09:22:07Z'
-trustMagnitudeInputHash: 3592919611bbbcfc966da0c18437884dd159bd12c456e8a040f74478585295c9
+trustMagnitudeInputHash: 94a28cb9a9d763a7579c49b2cad73723cadb60e131987a5513ccc7fa42e8624e
 ---
 
 ## Overview

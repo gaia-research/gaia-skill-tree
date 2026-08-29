@@ -136,6 +136,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 333.26, grade (none) -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

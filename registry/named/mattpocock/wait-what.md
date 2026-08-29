@@ -8,7 +8,7 @@ status: named
 level: 2★
 description: 'Stop. That last message did not land: re-pitch it.'
 createdAt: '2026-08-20'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-30'
 title: The Re-Pitcher
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md
@@ -26,6 +26,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/productivity
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md
   evaluator: marco-tngsn
@@ -40,6 +45,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-19T16:10:34Z'
 suiteRef: mattpocock/productivity
+trustMagnitude: 20.77
+overallTrustGrade: C
+trustMagnitudeInputHash: 12f7d9149b2d343b9b604f0d8bfdd7108a28700af45de58a0f2491d03da63b76
 ---
 
 ## Installation

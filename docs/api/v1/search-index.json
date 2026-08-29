@@ -6432,7 +6432,7 @@
     "name": "Supabase",
     "contributor": "supabase",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 5.0,
     "branch": "standard",
     "tokens": [
@@ -6448,7 +6448,7 @@
     "name": "Supabase Postgres Best Practices",
     "contributor": "supabase",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 5.0,
     "branch": "standard",
     "tokens": [
@@ -6465,7 +6465,7 @@
     "name": "Engineering",
     "contributor": "mattpocock",
     "level": "4★",
-    "grade": "A",
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "suite",
     "tokens": [
@@ -6488,7 +6488,7 @@
     "name": "Misc",
     "contributor": "mattpocock",
     "level": "3★",
-    "grade": "A",
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "suite",
     "tokens": [
@@ -6517,7 +6517,7 @@
     "name": "Personal",
     "contributor": "mattpocock",
     "level": "3★",
-    "grade": "B",
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "suite",
     "tokens": [
@@ -6539,7 +6539,7 @@
     "name": "Productivity",
     "contributor": "mattpocock",
     "level": "3★",
-    "grade": "A",
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "suite",
     "tokens": [
@@ -6561,7 +6561,7 @@
     "name": "Remotion Best Practices",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "suite",
     "tokens": [
@@ -6580,7 +6580,7 @@
     "name": "Remotion Captions",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6597,7 +6597,7 @@
     "name": "Remotion Create",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6615,7 +6615,7 @@
     "name": "Remotion Docs",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6633,7 +6633,7 @@
     "name": "Remotion Interactivity",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6650,7 +6650,7 @@
     "name": "Remotion Maps",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6668,7 +6668,7 @@
     "name": "Remotion Markup",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6686,7 +6686,7 @@
     "name": "Remotion Multimedia",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6704,7 +6704,7 @@
     "name": "Remotion Render",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6722,7 +6722,7 @@
     "name": "Remotion SaaS",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6739,7 +6739,7 @@
     "name": "Remotion Studio",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [
@@ -6757,7 +6757,7 @@
     "name": "Remotion Upgrade",
     "contributor": "remotion-dev",
     "level": "2★",
-    "grade": null,
+    "grade": "ungraded",
     "trustMagnitude": 0.0,
     "branch": "standard",
     "tokens": [

@@ -136,6 +136,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -10,7 +10,7 @@ description: Expands the Gaia skill registry with new, fully evidenced AI agent 
   — researching skill sources, running validation, opening versioned PRs, and appending
   discovered marketplaces to the sources registry in one end-to-end workflow.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-08-30'
 title: The Registrar
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md
@@ -42,6 +42,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -53,7 +58,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4a4629c8d09e83dea07cf7913e06c679e92eb7627f2fb73f3f67f579bc5d9f55
+trustMagnitudeInputHash: 1ba6c084f28f99a390a56c55c2a12a780c5fac6f7e394f62f6891aaa80a7c462
 ---
 
 ## Overview

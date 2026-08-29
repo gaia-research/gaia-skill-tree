@@ -18,7 +18,7 @@ tags:
 - safety
 - confirmation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -75,6 +75,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:
@@ -88,7 +93,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:30Z'
-trustMagnitudeInputHash: acef969313b71606bc35269a9902f3a4763eba70997c96f08e24c7a39e2ae5a2
+trustMagnitudeInputHash: 16c3ab630e7ad4eea49c18fb0d0dc90f1487509b31be68acf7e45be05ed91693
 ---
 
 ## Overview

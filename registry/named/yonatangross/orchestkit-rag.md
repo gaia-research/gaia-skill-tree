@@ -22,7 +22,7 @@ tags:
 - reranking
 - agentic-rag
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -37,6 +37,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:16:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -48,7 +53,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2a2809560ba3ee0a24d116f4232bfe59d114a2735e86f31086a58bc4a4df38d9
+trustMagnitudeInputHash: e8d306f84f5c3c8ea380ad4b6fe33f7ca45873ed33349883fbe2fd529a9bce7b
 ---
 
 ## Overview

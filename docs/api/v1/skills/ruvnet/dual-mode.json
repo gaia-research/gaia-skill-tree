@@ -98,6 +98,12 @@
       "details": "Generic parent 'dual-mode' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:58Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 126.0 -> 36.0, grade A -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

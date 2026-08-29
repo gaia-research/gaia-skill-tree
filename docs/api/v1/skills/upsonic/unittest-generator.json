@@ -118,6 +118,12 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Set installable to false"
+    },
+    {
+      "timestamp": "2026-08-29T17:16:01Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 33.0 -> 33.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ]
 }

@@ -8,7 +8,7 @@ status: named
 level: 1★
 description: Build or refresh a NORMALIZED per-church check-in count.
 createdAt: '2026-07-14'
-updatedAt: '2026-07-14'
+updatedAt: '2026-08-30'
 title: Count Check-in by Church
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md
@@ -26,6 +26,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md
   evaluator: favorchurch
@@ -36,6 +41,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:29Z'
+trustMagnitude: 5.0
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 73e42cb2832748b6ec24a5dbc713290e036638edaa220e86bba11d72a780faac
 ---
 
 # Count Check-in by Church (live, normalized)

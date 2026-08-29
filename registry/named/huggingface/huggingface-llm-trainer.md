@@ -20,7 +20,7 @@ tags:
 - jobs
 - trackio
 createdAt: '2026-05-03'
-updatedAt: '2026-05-03'
+updatedAt: '2026-08-30'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,7 +46,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 9f90e8e3531489b02d3d65baeb703c83b098717f52d332c8a684aefe3ddbd10a
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: f914756f21d9157b30b3c0922d773c89b7b09aafe42ff2c2173703ff0f1b7ec3
 ---
 
 ## Overview

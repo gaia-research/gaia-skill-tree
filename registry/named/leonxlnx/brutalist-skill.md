@@ -9,7 +9,7 @@ level: 2★
 description: Industrial brutalism UI archetype with aerospace telemetry aesthetics,
   high-density monospace typography, and raw structural borders.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: Industrial Brutalist UI
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to leonxlnx/taste-skill
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md
   evaluator: mbtiongson1
@@ -52,6 +57,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:14Z'
 suiteRef: leonxlnx/taste-skill
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: a77258686fb459cee28898c71ea33a389e8a9c0082335ee6113ff3bcb2a577ce
 ---
 
 ## Installation

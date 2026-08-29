@@ -16,7 +16,7 @@ tags:
 - multimodal
 - vision
 createdAt: '2026-05-14'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/bradautomates/claude-video
@@ -82,6 +82,11 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from bradautomates/claude-video to bradautomates/watch
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 37.47 -> 37.47, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 37.47
 overallTrustGrade: C
 apexGateStatus:
@@ -93,7 +98,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 362a0998c086fd62cb80fed4a9bde712ecdd26a68efa326fb0aa9b259e5a47fa
+trustMagnitudeInputHash: dce238f55a71969bd7f12c2555f401069dfd8b0936a4e8954b6b86f768294a33
 verification:
   firstEvidenceAt: '2026-06-19T17:12:29Z'
 ---

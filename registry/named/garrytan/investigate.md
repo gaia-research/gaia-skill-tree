@@ -20,7 +20,7 @@ tags:
 - investigation
 - systematic
 createdAt: '2026-05-18'
-updatedAt: '2026-08-25'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
@@ -69,6 +69,11 @@ timeline:
   contributor: unknown
   details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
@@ -95,7 +100,7 @@ evidence:
   stars: 125610
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 67.4
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -108,7 +113,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
-trustMagnitudeInputHash: d561cf18da19b854ede3750414cf45d77ec3908c40882ed12c2b0a23eb1c0f7e
+trustMagnitudeInputHash: 9af73e62e8670acca5dd2f2006622b1bd7eb3bc893d2558417dff0a4f86d70d2
 ---
 
 ## Overview

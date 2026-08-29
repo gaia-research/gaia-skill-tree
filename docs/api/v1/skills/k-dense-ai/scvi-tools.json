@@ -84,6 +84,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 170.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

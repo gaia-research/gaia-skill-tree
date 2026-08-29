@@ -130,6 +130,12 @@
       "previousValue": null,
       "newValue": null,
       "details": "deleted upstream for security: hardcoded personal vault path, was model-invocable"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:53Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

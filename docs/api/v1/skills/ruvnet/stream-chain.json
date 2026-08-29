@@ -76,6 +76,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:44Z",
       "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:59Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

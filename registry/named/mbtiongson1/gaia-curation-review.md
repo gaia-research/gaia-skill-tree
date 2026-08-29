@@ -10,7 +10,7 @@ description: Reviews pending skill submissions against registry standards — ch
   evidence class thresholds, naming conventions, and tier accuracy before approving
   or requesting revisions.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 title: The Quality Gate
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
@@ -48,6 +48,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
@@ -74,7 +79,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: d57cc7e5d8d60792f24f75634d676f44bd7b0eceb58816c7d318fe2db6d01ba2
+trustMagnitudeInputHash: fda285d4e1054a7c512dfe63ceccec4c01383407fde7db10f14520e6a7f58f4d
 ---
 
 ## Overview

@@ -178,6 +178,12 @@
       "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:16:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 116.57 -> 297.8, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

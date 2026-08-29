@@ -19,7 +19,7 @@ tags:
 - collective-intelligence
 - memory
 createdAt: '2026-05-19'
-updatedAt: '2026-08-05'
+updatedAt: '2026-08-30'
 evidence:
 - source: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
   evaluator: unknown
@@ -150,8 +150,13 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from ruvnet/hive-mind-coordination to ruvnet/hive-mind
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 96.09 -> 95.02, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: ruvnet/ruflo
-trustMagnitude: 96.09
+trustMagnitude: 95.02
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -162,7 +167,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc
+trustMagnitudeInputHash: f9e2b6f0a129d8886949962149b226646837e7b422d1271b4ca83189d784e84b
 verification:
   firstEvidenceAt: '2026-06-19T16:48:26Z'
 ---

@@ -9,7 +9,7 @@ level: 2★
 description: Luxury tactile visual design archetype with subtle lighting, smooth neumorphic
   depth, and premium agency aesthetics.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: Luxury Soft UI
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to leonxlnx/taste-skill
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md
   evaluator: mbtiongson1
@@ -52,6 +57,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:20Z'
 suiteRef: leonxlnx/taste-skill
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: f8b1fec8498fc9c75b87ba62d31233df616a4e643c7a572d17cd3b883adb44a0
 ---
 
 ## Installation

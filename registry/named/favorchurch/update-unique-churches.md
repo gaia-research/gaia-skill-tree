@@ -9,7 +9,7 @@ level: 1★
 description: Recount and update the unique churches represented in the conference
   attendance Google Sheet.
 createdAt: '2026-07-14'
-updatedAt: '2026-07-14'
+updatedAt: '2026-08-30'
 title: Update Unique Churches
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md
@@ -27,6 +27,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md
   evaluator: favorchurch
@@ -37,6 +42,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:32Z'
+trustMagnitude: 5.0
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: b9684b1a10f4a292196614f7fd6afc436ebebf1455fc7a1d56d3a22028661533
 ---
 
 # Update Unique Churches (Composio, incremental)

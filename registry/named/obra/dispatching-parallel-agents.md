@@ -18,7 +18,7 @@ tags:
 - multi-agent
 - subagent
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -79,7 +79,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 86.0
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 86.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -90,7 +95,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6e8062f6ddf3e6c27847a65d11b3d94b686e8c1916f4a66d04e13951bdd65054
+trustMagnitudeInputHash: b104ec89ce3003e281e08cc0f29b52658a5100c19931e589e512b27c00a79eb5
 verification:
   firstEvidenceAt: '2026-06-19T16:48:24Z'
 ---

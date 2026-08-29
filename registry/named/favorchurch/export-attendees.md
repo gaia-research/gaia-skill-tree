@@ -9,7 +9,7 @@ level: 1★
 description: Sync and export attendee data from Favor Event Tickets into a Google
   Sheets masterlist.
 createdAt: '2026-07-14'
-updatedAt: '2026-07-14'
+updatedAt: '2026-08-30'
 title: Export Attendees
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md
@@ -27,6 +27,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md
   evaluator: favorchurch
@@ -37,6 +42,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:35Z'
+trustMagnitude: 5.0
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 7e6d25d28e7043eb96f1e10afaba9a1e8adefd0cb72a62210b0d3b5683fc702a
 ---
 
 # Export Attendees Skill

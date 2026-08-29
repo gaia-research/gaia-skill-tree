@@ -9,7 +9,7 @@ level: 3★
 description: Researches, decomposes, and verifies an implementation plan against a
   fresh context window before execution.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-07-02T18:04:48Z'
   action: add
@@ -64,6 +64,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
   updatedAt: '2026-08-01'
@@ -84,7 +89,7 @@ verification:
 title: GSD Plan Phase
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 52.16
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -95,7 +100,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: c2bfc8b438f3eb3184a5029e752e30d498c8365387ef64ba650d8f1a45f56a75
+trustMagnitudeInputHash: 7adddd862f9d621ecde243c52c1f5b81377e839d04b8d3cd50e222670ebb2c0b
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
 ---

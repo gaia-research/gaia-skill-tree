@@ -9,7 +9,7 @@ level: 3★
 description: Applies Anthropic's official brand colors, typography, and visual rules
   to artifacts that need Anthropic's look and feel.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: Brand Guidelines
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/anthropics/skills
   evaluator: unknown
@@ -53,6 +58,9 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-31T14:20:28Z'
+trustMagnitude: 286.0
+overallTrustGrade: A
+trustMagnitudeInputHash: 9b22e6784659d8f8954ae27d9d359e5a96d1c74faabe924ce8b8366046006c8d
 ---
 
 ## Installation

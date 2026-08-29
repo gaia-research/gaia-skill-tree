@@ -206,6 +206,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from ruvnet/hive-mind-coordination to ruvnet/hive-mind"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:59Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 96.09 -> 95.02, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

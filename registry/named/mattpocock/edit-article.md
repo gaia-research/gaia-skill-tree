@@ -20,7 +20,7 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: mattpocock/personal
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -80,6 +80,11 @@ timeline:
   previousValue: null
   newValue: null
   details: personal/ bucket deleted upstream (v1.2.x); no successor
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -115,8 +120,8 @@ evidence:
     mattpocock/skills repo (verified 2026-06-20)
   views: 412000
   sourceStartedAt: '2025-01-01'
-trustMagnitude: 90.38
-overallTrustGrade: B
+trustMagnitude: 306.13
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -128,7 +133,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: 991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9
+trustMagnitudeInputHash: ac7b9de25521e1e17a9de43d7fa097e768bbab32ee47bb085423636418953c15
 installable: false
 ---
 

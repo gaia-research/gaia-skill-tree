@@ -9,7 +9,7 @@ level: 3★
 description: Train reinforcement learning agents with Stable-Baselines3 using PPO,
   SAC, DQN, TD3, and related algorithms.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: Stable Baselines3
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
   evaluator: mbtiongson1
@@ -66,6 +71,9 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:49:02Z'
+trustMagnitude: 197.06
+overallTrustGrade: A
+trustMagnitudeInputHash: ceee78fc45e4d307a56b716b04688ae1248c4391712edc0f7f40f7f623d08db6
 ---
 
 ## Installation

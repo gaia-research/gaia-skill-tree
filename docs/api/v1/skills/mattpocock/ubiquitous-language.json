@@ -150,6 +150,12 @@
       "previousValue": null,
       "newValue": null,
       "details": "superseded by mattpocock/domain-modeling upstream (folded in v1.2.x)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:54Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

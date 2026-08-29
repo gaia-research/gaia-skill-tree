@@ -17,7 +17,7 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/laravel/boost/issues/698
@@ -53,6 +53,11 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -64,7 +69,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 36313141e02d09d0728c3445627db62d082668a849270a5754f9a9b7019582f1
+trustMagnitudeInputHash: 0830387bcf097491900e5eff3ada8ea453b1b5089578ac45d283395e2e658560
 installable: false
 ---
 

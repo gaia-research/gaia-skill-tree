@@ -1,6 +1,6 @@
 {
-  "version": "7.13.1",
-  "generatedAt": "2026-08-29T16:37:07Z",
+  "version": "7.7.1",
+  "generatedAt": "2026-08-29T17:16:40Z",
   "summary": {
     "total": 264,
     "S": 9,
@@ -193,7 +193,7 @@
       "g7Stars": "5★",
       "flag": "",
       "apexResults": {
-        "aGradedOriginsGte5": false,
+        "aGradedOriginsGte5": true,
         "sourceTenureDaysGte180AorS": true,
         "directNestedSuiteGte1": true,
         "depth2OnlyReachableGte1": true,

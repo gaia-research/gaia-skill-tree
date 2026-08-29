@@ -10,7 +10,7 @@ description: Anti-slop frontend master skill for landing pages, portfolios, and 
   Infers design direction, dials visual variance and density, applies real design
   systems, and runs strict pre-flight checks.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: Taste Skill
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
@@ -40,6 +40,11 @@ timeline:
     ''leonxlnx/gpt-tasteskill'', ''leonxlnx/brutalist-skill'', ''leonxlnx/minimalist-skill'',
     ''leonxlnx/soft-skill'', ''leonxlnx/stitch-skill'', ''leonxlnx/image-to-code-skill'',
     ''leonxlnx/output-skill''].'
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
   evaluator: mbtiongson1
@@ -61,17 +66,20 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T07:11:07Z'
 suiteComponents:
-  - leonxlnx/brandkit
-  - leonxlnx/brutalist-skill
-  - leonxlnx/gpt-tasteskill
-  - leonxlnx/image-to-code-skill
-  - leonxlnx/imagegen-frontend-mobile
-  - leonxlnx/imagegen-frontend-web
-  - leonxlnx/minimalist-skill
-  - leonxlnx/output-skill
-  - leonxlnx/redesign-skill
-  - leonxlnx/soft-skill
-  - leonxlnx/stitch-skill
+- leonxlnx/brandkit
+- leonxlnx/brutalist-skill
+- leonxlnx/gpt-tasteskill
+- leonxlnx/image-to-code-skill
+- leonxlnx/imagegen-frontend-mobile
+- leonxlnx/imagegen-frontend-web
+- leonxlnx/minimalist-skill
+- leonxlnx/output-skill
+- leonxlnx/redesign-skill
+- leonxlnx/soft-skill
+- leonxlnx/stitch-skill
+trustMagnitude: 286.0
+overallTrustGrade: A
+trustMagnitudeInputHash: 8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a
 ---
 
 ## Installation

@@ -106,6 +106,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added reported benchmark evidence from https://www.firecrawl.dev/blog/research-index-launch (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 360.62, grade (none) -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

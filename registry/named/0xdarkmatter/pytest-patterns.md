@@ -22,7 +22,7 @@ tags:
 - coverage
 - mocking
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-08-30'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -48,7 +48,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: df96fd45f9f7e854df3919d0cf4bedec5dfda3dd2adbc0c748bb033d68437231
+- timestamp: '2026-08-29T17:15:42Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 22fce78ab7eb82a345938b5cd9523c04b42f487f40636d980faeed86c699e5db
 ---
 
 ## Overview

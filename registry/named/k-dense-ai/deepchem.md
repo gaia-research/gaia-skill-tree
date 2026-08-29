@@ -9,7 +9,7 @@ level: 4★
 description: Run molecular machine learning workflows with DeepChem for property prediction,
   featurization, and benchmarked datasets.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: DeepChem
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 258.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md
   evaluator: mbtiongson1
@@ -66,6 +71,9 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:56Z'
+trustMagnitude: 258.06
+overallTrustGrade: A
+trustMagnitudeInputHash: 4faecb2a05768fc2e636b2df9225c27b42537edd354ff2bed69774ef5f2ef8b9
 ---
 
 ## Installation

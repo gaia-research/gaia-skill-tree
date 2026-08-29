@@ -10,7 +10,7 @@ description: Triages incoming skill proposals and issues against the Gaia regist
   backlog — sorting by impact, feasibility, and dependency order to produce an actionable
   prioritized work queue.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-30'
+updatedAt: '2026-08-30'
 title: The Issue Sorter
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md
@@ -36,6 +36,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +52,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6aa82723598307419d928a2b34244c79fffacfb545741b68124a9c153ca6f5ce
+trustMagnitudeInputHash: 804049bffcf034d416cf054626ed7f101634cf65553de6b125a6cc64125e6ff8
 ---
 
 ## Overview

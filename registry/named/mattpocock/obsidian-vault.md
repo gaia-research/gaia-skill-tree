@@ -10,7 +10,7 @@ level: 3★
 description: Manage notes and organization in a specific Obsidian vault using Title
   Case and wikilinks.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: mattpocock/personal
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault
@@ -94,8 +94,13 @@ timeline:
   previousValue: null
   newValue: null
   details: 'deleted upstream for security: hardcoded personal vault path, was model-invocable'
-trustMagnitude: 90.38
-overallTrustGrade: B
+- timestamp: '2026-08-29T17:15:53Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 306.13
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -105,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a7ba764dc6d2a5d586b7773dd6f99205775a5fc6221851ffe43470f841373e6e
+trustMagnitudeInputHash: edc269178e4d567153c29a4e69256decad48e91c9cd83d2ff11835556d81f4c2
 verification:
   firstEvidenceAt: '2026-06-19T17:07:33Z'
 installable: false

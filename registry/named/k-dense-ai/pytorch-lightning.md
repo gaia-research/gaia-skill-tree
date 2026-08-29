@@ -9,7 +9,7 @@ level: 3★
 description: Orchestrate scalable PyTorch training with Lightning modules, trainers,
   callbacks, and distributed execution.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: PyTorch Lightning
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 188.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md
   evaluator: mbtiongson1
@@ -66,6 +71,9 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:54Z'
+trustMagnitude: 188.06
+overallTrustGrade: A
+trustMagnitudeInputHash: abf68a8274f2013c8273a8970a32a60f3105a6dc0ea7004b4ef639d182e04df9
 ---
 
 ## Installation
