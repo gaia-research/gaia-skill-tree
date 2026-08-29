@@ -1,0 +1,110 @@
+{
+  "batchId": "20260822070748-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-22T07:07:48Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "frontend-design-judgment",
+      "name": "Frontend Design Judgment",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Context-aware frontend design judgment and anti-slop execution for landing pages, portfolios, and web interfaces. Infers design direction, audience requirements, and aesthetic constraints from briefs while avoiding generic LLM layout defaults.",
+      "attribution": {
+        "upstream_author": "leonxlnx",
+        "skill_file_url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+          "notes": "taste-skill frontend design capability specification"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/leonxlnx/taste-skill",
+          "notes": "Open source repository for taste-skill"
+        }
+      ],
+      "named": {
+        "contributor": "leonxlnx",
+        "skill_name": "taste-skill",
+        "links_github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "task-depth-enforcement",
+      "name": "Task Depth Enforcement",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Anti-laziness execution discipline and depth enforcement for multi-step agent tasks. Decomposes objectives into recursive subtask trees with runnable gate verification to prevent premature completion and long-context quality decay.",
+      "attribution": {
+        "upstream_author": "leonxlnx",
+        "skill_file_url": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+          "notes": "unlazy task depth enforcement capability specification"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/leonxlnx/unlazy",
+          "notes": "Open source repository for unlazy"
+        }
+      ],
+      "named": {
+        "contributor": "leonxlnx",
+        "skill_name": "unlazy",
+        "links_github": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "frontend-design-judgment",
+      "targetSkillId": "design-generation",
+      "score": 0.537,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "frontend-design-judgment",
+      "targetSkillId": "ontology-alignment",
+      "score": 0.524,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "frontend-design-judgment",
+      "targetSkillId": "software-design",
+      "score": 0.513,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "task-depth-enforcement",
+      "targetSkillId": "chunk-document",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "task-depth-enforcement",
+      "targetSkillId": "event-attendee-management",
+      "score": 0.468,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}

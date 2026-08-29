@@ -3,7 +3,7 @@
   "name": "Impeccable",
   "contributor": "pbakaus",
   "level": "4★",
-  "type": "basic",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 138.25,
   "overallTrustGrade": "A",
@@ -16,7 +16,7 @@
     "list": "/api/v1/skills/index.json"
   },
   "title": "The Aesthetic Shield",
-  "genericSkillRef": "ui-audit",
+  "genericSkillRef": "design-generation",
   "origin": true,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [

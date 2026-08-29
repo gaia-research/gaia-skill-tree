@@ -128,7 +128,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ ✓ ○ mattpocock/ask-matt  [2★]
-  ├─ · · garrytan/design-consultation  [3★]
+  ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use

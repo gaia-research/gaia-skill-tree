@@ -21,7 +21,7 @@ tags:
 - security
 - memory-unification
 createdAt: '2026-05-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-29'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/swarm-advanced
@@ -83,7 +83,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 216.0
+- timestamp: '2026-08-29T06:54:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 216.0 -> 186.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 186.0
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false

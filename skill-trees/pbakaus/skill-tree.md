@@ -23,11 +23,10 @@ GAIA SKILL TREE — pbakaus  ·  generated 2026-08-25
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-══════════════════════════════════════════════════════════════════════
-Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-══════════════════════════════════════════════════════════════════════
-
-  ✓ ◉ pbakaus/impeccable  [4★]
+✓ ◆ pbakaus/impeccable  [4★]
+  ├─ · ○ garrytan/design-html  [3★]
+  ├─ · ○ leonxlnx/redesign-skill  [2★]
+  └─ · ○ leonxlnx/image-to-code-skill  [2★]
 ```
 
 ## Pending Combinations

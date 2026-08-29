@@ -19,7 +19,7 @@ tags:
 - core-web-vitals
 - regression
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -85,7 +85,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 63.73
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -98,7 +103,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: 0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67
+trustMagnitudeInputHash: be56d11a91e34d6d13091a61ae64f4194f3fe539bfde4673594addfaffe43fde
 ---
 
 ## Overview

@@ -5,8 +5,8 @@
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
       "level": "4★",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
       "contributor": "disler",
       "type": "fusion",
       "branch": "suite",
@@ -75,12 +75,11 @@
   "topSkill": {
     "id": "disler/agent-fusion",
     "level": "4★",
-    "trustMagnitude": 127.54
+    "trustMagnitude": 37.54
   },
-  "prestigeScore": 236.56,
+  "prestigeScore": 146.56,
   "gradeDistribution": {
-    "A": 1,
-    "C": 3
+    "C": 4
   },
   "_links": {
     "self": "/api/v1/contributors/disler.json",

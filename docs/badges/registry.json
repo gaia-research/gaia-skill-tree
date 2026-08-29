@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20",
+  "generatedAt": "2026-08-22",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -532,6 +532,153 @@
           "slash": "/unfreeze",
           "file": "unfreeze.svg",
           "fileSeal": "unfreeze-seal.svg"
+        }
+      ]
+    },
+    "leonxlnx": {
+      "repos": [
+        "leonxlnx/taste-skill"
+      ],
+      "skillsByRepo": {
+        "leonxlnx/taste-skill": [
+          "leonxlnx/brandkit",
+          "leonxlnx/brutalist-skill",
+          "leonxlnx/gpt-tasteskill",
+          "leonxlnx/image-to-code-skill",
+          "leonxlnx/imagegen-frontend-mobile",
+          "leonxlnx/imagegen-frontend-web",
+          "leonxlnx/minimalist-skill",
+          "leonxlnx/output-skill",
+          "leonxlnx/redesign-skill",
+          "leonxlnx/soft-skill",
+          "leonxlnx/stitch-skill",
+          "leonxlnx/taste-skill"
+        ]
+      },
+      "topSkill": "leonxlnx/taste-skill",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 13,
+      "namedSkills": [
+        {
+          "id": "leonxlnx/taste-skill",
+          "name": "taste-skill",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/taste-skill",
+          "file": "taste-skill.svg",
+          "fileSeal": "taste-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/brandkit",
+          "name": "brandkit",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/brandkit",
+          "file": "brandkit.svg",
+          "fileSeal": "brandkit-seal.svg"
+        },
+        {
+          "id": "leonxlnx/brutalist-skill",
+          "name": "brutalist-skill",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/brutalist-skill",
+          "file": "brutalist-skill.svg",
+          "fileSeal": "brutalist-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/gpt-tasteskill",
+          "name": "gpt-tasteskill",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/gpt-tasteskill",
+          "file": "gpt-tasteskill.svg",
+          "fileSeal": "gpt-tasteskill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/image-to-code-skill",
+          "name": "image-to-code-skill",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/image-to-code-skill",
+          "file": "image-to-code-skill.svg",
+          "fileSeal": "image-to-code-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/imagegen-frontend-mobile",
+          "name": "imagegen-frontend-mobile",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/imagegen-frontend-mobile",
+          "file": "imagegen-frontend-mobile.svg",
+          "fileSeal": "imagegen-frontend-mobile-seal.svg"
+        },
+        {
+          "id": "leonxlnx/imagegen-frontend-web",
+          "name": "imagegen-frontend-web",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/imagegen-frontend-web",
+          "file": "imagegen-frontend-web.svg",
+          "fileSeal": "imagegen-frontend-web-seal.svg"
+        },
+        {
+          "id": "leonxlnx/minimalist-skill",
+          "name": "minimalist-skill",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/minimalist-skill",
+          "file": "minimalist-skill.svg",
+          "fileSeal": "minimalist-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/output-skill",
+          "name": "output-skill",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/output-skill",
+          "file": "output-skill.svg",
+          "fileSeal": "output-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/redesign-skill",
+          "name": "redesign-skill",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/redesign-skill",
+          "file": "redesign-skill.svg",
+          "fileSeal": "redesign-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/soft-skill",
+          "name": "soft-skill",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/soft-skill",
+          "file": "soft-skill.svg",
+          "fileSeal": "soft-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/stitch-skill",
+          "name": "stitch-skill",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/stitch-skill",
+          "file": "stitch-skill.svg",
+          "fileSeal": "stitch-skill-seal.svg"
         }
       ]
     },
@@ -2072,32 +2219,6 @@
         }
       ]
     },
-    "pbakaus": {
-      "repos": [
-        "pbakaus/impeccable"
-      ],
-      "skillsByRepo": {
-        "pbakaus/impeccable": [
-          "pbakaus/impeccable"
-        ]
-      },
-      "topSkill": "pbakaus/impeccable",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "pbakaus/impeccable",
-          "name": "Impeccable",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/impeccable",
-          "file": "impeccable.svg",
-          "fileSeal": "impeccable-seal.svg"
-        }
-      ]
-    },
     "nextlevelbuilder": {
       "repos": [
         "nextlevelbuilder/ui-ux-pro-max-skill"
@@ -2616,6 +2737,32 @@
           "slash": "/remotion-upgrade",
           "file": "remotion-upgrade.svg",
           "fileSeal": "remotion-upgrade-seal.svg"
+        }
+      ]
+    },
+    "pbakaus": {
+      "repos": [
+        "pbakaus/impeccable"
+      ],
+      "skillsByRepo": {
+        "pbakaus/impeccable": [
+          "pbakaus/impeccable"
+        ]
+      },
+      "topSkill": "pbakaus/impeccable",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/impeccable",
+          "file": "impeccable.svg",
+          "fileSeal": "impeccable-seal.svg"
         }
       ]
     },

@@ -1,20 +1,36 @@
 {
   "skills": [
     {
-      "id": "vercel-labs/vercel-react-best-practices",
-      "name": "Vercel React Best Practices",
-      "level": "3★",
-      "trustMagnitude": 50.48,
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
+      "level": "2★",
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "contributor": "vercel-labs",
-      "type": "basic",
+      "contributor": "leonxlnx",
+      "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
       },
-      "genericSkillRef": "react-performance-optimization"
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
+      },
+      "genericSkillRef": "design-system-extraction"
     },
     {
       "id": "mattpocock/tdd",
@@ -31,6 +47,22 @@
         "self": "/api/v1/skills/mattpocock/tdd.json"
       },
       "genericSkillRef": "test-driven-development"
+    },
+    {
+      "id": "obra/dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      },
+      "genericSkillRef": "dispatching-parallel-agents"
     },
     {
       "id": "k-dense-ai/rdkit",
@@ -385,6 +417,27 @@
       "genericSkillRef": "skill-authoring"
     },
     {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "4★",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      },
+      "genericSkillRef": "agent-fusion",
+      "suiteComponents": [
+        "disler/auto-review",
+        "disler/opinion",
+        "disler/plan-synthesis"
+      ]
+    },
+    {
       "id": "bradautomates/watch",
       "name": "Watch",
       "level": "2★",
@@ -609,6 +662,28 @@
       "genericSkillRef": "guardrails"
     },
     {
+      "id": "garrytan/garrytan",
+      "name": "Autoplan",
+      "level": "4★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/garrytan.json"
+      },
+      "genericSkillRef": "vertical-slice-planning",
+      "suiteComponents": [
+        "garrytan/browse",
+        "garrytan/cso",
+        "garrytan/design-review",
+        "garrytan/office-hours"
+      ]
+    },
+    {
       "id": "garrytan/gstack-upgrade",
       "name": "GStack Upgrade",
       "level": "2★",
@@ -735,75 +810,11 @@
         "self": "/api/v1/skills/garrytan/pair-agent.json"
       },
       "genericSkillRef": "mcp-integration"
-    },
-    {
-      "id": "garrytan/plan-tune",
-      "name": "Plan Tune",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-tune.json"
-      },
-      "genericSkillRef": "prompt-optimization"
-    },
-    {
-      "id": "garrytan/qa-only",
-      "name": "QA Only",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/qa-only.json"
-      },
-      "genericSkillRef": "e2e-testing"
-    },
-    {
-      "id": "garrytan/scrape",
-      "name": "Scrape",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/scrape.json"
-      },
-      "genericSkillRef": "web-scrape"
-    },
-    {
-      "id": "garrytan/setup-browser-cookies",
-      "name": "Setup Browser Cookies",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
-      },
-      "genericSkillRef": "browser-control"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 214,
+  "totalSkills": 226,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

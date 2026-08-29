@@ -5,147 +5,147 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Aug 2026 12:07:03 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2026 12:52:57 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Productivity (+90.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/productivity</link>
       <description>Trust Magnitude: 180.0 · Grade A</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/productivity-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/productivity-2026-08-24</guid>
     </item>
     <item>
       <title>Engineering (+82.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/engineering</link>
       <description>Trust Magnitude: 352.0 · Grade A</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/engineering-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/engineering-2026-08-24</guid>
+    </item>
+    <item>
+      <title>Misc (+120.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/misc</link>
+      <description>Trust Magnitude: 120.0 · Grade A</description>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/misc-2026-08-24</guid>
+    </item>
+    <item>
+      <title>To Tickets (+105.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/to-tickets</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/to-tickets-2026-08-24</guid>
     </item>
     <item>
       <title>Matt Pocock Skills (+39.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/skills</link>
       <description>Trust Magnitude: 529.0 · Grade S</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-08-24</guid>
     </item>
     <item>
       <title>Ruflo V3 (+30.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/ruvnet/ruflo-v3</link>
       <description>Trust Magnitude: 216.0 · Grade A</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-v3-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-v3-2026-08-24</guid>
+    </item>
+    <item>
+      <title>To PRD (+63.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/to-spec</link>
+      <description>Trust Magnitude: 63.7 · Grade B</description>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/to-spec-2026-08-24</guid>
     </item>
     <item>
       <title>TDD (+50.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/tdd</link>
       <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/tdd-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/tdd-2026-08-24</guid>
     </item>
     <item>
       <title>Ask Matt (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/ask-matt</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/ask-matt-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/ask-matt-2026-08-24</guid>
     </item>
     <item>
       <title>Codebase Design (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/codebase-design</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/codebase-design-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/codebase-design-2026-08-24</guid>
     </item>
     <item>
       <title>Diagnosing Bugs (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/diagnosing-bugs</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/diagnosing-bugs-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/diagnosing-bugs-2026-08-24</guid>
     </item>
     <item>
       <title>Domain Modeling (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/domain-modeling</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/domain-modeling-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/domain-modeling-2026-08-24</guid>
     </item>
     <item>
       <title>Git Guardrails Claude Code (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/git-guardrails-claude-code</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/git-guardrails-claude-code-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/git-guardrails-claude-code-2026-08-24</guid>
     </item>
     <item>
       <title>Grilling (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/grilling</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/grilling-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/grilling-2026-08-24</guid>
     </item>
     <item>
       <title>Implement (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/implement</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/implement-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/implement-2026-08-24</guid>
     </item>
     <item>
       <title>Migrate to Shoehorn (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/migrate-to-shoehorn</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/migrate-to-shoehorn-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/migrate-to-shoehorn-2026-08-24</guid>
     </item>
     <item>
       <title>Resolving Merge Conflicts (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/resolving-merge-conflicts</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/resolving-merge-conflicts-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/resolving-merge-conflicts-2026-08-24</guid>
     </item>
     <item>
       <title>Scaffold Exercises (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/scaffold-exercises</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/scaffold-exercises-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/scaffold-exercises-2026-08-24</guid>
     </item>
     <item>
       <title>Setup Pre-Commit (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/setup-pre-commit</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/setup-pre-commit-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/setup-pre-commit-2026-08-24</guid>
     </item>
     <item>
       <title>Writing For Agents (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/writing-for-agents</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/writing-for-agents-2026-08-25</guid>
-    </item>
-    <item>
-      <title>Test-Driven Development (+9.0 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/test-driven-development</link>
-      <description>Trust Magnitude: 45.0 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-addy-osmani/test-driven-development-2026-08-25</guid>
-    </item>
-    <item>
-      <title>Code Review</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/code-review</link>
-      <description>Trust Magnitude: 20.8 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/code-review-2026-08-25</guid>
-    </item>
-    <item>
-      <title>Research</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/research</link>
-      <description>Trust Magnitude: 20.8 · Grade C</description>
-      <pubDate>Tue, 25 Aug 2026 12:07:03 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/research-2026-08-25</guid>
+      <pubDate>Mon, 24 Aug 2026 12:52:57 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/writing-for-agents-2026-08-24</guid>
     </item>
   </channel>
 </rss>

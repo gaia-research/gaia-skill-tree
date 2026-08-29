@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 67.4,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -117,6 +117,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-25T13:17:09Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

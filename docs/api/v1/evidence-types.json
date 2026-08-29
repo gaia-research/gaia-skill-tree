@@ -2,17 +2,18 @@
   "types": [
     {
       "id": "fusion-recipe",
-      "description": "Skill emerges from composition of graded prior work. Auto-derived for every fused/Ultimate skill from suiteComponents (RFC §10.8). Only graded≥C origins count toward origin tally.",
-      "magnitude": "20 * origins for origins <= 10; 200 + 20 * sqrt(origins - 10) for origins > 10",
-      "weight": 1.5,
-      "cap": "softened (no hard cap; sqrt curve limits growth past 10 origins)",
-      "gradeCeiling": "S",
+      "description": "Structural/provenance metadata for composition and rank. Auto-derived for fused/Ultimate skills from suiteComponents; contributes 0 Trust Magnitude and does not count toward Trust Grade diversity.",
+      "magnitude": "0 (structural/provenance metadata only)",
+      "weight": 0,
+      "cap": 0,
+      "contributionCap": 0,
+      "gradeCeiling": null,
       "freshness": "1.0 (intrinsic — no decay)",
       "selfProducible": true,
       "allowedLayers": [
         "named"
       ],
-      "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
+      "notes": "Retained for structural/provenance/rank metadata. A skill with suiteComponents and no fusion-recipe row fails validation; origin counts, nested suites, graph traversal, and Apex predicates remain structural."
     },
     {
       "id": "github-stars-own",
@@ -130,7 +131,7 @@
       "allowedLayers": [
         "named"
       ],
-      "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
+      "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. repo-own is self-produced and cannot serve as the Yggdrasil III S witness; A/B behavior is unchanged."
     },
     {
       "id": "self-attestation",

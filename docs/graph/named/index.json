@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25",
+  "generatedAt": "2026-08-29",
   "buckets": {
     "automated-testing": [
       {
@@ -174,7 +174,7 @@
         "id": "garrytan/design-consultation",
         "name": "Design Consultation",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "design-system-extraction",
         "status": "named",
         "level": "3★",
@@ -218,7 +218,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -280,12 +280,24 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294",
+        "trustMagnitudeInputHash": "f32accd537c17f9165ae21cda89b09ee8036136d0331b5c7fbc64df9f27f53ce",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -297,10 +309,102 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/stitch-skill",
+        "name": "stitch-skill",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "design-system-extraction",
+        "status": "named",
+        "level": "2★",
+        "description": "Google Stitch semantic token and DESIGN.md system integration for natural-language UI visual styling.",
+        "title": "Stitch Design Taste",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/stitch-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:23Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:24Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:38Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -439,7 +543,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -559,6 +663,12 @@
             "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 293.14 -> 256.3, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -571,9 +681,9 @@
           "addy-osmani/spec-driven-development",
           "addy-osmani/test-driven-development"
         ],
-        "trustMagnitude": 296.3,
-        "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477",
+        "trustMagnitude": 56.3,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "a8f017083d71ce0a97c4d775a6682a16f38bb9e5550769b888eae6db3a418fae",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -771,8 +881,8 @@
           "gsd-build/ship",
           "gsd-build/verify-work"
         ],
-        "trustMagnitude": 202.2,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 52.2,
+        "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "e97616a7dfa339c7a99c95043b951f9b9a049190bc6ea5aacf7ab550d93cdf48",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -1097,7 +1207,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -1153,12 +1263,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "01c47f17582b841ffc7336c127bad10ea656673ce009b841afa47e18ffefd3a2",
+        "trustMagnitudeInputHash": "692a68af9f23ff466edced7048256eff387628a79fa3707860494b14fa2bcd11",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2554,8 +2670,8 @@
           "garrytan/design-review",
           "garrytan/office-hours"
         ],
-        "trustMagnitude": 156.0,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "ec1f20ff427d774d3a34ce7be3af756648602ea99e6bd82fdd03dc95776f068a",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2959,7 +3075,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -3021,12 +3137,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "cd424c47cab4fab0d5809899aa0fa439b80ed5db43075612b29ce4fb0555bde9",
+        "trustMagnitudeInputHash": "176423f3bd19cdecb33118d59d33c68909a871a0ffedb0668bca111365fc95e7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3293,7 +3415,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.2,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "3dfda9583775f46f9fcc81ddbbed752729906411f811523152e48513c443a2b5",
         "apexGateStatus": {
@@ -4077,7 +4199,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -4139,12 +4261,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "9a183ef2d178af58b29d15dddffe7a618a3bfa827b6e3594f4aa80c48f6e428c",
+        "trustMagnitudeInputHash": "d99c1bc2e842d38e44a3bd22e9a7ae05cdca99843a1c76e22c96f4470440aa83",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4878,6 +5006,98 @@
         "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/brandkit",
+        "name": "brandkit",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "brand-guideline-application",
+        "status": "named",
+        "level": "2★",
+        "description": "Visual identity director generating comprehensive brand guidelines, color palettes, typography moodboards, and logo systems from briefs.",
+        "title": "Brandkit",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:37Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/brandkit"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:40Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:08Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:32Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "static-artwork-design": [
@@ -5168,6 +5388,92 @@
         },
         "type": "basic",
         "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/output-skill",
+        "name": "output-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "2★",
+        "description": "Anti-truncation execution directive preventing LLMs from skipping code blocks, omitting sections, or using placeholder comments.",
+        "title": "Full Output Enforcement",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:46Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/output-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:27Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:40Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -6982,8 +7288,8 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 127.54,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 37.54,
+        "overallTrustGrade": "C",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8707,8 +9013,8 @@
           "firecrawl/firecrawl-build-search",
           "firecrawl/firecrawl-research-index"
         ],
-        "trustMagnitude": 225.7,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 75.7,
+        "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "bc865a773c50df9fe80e056b41575039c7bf61f6b8ce2122a55da282b280e464",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -9371,7 +9677,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9427,12 +9733,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67",
+        "trustMagnitudeInputHash": "be56d11a91e34d6d13091a61ae64f4194f3fe539bfde4673594addfaffe43fde",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9499,7 +9811,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9555,12 +9867,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "0bce47e22aff478fc093dec7749a34290ea0c1ebc7f300ca702bbbeb67e85c98",
+        "trustMagnitudeInputHash": "af4b68a4768dd221a372cfefe779eb1e5363fc521dff66384d7c7eebd8411fab",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9629,7 +9947,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9685,12 +10003,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "ff7df02acc13f47113e1a53168d602761c35bc07d468f00b25fc149d335ef7bd",
+        "trustMagnitudeInputHash": "c00c53fcf9338205767b5ce69ef3122f956a74a1fd1498655b875113bbc81754",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10926,7 +11250,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -10982,12 +11306,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a",
+        "trustMagnitudeInputHash": "ffe5732bf0c191af325031aa203391159f4ffd3c1a911331477734298631fb4f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11248,7 +11578,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -11310,12 +11640,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "59476342421b329329fedf5a7402082e6eafba26e7d288945c00dbe1658deac8",
+        "trustMagnitudeInputHash": "75b6dbb7a37d9a9ecf785ba34adaef9abee3958544a072310111280f398e43c5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11337,192 +11673,84 @@
     ],
     "ui-audit": [
       {
-        "id": "pbakaus/impeccable",
-        "name": "Impeccable",
-        "contributor": "pbakaus",
+        "id": "leonxlnx/redesign-skill",
+        "name": "redesign-skill",
+        "contributor": "leonxlnx",
         "origin": true,
         "genericSkillRef": "ui-audit",
         "status": "named",
-        "level": "4★",
-        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
-        "title": "The Aesthetic Shield",
-        "tags": [
-          "design",
-          "audit",
-          "frontend",
-          "polishing"
-        ],
+        "level": "2★",
+        "description": "Systematic UI/UX audit and overhaul workflow for existing web codebases, diagnosing AI layout anti-patterns and applying non-breaking redesigns.",
+        "title": "Redesign Skill",
         "links": {
-          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md"
         },
         "evidence": [
           {
-            "class": "B",
-            "source": "https://github.com/pbakaus/impeccable",
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md",
             "evaluator": "mbtiongson1",
-            "date": "2026-05-14",
-            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-            "type": "repo",
-            "commits": 804,
-            "contributors": 27,
-            "trustNumber": 70.0,
-            "grade": "B"
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/stargazers",
-            "evaluator": "mbtiongson1",
-            "updatedAt": "2026-08-01",
-            "date": "2026-06-19",
+            "date": "2026-08-22",
             "type": "github-stars-own",
-            "class": "A",
-            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 53455,
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
             "grade": "B"
-          },
-          {
-            "source": "https://arxiv.org/abs/2411.01606",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "arxiv",
-            "class": "A",
-            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
-            "citations": 19
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "social-signal",
-            "class": "A",
-            "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/issues/268",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/issues/183",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
-            "grade": "C"
           }
         ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-07-30",
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
         "timeline": [
           {
-            "timestamp": "2026-06-02T01:42:59Z",
+            "timestamp": "2026-08-22T08:07:35Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/redesign-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:37Z",
             "action": "rank_up",
-            "contributor": "unknown",
+            "contributor": "mbtiongson1",
             "details": "Origin status set to true."
           },
           {
-            "timestamp": "2026-06-14T12:32:50Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/pbakaus/impeccable as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T09:20:18Z",
+            "timestamp": "2026-08-22T08:08:05Z",
             "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-06-19T09:23:05Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T09:29:08Z",
-            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T09:34:47Z",
-            "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:36:26Z",
-            "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T10:46:29Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type: social-signal)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:52:25Z",
-            "details": "TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:52:15Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:52:32Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:51Z",
-            "details": "TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:43Z",
-            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md (type: github-stars-own)"
           },
           {
-            "timestamp": "2026-07-20T18:16:45Z",
-            "action": "type_change",
+            "timestamp": "2026-08-22T08:08:06Z",
+            "action": "evidence_added",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-20"
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:31Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
           }
         ],
-        "trustMagnitude": 138.25,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef",
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -11530,17 +11758,11 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "basic",
-        "role": "origin",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
-        "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        }
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/design-review",
@@ -11701,7 +11923,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -11757,12 +11979,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "be5820a8cdc5f8160520bfaaa0277ddfb4ac8179b0cfe83687a7e96e322a46e1",
+        "trustMagnitudeInputHash": "6d9a764ff9db1fc7fa7aa5a4ad941c7b8f3f0fb5e5ec348cc745945fde490c3e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12126,7 +12354,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -12182,12 +12410,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "077448b384430d9756cc6e630c18eb8abe15357559b9526ceb4af5343e39128e",
+        "trustMagnitudeInputHash": "5c9ec7550625a8958a1bc75d4827acdce2b889eb34236edeb80a1073b3b91f51",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12254,7 +12488,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -12310,12 +12544,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "8580d33277a7f70df855307ee67342509cdefd5d675f6230a7276d50a5823456",
+        "trustMagnitudeInputHash": "88cb640252cd8e7c2257503b77ccb82e860c3b234b6f5fa2170171a7ea1a8fa9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12723,7 +12963,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -12794,6 +13034,12 @@
             "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:15Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 589.32 -> 312.99, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -12844,9 +13090,9 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
-        "trustMagnitude": 592.99,
-        "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc",
+        "trustMagnitude": 112.99,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "65c926600e3530f4d55aa5d07c23107fcf6020682b9ff6e74500ee1e3adc17a5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12920,7 +13166,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -12982,12 +13228,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "3197d16ad889cab97d211ef4fc622f420478b7435caa0a0fa12025f85f5e8d31",
+        "trustMagnitudeInputHash": "d561cf18da19b854ede3750414cf45d77ec3908c40882ed12c2b0a23eb1c0f7e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13350,7 +13602,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -13406,12 +13658,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "77e3bde2ec82007386e2e77a793366528526bf578a9d9b0e1ce61d096a2e9330",
+        "trustMagnitudeInputHash": "5dd88b7640bb431644036472c880a7a80e3361ace2b04d06343767a737cc3a2d",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -14771,7 +15029,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -14827,12 +15085,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "16c58e0915bb3377d6fe7b76b2809103af83e02de4692c72a948868f55b737c5",
+        "trustMagnitudeInputHash": "db59b8ddef26641c696abf22978385ea4013c47fe003a9fd024729f71e7d0132",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -15814,7 +16078,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -15870,12 +16134,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 67.4,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "afde557e68445b1914b3438d0cb5ddddd3747dd07f7ed534d6c19175782ce141",
+        "trustMagnitudeInputHash": "bfff5590da060f24332033246e6b8c2dbd91dd525b267fa34df338d3052304f1",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -16571,7 +16841,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.2,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "78c3dfe9a70a59107cb53569c9d1eae4d63f2f18065557262679b776374b6b3f",
         "apexGateStatus": {
@@ -16933,7 +17203,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.2,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "85790c7452b97aaf2c601aae7c269c068b80a1697e66c723885c54462b9760a2",
         "apexGateStatus": {
@@ -17409,7 +17679,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.2,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "c2bfc8b438f3eb3184a5029e752e30d498c8365387ef64ba650d8f1a45f56a75",
         "apexGateStatus": {
@@ -17712,7 +17982,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.2,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "82901c4550a6c52331a59859de0992849e1c957f9c721b4f85aefe3c56c86284",
         "apexGateStatus": {
@@ -20326,6 +20596,1126 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "design-generation": [
+      {
+        "id": "pbakaus/impeccable",
+        "name": "Impeccable",
+        "contributor": "pbakaus",
+        "origin": true,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
+        "title": "The Aesthetic Shield",
+        "tags": [
+          "design",
+          "audit",
+          "frontend",
+          "polishing"
+        ],
+        "links": {
+          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/pbakaus/impeccable",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-14",
+            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+            "type": "repo",
+            "commits": 804,
+            "contributors": 27,
+            "trustNumber": 70.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/stargazers",
+            "evaluator": "mbtiongson1",
+            "updatedAt": "2026-08-01",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
+            "stars": 53455,
+            "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/abs/2411.01606",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
+            "citations": 19
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/268",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/183",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-14T12:32:50Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/pbakaus/impeccable as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:46:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:52:25Z",
+            "details": "TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
+          }
+        ],
+        "trustMagnitude": 138.25,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        }
+      },
+      {
+        "id": "leonxlnx/taste-skill",
+        "name": "taste-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Anti-slop frontend master skill for landing pages, portfolios, and redesigns. Infers design direction, dials visual variance and density, applies real design systems, and runs strict pre-flight checks.",
+        "title": "Taste Skill",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill repository",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T07:11:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/taste-skill"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:13:42Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:52Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=leonxlnx/taste-skill, suiteComponents+=['leonxlnx/redesign-skill', 'leonxlnx/brandkit', 'leonxlnx/imagegen-frontend-web', 'leonxlnx/imagegen-frontend-mobile', 'leonxlnx/gpt-tasteskill', 'leonxlnx/brutalist-skill', 'leonxlnx/minimalist-skill', 'leonxlnx/soft-skill', 'leonxlnx/stitch-skill', 'leonxlnx/image-to-code-skill', 'leonxlnx/output-skill']."
+          }
+        ],
+        "suiteComponents": [
+          "leonxlnx/brandkit",
+          "leonxlnx/brutalist-skill",
+          "leonxlnx/gpt-tasteskill",
+          "leonxlnx/image-to-code-skill",
+          "leonxlnx/imagegen-frontend-mobile",
+          "leonxlnx/imagegen-frontend-web",
+          "leonxlnx/minimalist-skill",
+          "leonxlnx/output-skill",
+          "leonxlnx/redesign-skill",
+          "leonxlnx/soft-skill",
+          "leonxlnx/stitch-skill"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        }
+      },
+      {
+        "id": "leonxlnx/brutalist-skill",
+        "name": "brutalist-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Industrial brutalism UI archetype with aerospace telemetry aesthetics, high-density monospace typography, and raw structural borders.",
+        "title": "Industrial Brutalist UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/brutalist-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:14Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:15Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:36Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/gpt-tasteskill",
+        "name": "gpt-tasteskill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Awwwards-grade kinetic typography, GSAP ScrollTrigger animation systems, and bento grid layout generation.",
+        "title": "GPT Taste",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/gpt-tasteskill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:12Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:35Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/minimalist-skill",
+        "name": "minimalist-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Utilitarian editorial minimalism UI archetype featuring macro-whitespace, monochrome palettes, and clean document-inspired layouts.",
+        "title": "Minimalist UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/minimalist-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:19Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:36Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/soft-skill",
+        "name": "soft-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Luxury tactile visual design archetype with subtle lighting, smooth neumorphic depth, and premium agency aesthetics.",
+        "title": "Luxury Soft UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/soft-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:20Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:22Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:37Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "nexu-io/open-design",
+        "name": "Open Design",
+        "contributor": "nexu-io",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
+        "title": "The Artisan's Forge",
+        "tags": [
+          "design",
+          "ui",
+          "ux",
+          "generation"
+        ],
+        "links": {
+          "github": "https://github.com/nexu-io/open-design"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/nexu-io/open-design",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 2382,
+            "contributors": 332,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:48:19Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:46Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:34Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-22T08:10:50Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          }
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "8160ffbdfe5eea8db15945eca7d38f15ffb9c6efe3f3a10845062976ca4e76e2",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "vision-qa": [
+      {
+        "id": "leonxlnx/image-to-code-skill",
+        "name": "image-to-code-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "vision-qa",
+        "status": "named",
+        "level": "2★",
+        "description": "Multimodal visual decomposition and pixel-accurate translation of UI mockups into responsive frontend code.",
+        "title": "Image to Code",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/image-to-code-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:25Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:39Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "image-generate": [
+      {
+        "id": "leonxlnx/imagegen-frontend-web",
+        "name": "imagegen-frontend-web",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "image-generate",
+        "status": "named",
+        "level": "2★",
+        "description": "Section-by-section web reference image prompt engineering for diffusion models to establish website hero and section art direction.",
+        "title": "Imagegen Frontend Web",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:40Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/imagegen-frontend-web"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:09Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:10Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:33Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/imagegen-frontend-mobile",
+        "name": "imagegen-frontend-mobile",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "image-generate",
+        "status": "named",
+        "level": "2★",
+        "description": "Mobile app mockup prompt engineering generating realistic iOS and Android UI screen concept art for diffusion models.",
+        "title": "Imagegen Frontend Mobile",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/imagegen-frontend-mobile"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:12Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:34Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "task-depth-enforcement": [
+      {
+        "id": "leonxlnx/unlazy",
+        "name": "unlazy",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "task-depth-enforcement",
+        "status": "named",
+        "level": "1★",
+        "description": "Anti-laziness execution discipline for substantial tasks. Decomposes work into recursive depth trees and enforces completion criteria through gate files and runnable checks.",
+        "title": "Unlazy",
+        "links": {
+          "github": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "700 stars on Leonxlnx/unlazy repository",
+            "stars": 700,
+            "sourceStartedAt": "2026-08-09"
+          },
+          {
+            "source": "https://github.com/leonxlnx/unlazy",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "9 commits, 1 contributor, MIT license",
+            "commits": 9,
+            "contributors": 1,
+            "sourceStartedAt": "2026-08-09"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T07:11:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/unlazy"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/unlazy/blob/main/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/unlazy (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:13:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:57Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 1.93,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "route-intent": [
       {
         "id": "mattpocock/ask-matt",
@@ -20995,7 +22385,7 @@
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21043,6 +22433,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 351.96 -> 200.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -21062,7 +22458,7 @@
           "mattpocock/wizard",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 351.96,
+        "trustMagnitude": 0.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "84bb03bde46f1e5dbf730b2f8ee2abbfd93c5cd04481b6dcb983bfbe04e0a6b4",
         "apexGateStatus": {
@@ -21621,7 +23017,7 @@
           "mattpocock/scaffold-exercises",
           "mattpocock/setup-pre-commit"
         ],
-        "trustMagnitude": 120.0,
+        "trustMagnitude": 0.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "4c59ac0648fe2f9b4e9d848dc8e6feacfbe20f0a7c5d29898f0659ca1207070e",
         "type": "fusion",
@@ -21842,7 +23238,7 @@
           "mattpocock/edit-article",
           "mattpocock/obsidian-vault"
         ],
-        "trustMagnitude": 60.0,
+        "trustMagnitude": 0.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841",
         "apexGateStatus": {
@@ -21940,7 +23336,7 @@
           "mattpocock/wait-what",
           "mattpocock/write-a-skill"
         ],
-        "trustMagnitude": 180.0,
+        "trustMagnitude": 0.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "7d29d5d833135693367eb0f68fe35a56c24c08e700e8e109a6d4e0652d0ec8f5",
         "apexGateStatus": {
@@ -22234,8 +23630,8 @@
           "ruvnet/github-release-management",
           "ruvnet/github-workflow-automation"
         ],
-        "trustMagnitude": 66.0,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "1df987fbdd79a999a7c3ca1ec7cf7a3b8f276f5dae52dbbc43911436f3012813",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -22466,7 +23862,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -22599,6 +23995,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 480.29 -> 528.95, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 528.95 -> 329.45, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -22628,8 +24030,8 @@
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 528.95,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 129.45,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "963b0bfb79077b054cd7a9024a9f321698f89cf037a182af079d86a46f6e0efd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -24325,104 +25727,6 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
-    "design-generation": [
-      {
-        "id": "nexu-io/open-design",
-        "name": "Open Design",
-        "contributor": "nexu-io",
-        "origin": true,
-        "genericSkillRef": "design-generation",
-        "status": "named",
-        "level": "2★",
-        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
-        "title": "The Artisan's Forge",
-        "tags": [
-          "design",
-          "ui",
-          "ux",
-          "generation"
-        ],
-        "links": {
-          "github": "https://github.com/nexu-io/open-design"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/nexu-io/open-design",
-            "evaluator": "gemini-cli",
-            "date": "2026-05-14",
-            "notes": "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 2382,
-            "contributors": 332,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:48:19Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 1★"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:46Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:42Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:34Z",
-            "action": "rank_up",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
-          }
-        ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "8160ffbdfe5eea8db15945eca7d38f15ffb9c6efe3f3a10845062976ca4e76e2",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
     "feed-monitoring": [
       {
         "id": "nousresearch/feed-monitoring",
@@ -24629,7 +25933,7 @@
           }
         ],
         "suiteRef": "obra/superpowers",
-        "trustMagnitude": 86.0,
+        "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "6e8062f6ddf3e6c27847a65d11b3d94b686e8c1916f4a66d04e13951bdd65054",
         "apexGateStatus": {
@@ -24816,7 +26120,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -24922,6 +26226,12 @@
             "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 445.15 -> 315.15, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -24937,9 +26247,9 @@
           "obra/verification-before-completion",
           "obra/writing-plans"
         ],
-        "trustMagnitude": 445.15,
-        "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606",
+        "trustMagnitude": 115.15,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "776d1928a79530d825389a6d3e046f7b5dca8c80d21b9350c80842b587c2e200",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -26878,8 +28188,8 @@
           "ruvnet/agentdb-optimization",
           "ruvnet/agentdb-vector-search"
         ],
-        "trustMagnitude": 201.0,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 81.0,
+        "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "57eb32192c3caef4855ec9363e47a5695af318f4bd39395758ff0f7966bcb492",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -27267,8 +28577,8 @@
           "ruvnet/dual-coordinate",
           "ruvnet/dual-spawn"
         ],
-        "trustMagnitude": 126.0,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "fcb3300e49c8ccf214a079a824cb1f57634afb2b7cb3fba6b7045bc19e6c880f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -27811,8 +29121,8 @@
           "ruvnet/flow-nexus-platform",
           "ruvnet/flow-nexus-swarm"
         ],
-        "trustMagnitude": 96.0,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "30bafed85a286ab06dfab8838217aa63fafa38885329370900f0d3229ec78f1f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -28261,7 +29571,7 @@
           }
         ],
         "suiteRef": "ruvnet/ruflo",
-        "trustMagnitude": 97.7,
+        "trustMagnitude": 95.02,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc",
         "apexGateStatus": {
@@ -28553,8 +29863,8 @@
           "ruvnet/reasoningbank-agentdb",
           "ruvnet/reasoningbank-intelligence"
         ],
-        "trustMagnitude": 118.5,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 88.5,
+        "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "14db5a1d7daf78680d3d2f58499fde5caa3ce712339f9dd377d1e383263f6f27",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -28618,7 +29928,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-29",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -28667,6 +29977,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-29T06:54:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 216.0 -> 186.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -28683,8 +29999,8 @@
           "ruvnet/v3-security-overhaul",
           "ruvnet/v3-swarm-coordination"
         ],
-        "trustMagnitude": 216.0,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "bdd2d28180885bdd2d93e64d0e2f0f9c48e16340828670f82761ce4664666d3d",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -28784,7 +30100,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -28886,6 +30202,12 @@
             "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:15Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 482.27 -> 256.68, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -28937,9 +30259,9 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
-        "trustMagnitude": 487.45,
-        "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2",
+        "trustMagnitude": 56.68,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "2ba95c671ca96ab8ae6aeb10c68e55f0457f8a9b824be6ad28fdaaa74550bfb0",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -36837,6 +38159,21 @@
     ],
     "laravel": [
       "laravel/upgrade-laravel-v13"
+    ],
+    "leonxlnx": [
+      "leonxlnx/brandkit",
+      "leonxlnx/brutalist-skill",
+      "leonxlnx/gpt-tasteskill",
+      "leonxlnx/image-to-code-skill",
+      "leonxlnx/imagegen-frontend-mobile",
+      "leonxlnx/imagegen-frontend-web",
+      "leonxlnx/minimalist-skill",
+      "leonxlnx/output-skill",
+      "leonxlnx/redesign-skill",
+      "leonxlnx/soft-skill",
+      "leonxlnx/stitch-skill",
+      "leonxlnx/taste-skill",
+      "leonxlnx/unlazy"
     ],
     "martin-stepanoski": [
       "martin-stepanoski/nielsen-heuristics-audit"

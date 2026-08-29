@@ -8,14 +8,14 @@
       "trustMagnitude": 138.25,
       "overallTrustGrade": "A",
       "contributor": "pbakaus",
-      "type": "basic",
+      "type": "fusion",
       "branch": "unique",
       "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       },
-      "genericSkillRef": "ui-audit"
+      "genericSkillRef": "design-generation"
     }
   ],
   "namedSkillsCount": 1,

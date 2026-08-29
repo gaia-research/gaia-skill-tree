@@ -2,35 +2,6 @@
   "handle": "obra",
   "namedSkills": [
     {
-      "id": "obra/superpowers",
-      "name": "Superpowers",
-      "level": "5★",
-      "trustMagnitude": 445.15,
-      "overallTrustGrade": "S",
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/obra/superpowers.json"
-      },
-      "genericSkillRef": "superpowers",
-      "suiteComponents": [
-        "obra/brainstorming",
-        "obra/dispatching-parallel-agents",
-        "obra/executing-plans",
-        "obra/finishing-a-development-branch",
-        "obra/receiving-code-review",
-        "obra/requesting-code-review",
-        "obra/subagent-driven-development",
-        "obra/systematic-debugging",
-        "obra/using-git-worktrees",
-        "obra/verification-before-completion",
-        "obra/writing-plans"
-      ]
-    },
-    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -61,6 +32,35 @@
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
       },
       "genericSkillRef": "using-git-worktrees"
+    },
+    {
+      "id": "obra/superpowers",
+      "name": "Superpowers",
+      "level": "5★",
+      "trustMagnitude": 115.15,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/obra/superpowers.json"
+      },
+      "genericSkillRef": "superpowers",
+      "suiteComponents": [
+        "obra/brainstorming",
+        "obra/dispatching-parallel-agents",
+        "obra/executing-plans",
+        "obra/finishing-a-development-branch",
+        "obra/receiving-code-review",
+        "obra/requesting-code-review",
+        "obra/subagent-driven-development",
+        "obra/systematic-debugging",
+        "obra/using-git-worktrees",
+        "obra/verification-before-completion",
+        "obra/writing-plans"
+      ]
     },
     {
       "id": "obra/brainstorming",
@@ -127,22 +127,6 @@
       "genericSkillRef": "verification-before-completion"
     },
     {
-      "id": "obra/dispatching-parallel-agents",
-      "name": "Dispatching Parallel Agents",
-      "level": "3★",
-      "trustMagnitude": 86.0,
-      "overallTrustGrade": "B",
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
-      },
-      "genericSkillRef": "dispatching-parallel-agents"
-    },
-    {
       "id": "obra/systematic-debugging",
       "name": "Systematic Debugging",
       "level": "3★",
@@ -157,6 +141,22 @@
         "self": "/api/v1/skills/obra/systematic-debugging.json"
       },
       "genericSkillRef": "systematic-debugging"
+    },
+    {
+      "id": "obra/dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      },
+      "genericSkillRef": "dispatching-parallel-agents"
     },
     {
       "id": "obra/finishing-a-development-branch",
@@ -209,14 +209,13 @@
   ],
   "namedSkillsCount": 12,
   "topSkill": {
-    "id": "obra/superpowers",
-    "level": "5★",
-    "trustMagnitude": 445.15
+    "id": "obra/subagent-driven-development",
+    "level": "4★",
+    "trustMagnitude": 117.65
   },
-  "prestigeScore": 1350.2,
+  "prestigeScore": 984.2,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 5,
     "B": 4,
     "C": 3
   },
