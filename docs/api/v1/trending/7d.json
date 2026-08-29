@@ -1,388 +1,178 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-24T12:52:57Z",
+  "generatedAt": "2026-08-29T13:06:26Z",
   "firstRun": false,
   "skills": [
     {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 180.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 160.0,
-      "tmDelta": 90.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
+      "id": "leonxlnx/taste-skill",
+      "name": "taste-skill",
       "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 351.96,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 115.07,
       "overallTrustGrade": "A",
-      "trendingScore": 88.03,
-      "tmDelta": 81.96,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      }
-    },
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 120.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 60.0,
-      "tmDelta": 120.0,
+      "trendingScore": 57.53,
+      "tmDelta": 115.07,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
+        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
       }
     },
     {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 105.68,
-      "overallTrustGrade": "A",
-      "trendingScore": 52.84,
-      "tmDelta": 105.68,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      }
-    },
-    {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 528.95,
-      "overallTrustGrade": "S",
-      "trendingScore": 41.11,
-      "tmDelta": 39.5,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      }
-    },
-    {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "4★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 216.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 33.23,
-      "tmDelta": 30.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-spec",
-      "name": "To PRD",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "trendingScore": 31.86,
-      "tmDelta": 63.71,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-spec.json"
-      }
-    },
-    {
-      "id": "mattpocock/tdd",
-      "name": "TDD",
-      "level": "3★",
-      "contributor": "mattpocock",
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "2★",
+      "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "trendingScore": 25.0,
       "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/tdd.json"
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
       }
     },
     {
-      "id": "mattpocock/ask-matt",
-      "name": "Ask Matt",
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/ask-matt.json"
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
       }
     },
     {
-      "id": "mattpocock/codebase-design",
-      "name": "Codebase Design",
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/codebase-design.json"
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
       }
     },
     {
-      "id": "mattpocock/diagnosing-bugs",
-      "name": "Diagnosing Bugs",
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
       }
     },
     {
-      "id": "mattpocock/domain-modeling",
-      "name": "Domain Modeling",
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
       }
     },
     {
-      "id": "mattpocock/git-guardrails-claude-code",
-      "name": "Git Guardrails Claude Code",
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
       }
     },
     {
-      "id": "mattpocock/grilling",
-      "name": "Grilling",
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/grilling.json"
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
       }
     },
     {
-      "id": "mattpocock/implement",
-      "name": "Implement",
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/implement.json"
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
       }
     },
     {
-      "id": "mattpocock/migrate-to-shoehorn",
-      "name": "Migrate to Shoehorn",
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
       }
     },
     {
-      "id": "mattpocock/resolving-merge-conflicts",
-      "name": "Resolving Merge Conflicts",
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
       }
     },
     {
-      "id": "mattpocock/scaffold-exercises",
-      "name": "Scaffold Exercises",
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
       "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
-      }
-    },
-    {
-      "id": "mattpocock/setup-pre-commit",
-      "name": "Setup Pre-Commit",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
-      }
-    },
-    {
-      "id": "mattpocock/writing-for-agents",
-      "name": "Writing For Agents",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
-      }
-    },
-    {
-      "id": "addy-osmani/test-driven-development",
-      "name": "Test-Driven Development",
-      "level": "2★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 45.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 14.0,
-      "tmDelta": 9.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      }
-    },
-    {
-      "id": "mattpocock/code-review",
-      "name": "Code Review",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/code-review.json"
-      }
-    },
-    {
-      "id": "mattpocock/research",
-      "name": "Research",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/research.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-questionnaire",
-      "name": "To Questionnaire",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
-      }
-    },
-    {
-      "id": "mattpocock/wait-what",
-      "name": "Wait What",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wait-what.json"
-      }
-    },
-    {
-      "id": "mattpocock/wayfinder",
-      "name": "Wayfinder",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wayfinder.json"
-      }
-    },
-    {
-      "id": "mattpocock/wizard",
-      "name": "Wizard",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wizard.json"
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
       }
     }
   ],
-  "totalTrending": 27,
+  "totalTrending": 12,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

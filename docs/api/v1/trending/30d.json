@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-24T12:52:57Z",
+  "generatedAt": "2026-08-29T13:06:26Z",
   "firstRun": false,
   "skills": [
     {
@@ -38,8 +38,8 @@
       "contributor": "firecrawl",
       "trustMagnitude": 150.32,
       "overallTrustGrade": "A",
-      "trendingScore": 167.69,
-      "tmDelta": 76.8,
+      "trendingScore": 164.52,
+      "tmDelta": 74.74,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
@@ -88,48 +88,6 @@
       }
     },
     {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 180.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 120.0,
-      "tmDelta": 60.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
-    },
-    {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 195.51,
-      "overallTrustGrade": "A",
-      "trendingScore": 97.75,
-      "tmDelta": 195.51,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
-      }
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 351.96,
-      "overallTrustGrade": "A",
-      "trendingScore": 88.03,
-      "tmDelta": 81.96,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      }
-    },
-    {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
       "level": "3★",
@@ -158,73 +116,45 @@
       }
     },
     {
-      "id": "k-dense-ai/pymc",
-      "name": "PyMC",
-      "level": "4★",
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 146.07,
-      "overallTrustGrade": "A",
-      "trendingScore": 73.03,
-      "tmDelta": 146.07,
-      "new": true,
+      "trustMagnitude": 67.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 80.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pymc.json"
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
       }
     },
     {
-      "id": "k-dense-ai/deepchem",
-      "name": "DeepChem",
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
       "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 137.07,
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 102.49,
       "overallTrustGrade": "A",
-      "trendingScore": 68.53,
-      "tmDelta": 137.07,
-      "new": true,
+      "trendingScore": 79.64,
+      "tmDelta": -0.3,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
       }
     },
     {
-      "id": "k-dense-ai/torch-geometric",
-      "name": "Torch Geometric",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 137.07,
-      "overallTrustGrade": "A",
-      "trendingScore": 68.53,
-      "tmDelta": 137.07,
-      "new": true,
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "3★",
+      "contributor": "anthropics",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
-      }
-    },
-    {
-      "id": "mvanhorn/last30days",
-      "name": "Last 30 Days Web Research",
-      "level": "4★",
-      "contributor": "mvanhorn",
-      "trustMagnitude": 129.1,
-      "overallTrustGrade": "A",
-      "trendingScore": 64.55,
-      "tmDelta": 129.1,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mvanhorn/last30days.json"
-      }
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "4★",
-      "contributor": "disler",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "A",
-      "trendingScore": 63.77,
-      "tmDelta": 127.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
       }
     },
     {
@@ -234,8 +164,8 @@
       "contributor": "firecrawl",
       "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
-      "trendingScore": 62.77,
-      "tmDelta": 2.18,
+      "trendingScore": 60.15,
+      "tmDelta": 0.12,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -248,39 +178,39 @@
       "contributor": "firecrawl",
       "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
-      "trendingScore": 62.77,
-      "tmDelta": 2.18,
+      "trendingScore": 60.15,
+      "tmDelta": 0.12,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
     },
     {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.2,
-      "overallTrustGrade": "A",
-      "trendingScore": 60.04,
-      "tmDelta": 0.04,
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 93.03,
+      "overallTrustGrade": "B",
+      "trendingScore": 57.79,
+      "tmDelta": -18.84,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
       }
     },
     {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 120.0,
+      "id": "leonxlnx/taste-skill",
+      "name": "taste-skill",
+      "level": "4★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 115.07,
       "overallTrustGrade": "A",
-      "trendingScore": 60.0,
-      "tmDelta": 120.0,
+      "trendingScore": 57.53,
+      "tmDelta": 115.07,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
+        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
       }
     },
     {
@@ -298,6 +228,48 @@
       }
     },
     {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 76.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 54.67,
+      "tmDelta": -21.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 76.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 54.67,
+      "tmDelta": -21.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 76.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 54.67,
+      "tmDelta": -21.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      }
+    },
+    {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "3★",
@@ -312,31 +284,59 @@
       }
     },
     {
-      "id": "dietrichgebert/ponytail",
-      "name": "Ponytail",
-      "level": "4★",
-      "contributor": "dietrichgebert",
-      "trustMagnitude": 102.49,
-      "overallTrustGrade": "A",
-      "trendingScore": 51.24,
-      "tmDelta": 102.49,
-      "new": true,
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+        "self": "/api/v1/skills/disler/auto-review.json"
       }
     },
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 528.95,
-      "overallTrustGrade": "S",
-      "trendingScore": 50.69,
-      "tmDelta": 48.66,
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      }
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "contributor": "nexu-io",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
       }
     },
     {
@@ -344,27 +344,41 @@
       "name": "Hive Mind",
       "level": "3★",
       "contributor": "ruvnet",
-      "trustMagnitude": 97.7,
+      "trustMagnitude": 95.02,
       "overallTrustGrade": "B",
-      "trendingScore": 48.85,
-      "tmDelta": 97.7,
+      "trendingScore": 47.51,
+      "tmDelta": 95.02,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind.json"
       }
     },
     {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "3★",
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 93.03,
-      "overallTrustGrade": "B",
-      "trendingScore": 46.52,
-      "tmDelta": 93.03,
-      "new": true,
+      "trustMagnitude": 137.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 46.41,
+      "tmDelta": -30.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 137.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 46.41,
+      "tmDelta": -30.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
       }
     },
     {
@@ -382,62 +396,6 @@
       }
     },
     {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
-      "level": "3★",
-      "contributor": "anthropics",
-      "trustMagnitude": 77.35,
-      "overallTrustGrade": "B",
-      "trendingScore": 38.67,
-      "tmDelta": 77.35,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "trendingScore": 38.03,
-      "tmDelta": 76.07,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "trendingScore": 38.03,
-      "tmDelta": 76.07,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "trendingScore": 38.03,
-      "tmDelta": 76.07,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
-      }
-    },
-    {
       "id": "safishamsi/graphify",
       "name": "Graphify",
       "level": "4★",
@@ -452,31 +410,17 @@
       }
     },
     {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
+      "id": "garrytan/design-consultation",
+      "name": "Design Consultation",
       "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 67.07,
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 33.53,
-      "tmDelta": 67.07,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      }
-    },
-    {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "4★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 216.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 33.23,
-      "tmDelta": 30.0,
+      "trendingScore": 31.96,
+      "tmDelta": -13.73,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+        "self": "/api/v1/skills/garrytan/design-consultation.json"
       }
     },
     {
@@ -494,17 +438,31 @@
       }
     },
     {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "contributor": "oso95",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "trendingScore": 30.49,
-      "tmDelta": 60.98,
-      "new": true,
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
+      "trendingScore": 30.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "name": "scvi-tools",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
+      "trendingScore": 30.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
       }
     },
     {
@@ -522,20 +480,6 @@
       }
     },
     {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "trendingScore": 26.93,
-      "tmDelta": 53.86,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "3★",
@@ -547,6 +491,160 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      }
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      }
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      }
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      }
+    },
+    {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
       }
     },
     {
@@ -564,45 +662,17 @@
       }
     },
     {
-      "id": "k-dense-ai/rdkit",
-      "name": "RDKit",
-      "level": "2★",
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 49.07,
-      "overallTrustGrade": "C",
-      "trendingScore": 24.54,
-      "tmDelta": 49.07,
-      "new": true,
+      "trustMagnitude": 146.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 23.82,
+      "tmDelta": -51.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scvi-tools",
-      "name": "scvi-tools",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 49.07,
-      "overallTrustGrade": "C",
-      "trendingScore": 24.54,
-      "tmDelta": 49.07,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
-      }
-    },
-    {
-      "id": "anthropics/canvas-design",
-      "name": "Canvas Design",
-      "level": "2★",
-      "contributor": "anthropics",
-      "trustMagnitude": 43.52,
-      "overallTrustGrade": "C",
-      "trendingScore": 21.76,
-      "tmDelta": 43.52,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/anthropics/canvas-design.json"
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
       }
     },
     {
@@ -872,48 +942,6 @@
       }
     },
     {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      }
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      }
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
-      }
-    },
-    {
       "id": "karpathy/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
@@ -953,34 +981,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 109.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 12.59,
-      "tmDelta": 2.18,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 135.72,
-      "overallTrustGrade": "A",
-      "trendingScore": 12.51,
-      "tmDelta": 2.18,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
     },
     {
@@ -1068,6 +1068,34 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 135.72,
+      "overallTrustGrade": "A",
+      "trendingScore": 10.14,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 109.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 10.14,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -1082,48 +1110,6 @@
       }
     },
     {
-      "id": "ruvnet/ruflo",
-      "name": "Ruflo",
-      "level": "5★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 487.45,
-      "overallTrustGrade": "S",
-      "trendingScore": 5.39,
-      "tmDelta": 5.18,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo.json"
-      }
-    },
-    {
-      "id": "garrytan/benchmark",
-      "name": "Benchmark",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark.json"
-      }
-    },
-    {
-      "id": "garrytan/canary",
-      "name": "Canary",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/canary.json"
-      }
-    },
-    {
       "id": "garrytan/cso",
       "name": "CSO",
       "level": "3★",
@@ -1135,188 +1121,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
-      }
-    },
-    {
-      "id": "garrytan/design-consultation",
-      "name": "Design Consultation",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-consultation.json"
-      }
-    },
-    {
-      "id": "garrytan/design-html",
-      "name": "Design HTML",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-html.json"
-      }
-    },
-    {
-      "id": "garrytan/design-shotgun",
-      "name": "Design Shotgun",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-shotgun.json"
-      }
-    },
-    {
-      "id": "garrytan/document-generate",
-      "name": "Document Generate",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-generate.json"
-      }
-    },
-    {
-      "id": "garrytan/investigate",
-      "name": "Investigate",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/investigate.json"
-      }
-    },
-    {
-      "id": "garrytan/land-and-deploy",
-      "name": "Land and Deploy",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      }
-    },
-    {
-      "id": "garrytan/plan-ceo-review",
-      "name": "Plan CEO Review",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
-      }
-    },
-    {
-      "id": "garrytan/plan-design-review",
-      "name": "Plan Design Review",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-design-review.json"
-      }
-    },
-    {
-      "id": "garrytan/plan-devex-review",
-      "name": "Plan DevEx Review",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-devex-review.json"
-      }
-    },
-    {
-      "id": "garrytan/qa",
-      "name": "QA",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/qa.json"
-      }
-    },
-    {
-      "id": "garrytan/review",
-      "name": "Review",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/review.json"
-      }
-    },
-    {
-      "id": "garrytan/ship",
-      "name": "Ship",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/ship.json"
-      }
-    },
-    {
-      "id": "garrytan/skillify",
-      "name": "Skillify",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "trendingScore": 4.82,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skillify.json"
       }
     },
     {
@@ -1348,34 +1152,6 @@
       }
     },
     {
-      "id": "garrytan/gstack",
-      "name": "Founder Mode",
-      "level": "5★",
-      "contributor": "garrytan",
-      "trustMagnitude": 592.99,
-      "overallTrustGrade": "S",
-      "trendingScore": 3.79,
-      "tmDelta": 3.67,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gstack.json"
-      }
-    },
-    {
-      "id": "addy-osmani/agent-skills",
-      "name": "Agent Skills",
-      "level": "5★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 296.3,
-      "overallTrustGrade": "S",
-      "trendingScore": 3.38,
-      "tmDelta": 3.16,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
-    },
-    {
       "id": "supabase/supabase",
       "name": "Supabase",
       "level": "2★",
@@ -1404,91 +1180,35 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
       "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 225.7,
+      "contributor": "mvanhorn",
+      "trustMagnitude": 129.1,
       "overallTrustGrade": "A",
-      "trendingScore": 2.38,
-      "tmDelta": 2.18,
+      "trendingScore": 1.45,
+      "tmDelta": 1.25,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
       }
     },
     {
-      "id": "gsd-build/discuss-phase",
-      "name": "GSD Discuss Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 0.06,
-      "tmDelta": 0.04,
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 195.51,
+      "overallTrustGrade": "A",
+      "trendingScore": 1.38,
+      "tmDelta": 1.25,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/execute-phase",
-      "name": "GSD Execute Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 0.06,
-      "tmDelta": 0.04,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/execute-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/plan-phase",
-      "name": "GSD Plan Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 0.06,
-      "tmDelta": 0.04,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/plan-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/ship",
-      "name": "GSD Ship",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 0.06,
-      "tmDelta": 0.04,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/ship.json"
-      }
-    },
-    {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 0.06,
-      "tmDelta": 0.04,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
       }
     }
   ],
-  "totalTrending": 106,
+  "totalTrending": 86,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
