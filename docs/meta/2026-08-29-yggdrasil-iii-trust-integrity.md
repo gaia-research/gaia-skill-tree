@@ -2,71 +2,102 @@
 title: "Yggdrasil III: Structural Provenance Is Not Trust"
 author: "Gaia Research"
 date: "2026-08-29"
-summary: "Yggdrasil III separates structural fusion provenance from Trust Magnitude, requires an eligible independent witness for an S grade, and bounds shared suite-repository evidence."
+summary: "Yggdrasil III keeps suite structure visible while preventing shared repository evidence from being counted repeatedly as independent proof. Trust Magnitude changed; stars did not."
 abstract: |
-  Yggdrasil III closes three ways a large suite could look more corroborated than its evidence supports. Fusion-recipe rows remain structural provenance at 0 Trust Magnitude; an S grade needs three positive scoring Evidence Types plus one eligible benchmark result, verifier attestation, or peer review from the skill's own layer; and a suite component may draw no more than 50 Trust Magnitude from shared repository evidence. The rule changes the computation and its public projections, not any named skill's stored stars.
+  Yggdrasil III makes Trust Magnitude fairer across suites and unique skills. Fusion-recipe rows still describe how a suite is assembled, but contribute 0 Trust Magnitude. Shared suite-repository evidence remains a useful baseline, capped at 50 Trust Magnitude per component, while component-specific evidence remains eligible. An S grade also needs positive evidence from an eligible benchmark result, verifier attestation, or peer review at the skill's own layer. These rules correct evidence accounting; they do not change stored stars or claim that a skill became less capable.
 label: "Meta Shift"
 ---
 
 ## Abstract
 
-Yggdrasil III makes a narrow correction to the Trust Magnitude computation. A Fusion can explain how a capability is assembled. It cannot, on its own, establish the corroboration that Trust Magnitude is meant to measure. The same principle applies when many components inherit the same repository signal: shared context is useful baseline evidence, but it is not independent support for every component.
+Trust Magnitude (TM) summarizes the positive evidence supporting a named skill. It is **not a capability score**, a performance ranking, or a verdict on usefulness. Yggdrasil III corrects how TM treats suites so that a suite's structure and shared repository standing cannot look like many independent confirmations.
 
-This report accompanies the Yggdrasil III integration review. It states the implemented contract, the resulting public projections, and the boundaries that remain unchanged.
+The intent is balance, not punishment. Suites keep their composition, provenance, and eligible evidence. Unique skills and suite components are simply compared without repeatedly turning one shared signal into fresh corroboration. The rules changed TM calculations and public projections; they did not change stars.
 
-## The correction
+## What was corrected
 
-The prior formula allowed a large `fusion-recipe` row to contribute substantial Trust Magnitude. That made structure behave like corroboration. Yggdrasil III retains fusion-recipe rows for provenance, graph inspection, and structural predicates, but makes their scoring contribution exactly `0`.
+Previously, a `fusion-recipe` row could add a large number to TM. That row describes which skills make up a Fusion; it does not independently test or validate them. Yggdrasil III therefore keeps the row for provenance, graph traversal, and rank rules, but fixes its TM contribution at `0` and excludes it from scoring Evidence Type diversity.
 
 | Question | Before | Yggdrasil III |
 |---|---|---|
-| What did a Fusion demonstrate? | Structure and a large numeric contribution | Structural provenance only |
-| Can fusion count toward scoring Evidence Type diversity? | It could appear in the count | No — only positive scoring Evidence Types count |
-| Can fusion certify an S grade? | It could inflate the total near the S floor | No |
+| What does a fusion recipe show? | Structure and a numeric TM contribution | Structure only |
+| Does it add a scoring Evidence Type? | It could | No |
+| Does the suite disappear from the graph? | No | No |
 
-The raw origin structure remains inspectable. The change does not erase a suite's composition; it stops composition from being mistaken for independent evidence.
+<img src="2026-08-29-yggdrasil-iii-before-after-tm-evidence-flow.svg" alt="Before and after evidence flow. Before Yggdrasil III, shared repository evidence and fusion structure could both increase component Trust Magnitude. After the change, shared suite evidence is capped at 50 TM per component, fusion structure contributes zero TM, and unique evidence remains eligible." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
 
-## The S-grade gate
+*Figure 1. Structure remains visible, but only eligible evidence contributes to Trust Magnitude.*
 
-An S grade now requires all of the following:
+## The suite-versus-unique balance, in plain language
 
-1. Trust Magnitude of at least `250`.
-2. At least three distinct, positive scoring Evidence Types.
-3. One positive eligible witness from `benchmark-result`, `verifier-attestation`, or `peer-review`, recorded at the skill's own evidence layer.
+Imagine a suite repository containing several components. When a component has `repo-own` or `github-stars-own` evidence pointing to that shared repository, the evidence can contribute a baseline. But the repository does not become new, independent proof each time the same source supports another component.
 
-Rejected benchmark rows, deranked verifier rows, zero-scoring rows, phantom rows, and inherited witnesses do not satisfy the third condition. Repository ownership, repository stars, and fusion structure can still support the total where their formulas allow; none can substitute for the independent witness.
+Yggdrasil III applies three simple rules:
 
-This is deliberately a narrower test than a generic distinction between self-produced and external evidence. The gate names the evidence that can answer the question it is protecting: has this skill received a positive, eligible, independent observation?
+- Shared `repo-own` and `github-stars-own` evidence from the suite repository is capped at a combined **50 TM per component**.
+- `fusion-recipe` structure contributes **0 TM**. It still records how the suite is assembled.
+- Evidence specific to a component—including evidence from its own or another repository—remains eligible under the normal rules.
 
-## Shared suite evidence has a boundary
+This bounds repeated shared or structural evidence while preserving component-specific evidence. Unique skills receive no bonus, and suites receive no blanket penalty: eligible evidence follows the same scoring rules, with only a suite component's repeated shared-repository baseline capped.
 
-A component with a `suiteRef` may inherit `repo-own` and `github-stars-own` evidence associated with the suite root. Yggdrasil III caps the combined contribution from that shared repository baseline at `50` Trust Magnitude for each component.
+<img src="2026-08-29-yggdrasil-iii-suite-unique-balance.svg" alt="Suite and unique-skill balance diagram. One suite repository provides each component with at most a 50 TM shared baseline. Component-specific evidence can add normally. Fusion-recipe links remain visible as structure but add zero TM. A unique skill is scored from its own eligible evidence." role="img" style="display:block;width:100%;height:auto;margin:1.5rem auto 0.5rem;" loading="lazy">
 
-The cap is selective. Component-specific repository evidence remains fully eligible under the ordinary formula, as does evidence from a different repository. The result is a bounded shared baseline rather than a multiplier that lets one repository's standing repeat without limit across an entire suite.
+*Figure 2. Shared suite standing is a bounded baseline; specific evidence does the differentiating work.*
 
-## What the projection shows
+## The S-grade safeguard
 
-The build recomputes Trust Magnitude from each skill's evidence inventory. No named-skill source data, Evidence Grades, or stored stars are edited by this change. The generated projections change because they now apply the corrected contract.
+An S grade now requires all three of the following:
 
-On the reviewed registry snapshot, the generated distribution is `0` S, `58` A, `82` B, `106` C, and `18` ungraded across `264` named skills. This is not a declaration that the affected skills lost their capabilities. It is the expected effect of removing structural contribution from a measure of corroboration and requiring a positive, eligible witness for S.
+1. TM of at least `250`.
+2. At least three distinct Evidence Types with positive scores.
+3. At least one positive, eligible `benchmark-result`, `verifier-attestation`, or `peer-review` row recorded at the skill's own evidence layer.
 
-The public graph, API projection, contributor pages, and named-skill pages are regenerated together so that every served surface reads the same calculation.
+Rejected benchmark rows, deranked verifier rows, zero-scoring rows, phantom rows, and inherited witnesses cannot satisfy the third requirement. Repository evidence may still contribute where its formula allows, but it cannot replace the eligible own-layer witness.
+
+The safeguard asks whether strong TM has at least one direct observation of the skill. It does not say that a skill without such a witness is bad, broken, or incapable.
+
+## What changed in the public projection
+
+On the reviewed 264-skill snapshot, the corrected calculation produced `0` S, `58` A, `82` B, `106` C, and `18` ungraded named skills. The graph, API, contributor pages, and named-skill pages were regenerated from that calculation.
+
+Those grade movements describe the available corroborating evidence under the new rules. They do not describe a loss of capability. The Yggdrasil III implementation did not edit evidence rows or stored stars.
+
+## Follow-up: the resolver correction
+
+Review then found a narrower resolver bug. The shared skill-map loader removed every frontmatter `role` field because it confused the RFC marker `role: variant` with an unrelated display-only role. As a result, variant components could be treated as graded origins during fusion-recipe origin resolution.
+
+PR #1647 fixed the shared resolver and added regression coverage. After that fix, merged PR #1649 recalibrated the one affected stored TM projection, `ruvnet/ruflo-v3`:
+
+| Check | Result |
+|---|---|
+| Trust Magnitude | `216.00 → 186.00` (`−30.00`) |
+| Overall Trust Grade | `A → A` |
+| Eight genuine `role: variant` entries | Individual dry-runs were no-ops |
+| Evidence rows, rank, and stars | Unchanged |
+
+This follow-up synchronized the named-skill record and its generated API, search, and index projections. It was not new evidence, a demotion, or a star change.
 
 ## What remains unchanged
 
-Yggdrasil III does not change the existing star gates, suite structure, origin attribution, or the underlying evidence records. It does not turn every evaluation into a benchmark, and it does not treat an absent witness as a negative finding. A skill can remain useful while its Trust Magnitude lacks the corroboration needed for an S grade.
+Yggdrasil III does not remove suites, erase their provenance, or discount component-specific evidence. It does not change the Star Bar, suite membership, origin attribution, evidence records, rank, or stars. It changes how TM distinguishes structural/shared context from corroborating evidence.
 
-The correction therefore preserves two distinct statements:
+The result preserves two ideas at once:
 
-- A Fusion can be meaningful structural work.
-- An S-grade Trust Magnitude requires independent positive evidence in addition to structure.
+- Building and organizing a meaningful suite is valuable work.
+- Reusing one suite-wide signal is not the same as collecting independent evidence for every component.
 
 ## References
 
-[1] Gaia Skill Tree. *Yggdrasil III trust integrity rules*. Pull request #1629. https://github.com/gaia-research/gaia-skill-tree/pull/1629
+[1] Gaia Skill Tree. [META.md: Evidence methodology and active Trust Magnitude contract](https://github.com/gaia-research/gaia-skill-tree/blob/6b64a07eecce4377f5b9e13bd30976a52963419e/META.md).
 
-[2] Gaia Skill Tree. *Trust Magnitude methodology*. `docs/codex/trust-methodology.html`.
+[2] Gaia Skill Tree. [Trust Magnitude methodology](https://github.com/gaia-research/gaia-skill-tree/blob/6b64a07eecce4377f5b9e13bd30976a52963419e/docs/codex/trust-methodology.html).
 
-[3] Gaia Skill Tree. *Evidence Type contract and Trust Magnitude thresholds*. `registry/schema/meta.json`.
+[3] Gaia Skill Tree. [Canonical evidence and Trust Grade schema](https://github.com/gaia-research/gaia-skill-tree/blob/6b64a07eecce4377f5b9e13bd30976a52963419e/registry/schema/meta.json).
 
-[4] Gaia Skill Tree. *Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared*. 2026-07-26. https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html
+[4] Gaia Skill Tree. [Trust Magnitude computation, including fusion scoring and the suite repository cap](https://github.com/gaia-research/gaia-skill-tree/blob/6b64a07eecce4377f5b9e13bd30976a52963419e/src/gaia_cli/trustMagnitude.py).
+
+[5] Gaia Skill Tree. [Canonical generic and named skill-map resolver](https://github.com/gaia-research/gaia-skill-tree/blob/ff9ba51cb0ea953f8ce61fd88f61353d8d38c3e3/src/gaia_cli/registryMaps.py).
+
+[6] Gaia Skill Tree. [Canonical `ruvnet/ruflo-v3` record after the resolver recalibration](https://github.com/gaia-research/gaia-skill-tree/blob/ae4d0a531671ca25a407f405e3b9da99f7cea3bf/registry/named/ruvnet/ruflo-v3.md).
+
+[7] Gaia Skill Tree. [Yggdrasil II source report: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared](https://github.com/gaia-research/gaia-skill-tree/blob/6b64a07eecce4377f5b9e13bd30976a52963419e/docs/meta/2026-07-yggdrasil-ii-meta-shift.md). 2026-07-26.

@@ -5,7 +5,7 @@
       "type": "report",
       "date": "2026-08-29",
       "title": "Yggdrasil III: Structural Provenance Is Not Trust",
-      "summary": "Yggdrasil III separates structural fusion provenance from Trust Magnitude, requires an eligible independent witness for an S grade, and bounds shared suite-repository evidence.",
+      "summary": "Yggdrasil III keeps suite structure visible while preventing shared repository evidence from being counted repeatedly as independent proof. Trust Magnitude changed; stars did not.",
       "label": "Meta Shift",
       "url": "meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html",
       "author": "Gaia Research",
