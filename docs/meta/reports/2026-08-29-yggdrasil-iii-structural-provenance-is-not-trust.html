@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
   <style>
     :root {
       --paper-bg: #ffffff;
@@ -231,12 +232,17 @@
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">Yggdrasil III makes Trust Magnitude fairer across suites and unique skills. Fusion-recipe rows still describe how a suite is assembled, but contribute 0 Trust Magnitude. Shared suite-repository evidence remains a useful baseline, capped at 50 Trust Magnitude per component, while component-specific evidence remains eligible. An S grade also needs positive evidence from an eligible benchmark result, verifier attestation, or peer review at the skill's own layer. These rules correct evidence accounting; they do not change stored stars or claim that a skill became less capable.
+      <div class="abstract-content">Yggdrasil III makes Trust Magnitude fairer across suites and unique skills. An emergency amendment recalibrates github-stars-own evidence to min(250, stars/250), without the former skill-count divisor, so every current 5-star skill remains above the 250 TM floor. Fusion-recipe rows still describe how a suite is assembled, but contribute 0 Trust Magnitude. Shared suite-repository evidence remains capped at 50 Trust Magnitude per component, and an S grade still needs a positive eligible benchmark result, verifier attestation, or peer review at the skill's own layer. These rules correct evidence accounting; they do not change stored stars or claim that a skill became less capable.
 </div>
     </section>
 
     <p>Trust Magnitude (TM) summarizes the positive evidence supporting a named skill. It is <strong>not a capability score</strong>, a performance ranking, or a verdict on usefulness. Yggdrasil III corrects how TM treats suites so that a suite's structure and shared repository standing cannot look like many independent confirmations.</p>
 <p>The intent is balance, not punishment. Suites keep their composition, provenance, and eligible evidence. Unique skills and suite components are simply compared without repeatedly turning one shared signal into fresh corroboration. The rules changed TM calculations and public projections; they did not change stars.</p>
+<h2>Emergency amendment: repository-star recalibration</h2>
+<p>The initial Yggdrasil III projection exposed an overcorrection: <code>github-stars-own</code> divided repository adoption by up to four according to <code>skillCountInRepo</code>, leaving several established 5-star suites below the <code>250</code> TM floor. PR #1666 replaces that row formula with <code>min(250, stars/250)</code>. Repository adoption now contributes directly, reaches its row cap at 62,500 stars, and no longer amplifies unrelated evidence. Same-source deduplication, the 50 TM suite-component baseline cap, and the independent S-witness safeguard remain unchanged.</p>
+<p>A full <code>gaia dev calibrate-trust-magnitude</code> pass on the five current 5-star records produced:</p>
+<table><thead><tr><th>Skill</th><th>Recalibrated TM</th><th>Overall Trust Grade</th></tr></thead><tbody><tr><td><code>addy-osmani/agent-skills</code></td><td>286.00</td><td>A</td></tr><tr><td><code>garrytan/gstack</code></td><td>331.59</td><td>A</td></tr><tr><td><code>mattpocock/skills</code></td><td>329.90</td><td>S</td></tr><tr><td><code>obra/superpowers</code></td><td>315.15</td><td>A</td></tr><tr><td><code>ruvnet/ruflo</code></td><td>290.00</td><td>A</td></tr></tbody></table>
+<p>All five remain above the numeric 5-star floor. The four A outcomes are intentional: stars establish adoption magnitude but do not substitute for an eligible own-layer <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code> witness. This emergency calibration preserves current rank records while the broader per-type balance audit continues in issue #1665.</p>
 <h2>What was corrected</h2>
 <p>Previously, a <code>fusion-recipe</code> row could add a large number to TM. That row describes which skills make up a Fusion; it does not independently test or validate them. Yggdrasil III therefore keeps the row for provenance, graph traversal, and rank rules, but fixes its TM contribution at <code>0</code> and excludes it from scoring Evidence Type diversity.</p>
 <table><thead><tr><th>Question</th><th>Before</th><th>Yggdrasil III</th></tr></thead><tbody><tr><td>What does a fusion recipe show?</td><td>Structure and a numeric TM contribution</td><td>Structure only</td></tr><tr><td>Does it add a scoring Evidence Type?</td><td>It could</td><td>No</td></tr><tr><td>Does the suite disappear from the graph?</td><td>No</td><td>No</td></tr></tbody></table>

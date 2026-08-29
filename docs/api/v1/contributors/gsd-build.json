@@ -5,8 +5,8 @@
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
       "level": "4★",
-      "trustMagnitude": 52.2,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "suite",
@@ -109,11 +109,12 @@
   "topSkill": {
     "id": "gsd-build/get-shit-done",
     "level": "4★",
-    "trustMagnitude": 52.2
+    "trustMagnitude": 286.0
   },
-  "prestigeScore": 302.2,
+  "prestigeScore": 536.0,
   "gradeDistribution": {
-    "B": 6
+    "A": 1,
+    "B": 5
   },
   "_links": {
     "self": "/api/v1/contributors/gsd-build.json",

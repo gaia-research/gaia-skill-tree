@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 146.07,
+  "trustMagnitude": 267.06,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -24,7 +24,7 @@
     "sourceTenureDaysGte180AorS": true,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null

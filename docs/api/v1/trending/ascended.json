@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T13:06:26Z",
+  "generatedAt": "2026-08-29T16:27:31Z",
   "skills": [
     {
       "id": "leonxlnx/stitch-skill",
@@ -54,7 +54,7 @@
       "name": "taste-skill",
       "level": "4★",
       "contributor": "leonxlnx",
-      "trustMagnitude": 115.07,
+      "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-08-22T07:13:42Z",
       "_links": {
@@ -344,8 +344,8 @@
       "name": "Brand Guidelines",
       "level": "3★",
       "contributor": "anthropics",
-      "trustMagnitude": 77.35,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:25:05Z",
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
@@ -357,8 +357,8 @@
       "name": "Transformers",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 197.06,
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:18Z",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
@@ -370,7 +370,7 @@
       "name": "Torch Geometric",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 137.07,
+      "trustMagnitude": 258.06,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:17Z",
       "_links": {

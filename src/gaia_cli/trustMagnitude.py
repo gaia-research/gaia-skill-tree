@@ -26,33 +26,6 @@ import math
 from typing import Any, Optional
 
 
-# ---------------------------------------------------------------------------
-# Star Authority Multiplier (Yggdrasil III amendment, 2026-08-30)
-# ---------------------------------------------------------------------------
-# GitHub stars act as a multiplicative authority signal on the entire TM sum.
-# Formula: max(1.0, min(2.5, 1.0 + sqrt(stars / 100_000)))
-#   0 stars     -> 1.0x  (no effect)
-#   25k stars   -> 1.5x
-#   50k stars   -> 1.71x
-#   100k stars  -> 2.0x
-#   250k+ stars -> 2.5x  (cap)
-# This is monotonically increasing with zero downgrades: every skill's TM
-# is >= its pre-amendment value.  The multiplier is applied once at the
-# aggregate level (computeTrustMagnitude) AFTER all per-row artifact scores,
-# dedup, plateau, and caps have been computed.
-# Rationale: stars reflect real-world adoption authority that should amplify
-# the trust signal from other evidence types, not merely add a capped value.
-# See issue #1665 for the full recalibration RFC.
-
-def _starAuthorityMultiplier(stars: float) -> float:
-    """Compute the star authority multiplier for a skill's TM.
-
-    Returns a value in [1.0, 2.5].  Zero or negative stars return 1.0.
-    """
-    if stars <= 0:
-        return 1.0
-    return max(1.0, min(2.5, 1.0 + math.sqrt(stars / 100_000.0)))
-
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
@@ -82,7 +55,7 @@ TYPE_WEIGHTS = {
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
 TYPE_CAPS = {
-    "github-stars-own": 200.0,
+    "github-stars-own": 250.0,
     "proxy-containment": 160.0,
     "benchmark-result": 100.0,
     "arxiv": 100.0,
@@ -493,10 +466,6 @@ def computeArtifactScoreOrNone(
 
     freshness = _freshnessFactor(evidenceRow, evidenceType)
 
-    # NOTE: mothership discount for github-stars-own is already baked into
-    # _rawMagnitudeForType (divides by min(skillCountInRepo, 4)). Do NOT
-    # apply it again here — that would double-discount.
-
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
     engagementRatio = 1.0
@@ -537,11 +506,11 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        skillCount = int(row.get("skillCountInRepo", 1) or 1)
-        # RFC §2.3: min(200, stars/1000) / mothership_divisor
-        # mothership_divisor = min(skill_count_in_repo, 4)  — caps at 4 per RFC
-        divisor = min(skillCount, 4)
-        return min(200.0, stars / 1000.0) / max(1, divisor)
+        # Yggdrasil III emergency calibration (#1665): repository adoption is
+        # direct evidence for the curated skill set, so do not divide it by
+        # the number of skills in that repository. One TM per 250 stars,
+        # capped at the 5★ TM floor; the S-grade witness gate still applies.
+        return min(250.0, stars / 250.0)
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
@@ -899,18 +868,7 @@ def computeTrustMagnitude(
         else:
             nonSocialTotal += score
     socialTotal = min(socialTotal, 80.0)
-    baseTM = nonSocialTotal + socialTotal
-
-    # Star Authority Multiplier (Yggdrasil III amendment, 2026-08-30)
-    # Find the highest github-stars-own star count in the effective pool and
-    # apply the sqrt-curve multiplier to the aggregate TM.
-    maxStars = 0.0
-    for row, _score in rowsWithScores:
-        if _typeOf(row) == "github-stars-own":
-            s = float(row.get("stars", 0) or 0)
-            if s > maxStars:
-                maxStars = s
-    return baseTM * _starAuthorityMultiplier(maxStars)
+    return nonSocialTotal + socialTotal
 
 
 def computeTrustMagnitudeByType(
@@ -1546,9 +1504,7 @@ def explainTrustMagnitude(
 
         inheritMult = _inheritMultiplierFor(row, skill)
 
-        # Mothership discount for github-stars-own is baked into rawMag already —
-        # do NOT show it as a separate factor (would imply double-discount).
-        # Instead note the divisor in the base description.
+        # github-stars-own adoption is already calibrated in rawMag.
         factorParts = [
             f"base {rawMag:.2f}",
             f"x weight {weight}",

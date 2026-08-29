@@ -5,8 +5,8 @@
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "3★",
-      "trustMagnitude": 50.48,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 159.01,
+      "overallTrustGrade": "A",
       "contributor": "vercel-labs",
       "type": "basic",
       "branch": "standard",
@@ -22,11 +22,11 @@
   "topSkill": {
     "id": "vercel-labs/vercel-react-best-practices",
     "level": "3★",
-    "trustMagnitude": 50.48
+    "trustMagnitude": 159.01
   },
-  "prestigeScore": 50.48,
+  "prestigeScore": 159.01,
   "gradeDistribution": {
-    "B": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/vercel-labs.json",
