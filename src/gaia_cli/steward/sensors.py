@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Protocol
+from typing import Any, Iterable, Protocol
 
 from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError
@@ -593,6 +594,214 @@ class CliContractSensor:
         ]
 
 
+class TaxonomyScriptDriftSensor:
+    """Verify rank mapping and evidence type lists across scripts/ and src/ use canonical sources."""
+
+    id = "taxonomy-script-drift"
+    _EXCLUDED_RELATIVE_PATHS = frozenset({
+        "src/gaia_cli/taxonomy.py",
+        "src/gaia_cli/steward/sensors.py",
+        "scripts/check_taxonomy_authority.py",
+        "scripts/check_rank_vocabulary.py",
+    })
+    _DEAD_TYPE_COMPARE = re.compile(
+        r"(?<![\w'\"])type['\"]?\]?\s*[=!]={1,2}\s*['\"](?:unique|ultimate|extra)['\"]",
+        re.IGNORECASE,
+    )
+    _DELETED_SHIM_CALL = re.compile(
+        r"(?:(?:trustMagnitude|tm)\.computeBranch\s*\(|(?<![\w.])rank_word\s*\(|(?<![\w.])format_rank_label\s*\()"
+    )
+    _BANNED_RANK_VOCABULARY = re.compile(r"\b(?:Transcendent|Hardened)\b")
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        violations: list[dict[str, Any]] = []
+        canonical_types = self._canonical_evidence_types(repo_root)
+
+        self._check_trust_magnitude_evidence_types(repo_root, canonical_types, violations)
+        scanned_files_count = self._scan_scripts_and_src(repo_root, canonical_types, violations)
+
+        violations.sort(
+            key=lambda item: (
+                item.get("path", ""),
+                item.get("line", 0),
+                item.get("kind", ""),
+                item.get("detail", ""),
+            )
+        )
+        drift = bool(violations)
+
+        observed_state: dict[str, Any] = {
+            "consistent": not drift,
+            "violationCount": len(violations),
+            "scannedFileCount": scanned_files_count,
+            "canonicalEvidenceTypeCount": len(canonical_types),
+            "violations": violations,
+        }
+
+        return [
+            Observation(
+                kind="taxonomy_script_drift",
+                subject=Subject(type="repository-surface", id="taxonomy-script-surface"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if drift else "healthy",
+                current_state={"consistent": True},
+                observed_state=observed_state,
+                confidence=1.0,
+                provenance={
+                    "scriptsPath": "scripts",
+                    "srcPath": "src",
+                    "taxonomyPath": "src/gaia_cli/taxonomy.py",
+                    "metaPath": "registry/schema/meta.json",
+                    "trustMagnitudePath": "src/gaia_cli/trustMagnitude.py",
+                },
+            )
+        ]
+
+    def _canonical_evidence_types(self, repo_root: Path) -> set[str]:
+        meta_path = repo_root / "registry/schema/meta.json"
+        if not meta_path.is_file():
+            meta_path = repo_root / "src/gaia_cli/data/registry/schema/meta.json"
+        if not meta_path.is_file():
+            return set()
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            types = meta.get("evidence", {}).get("types", [])
+            return {
+                item["id"]
+                for item in types
+                if isinstance(item, dict) and isinstance(item.get("id"), str)
+            }
+        except Exception:
+            return set()
+
+    def _check_trust_magnitude_evidence_types(
+        self, repo_root: Path, canonical_types: set[str], violations: list[dict[str, Any]]
+    ) -> None:
+        tm_path = repo_root / "src/gaia_cli/trustMagnitude.py"
+        if not tm_path.is_file():
+            return
+        try:
+            tree = ast.parse(tm_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            violations.append({
+                "path": "src/gaia_cli/trustMagnitude.py",
+                "line": 1,
+                "kind": "parse-error",
+                "detail": f"failed to parse AST: {exc}",
+                "error": f"failed to parse AST: {exc}",
+            })
+            return
+
+        type_weights_keys: set[str] = set()
+        for node in tree.body:
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name) and target.id == "TYPE_WEIGHTS":
+                        if isinstance(node.value, ast.Dict):
+                            for k in node.value.keys:
+                                if isinstance(k, ast.Constant) and isinstance(k.value, str):
+                                    type_weights_keys.add(k.value)
+
+        if canonical_types and type_weights_keys:
+            missing = sorted(canonical_types - type_weights_keys)
+            extra = sorted(type_weights_keys - canonical_types)
+            if missing or extra:
+                violations.append({
+                    "path": "src/gaia_cli/trustMagnitude.py",
+                    "line": 1,
+                    "kind": "evidence-type-mismatch",
+                    "detail": (
+                        f"TYPE_WEIGHTS keys diverge from meta.json "
+                        f"(missing: {missing}, extra: {extra})"
+                    ),
+                    "error": (
+                        f"TYPE_WEIGHTS keys diverge from meta.json "
+                        f"(missing: {missing}, extra: {extra})"
+                    ),
+                })
+
+    def _scan_scripts_and_src(
+        self, repo_root: Path, canonical_types: set[str], violations: list[dict[str, Any]]
+    ) -> int:
+        scanned_files_count = 0
+        for directory_name in ("scripts", "src"):
+            directory = repo_root / directory_name
+            if not directory.is_dir():
+                continue
+            for path in sorted(directory.rglob("*.py")):
+                relative = path.relative_to(repo_root).as_posix()
+                if relative in self._EXCLUDED_RELATIVE_PATHS or "/__pycache__/" in f"/{relative}":
+                    continue
+                scanned_files_count += 1
+                try:
+                    text = path.read_text(encoding="utf-8", errors="replace")
+                except OSError as exc:
+                    violations.append({
+                        "path": relative,
+                        "line": 1,
+                        "kind": "read-error",
+                        "detail": f"cannot read file: {exc}",
+                        "error": f"cannot read file: {exc}",
+                    })
+                    continue
+
+                for lineno, line in enumerate(text.splitlines(), start=1):
+                    stripped = line.strip()
+                    if stripped.startswith("#"):
+                        continue
+                    if self._DEAD_TYPE_COMPARE.search(line):
+                        violations.append({
+                            "path": relative,
+                            "line": lineno,
+                            "kind": "type-branch",
+                            "detail": f"read-time branch derivation from `type`: {stripped[:120]}",
+                            "error": f"read-time branch derivation from `type`: {stripped[:120]}",
+                        })
+                    if self._DELETED_SHIM_CALL.search(line):
+                        violations.append({
+                            "path": relative,
+                            "line": lineno,
+                            "kind": "deleted-shim",
+                            "detail": f"call to deleted resolver shim: {stripped[:120]}",
+                            "error": f"call to deleted resolver shim: {stripped[:120]}",
+                        })
+                    if self._BANNED_RANK_VOCABULARY.search(line):
+                        violations.append({
+                            "path": relative,
+                            "line": lineno,
+                            "kind": "banned-vocabulary",
+                            "detail": f"banned rank vocabulary in script: {stripped[:120]}",
+                            "error": f"banned rank vocabulary in script: {stripped[:120]}",
+                        })
+
+                if canonical_types:
+                    try:
+                        tree = ast.parse(text)
+                        for node in ast.walk(tree):
+                            if isinstance(node, ast.Assign):
+                                for target in node.targets:
+                                    if (
+                                        isinstance(target, ast.Name)
+                                        and target.id.endswith("EVIDENCE_TYPES")
+                                        and not target.id.startswith("_")
+                                    ):
+                                        if isinstance(node.value, (ast.List, ast.Tuple, ast.Set)):
+                                            for elt in node.value.elts:
+                                                if isinstance(elt, ast.Constant) and isinstance(elt.value, str):
+                                                    if elt.value not in canonical_types:
+                                                        violations.append({
+                                                            "path": relative,
+                                                            "line": getattr(elt, "lineno", 1),
+                                                            "kind": "unknown-evidence-type",
+                                                            "detail": f"unknown evidence type '{elt.value}' in {target.id}",
+                                                            "error": f"unknown evidence type '{elt.value}' in {target.id}",
+                                                        })
+                    except Exception:
+                        pass
+        return scanned_files_count
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +809,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        TaxonomyScriptDriftSensor(),
     )

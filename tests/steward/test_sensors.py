@@ -11,6 +11,8 @@ from gaia_cli.steward.sensors import (
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
     RegistryIntegritySensor,
+    TaxonomyScriptDriftSensor,
+    default_sensors,
 )
 
 
@@ -65,9 +67,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +413,166 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+def test_taxonomy_script_drift_sensor_in_default_sensors() -> None:
+    sensor_types = [type(s) for s in default_sensors()]
+    assert TaxonomyScriptDriftSensor in sensor_types
+
+
+def test_taxonomy_script_drift_sensor_reports_healthy_on_clean_repo(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    meta = {
+        "types": {"minPrereqs": {"basic": 0, "fusion": 1}},
+        "evidence": {
+            "types": [
+                {"id": "github-stars-own"},
+                {"id": "repo-own"},
+                {"id": "self-attestation"},
+            ]
+        },
+    }
+    _write(tmp_path / "registry/schema/meta.json", json.dumps(meta))
+    _write(
+        tmp_path / "src/gaia_cli/trustMagnitude.py",
+        "TYPE_WEIGHTS = {\n"
+        "    'github-stars-own': 1.0,\n"
+        "    'repo-own': 0.6,\n"
+        "    'self-attestation': 0.5,\n"
+        "}\n",
+    )
+    _write(
+        tmp_path / "scripts/inspectTrustMagnitude.py",
+        "from gaia_cli.taxonomy import rankWord, branchFor\n"
+        "# Comment referencing Transcendent or node.type == 'ultimate'\n"
+        "def inspect(skill):\n"
+        "    branch = branchFor(skill)\n"
+        "    word = rankWord(skill.get('rank', 0), branch)\n"
+        "    return word\n",
+    )
+
+    observations = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)
+    assert len(observations) == 1
+    obs = observations[0]
+    assert obs.kind == "taxonomy_script_drift"
+    assert obs.status == "healthy"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.confidence == 1.0
+
+
+def test_taxonomy_script_drift_sensor_detects_dead_type_comparison(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "scripts/inspectTrustMagnitude.py",
+        "def check_type(node):\n"
+        "    if node.type == 'ultimate':\n"
+        "        return 'suite'\n",
+    )
+
+    obs = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["consistent"] is False
+    violations = obs.observed_state["violations"]
+    assert len(violations) == 1
+    assert violations[0]["kind"] == "type-branch"
+    assert violations[0]["path"] == "scripts/inspectTrustMagnitude.py"
+
+
+def test_taxonomy_script_drift_sensor_detects_deleted_resolver_shims(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "scripts/trust_appraise.py",
+        "import gaia_cli.trustMagnitude\n"
+        "def run(skill):\n"
+        "    branch = gaia_cli.trustMagnitude.computeBranch(skill)\n"
+        "    word = rank_word(3)\n"
+        "    label = format_rank_label(4)\n"
+        "    return branch, word, label\n",
+    )
+
+    obs = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    kinds = [v["kind"] for v in violations]
+    assert kinds.count("deleted-shim") == 3
+    assert all(v["path"] == "scripts/trust_appraise.py" for v in violations)
+
+
+def test_taxonomy_script_drift_sensor_detects_banned_rank_vocabulary(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "scripts/check_something.py",
+        "RANK_MAP = {5: 'Transcendent', 4: 'Hardened'}\n",
+    )
+
+    obs = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert len(violations) == 1
+    assert violations[0]["kind"] == "banned-vocabulary"
+    assert violations[0]["path"] == "scripts/check_something.py"
+
+
+def test_taxonomy_script_drift_sensor_detects_evidence_type_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    meta = {
+        "types": {"minPrereqs": {"basic": 0, "fusion": 1}},
+        "evidence": {
+            "types": [
+                {"id": "github-stars-own"},
+                {"id": "repo-own"},
+            ]
+        },
+    }
+    _write(tmp_path / "registry/schema/meta.json", json.dumps(meta))
+    _write(
+        tmp_path / "src/gaia_cli/trustMagnitude.py",
+        "TYPE_WEIGHTS = {\n"
+        "    'github-stars-own': 1.0,\n"
+        "    'unknown-type': 0.5,\n"
+        "}\n",
+    )
+
+    obs = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["kind"] == "evidence-type-mismatch" for v in violations)
+    assert any("TYPE_WEIGHTS keys diverge" in v["detail"] for v in violations)
+
+
+def test_taxonomy_script_drift_sensor_detects_unknown_evidence_type_in_script(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    meta = {
+        "types": {"minPrereqs": {"basic": 0, "fusion": 1}},
+        "evidence": {
+            "types": [
+                {"id": "github-stars-own"},
+                {"id": "repo-own"},
+            ]
+        },
+    }
+    _write(tmp_path / "registry/schema/meta.json", json.dumps(meta))
+    _write(
+        tmp_path / "src/gaia_cli/trustMagnitude.py",
+        "TYPE_WEIGHTS = {'github-stars-own': 1.0, 'repo-own': 0.6}\n",
+    )
+    _write(
+        tmp_path / "scripts/trust_appraise.py",
+        "ALLOWED_EVIDENCE_TYPES = ('github-stars-own', 'bogus-evidence-type')\n",
+    )
+
+    obs = TaxonomyScriptDriftSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["kind"] == "unknown-evidence-type" for v in violations)
+    assert any("bogus-evidence-type" in v["detail"] for v in violations)
+
+
+def test_taxonomy_script_drift_sensor_on_real_repo() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    obs = TaxonomyScriptDriftSensor().scan(repo_root, NOW)[0]
+    assert obs.status == "healthy"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+
