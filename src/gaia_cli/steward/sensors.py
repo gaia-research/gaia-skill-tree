@@ -593,6 +593,322 @@ class CliContractSensor:
         ]
 
 
+class UpstreamWatcherSensor:
+    """Validate upstream tracking configurations and detect un-synced upstream releases or drift."""
+
+    id = "upstream-watcher"
+    _NAMED_ROOT = "registry/named"
+    _WATCHER_ROOT = ".gaia/upstream-watcher"
+    _MAX_PACKET_BYTES = 2 * 1024 * 1024
+    _REPO_PATTERN = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$")
+    _URL_PATTERN = re.compile(r"^https?://[^\s]+$")
+    _GH_URL_PATTERN = re.compile(
+        r"^https?://(?:www\.)?github\.com/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)"
+        r"(?:/(?:blob|tree|stargazers|commits?|releases?)(?:/[^\s#?]*)?)?"
+    )
+    _STAR_RE = re.compile(r"(\d+)[★\*]")
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        violations: list[dict[str, str]] = []
+        drift_items: list[dict[str, object]] = []
+        tracked_skills: list[str] = []
+        manifest: dict[str, str] = {}
+
+        named_dir = repo_root / self._NAMED_ROOT
+        if named_dir.is_dir():
+            for path in sorted(named_dir.rglob("*.md")):
+                relative = path.relative_to(repo_root).as_posix()
+                raw_bytes = path.read_bytes()
+                manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+                try:
+                    raw = self._read_named_markdown(path, repo_root)
+                except ValueError as exc:
+                    violations.append({"path": relative, "error": str(exc)})
+                    continue
+                skill_id = raw.get("id")
+                if not isinstance(skill_id, str) or not skill_id.strip():
+                    violations.append({"path": relative, "error": "missing or invalid skill id"})
+                    continue
+                self._check_named_skill(raw, relative, skill_id, violations, tracked_skills)
+
+            for path in sorted(named_dir.rglob("*.json")):
+                relative = path.relative_to(repo_root).as_posix()
+                raw_bytes = path.read_bytes()
+                manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+                try:
+                    raw, _ = self._read_object(path, repo_root, "named skill")
+                except ValueError as exc:
+                    violations.append({"path": relative, "error": str(exc)})
+                    continue
+                if isinstance(raw, dict):
+                    skill_id = raw.get("id")
+                    if isinstance(skill_id, str) and skill_id.strip():
+                        self._check_named_skill(raw, relative, skill_id, violations, tracked_skills)
+
+        watcher_dir = repo_root / self._WATCHER_ROOT
+        if watcher_dir.is_dir():
+            for path in sorted(watcher_dir.rglob("*.json")):
+                relative = path.relative_to(repo_root).as_posix()
+                raw_bytes = path.read_bytes()
+                manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+                try:
+                    data, _ = self._read_object(path, repo_root, "upstream watcher manifest")
+                except ValueError as exc:
+                    violations.append({"path": relative, "error": str(exc)})
+                    continue
+                self._check_watcher_manifest(data, relative, drift_items, violations)
+
+        violations.sort(key=lambda item: (item["path"], item["error"]))
+        drift_items.sort(key=lambda item: (str(item.get("skillId", "")), str(item.get("source", "")), str(item.get("findingType", ""))))
+        tracked_skills.sort()
+
+        digest = hashlib.sha256(stable_json(manifest).encode("utf-8")).hexdigest()
+        is_healthy = not violations and not drift_items
+
+        observed_state: dict[str, object] = {
+            "consistent": is_healthy,
+            "trackedCount": len(tracked_skills),
+            "trackedSkills": tracked_skills,
+            "violationCount": len(violations),
+            "driftCount": len(drift_items),
+            "violations": violations,
+            "drift": drift_items,
+            "digest": digest,
+        }
+
+        return [
+            Observation(
+                kind="upstream_drift",
+                subject=Subject(type="repository-surface", id="upstream-watcher"),
+                observed_at=observed_at,
+                source=self.id,
+                status="healthy" if is_healthy else "drift",
+                current_state={
+                    "consistent": True,
+                    "trackedSkills": len(tracked_skills),
+                },
+                observed_state=observed_state,
+                confidence=1.0,
+                provenance={
+                    "namedPath": self._NAMED_ROOT,
+                    "watcherPath": self._WATCHER_ROOT,
+                },
+            )
+        ]
+
+    def _check_named_skill(
+        self,
+        raw: dict[str, object],
+        relative: str,
+        skill_id: str,
+        violations: list[dict[str, str]],
+        tracked_skills: list[str],
+    ) -> None:
+        links = raw.get("links")
+        gh_url: str | None = None
+        if isinstance(links, dict):
+            gh = links.get("github")
+            if gh is not None:
+                if not isinstance(gh, str) or not self._URL_PATTERN.match(gh.strip()):
+                    violations.append({
+                        "path": relative,
+                        "error": f"skill {skill_id!r} has invalid links.github URL: {gh!r}",
+                    })
+                else:
+                    gh_url = gh.strip()
+            canonical_repo = links.get("canonicalRepo")
+            if canonical_repo is not None:
+                if not isinstance(canonical_repo, str) or not self._URL_PATTERN.match(canonical_repo.strip()):
+                    violations.append({
+                        "path": relative,
+                        "error": f"skill {skill_id!r} has invalid links.canonicalRepo URL: {canonical_repo!r}",
+                    })
+
+        upstream = raw.get("upstream")
+        if upstream is None:
+            return
+
+        if not isinstance(upstream, dict):
+            violations.append({
+                "path": relative,
+                "error": f"skill {skill_id!r} upstream block must be a mapping",
+            })
+            return
+
+        tracked_skills.append(skill_id)
+
+        level_str = raw.get("level")
+        star_level = self._parse_star_level(level_str if isinstance(level_str, str) else None)
+        if star_level < 2:
+            violations.append({
+                "path": relative,
+                "error": f"skill {skill_id!r} has upstream tracking configured but is below required 2★ (level: {level_str!r})",
+            })
+
+        repo = upstream.get("repo")
+        if not isinstance(repo, str) or not self._REPO_PATTERN.match(repo.strip()):
+            violations.append({
+                "path": relative,
+                "error": f"skill {skill_id!r} upstream.repo must match owner/repo pattern (got {repo!r})",
+            })
+        else:
+            repo_str = repo.strip()
+            if gh_url and not (isinstance(links, dict) and links.get("canonicalRepo")):
+                gh_parsed = self._parse_owner_repo(gh_url)
+                if gh_parsed is not None:
+                    gh_owner_repo = f"{gh_parsed[0]}/{gh_parsed[1]}"
+                    if gh_owner_repo.lower() != repo_str.lower():
+                        violations.append({
+                            "path": relative,
+                            "error": f"skill {skill_id!r} upstream.repo {repo_str!r} does not match links.github repo {gh_owner_repo!r}",
+                        })
+
+        version = upstream.get("version")
+        if not isinstance(version, str) or not version.strip():
+            violations.append({
+                "path": relative,
+                "error": f"skill {skill_id!r} upstream.version must be a non-empty string",
+            })
+
+        mode = upstream.get("mode")
+        if mode is not None and mode not in {"components", "version-only"}:
+            violations.append({
+                "path": relative,
+                "error": f"skill {skill_id!r} upstream.mode must be 'components' or 'version-only' (got {mode!r})",
+            })
+
+        source_url = upstream.get("sourceUrl")
+        if source_url is not None:
+            if not isinstance(source_url, str) or not self._URL_PATTERN.match(source_url.strip()):
+                violations.append({
+                    "path": relative,
+                    "error": f"skill {skill_id!r} upstream.sourceUrl must be a valid URL (got {source_url!r})",
+                })
+
+    def _check_watcher_manifest(
+        self,
+        data: object,
+        relative: str,
+        drift_items: list[dict[str, object]],
+        violations: list[dict[str, str]],
+    ) -> None:
+        items: list[object]
+        if isinstance(data, list):
+            items = data
+        elif isinstance(data, dict):
+            if "findings" in data and isinstance(data["findings"], list):
+                items = data["findings"]
+            elif "releases" in data and isinstance(data["releases"], list):
+                items = data["releases"]
+            elif "updates" in data and isinstance(data["updates"], list):
+                items = data["updates"]
+            elif "skills" in data and isinstance(data["skills"], list):
+                items = data["skills"]
+            elif "drifts" in data and isinstance(data["drifts"], list):
+                items = data["drifts"]
+            else:
+                items = [data]
+        else:
+            violations.append({"path": relative, "error": "manifest root must be a JSON object or array"})
+            return
+
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            skill_id = item.get("skillId") or item.get("skill_id") or item.get("id")
+            if not isinstance(skill_id, str) or not skill_id.strip():
+                continue
+
+            finding_type = item.get("finding_type") or item.get("findingType") or item.get("type") or item.get("status")
+            curr_ver = item.get("currentVersion") or item.get("current_version") or item.get("storedVersion") or item.get("previousVersion")
+            new_ver = item.get("newVersion") or item.get("new_version") or item.get("latestVersion") or item.get("version")
+            drift_kind = item.get("driftKind") or item.get("drift_kind") or finding_type or "update"
+
+            is_drift = (
+                finding_type in {"update", "bootstrap", "drift", "update_available", "name_drift", "component_drift", "release_detected", "needs-sync"}
+                or (new_ver and curr_ver and new_ver != curr_ver)
+                or (new_ver and not curr_ver and finding_type != "up_to_date")
+                or bool(item.get("status") in {"drift", "update_available", "unresolved"})
+            )
+
+            if is_drift:
+                drift_items.append({
+                    "skillId": skill_id,
+                    "source": relative,
+                    "findingType": str(drift_kind),
+                    "currentVersion": str(curr_ver) if curr_ver is not None else None,
+                    "newVersion": str(new_ver) if new_ver is not None else None,
+                    "detail": str(item.get("detail") or item.get("notes") or f"upstream release {new_ver} detected (current: {curr_ver})"),
+                })
+
+            if item.get("nameDrift") or item.get("name_drift"):
+                drift_items.append({
+                    "skillId": skill_id,
+                    "source": relative,
+                    "findingType": "name_drift",
+                    "currentVersion": str(curr_ver) if curr_ver is not None else None,
+                    "newVersion": str(new_ver) if new_ver is not None else None,
+                    "detail": f"upstream name drift detected for {skill_id}",
+                })
+
+            if item.get("addedComponents") or item.get("removedComponents"):
+                drift_items.append({
+                    "skillId": skill_id,
+                    "source": relative,
+                    "findingType": "component_drift",
+                    "currentVersion": str(curr_ver) if curr_ver is not None else None,
+                    "newVersion": str(new_ver) if new_ver is not None else None,
+                    "detail": f"upstream component drift detected for {skill_id}",
+                })
+
+    @classmethod
+    def _parse_star_level(cls, level_str: str | None) -> int:
+        if not level_str:
+            return 0
+        m = cls._STAR_RE.search(str(level_str))
+        return int(m.group(1)) if m else 0
+
+    @classmethod
+    def _parse_owner_repo(cls, url: str) -> tuple[str, str] | None:
+        if not url:
+            return None
+        m = cls._GH_URL_PATTERN.match(url.strip())
+        if not m:
+            return None
+        owner = m.group(1)
+        repo = m.group(2).rstrip("/")
+        if repo.endswith(".git"):
+            repo = repo[:-4]
+        return (owner, repo)
+
+    def _read_named_markdown(self, path: Path, repo_root: Path) -> dict[str, object]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_PACKET_BYTES:
+            raise ValueError(f"named skill exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            text = content.decode("utf-8")
+            from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+            _fence, frontmatter, _body = split_frontmatter(text)
+            raw = load_yaml_simple(frontmatter)
+        except Exception as exc:
+            raise ValueError(f"invalid named skill: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, dict):
+            raise ValueError(f"named skill frontmatter must be an object: {path.relative_to(repo_root)}")
+        return raw
+
+    def _read_object(self, path: Path, repo_root: Path, label: str) -> tuple[dict[str, object] | list[object], bytes]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_PACKET_BYTES:
+            raise ValueError(f"{label} exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            raw = json.loads(content)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"invalid {label}: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, (dict, list)):
+            raise ValueError(f"{label} must be an object or array: {path.relative_to(repo_root)}")
+        return raw, content
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +916,6 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        UpstreamWatcherSensor(),
     )
+

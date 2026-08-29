@@ -11,6 +11,8 @@ from gaia_cli.steward.sensors import (
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
     RegistryIntegritySensor,
+    UpstreamWatcherSensor,
+    default_sensors,
 )
 
 
@@ -65,9 +67,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        UpstreamWatcherSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +413,311 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+# --- UpstreamWatcherSensor unit tests ---------------------------------------
+
+
+def test_default_sensors_contains_upstream_watcher_sensor() -> None:
+    sensors = default_sensors()
+    assert any(sensor.id == "upstream-watcher" for sensor in sensors)
+    matching = [s for s in sensors if isinstance(s, UpstreamWatcherSensor)]
+    assert len(matching) == 1
+
+
+def test_upstream_watcher_reports_healthy_on_clean_fixture(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "healthy"
+    assert obs.kind == "upstream_drift"
+    assert obs.subject.id == "upstream-watcher"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["trackedCount"] == 0
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["driftCount"] == 0
+
+
+def test_upstream_watcher_reports_healthy_on_valid_named_skill_with_upstream(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testsuite\n"
+        "name: Test Suite\n"
+        "level: 3★\n"
+        "genericSkillRef: test-generic\n"
+        "links:\n"
+        "  github: https://github.com/testowner/testsuite\n"
+        "upstream:\n"
+        "  repo: testowner/testsuite\n"
+        "  version: v1.2.0\n"
+        "  mode: components\n"
+        "  sourceUrl: https://github.com/testowner/testsuite/releases/tag/v1.2.0\n"
+        "---\n\n"
+        "# Test Suite\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testsuite.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "healthy"
+    assert obs.observed_state["trackedCount"] == 1
+    assert obs.observed_state["trackedSkills"] == ["testowner/testsuite"]
+    assert obs.observed_state["violations"] == []
+    assert obs.observed_state["drift"] == []
+
+
+def test_upstream_watcher_detects_malformed_upstream_repo(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "upstream:\n"
+        "  repo: invalid_no_slash\n"
+        "  version: v1.0.0\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["violationCount"] == 1
+    assert any("upstream.repo must match owner/repo pattern" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_missing_version(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "upstream:\n"
+        "  repo: testowner/testrepo\n"
+        "  version: ''\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("upstream.version must be a non-empty string" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_invalid_mode(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "upstream:\n"
+        "  repo: testowner/testrepo\n"
+        "  version: v1.0.0\n"
+        "  mode: unsupported-mode\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("upstream.mode must be 'components' or 'version-only'" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_under_level_tracking(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 1★\n"
+        "upstream:\n"
+        "  repo: testowner/testrepo\n"
+        "  version: v1.0.0\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("below required 2★" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_repo_mismatch_without_canonical_opt_out(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "links:\n"
+        "  github: https://github.com/foo/bar\n"
+        "upstream:\n"
+        "  repo: baz/qux\n"
+        "  version: v1.0.0\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("does not match links.github repo" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_permits_repo_mismatch_with_canonical_opt_out(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "links:\n"
+        "  github: https://github.com/foo/bar\n"
+        "  canonicalRepo: https://github.com/baz/qux\n"
+        "upstream:\n"
+        "  repo: baz/qux\n"
+        "  version: v1.0.0\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "healthy"
+
+
+def test_upstream_watcher_detects_invalid_github_url(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "links:\n"
+        "  github: not a url\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("invalid links.github URL" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_invalid_source_url(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "upstream:\n"
+        "  repo: testowner/testrepo\n"
+        "  version: v1.0.0\n"
+        "  sourceUrl: ftp://invalid-schema\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("upstream.sourceUrl must be a valid URL" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_drift_from_watcher_manifest(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    manifest = {
+        "findings": [
+            {
+                "skillId": "mattpocock/skills",
+                "currentVersion": "v1.2.0",
+                "newVersion": "v1.3.0",
+                "finding_type": "update",
+            }
+        ]
+    }
+    _write(tmp_path / ".gaia/upstream-watcher/findings.json", json.dumps(manifest))
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["driftCount"] == 1
+    drift = obs.observed_state["drift"][0]
+    assert drift["skillId"] == "mattpocock/skills"
+    assert drift["findingType"] == "update"
+    assert drift["currentVersion"] == "v1.2.0"
+    assert drift["newVersion"] == "v1.3.0"
+
+
+def test_upstream_watcher_detects_bootstrap_finding(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    manifest = [
+        {
+            "skillId": "obra/superpowers",
+            "currentVersion": None,
+            "newVersion": "v6.2.0",
+            "finding_type": "bootstrap",
+        }
+    ]
+    _write(tmp_path / ".gaia/upstream-watcher/releases.json", json.dumps(manifest))
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["driftCount"] == 1
+    assert obs.observed_state["drift"][0]["skillId"] == "obra/superpowers"
+    assert obs.observed_state["drift"][0]["findingType"] == "bootstrap"
+
+
+def test_upstream_watcher_detects_name_and_component_drift(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    manifest = {
+        "skills": [
+            {
+                "skillId": "ruvnet/ruflo",
+                "nameDrift": True,
+                "addedComponents": ["ruvnet/new-subskill"],
+            }
+        ]
+    }
+    _write(tmp_path / ".gaia/upstream-watcher/state.json", json.dumps(manifest))
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    finding_types = [d["findingType"] for d in obs.observed_state["drift"]]
+    assert "name_drift" in finding_types
+    assert "component_drift" in finding_types
+
+
+def test_upstream_watcher_detects_corrupt_watcher_json(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / ".gaia/upstream-watcher/corrupt.json", "{not-valid-json")
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["violationCount"] == 1
+    assert any("invalid upstream watcher manifest" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_detects_malformed_upstream_block_type(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = (
+        "---\n"
+        "id: testowner/testskill\n"
+        "name: Test Skill\n"
+        "level: 2★\n"
+        "upstream: not-a-mapping\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/testowner/testskill.md", content)
+
+    obs = UpstreamWatcherSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert any("upstream block must be a mapping" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_upstream_watcher_on_real_repo() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    obs = UpstreamWatcherSensor().scan(repo_root, NOW)[0]
+    assert obs.status == "healthy"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["driftCount"] == 0
+    assert obs.observed_state["trackedCount"] > 0
+
