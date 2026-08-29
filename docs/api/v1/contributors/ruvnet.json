@@ -67,10 +67,33 @@
       ]
     },
     {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "4★",
+      "trustMagnitude": 201.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      },
+      "genericSkillRef": "agent-memory-platform",
+      "suiteComponents": [
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search"
+      ]
+    },
+    {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
       "level": "4★",
-      "trustMagnitude": 216.0,
+      "trustMagnitude": 186.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
@@ -93,29 +116,6 @@
         "ruvnet/v3-performance-optimization",
         "ruvnet/v3-security-overhaul",
         "ruvnet/v3-swarm-coordination"
-      ]
-    },
-    {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "4★",
-      "trustMagnitude": 201.0,
-      "overallTrustGrade": "A",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
       ]
     },
     {
@@ -578,7 +578,7 @@
     "level": "5★",
     "trustMagnitude": 256.68
   },
-  "prestigeScore": 1969.88,
+  "prestigeScore": 1939.88,
   "gradeDistribution": {
     "A": 5,
     "B": 3,

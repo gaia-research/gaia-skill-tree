@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 216.0,
+  "trustMagnitude": 186.0,
   "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Extra",
@@ -99,6 +99,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T06:54:39Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 216.0 -> 186.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
