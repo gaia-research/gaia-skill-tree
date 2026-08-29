@@ -280,38 +280,6 @@
     ]
   },
   {
-    "id": "ruvnet/ruflo-v3",
-    "name": "Ruflo V3",
-    "contributor": "ruvnet",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 216.0,
-    "branch": "suite",
-    "tokens": [
-      "architecture",
-      "cli",
-      "complete",
-      "coordination",
-      "core",
-      "ddd",
-      "implementation",
-      "mcp",
-      "memory",
-      "modernization",
-      "optimization",
-      "overhaul",
-      "performance",
-      "platform",
-      "ruflo",
-      "security",
-      "sprint",
-      "swarm",
-      "tuning",
-      "unification",
-      "v3"
-    ]
-  },
-  {
     "id": "anthropic/skill-creator",
     "name": "Skill Creator",
     "contributor": "anthropic",
@@ -488,6 +456,38 @@
       "user",
       "ux",
       "visual"
+    ]
+  },
+  {
+    "id": "ruvnet/ruflo-v3",
+    "name": "Ruflo V3",
+    "contributor": "ruvnet",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 186.0,
+    "branch": "suite",
+    "tokens": [
+      "architecture",
+      "cli",
+      "complete",
+      "coordination",
+      "core",
+      "ddd",
+      "implementation",
+      "mcp",
+      "memory",
+      "modernization",
+      "optimization",
+      "overhaul",
+      "performance",
+      "platform",
+      "ruflo",
+      "security",
+      "sprint",
+      "swarm",
+      "tuning",
+      "unification",
+      "v3"
     ]
   },
   {

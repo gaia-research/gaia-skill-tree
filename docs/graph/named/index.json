@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25",
+  "generatedAt": "2026-08-29",
   "buckets": {
     "automated-testing": [
       {
@@ -29928,7 +29928,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-29",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -29977,6 +29977,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-29T06:54:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 216.0 -> 186.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -29993,7 +29999,7 @@
           "ruvnet/v3-security-overhaul",
           "ruvnet/v3-swarm-coordination"
         ],
-        "trustMagnitude": 216.0,
+        "trustMagnitude": 186.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "bdd2d28180885bdd2d93e64d0e2f0f9c48e16340828670f82761ce4664666d3d",
         "apexGateStatus": {
