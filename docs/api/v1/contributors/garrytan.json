@@ -5,7 +5,7 @@
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
-      "trustMagnitude": 112.99,
+      "trustMagnitude": 331.59,
       "overallTrustGrade": "A",
       "contributor": "garrytan",
       "type": "fusion",
@@ -66,6 +66,22 @@
       ]
     },
     {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "3★",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "garrytan/browse",
       "name": "Browse",
       "level": "3★",
@@ -96,22 +112,6 @@
         "self": "/api/v1/skills/garrytan/retro.json"
       },
       "genericSkillRef": "write-report"
-    },
-    {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "3★",
-      "trustMagnitude": 67.4,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "genericSkillRef": "security-audit"
     },
     {
       "id": "garrytan/careful",
@@ -812,12 +812,12 @@
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
-    "trustMagnitude": 112.99
+    "trustMagnitude": 331.59
   },
-  "prestigeScore": 2197.89,
+  "prestigeScore": 2635.09,
   "gradeDistribution": {
-    "A": 1,
-    "B": 21,
+    "A": 2,
+    "B": 20,
     "C": 25
   },
   "_links": {

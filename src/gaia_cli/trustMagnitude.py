@@ -25,6 +25,7 @@ import hashlib
 import math
 from typing import Any, Optional
 
+
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
@@ -54,7 +55,7 @@ TYPE_WEIGHTS = {
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
 TYPE_CAPS = {
-    "github-stars-own": 200.0,
+    "github-stars-own": 250.0,
     "proxy-containment": 160.0,
     "benchmark-result": 100.0,
     "arxiv": 100.0,
@@ -465,10 +466,6 @@ def computeArtifactScoreOrNone(
 
     freshness = _freshnessFactor(evidenceRow, evidenceType)
 
-    # NOTE: mothership discount for github-stars-own is already baked into
-    # _rawMagnitudeForType (divides by min(skillCountInRepo, 4)). Do NOT
-    # apply it again here — that would double-discount.
-
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
     engagementRatio = 1.0
@@ -509,11 +506,11 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        skillCount = int(row.get("skillCountInRepo", 1) or 1)
-        # RFC §2.3: min(200, stars/1000) / mothership_divisor
-        # mothership_divisor = min(skill_count_in_repo, 4)  — caps at 4 per RFC
-        divisor = min(skillCount, 4)
-        return min(200.0, stars / 1000.0) / max(1, divisor)
+        # Yggdrasil III emergency calibration (#1665): repository adoption is
+        # direct evidence for the curated skill set, so do not divide it by
+        # the number of skills in that repository. One TM per 250 stars,
+        # capped at the 5★ TM floor; the S-grade witness gate still applies.
+        return min(250.0, stars / 250.0)
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
@@ -1507,9 +1504,7 @@ def explainTrustMagnitude(
 
         inheritMult = _inheritMultiplierFor(row, skill)
 
-        # Mothership discount for github-stars-own is baked into rawMag already —
-        # do NOT show it as a separate factor (would imply double-discount).
-        # Instead note the divisor in the base description.
+        # github-stars-own adoption is already calibrated in rawMag.
         factorParts = [
             f"base {rawMag:.2f}",
             f"x weight {weight}",

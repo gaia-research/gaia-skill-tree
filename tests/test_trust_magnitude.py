@@ -69,11 +69,11 @@ def test_fusion_recipe_is_structural_provenance_with_zero_tm():
 
 
 def test_github_stars_own_magnitude_basic():
-    """RFC §2.3: m = stars / 1000. weight=1.0."""
+    """Yggdrasil III: m = min(250, stars / 250). weight=1.0."""
     row = {"type": "github-stars-own", "stars": 5000}
     score = computeArtifactScore(row)
-    # 5000/1000 = 5.0; weight 1.0 => 5.0
-    assert score == pytest.approx(5.0)
+    # 5000/250 = 20.0; weight 1.0 => 20.0
+    assert score == pytest.approx(20.0)
 
 
 def test_proxy_containment_below_threshold_returns_zero():
@@ -154,29 +154,26 @@ def test_social_signal_magnitude_log_views():
 
 
 # ---------------------------------------------------------------------------
-# Batch B: Mothership discount (3) + same-source dedup (2) + fusion provenance
+# Batch B: Repository adoption calibration (3) + same-source dedup (2)
 # ---------------------------------------------------------------------------
 
 
-def test_mothership_discount_single_skill_no_change():
-    """RFC §3.1: skillCountInRepo <= 1 means full magnitude (no discount)."""
+def test_repo_adoption_single_skill():
+    """Yggdrasil III: repository adoption contributes one TM per 250 stars."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 1}
-    # 4 stars/k * weight 1.0 = 4.0 (full)
-    assert computeArtifactScore(row) == pytest.approx(4.0)
+    assert computeArtifactScore(row) == pytest.approx(16.0)
 
 
-def test_mothership_discount_two_skills_halved():
-    """RFC §3.1: skillCountInRepo=2 means *1/2 multiplier."""
+def test_repo_adoption_is_not_divided_by_two_skills():
+    """skillCountInRepo no longer discounts the shared adoption signal."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 2}
-    # 4.0 * 0.5 = 2.0
-    assert computeArtifactScore(row) == pytest.approx(2.0)
+    assert computeArtifactScore(row) == pytest.approx(16.0)
 
 
-def test_mothership_discount_capped_at_quarter():
-    """RFC §3.1: skillCountInRepo capped at 4 -> minimum *1/4 multiplier."""
+def test_repo_adoption_is_not_divided_by_large_skill_count():
+    """Large curated suites retain the repository's direct adoption evidence."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 100}
-    # min(100,4)=4 -> *1/4 = 1.0
-    assert computeArtifactScore(row) == pytest.approx(1.0)
+    assert computeArtifactScore(row) == pytest.approx(16.0)
 
 
 def test_same_source_dedup_collapses_duplicate_urls():
@@ -188,8 +185,8 @@ def test_same_source_dedup_collapses_duplicate_urls():
         ]
     }
     tm = computeTrustMagnitude(skill)
-    # Both same canonical url; higher (5000 -> 5.0) wins; 1000 dropped
-    assert tm == pytest.approx(5.0)
+    # Both same canonical URL; higher (5000 -> 20.0) wins; 1000 dropped.
+    assert tm == pytest.approx(20.0)
 
 
 def test_same_source_dedup_normalizes_tree_to_blob():
@@ -421,7 +418,7 @@ def test_fusion_repo_and_stars_cannot_reach_s():
             {"type": "repo-own", "commits": 100000, "contributors": 100},
         ]
     }
-    assert computeTrustMagnitude(skill) == pytest.approx(236.0)
+    assert computeTrustMagnitude(skill) == pytest.approx(286.0)
     assert "fusion-recipe" not in computeTrustMagnitudeByType(skill)
     assert computeOverallTrustGradeFromSkill(skill) == "A"
 
@@ -515,7 +512,7 @@ def test_standalone_own_repository_evidence_remains_uncapped():
     standalone = _taste_like_component()
     standalone.pop("suiteRef")
 
-    assert computeTrustMagnitude(standalone) == pytest.approx(236.0)
+    assert computeTrustMagnitude(standalone) == pytest.approx(286.0)
     assert computeOverallTrustGradeFromSkill(standalone) == "A"
 
 

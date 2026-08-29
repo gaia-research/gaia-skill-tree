@@ -2,70 +2,11 @@
   "handle": "ruvnet",
   "namedSkills": [
     {
-      "id": "ruvnet/hive-mind",
-      "name": "Hive Mind",
-      "level": "3★",
-      "trustMagnitude": 95.02,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind.json"
-      },
-      "genericSkillRef": "distributed-consensus-coordination"
-    },
-    {
-      "id": "ruvnet/reasoningbank",
-      "name": "ReasoningBank",
-      "level": "4★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      },
-      "genericSkillRef": "reasoning-pattern-bank",
-      "suiteComponents": [
-        "ruvnet/reasoningbank-agentdb",
-        "ruvnet/reasoningbank-intelligence"
-      ]
-    },
-    {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "4★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
-      ]
-    },
-    {
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
       "level": "5★",
-      "trustMagnitude": 56.68,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 290.0,
+      "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
@@ -123,6 +64,65 @@
         "ruvnet/verification-quality",
         "ruvnet/worker-benchmarks",
         "ruvnet/worker-integration"
+      ]
+    },
+    {
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "trustMagnitude": 95.02,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
+      },
+      "genericSkillRef": "distributed-consensus-coordination"
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "4★",
+      "trustMagnitude": 88.5,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      },
+      "genericSkillRef": "reasoning-pattern-bank",
+      "suiteComponents": [
+        "ruvnet/reasoningbank-agentdb",
+        "ruvnet/reasoningbank-intelligence"
+      ]
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "4★",
+      "trustMagnitude": 81.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      },
+      "genericSkillRef": "agent-memory-platform",
+      "suiteComponents": [
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search"
       ]
     },
     {
@@ -574,13 +574,14 @@
   ],
   "namedSkillsCount": 30,
   "topSkill": {
-    "id": "ruvnet/hive-mind",
-    "level": "3★",
-    "trustMagnitude": 95.02
+    "id": "ruvnet/ruflo",
+    "level": "5★",
+    "trustMagnitude": 290.0
   },
-  "prestigeScore": 1257.2,
+  "prestigeScore": 1490.52,
   "gradeDistribution": {
-    "B": 4,
+    "A": 1,
+    "B": 3,
     "C": 26
   },
   "_links": {

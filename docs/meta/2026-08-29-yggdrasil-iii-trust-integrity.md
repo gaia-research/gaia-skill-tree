@@ -2,9 +2,9 @@
 title: "Yggdrasil III: Structural Provenance Is Not Trust"
 author: "Gaia Research"
 date: "2026-08-29"
-summary: "Yggdrasil III keeps suite structure visible while preventing shared repository evidence from being counted repeatedly as independent proof. Trust Magnitude changed; stars did not."
+summary: "Yggdrasil III separates structural provenance from trust and recalibrates repository-star adoption so every current 5-star skill remains above the 250 TM floor. Stored stars did not change."
 abstract: |
-  Yggdrasil III makes Trust Magnitude fairer across suites and unique skills. Fusion-recipe rows still describe how a suite is assembled, but contribute 0 Trust Magnitude. Shared suite-repository evidence remains a useful baseline, capped at 50 Trust Magnitude per component, while component-specific evidence remains eligible. An S grade also needs positive evidence from an eligible benchmark result, verifier attestation, or peer review at the skill's own layer. These rules correct evidence accounting; they do not change stored stars or claim that a skill became less capable.
+  Yggdrasil III makes Trust Magnitude fairer across suites and unique skills. An emergency amendment recalibrates github-stars-own evidence to min(250, stars/250), without the former skill-count divisor, so every current 5-star skill remains above the 250 TM floor. Fusion-recipe rows still describe how a suite is assembled, but contribute 0 Trust Magnitude. Shared suite-repository evidence remains capped at 50 Trust Magnitude per component, and an S grade still needs a positive eligible benchmark result, verifier attestation, or peer review at the skill's own layer. These rules correct evidence accounting; they do not change stored stars or claim that a skill became less capable.
 label: "Meta Shift"
 ---
 
@@ -13,6 +13,22 @@ label: "Meta Shift"
 Trust Magnitude (TM) summarizes the positive evidence supporting a named skill. It is **not a capability score**, a performance ranking, or a verdict on usefulness. Yggdrasil III corrects how TM treats suites so that a suite's structure and shared repository standing cannot look like many independent confirmations.
 
 The intent is balance, not punishment. Suites keep their composition, provenance, and eligible evidence. Unique skills and suite components are simply compared without repeatedly turning one shared signal into fresh corroboration. The rules changed TM calculations and public projections; they did not change stars.
+
+## Emergency amendment: repository-star recalibration
+
+The initial Yggdrasil III projection exposed an overcorrection: `github-stars-own` divided repository adoption by up to four according to `skillCountInRepo`, leaving several established 5-star suites below the `250` TM floor. PR #1666 replaces that row formula with `min(250, stars/250)`. Repository adoption now contributes directly, reaches its row cap at 62,500 stars, and no longer amplifies unrelated evidence. Same-source deduplication, the 50 TM suite-component baseline cap, and the independent S-witness safeguard remain unchanged.
+
+A full `gaia dev calibrate-trust-magnitude` pass on the five current 5-star records produced:
+
+| Skill | Recalibrated TM | Overall Trust Grade |
+|---|---:|---|
+| `addy-osmani/agent-skills` | 286.00 | A |
+| `garrytan/gstack` | 331.59 | A |
+| `mattpocock/skills` | 329.90 | S |
+| `obra/superpowers` | 315.15 | A |
+| `ruvnet/ruflo` | 290.00 | A |
+
+All five remain above the numeric 5-star floor. The four A outcomes are intentional: stars establish adoption magnitude but do not substitute for an eligible own-layer `benchmark-result`, `verifier-attestation`, or `peer-review` witness. This emergency calibration preserves current rank records while the broader per-type balance audit continues in issue #1665.
 
 ## What was corrected
 
