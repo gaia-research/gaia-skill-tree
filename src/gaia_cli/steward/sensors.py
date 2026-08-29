@@ -593,6 +593,183 @@ class CliContractSensor:
         ]
 
 
+class EvidenceLinkHealthSensor:
+    """Scan named skill evidence arrays for URL formats and link integrity."""
+
+    id = "evidence-link-health"
+    _NAMED_ROOT = "registry/named"
+    _MAX_FILE_BYTES = 2 * 1024 * 1024
+    _LINK_FIELDS = ("source", "url", "harnessUrl", "artifact")
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        named_dir = repo_root / self._NAMED_ROOT
+        if not named_dir.is_dir():
+            return [
+                Observation(
+                    kind="evidence_link_drift",
+                    subject=Subject(type="repository-surface", id="named-evidence-links"),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="healthy",
+                    current_state={"healthy": True},
+                    observed_state={
+                        "healthy": True,
+                        "scannedFiles": 0,
+                        "checkedLinks": 0,
+                        "violationCount": 0,
+                        "violations": [],
+                    },
+                    confidence=1.0,
+                    provenance={"namedRoot": self._NAMED_ROOT},
+                )
+            ]
+
+        violations: list[dict[str, str]] = []
+        scanned_files = 0
+        checked_links = 0
+
+        for path in sorted(named_dir.rglob("*.md")):
+            relative = path.relative_to(repo_root).as_posix()
+            scanned_files += 1
+            content = path.read_bytes()
+            if len(content) > self._MAX_FILE_BYTES:
+                violations.append({
+                    "path": relative,
+                    "error": f"named skill exceeds safety limit: {relative}",
+                })
+                continue
+            try:
+                text = content.decode("utf-8")
+                from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+                _fence, frontmatter, _body = split_frontmatter(text)
+                if not _fence:
+                    violations.append({
+                        "path": relative,
+                        "error": "invalid frontmatter: missing frontmatter fence",
+                    })
+                    continue
+                raw = load_yaml_simple(frontmatter)
+            except Exception as exc:
+                violations.append({
+                    "path": relative,
+                    "error": f"invalid frontmatter: {exc}",
+                })
+                continue
+            if not isinstance(raw, dict):
+                violations.append({
+                    "path": relative,
+                    "error": "named skill frontmatter must be an object",
+                })
+                continue
+
+            skill_id = raw.get("id")
+            evidence_list = raw.get("evidence")
+            if evidence_list is None:
+                continue
+            if not isinstance(evidence_list, list):
+                violations.append({
+                    "path": relative,
+                    "error": f"named skill {skill_id!r} evidence must be a list",
+                })
+                continue
+
+            for idx, item in enumerate(evidence_list):
+                if not isinstance(item, dict):
+                    violations.append({
+                        "path": relative,
+                        "error": f"named skill {skill_id!r} evidence[{idx}] must be an object",
+                    })
+                    continue
+
+                for field in self._LINK_FIELDS:
+                    val = item.get(field)
+                    if val is not None:
+                        checked_links += 1
+                        error = self._check_link(val, path, repo_root)
+                        if error:
+                            violations.append({
+                                "path": relative,
+                                "skillId": str(skill_id or path.stem),
+                                "field": f"evidence[{idx}].{field}",
+                                "error": error,
+                            })
+
+                links_dict = item.get("links")
+                if isinstance(links_dict, dict):
+                    for link_key, link_val in sorted(links_dict.items()):
+                        if link_val is not None:
+                            checked_links += 1
+                            error = self._check_link(link_val, path, repo_root)
+                            if error:
+                                violations.append({
+                                    "path": relative,
+                                    "skillId": str(skill_id or path.stem),
+                                    "field": f"evidence[{idx}].links.{link_key}",
+                                    "error": error,
+                                })
+
+        violations.sort(key=lambda item: (item["path"], item.get("field", ""), item["error"]))
+        drift = bool(violations)
+
+        return [
+            Observation(
+                kind="evidence_link_drift",
+                subject=Subject(type="repository-surface", id="named-evidence-links"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if drift else "healthy",
+                current_state={"healthy": True},
+                observed_state={
+                    "healthy": not drift,
+                    "scannedFiles": scanned_files,
+                    "checkedLinks": checked_links,
+                    "violationCount": len(violations),
+                    "violations": violations,
+                },
+                confidence=1.0,
+                provenance={"namedRoot": self._NAMED_ROOT},
+            )
+        ]
+
+    @staticmethod
+    def _check_link(target: object, file_path: Path, repo_root: Path) -> str | None:
+        if not isinstance(target, str):
+            return f"link must be a string (got {type(target).__name__})"
+        target_str = target.strip()
+        if not target_str:
+            return "empty link target"
+
+        if target_str.startswith("http://"):
+            return f"insecure protocol scheme 'http://' (https:// required): {target_str}"
+
+        if any(c.isspace() for c in target_str):
+            return f"invalid URL syntax (contains whitespace): {target_str}"
+
+        import urllib.parse
+        parsed = urllib.parse.urlparse(target_str)
+        if parsed.scheme:
+            scheme = parsed.scheme.lower()
+            if scheme != "https":
+                return f"unsupported protocol scheme '{scheme}' (https:// required): {target_str}"
+            if not parsed.netloc:
+                return f"invalid URL syntax (missing domain/netloc): {target_str}"
+            netloc = parsed.netloc.lower()
+            if netloc == "github.com" or netloc.endswith(".github.com"):
+                path_parts = [p for p in parsed.path.split("/") if p]
+                if len(path_parts) >= 4 and path_parts[2] == "tree":
+                    last_segment = path_parts[-1]
+                    if re.search(r"\.[a-zA-Z0-9_-]+$", last_segment):
+                        return f"github.com single file link uses '/tree/' instead of '/blob/': {target_str}"
+            return None
+
+        # Relative artifact check
+        rel_root = repo_root / target_str.lstrip("/")
+        rel_file = file_path.parent / target_str
+        if not (rel_root.exists() or rel_file.exists()):
+            return f"relative artifact does not exist: {target_str}"
+        return None
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +777,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        EvidenceLinkHealthSensor(),
     )

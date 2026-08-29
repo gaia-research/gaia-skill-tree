@@ -18,6 +18,7 @@ authority:
   cli_contract_drift: B
   knowledge_contradiction: B
   generic_mapping: C
+  evidence_link_drift: B
 
 priority:
   bundled_schema_mirror_drift:
@@ -62,6 +63,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.5
     expectedCost: 0.8
+  evidence_link_drift:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.3
 
 budgets:
   maxObservationsPerRun: 1000

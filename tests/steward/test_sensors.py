@@ -10,7 +10,9 @@ from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
+    EvidenceLinkHealthSensor,
     RegistryIntegritySensor,
+    default_sensors,
 )
 
 
@@ -65,9 +67,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +413,200 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+def _named_skill_with_evidence(skill_id: str, evidence: list[dict[str, object]]) -> str:
+    import yaml
+
+    fm = {
+        "id": skill_id,
+        "name": "Test Skill",
+        "genericSkillRef": "example",
+        "status": "named",
+        "evidence": evidence,
+    }
+    return f"---\n{yaml.dump(fm, sort_keys=False)}---\n\n## Overview\n"
+
+
+def test_default_sensors_contains_evidence_link_health_sensor() -> None:
+    sensors = default_sensors()
+    assert any(isinstance(s, EvidenceLinkHealthSensor) for s in sensors)
+
+
+def test_evidence_link_health_reports_healthy_on_valid_evidence(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "docs/evidence.json", "{}")
+    content = _named_skill_with_evidence(
+        "author/tool",
+        [
+            {
+                "type": "repo",
+                "source": "https://github.com/author/tool/blob/main/SKILL.md",
+                "grade": "B",
+            },
+            {
+                "type": "repo",
+                "source": "https://github.com/author/tool/tree/main/skills",
+                "grade": "B",
+            },
+            {
+                "type": "benchmark-result",
+                "source": "https://example.com/benchmarks/report",
+                "harnessUrl": "https://github.com/author/tool/blob/main/benchmarks/run.py",
+                "artifact": "docs/evidence.json",
+                "grade": "A",
+            },
+        ],
+    )
+    _write(tmp_path / "registry/named/author/tool.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "healthy"
+    assert observation.kind == "evidence_link_drift"
+    assert observation.observed_state["healthy"] is True
+    assert observation.observed_state["scannedFiles"] == 1
+    assert observation.observed_state["checkedLinks"] == 5
+    assert observation.observed_state["violationCount"] == 0
+    assert observation.observed_state["violations"] == []
+
+
+def test_evidence_link_health_detects_insecure_http_protocol(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/insecure",
+        [{"type": "repo", "source": "http://example.com/skill", "grade": "B"}],
+    )
+    _write(tmp_path / "registry/named/author/insecure.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["healthy"] is False
+    assert observation.observed_state["violationCount"] == 1
+    error = observation.observed_state["violations"][0]["error"]
+    assert "insecure protocol scheme 'http://'" in error
+
+
+def test_evidence_link_health_detects_unsupported_protocol(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/ftp",
+        [{"type": "repo", "source": "ftp://example.com/archive.zip", "grade": "B"}],
+    )
+    _write(tmp_path / "registry/named/author/ftp.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["healthy"] is False
+    assert observation.observed_state["violationCount"] == 1
+    error = observation.observed_state["violations"][0]["error"]
+    assert "unsupported protocol scheme 'ftp'" in error
+
+
+def test_evidence_link_health_detects_malformed_url_syntax(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/malformed",
+        [
+            {"type": "repo", "source": "https://", "grade": "B"},
+            {"type": "repo", "source": "https://example.com/foo bar", "grade": "B"},
+        ],
+    )
+    _write(tmp_path / "registry/named/author/malformed.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["violationCount"] == 2
+    errors = [v["error"] for v in observation.observed_state["violations"]]
+    assert any("missing domain/netloc" in err for err in errors)
+    assert any("contains whitespace" in err for err in errors)
+
+
+def test_evidence_link_health_detects_github_tree_single_file_link(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/badtree",
+        [
+            {
+                "type": "repo",
+                "source": "https://github.com/author/badtree/tree/main/skills/foo/SKILL.md",
+                "grade": "B",
+            }
+        ],
+    )
+    _write(tmp_path / "registry/named/author/badtree.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["violationCount"] == 1
+    error = observation.observed_state["violations"][0]["error"]
+    assert "github.com single file link uses '/tree/' instead of '/blob/'" in error
+
+
+def test_evidence_link_health_detects_missing_relative_artifact(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/missing-art",
+        [
+            {
+                "type": "benchmark-result",
+                "source": "https://example.com/benchmarks",
+                "artifact": "nonexistent/benchmarks/results.json",
+                "grade": "A",
+            }
+        ],
+    )
+    _write(tmp_path / "registry/named/author/missing-art.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["violationCount"] == 1
+    error = observation.observed_state["violations"][0]["error"]
+    assert "relative artifact does not exist: nonexistent/benchmarks/results.json" in error
+
+
+def test_evidence_link_health_checks_links_subdict(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    content = _named_skill_with_evidence(
+        "author/links-subdict",
+        [
+            {
+                "type": "repo",
+                "source": "https://github.com/author/tool",
+                "links": {
+                    "canonicalRepo": "http://insecure.example.com/repo",
+                },
+                "grade": "B",
+            }
+        ],
+    )
+    _write(tmp_path / "registry/named/author/links-subdict.md", content)
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    assert observation.observed_state["violationCount"] == 1
+    v = observation.observed_state["violations"][0]
+    assert v["field"] == "evidence[0].links.canonicalRepo"
+    assert "insecure protocol scheme 'http://'" in v["error"]
+
+
+def test_evidence_link_health_handles_empty_or_missing_named_directory(tmp_path: Path) -> None:
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+    assert observation.status == "healthy"
+    assert observation.observed_state["scannedFiles"] == 0
+    assert observation.observed_state["violationCount"] == 0
+
+
+def test_evidence_link_health_reports_malformed_frontmatter(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/broken/corrupt.md", "---not yaml---")
+
+    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
+    assert observation.status == "drift"
+    assert observation.observed_state["violationCount"] == 1
+    assert "invalid frontmatter" in observation.observed_state["violations"][0]["error"]
