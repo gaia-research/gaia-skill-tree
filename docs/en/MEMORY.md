@@ -2,6 +2,43 @@
 
 ---
 
+## 2026-09-01 — Routine 042
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — content & taxonomy audit of `getting-started.html` and `faq.html` (planned in Routine 041).
+
+### Trigger
+Routine audit identified leftover references to the retired four-tier model in `getting-started.html` ("The four tiers: Basic, Extra, Unique, Ultimate"), outdated promotion destination paths, and stale "(coming soon)" markers on links to live documentation pages.
+
+### What I did
+1. Updated `getting-started.html` Core concepts section to present the canonical Yggdrasil II two-axis taxonomy:
+   - **Type:** Structural classification (`Basic` with 0 prerequisites vs `Fusion` with &ge;1 prerequisite).
+   - **Branch:** Progression path for Named Skills at 4★+ (`Unique branch` for solo mastery vs `Suite branch` for component suites).
+   - **Stars:** 0★ to 6★ maturity axis derived from evidence.
+2. Updated graph description to reference structural types rather than legacy tier colorings.
+3. Fixed intake promotion destination note in `getting-started.html` from `registry/gaia.json` to `registry/nodes/`.
+4. Removed stale "(coming soon)" annotations in `getting-started.html` Next Steps list and improved link descriptions.
+5. In `faq.html`, refined evidence comparison terminology from "provenance tier / quality tier" to "provenance level / quality rating" to conform with repository vocabulary guidelines.
+6. Updated `DOCS.md` Page Map rows 2 and 10.
+
+### Design decisions
+- Standardized conceptual explanations to align exactly with `skill-hierarchy.html` and `CONTEXT.md`.
+
+### Issues informed
+None filed or closed — documentation audit and taxonomy synchronization.
+
+### Files modified
+- `docs/en/getting-started.html`
+- `docs/en/faq.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 043)
+- ROTATE content audit on `contributing.html` and `evidence-classes.html`.
+
+---
+
 ## 2026-09-01 — Routine 041
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
