@@ -2,6 +2,932 @@
 
 ---
 
+## 2026-09-01 — Routine 043
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — content audit of `contributing.html` and `evidence-classes.html` (planned in Routine 042).
+
+### Trigger
+Audit identified legacy parameter syntax in `contributing.html` meta shift examples (`--class` instead of `--type`/`--trust`, string star argument instead of numeric level in `gaia dev calibrate`) and non-standard "tier" wording in `evidence-classes.html`.
+
+### What I did
+1. Modernized common CLI meta shift code examples in `contributing.html`:
+   - Updated `gaia dev evidence` example to demonstrate canonical `--type repo-own --trust 50` usage.
+   - Updated `gaia dev calibrate` example to use valid numeric level argument (`gaia dev calibrate contributor/skill-id 3`).
+2. Cleaned up legacy "Verifier-tier" vocabulary in `evidence-classes.html` to "Verifier-level (4★+)".
+3. Updated `DOCS.md` Page Map rows 5 and 7.
+
+### Design decisions
+- Ensured all CLI code examples in contribution documentation match the live parser requirements.
+
+### Issues informed
+None filed or closed — documentation audit and precision refinement.
+
+### Files modified
+- `docs/en/contributing.html`
+- `docs/en/evidence-classes.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+---
+
+## 2026-09-01 — Routine 042
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — content & taxonomy audit of `getting-started.html` and `faq.html` (planned in Routine 041).
+
+### Trigger
+Routine audit identified leftover references to the retired four-tier model in `getting-started.html` ("The four tiers: Basic, Extra, Unique, Ultimate"), outdated promotion destination paths, and stale "(coming soon)" markers on links to live documentation pages.
+
+### What I did
+1. Updated `getting-started.html` Core concepts section to present the canonical Yggdrasil II two-axis taxonomy:
+   - **Type:** Structural classification (`Basic` with 0 prerequisites vs `Fusion` with &ge;1 prerequisite).
+   - **Branch:** Progression path for Named Skills at 4★+ (`Unique branch` for solo mastery vs `Suite branch` for component suites).
+   - **Stars:** 0★ to 6★ maturity axis derived from evidence.
+2. Updated graph description to reference structural types rather than legacy tier colorings.
+3. Fixed intake promotion destination note in `getting-started.html` from `registry/gaia.json` to `registry/nodes/`.
+4. Removed stale "(coming soon)" annotations in `getting-started.html` Next Steps list and improved link descriptions.
+5. In `faq.html`, refined evidence comparison terminology from "provenance tier / quality tier" to "provenance level / quality rating" to conform with repository vocabulary guidelines.
+6. Updated `DOCS.md` Page Map rows 2 and 10.
+
+### Design decisions
+- Standardized conceptual explanations to align exactly with `skill-hierarchy.html` and `CONTEXT.md`.
+
+### Issues informed
+None filed or closed — documentation audit and taxonomy synchronization.
+
+### Files modified
+- `docs/en/getting-started.html`
+- `docs/en/faq.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 043)
+- ROTATE content audit on `contributing.html` and `evidence-classes.html`.
+
+---
+
+## 2026-09-01 — Routine 041
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, and `gaia dev arbor` in `cli-reference.html` (planned in Routine 040).
+
+### Trigger
+Completion of developer command coverage audit in `src/gaia_cli/commands/dev/` for remaining undocumented verbs (`verify`, `diff`, `fuse`, `arbor`).
+
+### What I did
+1. Documented `gaia dev verify` (`--index`, `--dispute`, `--notes`, `--source`, `--build`) for verifying or disputing evidence entries and attaching verifier attestations.
+2. Documented `gaia dev fuse` (`--name`, `--description`, `--prereqs`, `--named-capstone`, `--suite-components`, `--build`) for upserting generic fusion nodes and suite manifests.
+3. Documented `gaia dev diff` (`[ref]`, `--base`) for filtering out noise/timestamps to inspect substantive registry diffs vs main.
+4. Documented `gaia dev arbor` (`import`, `check`, `replay`) for declaration-first Arbor sidecar store validation and profile replay.
+5. Updated sidebar Registry dev list and Table of Contents in `cli-reference.html` to link all 4 newly documented commands.
+6. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused standard `.cmd-card` layout with structured parameter tables and command example snippets.
+- Marked mutating commands (`verify`, `fuse`, `arbor`) with `◇ verifier` gate badges and read-only inspection (`diff`) with `● open`.
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 042)
+- Content and terminology audit of `getting-started.html` & `faq.html` to ensure complete alignment with Yggdrasil II taxonomy and v7.7.2 capabilities.
+
+---
+
+## 2026-09-01 — Routine 040
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented top-level `gaia steward` command suite in `cli-reference.html` (planned in Routine 039).
+
+### Trigger
+Routine documentation agent audit of `src/gaia_cli/commands/steward.py` identified the top-level `gaia steward` command suite as entirely absent from `cli-reference.html`.
+
+### What I did
+1. Documented `gaia steward` in `cli-reference.html` with full coverage of its subcommands:
+   - `scan [--json]`: Run read-only local sensors and report debt without modifying canonical state.
+   - `run [--json]`: Execute at most one policy-authorized Class A debt repair with automated proof.
+   - `dispatch <debt_id> [--prompt] [--json]`: Render bounded Class B task packets / agent prompts.
+   - `lane {status, next, record}`: Manage the bounded rolling maintenance lane (status reports, next task pickup, and verdict recording).
+   - `verify <debt_id> --diff <diff> --proof <proof>`: Independently verify candidate patches against dispatch receipts.
+   - `founder [--json]`: Render report-only Class C founder decision queues.
+2. Updated sidebar System group and Table of Contents in `cli-reference.html` to link `#steward`.
+3. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused `.cmd-card` layout with structured table for all 6 subcommands and standard example blocks.
+- Highlighted strict policy boundaries (read-only sensors, non-escaping receipts in `.gaia/steward/`, capped agent dispatches).
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 041)
+- Document `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, and `gaia dev arbor` in `cli-reference.html`.
+
+---
+
+## 2026-09-01 — Routine 039
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented missing mutating `gaia dev` subcommands in `cli-reference.html`.
+
+### Trigger
+Routine documentation agent audit of `src/gaia_cli/commands/dev/` surfaced 6 mutating verbs that existed in code and CLI help but lacked documentation cards, TOC entries, and sidebar links.
+
+### What I did
+1. Documented `gaia dev rm-evidence` (`--index`, `--source`, `--yes`, `--build`) for removing evidence entries by index or URL.
+2. Documented `gaia dev rm` (`--reason`, `--yes`, `--build`) for removing generic or named skills with automatic graph and timeline cleanup.
+3. Documented `gaia dev link` (`--reset`, `--build`) for linking prerequisite DAG edges with cycle detection.
+4. Documented `gaia dev reclassify` (`basic` vs `fusion`, `--build`) for moving nodes between structural types under Yggdrasil II.
+5. Documented `gaia dev update-named` for mutating named skill frontmatter fields (`--title`, `--status`, `--generic-ref`, `--origin`, `--github-link`, `--installable`, `--build`).
+6. Documented `gaia dev build` as the explicit Class S artifact and index compiler.
+7. Updated sidebar and visual Table of Contents in `cli-reference.html` to link all 6 newly documented commands.
+8. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused standard `.cmd-card` layout with high-contrast headers, parameter tables, and bash copy examples.
+- Marked all 6 mutating subcommands with the `◇ verifier` gate badge.
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 040)
+- Document the `gaia steward` top-level command suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) in `cli-reference.html`.
+
+---
+
+## 2026-09-01 — Routine 038
+
+**Branch:** `docs/routines/030` (PR #1544 still open — rebased on `origin/main` and continued on it per the one-open-PR rule)
+
+**Task chosen:** SYNC + ROTATE — release v7.7.2 version bump across all 13 `docs/en/*.html` pages + ROTATE audit of `named-skills.html` and `share-bundles.html` (planned in Routine 037).
+
+### Trigger
+Routine documentation agent triggered on 2026-09-01. Release v7.7.2 tagged on main while documentation version chips were stale at v7.6.2.
+
+### What I did
+1. **Version Sync (v7.6.2 → v7.7.2)**: Synchronized nav-version / docs-nav-version chips across all 13 HTML pages in `docs/en/`. Updated embedded version references in body examples (`cli-reference.html` `gaia version` → `7.7.2`, `getting-started.html` `gaia --version` → `7.7.2`, and `timeline-audit.html` CLI gap notice → `v7.7.2`).
+2. **`named-skills.html` step-by-step cleanup**: Dropped redundant `--no-build` flags in the naming PR workflow code example (since `--no-build` is the default no-op behavior on mutating `gaia dev` verbs) and removed the non-existent ghost script call `python3 scripts/generateNamedIndex.py`, keeping canonical `gaia dev build` as the sole compilation step.
+3. **`share-bundles.html` taxonomy alignment**: Updated the manifest table `type` description from `Tier.` to `Structural type: basic (no prerequisites) or fusion (≥1 prerequisite).` to adhere to Yggdrasil II taxonomy.
+4. **`docs/en/DOCS.md`**: Updated page map rows 6 and 11 to record Routine 038 updates.
+
+### Design decisions
+- Preserved existing layout and design system tokens.
+- No new CSS or inline hex colors added.
+
+### Issues informed
+None filed or closed — documentation accuracy and version synchronization.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/contributing.html`
+- `docs/en/evidence-classes.html`
+- `docs/en/faq.html`
+- `docs/en/fusion.html`
+- `docs/en/getting-started.html`
+- `docs/en/index.html`
+- `docs/en/manual-curation-pipeline.html`
+- `docs/en/mcp-server.html`
+- `docs/en/named-skills.html`
+- `docs/en/share-bundles.html`
+- `docs/en/skill-hierarchy.html`
+- `docs/en/timeline-audit.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 039)
+- ROTATE: audit next least-recently-touched page `getting-started.html` or `faq.html` for any newly added CLI subcommands or feature changes since v7.7.2.
+- Maintain: monitor for subsequent tag releases or merged PRs changing CLI flags.
+
+---
+
+## 2026-08-28 — Routine 037
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 036's "Planned next" named the first item
+directly: the remaining `--no-build` item, `manual-curation-pipeline.html`
+Phase 5 (`gaia-ingest`) section, ~L889, 898, 906, 1026.
+
+### What I did
+
+Re-confirmed `_add_build_flags()` (`src/gaia_cli/commands/dev/helpers.py:495`):
+`no_build` defaults to `True`, so a mutating `gaia dev` command already skips
+the docs rebuild without any flag; `--no-build` is kept only as a backward-compat
+no-op alias, and `--build` is the real opt-in.
+
+Phase 5's four `gaia dev evidence` example commands each carried a trailing
+`--no-build`. Not actively wrong (the flag exists and does nothing), but it
+implied a flag is required to get the default behavior, and it crowded out the
+one flag that actually matters (`--build`, for the rare single-row-then-build
+case). Dropped `--no-build` from all four command blocks (two named examples
+under "Ingest each approved evidence row" plus the matching lines in the
+"build + appraise + calibrate" fence and the cheat-sheet's Phase 5 block).
+Rewrote the section's lead sentence to state the default plainly and name
+`gaia dev build` (run once after all rows) as the normal path, with `--build`
+on a single row as the alternative.
+
+### Design decisions
+
+- Left the "build + appraise + calibrate" fence's own `gaia dev build` line
+  untouched — it was already correct, just now the sole build call across the
+  section instead of one of several redundant flags.
+- No new callout box added; the lead paragraph already carried the fix and a
+  callout would be ceremony for a one-line clarification.
+
+### Issues informed
+
+None filed or closed — documentation-only correction, CLI behavior itself
+unchanged.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are `gh pr merge` (real CLI verb)
+and "CI green → merge → docs" (real git merge, not the fusion concept); no
+violations. No new hex introduced (diff-scanned, zero hits). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — dropped redundant `--no-build`
+  from four Phase 5 example commands, rewrote the lead sentence to name
+  `--build` as the real opt-in
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 038)
+
+- The `--no-build` sweep across `docs/en/` is now complete (034 cli-reference,
+  035 evidence-classes, 036 contributing, 037 manual-curation-pipeline). No
+  more known instances.
+- Fall back to ROTATE: `named-skills.html` and `share-bundles.html` are still
+  tied at "updated 025," the oldest untouched pages in the Page Map.
+
+### Token spend
+
+2026-08-28 Sonnet 5 Low: ~45k in, ~5k out. ~$0.19
+
+---
+
+## 2026-08-27 — Routine 036
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 035's "Planned next" named the first item
+directly: the same `--no-build`/`--build` opt-in drift, still open on
+`contributing.html`'s "Batch tip" callout (~L656), one instance.
+
+### What I did
+
+Confirmed the CLI facts again before touching copy: `_add_build_flags()`
+(`src/gaia_cli/commands/dev/helpers.py:495`) makes `--no-build` a no-op alias
+for the default (skip rebuild) and `--build` the real opt-in flag, unchanged
+since v7.4.19 (routine 034's finding). `contributing.html`'s "Batch tip"
+callout still told readers to "accept `--no-build` … to skip … regeneration
+on every step" — the pre-v7.4.19 framing where skipping needed a flag.
+
+Rewrote the callout: batch operations already skip the rebuild by default
+(no flag needed); pass `--build` on the last step, or run `gaia dev build`
+once at the end, to regenerate. Confirmed `gaia dev build` is a real
+subcommand (`src/gaia_cli/commands/dev/__init__.py:725`) before keeping that
+reference.
+
+### Design decisions
+
+- One-sentence callout fix only — no new flag table or restructuring, since
+  this is a "tip" aside, not the CLI reference page.
+- Left `manual-curation-pipeline.html`'s neutral `--no-build` example usage
+  alone, per routine 035's note that it's technically still correct (the flag
+  still exists, just redundant) and lower priority than an active wrong claim.
+
+### Issues informed
+
+None filed or closed — documentation-only correction, CLI behavior itself
+unchanged.
+
+### Verification
+
+`git status` scoped to `docs/en/contributing.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) on the file — all hits are pre-existing
+`gaia dev merge` CLI verb references, the "No rarity references" instructional
+line, and an example pipeline showing `[merge]`/`compose` as literal fixture
+output — no violations. No new hex introduced (diff-scanned, zero hits). CRLF
+line ending preserved on the edited line (verified byte-for-byte). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/contributing.html` — fixed the "Batch tip" callout's
+  `--no-build`/`--build` semantics to the opt-in-since-v7.4.19 default
+- `docs/en/DOCS.md` — page map row 5 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 037)
+
+- The only remaining `--no-build` item from routine 035's list:
+  `manual-curation-pipeline.html` (Phase 5 gaia-ingest section, ~L889, 898,
+  906, 1026) — neutral framing, not actively wrong, but could be tightened to
+  mention `--build` is the real opt-in and drop the now-redundant
+  `--no-build` from example commands.
+- If deprioritized, fall back to ROTATE: `named-skills.html` and
+  `share-bundles.html` are still tied at "updated 025," oldest untouched
+  since (now that `contributing.html` has a 036 touch).
+
+### Token spend
+
+2026-08-27 Sonnet 5 Low: ~60k in, ~7k out. ~$0.23
+
+---
+
+## 2026-08-26 — Routine 035
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 034's "Planned next" asked for a targeted
+grep pass for `--no-build` across `docs/en/*.html`, since the flag's
+opt-in-since-v7.4.19 semantics (confirmed in `_add_build_flags()`,
+`src/gaia_cli/commands/dev/helpers.py:495`: `--no-build` is a no-op default
+alias, `--build` is the real opt-in flag) had already turned up wrong on
+`cli-reference.html` and been fixed there in routine 034.
+
+### What I did
+
+Ran `grep -n "\-\-no-build|\-\-build\b" docs/en/*.html`. Five pages matched:
+`cli-reference.html` (already correct — fixed 034), `manual-curation-pipeline.html`,
+`named-skills.html`, `contributing.html`, and `evidence-classes.html`.
+
+Read each hit in context. `named-skills.html`'s uses are plain inline
+`--no-build` flags on example commands with no surrounding claim about what
+the flag does — harmless no-ops, not wrong. `manual-curation-pipeline.html`
+similarly just appends `--no-build` to example invocations with a neutral
+"every row uses `--no-build`, one build at the end" framing — technically
+still correct today (the CLI still accepts `--no-build`, it's just already
+the default), so lower priority. `evidence-classes.html` and
+`contributing.html` both had callouts making an active, now-false claim:
+"**Pass** `--no-build` **to skip** the rebuild" implies you must opt in to
+skip it, when skipping is what already happens without the flag. That's the
+same class of drift fixed on `cli-reference.html` in 034, so I fixed it here
+too, picking `evidence-classes.html` as today's one page per the one-page
+limit (it carries two instances of the exact drift, both in high-traffic
+`gaia dev evidence` guidance).
+
+Fixed both callouts (Migration Guide section, ~L668, and Common Pitfalls
+"Passing `--grade` instead of `--trust`" section, ~L742) to state the correct
+default and point at the real opt-in flag: "Doc/graph rebuild is skipped by
+default — pass `--build` only when you need the rebuild in the same step."
+Verified `gaia dev evidence`'s parser calls `_add_build_flags(dev_evidence,
+"adding evidence")` (`src/gaia_cli/commands/dev/__init__.py:703`) before
+writing, confirming the same shared default applies to this subcommand.
+
+### Design decisions
+
+- Scoped to one page today per the routine's one-page limit, even though two
+  more pages (`contributing.html`, `manual-curation-pipeline.html`) still
+  read as outdated in the same direction — `evidence-classes.html` had the
+  clearest active-claim drift (two instances) versus the others' more benign
+  inline flag usage.
+- Kept the fix to the two callout sentences only — did not restructure
+  surrounding text or add a new flag table to this page (that's
+  `cli-reference.html`'s job; this page teaches evidence Grade concepts, not
+  full CLI flag reference).
+
+### Issues informed
+
+None filed or closed — documentation-only correction; the CLI behavior itself
+has been stable since v7.4.19.
+
+### Verification
+
+`git status` scoped to `docs/en/evidence-classes.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — only pre-existing hit is `gaia dev fuse` /
+`merge` as a real CLI verb reference, no violations. No new hex introduced
+(diff-scanned, zero hits). All three stylesheets (`tokens.css`, `styles.css`,
+`docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — fixed two `--no-build` callouts to the
+  correct opt-in-since-v7.4.19 semantics
+- `docs/en/DOCS.md` — page map row 7 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 036)
+
+- Same `--no-build` drift, lower severity, still open on two pages:
+  - `contributing.html` ~L656 — "Batch tip" callout says "Most `gaia dev`
+    commands accept `--no-build`. Use this... to skip expensive
+    documentation/graph regeneration" — same wrong direction, one instance.
+  - `manual-curation-pipeline.html` (Phase 5 gaia-ingest section, ~L889,
+    898, 906, 1026) — neutral framing, not actively wrong, but could be
+    tightened to mention `--build` is the real opt-in and drop the redundant
+    `--no-build` from example commands since it's already default.
+- If both come back clean/deprioritized, fall back to ROTATE:
+  `contributing.html`, `named-skills.html`, and `share-bundles.html` are tied
+  at "updated 025," oldest untouched since.
+
+### Token spend
+
+2026-08-26 Sonnet 5 Low: ~55k in, ~7k out. ~$0.22
+
+---
+
+## 2026-08-21 — Routine 034
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** SYNC — routine 033's "Planned next" pointed at either a ROTATE
+target or a SYNC check against releases since 2026-08-19. Checked `git log
+origin/main --since=2026-08-19 --merges` first: found `fix(trust-magnitude):
+reconcile dry-run, API, and source TM (Issue #1600)` (2026-08-20), which added a
+new CLI verb, `gaia dev calibrate-trust-magnitude`, explicitly closing a
+long-flagged CLI gap. Checked whether `cli-reference.html` documented it — it
+didn't, and neither did its two siblings, `gaia dev calibrate` (the core
+star-level setter, pre-existing) and `gaia dev calibrate-evidence-grades`. All
+three were completely absent from the Registry dev section and its two sidebar
+navs.
+
+### What I did
+
+Read `src/gaia_cli/commands/dev/__init__.py`'s three `calibrate*` parser
+definitions and `src/gaia_cli/commands/dev/calibrate.py`'s three command
+functions (`meta_calibrate_command`, `calibrate_evidence_grades_command`,
+`calibrate_trust_magnitude_command`) to get real flags, defaults, and behavior
+before writing anything.
+
+While reading `_add_build_flags()` in `commands/dev/helpers.py` (shared by
+`calibrate` and every other mutating dev verb), found a second, older drift:
+its docstring says docs rebuild is "now OPT-IN" — `--no-build` defaults to
+`True`, `--build` is the flag that opts into a rebuild. `git log -S` on that
+docstring dates the flip to v7.4.19 (2026-08-10), well before this routine's
+scan window, but `cli-reference.html`'s existing `dev add` and `dev evidence`
+cards still documented the old shape: `--no-build` listed as the only flag,
+default `false`, phrased as "skip rebuilding" — i.e. implying rebuild-by-default
+when the CLI has done the opposite for 11 days. Fixed both existing flag tables
+(added the `--build` row, corrected `--no-build`'s default to `true` and its
+description to "no-op alias — this is already the default") and added a short
+info callout on `dev add` explaining the opt-in model. Also fixed `dev add`'s
+second example, which was passing `--no-build` as if it were doing something —
+now shows `--build` for the "rebuild in this step" case instead.
+
+Added three new command cards to the Registry dev section, using the corrected
+`--build`/`--no-build` semantics from the start: `gaia dev calibrate` (with a
+warn callout on the 3★+ Star Bar blob-link preflight, since that's the one
+sharp edge a reader would hit immediately), `gaia dev calibrate-evidence-grades`
+(dry-run/scope/skill flags), and `gaia dev calibrate-trust-magnitude`
+(--skill/--all mutual exclusivity, what the three cached fields are and why
+they go stale). Added matching entries to both sidebar navs (the compact
+group list and the descriptive "what does this do" list) in the same position.
+
+### Design decisions
+
+- Placed the three new cards between `dev evidence` and `dev merge` — calibrate
+  operates on evidence-derived state (stars, grades, Trust Magnitude), so it
+  reads better grouped with evidence than sorted alphabetically against merge/
+  split/rename.
+- Fixed the pre-existing `--no-build` drift on `dev add`/`dev evidence` in the
+  same pass rather than filing it as a follow-up: it's the same page, same
+  section, same root cause (`_add_build_flags`), and leaving it wrong right
+  next to three brand-new cards documenting the correct default would have
+  been a worse reader experience than the extra diff.
+- Did not touch the docs-rebuild flag rows on other pages (`named-skills.html`,
+  `manual-curation-pipeline.html`, etc. reference `gaia dev` commands too) —
+  out of scope for one page today; noted below for a future ROTATE/SYNC pass.
+- Used `--yes`/`-y` and `--dry-run` flag names verbatim from the argparse
+  definitions rather than paraphrasing, matching the page's existing convention
+  of exact flag names in the table's first column.
+
+### Issues informed
+
+None filed or closed — this is a documentation-only fix; no product gap
+remains (the CLI verb this closes a gap for already merged on main).
+
+### Verification
+
+`git status` scoped to `docs/en/cli-reference.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary
+grep (`merge|combine|compose|rarity`) — only hit is the pre-existing `dev
+merge` CLI verb, no violations. No new hex introduced (diff-scanned, zero hex
+hits). All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+still linked.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — added `dev calibrate`, `dev
+  calibrate-evidence-grades`, `dev calibrate-trust-magnitude` cards + sidebar
+  entries; fixed `--build`/`--no-build` flag docs on `dev add` and `dev
+  evidence` to match the opt-in-since-v7.4.19 default
+- `docs/en/DOCS.md` — page map row 3 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 035)
+
+- The `--no-build`/`--build` opt-in flag drift found today is almost certainly
+  repeated on other pages that show `gaia dev` command examples (e.g.
+  `named-skills.html`'s evidence-add examples, `manual-curation-pipeline.html`'s
+  cheat sheet). Worth a targeted grep pass (`--no-build`) across `docs/en/*.html`
+  next, fixing whichever page turns up wrong flag semantics.
+- If that's clean, fall back to ROTATE: `contributing.html`, `named-skills.html`,
+  `evidence-classes.html`, and `share-bundles.html` are still tied at "updated
+  025," oldest untouched since.
+
+### Token spend
+
+2026-08-21 Sonnet 5 Low: ~70k in, ~9k out. ~$0.27
+
+---
+
+## 2026-08-20 — Routine 033
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 032's "Planned next" asked whether the
+`"fetched"`/`"parsed"` lifecycle gap it flagged in `manual-curation-pipeline.html`
+Step 5 is a real CLI gap or something curators are expected to hand-fill, and named
+the two `gaia-curate` `SKILL.md` files as where to look before deciding.
+
+### What I did
+
+Read `.agents/skills/gaia-curate/SKILL.md` (confirmed byte-identical to the
+`.claude/` mirror first) and `CURATION-CORE.md`. Line 9-11 of `CURATION-CORE.md`
+defines the canonical lifecycle contract directly: `"fetched" requires an actually
+fetched upstream SKILL.md; "parsed" requires non-empty name and description
+frontmatter" — this is a worker attestation, not a CLI-populated field. `SKILL.md`
+step 2 confirms the fetch/parse work is done by whoever (human or agent) is running
+the `/gaia-curate` discovery flow, not by any `gaia` CLI verb.
+
+Cross-checked against `src/gaia_cli/prefill.py` directly (`buildPrefillPacket()`,
+`REVIEW_READY_LIFECYCLE` constant, and the module docstring): prefill is explicitly
+scoped as deterministic embedding-similarity ranking only — "does NOT mutate the
+registry" and hands back a `DEFER` packet at `["discovered", "deferred"]` for a
+"worker" to advance. It never fetches a URL, computes a hash, or reads frontmatter;
+the `name`/`description` a human types into Step 3's `--name`/`--description` flags
+land in `normalized.*`, not `source.frontmatter.*`. This settles the question:
+`"fetched"`/`"parsed"` are not an unclosed CLI gap — prefill was never meant to do
+that work, by design (RFC1 §3.3, per the module docstring). The curator who already
+opened the upstream URL to get the name/description for Step 3 is the one who can
+attest to having fetched and parsed it.
+
+Fixed the Step 5 callout in `manual-curation-pipeline.html` (`id="phase-1"` area,
+directly under the packet JSON template) accordingly: it previously said prefill
+"does not populate these — filling them in is on you for now," which reads as an
+open CLI deficiency. Rewrote it to say plainly this is by design, not a gap, and
+gave concrete guidance for each required field: `source.hostRepository` (the repo
+URL), `source.fetchedAt` (an ISO timestamp for the fetch), `source.contentSha256`
+(a SHA-256 of the raw SKILL.md text, with the `sha256sum`/`shasum -a 256` command
+to get it), and `source.frontmatter.name`/`.description` (the same verbatim values
+already passed to Step 3's flags).
+
+### Design decisions
+
+- Did not file a CLI issue — the investigation concluded there's no gap to file.
+  Filing one would misrepresent a deliberate design boundary (prefill = ranking
+  only, fetch/parse = worker's job) as a missing feature.
+- Kept the fix to the callout's prose only — no new code-fence for the hash
+  command, since the page already has a python3/hashlib snippet nearby for a
+  different hash (the generic-snapshot one) and adding a second full block for a
+  one-line `sha256sum` command would be more diff than the fix needs. Named the
+  plain shell command inline instead.
+- Did not soften or remove the "run the validator after every edit" closing
+  sentence — that guidance is still correct and unrelated to the by-design/gap
+  question this pass resolved.
+
+### Issues informed
+
+None filed or closed — this closes out the investigation routine 032 opened; no
+new backlog surfaced.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge` CLI
+examples, no violations. No new hex introduced (diff-scanned, zero hex hits). All
+three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 5 fetched/parsed callout rewritten
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 034)
+
+- No open remainder on `manual-curation-pipeline.html` from this thread — routines
+  030-033 closed out every drift flagged in it. Next routine should ROTATE to the
+  least-recently-touched page per DOCS.md (currently `contributing.html`,
+  `named-skills.html`, `evidence-classes.html`, and `share-bundles.html` are all
+  tied at "updated 025," oldest untouched since) or check for a SYNC trigger from
+  any release/merge since 2026-08-19.
+
+### Token spend
+
+2026-08-20 Sonnet 5 Low: ~65k in, ~8k out. ~$0.25
+
+---
+
+## 2026-08-19 — Routine 032
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 031's "Planned next" flagged routine 030's own
+unresolved item: `manual-curation-pipeline.html` Step 5's packet JSON template used
+`schemaVersion` and a string `"decision": "MAP"`, while the real validator expects
+`contractVersion` and an object `decision`. Routine 031 scoped this to "read
+`scripts/validate_discovery_packet.py`'s accepted schema first" before touching it.
+
+### What I did
+
+Found the validator isn't at `scripts/validate_discovery_packet.py` — it's mirrored at
+`.claude/skills/gaia-curate/scripts/validate_discovery_packet.py` and
+`.agents/skills/gaia-curate/scripts/validate_discovery_packet.py` (per CLAUDE.md, the
+`.agents/` copy is primary). Read `validate_packet()` in full against
+`src/gaia_cli/prefill.py`'s `buildPrefillPacket()` (the function that actually emits
+Step 3's `prefill-output.json`) to confirm real field names and shapes.
+
+Confirmed real drift, not two valid packet shapes:
+- Top-level field is `contractVersion`, not `schemaVersion`.
+- `decision` must be an object (`{"value": ..., "reasonCode": ..., "genericId": ...}`
+  for a `MAP` decision) — a bare string fails `UNKNOWN_DECISION` since the validator
+  does `decision.get("value") if isinstance(decision, dict) else None`.
+- `exactDedupe` must be a dict (`{"matched": false}`), not `null` — the validator's
+  `INVALID_EXACT_DEDUPE` check requires `isinstance(..., dict)`. The page had `null`.
+- `candidateId` and `flags` are both in the validator's required-field list
+  (`MISSING_REQUIRED_FIELD`) but were absent from the page's example entirely.
+- `source.sourceLane` must be one of `marketplace` / `source-repository` /
+  `github-topic` — the page's `"github-skill-file"` isn't a valid value
+  (`INVALID_SOURCE_LANE`); `source` also had a spurious `"lane"` key instead of
+  `sourceLane`, and a redundant `"url"` key duplicating `canonicalUrl`.
+- `genericSnapshot` needs `capturedAt` and `mappingOptionsSha256` alongside
+  `command`/`contentSha256`/`generics` for the `"mapped"` lifecycle check — the page
+  only had three of the five required keys.
+- `lifecycle` reaching the `"review-ready"` end state requires the **full** six-stage
+  prefix (`discovered → fetched → parsed → normalized → deduped → mapped`), not the
+  bare string `"review-ready"` the page had.
+
+Rewrote Step 5's JSON template (`docs/en/manual-curation-pipeline.html`, `id="phase-1"`
+area) with the corrected field names/shapes and the full lifecycle array. Added a
+`callout warn` directly under it flagging a real, unresolved workflow gap: reaching
+`"fetched"` needs `source.hostRepository`/`fetchedAt`/`contentSha256`, and `"parsed"`
+needs `source.frontmatter.name`/`description` — fields `gaia dev prefill` does not
+populate (confirmed by reading `buildPrefillPacket()`, which only ever emits
+`["discovered", "deferred"]`). Rather than fabricate placeholder values for a gap the
+CLI doesn't currently close, the callout says so plainly and tells the reader to
+validate after every edit instead of guessing.
+
+Also fixed the same wrong `scripts/validate_discovery_packet.py` path in two more
+places on the page that would 404 identically: the Phase 2 "re-validate after
+appending" command and the cheat-sheet's Phase 1 validate line. All three now point at
+`.agents/skills/gaia-curate/scripts/validate_discovery_packet.py`.
+
+### Design decisions
+
+- Used `callout warn` (not `info`) for the lifecycle-gap note — it is exactly the
+  "crucial gap" case DOCS.md's Callouts branding reserves warn for, and a reader who
+  skips it will get `INVALID_LIFECYCLE_TRANSITION` with no clue why.
+- Did not attempt to fabricate `hostRepository`/`fetchedAt`/`frontmatter` values or
+  invent a missing CLI step to produce them — that's real, unscoped product work
+  (either the CLI needs a fetch/parse verb, or the docs need to show a manual
+  workaround), not a documentation wording fix. Flagged for investigation instead.
+- Kept `.agents/skills/...` (not `.claude/skills/...`) as the canonical validator path
+  per CLAUDE.md's "Skills Intake" note that `.agents/skills/` is primary and
+  agent-agnostic.
+
+### Issues informed
+
+None filed or closed — this is the same page's own unfixed remainder from the last two
+days, not new backlog.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge` CLI examples,
+no violations. No new hex introduced (diff-scanned, zero hex hits). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 5 packet JSON template corrected; new
+  warn callout on the lifecycle/fetched/parsed gap; three broken validator paths fixed
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 033)
+
+- Investigate whether the `"fetched"`/`"parsed"` lifecycle gap flagged above is a real
+  CLI gap (no verb populates `source.hostRepository`/`fetchedAt`/`frontmatter`) or
+  whether curators are expected to hand-fill those fields — check
+  `.claude/skills/gaia-curate/SKILL.md` and `.agents/skills/gaia-curate/SKILL.md` for
+  guidance before deciding whether this needs a docs fix, a CLI issue, or both.
+
+### Token spend
+
+2026-08-19 Sonnet 5 Low: ~75k in, ~9k out. ~$0.30
+
+---
+
+## 2026-08-18 — Routine 031
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 030's own "Planned next" flagged two unverified
+spots on the same page it had just touched (`manual-curation-pipeline.html`): a fake
+`gaia dev discover` command in Phase 0, and an unverified packet-JSON field mismatch
+in Step 5. Took the first — small, concrete, and already scoped by the prior entry.
+
+### What I did
+
+Confirmed `gaia dev discover` does not exist: grepped every `dev_sub.add_parser(...)`
+call in `src/gaia_cli/commands/dev/__init__.py` — no `discover` subcommand anywhere.
+Read `.claude/skills/ev-discovery/SKILL.md`: Phase 0 (`ev-discovery`) is an **agent
+skill**, not a CLI verb — it runs Firecrawl web searches and requires
+`FIRECRAWL_API_KEY`, invoked as `/ev-discovery` in Claude Code, not a `gaia` command.
+This directly contradicts the page's own promise ("every command typed by a human, no
+AI required") — Phase 0 is the one genuine exception, since live web search has no
+deterministic CLI equivalent the way Phases 1-4 do (those wrap real scripts/`gh`
+calls).
+
+Rewrote the Phase 0 section (`docs/en/manual-curation-pipeline.html`, `id="phase-4"`
+area): removed the fictional `gaia dev discover --skill/--repo/--types/--output` code
+block, replaced the `callout info` with a `callout warn` stating plainly there's no
+CLI command for this phase and naming the real invocation path (`/ev-discovery` agent
+skill), and added a line pointing at Phase 1's `evidence/by-type/<type>.md` format for
+where discovered rows land — that format is already documented two sections down, no
+need to duplicate it.
+
+While in the same section, found and fixed a second, closer-to-home bug: the page's
+own bottom "Cheat sheet" section (`id="cheatsheet"`) still had **both** of routine
+030's own unfixed spots in the exact same command block — the cheat sheet's
+`gaia dev prefill --source ... --output ...` line (the same broken flags routine 030
+fixed in Step 3, but never mirrored into the cheat sheet) and its own copy of the fake
+`gaia dev discover` command. Fixed both to match: the prefill line now uses the real
+positional-id + `--name`/`--description`/`--url`/`--stdout` signature verified in
+routine 030's own pass; the discover line is now a comment pointing at the
+`/ev-discovery` skill instead of a copy-pasteable command that would 404 in argparse.
+
+### Design decisions
+
+- Used `callout warn` (not `info`) for the Phase 0 fix — DOCS.md's Callouts branding
+  reserves warn for "breaking behaviors, strict requirements, or crucial gaps," and a
+  reader trying to copy-paste a nonexistent command is exactly that gap.
+- Did not rewrite the page's "No AI required" framing in the lead paragraph — that's a
+  page-wide claim, Phase 0 is a single explicitly-flagged exception already labeled
+  "(skippable)," and rewriting the lead is a bigger scope call than today's slot.
+- Left routine 030's second flagged item (packet JSON `schemaVersion`/`decision`
+  string vs. `contractVersion`/`decision` object shape) untouched — it needs a read of
+  `scripts/validate_discovery_packet.py`'s accepted schema before editing Step 5, which
+  routine 030 correctly scoped as its own investigation, not a quick fix.
+
+### Issues informed
+
+None filed or closed — this is the same page's own unfixed remainder from yesterday,
+not new backlog.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge`/`gh issue`
+CLI examples, no violations. No new hex introduced (diff-scanned, zero hex hits). File
+stayed LF-only (its pre-existing convention, confirmed by routine 030's own note — not
+CRLF like the other 12 pages). All three stylesheets (`tokens.css`, `styles.css`,
+`docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Phase 0 section rewritten; cheat-sheet
+  `prefill` and `discover` lines fixed to match
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 032)
+
+- Routine 030's second flagged item is still open: `manual-curation-pipeline.html`
+  Step 5's packet JSON template uses `schemaVersion` and a string `"decision": "MAP"`,
+  while `prefill.py`'s `buildPrefillPacket()` actually emits `contractVersion` and an
+  object `"decision": {"value": ..., "reasonCode": ...}`. Read
+  `scripts/validate_discovery_packet.py`'s accepted schema first to confirm whether
+  these are two valid packet shapes (hand-authored vs. tool-generated) or real drift
+  before touching Step 5.
+
+### Token spend
+
+2026-08-18 Sonnet 5 Low: ~55k in, ~7k out. ~$0.25
+
+---
+
+## 2026-08-17 — Routine 030
+
+**Branch:** `docs/routines/030` (new — PR #1528/`docs/routines/026` merged 2026-08-15,
+so per the branch rule this starts the next open PR from `origin/main`)
+
+**Task chosen:** ROTATE — `docs/en/manual-curation-pipeline.html` had never been
+touched by a daily routine (blank Routine column in DOCS.md's Page Map), making it
+the least-recently-touched page. No "Planned next" was named by the prior entry
+(the 2026-08-15 editor pass closed out #1479 and #1478 with no open thread), and
+the only commits on `main` since then were the editor-pass merge itself and a
+`chore: release v7.6.3` version bump — no SYNC candidate (no documented command
+behavior changed).
+
+### What I did
+
+Read the page fully to check its commands against the real CLI (`src/gaia_cli/`)
+rather than assuming a page marked "✅ Done" was still accurate. Found Step 3
+("Run prefill against the SKILL.md URL") documents `gaia dev prefill --source
+<url> --output <path>` — neither flag exists. The real argparse definition
+(`src/gaia_cli/commands/dev/__init__.py` `dev_prefill`) is a positional
+`candidate_id` plus required `--name`, `--description`, `--url`, with `--json`/
+`--stdout` to print instead of the default behavior of writing straight to
+`registry-for-review/discovery-packets/<candidate-id-slug>.json`
+(`src/gaia_cli/prefill.py` `writePacket()`). A reader copy-pasting the old
+command would hit an immediate argparse error. Fixed the command block to the
+real signature and added a one-line callout explaining the default write path
+now that `--output` is gone.
+
+### Design decisions
+
+- Kept the surrounding `/tmp/prefill-output.json` capture-to-file pattern (used
+  again in Step 4) by using `--stdout > /tmp/prefill-output.json` rather than
+  rewriting the whole downstream flow — the smallest correct fix, not a redesign.
+- Added the info callout directly below the code fence per DOCS.md's Callouts &
+  Notes Branding placement rule, using the existing `.callout.info` class.
+
+### Issues informed
+
+None filed — this is a same-page accuracy fix, not a tracked bug.
+
+### Verification
+
+`git status` shows only `docs/en/manual-curation-pipeline.html` and this diary +
+DOCS.md. `html.parser` parse-check clean. Vocabulary grep clean (remaining
+"merge" hits are all `gh pr merge`, a real CLI verb, not the fusion concept — no
+new violations). No new hex introduced (diff-scanned). All three stylesheets
+(`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 3 `gaia dev prefill` command
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 031)
+
+- Same page, deeper issue found but not fixed today (out of today's one-section
+  scope): Phase 4's "Phase 0 — ev-discovery" documents `gaia dev discover
+  --skill ... --repo ... --types ... --output ...` as a CLI command. No
+  `discover` subcommand exists anywhere under `dev_sub.add_parser(...)` in
+  `src/gaia_cli/commands/dev/__init__.py` — `ev-discovery` is an *agent skill*
+  (`.claude/skills/ev-discovery/`), not a `gaia` CLI verb. Needs a proper
+  investigation into what the correct instruction should be (invoke the skill?
+  a different real command?) before rewriting — don't guess at a replacement.
+- Also noticed but unverified: the packet JSON template in Step 5 uses
+  `schemaVersion` and a string `"decision": "MAP"`, while the packet
+  `gaia dev prefill` actually emits (`prefill.py` `buildPrefillPacket()`) uses
+  `contractVersion` and an object `"decision": {"value": ..., "reasonCode": ...}`.
+  Could be two valid packet shapes (hand-authored vs. tool-generated) or could be
+  more drift — check `scripts/validate_discovery_packet.py`'s accepted schema
+  before touching Step 5.
+
+---
+
 ## 2026-08-15 — Editor pass (week of routine 026–029, PR #1528)
 
 **Branch:** `docs/routines/026` (PR #1528, ships this pass — squash-merge closes the week)

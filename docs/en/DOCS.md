@@ -19,18 +19,18 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done — aligned core concepts to Yggdrasil II Type and Branch taxonomy, removed stale (coming soon) markers from next steps 042 | 001, 017, 018, 025, 042 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done — documented missing mutating dev verbs (`dev rm-evidence`, `dev rm`, `dev link`, `dev reclassify`, `dev update-named`, `dev build`) 039; documented `gaia steward` suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) 040; documented `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, `gaia dev arbor` 041 | 002, 017, 018, 025, 034, 039, 040, 041 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
-| 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
-| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
+| 5 | `contributing.html` | Contributing | ✅ Done — (`--build`/`--no-build` batch-tip callout fixed 036; modernized dev evidence and dev calibrate CLI examples 043) | 003, 017, 018, 025, 036, 043 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done — cleaned up redundant `--no-build` flags and removed dead `generateNamedIndex.py` script reference in step-by-step example 038 | 003, 017, 018, 025, 038 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done — fixed two `--no-build` callouts 035; cleaned up Verifier-tier wording 043 | 004, 017, 018, 025, 035, 043 |
 | 8 | `fusion.html` | Skill Fusion | ✅ Done — Type/Branch model throughout, incl. `gaia fuse`/propose code samples now schema-accurate (`prerequisites`/`combinedFrom`, Type `fusion`) (editor pass closes #1479) | 004, 017, 018, 025, 029, editor-026wk |
 | 9 | `mcp-server.html` | MCP Server | ✅ Done — tool list matches the live v0.4.0 surface (`gaia_search`/`gaia_inspect`/`summon`/`gaia_status`); #1478 closed | 005, 017, 018, 025 |
-| 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026) | 005, 017, 018, 025, 026 |
-| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |
+| 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026; refined evidence class vs grade vocabulary 042) | 005, 017, 018, 025, 026, 042 |
+| 11 | `share-bundles.html` | Share Bundles | ✅ Done — aligned manifest table type description to Yggdrasil II taxonomy 038 | 006, 018, 025, 038 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 025) | 008, 018, 025 |
-| 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Done | — |
+| 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Done — Step 3 `gaia dev prefill` invocation fixed 030; cheat-sheet `prefill` line and Phase 0 `ev-discovery`'s fictional `gaia dev discover` command fixed 031; Step 5 packet template (`schemaVersion`→`contractVersion`, string→object `decision`) and all three `validate_discovery_packet.py` paths fixed 032; Step 5's fetched/parsed callout corrected to say it's a by-design worker attestation, not a CLI gap, with concrete field guidance 033; Phase 5's redundant `--no-build` flag dropped from example commands, intro line rewritten to explain the opt-in-since-v7.4.19 `--build` default 037 | 030, 031, 032, 033, 037 |
 
 ---
 

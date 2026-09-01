@@ -534,7 +534,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Manual Curation Pipeline</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.6.2</span>
+    <span class="nav-version">v7.7.2</span>
   </nav>
 
   <div class="page-layout">
@@ -667,11 +667,17 @@
         <h3>Step 3 — Run prefill against the SKILL.md URL</h3>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">gaia</span> dev prefill \
-  <span class="arg">--source</span> <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
-  <span class="arg">--output</span> /tmp/prefill-output.json
+          <pre><span class="cmd">gaia</span> dev prefill <span class="arg">contributor/skill-name</span> \
+  <span class="arg">--name</span> <span class="str">"Skill Name"</span> \
+  <span class="arg">--description</span> <span class="str">"Verbatim from SKILL.md frontmatter"</span> \
+  <span class="arg">--url</span> <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="arg">--stdout</span> > /tmp/prefill-output.json
 
 <span class="cmd">cat</span> /tmp/prefill-output.json | python3 -m json.tool | head -80</pre>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">ℹ</span>
+          <p>Drop <code>--stdout</code> and <code>gaia dev prefill</code> writes the packet straight to <code>registry-for-review/discovery-packets/&lt;candidate-id-slug&gt;.json</code> — there is no <code>--output</code> flag.</p>
         </div>
 
         <h3>Step 4 — Apply the 6-rule mapping decision</h3>
@@ -692,26 +698,29 @@
         </div>
 
         <h3>Step 5 — Write and validate the discovery-packet-v2</h3>
-        <p>Create the packet at <code>registry-for-review/discovery-packets/owner--skill-name.json</code>. Key fields:</p>
+        <p>Update the packet at <code>registry-for-review/discovery-packets/owner--skill-name.json</code> with your Step 4 decision. Key fields (matching what <code>validate_discovery_packet.py</code> actually checks — <code>decision</code> is an object, not a string, and the top-level field is <code>contractVersion</code>, not <code>schemaVersion</code>):</p>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">json — minimum required fields</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre>{
-  <span class="str">"schemaVersion"</span>: <span class="str">"discovery-packet-v2"</span>,
-  <span class="str">"source"</span>: { <span class="str">"url"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"canonicalUrl"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"lane"</span>: <span class="str">"github-skill-file"</span> },
+  <span class="str">"contractVersion"</span>: <span class="str">"discovery-packet-v2"</span>,
+  <span class="str">"candidateId"</span>: <span class="pl">"owner/skill-name"</span>,
+  <span class="str">"source"</span>: { <span class="str">"canonicalUrl"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"sourceLane"</span>: <span class="str">"source-repository"</span> },
   <span class="str">"normalized"</span>: { <span class="str">"name"</span>: <span class="pl">"verbatim from frontmatter"</span>, <span class="str">"description"</span>: <span class="pl">"verbatim"</span> },
-  <span class="str">"contentSha256"</span>: <span class="pl">"&lt;sha256 of SKILL.md content&gt;"</span>,
-  <span class="str">"exactDedupe"</span>: null,
-  <span class="str">"mappingOptions"</span>: [ <span class="c">/* copy from prefill-output.json */</span> ],
-  <span class="str">"decision"</span>: <span class="str">"MAP"</span>,
-  <span class="str">"reasonCode"</span>: <span class="str">"MAP_EXISTING_GENERIC"</span>,
-  <span class="str">"selectedGenericId"</span>: <span class="pl">"&lt;id from strong option&gt;"</span>,
-  <span class="str">"genericSnapshot"</span>: { <span class="str">"command"</span>: <span class="str">"gaia dev list --generic --json"</span>, <span class="str">"contentSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"generics"</span>: [ <span class="c">/* snapshot contents */</span> ] },
-  <span class="str">"lifecycle"</span>: <span class="str">"review-ready"</span>
+  <span class="str">"exactDedupe"</span>: { <span class="str">"matched"</span>: false },
+  <span class="str">"mappingOptions"</span>: [ <span class="c">/* copy from prefill-output.json — each needs genericId, rationale, similarity, matchTier */</span> ],
+  <span class="str">"decision"</span>: { <span class="str">"value"</span>: <span class="str">"MAP"</span>, <span class="str">"reasonCode"</span>: <span class="str">"MAP_EXISTING_GENERIC"</span>, <span class="str">"genericId"</span>: <span class="pl">"&lt;id from strong option&gt;"</span> },
+  <span class="str">"flags"</span>: [ <span class="c">/* copy from prefill-output.json */</span> ],
+  <span class="str">"genericSnapshot"</span>: { <span class="str">"capturedAt"</span>: <span class="pl">"&lt;ISO timestamp&gt;"</span>, <span class="str">"command"</span>: <span class="str">"gaia dev list --generic --json"</span>, <span class="str">"contentSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"mappingOptionsSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"generics"</span>: [ <span class="c">/* snapshot contents */</span> ] },
+  <span class="str">"lifecycle"</span>: [ <span class="str">"discovered"</span>, <span class="str">"fetched"</span>, <span class="str">"parsed"</span>, <span class="str">"normalized"</span>, <span class="str">"deduped"</span>, <span class="str">"mapped"</span>, <span class="str">"review-ready"</span> ]
 }</pre>
+        </div>
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>The <code>"review-ready"</code> lifecycle end state requires the full six-stage prefix shown above. <code>gaia dev prefill</code> (Step 3) only ever emits <code>["discovered", "deferred"]</code> — that's by design, not a gap: prefill just ranks mapping options, it never fetches or reads anything. Advancing to <code>"fetched"</code> and <code>"parsed"</code> is on you, the curator who actually opened the URL. Add <code>source.hostRepository</code> (the repo URL), <code>source.fetchedAt</code> (an ISO timestamp for when you fetched it), and <code>source.contentSha256</code> (a SHA-256 of the raw SKILL.md text — <code>sha256sum &lt;file&gt;</code> or <code>shasum -a 256 &lt;file&gt;</code>) for <code>"fetched"</code>; add <code>source.frontmatter.name</code> and <code>source.frontmatter.description</code> — the same verbatim values you already passed to Step 3's <code>--name</code>/<code>--description</code> — for <code>"parsed"</code>. Run the validator after every edit rather than guessing.</p>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — validate</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
+          <pre><span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json
 
@@ -754,7 +763,7 @@
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — re-validate after appending</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
+          <pre><span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json</pre>
         </div>
@@ -816,18 +825,11 @@
 
         <h3>Phase 0 — ev-discovery (skippable)</h3>
         <p>The only phase that searches the web for new evidence. Skip for routine Stage-1 intakes. Run when you need <code>benchmark-result</code>, <code>arxiv</code>, <code>peer-review</code>, or richer <code>social-signal</code> rows.</p>
-        <div class="callout info">
-          <span class="callout-icon">ℹ</span>
-          <p>Requires <code>FIRECRAWL_API_KEY</code>. Skip gracefully if absent.</p>
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>No <code>gaia</code> CLI command runs this phase — there is no <code>gaia dev discover</code>. Trigger the <code>ev-discovery</code> agent skill directly (<code>/ev-discovery</code> in Claude Code), naming the skill id, source repo, and evidence types needed. It requires <code>FIRECRAWL_API_KEY</code> and skips gracefully if absent. This is the one phase on this page that needs an AI agent — every other phase is a plain command.</p>
         </div>
-        <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">gaia</span> dev discover \
-  <span class="arg">--skill</span> contributor/skill-id \
-  <span class="arg">--repo</span> <span class="str">"https://github.com/owner/repo"</span> \
-  <span class="arg">--types</span> benchmark-result,arxiv,peer-review,social-signal \
-  <span class="arg">--output</span> evidence/discovery/contributor--skill-id.md</pre>
-        </div>
+        <p>Discovered rows get appended to <code>evidence/by-type/&lt;type&gt;.md</code> under the same source-input format Phase 1 already reads — see Phase 1 below.</p>
 
         <h3>Phase 1 — ev-collection</h3>
         <div class="callout stop">
@@ -884,7 +886,7 @@
           <h2>gaia-ingest <small>— Write evidence to the named skill</small></h2>
         </div>
 
-        <p>First time mutating <code>registry/</code>. Every row uses <code>--no-build</code>. One build at the end. You approve calibration before it runs.</p>
+        <p>First time mutating <code>registry/</code>. Docs rebuild is skipped by default — no flag needed. Run <code>gaia dev build</code> once after all rows, or pass <code>--build</code> on a single row instead. You approve calibration before it runs.</p>
 
         <h3>Ingest each approved evidence row</h3>
         <div class="code-fence">
@@ -893,7 +895,7 @@
   <span class="str">"https://github.com/owner/repo"</span> \
   <span class="arg">--type</span> repo-own <span class="arg">--commits</span> 847 <span class="arg">--contributors</span> 12 \
   <span class="arg">--notes</span> <span class="str">"Official upstream repo. Counts verified via GitHub API."</span> \
-  <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
+  <span class="arg">--source-started-at</span> 2024-03-01</pre>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — github-stars-own</span><span class="code-fence-copy-status">click to copy</span></div>
@@ -901,7 +903,7 @@
   <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
   <span class="arg">--type</span> github-stars-own <span class="arg">--stars</span> 3421 <span class="arg">--skill-count-in-repo</span> 1 \
   <span class="arg">--notes</span> <span class="str">"Official SKILL.md. Star count verified live via gh api."</span> \
-  <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
+  <span class="arg">--source-started-at</span> 2024-03-01</pre>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — build + appraise + calibrate</span><span class="code-fence-copy-status">click to copy</span></div>
@@ -993,9 +995,9 @@
           <div class="code-fence-header"><span class="code-fence-label">bash — full pipeline sequence</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># ── Phase 1: Curate ──────────────────────────────────────────</span>
 <span class="cmd">gaia</span> dev list <span class="arg">--generic --json</span> <span class="str">&gt; /tmp/generic-snapshot.json</span>
-<span class="cmd">gaia</span> dev prefill <span class="arg">--source</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--output</span> /tmp/prefill-output.json
+<span class="cmd">gaia</span> dev prefill <span class="arg">contributor/skill-name --name</span> <span class="str">"Skill Name"</span> <span class="arg">--description</span> <span class="str">"..."</span> <span class="arg">--url</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--stdout</span> > /tmp/prefill-output.json
 <span class="c"># ... write packet JSON ...</span>
-<span class="cmd">python3</span> scripts/validate_discovery_packet.py <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json <span class="pl">&lt;packet&gt;</span>.json
+<span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json <span class="pl">&lt;packet&gt;</span>.json
 
 <span class="c"># ── Phase 2: L4 ──────────────────────────────────────────────</span>
 <span class="c"># Append l4Resolution to packet, re-validate</span>
@@ -1010,8 +1012,8 @@
 <span class="cmd">gh</span> issue edit <span class="pl">&lt;ISSUE&gt;</span> <span class="arg">--add-label</span> <span class="str">"intake:evidence-approved"</span>   <span class="c"># maintainer only, after evidence-ready</span>
 
 <span class="c"># ── Phase 4: ev-pipeline ─────────────────────────────────────</span>
-<span class="c"># Phase 0 (skippable)</span>
-<span class="cmd">gaia</span> dev discover <span class="arg">--skill</span> contributor/skill <span class="arg">--repo</span> <span class="str">"&lt;url&gt;"</span> <span class="arg">--types</span> arxiv,peer-review,social-signal
+<span class="c"># Phase 0 (skippable, no CLI equivalent — run the ev-discovery agent skill instead)</span>
+<span class="c"># /ev-discovery contributor/skill "&lt;repo-url&gt;" arxiv,peer-review,social-signal</span>
 <span class="c"># Phase 1 (whole-registry lake rebuild)</span>
 <span class="cmd">python3</span> evidence/scripts/generate_source_dump.py <span class="arg">--output-dir</span> evidence <span class="arg">--by-type-dir</span> evidence/by-type
 <span class="cmd">python3</span> evidence/scripts/compile_data_lake.py <span class="arg">--sources</span> evidence/by-type <span class="arg">--lake</span> evidence
@@ -1021,7 +1023,7 @@
 
 <span class="c"># ── Phase 5: gaia-ingest ─────────────────────────────────────</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev evidence contributor/skill <span class="str">"&lt;url&gt;"</span> \
-  <span class="arg">--type</span> repo-own <span class="arg">--commits</span> N <span class="arg">--contributors</span> N <span class="arg">--notes</span> <span class="str">"..."</span> <span class="arg">--source-started-at</span> YYYY-MM-DD <span class="arg">--no-build</span>
+  <span class="arg">--type</span> repo-own <span class="arg">--commits</span> N <span class="arg">--contributors</span> N <span class="arg">--notes</span> <span class="str">"..."</span> <span class="arg">--source-started-at</span> YYYY-MM-DD
 <span class="c"># ... repeat for each evidence type ...</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev build
 <span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> scripts/trust_appraise.py <span class="arg">--skill</span> contributor/skill

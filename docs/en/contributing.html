@@ -490,7 +490,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Contributing</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.6.2</span>
+    <span class="nav-version">v7.7.2</span>
   </nav>
 
   <!-- Layout -->
@@ -638,12 +638,12 @@ gaia dev merge target-id source-id-1 source-id-2
 <span class="c"># Split a skill into two</span>
 gaia dev split source-id target-id-1 target-id-2
 
-<span class="c"># Add evidence</span>
+<span class="c"># Add evidence (type and trust score)</span>
 gaia dev evidence skill-id "https://github.com/owner/repo/blob/main/SKILL.md" \
-  --class B --notes "Reproducible demo"
+  --type repo-own --trust 50 --notes "Reproducible demo"
 
-<span class="c"># Calibrate stars</span>
-gaia dev calibrate skill-id "3★"
+<span class="c"># Calibrate stars (1★–6★)</span>
+gaia dev calibrate contributor/skill-id 3
 
 <span class="c"># Link prerequisites</span>
 gaia dev link target-id prereq-id-1,prereq-id-2
@@ -653,7 +653,7 @@ gaia dev validate</pre>
         </div>
 
         <div class="callout tip">
-          <strong>Batch tip:</strong> Most <code>gaia dev</code> commands accept <code>--no-build</code>. Use this during batch operations to skip expensive documentation/graph regeneration on every step — run <code>gaia dev build</code> once at the end.
+          <strong>Batch tip:</strong> Most <code>gaia dev</code> commands skip documentation/graph regeneration by default — <code>--no-build</code> is a no-op alias for that default. During batch operations, just let each step run without a rebuild, then pass <code>--build</code> on the last step (or run <code>gaia dev build</code> once at the end) to regenerate.
         </div>
 
         <h3>Authorization paths</h3>

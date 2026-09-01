@@ -518,7 +518,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Getting Started</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.6.2</span>
+    <span class="nav-version">v7.7.2</span>
   </nav>
 
   <div class="page-layout">
@@ -644,7 +644,7 @@
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
           <pre><span class="cmd">gaia --version</span>
-<span class="c"># gaia 7.4.2</span></pre>
+<span class="c"># gaia 7.7.2</span></pre>
         </div>
 
         <div class="callout info" style="margin-top:0.85rem;">
@@ -786,8 +786,7 @@
         </div>
 
         <p>The graph renders the dependency DAG: nodes are skills, edges are prerequisite
-        relationships, and tier color (sky-blue / purple / deep-violet / amber) distinguishes
-        Basic / Extra / Unique / Ultimate.</p>
+        relationships, and node coloring reflects structural type and star maturity.</p>
 
         <!-- ────────────── PUSH ────────────── -->
         <h2 id="push">Submit for intake</h2>
@@ -811,54 +810,51 @@
           <span class="callout-icon">⚠</span>
           <p>
             <strong>Always dry-run first.</strong> <code>gaia push</code> opens a public GitHub
-            issue. The <code>--dry-run</code> flag lets you preview the batch JSON without
+            issue. The <code>--dry-run</code> flag lets you preview the batch YAML/JSON without
             creating the issue.
           </p>
         </div>
 
         <p>Once submitted, maintainers review each proposed skill using the
         <strong>Reviewer Checklist</strong> in the issue body.
-        Accepted skills are promoted into <code>registry/gaia.json</code> in a separate
+        Accepted skills are promoted into <code>registry/nodes/</code> in a separate
         <code>review/meta/…</code> PR.</p>
 
         <!-- ────────────── CONCEPTS ────────────── -->
         <h2 id="concepts">Core concepts</h2>
 
-        <h3>The four tiers</h3>
+        <h3>Type &amp; Branch taxonomy</h3>
 
-        <p>Every skill in the registry belongs to exactly one tier:</p>
+        <p>As of Yggdrasil II, the old four-tier model is replaced by two separate axes:</p>
 
+        <p><strong>Type</strong> describes a starless generic skill's structure:</p>
         <table class="tier-table">
           <thead>
             <tr>
-              <th>Tier</th>
-              <th>Symbol</th>
+              <th>Type</th>
+              <th>Prerequisites</th>
               <th>Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><span class="tier-pill basic">○ Basic</span></td>
-              <td>○</td>
+              <td>0</td>
               <td>A primitive, indivisible capability — the genome of every agent.</td>
             </tr>
             <tr>
-              <td><span class="tier-pill extra">◇ Extra</span></td>
-              <td>◇</td>
-              <td>Emerges when two or more lower-tier skills fuse.</td>
-            </tr>
-            <tr>
-              <td><span class="tier-pill unique">◉ Unique</span></td>
-              <td>◉</td>
-              <td>A Basic Skill that reached elite mastery with no fusion path forward.</td>
-            </tr>
-            <tr>
-              <td><span class="tier-pill ultimate">◆ Ultimate</span></td>
-              <td>◆</td>
-              <td>High-complexity emergent capability found in fewer than 1% of agents.</td>
+              <td><span class="tier-pill extra">◇ Fusion</span></td>
+              <td>&ge; 1</td>
+              <td>Emerges when one or more prerequisite skills combine into a higher-order workflow.</td>
             </tr>
           </tbody>
         </table>
+
+        <p style="margin-top:1.25rem;"><strong>Branch</strong> describes a Named Skill's progression path at 4★ and up:</p>
+        <ul>
+          <li><strong>Unique branch:</strong> Solo mastery (no <code>suiteComponents</code>). Ranks: <em>Unique</em> (4★), <em>Unique Ultimate</em> (5★), <em>Unique Impossible</em> (6★).</li>
+          <li><strong>Suite branch:</strong> Component suites (carries <code>suiteComponents</code>). Ranks: <em>Extra</em> (4★), <em>Ultimate</em> (5★), <em>Apex</em> (6★).</li>
+        </ul>
 
         <h3>Stars (maturity)</h3>
 
@@ -881,8 +877,8 @@
         <div class="callout info">
           <span class="callout-icon">ℹ</span>
           <p>
-            <strong>Tier ≠ Stars.</strong> Tier is the <em>taxonomy</em> (Basic / Extra / Unique / Ultimate).
-            Stars are the <em>maturity level</em>. A Basic Skill can reach 6★; an Ultimate starts at 0★.
+            <strong>Type/Branch ≠ Stars.</strong> Type is the structural graph taxonomy (Basic vs Fusion).
+            Stars are the <em>maturity level</em> (0★ to 6★). A Basic Skill can reach 6★; a Fusion skill starts at 0★.
             Never use "tier" to mean "star level."
           </p>
         </div>
@@ -980,9 +976,9 @@
         <h2 id="whats-next">What's next</h2>
 
         <ul>
-          <li>Learn the <a href="skill-hierarchy.html">full tier and fusion system</a> (coming soon)</li>
-          <li>Read the complete <a href="cli-reference.html">CLI reference</a> (coming soon)</li>
-          <li>Understand <a href="evidence-classes.html">evidence classes</a> before submitting a PR (coming soon)</li>
+          <li>Learn the <a href="skill-hierarchy.html">Type, Branch, and Stars taxonomy</a> and fusion rules</li>
+          <li>Read the complete <a href="cli-reference.html">CLI reference</a> for all commands and flags</li>
+          <li>Understand <a href="evidence-classes.html">evidence types, trust magnitude, and promotion gates</a></li>
           <li>See <a href="../index.html">the Atlas</a> to explore what skills are already claimed</li>
         </ul>
 
