@@ -101,6 +101,10 @@ def _slim_projection(entry: dict) -> dict:
         "level": entry.get("level", ""),
         "trustMagnitude": entry.get("trustMagnitude", 0),
         "overallTrustGrade": entry.get("overallTrustGrade"),
+        # Yggdrasil III structural reading. A computed projection, never stored
+        # in registry source, and never a trust signal: it neither feeds nor
+        # reads Trust Magnitude, Trust Grade, or rank.
+        "fusionScore": entry.get("fusionScore", 0),
         "contributor": entry.get("contributor", contributor),
         "type": entry.get("type", "basic"),
         # Resolved taxonomy passthrough (Yggdrasil II authority) — additive.
@@ -153,7 +157,12 @@ def _full_projection(entry: dict) -> dict:
     }
 
     # Optional fields — include only when present
-    for key in ("title", "genericSkillRef", "origin", "description", "tags",
+    # Structural lane (Yggdrasil III). `fusionScore` is always present on the
+    # full record; the version stamp and breakdown ride along so a consumer can
+    # tell whether two scores were produced by the same formula.
+    result["fusionScore"] = entry.get("fusionScore", 0)
+    for key in ("fusionScoreVersion", "fusionBreakdown",
+                "title", "genericSkillRef", "origin", "description", "tags",
                 "apexGateStatus", "evidence", "timeline", "links"):
         if key in entry:
             result[key] = entry[key]

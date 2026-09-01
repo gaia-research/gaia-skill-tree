@@ -251,6 +251,7 @@
           "level": { "type": "string", "description": "Star level label (e.g. '5★')", "example": "5★" },
           "trustMagnitude": { "type": "number", "format": "float", "description": "Computed Trust Magnitude score", "example": 589.32 },
           "overallTrustGrade": { "type": "string", "enum": ["S", "A", "B", "C", "D", "F"], "description": "Letter grade derived from Trust Magnitude", "example": "S" },
+          "fusionScore": { "type": "number", "format": "float", "description": "Computed STRUCTURAL projection (Yggdrasil III): how much distinct capability this skill composes, derived from canonical prerequisites, suite components, and origin structure. Independent of `trustMagnitude` and `overallTrustGrade` in both directions — it is not evidence, not a trust signal, and gates no rank or star. Never stored in registry source; recomputed at build time. Note for clients written against Yggdrasil II: structure that used to be scored inside `trustMagnitude` is reported here instead, which is why published `trustMagnitude` values fell for suites and fusions without any change to evidence, stars, or rank.", "example": 392.87 },
           "contributor": { "type": "string", "description": "GitHub handle of the skill contributor", "example": "garrytan" },
           "type": { "type": "string", "enum": ["basic", "extra", "unique", "ultimate"], "description": "Skill tier", "example": "ultimate" },
           "genericSkillRef": { "type": "string", "description": "ID of the canonical generic skill this named skill implements. Omitted when absent. Carried in list responses so clients never fan out to per-skill detail files just to read it.", "example": "founder-mode-orchestration" },
@@ -339,7 +340,19 @@
             "description": "Full evidence chain backing this skill's trust grade"
           },
           "apexGateStatus": { "$ref": "#/components/schemas/ApexGateStatus" },
+          "fusionScoreVersion": { "type": "string", "description": "Identifier of the Fusion Score formula that produced `fusionScore`. A formula identifier, NOT a package version: two scores are comparable only when this string matches.", "example": "yggdrasil-iii-v1" },
+          "fusionBreakdown": { "$ref": "#/components/schemas/FusionBreakdown" },
           "_links": { "$ref": "#/components/schemas/SkillLinks" }
+        }
+      },
+      "FusionBreakdown": {
+        "type": "object",
+        "description": "Inspectable counts behind `fusionScore`. Purely structural — no Evidence Grade, Trust Grade, Trust Magnitude, star count, rank, or source freshness is read to produce any of these numbers.",
+        "properties": {
+          "directCount": { "type": "integer", "description": "Distinct depth-1 structural edges (prerequisites + suite components + fallback origins, deduplicated, `role: variant` excluded)", "example": 77 },
+          "transitiveCount": { "type": "integer", "description": "Distinct non-variant nodes in the full resolved closure, excluding the skill itself. This is the N the Fusion Score curve is applied to.", "example": 103 },
+          "maxDepth": { "type": "integer", "description": "Deepest level reached by the traversal; 0 when the skill composes no structure", "example": 3 },
+          "nestedSuiteCount": { "type": "integer", "description": "Nodes in the closure that themselves declare `suiteComponents`", "example": 1 }
         }
       },
       "ContributorSummary": {

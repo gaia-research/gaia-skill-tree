@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/obra.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 140.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 7,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
   "title": "The Preemptive Review",
   "genericSkillRef": "requesting-code-review",
   "origin": true,

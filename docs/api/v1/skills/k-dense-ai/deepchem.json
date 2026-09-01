@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/k-dense-ai.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 220.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 11,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
   "title": "DeepChem",
   "genericSkillRef": "molecular-machine-learning",
   "origin": false,
