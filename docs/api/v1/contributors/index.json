@@ -6,9 +6,9 @@
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
-        "trustMagnitude": 592.99
+        "trustMagnitude": 594.27
       },
-      "prestigeScore": 3058.89,
+      "prestigeScore": 3080.49,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -19,9 +19,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 528.95
+        "trustMagnitude": 529.4
       },
-      "prestigeScore": 2978.88,
+      "prestigeScore": 2981.58,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -32,9 +32,9 @@
       "topSkill": {
         "id": "ruvnet/ruflo",
         "level": "5★",
-        "trustMagnitude": 487.45
+        "trustMagnitude": 488.28
       },
-      "prestigeScore": 2200.65,
+      "prestigeScore": 2202.32,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -58,9 +58,9 @@
       "topSkill": {
         "id": "addy-osmani/agent-skills",
         "level": "5★",
-        "trustMagnitude": 296.3
+        "trustMagnitude": 298.83
       },
-      "prestigeScore": 1056.29,
+      "prestigeScore": 1084.14,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
       }
@@ -71,9 +71,9 @@
       "topSkill": {
         "id": "k-dense-ai/pymc",
         "level": "4★",
-        "trustMagnitude": 146.07
+        "trustMagnitude": 148.3
       },
-      "prestigeScore": 906.66,
+      "prestigeScore": 928.96,
       "_links": {
         "self": "/api/v1/contributors/k-dense-ai.json"
       }
@@ -84,9 +84,9 @@
       "topSkill": {
         "id": "firecrawl/firecrawl-skills",
         "level": "4★",
-        "trustMagnitude": 225.7
+        "trustMagnitude": 229.76
       },
-      "prestigeScore": 772.46,
+      "prestigeScore": 796.82,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
@@ -97,9 +97,9 @@
       "topSkill": {
         "id": "gsd-build/get-shit-done",
         "level": "4★",
-        "trustMagnitude": 202.2
+        "trustMagnitude": 202.15
       },
-      "prestigeScore": 463.2,
+      "prestigeScore": 462.9,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
       }
@@ -149,9 +149,9 @@
       "topSkill": {
         "id": "nextlevelbuilder/ui-ux-pro-max",
         "level": "4★",
-        "trustMagnitude": 195.51
+        "trustMagnitude": 206.97
       },
-      "prestigeScore": 195.51,
+      "prestigeScore": 206.97,
       "_links": {
         "self": "/api/v1/contributors/nextlevelbuilder.json"
       }
@@ -175,9 +175,9 @@
       "topSkill": {
         "id": "safishamsi/graphify",
         "level": "4★",
-        "trustMagnitude": 147.68
+        "trustMagnitude": 160.99
       },
-      "prestigeScore": 147.68,
+      "prestigeScore": 160.99,
       "_links": {
         "self": "/api/v1/contributors/safishamsi.json"
       }
@@ -188,9 +188,9 @@
       "topSkill": {
         "id": "pbakaus/impeccable",
         "level": "4★",
-        "trustMagnitude": 138.25
+        "trustMagnitude": 149.32
       },
-      "prestigeScore": 138.25,
+      "prestigeScore": 149.32,
       "_links": {
         "self": "/api/v1/contributors/pbakaus.json"
       }
@@ -201,9 +201,9 @@
       "topSkill": {
         "id": "mvanhorn/last30days",
         "level": "4★",
-        "trustMagnitude": 129.1
+        "trustMagnitude": 133.55
       },
-      "prestigeScore": 129.1,
+      "prestigeScore": 133.55,
       "_links": {
         "self": "/api/v1/contributors/mvanhorn.json"
       }
@@ -227,9 +227,9 @@
       "topSkill": {
         "id": "anthropics/brand-guidelines",
         "level": "3★",
-        "trustMagnitude": 77.35
+        "trustMagnitude": 79.23
       },
-      "prestigeScore": 120.87,
+      "prestigeScore": 122.75,
       "_links": {
         "self": "/api/v1/contributors/anthropics.json"
       }
@@ -240,9 +240,9 @@
       "topSkill": {
         "id": "dietrichgebert/ponytail",
         "level": "4★",
-        "trustMagnitude": 102.49
+        "trustMagnitude": 109.09
       },
-      "prestigeScore": 102.49,
+      "prestigeScore": 109.09,
       "_links": {
         "self": "/api/v1/contributors/dietrichgebert.json"
       }
@@ -331,9 +331,9 @@
       "topSkill": {
         "id": "vercel-labs/vercel-react-best-practices",
         "level": "3★",
-        "trustMagnitude": 50.48
+        "trustMagnitude": 50.84
       },
-      "prestigeScore": 50.48,
+      "prestigeScore": 50.84,
       "_links": {
         "self": "/api/v1/contributors/vercel-labs.json"
       }

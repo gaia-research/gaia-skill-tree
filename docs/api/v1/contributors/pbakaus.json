@@ -5,7 +5,7 @@
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "4★",
-      "trustMagnitude": 138.25,
+      "trustMagnitude": 149.32,
       "overallTrustGrade": "A",
       "contributor": "pbakaus",
       "type": "basic",
@@ -22,9 +22,9 @@
   "topSkill": {
     "id": "pbakaus/impeccable",
     "level": "4★",
-    "trustMagnitude": 138.25
+    "trustMagnitude": 149.32
   },
-  "prestigeScore": 138.25,
+  "prestigeScore": 149.32,
   "gradeDistribution": {
     "A": 1
   },

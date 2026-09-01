@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 56.3,
+  "trustMagnitude": 58.83,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -32,11 +32,11 @@
   "evidence": [
     {
       "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md",
-      "updatedAt": "2026-08-01",
+      "updatedAt": "2026-09-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 81189,
+      "stars": 91329,
       "skillCountInRepo": 7
     },
     {

@@ -1,20 +1,20 @@
 {
-  "version": "7.11.1",
-  "generatedAt": "2026-08-25T12:07:01Z",
+  "version": "7.11.2",
+  "generatedAt": "2026-09-01T15:47:41Z",
   "summary": {
     "total": 252,
     "S": 5,
     "A": 65,
-    "B": 68,
-    "C": 100,
+    "B": 70,
+    "C": 98,
     "ungraded": 14,
     "floor": 0,
-    "up": 31
+    "up": 33
   },
   "rows": [
     {
       "skillId": "garrytan/gstack",
-      "tm": 592.99,
+      "tm": 594.27,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "5★",
@@ -33,7 +33,7 @@
       },
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 31.4,
+        "github-stars-own": 32.67,
         "social-signal": 45.59,
         "fusion-recipe": 480.0
       },
@@ -42,7 +42,7 @@
     },
     {
       "skillId": "mattpocock/skills",
-      "tm": 528.95,
+      "tm": 529.4,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
@@ -60,7 +60,7 @@
         "systemWideCap": null
       },
       "typeBreakdown": {
-        "github-stars-own": 49.55,
+        "github-stars-own": 50.0,
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
@@ -71,7 +71,7 @@
     },
     {
       "skillId": "ruvnet/ruflo",
-      "tm": 483.96,
+      "tm": 484.8,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
@@ -90,7 +90,7 @@
       },
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 16.68,
+        "github-stars-own": 17.52,
         "arxiv": 4.0,
         "fusion-recipe": 427.28
       },
@@ -143,7 +143,7 @@
     },
     {
       "skillId": "addy-osmani/agent-skills",
-      "tm": 296.3,
+      "tm": 298.83,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "5★",
@@ -161,7 +161,7 @@
         "systemWideCap": null
       },
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "github-stars-own": 22.83,
         "repo-own": 36.0,
         "fusion-recipe": 240.0
       },
@@ -170,7 +170,7 @@
     },
     {
       "skillId": "firecrawl/firecrawl-skills",
-      "tm": 225.7,
+      "tm": 229.76,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -180,7 +180,7 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 39.7,
+        "github-stars-own": 43.76,
         "fusion-recipe": 150.0
       },
       "origin": true,
@@ -222,8 +222,8 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/get-shit-done",
-      "tm": 202.2,
+      "skillId": "nextlevelbuilder/ui-ux-pro-max",
+      "tm": 206.97,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -232,7 +232,25 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 123.71,
+        "peer-review": 30.0,
+        "social-signal": 53.26
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "gsd-build/get-shit-done",
+      "tm": 202.15,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 16.15,
         "repo-own": 36.0,
         "fusion-recipe": 150.0
       },
@@ -259,7 +277,7 @@
     },
     {
       "skillId": "addy-osmani/code-simplification",
-      "tm": 196.3,
+      "tm": 198.83,
       "grade": "A",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -268,30 +286,12 @@
       "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "github-stars-own": 22.83,
         "repo-own": 36.0,
         "benchmark-result": 140.0
       },
       "origin": false,
       "branch": "standard"
-    },
-    {
-      "skillId": "nextlevelbuilder/ui-ux-pro-max",
-      "tm": 195.51,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 112.25,
-        "peer-review": 30.0,
-        "social-signal": 53.26
-      },
-      "origin": true,
-      "branch": "unique"
     },
     {
       "skillId": "ruvnet/ruflo-v3",
@@ -327,6 +327,24 @@
       "branch": "suite"
     },
     {
+      "skillId": "safishamsi/graphify",
+      "tm": 160.99,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "1★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 113.19,
+        "arxiv": 17.8,
+        "peer-review": 30.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "skillId": "garrytan/garrytan",
       "tm": 156.0,
       "grade": "A",
@@ -345,7 +363,7 @@
     },
     {
       "skillId": "firecrawl/firecrawl-research-index",
-      "tm": 150.32,
+      "tm": 154.38,
       "grade": "A",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -355,53 +373,15 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 39.7,
+        "github-stars-own": 43.76,
         "benchmark-result": 74.62
       },
       "origin": false,
       "branch": "standard"
     },
     {
-      "skillId": "safishamsi/graphify",
-      "tm": 147.68,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "1★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 99.88,
-        "arxiv": 17.8,
-        "peer-review": 30.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "k-dense-ai/pymc",
-      "tm": 146.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
       "skillId": "pbakaus/impeccable",
-      "tm": 138.25,
+      "tm": 149.32,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -411,7 +391,7 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 53.45,
+        "github-stars-own": 64.52,
         "arxiv": 3.8,
         "peer-review": 45.0
       },
@@ -419,8 +399,8 @@
       "branch": "unique"
     },
     {
-      "skillId": "k-dense-ai/deepchem",
-      "tm": 137.07,
+      "skillId": "k-dense-ai/pymc",
+      "tm": 148.3,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -431,34 +411,16 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
-      "skillId": "k-dense-ai/torch-geometric",
-      "tm": 137.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0
+        "github-stars-own": 10.3,
+        "arxiv": 70.0,
+        "peer-review": 9.0
       },
       "origin": false,
       "branch": "unique"
     },
     {
       "skillId": "firecrawl/firecrawl-build-scrape",
-      "tm": 135.72,
+      "tm": 139.78,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -469,14 +431,14 @@
       "typeBreakdown": {
         "social-signal": 60.02,
         "repo-own": 36.0,
-        "github-stars-own": 39.7
+        "github-stars-own": 43.76
       },
       "origin": true,
       "branch": "unique"
     },
     {
-      "skillId": "mvanhorn/last30days",
-      "tm": 129.1,
+      "skillId": "k-dense-ai/deepchem",
+      "tm": 139.3,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -485,7 +447,45 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 56.4,
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 10.3,
+        "arxiv": 70.0
+      },
+      "origin": false,
+      "branch": "unique"
+    },
+    {
+      "skillId": "k-dense-ai/torch-geometric",
+      "tm": 139.3,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 10.3,
+        "arxiv": 70.0
+      },
+      "origin": false,
+      "branch": "unique"
+    },
+    {
+      "skillId": "mvanhorn/last30days",
+      "tm": 133.55,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 60.85,
         "repo-own": 36.0,
         "social-signal": 36.7
       },
@@ -509,6 +509,23 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "addy-osmani/performance-optimization",
+      "tm": 127.33,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 91.33
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "ruvnet/dual-mode",
@@ -615,8 +632,8 @@
       "branch": "unique"
     },
     {
-      "skillId": "addy-osmani/performance-optimization",
-      "tm": 117.19,
+      "skillId": "firecrawl/firecrawl-build-search",
+      "tm": 113.38,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -625,8 +642,9 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
+        "social-signal": 33.62,
         "repo-own": 36.0,
-        "github-stars-own": 81.19
+        "github-stars-own": 43.76
       },
       "origin": true,
       "branch": "unique"
@@ -668,116 +686,8 @@
       "branch": "unique"
     },
     {
-      "skillId": "firecrawl/firecrawl-build-search",
-      "tm": 109.32,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "social-signal": 33.62,
-        "repo-own": 36.0,
-        "github-stars-own": 39.7
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "mattpocock/diagnose",
-      "tm": 105.68,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "github-stars-own": 49.55,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/edit-article",
-      "tm": 105.68,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "github-stars-own": 49.55,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/obsidian-vault",
-      "tm": 105.68,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "github-stars-own": 49.55,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/to-tickets",
-      "tm": 105.68,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "github-stars-own": 49.55,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/ubiquitous-language",
-      "tm": 105.68,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "github-stars-own": 49.55,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "dietrichgebert/ponytail",
-      "tm": 102.49,
+      "tm": 109.09,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -787,7 +697,7 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 23.21,
+        "github-stars-own": 29.81,
         "social-signal": 42.58,
         "arxiv": 0.7
       },
@@ -795,8 +705,44 @@
       "branch": "unique"
     },
     {
-      "skillId": "addy-osmani/incremental-implementation",
-      "tm": 101.3,
+      "skillId": "mattpocock/diagnose",
+      "tm": 106.13,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 50.0,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/edit-article",
+      "tm": 106.13,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 50.0,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/obsidian-vault",
+      "tm": 106.13,
       "grade": "A",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -805,7 +751,61 @@
       "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "repo-own": 11.21,
+        "github-stars-own": 50.0,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/to-tickets",
+      "tm": 106.13,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 50.0,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "tm": 106.13,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 50.0,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/incremental-implementation",
+      "tm": 103.83,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 22.83,
         "repo-own": 36.0,
         "peer-review": 45.0
       },
@@ -814,7 +814,7 @@
     },
     {
       "skillId": "addy-osmani/planning-and-task-breakdown",
-      "tm": 101.3,
+      "tm": 103.83,
       "grade": "A",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -823,7 +823,7 @@
       "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "github-stars-own": 22.83,
         "repo-own": 36.0,
         "peer-review": 45.0
       },
@@ -1289,7 +1289,7 @@
     },
     {
       "skillId": "ruvnet/hive-mind",
-      "tm": 97.7,
+      "tm": 98.54,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "4★",
@@ -1298,7 +1298,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.68,
+        "github-stars-own": 17.52,
         "repo-own": 36.0,
         "social-signal": 45.02
       },
@@ -1321,6 +1321,25 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "k-dense-ai/qiskit",
+      "tm": 95.26,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 10.3,
+        "arxiv": 43.96
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "obra/executing-plans",
@@ -1376,8 +1395,8 @@
       "branch": "standard"
     },
     {
-      "skillId": "k-dense-ai/qiskit",
-      "tm": 93.03,
+      "skillId": "addy-osmani/spec-driven-development",
+      "tm": 88.83,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -1386,10 +1405,9 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
+        "github-stars-own": 22.83,
         "repo-own": 36.0,
-        "github-stars-own": 8.07,
-        "arxiv": 43.96
+        "peer-review": 30.0
       },
       "origin": false,
       "branch": "standard"
@@ -1407,24 +1425,6 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/spec-driven-development",
-      "tm": 86.3,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0,
-        "peer-review": 30.0
       },
       "origin": false,
       "branch": "standard"
@@ -1464,8 +1464,8 @@
       "branch": "standard"
     },
     {
-      "skillId": "anthropics/brand-guidelines",
-      "tm": 77.35,
+      "skillId": "firecrawl/firecrawl-build-interact",
+      "tm": 79.76,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -1475,14 +1475,48 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 41.35
+        "github-stars-own": 43.76
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-onboarding",
+      "tm": 79.76,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 43.76
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "anthropics/brand-guidelines",
+      "tm": 79.23,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 43.23
       },
       "origin": false,
       "branch": "standard"
     },
     {
       "skillId": "k-dense-ai/scanpy",
-      "tm": 76.07,
+      "tm": 78.3,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -1493,7 +1527,7 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 8.07,
+        "github-stars-own": 10.3,
         "peer-review": 9.0
       },
       "origin": false,
@@ -1501,7 +1535,7 @@
     },
     {
       "skillId": "k-dense-ai/stable-baselines3",
-      "tm": 76.07,
+      "tm": 78.3,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -1512,7 +1546,7 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 8.07,
+        "github-stars-own": 10.3,
         "peer-review": 9.0
       },
       "origin": false,
@@ -1520,7 +1554,7 @@
     },
     {
       "skillId": "k-dense-ai/transformers",
-      "tm": 76.07,
+      "tm": 78.3,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -1531,44 +1565,10 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 8.07,
+        "github-stars-own": 10.3,
         "peer-review": 9.0
       },
       "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-interact",
-      "tm": 75.7,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 39.7
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-onboarding",
-      "tm": 75.7,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 39.7
-      },
-      "origin": true,
       "branch": "standard"
     },
     {
@@ -1776,280 +1776,8 @@
       "branch": "unique"
     },
     {
-      "skillId": "garrytan/benchmark",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/canary",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/cso",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/design-consultation",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/design-html",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/design-shotgun",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/document-generate",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/investigate",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/land-and-deploy",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/plan-ceo-review",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/plan-design-review",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/plan-devex-review",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/qa",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/review",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/ship",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/skillify",
-      "tm": 67.4,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "k-dense-ai/pytorch-lightning",
-      "tm": 67.07,
+      "tm": 69.3,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2060,7 +1788,279 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 8.07
+        "github-stars-own": 10.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/canary",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/cso",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/design-consultation",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/design-html",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/design-shotgun",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/document-generate",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/investigate",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/land-and-deploy",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/plan-ceo-review",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/plan-design-review",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/plan-devex-review",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/qa",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/review",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/ship",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/skillify",
+      "tm": 68.67,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 32.67
       },
       "origin": false,
       "branch": "standard"
@@ -2252,7 +2252,7 @@
     },
     {
       "skillId": "addy-osmani/code-review-and-quality",
-      "tm": 56.3,
+      "tm": 58.83,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2261,7 +2261,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "github-stars-own": 22.83,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2269,7 +2269,7 @@
     },
     {
       "skillId": "addy-osmani/shipping-and-launch",
-      "tm": 56.3,
+      "tm": 58.83,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2278,7 +2278,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 20.3,
+        "github-stars-own": 22.83,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2337,7 +2337,7 @@
     },
     {
       "skillId": "gsd-build/discuss-phase",
-      "tm": 52.2,
+      "tm": 52.15,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2346,7 +2346,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 16.15,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2354,7 +2354,7 @@
     },
     {
       "skillId": "gsd-build/execute-phase",
-      "tm": 52.2,
+      "tm": 52.15,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2363,7 +2363,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 16.15,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2371,7 +2371,7 @@
     },
     {
       "skillId": "gsd-build/plan-phase",
-      "tm": 52.2,
+      "tm": 52.15,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2380,7 +2380,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 16.15,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2388,7 +2388,7 @@
     },
     {
       "skillId": "gsd-build/ship",
-      "tm": 52.2,
+      "tm": 52.15,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2397,7 +2397,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 16.15,
         "repo-own": 36.0
       },
       "origin": false,
@@ -2405,7 +2405,7 @@
     },
     {
       "skillId": "gsd-build/verify-work",
-      "tm": 52.2,
+      "tm": 52.15,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2414,15 +2414,51 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 16.2,
+        "github-stars-own": 16.15,
         "repo-own": 36.0
       },
       "origin": false,
       "branch": "standard"
     },
     {
+      "skillId": "k-dense-ai/rdkit",
+      "tm": 51.3,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 10.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/scvi-tools",
+      "tm": 51.3,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 10.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "vercel-labs/vercel-react-best-practices",
-      "tm": 50.48,
+      "tm": 50.84,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
@@ -2431,7 +2467,7 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 9.87,
+        "github-stars-own": 10.23,
         "arxiv": 0.2,
         "social-signal": 35.41,
         "self-attestation": 5.0
@@ -2453,42 +2489,6 @@
         "self-attestation": 5.0,
         "repo-own": 36.0,
         "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/rdkit",
-      "tm": 49.07,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 8.07
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/scvi-tools",
-      "tm": 49.07,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 8.07
       },
       "origin": false,
       "branch": "standard"

@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 138.25,
+  "trustMagnitude": 149.32,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -51,12 +51,12 @@
     {
       "source": "https://github.com/pbakaus/impeccable/stargazers",
       "evaluator": "mbtiongson1",
-      "updatedAt": "2026-08-01",
+      "updatedAt": "2026-09-01",
       "date": "2026-06-19",
       "type": "github-stars-own",
       "class": "A",
       "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-      "stars": 53455,
+      "stars": 64523,
       "grade": "B"
     },
     {

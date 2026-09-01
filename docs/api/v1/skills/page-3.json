@@ -1,10 +1,42 @@
 {
   "skills": [
     {
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
+      "level": "2★",
+      "trustMagnitude": 51.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
+      },
+      "genericSkillRef": "cheminformatics-analysis"
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "name": "scvi-tools",
+      "level": "2★",
+      "trustMagnitude": 51.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
+      },
+      "genericSkillRef": "single-cell-omics-modeling"
+    },
+    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "3★",
-      "trustMagnitude": 50.48,
+      "trustMagnitude": 50.84,
       "overallTrustGrade": "B",
       "contributor": "vercel-labs",
       "type": "basic",
@@ -31,38 +63,6 @@
         "self": "/api/v1/skills/mattpocock/tdd.json"
       },
       "genericSkillRef": "test-driven-development"
-    },
-    {
-      "id": "k-dense-ai/rdkit",
-      "name": "RDKit",
-      "level": "2★",
-      "trustMagnitude": 49.07,
-      "overallTrustGrade": "C",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
-      },
-      "genericSkillRef": "cheminformatics-analysis"
-    },
-    {
-      "id": "k-dense-ai/scvi-tools",
-      "name": "scvi-tools",
-      "level": "2★",
-      "trustMagnitude": 49.07,
-      "overallTrustGrade": "C",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
-      },
-      "genericSkillRef": "single-cell-omics-modeling"
     },
     {
       "id": "addy-osmani/test-driven-development",

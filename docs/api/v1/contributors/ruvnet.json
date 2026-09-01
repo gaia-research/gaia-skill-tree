@@ -5,7 +5,7 @@
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
       "level": "5★",
-      "trustMagnitude": 487.45,
+      "trustMagnitude": 488.28,
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
       "type": "fusion",
@@ -163,7 +163,7 @@
       "id": "ruvnet/hive-mind",
       "name": "Hive Mind",
       "level": "3★",
-      "trustMagnitude": 97.7,
+      "trustMagnitude": 98.54,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
@@ -576,9 +576,9 @@
   "topSkill": {
     "id": "ruvnet/ruflo",
     "level": "5★",
-    "trustMagnitude": 487.45
+    "trustMagnitude": 488.28
   },
-  "prestigeScore": 2200.65,
+  "prestigeScore": 2202.32,
   "gradeDistribution": {
     "S": 1,
     "A": 4,

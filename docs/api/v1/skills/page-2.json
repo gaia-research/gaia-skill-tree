@@ -1,20 +1,36 @@
 {
   "skills": [
     {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
+      "id": "martin-stepanoski/nielsen-heuristics-audit",
+      "name": "Nielsen Heuristics Audit",
       "level": "3★",
-      "trustMagnitude": 93.03,
+      "trustMagnitude": 94.9,
       "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
+      "contributor": "martin-stepanoski",
       "type": "basic",
       "branch": "standard",
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
       },
-      "genericSkillRef": "quantum-circuit-programming"
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "trustMagnitude": 88.83,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "garrytan/browse",
@@ -31,22 +47,6 @@
         "self": "/api/v1/skills/garrytan/browse.json"
       },
       "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "trustMagnitude": 86.3,
-      "overallTrustGrade": "B",
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "genericSkillRef": "prd-generation"
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -81,74 +81,10 @@
       "genericSkillRef": "write-report"
     },
     {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
-      "level": "3★",
-      "trustMagnitude": 77.35,
-      "overallTrustGrade": "B",
-      "contributor": "anthropics",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      },
-      "genericSkillRef": "brand-guideline-application"
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "3★",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      },
-      "genericSkillRef": "single-cell-analysis"
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "3★",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      },
-      "genericSkillRef": "reinforcement-learning-training"
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "3★",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
-      },
-      "genericSkillRef": "transformer-model-engineering"
-    },
-    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
-      "trustMagnitude": 75.7,
+      "trustMagnitude": 79.76,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
@@ -164,7 +100,7 @@
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
       "level": "3★",
-      "trustMagnitude": 75.7,
+      "trustMagnitude": 79.76,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "fusion",
@@ -175,6 +111,70 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
       "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "3★",
+      "trustMagnitude": 79.23,
+      "overallTrustGrade": "B",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "trustMagnitude": 78.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "genericSkillRef": "single-cell-analysis"
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "trustMagnitude": 78.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      },
+      "genericSkillRef": "reinforcement-learning-training"
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "trustMagnitude": 78.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      },
+      "genericSkillRef": "transformer-model-engineering"
     },
     {
       "id": "browser-use/browser-harness",
@@ -193,10 +193,26 @@
       "genericSkillRef": "browser-control"
     },
     {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
+      "trustMagnitude": 69.3,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      },
+      "genericSkillRef": "neural-training-orchestration"
+    },
+    {
       "id": "garrytan/benchmark",
       "name": "Benchmark",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -212,7 +228,7 @@
       "id": "garrytan/canary",
       "name": "Canary",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -228,7 +244,7 @@
       "id": "garrytan/cso",
       "name": "CSO",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -244,7 +260,7 @@
       "id": "garrytan/design-consultation",
       "name": "Design Consultation",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -260,7 +276,7 @@
       "id": "garrytan/design-html",
       "name": "Design HTML",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -276,7 +292,7 @@
       "id": "garrytan/design-shotgun",
       "name": "Design Shotgun",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -292,7 +308,7 @@
       "id": "garrytan/document-generate",
       "name": "Document Generate",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -308,7 +324,7 @@
       "id": "garrytan/investigate",
       "name": "Investigate",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -324,7 +340,7 @@
       "id": "garrytan/land-and-deploy",
       "name": "Land and Deploy",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -340,7 +356,7 @@
       "id": "garrytan/plan-ceo-review",
       "name": "Plan CEO Review",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -356,7 +372,7 @@
       "id": "garrytan/plan-design-review",
       "name": "Plan Design Review",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -372,7 +388,7 @@
       "id": "garrytan/plan-devex-review",
       "name": "Plan DevEx Review",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
@@ -388,7 +404,7 @@
       "id": "garrytan/qa",
       "name": "QA",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -404,7 +420,7 @@
       "id": "garrytan/review",
       "name": "Review",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -420,7 +436,7 @@
       "id": "garrytan/ship",
       "name": "Ship",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -436,7 +452,7 @@
       "id": "garrytan/skillify",
       "name": "Skillify",
       "level": "3★",
-      "trustMagnitude": 67.4,
+      "trustMagnitude": 68.67,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
@@ -447,22 +463,6 @@
         "self": "/api/v1/skills/garrytan/skillify.json"
       },
       "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
-      "level": "3★",
-      "trustMagnitude": 67.07,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      },
-      "genericSkillRef": "neural-training-orchestration"
     },
     {
       "id": "garrytan/careful",
@@ -655,7 +655,7 @@
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
-      "trustMagnitude": 56.3,
+      "trustMagnitude": 58.83,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
@@ -671,7 +671,7 @@
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
-      "trustMagnitude": 56.3,
+      "trustMagnitude": 58.83,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
@@ -735,7 +735,7 @@
       "id": "gsd-build/discuss-phase",
       "name": "GSD Discuss Phase",
       "level": "3★",
-      "trustMagnitude": 52.2,
+      "trustMagnitude": 52.15,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -751,7 +751,7 @@
       "id": "gsd-build/execute-phase",
       "name": "GSD Execute Phase",
       "level": "3★",
-      "trustMagnitude": 52.2,
+      "trustMagnitude": 52.15,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -767,7 +767,7 @@
       "id": "gsd-build/plan-phase",
       "name": "GSD Plan Phase",
       "level": "3★",
-      "trustMagnitude": 52.2,
+      "trustMagnitude": 52.15,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -783,7 +783,7 @@
       "id": "gsd-build/ship",
       "name": "GSD Ship",
       "level": "3★",
-      "trustMagnitude": 52.2,
+      "trustMagnitude": 52.15,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -799,7 +799,7 @@
       "id": "gsd-build/verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
-      "trustMagnitude": 52.2,
+      "trustMagnitude": 52.15,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",

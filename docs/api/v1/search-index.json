@@ -5,7 +5,7 @@
     "contributor": "garrytan",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 592.99,
+    "trustMagnitude": 594.27,
     "branch": "suite",
     "tokens": [
       "agent",
@@ -45,7 +45,7 @@
     "contributor": "mattpocock",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 528.95,
+    "trustMagnitude": 529.4,
     "branch": "suite",
     "tokens": [
       "all",
@@ -70,7 +70,7 @@
     "contributor": "ruvnet",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 487.45,
+    "trustMagnitude": 488.28,
     "branch": "suite",
     "tokens": [
       "6★",
@@ -169,7 +169,7 @@
     "contributor": "addy-osmani",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 296.3,
+    "trustMagnitude": 298.83,
     "branch": "suite",
     "tokens": [
       "agent",
@@ -207,7 +207,7 @@
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 225.7,
+    "trustMagnitude": 229.76,
     "branch": "suite",
     "tokens": [
       "`npx",
@@ -338,12 +338,46 @@
     ]
   },
   {
+    "id": "nextlevelbuilder/ui-ux-pro-max",
+    "name": "UI/UX Pro Max",
+    "contributor": "nextlevelbuilder",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 206.97,
+    "branch": "unique",
+    "tokens": [
+      "accessibility",
+      "against",
+      "audit",
+      "color",
+      "established",
+      "evaluates",
+      "guidelines",
+      "heuristics",
+      "interface",
+      "max",
+      "motion",
+      "palettes",
+      "pro",
+      "rules",
+      "standards",
+      "style",
+      "systematically",
+      "typography",
+      "ui",
+      "usability",
+      "user",
+      "ux",
+      "visual"
+    ]
+  },
+  {
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 202.2,
+    "trustMagnitude": 202.15,
     "branch": "suite",
     "tokens": [
       "agentic",
@@ -405,7 +439,7 @@
     "contributor": "addy-osmani",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 196.3,
+    "trustMagnitude": 198.83,
     "branch": "standard",
     "tokens": [
       "code",
@@ -417,40 +451,6 @@
       "refactor",
       "simplification",
       "workflow"
-    ]
-  },
-  {
-    "id": "nextlevelbuilder/ui-ux-pro-max",
-    "name": "UI/UX Pro Max",
-    "contributor": "nextlevelbuilder",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 195.51,
-    "branch": "unique",
-    "tokens": [
-      "accessibility",
-      "against",
-      "audit",
-      "color",
-      "established",
-      "evaluates",
-      "guidelines",
-      "heuristics",
-      "interface",
-      "max",
-      "motion",
-      "palettes",
-      "pro",
-      "rules",
-      "standards",
-      "style",
-      "systematically",
-      "typography",
-      "ui",
-      "usability",
-      "user",
-      "ux",
-      "visual"
     ]
   },
   {
@@ -473,6 +473,32 @@
       "skills",
       "suite",
       "v1"
+    ]
+  },
+  {
+    "id": "safishamsi/graphify",
+    "name": "Graphify",
+    "contributor": "safishamsi",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 160.99,
+    "branch": "unique",
+    "tokens": [
+      "analysis",
+      "ast",
+      "build",
+      "codebases",
+      "documentation",
+      "extraction",
+      "graph",
+      "graphify",
+      "into",
+      "knowledge",
+      "maps",
+      "queryable",
+      "rag",
+      "semantic",
+      "using"
     ]
   },
   {
@@ -520,7 +546,7 @@
     "contributor": "firecrawl",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 150.32,
+    "trustMagnitude": 154.38,
     "branch": "standard",
     "tokens": [
       "academic",
@@ -535,29 +561,26 @@
     ]
   },
   {
-    "id": "safishamsi/graphify",
-    "name": "Graphify",
-    "contributor": "safishamsi",
+    "id": "pbakaus/impeccable",
+    "name": "Impeccable",
+    "contributor": "pbakaus",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 147.68,
+    "trustMagnitude": 149.32,
     "branch": "unique",
     "tokens": [
-      "analysis",
-      "ast",
-      "build",
-      "codebases",
-      "documentation",
-      "extraction",
-      "graph",
-      "graphify",
-      "into",
-      "knowledge",
-      "maps",
-      "queryable",
-      "rag",
-      "semantic",
-      "using"
+      "ai",
+      "audit",
+      "code",
+      "design",
+      "elite",
+      "frontend",
+      "generated",
+      "impeccable",
+      "polishing",
+      "tool",
+      "ui",
+      "vocabulary"
     ]
   },
   {
@@ -566,7 +589,7 @@
     "contributor": "k-dense-ai",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 146.07,
+    "trustMagnitude": 148.3,
     "branch": "unique",
     "tokens": [
       "bayesian",
@@ -585,26 +608,23 @@
     ]
   },
   {
-    "id": "pbakaus/impeccable",
-    "name": "Impeccable",
-    "contributor": "pbakaus",
+    "id": "firecrawl/firecrawl-build-scrape",
+    "name": "Firecrawl Scrape",
+    "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 138.25,
+    "trustMagnitude": 139.78,
     "branch": "unique",
     "tokens": [
-      "ai",
-      "audit",
       "code",
-      "design",
-      "elite",
-      "frontend",
-      "generated",
-      "impeccable",
-      "polishing",
-      "tool",
-      "ui",
-      "vocabulary"
+      "extraction",
+      "firecrawl",
+      "integrate",
+      "into",
+      "page",
+      "product",
+      "scrape",
+      "web"
     ]
   },
   {
@@ -613,7 +633,7 @@
     "contributor": "k-dense-ai",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 137.07,
+    "trustMagnitude": 139.3,
     "branch": "unique",
     "tokens": [
       "benchmarked",
@@ -635,7 +655,7 @@
     "contributor": "k-dense-ai",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 137.07,
+    "trustMagnitude": 139.3,
     "branch": "unique",
     "tokens": [
       "build",
@@ -653,32 +673,12 @@
     ]
   },
   {
-    "id": "firecrawl/firecrawl-build-scrape",
-    "name": "Firecrawl Scrape",
-    "contributor": "firecrawl",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 135.72,
-    "branch": "unique",
-    "tokens": [
-      "code",
-      "extraction",
-      "firecrawl",
-      "integrate",
-      "into",
-      "page",
-      "product",
-      "scrape",
-      "web"
-    ]
-  },
-  {
     "id": "mvanhorn/last30days",
     "name": "Last 30 Days Web Research",
     "contributor": "mvanhorn",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 129.1,
+    "trustMagnitude": 133.55,
     "branch": "unique",
     "tokens": [
       "(reddit",
@@ -743,6 +743,45 @@
       "specialized",
       "team",
       "validate"
+    ]
+  },
+  {
+    "id": "addy-osmani/performance-optimization",
+    "name": "Performance Optimization",
+    "contributor": "addy-osmani",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 127.33,
+    "branch": "unique",
+    "tokens": [
+      "(n+1",
+      "against",
+      "baseline",
+      "blocking",
+      "bottlenecks",
+      "co",
+      "core",
+      "driven",
+      "fix",
+      "identify",
+      "images)",
+      "issues",
+      "lighthouse",
+      "measurement",
+      "optimization",
+      "performance",
+      "profiling",
+      "queries",
+      "render",
+      "rum",
+      "targeted",
+      "tuning",
+      "unoptimized",
+      "verify",
+      "via",
+      "vitals",
+      "web",
+      "workflow"
     ]
   },
   {
@@ -938,42 +977,21 @@
     ]
   },
   {
-    "id": "addy-osmani/performance-optimization",
-    "name": "Performance Optimization",
-    "contributor": "addy-osmani",
+    "id": "firecrawl/firecrawl-build-search",
+    "name": "Firecrawl Search",
+    "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 117.19,
+    "trustMagnitude": 113.38,
     "branch": "unique",
     "tokens": [
-      "(n+1",
-      "against",
-      "baseline",
-      "blocking",
-      "bottlenecks",
-      "co",
-      "core",
-      "driven",
-      "fix",
-      "identify",
-      "images)",
-      "issues",
-      "lighthouse",
-      "measurement",
-      "optimization",
-      "performance",
-      "profiling",
-      "queries",
-      "render",
-      "rum",
-      "targeted",
-      "tuning",
-      "unoptimized",
-      "verify",
-      "via",
-      "vitals",
-      "web",
-      "workflow"
+      "code",
+      "firecrawl",
+      "integrate",
+      "into",
+      "product",
+      "search",
+      "web"
     ]
   },
   {
@@ -1047,21 +1065,37 @@
     ]
   },
   {
-    "id": "firecrawl/firecrawl-build-search",
-    "name": "Firecrawl Search",
-    "contributor": "firecrawl",
+    "id": "dietrichgebert/ponytail",
+    "name": "Ponytail",
+    "contributor": "dietrichgebert",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 109.32,
+    "trustMagnitude": 109.09,
     "branch": "unique",
     "tokens": [
-      "code",
-      "firecrawl",
-      "integrate",
-      "into",
-      "product",
-      "search",
-      "web"
+      "actually",
+      "correct",
+      "discernment",
+      "exist",
+      "features",
+      "forces",
+      "implement",
+      "implementation",
+      "laziest",
+      "library",
+      "native",
+      "ponytail",
+      "prefer",
+      "question",
+      "ship",
+      "should",
+      "smallest",
+      "solution",
+      "standard",
+      "task",
+      "that",
+      "whether",
+      "works"
     ]
   },
   {
@@ -1070,7 +1104,7 @@
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 105.68,
+    "trustMagnitude": 106.13,
     "branch": "standard",
     "tokens": [
       "analysis",
@@ -1112,7 +1146,7 @@
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 105.68,
+    "trustMagnitude": 106.13,
     "branch": "standard",
     "tokens": [
       "240",
@@ -1151,7 +1185,7 @@
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 105.68,
+    "trustMagnitude": 106.13,
     "branch": "standard",
     "tokens": [
       "case",
@@ -1176,7 +1210,7 @@
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 105.68,
+    "trustMagnitude": 106.13,
     "branch": "standard",
     "tokens": [
       "acceptance",
@@ -1220,7 +1254,7 @@
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 105.68,
+    "trustMagnitude": 106.13,
     "branch": "standard",
     "tokens": [
       "across",
@@ -1252,46 +1286,12 @@
     ]
   },
   {
-    "id": "dietrichgebert/ponytail",
-    "name": "Ponytail",
-    "contributor": "dietrichgebert",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 102.49,
-    "branch": "unique",
-    "tokens": [
-      "actually",
-      "correct",
-      "discernment",
-      "exist",
-      "features",
-      "forces",
-      "implement",
-      "implementation",
-      "laziest",
-      "library",
-      "native",
-      "ponytail",
-      "prefer",
-      "question",
-      "ship",
-      "should",
-      "smallest",
-      "solution",
-      "standard",
-      "task",
-      "that",
-      "whether",
-      "works"
-    ]
-  },
-  {
     "id": "addy-osmani/incremental-implementation",
     "name": "Incremental Implementation",
     "contributor": "addy-osmani",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 101.3,
+    "trustMagnitude": 103.83,
     "branch": "standard",
     "tokens": [
       "executing",
@@ -1312,7 +1312,7 @@
     "contributor": "addy-osmani",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 101.3,
+    "trustMagnitude": 103.83,
     "branch": "standard",
     "tokens": [
       "breakdown",
@@ -1387,7 +1387,7 @@
     "contributor": "ruvnet",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 97.7,
+    "trustMagnitude": 98.54,
     "branch": "standard",
     "tokens": [
       "agent",
@@ -1444,6 +1444,28 @@
       "swarm",
       "topology",
       "training"
+    ]
+  },
+  {
+    "id": "k-dense-ai/qiskit",
+    "name": "Qiskit",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 95.26,
+    "branch": "standard",
+    "tokens": [
+      "build",
+      "circuit",
+      "circuits",
+      "execute",
+      "ibm",
+      "programming",
+      "qiskit",
+      "quantum",
+      "runtime",
+      "simulate",
+      "transpile"
     ]
   },
   {
@@ -1551,25 +1573,26 @@
     ]
   },
   {
-    "id": "k-dense-ai/qiskit",
-    "name": "Qiskit",
-    "contributor": "k-dense-ai",
+    "id": "addy-osmani/spec-driven-development",
+    "name": "Spec-Driven Development",
+    "contributor": "addy-osmani",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 93.03,
+    "trustMagnitude": 88.83,
     "branch": "standard",
     "tokens": [
-      "build",
-      "circuit",
-      "circuits",
-      "execute",
-      "ibm",
-      "programming",
-      "qiskit",
-      "quantum",
-      "runtime",
-      "simulate",
-      "transpile"
+      "any",
+      "before",
+      "coding",
+      "development",
+      "driven",
+      "enforcing",
+      "generation",
+      "prd",
+      "spec",
+      "specification",
+      "starts",
+      "workflow"
     ]
   },
   {
@@ -1601,29 +1624,6 @@
       "url",
       "user",
       "verification"
-    ]
-  },
-  {
-    "id": "addy-osmani/spec-driven-development",
-    "name": "Spec-Driven Development",
-    "contributor": "addy-osmani",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 86.3,
-    "branch": "standard",
-    "tokens": [
-      "any",
-      "before",
-      "coding",
-      "development",
-      "driven",
-      "enforcing",
-      "generation",
-      "prd",
-      "spec",
-      "specification",
-      "starts",
-      "workflow"
     ]
   },
   {
@@ -1694,12 +1694,52 @@
     ]
   },
   {
+    "id": "firecrawl/firecrawl-build-interact",
+    "name": "Firecrawl Interact",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 79.76,
+    "branch": "standard",
+    "tokens": [
+      "browser",
+      "code",
+      "control",
+      "firecrawl",
+      "integrate",
+      "interact",
+      "interaction",
+      "into",
+      "product"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-onboarding",
+    "name": "Firecrawl Onboarding",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 79.76,
+    "branch": "standard",
+    "tokens": [
+      "agent",
+      "client",
+      "configure",
+      "credentials",
+      "environment",
+      "firecrawl",
+      "onboarding",
+      "setup",
+      "tools"
+    ]
+  },
+  {
     "id": "anthropics/brand-guidelines",
     "name": "Brand Guidelines",
     "contributor": "anthropics",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 77.35,
+    "trustMagnitude": 79.23,
     "branch": "standard",
     "tokens": [
       "anthropic's",
@@ -1726,7 +1766,7 @@
     "contributor": "k-dense-ai",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 76.07,
+    "trustMagnitude": 78.3,
     "branch": "standard",
     "tokens": [
       "analysis",
@@ -1750,7 +1790,7 @@
     "contributor": "k-dense-ai",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 76.07,
+    "trustMagnitude": 78.3,
     "branch": "standard",
     "tokens": [
       "agents",
@@ -1775,7 +1815,7 @@
     "contributor": "k-dense-ai",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 76.07,
+    "trustMagnitude": 78.3,
     "branch": "standard",
     "tokens": [
       "engineering",
@@ -1792,46 +1832,6 @@
       "transformers",
       "tuning",
       "work"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-build-interact",
-    "name": "Firecrawl Interact",
-    "contributor": "firecrawl",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 75.7,
-    "branch": "standard",
-    "tokens": [
-      "browser",
-      "code",
-      "control",
-      "firecrawl",
-      "integrate",
-      "interact",
-      "interaction",
-      "into",
-      "product"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-build-onboarding",
-    "name": "Firecrawl Onboarding",
-    "contributor": "firecrawl",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 75.7,
-    "branch": "standard",
-    "tokens": [
-      "agent",
-      "client",
-      "configure",
-      "credentials",
-      "environment",
-      "firecrawl",
-      "onboarding",
-      "setup",
-      "tools"
     ]
   },
   {
@@ -1861,12 +1861,35 @@
     ]
   },
   {
+    "id": "k-dense-ai/pytorch-lightning",
+    "name": "PyTorch Lightning",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 69.3,
+    "branch": "standard",
+    "tokens": [
+      "callbacks",
+      "distributed",
+      "execution",
+      "lightning",
+      "modules",
+      "neural",
+      "orchestrate",
+      "orchestration",
+      "pytorch",
+      "scalable",
+      "trainers",
+      "training"
+    ]
+  },
+  {
     "id": "garrytan/benchmark",
     "name": "Benchmark",
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "across",
@@ -1903,7 +1926,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "anomaly",
@@ -1942,7 +1965,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "(zer",
@@ -1977,7 +2000,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "builds",
@@ -2014,7 +2037,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "approved",
@@ -2052,7 +2075,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "ai",
@@ -2090,7 +2113,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "before",
@@ -2125,7 +2148,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "analysis",
@@ -2160,7 +2183,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "automates",
@@ -2202,7 +2225,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "architecture",
@@ -2239,7 +2262,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "accessibility",
@@ -2277,7 +2300,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "api",
@@ -2317,7 +2340,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "annotated",
@@ -2355,7 +2378,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "adversarial",
@@ -2391,7 +2414,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "automated",
@@ -2432,7 +2455,7 @@
     "contributor": "garrytan",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 67.4,
+    "trustMagnitude": 68.67,
     "branch": "standard",
     "tokens": [
       "authoring",
@@ -2461,29 +2484,6 @@
       "skillify",
       "workflow",
       "writes"
-    ]
-  },
-  {
-    "id": "k-dense-ai/pytorch-lightning",
-    "name": "PyTorch Lightning",
-    "contributor": "k-dense-ai",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 67.07,
-    "branch": "standard",
-    "tokens": [
-      "callbacks",
-      "distributed",
-      "execution",
-      "lightning",
-      "modules",
-      "neural",
-      "orchestrate",
-      "orchestration",
-      "pytorch",
-      "scalable",
-      "trainers",
-      "training"
     ]
   },
   {
@@ -2862,7 +2862,7 @@
     "contributor": "addy-osmani",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 56.3,
+    "trustMagnitude": 58.83,
     "branch": "standard",
     "tokens": [
       "checking",
@@ -2882,7 +2882,7 @@
     "contributor": "addy-osmani",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 56.3,
+    "trustMagnitude": 58.83,
     "branch": "standard",
     "tokens": [
       "branch",
@@ -2998,7 +2998,7 @@
     "contributor": "gsd-build",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 52.2,
+    "trustMagnitude": 52.15,
     "branch": "standard",
     "tokens": [
       "agent",
@@ -3025,7 +3025,7 @@
     "contributor": "gsd-build",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 52.2,
+    "trustMagnitude": 52.15,
     "branch": "standard",
     "tokens": [
       "clean",
@@ -3053,7 +3053,7 @@
     "contributor": "gsd-build",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 52.2,
+    "trustMagnitude": 52.15,
     "branch": "standard",
     "tokens": [
       "against",
@@ -3079,7 +3079,7 @@
     "contributor": "gsd-build",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 52.2,
+    "trustMagnitude": 52.15,
     "branch": "standard",
     "tokens": [
       "archives",
@@ -3106,7 +3106,7 @@
     "contributor": "gsd-build",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 52.2,
+    "trustMagnitude": 52.15,
     "branch": "standard",
     "tokens": [
       "before",
@@ -3126,12 +3126,58 @@
     ]
   },
   {
+    "id": "k-dense-ai/rdkit",
+    "name": "RDKit",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 51.3,
+    "branch": "standard",
+    "tokens": [
+      "analysis",
+      "cheminformatics",
+      "descriptors",
+      "fingerprints",
+      "molecular",
+      "parsing",
+      "perform",
+      "rdkit",
+      "reactions",
+      "similarity"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scvi-tools",
+    "name": "scvi-tools",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 51.3,
+    "branch": "standard",
+    "tokens": [
+      "batch",
+      "cell",
+      "correction",
+      "data",
+      "integration",
+      "learning",
+      "model",
+      "modeling",
+      "multimodal",
+      "omics",
+      "scvi",
+      "single",
+      "tools",
+      "transfer"
+    ]
+  },
+  {
     "id": "vercel-labs/vercel-react-best-practices",
     "name": "Vercel React Best Practices",
     "contributor": "vercel-labs",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 50.48,
+    "trustMagnitude": 50.84,
     "branch": "standard",
     "tokens": [
       "applications",
@@ -3175,52 +3221,6 @@
       "test",
       "through",
       "verifying"
-    ]
-  },
-  {
-    "id": "k-dense-ai/rdkit",
-    "name": "RDKit",
-    "contributor": "k-dense-ai",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 49.07,
-    "branch": "standard",
-    "tokens": [
-      "analysis",
-      "cheminformatics",
-      "descriptors",
-      "fingerprints",
-      "molecular",
-      "parsing",
-      "perform",
-      "rdkit",
-      "reactions",
-      "similarity"
-    ]
-  },
-  {
-    "id": "k-dense-ai/scvi-tools",
-    "name": "scvi-tools",
-    "contributor": "k-dense-ai",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 49.07,
-    "branch": "standard",
-    "tokens": [
-      "batch",
-      "cell",
-      "correction",
-      "data",
-      "integration",
-      "learning",
-      "model",
-      "modeling",
-      "multimodal",
-      "omics",
-      "scvi",
-      "single",
-      "tools",
-      "transfer"
     ]
   },
   {
