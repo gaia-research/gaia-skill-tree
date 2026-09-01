@@ -866,6 +866,7 @@
           <li><a href="#mcp"><code>mcp</code></a></li>
           <li><a href="#version"><code>version</code></a></li>
           <li><a href="#validate"><code>validate</code></a></li>
+          <li><a href="#steward"><code>steward</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -969,6 +970,7 @@
             <li><a href="#mcp"><code>mcp</code> — Start MCP server</a></li>
             <li><a href="#version"><code>version</code> — Show version</a></li>
             <li><a href="#validate"><code>validate</code> — Run lint suite</a></li>
+            <li><a href="#steward"><code>steward</code> — Autonomous maintenance</a></li>
             <li><a href="#share"><code>share</code> — Export share bundle</a></li>
             <li><a href="#install"><code>install</code> — Dual-mode installer</a></li>
           </ul>
@@ -1770,6 +1772,89 @@
               <strong>Used in release CI.</strong> <code>gaia dev release</code> calls
               <code>gaia dev validate</code> internally. Run it locally before filing a
               registry PR to catch schema or timeline issues early.
+            </div>
+          </div>
+        </div>
+
+        <!-- steward -->
+        <div class="cmd-card" id="steward">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia steward</span>
+            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder} [options]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Autonomous repository maintenance steward and debt reconciliation engine.</li>
+              <li>Runs local read-only sensors, manages bounded maintenance lanes, and handles patch verification.</li>
+              <li>Enforces strict policy boundaries: never executes arbitrary commands or spends unbounded agent turns.</li>
+            </ul>
+
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Subcommand / Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>scan [--json]</code></td>
+                  <td style="max-width: 420px;">Run local sensors to detect and report repository maintenance debt. Writes receipts strictly under <code>.gaia/steward/</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>run [--json]</code></td>
+                  <td style="max-width: 420px;">Execute at most one policy-authorized Class A debt repair with automated independent proof.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>dispatch &lt;debt_id&gt; [--prompt] [--json]</code></td>
+                  <td style="max-width: 420px;">Render a report-only Class B task packet or agent prompt for a specific maintenance debt.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane status [--json]</code></td>
+                  <td style="max-width: 420px;">Report the state of the bounded rolling maintenance lane.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane next [--prompt] [--json]</code></td>
+                  <td style="max-width: 420px;">Hand out the next eligible bounded task from the lane (agent pickup point).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane record &lt;debt_id&gt; --verdict {accept,reject,escalate} [--note &lt;text&gt;]</code></td>
+                  <td style="max-width: 420px;">Record an independent verifier's judgment on a completed maintenance dispatch.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>verify &lt;debt_id&gt; --diff &lt;diff&gt; --proof &lt;json&gt; [--prompt]</code></td>
+                  <td style="max-width: 420px;">Independently verify a candidate patch against the envelope recorded in its dispatch receipt.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>founder [--json]</code></td>
+                  <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Scan current repository maintenance debt</span>
+<span class="cmd">gaia steward scan</span>
+
+<span class="c"># Pick up the next bounded maintenance task as an agent prompt</span>
+<span class="cmd">gaia steward lane next --prompt</span>
+
+<span class="c"># Run policy-authorized single Class A repair</span>
+<span class="cmd">gaia steward run</span>
+
+<span class="c"># Record an independent verification decision</span>
+<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span></pre>
             </div>
           </div>
         </div>

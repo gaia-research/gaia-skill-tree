@@ -2,6 +2,43 @@
 
 ---
 
+## 2026-09-01 — Routine 040
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented top-level `gaia steward` command suite in `cli-reference.html` (planned in Routine 039).
+
+### Trigger
+Routine documentation agent audit of `src/gaia_cli/commands/steward.py` identified the top-level `gaia steward` command suite as entirely absent from `cli-reference.html`.
+
+### What I did
+1. Documented `gaia steward` in `cli-reference.html` with full coverage of its subcommands:
+   - `scan [--json]`: Run read-only local sensors and report debt without modifying canonical state.
+   - `run [--json]`: Execute at most one policy-authorized Class A debt repair with automated proof.
+   - `dispatch <debt_id> [--prompt] [--json]`: Render bounded Class B task packets / agent prompts.
+   - `lane {status, next, record}`: Manage the bounded rolling maintenance lane (status reports, next task pickup, and verdict recording).
+   - `verify <debt_id> --diff <diff> --proof <proof>`: Independently verify candidate patches against dispatch receipts.
+   - `founder [--json]`: Render report-only Class C founder decision queues.
+2. Updated sidebar System group and Table of Contents in `cli-reference.html` to link `#steward`.
+3. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused `.cmd-card` layout with structured table for all 6 subcommands and standard example blocks.
+- Highlighted strict policy boundaries (read-only sensors, non-escaping receipts in `.gaia/steward/`, capped agent dispatches).
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 041)
+- Document `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, and `gaia dev arbor` in `cli-reference.html`.
+
+---
+
 ## 2026-09-01 — Routine 039
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
