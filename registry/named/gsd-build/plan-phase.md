@@ -66,11 +66,11 @@ timeline:
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
-  updatedAt: '2026-08-01'
+  updatedAt: '2026-09-01'
   evaluator: unknown
   date: '2026-07-03'
   type: github-stars-own
-  stars: 64783
+  stars: 64612
   skillCountInRepo: 5
 - source: https://github.com/gsd-build/get-shit-done
   evaluator: unknown
