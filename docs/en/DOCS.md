@@ -20,7 +20,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done — documented missing mutating dev verbs (`dev rm-evidence`, `dev rm`, `dev link`, `dev reclassify`, `dev update-named`, `dev build`) 039; documented `gaia steward` suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) 040 | 002, 017, 018, 025, 034, 039, 040 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done — documented missing mutating dev verbs (`dev rm-evidence`, `dev rm`, `dev link`, `dev reclassify`, `dev update-named`, `dev build`) 039; documented `gaia steward` suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) 040; documented `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, `gaia dev arbor` 041 | 002, 017, 018, 025, 034, 039, 040, 041 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
 | 5 | `contributing.html` | Contributing | ✅ Done (`--build`/`--no-build` batch-tip callout fixed 036) | 003, 017, 018, 025, 036 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done — cleaned up redundant `--no-build` flags and removed dead `generateNamedIndex.py` script reference in step-by-step example 038 | 003, 017, 018, 025, 038 |

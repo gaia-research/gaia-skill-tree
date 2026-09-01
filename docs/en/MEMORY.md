@@ -2,6 +2,40 @@
 
 ---
 
+## 2026-09-01 — Routine 041
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, and `gaia dev arbor` in `cli-reference.html` (planned in Routine 040).
+
+### Trigger
+Completion of developer command coverage audit in `src/gaia_cli/commands/dev/` for remaining undocumented verbs (`verify`, `diff`, `fuse`, `arbor`).
+
+### What I did
+1. Documented `gaia dev verify` (`--index`, `--dispute`, `--notes`, `--source`, `--build`) for verifying or disputing evidence entries and attaching verifier attestations.
+2. Documented `gaia dev fuse` (`--name`, `--description`, `--prereqs`, `--named-capstone`, `--suite-components`, `--build`) for upserting generic fusion nodes and suite manifests.
+3. Documented `gaia dev diff` (`[ref]`, `--base`) for filtering out noise/timestamps to inspect substantive registry diffs vs main.
+4. Documented `gaia dev arbor` (`import`, `check`, `replay`) for declaration-first Arbor sidecar store validation and profile replay.
+5. Updated sidebar Registry dev list and Table of Contents in `cli-reference.html` to link all 4 newly documented commands.
+6. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused standard `.cmd-card` layout with structured parameter tables and command example snippets.
+- Marked mutating commands (`verify`, `fuse`, `arbor`) with `◇ verifier` gate badges and read-only inspection (`diff`) with `● open`.
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 042)
+- Content and terminology audit of `getting-started.html` & `faq.html` to ensure complete alignment with Yggdrasil II taxonomy and v7.7.2 capabilities.
+
+---
+
 ## 2026-09-01 — Routine 040
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
