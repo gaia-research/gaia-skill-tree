@@ -880,17 +880,23 @@
         <ul class="sidebar-links">
           <li><a href="#dev-add"><code>dev add</code></a></li>
           <li><a href="#dev-evidence"><code>dev evidence</code></a></li>
+          <li><a href="#dev-rm-evidence"><code>dev rm-evidence</code></a></li>
           <li><a href="#dev-calibrate"><code>dev calibrate</code></a></li>
           <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code></a></li>
           <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code></a></li>
           <li><a href="#dev-merge"><code>dev merge</code></a></li>
           <li><a href="#dev-split"><code>dev split</code></a></li>
           <li><a href="#dev-rename"><code>dev rename</code></a></li>
+          <li><a href="#dev-rm"><code>dev rm</code></a></li>
+          <li><a href="#dev-link"><code>dev link</code></a></li>
+          <li><a href="#dev-reclassify"><code>dev reclassify</code></a></li>
+          <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
           <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code></a></li>
           <li><a href="#dev-freeze"><code>dev freeze</code></a></li>
+          <li><a href="#dev-build"><code>dev build</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -972,17 +978,23 @@
           <ul class="toc-section-list">
             <li><a href="#dev-add"><code>dev add</code> — Add node</a></li>
             <li><a href="#dev-evidence"><code>dev evidence</code> — Add evidence</a></li>
+            <li><a href="#dev-rm-evidence"><code>dev rm-evidence</code> — Remove evidence</a></li>
             <li><a href="#dev-calibrate"><code>dev calibrate</code> — Set star level</a></li>
             <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code> — Backfill evidence grades</a></li>
             <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code> — Refresh Trust Magnitude cache</a></li>
             <li><a href="#dev-merge"><code>dev merge</code> — Merge nodes</a></li>
             <li><a href="#dev-split"><code>dev split</code> — Split node</a></li>
             <li><a href="#dev-rename"><code>dev rename</code> — Rename a skill</a></li>
+            <li><a href="#dev-rm"><code>dev rm</code> — Remove a skill</a></li>
+            <li><a href="#dev-link"><code>dev link</code> — Link prerequisite edges</a></li>
+            <li><a href="#dev-reclassify"><code>dev reclassify</code> — Reclassify structural type</a></li>
+            <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
             <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code> — Upstream tracking</a></li>
             <li><a href="#dev-freeze"><code>dev freeze</code> — Freeze skill</a></li>
+            <li><a href="#dev-build"><code>dev build</code> — Compile registry & docs</a></li>
             <li><a href="#global-flags">Global Flags</a></li>
           </ul>
         </div>
@@ -2083,6 +2095,66 @@
           </div>
         </div>
 
+        <!-- dev rm-evidence -->
+        <div class="cmd-card" id="dev-rm-evidence">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev rm-evidence</span>
+            <span class="cmd-signature">&lt;skill-id&gt; (--index &lt;N&gt; | --source &lt;URL&gt;) [--yes] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Removes an evidence entry from a skill node by index number or matching source URL.</li>
+              <li>Prompts for confirmation unless <code>--yes</code> is provided.</li>
+              <li>Skips documentation rebuild by default. Pass <code>--build</code> to regenerate artifacts.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Skill ID to remove evidence from.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--index &lt;N&gt;</td>
+                  <td style="max-width: 420px;">0-based index of the evidence entry to remove.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--source &lt;URL&gt;</td>
+                  <td style="max-width: 420px;">Source URL to match and remove.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--yes, -y</td>
+                  <td style="max-width: 420px;">Skip interactive confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after removing evidence.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Remove evidence by source URL</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm-evidence</span> <span class="arg">web-scrape --source https://example.com/stale-paper.pdf --yes</span>
+
+<span class="c"># Remove evidence by index</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm-evidence</span> <span class="arg">web-scrape --index 0</span></pre>
+            </div>
+          </div>
+        </div>
+
         <!-- dev calibrate -->
         <div class="cmd-card" id="dev-calibrate">
           <div class="cmd-card-header">
@@ -2310,6 +2382,228 @@
 
 <span class="c"># Rename a Named Skill</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rename</span> <span class="arg">marco/old-slug marco/new-slug</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev rm -->
+        <div class="cmd-card" id="dev-rm">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev rm</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [--reason &lt;text&gt;] [--yes] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Removes a generic skill node or a Named Skill (<code>contributor/slug</code>) from the registry.</li>
+              <li>Cleans up prerequisite and derivative links across adjacent nodes automatically.</li>
+              <li>Logs a removal timeline event. For named skills, <code>--reason</code> is recorded in the timeline.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Generic or named skill ID to remove.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--reason &lt;text&gt;</td>
+                  <td style="max-width: 420px;">Human-readable reason for removal logged to the timeline.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--yes, -y</td>
+                  <td style="max-width: 420px;">Skip interactive confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after removing the skill.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Remove a deprecated named skill</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm</span> <span class="arg">contributor/old-skill --reason "Replaced by new upstream suite" --yes</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev link -->
+        <div class="cmd-card" id="dev-link">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev link</span>
+            <span class="cmd-signature">&lt;target&gt; &lt;prereqs&gt; [--reset] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Links skills together in the DAG by adding prerequisite edges to the target node.</li>
+              <li>Pass <code>--reset</code> to replace all existing prerequisites instead of appending.</li>
+              <li>Checks for circular dependencies before writing changes.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;target&gt;</td>
+                  <td style="max-width: 420px;">Target skill ID receiving prerequisite edges.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>&lt;prereqs&gt;</td>
+                  <td style="max-width: 420px;">Comma-separated list of prerequisite skill IDs.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--reset</td>
+                  <td style="max-width: 420px;">Overwrite existing prerequisites instead of appending.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after updating links.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Link web-scrape to require browser-driver and html-parser</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev link</span> <span class="arg">web-scrape browser-driver,html-parser</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev reclassify -->
+        <div class="cmd-card" id="dev-reclassify">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev reclassify</span>
+            <span class="cmd-signature">&lt;skill-id&gt; {basic,fusion} [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Changes the structural type of a generic skill node between <code>basic</code> (0 prerequisites) and <code>fusion</code> (&ge;1 prerequisite).</li>
+              <li>Moves the underlying JSON file between <code>registry/nodes/basic/</code> and <code>registry/nodes/fusion/</code>.</li>
+              <li>Updates all referencing metadata and logs a reclassification event.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Generic skill ID to reclassify.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>{basic,fusion}</td>
+                  <td style="max-width: 420px;">New structural type under Yggdrasil II taxonomy.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after reclassifying.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev reclassify</span> <span class="arg">data-pipeline fusion</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev update-named -->
+        <div class="cmd-card" id="dev-update-named">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev update-named</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [options] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Updates frontmatter properties of an existing Named Skill (<code>registry/named/&lt;contributor&gt;/&lt;slug&gt;.md</code>).</li>
+              <li>Supports updating title, status, genericRef, suiteRef, suiteComponents, origin, github-link, and installable flags.</li>
+              <li>Logs an update timeline event automatically.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Named skill ID (e.g. <code>contributor/skill-name</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--title &lt;title&gt;</td>
+                  <td style="max-width: 420px;">Display lore title for the named skill.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--status &lt;status&gt;</td>
+                  <td style="max-width: 420px;">Lifecycle status (<code>awakened</code>, <code>named</code>, etc.).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--generic-ref &lt;id&gt;</td>
+                  <td style="max-width: 420px;">Generic skill reference ID fulfilled by this implementation.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--github-link &lt;url&gt;</td>
+                  <td style="max-width: 420px;">GitHub source link (must be a <code>blob/</code> link for 3★+).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--origin {true,false}</td>
+                  <td style="max-width: 420px;">Set whether this implementation is the canonical Origin.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--installable {true,false}</td>
+                  <td style="max-width: 420px;">Set installability status in share bundles and manifests.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation and indexes after updating.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Update generic reference and origin flag</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev update-named</span> <span class="arg">karpathy/web-scrape --generic-ref web-scrape --origin true</span></pre>
             </div>
           </div>
         </div>
@@ -2561,6 +2855,26 @@
               <div class="example-label">examples</div>
               <pre><span class="c"># Freeze an unmaintained named skill with a reason</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev freeze</span> <span class="arg">mattpocock/old-skill --reason "unmaintained, repository archived by owner"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev build -->
+        <div class="cmd-card" id="dev-build">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev build</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Compiles all Class S site-served artifacts, visual graphs, and registry indexes across the repository.</li>
+              <li>Regenerates <code>docs/graph/gaia.json</code>, <code>docs/graph/gaia.gexf</code>, <code>docs/graph/gaia.svg</code>, <code>docs/graph/named/index.json</code>, and <code>registry/named-skills.json</code>.</li>
+              <li>Essential step after running batched <code>gaia dev</code> operations without individual rebuilds.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev build</span></pre>
             </div>
           </div>
         </div>

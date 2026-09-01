@@ -2,6 +2,42 @@
 
 ---
 
+## 2026-09-01 — Routine 039
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — documented missing mutating `gaia dev` subcommands in `cli-reference.html`.
+
+### Trigger
+Routine documentation agent audit of `src/gaia_cli/commands/dev/` surfaced 6 mutating verbs that existed in code and CLI help but lacked documentation cards, TOC entries, and sidebar links.
+
+### What I did
+1. Documented `gaia dev rm-evidence` (`--index`, `--source`, `--yes`, `--build`) for removing evidence entries by index or URL.
+2. Documented `gaia dev rm` (`--reason`, `--yes`, `--build`) for removing generic or named skills with automatic graph and timeline cleanup.
+3. Documented `gaia dev link` (`--reset`, `--build`) for linking prerequisite DAG edges with cycle detection.
+4. Documented `gaia dev reclassify` (`basic` vs `fusion`, `--build`) for moving nodes between structural types under Yggdrasil II.
+5. Documented `gaia dev update-named` for mutating named skill frontmatter fields (`--title`, `--status`, `--generic-ref`, `--origin`, `--github-link`, `--installable`, `--build`).
+6. Documented `gaia dev build` as the explicit Class S artifact and index compiler.
+7. Updated sidebar and visual Table of Contents in `cli-reference.html` to link all 6 newly documented commands.
+8. Updated `DOCS.md` Page Map row 3.
+
+### Design decisions
+- Reused standard `.cmd-card` layout with high-contrast headers, parameter tables, and bash copy examples.
+- Marked all 6 mutating subcommands with the `◇ verifier` gate badge.
+
+### Issues informed
+None filed or closed — documentation coverage for existing CLI commands.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 040)
+- Document the `gaia steward` top-level command suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) in `cli-reference.html`.
+
+---
+
 ## 2026-09-01 — Routine 038
 
 **Branch:** `docs/routines/030` (PR #1544 still open — rebased on `origin/main` and continued on it per the one-open-PR rule)
