@@ -358,6 +358,7 @@
         <li><a href="#quick-math"><strong>Quick Math Reference</strong> — start here</a></li>
         <li><a href="#trust-magnitude">Trust Magnitude formula (full)</a></li>
         <li><a href="#evidence-types">Evidence types table</a></li>
+        <li><a href="#fusion-score">Fusion Score — the second, structural lane</a></li>
         <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
         <li><a href="#grade-thresholds">Overall Trust Grade thresholds</a></li>
         <li><a href="#branches">Suite or Unique branch derivation</a></li>
@@ -642,6 +643,92 @@
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
         N remains a structural origin count for composition and rank predicates. It contributes 0 TM. Fusion demonstrates composition scope; S instead requires three distinct positive-scoring evidence types and a positive eligible independent witness from <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code>.
       </p>
+    </section>
+
+    <!-- ─── §2a FUSION SCORE (Yggdrasil III structural lane) ─── -->
+    <section class="process-section" id="fusion-score">
+      <h2>Fusion Score — the second, structural lane</h2>
+      <p class="section-sub">
+        Yggdrasil III publishes <strong style="color: var(--text);">two</strong> numbers, not one. They answer
+        different questions, read different inputs, and neither is an input to the other.
+        Trust Magnitude keeps sole promotion authority; Fusion Score gates nothing.
+      </p>
+
+      <div class="tm-callout" style="margin-bottom: 1.5rem;">
+        <div class="tm-callout-label">Why your Trust Magnitude moved</div>
+        <p style="font-size: 0.9rem; margin: 0;">
+          Under Yggdrasil II a <code>fusion-recipe</code> row poured its structure straight into Trust
+          Magnitude, so a large suite carried a large TM. Yggdrasil III fixes that row at
+          <strong style="color: var(--text);">0 TM</strong> — which is why published TM values fell for
+          suites and fusions. <strong style="color: var(--text);">No evidence row, star count, or rank was
+          edited.</strong> The structure did not disappear: it is reported here, as Fusion Score, on its own
+          lane. This is not a second trust number and not credit restored — it is the part of the old Trust
+          Magnitude that was never evidence in the first place.
+        </p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="tm-table" aria-label="Trust Magnitude and Fusion Score compared">
+          <thead>
+            <tr><th>Reading</th><th>Question answered</th><th>Inputs</th><th>Promotion authority</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Trust Magnitude</strong></td>
+              <td>How much corroborating evidence supports this named implementation?</td>
+              <td>positive-scoring evidence rows, under the witness and diversity rules above</td>
+              <td>the TM / Trust Grade gates</td>
+            </tr>
+            <tr>
+              <td><strong>Fusion Score</strong></td>
+              <td>How much distinct structure does this capability compose?</td>
+              <td>canonical prerequisites, suite components, and origin structure</td>
+              <td><strong>none</strong> — informational in V1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">The formula</h3>
+      <div class="tm-formula-block">
+<span class="fm-key">N</span>  = distinct non-variant nodes in the resolved structural closure<br>
+<br>
+<span class="fm-key">FS</span> = <span class="fm-val">0</span>                          when N = 0<br>
+<span class="fm-key">FS</span> = <span class="fm-val">20 × N</span>                     when 1 ≤ N ≤ 10<br>
+<span class="fm-key">FS</span> = <span class="fm-val">200 + 20 × sqrt(N - 10)</span>    when N &gt; 10<br>
+<br>
+<span class="fm-comment">• version: yggdrasil-iii-v1 — a formula identifier, not a package version</span><br>
+<span class="fm-comment">• no evidence weight, no TM cap, no freshness, no grade filter, no set bonus</span><br>
+<span class="fm-comment">• rounded to 2 decimals so Python, CLI, and JSON stay byte-identical</span>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">What counts as structure</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">
+        Inputs resolve from canonical graph fields, in order: the starless generic node's
+        <code>prerequisites</code> (reached through a Named Skill's <code>genericSkillRef</code>), then the
+        Named Skill's <code>suiteComponents</code>, then explicit <code>fusion-recipe</code> origins as a
+        compatibility fallback only. Then:
+      </p>
+      <ul style="font-size: 0.9rem; color: var(--muted); line-height: 1.8;">
+        <li>deduplicated by canonical skill ID — a node reached by two paths counts once;</li>
+        <li><code>role: variant</code> entries are excluded at every source;</li>
+        <li>the skill's own ID is excluded from its closure;</li>
+        <li>cycles are guarded and traversal stops at a declared depth limit;</li>
+        <li>Evidence Grade, Overall Trust Grade, Trust Magnitude, repository stars, rank, and source
+            freshness are <strong style="color: var(--text);">never</strong> inspected.</li>
+      </ul>
+
+      <div class="tm-callout" style="margin-top: 1.25rem;">
+        <div class="tm-callout-label">Independence is the contract</div>
+        <p style="font-size: 0.9rem; margin: 0;">
+          Trust Magnitude must not move when Fusion Score moves. Fusion Score must not move when evidence,
+          stars, Trust Grade, or Trust Magnitude move while the underlying structure is unchanged.
+          A high Fusion Score is not stronger evidence, and a Fusion Score of <code>0</code> says nothing
+          about a skill's quality — a Basic composes no structure by definition.
+          Fusion Score is not persisted in any registry node: it is computed at build time and materialises
+          only in generated projections.
+        </p>
+      </div>
     </section>
 
     <!-- ─── §2b EVIDENCE INHERITANCE ─── -->

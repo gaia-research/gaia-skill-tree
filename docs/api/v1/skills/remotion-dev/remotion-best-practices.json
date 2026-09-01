@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/remotion-dev.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 274.83,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 19,
+    "transitiveCount": 24,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
   "title": "Remotion Best Practices",
   "genericSkillRef": "video-composition",
   "origin": true,

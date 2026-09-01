@@ -115,7 +115,7 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
 - **Scoring:** TM sums positive-scoring evidence rows only. `fusion-recipe` is retained as structural/provenance/rank metadata and contributes **0 TM**.
 - **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
 - **S gate:** S requires TM ≥ 250, at least 3 distinct positive-scoring Evidence Types, and a positive eligible independent witness from `benchmark-result`, `verifier-attestation`, or `peer-review`. `github-stars-own`, `repo-own`, `fusion-recipe`, `self-attestation`, `social-signal`, `arxiv`, and `proxy-containment` are not S witnesses.
-- **Fusion/rank structure:** suite membership, origin counts, nested suites, graph traversal, and Apex predicates remain structural. `fusion-recipe` does not count toward Trust Grade diversity. No Fusion/Composition scalar is introduced.
+- **Fusion/rank structure:** suite membership, origin counts, nested suites, graph traversal, and Apex predicates remain structural. `fusion-recipe` does not count toward Trust Grade diversity. Structural composition is reported by the **Fusion Score** (§2.1e), a second, independent scalar that contributes nothing to TM.
 - **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.
 - **Null-on-derank verifier:** when a 4★+ Verifier loses rank, their attestations evaluate to null (not flagged, not zero — null); the skill's Trust Magnitude is recomputed without those rows.
@@ -127,6 +127,35 @@ The Overall Trust Grade is computed at the skill level from the accumulated Trus
 ### 2.1d Anti-auto-mint clause (registry-wide)
 
 Per G7 RFC §10.14: every non-fusion-recipe evidence row must be **physically present** in the skill's `evidence:` array. No phantom rows. A grade that cannot be traced back to an explicit row in the array is invalid. The sole exception is the fusion-recipe entry generated automatically for suites; it is structural metadata only and scores 0 TM.
+
+### 2.1e Fusion Score (Yggdrasil III structural scalar)
+
+Yggdrasil III ratifies a **second** numeric reading. This supersedes the earlier §2.1c sentence stating that no Fusion/Composition scalar is introduced; the rest of the Yggdrasil III trust ruling stands unchanged.
+
+| Reading | Question answered | Inputs | Promotion authority |
+|---|---|---|---|
+| **Trust Magnitude** | How much corroborating evidence supports this named implementation? | positive-scoring evidence rows, under the existing witness and diversity rules | the existing TM / Trust Grade gates |
+| **Fusion Score** | How much distinct structure does this capability compose? | canonical prerequisite, suite-component, and origin structure | **none** — informational in V1 |
+
+**Trust Magnitude keeps sole promotion authority.** Fusion Score is not an Evidence Type, an evidence row, a Trust Grade ingredient, a TM multiplier, or a substitute for an Apex predicate. `fusion-recipe` still contributes **0 TM** and still satisfies neither TM diversity nor the independent-witness requirement.
+
+**Independence is the contract.** TM must not move when Fusion Score moves; Fusion Score must not move when evidence, stars, Trust Grade, or TM move while the underlying structure is unchanged. Locked by `tests/test_fusion_score.py`.
+
+**Inputs** resolve from canonical graph fields, in order: (1) the starless generic node's `prerequisites`, reached via a Named Skill's `genericSkillRef`; (2) the Named Skill's `suiteComponents`; (3) explicit `fusion-recipe` origins, as a compatibility fallback only. Entries are deduplicated by canonical skill ID, `role: variant` is excluded, the root ID is excluded, cycles are guarded, and the closure walks to a declared traversal limit. Evidence Grade, Overall Trust Grade, TM, repository stars, rank, and source freshness are **never** inspected.
+
+**Formula** (`yggdrasil-iii-v1`), where `N` is the count of distinct non-variant nodes in the resolved closure:
+
+```text
+FS = 0                          when N = 0
+FS = 20 × N                     when 1 ≤ N ≤ 10
+FS = 200 + 20 × sqrt(N - 10)    when N > 10
+```
+
+The former `fusion-recipe` evidence weight (`1.5×`), TM cap, freshness factor, grade filter, set bonus, and Trust Grade threshold are all deliberately **absent** — they belonged to evidence aggregation and would recreate the coupling Yggdrasil III removed. Results are rounded to two decimals so Python, CLI text, and JSON stay byte-stable.
+
+**Persistence boundary:** the registry stores the structural *inputs*, never the derived answer. `fusionScore` is **not** written to Named Skill frontmatter or canonical node JSON. It is computed in one Python authority (`src/gaia_cli/fusionScore.py`, over the neutral traversal in `src/gaia_cli/structuralGraph.py`) and serialized only into generated projections (`registry/named-skills.json` → `docs/graph/named/index.json`, and `docs/api/v1/`). Browser code consumes the generated value and breakdown; it carries no second formula.
+
+**Why the public numbers moved.** Under Yggdrasil II a `fusion-recipe` row poured its structure straight into Trust Magnitude, so a large suite carried a large TM. Yggdrasil III fixed that row at 0 TM — which is why TM fell for suites and fusions even though no evidence row, star count, or rank was edited. The structure did not disappear; it is reported as Fusion Score instead. **Every surface that prints a Fusion Score must also state this**, so a returning reader cannot mistake the movement for a demotion.
 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
 

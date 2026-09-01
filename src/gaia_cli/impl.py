@@ -4344,6 +4344,7 @@ def main():
 def trust_explain_command(args):
     """Implement `gaia trust explain <skillId>`."""
     from gaia_cli.trustMagnitude import explainTrustMagnitude
+    from gaia_cli.fusionScore import explainFusionScore
     from gaia_cli.registry import load_registry
 
     skillId = args.skillId
@@ -4365,6 +4366,15 @@ def trust_explain_command(args):
 
     output = explainTrustMagnitude(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap)
     print(output)
+
+    # Yggdrasil III: the structural reading is printed as its own section, not
+    # folded into the Trust Magnitude breakdown. They answer different
+    # questions and neither is an input to the other — presenting them as one
+    # block is exactly the conflation this separator exists to prevent.
+    print()
+    print("─" * 60)
+    print()
+    print(explainFusionScore(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap))
     return 0
 
 

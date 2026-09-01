@@ -26,6 +26,7 @@ import math
 from typing import Any, Optional
 
 
+from gaia_cli import structuralGraph
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
@@ -1228,26 +1229,14 @@ def _fusionOriginIds(skill: dict, genericSkillMap: dict) -> list[str]:
     """Resolve fusion-recipe origins from a skill, role='variant' excluded.
 
     Suite components are excluded - only fusion-recipe rows in evidence count.
+
+    Thin delegation to `structuralGraph.fusionRecipeOriginIds`: Yggdrasil III
+    moved the composition-edge walk to a neutral owner so neither this module
+    nor the Apex predicates own the graph the Fusion Score is derived from.
+    Semantics are unchanged — same role resolution against the generic map,
+    same order, duplicates still preserved.
     """
-    out: list[str] = []
-    for row in skill.get("evidence") or []:
-        if _typeOf(row) != "fusion-recipe":
-            continue
-        for entry in row.get("origins") or []:
-            if isinstance(entry, dict):
-                originId = entry.get("id") or entry.get("skillId")
-                inlineRole = entry.get("role")
-            else:
-                originId = entry
-                inlineRole = None
-            if not originId:
-                continue
-            node = genericSkillMap.get(originId) or {}
-            role = inlineRole or node.get("role")
-            if role == "variant":
-                continue
-            out.append(originId)
-    return out
+    return structuralGraph.fusionRecipeOriginIds(skill, genericSkillMap)
 
 
 def _fusionAndSuiteOriginIds(
@@ -1264,8 +1253,8 @@ def _fusionAndSuiteOriginIds(
     del namedSkillMap  # reserved — suiteComponent IDs are looked up by caller
     out: list[str] = list(_fusionOriginIds(skill, genericSkillMap))
     seen = set(out)
-    for cid in skill.get("suiteComponents") or []:
-        if not cid or cid in seen:
+    for cid in structuralGraph.suiteComponentIds(skill):
+        if cid in seen:
             continue
         seen.add(cid)
         out.append(cid)

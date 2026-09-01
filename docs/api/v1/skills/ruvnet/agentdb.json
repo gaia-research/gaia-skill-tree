@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/ruvnet.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 240.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 10,
+    "transitiveCount": 14,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
   "title": "The Memory Sovereign",
   "genericSkillRef": "agent-memory-platform",
   "origin": true,

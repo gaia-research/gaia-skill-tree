@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29",
+  "generatedAt": "2026-09-01",
   "buckets": {
     "automated-testing": [
       {
@@ -103,7 +103,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "0xdarkmatter/pytest-patterns",
@@ -178,7 +186,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "design-system-extraction": [
@@ -332,7 +348,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/stitch-skill",
@@ -431,7 +455,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "Manavarya09/design-extract",
@@ -535,7 +567,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "git-ship-done-pipeline": [
@@ -742,6 +782,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 284.85,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 13,
+          "transitiveCount": 28,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -948,6 +996,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 272.11,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 10,
+          "transitiveCount": 23,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -1088,7 +1144,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/plan-eng-review",
@@ -1212,7 +1276,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/review",
@@ -1352,7 +1424,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/github-code-review",
@@ -1425,7 +1505,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "refactor-code": [
@@ -1608,7 +1696,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/improve-codebase-architecture",
@@ -1721,7 +1817,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/migrate-to-shoehorn",
@@ -1874,7 +1978,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "executing-plans": [
@@ -2044,7 +2156,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "addy-osmani/incremental-implementation",
@@ -2214,7 +2334,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/implement",
@@ -2366,7 +2494,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "performance-tuning": [
@@ -2532,6 +2668,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 2/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -2613,7 +2757,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-performance-optimization",
@@ -2689,7 +2841,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "vertical-slice-planning": [
@@ -2820,6 +2980,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 200.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 10,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -2990,7 +3158,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/to-tickets",
@@ -3162,7 +3338,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "finishing-a-development-branch": [
@@ -3310,7 +3494,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "addy-osmani/shipping-and-launch",
@@ -3448,7 +3640,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "gsd-build/ship",
@@ -3592,7 +3792,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "obra/finishing-a-development-branch",
@@ -3723,7 +3931,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "prd-generation": [
@@ -3906,7 +4122,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "addy-osmani/spec-driven-development",
@@ -4060,7 +4284,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "test-driven-development": [
@@ -4214,7 +4446,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "addy-osmani/test-driven-development",
@@ -4334,7 +4574,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "document-editing": [
@@ -4482,7 +4730,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/edit-article",
@@ -4656,7 +4912,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "anthropic/pptx",
@@ -4754,7 +5018,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/document-release",
@@ -4851,7 +5123,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "tool-creation": [
@@ -5013,7 +5293,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/write-a-skill",
@@ -5140,7 +5428,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "brand-guideline-application": [
@@ -5235,7 +5531,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/brandkit",
@@ -5334,7 +5638,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "static-artwork-design": [
@@ -5440,7 +5752,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "session-journaling": [
@@ -5533,7 +5853,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "format-output": [
@@ -5650,7 +5978,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/output-skill",
@@ -5743,7 +6079,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ayghri/i-have-adhd",
@@ -5869,7 +6213,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-intelligence": [
@@ -6005,7 +6357,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "browser-control": [
@@ -6195,7 +6555,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "firecrawl/firecrawl-build-interact",
@@ -6300,7 +6668,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/browse",
@@ -6492,7 +6868,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/open-gstack-browser",
@@ -6589,7 +6973,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/setup-browser-cookies",
@@ -6686,7 +7078,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "browser-automation": [
@@ -6771,7 +7171,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "gooseworks/notte-browser",
@@ -6844,7 +7252,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/browser",
@@ -6919,7 +7335,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "evidence-attestation": [
@@ -7013,7 +7437,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "autonomous-debug": [
@@ -7189,7 +7621,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "devin-ai/autonomous-swe",
@@ -7349,7 +7789,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "implement-with-discernment": [
@@ -7464,6 +7912,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -7562,7 +8018,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-fusion": [
@@ -7678,6 +8142,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 6,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -7756,7 +8228,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "opinion": [
@@ -7834,7 +8314,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "plan-synthesis": [
@@ -7912,7 +8400,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "event-attendance-metrics": [
@@ -7993,7 +8489,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "favorchurch/count-checkin-by-church",
@@ -8066,7 +8570,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "event-attendee-management": [
@@ -8141,7 +8653,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "grant-application-processing": [
@@ -8216,7 +8736,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "transactional-email-resend": [
@@ -8291,7 +8819,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "humanize-prose": [
@@ -8366,7 +8902,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "event-ticket-transfer": [
@@ -8441,7 +8985,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "event-support-triage": [
@@ -8516,7 +9068,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "crm-data-cleanup": [
@@ -8591,7 +9151,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-environment-setup": [
@@ -8698,7 +9266,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/setup-matt-pocock-skills",
@@ -8819,7 +9395,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "web-scrape": [
@@ -8982,6 +9566,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -9091,7 +9683,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "web-search": [
@@ -9230,6 +9830,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -9356,7 +9964,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "firecrawl": [
@@ -9545,6 +10161,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 10,
+          "transitiveCount": 14,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -9660,7 +10284,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "token-observability": [
@@ -9755,7 +10387,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "gaia-research/cost",
@@ -9851,7 +10491,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "skill-fusion": [
@@ -9994,7 +10642,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 200.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 10,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "skill-performance-benchmarking": [
@@ -10099,7 +10755,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/worker-benchmarks",
@@ -10174,7 +10838,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "evaluate-output": [
@@ -10316,7 +10988,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/plan-ceo-review",
@@ -10456,7 +11136,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "detect-anomaly": [
@@ -10598,7 +11286,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "guardrails": [
@@ -10723,7 +11419,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/freeze",
@@ -10820,7 +11524,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/guard",
@@ -10923,7 +11635,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/unfreeze",
@@ -11020,7 +11740,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/git-guardrails-claude-code",
@@ -11173,7 +11901,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/setup-pre-commit",
@@ -11326,7 +12062,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "multi-agent-debate": [
@@ -11431,7 +12175,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "context-compression": [
@@ -11530,7 +12282,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/context-save",
@@ -11627,7 +12387,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "juliusbrussee/caveman",
@@ -11826,7 +12594,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "security-audit": [
@@ -11969,7 +12745,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "intelligentcode-ai/security-engineer",
@@ -12098,7 +12882,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-security-overhaul",
@@ -12173,7 +12965,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "code-generation": [
@@ -12321,7 +13121,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "ui-audit": [
@@ -12422,7 +13230,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/design-review",
@@ -12537,7 +13353,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "design-review": [
@@ -12679,7 +13503,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/grilling",
@@ -12831,7 +13663,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "ux-audit": [
@@ -12989,6 +13829,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥2 graded source(s) at A+, have 1"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -13129,7 +13977,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/plan-devex-review",
@@ -13269,7 +14125,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -13400,7 +14264,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/devex-review",
@@ -13515,7 +14387,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "workspace-automation": [
@@ -13614,7 +14494,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "founder-mode-orchestration": [
@@ -13835,6 +14723,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 392.87,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 77,
+          "transitiveCount": 103,
+          "maxDepth": 3,
+          "nestedSuiteCount": 1
         }
       }
     ],
@@ -13983,7 +14879,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "obra/systematic-debugging",
@@ -14137,7 +15041,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/diagnosing-bugs",
@@ -14289,7 +15201,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "deployment-automation": [
@@ -14431,7 +15351,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/setup-deploy",
@@ -14528,7 +15456,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-preview",
@@ -14629,7 +15565,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "intelligentcode-ai/devops-engineer",
@@ -14759,7 +15703,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "project-management": [
@@ -14858,7 +15810,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/github-project-management",
@@ -14932,7 +15892,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "memory-manage": [
@@ -15037,7 +16005,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-memory-unification",
@@ -15112,7 +16088,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "question-answer": [
@@ -15239,7 +16223,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "mcp-integration": [
@@ -15344,7 +16336,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "intelligentcode-ai/mcp-client",
@@ -15471,7 +16471,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-mcp-optimization",
@@ -15546,7 +16554,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "prompt-optimization": [
@@ -15703,6 +16719,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -15800,7 +16824,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "e2e-testing": [
@@ -15942,7 +16974,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 7,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/qa-only",
@@ -16039,7 +17079,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 7,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "intelligentcode-ai/user-tester",
@@ -16168,7 +17216,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 7,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "write-report": [
@@ -16320,7 +17376,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "spring-ai/readme-generate",
@@ -16418,7 +17482,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "glincker/readme-generator",
@@ -16553,7 +17625,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "knowledge-management": [
@@ -16652,7 +17732,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "garrytan/sync-gbrain",
@@ -16749,7 +17837,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/teach",
@@ -16904,7 +18000,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "skill-authoring": [
@@ -17045,7 +18149,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/scaffold-exercises",
@@ -17198,7 +18310,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/writing-for-agents",
@@ -17362,7 +18482,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/skill-builder",
@@ -17437,7 +18565,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "brainstorming": [
@@ -17624,7 +18760,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "gsd-build/discuss-phase",
@@ -17774,7 +18918,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "subagent-driven-development": [
@@ -18004,6 +19156,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -18148,7 +19308,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/pair-programming",
@@ -18248,7 +19416,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "writing-plans": [
@@ -18498,6 +19674,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -18642,7 +19826,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "verification-before-completion": [
@@ -18813,7 +20005,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "gsd-build/verify-work",
@@ -18957,7 +20157,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/verification-quality",
@@ -19057,7 +20265,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "api-call": [
@@ -19132,7 +20348,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "data-analysis": [
@@ -19207,7 +20431,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "fine-tune": [
@@ -19282,7 +20514,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "literature-review": [
@@ -19357,7 +20597,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 4,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "object-detection": [
@@ -19432,7 +20680,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "semantic-cache": [
@@ -19580,7 +20836,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "multimodal-reasoning": [
@@ -19655,7 +20919,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "schema-design": [
@@ -19787,7 +21059,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "parallel-execution": [
@@ -19916,7 +21196,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "release-automation": [
@@ -20047,7 +21335,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/github-release-management",
@@ -20121,7 +21417,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "requirements-analysis": [
@@ -20251,7 +21555,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "molecular-machine-learning": [
@@ -20363,6 +21675,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥2 graded source(s) at A+, have 1"
+        },
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -20475,6 +21795,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥2 graded source(s) at A+, have 1"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -20583,7 +21911,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 248.99,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 16,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "quantum-circuit-programming": [
@@ -20691,7 +22027,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "cheminformatics-analysis": [
@@ -20793,7 +22137,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 8,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "single-cell-analysis": [
@@ -20901,7 +22253,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "single-cell-omics-modeling": [
@@ -21003,7 +22363,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "reinforcement-learning-training": [
@@ -21111,7 +22479,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "graph-neural-network-modeling": [
@@ -21223,6 +22599,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥2 graded source(s) at A+, have 1"
+        },
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -21331,7 +22715,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 228.28,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 12,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "autonomous-web-research": [
@@ -21469,6 +22861,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 228.28,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 5,
+          "transitiveCount": 12,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -21577,7 +22977,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 228.28,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 5,
+          "transitiveCount": 12,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "framework-upgrade": [
@@ -21674,7 +23082,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "remotion-dev/remotion-upgrade",
@@ -21723,7 +23139,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "design-generation": [
@@ -21937,6 +23361,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -22052,6 +23484,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 256.57,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 14,
+          "transitiveCount": 18,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -22145,7 +23585,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/gpt-tasteskill",
@@ -22238,7 +23686,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/minimalist-skill",
@@ -22331,7 +23787,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/soft-skill",
@@ -22424,7 +23888,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "nexu-io/open-design",
@@ -22532,7 +24004,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "vision-qa": [
@@ -22627,7 +24107,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "image-generate": [
@@ -22728,7 +24216,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "leonxlnx/imagegen-frontend-mobile",
@@ -22821,7 +24317,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "task-depth-enforcement": [
@@ -22919,7 +24423,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "route-intent": [
@@ -23123,7 +24635,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "requesting-code-review": [
@@ -23223,7 +24743,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 7,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mattpocock/code-review",
@@ -23299,7 +24827,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 7,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "software-design": [
@@ -23453,7 +24989,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "domain-modeling": [
@@ -23607,7 +25151,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "engineering-discipline": [
@@ -23725,6 +25277,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 326.49,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 28,
+          "transitiveCount": 50,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -23890,7 +25450,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "grill-with-docs": [
@@ -24051,7 +25619,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 180.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 9,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-handoff": [
@@ -24236,7 +25812,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "mattpocock-misc": [
@@ -24308,6 +25892,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 228.28,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 7,
+          "transitiveCount": 12,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -24458,7 +26050,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "personal": [
@@ -24541,6 +26141,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 2/3 components carry graded evidence"
+        },
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 4,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -24645,6 +26253,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 272.11,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 13,
+          "transitiveCount": 23,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -24759,7 +26375,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "research": [
@@ -24837,7 +26461,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "git-integration": [
@@ -24958,6 +26590,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 1/3 components carry graded evidence"
+        },
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 14,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       },
       {
@@ -25110,7 +26750,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 234.64,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 5,
+          "transitiveCount": 13,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "skill-mastery": [
@@ -25370,6 +27018,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 364.92,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 30,
+          "transitiveCount": 78,
+          "maxDepth": 3,
+          "nestedSuiteCount": 3
         }
       }
     ],
@@ -25448,7 +27104,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "issue-triage": [
@@ -25579,7 +27243,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-triage",
@@ -25655,7 +27327,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "ubiquitous-language": [
@@ -25826,7 +27506,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-ddd-architecture",
@@ -25926,7 +27614,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "plain-language-restatement": [
@@ -26004,7 +27700,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "decision-ticket-planning": [
@@ -26082,7 +27786,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "guided-setup-scripting": [
@@ -26160,7 +27872,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "code-explain": [
@@ -26246,7 +27966,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "registry-entry-audit": [
@@ -26350,7 +28078,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-curation-review",
@@ -26457,7 +28193,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "registry-curation": [
@@ -26541,7 +28285,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-curate",
@@ -26625,7 +28377,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-docs-sync",
@@ -26701,7 +28461,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-draft-curate",
@@ -26783,7 +28551,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-integrity",
@@ -26866,7 +28642,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "mbtiongson1/gaia-wiki-sync",
@@ -26942,7 +28726,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 6,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "registry-health-scan": [
@@ -27054,7 +28846,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 228.28,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 12,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "graph-driven-issue-triage": [
@@ -27158,7 +28958,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "feed-monitoring": [
@@ -27268,7 +29076,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "dispatching-parallel-agents": [
@@ -27398,7 +29214,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "receiving-code-review": [
@@ -27511,7 +29335,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 220.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 11,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "superpowers": [
@@ -27729,6 +29561,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 300.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 22,
+          "transitiveCount": 35,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -27965,6 +29805,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -28109,6 +29957,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 1/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -28231,7 +30087,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "scroll-world": [
@@ -28356,7 +30220,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-reach": [
@@ -28493,7 +30365,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-composition": [
@@ -28572,6 +30452,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 0/3 components carry graded evidence"
+        },
+        "fusionScore": 274.83,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 19,
+          "transitiveCount": 24,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -28629,7 +30517,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-scaffolding": [
@@ -28686,7 +30582,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "wiki-search": [
@@ -28737,7 +30641,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-interactivity": [
@@ -28794,7 +30706,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "map-animation": [
@@ -28851,7 +30771,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "timeline-animation": [
@@ -28908,7 +30836,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "generative-media": [
@@ -28959,7 +30895,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-rendering": [
@@ -29016,7 +30960,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-saas": [
@@ -29073,7 +31025,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "video-preview": [
@@ -29130,7 +31090,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "distributed-vector-memory": [
@@ -29237,7 +31205,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-memory-learning": [
@@ -29312,7 +31288,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/reasoningbank-agentdb",
@@ -29385,7 +31369,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "memory-pattern-design": [
@@ -29479,7 +31471,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "vector-db-optimization": [
@@ -29573,7 +31573,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "vector-search": [
@@ -29668,7 +31676,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-memory-platform": [
@@ -29832,6 +31848,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 10,
+          "transitiveCount": 14,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -29928,7 +31952,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "headless-worker-collect": [
@@ -30023,7 +32055,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "hybrid-workflow-coordination": [
@@ -30118,7 +32158,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "dual-mode": [
@@ -30245,6 +32293,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 6,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -30340,7 +32396,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "distributed-neural-training": [
@@ -30447,7 +32511,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "cloud-platform-management": [
@@ -30554,7 +32626,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "multi-agent-orchestration-v": [
@@ -30630,7 +32710,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/v3-swarm-coordination",
@@ -30705,7 +32793,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "multi-node-orchestration": [
@@ -30825,6 +32921,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 2/3 components carry graded evidence"
+        },
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 14,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -30920,7 +33024,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "workflow-automation": [
@@ -30995,7 +33107,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       },
       {
         "id": "ruvnet/hooks-automation",
@@ -31070,7 +33190,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "distributed-consensus-coordination": [
@@ -31295,7 +33423,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "adaptive-pattern-learning": [
@@ -31401,7 +33537,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "reasoning-pattern-bank": [
@@ -31603,6 +33747,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "only 1/3 components carry graded evidence"
+        },
+        "fusionScore": 140.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 4,
+          "transitiveCount": 7,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -31745,6 +33897,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 274.83,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 12,
+          "transitiveCount": 24,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -32011,6 +34171,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 389.74,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 45,
+          "transitiveCount": 100,
+          "maxDepth": 4,
+          "nestedSuiteCount": 6
         }
       }
     ],
@@ -32088,7 +34256,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "sequential-agent-pipeline": [
@@ -32184,7 +34360,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "advanced-swarm-coordination": [
@@ -32292,7 +34476,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 5,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "swarm-topology-management": [
@@ -32400,7 +34592,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "cli-modernization": [
@@ -32496,7 +34696,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "core-platform-implementation": [
@@ -32592,7 +34800,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "system-integration": [
@@ -32688,7 +34904,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "worker-agent-dispatch": [
@@ -32784,7 +35008,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "knowledge-graph-build": [
@@ -32983,6 +35215,14 @@
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
         }
       }
     ],
@@ -33080,7 +35320,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 14,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "postgres-best-practices": [
@@ -33130,7 +35378,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "supabase": [
@@ -33180,7 +35436,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "generate-test": [
@@ -33314,7 +35578,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "react-performance-optimization": [
@@ -33464,7 +35736,15 @@
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "skill-discovery": [
@@ -33557,7 +35837,15 @@
         "rank": 2,
         "rankWord": "Named",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "rag-pipeline": [
@@ -33634,7 +35922,15 @@
         "rank": 1,
         "rankWord": "Awakened",
         "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 120.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 6,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ]
   },
