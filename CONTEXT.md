@@ -144,6 +144,14 @@ _Avoid_: showing the trust number in copy; "trust score" (the term is "trust num
 A skill's *aggregate* standing — the accumulation of its individual **Evidence Grades** that establishes the capability "beyond reasonable doubt." Computed from the evidence inventory at build time and **never stored in a node** (Programmatic-First); it materialises only in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). Distinct from a single demonstration's **Evidence Grade**.
 _Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
 
+**Fusion Score**:
+A skill's *structural* reading — how much distinct capability it composes, derived from canonical prerequisites, suite components, and origin structure. Ratified by Yggdrasil III as a **second, independent** scalar alongside **Trust Magnitude**: TM answers "how much evidence corroborates this?", Fusion Score answers "how much structure does this compose?". Informational in V1 — it gates no rank, no star, and no Trust Grade. Computed at build time in one Python authority and materialised only in generated projections; **never stored on a node** and never written to Named Skill frontmatter.
+_Avoid_: calling it a trust number, a second grade, or a capability score; describing a high Fusion Score as "stronger evidence"; mixing it into a **Trust Magnitude** breakdown, the Trust Ledger, or the **Hall of Heroes**; treating it as an **Evidence Type**, an **Evidence Grade**, a rank input, or an Apex predicate; storing it in a registry node.
+
+**the Yggdrasil III number movement** (transitional copy rule):
+Under Yggdrasil II, `fusion-recipe` structure was scored *inside* Trust Magnitude, so suites and fusions carried a large TM. Yggdrasil III fixed that row at 0 TM and reports the structure as **Fusion Score** instead — which is why published TM values fell for those skills while **no evidence row, star count, or rank was edited**. Any surface that shows a Fusion Score must say this plainly, so a returning reader cannot read the movement as a demotion.
+_Avoid_: reporting the drop without the cause; the words "downgrade", "penalty", or "lost trust" for this movement; implying a skill became less capable; presenting Fusion Score as compensation or as points restored.
+
 **rank tenure**:
 How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Evolved rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
 _Avoid_: "rank since" with no rank name; storing tenure on a node; "rank age".
@@ -461,6 +469,8 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
 - `Fusion Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=fusion` label stands bare. Use **Fusion**.
+- `fusion magnitude` / `composition score` / `structure score` — for the Yggdrasil III structural scalar; use **Fusion Score**. `fusion magnitude` in particular names the *retired* Yggdrasil II term for the same structure scored inside Trust Magnitude — reusing it re-implies the coupling Yggdrasil III removed.
+- `fusion trust` / `structural trust` / `second trust score` — Fusion Score is not trust in any sense; use **Fusion Score** and say **structural** where the contrast is needed
 - `G7` / `G8` (in external / public docs) — use **TM Index (2026 Q2)** / **TM Index (2026 Q3)**; the G-series is internal engineering codename only
 - `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
 - `graph-isolated singularities` — for Unique section; use **Uniques**
