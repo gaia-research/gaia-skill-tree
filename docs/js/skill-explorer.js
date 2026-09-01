@@ -112,6 +112,92 @@
     '</div>';
   }
 
+  // ── Yggdrasil III Fusion Score strip ──────────────────────────────────────
+  // A ledger row, not a plaque: neutral tokens only, no grade color, no
+  // medallion, no star glyph. The trust notch above it is the graded surface;
+  // this one must never be mistaken for a second grade.
+  //
+  // Every number here is READ from the generated projection. The formula lives
+  // in src/gaia_cli/fusionScore.py and nowhere else — if this file ever starts
+  // computing a score, tests/test_fusion_score.py fails on purpose.
+  function _renderFusionStrip(ns) {
+    if (!ns) return '';
+    var fs = ns.fusionScore;
+    if (fs == null || fs === '') return '';
+    var value = Number(fs);
+    if (!isFinite(value) || value <= 0) return '';
+
+    var bd = ns.fusionBreakdown || {};
+    var direct = bd.directCount || 0;
+    var transitive = bd.transitiveCount || 0;
+    var depth = bd.maxDepth || 0;
+    var nested = bd.nestedSuiteCount || 0;
+    var version = ns.fusionScoreVersion || '';
+    var display = value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
+
+    var tip = [
+      'Fusion Score ' + display + (version ? '  (' + version + ')' : ''),
+      'How much distinct structure this capability composes.',
+      '',
+      'WHY THE NUMBERS MOVED',
+      'Under Yggdrasil II a fusion-recipe row added its structure straight into',
+      'Trust Magnitude, so a large suite carried a large TM. Yggdrasil III fixed',
+      'that row at 0 TM — which is why TM fell for suites and fusions even though',
+      'no evidence, star, or rank was touched. The structure did not vanish: it is',
+      'reported here instead, as its own reading.',
+      '',
+      'So this is not a second trust number, and not new credit. It is the part of',
+      'the old TM that was never evidence in the first place.',
+      '',
+      'Distinct structural nodes: ' + transitive + ' (' + direct + ' direct)',
+      'Deepest level walked: ' + depth,
+      'Nested suites in the closure: ' + nested,
+      '',
+      'Structural reading only. Not an Evidence Type, not a Trust Grade input,',
+      'not a Trust Magnitude multiplier. It gates no rank.',
+      'Resolved from canonical prerequisites and suite components.',
+      'Evidence, stars, and Trust Magnitude are not inputs.'
+    ].join('\n');
+
+    function cell(label, val) {
+      return '<span class="se-fs-cell">' +
+        '<span class="se-fs-cell-label">' + esc(label) + '</span>' +
+        '<span class="se-fs-cell-value">' + esc(String(val)) + '</span>' +
+      '</span>';
+    }
+
+    // role="group" so the aria-label is actually honoured — a bare <div> with
+    // an aria-label is ignored by most screen readers.
+    return '<div class="se-fusion-strip" role="group" title="' + esc(tip) + '"' +
+        ' aria-label="' + esc('Fusion Score ' + display + ', structural reading, independent of Trust Magnitude') + '">' +
+      '<span class="se-fs-head">' +
+        '<span class="se-fs-key">FUSION SCORE</span>' +
+        '<span class="se-fs-value">' + esc(display) + '</span>' +
+      '</span>' +
+      '<span class="se-fs-cells">' +
+        cell('direct', direct) +
+        cell('total', transitive) +
+        cell('depth', depth) +
+        cell('nested', nested) +
+      '</span>' +
+      // Short enough to sit on the figures row rather than wrapping to a line
+      // of its own — the migration line below already carries the long form.
+      '<span class="se-fs-note">gates no rank</span>' +
+      // The migration line is the whole reason this strip is not quieter. A
+      // reader who remembers Yggdrasil II numbers is looking at a Trust
+      // Magnitude that dropped and needs to be told, on the surface itself and
+      // not in a tooltip, that the missing amount was structure and it is
+      // right here. Without this line the strip invites the worst possible
+      // reading: "my skill got downgraded."
+      '<span class="se-fs-migration">' +
+        'New in Yggdrasil III. Structure like this used to be scored ' +
+        '<em>inside</em> Trust Magnitude — that is why TM fell for suites and ' +
+        'fusions. No evidence, star, or rank changed; the structure simply ' +
+        'reports separately now.' +
+      '</span>' +
+    '</div>';
+  }
+
   // Derive the pre-weight artifact magnitude (for tooltip chain display only).
   // Returns the capped base magnitude — used as input to _deriveWeightedScore.
   // ALWAYS prefers the live formula over stored ev.trustNumber (which may be stale).
@@ -591,6 +677,24 @@
           notch.appendChild(infoBtn);
         }
       }
+      // Yggdrasil III Fusion Score — the structural reading, rendered as a
+      // PEER of the trust notch and never inside it. Two independent numbers
+      // answering two different questions: the notch says how much evidence
+      // corroborates this implementation, the strip below says how much
+      // distinct structure it composes. Fusion Score gates no rank and is not
+      // an input to Trust Magnitude.
+      //
+      // The value and its breakdown are read straight off the generated
+      // projection (docs/graph/named/index.json). There is deliberately no
+      // formula here — fusionScore.py is the single authority, and a second
+      // copy in JavaScript is exactly the drift this avoids.
+      var fsStrip = _renderFusionStrip(ns);
+      if (fsStrip) {
+        var fsDiv = document.createElement('div');
+        fsDiv.innerHTML = fsStrip;
+        heroEl.appendChild(fsDiv);
+      }
+
       // N-11 Site 1: Research CTA below the plaque for suite/fusion skills.
       // Append after the trust notch so it follows the hero without disrupting layout.
       if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
