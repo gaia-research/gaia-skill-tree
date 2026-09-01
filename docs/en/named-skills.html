@@ -616,7 +616,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Named Skills</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.6.2</span>
+    <span class="nav-version">v7.7.2</span>
   </nav>
 
   <!-- Layout -->
@@ -909,8 +909,7 @@ git checkout -b review/meta/karpathy-web-scrape origin/main
 gaia dev list --generic | grep web-scrape
 <span class="c"># If missing:</span>
 gaia dev add "Web Scrape" --type basic \
-  --description "Drives a browser to scrape structured data from web pages" \
-  --no-build
+  --description "Drives a browser to scrape structured data from web pages"
 
 <span class="c"># 3. Add the Named Skill frontmatter</span>
 <span class="c"># Create: registry/named/karpathy/web-scrape.md</span>
@@ -919,12 +918,10 @@ gaia dev add "Web Scrape" --type basic \
 <span class="c"># 4. Add evidence (Evidence Type + Trust Magnitude, not the deprecated --class)</span>
 gaia dev evidence web-scrape \
   "https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md" \
-  --type repo-own --trust 20 --notes "Origin SKILL.md, first documented implementation" \
-  --no-build
+  --type repo-own --trust 20 --notes "Origin SKILL.md, first documented implementation"
 
-<span class="c"># 5. Set level and regenerate index</span>
-gaia dev calibrate web-scrape "2★" --no-build
-python3 scripts/generateNamedIndex.py
+<span class="c"># 5. Set level</span>
+gaia dev calibrate web-scrape "2★"
 
 <span class="c"># 6. Final build + validate</span>
 gaia dev build

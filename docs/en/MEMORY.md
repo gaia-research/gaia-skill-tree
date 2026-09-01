@@ -2,6 +2,51 @@
 
 ---
 
+## 2026-09-01 — Routine 038
+
+**Branch:** `docs/routines/030` (PR #1544 still open — rebased on `origin/main` and continued on it per the one-open-PR rule)
+
+**Task chosen:** SYNC + ROTATE — release v7.7.2 version bump across all 13 `docs/en/*.html` pages + ROTATE audit of `named-skills.html` and `share-bundles.html` (planned in Routine 037).
+
+### Trigger
+Routine documentation agent triggered on 2026-09-01. Release v7.7.2 tagged on main while documentation version chips were stale at v7.6.2.
+
+### What I did
+1. **Version Sync (v7.6.2 → v7.7.2)**: Synchronized nav-version / docs-nav-version chips across all 13 HTML pages in `docs/en/`. Updated embedded version references in body examples (`cli-reference.html` `gaia version` → `7.7.2`, `getting-started.html` `gaia --version` → `7.7.2`, and `timeline-audit.html` CLI gap notice → `v7.7.2`).
+2. **`named-skills.html` step-by-step cleanup**: Dropped redundant `--no-build` flags in the naming PR workflow code example (since `--no-build` is the default no-op behavior on mutating `gaia dev` verbs) and removed the non-existent ghost script call `python3 scripts/generateNamedIndex.py`, keeping canonical `gaia dev build` as the sole compilation step.
+3. **`share-bundles.html` taxonomy alignment**: Updated the manifest table `type` description from `Tier.` to `Structural type: basic (no prerequisites) or fusion (≥1 prerequisite).` to adhere to Yggdrasil II taxonomy.
+4. **`docs/en/DOCS.md`**: Updated page map rows 6 and 11 to record Routine 038 updates.
+
+### Design decisions
+- Preserved existing layout and design system tokens.
+- No new CSS or inline hex colors added.
+
+### Issues informed
+None filed or closed — documentation accuracy and version synchronization.
+
+### Files modified
+- `docs/en/cli-reference.html`
+- `docs/en/contributing.html`
+- `docs/en/evidence-classes.html`
+- `docs/en/faq.html`
+- `docs/en/fusion.html`
+- `docs/en/getting-started.html`
+- `docs/en/index.html`
+- `docs/en/manual-curation-pipeline.html`
+- `docs/en/mcp-server.html`
+- `docs/en/named-skills.html`
+- `docs/en/share-bundles.html`
+- `docs/en/skill-hierarchy.html`
+- `docs/en/timeline-audit.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+### Planned next (Routine 039)
+- ROTATE: audit next least-recently-touched page `getting-started.html` or `faq.html` for any newly added CLI subcommands or feature changes since v7.7.2.
+- Maintain: monitor for subsequent tag releases or merged PRs changing CLI flags.
+
+---
+
 ## 2026-08-28 — Routine 037
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
