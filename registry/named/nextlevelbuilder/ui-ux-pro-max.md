@@ -57,12 +57,12 @@ timeline:
   details: Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max
 evidence:
 - source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
-  updatedAt: '2026-08-01'
+  updatedAt: '2026-09-01'
   evaluator: unknown
   date: '2026-07-29'
   type: github-stars-own
   notes: 111k stars, 11.8k forks. SKILL.md at blob/ path.
-  stars: 112247
+  stars: 123707
   skillCountInRepo: 1
   sourceStartedAt: '2026-07-22'
   grade: S

@@ -38,14 +38,14 @@ evidence:
   grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
-  updatedAt: '2026-08-01'
+  updatedAt: '2026-09-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
   grade: C
   notes: gstack suite repo — 110,930 GitHub stars; canary is 1 of 42 named skills
     (verified 2026-06-20)
-  stars: 125610
+  stars: 130700
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
 timeline:

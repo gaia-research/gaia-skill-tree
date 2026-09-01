@@ -57,12 +57,13 @@ timeline:
   details: Renamed named skill from vercel-labs/react-best-practices to vercel-labs/vercel-react-best-practices
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
+  updatedAt: '2026-09-01'
   evaluator: unknown
   date: '2026-07-30'
   type: github-stars-own
   notes: 29,600 stars, 2,700 forks. react-best-practices at skills/react-best-practices/.
     SKILL.md blob/ path.
-  stars: 29600
+  stars: 30698
   skillCountInRepo: 3
   sourceStartedAt: '2026-01-18'
 - source: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md

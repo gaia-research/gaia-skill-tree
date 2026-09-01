@@ -49,11 +49,11 @@ evidence:
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
 - source: https://github.com/firecrawl/firecrawl/stargazers
-  updatedAt: '2026-08-01'
+  updatedAt: '2026-09-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 158811
+  stars: 175038
   skillCountInRepo: 6
   grade: B
 catalogRef: firecrawl-firecrawl-build-interact
