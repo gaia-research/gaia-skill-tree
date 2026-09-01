@@ -2,6 +2,36 @@
 
 ---
 
+## 2026-09-01 — Routine 043
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** ROTATE — content audit of `contributing.html` and `evidence-classes.html` (planned in Routine 042).
+
+### Trigger
+Audit identified legacy parameter syntax in `contributing.html` meta shift examples (`--class` instead of `--type`/`--trust`, string star argument instead of numeric level in `gaia dev calibrate`) and non-standard "tier" wording in `evidence-classes.html`.
+
+### What I did
+1. Modernized common CLI meta shift code examples in `contributing.html`:
+   - Updated `gaia dev evidence` example to demonstrate canonical `--type repo-own --trust 50` usage.
+   - Updated `gaia dev calibrate` example to use valid numeric level argument (`gaia dev calibrate contributor/skill-id 3`).
+2. Cleaned up legacy "Verifier-tier" vocabulary in `evidence-classes.html` to "Verifier-level (4★+)".
+3. Updated `DOCS.md` Page Map rows 5 and 7.
+
+### Design decisions
+- Ensured all CLI code examples in contribution documentation match the live parser requirements.
+
+### Issues informed
+None filed or closed — documentation audit and precision refinement.
+
+### Files modified
+- `docs/en/contributing.html`
+- `docs/en/evidence-classes.html`
+- `docs/en/DOCS.md`
+- `docs/en/MEMORY.md`
+
+---
+
 ## 2026-09-01 — Routine 042
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)

@@ -638,12 +638,12 @@ gaia dev merge target-id source-id-1 source-id-2
 <span class="c"># Split a skill into two</span>
 gaia dev split source-id target-id-1 target-id-2
 
-<span class="c"># Add evidence</span>
+<span class="c"># Add evidence (type and trust score)</span>
 gaia dev evidence skill-id "https://github.com/owner/repo/blob/main/SKILL.md" \
-  --class B --notes "Reproducible demo"
+  --type repo-own --trust 50 --notes "Reproducible demo"
 
-<span class="c"># Calibrate stars</span>
-gaia dev calibrate skill-id "3★"
+<span class="c"># Calibrate stars (1★–6★)</span>
+gaia dev calibrate contributor/skill-id 3
 
 <span class="c"># Link prerequisites</span>
 gaia dev link target-id prereq-id-1,prereq-id-2
