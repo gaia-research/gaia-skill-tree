@@ -348,3 +348,79 @@
 - name: skip-child-gate
   color: "e04e25"
   description: "Bypass the child-intake resolution gate on an upstream:approved umbrella"
+
+# ── wayfinder:* — decision-ticket cartography (see .agents/skills/wayfinder) ──
+#
+# These labels were in LIVE USE on the tracker before they were declared here
+# (wayfinder:map, wayfinder:research and wayfinder:task all carry issues today —
+# e.g. the map "Wayfinder map: Trust Magnitude recalibration backlog" #1636 and its
+# six children). Because labels-sync.yml reconciles with skip-delete: false, an
+# undeclared label is DELETED off live issues at the next sync — declaring them here
+# is what stops that. Do not remove these while any map is open.
+#
+# Colors: map = indigo (the artifact); ticket types = a lighter shared indigo.
+
+- name: "wayfinder:map"
+  color: "3B1E8C"
+  description: "Wayfinder — the map issue for one too-big effort; children are its tickets"
+
+- name: "wayfinder:research"
+  color: "6E56CF"
+  description: "Wayfinder ticket (AFK) — read docs/APIs to surface a fact a decision waits on"
+
+- name: "wayfinder:prototype"
+  color: "6E56CF"
+  description: "Wayfinder ticket (HITL) — build a cheap rough artifact to react to"
+
+- name: "wayfinder:grilling"
+  color: "6E56CF"
+  description: "Wayfinder ticket (HITL) — conversation; the default ticket type"
+
+- name: "wayfinder:task"
+  color: "6E56CF"
+  description: "Wayfinder ticket — manual work that must happen before a decision can be made"
+
+# ── P0–P4 — triage priority ladder ───────────────────────────────────────────
+#
+# One ladder across the repo: /gaia-triage, /gaia-meta-audit, /gaia-meta-sweep and
+# /gaia-issue-resolver all mean the same thing by these rungs. Red → grey as severity
+# falls. Do not introduce a second priority vocabulary (P0–P3, sev-*, urgent, etc.).
+
+- name: P0
+  color: "b60205"
+  description: "Critical — integrity violation or active breakage; interrupts other work"
+
+- name: P1
+  color: "d93f0b"
+  description: "Structural correctness — broken contracts, dead evidence, blocking prerequisites"
+
+- name: P2
+  color: "fbca04"
+  description: "Attribution, sourcing, and upgrades to working surfaces"
+
+- name: P3
+  color: "c2e0c6"
+  description: "Registry hygiene and nice-to-haves; backlog"
+
+- name: P4
+  color: "ededed"
+  description: "Documentation cleanup and copy fixes"
+
+# ── Triage roles (docs/agents/triage-labels.md) ──────────────────────────────
+#
+# needs-triage and wontfix were already declared above. These three complete the
+# five-role set that docs/agents/triage-labels.md maps onto; they did NOT exist on
+# the tracker as of 2026-09-01 despite being referenced there, so this declaration
+# creates them rather than rescuing them.
+
+- name: needs-info
+  color: "FBCA04"
+  description: "Waiting on the reporter for more information"
+
+- name: ready-for-agent
+  color: "0E8A16"
+  description: "Fully specified — ready for an AFK agent to pick up"
+
+- name: ready-for-human
+  color: "1D76DB"
+  description: "Requires human implementation or a human-gated review"
