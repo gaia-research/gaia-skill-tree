@@ -7,12 +7,14 @@ description: >-
   without duplicating each phase's instructions. Trigger phrases: "/gaia-full-pipeline",
   "run the full pipeline", "start a curation from scratch", "take this skill through
   the full pipeline", "curate end-to-end", "pipeline run", "full curation flow".
-  Fused from: gaia-curate + gaia-curate-chain + gaia-curate-dynamic + gaia-curate-trending
-  + gaia-bot-curate + gaia-draft-curate + ev-pipeline + gaia-ingest + gaia-intake-close.
+  Discovery modes are provided by gaia-curate, followed by gaia-bot-curate,
+  gaia-draft-curate, ev-pipeline, gaia-ingest, and gaia-intake-close.
 version: 2.0.0
 ---
 
-> **Have one repo URL and want full automation?** Run [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) — 2 human gates, auto-merge. This document is the **manual reference** explaining what runs inside each gate.
+> The local `gaia curate` command is a paused scaffold. Use the
+> [/gaia-curate](../gaia-curate/SKILL.md) playbook for implemented discovery;
+> it stops at L4 and never merges.
 
 # gaia-full-pipeline
 
@@ -30,10 +32,10 @@ The pipeline starts differently depending on whether you already know *what* you
 
 | You want to… | Use |
 |---|---|
-| Curate **one specific skill** you already have the URL for | [`/gaia-curate`](#strategy-a) |
-| Curate a **small batch of up to ~5** where recoverability matters (each step checkpointed, retries on failure) | [`/gaia-curate-chain`](#strategy-b) |
-| Curate a **large or broad batch** with parallelism across multiple candidates (fan-out to Luna workers) | [`/gaia-curate-dynamic`](#strategy-c) |
-| **Discover what's trending** — you don't have a specific skill in mind, you want to see what's hot on configured marketplaces/repos | [`/gaia-curate-trending`](#strategy-d) |
+| Curate **one specific skill** you already have the URL for | [`/gaia-curate`](#strategy-a) `single` mode |
+| Curate a **small batch of up to ~5** where recoverability matters | [`/gaia-curate`](#strategy-b) `checkpointed` mode |
+| Curate a **large or broad batch** with bounded parallelism | [`/gaia-curate`](#strategy-c) `dynamic` mode |
+| **Discover what's trending** across configured marketplaces/repos | [`/gaia-curate`](#strategy-d) `trending` mode |
 | Process **bot crawler output** already sitting in `bot/*` branches | [`/gaia-bot-curate`](#strategy-e) |
 | Review **pending `gaia push` intake batches** in `registry-for-review/` that someone else already submitted | [`/gaia-draft-curate`](#strategy-f) |
 
@@ -41,7 +43,7 @@ The pipeline starts differently depending on whether you already know *what* you
 
 ---
 
-### Strategy A — `/gaia-curate` · Single declared skill {#strategy-a}
+### Strategy A — `/gaia-curate` `single` mode · Single declared skill {#strategy-a}
 
 **When:** You have one specific upstream `SKILL.md` URL. Lowest overhead.
 
@@ -51,7 +53,8 @@ The pipeline starts differently depending on whether you already know *what* you
 
 ```
 gaia dev list --generic --json > /tmp/generic-snapshot.json
-gaia dev prefill --source "<blob-url>" --output /tmp/prefill-output.json
+gaia dev prefill <candidate-id> --name "<name>" --description "<description>" \
+  --url "<blob-url>" --source-lane source-repository --json > /tmp/prefill-output.json
 # … write discovery-packet-v2 JSON …
 python3 scripts/validate_discovery_packet.py \
   --generic-snapshot /tmp/generic-snapshot.json <packet>.json
@@ -62,7 +65,7 @@ python3 scripts/validate_discovery_packet.py \
 
 ---
 
-### Strategy B — `/gaia-curate-chain` · Small batch, checkpointed {#strategy-b}
+### Strategy B — `/gaia-curate` `checkpointed` mode · Small batch {#strategy-b}
 
 **When:** You have 2–10 candidates and want recoverability. Each candidate transition is atomically checkpointed; a failed field retries in isolation without restarting the whole batch. Good for higher-risk or unfamiliar sources where you expect some defers.
 
@@ -71,17 +74,17 @@ python3 scripts/validate_discovery_packet.py \
 **Breadth:** Small batch. Checkpointed run ledger under `generated-output/curate-discovery/<run-id>/run.json`.
 
 ```
-/gaia-curate-chain <source-or-small-batch>
+/gaia-curate <source-or-small-batch> checkpointed
 # Checkpoints each candidate → validates → persists to registry-for-review/discovery-packets/
 # On failure: emits DEFER with exact resume instruction (candidate ID, failed field, next command)
 # → Stop at L4
 ```
 
-→ Full protocol: [`/gaia-curate-chain`](../gaia-curate-chain/SKILL.md)
+→ Mode protocol: [`checkpointed.md`](../gaia-curate/references/modes/checkpointed.md)
 
 ---
 
-### Strategy C — `/gaia-curate-dynamic` · Large batch, parallel workers {#strategy-c}
+### Strategy C — `/gaia-curate` `dynamic` mode · Large batch, parallel workers {#strategy-c}
 
 **When:** You have a broad source manifest (many repos, a marketplace page, a topic) and want throughput. A Sol/Terra orchestrator shards work to Luna Light harvesters and mappers. Adversarial review only for risky candidates (NEW_GENERIC, fusion proposals, attribution conflicts).
 
@@ -90,7 +93,7 @@ python3 scripts/validate_discovery_packet.py \
 **Breadth:** Large batch. Configurable concurrency. Resumable cost log in `usage.jsonl`. Effective concurrency = min(requested, observed harness capacity, remaining shards, budget).
 
 ```
-/gaia-curate-dynamic <broad-source-manifest>
+/gaia-curate <broad-source-manifest> dynamic
 # Preflight → capacity canary → shard → harvest → map → [adversarial for risky] → assemble → L4
 # State: generated-output/curate-discovery/<run-id>/
 # → Stop at L4
@@ -98,11 +101,11 @@ python3 scripts/validate_discovery_packet.py \
 
 **Note:** Requires configured harness binary (`CLAUDE_BIN`, `CODEX_BIN`, or `HERMES_BIN`). Runs sequentially if concurrency cannot be established.
 
-→ Full protocol: [`/gaia-curate-dynamic`](../gaia-curate-dynamic/SKILL.md)
+→ Mode protocol: [`dynamic.md`](../gaia-curate/references/modes/dynamic.md)
 
 ---
 
-### Strategy D — `/gaia-curate-trending` · Discover what's trending {#strategy-d}
+### Strategy D — `/gaia-curate` `trending` mode · Discover what's trending {#strategy-d}
 
 **When:** You don't have a specific skill in mind. You want to snapshot configured external skill sources (marketplaces, GitHub topics, model hubs) and surface the top candidates by trend band. Best for periodic sweeps or identifying what to curate next.
 
@@ -111,7 +114,7 @@ python3 scripts/validate_discovery_packet.py \
 **Breadth:** Up to 5 candidates per source page, all configured sources in the run manifest. Resumable with `RESUME <run-id>`.
 
 ```
-/gaia-curate-trending <source-manifest-or-run-id>
+/gaia-curate <source-manifest-or-run-id> trending
 # Snapshot → trend-band → fetch SKILL.md → dedupe → map → L4-REVIEW.md
 # State: generated-output/curate-discovery/<run-id>/
 # → Stop at L4
@@ -119,7 +122,7 @@ python3 scripts/validate_discovery_packet.py \
 
 **Operator controls:** `NEXT` (advance to next candidate), `STOP` (write resumable checkpoint), `RESUME <run-id>`.
 
-→ Full protocol: [`/gaia-curate-trending`](../gaia-curate-trending/SKILL.md)
+→ Mode protocol: [`trending.md`](../gaia-curate/references/modes/trending.md)
 
 ---
 
@@ -150,7 +153,7 @@ gh pr create ...
 
 **When:** Someone has already run `gaia push` and proposals are sitting in `registry-for-review/skill-batches/`. You are the intake gate deciding which proposals move forward.
 
-**Depth:** Read-only triage — accept, rename, duplicate, needs-evidence, or reject. No registry mutation. Hands off to `/gaia-curate-chain` or `/gaia-curate` for accepted proposals.
+**Depth:** Read-only triage — accept, rename, duplicate, needs-evidence, or reject. No registry mutation. Hands accepted proposals to `/gaia-curate` `checkpointed` or `single` mode.
 
 **Breadth:** All pending batches in `registry-for-review/skill-batches/*.json`.
 
@@ -159,7 +162,7 @@ git status --short --branch
 python3 scripts/validate_intake.py
 gh issue list --state open --search 'label:intake'
 # Review decision table → produce handoff packet
-# → Hand accepted to /gaia-curate-chain or /gaia-curate
+# → Hand accepted to /gaia-curate checkpointed or single mode
 ```
 
 → Full protocol: [`/gaia-draft-curate`](../gaia-draft-curate/SKILL.md)
@@ -297,12 +300,14 @@ Suite rank gates (TM is sole gate):
 ```bash
 gh pr ready <PR>
 gh pr checks <PR>                                   # wait for green
-gh pr merge <PR> --subject "feat(registry): ... [closes #ISSUE]"
 gh pr comment <PR> --body-file /tmp/pr-close-comment.md
 gh issue comment <ISSUE> --body-file /tmp/issue-close-comment.md
 gh issue close <ISSUE>
 GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifacts
 ```
+
+Do not run the merge. Report the ready PR, checks, and closing-comment draft;
+the final integration-to-`main` merge is the founder's decision.
 
 ---
 
@@ -311,9 +316,9 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifact
 | Where you are | Invoke |
 |---|---|
 | Single declared skill | `/gaia-curate` |
-| Small batch, need recoverability | `/gaia-curate-chain` |
-| Large batch, need parallelism | `/gaia-curate-dynamic` |
-| Want to discover trending skills | `/gaia-curate-trending` |
+| Small batch, need recoverability | `/gaia-curate` `checkpointed` mode |
+| Large batch, need parallelism | `/gaia-curate` `dynamic` mode |
+| Want to discover trending skills | `/gaia-curate` `trending` mode |
 | Processing bot crawler branches | `/gaia-bot-curate` |
 | Reviewing pending gaia push batches | `/gaia-draft-curate` |
 | Post-L4, ready to push | `/pr` |

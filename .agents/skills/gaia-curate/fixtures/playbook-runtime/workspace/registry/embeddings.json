@@ -1,0 +1,9 @@
+{
+  "model": "all-MiniLM-L6-v2",
+  "dimensions": 3,
+  "generatedAt": "2026-09-02T00:00:00Z",
+  "entries": [
+    {"id": "example-capability", "vector": [1.0, 0.0, 0.0]},
+    {"id": "unrelated-capability", "vector": [0.0, 1.0, 0.0]}
+  ]
+}

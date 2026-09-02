@@ -25,9 +25,9 @@ Backed by `scripts/review_meta_close.py` (status / stage / validate / check).
 
 ## When to run
 
-After `/ev-pipeline` (or `/gaia-curate-chain`) has verified the evidence and an
-L4 reviewer approved the batch. This skill lands it; it does not discover or
-re-verify evidence.
+After `/ev-pipeline` has verified the evidence and an L4 reviewer has approved
+the `/gaia-curate` discovery packets. This skill lands the batch; it does not
+discover or re-verify evidence.
 
 **Upstream handoff:** `/gaia-ingest-batch` hands off to this skill once evidence
 is ingested and appraised — it passes the branch, the affected `contributor`

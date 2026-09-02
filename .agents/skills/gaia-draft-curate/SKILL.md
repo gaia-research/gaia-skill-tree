@@ -16,7 +16,7 @@ This skill owns only intake batches and their linked intake issues/PRs. It does 
 - mutate `registry/`, `registry/gaia.json`, or batch JSON files;
 - perform broad issue triage (use `/gaia-triage`);
 - deeply audit an existing canonical curation PR (use `/gaia-curation-review`);
-- promote accepted proposals (hand off to `/gaia-curate-chain` or `/gaia-curate`).
+- promote accepted proposals (hand off to `/gaia-curate` in `checkpointed` or `single` mode).
 
 ## Workflow
 
@@ -99,7 +99,10 @@ The packet may be saved as `/tmp/gaia-draft-curate-<batchId>.md`. Write a reposi
 
 ### 7. Hand off only with confirmation
 
-Ask whether to continue. By default, hand accepted items to `/gaia-curate-chain` for discovery-packet validation and L4 review only. The chain does not mutate the registry or sync docs. Use `/gaia-curate` only when the user explicitly chooses the lower-overhead path for a low-risk batch.
+Ask whether to continue. By default, hand accepted items to `/gaia-curate` in
+`checkpointed` mode for discovery-packet validation and L4 review only. The
+playbook does not mutate the registry or sync docs. Use its `single` mode only
+when the user explicitly chooses the lower-overhead path for one low-risk page.
 
 After L4 topology approval, a maintainer applies `intake:topology-approved` on the intake issue. The Intake Approval workflow validates the immutable batch, posts its machine-readable handoff, and applies `intake:evidence-review`; it does **not** seed or promote. An agent then prepares the Stage-1 seed and optional Phase-0 discovery plan, and marks it `intake:evidence-ready` for human review. Only a maintainer applying `intake:evidence-approved` to an evidence-ready intake opens the one draft `review/meta/intake-<issue>` promotion PR. Keep all verified evidence, CLI-only ingestion, provenance, and generated artifacts on that single PR.
 

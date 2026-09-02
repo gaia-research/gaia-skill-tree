@@ -45,7 +45,9 @@ class _PlaceholderChoices:
         self._choices = choices
 
     def __contains__(self, value: object) -> bool:
-        return isinstance(value, _Placeholder) or value in self._choices
+        return (
+            isinstance(value, str) and _is_placeholder(value)
+        ) or value in self._choices
 
     def __iter__(self):
         return iter(self._choices)

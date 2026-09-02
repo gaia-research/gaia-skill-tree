@@ -546,7 +546,7 @@
             <div class="path-label">Path B <span class="badge">recommended</span></div>
             <div class="path-name">Review external candidates</div>
             <div class="path-desc">Fetch real SKILL.md artifacts, normalize and dedupe them, make bounded decisions, then stop at L4 human review.</div>
-            <div class="path-cmd">/gaia-curate &lt;source&gt;</div>
+            <div class="path-cmd">/gaia-curate &lt;source&gt; single</div>
           </div>
           <div class="path-card">
             <div class="path-label">Path C</div>
@@ -588,17 +588,17 @@ gaia push --from-file skills.yml</pre>
 
         <div class="code-fence">
           <div class="code-fence-label">claude code</div>
-          <pre>/gaia-curate &lt;source-page-url&gt;</pre>
+          <pre>/gaia-curate &lt;source-page-url&gt; single</pre>
         </div>
 
         <h3>Choose the smallest extension</h3>
         <table class="data-table">
           <thead><tr><th>Need</th><th>Skill</th><th>Model</th></tr></thead>
           <tbody>
-            <tr><td>One bounded page</td><td><code>/gaia-curate</code></td><td>GPT-5.6 Luna at minimal reasoning, or equivalent</td></tr>
-            <tr><td>External snapshots</td><td><code>/gaia-curate-trending</code></td><td>Luna for rows; deterministic code for ranking</td></tr>
-            <tr><td>Stop and resume</td><td><code>/gaia-curate-chain</code></td><td>Luna workers with deterministic validation</td></tr>
-            <tr><td>Parallel sweep</td><td><code>/gaia-curate-dynamic</code></td><td>Sol preferred or Terra as orchestrator; Luna workers; Luna High for disputes</td></tr>
+            <tr><td>One bounded page</td><td><code>/gaia-curate &lt;source&gt; single</code></td><td>GPT-5.6 Luna at minimal reasoning, or equivalent</td></tr>
+            <tr><td>External snapshots</td><td><code>/gaia-curate &lt;manifest&gt; trending</code></td><td>Luna for rows; deterministic code for ranking</td></tr>
+            <tr><td>Stop and resume</td><td><code>/gaia-curate &lt;manifest&gt; checkpointed</code></td><td>Luna workers with deterministic validation</td></tr>
+            <tr><td>Parallel sweep</td><td><code>/gaia-curate &lt;manifest&gt; dynamic</code></td><td>Sol preferred or Terra as orchestrator; Luna workers; Luna High for disputes</td></tr>
           </tbody>
         </table>
 

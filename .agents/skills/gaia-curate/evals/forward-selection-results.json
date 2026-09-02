@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "gaia-playbook-forward-selection-results-v1",
+  "evaluatedOn": "2026-09-02",
+  "catalogSkillCount": 5,
+  "reasoner": {
+    "model": "gpt-5.6-luna",
+    "reasoningEffort": "low"
+  },
+  "trials": [
+    {
+      "id": "single-3",
+      "requestMode": "single",
+      "selectedSkill": "gaia-curate",
+      "selectedMode": "single",
+      "fixtureScope": "fixed-single-mode",
+      "exitStatus": 0,
+      "snapshotInvocations": 1,
+      "prefillInvocations": 1,
+      "decision": "MAP",
+      "decisionReasonCode": "MAP_EXISTING_GENERIC",
+      "genericId": "example-capability",
+      "validator": "VALID discovery-packet-v2",
+      "registryUnchanged": true,
+      "l4BoundaryPreserved": true,
+      "instructionAmbiguity": null
+    },
+    {
+      "id": "single-4",
+      "requestMode": "single",
+      "selectedSkill": "gaia-curate",
+      "selectedMode": "single",
+      "fixtureScope": "fixed-single-mode",
+      "exitStatus": 0,
+      "snapshotInvocations": 1,
+      "prefillInvocations": 1,
+      "decision": "MAP",
+      "decisionReasonCode": "MAP_EXISTING_GENERIC",
+      "genericId": "example-capability",
+      "validator": "VALID discovery-packet-v2",
+      "registryUnchanged": true,
+      "l4BoundaryPreserved": true,
+      "instructionAmbiguity": null
+    },
+    {
+      "id": "dynamic-1",
+      "requestMode": "dynamic",
+      "selectedSkill": "gaia-curate",
+      "selectedMode": "dynamic",
+      "fixtureScope": "shared-spine-only",
+      "exitStatus": 0,
+      "snapshotInvocations": 1,
+      "prefillInvocations": 1,
+      "decision": "MAP",
+      "decisionReasonCode": "MAP_EXISTING_GENERIC",
+      "genericId": "example-capability",
+      "validator": "VALID discovery-packet-v2",
+      "registryUnchanged": true,
+      "l4BoundaryPreserved": true,
+      "instructionAmbiguity": "The fixture did not execute dynamic fan-out, capacity measurement, per-attempt usage receipts, budget exhaustion, or resume."
+    },
+    {
+      "id": "dynamic-2",
+      "requestMode": "dynamic",
+      "selectedSkill": "gaia-curate",
+      "selectedMode": "dynamic",
+      "fixtureScope": "shared-spine-only",
+      "exitStatus": 0,
+      "snapshotInvocations": 1,
+      "prefillInvocations": 1,
+      "decision": "MAP",
+      "decisionReasonCode": "MAP_EXISTING_GENERIC",
+      "genericId": "example-capability",
+      "validator": "VALID discovery-packet-v2",
+      "registryUnchanged": true,
+      "l4BoundaryPreserved": true,
+      "instructionAmbiguity": "The fixture did not execute dynamic fan-out, capacity measurement, per-attempt usage receipts, budget exhaustion, or resume."
+    }
+  ],
+  "selectionOnlyTrials": [
+    {"id": "checkpointed-1", "request": "checkpointed discovery", "selectedSkill": "gaia-curate", "selectedMode": "checkpointed", "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false},
+    {"id": "trending-1", "request": "trending discovery", "selectedSkill": "gaia-curate", "selectedMode": "trending", "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false},
+    {"id": "negative-pending-intake-1", "request": "pending intake", "selectedSkill": "gaia-draft-curate", "selectedMode": null, "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false},
+    {"id": "negative-bot-crawler-branch-1", "request": "bot crawler branch", "selectedSkill": "gaia-bot-curate", "selectedMode": null, "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false},
+    {"id": "negative-paused-initialized-ledger-1", "request": "paused INITIALIZED ledger", "selectedSkill": "gaia-quick-curate", "selectedMode": null, "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false},
+    {"id": "negative-full-pipeline-1", "request": "full discovery-through-closed-intake", "selectedSkill": "gaia-full-pipeline", "selectedMode": null, "selectionPassed": true, "scope": "selection-only", "fixtureExecuted": false}
+  ],
+  "conclusions": {
+    "positiveModeSelection": {
+      "status": "observed for all four gaia-curate modes",
+      "passesByMode": {"single": 2, "dynamic": 2, "checkpointed": 1, "trending": 1},
+      "totalPasses": 6
+    },
+    "negativeRouting": {
+      "avoidedGaiaCurate": 4,
+      "totalTrials": 4,
+      "status": "4/4 named negative routes selected their authoritative non-gaia-curate entrypoint"
+    },
+    "single": {
+      "selectionPasses": 2,
+      "fixturePasses": 2,
+      "totalTrials": 2,
+      "observedFloor": {
+        "model": "gpt-5.6-luna",
+        "reasoningEffort": "low",
+        "claim": "Lowest evaluated available reasoner for the fixed single-mode fixture; not proof of a globally weakest model."
+      }
+    },
+    "dynamic": {
+      "selectionPasses": 2,
+      "sharedSpinePasses": 2,
+      "totalTrials": 2,
+      "endToEndStatus": "unproven",
+      "unprovenComponents": [
+        "12-way capacity and fan-out",
+        "per-attempt usage receipts",
+        "budget exhaustion",
+        "resume"
+      ],
+      "trackingIssue": "https://github.com/gaia-research/gaia-skill-tree/issues/1691"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {
+      "id": "example-capability",
+      "name": "Example Capability",
+      "description": "A reusable example capability with an explicit operating boundary."
+    },
+    {
+      "id": "unrelated-capability",
+      "name": "Unrelated Capability",
+      "description": "A deliberately orthogonal capability for the bounded fixture."
+    }
+  ]
+}

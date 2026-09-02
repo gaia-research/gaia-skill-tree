@@ -8,7 +8,7 @@ description: >-
   Use only for scaffold development, status inspection, or dry-run contract
   work. For live curation, use gaia-full-pipeline or gaia-consult. Trigger
   phrases: "/gaia-quick-curate", "inspect gaia curate", "curate scaffold",
-  "quick curate status". For batch/multi-page runs use gaia-curate-dynamic;
+  "quick curate status". For batch/multi-page runs use gaia-curate dynamic mode;
   for crawler branches use gaia-bot-curate; for pending intake proposals use
   gaia-draft-curate.
 version: 1.0.1
@@ -87,6 +87,6 @@ implemented.
 |---|---|
 | Implemented phase-by-phase curation | [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) |
 | Curation command/reference lookup | [/gaia-consult](../gaia-consult/SKILL.md) |
-| Batch or multi-source discovery | [/gaia-curate-dynamic](../gaia-curate-dynamic/SKILL.md) |
+| Batch or multi-source discovery | [/gaia-curate](../gaia-curate/SKILL.md) `dynamic` mode |
 | Crawler `bot/*` branches | [/gaia-bot-curate](../gaia-bot-curate/SKILL.md) |
 | Pending intake proposals | [/gaia-draft-curate](../gaia-draft-curate/SKILL.md) |

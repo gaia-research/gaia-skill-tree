@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "gaia-playbook-triggering-v1",
+  "skill": "gaia-curate",
+  "contractRef": "founder/steward/PLAYBOOKS.md",
+  "cases": [
+    {
+      "id": "single-one-marketplace-page",
+      "prompt": "Curate this public marketplace page for Gaia discovery; it has three candidate skills and I only need the L4 shortlist.",
+      "signals": {"scope": "discovery", "sourceKind": "page", "trending": false, "parallel": false, "recoverable": false},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "single"}
+    },
+    {
+      "id": "single-explicit-mode",
+      "prompt": "Use Gaia curation in single mode on this SKILL.md listing and stop at the discovery packet.",
+      "signals": {"scope": "discovery", "sourceKind": "page", "trending": false, "parallel": false, "recoverable": false},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "single"}
+    },
+    {
+      "id": "checkpointed-resumable-batch",
+      "prompt": "Discover this bounded list of twelve skill pages with atomic checkpoints so I can resume after interruption; stop at L4.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": false, "parallel": false, "recoverable": true},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "checkpointed"}
+    },
+    {
+      "id": "checkpointed-field-repair",
+      "prompt": "Resume the prior discovery run, retry only the failed candidate field, and produce review packets without intake.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": false, "parallel": false, "recoverable": true},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "checkpointed"}
+    },
+    {
+      "id": "dynamic-bounded-parallel",
+      "prompt": "Shard this bounded source manifest across available workers, measure capacity first, and consolidate validated L4 discovery packets.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": false, "parallel": true, "recoverable": true},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "dynamic"}
+    },
+    {
+      "id": "dynamic-cost-receipts",
+      "prompt": "Run a parallel Gaia discovery pass over these repositories with a fixed budget and per-attempt usage receipts; do not mutate the registry.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": false, "parallel": true, "recoverable": false},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "dynamic"}
+    },
+    {
+      "id": "trending-source-snapshots",
+      "prompt": "Snapshot our configured skill marketplaces and rank what is HOT, RISING, NEW, STEADY, or UNKNOWN for L4 review.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": true, "parallel": false, "recoverable": true},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "trending"}
+    },
+    {
+      "id": "trending-global-qualified",
+      "prompt": "Find globally trending skills across every public source in this bounded manifest, preserving raw 7-day and 30-day observations.",
+      "signals": {"scope": "discovery", "sourceKind": "manifest", "trending": true, "parallel": true, "recoverable": false},
+      "expected": {"activate": true, "route": "gaia-curate", "mode": "trending"}
+    },
+    {
+      "id": "negative-pending-intake",
+      "prompt": "Triage the pending skill intake batches already under registry-for-review and classify what maintainers should accept.",
+      "signals": {"scope": "pending-intake", "sourceKind": "intake", "trending": false, "parallel": false, "recoverable": false},
+      "expected": {"activate": false, "route": "gaia-draft-curate", "mode": null}
+    },
+    {
+      "id": "negative-crawler-branch",
+      "prompt": "Curate the existing bot/firecrawl-2026-09-02 branch into catalog entries and clean up the processed branch.",
+      "signals": {"scope": "crawler-branch", "sourceKind": "bot-branch", "trending": false, "parallel": false, "recoverable": false},
+      "expected": {"activate": false, "route": "gaia-bot-curate", "mode": null}
+    },
+    {
+      "id": "negative-post-l4-evidence",
+      "prompt": "Take these L4-approved packets through evidence verification, calibration, registry ingest, and a review PR.",
+      "signals": {"scope": "post-l4", "sourceKind": "packet", "trending": false, "parallel": false, "recoverable": false},
+      "expected": {"activate": false, "route": "gaia-full-pipeline", "mode": null}
+    },
+    {
+      "id": "negative-paused-cli-scaffold",
+      "prompt": "Inspect why the local gaia curate command pauses at INITIALIZED and show its saved run status.",
+      "signals": {"scope": "cli-scaffold", "sourceKind": "local-run", "trending": false, "parallel": false, "recoverable": true},
+      "expected": {"activate": false, "route": "gaia-quick-curate", "mode": null}
+    }
+  ]
+}

@@ -16,4 +16,4 @@ Help a first-time developer successfully create, format, validate, and submit a 
 
 ## Out of scope
 - Deep maintenance tasks like DAG restructuring or custom CLI development.
-- Advanced automated reviewer curation workflows (`/gaia-curate-chain`).
+- Advanced reviewer curation workflows (`/gaia-curate` `checkpointed` mode).

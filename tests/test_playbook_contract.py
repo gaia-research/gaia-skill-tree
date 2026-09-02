@@ -100,6 +100,7 @@ def test_duplicate_step_ids_are_rejected(fixture_repo: Path):
         "gaia dev list --generic --named",
         "gaia dev evidence {skill_id} {source_url} --type repo-own --commits {commit_count}",
         "gaia dev evidence {skill_id} {source_url} --commits={commit_count}",
+        "gaia dev prefill {candidate_id} --name {candidate_name} --description {candidate_description} --url {source_url} --source-lane {source_lane} --json > {packet}",
         "gaia dev list --generic --json > {snapshot}",
         "gaia dev list --generic --json >> generated-output/snapshot.json",
         "python3 scripts/validate_skills.py --fixture {fixture_path}",

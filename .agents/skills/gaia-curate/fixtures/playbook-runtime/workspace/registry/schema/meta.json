@@ -1,0 +1,7 @@
+{
+  "curationPrefill": {
+    "strongMap": 0.72,
+    "weakMap": 0.45,
+    "topK": 3
+  }
+}

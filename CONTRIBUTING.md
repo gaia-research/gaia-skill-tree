@@ -18,10 +18,7 @@ These skills are available under both `.claude/skills/` and `.agents/skills/`. C
 
 | Skill | When to use |
 |---|---|
-| `/gaia-curate` | Review up to five fetched `SKILL.md` candidates and produce a discovery shortlist. Stops before evidence or mutation. |
-| `/gaia-curate-trending` | Snapshot configured external sources and rank bounded pages for review. This is not Gaia's internal Trending API. |
-| `/gaia-curate-chain` | Add atomic checkpoints, resume state, and bounded repair to the discovery pass. |
-| `/gaia-curate-dynamic` | Use a strong orchestrator with bounded parallel workers across Claude Code, Codex, or Hermes. |
+| `/gaia-curate <source-or-manifest> [single\|checkpointed\|dynamic\|trending]` | Compile fetched `SKILL.md` candidates into an L4 discovery shortlist. Mode selects scale and recovery; all modes stop before evidence or mutation. |
 | `/gaia-meta-audit` | Prioritized queue of skills needing review — overlap checks, missing evidence, stale status. |
 | `/gaia-audit` | Focused source-level correction for one target skill. |
 | `/gaia-intake-close` | Post-merge intake closing — posts standardized pipeline findings, /trust-appraise TM output, decisions rationale, path-to-promotion, and badge status on the PR and each linked issue. Run after L4 review is complete. |
@@ -123,16 +120,16 @@ Use exactly one decision per candidate: `MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_
 
 | Need | Skill | Suggested model |
 |---|---|---|
-| One small/manual page | `/gaia-curate` | GPT-5.6 Luna at minimal reasoning, or an equivalent small model |
-| External source snapshots | `/gaia-curate-trending` | Luna for bounded rows; deterministic code for ranking |
-| Reliable stop/resume | `/gaia-curate-chain` | Luna workers with deterministic validation |
-| Broad parallel sweep | `/gaia-curate-dynamic` | GPT-5.6 Sol preferred, Terra acceptable, as orchestrator; Luna Light workers; Luna High for disputed rows |
+| One small/manual page | `/gaia-curate <source> single` | GPT-5.6 Luna at minimal reasoning, or an equivalent small model |
+| External source snapshots | `/gaia-curate <manifest> trending` | Luna for bounded rows; deterministic code for ranking |
+| Reliable stop/resume | `/gaia-curate <manifest> checkpointed` | Luna workers with deterministic validation |
+| Broad parallel sweep | `/gaia-curate <manifest> dynamic` | GPT-5.6 Sol preferred, Terra acceptable, as orchestrator; Luna Light workers; Luna High for disputed rows |
 
 Harness entry points:
 
 ```bash
 # Claude Code
-/gaia-curate <source-page-url>
+/gaia-curate <source-page-url> single
 
 # Hermes Agent
 # First link this repo's skill into $HERMES_HOME/skills/gaia-curate.
@@ -440,7 +437,7 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 ## 11) Automated Maintenance
 
 The registry is supported by several automated workflows:
-- **Discovery curation:** `/gaia-curate` creates a read-only L4 shortlist. `/gaia-curate-trending` adds external snapshots, `/gaia-curate-chain` adds resumable checkpoints, and `/gaia-curate-dynamic` adds harness-neutral worker orchestration. All stop before intake, evidence, and mutation (see §1C).
+- **Discovery curation:** `/gaia-curate` creates a read-only L4 shortlist. Its `trending`, `checkpointed`, and `dynamic` modes add external snapshots, resumable checkpoints, and harness-neutral worker orchestration respectively. All stop before intake, evidence, and mutation (see §1C).
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
 - **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia dev validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).
@@ -651,5 +648,4 @@ Verify the download:
 ```bash
 sha256sum -c gaia-artifacts.tar.gz.sha256
 ```
-
 

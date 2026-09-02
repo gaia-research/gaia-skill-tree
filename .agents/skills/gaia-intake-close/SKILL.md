@@ -6,7 +6,8 @@ description: >
   personalized closing comments on the PR and each intake issue. Comments include:
   full evidence pipeline findings with /trust-appraise TM output, per-row artifact
   scores, decisions rationale, path-to-promotion guidance, and a badge status note.
-  Use after /gaia-curate-chain completes and before or immediately after merge.
+  Use after the evidence pipeline and review/meta close-out, immediately before
+  or after the founder's merge decision.
 version: "1.0.0"
 ---
 
