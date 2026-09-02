@@ -30,7 +30,16 @@ def meta_verify_command(args):
     if not _is_verifier(contributor, registry_path):
         print(f"Error: {contributor} is not a Verifier (no 4★+ skill found).")
         print(
-            "Only contributors with at least one 4★ implementation can verify evidence."
+            "The legitimate path is to contribute a named skill implementation "
+            "and have it calibrated to 4★ or higher."
+        )
+        print(
+            "`gaia whoami` diagnoses the first, general operator gate; it does "
+            "not confirm eligibility for this evidence-verification gate."
+        )
+        print(
+            "GAIA_OPERATOR_OVERRIDE may satisfy that general gate, but does not "
+            "satisfy this second, independent evidence-verification gate."
         )
         sys.exit(1)
 
