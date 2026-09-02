@@ -214,6 +214,44 @@ The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`); without i
 
 **Known CLI gap (flag in PRs, do not silently hand-edit):** No `gaia remove-skill` / `gaia demote` command — skill removal from the user tree has no dedicated verb. Workaround: direct JSON edit to remove from `unlockedSkills`, then `gaia dev timeline <skillId> --user <username> --action demote --notes "..."` to log it.
 
+## Playbook-First Policy (migration in progress — Issue #1644)
+
+The repo is migrating from bare `gaia dev` verb calls to **Agent Playbooks** as the
+preferred way agents perform dev-mutation work (calibration, evidence, fusion,
+curation, and the rest of the `gaia dev` surface). A playbook is a canonical
+`.agents/skills/*/SKILL.md` carrying `playbookVersion: 1` frontmatter — the same
+physical file type as a user-invokable skill, but built for an **agent following a
+checked procedure**, not for a human's `/slash-command`. It fixes the order,
+authority envelope, stopping rules, and proof around a `gaia dev` verb so an agent
+does not reconstruct that method from scattered prose every time. Contract:
+`founder/steward/PLAYBOOKS.md`; schema: `founder/steward/playbook.schema.json`;
+checker: `scripts/check_playbook_contract.py`; rationale:
+`founder/handovers/2026-09-01-issue-1644-agent-playbooks.md`.
+
+**Rule:** before calling a mutating `gaia dev` verb directly, check whether a
+playbook already covers that operation (`playbookVersion: 1` under
+`.agents/skills/*/SKILL.md`). If one exists, follow it — its steps, stop
+conditions, and proof obligations are the required procedure, not a suggestion.
+If none exists yet for the operation at hand, author one first per
+`founder/steward/PLAYBOOKS.md`, validate it against
+`scripts/check_playbook_contract.py`, and use it — don't do the mutation via a
+bare CLI call and leave the method unwritten for the next agent.
+
+- This is a migration, not a retroactive requirement: most `gaia dev` verbs have
+  no playbook yet. Calling the CLI directly remains fine where no playbook exists
+  and none has been requested for that verb. The rule binds once a playbook is
+  available, or once one has been asked for.
+- Playbooks live under `.agents/skills/` alongside user-invokable skills but are a
+  **distinct category** — they exist for agents executing dev verbs, not for a
+  human to trigger by name. Do not list them in user-facing skill catalogs or docs
+  as if they were `/slash-command` skills; see § Agent Skills for the
+  user-invokable-skill mirror convention, which is a separate concern.
+- The CLI remains the canonical mutation surface (per § Programmatic-First Policy
+  above). A playbook never bypasses `require_operator()` or a verb's pre-flight
+  checks — it only sequences and verifies around them.
+- Reference playbook: `dev-calibrate` (`.agents/skills/dev-calibrate/SKILL.md`) —
+  the first one to land; use its shape as the template for the next.
+
 ## CLI Shape
 
 Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `curate`, `trust`, `version`, `whoami`, `tree`, `graph`, `update`, `share`, `steward`, `help`. Note: docs/mcp/release live under `gaia dev`; promote has been removed.
