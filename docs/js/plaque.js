@@ -847,6 +847,92 @@
     return _shell('mini', primaryNs, inner, shellOpts);
   }
 
+  // ── Fusion Score readout for the hall plate ─────────────────────
+  // Mirrors docs/heroes/heroes.js heroFusionHtml() so the homepage teaser and
+  // the Hall page state the same fact the same way. The two branches carry
+  // genuinely different numbers, so they get genuinely different readouts:
+  //   suite  — composition IS the branch's defining fact, so it reads as a
+  //            headline figure with a bar scaled against the set's own maximum.
+  //   unique — a quiet ledger line. A zero is a real result (this capability
+  //            composes nothing distinct of its own), stated in words rather
+  //            than blanked out.
+  // A missing field is the one case that renders nothing: never computed is not
+  // the same claim as zero.
+  function _hallFusionDisplay(value) {
+    return value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
+  }
+
+  function _hallFusionTip(display, breakdown) {
+    var bd = breakdown || {};
+    return [
+      'Fusion Score ' + display + ': how much distinct structure this capability composes.',
+      'A structural reading only, independent of Trust Magnitude. It grants no credit and',
+      'gates no rank.',
+      '',
+      'Distinct structural nodes: ' + (bd.transitiveCount || 0) + ' (' + (bd.directCount || 0) + ' direct)'
+    ].join('\n');
+  }
+
+  function _hallFusion(skill, branch, fusionMax) {
+    var fs = skill && skill.fusionScore;
+    if (fs == null || fs === '') return '';
+    var value = Number(fs);
+    if (!isFinite(value) || value < 0) return '';
+
+    var display = _hallFusionDisplay(value);
+    var tip = _hallFusionTip(value > 0 ? '+' + display : '0', skill.fusionBreakdown);
+    var bd = skill.fusionBreakdown || {};
+    var nodes = bd.transitiveCount || 0;
+    var components = (skill.suiteComponents && skill.suiteComponents.length) || 0;
+    var label = '<span class="plaque__hall-fusion-label">Fusion Score</span>';
+
+    if (branch === 'suite') {
+      var max = (typeof fusionMax === 'number' && fusionMax > 0) ? fusionMax : value || 1;
+      var pct = Math.max(2, Math.min(100, Math.round((value / max) * 100)));
+      var sub = [];
+      if (nodes) sub.push(nodes + ' nodes composed');
+      if (components) sub.push(components + ' named components');
+      return '<div class="plaque__hall-fusion plaque__hall-fusion--suite" title="' + esc(tip) + '">' +
+        label +
+        '<span class="plaque__hall-fusion-value" aria-label="Fusion Score plus ' + esc(display) +
+          ', a structural reading independent of Trust Magnitude">+' + esc(display) + '</span>' +
+        (sub.length ? '<span class="plaque__hall-fusion-sub">' + esc(sub.join(' · ')) + '</span>' : '') +
+        '<span class="plaque__hall-fusion-bar" aria-hidden="true">' +
+          '<span class="plaque__hall-fusion-bar-fill" style="width:' + pct + '%"></span>' +
+        '</span>' +
+        '</div>';
+    }
+
+    if (value === 0) {
+      return '<div class="plaque__hall-fusion plaque__hall-fusion--unique plaque__hall-fusion--zero" ' +
+        'title="' + esc(tip) + '">' +
+        label +
+        '<span class="plaque__hall-fusion-value">0</span>' +
+        '<span class="plaque__hall-fusion-sub">composes no distinct structure</span>' +
+        '</div>';
+    }
+
+    return '<div class="plaque__hall-fusion plaque__hall-fusion--unique" title="' + esc(tip) + '">' +
+      label +
+      '<span class="plaque__hall-fusion-value" aria-label="Fusion Score plus ' + esc(display) +
+        ', a structural reading independent of Trust Magnitude">+' + esc(display) + '</span>' +
+      (nodes ? '<span class="plaque__hall-fusion-sub">' + nodes + ' nodes composed</span>' : '') +
+      '</div>';
+  }
+
+  // Branch mark — says which way up the ladder the plate came, in a glyph, a
+  // word and a colour, so the fork survives for readers who cannot use hue.
+  var BRANCH_WORD = { suite: 'Suite', unique: 'Unique', standard: 'Named' };
+
+  function _hallBranchmark(branch) {
+    var word = BRANCH_WORD[branch] || BRANCH_WORD.standard;
+    var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+    return '<span class="plaque__hall-branchmark" data-branch="' + esc(branch) + '">' +
+      '<span class="plaque__hall-branchmark-glyph" aria-hidden="true">' + glyph + '</span>' +
+      '<span>' + esc(word) + ' branch</span>' +
+      '</span>';
+  }
+
   // ── variant: hall (Hall of Heroes redesigned plate) ─────────────
   // Per-contributor plate with:
   //   • celestial-atlas crest medallion (contributor GitHub avatar)
@@ -944,12 +1030,21 @@
     var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
     var tmDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
     var magText = tmDisplay;
+    // The bare numeral said nothing about what it measured, and the whole
+    // divider was aria-hidden, so screen readers got no Trust Magnitude at all.
+    // Name the figure and let it be announced.
     var dividerHtml =
-      '<div class="plaque__hall-divider" aria-hidden="true">' +
-        '<span class="plaque__hall-divider-line"></span>' +
-        '<span class="plaque__hall-divider-numeral">' + esc(magText) + '</span>' +
-        '<span class="plaque__hall-divider-line"></span>' +
+      '<div class="plaque__hall-divider">' +
+        '<span class="plaque__hall-divider-line" aria-hidden="true"></span>' +
+        '<span class="plaque__hall-divider-figure">' +
+          '<span class="plaque__hall-divider-numeral">' + esc(magText) + '</span>' +
+          '<span class="plaque__hall-divider-label">Trust Magnitude</span>' +
+        '</span>' +
+        '<span class="plaque__hall-divider-line" aria-hidden="true"></span>' +
       '</div>';
+
+    var branchmarkHtml = _hallBranchmark(primaryBranch);
+    var fusionHtml = _hallFusion(primary, primaryBranch, opts.fusionMax);
 
     // Skill rows — reuse the existing .plaque__stack-row markup so the
     // tier-aware per-row CSS in plaque.css just works.
@@ -981,9 +1076,11 @@
       artHtml +
       '<div class="plaque__hall-content">' +
         crestHtml +
+        branchmarkHtml +
         metaHtml +
         dividerHtml +
         '<div class="plaque__hall-rows plaque__stack-body">' + rows + moreRow + '</div>' +
+        fusionHtml +
       '</div>';
 
     var extraClass = 'plaque--hall' + (opts.featured ? ' plaque--hall-featured' : '');

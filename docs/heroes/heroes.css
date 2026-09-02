@@ -1343,12 +1343,15 @@ body:has(.heroes-gallery) {
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
+  /* The glyph belongs to the heading line, not to the whole block. Spanning it
+     down all three rows parked the mark beside the note, where it read as a
+     bullet on a sentence rather than a section mark on a title. */
   grid-template-areas:
     'glyph title'
-    'glyph note'
-    'glyph count';
+    '.     note'
+    '.     count';
   align-items: start;
-  column-gap: 1.1rem;
+  column-gap: clamp(0.7rem, 2.4vw, 1.1rem);
   row-gap: 0.28rem;
   max-width: var(--heroes-content-max);
   margin: 0 auto;
@@ -1386,6 +1389,43 @@ body:has(.heroes-gallery) {
 .heroes-chapter[data-branch="unique"] {
   --chapter-accent: color-mix(in oklch, var(--rank-4-unique, oklch(0.48 0.24 296)) 44%, var(--heroes-unique-singularity));
   --chapter-accent-rgb: 168, 142, 232;
+}
+
+/* The chapter accent forks with the ladder, exactly as --stage-accent does
+   above. Keyed on branch alone it could not: the "Unique Ultimate · 5★" head
+   announced itself in the 4★ violet while every plate beneath it rendered
+   burnished copper, and the "Extra · 4★" head sat gold above fuchsia plates.
+   The head and its own plates now carry the same rank.
+   Unique is mixed toward --heroes-unique-singularity because these are 2.1rem
+   display headings on near-black; the raw rank token is too dark to read at
+   that size. The glow keeps the pure rank hue.
+   The mix runs in oklab, not oklch: singularity sits at hue 240, so an oklch
+   mix interpolates around the hue wheel and drags the 5★ copper (hue 55) the
+   long way to pink. oklab blends rectangularly, so it only lightens and
+   desaturates and the rank hue survives. */
+.heroes-chapter[data-branch="suite"][data-level="4"] {
+  --chapter-accent: var(--rank-4);
+  --chapter-accent-rgb: var(--rank-4-rgb);
+}
+.heroes-chapter[data-branch="suite"][data-level="5"] {
+  --chapter-accent: var(--rank-5);
+  --chapter-accent-rgb: var(--rank-5-rgb);
+}
+.heroes-chapter[data-branch="suite"][data-level="6"] {
+  --chapter-accent: var(--rank-6);
+  --chapter-accent-rgb: var(--rank-6-rgb);
+}
+.heroes-chapter[data-branch="unique"][data-level="4"] {
+  --chapter-accent: color-mix(in oklab, var(--rank-4-unique) 44%, var(--heroes-unique-singularity));
+  --chapter-accent-rgb: var(--rank-4-unique-rgb);
+}
+.heroes-chapter[data-branch="unique"][data-level="5"] {
+  --chapter-accent: color-mix(in oklab, var(--rank-5-unique) 66%, var(--heroes-unique-singularity));
+  --chapter-accent-rgb: var(--rank-5-unique-rgb);
+}
+.heroes-chapter[data-branch="unique"][data-level="6"] {
+  --chapter-accent: color-mix(in oklab, var(--rank-6-unique) 72%, var(--heroes-unique-singularity));
+  --chapter-accent-rgb: var(--rank-6-unique-rgb);
 }
 
 .heroes-chapter__glyph {
@@ -1730,6 +1770,31 @@ body:has(.heroes-gallery) {
   color: var(--heroes-ink-2);
 }
 
+/* Below ~560px the three-column ledger line squeezes the clause into a ragged
+   hanging wrap. Give the clause its own full-width row instead. */
+@media (max-width: 559px) {
+  .hero-card__fusion--unique {
+    grid-auto-flow: row;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'label value'
+      'sub   sub';
+    row-gap: 0.24rem;
+    column-gap: 0.6rem;
+  }
+
+  .hero-card__fusion--unique .hero-card__fusion-label {
+    grid-area: label;
+  }
+
+  .hero-card__fusion--unique .hero-card__fusion-value {
+    grid-area: value;
+  }
+
+  .hero-card__fusion--unique .hero-card__fusion-sub {
+    grid-area: sub;
+  }
+}
 
 /* ── Card actions ────────────────────────────────────────────── */
 .hero-card__actions {
@@ -2343,6 +2408,20 @@ body:has(.heroes-gallery) {
     transform: none !important;
     filter: none !important;
     clip-path: none !important;
+  }
+
+  /* Geometry is not motion. The Suite backplate IS a diamond because of its
+     rotate(45deg), and the blanket transform reset above flattened it into a
+     square — so the one visual that distinguishes a Suite crest from a Unique
+     ring disappeared for anyone who asked for less motion. Restore the static
+     rotation (and the Unique ring's explicit un-rotation) without restoring
+     any of the entrance transforms the reset is actually there to kill. */
+  .hero-card__crest-diamond-back {
+    transform: rotate(45deg) !important;
+  }
+
+  .hero-stage[data-branch="unique"] .hero-card__crest-diamond-back {
+    transform: rotate(0deg) !important;
   }
 
   .heroes-ledger-rail__progress,

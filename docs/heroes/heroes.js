@@ -690,11 +690,16 @@
   // undivided run. Chapters are keyed on branch AND rank instead, which is the
   // real structure of the ladder: the scroll now reads as four named sections
   // with a plate count each.
-  function renderChapter(branch, label, count, index) {
+  // The head carried only data-branch, so its accent could not fork with the
+  // ladder: the Unique Ultimate head announced itself in the 4★ violet above
+  // burnished-copper plates, and the Extra head sat gold above fuchsia ones.
+  // Stamp the rank the chapter is already grouped by and let CSS read it.
+  function renderChapter(branch, label, count, index, level) {
     var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
     var note = BRANCH_NOTE[branch] || '';
     var plural = count === 1 ? 'plate' : 'plates';
     return '<div class="heroes-chapter" data-branch="' + esc(branch) + '"' +
+      ' data-level="' + esc(level) + '"' +
       (index === 0 ? ' data-first="true"' : '') + '>' +
       '<span class="heroes-chapter__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
       '<h2 class="heroes-chapter__title">' + esc(label) + '</h2>' +
@@ -1215,9 +1220,11 @@
 
         // Chapter run-lengths, precomputed so each head can state its own count
         // before its plates render.
+        function chapterRankFor(c) {
+          return (typeof c.topSkill.rank === 'number') ? c.topSkill.rank : levelNum(c.topSkill.level);
+        }
         function chapterKeyFor(c) {
-          var rank = (typeof c.topSkill.rank === 'number') ? c.topSkill.rank : levelNum(c.topSkill.level);
-          return computeBranchForTopSkill(c) + '|' + rank;
+          return computeBranchForTopSkill(c) + '|' + chapterRankFor(c);
         }
         var chapterCounts = {};
         heroes.forEach(function (c) {
@@ -1250,7 +1257,8 @@
               computeBranchForTopSkill(c),
               topSkillRankLabel(c),
               chapterCounts[key] || 1,
-              chapterIndex++
+              chapterIndex++,
+              chapterRankFor(c)
             );
           }
           appendHeroStage(c, tier);
