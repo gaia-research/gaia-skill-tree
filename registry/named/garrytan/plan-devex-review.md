@@ -20,7 +20,7 @@ tags:
 - api-ux
 - onboarding
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -86,7 +86,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 63.73
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -99,7 +104,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 8580d33277a7f70df855307ee67342509cdefd5d675f6230a7276d50a5823456
+trustMagnitudeInputHash: 88cb640252cd8e7c2257503b77ccb82e860c3b234b6f5fa2170171a7ea1a8fa9
 ---
 
 ## Overview

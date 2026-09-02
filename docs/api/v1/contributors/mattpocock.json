@@ -5,8 +5,8 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 529.4,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 129.45,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "suite",
@@ -45,88 +45,10 @@
       ]
     },
     {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "trustMagnitude": 351.96,
-      "overallTrustGrade": "A",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "genericSkillRef": "engineering-discipline",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/grill-with-docs",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "3★",
-      "trustMagnitude": 180.0,
-      "overallTrustGrade": "A",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/wait-what",
-        "mattpocock/write-a-skill"
-      ]
-    },
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "trustMagnitude": 120.0,
-      "overallTrustGrade": "A",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      },
-      "genericSkillRef": "mattpocock-misc",
-      "suiteComponents": [
-        "mattpocock/git-guardrails-claude-code",
-        "mattpocock/migrate-to-shoehorn",
-        "mattpocock/scaffold-exercises",
-        "mattpocock/setup-pre-commit"
-      ]
-    },
-    {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
       "level": "3★",
-      "trustMagnitude": 106.13,
+      "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -142,7 +64,7 @@
       "id": "mattpocock/edit-article",
       "name": "Edit Article",
       "level": "3★",
-      "trustMagnitude": 106.13,
+      "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "basic",
@@ -158,7 +80,7 @@
       "id": "mattpocock/obsidian-vault",
       "name": "Obsidian Vault Manager",
       "level": "3★",
-      "trustMagnitude": 106.13,
+      "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -174,7 +96,7 @@
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "3★",
-      "trustMagnitude": 106.13,
+      "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -190,7 +112,7 @@
       "id": "mattpocock/ubiquitous-language",
       "name": "Ubiquitous Language",
       "level": "3★",
-      "trustMagnitude": 106.13,
+      "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -265,26 +187,6 @@
         "self": "/api/v1/skills/mattpocock/to-spec.json"
       },
       "genericSkillRef": "prd-generation"
-    },
-    {
-      "id": "mattpocock/personal",
-      "name": "Personal",
-      "level": "3★",
-      "trustMagnitude": 60.0,
-      "overallTrustGrade": "B",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/personal.json"
-      },
-      "genericSkillRef": "personal",
-      "suiteComponents": [
-        "mattpocock/edit-article",
-        "mattpocock/obsidian-vault"
-      ]
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
@@ -685,18 +587,115 @@
         "self": "/api/v1/skills/mattpocock/wizard.json"
       },
       "genericSkillRef": "guided-setup-scripting"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      },
+      "genericSkillRef": "mattpocock-misc",
+      "suiteComponents": [
+        "mattpocock/git-guardrails-claude-code",
+        "mattpocock/migrate-to-shoehorn",
+        "mattpocock/scaffold-exercises",
+        "mattpocock/setup-pre-commit"
+      ]
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what",
+        "mattpocock/write-a-skill"
+      ]
     }
   ],
   "namedSkillsCount": 39,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
-    "trustMagnitude": 529.4
+    "trustMagnitude": 129.45
   },
-  "prestigeScore": 2981.58,
+  "prestigeScore": 1867.42,
   "gradeDistribution": {
-    "S": 1,
-    "A": 8,
+    "A": 9,
     "B": 8,
     "C": 22
   },

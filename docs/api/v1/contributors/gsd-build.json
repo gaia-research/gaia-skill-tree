@@ -5,8 +5,8 @@
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
       "level": "4★",
-      "trustMagnitude": 202.15,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 52.2,
+      "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "suite",
@@ -28,7 +28,7 @@
       "id": "gsd-build/discuss-phase",
       "name": "GSD Discuss Phase",
       "level": "3★",
-      "trustMagnitude": 52.15,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -44,7 +44,7 @@
       "id": "gsd-build/execute-phase",
       "name": "GSD Execute Phase",
       "level": "3★",
-      "trustMagnitude": 52.15,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -60,7 +60,7 @@
       "id": "gsd-build/plan-phase",
       "name": "GSD Plan Phase",
       "level": "3★",
-      "trustMagnitude": 52.15,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -76,7 +76,7 @@
       "id": "gsd-build/ship",
       "name": "GSD Ship",
       "level": "3★",
-      "trustMagnitude": 52.15,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -92,7 +92,7 @@
       "id": "gsd-build/verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
-      "trustMagnitude": 52.15,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
@@ -109,12 +109,11 @@
   "topSkill": {
     "id": "gsd-build/get-shit-done",
     "level": "4★",
-    "trustMagnitude": 202.15
+    "trustMagnitude": 52.2
   },
-  "prestigeScore": 462.9,
+  "prestigeScore": 302.2,
   "gradeDistribution": {
-    "A": 1,
-    "B": 5
+    "B": 6
   },
   "_links": {
     "self": "/api/v1/contributors/gsd-build.json",

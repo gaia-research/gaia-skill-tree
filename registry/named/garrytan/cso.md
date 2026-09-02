@@ -21,7 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/garrytan
 evidence:
 - class: B
@@ -87,7 +87,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 63.73
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -100,7 +105,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
-trustMagnitudeInputHash: 1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a
+trustMagnitudeInputHash: ffe5732bf0c191af325031aa203391159f4ffd3c1a911331477734298631fb4f
 ---
 
 ## Overview

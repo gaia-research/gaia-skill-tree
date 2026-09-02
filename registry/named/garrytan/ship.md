@@ -19,7 +19,7 @@ tags:
 - pr-automation
 - release
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -63,6 +63,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/ship/SKILL.md
@@ -89,7 +94,7 @@ evidence:
   stars: 130700
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 63.73
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -102,7 +107,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
-trustMagnitudeInputHash: cd424c47cab4fab0d5809899aa0fa439b80ed5db43075612b29ce4fb0555bde9
+trustMagnitudeInputHash: 176423f3bd19cdecb33118d59d33c68909a871a0ffedb0668bca111365fc95e7
 ---
 
 ## Overview

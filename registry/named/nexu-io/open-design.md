@@ -2,7 +2,7 @@
 id: nexu-io/open-design
 name: Open Design
 contributor: nexu-io
-origin: true
+origin: false
 genericSkillRef: design-generation
 status: named
 title: The Artisan's Forge
@@ -17,7 +17,7 @@ tags:
 - ux
 - generation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-22'
 evidence:
 - class: B
   source: https://github.com/nexu-io/open-design
@@ -57,6 +57,10 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-22T08:10:50Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Origin status set to false.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

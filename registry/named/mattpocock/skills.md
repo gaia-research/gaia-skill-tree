@@ -13,8 +13,8 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-08-20'
-trustMagnitude: 528.95
+updatedAt: '2026-08-25'
+trustMagnitude: 329.45
 overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -129,6 +129,11 @@ timeline:
   action: recalibrate_trust_magnitude
   contributor: mbtiongson1
   details: 'TM 480.29 -> 528.95, grade S -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-08-25T11:23:16Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 528.95 -> 329.45, grade S -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers

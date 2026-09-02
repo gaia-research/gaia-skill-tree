@@ -4,6 +4,63 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-25, Yggdrasil III stack merged to integration; intake #1608 restacked behind it)
+
+### TLDR
+
+- **Yggdrasil III (#1625-#1628) is fully merged into `dev/yggdrasil-iii-newmeta`**, squash-merged in dependency order (1/4 meta contract → 2/4 backend fusion cap + witness gate → 3/4 frontend/methodology → 4/4 test coverage). All four are `merged: true` on GitHub. #1626 and #1628 showed CI as `unstable` pre-merge (Schema+DAG / Test-Build failures) — confirmed to be isolation artifacts of testing each slice before its predecessor landed, not real defects; expected under the integration-branch red-CI tolerance.
+- **PR #1629** (Yggdrasil III trust integrity rules, draft, `needs-review`) is a separate proposal also based on `dev/yggdrasil-iii-newmeta` — NOT part of the numbered 1/4-4/4 stack, left untouched.
+- **PR #1608** (evidence-intake batch #1607, draft, was stale/dirty against `main`) retargeted from `main` → `dev/yggdrasil-iii-newmeta`, so it now lands last, behind the Yggdrasil III rule change — deliberate, since it touches registry data and the founder wants clean timeline entries rather than a reconstructed branch.
+- **Merge (not rebase) of `dev/yggdrasil-iii-newmeta` into `review/meta/intake-1607` done by a delegated worker** — clean, pushed as merge commit `65d4ae0`. No data-file conflicts (`registry/nodes/`, `registry/named/`, `named-skills.json`, `skill-trees/**` all merged without overlap). Only conflicts were 4 Class S generated-artifact timestamp/version fields (`docs/graph/gaia.json`, `.gexf`, `named/index.json`, `docs/graph/ledger/data.json`), hand-resolved to the newer side — **still needs a real `gaia dev docs --check` regen pass before #1608 is PR-ready**, flagged but not yet actioned.
+- **Post-merge doc-drift sweep** (scoped via Explore agent): found stale "Trust Magnitude is unbounded" language surviving in three places pre-merge. After re-checking against the merged `dev/yggdrasil-iii-newmeta` HEAD: `META.md` was already self-corrected by #1625 (false alarm, dropped). `docs/js/tm-config.js` comment was also a false alarm (per-row cap comment, unrelated to the fusion-recipe `contributionCap: 200` which is already correct). Two real defects: `CONTRIBUTING.md` (fixed this session, see below) and `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` line 101 (a published historical post — founder ruling: leave as-is, don't retroactively edit archived history; a forward-pointer belongs in a new post instead).
+- **"Arbor" resolved**: `docs/meta/2026-08-24-arbor-review-launch.md` (rendered post, unrelated to Yggdrasil/TM — a behavioral-evidence sidecar announcement). Founder decision: post content stays as-is, but **archive it from the live queue** (`docs/meta/posts.json` + `docs/index.html` wiring) — relaunch deferred to later. **Not yet executed** — next session's first task.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Yggdrasil III stack → `dev/yggdrasil-iii-newmeta` | ✅ #1625, #1626, #1627, #1628 all squash-merged, in order |
+| `review/meta/intake-1607` rebase-by-merge | ✅ `dev/yggdrasil-iii-newmeta` merged in, pushed as `65d4ae0`, no data conflicts |
+| `docs/graph/*` Class S artifacts on `review/meta/intake-1607` | ⏳ Hand-resolved timestamps only — real `gaia dev docs` regen still owed before PR-ready |
+| `CONTRIBUTING.md` unbounded-TM wording | ✅ Fixed directly (superadmin), PR **#1633** → `dev/yggdrasil-iii-newmeta` |
+| `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` | ⏹️ Deliberately left untouched (historical record, founder ruling) |
+| Arbor post archival | ⏳ Not started — scoped only, execute next session |
+| `founder/MEMORY.md` | ✅ This backfill (was missing any entry for this work) |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/yggdrasil-iii-newmeta` | Integration branch, now carries all 4 Yggdrasil III slices + release v7.11.0 base. Head `8f8f5ed`. |
+| `dev/yggdrasil-iii-review` / #1629 | Open draft, separate proposal, not part of this session's merge. |
+| `review/meta/intake-1607` / #1608 | Base retargeted to `dev/yggdrasil-iii-newmeta`; merge-forward done (`65d4ae0`); still draft, still needs Class S regen before ready. |
+| `infra/contributing-tm-cap-wording` / #1633 | Open, targets `dev/yggdrasil-iii-newmeta`, ready to merge (docs-only, no rendered diff, not human-gated). |
+| `main` | Unchanged by this session. |
+
+### Routing — where things live now
+
+- Integration branch for this sprint: `dev/yggdrasil-iii-newmeta`. Everything above lands there before the eventual aggregate PR to `main`.
+- Intake #1608 is intentionally sequenced to merge **last** in this stack (data-touching, needs clean timeline entries against the already-landed rule change).
+
+### Lessons / hazards preserved
+
+- Stacked PRs that all target the same integration-branch base directly (not chained on each other) will show `unstable`/failing required checks on the middle-of-stack PRs before their predecessors land — this is expected, not a signal to stop, when the founder has approved the merge order. Verify by reading the actual check-run failures (Schema+DAG, Test-Build) rather than trusting `mergeable_state` alone.
+- When retargeting a stale intake PR's base, `git merge` (not rebase) forward into the intake branch keeps its own commits/timeline entries intact — delegated to a worker with an explicit instruction set separating "resolve normally" (docs/schema/methodology) from "stop and report, never resolve" (registry data, timeline arrays). Worked cleanly; only Class S timestamp conflicts surfaced.
+- Doc-drift sweeps need re-verification against the actual merged HEAD, not just the pre-merge checkout — two of three initially-flagged "stale" files turned out to already be fixed or never actually stale once checked post-merge.
+
+### Open questions for next orchestrator
+
+- Execute Arbor post archival (pull from `docs/meta/posts.json` live queue + `docs/index.html` hero/queue wiring; keep source `.md` and rendered `.html` on disk for later relaunch).
+- Run `gaia dev docs --check` regen pass on `review/meta/intake-1607` and commit the real Class S artifacts (supersedes the hand-resolved timestamps).
+- Decide whether `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` gets a forward-pointer note in a *new* post referencing the Yggdrasil III cap (raised, not yet decided).
+- #1633 (`CONTRIBUTING.md` fix) is small/ungated — safe to merge into `dev/yggdrasil-iii-newmeta` on green CI without further review.
+
+### Token cost (this session)
+
+- Not tracked — founder directed to skip unless PR bodies carried it; none did.
+
+---
+
 ## State Snapshot (2026-08-13, Steward V1.3 + V1.4 + V1.5 assembled on integration — GREEN, awaiting founder merge gate)
 
 ### TLDR

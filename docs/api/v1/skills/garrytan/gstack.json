@@ -5,8 +5,8 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 594.27,
-  "overallTrustGrade": "S",
+  "trustMagnitude": 112.99,
+  "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Ultimate",
   "medallion": "◆",
@@ -54,12 +54,12 @@
     {
       "source": "https://github.com/garrytan/gstack/stargazers",
       "evaluator": "mbtiongson1",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "date": "2026-06-19",
       "type": "github-stars-own",
       "class": "A",
       "notes": "110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)",
-      "stars": 130700,
+      "stars": 125610,
       "skillCountInRepo": 47,
       "grade": "C"
     },
@@ -144,6 +144,12 @@
       "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:15Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 589.32 -> 312.99, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

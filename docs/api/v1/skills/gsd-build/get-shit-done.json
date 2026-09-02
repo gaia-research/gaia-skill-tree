@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 202.15,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 52.2,
+  "overallTrustGrade": "B",
   "branch": "suite",
   "rankWord": "Extra",
   "medallion": "◆",
@@ -37,11 +37,11 @@
   "evidence": [
     {
       "source": "https://github.com/gsd-build/get-shit-done/stargazers",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 64612,
+      "stars": 64783,
       "skillCountInRepo": 5
     },
     {

@@ -3,7 +3,7 @@ id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
 origin: true
-genericSkillRef: ui-audit
+genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
 level: 4★
@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-07-30'
+updatedAt: '2026-08-22'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable

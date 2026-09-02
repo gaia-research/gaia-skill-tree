@@ -20,7 +20,7 @@ tags:
 - multi-agent
 - adversarial-review
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -86,7 +86,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 63.73
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -99,7 +104,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: 01c47f17582b841ffc7336c127bad10ea656673ce009b841afa47e18ffefd3a2
+trustMagnitudeInputHash: 692a68af9f23ff466edced7048256eff387628a79fa3707860494b14fa2bcd11
 ---
 
 ## Overview

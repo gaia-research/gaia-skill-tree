@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-09-01T15:47:43Z",
+  "generatedAt": "2026-08-24T12:52:57Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
       "implementations": 2,
-      "topTM": 298.83,
+      "topTM": 296.3,
       "skills": [
         {
           "id": "addy-osmani/agent-skills",
-          "trustMagnitude": 298.83,
+          "trustMagnitude": 296.3,
           "level": "5★",
           "overallTrustGrade": "S",
           "origin": true
         },
         {
           "id": "gsd-build/get-shit-done",
-          "trustMagnitude": 202.15,
+          "trustMagnitude": 202.2,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": false
@@ -44,55 +44,13 @@
       ]
     },
     {
-      "genericSkillRef": "ux-audit",
-      "implementations": 5,
-      "topTM": 206.97,
-      "skills": [
-        {
-          "id": "nextlevelbuilder/ui-ux-pro-max",
-          "trustMagnitude": 206.97,
-          "level": "4★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "martin-stepanoski/nielsen-heuristics-audit",
-          "trustMagnitude": 94.9,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "garrytan/plan-design-review",
-          "trustMagnitude": 68.67,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "garrytan/plan-devex-review",
-          "trustMagnitude": 68.67,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "garrytan/devex-review",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
       "genericSkillRef": "refactor-code",
       "implementations": 3,
-      "topTM": 198.83,
+      "topTM": 196.3,
       "skills": [
         {
           "id": "addy-osmani/code-simplification",
-          "trustMagnitude": 198.83,
+          "trustMagnitude": 196.3,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
@@ -114,6 +72,48 @@
       ]
     },
     {
+      "genericSkillRef": "ux-audit",
+      "implementations": 5,
+      "topTM": 195.51,
+      "skills": [
+        {
+          "id": "nextlevelbuilder/ui-ux-pro-max",
+          "trustMagnitude": 195.51,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "martin-stepanoski/nielsen-heuristics-audit",
+          "trustMagnitude": 94.9,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/plan-design-review",
+          "trustMagnitude": 67.4,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/plan-devex-review",
+          "trustMagnitude": 67.4,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/devex-review",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
       "genericSkillRef": "vertical-slice-planning",
       "implementations": 3,
       "topTM": 156.0,
@@ -127,14 +127,14 @@
         },
         {
           "id": "mattpocock/to-tickets",
-          "trustMagnitude": 106.13,
+          "trustMagnitude": 105.68,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": false
         },
         {
           "id": "addy-osmani/planning-and-task-breakdown",
-          "trustMagnitude": 103.83,
+          "trustMagnitude": 101.3,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": false
@@ -144,11 +144,11 @@
     {
       "genericSkillRef": "ui-audit",
       "implementations": 2,
-      "topTM": 149.32,
+      "topTM": 138.25,
       "skills": [
         {
           "id": "pbakaus/impeccable",
-          "trustMagnitude": 149.32,
+          "trustMagnitude": 138.25,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -165,11 +165,11 @@
     {
       "genericSkillRef": "web-scrape",
       "implementations": 2,
-      "topTM": 139.78,
+      "topTM": 135.72,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-scrape",
-          "trustMagnitude": 139.78,
+          "trustMagnitude": 135.72,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -186,11 +186,11 @@
     {
       "genericSkillRef": "autonomous-web-research",
       "implementations": 2,
-      "topTM": 133.55,
+      "topTM": 129.1,
       "skills": [
         {
           "id": "mvanhorn/last30days",
-          "trustMagnitude": 133.55,
+          "trustMagnitude": 129.1,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -218,7 +218,7 @@
         },
         {
           "id": "gsd-build/execute-phase",
-          "trustMagnitude": 52.15,
+          "trustMagnitude": 52.2,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -246,7 +246,7 @@
         },
         {
           "id": "gsd-build/discuss-phase",
-          "trustMagnitude": 52.15,
+          "trustMagnitude": 52.2,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -267,7 +267,7 @@
         },
         {
           "id": "gsd-build/plan-phase",
-          "trustMagnitude": 52.15,
+          "trustMagnitude": 52.2,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -277,11 +277,11 @@
     {
       "genericSkillRef": "autonomous-debug",
       "implementations": 2,
-      "topTM": 106.13,
+      "topTM": 105.68,
       "skills": [
         {
           "id": "mattpocock/diagnose",
-          "trustMagnitude": 106.13,
+          "trustMagnitude": 105.68,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
@@ -298,18 +298,18 @@
     {
       "genericSkillRef": "document-editing",
       "implementations": 4,
-      "topTM": 106.13,
+      "topTM": 105.68,
       "skills": [
         {
           "id": "mattpocock/edit-article",
-          "trustMagnitude": 106.13,
+          "trustMagnitude": 105.68,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
         },
         {
           "id": "garrytan/document-generate",
-          "trustMagnitude": 68.67,
+          "trustMagnitude": 67.4,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -333,11 +333,11 @@
     {
       "genericSkillRef": "ubiquitous-language",
       "implementations": 2,
-      "topTM": 106.13,
+      "topTM": 105.68,
       "skills": [
         {
           "id": "mattpocock/ubiquitous-language",
-          "trustMagnitude": 106.13,
+          "trustMagnitude": 105.68,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
@@ -354,11 +354,11 @@
     {
       "genericSkillRef": "executing-plans",
       "implementations": 3,
-      "topTM": 103.83,
+      "topTM": 101.3,
       "skills": [
         {
           "id": "addy-osmani/incremental-implementation",
-          "trustMagnitude": 103.83,
+          "trustMagnitude": 101.3,
           "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
@@ -414,7 +414,7 @@
         },
         {
           "id": "gsd-build/verify-work",
-          "trustMagnitude": 52.15,
+          "trustMagnitude": 52.2,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -424,27 +424,6 @@
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "prd-generation",
-      "implementations": 2,
-      "topTM": 88.83,
-      "skills": [
-        {
-          "id": "addy-osmani/spec-driven-development",
-          "trustMagnitude": 88.83,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "mattpocock/to-spec",
-          "trustMagnitude": 63.71,
-          "level": "3★",
-          "overallTrustGrade": "B",
           "origin": false
         }
       ]
@@ -463,7 +442,7 @@
         },
         {
           "id": "firecrawl/firecrawl-build-interact",
-          "trustMagnitude": 79.76,
+          "trustMagnitude": 75.7,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -487,6 +466,27 @@
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "prd-generation",
+      "implementations": 2,
+      "topTM": 86.3,
+      "skills": [
+        {
+          "id": "addy-osmani/spec-driven-development",
+          "trustMagnitude": 86.3,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": true
+        },
+        {
+          "id": "mattpocock/to-spec",
+          "trustMagnitude": 63.71,
+          "level": "3★",
+          "overallTrustGrade": "B",
           "origin": false
         }
       ]

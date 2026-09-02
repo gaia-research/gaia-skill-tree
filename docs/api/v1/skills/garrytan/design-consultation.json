@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 68.67,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -17,7 +17,7 @@
   },
   "title": "Gstack Design Consultation",
   "genericSkillRef": "design-system-extraction",
-  "origin": true,
+  "origin": false,
   "description": "Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing, layout, and motion — persisted as a DESIGN.md file that serves as the project's authoritative design source of truth.",
   "tags": [
     "design-system",
@@ -51,13 +51,13 @@
     {
       "source": "https://github.com/garrytan/gstack",
       "evaluator": "unknown",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "date": "2026-06-20",
       "type": "github-stars-own",
       "trustNumber": 85.0,
       "grade": "C",
       "notes": "gstack suite repo — 110,930 GitHub stars; design-consultation is 1 of 42 named skills (verified 2026-06-20)",
-      "stars": 130700,
+      "stars": 125610,
       "skillCountInRepo": 42,
       "sourceStartedAt": "2024-01-01"
     }
@@ -123,6 +123,18 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-22T08:07:45Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
+    },
+    {
+      "timestamp": "2026-08-25T13:17:09Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

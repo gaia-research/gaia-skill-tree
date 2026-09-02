@@ -142,7 +142,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ ✓ · garrytan/design-consultation  [3★]
+  ├─ ✓ · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
@@ -358,6 +358,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ✓ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
+· ◆ pbakaus/impeccable  [4★]
+  ├─ ✓ ○ garrytan/design-html  [3★]
+  ├─ ✓ ○ leonxlnx/redesign-skill  [2★]
+  └─ · ○ leonxlnx/image-to-code-skill  [2★]
+
 · ◆ firecrawl/firecrawl-skills  [4★]
   ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
@@ -440,7 +445,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ ✓ ○ garrytan/design-html  [3★]
        ├─ · ○ /diff-content
        └─ ✓ ○ garrytan/benchmark  [3★]
-  ✓ ◉ pbakaus/impeccable  [4★]
   ✓ ◉ nextlevelbuilder/ui-ux-pro-max  [4★]
 ```
 

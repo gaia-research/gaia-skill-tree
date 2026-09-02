@@ -10,8 +10,8 @@ level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-20'
-trustMagnitude: 351.96
+updatedAt: '2026-08-25'
+trustMagnitude: 200.0
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -56,6 +56,11 @@ timeline:
   action: recalibrate_trust_magnitude
   contributor: mbtiongson1
   details: 'TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-08-25T11:23:16Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 351.96 -> 200.0, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: 84bb03bde46f1e5dbf730b2f8ee2abbfd93c5cd04481b6dcb983bfbe04e0a6b4
