@@ -63,6 +63,30 @@
     standard: '○'  // ○  — standard branch
   };
 
+  // The branch is the Hall's organising fact, so it gets said in words as well
+  // as in glyph and colour (PRODUCT.md accessibility baseline: never symbol
+  // alone, never colour alone). Words only — the derivation still comes from
+  // GaiaSemantics.branchOf.
+  var BRANCH_WORD = {
+    unique:   'Unique branch',
+    suite:    'Suite branch',
+    standard: 'Standard branch'
+  };
+
+  // One sentence per branch, shown on the chapter head. Half-Merged voice:
+  // states what the structure actually is, no ceremony beyond the chapter title.
+  var BRANCH_NOTE = {
+    unique:   'Carried to this rank on its own, with no suite beneath it.',
+    suite:    'Fused from named components into a single capstone.',
+    standard: 'Ranked on the shared ladder below the branch fork.'
+  };
+
+  // Largest Fusion Score across the rendered Hall, computed once per load in
+  // init(). The suite composition bar reads against it, so the bar always means
+  // "against the most composed capability in the Hall right now" rather than
+  // against an invented ceiling. 1 is a safe floor (never divide by zero).
+  var HALL_FUSION_MAX = 1;
+
   // ── Utilities ─────────────────────────────────────────────────
   function esc(str) {
     return String(str == null ? '' : str)
@@ -298,30 +322,82 @@
     return typeof value === 'number' ? value.toFixed(1) : '0.0';
   }
 
-  // Quiet Fusion Score companion to the Trust Magnitude stat. Mirrors the
-  // tooltip explanation in skill-explorer.js's _renderFusionStrip (same data,
-  // same "why the numbers moved" framing) but condensed into a single badge —
-  // this card has no room for the full ledger strip. Formula lives in
-  // src/gaia_cli/fusionScore.py; never recompute it here.
-  function heroFusionBadgeHtml(contributor) {
+  function fusionDisplay(value) {
+    return value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
+  }
+
+  // Shared tooltip copy for both branches. Mirrors the explanation in
+  // skill-explorer.js's _renderFusionStrip (same data, same "why the numbers
+  // moved" framing). Formula lives in src/gaia_cli/fusionScore.py; never
+  // recompute it here.
+  function fusionTooltip(display, breakdown) {
+    var bd = breakdown || {};
+    return [
+      'Fusion Score ' + display + ': how much distinct structure this capability composes.',
+      'A structural reading only, independent of Trust Magnitude. It is not a second trust',
+      'number, it grants no credit, and it gates no rank. Yggdrasil III split it out of the',
+      'old Trust Magnitude, which had been mixing structure with evidence.',
+      '',
+      'Distinct structural nodes: ' + (bd.transitiveCount || 0) + ' (' + (bd.directCount || 0) + ' direct)'
+    ].join('\n');
+  }
+
+  // ── Fusion Score readout, keyed to the branch ─────────────────
+  // The two branches carry genuinely different Fusion Scores, so they get
+  // genuinely different readouts rather than one badge pretending they are
+  // symmetric. Verified against docs/graph/named/index.json at 4★+:
+  //   suite  — 140 to 393, present on every entry. Composition IS the branch's
+  //            defining fact, so it reads as a headline figure with a bar
+  //            scaled against the Hall's own maximum.
+  //   unique — 0 to 249, median 40, and 0 on roughly a third of entries. A zero
+  //            is a real result (this capability composes nothing distinct of
+  //            its own), so it is stated in words rather than blanked out.
+  // A missing field is the one case that renders nothing: the score was never
+  // computed for that entry, which is not the same claim as "zero".
+  function heroFusionHtml(contributor, branch) {
     var skill = (contributor && contributor.topSkill) || {};
     var fs = skill.fusionScore;
     if (fs == null || fs === '') return '';
     var value = Number(fs);
-    if (!isFinite(value) || value <= 0) return '';
-    var display = value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
+    if (!isFinite(value) || value < 0) return '';
+
+    var display = fusionDisplay(value);
+    var tip = fusionTooltip(value > 0 ? '+' + display : '0', skill.fusionBreakdown);
     var bd = skill.fusionBreakdown || {};
-    var tip = [
-      'Fusion Score +' + display + ' — how much distinct structure this capability composes.',
-      'Structural reading only, independent of Trust Magnitude. Not a second trust number,',
-      'not new credit, gates no rank — it is the part of the old Trust Magnitude that was',
-      'never evidence (Yggdrasil III separated the two).',
-      '',
-      'Distinct structural nodes: ' + (bd.transitiveCount || 0) + ' (' + (bd.directCount || 0) + ' direct)'
-    ].join('\n');
-    return '<span class="hero-card__fusion-badge" title="' + esc(tip) + '" ' +
-      'aria-label="Fusion Score plus ' + esc(display) + ', structural reading, independent of Trust Magnitude">' +
-      '+' + esc(display) + ' Fusion</span>';
+    var nodes = bd.transitiveCount || 0;
+    var components = (skill.suiteComponents && skill.suiteComponents.length) || 0;
+
+    if (branch === 'suite') {
+      var pct = Math.max(2, Math.min(100, Math.round((value / HALL_FUSION_MAX) * 100)));
+      var sub = [];
+      if (nodes) sub.push(nodes + ' nodes composed');
+      if (components) sub.push(components + ' named components');
+      return '<div class="hero-card__fusion hero-card__fusion--suite" title="' + esc(tip) + '">' +
+        '<span class="hero-card__fusion-label">Fusion Score</span>' +
+        '<span class="hero-card__fusion-value" aria-label="Fusion Score plus ' + esc(display) +
+          ', a structural reading independent of Trust Magnitude">+' + esc(display) + '</span>' +
+        (sub.length ? '<span class="hero-card__fusion-sub">' + esc(sub.join(' · ')) + '</span>' : '') +
+        '<span class="hero-card__fusion-bar" aria-hidden="true">' +
+          '<span class="hero-card__fusion-bar-fill" style="width:' + pct + '%"></span>' +
+        '</span>' +
+        '</div>';
+    }
+
+    if (value === 0) {
+      return '<div class="hero-card__fusion hero-card__fusion--unique hero-card__fusion--zero" ' +
+        'title="' + esc(tip) + '">' +
+        '<span class="hero-card__fusion-label">Fusion Score</span>' +
+        '<span class="hero-card__fusion-value">0</span>' +
+        '<span class="hero-card__fusion-sub">composes no distinct structure</span>' +
+        '</div>';
+    }
+
+    return '<div class="hero-card__fusion hero-card__fusion--unique" title="' + esc(tip) + '">' +
+      '<span class="hero-card__fusion-label">Fusion Score</span>' +
+      '<span class="hero-card__fusion-value" aria-label="Fusion Score plus ' + esc(display) +
+        ', a structural reading independent of Trust Magnitude">+' + esc(display) + '</span>' +
+      (nodes ? '<span class="hero-card__fusion-sub">' + nodes + ' nodes composed</span>' : '') +
+      '</div>';
   }
 
   function githubAvatarUrl(handle, size) {
@@ -368,7 +444,7 @@
     var wreathHtml = isOrigin
       ? '<img class="hero-card__crest-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
       : '';
-    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" '
+    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" ' +
       'aria-label="' + esc(title) + '"' +
       (isOrigin ? ' data-origin="true"' : '') + '>' +
       imgHtml + wreathHtml +
@@ -479,7 +555,11 @@
     }
 
     // E3: crest wrapper — diamond back + gold-wreath avatar (replaces plain img + red mark).
+    // The field plate behind the crest is the branch's material: the Suite gets
+    // the gilded haze, the Unique gets the orrery ring. Both are existing
+    // Ascension Overdrive art, selected in CSS off data-branch.
     html += '<div class="hero-card__crest-wrapper">';
+    html += '<div class="hero-card__field" aria-hidden="true"></div>';
     html += '<div class="hero-card__crest-diamond-back"' + animAttr + ' aria-hidden="true"></div>';
     html += '<div class="hero-card__crest-square-front">';
     html += heroAvatarHtml(contributor, 200);
@@ -497,28 +577,56 @@
     html += '</div>';
     html += '</div>';
 
+    // Ledger column — everything that is read rather than looked at. On desktop
+    // it sits beside the crest; on mobile it stacks beneath it.
+    html += '<div class="hero-card__ledger">';
+
+    // The branch, stated. Glyph + word + colour together, so the Unique/Suite
+    // fork survives for a reader who cannot use hue (PRODUCT.md a11y baseline).
+    html += '<div class="hero-card__branchmark"><span class="hero-card__branchmark-glyph" aria-hidden="true">' +
+      esc(glyph) + '</span>' + esc(BRANCH_WORD[branch] || BRANCH_WORD.standard) + '</div>';
+
     // Meta
     html += '<div class="hero-card__meta">';
-    html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + '"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
+    html += '<div class="hero-card__tier-mark">' + esc(tierLabel) + '</div>';
     html += '<h2 class="hero-card__name" id="' + esc(titleId) + '"><a class="hero-card__name-link" href="../named/#explorer/' + esc(skillId) + '">' + esc(slug) + '</a></h2>';
     html += '<div class="hero-card__handle"><a class="hero-card__handle-link" href="../u/' + esc(handle) + '/">@' + esc(handle) + '</a></div>';
     if (epithet) {
       html += '<p class="hero-card__epithet">' + esc(epithet) + '</p>';
     }
     html += '<div class="hero-card__stats">';
-    html += '<span><span class="hero-card__stat-value">' + contributor.namedSkills + '</span> named skills</span>';
-    html += '<span><span class="hero-card__stat-value">' + fusedCount(contributor) + '</span> fused</span>';
     html += '<span><span class="hero-card__stat-value">' + formatTrustMagnitude(trustMagnitude(contributor)) + '</span> Trust Magnitude</span>';
-    var fusionBadge = heroFusionBadgeHtml(contributor);
-    if (fusionBadge) html += fusionBadge;
+    html += '<span><span class="hero-card__stat-value">' + contributor.namedSkills + '</span> named skills</span>';
+    // "Fused" counts the distinct prerequisites behind the generic reference.
+    // It is zero for most Unique entries, where an empty stat is noise, so the
+    // row only carries it when there is something to count.
+    var fused = fusedCount(contributor);
+    if (fused > 0) {
+      html += '<span><span class="hero-card__stat-value">' + fused + '</span> fused</span>';
+    }
     html += '</div>';
     html += '</div>';
 
-    // Share button
-    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-branch="' + esc(branch) + '">';
+    var fusionBlock = heroFusionHtml(contributor, branch);
+    if (fusionBlock) html += fusionBlock;
+
+    // Card actions. The avatar already links to the source repository (E3), so
+    // the row carries the two destinations the crest cannot: the skill's entry
+    // in the explorer, and the share plaque.
+    html += '<div class="hero-card__actions">';
+    html += '<a class="hero-card__cta hero-card__cta--primary" href="../named/#explorer/' + esc(skillId) + '">';
+    html += 'View skill entry';
+    html += '</a>';
+    // data-share-level / data-share-type feed hero-share.js so the shared
+    // plaque carries this skill's real rank and type instead of guessing them
+    // back out of the rendered stats row.
+    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-branch="' + esc(branch) + '" data-share-level="' + esc(contributor.topSkill.level || '') + '" data-share-type="' + esc(contributor.topSkill.type || 'basic') + '">';
     html += '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg>';
     html += 'Share plaque';
     html += '</button>';
+    html += '</div>';
+
+    html += '</div>';
 
     html += '</div>';
     html += '</section>';
@@ -577,12 +685,51 @@
     rail.hidden = false;
   }
 
-  function renderTierDivider(label) {
-    return '<div class="heroes-tier-divider" aria-hidden="true">' +
-      '<div class="heroes-tier-divider__line"></div>' +
-      '<span class="heroes-tier-divider__label">' + esc(label) + '</span>' +
-      '<div class="heroes-tier-divider__line"></div>' +
+  // Chapter head. The Hall runs to 80-odd plates and the old divider only fired
+  // on a change of presentational tier, so all 64 rank-4 Uniques arrived as one
+  // undivided run. Chapters are keyed on branch AND rank instead, which is the
+  // real structure of the ladder: the scroll now reads as four named sections
+  // with a plate count each.
+  function renderChapter(branch, label, count, index) {
+    var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+    var note = BRANCH_NOTE[branch] || '';
+    var plural = count === 1 ? 'plate' : 'plates';
+    return '<div class="heroes-chapter" data-branch="' + esc(branch) + '"' +
+      (index === 0 ? ' data-first="true"' : '') + '>' +
+      '<span class="heroes-chapter__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
+      '<h2 class="heroes-chapter__title">' + esc(label) + '</h2>' +
+      '<p class="heroes-chapter__note">' + esc(note) + '</p>' +
+      '<span class="heroes-chapter__count">' + count + ' ' + plural + '</span>' +
       '</div>';
+  }
+
+  // Live branch tally under the page title. Counts come from the rendered set,
+  // never from a hardcoded number, so the header cannot go stale as the
+  // registry grows.
+  function renderHeaderTally(heroes) {
+    var el = document.getElementById('heroesHeaderTally');
+    if (!el) return;
+    var counts = { unique: 0, suite: 0, standard: 0 };
+    heroes.forEach(function (c) {
+      var b = computeBranchForTopSkill(c);
+      if (counts[b] == null) counts[b] = 0;
+      counts[b]++;
+    });
+    var parts = [];
+    if (counts.unique) {
+      parts.push('<span class="heroes-header__tally-item" data-branch="unique">' +
+        '<span class="heroes-header__tally-glyph" aria-hidden="true">' + BRANCH_GLYPH.unique + '</span>' +
+        '<strong>' + counts.unique + '</strong> Unique</span>');
+    }
+    if (counts.suite) {
+      parts.push('<span class="heroes-header__tally-item" data-branch="suite">' +
+        '<span class="heroes-header__tally-glyph" aria-hidden="true">' + BRANCH_GLYPH.suite + '</span>' +
+        '<strong>' + counts.suite + '</strong> Suite</span>');
+    }
+    parts.push('<span class="heroes-header__tally-item heroes-header__tally-item--total">' +
+      '<strong>' + heroes.length + '</strong> plates</span>');
+    el.innerHTML = parts.join('');
+    el.hidden = false;
   }
 
   function renderLoadingState() {
@@ -1060,12 +1207,35 @@
 
         var ledgerEntries = [];
 
-        // Build HTML in strict TM order. Tier dividers follow live ranking.
-        // E2: divider labels use rankLabel (branch-forked, no banned words).
+        // Scale the suite composition bar against the Hall's own largest score.
+        HALL_FUSION_MAX = heroes.reduce(function (max, c) {
+          var v = Number(c.topSkill && c.topSkill.fusionScore);
+          return isFinite(v) && v > max ? v : max;
+        }, 1);
+
+        // Chapter run-lengths, precomputed so each head can state its own count
+        // before its plates render.
+        function chapterKeyFor(c) {
+          var rank = (typeof c.topSkill.rank === 'number') ? c.topSkill.rank : levelNum(c.topSkill.level);
+          return computeBranchForTopSkill(c) + '|' + rank;
+        }
+        var chapterCounts = {};
+        heroes.forEach(function (c) {
+          var key = chapterKeyFor(c);
+          chapterCounts[key] = (chapterCounts[key] || 0) + 1;
+        });
+
+        // Fill the header's live branch tally. Real counts off the rendered set,
+        // so the intro never drifts from what is actually on the page.
+        renderHeaderTally(heroes);
+
+        // Build HTML in strict rank/branch order.
+        // E2: chapter labels use rankLabel (branch-forked, no banned words).
         var html = '';
         var renderedIndex = 0;
         var totalHeroes = heroes.length;
-        var previousTier = null;
+        var previousKey = null;
+        var chapterIndex = 0;
 
         function appendHeroStage(c, tier) {
           ledgerEntries.push({ contributor: c, tier: tier });
@@ -1074,13 +1244,17 @@
 
         heroes.forEach(function (c) {
           var tier = stageTierClass(c);
-          if (tier !== previousTier && previousTier !== null) {
-            // Use rankLabel for the divider heading — branch-forked, no banned words.
-            var dividerLabel = topSkillRankLabel(c);
-            html += renderTierDivider(dividerLabel);
+          var key = chapterKeyFor(c);
+          if (key !== previousKey) {
+            html += renderChapter(
+              computeBranchForTopSkill(c),
+              topSkillRankLabel(c),
+              chapterCounts[key] || 1,
+              chapterIndex++
+            );
           }
           appendHeroStage(c, tier);
-          previousTier = tier;
+          previousKey = key;
         });
 
         container.innerHTML = html;
