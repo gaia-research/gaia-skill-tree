@@ -327,8 +327,24 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 # ---------------------------------------------------------------------------
 
 
-def _find_existing_issue(search_str: str, label: str) -> int | None:
-    """Return the number of an open issue matching *search_str* and *label*, or None."""
+def _find_existing_issue(
+    search_str: str,
+    label: str,
+    run_cache: dict[tuple[str, str], int] | None = None,
+) -> int | None:
+    """Return the number of an open issue matching *search_str* and *label*, or None.
+
+    GitHub's issue search index is eventually consistent: an issue created
+    seconds ago is not yet findable by ``gh issue list --search``.  A single
+    watcher run routinely emits several findings that collapse onto the same
+    umbrella (one per skill in a multi-skill upstream repo), so relying on the
+    index alone let identical issues through in the same run.  *run_cache*
+    remembers what this process already created and is consulted first.
+    """
+    if run_cache is not None:
+        cached = run_cache.get((label, search_str))
+        if cached is not None:
+            return cached
     try:
         result = subprocess.run(
             [
@@ -460,6 +476,10 @@ def create_issues(
         Summary records per finding.
     """
     summaries: list[dict] = []
+    # Issues created by *this* run, keyed (label, title-fragment).  GitHub's
+    # search index lags creation by seconds, so this is the only reliable
+    # dedup for findings that collapse onto one issue within a single run.
+    run_cache: dict[tuple[str, str], int] = {}
 
     for finding in full_findings:
         skill_id = finding["skillId"]
@@ -470,8 +490,9 @@ def create_issues(
         # ── Bootstrap ──────────────────────────────────────────────────────
         if finding_type == "bootstrap":
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
+            bootstrap_key = f"{skill_id} → baseline at {new_version}"
             existing = _find_existing_issue(
-                f"{skill_id} → baseline at {new_version}", "upstream:bootstrap"
+                bootstrap_key, "upstream:bootstrap", run_cache
             )
             if existing:
                 print(
@@ -491,6 +512,8 @@ def create_issues(
                 dry_run=not apply,
                 verbose=verbose,
             )
+            if issue_num:
+                run_cache[("upstream:bootstrap", bootstrap_key)] = issue_num
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -505,8 +528,9 @@ def create_issues(
             owner_repo_str = f"{parsed[0]}/{parsed[1]}"
 
         umbrella_title = f"[upstream] {owner_repo_str} → {new_version}"
+        umbrella_key = f"{owner_repo_str} → {new_version}"
         existing_umbrella = _find_existing_issue(
-            f"{owner_repo_str} → {new_version}", "upstream:release"
+            umbrella_key, "upstream:release", run_cache
         )
         if existing_umbrella:
             print(
@@ -539,6 +563,8 @@ def create_issues(
             dry_run=not apply,
             verbose=verbose,
         )
+        if umbrella_num:
+            run_cache[("upstream:release", umbrella_key)] = umbrella_num
 
         # ── Child intakes for added components ────────────────────────────
         child_numbers: list[int] = []
@@ -546,9 +572,8 @@ def create_issues(
 
         for slug in component_adds:
             child_title = f"[intake] {contributor}/{slug}"
-            existing_child = _find_existing_issue(
-                f"[intake] {contributor}/{slug}", "intake"
-            )
+            child_key = f"[intake] {contributor}/{slug}"
+            existing_child = _find_existing_issue(child_key, "intake", run_cache)
             if existing_child:
                 print(
                     f"  Child intake for {contributor}/{slug} already exists as #{existing_child}; skipping.",
@@ -571,6 +596,7 @@ def create_issues(
                 verbose=verbose,
             )
             if child_num:
+                run_cache[("intake", child_key)] = child_num
                 child_numbers.append(child_num)
 
         # Edit umbrella to list child refs
