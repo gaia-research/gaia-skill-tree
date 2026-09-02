@@ -1172,6 +1172,19 @@ body:has(.heroes-gallery) {
   font-weight: 600;
 }
 
+/* Quiet Fusion Score companion — deliberately the least visible mark in the
+   stats row: no border, no panel, just muted inline text. Trust Magnitude is
+   the graded reading (gold); Fusion Score is a structural aside, not a rival
+   number. See heroFusionBadgeHtml() in heroes.js. */
+.hero-card__fusion-badge {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.68rem;
+  color: var(--heroes-frost-dim);
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+  cursor: help;
+}
+
 /* Share button per hero */
 .hero-card__share {
   position: relative;
