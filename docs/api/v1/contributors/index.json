@@ -31,7 +31,7 @@
       "namedSkills": 9,
       "topSkill": {
         "id": "addy-osmani/code-simplification",
-        "level": "3★",
+        "level": "5★",
         "trustMagnitude": 426.0
       },
       "prestigeScore": 2593.0,
@@ -57,7 +57,7 @@
       "namedSkills": 6,
       "topSkill": {
         "id": "firecrawl/firecrawl-research-index",
-        "level": "3★",
+        "level": "5★",
         "trustMagnitude": 360.62
       },
       "prestigeScore": 1884.26,
@@ -122,7 +122,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "pbakaus/impeccable",
-        "level": "4★",
+        "level": "5★",
         "trustMagnitude": 334.8
       },
       "prestigeScore": 334.8,
@@ -135,7 +135,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "nextlevelbuilder/ui-ux-pro-max",
-        "level": "4★",
+        "level": "5★",
         "trustMagnitude": 333.26
       },
       "prestigeScore": 333.26,
@@ -148,7 +148,7 @@
       "namedSkills": 2,
       "topSkill": {
         "id": "anthropics/brand-guidelines",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 286.0
       },
       "prestigeScore": 329.52,
@@ -200,7 +200,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "safishamsi/graphify",
-        "level": "4★",
+        "level": "5★",
         "trustMagnitude": 297.8
       },
       "prestigeScore": 297.8,
@@ -213,7 +213,7 @@
       "namedSkills": 2,
       "topSkill": {
         "id": "anthropic/skill-creator",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 211.52
       },
       "prestigeScore": 247.52,
@@ -239,7 +239,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "vercel-labs/vercel-react-best-practices",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 163.4
       },
       "prestigeScore": 163.4,
@@ -252,7 +252,7 @@
       "namedSkills": 4,
       "topSkill": {
         "id": "disler/agent-fusion",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 37.54
       },
       "prestigeScore": 146.56,
@@ -271,6 +271,19 @@
       "prestigeScore": 125.46,
       "_links": {
         "self": "/api/v1/contributors/huggingface.json"
+      }
+    },
+    {
+      "handle": "ayghri",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "ayghri/i-have-adhd",
+        "level": "4★",
+        "trustMagnitude": 104.97
+      },
+      "prestigeScore": 104.97,
+      "_links": {
+        "self": "/api/v1/contributors/ayghri.json"
       }
     },
     {
@@ -534,7 +547,7 @@
       }
     }
   ],
-  "totalContributors": 41,
+  "totalContributors": 42,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

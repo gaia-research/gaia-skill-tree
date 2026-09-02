@@ -2,14 +2,14 @@
   "id": "firecrawl/firecrawl-build-onboarding",
   "name": "Firecrawl Onboarding",
   "contributor": "firecrawl",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 286.0,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
@@ -101,6 +101,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:16Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

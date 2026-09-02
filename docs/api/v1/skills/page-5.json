@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "vercel",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      },
+      "genericSkillRef": "skill-discovery"
+    },
+    {
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
@@ -173,15 +190,15 @@
     {
       "id": "mattpocock/engineering",
       "name": "Engineering",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "fusionScore": 326.49,
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       },
@@ -492,7 +509,7 @@
   ],
   "page": 5,
   "totalPages": 5,
-  "totalSkills": 226,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json"

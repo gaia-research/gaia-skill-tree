@@ -27,7 +27,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ◉ safishamsi/graphify  [4★]
+  ✓ ◉ safishamsi/graphify  [5★]
     ├─ · ○ /extract-entities
     └─ · ○ /logical-inference
 ```

@@ -3,15 +3,15 @@
     {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
-      "level": "3★",
+      "level": "5★",
       "trustMagnitude": 426.0,
       "overallTrustGrade": "S",
       "fusionScore": 0.0,
       "contributor": "addy-osmani",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique Ultimate",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
       },
@@ -20,15 +20,15 @@
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
-      "level": "3★",
+      "level": "5★",
       "trustMagnitude": 360.62,
       "overallTrustGrade": "S",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique Ultimate",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       },
@@ -54,14 +54,14 @@
     {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
-      "level": "4★",
+      "level": "5★",
       "trustMagnitude": 334.8,
       "overallTrustGrade": "S",
       "fusionScore": 60.0,
       "contributor": "pbakaus",
       "type": "fusion",
       "branch": "unique",
-      "rankWord": "Unique",
+      "rankWord": "Unique Ultimate",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
@@ -71,14 +71,14 @@
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
-      "level": "4★",
+      "level": "5★",
       "trustMagnitude": 333.26,
       "overallTrustGrade": "S",
       "fusionScore": 0.0,
       "contributor": "nextlevelbuilder",
       "type": "basic",
       "branch": "unique",
-      "rankWord": "Unique",
+      "rankWord": "Unique Ultimate",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
@@ -153,15 +153,15 @@
     {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
-      "level": "3★",
+      "level": "5★",
       "trustMagnitude": 331.0,
       "overallTrustGrade": "S",
       "fusionScore": 80.0,
       "contributor": "addy-osmani",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique Ultimate",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
       },
@@ -170,15 +170,15 @@
     {
       "id": "addy-osmani/planning-and-task-breakdown",
       "name": "Planning and Task Breakdown",
-      "level": "3★",
+      "level": "5★",
       "trustMagnitude": 331.0,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "addy-osmani",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique Ultimate",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
       },
@@ -282,15 +282,15 @@
     {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
-      "level": "3★",
+      "level": "5★",
       "trustMagnitude": 316.0,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "addy-osmani",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique Ultimate",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
@@ -329,15 +329,15 @@
     {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
       },
@@ -346,15 +346,15 @@
     {
       "id": "mattpocock/edit-article",
       "name": "Edit Article",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "mattpocock",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
       },
@@ -363,15 +363,15 @@
     {
       "id": "mattpocock/obsidian-vault",
       "name": "Obsidian Vault Manager",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       },
@@ -380,15 +380,15 @@
     {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
@@ -397,15 +397,15 @@
     {
       "id": "mattpocock/ubiquitous-language",
       "name": "Ubiquitous Language",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       },
@@ -431,14 +431,14 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "4★",
+      "level": "5★",
       "trustMagnitude": 297.8,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "safishamsi",
       "type": "fusion",
       "branch": "unique",
-      "rankWord": "Unique",
+      "rankWord": "Unique Ultimate",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
@@ -575,15 +575,15 @@
     {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "addy-osmani",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
       },
@@ -609,15 +609,15 @@
     {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 80.0,
       "contributor": "addy-osmani",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       },
@@ -626,15 +626,15 @@
     {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "anthropics",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
       },
@@ -643,15 +643,15 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
       },
@@ -660,15 +660,15 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "firecrawl",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
@@ -701,15 +701,15 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       },
@@ -772,15 +772,15 @@
     {
       "id": "k-dense-ai/qiskit",
       "name": "Qiskit",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 249.76,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "k-dense-ai",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/qiskit.json"
       },
@@ -789,15 +789,15 @@
     {
       "id": "k-dense-ai/scanpy",
       "name": "Scanpy",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 232.8,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "k-dense-ai",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/scanpy.json"
       },
@@ -806,15 +806,15 @@
     {
       "id": "k-dense-ai/stable-baselines3",
       "name": "Stable Baselines3",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 232.8,
       "overallTrustGrade": "A",
       "fusionScore": 220.0,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
       },
@@ -823,15 +823,15 @@
     {
       "id": "k-dense-ai/transformers",
       "name": "Transformers",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 232.8,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
       },
@@ -840,15 +840,15 @@
     {
       "id": "k-dense-ai/pytorch-lightning",
       "name": "PyTorch Lightning",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 223.8,
       "overallTrustGrade": "A",
       "fusionScore": 248.99,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
       },
@@ -874,15 +874,15 @@
     {
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 211.52,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "anthropic",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
       },
@@ -891,15 +891,15 @@
     {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 205.8,
       "overallTrustGrade": "A",
       "fusionScore": 160.0,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/rdkit.json"
       },
@@ -908,15 +908,15 @@
     {
       "id": "k-dense-ai/scvi-tools",
       "name": "scvi-tools",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 205.8,
       "overallTrustGrade": "A",
       "fusionScore": 220.0,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
       },
@@ -925,15 +925,15 @@
     {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 163.4,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "vercel-labs",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       },
@@ -993,15 +993,15 @@
     {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
       },
@@ -1027,7 +1027,7 @@
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 226,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

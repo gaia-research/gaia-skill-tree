@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "ayghri/i-have-adhd",
+      "name": "I Have ADHD",
+      "level": "4★",
+      "trustMagnitude": 104.97,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "ayghri",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
       "level": "3★",
@@ -745,14 +762,14 @@
     {
       "id": "leonxlnx/brandkit",
       "name": "brandkit",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brandkit.json"
@@ -762,14 +779,14 @@
     {
       "id": "leonxlnx/brutalist-skill",
       "name": "brutalist-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
@@ -779,14 +796,14 @@
     {
       "id": "leonxlnx/gpt-tasteskill",
       "name": "gpt-tasteskill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
@@ -796,14 +813,14 @@
     {
       "id": "leonxlnx/image-to-code-skill",
       "name": "image-to-code-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
@@ -813,14 +830,14 @@
     {
       "id": "leonxlnx/imagegen-frontend-mobile",
       "name": "imagegen-frontend-mobile",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
@@ -830,41 +847,24 @@
     {
       "id": "leonxlnx/imagegen-frontend-web",
       "name": "imagegen-frontend-web",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
       },
       "genericSkillRef": "image-generate"
-    },
-    {
-      "id": "leonxlnx/minimalist-skill",
-      "name": "minimalist-skill",
-      "level": "2★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
-      },
-      "genericSkillRef": "design-generation"
     }
   ],
   "page": 2,
   "totalPages": 5,
-  "totalSkills": 226,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

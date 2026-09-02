@@ -7,7 +7,7 @@ genericSkillRef: tool-creation
 status: named
 title: The Skill Forger's Art
 catalogRef: anthropic-skill-creator
-level: 3★
+level: 4★
 description: Interviews the user through a structured dialogue to elicit the skill's
   purpose, trigger conditions, and step-by-step instructions, then programmatically
   writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.
@@ -19,7 +19,7 @@ tags:
 - claude-code
 - tool-creation
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -71,6 +71,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 90.0 -> 211.52, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-02T15:11:14Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 211.52
 overallTrustGrade: A
 apexGateStatus:

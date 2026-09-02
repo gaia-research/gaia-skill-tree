@@ -31,12 +31,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  ├─ · · addy-osmani/code-review-and-quality  [4★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · garrytan/garrytan  [4★]
+  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [5★]
+  ├─ · · garrytan/garrytan  [5★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · · leonxlnx/stitch-skill  [3★]
@@ -57,8 +57,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ ✓ · garrytan/ship  [3★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  ├─ ✓ · garrytan/ship  [4★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
   │  ├─ · · ████████/github-workflow-automation
@@ -69,12 +69,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [3★]
+  ├─ · ○ garrytan/document-generate  [4★]
   ├─ · · ████████/browse  (↑ see above)
-  ├─ · · garrytan/cso  [3★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  ├─ · · garrytan/cso  [4★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [3★]
+  ├─ · ○ browser-use/browser-harness  [4★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
@@ -106,10 +106,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/setup-gbrain  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ garrytan/make-pdf  [2★]
+  ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
@@ -118,35 +118,35 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /generate-text  (↑ see above)
 
 · ◆ obra/superpowers  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ · · obra/dispatching-parallel-agents  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/parallel-execution
-  ├─ · · obra/executing-plans  [3★]
+  ├─ · · obra/executing-plans  [5★]
   │  ├─ ✓ · obra/writing-plans  [4★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
-  ├─ ✓ · garrytan/ship  [3★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  ├─ ✓ · garrytan/ship  [4★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [4★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · obra/receiving-code-review  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
-  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
   │  │  └─ · · obra/dispatching-parallel-agents  [3★]  (↑ see above)
   │  └─ ✓ · obra/verification-before-completion  [3★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /self-critique
   ├─ · · obra/requesting-code-review  [2★]  (↑ see above)
   ├─ ✓ · obra/subagent-driven-development  [4★]
-  │  ├─ · · obra/executing-plans  [3★]  (↑ see above)
+  │  ├─ · · obra/executing-plans  [5★]  (↑ see above)
   │  ├─ · · obra/dispatching-parallel-agents  [3★]  (↑ see above)
-  │  └─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  └─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
   ├─ · · garrytan/investigate  [3★]
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
@@ -157,36 +157,45 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ ✓ · obra/writing-plans  [4★]  (↑ see above)
 
 ✓ ◆ addy-osmani/agent-skills  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ ✓ · obra/writing-plans  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   ├─ ✓ · obra/subagent-driven-development  [4★]
-  │  ├─ · · obra/executing-plans  [3★]
+  │  ├─ · · obra/executing-plans  [5★]
   │  │  ├─ ✓ · obra/writing-plans  [4★]  (↑ see above)
   │  │  └─ · ○ /tool-use
   │  ├─ · · obra/dispatching-parallel-agents  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/parallel-execution
-  │  └─ · · addy-osmani/code-review-and-quality  [3★]
+  │  └─ · · addy-osmani/code-review-and-quality  [4★]
   │     ├─ · ○ garrytan/design-html  [3★]
   │     ├─ · ○ /diff-content
   │     └─ · ○ garrytan/benchmark  [3★]
   ├─ ✓ · obra/verification-before-completion  [3★]
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
-  └─ ✓ · garrytan/ship  [3★]
-     ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  └─ ✓ · garrytan/ship  [4★]
+     ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  ✓ ◉ obra/brainstorming  [4★]
+    ├─ · ○ ████████/requirements-engineer
+    └─ · ○ garrytan/office-hours  [3★]
+  ✓ ◉ garrytan/ship  [4★]
+    ├─ · · addy-osmani/code-review-and-quality  [4★]
+    │  ├─ · ○ garrytan/design-html  [3★]
+    │  ├─ · ○ /diff-content
+    │  └─ · ○ garrytan/benchmark  [3★]
+    └─ · ○ /diff-content  (↑ see above)
   ✓ ◉ obra/subagent-driven-development  [4★]
-    ├─ · · obra/executing-plans  [3★]
+    ├─ · · obra/executing-plans  [5★]
     │  ├─ ✓ · obra/writing-plans  [4★]
     │  │  ├─ · ○ /plan-decompose
     │  │  └─ · ○ ████████/requirements-engineer
@@ -194,7 +203,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · · obra/dispatching-parallel-agents  [3★]
     │  ├─ · ○ /plan-decompose  (↑ see above)
     │  └─ · ○ ████████/parallel-execution
-    └─ · · addy-osmani/code-review-and-quality  [3★]
+    └─ · · addy-osmani/code-review-and-quality  [4★]
        ├─ · ○ garrytan/design-html  [3★]
        ├─ · ○ /diff-content
        └─ · ○ garrytan/benchmark  [3★]

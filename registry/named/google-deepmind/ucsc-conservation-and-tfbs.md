@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription
   Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether
   genomic variants or regions are evolutionarily conserved, functionally important,
   or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md
 evidence:
@@ -100,6 +100,10 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/ucsc_conservation_and_tfbs to
     google-deepmind/ucsc-conservation-and-tfbs
+- timestamp: '2026-09-02T15:11:28Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

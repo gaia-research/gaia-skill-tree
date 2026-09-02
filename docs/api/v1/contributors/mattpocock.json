@@ -48,15 +48,15 @@
     {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
       },
@@ -65,15 +65,15 @@
     {
       "id": "mattpocock/edit-article",
       "name": "Edit Article",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "mattpocock",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
       },
@@ -82,15 +82,15 @@
     {
       "id": "mattpocock/obsidian-vault",
       "name": "Obsidian Vault Manager",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       },
@@ -99,15 +99,15 @@
     {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
@@ -116,15 +116,15 @@
     {
       "id": "mattpocock/ubiquitous-language",
       "name": "Ubiquitous Language",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 306.13,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       },
@@ -626,15 +626,15 @@
     {
       "id": "mattpocock/engineering",
       "name": "Engineering",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "fusionScore": 326.49,
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       },

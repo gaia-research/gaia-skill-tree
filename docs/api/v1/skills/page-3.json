@@ -1,16 +1,33 @@
 {
   "skills": [
     {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "leonxlnx/output-skill",
       "name": "output-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/output-skill.json"
@@ -20,14 +37,14 @@
     {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "leonxlnx",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
@@ -37,14 +54,14 @@
     {
       "id": "leonxlnx/soft-skill",
       "name": "soft-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/soft-skill.json"
@@ -54,14 +71,14 @@
     {
       "id": "leonxlnx/stitch-skill",
       "name": "stitch-skill",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "leonxlnx",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
@@ -445,15 +462,15 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 37.54,
       "overallTrustGrade": "C",
       "fusionScore": 120.0,
       "contributor": "disler",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
       },
@@ -705,15 +722,15 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       },
@@ -843,28 +860,11 @@
         "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
       },
       "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "garrytan/pair-agent",
-      "name": "Pair Agent",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/pair-agent.json"
-      },
-      "genericSkillRef": "mcp-integration"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 226,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

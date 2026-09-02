@@ -5,11 +5,11 @@ contributor: k-dense-ai
 origin: false
 genericSkillRef: quantum-circuit-programming
 status: named
-level: 3★
+level: 4★
 description: Build, simulate, transpile, and execute quantum circuits with Qiskit
   and IBM Quantum Runtime.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Qiskit
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md
@@ -42,6 +42,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 214.02, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:31Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md
   evaluator: mbtiongson1

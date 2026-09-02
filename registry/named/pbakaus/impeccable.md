@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
-level: 4★
+level: 5★
 description: Elite design vocabulary and audit tool for polishing AI-generated frontend
   code.
 links:
@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -147,6 +147,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 122.8 -> 298.62, grade A -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:43Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 4★ to 5★
 trustMagnitude: 298.62
 overallTrustGrade: S
 apexGateStatus:

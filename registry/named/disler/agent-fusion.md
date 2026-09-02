@@ -5,12 +5,12 @@ contributor: disler
 origin: true
 genericSkillRef: agent-fusion
 status: named
-level: 4★
+level: 3★
 description: 'Orchestrate multiple specialized AI models as a fused agentic team:
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Agent Fusion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md
@@ -46,6 +46,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 37.54, grade (none) -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:15Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown

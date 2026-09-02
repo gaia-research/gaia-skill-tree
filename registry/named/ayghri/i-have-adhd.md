@@ -5,11 +5,11 @@ contributor: ayghri
 origin: false
 genericSkillRef: format-output
 status: named
-level: 1★
+level: 4★
 description: Structures raw output into a specified format such as markdown, JSON,
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: I Have ADHD
 links:
   github: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
@@ -50,6 +50,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 59.56, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:14Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 1★ to 4★
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   updatedAt: '2026-09-01'

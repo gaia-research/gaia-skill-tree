@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Search Europe PMC for scientific literature and download open-access
   full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists
   and bibliography.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
 evidence:
@@ -98,6 +98,10 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/literature_search_europepmc to
     google-deepmind/literature-search-europepmc
+- timestamp: '2026-09-02T15:11:24Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

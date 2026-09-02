@@ -4,15 +4,15 @@
     {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 163.4,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "vercel-labs",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       },
@@ -22,7 +22,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "vercel-labs/vercel-react-best-practices",
-    "level": "3★",
+    "level": "4★",
     "trustMagnitude": 163.4
   },
   "prestigeScore": 163.4,

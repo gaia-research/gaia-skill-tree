@@ -68,15 +68,15 @@
     {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
       },

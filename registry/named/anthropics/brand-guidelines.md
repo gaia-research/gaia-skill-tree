@@ -5,11 +5,11 @@ contributor: anthropics
 origin: false
 genericSkillRef: brand-guideline-application
 status: named
-level: 3★
+level: 4★
 description: Applies Anthropic's official brand colors, typography, and visual rules
   to artifacts that need Anthropic's look and feel.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Brand Guidelines
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md
@@ -36,6 +36,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:14Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/anthropics/skills
   evaluator: unknown

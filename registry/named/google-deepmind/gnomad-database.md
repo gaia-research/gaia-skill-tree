@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query the Genome Aggregation Database (gnomAD). Use when determining
   the rarity or allele frequency of specific genetic variants, retrieving gene constraint
   metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in
@@ -13,7 +13,7 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
 evidence:
@@ -98,6 +98,10 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/gnomad_database to google-deepmind/gnomad-database
+- timestamp: '2026-09-02T15:11:21Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

@@ -2,14 +2,14 @@
   "id": "garrytan/garrytan",
   "name": "Autoplan",
   "contributor": "garrytan",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 36.0,
   "overallTrustGrade": "C",
   "branch": "suite",
-  "rankWord": "Extra",
-  "medallion": "◆",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/garrytan/garrytan.json",
     "contributor": "/api/v1/contributors/garrytan.json",
@@ -116,6 +116,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 156.0 -> 36.0, grade A -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:18Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

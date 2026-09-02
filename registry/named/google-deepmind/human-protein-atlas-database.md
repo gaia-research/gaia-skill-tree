@@ -5,11 +5,11 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Use when you want to retrieve semi-quantitative protein expression and
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
@@ -98,6 +98,10 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/human_protein_atlas_database to
     google-deepmind/human-protein-atlas-database
+- timestamp: '2026-09-02T15:11:22Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:
