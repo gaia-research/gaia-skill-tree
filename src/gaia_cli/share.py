@@ -35,7 +35,7 @@ from gaia_cli.treeManager import load_tree
 BUNDLE_KIND = "gaia-share-bundle"
 BUNDLE_VERSION = "1"
 
-_TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆", "unique": "◉"}
+_TYPE_SYMBOL = {"basic": "○", "fusion": "◆"}
 
 
 # ─── github url normalization ──────────────────────────────────────────────────
