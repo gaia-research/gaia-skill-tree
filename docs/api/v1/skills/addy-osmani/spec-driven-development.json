@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 88.83,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 316.0,
+  "overallTrustGrade": "S",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -24,7 +24,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -32,11 +32,11 @@
   "evidence": [
     {
       "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 91329,
+      "stars": 81189,
       "skillCountInRepo": 7
     },
     {
@@ -136,6 +136,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

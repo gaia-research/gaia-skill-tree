@@ -21,7 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-08-25'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/garrytan
 evidence:
 - class: B
@@ -92,8 +92,13 @@ timeline:
   contributor: unknown
   details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 67.4
-overallTrustGrade: B
+- timestamp: '2026-08-29T17:15:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 286.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -105,7 +110,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
-trustMagnitudeInputHash: ffe5732bf0c191af325031aa203391159f4ffd3c1a911331477734298631fb4f
+trustMagnitudeInputHash: 5ddd6ebebe5ab9264c9cba36429ad7a3e00c4ad46fb0bb4709cff6e7f57492d0
 ---
 
 ## Overview

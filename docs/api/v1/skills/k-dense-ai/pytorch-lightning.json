@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 69.3,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 188.06,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -51,12 +51,11 @@
     },
     {
       "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
-      "updatedAt": "2026-09-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
       "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
-      "stars": 41201,
+      "stars": 32265,
       "skillCountInRepo": 158,
       "sourceStartedAt": "2025-10-19"
     }
@@ -91,6 +90,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 188.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

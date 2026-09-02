@@ -19,7 +19,7 @@ tags:
 - dev-swarm
 - state-persistence
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -59,6 +59,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -70,7 +75,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b9ab812efe1e61a83768c7bd69d0fee8161d5de9b21ddde786e0d249ff535791
+trustMagnitudeInputHash: b16f01ca622c6928bb59122ce47b784442f7a2e77742c156fb7f73702eeb73ab
 ---
 
 ## Overview

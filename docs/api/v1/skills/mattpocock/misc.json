@@ -6,7 +6,7 @@
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 0.0,
-  "overallTrustGrade": "A",
+  "overallTrustGrade": "ungraded",
   "branch": "suite",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -47,6 +47,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 120.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:53Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 120.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

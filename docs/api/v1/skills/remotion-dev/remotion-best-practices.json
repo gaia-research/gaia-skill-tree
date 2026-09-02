@@ -6,7 +6,7 @@
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 0.0,
-  "overallTrustGrade": null,
+  "overallTrustGrade": "ungraded",
   "branch": "suite",
   "rankWord": "Named",
   "medallion": "◇",
@@ -47,6 +47,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:57Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

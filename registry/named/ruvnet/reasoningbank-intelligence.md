@@ -18,7 +18,7 @@ tags:
 - meta-learning
 - strategy-optimization
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/reasoningbank
 evidence:
 - class: B
@@ -58,6 +58,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -69,7 +74,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 57bfaeddfe25fe1520c17cf9e65e3a5deb04808bde1c2f440bbc32756b18d2ba
+trustMagnitudeInputHash: 99fedab29adb9c2859ff22759997bc42f37d841304f73307fe5220bc6c6a3fc6
 ---
 
 ## Overview

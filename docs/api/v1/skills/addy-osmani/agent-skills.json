@@ -5,8 +5,8 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 56.3,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 286.0,
+  "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Ultimate",
   "medallion": "◆",
@@ -20,7 +20,7 @@
   "origin": true,
   "description": "Production-grade engineering command suite for AI coding agents spanning the full development lifecycle — spec, plan, build, test, review, web performance, ship, and simplify.",
   "apexGateStatus": {
-    "aGradedOriginsGte5": false,
+    "aGradedOriginsGte5": true,
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
@@ -174,6 +174,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 293.14 -> 256.3, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T16:26:46Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 256.3 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

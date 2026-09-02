@@ -19,7 +19,7 @@ tags:
 - tutorials
 - reference-docs
 createdAt: '2026-05-18'
-updatedAt: '2026-08-25'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -68,6 +68,11 @@ timeline:
   contributor: unknown
   details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
@@ -94,7 +99,7 @@ evidence:
   stars: 130700
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 67.4
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -107,7 +112,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:27Z'
-trustMagnitudeInputHash: d99c1bc2e842d38e44a3bd22e9a7ae05cdca99843a1c76e22c96f4470440aa83
+trustMagnitudeInputHash: 8fbf6a986e6bcce3e65ccd970c2d96a82cd38096a6777f22c241055e77d40e35
 ---
 
 ## Overview

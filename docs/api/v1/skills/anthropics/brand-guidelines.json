@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 79.23,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 286.0,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -43,12 +43,11 @@
     },
     {
       "source": "https://github.com/anthropics/skills/stargazers",
-      "updatedAt": "2026-09-01",
       "evaluator": "unknown",
       "date": "2026-07-31",
       "type": "github-stars-own",
       "notes": "Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md files under skills/.",
-      "stars": 172907,
+      "stars": 165403,
       "skillCountInRepo": 17,
       "sourceStartedAt": "2025-09-22",
       "grade": "B"
@@ -78,6 +77,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

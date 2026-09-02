@@ -20,7 +20,7 @@ tags:
 - rag-memory
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo-v3
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
@@ -47,7 +47,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 0be0499946a317702b9c3b3e4a12ff1ae39d9c5903aa0f63d1c254e3031f91e8
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: ba4d2cc5661fdad4ac29f624dc56a242ac79d9010155b269a0caceff4bbdd15b
 ---
 
 ## Overview

@@ -10,7 +10,7 @@ description: Anti-laziness execution discipline for substantial tasks. Decompose
   work into recursive depth trees and enforces completion criteria through gate files
   and runnable checks.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: Unlazy
 links:
   github: https://github.com/leonxlnx/unlazy/blob/main/SKILL.md
@@ -36,6 +36,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Origin status set to true.
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 4.03, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/unlazy/blob/main/SKILL.md
   evaluator: mbtiongson1
@@ -54,6 +59,9 @@ evidence:
   sourceStartedAt: '2026-08-09'
 verification:
   firstEvidenceAt: '2026-08-22T07:11:13Z'
+trustMagnitude: 4.03
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: e63c2cae1e8540f7c16c9387d2facc41292fb1c01700da34776f245cd97aa89b
 ---
 
 ## Installation

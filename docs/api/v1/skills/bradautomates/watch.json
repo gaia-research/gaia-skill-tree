@@ -119,6 +119,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from bradautomates/claude-video to bradautomates/watch"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 37.47 -> 37.47, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

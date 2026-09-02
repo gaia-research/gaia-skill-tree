@@ -1,6 +1,67 @@
 {
-  "generatedAt": "2026-08-24T12:52:57Z",
+  "generatedAt": "2026-08-29T17:16:46Z",
   "skills": [
+    {
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-08-22T08:07:45Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-08-22T08:07:42Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      }
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-08-22T08:07:40Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      }
+    },
+    {
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
+      "level": "2★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-08-22T08:07:37Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/taste-skill",
+      "name": "taste-skill",
+      "level": "4★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-08-22T07:13:42Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "mattpocock/tdd",
       "name": "TDD",
@@ -176,7 +237,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:18Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
@@ -188,7 +249,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:17Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
@@ -200,7 +261,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:15Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
@@ -212,7 +273,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:14Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
@@ -224,7 +285,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:12Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
@@ -236,7 +297,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:11Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-render.json"
@@ -248,7 +309,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:09Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
@@ -260,7 +321,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:08Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-create.json"
@@ -272,7 +333,7 @@
       "level": "2★",
       "contributor": "remotion-dev",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
+      "overallTrustGrade": "ungraded",
       "ascendedAt": "2026-08-11T08:38:06Z",
       "_links": {
         "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
@@ -283,8 +344,8 @@
       "name": "Brand Guidelines",
       "level": "3★",
       "contributor": "anthropics",
-      "trustMagnitude": 77.35,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:25:05Z",
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
@@ -296,8 +357,8 @@
       "name": "Transformers",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 197.06,
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:18Z",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
@@ -309,76 +370,11 @@
       "name": "Torch Geometric",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 137.07,
+      "trustMagnitude": 258.06,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:17Z",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-31T16:20:16Z",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 76.07,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-31T16:20:15Z",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 93.03,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-31T16:20:13Z",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
-      "level": "3★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 67.07,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-31T16:20:12Z",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "k-dense-ai/pymc",
-      "name": "PyMC",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 146.07,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-31T16:20:11Z",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pymc.json"
       },
       "previousLevel": "2★"
     }

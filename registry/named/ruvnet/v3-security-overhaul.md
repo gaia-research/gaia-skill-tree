@@ -19,7 +19,7 @@ tags:
 - pii-detection
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo-v3
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
@@ -46,7 +46,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 7e6907c41e2cee18d159bb817ec126d16f4a9efc5624dd108bdf57bafb99084d
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: bf8cb72e23ed4b735eaa8dc80e10b9afdc789f93f2efe8dd0b3f19e46d30253a
 ---
 
 ## Overview

@@ -96,19 +96,15 @@
 
     'github-stars-own': {
       label: 'stars',
-      formula: 'min(200, stars/1000) ÷ min(skillCountInRepo, 4)',
+      formula: 'min(250, stars/250)',
       describe: function (row) {
         var s = row.stars != null ? Number(row.stars) : null;
         if (s == null) return null;
-        var k = row.skillCountInRepo != null ? Math.min(4, Math.max(1, Number(row.skillCountInRepo))) : 1;
-        var val = Math.min(200, s / 1000) / k;
-        var expr = k > 1
-          ? 'min(200, ' + s + '/1000) ÷ min(' + row.skillCountInRepo + ', 4)'
-          : 'min(200, ' + s + '/1000)';
-        return { value: val, expr: expr };
+        var val = Math.min(250, s / 250);
+        return { value: val, expr: 'min(250, ' + s + '/250)' };
       },
       weight: 1.0,
-      cap: 200,
+      cap: 250,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
       gradeFloors: { S: 88, A: 60, B: 35, C: 20 },

@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 206.97,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 333.26,
+  "overallTrustGrade": "S",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -24,7 +24,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -32,12 +32,12 @@
   "evidence": [
     {
       "source": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "unknown",
       "date": "2026-07-29",
       "type": "github-stars-own",
       "notes": "111k stars, 11.8k forks. SKILL.md at blob/ path.",
-      "stars": 123707,
+      "stars": 112247,
       "skillCountInRepo": 1,
       "sourceStartedAt": "2026-07-22",
       "grade": "S"
@@ -136,6 +136,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 333.26, grade (none) -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

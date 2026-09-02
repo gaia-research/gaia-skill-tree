@@ -9,7 +9,7 @@ level: 3★
 description: Captures implementation decisions and tradeoffs before planning so the
   agent begins with explicit shared context.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-07-02T18:04:47Z'
   action: add
@@ -68,6 +68,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md
+- timestamp: '2026-08-29T17:15:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
   updatedAt: '2026-09-01'
@@ -88,7 +93,7 @@ verification:
 title: GSD Discuss Phase
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 52.16
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -99,7 +104,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 78c3dfe9a70a59107cb53569c9d1eae4d63f2f18065557262679b776374b6b3f
+trustMagnitudeInputHash: e686dc1103146a7e06d684a0c49c42e3b0e139613a308bc684a47e698f4e4a73
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md
 ---

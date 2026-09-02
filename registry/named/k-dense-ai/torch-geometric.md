@@ -9,7 +9,7 @@ level: 4★
 description: Build graph neural network workflows with PyTorch Geometric for node,
   link, and graph prediction.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: Torch Geometric
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 258.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md
   evaluator: mbtiongson1
@@ -67,6 +72,9 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:51Z'
+trustMagnitude: 258.06
+overallTrustGrade: A
+trustMagnitudeInputHash: 4407527da2641ffc1168969b56fa6aa74d01b179fecf36966f5b63ece9c4ef10
 ---
 
 ## Installation

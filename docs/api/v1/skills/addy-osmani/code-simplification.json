@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 198.83,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 426.0,
+  "overallTrustGrade": "S",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -24,7 +24,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -32,11 +32,11 @@
   "evidence": [
     {
       "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 91329,
+      "stars": 81189,
       "skillCountInRepo": 7
     },
     {
@@ -163,6 +163,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

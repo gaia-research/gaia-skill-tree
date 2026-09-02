@@ -106,6 +106,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

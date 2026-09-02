@@ -9,7 +9,7 @@ level: 2★
 description: Multimodal visual decomposition and pixel-accurate translation of UI
   mockups into responsive frontend code.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: Image to Code
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to leonxlnx/taste-skill
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
   evaluator: mbtiongson1
@@ -52,6 +57,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:25Z'
 suiteRef: leonxlnx/taste-skill
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: abde51837947f4180bed82debe378688c3c4aa2aea161b9b71d1010d97364948
 ---
 
 ## Installation

@@ -59,6 +59,12 @@
       "action": "rank_up",
       "contributor": "marcotiongson",
       "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 36.34, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

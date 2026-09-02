@@ -6,7 +6,7 @@
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 0.0,
-  "overallTrustGrade": "B",
+  "overallTrustGrade": "ungraded",
   "branch": "suite",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -58,6 +58,12 @@
       "previousValue": null,
       "newValue": null,
       "details": "personal/ bucket removed entirely upstream; no successor bucket"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:53Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 60.0 -> 0.0, grade B -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

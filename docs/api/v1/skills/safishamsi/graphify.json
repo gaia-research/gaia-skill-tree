@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 160.99,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 297.8,
+  "overallTrustGrade": "S",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -29,7 +29,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -38,12 +38,12 @@
     {
       "source": "https://github.com/safishamsi/graphify/stargazers",
       "evaluator": "mbtiongson1",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "date": "2026-06-19",
       "type": "github-stars-own",
       "class": "A",
       "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-      "stars": 113188,
+      "stars": 99877,
       "grade": "A"
     },
     {
@@ -178,6 +178,12 @@
       "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:16:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 116.57 -> 297.8, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

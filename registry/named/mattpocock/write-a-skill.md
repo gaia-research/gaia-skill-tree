@@ -20,7 +20,7 @@ tags:
 - skill-scaffolding
 - progressive-disclosure
 createdAt: '2026-04-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-08-30'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 timeline:
@@ -63,6 +63,11 @@ timeline:
     write-a-skill with writing-great-skills... write-a-skill has been removed.'' Successor
     is a differently-shaped reference skill (disable-model-invocation), not a 1:1
     rename, so not relinked under this id.'
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:
@@ -92,7 +97,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
 suiteRef: mattpocock/productivity
-trustMagnitudeInputHash: 1d906afe9a855f5ede2526bbb6693737df6c39405057dbb08ba7d96fa6abd8c5
+trustMagnitudeInputHash: 71ee5b45d5b84c5700f5e78d0dcda5039a23ff39d6aa04ffa9c6bfa3fe054471
 installable: false
 ---
 

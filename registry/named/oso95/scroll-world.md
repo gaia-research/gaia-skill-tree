@@ -9,7 +9,7 @@ level: 3★
 description: Builds scroll-scrubbed 3D world landing pages for any brand or industry,
   flying camera paths through connected scenes with zero cuts.
 createdAt: '2026-07-30'
-updatedAt: '2026-07-30'
+updatedAt: '2026-08-30'
 title: Scroll World
 links:
   github: https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md
@@ -41,6 +41,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 60.98, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/oso95/scroll-world
   evaluator: unknown
@@ -77,6 +82,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:20:06Z'
+trustMagnitude: 60.98
+overallTrustGrade: B
+trustMagnitudeInputHash: 7e0e17c63325393f3e37796bbce7a2fdd3b91024edccd60dd4fc744d4afc31ac
 ---
 
 ## Installation

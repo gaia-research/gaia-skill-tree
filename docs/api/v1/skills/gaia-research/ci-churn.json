@@ -97,6 +97,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from gaia-research/skill-ci-churn to gaia-research/ci-churn"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 41.0, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

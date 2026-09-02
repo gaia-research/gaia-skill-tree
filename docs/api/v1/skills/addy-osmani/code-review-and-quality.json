@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 58.83,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 286.0,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -32,11 +32,11 @@
   "evidence": [
     {
       "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 91329,
+      "stars": 81189,
       "skillCountInRepo": 7
     },
     {
@@ -120,6 +120,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

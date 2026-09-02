@@ -20,7 +20,7 @@ tags:
 - metadata
 - research
 createdAt: '2026-05-03'
-updatedAt: '2026-05-03'
+updatedAt: '2026-08-30'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,7 +46,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: caa3be23d215c328005383bc1c45a6f26b9eb75b0540560329c34236054638a0
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: c488f908bbe5b0baf74f0d0c1be5cd390ef655af38b090195a268cba5df9d097
 ---
 
 ## Overview

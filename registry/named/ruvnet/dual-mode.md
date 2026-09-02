@@ -19,7 +19,7 @@ tags:
 - parallel-execution
 - orchestration
 createdAt: '2026-05-19'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/dual-collect
@@ -72,8 +72,13 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 126.0
-overallTrustGrade: A
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 126.0 -> 36.0, grade A -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -83,7 +88,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fcb3300e49c8ccf214a079a824cb1f57634afb2b7cb3fba6b7045bc19e6c880f
+trustMagnitudeInputHash: db20d0fef4ac24590e0f954f745c84b9542b300e92855436ec38ce2cf3ce679e
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

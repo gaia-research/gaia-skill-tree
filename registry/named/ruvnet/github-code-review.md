@@ -19,7 +19,7 @@ tags:
 - pull-request
 - automation
 createdAt: '2026-05-19'
-updatedAt: '2026-06-02'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/github-suite
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
@@ -35,6 +35,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,7 +51,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 88b4c8260a3013c0af3f5e7051e99b782e403eb210798c25704bc64d9eb7a367
+trustMagnitudeInputHash: 99ea206e460de2b43c1900a2aface2e0c592f7d2bd6aa1e1fbad3a052ce28cf0
 ---
 
 ## Overview

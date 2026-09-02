@@ -9,7 +9,7 @@ level: 2★
 description: Awwwards-grade kinetic typography, GSAP ScrollTrigger animation systems,
   and bento grid layout generation.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-30'
 title: GPT Taste
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to leonxlnx/taste-skill
+- timestamp: '2026-08-29T17:15:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md
   evaluator: mbtiongson1
@@ -52,6 +57,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:12Z'
 suiteRef: leonxlnx/taste-skill
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: b7bfc8710a3f4aaae670a652f8d5cad7aaea9cd98827c5096ee61fab6609f493
 ---
 
 ## Installation

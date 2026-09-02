@@ -132,6 +132,12 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:48Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

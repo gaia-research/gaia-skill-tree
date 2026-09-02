@@ -19,7 +19,7 @@ tags:
 - prototyping
 - visual-qa
 createdAt: '2026-05-12'
-updatedAt: '2026-08-25'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -90,7 +90,12 @@ timeline:
   contributor: unknown
   details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 67.4
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -103,7 +108,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
-trustMagnitudeInputHash: 6d9a764ff9db1fc7fa7aa5a4ad941c7b8f3f0fb5e5ec348cc745945fde490c3e
+trustMagnitudeInputHash: 488671856a4a74d79cf129b3c12fb49d1cb57d12d65aab1fdb1860581b5c1768
 ---
 
 ## Overview

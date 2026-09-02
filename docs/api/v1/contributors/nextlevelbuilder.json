@@ -5,8 +5,8 @@
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
-      "trustMagnitude": 206.97,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 333.26,
+      "overallTrustGrade": "S",
       "contributor": "nextlevelbuilder",
       "type": "basic",
       "branch": "unique",
@@ -22,11 +22,11 @@
   "topSkill": {
     "id": "nextlevelbuilder/ui-ux-pro-max",
     "level": "4★",
-    "trustMagnitude": 206.97
+    "trustMagnitude": 333.26
   },
-  "prestigeScore": 206.97,
+  "prestigeScore": 333.26,
   "gradeDistribution": {
-    "A": 1
+    "S": 1
   },
   "_links": {
     "self": "/api/v1/contributors/nextlevelbuilder.json",

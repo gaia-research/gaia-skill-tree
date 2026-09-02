@@ -19,7 +19,7 @@ tags:
 - optimization
 - benchmarking
 createdAt: '2026-05-19'
-updatedAt: '2026-06-02'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -39,6 +39,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -50,7 +55,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 368522bcfc2f0214641af0dde775e43e29ed241d6126c5c3a808d5a63e5c128a
+trustMagnitudeInputHash: e3c564ec4672df728459fd410669c38542d6062034cc46f2e65c01bb529b73ad
 ---
 
 ## Overview

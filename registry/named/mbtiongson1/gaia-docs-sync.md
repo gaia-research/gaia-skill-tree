@@ -10,7 +10,7 @@ description: Keeps the generated Gaia documentation site in sync with the regist
   — rebuilding HTML pages, updating skill indexes, and regenerating badges when registry
   content changes.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-30'
+updatedAt: '2026-08-30'
 title: The Docs Steward
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md
@@ -36,6 +36,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +52,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2f1c083b8af5d7a431caa2d166ca4710ea7e94f8bcf8a110b1feb1e1412c084a
+trustMagnitudeInputHash: b339712302057382ad50e0169dea79ef971dff0707b416d2255d776cea7bef32
 ---
 
 ## Overview

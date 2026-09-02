@@ -10,7 +10,7 @@ description: Ultra-compressed agent communication mode that strips articles, fil
   words, and narration from prompts/output to cut token usage; ships lite/full/ultra
   intensity tiers plus wenyan variants and multi-agent support.
 createdAt: '2026-08-06'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 title: The Caveman Codex
 timeline:
 - timestamp: '2026-08-06T05:11:31Z'
@@ -109,6 +109,11 @@ timeline:
     register one; forcing it through would have bypassed the human-gate promotion
     this pipeline explicitly avoids. Only the TechTimes/JetBrains row (403 dead) was
     actually dead. This note corrects the record rather than rewriting the prior entry.'
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 0.79, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 links:
   github: https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md
 installable: true
@@ -178,6 +183,9 @@ evidence:
     metric supplied by source, so no --views passed.
 verification:
   firstEvidenceAt: '2026-08-06T05:13:07Z'
+trustMagnitude: 0.79
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: f01c835d6267af2328bb08eba4c119aea179df212647f16ddf14c8ef239b26ab
 ---
 
 ## Installation

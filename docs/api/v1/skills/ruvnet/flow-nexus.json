@@ -91,6 +91,12 @@
       "previousValue": null,
       "newValue": "v3.25.5",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:58Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 96.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

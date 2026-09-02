@@ -175,7 +175,7 @@ class TestTrustMagnitudeIsTheSoleGate:
     """
 
     def _stars_row(self, url, stars=120_000, **extra):
-        """A github-stars-own row worth TM 120 (min(200, stars/1000) x weight 1.0).
+        """A github-stars-own row worth TM 250 (min(250, stars/250) x weight 1.0).
 
         github-stars-own does not decay (no freshness rate), so the magnitude
         is stable over calendar time — these tests will not rot.

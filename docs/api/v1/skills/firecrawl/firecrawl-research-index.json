@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 154.38,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 360.62,
+  "overallTrustGrade": "S",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -24,7 +24,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -42,11 +42,11 @@
     },
     {
       "source": "https://github.com/firecrawl/firecrawl/stargazers",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
-      "stars": 175038,
+      "stars": 158811,
       "skillCountInRepo": 6,
       "grade": "B"
     },
@@ -106,6 +106,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added reported benchmark evidence from https://www.firecrawl.dev/blog/research-index-launch (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 360.62, grade (none) -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -88,6 +88,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from anthropics/static-artwork-design to anthropics/canvas-design"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 43.52, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

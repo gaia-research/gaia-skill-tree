@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 127.33,
+  "trustMagnitude": 286.0,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -52,12 +52,12 @@
     {
       "source": "https://github.com/addyosmani/agent-skills/stargazers",
       "evaluator": "mbtiongson1",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "date": "2026-06-19",
       "type": "github-stars-own",
       "class": "A",
       "notes": "47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-      "stars": 91329,
+      "stars": 81189,
       "grade": "B"
     }
   ],
@@ -143,6 +143,12 @@
       "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 83.2 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

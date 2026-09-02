@@ -10,7 +10,7 @@ description: 'Orchestrate multiple specialized AI models as a fused agentic team
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
 createdAt: '2026-07-30'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-30'
 title: Agent Fusion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md
@@ -41,6 +41,11 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 37.54, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown
@@ -68,6 +73,9 @@ suiteComponents:
 - disler/auto-review
 - disler/opinion
 - disler/plan-synthesis
+trustMagnitude: 37.54
+overallTrustGrade: C
+trustMagnitudeInputHash: f47f0ab05bffa96f71dd07fefbd87297e548def6ff8f2445156203d90db8dc40
 ---
 
 ## Installation

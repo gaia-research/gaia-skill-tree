@@ -19,7 +19,7 @@ tags:
 - instrumentation
 - reproduction
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -97,6 +97,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:19Z'
   details: TM 65.15 -> 65.15, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 65.15 -> 65.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 65.15
 overallTrustGrade: B
 apexGateStatus:
@@ -110,7 +115,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:47:17Z'
-trustMagnitudeInputHash: 7502b9e6c33f69005e59784db2861df220a6ff50d26c9552c8376b18625e4874
+trustMagnitudeInputHash: 5fa67a44ffcdb3e5cbac1bb38505df733e3e63f2e7823c3241682988fb3d566c
 ---
 
 ## Overview

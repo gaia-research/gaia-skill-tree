@@ -11,7 +11,7 @@ level: 3★
 description: Test-driven development with red-green-refactor, verifying behavior through
   public interfaces.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-19T13:02:23Z'
   action: add
@@ -64,6 +64,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 3★
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 50.0, grade ungraded -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
   evaluator: unknown
@@ -94,8 +99,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:07:04Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 50.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -105,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d7d632fa44c2bd582cc54450b4ab1fb67f99ab0c45901759666ff3e40f239fee
+trustMagnitudeInputHash: 5776f9e6e804dbac770a2622d062d478cf949cfcaf4d4881bb9577a3272e8055
 title: Test-Driven Development
 ---
 

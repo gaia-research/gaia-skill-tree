@@ -10,7 +10,7 @@ description: Validates the structural integrity of the Gaia registry — checkin
   compliance, detecting duplicate IDs, verifying cross-references, and reporting any
   inconsistencies that would break build or generation.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-08-30'
 title: The Schema Sentinel
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md
@@ -41,6 +41,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -52,7 +57,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: dbd5a082d8d5db2e3b964b7550f8db584c0a557ace9234c0d1e726016f2e425e
+trustMagnitudeInputHash: 345367cc1e231782d259170040976560761f75ff2e5e6eae68c0f6a93b36d9be
 ---
 
 ## Overview

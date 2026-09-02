@@ -5,7 +5,7 @@
       "type": "report",
       "date": "2026-08-29",
       "title": "Yggdrasil III: Structural Provenance Is Not Trust",
-      "summary": "Yggdrasil III keeps suite structure visible while preventing shared repository evidence from being counted repeatedly as independent proof. Trust Magnitude changed; stars did not.",
+      "summary": "Yggdrasil III separates structural provenance from trust and recalibrates repository-star adoption so every current 5-star skill remains above the 250 TM floor. Stored stars did not change.",
       "label": "Meta Shift",
       "url": "meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html",
       "author": "Gaia Research",

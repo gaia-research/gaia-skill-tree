@@ -17,7 +17,7 @@ tags:
 - tooling
 - agents
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -59,6 +59,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -72,7 +77,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: ba75968c4551c1ac5109e79c6a8d668f1b9b4623cecc9cb90660c97247153443
+trustMagnitudeInputHash: c374a49bd3f06fb7d8b5d2bb979cda6c279c8fa4073163e57f28de7941426b6a
 ---
 
 ## Overview

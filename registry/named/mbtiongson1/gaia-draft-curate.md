@@ -10,7 +10,7 @@ description: Creates structured draft skill entries for registry review — stag
   new discoveries with placeholder evidence and flagging fields that need human validation
   before promotion.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-08-30'
 title: The Draft Architect
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md
@@ -40,6 +40,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -51,7 +56,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d69cc350eb1236b06240f0f63a22048e205e4ff0c90ec79ec4c278d9e9b79ea4
+trustMagnitudeInputHash: 2fd5cd63e155888a6913a1a185f3f87be2cf824babd9a0ada185c84e5d5ae7e3
 ---
 
 ## Overview

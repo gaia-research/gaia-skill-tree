@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 106.13,
+  "trustMagnitude": 306.13,
   "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -53,13 +53,13 @@
     {
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "unknown",
-      "updatedAt": "2026-09-01",
+      "updatedAt": "2026-08-01",
       "date": "2026-06-20",
       "type": "github-stars-own",
       "trustNumber": 88.0,
       "grade": "C",
       "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
-      "stars": 243413,
+      "stars": 198180,
       "skillCountInRepo": 21,
       "sourceStartedAt": "2025-01-01"
     },
@@ -154,6 +154,12 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:54Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
