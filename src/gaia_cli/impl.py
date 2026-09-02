@@ -3062,30 +3062,28 @@ def version_command(args):
 
 
 def mcp_command(args):
-    """Print install / run instructions for the standalone Gaia MCP server.
+    """Print install instructions for the summon MCP server.
 
-    The MCP server was extracted from this monorepo into a dedicated package
-    (gaia-research/gaia-mcp).  Use the published npm package instead of a
-    local build:
+    The standalone `@gaia-research/mcp` package was decommissioned and
+    deprecated on npm on 2026-08-19.  Summon now ships bundled inside the
+    Skill Heaven plugin, which needs no MCP configuration of its own:
 
-        claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+        claude plugin install skill-heaven@gaia-skill-heaven
 
-    See https://github.com/gaia-research/gaia-mcp for source and releases.
+    See https://github.com/gaia-research/gaia-skill-heaven for source and
+    releases.
     """
     lines = [
         "",
-        "  Gaia MCP server — standalone package",
+        "  Gaia summon MCP — bundled in the Skill Heaven plugin",
         "",
-        "  The MCP server is published as a standalone npm package.",
-        "  Install it into Claude Code (or any MCP client) with:",
+        "  Standalone @gaia-research/mcp was decommissioned on 2026-08-19.",
+        "  Summon now ships inside the Skill Heaven plugin, which bundles its",
+        "  own MCP server — there is nothing to configure separately.",
         "",
-        "    claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0",
+        "    claude plugin install skill-heaven@gaia-skill-heaven",
         "",
-        "  Generic client config (command + args):",
-        "    command:  npx",
-        "    args:     [\"-y\", \"@gaia-research/mcp@0.1.0\"]",
-        "",
-        "  Source and releases: https://github.com/gaia-research/gaia-mcp",
+        "  Source and releases: https://github.com/gaia-research/gaia-skill-heaven",
         "",
     ]
     print("\n".join(lines))
