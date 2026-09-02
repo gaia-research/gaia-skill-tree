@@ -2,6 +2,95 @@
 
 ---
 
+## 2026-09-02 — Routine 044
+
+**Branch:** `docs/routines/044` (new — PR #1544/`docs/routines/030` merged 2026-09-01,
+so per the branch rule this starts the next open PR from `origin/main`)
+
+**Task chosen:** SYNC — `gaia dev validate`'s CI enforcement section in
+`timeline-audit.html` was missing a check that's been live since 2026-08-20.
+
+### Trigger
+
+Checked `git log origin/main` since the last routine for merges/releases (found
+`chore: release v7.11.2` and an unrelated skills-install feature — no CLI
+behavior change in that range). Fell back to reading the least-recently-touched
+page (`timeline-audit.html`, still at routine 025, tied with `mcp-server.html`
+but `mcp-server.html` had already been reconciled for the MCP decommission by
+non-routine PRs #1549/`a244b638d` on 2026-09-01) against the real CLI before
+assuming a page marked "Done" was still accurate.
+
+Read `validate_command()` in `src/gaia_cli/impl.py` (the implementation behind
+`gaia dev validate`) end to end. It runs four checks, not the three the page
+documented: `scripts/validate.py` (canonical graph validator), `scripts/validate_redaction.py`
+(redaction gate), `scripts/validate_timelines.py` (Transparency Gate), and a
+fourth block added by `4ba12dbff` (`fix(trust-magnitude): reconcile dry-run,
+API, and source TM`, Issue #1600, merged 2026-08-20) that calls
+`scripts/check_trust_magnitude_consistency.py` — the Trust Magnitude
+Consistency Gate. That commit predates this page's last routine touch (025)
+by weeks and was never mirrored here, even though routine 034 already
+documented the CLI verb it's paired with (`gaia dev calibrate-trust-magnitude`)
+on `cli-reference.html`.
+
+### What I did
+
+Added the missing `# → Trust Magnitude Consistency Gate
+(check_trust_magnitude_consistency.py)` line to the `gaia dev validate` code
+block in the CI enforcement section (`id="ci"`), and updated the block's
+label from "running all three validation checks locally" to "running all four
+validation checks locally."
+
+### Design decisions
+
+- Scoped to the one `gaia dev validate` code block — left the three other
+  "three ___" phrases on the page alone (three tools table, three
+  script actions, three drift-cause cards) since none of them describe the
+  validate-command check count; rewriting them would be an unrelated, larger
+  edit.
+- Did not add a new prose paragraph or callout explaining the Trust Magnitude
+  gate itself — the page's job here is an accurate command listing, and the
+  gate is already documented in depth on `cli-reference.html`'s
+  `gaia dev calibrate-trust-magnitude` card (routine 034).
+
+### Issues informed
+
+None filed or closed — documentation-only accuracy fix; the CLI behavior
+itself has been stable since 2026-08-20.
+
+### Verification
+
+`git status` scoped to `docs/en/timeline-audit.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) on the file — zero hits. No new hex
+introduced (diff-scanned, zero hits). All three stylesheets (`tokens.css`,
+`styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/timeline-audit.html` — added the Trust Magnitude Consistency Gate
+  line to the `gaia dev validate` CI enforcement listing
+- `docs/en/DOCS.md` — page map row 12 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 045)
+
+- `docs/en/DOCS.md`'s row 9 description for `mcp-server.html` still claims the
+  live tool surface is `gaia_search`/`gaia_inspect`/`summon`/`gaia_status`,
+  but the page itself (reconciled by non-routine PR #1549 on 2026-09-01) now
+  documents only `summon` as the Core Mechanic under the Skill Heaven plugin
+  and states standalone Gaia MCP is decommissioned. Worth reading both
+  against the live MCP tool surface and reconciling whichever is stale —
+  DOCS.md's map description, or a gap in the page's own tool coverage.
+- If that's a dead end, ROTATE next falls to `mcp-server.html` proper or
+  `skill-hierarchy.html`/`fusion.html` (tied oldest at 028/029 among pages not
+  already covered by this routine's fallback).
+
+### Token spend
+
+2026-09-02 Sonnet 5 Low: ~50k in, ~4k out. ~$0.19
+
+---
+
 ## 2026-09-01 — Routine 043
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
