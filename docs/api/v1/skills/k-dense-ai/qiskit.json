@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 214.02,
+  "trustMagnitude": 249.76,
   "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -59,11 +59,12 @@
     },
     {
       "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+      "updatedAt": "2026-09-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
       "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
-      "stars": 32265,
+      "stars": 41201,
       "skillCountInRepo": 158,
       "sourceStartedAt": "2025-10-19"
     }

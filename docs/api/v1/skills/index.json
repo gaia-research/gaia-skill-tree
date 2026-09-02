@@ -52,6 +52,23 @@
       "genericSkillRef": "web-scrape"
     },
     {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "trustMagnitude": 334.8,
+      "overallTrustGrade": "S",
+      "fusionScore": 60.0,
+      "contributor": "pbakaus",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
@@ -246,6 +263,23 @@
       "genericSkillRef": "web-search"
     },
     {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "trustMagnitude": 316.09,
+      "overallTrustGrade": "A",
+      "fusionScore": 228.28,
+      "contributor": "mvanhorn",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
+    },
+    {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
       "level": "3★",
@@ -378,38 +412,21 @@
       "genericSkillRef": "ubiquitous-language"
     },
     {
-      "id": "pbakaus/impeccable",
-      "name": "Impeccable",
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
       "level": "4★",
-      "trustMagnitude": 298.62,
-      "overallTrustGrade": "S",
-      "fusionScore": 60.0,
-      "contributor": "pbakaus",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/pbakaus/impeccable.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "mvanhorn/last30days",
-      "name": "Last 30 Days Web Research",
-      "level": "4★",
-      "trustMagnitude": 298.3,
+      "trustMagnitude": 302.8,
       "overallTrustGrade": "A",
-      "fusionScore": 228.28,
-      "contributor": "mvanhorn",
-      "type": "fusion",
+      "fusionScore": 0.0,
+      "contributor": "k-dense-ai",
+      "type": "basic",
       "branch": "unique",
       "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
-        "self": "/api/v1/skills/mvanhorn/last30days.json"
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
       },
-      "genericSkillRef": "autonomous-web-research"
+      "genericSkillRef": "probabilistic-programming"
     },
     {
       "id": "safishamsi/graphify",
@@ -427,6 +444,40 @@
         "self": "/api/v1/skills/safishamsi/graphify.json"
       },
       "genericSkillRef": "knowledge-graph-build"
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
+      "trustMagnitude": 293.8,
+      "overallTrustGrade": "A",
+      "fusionScore": 220.0,
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      },
+      "genericSkillRef": "molecular-machine-learning"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "trustMagnitude": 293.8,
+      "overallTrustGrade": "A",
+      "fusionScore": 220.0,
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      },
+      "genericSkillRef": "graph-neural-network-modeling"
     },
     {
       "id": "ruvnet/ruflo",
@@ -719,55 +770,89 @@
       ]
     },
     {
-      "id": "k-dense-ai/pymc",
-      "name": "PyMC",
-      "level": "4★",
-      "trustMagnitude": 267.06,
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "trustMagnitude": 249.76,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "k-dense-ai",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pymc.json"
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
       },
-      "genericSkillRef": "probabilistic-programming"
+      "genericSkillRef": "quantum-circuit-programming"
     },
     {
-      "id": "k-dense-ai/deepchem",
-      "name": "DeepChem",
-      "level": "4★",
-      "trustMagnitude": 258.06,
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "trustMagnitude": 232.8,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "genericSkillRef": "single-cell-analysis"
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "trustMagnitude": 232.8,
       "overallTrustGrade": "A",
       "fusionScore": 220.0,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
       },
-      "genericSkillRef": "molecular-machine-learning"
+      "genericSkillRef": "reinforcement-learning-training"
     },
     {
-      "id": "k-dense-ai/torch-geometric",
-      "name": "Torch Geometric",
-      "level": "4★",
-      "trustMagnitude": 258.06,
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "trustMagnitude": 232.8,
       "overallTrustGrade": "A",
-      "fusionScore": 220.0,
+      "fusionScore": 228.28,
       "contributor": "k-dense-ai",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
       },
-      "genericSkillRef": "graph-neural-network-modeling"
+      "genericSkillRef": "transformer-model-engineering"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
+      "trustMagnitude": 223.8,
+      "overallTrustGrade": "A",
+      "fusionScore": 248.99,
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      },
+      "genericSkillRef": "neural-training-orchestration"
     },
     {
       "id": "openai/few-shot-learning",
@@ -787,23 +872,6 @@
       "genericSkillRef": "few-shot-learning"
     },
     {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "3★",
-      "trustMagnitude": 214.02,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      },
-      "genericSkillRef": "quantum-circuit-programming"
-    },
-    {
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
       "level": "3★",
@@ -821,78 +889,10 @@
       "genericSkillRef": "tool-creation"
     },
     {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "3★",
-      "trustMagnitude": 197.06,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      },
-      "genericSkillRef": "single-cell-analysis"
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "3★",
-      "trustMagnitude": 197.06,
-      "overallTrustGrade": "A",
-      "fusionScore": 220.0,
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      },
-      "genericSkillRef": "reinforcement-learning-training"
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "3★",
-      "trustMagnitude": 197.06,
-      "overallTrustGrade": "A",
-      "fusionScore": 228.28,
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
-      },
-      "genericSkillRef": "transformer-model-engineering"
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
-      "level": "3★",
-      "trustMagnitude": 188.06,
-      "overallTrustGrade": "A",
-      "fusionScore": 248.99,
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      },
-      "genericSkillRef": "neural-training-orchestration"
-    },
-    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
-      "trustMagnitude": 170.06,
+      "trustMagnitude": 205.8,
       "overallTrustGrade": "A",
       "fusionScore": 160.0,
       "contributor": "k-dense-ai",
@@ -909,7 +909,7 @@
       "id": "k-dense-ai/scvi-tools",
       "name": "scvi-tools",
       "level": "2★",
-      "trustMagnitude": 170.06,
+      "trustMagnitude": 205.8,
       "overallTrustGrade": "A",
       "fusionScore": 220.0,
       "contributor": "k-dense-ai",
@@ -926,7 +926,7 @@
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "3★",
-      "trustMagnitude": 159.01,
+      "trustMagnitude": 163.4,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "vercel-labs",

@@ -40,11 +40,11 @@
   "evidence": [
     {
       "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md",
-      "updatedAt": "2026-08-01",
+      "updatedAt": "2026-09-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
       "type": "github-stars-own",
-      "stars": 64783,
+      "stars": 64612,
       "skillCountInRepo": 5
     },
     {

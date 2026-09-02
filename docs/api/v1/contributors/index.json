@@ -45,9 +45,9 @@
       "topSkill": {
         "id": "k-dense-ai/pymc",
         "level": "4★",
-        "trustMagnitude": 267.06
+        "trustMagnitude": 302.8
       },
-      "prestigeScore": 2116.56,
+      "prestigeScore": 2473.96,
       "_links": {
         "self": "/api/v1/contributors/k-dense-ai.json"
       }
@@ -118,6 +118,19 @@
       }
     },
     {
+      "handle": "pbakaus",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "pbakaus/impeccable",
+        "level": "4★",
+        "trustMagnitude": 334.8
+      },
+      "prestigeScore": 334.8,
+      "_links": {
+        "self": "/api/v1/contributors/pbakaus.json"
+      }
+    },
+    {
       "handle": "nextlevelbuilder",
       "namedSkills": 1,
       "topSkill": {
@@ -170,27 +183,14 @@
       }
     },
     {
-      "handle": "pbakaus",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "pbakaus/impeccable",
-        "level": "4★",
-        "trustMagnitude": 298.62
-      },
-      "prestigeScore": 298.62,
-      "_links": {
-        "self": "/api/v1/contributors/pbakaus.json"
-      }
-    },
-    {
       "handle": "mvanhorn",
       "namedSkills": 1,
       "topSkill": {
         "id": "mvanhorn/last30days",
         "level": "4★",
-        "trustMagnitude": 298.3
+        "trustMagnitude": 316.09
       },
-      "prestigeScore": 298.3,
+      "prestigeScore": 316.09,
       "_links": {
         "self": "/api/v1/contributors/mvanhorn.json"
       }
@@ -240,9 +240,9 @@
       "topSkill": {
         "id": "vercel-labs/vercel-react-best-practices",
         "level": "3★",
-        "trustMagnitude": 159.01
+        "trustMagnitude": 163.4
       },
-      "prestigeScore": 159.01,
+      "prestigeScore": 163.4,
       "_links": {
         "self": "/api/v1/contributors/vercel-labs.json"
       }

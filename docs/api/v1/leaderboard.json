@@ -50,6 +50,20 @@
       "branch": "unique"
     },
     {
+      "id": "pbakaus/impeccable",
+      "trustMagnitude": 334.8,
+      "grade": "S",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 250.0,
+        "arxiv": 3.8,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "trustMagnitude": 333.26,
       "grade": "S",
@@ -138,6 +152,19 @@
         "social-signal": 33.62,
         "repo-own": 36.0,
         "github-stars-own": 250.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "mvanhorn/last30days",
+      "trustMagnitude": 316.09,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 243.39,
+        "repo-own": 36.0,
+        "social-signal": 36.7
       },
       "origin": true,
       "branch": "unique"
@@ -234,30 +261,18 @@
       "branch": "standard"
     },
     {
-      "id": "pbakaus/impeccable",
-      "trustMagnitude": 298.62,
-      "grade": "S",
-      "level": "4★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 213.82,
-        "arxiv": 3.8,
-        "peer-review": 45.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "id": "mvanhorn/last30days",
-      "trustMagnitude": 298.3,
+      "id": "k-dense-ai/pymc",
+      "trustMagnitude": 302.8,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 225.6,
-        "repo-own": 36.0,
-        "social-signal": 36.7
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 164.8,
+        "arxiv": 70.0,
+        "peer-review": 9.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -271,6 +286,34 @@
         "peer-review": 30.0
       },
       "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "trustMagnitude": 293.8,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 164.8,
+        "arxiv": 70.0
+      },
+      "origin": false,
+      "branch": "unique"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "trustMagnitude": 293.8,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 164.8,
+        "arxiv": 70.0
+      },
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -419,47 +462,73 @@
       "branch": "suite"
     },
     {
-      "id": "k-dense-ai/pymc",
-      "trustMagnitude": 267.06,
+      "id": "k-dense-ai/qiskit",
+      "trustMagnitude": 249.76,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 164.8,
+        "arxiv": 43.96
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "trustMagnitude": 232.8,
+      "grade": "A",
+      "level": "3★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "arxiv": 70.0,
+        "github-stars-own": 164.8,
         "peer-review": 9.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
-      "id": "k-dense-ai/deepchem",
-      "trustMagnitude": 258.06,
+      "id": "k-dense-ai/stable-baselines3",
+      "trustMagnitude": 232.8,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "arxiv": 70.0
+        "github-stars-own": 164.8,
+        "peer-review": 9.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
-      "id": "k-dense-ai/torch-geometric",
-      "trustMagnitude": 258.06,
+      "id": "k-dense-ai/transformers",
+      "trustMagnitude": 232.8,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "arxiv": 70.0
+        "github-stars-own": 164.8,
+        "peer-review": 9.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "trustMagnitude": 223.8,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 164.8
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "openai/few-shot-learning",
@@ -472,20 +541,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "id": "k-dense-ai/qiskit",
-      "trustMagnitude": 214.02,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 129.06,
-        "arxiv": 43.96
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "id": "anthropic/skill-creator",
@@ -501,93 +556,38 @@
       "branch": "standard"
     },
     {
-      "id": "k-dense-ai/scanpy",
-      "trustMagnitude": 197.06,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "trustMagnitude": 197.06,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "trustMagnitude": 197.06,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 129.06,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "trustMagnitude": 188.06,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 129.06
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "k-dense-ai/rdkit",
-      "trustMagnitude": 170.06,
+      "trustMagnitude": 205.8,
       "grade": "A",
       "level": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0,
-        "github-stars-own": 129.06
+        "github-stars-own": 164.8
       },
       "origin": false,
       "branch": "standard"
     },
     {
       "id": "k-dense-ai/scvi-tools",
-      "trustMagnitude": 170.06,
+      "trustMagnitude": 205.8,
       "grade": "A",
       "level": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0,
-        "github-stars-own": 129.06
+        "github-stars-own": 164.8
       },
       "origin": false,
       "branch": "standard"
     },
     {
       "id": "vercel-labs/vercel-react-best-practices",
-      "trustMagnitude": 159.01,
+      "trustMagnitude": 163.4,
       "grade": "A",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 118.4,
+        "github-stars-own": 122.79,
         "arxiv": 0.2,
         "social-signal": 35.41,
         "self-attestation": 5.0
