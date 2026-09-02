@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 272.11,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 13,
+    "transitiveCount": 23,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
   "title": "The Matt Pocock Productivity Suite",
   "genericSkillRef": "productivity",
   "origin": true,

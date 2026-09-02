@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 326.49,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 28,
+    "transitiveCount": 50,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
   "title": "The Matt Pocock Engineering Discipline",
   "genericSkillRef": "engineering-discipline",
   "origin": true,
