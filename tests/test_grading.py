@@ -508,6 +508,39 @@ class TestEvidenceCLI:
             main()
         assert exc_info.value.code != 0
 
+    @pytest.mark.parametrize("argv", [["dev", "--help"], ["dev", "evidence", "--help"]])
+    def test_dynamic_dev_help_describes_trust_as_fallback(self, argv, monkeypatch, capsys):
+        from gaia_cli.main import main
+
+        monkeypatch.setattr(sys, "argv", ["gaia", *argv])
+        with pytest.raises(SystemExit) as exc_info:
+            main()
+
+        assert exc_info.value.code == 0
+        help_text = capsys.readouterr().out
+        assert "fallback row trustNumber" in help_text
+        assert "S≥250" in help_text or "S>=250" in help_text
+        assert "<0-100>" not in help_text
+
+    def test_legacy_parser_also_rejects_class_flag(self):
+        """The dormant compatibility parser must not re-advertise --class."""
+        from gaia_cli.impl import get_parser
+
+        parser, _ = get_parser()
+        with pytest.raises(SystemExit) as exc_info:
+            parser.parse_args(
+                [
+                    "dev",
+                    "evidence",
+                    "test-skill",
+                    "http://example.com/x",
+                    "--class",
+                    "B",
+                    "--no-build",
+                ]
+            )
+        assert exc_info.value.code != 0
+
     def test_evidence_graded_timeline_event(self, tmp_path, monkeypatch):
         self.write_fixture_skill(tmp_path)
         monkeypatch.setattr(sys, "argv", [

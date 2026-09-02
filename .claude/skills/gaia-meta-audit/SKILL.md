@@ -88,7 +88,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Add new generic | `gaia dev add "Name" --id <slug> --type basic --description "..."` |
 | Set generic prereqs | `gaia dev link <id> a,b,c` |
 | Calibrate **named-skill** star | `gaia dev calibrate <contributor/skill> 3★` |
-| Add capability evidence to a generic | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
+| Add capability evidence to a generic | `gaia dev evidence <id> <url> --type <evidence-type> <typed numeric flags> --evaluator <user>` |
 | Reclassify generic type | `gaia dev reclassify <id> <type>` |
 | Remove generic | `gaia dev rm <id>` |
 | Change named-skill `genericSkillRef` | `gaia dev update-named <author/skill> --generic-ref <new>` |
@@ -99,6 +99,14 @@ for — this avoids hand-edits that skip timeline logging.
 | Named-skill removal | Delete the markdown file — `gaia dev rm` is generic-only |
 
 After any mutation: `gaia dev validate` then `gaia dev docs`.
+
+For evidence, choose the live Evidence Type from `registry/schema/meta.json` and
+provide that type's quantitative inputs (for example `--citations`, `--stars`,
+or `--commits`/`--contributors`). The CLI derives the row's Evidence Grade from
+its `artifact_score` and the type-specific `evidence.perRowGradeThresholds`.
+Use `--trust <number>` only as the legacy/fallback `trustNumber` input when no
+typed magnitude can be computed; it uses the aggregate S=250/A=100/B=50/C=20
+thresholds and is not the skill's accumulated Trust Magnitude.
 
 ## Common pitfalls
 

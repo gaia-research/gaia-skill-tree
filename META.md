@@ -12,7 +12,7 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 
 ### 1.1 Star Tiers & Rank Labels (named implementations)
 
-> **Yggdrasil III ruling — Trust Magnitude measures accumulated scoring evidence only.** The per-star **Evidence Floor** remains retired; TM is the numeric promotion gate. Evidence rows carry a `grade` field (S/A/B/C, Platinum → Bronze) as a quality signal that feeds TM scoring. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window — Grade A ≠ Class A; never conflate them. See §2.1b for the TM formula and `CONTEXT.md` § Evidence Class for the deprecation notice.
+> **Yggdrasil III ruling — Trust Magnitude measures accumulated scoring evidence only.** The per-star **Evidence Floor** remains retired; TM is the numeric promotion gate. Evidence rows carry a `grade` field (S/A/B/C, Platinum → Bronze) as a row-quality signal derived as described in §2.1b. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window — Evidence Grade A ≠ Class A, and neither is the skill-level Overall Trust Grade. Never conflate them.
 
 | Level | Label | Significance | Verification Tier (max) |
 |---|---|---|---|
@@ -99,9 +99,13 @@ This keeps the starless reference rank-less while still letting it carry the sha
 
 Per the G7 Trust Taxonomy RFC, each evidence row carries two independent fields:
 
-- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case, list-driven from `registry/schema/meta.json` `evidence.types`. Initial canonical types: `arxiv`, `repo`, `github-stars`. The `benchmark-result` type is reserved by the Benchmark Framework RFC (`docs/architecture/benchmark-framework.md`). Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (basic / fusion).
+- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case and list-driven from `registry/schema/meta.json` `evidence.types`; current examples include `arxiv`, `repo-own`, `github-stars-own`, and `benchmark-result`. Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (basic / fusion).
 
-- **Evidence Grade** — *how strong* the demonstration is, on an **S / A / B / C** scale (Platinum / Gold / Silver / Bronze). Derived from the evidence row's `trustNumber` via `registry/schema/meta.json` `evidence.gradeThresholds` (S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40). Evidence whose `trustNumber` falls below 40 is **ungraded** — on the record but counting toward no gate. Grade A/B are deliberately distinct from the deprecated Class A/B.
+- **Evidence Grade** — *how strong one demonstration is*, on an **S / A / B / C** scale (Platinum / Gold / Silver / Bronze). For a typed row with quantitative magnitude inputs, the CLI computes that row's `artifact_score` and grades it against the Evidence-Type-specific thresholds in `registry/schema/meta.json` `evidence.perRowGradeThresholds`, subject to the Evidence Type's `gradeCeiling`. There is intentionally no single flat per-row threshold table.
+
+- **Legacy/fallback `--trust` path** — `gaia dev evidence --trust <number>` stores the row's `trustNumber`. When a typed row produces a positive `artifact_score`, the typed per-row calculation above takes precedence. When the row has no magnitude drivers (`artifact_score == 0`), or has no Evidence Type, the CLI falls back to `evidence.gradeThresholds` (S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20; below 20 is ungraded). This compatibility input does not itself mean that the number is the skill's Trust Magnitude.
+
+Evidence Grade A/B is deliberately distinct from deprecated Class A/B and from the skill-level Overall Trust Grade.
 
 The `grade` field is the primary read target for all promotion gates; `class` is the legacy fallback. A row carrying both fields is evaluated on `grade` alone.
 
@@ -111,7 +115,7 @@ The G7 RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** 
 
 Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the full spec):
 
-- **Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20.
+- **Overall Trust Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20. These numeric cutoffs are also reused by the legacy/fallback `--trust` row path above, but the meanings remain distinct: one grades a fallback row input, while the other grades the accumulated skill-level TM.
 - **Scoring:** TM sums positive-scoring evidence rows only. `fusion-recipe` is retained as structural/provenance/rank metadata and contributes **0 TM**.
 - **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
 - **S gate:** S requires TM ≥ 250, at least 3 distinct positive-scoring Evidence Types, and a positive eligible independent witness from `benchmark-result`, `verifier-attestation`, or `peer-review`. `github-stars-own`, `repo-own`, `fusion-recipe`, `self-attestation`, `social-signal`, `arxiv`, and `proxy-containment` are not S witnesses.
