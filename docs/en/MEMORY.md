@@ -2,6 +2,86 @@
 
 ---
 
+## 2026-09-03 — Routine 045
+
+**Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** CONTINUE — Routine 044's "Planned next": reconcile DOCS.md row 9
+(`mcp-server.html`) against the page's real content after the Skill Heaven
+plugin reconciliation.
+
+### Trigger
+
+Routine 044 flagged that DOCS.md row 9 still described the MCP Server page as
+matching a "live v0.4.0 surface" of four tools (`gaia_search`/`gaia_inspect`/
+`summon`/`gaia_status`), but the page itself was reconciled to a
+`summon`-only Skill Heaven model back on 2026-08-22 (PR #1549, commit
+`b362f5268`) and clarified again the next day (`a244b638d`). Read the page
+end to end against that commit's diff to find the real state.
+
+### What I did
+
+1. Confirmed via `git show b362f5268 -- docs/en/mcp-server.html` that the
+   "Overview," "Installation," and "Core Mechanic" sections were rewritten to
+   the `summon`-only model, but the diff never touched the "How it works" or
+   "Prompt examples" sections — they still described `gaia_search`/
+   `gaia_inspect`/`gaia_status` calls that no longer exist on the page's own
+   tool list.
+2. Fixed `docs/en/mcp-server.html`:
+   - "How it works": dropped the leftover "Search and inspection return
+     structured Registry facts" sentence; reworded the summon-resolution
+     sentence so it doesn't imply separate search/inspect tool calls.
+   - "Prompt examples": replaced the search/inspect/status example prompts
+     with three `summon`-only prompts, matching the single tool card in the
+     "Core Mechanic" section.
+3. Updated DOCS.md row 9 to describe the actual current page (decommissioned
+   standalone MCP, `skill-heaven` plugin's single `summon` tool) instead of
+   the stale four-tool description, and added routine 045 to its history.
+
+### Design decisions
+
+- Treated this as a real content gap, not just a DOCS.md bookkeeping fix —
+  the page had two sections quietly contradicting its own "Core Mechanic"
+  section, which is worse than a stale changelog line.
+- Kept the fix to the one page (`mcp-server.html`) plus DOCS.md's row for it,
+  per the one-page-per-run limit. Did not touch `faq.html` or `docs/agent.md`
+  — both were already reconciled in the same commit that missed this page's
+  two sections.
+
+### Issues informed
+
+None filed or closed — documentation accuracy fix; the underlying decommission
+was already settled by #1549.
+
+### Verification
+
+`git status` scoped to `docs/en/mcp-server.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check on `mcp-server.html`
+clean. Vocabulary grep (`merge|combine|compose|rarity`) — zero hits outside
+DOCS.md's own rule text. No new hex introduced (diff-scanned). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/mcp-server.html` — fixed "How it works" and "Prompt examples" to
+  match the `summon`-only Skill Heaven model
+- `docs/en/DOCS.md` — page map row 9 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 046)
+
+- ROTATE: `manual-curation-pipeline.html` is now the least-recently-touched
+  page (routine 037), tied with `timeline-audit.html`/`mcp-server.html`
+  history but those two were just refreshed. Worth a fresh read-through for
+  drift against the current `gaia dev` verb set before assuming it's still
+  accurate.
+
+### Token spend
+
+2026-09-03 Sonnet 5 Low: ~55k in, ~3k out. ~$0.20
+
+---
+
 ## 2026-09-02 — Routine 044
 
 **Branch:** `docs/routines/044` (new — PR #1544/`docs/routines/030` merged 2026-09-01,

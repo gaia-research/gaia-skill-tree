@@ -26,7 +26,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done — cleaned up redundant `--no-build` flags and removed dead `generateNamedIndex.py` script reference in step-by-step example 038 | 003, 017, 018, 025, 038 |
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done — fixed two `--no-build` callouts 035; cleaned up Verifier-tier wording 043 | 004, 017, 018, 025, 035, 043 |
 | 8 | `fusion.html` | Skill Fusion | ✅ Done — Type/Branch model throughout, incl. `gaia fuse`/propose code samples now schema-accurate (`prerequisites`/`combinedFrom`, Type `fusion`) (editor pass closes #1479) | 004, 017, 018, 025, 029, editor-026wk |
-| 9 | `mcp-server.html` | MCP Server | ✅ Done — tool list matches the live v0.4.0 surface (`gaia_search`/`gaia_inspect`/`summon`/`gaia_status`); #1478 closed | 005, 017, 018, 025 |
+| 9 | `mcp-server.html` | MCP Server | ✅ Done — standalone Gaia MCP is decommissioned; page documents the `skill-heaven` plugin's single `summon` tool, matching the Prototype boundaries reconciliation (#1549) 045 | 005, 017, 018, 025, 045 |
 | 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026; refined evidence class vs grade vocabulary 042) | 005, 017, 018, 025, 026, 042 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done — aligned manifest table type description to Yggdrasil II taxonomy 038 | 006, 018, 025, 038 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done — `gaia dev validate` now documented with its 4th check, the Trust Magnitude Consistency Gate (Issue #1600) 044 | 008, 018, 025, 044 |

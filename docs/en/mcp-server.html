@@ -612,10 +612,9 @@
       <section class="section" id="prompts">
         <h2 class="section-title">Prompt examples</h2>
         <ul class="prompt-list">
-          <li>"Search the Gaia Registry for a code-review skill."</li>
-          <li>"Inspect the evidence for <code>garrytan/review</code>."</li>
           <li>"Summon a skill for reviewing this pull request."</li>
-          <li>"Check Gaia MCP status and Registry freshness."</li>
+          <li>"Summon <code>garrytan/review</code> so I can see how it works."</li>
+          <li>"Summon the best-matching skill for writing SQL migrations."</li>
         </ul>
       </section>
 
@@ -624,8 +623,8 @@
         <div class="section-body">
           <p>
             The stdio server loads Gaia's public generic and Named Skill projections on demand.
-            Search and inspection return structured Registry facts. A summon resolves the selected
-            source, validates it, and materializes the whole skill directory in a session-scoped
+            A summon call resolves the request against those projections, validates the match,
+            and materializes the whole skill directory in a session-scoped
             temporary location; a bounded payload cache may make later materializations warm.
           </p>
           <p>
