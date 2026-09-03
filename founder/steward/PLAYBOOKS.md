@@ -57,7 +57,7 @@ skills only; mirror integrity is a separate, mandatory gate.
 
 `run:` is data, not an unrestricted shell. The contract checker accepts only:
 
-1. optional leading `NAME=value` environment assignments;
+1. a command spine with no leading environment assignments or command-resolution overrides;
 2. a `gaia` command resolved against the checkout's live nested argparse tree; or
 3. `python` / `python3` followed by a tracked `scripts/...` path;
 4. optional `{lower_snake_case}` placeholders as argument values; and
@@ -100,4 +100,3 @@ later founder ruling.
   playbook. Different terminal proof or authority is a different playbook.
 - Final integration-to-`main` merges remain human decisions regardless of a
   playbook's class or capability prose.
-
