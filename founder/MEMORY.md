@@ -4,6 +4,78 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-03, PR #1696 readied, Yggdrasil III issue sweep, two-agent dispatch, PR-stack unwind, Fusion Score/Hall-of-Heroes ruling)
+
+### TLDR
+
+- Marked PR #1696 ready for review; confirmed the live stack: #1696 (`design/hall-of-heroes-craft`) → #1693 (`review/meta/hall-of-heroes-recalibration-2026-09`) → #1688 (`dev/integration-ygg3-playbooks-2026-09-02`) → `main`.
+- Yggdrasil III issue sweep via `/gaia-triage`: closed **#1600** (Matt Pocock 3-way TM reconciliation — verified directly, all three surfaces now agree). Left **#1636** and **#1671** open with status-update comments (real backlog remains; flagged that #1600 closing orphans the 35-skill calibration-lag backlog it was tracking — founder call pending).
+- Dispatched two background agents: a Sonnet meta-post agent (published `docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md`, opened draft **PR #1697**, filed bundled issue **#1698**) and a fact-check agent (verified the 63-skill recalibration is structurally sound, filed **#1699** and **#1700** for pre-existing defects, and flagged a CONTEXT.md vocabulary conflict on PR #1696).
+- User then unstacked local `gh stack` tooling and asked for a PR-graph restack: loaded `/gaia-orchestrator` persona (per CLAUDE.md's "required for this branch strategy" clause). Ran `git merge-base --is-ancestor` across 12 branches, confirmed 5 PRs (#1667, #1668, #1669, #1672, #1678) were fully superseded (already merged into the integration branch via prior `merge: ... onto the integration base` commits) and closed them; retargeted 3 still-live PRs (#1683, #1694, #1695) to base `dev/integration-ygg3-playbooks-2026-09-02` directly.
+- Founder ruling: the fact-check agent's flagged conflict (`CONTEXT.md` banned Fusion Score "on the Hall of Heroes"; PR #1696 puts it there) was resolved by amending CONTEXT.md, not the design. `git blame` showed the clause was the user's own commit `3621824ce` (2026-09-01, Fusion Score ratification) — a placeholder caution predating the page's actual design. Edited CONTEXT.md directly (founder-doc superadmin authority) to strike the Hall-of-Heroes clause and record the ruling inline; committed as `942e52b6b` onto `design/hall-of-heroes-craft` (PR #1696); posted a closing comment on the PR.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1696 | ✅ Marked ready for review; later gained commit `942e52b6b` (CONTEXT.md ruling) |
+| Issue #1600 | ✅ Closed — Matt Pocock TM reconciliation verified fixed (dry-run/API/frontmatter all agree: `mattpocock/skills` 329.9; engineering/productivity/personal/misc all 0.0) |
+| Issues #1636, #1671 | ⏳ Left open, status-update comments posted — real unresolved backlog in both |
+| PR #1697 (meta-post) | ⏳ Draft — needs a JSON-LD staleness fix (`build_docs.py --check` fails on this file only) before mergeable |
+| Issue #1698 | ✅ Filed — bundles remaining 3-skill recalibration + Apex/Unique-Impossible gate-testing of the 9 current S-grade skills |
+| Issues #1699, #1700 | ✅ Filed — pre-existing defects found incidentally during fact-check (not caused by this session's recalibration) |
+| PR-stack restack | ✅ 5 superseded PRs closed (#1667, #1668, #1669, #1672, #1678), 3 live PRs (#1683, #1694, #1695) retargeted to the integration branch |
+| CONTEXT.md | ✅ Amended — Fusion Score now explicitly permitted on the Hall of Heroes (clearly labeled, kept separate from the TM/grade display) |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/hall-of-heroes-craft` | `942e52b6b` | PR #1696, ready for review, includes the CONTEXT.md ruling commit |
+| `review/meta/hall-of-heroes-recalibration-2026-09` | `f5826f5fa` | PR #1693, open against the integration branch |
+| `dev/integration-ygg3-playbooks-2026-09-02` | `fbf2594cf` | PR #1688, open against `main` |
+| `docs/yggdrasil-iii-recalibration-update-2026-09` | `5e32a5e90` | PR #1697 (draft), open against #1693's branch; JSON-LD fix outstanding |
+| `dev/agent-playbooks-p3-contract-checker-1644` | (unchanged) | PR #1683, retargeted to integration branch |
+| `dev/dev-calibrate-playbook` | (unchanged) | PR #1694, retargeted to integration branch |
+| `docs/playbook-first-policy` | (unchanged) | PR #1695, retargeted to integration branch |
+
+### Issues + PRs touched
+
+- **Closed (issues):** #1600.
+- **Commented, left open (issues):** #1636, #1671.
+- **Filed (issues):** #1698, #1699, #1700.
+- **Closed (PRs, superseded/already-merged):** #1667, #1668, #1669, #1672, #1678.
+- **Retargeted (PRs, base → `dev/integration-ygg3-playbooks-2026-09-02`):** #1683, #1694, #1695.
+- **Readied:** #1696.
+- **Opened:** #1697 (draft).
+- **Commented (PR):** #1696 (CONTEXT.md ruling closure).
+
+### Routing — where things live now
+
+- The Yggdrasil III integration stack is now a clean 4-deep chain: `main` ← #1688 ← #1693 ← #1696, with #1697 (meta-post) also based on #1693's branch, and #1683/#1694/#1695 (agent-playbooks epic #1644 work) now flat against #1688's branch instead of stacked on each other or on the now-closed old chain.
+- The old parallel Yggdrasil III chain (`dev/yggdrasil-iii-newmeta` → `dev/steward-sensors-fleet` → `fix/trust-magnitude-full-recalibration` → `dev/yggdrasil-iii-fusion-score-plan` → `dev/pr-stack-plan-1644-b2516d`) is fully retired — every branch in it was already an ancestor of the integration branch; all 5 of its PRs are closed.
+- Next recalibration + gate-testing work is tracked in **#1698** only (per explicit "one issue only for all" instruction) — do not open parallel tracking issues for the same scope.
+- Pre-existing defect backlog: #1699 (calibrate CLI gap, `status:awakened` → 4★), #1700 (stale `trustMagnitude` cache, `ayghri/i-have-adhd` grade-contradiction).
+
+### Lessons / hazards preserved
+
+- **`gh stack` local tracking can drift from GitHub's actual PR bases.** When a user runs `gh stack unstack`, PR bases on GitHub do NOT auto-update — they must be retargeted by hand (`gh pr edit --base`). Always re-verify with `git merge-base --is-ancestor` before assuming a stacked PR still needs its old base; a branch fully absorbed into a downstream integration branch means the PR is closeable, not just re-basable.
+- **Batching many `gh pr close`/`gh pr edit` calls into one Bash invocation risks a partial-execution + rejection mismatch** — one call in this session's first batched attempt executed (PR #1667 closed) before the tool use was rejected as a whole. Issue destructive multi-PR operations as separate tool calls, one per PR, so the user can grant/reject each individually and partial state stays legible.
+- **A CONTEXT.md "avoid" clause is not automatically a considered design constraint** — `git blame` revealed the Hall-of-Heroes exclusion was a same-day placeholder caution from the ratification commit itself, not a separately deliberated rule. When a fact-check/audit flags a vocabulary violation, check blame/commit context before assuming the *implementation* is wrong; sometimes the *rule* was provisional and the founder amends it instead.
+- Superadmin mode (root `*.md` + `founder/`) direct-edit authority was exercised here for the first time this session: CONTEXT.md edited directly by the orchestrator, committed straight onto the PR branch that needed it (no delegation, no separate feature-branch detour), per `founder/ORCHESTRATOR.md`'s standing grant.
+
+### Open questions for next orchestrator
+
+- **#1636's orphaned backlog:** with #1600 closed, the 35-skill calibration-lag backlog #1636 was routing through #1600 ("no separate Wayfinder ticket for this batch") has no tracker. Needs a founder call: fold into #1636 directly, open a fresh ticket, or confirm the remaining non-mattpocock names are already covered by the 63-skill pass.
+- **PR #1697's JSON-LD fix:** still outstanding — offered to dispatch a follow-up agent, awaiting user's go/no-go (asked at session's last turn, not yet answered as of this snapshot).
+- **#1687 (`docs/routines/044`)** was surveyed but is unrelated to the Yggdrasil III epic — left untouched, no action taken or needed.
+
+### Token cost (this session)
+
+- Not measured — no `pi-cost`/`COST.md` data source available in this environment; two background subagents logged `173263` and `181973` tokens respectively per their own usage blocks (meta-post agent: 76 tool uses / 575s; fact-check agent: 73 tool uses / 591s).
+
+---
+
 ## State Snapshot (2026-08-29, full sensor fleet wired into Gaia Steward — PR #1664)
 
 ### TLDR
