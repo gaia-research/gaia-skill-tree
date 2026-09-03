@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 180.0,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": "ungraded",
   "branch": "suite",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/mattpocock/productivity.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 272.11,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 13,
+    "transitiveCount": 23,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "The Matt Pocock Productivity Suite",
   "genericSkillRef": "productivity",
@@ -76,6 +84,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 120.0 -> 180.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:53Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 180.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

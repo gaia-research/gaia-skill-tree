@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 103.83,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 331.0,
+  "overallTrustGrade": "S",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/addy-osmani/incremental-implementation.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 80.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 4,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
   },
   "title": "Incremental Implementation",
   "genericSkillRef": "executing-plans",
@@ -24,7 +32,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -152,6 +160,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

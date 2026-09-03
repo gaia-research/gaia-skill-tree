@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 206.97,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 333.26,
+  "overallTrustGrade": "S",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json",
     "contributor": "/api/v1/contributors/nextlevelbuilder.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
   },
   "title": "UI/UX Pro Max",
   "genericSkillRef": "ux-audit",
@@ -24,7 +32,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -136,6 +144,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 333.26, grade (none) -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

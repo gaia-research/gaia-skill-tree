@@ -51,9 +51,9 @@
 | ○ /data-visualize | Basic | — | `/data-visualize` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
 | · [garrytan](../docs/u/garrytan/)/land-and-deploy | Fusion | 3★ | `/deployment-automation` |
-| · [nexu-io](../docs/u/nexu-io/)/open-design | Fusion | 2★ | `/design-generation` |
+| · [pbakaus](../docs/u/pbakaus/)/impeccable | Fusion | 4★ | `/design-generation` |
 | · [garrytan](../docs/u/garrytan/)/design-shotgun | Fusion | 3★ | `/design-review` |
-| · [garrytan](../docs/u/garrytan/)/design-consultation | Fusion | 3★ | `/design-system-extraction` |
+| · [leonxlnx](../docs/u/leonxlnx/)/stitch-skill | Fusion | 3★ | `/design-system-extraction` |
 | · [garrytan](../docs/u/garrytan/)/canary | Fusion | 3★ | `/detect-anomaly` |
 | ○ /diff-content | Basic | — | `/diff-content` |
 | · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 3★ | `/dispatching-parallel-agents` |
@@ -208,6 +208,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic | 2★ | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic | 2★ | `/system-integration` |
 | · [garrytan](../docs/u/garrytan/)/investigate | Fusion | 3★ | `/systematic-debugging` |
+| · ████████/unlazy | Fusion | — | `/task-depth-enforcement` |
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
@@ -222,7 +223,7 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
-| ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ui-audit` |
+| ○ [leonxlnx](../docs/u/leonxlnx/)/redesign-skill | Basic | 2★ | `/ui-audit` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
@@ -237,7 +238,7 @@
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-render | Basic | 2★ | `/video-rendering` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-saas | Basic | 2★ | `/video-saas` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-create | Basic | 2★ | `/video-scaffolding` |
-| ○ /vision-qa | Basic | — | `/vision-qa` |
+| ○ [leonxlnx](../docs/u/leonxlnx/)/image-to-code-skill | Basic | 2★ | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |
 | · /web-best-practices | Fusion | — | `/web-best-practices` |
@@ -268,7 +269,6 @@
 | ◉ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Unique Skill | 4★ | `/probabilistic-programming` |
 | ◉ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Unique Skill | 4★ | `/prompt-optimization` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
-| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ui-audit` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
@@ -296,7 +296,7 @@
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
-| ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
+| ○ Image Generate | Intrinsic Skill | 2★ | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |

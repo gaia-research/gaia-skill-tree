@@ -17,7 +17,7 @@ tags:
 - agent
 - sdk
 createdAt: '2026-05-17'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -51,7 +51,12 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from browserbase/stagehand to browserbase/browse
-trustMagnitudeInputHash: b81d88b6ee558769dea22df8e932d30b04e14b472875d4dbfa05ec7fc89b6625
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 3d49a88682a4f7b2a757b7301fe377bcf81674edc5baef9da294b8a2bc5385c9
 ---
 
 ## Overview

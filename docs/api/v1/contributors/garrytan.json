@@ -5,8 +5,9 @@
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
-      "trustMagnitude": 594.27,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 331.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 392.87,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
@@ -66,11 +67,505 @@
       ]
     },
     {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "3★",
+      "trustMagnitude": 286.0,
+      "overallTrustGrade": "A",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
+      "id": "garrytan/browse",
+      "name": "Browse",
+      "level": "3★",
+      "trustMagnitude": 88.5,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/browse.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "garrytan/retro",
+      "name": "Retro",
+      "level": "3★",
+      "trustMagnitude": 81.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/retro.json"
+      },
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "garrytan/careful",
+      "name": "Careful",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/careful.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan/office-hours",
+      "name": "Office Hours",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/office-hours.json"
+      },
+      "genericSkillRef": "question-answer"
+    },
+    {
+      "id": "garrytan/plan-eng-review",
+      "name": "Plan Eng Review",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
+      },
+      "genericSkillRef": "code-review-pipeline"
+    },
+    {
+      "id": "garrytan/benchmark",
+      "name": "Benchmark",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/benchmark.json"
+      },
+      "genericSkillRef": "evaluate-output"
+    },
+    {
+      "id": "garrytan/canary",
+      "name": "Canary",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/canary.json"
+      },
+      "genericSkillRef": "detect-anomaly"
+    },
+    {
+      "id": "garrytan/design-consultation",
+      "name": "Design Consultation",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-consultation.json"
+      },
+      "genericSkillRef": "design-system-extraction"
+    },
+    {
+      "id": "garrytan/design-html",
+      "name": "Design HTML",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-html.json"
+      },
+      "genericSkillRef": "code-generation"
+    },
+    {
+      "id": "garrytan/design-shotgun",
+      "name": "Design Shotgun",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-shotgun.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "garrytan/document-generate",
+      "name": "Document Generate",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-generate.json"
+      },
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "garrytan/investigate",
+      "name": "Investigate",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/investigate.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
+      "id": "garrytan/land-and-deploy",
+      "name": "Land and Deploy",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
+      },
+      "genericSkillRef": "deployment-automation"
+    },
+    {
+      "id": "garrytan/plan-ceo-review",
+      "name": "Plan CEO Review",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
+      },
+      "genericSkillRef": "evaluate-output"
+    },
+    {
+      "id": "garrytan/plan-design-review",
+      "name": "Plan Design Review",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-design-review.json"
+      },
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan/plan-devex-review",
+      "name": "Plan DevEx Review",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-devex-review.json"
+      },
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan/qa",
+      "name": "QA",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 140.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/qa.json"
+      },
+      "genericSkillRef": "e2e-testing"
+    },
+    {
+      "id": "garrytan/review",
+      "name": "Review",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/review.json"
+      },
+      "genericSkillRef": "code-review-pipeline"
+    },
+    {
+      "id": "garrytan/ship",
+      "name": "Ship",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/ship.json"
+      },
+      "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "garrytan/skillify",
+      "name": "Skillify",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skillify.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "garrytan/benchmark-models",
+      "name": "Benchmark Models",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/benchmark-models.json"
+      },
+      "genericSkillRef": "skill-performance-benchmarking"
+    },
+    {
+      "id": "garrytan/codex",
+      "name": "Codex",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/codex.json"
+      },
+      "genericSkillRef": "multi-agent-debate"
+    },
+    {
+      "id": "garrytan/context-restore",
+      "name": "Context Restore",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-restore.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan/context-save",
+      "name": "Context Save",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-save.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan/design-review",
+      "name": "Design Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-review.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "garrytan/devex-review",
+      "name": "DevEx Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/devex-review.json"
+      },
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan/document-release",
+      "name": "Document Release",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-release.json"
+      },
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "garrytan/freeze",
+      "name": "Freeze",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/freeze.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
       "level": "4★",
-      "trustMagnitude": 156.0,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
@@ -88,475 +583,12 @@
       ]
     },
     {
-      "id": "garrytan/browse",
-      "name": "Browse",
-      "level": "3★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/browse.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "garrytan/retro",
-      "name": "Retro",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/retro.json"
-      },
-      "genericSkillRef": "write-report"
-    },
-    {
-      "id": "garrytan/benchmark",
-      "name": "Benchmark",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark.json"
-      },
-      "genericSkillRef": "evaluate-output"
-    },
-    {
-      "id": "garrytan/canary",
-      "name": "Canary",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/canary.json"
-      },
-      "genericSkillRef": "detect-anomaly"
-    },
-    {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "genericSkillRef": "security-audit"
-    },
-    {
-      "id": "garrytan/design-consultation",
-      "name": "Design Consultation",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-consultation.json"
-      },
-      "genericSkillRef": "design-system-extraction"
-    },
-    {
-      "id": "garrytan/design-html",
-      "name": "Design HTML",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-html.json"
-      },
-      "genericSkillRef": "code-generation"
-    },
-    {
-      "id": "garrytan/design-shotgun",
-      "name": "Design Shotgun",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-shotgun.json"
-      },
-      "genericSkillRef": "design-review"
-    },
-    {
-      "id": "garrytan/document-generate",
-      "name": "Document Generate",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-generate.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "garrytan/investigate",
-      "name": "Investigate",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/investigate.json"
-      },
-      "genericSkillRef": "systematic-debugging"
-    },
-    {
-      "id": "garrytan/land-and-deploy",
-      "name": "Land and Deploy",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "garrytan/plan-ceo-review",
-      "name": "Plan CEO Review",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
-      },
-      "genericSkillRef": "evaluate-output"
-    },
-    {
-      "id": "garrytan/plan-design-review",
-      "name": "Plan Design Review",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-design-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/plan-devex-review",
-      "name": "Plan DevEx Review",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-devex-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/qa",
-      "name": "QA",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/qa.json"
-      },
-      "genericSkillRef": "e2e-testing"
-    },
-    {
-      "id": "garrytan/review",
-      "name": "Review",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/review.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
-    },
-    {
-      "id": "garrytan/ship",
-      "name": "Ship",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/ship.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
-      "id": "garrytan/skillify",
-      "name": "Skillify",
-      "level": "3★",
-      "trustMagnitude": 68.67,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skillify.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "garrytan/careful",
-      "name": "Careful",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/careful.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "garrytan/office-hours",
-      "name": "Office Hours",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/office-hours.json"
-      },
-      "genericSkillRef": "question-answer"
-    },
-    {
-      "id": "garrytan/plan-eng-review",
-      "name": "Plan Eng Review",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
-    },
-    {
-      "id": "garrytan/benchmark-models",
-      "name": "Benchmark Models",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark-models.json"
-      },
-      "genericSkillRef": "skill-performance-benchmarking"
-    },
-    {
-      "id": "garrytan/codex",
-      "name": "Codex",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/codex.json"
-      },
-      "genericSkillRef": "multi-agent-debate"
-    },
-    {
-      "id": "garrytan/context-restore",
-      "name": "Context Restore",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-restore.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
-      "id": "garrytan/context-save",
-      "name": "Context Save",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-save.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
-      "id": "garrytan/design-review",
-      "name": "Design Review",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-review.json"
-      },
-      "genericSkillRef": "ui-audit"
-    },
-    {
-      "id": "garrytan/devex-review",
-      "name": "DevEx Review",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/devex-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/document-release",
-      "name": "Document Release",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-release.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "garrytan/freeze",
-      "name": "Freeze",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/freeze.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
       "id": "garrytan/gstack-upgrade",
       "name": "GStack Upgrade",
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -573,6 +605,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -589,6 +622,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -605,6 +639,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -621,6 +656,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -637,6 +673,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
@@ -653,6 +690,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
@@ -669,6 +707,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
@@ -685,6 +724,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -701,6 +741,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 140.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -717,6 +758,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -733,6 +775,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "garrytan",
       "type": "basic",
       "branch": "standard",
@@ -749,6 +792,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 100.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -765,6 +809,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -781,6 +826,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -797,6 +843,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
@@ -812,14 +859,13 @@
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
-    "trustMagnitude": 594.27
+    "trustMagnitude": 331.59
   },
-  "prestigeScore": 3080.49,
+  "prestigeScore": 2635.09,
   "gradeDistribution": {
-    "S": 1,
-    "A": 1,
-    "B": 21,
-    "C": 24
+    "A": 2,
+    "B": 20,
+    "C": 25
   },
   "_links": {
     "self": "/api/v1/contributors/garrytan.json",

@@ -21,7 +21,7 @@ tags:
 - y-combinator
 - ideation
 createdAt: '2026-05-12'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/garrytan
 evidence:
 - class: B
@@ -78,6 +78,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:
@@ -91,7 +96,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: 66b83f951c78243b54a8eb00806ba80d863b5df43f507e7a3e6e97f1babd0095
+trustMagnitudeInputHash: af3b9656deb3b7236fdcf7b2b8088af1b223fae9dec94589838da230c16b75e8
 ---
 
 ## Overview

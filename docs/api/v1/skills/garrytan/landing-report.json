@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/garrytan.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "Gstack Landing Report — Project Status Summary",
   "genericSkillRef": "project-management",
   "origin": false,
@@ -80,6 +88,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:37Z",
       "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:47Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

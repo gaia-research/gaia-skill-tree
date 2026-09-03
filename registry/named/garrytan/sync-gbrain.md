@@ -17,7 +17,7 @@ tags:
 - sync
 - gbrain
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -54,6 +54,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +72,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
-trustMagnitudeInputHash: a955fc5e2d321ab0df0e08d47ebc4d7bf846e6771c851d2ddee8905d170d427c
+trustMagnitudeInputHash: 97434bc31b7e68b729dc168b56aa01b8f5d5ea68b629888b88cbf6f0df094fea
 ---
 
 ## Overview

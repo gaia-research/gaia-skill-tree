@@ -3,7 +3,7 @@ id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
 origin: true
-genericSkillRef: ui-audit
+genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
 level: 4★
@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-07-30'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -142,8 +142,13 @@ timeline:
     migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 122.8
-overallTrustGrade: A
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 122.8 -> 298.62, grade A -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 298.62
+overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -155,7 +160,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
-trustMagnitudeInputHash: 9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef
+trustMagnitudeInputHash: 62d892e4381fb1cee521ae66ec809ee4e18b4ed7998076929f18c9143f1bce37
 ---
 
 ## Overview

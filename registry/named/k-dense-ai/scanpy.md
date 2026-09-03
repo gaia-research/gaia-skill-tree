@@ -9,7 +9,7 @@ level: 3★
 description: Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering,
   visualization, and differential expression.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-30'
 title: Scanpy
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md
   evaluator: mbtiongson1
@@ -67,6 +72,9 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:58Z'
+trustMagnitude: 197.06
+overallTrustGrade: A
+trustMagnitudeInputHash: 0f31539e567e456995c269a503a70d58af4282eda2f3ac81710e6931bc9ad12e
 ---
 
 ## Installation

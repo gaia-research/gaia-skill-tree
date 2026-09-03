@@ -10,7 +10,7 @@ description: 'Applies deliberate judgment before writing code: evaluating whethe
   to implement at all, scoping to the minimum needed, deferring or rejecting features
   that add complexity without proportionate value.'
 createdAt: '2026-07-09'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-30'
 title: Implement With Discernment
 timeline:
 - timestamp: '2026-07-08T21:02:12Z'
@@ -43,6 +43,11 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 2.19, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/rico-favor/gaia-skill-tree
   evaluator: unknown
@@ -57,6 +62,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-08T21:02:30Z'
 installable: false
+trustMagnitude: 2.19
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 330d7be3e17988975e1710039b2bf31373196b66a4dcd9d39bcfcea08af9ff56
 ---
 
 ## Installation

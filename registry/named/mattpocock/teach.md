@@ -11,7 +11,7 @@ level: 2★
 description: Teach the user a new skill or concept in a workspace with mission, reference
   materials, and lessons.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-19T13:02:46Z'
   action: add
@@ -66,6 +66,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/productivity
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 44.48, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
   evaluator: unknown
@@ -99,8 +104,8 @@ evidence:
   sourceStartedAt: '2026-06-19'
 verification:
   firstEvidenceAt: '2026-06-19T13:07:26Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 44.48
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -110,7 +115,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d89e707515e393b229cbf8e69f51a6ea4ba8820d07009fe1b715587ceb20caaa
+trustMagnitudeInputHash: 68ac450810274cdb21725066ce29b83de5c853fa6208db625a510154eb04b3e6
 title: Teach
 suiteRef: mattpocock/productivity
 ---

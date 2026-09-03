@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/santifer.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 240.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 14,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
+  },
   "title": "The Professional's Edge",
   "genericSkillRef": "career-operations",
   "origin": true,
@@ -80,6 +88,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-29T17:16:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -11,26 +11,33 @@ from gaia_cli.curation.state import CurationRun
 
 class CurateCommand(Command):
     name = "curate"
-    help = "Scaffold a guided Gaia curation run"
-    description = "Resolve a skill source and drive it through the gated Gaia curation workflow."
+    help = "Initialize or inspect a paused Gaia curation ledger"
+    description = (
+        "Record curation intent in a local run ledger. The workflow transitions "
+        "are not implemented; new runs pause at INITIALIZED."
+    )
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
-        parser.add_argument("url", nargs="?", help="GitHub repo or SKILL.md URL to curate")
+        parser.add_argument(
+            "url",
+            nargs="?",
+            help="GitHub repo or SKILL.md URL to record in the paused run ledger",
+        )
         parser.add_argument(
             "--generic",
             "-g",
             dest="generic",
-            help="Suggested generic skill id for the candidate mapping",
+            help="Record a suggested generic skill id; no mapping is applied",
         )
         parser.add_argument(
             "--discover",
             action="store_true",
-            help="Run optional evidence discovery before evidence verification",
+            help="Record intent for future evidence discovery; discovery does not run",
         )
         parser.add_argument(
             "--resume",
             metavar="RUN_ID",
-            help="Resume an existing curation run by run id",
+            help="Load an existing run ledger by run id; transitions remain paused",
         )
         parser.add_argument(
             "--status",
@@ -40,7 +47,7 @@ class CurateCommand(Command):
         parser.add_argument(
             "--dry-run",
             action="store_true",
-            help="Plan the curation run without mutating the registry or GitHub",
+            help="Record dry-run intent; no curation workflow transitions run",
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:

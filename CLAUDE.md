@@ -146,7 +146,7 @@ gaia dev add "Skill Name" --type basic --description "At least 10 chars descript
 gaia dev merge target-id source-ids...
 gaia dev split source-id target-ids...
 gaia dev evidence skill-id "url" --type repo-own --commits N --contributors N
-gaia dev fuse generic-id --name "..." --type ultimate --prereqs a,b,c \
+gaia dev fuse generic-id --name "..." --description "At least 10 chars" --prereqs a,b,c \
               --named-capstone contributor/slug --suite-components a,b,c
 ```
 

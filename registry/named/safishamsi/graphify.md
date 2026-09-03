@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -92,8 +92,13 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 116.57
-overallTrustGrade: A
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 116.57 -> 297.8, grade A -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 297.8
+overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -139,7 +144,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: ae90ab68d4801463666f7bd7e7c88a76e5d8f530513b89a05c4073ebbafdd701
+trustMagnitudeInputHash: 5d00d00673f0e0c55901a4637d18cd084719c1a138b99567f5e26d752e457492
 ---
 
 ## Overview

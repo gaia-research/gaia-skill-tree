@@ -4,6 +4,186 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-03, PR #1696 readied, Yggdrasil III issue sweep, two-agent dispatch, PR-stack unwind, Fusion Score/Hall-of-Heroes ruling)
+
+### TLDR
+
+- Marked PR #1696 ready for review; confirmed the live stack: #1696 (`design/hall-of-heroes-craft`) → #1693 (`review/meta/hall-of-heroes-recalibration-2026-09`) → #1688 (`dev/integration-ygg3-playbooks-2026-09-02`) → `main`.
+- Yggdrasil III issue sweep via `/gaia-triage`: closed **#1600** (Matt Pocock 3-way TM reconciliation — verified directly, all three surfaces now agree). Left **#1636** and **#1671** open with status-update comments (real backlog remains; flagged that #1600 closing orphans the 35-skill calibration-lag backlog it was tracking — founder call pending).
+- Dispatched two background agents: a Sonnet meta-post agent (published `docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md`, opened draft **PR #1697**, filed bundled issue **#1698**) and a fact-check agent (verified the 63-skill recalibration is structurally sound, filed **#1699** and **#1700** for pre-existing defects, and flagged a CONTEXT.md vocabulary conflict on PR #1696).
+- User then unstacked local `gh stack` tooling and asked for a PR-graph restack: loaded `/gaia-orchestrator` persona (per CLAUDE.md's "required for this branch strategy" clause). Ran `git merge-base --is-ancestor` across 12 branches, confirmed 5 PRs (#1667, #1668, #1669, #1672, #1678) were fully superseded (already merged into the integration branch via prior `merge: ... onto the integration base` commits) and closed them; retargeted 3 still-live PRs (#1683, #1694, #1695) to base `dev/integration-ygg3-playbooks-2026-09-02` directly.
+- Founder ruling: the fact-check agent's flagged conflict (`CONTEXT.md` banned Fusion Score "on the Hall of Heroes"; PR #1696 puts it there) was resolved by amending CONTEXT.md, not the design. `git blame` showed the clause was the user's own commit `3621824ce` (2026-09-01, Fusion Score ratification) — a placeholder caution predating the page's actual design. Edited CONTEXT.md directly (founder-doc superadmin authority) to strike the Hall-of-Heroes clause and record the ruling inline; committed as `942e52b6b` onto `design/hall-of-heroes-craft` (PR #1696); posted a closing comment on the PR.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1696 | ✅ Marked ready for review; later gained commit `942e52b6b` (CONTEXT.md ruling) |
+| Issue #1600 | ✅ Closed — Matt Pocock TM reconciliation verified fixed (dry-run/API/frontmatter all agree: `mattpocock/skills` 329.9; engineering/productivity/personal/misc all 0.0) |
+| Issues #1636, #1671 | ⏳ Left open, status-update comments posted — real unresolved backlog in both |
+| PR #1697 (meta-post) | ⏳ Draft — needs a JSON-LD staleness fix (`build_docs.py --check` fails on this file only) before mergeable |
+| Issue #1698 | ✅ Filed — bundles remaining 3-skill recalibration + Apex/Unique-Impossible gate-testing of the 9 current S-grade skills |
+| Issues #1699, #1700 | ✅ Filed — pre-existing defects found incidentally during fact-check (not caused by this session's recalibration) |
+| PR-stack restack | ✅ 5 superseded PRs closed (#1667, #1668, #1669, #1672, #1678), 3 live PRs (#1683, #1694, #1695) retargeted to the integration branch |
+| CONTEXT.md | ✅ Amended — Fusion Score now explicitly permitted on the Hall of Heroes (clearly labeled, kept separate from the TM/grade display) |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/hall-of-heroes-craft` | `942e52b6b` | PR #1696, ready for review, includes the CONTEXT.md ruling commit |
+| `review/meta/hall-of-heroes-recalibration-2026-09` | `f5826f5fa` | PR #1693, open against the integration branch |
+| `dev/integration-ygg3-playbooks-2026-09-02` | `fbf2594cf` | PR #1688, open against `main` |
+| `docs/yggdrasil-iii-recalibration-update-2026-09` | `5e32a5e90` | PR #1697 (draft), open against #1693's branch; JSON-LD fix outstanding |
+| `dev/agent-playbooks-p3-contract-checker-1644` | (unchanged) | PR #1683, retargeted to integration branch |
+| `dev/dev-calibrate-playbook` | (unchanged) | PR #1694, retargeted to integration branch |
+| `docs/playbook-first-policy` | (unchanged) | PR #1695, retargeted to integration branch |
+
+### Issues + PRs touched
+
+- **Closed (issues):** #1600.
+- **Commented, left open (issues):** #1636, #1671.
+- **Filed (issues):** #1698, #1699, #1700.
+- **Closed (PRs, superseded/already-merged):** #1667, #1668, #1669, #1672, #1678.
+- **Retargeted (PRs, base → `dev/integration-ygg3-playbooks-2026-09-02`):** #1683, #1694, #1695.
+- **Readied:** #1696.
+- **Opened:** #1697 (draft).
+- **Commented (PR):** #1696 (CONTEXT.md ruling closure).
+
+### Routing — where things live now
+
+- The Yggdrasil III integration stack is now a clean 4-deep chain: `main` ← #1688 ← #1693 ← #1696, with #1697 (meta-post) also based on #1693's branch, and #1683/#1694/#1695 (agent-playbooks epic #1644 work) now flat against #1688's branch instead of stacked on each other or on the now-closed old chain.
+- The old parallel Yggdrasil III chain (`dev/yggdrasil-iii-newmeta` → `dev/steward-sensors-fleet` → `fix/trust-magnitude-full-recalibration` → `dev/yggdrasil-iii-fusion-score-plan` → `dev/pr-stack-plan-1644-b2516d`) is fully retired — every branch in it was already an ancestor of the integration branch; all 5 of its PRs are closed.
+- Next recalibration + gate-testing work is tracked in **#1698** only (per explicit "one issue only for all" instruction) — do not open parallel tracking issues for the same scope.
+- Pre-existing defect backlog: #1699 (calibrate CLI gap, `status:awakened` → 4★), #1700 (stale `trustMagnitude` cache, `ayghri/i-have-adhd` grade-contradiction).
+
+### Lessons / hazards preserved
+
+- **`gh stack` local tracking can drift from GitHub's actual PR bases.** When a user runs `gh stack unstack`, PR bases on GitHub do NOT auto-update — they must be retargeted by hand (`gh pr edit --base`). Always re-verify with `git merge-base --is-ancestor` before assuming a stacked PR still needs its old base; a branch fully absorbed into a downstream integration branch means the PR is closeable, not just re-basable.
+- **Batching many `gh pr close`/`gh pr edit` calls into one Bash invocation risks a partial-execution + rejection mismatch** — one call in this session's first batched attempt executed (PR #1667 closed) before the tool use was rejected as a whole. Issue destructive multi-PR operations as separate tool calls, one per PR, so the user can grant/reject each individually and partial state stays legible.
+- **A CONTEXT.md "avoid" clause is not automatically a considered design constraint** — `git blame` revealed the Hall-of-Heroes exclusion was a same-day placeholder caution from the ratification commit itself, not a separately deliberated rule. When a fact-check/audit flags a vocabulary violation, check blame/commit context before assuming the *implementation* is wrong; sometimes the *rule* was provisional and the founder amends it instead.
+- Superadmin mode (root `*.md` + `founder/`) direct-edit authority was exercised here for the first time this session: CONTEXT.md edited directly by the orchestrator, committed straight onto the PR branch that needed it (no delegation, no separate feature-branch detour), per `founder/ORCHESTRATOR.md`'s standing grant.
+
+### Open questions for next orchestrator
+
+- **#1636's orphaned backlog:** with #1600 closed, the 35-skill calibration-lag backlog #1636 was routing through #1600 ("no separate Wayfinder ticket for this batch") has no tracker. Needs a founder call: fold into #1636 directly, open a fresh ticket, or confirm the remaining non-mattpocock names are already covered by the 63-skill pass.
+- **PR #1697's JSON-LD fix:** still outstanding — offered to dispatch a follow-up agent, awaiting user's go/no-go (asked at session's last turn, not yet answered as of this snapshot).
+- **#1687 (`docs/routines/044`)** was surveyed but is unrelated to the Yggdrasil III epic — left untouched, no action taken or needed.
+
+### Token cost (this session)
+
+- Not measured — no `pi-cost`/`COST.md` data source available in this environment; two background subagents logged `173263` and `181973` tokens respectively per their own usage blocks (meta-post agent: 76 tool uses / 575s; fact-check agent: 73 tool uses / 591s).
+
+---
+
+## State Snapshot (2026-08-29, full sensor fleet wired into Gaia Steward — PR #1664)
+
+### TLDR
+
+- Designed, planned, and implemented 6 new deterministic, read-only sensors for Gaia Steward, expanding default sensors from 5 to 11.
+- All 6 sensor issues filed, implemented on feature branches, reviewed, and consolidated into integration branch `dev/steward-sensors-fleet` (`fb2a5261a`):
+  - #1609: `TaxonomyScriptDriftSensor` (Class B)
+  - #1580: `UpstreamWatcherSensor` (Class B)
+  - #1654: `KnowledgeContradictionSensor` (Class B)
+  - #1655: `EvidenceLinkHealthSensor` (Class B)
+  - #1656: `GeneratedProjectionsSensor` (Class B)
+  - #1657: `BenchmarkFreshnessSensor` (Class B)
+- Updated `founder/steward/POLICY.yaml` to classify authority and calibrated priority weights across all 11 sensors.
+- Full test suite passing 100%: 300/300 steward tests pass (`pytest tests/steward/`).
+- Ran scout fleet across `scripts/`, `.github/workflows/`, and `.agents/skills/` to catalog redundant legacy verification mechanisms ready for deprecation.
+- Created integration PR #1664 against `main`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Sensor Fleet Implementation | ✅ 6 new sensors wired in `src/gaia_cli/steward/sensors.py` (`default_sensors()` = 11 total) |
+| Policy & Authority Configuration | ✅ `founder/steward/POLICY.yaml` updated with all 11 debt kinds under `authority` & `priority` |
+| Test Coverage | ✅ 300 tests passing in `tests/steward/` (including 108 comprehensive sensor tests) |
+| Feature Branches & PRs | ✅ PRs #1658, #1659, #1660, #1661, #1662, #1663 consolidated into `dev/steward-sensors-fleet` |
+| Scout Fleet Analysis | ✅ Identified candidate legacy scripts (`scripts/check_taxonomy_authority.py`, `scripts/validate.py` sub-checks, `scripts/check_rank_vocabulary.py`) for retirement |
+| Integration PR | ✅ PR #1664 opened against `main` |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/steward-sensors-fleet` | Integration branch with all 11 sensors wired, tests passing, head `fb2a5261a`. |
+| PR #1664 | Integration PR `dev/steward-sensors-fleet` → `main` (open, clean). |
+| PRs #1658, #1659, #1660, #1661, #1662, #1663 | Closed/merged into `dev/steward-sensors-fleet`. |
+
+### Scout Fleet Findings — Candidates for Retirement
+
+- **`scripts/check_taxonomy_authority.py`**: Can be retired; checks for read-time branch derivation and shim calls are fully subsumed by `TaxonomyScriptDriftSensor`.
+- **`scripts/check_rank_vocabulary.py`**: Code checks subsumed by `TaxonomyScriptDriftSensor`; markdown vocabulary checks to be absorbed into `KnowledgeContradictionSensor`.
+- **`scripts/validate.py` (partial sub-checks)**: JSON schema, prerequisite counts, DAG cycle checks, and benchmark row validation are now continuously observed by `RegistryIntegritySensor` and `BenchmarkFreshnessSensor`.
+- **Workflows (`.github/workflows/taxonomy-authority-guard.yml`, `rank-vocabulary-guard.yml`)**: Can be consolidated into `gaia steward scan`.
+
+### Token usage & Cost (this session via /pi-cost)
+
+- **Main Session**: 112 turns, 644,014 input tokens, 35,333 output tokens, 9,629,790 cache read tokens ($1.7837)
+- **Subagent Runs**: 169 turns, 1,161,783 input tokens, 66,537 output tokens, 16,607,006 cache read tokens ($3.6009)
+- **Total Session Cost**: $5.3846
+
+---
+
+## State Snapshot (2026-08-25, Yggdrasil III stack merged to integration; intake #1608 restacked behind it)
+
+### TLDR
+
+- **Yggdrasil III (#1625-#1628) is fully merged into `dev/yggdrasil-iii-newmeta`**, squash-merged in dependency order (1/4 meta contract → 2/4 backend fusion cap + witness gate → 3/4 frontend/methodology → 4/4 test coverage). All four are `merged: true` on GitHub. #1626 and #1628 showed CI as `unstable` pre-merge (Schema+DAG / Test-Build failures) — confirmed to be isolation artifacts of testing each slice before its predecessor landed, not real defects; expected under the integration-branch red-CI tolerance.
+- **PR #1629** (Yggdrasil III trust integrity rules, draft, `needs-review`) is a separate proposal also based on `dev/yggdrasil-iii-newmeta` — NOT part of the numbered 1/4-4/4 stack, left untouched.
+- **PR #1608** (evidence-intake batch #1607, draft, was stale/dirty against `main`) retargeted from `main` → `dev/yggdrasil-iii-newmeta`, so it now lands last, behind the Yggdrasil III rule change — deliberate, since it touches registry data and the founder wants clean timeline entries rather than a reconstructed branch.
+- **Merge (not rebase) of `dev/yggdrasil-iii-newmeta` into `review/meta/intake-1607` done by a delegated worker** — clean, pushed as merge commit `65d4ae0`. No data-file conflicts (`registry/nodes/`, `registry/named/`, `named-skills.json`, `skill-trees/**` all merged without overlap). Only conflicts were 4 Class S generated-artifact timestamp/version fields (`docs/graph/gaia.json`, `.gexf`, `named/index.json`, `docs/graph/ledger/data.json`), hand-resolved to the newer side — **still needs a real `gaia dev docs --check` regen pass before #1608 is PR-ready**, flagged but not yet actioned.
+- **Post-merge doc-drift sweep** (scoped via Explore agent): found stale "Trust Magnitude is unbounded" language surviving in three places pre-merge. After re-checking against the merged `dev/yggdrasil-iii-newmeta` HEAD: `META.md` was already self-corrected by #1625 (false alarm, dropped). `docs/js/tm-config.js` comment was also a false alarm (per-row cap comment, unrelated to the fusion-recipe `contributionCap: 200` which is already correct). Two real defects: `CONTRIBUTING.md` (fixed this session, see below) and `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` line 101 (a published historical post — founder ruling: leave as-is, don't retroactively edit archived history; a forward-pointer belongs in a new post instead).
+- **"Arbor" resolved**: `docs/meta/2026-08-24-arbor-review-launch.md` (rendered post, unrelated to Yggdrasil/TM — a behavioral-evidence sidecar announcement). Founder decision: post content stays as-is, but **archive it from the live queue** (`docs/meta/posts.json` + `docs/index.html` wiring) — relaunch deferred to later. **Not yet executed** — next session's first task.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Yggdrasil III stack → `dev/yggdrasil-iii-newmeta` | ✅ #1625, #1626, #1627, #1628 all squash-merged, in order |
+| `review/meta/intake-1607` rebase-by-merge | ✅ `dev/yggdrasil-iii-newmeta` merged in, pushed as `65d4ae0`, no data conflicts |
+| `docs/graph/*` Class S artifacts on `review/meta/intake-1607` | ⏳ Hand-resolved timestamps only — real `gaia dev docs` regen still owed before PR-ready |
+| `CONTRIBUTING.md` unbounded-TM wording | ✅ Fixed directly (superadmin), PR **#1633** → `dev/yggdrasil-iii-newmeta` |
+| `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` | ⏹️ Deliberately left untouched (historical record, founder ruling) |
+| Arbor post archival | ⏳ Not started — scoped only, execute next session |
+| `founder/MEMORY.md` | ✅ This backfill (was missing any entry for this work) |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/yggdrasil-iii-newmeta` | Integration branch, now carries all 4 Yggdrasil III slices + release v7.11.0 base. Head `8f8f5ed`. |
+| `dev/yggdrasil-iii-review` / #1629 | Open draft, separate proposal, not part of this session's merge. |
+| `review/meta/intake-1607` / #1608 | Base retargeted to `dev/yggdrasil-iii-newmeta`; merge-forward done (`65d4ae0`); still draft, still needs Class S regen before ready. |
+| `infra/contributing-tm-cap-wording` / #1633 | Open, targets `dev/yggdrasil-iii-newmeta`, ready to merge (docs-only, no rendered diff, not human-gated). |
+| `main` | Unchanged by this session. |
+
+### Routing — where things live now
+
+- Integration branch for this sprint: `dev/yggdrasil-iii-newmeta`. Everything above lands there before the eventual aggregate PR to `main`.
+- Intake #1608 is intentionally sequenced to merge **last** in this stack (data-touching, needs clean timeline entries against the already-landed rule change).
+
+### Lessons / hazards preserved
+
+- Stacked PRs that all target the same integration-branch base directly (not chained on each other) will show `unstable`/failing required checks on the middle-of-stack PRs before their predecessors land — this is expected, not a signal to stop, when the founder has approved the merge order. Verify by reading the actual check-run failures (Schema+DAG, Test-Build) rather than trusting `mergeable_state` alone.
+- When retargeting a stale intake PR's base, `git merge` (not rebase) forward into the intake branch keeps its own commits/timeline entries intact — delegated to a worker with an explicit instruction set separating "resolve normally" (docs/schema/methodology) from "stop and report, never resolve" (registry data, timeline arrays). Worked cleanly; only Class S timestamp conflicts surfaced.
+- Doc-drift sweeps need re-verification against the actual merged HEAD, not just the pre-merge checkout — two of three initially-flagged "stale" files turned out to already be fixed or never actually stale once checked post-merge.
+
+### Open questions for next orchestrator
+
+- Execute Arbor post archival (pull from `docs/meta/posts.json` live queue + `docs/index.html` hero/queue wiring; keep source `.md` and rendered `.html` on disk for later relaunch).
+- Run `gaia dev docs --check` regen pass on `review/meta/intake-1607` and commit the real Class S artifacts (supersedes the hand-resolved timestamps).
+- Decide whether `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` gets a forward-pointer note in a *new* post referencing the Yggdrasil III cap (raised, not yet decided).
+- #1633 (`CONTRIBUTING.md` fix) is small/ungated — safe to merge into `dev/yggdrasil-iii-newmeta` on green CI without further review.
+
+### Token cost (this session)
+
+- Not tracked — founder directed to skip unless PR bodies carried it; none did.
+
+---
+
 ## State Snapshot (2026-08-13, Steward V1.3 + V1.4 + V1.5 assembled on integration — GREEN, awaiting founder merge gate)
 
 ### TLDR

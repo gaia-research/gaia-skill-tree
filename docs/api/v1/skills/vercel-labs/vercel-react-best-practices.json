@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 50.84,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 163.4,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json",
     "contributor": "/api/v1/contributors/vercel-labs.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
   },
   "title": "Vercel React Best Practices",
   "genericSkillRef": "react-performance-optimization",
@@ -133,6 +141,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from vercel-labs/react-best-practices to vercel-labs/vercel-react-best-practices"
+    },
+    {
+      "timestamp": "2026-08-29T17:16:01Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 159.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 351.96,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": "ungraded",
   "branch": "suite",
   "rankWord": "Extra",
   "medallion": "◆",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/mattpocock/engineering.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 326.49,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 28,
+    "transitiveCount": 50,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "The Matt Pocock Engineering Discipline",
   "genericSkillRef": "engineering-discipline",
@@ -76,6 +84,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:16Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 351.96 -> 200.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:52Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 200.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

@@ -9,7 +9,7 @@ level: 2★
 description: Turn a decision you can't fully answer into a questionnaire for someone
   else to fill in.
 createdAt: '2026-08-20'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-30'
 title: The Questionnaire Converter
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md
@@ -27,6 +27,11 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/productivity
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md
   evaluator: marco-tngsn
@@ -41,6 +46,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-19T16:10:34Z'
 suiteRef: mattpocock/productivity
+trustMagnitude: 20.77
+overallTrustGrade: C
+trustMagnitudeInputHash: fc4844cbfed795eaa245d0a5037df9dfe4c0390ca2e56abf53c550504bd5dcf9
 ---
 
 ## Installation

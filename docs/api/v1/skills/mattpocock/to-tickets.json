@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 106.13,
+  "trustMagnitude": 306.13,
   "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/mattpocock/to-tickets.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "The Vertical Slicer",
   "genericSkillRef": "vertical-slice-planning",
@@ -154,6 +162,12 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:54Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

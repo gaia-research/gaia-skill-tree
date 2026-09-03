@@ -2,7 +2,7 @@
 id: garrytan/design-consultation
 name: Design Consultation
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: design-system-extraction
 status: named
 title: Gstack Design Consultation
@@ -20,7 +20,7 @@ tags:
 - colors
 - design-tokens
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -64,6 +64,20 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-22T08:07:45Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Origin status removed. Transferred to leonxlnx/stitch-skill.
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md
@@ -90,7 +104,7 @@ evidence:
   stars: 130700
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 63.73
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -103,7 +117,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:27Z'
-trustMagnitudeInputHash: 63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294
+trustMagnitudeInputHash: f83d9b220506322b2232340f5d20b92f2eb17beb3ec6171c5ded3847aee89aaf
 ---
 
 ## Overview

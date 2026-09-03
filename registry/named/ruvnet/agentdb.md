@@ -20,7 +20,7 @@ tags:
 - ultimate
 - memory-platform
 createdAt: '2026-05-19'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/agentdb-advanced
@@ -104,8 +104,13 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 201.0
-overallTrustGrade: A
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 201.0 -> 81.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 81.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -117,7 +122,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:51:31Z'
-trustMagnitudeInputHash: 57eb32192c3caef4855ec9363e47a5695af318f4bd39395758ff0f7966bcb492
+trustMagnitudeInputHash: 46412b8a3f01d7d334b488720b26fd15c190b8655e54e4f1ce2d8c413f846d9f
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

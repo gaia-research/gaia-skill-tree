@@ -5,8 +5,8 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 488.28,
-  "overallTrustGrade": "S",
+  "trustMagnitude": 290.0,
+  "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Ultimate",
   "medallion": "◆",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/ruvnet/ruflo.json",
     "contributor": "/api/v1/contributors/ruvnet.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 389.74,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 45,
+    "transitiveCount": 100,
+    "maxDepth": 4,
+    "nestedSuiteCount": 6
   },
   "title": "The Agentic Sovereign",
   "genericSkillRef": "multi-topology-orchestration",
@@ -188,6 +196,18 @@
       "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:15Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 482.27 -> 256.68, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T16:26:47Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 256.68 -> 290.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

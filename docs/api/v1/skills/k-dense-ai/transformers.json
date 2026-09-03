@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 78.3,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 232.8,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/k-dense-ai/transformers.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 228.28,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 12,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "Transformers",
   "genericSkillRef": "transformer-model-engineering",
@@ -24,7 +32,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -91,6 +99,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:51Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

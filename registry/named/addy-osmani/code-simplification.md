@@ -9,7 +9,7 @@ level: 3★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-06'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -70,6 +70,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py
     (type: benchmark-result)'
+- timestamp: '2026-08-29T17:15:42Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-09-01'
@@ -118,8 +123,8 @@ verification:
 title: Code Simplification
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 53.14
-overallTrustGrade: B
+trustMagnitude: 426.0
+overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -129,7 +134,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2e1638f36946942de2f3ac486132612234c55b29335037d455c05bfab91e616a
+trustMagnitudeInputHash: a9dfd5b5f167382b504dd77da0761e1b26d9ef9f3a37da007be980bf654b83d2
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
 ---

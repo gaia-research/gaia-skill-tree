@@ -11,7 +11,7 @@ level: 2★
 description: Implement a piece of work based on a PRD or issues using TDD at pre-agreed
   seams.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-19T13:00:19Z'
   action: add
@@ -64,6 +64,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
+- timestamp: '2026-08-29T17:15:53Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md
   evaluator: unknown
@@ -94,8 +99,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:05:31Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 41.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -105,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8e7f70de077103de425ca1ea8ff4b8afeef6d848874306414e47679def4d3383
+trustMagnitudeInputHash: a0237d3738ff473744c5d1702e663ae41625c744ee323b62396d7cf52462dbf6
 title: Implement
 ---
 

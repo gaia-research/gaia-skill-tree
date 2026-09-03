@@ -203,7 +203,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>]
-  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>]
+  gaia dev evidence <skillId> <source> [--type <type>] [--trust <number>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
   gaia dev build
@@ -3062,30 +3062,28 @@ def version_command(args):
 
 
 def mcp_command(args):
-    """Print install / run instructions for the standalone Gaia MCP server.
+    """Print install instructions for the summon MCP server.
 
-    The MCP server was extracted from this monorepo into a dedicated package
-    (gaia-research/gaia-mcp).  Use the published npm package instead of a
-    local build:
+    The standalone `@gaia-research/mcp` package was decommissioned and
+    deprecated on npm on 2026-08-19.  Summon now ships bundled inside the
+    Skill Heaven plugin, which needs no MCP configuration of its own:
 
-        claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+        claude plugin install skill-heaven@gaia-skill-heaven
 
-    See https://github.com/gaia-research/gaia-mcp for source and releases.
+    See https://github.com/gaia-research/gaia-skill-heaven for source and
+    releases.
     """
     lines = [
         "",
-        "  Gaia MCP server — standalone package",
+        "  Gaia summon MCP — bundled in the Skill Heaven plugin",
         "",
-        "  The MCP server is published as a standalone npm package.",
-        "  Install it into Claude Code (or any MCP client) with:",
+        "  Standalone @gaia-research/mcp was decommissioned on 2026-08-19.",
+        "  Summon now ships inside the Skill Heaven plugin, which bundles its",
+        "  own MCP server — there is nothing to configure separately.",
         "",
-        "    claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0",
+        "    claude plugin install skill-heaven@gaia-skill-heaven",
         "",
-        "  Generic client config (command + args):",
-        "    command:  npx",
-        "    args:     [\"-y\", \"@gaia-research/mcp@0.1.0\"]",
-        "",
-        "  Source and releases: https://github.com/gaia-research/gaia-mcp",
+        "  Source and releases: https://github.com/gaia-research/gaia-skill-heaven",
         "",
     ]
     print("\n".join(lines))
@@ -3884,13 +3882,6 @@ def get_parser():
         metavar="NUMBER",
         help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
     )
-    dev_evidence.add_argument(
-        "--class",
-        dest="evidence_class",
-        choices=("A", "B", "C"),
-        default=None,
-        help="[DEPRECATED] Use --trust instead. Evidence class (A/B/C).",
-    )
     dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
     dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")
     dev_evidence.add_argument("--notes", help="Optional notes about the evaluation")
@@ -4344,6 +4335,7 @@ def main():
 def trust_explain_command(args):
     """Implement `gaia trust explain <skillId>`."""
     from gaia_cli.trustMagnitude import explainTrustMagnitude
+    from gaia_cli.fusionScore import explainFusionScore
     from gaia_cli.registry import load_registry
 
     skillId = args.skillId
@@ -4365,6 +4357,15 @@ def trust_explain_command(args):
 
     output = explainTrustMagnitude(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap)
     print(output)
+
+    # Yggdrasil III: the structural reading is printed as its own section, not
+    # folded into the Trust Magnitude breakdown. They answer different
+    # questions and neither is an input to the other — presenting them as one
+    # block is exactly the conflation this separator exists to prevent.
+    print()
+    print("─" * 60)
+    print()
+    print(explainFusionScore(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap))
     return 0
 
 

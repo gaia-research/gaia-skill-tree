@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Handoff Protocol",
   "genericSkillRef": "agent-handoff",
   "origin": false,
@@ -166,6 +174,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:52Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -70,7 +70,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>]
-  gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
+  gaia dev evidence <skillId> <source> [--type <type>] [--trust <number>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
   gaia dev fuse <generic_id> [--name ...] [--prereqs a,b,c] \\
@@ -87,6 +87,11 @@ Read-only (no Verifier required):
   gaia dev validate [--intake] [--meta-sync]
   gaia dev arbor check [record.json]
   gaia dev test <suite>
+
+Evidence note: typed magnitude inputs drive per-row Evidence Grade. --trust is
+the backward-compatible fallback row trustNumber input when no typed
+artifact_score is available; its aggregate grade floors are S>=250, A>=100,
+B>=50, C>=20, with values below 20 ungraded.
 """
 
 class DevCommand(Command):
@@ -582,7 +587,11 @@ class DevCommand(Command):
             "--trust",
             type=float,
             metavar="NUMBER",
-            help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
+            help=(
+                "Backward-compatible fallback row trustNumber input when no typed "
+                "artifact_score is available. Aggregate grade floors: S≥250, "
+                "A≥100, B≥50, C≥20; <20=ungraded."
+            ),
         )
         dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
         dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")

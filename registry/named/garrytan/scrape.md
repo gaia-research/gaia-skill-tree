@@ -18,7 +18,7 @@ tags:
 - data-extraction
 - automation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
@@ -50,6 +50,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md
@@ -77,7 +82,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
-trustMagnitudeInputHash: 5a97c5d6329aef8f85a5cb1e441bf68e9ea1616772193dbbc137887259aee941
+trustMagnitudeInputHash: 29ac5dd28fd5b6bbff0abff48af548e4107e608784c270c269fd8f8540e9196b
 ---
 
 ## Overview

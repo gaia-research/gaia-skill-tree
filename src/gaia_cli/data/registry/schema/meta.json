@@ -94,11 +94,13 @@
   "metaEpochs": {
     "order": [
       "yggdrasil-i",
-      "yggdrasil-ii"
+      "yggdrasil-ii",
+      "yggdrasil-iii"
     ],
     "labels": {
       "yggdrasil-i": "Yggdrasil I",
-      "yggdrasil-ii": "Yggdrasil II"
+      "yggdrasil-ii": "Yggdrasil II",
+      "yggdrasil-iii": "Yggdrasil III"
     }
   },
   "evidence": {
@@ -115,31 +117,32 @@
     "types": [
       {
         "id": "fusion-recipe",
-        "description": "Skill emerges from composition of graded prior work. Auto-derived for every fused/Ultimate skill from suiteComponents (RFC §10.8). Only graded≥C origins count toward origin tally.",
-        "magnitude": "20 * origins for origins <= 10; 200 + 20 * sqrt(origins - 10) for origins > 10",
-        "weight": 1.5,
-        "cap": "softened (no hard cap; sqrt curve limits growth past 10 origins)",
-        "gradeCeiling": "S",
+        "description": "Structural/provenance metadata for composition and rank. Auto-derived for fused/Ultimate skills from suiteComponents; contributes 0 Trust Magnitude and does not count toward Trust Grade diversity.",
+        "magnitude": "0 (structural/provenance metadata only)",
+        "weight": 0,
+        "cap": 0,
+        "contributionCap": 0,
+        "gradeCeiling": null,
         "freshness": "1.0 (intrinsic — no decay)",
         "selfProducible": true,
         "allowedLayers": [
           "named"
         ],
-        "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
+        "notes": "Retained for structural/provenance/rank metadata. A skill with suiteComponents and no fusion-recipe row fails validation; origin counts, nested suites, graph traversal, and Apex predicates remain structural."
       },
       {
         "id": "github-stars-own",
-        "description": "Stars on the skill's own repository. Mothership-discounted when the repo contains multiple skills.",
-        "magnitude": "min(200, stars / 1000) / mothership_divisor where mothership_divisor = min(skill_count_in_repo, 4)",
+        "description": "Stars on the skill's own repository, calibrated as direct adoption evidence for its curated skill set.",
+        "magnitude": "min(250, stars / 250)",
         "weight": 1.0,
-        "cap": 200,
+        "cap": 250,
         "gradeCeiling": "S",
         "freshness": "re-fetch quarterly; no time decay (gaia refresh-stars re-stamps lastVerified)",
         "selfProducible": false,
         "allowedLayers": [
           "named"
         ],
-        "notes": "Same-source dedup collapses multiple entries pointing at same canonical URL to one. Fork-network canonicalization merges forks of same upstream unless evidence entry sets links.canonicalRepo. S-capable at 100k+ stars."
+        "notes": "Same-source dedup collapses multiple entries pointing at the same canonical URL to one. Fork-network canonicalization merges forks of the same upstream unless the evidence entry sets links.canonicalRepo. The 250 TM cap is reached at 62.5k stars; stars do not satisfy the independent S-witness gate."
       },
       {
         "id": "proxy-containment",
@@ -243,7 +246,7 @@
         "allowedLayers": [
           "named"
         ],
-        "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
+        "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. repo-own is self-produced and cannot serve as the Yggdrasil III S witness; A/B behavior is unchanged."
       },
       {
         "id": "self-attestation",
@@ -300,7 +303,7 @@
       "C": 20
     },
     "perRowGradeThresholds": {
-      "fusion-recipe":        { "S": 200, "A": 120, "B": 60,  "C": 30  },
+      "fusion-recipe":        { },
       "github-stars-own":     { "S": 88,  "A": 60,  "B": 35,  "C": 20  },
       "proxy-containment":    { "S": 112, "A": 64,  "B": 32,  "C": 16  },
       "verifier-attestation": { "S": 90,  "A": 54,  "B": 27,  "C": 14  },
@@ -321,7 +324,7 @@
     }
   },
   "trustMagnitudeThresholds": {
-    "description": "G7 Trust Magnitude grade thresholds (RFC §4). trustMagnitude must meet the minimum AND the diversity gate (distinct types + non-self-producible rule at S) to earn the grade.",
+    "description": "Yggdrasil III Trust Magnitude grade thresholds. TM measures accumulated positive-scoring evidence only; fusion-recipe remains structural/provenance metadata at 0 TM and is excluded from diversity. S also requires an eligible independent witness.",
     "S": 250,
     "A": 100,
     "B": 50,
@@ -331,8 +334,7 @@
     "diversityGate": {
       "S": {
         "minDistinctTypes": 3,
-        "requiresNonSelfProducible": true,
-        "plusRule": ">=1 S-capable type present OR >=3 A-capable types of distinct kinds; AND >=1 non-self-producible type"
+        "plusRule": ">=3 distinct positive scoring evidence types AND >=1 positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review"
       },
       "A": {
         "minDistinctTypes": 1,
@@ -354,6 +356,20 @@
       "fusion-recipe",
       "self-attestation",
       "repo-own"
+    ],
+    "sWitnessTypes": [
+      "benchmark-result",
+      "verifier-attestation",
+      "peer-review"
+    ],
+    "sWitnessExclusions": [
+      "github-stars-own",
+      "repo-own",
+      "fusion-recipe",
+      "self-attestation",
+      "social-signal",
+      "arxiv",
+      "proxy-containment"
     ]
   },
   "curationPrefill": {

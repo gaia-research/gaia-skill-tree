@@ -21,7 +21,7 @@ tags:
 - ceo-review
 - orchestration
 createdAt: '2026-05-12'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 suiteComponents:
 - garrytan/browse
@@ -65,6 +65,11 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 156.0 -> 36.0, grade A -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md
@@ -79,8 +84,8 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
-trustMagnitude: 156.0
-overallTrustGrade: A
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -92,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
-trustMagnitudeInputHash: ec1f20ff427d774d3a34ce7be3af756648602ea99e6bd82fdd03dc95776f068a
+trustMagnitudeInputHash: 3a7efead9add3794494a2924ac358404fa1a174cd5aa4d8ac3b154cf77ff88ac
 ---
 ## Overview
 

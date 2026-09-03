@@ -5,28 +5,29 @@
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "4★",
-      "trustMagnitude": 149.32,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 334.8,
+      "overallTrustGrade": "S",
+      "fusionScore": 60.0,
       "contributor": "pbakaus",
-      "type": "basic",
+      "type": "fusion",
       "branch": "unique",
       "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       },
-      "genericSkillRef": "ui-audit"
+      "genericSkillRef": "design-generation"
     }
   ],
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "pbakaus/impeccable",
     "level": "4★",
-    "trustMagnitude": 149.32
+    "trustMagnitude": 334.8
   },
-  "prestigeScore": 149.32,
+  "prestigeScore": 334.8,
   "gradeDistribution": {
-    "A": 1
+    "S": 1
   },
   "_links": {
     "self": "/api/v1/contributors/pbakaus.json",

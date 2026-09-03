@@ -9,7 +9,7 @@ level: 1★
 description: Structures raw output into a specified format such as markdown, JSON,
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
-updatedAt: '2026-07-30'
+updatedAt: '2026-08-30'
 title: I Have ADHD
 links:
   github: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
@@ -45,6 +45,11 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from ayghri/format-output to ayghri/i-have-adhd
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 59.56, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   updatedAt: '2026-09-01'
@@ -80,6 +85,9 @@ evidence:
   sourceStartedAt: '2026-07-29'
 verification:
   firstEvidenceAt: '2026-07-29T20:19:27Z'
+trustMagnitude: 59.56
+overallTrustGrade: B
+trustMagnitudeInputHash: 1995dcb58d596aa58b3742960271d05ab5caee09bc367dbe6a4539543bd9330d
 ---
 
 ## Installation

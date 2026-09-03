@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 95.26,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 249.76,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/k-dense-ai/qiskit.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
   },
   "title": "Qiskit",
   "genericSkillRef": "quantum-circuit-programming",
@@ -91,6 +99,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 214.02, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

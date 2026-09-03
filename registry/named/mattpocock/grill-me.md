@@ -21,7 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: mattpocock/productivity
 evidence:
 - class: B
@@ -112,6 +112,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -125,7 +130,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:00:13Z'
-trustMagnitudeInputHash: fa43a5c8bbc1b5a76b7b1d6a8eb97b77c91976f3927f2b97d994e8c38cd65ef5
+trustMagnitudeInputHash: 8a92907ec75ba7adef19fc67ea2a7b3ddfebc997900e48a115333265ed1d1152
 ---
 
 ## Overview

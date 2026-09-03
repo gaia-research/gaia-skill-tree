@@ -19,7 +19,7 @@ tags:
 - code-generation
 - self-correction
 createdAt: '2026-04-29'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/cognition-labs/devin
@@ -105,6 +105,11 @@ timeline:
   details: 'links.github (github.com/cognition-labs/devin) 404/401; real org is github.com/cognitionai
     and hosts no Devin repo. Devin is proprietary SaaS with no legitimate public source
     -- this skill was never actually installable. See issue #1447.'
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 30.0 -> 30.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 30.0
 overallTrustGrade: C
 apexGateStatus:
@@ -118,7 +123,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T10:34:41Z'
-trustMagnitudeInputHash: 7dd8b095500e7ef9d760c6c74752131609373f78743a97519811b56cc8c6d2d7
+trustMagnitudeInputHash: be8130c0d44a7a0aa036b33905a702e8d1d84743a867e74c21ca339fd7eea053
 installable: false
 ---
 

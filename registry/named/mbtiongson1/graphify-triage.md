@@ -10,7 +10,7 @@ description: Analyzes the Gaia skill dependency graph to surface orphaned nodes,
   prerequisites, and structural inconsistencies — producing a prioritized list of
   graph fixes needed.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 title: The Graph Surgeon
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
@@ -45,6 +45,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
@@ -71,7 +76,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e871d5fd10195a381215ed5b408733b2d4baae374c62de8eb1acaf0bd0a27469
+trustMagnitudeInputHash: c0585ae5401935fcbf5c197051f4a8a0f1c6e1504f782a6176c713a83e0a16c6
 ---
 
 ## Overview

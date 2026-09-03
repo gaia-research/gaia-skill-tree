@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Policy rule** | *(not wired — no sensor emits this debt yet)* |
+| **Policy rule** | `cli-contract-drift` (wired; `CliContractSensor` emits `cli_contract_drift`) |
 | **Debt kind** | `cli_contract_drift` |
 | **Authority** | Class B — bounded autonomous repair |
 | **Cadence** | Before each release; otherwise monthly |

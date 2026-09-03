@@ -19,7 +19,7 @@ tags:
 - skills-sh
 - auto-install
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md
@@ -51,6 +51,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:16:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -62,7 +67,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 13b29f6ebd1d111a2cc9da9c09dfb796d5c0165bc5c9fafae198358af494bfdb
+trustMagnitudeInputHash: e9b0e41aa29e16173ea74e7e600f001baa7f877f306c0cd7611aaf9130e63fd7
 ---
 
 ## Overview

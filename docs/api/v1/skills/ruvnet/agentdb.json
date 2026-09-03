@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 201.0,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 81.0,
+  "overallTrustGrade": "B",
   "branch": "suite",
   "rankWord": "Extra",
   "medallion": "◆",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/ruvnet/agentdb.json",
     "contributor": "/api/v1/contributors/ruvnet.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 240.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 10,
+    "transitiveCount": 14,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "The Memory Sovereign",
   "genericSkillRef": "agent-memory-platform",
@@ -133,6 +141,12 @@
       "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:58Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 201.0 -> 81.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

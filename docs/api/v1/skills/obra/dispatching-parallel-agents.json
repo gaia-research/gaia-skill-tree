@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 86.0,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/obra/dispatching-parallel-agents.json",
     "contributor": "/api/v1/contributors/obra.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "The Parallel Dispatch",
   "genericSkillRef": "dispatching-parallel-agents",
@@ -112,6 +120,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 86.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

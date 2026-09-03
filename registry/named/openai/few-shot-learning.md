@@ -20,8 +20,8 @@ tags:
 - gpt-3
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-07-20'
-trustMagnitude: 100.0
+updatedAt: '2026-08-30'
+trustMagnitude: 220.96
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -75,6 +75,11 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-08-29T17:15:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 100.0 -> 220.96, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1
@@ -98,7 +103,7 @@ evidence:
   benchmarkInputHash: ededff463522c1793c65ce5c79411e4c1f5bbf4c7f369466a8dafbb61a9faca4
 verification:
   firstEvidenceAt: '2026-06-19T09:24:47Z'
-trustMagnitudeInputHash: 408d42e006dd910b5242b50e03126276ff7961527565125dd179b17b8cfb14dd
+trustMagnitudeInputHash: 30c2c6c4e0f74995c75e8d915414cff51cdb78dceb77484e497ec91f50fca279
 ---
 
 ## Overview

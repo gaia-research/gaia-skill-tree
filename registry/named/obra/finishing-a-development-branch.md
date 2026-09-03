@@ -19,7 +19,7 @@ tags:
 - testing
 - completion
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -82,6 +82,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -95,7 +100,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:48:58Z'
-trustMagnitudeInputHash: 25180883c2f4eae43b5837746f9ec38a26dbe42d42de43a95a398d69ba7fb75d
+trustMagnitudeInputHash: c1c40ea6632559c4e6bc92f4578bce72943f292bde6c4769028a3b6a7edd8631
 ---
 
 ## Overview

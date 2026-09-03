@@ -3,10 +3,10 @@
   "name": "Impeccable",
   "contributor": "pbakaus",
   "level": "4★",
-  "type": "basic",
+  "type": "fusion",
   "status": "named",
-  "trustMagnitude": 149.32,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 334.8,
+  "overallTrustGrade": "S",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -15,8 +15,16 @@
     "contributor": "/api/v1/contributors/pbakaus.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Aesthetic Shield",
-  "genericSkillRef": "ui-audit",
+  "genericSkillRef": "design-generation",
   "origin": true,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [
@@ -30,7 +38,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -193,6 +201,12 @@
       "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:57Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 122.8 -> 298.62, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

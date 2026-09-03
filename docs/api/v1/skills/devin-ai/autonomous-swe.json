@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/devin-ai.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Codebreaker's Will",
   "genericSkillRef": "autonomous-debug",
   "origin": true,
@@ -143,6 +151,12 @@
       "previousValue": null,
       "newValue": null,
       "details": "links.github (github.com/cognition-labs/devin) 404/401; real org is github.com/cognitionai and hosts no Devin repo. Devin is proprietary SaaS with no legitimate public source -- this skill was never actually installable. See issue #1447."
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 30.0 -> 30.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
