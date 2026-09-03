@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ obra/brainstorming | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/brainstorming | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/dispatching-parallel-agents | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/executing-plans | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/finishing-a-development-branch | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
@@ -28,7 +28,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — obra  ·  generated 2026-09-02
+GAIA SKILL TREE — obra  ·  generated 2026-09-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "mattpocock/diagnose",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -18,12 +18,17 @@
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:30Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:39Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "mattpocock/edit-article",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -37,12 +42,17 @@
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:39Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "mattpocock/engineering",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -66,6 +76,11 @@
           "level": "4★",
           "achievedAt": "2026-07-20T00:00:01Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-09-02T15:11:39Z",
+          "source": "demote"
         }
       ]
     },
@@ -142,7 +157,7 @@
     },
     {
       "skillId": "mattpocock/obsidian-vault",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -150,6 +165,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:40Z",
           "source": "promotion"
         }
       ]
@@ -257,7 +277,7 @@
     },
     {
       "skillId": "mattpocock/to-tickets",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -265,6 +285,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:40Z",
           "source": "promotion"
         }
       ]
@@ -304,7 +329,7 @@
     },
     {
       "skillId": "mattpocock/ubiquitous-language",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -318,6 +343,11 @@
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:33Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:40Z",
+          "source": "promotion"
         }
       ]
     },
@@ -1342,6 +1372,54 @@
       "newValue": "3★",
       "details": "Calibrated level from 1★ to 3★",
       "skillId": "mattpocock/tdd"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:39Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "mattpocock/diagnose"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:39Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "mattpocock/edit-article"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:39Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "mattpocock/engineering"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:40Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "mattpocock/obsidian-vault"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:40Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "mattpocock/to-tickets"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:40Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "mattpocock/ubiquitous-language"
     }
   ],
   "stats": {

@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "obra/brainstorming",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -17,6 +17,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:41Z",
           "source": "promotion"
         }
       ]
@@ -410,6 +415,14 @@
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
       "skillId": "obra/writing-plans"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:41Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "obra/brainstorming"
     }
   ],
   "stats": {

@@ -41,10 +41,12 @@ GRADE_B_FLOOR = 50.0
 GRADE_C_FLOOR = 20.0
 
 # Per-type weights (RFC §2.1)
-# fusion-recipe is deliberately absent: Yggdrasil III treats it as structural
-# provenance, not Trust Magnitude — it contributes 0 TM (see the
-# evidenceType == "fusion-recipe" short-circuits below), so no weight applies.
+# fusion-recipe is fixed at 0.0: Yggdrasil III treats it as structural
+# provenance, not Trust Magnitude — structure is reported separately as the
+# informational Fusion Score and never feeds this sum (the evidenceType ==
+# "fusion-recipe" short-circuits below are defence in depth on top of this).
 TYPE_WEIGHTS = {
+    "fusion-recipe": 0.0,
     "github-stars-own": 1.0,
     "proxy-containment": 1.0,
     "verifier-attestation": 1.5,
