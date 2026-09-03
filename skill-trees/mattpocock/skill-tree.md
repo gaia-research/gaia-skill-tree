@@ -10,23 +10,23 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ mattpocock/diagnose | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/edit-article | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/engineering | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/diagnose | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/edit-article | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/engineering | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/grill-me | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/grill-with-docs | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/handoff | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/improve-codebase-architecture | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/obsidian-vault | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/obsidian-vault | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/personal | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/productivity | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/prototype | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/skills | Basic | 5★ | Ultimate | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
-| ○ mattpocock/to-tickets | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/to-tickets | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/to-spec | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/triage | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/ubiquitous-language | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ mattpocock/ubiquitous-language | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ mattpocock/write-a-skill | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/zoom-out | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/ask-matt | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
@@ -49,7 +49,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-09-02
+GAIA SKILL TREE — mattpocock  ·  generated 2026-09-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

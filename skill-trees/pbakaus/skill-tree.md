@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ pbakaus/impeccable | Basic | 4★ | Extra | pbakaus/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ pbakaus/impeccable | Basic | 5★ | Ultimate | pbakaus/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — pbakaus  ·  generated 2026-09-02
+GAIA SKILL TREE — pbakaus  ·  generated 2026-09-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

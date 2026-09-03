@@ -69,12 +69,16 @@ def test_fusion_recipe_is_structural_provenance_with_zero_tm():
     assert computeArtifactScoreOrNone(row) == 0.0
 
 
-def test_fusion_recipe_has_no_type_weight():
-    """fusion-recipe must stay out of TYPE_WEIGHTS — Yggdrasil III fixes its TM
-    contribution at zero via explicit short-circuits, not a weight lookup. A
-    weight entry here would silently re-couple structure into Trust Magnitude.
+def test_fusion_recipe_type_weight_is_zero():
+    """fusion-recipe must have an explicit 0.0 weight in TYPE_WEIGHTS —
+    Yggdrasil III fixes its TM contribution at zero because structure is
+    reported separately as the informational Fusion Score, never as a Trust
+    Magnitude input. A non-zero weight here would silently re-couple
+    structure into Trust Magnitude; this is a stronger guard than an
+    absence check, since it catches both "key missing" and "key non-zero".
     """
-    assert "fusion-recipe" not in TYPE_WEIGHTS
+    assert "fusion-recipe" in TYPE_WEIGHTS
+    assert TYPE_WEIGHTS["fusion-recipe"] == 0.0
 
 
 def test_github_stars_own_magnitude_basic():

@@ -20,7 +20,7 @@
 | ○ ruvnet/browser | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-collect | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-coordinate | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/dual-mode | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/dual-mode | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-spawn | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-neural | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-platform | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -39,7 +39,7 @@
 | ○ ruvnet/reasoningbank-agentdb | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank-intelligence | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo-v3 | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo-v3 | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo | Basic | 5★ | Ultimate | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/skill-builder | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -64,7 +64,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — ruvnet  ·  generated 2026-09-02
+GAIA SKILL TREE — ruvnet  ·  generated 2026-09-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
