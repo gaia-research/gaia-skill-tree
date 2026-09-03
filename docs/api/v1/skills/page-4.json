@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/pair-agent",
+      "name": "Pair Agent",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/pair-agent.json"
+      },
+      "genericSkillRef": "mcp-integration"
+    },
+    {
       "id": "garrytan/plan-tune",
       "name": "Plan Tune",
       "level": "2★",
@@ -479,15 +496,15 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 120.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       },
@@ -649,15 +666,15 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 274.83,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       },
@@ -862,28 +879,11 @@
         "self": "/api/v1/skills/spring-ai/readme-generate.json"
       },
       "genericSkillRef": "write-report"
-    },
-    {
-      "id": "vercel/find-skills",
-      "name": "Find Skills",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "vercel",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/vercel/find-skills.json"
-      },
-      "genericSkillRef": "skill-discovery"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 226,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

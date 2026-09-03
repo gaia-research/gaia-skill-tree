@@ -5,11 +5,11 @@ contributor: k-dense-ai
 origin: false
 genericSkillRef: reinforcement-learning-training
 status: named
-level: 3★
+level: 4★
 description: Train reinforcement learning agents with Stable-Baselines3 using PPO,
   SAC, DQN, TD3, and related algorithms.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Stable Baselines3
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
@@ -42,6 +42,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:34Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
   evaluator: mbtiongson1

@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 3★
+level: 4★
 description: Analyzes genetic variant effects on gene expression (RNA-seq), chromatin
   accessibility (DNASE), histone marks (ChIP), and transcription factors using the
   AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity,
@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -102,6 +102,10 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/alphagenome_single_variant_analysis
     to google-deepmind/alphagenome-single-variant-analysis
+- timestamp: '2026-09-02T15:11:19Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

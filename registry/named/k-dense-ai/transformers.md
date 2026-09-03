@@ -5,11 +5,11 @@ contributor: k-dense-ai
 origin: false
 genericSkillRef: transformer-model-engineering
 status: named
-level: 3★
+level: 4★
 description: Work with Hugging Face Transformers for model loading, pipeline inference,
   generation, and trainer fine-tuning.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Transformers
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md
@@ -42,6 +42,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:35Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md
   evaluator: mbtiongson1

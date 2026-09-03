@@ -2,14 +2,14 @@
   "id": "k-dense-ai/qiskit",
   "name": "Qiskit",
   "contributor": "k-dense-ai",
-  "level": "3★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 249.76,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/k-dense-ai/qiskit.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
@@ -105,6 +105,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 214.02, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:31Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

@@ -222,7 +222,10 @@
           links: entry.links,
           genericSkillRef: entry.genericSkillRef,
           suiteComponents: entry.suiteComponents,
-          trustMagnitude: entry.trustMagnitude
+          trustMagnitude: entry.trustMagnitude,
+          fusionScore: entry.fusionScore,
+          fusionScoreVersion: entry.fusionScoreVersion,
+          fusionBreakdown: entry.fusionBreakdown
         }
       });
     }
@@ -293,6 +296,32 @@
 
   function formatTrustMagnitude(value) {
     return typeof value === 'number' ? value.toFixed(1) : '0.0';
+  }
+
+  // Quiet Fusion Score companion to the Trust Magnitude stat. Mirrors the
+  // tooltip explanation in skill-explorer.js's _renderFusionStrip (same data,
+  // same "why the numbers moved" framing) but condensed into a single badge —
+  // this card has no room for the full ledger strip. Formula lives in
+  // src/gaia_cli/fusionScore.py; never recompute it here.
+  function heroFusionBadgeHtml(contributor) {
+    var skill = (contributor && contributor.topSkill) || {};
+    var fs = skill.fusionScore;
+    if (fs == null || fs === '') return '';
+    var value = Number(fs);
+    if (!isFinite(value) || value <= 0) return '';
+    var display = value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
+    var bd = skill.fusionBreakdown || {};
+    var tip = [
+      'Fusion Score +' + display + ' — how much distinct structure this capability composes.',
+      'Structural reading only, independent of Trust Magnitude. Not a second trust number,',
+      'not new credit, gates no rank — it is the part of the old Trust Magnitude that was',
+      'never evidence (Yggdrasil III separated the two).',
+      '',
+      'Distinct structural nodes: ' + (bd.transitiveCount || 0) + ' (' + (bd.directCount || 0) + ' direct)'
+    ].join('\n');
+    return '<span class="hero-card__fusion-badge" title="' + esc(tip) + '" ' +
+      'aria-label="Fusion Score plus ' + esc(display) + ', structural reading, independent of Trust Magnitude">' +
+      '+' + esc(display) + ' Fusion</span>';
   }
 
   function githubAvatarUrl(handle, size) {
@@ -480,6 +509,8 @@
     html += '<span><span class="hero-card__stat-value">' + contributor.namedSkills + '</span> named skills</span>';
     html += '<span><span class="hero-card__stat-value">' + fusedCount(contributor) + '</span> fused</span>';
     html += '<span><span class="hero-card__stat-value">' + formatTrustMagnitude(trustMagnitude(contributor)) + '</span> Trust Magnitude</span>';
+    var fusionBadge = heroFusionBadgeHtml(contributor);
+    if (fusionBadge) html += fusionBadge;
     html += '</div>';
     html += '</div>';
 

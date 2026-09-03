@@ -2,14 +2,14 @@
   "id": "k-dense-ai/scvi-tools",
   "name": "scvi-tools",
   "contributor": "k-dense-ai",
-  "level": "2★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 205.8,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Named",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/k-dense-ai/scvi-tools.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
@@ -99,6 +99,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 170.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:33Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

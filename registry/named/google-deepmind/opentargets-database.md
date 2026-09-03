@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query Open Targets Platform for target-disease associations, drug target
   discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic
   target identification.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md
 evidence:
@@ -98,6 +98,10 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/opentargets_database to google-deepmind/opentargets-database
+- timestamp: '2026-09-02T15:11:26Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

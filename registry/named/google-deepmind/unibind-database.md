@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Queries the UniBind database for experimentally validated transcription
   factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets,
   downloading binding site coordinates (BED/FASTA) for local analysis, or listing
   available datasets by species, cell line, or TF name. Don't use to query specific
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-02'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
 evidence:
@@ -100,6 +100,10 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/unibind_database to google-deepmind/unibind-database
+- timestamp: '2026-09-02T15:11:28Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

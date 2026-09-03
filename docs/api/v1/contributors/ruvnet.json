@@ -251,15 +251,15 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 120.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       },
@@ -421,15 +421,15 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 274.83,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       },

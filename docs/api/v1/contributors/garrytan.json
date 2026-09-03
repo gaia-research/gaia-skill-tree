@@ -69,15 +69,15 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 286.0,
       "overallTrustGrade": "A",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       },
@@ -562,15 +562,15 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       },

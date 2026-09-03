@@ -2,14 +2,14 @@
   "id": "vercel-labs/vercel-react-best-practices",
   "name": "Vercel React Best Practices",
   "contributor": "vercel-labs",
-  "level": "3★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 163.4,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json",
     "contributor": "/api/v1/contributors/vercel-labs.json",
@@ -147,6 +147,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 159.01, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:46Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

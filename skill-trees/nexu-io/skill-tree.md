@@ -23,10 +23,10 @@ GAIA SKILL TREE — nexu-io  ·  generated 2026-09-02
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-✓ ◆ pbakaus/impeccable  [4★]
+✓ ◆ pbakaus/impeccable  [5★]
   ├─ · ○ garrytan/design-html  [3★]
-  ├─ · ○ leonxlnx/redesign-skill  [2★]
-  └─ · ○ leonxlnx/image-to-code-skill  [2★]
+  ├─ · ○ leonxlnx/redesign-skill  [3★]
+  └─ · ○ leonxlnx/image-to-code-skill  [3★]
 ```
 
 ## Pending Combinations

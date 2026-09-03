@@ -5,10 +5,10 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: finishing-a-development-branch
 status: named
-level: 3★
+level: 4★
 description: Shipping and launch readiness checks for code deployment and integration.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -64,6 +64,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-02T15:11:12Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md
   updatedAt: '2026-09-01'

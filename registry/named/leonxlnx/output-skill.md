@@ -5,11 +5,11 @@ contributor: leonxlnx
 origin: false
 genericSkillRef: format-output
 status: named
-level: 2★
+level: 3★
 description: Anti-truncation execution directive preventing LLMs from skipping code
   blocks, omitting sections, or using placeholder comments.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Full Output Enforcement
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md
@@ -36,6 +36,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:38Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md
   evaluator: mbtiongson1

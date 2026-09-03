@@ -2,14 +2,14 @@
   "id": "addy-osmani/incremental-implementation",
   "name": "Incremental Implementation",
   "contributor": "addy-osmani",
-  "level": "3★",
+  "level": "5★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 331.0,
   "overallTrustGrade": "S",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique Ultimate",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/incremental-implementation.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
@@ -166,6 +166,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:05:20Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 5★"
     }
   ],
   "links": {

@@ -2,14 +2,14 @@
   "id": "addy-osmani/code-simplification",
   "name": "Code Simplification",
   "contributor": "addy-osmani",
-  "level": "3★",
+  "level": "5★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 426.0,
   "overallTrustGrade": "S",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique Ultimate",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/code-simplification.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
@@ -177,6 +177,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:04:27Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-02T15:05:19Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 5★ to 5★"
     }
   ],
   "links": {

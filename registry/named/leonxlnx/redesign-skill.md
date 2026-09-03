@@ -5,11 +5,11 @@ contributor: leonxlnx
 origin: true
 genericSkillRef: ui-audit
 status: named
-level: 2★
+level: 3★
 description: Systematic UI/UX audit and overhaul workflow for existing web codebases,
   diagnosing AI layout anti-patterns and applying non-breaking redesigns.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 title: Redesign Skill
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md
@@ -40,6 +40,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:38Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md
   evaluator: mbtiongson1

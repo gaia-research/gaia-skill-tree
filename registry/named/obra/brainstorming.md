@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: brainstorming
 status: named
 title: The Collaborative Blueprint
-level: 3★
+level: 4★
 description: Explores user intent, requirements, and design before implementation.
   Turns ideas into fully formed designs and specs through natural collaborative dialogue.
 links:
@@ -18,7 +18,7 @@ tags:
 - collaboration
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -128,6 +128,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 95.15 -> 110.15, grade B -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-02T15:11:41Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 110.15
 overallTrustGrade: A
 apexGateStatus:

@@ -4,15 +4,15 @@
     {
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 211.52,
       "overallTrustGrade": "A",
       "fusionScore": 40.0,
       "contributor": "anthropic",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
       },
@@ -39,7 +39,7 @@
   "namedSkillsCount": 2,
   "topSkill": {
     "id": "anthropic/skill-creator",
-    "level": "3★",
+    "level": "4★",
     "trustMagnitude": 211.52
   },
   "prestigeScore": 247.52,

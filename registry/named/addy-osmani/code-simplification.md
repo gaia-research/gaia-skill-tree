@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: refactor-code
 status: named
-level: 3★
+level: 5★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-02'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -75,6 +75,14 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-02T15:04:27Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 5★
+- timestamp: '2026-09-02T15:05:19Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 5★ to 5★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-09-01'
