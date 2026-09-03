@@ -10680,7 +10680,24 @@ button.nav-graph-trigger:hover {
   gap: 0.85rem;
 }
 
+/* Plates in a row share a bottom edge, and the Fusion Score readout sits on
+   it, so the figures line up across the row instead of floating at whatever
+   height the skill list above them happened to end. */
+.hoh-section--mini .hoh-featured > *,
+.hoh-section--mini .hoh-grid > * {
+  align-self: stretch;
+}
+
+.hoh-section--mini .plaque--hall .plaque__hall-content {
+  flex: 1 1 auto;
+}
+
+.hoh-section--mini .plaque--hall .plaque__hall-fusion {
+  margin-top: auto;
+}
+
 .hoh-section--mini .plaque--hall {
+  height: auto;
   --hoh-card-atmosphere:
     radial-gradient(ellipse 42% 68% at 80% 18%, rgba(var(--plaque-accent-rgb), 0.12), transparent 70%),
     linear-gradient(116deg, transparent 0%, transparent 60%, rgba(var(--plaque-accent-rgb), 0.18) 61%, transparent 62%);
@@ -10692,27 +10709,19 @@ button.nav-graph-trigger:hover {
     rgba(15, 23, 42, 0.72);
 }
 
-/* Fix 3b — rank-token backgrounds for HoH cards (rank 4–6 override the default blue-tinted base) */
-.hoh-section--mini .plaque--hall[data-level="4"] {
-  --plaque-accent-rgb: var(--rank-4-rgb);
-  background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-4-rgb), 0.10), transparent 58%),
-    rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-4-rgb), 0.35);
-}
-.hoh-section--mini .plaque--hall[data-level="5"] {
-  --plaque-accent-rgb: var(--rank-5-rgb);
-  background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-5-rgb), 0.12), transparent 58%),
-    rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-5-rgb), 0.38);
-}
+/* Card wash for 4★+ plates.
+   This used to re-derive the accent from data-level alone (--rank-4/5/6-rgb),
+   which is the Suite ladder — so every Unique Ultimate on the homepage was
+   painted Suite amber while its rows rendered violet, and the two halves of
+   the same plate disagreed. The branch+rank accent is resolved once on
+   .plaque--hall in plaque.css; read it here instead of re-deriving it. */
+.hoh-section--mini .plaque--hall[data-level="4"],
+.hoh-section--mini .plaque--hall[data-level="5"],
 .hoh-section--mini .plaque--hall[data-level="6"] {
-  --plaque-accent-rgb: var(--rank-6-rgb);
   background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-6-rgb), 0.14), transparent 58%),
+    radial-gradient(circle at 50% -24%, rgba(var(--plaque-accent-rgb), 0.12), transparent 58%),
     rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-6-rgb), 0.45);
+  border-color: rgba(var(--plaque-accent-rgb), 0.38);
 }
 
 .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
