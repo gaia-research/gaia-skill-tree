@@ -57,7 +57,7 @@ brief (substitute variables):
 >
 > 3. For schema-touching commits, run:
 >    ```bash
->    gaia validate
+>    gaia dev validate
 >    ```
 >
 > 4. For doc-touching commits, run:

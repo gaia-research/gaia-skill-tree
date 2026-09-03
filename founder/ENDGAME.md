@@ -139,7 +139,7 @@ Arbor intentionally does **not** rank capabilities.
 
 ---
 
-# 3. Tree One: Yggdrasil II
+# 3. Tree One: Yggdrasil
 
 ## Purpose
 
@@ -181,9 +181,9 @@ Its prestige language includes:
 - Unique Ultimate
 - Unique Impossible
 
-Yggdrasil II remains valid.
+Yggdrasil III, built on Yggdrasil II's foundation, is the active schema.
 
-It should evolve into Yggdrasil III only when Yggdrasil's own meta-rules demand another schema-level shift.
+It evolved into Yggdrasil III when the Fusion Score ratification met that bar; any further shift must clear the same bar.
 
 Arbor does not force a Yggdrasil III.
 

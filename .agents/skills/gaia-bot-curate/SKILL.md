@@ -108,7 +108,7 @@ git ls-remote --heads origin <bot-branch>  # confirm deletion
 
 ```bash
 gaia dev docs
-gaia validate
+gaia dev validate
 ./.venv/bin/pytest tests/test_validate.py tests/test_real_skill_catalog.py tests/test_registry_layout.py
 git diff --check
 ```

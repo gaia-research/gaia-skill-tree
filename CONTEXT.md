@@ -65,7 +65,7 @@ The rank name for a 5★ Unique-branch skill. Renders alongside "Ultimate" in Su
 _Avoid_: dropping the "Unique" qualifier in copy that references the Unique branch.
 
 **Unique Impossible** _(6★ rank name, Unique branch — Yggdrasil II)_:
-The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; formal ratification deferred to a follow-up RFC (Yggdrasil III candidate). Expected to be extraordinarily rare.
+The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; the branch distinction is ratified under Yggdrasil III (META.md §4.4); the 5-predicate gate itself stays provisional pending a follow-up RFC. Expected to be extraordinarily rare.
 _Avoid_: using "Apex" for a Unique-branch 6★ (Apex is Suite-branch only, post-Yggdrasil II).
 
 **Fusion structure**:
@@ -85,7 +85,7 @@ The naming series for schema-type Meta Shifts that reshape the skill tree's stru
 _Avoid_: inventing parallel schema-RFC names.
 
 **TM Index** _(Series B — Trust Magnitude cadence)_:
-The public-facing name for the Trust Magnitude scoring engine, versioned by calendar quarter. **TM Index (2026 Q2)** = the G7 Trust Taxonomy RFC (ratified 2026-06-16). **TM Index (2026 Q3)** = planned branch-aware formula rebuild (blocked by Yggdrasil II). The G-series (G7, G8, …) is the internal engineering codename; **TM Index (YYYY QN)** is the public label.
+The public-facing name for the Trust Magnitude scoring engine, versioned by calendar quarter. **TM Index (2026 Q2)** = the G7 Trust Taxonomy RFC (ratified 2026-06-16). **TM Index (2026 Q3)** = branch-aware formula rebuild; the Yggdrasil II dependency cleared at that ratification (2026-07-07), and Yggdrasil III subsequently ratified the branch-aware rank split (META.md §4.4). The G-series (G7, G8, …) is the internal engineering codename; **TM Index (YYYY QN)** is the public label.
 _Avoid_: using the G-series codename in external docs or changelogs.
 
 **Meta Shift**:

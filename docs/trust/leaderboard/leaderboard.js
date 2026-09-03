@@ -87,10 +87,10 @@
       '<li><strong>verifier-attestation</strong> — a 4★+ Verifier confirmed the demonstration.</li>',
       '<li><strong>proxy-containment</strong> — referenced inside a higher-rank Verifier\'s skill.</li>',
       '<li><strong>social-signal</strong> — independent third-party views/citations. Capped at 80.</li>',
-      '<li><strong>fusion-recipe</strong> — appears as a fusion component in a higher Ultimate skill.</li>',
+      '<li><strong>fusion-recipe</strong> — structural/provenance metadata for composition and rank, not a demonstration; contributes <strong>0 TM</strong> and is reported separately as Fusion Score.</li>',
       '<li><strong>self-attestation</strong> — contributor\'s own claim. Lowest weight.</li>',
     '</ul>',
-    '<p>The aggregate Trust Magnitude is the proportionally-capped sum across all types. See <a href="' + ROOT_PREFIX + 'codex/trust-methodology.html">Trust Methodology</a> for the full grading rubric and threshold table.</p>'
+    '<p>The aggregate Trust Magnitude is the proportionally-capped sum across all types except fusion-recipe, which is excluded from the sum. A skill\'s Fusion Score reflects how much structure it composes, not eroded trust — no evidence row, star, or rank changed. See <a href="' + ROOT_PREFIX + 'codex/trust-methodology.html">Trust Methodology</a> for the full grading rubric and threshold table.</p>'
   ].join('');
 
   // Read-only access to a skill's per-type TM (falls back to aggregate when 'all')
