@@ -259,7 +259,7 @@
 
 ## Uniques
 
-*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*
+*Singular mastery skills — graph-isolated, with named implementations. Structure proposed via `gaia fuse` + `gaia push`; rank assigned only by canon curation.*
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|

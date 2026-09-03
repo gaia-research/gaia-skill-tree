@@ -1,7 +1,7 @@
 ---
 name: trust-appraise
 description: >
-  Dry-run Trust Magnitude for proposed named skills or suites before curation. Use when deciding whether a proposed suite deserves A/S treatment, when checking fusion-recipe bias, when comparing repo stars vs suite component counts, or when asked to appraise a candidate before adding it to the registry.
+  Dry-run Trust Magnitude for proposed named skills or suites before curation. Use when deciding whether a proposed suite deserves A/S treatment, when checking Fusion Score structural inputs, when comparing repo stars vs suite component counts, or when asked to appraise a candidate before adding it to the registry.
 version: "1.0.0"
 genericSkillRef: registry-inspection
 ---
@@ -41,7 +41,7 @@ PYTHONPATH=src python3 scripts/trust_appraise.py --skill foo/bar --json
 **Suite proposal mode (`--repo`):** builds a temporary skill object combining live GitHub signals:
 - `github-stars-own` with `skillCountInRepo` so mothership discount applies.
 - `repo-own` from live GitHub contributor and contribution counts.
-- `fusion-recipe` from the proposed curated component count.
+- `fusion-recipe` from the proposed curated component count — structural only, contributing **0 TM**. It feeds the informational **Fusion Score**, never Trust Magnitude (META.md §2.1e).
 
 ## Important caveat
 

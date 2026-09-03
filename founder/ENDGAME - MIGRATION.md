@@ -7,7 +7,7 @@
 
 Existing Gaia systems should not be rewritten merely because a cleaner end state has been identified.
 
-Yggdrasil II remains the active prestige schema.
+Yggdrasil III is the active prestige schema — it extends Yggdrasil II's type/branch axis with the Fusion Score structural scalar (META.md §2.1e).
 
 TrustMagnitude remains the active trust index.
 

@@ -845,7 +845,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 3. Check the existing Registry for overlap before proposing a new kebab-case ID.
 4. Curate real, resolvable evidence. Include my supplied evidence, preserve its source, use GitHub `blob/` links rather than `tree/`, and never invent metrics or claims.
 5. Treat this as `self-made` and attribute the named submission to my authenticated GitHub username only if the sources confirm I am the Origin Contributor. If they indicate another origin, stop and explain the attribution conflict.
-6. Draft the complete Yggdrasil II Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
+6. Draft the complete Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
 7. Before opening anything, summarise the proposed skill, attribution, evidence, exact issue title, and the validated YAML. Ask: “Open this skill Intake as @&lt;my-handle&gt;? [Y/n]”
 8. Only after I confirm, submit through the Skill Intake issue template—or run `gaia push --from-file skills.yml --yes`—and return the issue URL. Never use both routes, never commit or push to the target repository, and do not modify canonical Registry files directly.
 9. If a temporary clone was used, optionally ask if I want to delete it.</pre>
@@ -1148,8 +1148,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <p class="aov-rail-label">Unique terminal · five predicates</p>
               <p class="aov-stars" role="img" aria-label="Six out of six stars"><span aria-hidden="true">★★★★★★</span></p>
               <h3 id="aov-impossible-title">Unique Impossible <button class="aov-provisional" type="button" aria-describedby="aov-provisional-note">◇ Provisional</button></h3>
-              <span class="aov-tooltip" id="aov-provisional-note" role="tooltip">The five-predicate gate is an explicit bridge state. Formal Yggdrasil III ratification is pending; no tracking issue exists yet.</span>
-              <p>The Unique terminal. Five predicates, provisional. The Unique Impossible Gate is the Suite Apex Gate minus the directNestedSuiteGte1 predicate. Formal ratification pending.</p>
+              <span class="aov-tooltip" id="aov-provisional-note" role="tooltip">The five-predicate gate is an explicit bridge state. The Suite/Unique branch distinction is ratified under Yggdrasil III; the five-predicate gate itself remains provisional.</span>
+              <p>The Unique terminal. Five predicates, provisional. The Unique Impossible Gate is the Suite Apex Gate minus the directNestedSuiteGte1 predicate. The gate itself remains provisional.</p>
             </div>
             <ol class="aov-gate" aria-label="Provisional Unique Impossible Gate predicates">
               <li><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
@@ -1567,7 +1567,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           { delay: 800, action: () => addLocalLog("<span class='cmd'>$ gaia scan</span>", "cmd") },
           { delay: 600, action: () => addLocalLog("[System] Scanning workspace repositories for evidence...", "system") },
           { delay: 600, action: () => addLocalLog("[System] Found capability: `openai/swarm` (awakened status)", "system") },
-          { delay: 600, action: () => addLocalLog("[System] Found evidence: Class B (reproducible repo file)", "pass") },
+          { delay: 600, action: () => addLocalLog("[System] Found evidence: repo-own (reproducible repo file)", "pass") },
 
           // Step 4: gaia push (creates GitHub issue)
           { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
@@ -1581,7 +1581,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           { delay: 1000, action: () => addRemoteLog("[GitHub] Detected Intake Issue #402: \"Intake: Add openai/swarm\"", "system") },
           { delay: 800, action: () => addRemoteLog("[System] Launching automated Reviewer Agent checks...", "system") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Verifying evidence URLs...", "check-run") },
-          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified Class B source is a valid github blob URL.", "pass") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified repo-own source is a valid github blob URL.", "pass") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Checking for prerequisite duplicates...", "check-run") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Concept is novel and maps to generic Literature Search.", "pass") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Leaving review checklist comment on Issue #402.", "pass") },

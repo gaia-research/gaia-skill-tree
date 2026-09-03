@@ -76,9 +76,9 @@ For dead evidence links: remove or replace the offending entry, then log a timel
 
 ```bash
 gaia dev build       # sync all derivative files after registry edits
-gaia validate
-gaia validate --intake
-gaia test all
+gaia dev validate
+gaia dev validate --intake
+gaia dev test all
 git diff --check
 ```
 

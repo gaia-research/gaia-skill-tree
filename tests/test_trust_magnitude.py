@@ -15,6 +15,7 @@ from gaia_cli.trustMagnitude import (
     GRADE_B_FLOOR,
     GRADE_C_FLOOR,
     GRADE_S_FLOOR,
+    TYPE_WEIGHTS,
     checkAGradedOriginsGte5,
     checkApexPromotionPrSigned,
     checkCrossOrgVerifier,
@@ -66,6 +67,14 @@ def test_fusion_recipe_is_structural_provenance_with_zero_tm():
     row = {"type": "fusion-recipe", "origins": ["a", "b", "c"]}
     assert computeArtifactScore(row) == 0.0
     assert computeArtifactScoreOrNone(row) == 0.0
+
+
+def test_fusion_recipe_has_no_type_weight():
+    """fusion-recipe must stay out of TYPE_WEIGHTS — Yggdrasil III fixes its TM
+    contribution at zero via explicit short-circuits, not a weight lookup. A
+    weight entry here would silently re-couple structure into Trust Magnitude.
+    """
+    assert "fusion-recipe" not in TYPE_WEIGHTS
 
 
 def test_github_stars_own_magnitude_basic():

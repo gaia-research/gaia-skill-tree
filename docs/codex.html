@@ -665,8 +665,8 @@
         ],
         gateNum: "g2",
         gateType: "Programmatic Evidence Gate",
-        gateDesc: "Verifies every candidate has at least one source, and Level II+ candidates must have Class A (papers) or Class B (code/repos) evidence.",
-        gateCode: "jq -e 'all(.candidates[];\n        (.evidence|length>0) and\n        ((.typeGuess|test(\"basic|generic\")) or\n         ([.evidence[].class]|any(.==\"A\" or .==\"B\"))))' \\\n  generated-output/curate-chain-state.json",
+        gateDesc: "Verifies every candidate has at least one source, and that Level II+ candidates carry at least one graded evidence row whose Evidence Type is a paper (arxiv, peer-review) or a repository (repo-own, github-stars-own).",
+        gateCode: "jq -e 'all(.candidates[];\n        (.evidence|length>0) and\n        ((.typeGuess|test(\"basic|generic\")) or\n         ([.evidence[].type]|any(.==\"arxiv\" or .==\"peer-review\" or .==\"repo-own\" or .==\"github-stars-own\"))))' \\\n  generated-output/curate-chain-state.json",
         gateFailure: "Routes back to L2 for the failing candidates only. Candidates failing after retry are dropped."
       },
       {
@@ -904,9 +904,9 @@
                 addLog("[L2] Spawning Parallel Research Sub-Agents...", "agent");
                 addLog("[L2] Searching repository: `github.com/openai/swarm`...", "agent");
                 addLog("[L2] Searching arXiv papers for literature search nodes...", "agent");
-                addLog("[L2] Found valid Class B repo code and Class A arXiv paper.", "agent");
+                addLog("[L2] Found valid repo-own repository evidence and an arxiv paper row.", "agent");
                 setTimeout(() => {
-                  addLog("[Gate g2] Verifying evidence: checking Class A/B requirements...", "system");
+                  addLog("[Gate g2] Verifying evidence: checking Evidence Type requirements...", "system");
                   addLog("[Gate g2] PASS! Evidence URLs mapped for all 8 candidates.", "gate-pass");
                   currentSimStep++;
                   setTimeout(runNext, 1200);
@@ -948,7 +948,7 @@
                       <tr>
                         <td>literature-search</td>
                         <td>generic (provisional)</td>
-                        <td>Class A (arXiv)</td>
+                        <td>arxiv &middot; Grade A</td>
                         <td>
                           <select class="sim-action-select" id="dec-1">
                             <option value="accept">Accept</option>
@@ -959,7 +959,7 @@
                       <tr>
                         <td>openai/swarm</td>
                         <td>named (awakened)</td>
-                        <td>Class B (GitHub)</td>
+                        <td>github-stars-own &middot; Grade B</td>
                         <td>
                           <select class="sim-action-select" id="dec-2">
                             <option value="accept">Accept</option>
@@ -971,7 +971,7 @@
                       <tr>
                         <td>arxiv-lookup</td>
                         <td>generic (provisional)</td>
-                        <td>Class C (Web)</td>
+                        <td>web source &middot; Grade C</td>
                         <td>
                           <select class="sim-action-select" id="dec-3">
                             <option value="reject">Reject (Duplicate)</option>

@@ -136,7 +136,7 @@ git fetch --all --prune
 git for-each-ref refs/remotes/origin/bot   # list branches
 # Triage → accept/reject/needs-evidence → gaia dev add/evidence/calibrate
 # Delete consumed bot branches after review branch exists
-gaia dev docs && gaia validate
+gaia dev docs && gaia dev validate
 gh pr create ...
 ```
 

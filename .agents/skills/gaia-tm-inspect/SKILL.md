@@ -32,7 +32,7 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 - Each evidence row with the full score chain:
   `base magnitude → × type weight → × freshness → × mothership/creator/engagement → × inheritMultiplier → × plateau → final score`
 - Dead rows (score = 0.0) and why (missing views, stars below threshold, deranked verifier, etc.)
-- Fusion-recipe summary if `suiteComponents` is present: component count, graded origins, raw fusion magnitude
+- Fusion-recipe summary if `suiteComponents` is present: component count, graded origins, Fusion Score (informational, 0 TM)
 - Total TM, overall grade, and exact points to the next grade threshold
 - Most efficient evidence type to add for the next TM jump
 
@@ -93,7 +93,7 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 
 | Type | Magnitude Formula | Weight | Cap |
 |---|---|---|---|
-| fusion-recipe | 20×N (N≤10); 200+20√(N-10) (N>10) | 1.5 | — |
+| fusion-recipe | — (never scores) | 0 | 0 |
 | github-stars-own | stars / 1000 | 1.0 | 200 |
 | proxy-containment | (externalStars/1000)×0.8 (min 10k stars) | 1.0 | 160 |
 | verifier-attestation | 30 × verifiers | 1.5 | — |
@@ -103,6 +103,14 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 | repo-own | commits/200 + contributors²×2 | 0.6 | 60 |
 | self-attestation | 10 | 0.5 | 10 |
 | social-signal | log10(views)×8 (min 1k views) | 1.0 | 80 (sum cap) |
+
+> **fusion-recipe scores 0 TM.** Under Yggdrasil III, structure is reported by a separate,
+> informational scalar — **Fusion Score** — never by Trust Magnitude. Over `N` distinct
+> non-variant nodes in the resolved structural closure:
+> `FS = 0` when `N = 0`; `FS = 20 × N` when `1 ≤ N ≤ 10`; `FS = 200 + 20 × √(N − 10)` when `N > 10`.
+> Fusion Score gates no star, no rank, and no Trust Grade. Whenever you report one, also state
+> that published TM fell for suites and fusions because this row went to 0 TM — **no evidence
+> row, star count, or rank was edited** (META.md §2.1e).
 
 ### Grade thresholds
 
