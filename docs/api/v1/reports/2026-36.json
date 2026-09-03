@@ -1,0 +1,225 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-36",
+  "isoYear": 2026,
+  "isoWeek": 36,
+  "generatedAt": "2026-08-31T15:53:35Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "7.11.1",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 180.0,
+          "trustGrade": "A",
+          "trendingScore": 160.0,
+          "tmDelta": 90.0,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/productivity"
+        },
+        {
+          "id": "mattpocock/engineering",
+          "name": "Engineering",
+          "contributor": "mattpocock",
+          "level": "4★",
+          "trustMagnitude": 351.96,
+          "trustGrade": "A",
+          "trendingScore": 88.03,
+          "tmDelta": 81.96,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/engineering"
+        },
+        {
+          "id": "mattpocock/skills",
+          "name": "Matt Pocock Skills",
+          "contributor": "mattpocock",
+          "level": "5★",
+          "trustMagnitude": 528.95,
+          "trustGrade": "S",
+          "trendingScore": 41.11,
+          "tmDelta": 39.5,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/skills"
+        },
+        {
+          "id": "ruvnet/ruflo-v3",
+          "name": "Ruflo V3",
+          "contributor": "ruvnet",
+          "level": "4★",
+          "trustMagnitude": 216.0,
+          "trustGrade": "A",
+          "trendingScore": 33.23,
+          "tmDelta": 30.0,
+          "isNew": false,
+          "url": "/named/#explorer/ruvnet/ruflo-v3"
+        },
+        {
+          "id": "mattpocock/tdd",
+          "name": "TDD",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 50.0,
+          "trustGrade": "B",
+          "trendingScore": 25.0,
+          "tmDelta": 50.0,
+          "isNew": true,
+          "url": "/named/#explorer/mattpocock/tdd"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "mattpocock/tdd",
+          "name": "TDD",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "previousLevel": "1★",
+          "trustMagnitude": 50.0,
+          "trustGrade": "B",
+          "ascendedAt": "2026-08-20T05:15:21Z",
+          "url": "/named/#explorer/mattpocock/tdd"
+        },
+        {
+          "id": "mattpocock/resolving-merge-conflicts",
+          "name": "Resolving Merge Conflicts",
+          "contributor": "mattpocock",
+          "level": "2★",
+          "previousLevel": "1★",
+          "trustMagnitude": 41.0,
+          "trustGrade": "C",
+          "ascendedAt": "2026-08-20T05:15:20Z",
+          "url": "/named/#explorer/mattpocock/resolving-merge-conflicts"
+        },
+        {
+          "id": "mattpocock/scaffold-exercises",
+          "name": "Scaffold Exercises",
+          "contributor": "mattpocock",
+          "level": "2★",
+          "previousLevel": "1★",
+          "trustMagnitude": 41.0,
+          "trustGrade": "C",
+          "ascendedAt": "2026-08-20T05:15:20Z",
+          "url": "/named/#explorer/mattpocock/scaffold-exercises"
+        },
+        {
+          "id": "mattpocock/setup-pre-commit",
+          "name": "Setup Pre-Commit",
+          "contributor": "mattpocock",
+          "level": "2★",
+          "previousLevel": "1★",
+          "trustMagnitude": 41.0,
+          "trustGrade": "C",
+          "ascendedAt": "2026-08-20T05:15:20Z",
+          "url": "/named/#explorer/mattpocock/setup-pre-commit"
+        },
+        {
+          "id": "mattpocock/writing-for-agents",
+          "name": "Writing For Agents",
+          "contributor": "mattpocock",
+          "level": "2★",
+          "previousLevel": "1★",
+          "trustMagnitude": 41.0,
+          "trustGrade": "C",
+          "ascendedAt": "2026-08-20T05:15:20Z",
+          "url": "/named/#explorer/mattpocock/writing-for-agents"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "git-ship-done-pipeline",
+          "implementations": 2,
+          "topTM": 296.3,
+          "skills": [
+            {
+              "id": "addy-osmani/agent-skills",
+              "level": "5★",
+              "trustMagnitude": 296.3,
+              "trustGrade": "S",
+              "origin": true,
+              "url": "/named/#explorer/addy-osmani/agent-skills"
+            },
+            {
+              "id": "gsd-build/get-shit-done",
+              "level": "4★",
+              "trustMagnitude": 202.2,
+              "trustGrade": "A",
+              "origin": false,
+              "url": "/named/#explorer/gsd-build/get-shit-done"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "tool-creation",
+          "implementations": 2,
+          "topTM": 211.52,
+          "skills": [
+            {
+              "id": "anthropic/skill-creator",
+              "level": "3★",
+              "trustMagnitude": 211.52,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/anthropic/skill-creator"
+            },
+            {
+              "id": "mattpocock/write-a-skill",
+              "level": "2★",
+              "trustMagnitude": 45.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/write-a-skill"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "refactor-code",
+          "implementations": 3,
+          "topTM": 196.3,
+          "skills": [
+            {
+              "id": "addy-osmani/code-simplification",
+              "level": "3★",
+              "trustMagnitude": 196.3,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/addy-osmani/code-simplification"
+            },
+            {
+              "id": "mattpocock/improve-codebase-architecture",
+              "level": "2★",
+              "trustMagnitude": 45.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/improve-codebase-architecture"
+            },
+            {
+              "id": "mattpocock/migrate-to-shoehorn",
+              "level": "2★",
+              "trustMagnitude": 41.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/migrate-to-shoehorn"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-36/",
+    "json": "/api/v1/reports/2026-36.json",
+    "previous": "/reports/2026-35/",
+    "archive": "/reports/"
+  }
+}
