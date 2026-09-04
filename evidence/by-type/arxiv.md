@@ -65,11 +65,3 @@ is `arxiv`.
 - **Grade:** B
 - **Notes:** Academic paper analyzing GSD across a six-dimensional software-engineering process taxonomy. Evaluates the five-phase execution loop (discuss, plan, execute, verify, ship) and subagent isolation boundaries.
 
-## Skill: `anthropics/brand-guidelines`
-### E_AX9: Guidelines-Conditioned Generation: Constraining LLMs with Structured Brand and Style Systems
-- **Source:** https://arxiv.org/abs/2605.11894
-- **Date:** 2026-09-04
-- **Citations:** 140
-- **Grade:** B
-- **Notes:** Academic preprint evaluating style constraint enforcement in agent-generated user interfaces, featuring anthropics/brand-guidelines as an exemplar of deterministic prompt-conditioned style specification.
-

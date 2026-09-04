@@ -21,12 +21,6 @@ future full run will extend this file with the rest of the registry's
 ### Evidence Rows:
 
 #### E1: `social-signal`
-- **Source:** [https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman](https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman) (and similarly-positioned listings on ClaudSkills, 8Labs docs)
-- **Date:** 2026-08-06 (collection date — TODO: listing date not supplied by source)
-- **Scope:** standalone
-- **Description:** Ecosystem / distribution evidence per founder evidence curation — the skill appears across multiple third-party skill registries (OpenAgentSkills, ClaudSkills, 8Labs docs) with install stats and multi-agent packaging references. NOTE (factual, not evaluative): this specific URL slug still points at the old `mattpocock-skills` path rather than `juliusbrussee/caveman` directly; re-indexing third-party registries to the true-owner repo is outside this Phase 1 scope and is recorded here as supplied by Marcus.
-
-#### E2: `social-signal`
 - **Source:** [https://8labs.id/guides/opencode/caveman/](https://8labs.id/guides/opencode/caveman/)
 - **Date:** 2026-08-06 (collection date — TODO: guide publish date not supplied by source)
 - **Scope:** standalone
@@ -38,7 +32,7 @@ future full run will extend this file with the rest of the registry's
 - **Date:** 2026-09-04
 - **Views:** 94200
 - **Grade:** B
-- **Notes:** High-signal technical video demonstration by Chase AI walking through Impeccable's 23 commands, PRODUCT.md initialization, and live anti-pattern elimination in Claude Code (94,200+ verified views).
+- **Notes:** Technical video demonstration by Chase AI walking through Impeccable's 23 commands, PRODUCT.md initialization, and live anti-pattern elimination in Claude Code (94,200+ verified views).
 
 ## Skill: `mattpocock/skills`
 ### E_SS2: Matt Pocock Canonical End-to-End Workflow Demonstration
@@ -57,12 +51,12 @@ future full run will extend this file with the rest of the registry's
 - **Notes:** Hands-on technical video walkthrough by Kaya Rezende testing RuFlo v3.5 with Claude Code, demonstrating installation, tool invocation, and multi-agent swarm setup (27,700+ views, 1,000+ likes).
 
 ## Skill: `dietrichgebert/ponytail`
-### E_SS4: DietrichGebert Ponytail Minimalist Implementation & Laziness Demonstration
+### E_SS4: Better Stack Ponytail Minimalist Implementation & Laziness Demonstration
 - **Source:** https://www.youtube.com/watch?v=2xuFcmUAQUc
 - **Date:** 2026-09-04
 - **Views:** 210288
 - **Grade:** B
-- **Notes:** High-signal technical video demonstration of DietrichGebert/ponytail (124k stars) walking through standard-library-first implementation discernment, minimal diff generation, and operational restraint in Claude Code (210,288+ verified views).
+- **Notes:** Technical video demonstration of DietrichGebert/ponytail (124k stars) by Better Stack walking through standard-library-first implementation discernment, minimal diff generation, and operational restraint in Claude Code (210,288+ verified views).
 
 ## Skill: `mvanhorn/last30days`
 ### E_SS5: Greg Isenberg Podcast featuring Matt Van Horn: Autonomous Last 30 Days Research
@@ -79,19 +73,4 @@ future full run will extend this file with the rest of the registry's
 - **Views:** 15400
 - **Grade:** B
 - **Notes:** Detailed practical workflow by Gao Dalie in Data Science Collective (941k followers) analyzing how ayghri/i-have-adhd enforces cognitive chunking, action-first summaries, and structured step execution in Claude Code (142 claps).
-
-### E_SS7: Roundtable AI Hands-On Cognitive Accessibility Video Walkthrough
-- **Source:** https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ
-- **Date:** 2026-09-04
-- **Views:** 652
-- **Grade:** C
-- **Notes:** Video walkthrough on roundtable_so demonstrating live terminal interaction with ayghri/i-have-adhd, cognitive load reductions, and formatting constraints (652 verified views).
-
-## Skill: `leonxlnx/taste-skill`
-### E_SS8: Designer Community Technical Showcase of Taste-Skill Suite
-- **Source:** https://www.youtube.com/watch?v=J9uKxL8mVoP
-- **Date:** 2026-09-04
-- **Views:** 42100
-- **Grade:** B
-- **Notes:** Technical showcase demonstrating taste-skill's 11-member suite in Claude Code, showing one-shot landing page redesigns, visual variance dialing, and anti-slop pre-flight verification (42,100+ verified views).
 
