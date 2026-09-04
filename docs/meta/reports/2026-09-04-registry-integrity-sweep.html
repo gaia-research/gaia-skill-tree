@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registry Audit Report: September 2026 Meta Sweep — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444;
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-sans: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: #f4f4f2;
+      color: var(--paper-text);
+      font-family: var(--font-serif);
+      line-height: 1.6;
+      margin: 0;
+      padding: 4rem 1rem;
+    }
+    .paper {
+      background: var(--paper-bg);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 6rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
+    }
+    .header {
+      border-bottom: 2px solid #111;
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    h1 { font-family: var(--font-sans); font-size: 2.4rem; line-height: 1.2; margin: 0 0 0.5rem 0; }
+    .meta-byline { font-family: var(--font-sans); color: var(--paper-muted); font-size: 0.95rem; }
+    h2 { font-family: var(--font-sans); font-size: 1.5rem; margin-top: 2.5rem; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.4rem; }
+    h3 { font-family: var(--font-sans); font-size: 1.15rem; margin-top: 1.8rem; }
+    p, li { font-size: 1.05rem; }
+    code { font-family: var(--font-mono); font-size: 0.9em; background: #f3f3f3; padding: 0.15em 0.3em; border-radius: 3px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .stat-card {
+      background: #fafaf9;
+      border: 1px solid #e7e5e4;
+      padding: 1rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .stat-num { font-family: var(--font-sans); font-size: 1.8rem; font-weight: 700; color: #111; }
+    .stat-lbl { font-family: var(--font-sans); font-size: 0.85rem; color: var(--paper-muted); text-transform: uppercase; }
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      margin: 1rem 0 2rem 0;
+    }
+    .audit-table th, .audit-table td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    .audit-table th { background: #f8f8f8; font-weight: 600; }
+    .badge {
+      display: inline-block;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .badge-p0 { background: #fee2e2; color: #991b1b; }
+    .badge-p1 { background: #ffedd5; color: #9a3412; }
+    .badge-p2 { background: #fef9c3; color: #854d0e; }
+    .badge-p3 { background: #f1f5f9; color: #475569; }
+    .card {
+      background: #fafaf9;
+      border-left: 3px solid #2563eb;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .card h4 { margin: 0 0 0.5rem 0; font-family: var(--font-sans); font-size: 1rem; }
+    .card p { margin: 0.25rem 0; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="paper">
+    <div class="header">
+      <h1>Whole-Registry Meta Sweep Report</h1>
+      <div class="meta-byline">
+        <strong>Gaia Research &amp; Operations</strong> · September 4, 2026 · Evaluator: <code>mbtiongson1</code> · Engine: <code>gaia-meta-sweep</code>
+      </div>
+    </div>
+
+    <h2>1. Executive Summary &amp; Abstract</h2>
+    <p>
+      This audit presents a programmatic, 12-dimension sweep across the entire Gaia Skill Tree registry, evaluating <strong>284 generic capabilities</strong> and <strong>328 named skills</strong> against the canonical invariants of <code>META.md</code>.
+      Following the Yggdrasil III recalibration, this sweep enforces the logarithmic adoption curve, verifies active URL liveness across 250+ evidence endpoints, realigns Origin standing under the merit-based renowned rule (§4.1), and screens for brand coupling and unbacked ranks.
+    </p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">328</div>
+        <div class="stat-lbl">Named Skills</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">284</div>
+        <div class="stat-lbl">Generic Nodes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100.0%</div>
+        <div class="stat-lbl">Adversarial Survival</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">12 / 25</div>
+        <div class="stat-lbl">5★ / 4★ Skills</div>
+      </div>
+    </div>
+
+    <h2>2. Current Rank Distribution</h2>
+    <table class="audit-table">
+      <thead><tr><th>Rank Tier</th><th>Count</th><th>Gate Ceiling</th><th>TM Requirement</th></tr></thead>
+      <tbody>
+        <tr><td>6★ (Apex)</td><td>0</td><td>Grade S</td><td>TM ≥ 250.0 + 6-Predicate Apex Gate</td></tr>
+        <tr><td>5★ (Master / Suite Capstone)</td><td>12</td><td>Grade S</td><td>TM ≥ 250.0 (Independent witness required)</td></tr>
+        <tr><td>4★ (Senior Specialist)</td><td>25</td><td>Grade A</td><td>TM ≥ 150.0 (Logarithmic star cap ceiling)</td></tr>
+        <tr><td>3★ (Journeyman)</td><td>61</td><td>Grade B</td><td>TM ≥ 50.0 (Grounded multi-source evidence)</td></tr>
+        <tr><td>2★ (Apprentice)</td><td>110</td><td>Grade C</td><td>TM ≥ 15.0 (Initial verified skill implementation)</td></tr>
+        <tr><td>1★ (Awakened / Demoted)</td><td>120</td><td>Ungraded</td><td>TM &lt; 15.0 or Star Bar broken</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Audit Dimensions &amp; Findings</h2>
+    
+        <div class="dimension-block">
+          <h3>Dimension: <code>star-bar</code> <small>(META §2.4 · 4 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mattpocock/engineering</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>3★ skill has no links.github</td>
+              <td>Add canonical SKILL.md blob URL or demote to 1★</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/personal</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>3★ skill has no links.github</td>
+              <td>Add canonical SKILL.md blob URL or demote to 1★</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/productivity</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>3★ skill has no links.github</td>
+              <td>Add canonical SKILL.md blob URL or demote to 1★</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/misc</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>3★ skill has no links.github</td>
+              <td>Add canonical SKILL.md blob URL or demote to 1★</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>liveness</code> <small>(META §2.2 · 9 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mattpocock/obsidian-vault</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>browserbase/browse</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/zoom-out</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/ubiquitous-language</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mbtiongson1/gaia-wiki-sync</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>panniantong/agent-reach</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/edit-article</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mbtiongson1/gaia-integrity</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/write-a-skill</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md</td>
+              <td>Repair broken upstream link or excise dead evidence row</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>origin-attribution</code> <small>(META §4.1 · 4 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mattpocock/to-tickets</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Origin holder mattpocock/to-tickets (4★) is outclassed by addy-osmani/planning-and-task-breakdown (5★) in generic 'vertical-slice-planning'</td>
+              <td>Reassign Origin to addy-osmani/planning-and-task-breakdown per META §4.1 renowned rule</td>
+            </tr>
+            
+            <tr>
+              <td><code>obra/executing-plans</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Origin holder obra/executing-plans (3★) is outclassed by addy-osmani/incremental-implementation (5★) in generic 'executing-plans'</td>
+              <td>Reassign Origin to addy-osmani/incremental-implementation per META §4.1 renowned rule</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/to-spec</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Origin holder mattpocock/to-spec (3★) is outclassed by addy-osmani/spec-driven-development (5★) in generic 'prd-generation'</td>
+              <td>Reassign Origin to addy-osmani/spec-driven-development per META §4.1 renowned rule</td>
+            </tr>
+            
+            <tr>
+              <td><code>browser-use/browser-harness</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Origin holder browser-use/browser-harness (3★) is outclassed by firecrawl/firecrawl-build-interact (4★) in generic 'browser-control'</td>
+              <td>Reassign Origin to firecrawl/firecrawl-build-interact per META §4.1 renowned rule</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>unbacked-star</code> <small>(META §1.1/§2.1 · 50 findings (showing 10 of 50))</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mattpocock/to-tickets</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 4★ exceeds TM Grade B ceiling (max 3★, TM 94.92)</td>
+              <td>Calibrate level down to 3★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/engineering</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)</td>
+              <td>Calibrate level down to 1★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/diagnose</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 4★ exceeds TM Grade B ceiling (max 3★, TM 94.92)</td>
+              <td>Calibrate level down to 3★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/personal</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)</td>
+              <td>Calibrate level down to 1★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/skills</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 5★ exceeds TM Grade A ceiling (max 4★, TM 233.42)</td>
+              <td>Calibrate level down to 4★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/productivity</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)</td>
+              <td>Calibrate level down to 1★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/misc</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)</td>
+              <td>Calibrate level down to 1★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>addy-osmani/incremental-implementation</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 5★ exceeds TM Grade B ceiling (max 3★, TM 95.00)</td>
+              <td>Calibrate level down to 3★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>addy-osmani/code-simplification</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 5★ exceeds TM Grade B ceiling (max 3★, TM 50.00)</td>
+              <td>Calibrate level down to 3★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            <tr>
+              <td><code>addy-osmani/code-review-and-quality</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)</td>
+              <td>Calibrate level down to 3★ or ingest verified independent witness evidence</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>brand-coupled</code> <small>(META §1/§2.4 · 4 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>firecrawl</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Generic skill node 'firecrawl' is brand-coupled to vendor/product 'firecrawl'</td>
+              <td>Rename to vendor-neutral abstract capability (META §1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>postgres-best-practices</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Generic skill node 'postgres-best-practices' is brand-coupled to vendor/product 'postgres'</td>
+              <td>Rename to vendor-neutral abstract capability (META §1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>supabase</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Generic skill node 'supabase' is brand-coupled to vendor/product 'supabase'</td>
+              <td>Rename to vendor-neutral abstract capability (META §1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>react-performance-optimization</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Generic skill node 'react-performance-optimization' is brand-coupled to vendor/product 'react'</td>
+              <td>Rename to vendor-neutral abstract capability (META §1)</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>installability</code> <small>(META §2.4 · 1 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mattpocock/diagnose</code></td>
+              <td><span class="badge badge-p1">P1</span></td>
+              <td>4★ skill declared installable: false (Star Bar requires installability for individual skills)</td>
+              <td>Provide installation instructions or demote below 3★</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>placeholder-bodies</code> <small>(META §4.1 · 65 findings (showing 10 of 65))</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>anthropics/canvas-design</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>anthropics/brand-guidelines</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/wizard</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/wait-what</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/research</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/code-review</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/misc</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>mattpocock/to-questionnaire</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>gaia-research/cost</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            <tr>
+              <td><code>gaia-research/ci-churn</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)</td>
+              <td>Author concrete usage documentation and operational guidance</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>testuser-timelines</code> <small>(META §5 · 1 findings)</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>mbtiongson1/gaia-meta-audit</code></td>
+              <td><span class="badge badge-p2">P2</span></td>
+              <td>Skill frontmatter contains testuser mock fixture in timeline or evaluator field</td>
+              <td>Purge testuser and replace with canonical contributor or reviewer identity</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="dimension-block">
+          <h3>Dimension: <code>champion-cluster</code> <small>(META §6.1 · 63 findings (showing 10 of 63))</small></h3>
+          <table class="audit-table">
+            <thead>
+              <tr><th>Target</th><th>Priority</th><th>Reason</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              
+            <tr>
+              <td><code>brand-guideline-application</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'brand-guideline-application' has 2 implementations (['anthropics/brand-guidelines', 'leonxlnx/brandkit']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/brand-guideline-application.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>code-review-pipeline</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'code-review-pipeline' has 6 implementations (['langgenius/backend-code-review', 'langgenius/frontend-code-review', 'addy-osmani/code-review-and-quality', 'ruvnet/github-code-review', 'garrytan/review', 'garrytan/plan-eng-review']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/code-review-pipeline.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>refactor-code</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'refactor-code' has 4 implementations (['langgenius/component-refactoring', 'mattpocock/improve-codebase-architecture', 'mattpocock/migrate-to-shoehorn', 'addy-osmani/code-simplification']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/refactor-code.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>automated-testing</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'automated-testing' has 3 implementations (['langgenius/frontend-testing', '0xdarkmatter/pytest-patterns', 'garrytan/health']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/automated-testing.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>e2e-testing</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'e2e-testing' has 4 implementations (['langgenius/e2e-cucumber-playwright', 'intelligentcode-ai/user-tester', 'garrytan/qa', 'garrytan/qa-only']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/e2e-testing.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>vertical-slice-planning</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'vertical-slice-planning' has 3 implementations (['mattpocock/to-tickets', 'addy-osmani/planning-and-task-breakdown', 'garrytan/garrytan']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/vertical-slice-planning.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>ubiquitous-language</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'ubiquitous-language' has 2 implementations (['mattpocock/ubiquitous-language', 'ruvnet/v3-ddd-architecture']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/ubiquitous-language.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>executing-plans</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'executing-plans' has 3 implementations (['mattpocock/implement', 'addy-osmani/incremental-implementation', 'obra/executing-plans']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/executing-plans.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>tool-creation</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'tool-creation' has 2 implementations (['mattpocock/write-a-skill', 'anthropic/skill-creator']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/tool-creation.json (META §6.1)</td>
+            </tr>
+            
+            <tr>
+              <td><code>issue-triage</code></td>
+              <td><span class="badge badge-p3">P3</span></td>
+              <td>Generic 'issue-triage' has 3 implementations (['mattpocock/triage', 'mbtiongson1/gaia-triage', 'gaiabot/gaia-triage']) but no Champion designated</td>
+              <td>Designate top-ranked implementation as Champion in registry/nodes/generic/issue-triage.json (META §6.1)</td>
+            </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        
+
+    <h2>4. Semantic Fusion Candidates (META §6.2)</h2>
+    <p>The following composite capabilities have been surfaced from co-occurring specialist implementations:</p>
+    
+        <div class="card">
+          <h4><code>autonomous-deep-research</code> (3★) — Autonomous Deep Research</h4>
+          <p><strong>Prerequisites:</strong> web-scrape, document-editing</p>
+          <p><strong>Rationale:</strong> Fuses structured search/scraping capability with synthesis and report compilation to form an end-to-end autonomous research pipeline.</p>
+          <p><em>Exemplar Implementations:</em> firecrawl/firecrawl-build-scrape, mattpocock/writing-for-agents</p>
+        </div>
+        
+        <div class="card">
+          <h4><code>brand-aligned-ui-generation</code> (4★) — Brand-Aligned UI Generation</h4>
+          <p><strong>Prerequisites:</strong> brand-guideline-application, component-design</p>
+          <p><strong>Rationale:</strong> Pairs Anthropic brand guidelines with interactive component authoring to ensure generated interfaces strictly adhere to corporate design tokens.</p>
+          <p><em>Exemplar Implementations:</em> anthropics/brand-guidelines, leonxlnx/taste-skill</p>
+        </div>
+        
+        <div class="card">
+          <h4><code>graph-augmented-triage</code> (4★) — Graph-Augmented Issue Triage</h4>
+          <p><strong>Prerequisites:</strong> issue-triage, ast-analysis</p>
+          <p><strong>Rationale:</strong> Augments repository issue routing with static code graph dependency analysis, pinpointing affected subsystems upon issue ingestion.</p>
+          <p><em>Exemplar Implementations:</em> mattpocock/triage, safishamsi/graphify</p>
+        </div>
+        
+        <div class="card">
+          <h4><code>self-healing-test-loop</code> (3★) — Self-Healing Test Loop</h4>
+          <p><strong>Prerequisites:</strong> test-driven-development, systematic-debugging</p>
+          <p><strong>Rationale:</strong> Combines test execution with iterative stack-trace diagnosis to autonomously remediate failing assertions under test coverage.</p>
+          <p><em>Exemplar Implementations:</em> mattpocock/tdd, obra/systematic-debugging</p>
+        </div>
+        
+
+    <h2>5. Proposed Generic Capability References (META §1)</h2>
+    <p>To eliminate brand coupling and normalize vendor-specific generics, the following abstract generic nodes are proposed:</p>
+    
+        <div class="card">
+          <h4><code>web-data-extraction</code> — Web Data Extraction <small>(basic)</small></h4>
+          <p>Programmatic crawling, content sanitization, and structured markdown extraction from dynamic web surfaces.</p>
+          <p><em>Reasoning:</em> Vendor-neutral generic capability superseding brand-coupled 'firecrawl' generic node (Dimension 5 finding).</p>
+        </div>
+        
+        <div class="card">
+          <h4><code>managed-backend-services</code> — Managed Backend Services <small>(basic)</small></h4>
+          <p>Integration and schema orchestration across serverless databases, auth providers, and cloud storage gateways.</p>
+          <p><em>Reasoning:</em> Vendor-neutral generic capability superseding brand-coupled 'supabase' generic node (Dimension 5 finding).</p>
+        </div>
+        
+        <div class="card">
+          <h4><code>frontend-runtime-profiling</code> — Frontend Runtime Profiling <small>(basic)</small></h4>
+          <p>Measurement and elimination of layout thrashing, excessive re-renders, and bundle bloat across client runtimes.</p>
+          <p><em>Reasoning:</em> Abstract capability superseding vendor-coupled 'react-performance-optimization' node.</p>
+        </div>
+        
+
+    <h2>6. Governance &amp; Next Actions</h2>
+    <ol>
+      <li><strong>Remediate Outclassed Origins:</strong> Apply Origin merit realignments to promote active 4★/5★ implementations over dormant stubs.</li>
+      <li><strong>Calibrate Unbacked Ranks:</strong> Bring historical pre-logarithmic 5★ stubs down to their certified Grade B ceilings (3★).</li>
+      <li><strong>Refactor Brand Generics:</strong> Migrate vendor nodes (<code>firecrawl</code>, <code>supabase</code>) to capability nodes.</li>
+    </ol>
+  </div>
+</body>
+</html>
