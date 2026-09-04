@@ -10,7 +10,7 @@ description: Anti-slop frontend master skill for landing pages, portfolios, and 
   Infers design direction, dials visual variance and density, applies real design
   systems, and runs strict pre-flight checks.
 createdAt: '2026-08-22'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Taste Skill
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
@@ -45,6 +45,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T06:53:36Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
   evaluator: mbtiongson1
@@ -77,7 +82,7 @@ suiteComponents:
 - leonxlnx/redesign-skill
 - leonxlnx/soft-skill
 - leonxlnx/stitch-skill
-trustMagnitude: 286.0
+trustMagnitude: 172.43
 overallTrustGrade: A
 trustMagnitudeInputHash: 8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a
 ---
