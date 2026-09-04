@@ -5,7 +5,7 @@
       "id": "dietrichgebert/ponytail",
       "name": "Ponytail",
       "level": "4★",
-      "trustMagnitude": 329.28,
+      "trustMagnitude": 221.96,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "dietrichgebert",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "dietrichgebert/ponytail",
     "level": "4★",
-    "trustMagnitude": 329.28
+    "trustMagnitude": 221.96
   },
-  "prestigeScore": 329.28,
+  "prestigeScore": 221.96,
   "gradeDistribution": {
     "A": 1
   },

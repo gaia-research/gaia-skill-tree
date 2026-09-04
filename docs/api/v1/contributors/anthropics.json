@@ -5,7 +5,7 @@
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
       "level": "4★",
-      "trustMagnitude": 286.0,
+      "trustMagnitude": 184.32,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "anthropics",
@@ -40,9 +40,9 @@
   "topSkill": {
     "id": "anthropics/brand-guidelines",
     "level": "4★",
-    "trustMagnitude": 286.0
+    "trustMagnitude": 184.32
   },
-  "prestigeScore": 329.52,
+  "prestigeScore": 227.84,
   "gradeDistribution": {
     "A": 1,
     "C": 1

@@ -5,7 +5,7 @@
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
       "level": "4★",
-      "trustMagnitude": 286.0,
+      "trustMagnitude": 169.36,
       "overallTrustGrade": "A",
       "fusionScore": 272.11,
       "contributor": "gsd-build",
@@ -115,9 +115,9 @@
   "topSkill": {
     "id": "gsd-build/get-shit-done",
     "level": "4★",
-    "trustMagnitude": 286.0
+    "trustMagnitude": 169.36
   },
-  "prestigeScore": 536.0,
+  "prestigeScore": 419.36,
   "gradeDistribution": {
     "A": 1,
     "B": 5

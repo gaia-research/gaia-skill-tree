@@ -42,6 +42,6 @@ def test_suite_appraisal_grades_the_actual_synthetic_evidence(monkeypatch):
     monkeypatch.setattr(appraiser, "computeOverallTrustGrade", failIfLegacyGradeCall, raising=False)
     result = appraiser.appraise(appraiser.AppraisalTarget("example/suite", 1, "SKILL.md"))
 
-    assert result["tm"] == 286.0
+    assert result["tm"] == 186.54
     assert result["grade"] == "A"
     assert "fusion-recipe" not in result["byType"]

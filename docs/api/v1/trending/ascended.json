@@ -1,382 +1,395 @@
 {
-  "generatedAt": "2026-08-29T17:16:46Z",
+  "generatedAt": "2026-09-04T06:56:23Z",
   "skills": [
+    {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "4★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 162.66,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:46Z",
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "5★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 189.68,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:45Z",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      },
+      "previousLevel": "4★"
+    },
+    {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "5★",
+      "contributor": "pbakaus",
+      "trustMagnitude": 218.14,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:43Z",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      },
+      "previousLevel": "4★"
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:41Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "5★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 226.5,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:40Z",
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      },
+      "previousLevel": "4★"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 209.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:40Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 209.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:40Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 209.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:40Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 209.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:39Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 209.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:39Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "leonxlnx/stitch-skill",
       "name": "stitch-skill",
-      "level": "2★",
+      "level": "3★",
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "ascendedAt": "2026-08-22T08:07:45Z",
+      "ascendedAt": "2026-09-02T15:11:39Z",
       "_links": {
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
-      }
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-web",
-      "name": "imagegen-frontend-web",
-      "level": "2★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-08-22T08:07:42Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
-      }
-    },
-    {
-      "id": "leonxlnx/brandkit",
-      "name": "brandkit",
-      "level": "2★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-08-22T08:07:40Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brandkit.json"
-      }
-    },
-    {
-      "id": "leonxlnx/redesign-skill",
-      "name": "redesign-skill",
-      "level": "2★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-08-22T08:07:37Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
-      }
-    },
-    {
-      "id": "leonxlnx/taste-skill",
-      "name": "taste-skill",
-      "level": "4★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 286.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-08-22T07:13:42Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
       },
       "previousLevel": "2★"
     },
     {
-      "id": "mattpocock/tdd",
-      "name": "TDD",
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
       "level": "3★",
-      "contributor": "mattpocock",
+      "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "ascendedAt": "2026-08-20T05:15:21Z",
+      "ascendedAt": "2026-09-02T15:11:38Z",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/tdd.json"
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
       },
-      "previousLevel": "1★"
+      "previousLevel": "2★"
     },
     {
-      "id": "mattpocock/resolving-merge-conflicts",
-      "name": "Resolving Merge Conflicts",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:20Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/scaffold-exercises",
-      "name": "Scaffold Exercises",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:20Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/setup-pre-commit",
-      "name": "Setup Pre-Commit",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:20Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/writing-for-agents",
-      "name": "Writing For Agents",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:20Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/grilling",
-      "name": "Grilling",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:19Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grilling.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/implement",
-      "name": "Implement",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:19Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/implement.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/migrate-to-shoehorn",
-      "name": "Migrate to Shoehorn",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:19Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/domain-modeling",
-      "name": "Domain Modeling",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:18Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/git-guardrails-claude-code",
-      "name": "Git Guardrails Claude Code",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:18Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/ask-matt",
-      "name": "Ask Matt",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:17Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ask-matt.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/codebase-design",
-      "name": "Codebase Design",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:17Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/codebase-design.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/diagnosing-bugs",
-      "name": "Diagnosing Bugs",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-08-20T05:15:17Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "remotion-dev/remotion-best-practices",
-      "name": "Remotion Best Practices",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:18Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-captions",
-      "name": "Remotion Captions",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:17Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-interactivity",
-      "name": "Remotion Interactivity",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:15Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-saas",
-      "name": "Remotion SaaS",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:14Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-maps",
-      "name": "Remotion Maps",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:12Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-render",
-      "name": "Remotion Render",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:11Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-render.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-markup",
-      "name": "Remotion Markup",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:09Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-create",
-      "name": "Remotion Create",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:08Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
-      }
-    },
-    {
-      "id": "remotion-dev/remotion-studio",
-      "name": "Remotion Studio",
-      "level": "2★",
-      "contributor": "remotion-dev",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-08-11T08:38:06Z",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
-      }
-    },
-    {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
       "level": "3★",
-      "contributor": "anthropics",
-      "trustMagnitude": 286.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-31T16:25:05Z",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:38Z",
       "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:38Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:37Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:37Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:37Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:36Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:36Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:36Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
       },
       "previousLevel": "2★"
     },
     {
       "id": "k-dense-ai/transformers",
       "name": "Transformers",
-      "level": "3★",
+      "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 197.06,
+      "trustMagnitude": 194.52,
       "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-31T16:20:18Z",
+      "ascendedAt": "2026-09-02T15:11:35Z",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-02T15:11:35Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
       },
       "previousLevel": "2★"
     },
     {
-      "id": "k-dense-ai/torch-geometric",
-      "name": "Torch Geometric",
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 258.06,
+      "trustMagnitude": 194.52,
       "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-31T16:20:17Z",
+      "ascendedAt": "2026-09-02T15:11:34Z",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "name": "scvi-tools",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:33Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
       },
       "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 194.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:32Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:32Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 211.48,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:31Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 185.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:30Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 180.07,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-02T15:11:17Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "5★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 259.13,
+      "overallTrustGrade": "S",
+      "ascendedAt": "2026-09-02T15:11:16Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "previousLevel": "3★"
     }
   ],
   "_links": {

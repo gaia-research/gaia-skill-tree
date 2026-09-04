@@ -6,9 +6,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 329.9
+        "trustMagnitude": 233.42
       },
-      "prestigeScore": 3070.12,
+      "prestigeScore": 2491.24,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -19,24 +19,11 @@
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
-        "trustMagnitude": 331.59
+        "trustMagnitude": 225.66
       },
-      "prestigeScore": 2635.09,
+      "prestigeScore": 2423.23,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "addy-osmani/code-simplification",
-        "level": "5★",
-        "trustMagnitude": 426.0
-      },
-      "prestigeScore": 2593.0,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -45,24 +32,24 @@
       "topSkill": {
         "id": "k-dense-ai/pymc",
         "level": "4★",
-        "trustMagnitude": 302.8
+        "trustMagnitude": 264.52
       },
-      "prestigeScore": 2473.96,
+      "prestigeScore": 2091.16,
       "_links": {
         "self": "/api/v1/contributors/k-dense-ai.json"
       }
     },
     {
-      "handle": "firecrawl",
-      "namedSkills": 6,
+      "handle": "addy-osmani",
+      "namedSkills": 9,
       "topSkill": {
-        "id": "firecrawl/firecrawl-research-index",
+        "id": "addy-osmani/code-simplification",
         "level": "5★",
-        "trustMagnitude": 360.62
+        "trustMagnitude": 314.62
       },
-      "prestigeScore": 1884.26,
+      "prestigeScore": 1701.96,
       "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
+        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -71,11 +58,24 @@
       "topSkill": {
         "id": "ruvnet/ruflo",
         "level": "5★",
-        "trustMagnitude": 290.0
+        "trustMagnitude": 174.59
       },
-      "prestigeScore": 1490.52,
+      "prestigeScore": 1375.11,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
+      }
+    },
+    {
+      "handle": "firecrawl",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "firecrawl/firecrawl-research-index",
+        "level": "5★",
+        "trustMagnitude": 259.13
+      },
+      "prestigeScore": 1275.32,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
       }
     },
     {
@@ -84,9 +84,9 @@
       "topSkill": {
         "id": "obra/superpowers",
         "level": "5★",
-        "trustMagnitude": 315.15
+        "trustMagnitude": 220.81
       },
-      "prestigeScore": 1184.2,
+      "prestigeScore": 1089.86,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
@@ -97,9 +97,9 @@
       "topSkill": {
         "id": "leonxlnx/taste-skill",
         "level": "4★",
-        "trustMagnitude": 286.0
+        "trustMagnitude": 172.43
       },
-      "prestigeScore": 836.0,
+      "prestigeScore": 722.43,
       "_links": {
         "self": "/api/v1/contributors/leonxlnx.json"
       }
@@ -110,63 +110,11 @@
       "topSkill": {
         "id": "gsd-build/get-shit-done",
         "level": "4★",
-        "trustMagnitude": 286.0
+        "trustMagnitude": 169.36
       },
-      "prestigeScore": 536.0,
+      "prestigeScore": 419.36,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
-      }
-    },
-    {
-      "handle": "pbakaus",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "pbakaus/impeccable",
-        "level": "5★",
-        "trustMagnitude": 334.8
-      },
-      "prestigeScore": 334.8,
-      "_links": {
-        "self": "/api/v1/contributors/pbakaus.json"
-      }
-    },
-    {
-      "handle": "nextlevelbuilder",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "nextlevelbuilder/ui-ux-pro-max",
-        "level": "5★",
-        "trustMagnitude": 333.26
-      },
-      "prestigeScore": 333.26,
-      "_links": {
-        "self": "/api/v1/contributors/nextlevelbuilder.json"
-      }
-    },
-    {
-      "handle": "anthropics",
-      "namedSkills": 2,
-      "topSkill": {
-        "id": "anthropics/brand-guidelines",
-        "level": "4★",
-        "trustMagnitude": 286.0
-      },
-      "prestigeScore": 329.52,
-      "_links": {
-        "self": "/api/v1/contributors/anthropics.json"
-      }
-    },
-    {
-      "handle": "dietrichgebert",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "dietrichgebert/ponytail",
-        "level": "4★",
-        "trustMagnitude": 329.28
-      },
-      "prestigeScore": 329.28,
-      "_links": {
-        "self": "/api/v1/contributors/dietrichgebert.json"
       }
     },
     {
@@ -183,32 +131,6 @@
       }
     },
     {
-      "handle": "mvanhorn",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "mvanhorn/last30days",
-        "level": "4★",
-        "trustMagnitude": 316.09
-      },
-      "prestigeScore": 316.09,
-      "_links": {
-        "self": "/api/v1/contributors/mvanhorn.json"
-      }
-    },
-    {
-      "handle": "safishamsi",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "safishamsi/graphify",
-        "level": "5★",
-        "trustMagnitude": 297.8
-      },
-      "prestigeScore": 297.8,
-      "_links": {
-        "self": "/api/v1/contributors/safishamsi.json"
-      }
-    },
-    {
       "handle": "anthropic",
       "namedSkills": 2,
       "topSkill": {
@@ -219,6 +141,84 @@
       "prestigeScore": 247.52,
       "_links": {
         "self": "/api/v1/contributors/anthropic.json"
+      }
+    },
+    {
+      "handle": "anthropics",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "anthropics/brand-guidelines",
+        "level": "4★",
+        "trustMagnitude": 184.32
+      },
+      "prestigeScore": 227.84,
+      "_links": {
+        "self": "/api/v1/contributors/anthropics.json"
+      }
+    },
+    {
+      "handle": "nextlevelbuilder",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "level": "5★",
+        "trustMagnitude": 226.5
+      },
+      "prestigeScore": 226.5,
+      "_links": {
+        "self": "/api/v1/contributors/nextlevelbuilder.json"
+      }
+    },
+    {
+      "handle": "dietrichgebert",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "dietrichgebert/ponytail",
+        "level": "4★",
+        "trustMagnitude": 221.96
+      },
+      "prestigeScore": 221.96,
+      "_links": {
+        "self": "/api/v1/contributors/dietrichgebert.json"
+      }
+    },
+    {
+      "handle": "pbakaus",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "pbakaus/impeccable",
+        "level": "5★",
+        "trustMagnitude": 218.14
+      },
+      "prestigeScore": 218.14,
+      "_links": {
+        "self": "/api/v1/contributors/pbakaus.json"
+      }
+    },
+    {
+      "handle": "mvanhorn",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "mvanhorn/last30days",
+        "level": "4★",
+        "trustMagnitude": 205.15
+      },
+      "prestigeScore": 205.15,
+      "_links": {
+        "self": "/api/v1/contributors/mvanhorn.json"
+      }
+    },
+    {
+      "handle": "safishamsi",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "safishamsi/graphify",
+        "level": "5★",
+        "trustMagnitude": 189.68
+      },
+      "prestigeScore": 189.68,
+      "_links": {
+        "self": "/api/v1/contributors/safishamsi.json"
       }
     },
     {
@@ -240,9 +240,9 @@
       "topSkill": {
         "id": "vercel-labs/vercel-react-best-practices",
         "level": "4★",
-        "trustMagnitude": 163.4
+        "trustMagnitude": 162.66
       },
-      "prestigeScore": 163.4,
+      "prestigeScore": 162.66,
       "_links": {
         "self": "/api/v1/contributors/vercel-labs.json"
       }
@@ -279,9 +279,9 @@
       "topSkill": {
         "id": "ayghri/i-have-adhd",
         "level": "4★",
-        "trustMagnitude": 104.97
+        "trustMagnitude": 119.66
       },
-      "prestigeScore": 104.97,
+      "prestigeScore": 119.66,
       "_links": {
         "self": "/api/v1/contributors/ayghri.json"
       }
