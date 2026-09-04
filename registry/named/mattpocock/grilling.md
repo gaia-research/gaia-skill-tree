@@ -29,27 +29,27 @@ timeline:
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 - timestamp: '2026-06-19T18:37:27Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
     (type: repo-own)'
 - timestamp: '2026-06-19T18:37:27Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
     as B (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:37:29Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
     (type: self-attestation)'
 - timestamp: '2026-06-19T18:37:29Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
     as C (trustNumber: 45.0)'
 - timestamp: '2026-06-19T18:41:28Z'
   action: rank_up
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
 - timestamp: '2026-06-20T06:31:31Z'
@@ -80,7 +80,7 @@ evidence:
   date: '2026-06-19'
   class: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
@@ -88,7 +88,7 @@ evidence:
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 45.0

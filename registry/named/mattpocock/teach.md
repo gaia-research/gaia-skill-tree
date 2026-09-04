@@ -29,37 +29,37 @@ timeline:
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 - timestamp: '2026-06-19T18:37:51Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
     (type: repo-own)'
 - timestamp: '2026-06-19T18:37:51Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
     as B (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:37:53Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach
     (type: self-attestation)'
 - timestamp: '2026-06-19T18:37:53Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach
     as C (trustNumber: 45.0)'
 - timestamp: '2026-06-19T18:39:16Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type:
     social-signal)'
 - timestamp: '2026-06-19T18:39:16Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B
     (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:41:33Z'
   action: rank_up
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
 - timestamp: '2026-08-20T04:55:14Z'
@@ -82,7 +82,7 @@ evidence:
   date: '2026-06-19'
   class: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
@@ -90,7 +90,7 @@ evidence:
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 45.0
@@ -98,7 +98,7 @@ evidence:
   notes: 'I13 classify: contributor-owned skill directory evidence'
   sourceStartedAt: '2026-06-19'
 - source: https://www.youtube.com/watch?v=s5T5oQJcJ6U
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: social-signal
   trustNumber: 65.0
