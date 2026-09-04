@@ -13,7 +13,7 @@ createdAt: '2026-07-30'
 updatedAt: '2026-09-04'
 title: Agent Fusion
 links:
-  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md
+  github: https://github.com/disler/fusion-harness/blob/main/README.md
 timeline:
 - timestamp: '2026-07-29T20:14:46Z'
   action: add

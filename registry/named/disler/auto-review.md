@@ -12,7 +12,7 @@ createdAt: '2026-07-30'
 updatedAt: '2026-08-30'
 title: Auto-Review
 links:
-  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_VALIDATOR.md
+  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md
 timeline:
 - timestamp: '2026-07-29T20:14:45Z'
   action: add

@@ -12,7 +12,7 @@ createdAt: '2026-07-30'
 updatedAt: '2026-08-30'
 title: Opinion
 links:
-  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md
+  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md
 timeline:
 - timestamp: '2026-07-29T20:14:44Z'
   action: add
