@@ -4,6 +4,41 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-04, PR #1723 Merged to Restore Main, Full 12-Dimension Meta Sweep Executed, 4 Issues Filed, Safe Remediations Committed)
+
+### TLDR
+
+- **Main Restored:** Successfully executed founder instruction to merge **[PR #1723](https://github.com/gaia-research/gaia-skill-tree/pull/1723)**. `origin/main` is now 100% byte-for-byte identical to the pre-Yggdrasil-III baseline (`29463f9f0`). All Yggdrasil III history is strictly isolated on the dev integration branch (`dev/integration-registry-integrity-sweep-2026-09`, PR #1721).
+- **Meta Sweep Audit Executed:** Audited `gaia-meta-sweep` against canonical `META.md`, uncovered out-of-date instructions and scripts, and authored `scripts/run_meta_sweep.py` to run all 12 dimensions across 284 generics and 328 named skills.
+- **Issues Filed (Per Founder Instruction):**
+  1. **[Issue #1724](https://github.com/gaia-research/gaia-skill-tree/issues/1724):** `fix(scripts): modernize verify_evidence.py for type-first evidence lake and named skills concurrency`
+  2. **[Issue #1725](https://github.com/gaia-research/gaia-skill-tree/issues/1725):** `fix(skills): update gaia-meta-sweep origin-attribution rule from earliest to META §4.1 most-renowned`
+  3. **[Issue #1726](https://github.com/gaia-research/gaia-skill-tree/issues/1726):** `fix(registry): repair URL drift for Firecrawl, Disler, and LangGenius skills and enforce Star Bar on Panniantong`
+  4. **[Issue #1727](https://github.com/gaia-research/gaia-skill-tree/issues/1727):** `fix(registry): purge testuser mock author/evaluator artifact from mattpocock skills`
+- **Frequent Commits Landed (Apply-Safe Remediations):**
+  - `9ea03c19a`: Updated `gaia-meta-sweep` Dimension 3 to evaluate Origin per META §4.1 renowned rule.
+  - `f19a73185`: Repaired upstream SKILL.md paths for 5 Firecrawl skills (`build/` and `core/` subdirectories).
+  - `314317754`: Repaired upstream prompt paths for 4 Disler skills (`prompts/` directory).
+  - `488677450`: Repaired upstream path for `langgenius/component-refactoring` -> `how-to-write-component`.
+  - `7b953aef2`: Demoted `panniantong/agent-reach` to 1★ for Star Bar violation.
+  - `8c1a12162`: Stripped Origin standing from 9 demoted 1★ skills per META §4.1.
+  - `a67f9692a`: Purged `testuser` mock author/evaluator fixtures from 14 Matt Pocock skills.
+  - `72fcb4595`: Realigned Origin standing to highest-ranking implementations across 4 generic buckets.
+  - `9a7d7dc93`: Added `scripts/run_meta_sweep.py` and published formal HTML report and findings JSON.
+- **Verification:** All 144 unit tests passed, `validate.py` 10/10 green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` green.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| `origin/main` | ✅ Cleanly restored to `29463f9f0` (pre-Yggdrasil-III) via PR #1723 merge |
+| Issues Logged | ✅ #1724, #1725, #1726, #1727 filed |
+| Registry Integrity | ✅ 10 dead links fixed, 9 invalid origins stripped, 4 outclassed origins realigned, 14 testuser stubs purged, 1 Star Bar demotion applied |
+| Reports Published | ✅ `docs/meta/reports/2026-09-04-registry-integrity-sweep.html` & `.findings.json` |
+| Tests & Gates | ✅ 10/10 validation checks green, zero DAG cycles, timeline transparency intact |
+
+---
+
 ## State Snapshot (2026-09-04, Pre-Yggdrasil-III Revert PR #1723 Opened, PR #1721 Holds Full Yggdrasil III + Integrity Sweep, Both Founder-Gated)
 
 ### TLDR
