@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Evidence health checker — verify that all evidence source URLs are reachable.
 
-Modular design for future extension:
+Modular design with concurrent checking across generic skills and named skills:
   - check_url()          → HTTP HEAD/GET with status classification
-  - classify_result()    → alive / redirect / dead / timeout
+  - classify_result()    → alive / redirect / dead / timeout / error
   - generate_report()    → JSON + markdown output
 
 Usage:
-    python3 scripts/verify_evidence.py [--output DIR] [--strict] [--timeout SECS]
+    python3 scripts/verify_evidence.py [--scope all|generic|named] [--output DIR] [--strict] [--timeout SECS] [--concurrency N]
 
 Exit codes:
     0 — All URLs alive (or --strict not set)
@@ -15,6 +15,8 @@ Exit codes:
 """
 
 import argparse
+import concurrent.futures
+import glob
 import json
 import os
 import sys
@@ -23,10 +25,13 @@ from dataclasses import dataclass, asdict
 from typing import Optional
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+import yaml
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GRAPH_PATH = os.path.join(REPO_ROOT, "registry", "gaia.json")
-DEFAULT_TIMEOUT = 15
+NAMED_DIR = os.path.join(REPO_ROOT, "registry", "named")
+DEFAULT_TIMEOUT = 6
+DEFAULT_CONCURRENCY = 20
 
 
 @dataclass
@@ -34,7 +39,7 @@ class URLResult:
     url: str
     skill_id: str
     evidence_index: int
-    evidence_class: str
+    evidence_type: str
     status: str  # alive, redirect, dead, timeout, error
     http_code: Optional[int] = None
     latency_ms: Optional[int] = None
@@ -43,7 +48,7 @@ class URLResult:
 
 def check_url(url: str, timeout: int = DEFAULT_TIMEOUT) -> tuple[str, Optional[int], Optional[int], Optional[str]]:
     """Send HTTP HEAD (fallback GET) to url. Returns (status, http_code, latency_ms, detail)."""
-    headers = {"User-Agent": "Gaia-Evidence-Checker/1.0"}
+    headers = {"User-Agent": "Gaia-Evidence-Checker/2.0"}
     start = time.time()
 
     for method in ["HEAD", "GET"]:
@@ -55,8 +60,8 @@ def check_url(url: str, timeout: int = DEFAULT_TIMEOUT) -> tuple[str, Optional[i
                 return classify_result(code), code, latency, None
         except HTTPError as e:
             latency = int((time.time() - start) * 1000)
-            if e.code == 405 and method == "HEAD":
-                continue  # HEAD not allowed, try GET
+            if e.code in (403, 405) and method == "HEAD":
+                continue  # Method not allowed or blocked, try GET
             return classify_result(e.code), e.code, latency, str(e.reason)
         except URLError as e:
             latency = int((time.time() - start) * 1000)
@@ -117,10 +122,10 @@ def generate_report(results: list[URLResult], output_dir: Optional[str]) -> tupl
     if dead_or_bad:
         md_lines.append("## Issues Found")
         md_lines.append("")
-        md_lines.append("| Skill | Class | Status | Code | URL |")
+        md_lines.append("| Skill | Type | Status | Code | URL |")
         md_lines.append("|---|---|---|---|---|")
         for r in dead_or_bad:
-            md_lines.append(f"| `{r.skill_id}` | {r.evidence_class} | {r.status} | {r.http_code or '-'} | {r.url} |")
+            md_lines.append(f"| `{r.skill_id}` | {r.evidence_type} | {r.status} | {r.http_code or '-'} | {r.url} |")
         md_lines.append("")
     else:
         md_lines.append("## All URLs Healthy")
@@ -143,44 +148,98 @@ def generate_report(results: list[URLResult], output_dir: Optional[str]) -> tupl
         return "", ""
 
 
+def collect_generic_urls():
+    if not os.path.isfile(GRAPH_PATH):
+        return []
+    with open(GRAPH_PATH, "r", encoding="utf-8") as f:
+        graph = json.load(f)
+    items = []
+    for skill in graph.get("skills", []):
+        skill_id = skill["id"]
+        for idx, ev in enumerate(skill.get("evidence", [])):
+            url = ev.get("source") or ev.get("url")
+            if url and url.startswith("http"):
+                ev_type = ev.get("type") or ev.get("class", "?")
+                items.append((url, skill_id, idx, ev_type))
+    return items
+
+
+def collect_named_urls():
+    items = []
+    md_files = glob.glob(os.path.join(NAMED_DIR, "**", "*.md"), recursive=True)
+    for path in sorted(md_files):
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        if not content.startswith("---"):
+            continue
+        parts = content.split("---", 2)
+        if len(parts) < 3:
+            continue
+        data = yaml.safe_load(parts[1])
+        if not isinstance(data, dict):
+            continue
+        skill_id = data.get("id", os.path.basename(path).replace(".md", ""))
+
+        gh = data.get("links", {}).get("github") if isinstance(data.get("links"), dict) else None
+        if gh and gh.startswith("http"):
+            items.append((gh, skill_id, -1, "links.github"))
+
+        for idx, ev in enumerate(data.get("evidence", [])):
+            if not isinstance(ev, dict):
+                continue
+            url = ev.get("source") or ev.get("url")
+            if url and url.startswith("http"):
+                ev_type = ev.get("type") or ev.get("class", "evidence")
+                items.append((url, skill_id, idx, ev_type))
+    return items
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Verify evidence source URLs")
+    parser = argparse.ArgumentParser(description="Verify evidence source URLs concurrently")
+    parser.add_argument("--scope", choices=["all", "generic", "named"], default="all", help="Scope of check (default: all)")
     parser.add_argument("--output", "-o", help="Output directory for reports")
     parser.add_argument("--strict", action="store_true", help="Exit 1 if any dead URLs found")
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT, help="HTTP timeout in seconds")
+    parser.add_argument("--concurrency", "-c", type=int, default=DEFAULT_CONCURRENCY, help="Concurrent worker threads")
     args = parser.parse_args()
 
-    with open(GRAPH_PATH, "r", encoding="utf-8") as f:
-        graph = json.load(f)
+    items_to_check = []
+    if args.scope in ("all", "generic"):
+        items_to_check.extend(collect_generic_urls())
+    if args.scope in ("all", "named"):
+        items_to_check.extend(collect_named_urls())
+
+    # Deduplicate by (url, skill_id)
+    seen = set()
+    unique_items = []
+    for item in items_to_check:
+        key = (item[0], item[1])
+        if key not in seen:
+            seen.add(key)
+            unique_items.append(item)
+
+    print(f"Checking {len(unique_items)} unique evidence URLs ({args.scope} scope) with {args.concurrency} threads...")
+
+    def check_worker(item):
+        url, skill_id, idx, ev_type = item
+        status, code, latency, detail = check_url(url, timeout=args.timeout)
+        return URLResult(
+            url=url,
+            skill_id=skill_id,
+            evidence_index=idx,
+            evidence_type=ev_type,
+            status=status,
+            http_code=code,
+            latency_ms=latency,
+            detail=detail,
+        )
 
     results: list[URLResult] = []
-    skills = graph.get("skills", [])
-    total_urls = sum(len(s.get("evidence", [])) for s in skills)
-
-    print(f"Checking {total_urls} evidence URLs across {len(skills)} skills...")
-
-    for skill in skills:
-        skill_id = skill["id"]
-        for idx, ev in enumerate(skill.get("evidence", [])):
-            url = ev.get("source", "")
-            if not url:
-                continue
-
-            status, code, latency, detail = check_url(url, timeout=args.timeout)
-            result = URLResult(
-                url=url,
-                skill_id=skill_id,
-                evidence_index=idx,
-                evidence_class=ev.get("class", "?"),
-                status=status,
-                http_code=code,
-                latency_ms=latency,
-                detail=detail,
-            )
-            results.append(result)
-
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as executor:
+        for res in executor.map(check_worker, unique_items):
+            results.append(res)
             icon = {"alive": ".", "redirect": "~", "dead": "X", "timeout": "T", "error": "!"}
-            sys.stdout.write(icon.get(status, "?"))
+            sys.stdout.write(icon.get(res.status, "?"))
             sys.stdout.flush()
 
     print()
