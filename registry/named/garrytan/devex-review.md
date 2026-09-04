@@ -17,7 +17,7 @@ tags:
 - developer-experience
 - review
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'
@@ -53,11 +53,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:46Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md
@@ -85,7 +80,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 9eb1056b2b6da975aa1b9fb63a16e778891b39ca42dffa001bd0a002a3da6524
+trustMagnitudeInputHash: 08499be1ad32387c92ab3fa04d9aaa23bb0923fb545bc03cc5a47a942e65dfb9
 ---
 
 ## Overview

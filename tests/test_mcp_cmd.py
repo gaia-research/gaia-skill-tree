@@ -1,11 +1,10 @@
 """Tests for execute_dev_mcp.
 
 `packages/mcp` (the in-repo prototype MCP server) was deleted — it was never
-published. Its standalone successor `@gaia-research/mcp` was decommissioned on
-2026-08-19. `gaia dev mcp` spawns no daemon; it prints how to install the Skill
-Heaven plugin, which bundles the summon MCP server. These tests lock that in:
-no subprocess, no `start`/`stop`/`status` verbs, exit 0, and the printed
-instructions must name the install path that actually works today.
+published. `gaia dev mcp` no longer spawns a local node daemon; it prints how to
+install the standalone, published `@gaia-research/mcp` npm package. These tests
+lock that in: no subprocess, no `start`/`stop`/`status` verbs, exit 0, and the
+printed instructions must name the package that actually exists.
 """
 
 import argparse
@@ -25,12 +24,10 @@ def test_execute_dev_mcp_prints_standalone_instructions(tmp_path: Path, capsys):
     assert mcp_cmd.execute_dev_mcp(args) == 0
 
     out = capsys.readouterr().out
-    assert "claude plugin install skill-heaven@gaia-skill-heaven" in out
-    assert "github.com/gaia-research/gaia-skill-heaven" in out
-    # Decommissioned and unpublished install paths must never come back as
-    # instructions. @gaia-research/mcp may still appear, but only as the
-    # deprecation notice.
-    assert "claude mcp add gaia" not in out
+    assert "@gaia-research/mcp@0.1.0" in out
+    assert "claude mcp add gaia" in out
+    assert "github.com/gaia-research/gaia-mcp" in out
+    # The unpublished names must never come back.
     assert "@gaia-registry/mcp-server" not in out
     assert "packages/mcp" not in out
 

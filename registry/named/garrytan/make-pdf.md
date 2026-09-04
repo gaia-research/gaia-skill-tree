@@ -17,7 +17,7 @@ tags:
 - pdf
 - documentation
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:45:10Z'
@@ -53,11 +53,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:47Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md
@@ -85,7 +80,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:34Z'
-trustMagnitudeInputHash: 5842ca35e4c2209d19f6805f0c88b4e6983b6f8d55a165db425dfc0aab72d1ca
+trustMagnitudeInputHash: 15e2f935242dc2379becd11295e2cb1ca9cb52aa251058d318e562fcdd247d83
 ---
 
 ## Overview

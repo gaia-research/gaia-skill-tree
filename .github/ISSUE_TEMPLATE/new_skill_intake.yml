@@ -1,5 +1,5 @@
 name: "Skill Intake — Batch Proposal"
-description: "Propose one or more generic skills (basic or fusion) for the registry in a single issue. Equivalent to `gaia push --from-file skills.yml`."
+description: "Propose one or more generic skills (basic or fusion) for the registry in a single issue. Yggdrasil II compatible. Equivalent to `gaia push --from-file skills.yml`."
 title: "[intake] <short batch description, e.g. 'scientific research skills' or 'single: persistent-agent-planning'>"
 labels: ["intake", "needs-triage"]
 assignees: []
@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Skill Batch Intake
+        ## Skill Batch Intake (Yggdrasil II compatible)
 
         Propose **one or more generic (starless) skills** in a single issue using the
         inline YAML format below. Each skill becomes one row in
@@ -39,7 +39,7 @@ body:
         Fields marked `# optional` may be omitted.
         The `named:` block is only needed when you also want a named skill entry.
       value: |
-        # ── INTAKE SCHEMA v1 ─────────────────────────────────────────────────────
+        # ── INTAKE SCHEMA v1 (Yggdrasil II) ──────────────────────────────────────
         # Copy this block once per skill. Stack multiple skills in the same file.
         # CLI equivalent: gaia push --from-file <this-file>.yml
         # ─────────────────────────────────────────────────────────────────────────

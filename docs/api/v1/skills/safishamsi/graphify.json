@@ -2,26 +2,18 @@
   "id": "safishamsi/graphify",
   "name": "Graphify",
   "contributor": "safishamsi",
-  "level": "5★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 189.68,
+  "trustMagnitude": 160.99,
   "overallTrustGrade": "A",
   "branch": "unique",
-  "rankWord": "Unique Ultimate",
+  "rankWord": "Unique",
   "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/safishamsi/graphify.json",
     "contributor": "/api/v1/contributors/safishamsi.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "The Structural Muse",
   "genericSkillRef": "knowledge-graph-build",
@@ -186,18 +178,6 @@
       "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
-    },
-    {
-      "timestamp": "2026-08-29T17:16:00Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 116.57 -> 297.8, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:45Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 4★ to 5★"
     }
   ],
   "links": {

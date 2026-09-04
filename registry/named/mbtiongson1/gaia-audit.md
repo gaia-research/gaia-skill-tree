@@ -10,7 +10,7 @@ description: Performs a focused source-level correction for one target registry 
   — verifying links, checking evidence classes, and filing an inline-diff fix PR with
   full citations.
 createdAt: '2026-05-27'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 title: The Source Detective
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md
@@ -45,11 +45,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - class: C
   source: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
@@ -76,7 +71,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a7dd73c7eab0af1f39dbba80882bd46c5312afc7fa25e32ff8d8b9940a88da01
+trustMagnitudeInputHash: cfc35363718ee7fd481d6d2c8c822de0976b7b7e7be7b97d39ea5f482ae0d548
 ---
 
 ## Overview

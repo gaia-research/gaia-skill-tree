@@ -19,7 +19,7 @@ tags:
 - domain-glossary
 - codebase-orientation
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 trustMagnitude: 0.0
@@ -54,13 +54,8 @@ timeline:
   newValue: null
   details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''zoom-out
     went unused in practice, so it''s been removed from the repo.'' No replacement.'
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 022fa498184a658c09c368693b08e22f56689d67fecf95bef4a8acc11b6599d7
+trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
 installable: false
 ---
 

@@ -20,7 +20,7 @@ tags:
 - event-driven
 - workflow
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/flow-nexus
 timeline:
 - timestamp: '2026-06-02T23:48:21Z'
@@ -36,11 +36,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:58Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -52,7 +47,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3f2f7662fc11748d1c1bc140bd091168e2a5c50e79fc648c7a69683ea428422b
+trustMagnitudeInputHash: 26a30e85dfa7608cc824493ad4a31e868cf06db9b3cf162983edc448338fb1c2
 ---
 
 ## Overview

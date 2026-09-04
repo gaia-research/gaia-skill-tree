@@ -121,28 +121,3 @@ def test_verify_happy_path_marks_verified(tmp_path):
     assert entry["verified"] is True
     assert entry["disputed"] is False
     assert entry["verificationSource"] == "https://example.com/review"
-
-
-def test_verify_real_verifier_gate_explains_legitimate_remedy_and_override_boundary(
-    tmp_path, monkeypatch, capsys
-):
-    root = _make_registry(tmp_path, [{"source": "https://example.com/a"}])
-    before = _load_node(root)
-    monkeypatch.setattr("gaia_cli.commands.dev.verify._get_contributor", lambda: "guest")
-    monkeypatch.setattr(
-        "gaia_cli.commands.dev.verify._is_verifier", lambda *a, **kw: False
-    )
-    monkeypatch.setenv("GAIA_OPERATOR_OVERRIDE", "1")
-
-    with pytest.raises(SystemExit) as exc:
-        meta_verify_command(_args(root))
-
-    assert exc.value.code == 1
-    assert _load_node(root) == before
-    output = capsys.readouterr().out
-    assert "named skill implementation" in output
-    assert "calibrated to 4★ or higher" in output
-    assert "`gaia whoami` diagnoses the first, general operator gate" in output
-    assert "does not confirm eligibility for this evidence-verification gate" in output
-    assert "GAIA_OPERATOR_OVERRIDE may satisfy that general gate" in output
-    assert "second, independent evidence-verification gate" in output

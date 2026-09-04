@@ -99,7 +99,7 @@ Capabilities advance through evidence, not declaration. Ranks range from `0★` 
 *   **4★ Extra (Suite branch)** or **4★ Unique (Unique branch):** Origin contribution + TM ≥ 100 (Grade A).
 *   **5★ Ultimate (Suite) / 5★ Unique Ultimate (Unique branch):** TM ≥ 250 (Grade S). Suite 5★ gate preserved per #935 (5 A-graded origins in `suiteComponents`).
 *   **6★ Apex (Suite branch):** Full 6-predicate Apex Gate (TM Index 2026 Q2). See `docs/codex/trust-methodology.html`.
-*   **6★ Unique Impossible (Unique branch):** Provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`). Ratified as a branch distinction under Yggdrasil III; the 5-predicate gate itself remains provisional (META.md §4.4).
+*   **6★ Unique Impossible (Unique branch):** Provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`). Formal ratification deferred to Yggdrasil III.
 
 ### Unique Branch Policy
 A named skill enters the Unique branch at 4★ when its generic parent has **no `suiteComponents`** and the skill holds:

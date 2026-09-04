@@ -2,26 +2,18 @@
   "id": "k-dense-ai/transformers",
   "name": "Transformers",
   "contributor": "k-dense-ai",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 194.52,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 78.3,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/k-dense-ai/transformers.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 228.28,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 3,
-    "transitiveCount": 12,
-    "maxDepth": 3,
-    "nestedSuiteCount": 0
   },
   "title": "Transformers",
   "genericSkillRef": "transformer-model-engineering",
@@ -99,18 +91,6 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:51Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 197.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:35Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

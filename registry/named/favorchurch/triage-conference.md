@@ -9,7 +9,7 @@ level: 1★
 description: Triage incoming emails, search registrations, match against knowledge
   base, and draft/send replies.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Triage Conference
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md
@@ -27,11 +27,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md
   evaluator: favorchurch
@@ -42,9 +37,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:38Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: 374401e9b707ebef948e5e38d8eda90d1bf9e6d6687c6b92cde72fe808b40d1b
 ---
 
 # triage-conference

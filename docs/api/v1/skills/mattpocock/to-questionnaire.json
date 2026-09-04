@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
-  },
   "title": "The Questionnaire Converter",
   "genericSkillRef": "questionnaire-generation",
   "origin": false,
@@ -67,12 +59,6 @@
       "action": "suite_ref_set",
       "contributor": "mbtiongson1",
       "details": "Set suiteRef to mattpocock/productivity"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:54Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

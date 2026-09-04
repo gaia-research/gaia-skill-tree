@@ -57,11 +57,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ```text
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
-  ├─ · mattpocock/engineering  [3★]
-  │  ├─ · firecrawl/firecrawl-build-onboarding  [4★]
-  │  │  ├─ ○ garrytan/document-generate  [4★]
+  ├─ · mattpocock/engineering  [4★]
+  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
+  │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
-  │  ├─ · devin-ai/autonomous-swe  [4★]
+  │  ├─ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -74,27 +74,27 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [4★]
+  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ ○ nextlevelbuilder/ui-ux-pro-max  [5★]
-  ├─ · garrytan/garrytan  [5★]
+  ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
+  ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ · leonxlnx/stitch-skill  [3★]
+  ├─ · garrytan/design-consultation  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ firecrawl/firecrawl-build-onboarding  [4★]
-    ├─ ○ garrytan/document-generate  [4★]
-    └─ ○ /tool-use
-  ◉ devin-ai/autonomous-swe  [4★]
-    ├─ ○ garrytan/design-html  [3★]
+  ◉ mvanhorn/last30days  [4★]
+    ├─ · /ghostwrite
+    │  ├─ · mattpocock/research  [2★]
+    │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+    │  │  ├─ ○ /summarize
 
-(284 skills total — see docs/tree.md)
+(283 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -175,7 +175,7 @@ This is the evidence grade at the Skill level.
 **1. CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.13.2`.
+Current Gaia CLI version: `7.11.2`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -494,7 +494,7 @@ The registry is programmatically managed. All meta shifts (adding, merging, spli
 
 Gaia does not store personal information.
 
-- **Skills are summarised, not stored.** `gaia scan` records capability type, level, and evidence grade — never file contents, prompt text, or conversation history.
+- **Skills are summarised, not stored.** `gaia scan` records capability type, level, and evidence class — never file contents, prompt text, or conversation history.
 - **Only public repo links.** The registry stores your public GitHub username and a public repo URL when you explicitly submit a named skill. Nothing else.
 - **Generalised by default.** Skill descriptions capture capability categories, not personal details about you or your agent's behaviour.
 - **No telemetry.** The CLI and the static website collect zero analytics or usage data.

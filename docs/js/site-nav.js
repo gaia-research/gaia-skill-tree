@@ -4,7 +4,6 @@
  *
  * Three pieces emitted by this script:
  *   1. .nav-logo                 — Gaia diamond seal + wordmark (always)
- *   1b. .nav-era-stamp           — `III` registry-era stamp, beside the logo
  *   2. .nav-breadcrumb           — only on docs/en/*; sits beside the logo
  *   3. .nav-primary              — desktop top-level + More dropdown
  *   4. .nav-menu-toggle (☰)      — opens the mobile drawer (≤700px)
@@ -41,23 +40,6 @@
 
   // Diamond Seal inlined — avoids <use href> sprite-load race and cross-origin blocks.
   const SEAL_SVG = `<svg class="ico nav-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/><text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text></svg>`;
-
-  // ── Registry-era stamp ─────────────────────────────────────────────────
-  // The one canonical component that says which ruleset the registry is
-  // currently running. It is metadata, NOT a rank: no star glyph, no rank
-  // name, no medallion, no rank-token color, no glow, no motion. `III` in a
-  // flat mono ledger stamp — if it ever reads as "3★ Evolved", it is wrong.
-  //
-  // The literal `III` stays visible at every width; the wordmark is what
-  // yields when space runs out (see .nav-wordmark in styles.css). The stamp
-  // must never grow the fixed nav's height.
-  const ERA_REPORT_HREF = root + 'meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html';
-  const ERA_STAMP =
-    '<a class="nav-era-stamp" href="' + ERA_REPORT_HREF + '"' +
-      ' title="Yggdrasil III"' +
-      ' aria-label="Yggdrasil III, current registry ruleset">' +
-      '<span aria-hidden="true">III</span>' +
-    '</a>';
 
   const currentPath = window.location.pathname;
   function isActive(href) {
@@ -232,7 +214,6 @@
         SEAL_SVG +
         '<span class="nav-wordmark">Gaia Skill Tree</span>' +
       '</a>' +
-      ERA_STAMP +
       renderBreadcrumb() +
     '</div>' +
     '<button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">' +

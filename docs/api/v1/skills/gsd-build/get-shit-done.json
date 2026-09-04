@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 169.36,
+  "trustMagnitude": 202.15,
   "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Extra",
@@ -14,14 +14,6 @@
     "self": "/api/v1/skills/gsd-build/get-shit-done.json",
     "contributor": "/api/v1/contributors/gsd-build.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 272.11,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 10,
-    "transitiveCount": 23,
-    "maxDepth": 3,
-    "nestedSuiteCount": 0
   },
   "title": "Get Shit Done",
   "genericSkillRef": "git-ship-done-pipeline",
@@ -186,12 +178,6 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:49Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 202.16 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

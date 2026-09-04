@@ -18,7 +18,7 @@ tags:
 - memory-integration
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-20'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/reasoningbank-agentdb
@@ -135,13 +135,8 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 118.5 -> 88.5, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-trustMagnitude: 88.5
-overallTrustGrade: B
+trustMagnitude: 118.5
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -153,7 +148,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:49:58Z'
-trustMagnitudeInputHash: e56134f1c193da84c78df9f4f14ed950432d3d6f23feb1a47d93e2bb3aa49e63
+trustMagnitudeInputHash: 14db5a1d7daf78680d3d2f58499fde5caa3ce712339f9dd377d1e383263f6f27
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

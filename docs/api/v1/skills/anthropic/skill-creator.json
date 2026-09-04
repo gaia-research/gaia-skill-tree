@@ -2,26 +2,18 @@
   "id": "anthropic/skill-creator",
   "name": "Skill Creator",
   "contributor": "anthropic",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 211.52,
   "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/anthropic/skill-creator.json",
     "contributor": "/api/v1/contributors/anthropic.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "The Skill Forger's Art",
   "genericSkillRef": "tool-creation",
@@ -152,18 +144,6 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:43Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 90.0 -> 211.52, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:14Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

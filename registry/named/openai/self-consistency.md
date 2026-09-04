@@ -20,7 +20,7 @@ tags:
 - cot
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-16'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -72,11 +72,6 @@ timeline:
     origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
-- timestamp: '2026-08-29T17:15:56Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 100.0 -> 100.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - source: https://arxiv.org/abs/2203.11171
   evaluator: mbtiongson1
@@ -88,7 +83,7 @@ evidence:
   grade: S
 verification:
   firstEvidenceAt: '2026-06-19T09:25:06Z'
-trustMagnitudeInputHash: c1792338f214762b11864ef5512e4597a7867806f29b34f3fe74f8c3d773aa5f
+trustMagnitudeInputHash: d23306f7b62a1ac700203a79421bbf217c5704eeaafe0ccb952ffda85a17e19d
 ---
 
 ## Overview

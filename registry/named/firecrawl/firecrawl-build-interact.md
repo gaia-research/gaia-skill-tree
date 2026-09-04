@@ -5,10 +5,10 @@ contributor: firecrawl
 origin: false
 genericSkillRef: browser-control
 status: named
-level: 4★
+level: 3★
 description: Integrate Firecrawl browser interaction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-02'
+updatedAt: '2026-07-31'
 title: Firecrawl Interact
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md
@@ -39,15 +39,6 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 2★ to 3★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-09-02T15:11:15Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -69,9 +60,6 @@ catalogRef: firecrawl-firecrawl-build-interact
 suiteRef: firecrawl/firecrawl-skills
 verification:
   firstEvidenceAt: '2026-07-30T22:15:50Z'
-trustMagnitude: 286.0
-overallTrustGrade: A
-trustMagnitudeInputHash: 66544bed53c63ba9026f1e1d8b76d3a9f5951566784dcf41d132823995bacdf0
 ---
 
 ## Installation

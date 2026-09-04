@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
-  },
   "title": "Teach",
   "genericSkillRef": "knowledge-management",
   "origin": false,
@@ -146,12 +138,6 @@
       "action": "suite_ref_set",
       "contributor": "mbtiongson1",
       "details": "Set suiteRef to mattpocock/productivity"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:54Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 0.0 -> 44.48, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

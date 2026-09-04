@@ -1132,47 +1132,6 @@ button.plaque__slug {
   gap: 0.5rem;
 }
 
-/* ── Branch + rank accent (Ygg-II) ──────────────────────────────
-   The rank ladder FORKS at 4★: Suite runs --rank-N, Unique runs
-   --rank-N-unique (4★ violet → 5★ burnished copper → 6★ ember). The plate
-   used to resolve its accent from data-branch alone, which pinned every
-   Unique plate to the 4★ violet no matter its rank, and the homepage band
-   then resolved the card wash from data-level alone, which painted every 5★
-   plate Suite amber — including the Unique Ultimates. Both halves are keyed
-   on branch AND rank here, once, and everything downstream reads
-   --plaque-accent(-rgb). Same ladder as docs/heroes/heroes.css
-   --stage-accent, so the teaser and the Hall page cannot drift apart. */
-.plaque--hall[data-level="4"] {
-  --plaque-accent: var(--rank-4);
-  --plaque-accent-rgb: var(--rank-4-rgb);
-  --plaque-accent-bg: var(--rank-4-bg);
-}
-.plaque--hall[data-level="5"] {
-  --plaque-accent: var(--rank-5);
-  --plaque-accent-rgb: var(--rank-5-rgb);
-  --plaque-accent-bg: var(--rank-5-bg);
-}
-.plaque--hall[data-level="6"] {
-  --plaque-accent: var(--rank-6);
-  --plaque-accent-rgb: var(--rank-6-rgb);
-  --plaque-accent-bg: var(--rank-6-bg);
-}
-.plaque--hall[data-branch="unique"][data-level="4"] {
-  --plaque-accent: var(--rank-4-unique);
-  --plaque-accent-rgb: var(--rank-4-unique-rgb);
-  --plaque-accent-bg: var(--rank-4-unique-bg);
-}
-.plaque--hall[data-branch="unique"][data-level="5"] {
-  --plaque-accent: var(--rank-5-unique);
-  --plaque-accent-rgb: var(--rank-5-unique-rgb);
-  --plaque-accent-bg: rgba(var(--rank-5-unique-rgb), 0.12);
-}
-.plaque--hall[data-branch="unique"][data-level="6"] {
-  --plaque-accent: var(--rank-6-unique);
-  --plaque-accent-rgb: var(--rank-6-unique-rgb);
-  --plaque-accent-bg: rgba(var(--rank-6-unique-rgb), 0.12);
-}
-
 /* Backdrop — faint blurred copy of the primary skill OG art. Fades
    in only after the <img> loads (data-art-loaded=true) so a 404
    never leaves a half-rendered fragment. */
@@ -1252,107 +1211,11 @@ button.plaque__slug {
   margin-top: 2px;
 }
 .plaque--hall .plaque__hall-crest-img {
-  position: relative;
-  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
   display: block;
-}
-
-/* ── Branch material ─────────────────────────────────────────────
-   Rank colour alone could not say which way a plate came up the ladder, so
-   the branch changes the MATERIAL of the crest, not just its hue — the same
-   move the Hall page makes, in teaser scale:
-
-     Suite  — gilded. The rotated diamond the taxonomy already uses for ◆,
-              over the Overdrive suite haze.
-     Unique — cold and singular. A concentric outer ring (the ◉ drawn at
-              scale), over the Overdrive orrery field.
-
-   Both fields are masked to an annulus so they read as light thrown around
-   the medallion and never wash over the contributor's face. */
-.plaque--hall .plaque__hall-crest::before,
-.plaque--hall .plaque__hall-crest::after {
-  content: '';
-  position: absolute;
-  display: none;
-  pointer-events: none;
-}
-
-.plaque--hall .plaque__hall-crest::before {
-  z-index: 1;
-  inset: -28%;
-}
-
-.plaque--hall .plaque__hall-crest::after {
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  width: 260%;
-  height: 260%;
-  transform: translate(-50%, -50%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 34%, black 44%, transparent 78%);
-          mask-image: radial-gradient(circle at 50% 50%, transparent 0 34%, black 44%, transparent 78%);
-}
-
-.plaque--hall[data-branch="suite"] .plaque__hall-crest::before,
-.plaque--hall[data-branch="suite"] .plaque__hall-crest::after,
-.plaque--hall[data-branch="unique"] .plaque__hall-crest::before,
-.plaque--hall[data-branch="unique"] .plaque__hall-crest::after {
-  display: block;
-}
-
-.plaque--hall[data-branch="suite"] .plaque__hall-crest::before {
-  transform: rotate(45deg);
-  border: 1px solid rgba(var(--plaque-accent-rgb), 0.5);
-  background: linear-gradient(
-    135deg,
-    rgba(var(--plaque-accent-rgb), 0.12) 0%,
-    transparent 46%,
-    rgba(var(--plaque-accent-rgb), 0.07) 100%
-  );
-}
-
-.plaque--hall[data-branch="suite"] .plaque__hall-crest::after {
-  background-image: url('../assets/ascension-overdrive/aov3-haze-suite.webp');
-  background-size: cover;
-  mix-blend-mode: screen;
-  opacity: 0.34;
-}
-
-.plaque--hall[data-branch="unique"] .plaque__hall-crest::before {
-  inset: -26%;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--plaque-accent-rgb), 0.55);
-  box-shadow:
-    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.14),
-    inset 0 0 16px rgba(var(--plaque-accent-rgb), 0.1);
-}
-
-.plaque--hall[data-branch="unique"] .plaque__hall-crest::after {
-  background-image: url('../assets/ascension-overdrive/aov4-rank-3-field-mobile.webp');
-  opacity: 0.55;
-  filter: saturate(0.7);
-}
-
-@media (min-width: 768px) {
-  .plaque--hall[data-branch="unique"] .plaque__hall-crest::after {
-    background-image: url('../assets/ascension-overdrive/aov4-rank-3-field.webp');
-  }
-}
-
-/* The Unique crest is a thin cold ring around a single core; the Suite crest
-   keeps the warmer, heavier brass edge. */
-.plaque--hall[data-branch="unique"] .plaque__hall-crest {
-  border-width: 1px;
-  box-shadow:
-    0 0 14px rgba(var(--plaque-accent-rgb), 0.24),
-    inset 0 0 12px rgba(0, 0, 0, 0.6);
 }
 .plaque--hall .plaque__hall-crest[data-crest-fail="true"] {
   /* Render a starburst ring when the OG fetch fails so the plate still
@@ -1538,152 +1401,6 @@ button.plaque__slug {
 .plaque--hall-featured .plaque__hall-divider-numeral {
   font-size: 1rem;
 }
-/* The numeral alone was an unlabelled number sitting between two rules. Name
-   what it measures; the stack keeps the divider's centred silhouette. */
-.plaque--hall .plaque__hall-divider-figure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  flex-shrink: 0;
-}
-.plaque--hall .plaque__hall-divider-label {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.55rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  /* --muted alone lands under 4.5:1 on the plate ground at this size; mix it
-     toward the ink end so the caption is actually readable. */
-  color: color-mix(in oklch, var(--text) 62%, var(--muted));
-  line-height: 1;
-}
-.plaque--hall-featured .plaque__hall-divider-label {
-  font-size: 0.6rem;
-}
-
-/* ── Branch mark ─────────────────────────────────────────────────
-   Names the branch in a glyph, a word and a colour, so the fork survives for
-   readers who cannot use hue. Sits directly under the crest, where it reads
-   as a caption on the material above it. */
-.plaque--hall .plaque__hall-branchmark {
-  position: relative;
-  z-index: 3;
-  align-self: center;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  /* Clears the branch geometry above it: the Suite diamond's lower point and
-     the Unique outer ring both extend past the crest box. */
-  margin-top: 12px;
-  padding: 2px 8px 2px 6px;
-  border: 1px solid rgba(var(--plaque-accent-rgb), 0.34);
-  border-radius: 2px;
-  /* Opaque enough to sit ON the branch geometry rather than let the diamond's
-     edge run through the words. */
-  background: color-mix(in oklch, var(--bg) 84%, var(--plaque-accent));
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.56rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text, #e2e8f0);
-  white-space: nowrap;
-}
-.plaque--hall-featured .plaque__hall-branchmark {
-  font-size: 0.62rem;
-  padding: 3px 10px 3px 8px;
-}
-.plaque--hall .plaque__hall-branchmark-glyph {
-  font-size: 0.8rem;
-  line-height: 1;
-  color: var(--plaque-accent);
-}
-
-/* ── Fusion Score readout ────────────────────────────────────────
-   Two shapes for two branches, because the underlying numbers are not
-   comparable: Suite runs 285–393 on every entry, Unique runs 0–60 and is
-   often exactly zero. Same split, same copy, as the Hall page. */
-.plaque--hall .plaque__hall-fusion {
-  display: grid;
-  gap: 2px;
-  margin-top: 6px;
-  padding: 6px 10px;
-  border: 1px solid rgba(var(--plaque-accent-rgb), 0.2);
-  border-radius: 3px;
-  font-family: var(--font-mono, ui-monospace, monospace);
-  cursor: help;
-}
-.plaque--hall .plaque__hall-fusion-label {
-  font-size: 0.55rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: color-mix(in oklch, var(--text) 62%, var(--muted));
-}
-.plaque--hall .plaque__hall-fusion-value {
-  font-size: 1.15rem;
-  line-height: 1.1;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--plaque-accent);
-  font-variant-numeric: tabular-nums;
-}
-.plaque--hall .plaque__hall-fusion-sub {
-  font-size: 0.6rem;
-  letter-spacing: 0.04em;
-  color: color-mix(in oklch, var(--text) 62%, var(--muted));
-}
-
-/* Suite: composition is the branch's defining fact, so it gets the headline
-   figure and a bar read against the set's own largest score. */
-.plaque--hall .plaque__hall-fusion--suite {
-  justify-items: center;
-  text-align: center;
-  border-color: rgba(var(--plaque-accent-rgb), 0.42);
-  background: rgba(var(--plaque-accent-rgb), 0.07);
-}
-.plaque--hall-featured .plaque__hall-fusion--suite .plaque__hall-fusion-value {
-  font-size: 1.5rem;
-}
-.plaque--hall .plaque__hall-fusion-bar {
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 4px;
-  background: rgba(var(--plaque-accent-rgb), 0.2);
-  overflow: hidden;
-}
-.plaque--hall .plaque__hall-fusion-bar-fill {
-  display: block;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(var(--plaque-accent-rgb), 0.45) 0%,
-    var(--plaque-accent) 100%
-  );
-}
-
-/* Unique: a ledger line, not a headline. Overselling a 60 next to a Suite's
-   393 would misread the data. Flex-wrap rather than fixed columns, so the
-   clause drops to its own line instead of running off the plate. */
-.plaque--hall .plaque__hall-fusion--unique {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 3px 8px;
-  padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.3);
-}
-.plaque--hall .plaque__hall-fusion--unique .plaque__hall-fusion-value {
-  font-size: 0.8rem;
-}
-.plaque--hall .plaque__hall-fusion--unique .plaque__hall-fusion-sub {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-/* A zero here is a finding, not an absence: this capability composes nothing
-   distinct of its own. Stated rather than blanked. */
-.plaque--hall .plaque__hall-fusion--zero .plaque__hall-fusion-value {
-  color: color-mix(in oklch, var(--text) 62%, var(--muted));
-}
 
 /* Skill rows — reuse .plaque__stack-row from .plaque--mini-stack but
    override row backgrounds so the faint backdrop doesn't bleed through
@@ -1695,38 +1412,34 @@ button.plaque__slug {
   margin-top: 0;
 }
 .plaque--hall .plaque__stack-row {
-  /* Each row resolves its OWN branch+rank accent, because one plate can hold a
-     contributor's Unique and Suite side by side and they are not the same
-     colour. Falls back to the plate accent for the shared 0–3★ ladder. */
-  --row-accent: var(--plaque-accent);
-  --row-accent-rgb: var(--plaque-accent-rgb);
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
   border-radius: 7px;
-  background: rgba(var(--row-accent-rgb), 0.1);
-  border: 1px solid rgba(var(--row-accent-rgb), 0.26);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--plaque-accent-rgb), 0.08);
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
-/* Shared ladder, 0–3★. */
-.plaque--hall .plaque__stack-row[data-level="0"] { --row-accent: var(--rank-0); --row-accent-rgb: var(--rank-0-rgb); }
-.plaque--hall .plaque__stack-row[data-level="1"] { --row-accent: var(--rank-1); --row-accent-rgb: var(--rank-1-rgb); }
-.plaque--hall .plaque__stack-row[data-level="2"] { --row-accent: var(--rank-2); --row-accent-rgb: var(--rank-2-rgb); }
-.plaque--hall .plaque__stack-row[data-level="3"] { --row-accent: var(--rank-3); --row-accent-rgb: var(--rank-3-rgb); }
-/* Suite branch, 4★+. */
-.plaque--hall .plaque__stack-row[data-level="4"] { --row-accent: var(--rank-4); --row-accent-rgb: var(--rank-4-rgb); }
-.plaque--hall .plaque__stack-row[data-level="5"] { --row-accent: var(--rank-5); --row-accent-rgb: var(--rank-5-rgb); }
-.plaque--hall .plaque__stack-row[data-level="6"] { --row-accent: var(--rank-6); --row-accent-rgb: var(--rank-6-rgb); }
-/* Unique branch, 4★+ — the fork. Violet → burnished copper → ember. */
-.plaque--hall .plaque__stack-row[data-branch="unique"][data-level="4"] { --row-accent: var(--rank-4-unique); --row-accent-rgb: var(--rank-4-unique-rgb); }
-.plaque--hall .plaque__stack-row[data-branch="unique"][data-level="5"] { --row-accent: var(--rank-5-unique); --row-accent-rgb: var(--rank-5-unique-rgb); }
-.plaque--hall .plaque__stack-row[data-branch="unique"][data-level="6"] { --row-accent: var(--rank-6-unique); --row-accent-rgb: var(--rank-6-unique-rgb); }
-/* 6★ Apex on the Suite branch keeps apex gold and its rainbow affordance. */
-.plaque--hall .plaque__stack-row[data-branch="suite"][data-level="6"] { --row-accent: var(--apex-gold); --row-accent-rgb: var(--apex-gold-rgb); }
+/* Ygg-II: each row's background reflects its rank+branch — Suite (Ultimate/
+   Apex) gold, Unique dark purple, 4★ Extra the 4★ rank purple. Keyed on the
+   data-branch + data-level the row already carries (no JS change); the 1–3★
+   shared ladder keeps the neutral base fill. */
+.plaque--hall .plaque__stack-row[data-branch="suite"] {
+  background: var(--tier-fusion-bg);
+  border-color: rgba(var(--tier-fusion-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="unique"] {
+  background: var(--rank-4-unique-bg);
+  border-color: rgba(var(--rank-4-unique-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="suite"][data-level="4"] {
+  background: var(--rank-4-bg);
+  border-color: rgba(var(--rank-4-rgb), 0.28);
+}
 .plaque--hall .plaque__stack-row:hover {
-  background: rgba(var(--row-accent-rgb), 0.18);
-  border-color: rgba(var(--row-accent-rgb), 0.45);
+  background: rgba(0, 0, 0, 0.45);
+  border-color: rgba(var(--plaque-accent-rgb), 0.28);
   transform: translateX(2px);
 }
 .plaque--hall-featured .plaque__stack-row {
@@ -1738,7 +1451,6 @@ button.plaque__slug {
   width: 14px;
   text-align: center;
   line-height: 1;
-  color: var(--row-accent);
 }
 .plaque--hall .plaque__stack-row .plaque__slug,
 .plaque--hall .plaque__stack-row .plaque-skill-name {
@@ -1754,21 +1466,49 @@ button.plaque__slug {
   font-size: 16px;
 }
 
-/* Slug and stars both read the row's own branch+rank accent, so they can
-   never disagree with each other or with the row fill. This replaces two
-   older ladders that fought: a rank-only slug ramp (which had no Unique
-   fork at all) and a branch-only Unique override pinned to the 4★ violet
-   (which made a Unique Ultimate and a Unique Extra the same colour). */
-.plaque--hall .plaque__stack-row .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row .plaque__slug.named-slug {
-  color: var(--row-accent);
+/* Slug colour follows the row's rank, not its tier — the existing
+   tier-aware override (plaque.css ~line 565) forces every Unique
+   slug to deep violet and every non-6★ Ultimate slug to apex gold,
+   which mismatches the rank-coloured stars right next to them. The
+   rules below restore parity by colouring the slug from the row's
+   rank token; 6★ Ultimate alone retains apex gold + the rainbow
+   cycle so the apex affordance stays distinct. */
+.plaque--hall .plaque__stack-row[data-level="0"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="0"] .plaque__slug.named-slug { color: var(--rank-0, #94a3b8); }
+.plaque--hall .plaque__stack-row[data-level="1"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="1"] .plaque__slug.named-slug { color: var(--rank-1, #38bdf8); }
+.plaque--hall .plaque__stack-row[data-level="2"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="2"] .plaque__slug.named-slug { color: var(--rank-2, #63cab7); }
+.plaque--hall .plaque__stack-row[data-level="3"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="3"] .plaque__slug.named-slug { color: var(--rank-3, #a78bfa); }
+.plaque--hall .plaque__stack-row[data-level="4"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="4"] .plaque__slug.named-slug { color: var(--rank-4, #e879f9); }
+.plaque--hall .plaque__stack-row[data-level="5"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="5"] .plaque__slug.named-slug { color: var(--rank-5, #fbbf24); }
+/* 6★ Apex (suite branch) retains apex gold + rainbow — preserves the existing
+   tree-rainbow-glow animation on .plaque__stack-row[data-branch="suite"][data-level="6"]. */
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
+/* Non-suite 6★ (e.g. a Unique 6★) just uses rank-6 amber. */
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
+
+/* Unique branch exception — deep violet wins over the rank colour for
+   every Unique skill row regardless of rank. The Unique branch is the
+   standalone-mastery fork (a Basic that ascended without ever fusing)
+   and must read in its branch-native deep violet across surfaces. The
+   stars in this row also get deep violet (overriding rank-4 fuchsia)
+   so slug + stars stay in lockstep. Rubric E1: keyed on derived branch. */
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug {
+  color: var(--rank-4-unique);
 }
-.plaque--hall .plaque__stack-row .rank-badge__star[data-on] {
-  color: var(--row-accent);
-  text-shadow: 0 0 6px rgba(var(--row-accent-rgb), .5);
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
+  color: var(--rank-4-unique);
+  text-shadow: 0 0 6px rgba(var(--rank-4-unique-rgb), .5);
 }
-.plaque--hall .plaque__stack-row .rank-badge__star[data-off] {
-  color: rgba(var(--row-accent-rgb), .18);
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
+  color: rgba(var(--rank-4-unique-rgb), .15);
 }
 
 .plaque--hall .plaque__stack-rank {

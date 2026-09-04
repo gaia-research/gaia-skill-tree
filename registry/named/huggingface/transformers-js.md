@@ -20,7 +20,7 @@ tags:
 - webgpu
 - inference
 createdAt: '2026-05-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-03'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,12 +46,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: 9093a93e611a848c80ec9f6040e52c7473660a0840c18176edf7e1c73aa34254
+trustMagnitudeInputHash: 86d7bae4832f978cb6f924f94969f34b792c883993cd3613914e7761cbcf6fbc
 ---
 
 ## Overview

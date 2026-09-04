@@ -10,7 +10,7 @@ description: Production-grade engineering command suite for AI coding agents spa
   the full development lifecycle — spec, plan, build, test, review, web performance,
   ship, and simplify.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-07-02T18:42:20Z'
   action: add
@@ -100,16 +100,6 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-- timestamp: '2026-08-25T11:23:16Z'
-  action: recalibrate_trust_magnitude
-  contributor: unknown
-  details: 'TM 293.14 -> 256.3, grade S -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-08-29T16:26:46Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 256.3 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-09-01'
@@ -138,8 +128,8 @@ suiteComponents:
 - addy-osmani/shipping-and-launch
 - addy-osmani/spec-driven-development
 - addy-osmani/test-driven-development
-trustMagnitude: 286.0
-overallTrustGrade: A
+trustMagnitude: 293.14
+overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -149,7 +139,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7302157a992fcb3fb078c907cb3b72d3bb682d8bbb93724debe9e6d245c348fd
+trustMagnitudeInputHash: 328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
 upstream:

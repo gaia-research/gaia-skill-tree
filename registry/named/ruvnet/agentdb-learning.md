@@ -18,7 +18,7 @@ tags:
 - pattern-recognition
 - adaptation
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/agentdb
 timeline:
 - timestamp: '2026-06-02T23:48:20Z'
@@ -34,11 +34,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:57Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -50,7 +45,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3f8ef3d445b37170db065d22f12388ed989450d89837e7ace73737f7cd26cbc1
+trustMagnitudeInputHash: a54f1c67171c575dd6916e85eeec439a8e79428ad2a2dbd8e759791d52a075d2
 ---
 
 ## Overview

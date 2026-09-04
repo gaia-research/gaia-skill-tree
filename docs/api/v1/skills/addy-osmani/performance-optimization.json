@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 174.62,
+  "trustMagnitude": 127.33,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -14,14 +14,6 @@
     "self": "/api/v1/skills/addy-osmani/performance-optimization.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "The Perf Loop",
   "genericSkillRef": "performance-tuning",
@@ -151,12 +143,6 @@
       "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:42Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 83.2 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

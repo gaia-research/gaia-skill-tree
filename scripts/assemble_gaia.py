@@ -48,7 +48,7 @@ def assemble(registry_root="."):
         meta_mapped = old_data.get("meta", {})
 
     assembled_data = {
-        "$schema": "registry/schema/skill.schema.json",
+        "$schema": "./schema/skill.schema.json",
         "version": old_data.get("version") or _read_version(registry_root),
         "generatedAt": get_utc_now_iso(),
         "meta": meta_mapped,

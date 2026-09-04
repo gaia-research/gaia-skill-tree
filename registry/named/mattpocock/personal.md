@@ -10,9 +10,9 @@ level: 3★
 description: Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-06-10'
+trustMagnitude: 60.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -42,16 +42,11 @@ timeline:
   previousValue: null
   newValue: null
   details: personal/ bucket removed entirely upstream; no successor bucket
-- timestamp: '2026-08-29T17:15:53Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 60.0 -> 0.0, grade B -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article
 - mattpocock/obsidian-vault
-trustMagnitudeInputHash: 2f3c9a354b9a90d67d9e547eb3fdbc822f8ffc9216a802a4e0df690331abd5ff
+trustMagnitudeInputHash: 6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841
 installable: false
 ---
 

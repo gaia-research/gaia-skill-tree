@@ -1,16 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-08-31T15:53:35Z",
+  "generatedAt": "2026-08-24T08:47:52Z",
   "reports": [
-    {
-      "reportId": "2026-36",
-      "url": "/reports/2026-36/",
-      "json": "/api/v1/reports/2026-36.json",
-      "generatedAt": "2026-08-31T15:53:35Z",
-      "salvageLayer": "L3",
-      "isoYear": 2026,
-      "isoWeek": 36
-    },
     {
       "reportId": "2026-35",
       "url": "/reports/2026-35/",

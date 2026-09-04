@@ -10,7 +10,7 @@ description: Synchronizes the Gaia project wiki with the current registry state 
   updating skill pages, contributor profiles, and changelog entries to reflect the
   latest approved changes.
 createdAt: '2026-05-27'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-30'
 title: The Wiki Keeper
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md
@@ -36,11 +36,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:55Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -52,7 +47,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5863c950576648c1bbaedbc5e11936d88a45449679d65f66eb3ebd9f9b733eea
+trustMagnitudeInputHash: 6bd00d97218668b215c54f858da766e9bb638fe008beb71dd7dc89176128ac85
 ---
 
 ## Overview

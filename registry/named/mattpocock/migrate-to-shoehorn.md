@@ -11,7 +11,7 @@ level: 2★
 description: Migrate test files from type assertions to shoehorn for type-safe partial
   test data.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T13:01:05Z'
   action: add
@@ -64,11 +64,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
-- timestamp: '2026-08-29T17:15:53Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md
   evaluator: unknown
@@ -99,8 +94,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:05:47Z'
-trustMagnitude: 41.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -110,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3f9bdfcb15cf77d23f165802b67c9b8d94505f395c6666ad1f3804d36344ecf8
+trustMagnitudeInputHash: 0f0996b49ad31fcf8aa6fc46dd24bdaf0b90c02ac0b206fc77215f094a263b01
 title: Migrate to Shoehorn
 suiteRef: mattpocock/misc
 ---

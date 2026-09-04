@@ -19,7 +19,7 @@ tags:
 - branching
 - safety
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-20'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -160,11 +160,6 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-- timestamp: '2026-08-29T17:15:56Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 117.65 -> 117.65, grade A -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:
@@ -178,7 +173,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:44:46Z'
-trustMagnitudeInputHash: 69b5cdc542044db048db5192d64d9e6572e04df88021239f1acda2cb8c8dc9a8
+trustMagnitudeInputHash: 829b9fa73f50119d89bbdf8bf278515befa4fd6326894ab126f5e4cad9aa83f2
 ---
 
 ## Overview

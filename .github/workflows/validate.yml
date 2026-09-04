@@ -14,11 +14,6 @@ on:
       - 'registry/**'
       - 'registry/schema/**'
       - 'skill-trees/**'
-      - 'src/gaia_cli/**'
-      - '.agents/skills/**'
-      - '.claude/skills/**'
-      - 'founder/steward/PLAYBOOKS.md'
-      - 'founder/steward/playbook.schema.json'
       # - 'registry-for-review/**'
       - 'scripts/**'
       - 'packages/cli-npm/**'
@@ -31,11 +26,6 @@ on:
       - 'registry/**'
       - 'registry/schema/**'
       - 'skill-trees/**'
-      - 'src/gaia_cli/**'
-      - '.agents/skills/**'
-      - '.claude/skills/**'
-      - 'founder/steward/PLAYBOOKS.md'
-      - 'founder/steward/playbook.schema.json'
       # - 'registry-for-review/**'
       - 'scripts/**'
       - 'packages/cli-npm/**'
@@ -125,13 +115,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install -e .
+        run: pip install PyYAML
 
       - name: Run skill validation
         run: python scripts/validate_skills.py
-
-      - name: Check agent playbook contracts
-        run: python scripts/check_playbook_contract.py
-
-      - name: Check agent skill mirror
-        run: python scripts/sync_agent_skill_mirror.py --check

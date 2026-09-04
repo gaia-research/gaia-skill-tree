@@ -19,7 +19,7 @@ tags:
 - multi-agent
 - tdd
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/ruflo
 timeline:
 - timestamp: '2026-06-02T23:48:22Z'
@@ -35,11 +35,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -51,7 +46,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9af5d91a32a379af25bbe04b210d48e804a47fffdf9147328813b2367fa2df2b
+trustMagnitudeInputHash: 36a51092117d3b4cf03235c982f592ad2f1f2ffc089d3a6bcdb9a1cb160b59e3
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - git-tag
 - github-release
 - automation
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
@@ -79,11 +79,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -95,7 +90,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6a9748a01ee1441bfa7590e1497eb1cfc3c10fc3ddb2d262ba2d07ad56eab07f
+trustMagnitudeInputHash: 0512b7b95ce24b2fef04cfd3e94c72318d4d57b05c5d1ec6f0587e6939c4f2a3
 verification:
   firstEvidenceAt: '2026-06-19T17:10:48Z'
 ---

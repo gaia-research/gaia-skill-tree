@@ -18,7 +18,7 @@ tags:
 - user-stories
 - acceptance-criteria
 - specification
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md
@@ -79,11 +79,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -95,7 +90,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8f3a5e66eba5b980e60d9f663df78014b1d15449619e82549aedc71024b7f7f2
+trustMagnitudeInputHash: 068d9700e36adf21727843f34df45a6cabd1ea92d3afa1d4933150fb3abdf1a0
 verification:
   firstEvidenceAt: '2026-06-19T17:10:49Z'
 ---

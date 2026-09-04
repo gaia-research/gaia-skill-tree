@@ -25,8 +25,6 @@ import hashlib
 import math
 from typing import Any, Optional
 
-
-from gaia_cli import structuralGraph
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
@@ -41,12 +39,8 @@ GRADE_B_FLOOR = 50.0
 GRADE_C_FLOOR = 20.0
 
 # Per-type weights (RFC §2.1)
-# fusion-recipe is fixed at 0.0: Yggdrasil III treats it as structural
-# provenance, not Trust Magnitude — structure is reported separately as the
-# informational Fusion Score and never feeds this sum (the evidenceType ==
-# "fusion-recipe" short-circuits below are defence in depth on top of this).
 TYPE_WEIGHTS = {
-    "fusion-recipe": 0.0,
+    "fusion-recipe": 1.5,
     "github-stars-own": 1.0,
     "proxy-containment": 1.0,
     "verifier-attestation": 1.5,
@@ -59,10 +53,8 @@ TYPE_WEIGHTS = {
 }
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
-# Yggdrasil III recalibration (#1705): github-stars-own capped at 175.0 (below
-# the 250.0 Grade S floor), ensuring adoption alone cannot satisfy Grade S.
 TYPE_CAPS = {
-    "github-stars-own": 175.0,
+    "github-stars-own": 200.0,
     "proxy-containment": 160.0,
     "benchmark-result": 100.0,
     "arxiv": 100.0,
@@ -71,20 +63,8 @@ TYPE_CAPS = {
     "social-signal": 80.0,
 }
 
-# Self-producible types that cannot anchor S alone (RFC §4 diversity gate).
-# Kept public for callers that use the broader self-production distinction;
-# Yggdrasil III's S gate is narrower (see INDEPENDENT_S_WITNESS_TYPES).
+# Self-producible types that cannot anchor S alone (RFC §4 diversity gate)
 SELF_PRODUCIBLE_TYPES = frozenset({"fusion-recipe", "self-attestation", "repo-own"})
-
-# Yggdrasil III: fusion is structural provenance, never Trust Magnitude.
-# S additionally needs a positive, eligible independent witness from this set.
-INDEPENDENT_S_WITNESS_TYPES = frozenset({
-    "benchmark-result", "verifier-attestation", "peer-review",
-})
-
-# A suite component may inherit repository evidence from its suite root, but
-# that shared repository baseline cannot by itself promote every component.
-SUITE_COMPONENT_REPOSITORY_CAP = 50.0
 
 # Apex predicate thresholds (delta §B)
 APEX_AGRADED_ORIGINS_MIN = 5
@@ -166,18 +146,6 @@ def _inheritMultiplierFor(row: dict, skill: dict) -> float:
     if mult is None:
         return 1.0
     return float(mult)
-
-
-def _finalRowScore(
-    row: dict,
-    skill: dict,
-    genericSkillMap: Optional[dict],
-) -> Optional[float]:
-    """Return the row contribution after eligibility and layer multipliers."""
-    baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
-    if baseScore is None:
-        return None
-    return baseScore * _inheritMultiplierFor(row, skill)
 
 
 # ---------------------------------------------------------------------------
@@ -266,30 +234,6 @@ def _typeOf(row: dict) -> Optional[str]:
         return None
     effectiveType = TYPE_ALIASES.get(t, t)
     return effectiveType
-
-
-def _githubRepositoryFromRow(row: dict) -> Optional[str]:
-    """Return the lower-case owner/repo for a GitHub evidence source, if any."""
-    source = row.get("source") or row.get("url") or row.get("sourceUrl")
-    canonical = _canonicalUrl(source)
-    if canonical is None:
-        return None
-    for prefix in ("https://github.com/", "http://github.com/"):
-        if canonical.startswith(prefix):
-            parts = canonical[len(prefix):].split("/")
-            if len(parts) >= 2 and parts[0] and parts[1]:
-                return f"{parts[0]}/{parts[1]}"
-    return None
-
-
-def _isSuiteRootRepositoryEvidence(row: dict, skill: dict) -> bool:
-    """Whether a component row is shared own-repository evidence from suiteRef."""
-    suiteRef = skill.get("suiteRef")
-    if not isinstance(suiteRef, str) or "/" not in suiteRef:
-        return False
-    if _typeOf(row) not in {"github-stars-own", "repo-own"}:
-        return False
-    return _githubRepositoryFromRow(row) == suiteRef.strip().lower()
 
 
 def _freshnessFactor(row: dict, evidenceType: str) -> float:
@@ -435,11 +379,6 @@ def computeArtifactScoreOrNone(
     if evidenceType is None:
         return 0.0
 
-    # Yggdrasil III: fusion-recipe remains in the evidence pool for provenance
-    # and structural graph predicates, but never contributes to Trust Magnitude.
-    if evidenceType == "fusion-recipe":
-        return 0.0
-
     # Sprint D W2a/W2c (#904/#1419) — benchmark-result rows are citations
     # unless the benchmark source catalog approves the benchmark and the row
     # provenance normalizes to a scoring lane. Lane aliases collapse to:
@@ -473,6 +412,10 @@ def computeArtifactScoreOrNone(
 
     freshness = _freshnessFactor(evidenceRow, evidenceType)
 
+    # NOTE: mothership discount for github-stars-own is already baked into
+    # _rawMagnitudeForType (divides by min(skillCountInRepo, 4)). Do NOT
+    # apply it again here — that would double-discount.
+
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
     engagementRatio = 1.0
@@ -492,7 +435,8 @@ def computeArtifactScoreOrNone(
             # If views zero/absent, fall through leaving engagementRatio=1.0.
         # If neither stored ratio nor raw fields are present, fall through to 1.0.
 
-    return rawMagnitude * weight * freshness * creatorMult * engagementRatio
+    score = rawMagnitude * weight * freshness * creatorMult * engagementRatio
+    return score
 
 
 def _rawMagnitudeForType(
@@ -513,12 +457,11 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        # Yggdrasil III recalibration (#1705): logarithmic diminishing-returns curve
-        # for repository adoption. Capped at 175 TM (below the 250 S floor), ensuring
-        # stars alone cannot achieve Grade S without strong independent corroboration.
-        if stars <= 10.0:
-            return 0.0
-        return min(175.0, 35.0 * math.log10(stars / 10.0))
+        skillCount = int(row.get("skillCountInRepo", 1) or 1)
+        # RFC §2.3: min(200, stars/1000) / mothership_divisor
+        # mothership_divisor = min(skill_count_in_repo, 4)  — caps at 4 per RFC
+        divisor = min(skillCount, 4)
+        return min(200.0, stars / 1000.0) / max(1, divisor)
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
@@ -704,66 +647,6 @@ def _applyPlateauAndCreatorDedup(
     return out
 
 
-def _applySuiteComponentRepositoryCap(
-    rowsWithScores: list[tuple[dict, Optional[float]]],
-    skill: dict,
-) -> list[tuple[dict, Optional[float]]]:
-    """Bound shared suite-root own-repository evidence to 50 TM per component.
-
-    A named component identifies its capstone through ``suiteRef``. Only
-    github-stars-own and repo-own rows whose source is that capstone's GitHub
-    repository are shared baseline evidence. Component-specific rows and rows
-    from other repositories remain untouched. When the shared rows exceed the
-    cap, preserve their relative final contributions for row and by-type
-    reporting.
-    """
-    cappedIndices = [
-        index
-        for index, (row, score) in enumerate(rowsWithScores)
-        if score is not None
-        and score > 0.0
-        and _isSuiteRootRepositoryEvidence(row, skill)
-    ]
-    sharedTotal = sum(rowsWithScores[index][1] or 0.0 for index in cappedIndices)
-    if sharedTotal <= SUITE_COMPONENT_REPOSITORY_CAP:
-        return rowsWithScores
-
-    factor = SUITE_COMPONENT_REPOSITORY_CAP / sharedTotal
-    out = list(rowsWithScores)
-    for index in cappedIndices:
-        row, score = rowsWithScores[index]
-        out[index] = (row, (score or 0.0) * factor)
-    return out
-
-
-def _scoredEvidenceRows(
-    skill: dict,
-    genericSkillMap: Optional[dict],
-) -> list[tuple[dict, Optional[float]]]:
-    """Resolve, score, and bound the effective evidence pool once for all TM views."""
-    pool = _effectivePool(skill, genericSkillMap)
-    evidence = enforceAntiAutoMint({"evidence": pool})
-    deduped = _dedupeSameSource(evidence)
-
-    # Retain an auto-derived fusion row for provenance and structural reports.
-    suiteComponents = skill.get("suiteComponents") or []
-    hasFusionRow = any(_typeOf(row) == "fusion-recipe" for row in deduped)
-    if suiteComponents and not hasFusionRow:
-        deduped = list(deduped) + [{
-            "type": "fusion-recipe",
-            "origins": list(suiteComponents),
-            "_autoDerived": True,
-            "layer": _ownLayerOf(skill),
-        }]
-
-    rowsWithScores: list[tuple[dict, Optional[float]]] = []
-    for row in deduped:
-        score = _finalRowScore(row, skill, genericSkillMap)
-        rowsWithScores.append((row, score))
-    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
-    return _applySuiteComponentRepositoryCap(rowsWithScores, skill)
-
-
 # ---------------------------------------------------------------------------
 # Public API: enforceAntiAutoMint
 # ---------------------------------------------------------------------------
@@ -792,18 +675,17 @@ def enforceAntiAutoMint(skill: dict) -> list[dict]:
 
 
 def computeTrustMagnitudeInputHash(skill: dict) -> str:
-    """Stable hash of the skill ID, TM-relevant row inputs, and suiteRef.
+    """Stable hash of (skillId + sorted evidence row keys + suiteComponents).
 
     Used to detect whether a skill's frozen `trustMagnitude`/`overallTrustGrade`
     frontmatter (written once by the I3 migration, see
     scripts/archive/migrateTrustMagnitude.py) is still valid, or whether the
     evidence backing it has since changed and the value must be recomputed.
     Covers every numeric payload field that drives the TM computation per row
-    (commits, contributors, stars, views, percentile, citations, reviewers,
-    skillCountInRepo, externalStars, verifiers). Fusion origins and
-    suiteComponents are structural/provenance metadata at 0 TM and are
-    intentionally excluded. suiteRef is included because it determines whether
-    own-repository evidence receives the bounded component baseline.
+    (commits, contributors, stars, views, origins, percentile, citations,
+    reviewers, gradedOriginCount, skillCountInRepo, externalStars, verifiers)
+    plus suiteComponents, since adding suite components auto-derives a
+    fusion-recipe row worth hundreds of TM points.
     """
     sid = skill.get("id") or ""
     rows = []
@@ -817,22 +699,26 @@ def computeTrustMagnitudeInputHash(skill: dict) -> str:
         contributors = str(r.get("contributors") or 0)
         stars = str(r.get("stars") or 0)
         views = str(r.get("views") or 0)
+        originsVal = r.get("origins")
+        originsHash = str(len(originsVal)) if isinstance(originsVal, list) else str(originsVal or 0)
         percentile = str(r.get("percentile") or 0)
         citations = str(r.get("citations") or 0)
         reviewers = str(r.get("reviewers") or 0)
+        gradedOriginCount = str(r.get("gradedOriginCount") or 0)
         skillCountInRepo = str(r.get("skillCountInRepo") or 0)
         externalStars = str(r.get("externalStars") or 0)
         verifiers = str(r.get("verifiers") or 0)
         rows.append(
             f"{source}|{evType}|{grade}"
             f"|commits={commits}|contributors={contributors}|stars={stars}"
-            f"|views={views}|percentile={percentile}"
+            f"|views={views}|origins={originsHash}|percentile={percentile}"
             f"|citations={citations}|reviewers={reviewers}"
-            f"|skillCountInRepo={skillCountInRepo}"
+            f"|gradedOriginCount={gradedOriginCount}|skillCountInRepo={skillCountInRepo}"
             f"|externalStars={externalStars}|verifiers={verifiers}"
         )
     rows.sort()
-    suitePayload = "suiteRef=" + str(skill.get("suiteRef") or "")
+    suiteComponents = sorted(skill.get("suiteComponents") or [])
+    suitePayload = "suiteComponents=" + ",".join(suiteComponents)
     payload = sid + "::" + "||".join(rows) + "::" + suitePayload
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -863,8 +749,41 @@ def computeTrustMagnitude(
     - per-type cap (already applied in computeArtifactScoreOrNone)
     - social-signal hard A-cap (sum of social-signal contributions <= 80)
     """
-    del namedSkillMap  # suiteRef contains the bounded repository identity.
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    del namedSkillMap  # reserved for future cross-skill rules
+
+    # 1. Resolve the effective pool (own union inherited).
+    pool = _effectivePool(skill, genericSkillMap)
+
+    # 2. Anti-auto-mint over the merged pool.
+    evidence = enforceAntiAutoMint({"evidence": pool})
+
+    # 3. Same-source dedup, preserving row layer.
+    deduped = _dedupeSameSource(evidence)
+
+    # 4. Auto-mint fusion-recipe row from suiteComponents if missing (RFC §10.8).
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        # Auto-derived fusion-recipe lives at the skill's own layer.
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    # 5. Per-row artifact score, with inherit multiplier applied at sum-time.
+    rowsWithScores: list[tuple[dict, Optional[float]]] = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, None))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    # 6. Plateau / per-creator dedup, then social cap + sum.
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
 
     socialTotal = 0.0
     nonSocialTotal = 0.0
@@ -893,7 +812,36 @@ def computeTrustMagnitudeByType(
     TM within 0.02. Each value is rounded to 2 decimals. Missing types simply
     don't appear (frontend treats absent as 0).
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    del namedSkillMap  # reserved for future cross-skill rules
+
+    # 1-2-3: pool resolution, anti-auto-mint, dedup (same as computeTrustMagnitude).
+    pool = _effectivePool(skill, genericSkillMap)
+    evidence = enforceAntiAutoMint({"evidence": pool})
+    deduped = _dedupeSameSource(evidence)
+
+    # 4: auto-mint fusion-recipe if needed.
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    # 5: per-row scoring with inherit multiplier.
+    rowsWithScores: list[tuple[dict, Optional[float]]] = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, None))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    # 6: plateau / per-creator dedup.
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
 
     # 7: partition by type, applying social-signal A-cap proportionally.
     perType: dict[str, float] = {}
@@ -910,7 +858,7 @@ def computeTrustMagnitudeByType(
     if "social-signal" in perType and socialTotal > 80.0:
         perType["social-signal"] = 80.0
 
-    aggregate = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
+    aggregate = computeTrustMagnitude(skill, genericSkillMap)
     rawSum = sum(perType.values())
 
     # Scale proportionally so dict-sum matches aggregate within 0.02.
@@ -974,16 +922,12 @@ def computeOverallTrustGrade(
     distinctTypes: int,
     hasNonSelfProducible: bool,
 ) -> str:
-    """Map (TM, distinctTypes, eligibleIndependentWitness) -> grade letter.
+    """Map (TM, distinctTypes, hasNonSelf) -> grade letter (RFC §4).
 
     Returns one of "S", "A", "B", "C", "ungraded".
 
-    The third positional parameter keeps its historic name for compatibility,
-    but now represents the Yggdrasil III independent-witness predicate.
-
     Diversity gate:
-    - S: TM >= 250 AND distinct scoring types >= 3 AND an eligible positive
-      benchmark-result, verifier-attestation, or peer-review witness.
+    - S: TM >= 250 AND distinctTypes >= 3 AND hasNonSelfProducible.
     - A: TM >= 100.
     - B: TM >= 50.
     - C: TM >= 20.
@@ -1007,9 +951,9 @@ def computeOverallTrustGradeFromSkill(
 ) -> str:
     """Convenience: compute TM and grade together from a skill dict."""
     tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
-    distinctTypes = _countDistinctEvidenceTypes(skill, genericSkillMap)
-    hasIndependentWitness = _hasEligibleIndependentWitness(skill, genericSkillMap)
-    return computeOverallTrustGrade(tm, distinctTypes, hasIndependentWitness)
+    distinctTypes = _countDistinctEvidenceTypes(skill)
+    hasNonSelf = _hasNonSelfProducible(skill)
+    return computeOverallTrustGrade(tm, distinctTypes, hasNonSelf)
 
 
 def computeRowArtifactScores(
@@ -1023,54 +967,54 @@ def computeRowArtifactScores(
     Auto-derived rows (_autoDerived: True) are flagged so callers can skip them
     during write-back. Null-on-derank verifier rows are included with score=0.0.
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
-    return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
+    pool = _effectivePool(skill, genericSkillMap)
+    evidence = enforceAntiAutoMint({"evidence": pool})
+    deduped = _dedupeSameSource(evidence)
+
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    rowsWithScores: list = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, 0.0))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
+    return rowsWithScores
 
 
-def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None) -> int:
-    """Count positive scoring evidence types; fusion remains structural only."""
-    return len({
-        rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
-        if (rowType := _typeOf(row))
-        and rowType != "fusion-recipe"
-        and score is not None
-        and score > 0.0
-    })
+def _countDistinctEvidenceTypes(skill: dict) -> int:
+    evidence = enforceAntiAutoMint(skill)
+    deduped = _dedupeSameSource(evidence)
+    types: set[str] = set()
+    for row in deduped:
+        t = _typeOf(row)
+        if t:
+            types.add(t)
+    if skill.get("suiteComponents") and "fusion-recipe" not in types:
+        types.add("fusion-recipe")
+    return len(types)
 
 
-def _isEligibleWitnessRow(row: dict, score: Optional[float], skill: dict) -> bool:
-    """Return whether an evidence row qualifies as an independent S-grade witness.
-
-    S-grade witness requires meaningful evidence quality (#1705):
-    - eligible objective `benchmark-result` (positive score)
-    - valid `verifier-attestation` (positive score, active verifier)
-    - `peer-review` only when its effective evidence grade is at least A
-      (Grade C/B community summaries or issue threads do not unlock S).
-    """
-    if score is None or score <= 0.0:
-        return False
-    if _rowLayerOf(row) != _ownLayerOf(skill):
-        return False
-    rowType = _typeOf(row)
-    if rowType in ("benchmark-result", "verifier-attestation"):
-        return True
-    if rowType == "peer-review":
-        rowGrade = _grade(row)
-        if rowGrade in ("S", "A") or score >= 60.0:
+def _hasNonSelfProducible(skill: dict) -> bool:
+    evidence = enforceAntiAutoMint(skill)
+    deduped = _dedupeSameSource(evidence)
+    for row in deduped:
+        t = _typeOf(row)
+        if t and t not in SELF_PRODUCIBLE_TYPES:
             return True
     return False
-
-
-def _hasEligibleIndependentWitness(
-    skill: dict,
-    genericSkillMap: Optional[dict] = None,
-) -> bool:
-    """Return whether a positive, eligible Yggdrasil III S witness is present."""
-    return any(
-        _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
-    )
 
 
 # ---------------------------------------------------------------------------
@@ -1256,14 +1200,26 @@ def _fusionOriginIds(skill: dict, genericSkillMap: dict) -> list[str]:
     """Resolve fusion-recipe origins from a skill, role='variant' excluded.
 
     Suite components are excluded - only fusion-recipe rows in evidence count.
-
-    Thin delegation to `structuralGraph.fusionRecipeOriginIds`: Yggdrasil III
-    moved the composition-edge walk to a neutral owner so neither this module
-    nor the Apex predicates own the graph the Fusion Score is derived from.
-    Semantics are unchanged — same role resolution against the generic map,
-    same order, duplicates still preserved.
     """
-    return structuralGraph.fusionRecipeOriginIds(skill, genericSkillMap)
+    out: list[str] = []
+    for row in skill.get("evidence") or []:
+        if _typeOf(row) != "fusion-recipe":
+            continue
+        for entry in row.get("origins") or []:
+            if isinstance(entry, dict):
+                originId = entry.get("id") or entry.get("skillId")
+                inlineRole = entry.get("role")
+            else:
+                originId = entry
+                inlineRole = None
+            if not originId:
+                continue
+            node = genericSkillMap.get(originId) or {}
+            role = inlineRole or node.get("role")
+            if role == "variant":
+                continue
+            out.append(originId)
+    return out
 
 
 def _fusionAndSuiteOriginIds(
@@ -1280,8 +1236,8 @@ def _fusionAndSuiteOriginIds(
     del namedSkillMap  # reserved — suiteComponent IDs are looked up by caller
     out: list[str] = list(_fusionOriginIds(skill, genericSkillMap))
     seen = set(out)
-    for cid in structuralGraph.suiteComponentIds(skill):
-        if cid in seen:
+    for cid in skill.get("suiteComponents") or []:
+        if not cid or cid in seen:
             continue
         seen.add(cid)
         out.append(cid)
@@ -1431,10 +1387,42 @@ def explainTrustMagnitude(
 
     Returns a plain-text string (no ANSI; suitable for testing and piping).
     """
-    del namedSkillMap  # suiteRef contains the bounded repository identity.
+    del namedSkillMap  # reserved — same convention as computeTrustMagnitude
 
     genericRef = skill.get("genericSkillRef") or ""
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+
+    # Step 1: effective pool
+    pool = _effectivePool(skill, genericSkillMap)
+
+    # Step 2: anti-auto-mint
+    evidence = enforceAntiAutoMint({"evidence": pool})
+
+    # Step 3: same-source dedup
+    deduped = _dedupeSameSource(evidence)
+
+    # Step 4: auto-derive fusion-recipe from suiteComponents if absent
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    # Step 5: per-row scores with inherit multiplier
+    rowsWithScores: list[tuple[dict, Optional[float]]] = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, None))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    # Step 6: plateau / per-creator dedup
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
 
     # Step 7: social cap + total
     socialTotal = 0.0
@@ -1451,18 +1439,14 @@ def explainTrustMagnitude(
 
     # Derive grade
     distinctTypes = len({
-        rowType
-        for row, score in rowsWithScores
-        if (rowType := _typeOf(row))
-        and rowType != "fusion-recipe"
-        and score is not None
-        and score > 0.0
+        _typeOf(r) for r, _ in rowsWithScores if _typeOf(r)
     })
-    hasIndependentWitness = any(
-        _isEligibleWitnessRow(row, score, skill)
-        for row, score in rowsWithScores
+    hasNonSelf = any(
+        _typeOf(r) not in SELF_PRODUCIBLE_TYPES
+        for r, s in rowsWithScores
+        if _typeOf(r) and s is not None and s > 0
     )
-    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasIndependentWitness)
+    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasNonSelf)
 
     # Build the explanation string
     lines: list[str] = []
@@ -1479,12 +1463,6 @@ def explainTrustMagnitude(
             or "(no source)"
         )
         lines.append(f"  {rowType}: {source}")
-
-        if rowType == "fusion-recipe":
-            lines.append("    structural provenance retained; TM contribution fixed at 0.00")
-            lines.append(f"    = {(finalScore or 0.0):.2f}")
-            lines.append("")
-            continue
 
         # Recompute intermediate factors for display
         baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
@@ -1517,7 +1495,9 @@ def explainTrustMagnitude(
 
         inheritMult = _inheritMultiplierFor(row, skill)
 
-        # github-stars-own adoption is already calibrated in rawMag.
+        # Mothership discount for github-stars-own is baked into rawMag already —
+        # do NOT show it as a separate factor (would imply double-discount).
+        # Instead note the divisor in the base description.
         factorParts = [
             f"base {rawMag:.2f}",
             f"x weight {weight}",
@@ -1553,18 +1533,6 @@ def explainTrustMagnitude(
         lines.append(f"  [social-signal A-cap applied: {socialTotal:.2f} -> 80.00]")
         lines.append("")
 
-    suiteRepositoryTotal = sum(
-        score or 0.0
-        for row, score in rowsWithScores
-        if _isSuiteRootRepositoryEvidence(row, skill)
-    )
-    if suiteRepositoryTotal > 0.0:
-        lines.append(
-            "  [suite component repository baseline: "
-            f"{suiteRepositoryTotal:.2f} / {SUITE_COMPONENT_REPOSITORY_CAP:.2f} TM]"
-        )
-        lines.append("")
-
     return "\n".join(lines)
 
 __all__ = [
@@ -1591,6 +1559,4 @@ __all__ = [
     "GRADE_B_FLOOR",
     "GRADE_C_FLOOR",
     "SELF_PRODUCIBLE_TYPES",
-    "INDEPENDENT_S_WITNESS_TYPES",
-    "SUITE_COMPONENT_REPOSITORY_CAP",
 ]

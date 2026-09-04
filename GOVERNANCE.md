@@ -78,7 +78,7 @@ If a skill's definition, level, or evidence is disputed:
 1. A GitHub Issue is opened with the label `disputed`.
 2. Both sides present evidence and rationale.
 3. The skill status is set to `disputed` in `gaia.json`.
-4. If no consensus is reached after 14 days, a Core Maintainer makes a final determination based on the **Evidence Grade** hierarchy (S > A > B > C).
+4. If no consensus is reached after 14 days, a Core Maintainer makes a final determination based on the **Evidence Hierarchy** (Evidence Tier A > B > C).
 
 ## 4. Audit Schedule
 

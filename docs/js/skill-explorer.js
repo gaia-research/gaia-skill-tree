@@ -112,92 +112,6 @@
     '</div>';
   }
 
-  // ── Yggdrasil III Fusion Score strip ──────────────────────────────────────
-  // A ledger row, not a plaque: neutral tokens only, no grade color, no
-  // medallion, no star glyph. The trust notch above it is the graded surface;
-  // this one must never be mistaken for a second grade.
-  //
-  // Every number here is READ from the generated projection. The formula lives
-  // in src/gaia_cli/fusionScore.py and nowhere else — if this file ever starts
-  // computing a score, tests/test_fusion_score.py fails on purpose.
-  function _renderFusionStrip(ns) {
-    if (!ns) return '';
-    var fs = ns.fusionScore;
-    if (fs == null || fs === '') return '';
-    var value = Number(fs);
-    if (!isFinite(value) || value <= 0) return '';
-
-    var bd = ns.fusionBreakdown || {};
-    var direct = bd.directCount || 0;
-    var transitive = bd.transitiveCount || 0;
-    var depth = bd.maxDepth || 0;
-    var nested = bd.nestedSuiteCount || 0;
-    var version = ns.fusionScoreVersion || '';
-    var display = value % 1 === 0 ? String(Math.round(value)) : value.toFixed(2);
-
-    var tip = [
-      'Fusion Score ' + display + (version ? '  (' + version + ')' : ''),
-      'How much distinct structure this capability composes.',
-      '',
-      'WHY THE NUMBERS MOVED',
-      'Under Yggdrasil II a fusion-recipe row added its structure straight into',
-      'Trust Magnitude, so a large suite carried a large TM. Yggdrasil III fixed',
-      'that row at 0 TM — which is why TM fell for suites and fusions even though',
-      'no evidence, star, or rank was touched. The structure did not vanish: it is',
-      'reported here instead, as its own reading.',
-      '',
-      'So this is not a second trust number, and not new credit. It is the part of',
-      'the old TM that was never evidence in the first place.',
-      '',
-      'Distinct structural nodes: ' + transitive + ' (' + direct + ' direct)',
-      'Deepest level walked: ' + depth,
-      'Nested suites in the closure: ' + nested,
-      '',
-      'Structural reading only. Not an Evidence Type, not a Trust Grade input,',
-      'not a Trust Magnitude multiplier. It gates no rank.',
-      'Resolved from canonical prerequisites and suite components.',
-      'Evidence, stars, and Trust Magnitude are not inputs.'
-    ].join('\n');
-
-    function cell(label, val) {
-      return '<span class="se-fs-cell">' +
-        '<span class="se-fs-cell-label">' + esc(label) + '</span>' +
-        '<span class="se-fs-cell-value">' + esc(String(val)) + '</span>' +
-      '</span>';
-    }
-
-    // role="group" so the aria-label is actually honoured — a bare <div> with
-    // an aria-label is ignored by most screen readers.
-    return '<div class="se-fusion-strip" role="group" title="' + esc(tip) + '"' +
-        ' aria-label="' + esc('Fusion Score ' + display + ', structural reading, independent of Trust Magnitude') + '">' +
-      '<span class="se-fs-head">' +
-        '<span class="se-fs-key">FUSION SCORE</span>' +
-        '<span class="se-fs-value">' + esc(display) + '</span>' +
-      '</span>' +
-      '<span class="se-fs-cells">' +
-        cell('direct', direct) +
-        cell('total', transitive) +
-        cell('depth', depth) +
-        cell('nested', nested) +
-      '</span>' +
-      // Short enough to sit on the figures row rather than wrapping to a line
-      // of its own — the migration line below already carries the long form.
-      '<span class="se-fs-note">gates no rank</span>' +
-      // The migration line is the whole reason this strip is not quieter. A
-      // reader who remembers Yggdrasil II numbers is looking at a Trust
-      // Magnitude that dropped and needs to be told, on the surface itself and
-      // not in a tooltip, that the missing amount was structure and it is
-      // right here. Without this line the strip invites the worst possible
-      // reading: "my skill got downgraded."
-      '<span class="se-fs-migration">' +
-        'New in Yggdrasil III. Structure like this used to be scored ' +
-        '<em>inside</em> Trust Magnitude — that is why TM fell for suites and ' +
-        'fusions. No evidence, star, or rank changed; the structure simply ' +
-        'reports separately now.' +
-      '</span>' +
-    '</div>';
-  }
-
   // Derive the pre-weight artifact magnitude (for tooltip chain display only).
   // Returns the capped base magnitude — used as input to _deriveWeightedScore.
   // ALWAYS prefers the live formula over stored ev.trustNumber (which may be stale).
@@ -205,8 +119,6 @@
     if (ev._noScore) return null;
     var TM = window.TM_CONFIG;
     if (!TM) return null;
-    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
-    if (!eligibility.eligible) return eligibility.structuralOnly ? 0 : null;
     var t = TM.canonicalType(ev.type || '');
     var cfg = TM.TYPES[t];
     if (!cfg) return null;
@@ -221,14 +133,12 @@
   // Derive the fully-weighted artifact score: base × weight × freshness × creator × engagement.
   // This is what the MAG bar displays — the actual contribution before plateau stacking.
   // Mirrors computeArtifactScoreOrNone() in trustMagnitude.py exactly.
-  function _deriveWeightedScore(ev, baselineContext) {
+  function _deriveWeightedScore(ev) {
     if (ev._noScore) return null;
     var TM = window.TM_CONFIG;
     if (!TM) return null;
 
     var t = TM.canonicalType(ev.type || '');
-    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
-    if (!eligibility.eligible) return eligibility.structuralOnly ? 0 : null;
     var cfg = TM.TYPES[t];
     if (!cfg) return null;
 
@@ -272,17 +182,12 @@
       if (im != null) score *= im;
     }
 
-    var finalScore = Math.round(TM.applyContributionCap(t, score) * 10) / 10;
-    if (baselineContext && TM.applySuiteRepositoryBaseline) {
-      return TM.applySuiteRepositoryBaseline(finalScore, ev, baselineContext);
-    }
-    var multiplier = ev._suiteRepositoryCapMultiplier == null ? 1 : ev._suiteRepositoryCapMultiplier;
-    return Math.round(finalScore * multiplier * 10) / 10;
+    return Math.round(score * 10) / 10;
   }
   // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
   //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
   // All values read from window.TM_CONFIG — no hardcoded numbers.
-  function _magTooltip(ev, tmRaw, skillTm, baselineContext) {
+  function _magTooltip(ev, tmRaw, skillTm) {
     var TM = window.TM_CONFIG;
     if (!TM) return 'Trust config unavailable. See https://gaiaskilltree.com/codex/trust-methodology.html';
 
@@ -302,22 +207,6 @@
 
     // ── Full multiplier chain (live formula only — no stale "stored" values) ──
     var d = cfg.describe(ev);
-    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
-    if (!eligibility.eligible && !eligibility.structuralOnly) {
-      lines.push('No positive TM: ' + eligibility.reason + '.');
-      lines.push('= MAG —');
-      return lines.join('\n');
-    }
-    if (eligibility.structuralOnly) {
-      lines.push('Structural/provenance metadata only; contributes 0 TM.');
-      lines.push('= MAG 0.0');
-      return lines.join('\n');
-    }
-    if (t === 'fusion-recipe') {
-      lines.push('Structural/provenance metadata only; contributes 0 TM.');
-      lines.push('= MAG 0.0');
-      return lines.join('\n');
-    }
     if (d != null && d.value != null) {
       var baseMag = d.value;
       var capped  = TM.applyCap(t, baseMag);
@@ -328,14 +217,6 @@
 
       // × weight
       lines.push('× weight:      ' + cfg.weight);
-
-      if (cfg.contributionCap != null) {
-        var uncappedContribution = capped * cfg.weight;
-        var contributionNote = uncappedContribution > cfg.contributionCap
-          ? '  (capped from ' + uncappedContribution.toFixed(1) + ')'
-          : '';
-        lines.push('final cap:     ' + cfg.contributionCap + contributionNote);
-      }
 
       // × freshness
       if (cfg.freshness && cfg.freshness.decayPerYear) {
@@ -386,14 +267,7 @@
       // Final weighted score that the MAG bar displays
       lines.push('');
       var weighted = Math.round(capped * cfg.weight * 10) / 10;
-      if (baselineContext && TM.applySuiteRepositoryBaseline) {
-        weighted = TM.applySuiteRepositoryBaseline(weighted, ev, baselineContext);
-      }
       lines.push('= MAG ' + weighted.toFixed(1) + '  (displayed on card; pre-plateau approximation)');
-      if (TM.suiteRepositoryBaselineNote && TM.isSuiteRepositoryBaselineRow(ev, baselineContext)) {
-        var baselineNote = TM.suiteRepositoryBaselineNote(baselineContext);
-        if (baselineNote) lines.push(baselineNote);
-      }
 
     } else {
       // No metric drivers — honest empty state. Prompt the curator to add fields.
@@ -608,11 +482,6 @@
           // These are pre-plateau individual scores; the actual sum may differ slightly because
           // plateau factors are applied at aggregate time by the backend (not displayed row-by-row).
           var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
-          var heroScoreContext = TM_N && TM_N.createSuiteRepositoryBaselineContext
-            ? TM_N.createSuiteRepositoryBaselineContext(allEv, ns, function (row) {
-                return _deriveWeightedScore(row);
-              })
-            : null;
           if (allEv.length && TM_N) {
             tipLines.push('');
             tipLines.push('Per-row weighted scores (matches each card\'s MAG bar):');
@@ -623,13 +492,13 @@
               var t = TM_N.canonicalType(ev.type || '');
               var cfg = TM_N.TYPES[t];
               if (!cfg) return;
-              var weighted = _deriveWeightedScore(ev, heroScoreContext);
+              var weighted = _deriveWeightedScore(ev);
               if (weighted == null) return;
               rowSum += weighted;
               var plateauNote = cfg.plateau && cfg.plateau.maxRows > 1 ? '*' : '';
               rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1) + plateauNote);
             });
-            // Also synthesize structural fusion row if suiteComponents present.
+            // Also synthesize fusion row if suiteComponents present
             var suiteComps = ns.suiteComponents || [];
             var hasFusionEv = allEv.some(function(e){ return (e.type||'') === 'fusion-recipe'; });
             if (suiteComps.length && !hasFusionEv) {
@@ -639,7 +508,7 @@
                 var fWeighted = _deriveWeightedScore(synFusion);
                 if (fWeighted != null) {
                   rowSum += fWeighted;
-                  rowLines.push('  fusion: 0.0 (structural/provenance metadata only)');
+                  rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw origin count — backend uses graded ≥C)');
                 }
               }
             }
@@ -660,10 +529,6 @@
           }
 
           if (TM_N) {
-            if (TM_N.suiteRepositoryBaselineNote && heroScoreContext && heroScoreContext.suiteRef) {
-              tipLines.push('');
-              tipLines.push(TM_N.suiteRepositoryBaselineNote(heroScoreContext));
-            }
             tipLines.push('');
             tipLines.push('Full methodology: ' + TM_N.RFC.grades);
           }
@@ -677,24 +542,6 @@
           notch.appendChild(infoBtn);
         }
       }
-      // Yggdrasil III Fusion Score — the structural reading, rendered as a
-      // PEER of the trust notch and never inside it. Two independent numbers
-      // answering two different questions: the notch says how much evidence
-      // corroborates this implementation, the strip below says how much
-      // distinct structure it composes. Fusion Score gates no rank and is not
-      // an input to Trust Magnitude.
-      //
-      // The value and its breakdown are read straight off the generated
-      // projection (docs/graph/named/index.json). There is deliberately no
-      // formula here — fusionScore.py is the single authority, and a second
-      // copy in JavaScript is exactly the drift this avoids.
-      var fsStrip = _renderFusionStrip(ns);
-      if (fsStrip) {
-        var fsDiv = document.createElement('div');
-        fsDiv.innerHTML = fsStrip;
-        heroEl.appendChild(fsDiv);
-      }
-
       // N-11 Site 1: Research CTA below the plaque for suite/fusion skills.
       // Append after the trust notch so it follows the hero without disrupting layout.
       if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
@@ -1218,14 +1065,17 @@
     addEvidences(ns.evidence, 'named');
     addEvidences(generic ? generic.evidence : null, 'generic');
 
-    // Synthesize the structural fusion-recipe tile from suiteComponents when no
-    // row exists on disk. It is metadata only and contributes 0 TM.
+    // Synthesize fusion-recipe tile from suiteComponents when no fusion-recipe
+    // row exists in the on-disk evidence (it's auto-derived at TM-compute time
+    // and never serialized, so we reconstruct it here for display only).
     var hasFusionRow = combinedEvidence.some(function(ev) {
       return (ev.type || '') === 'fusion-recipe';
     });
     var suiteComponents = ns.suiteComponents || [];
     if (suiteComponents.length && !hasFusionRow) {
-      // suiteComponents remain visible as composition/provenance metadata.
+      // suiteComponents ARE the fusion origins per RFC §2.2.
+      // The backend counts graded ≥C among them; on the frontend we use the
+      // raw count as an upper-bound approximation (tooltip says so).
       combinedEvidence.unshift({
         type: 'fusion-recipe',
         origins: suiteComponents,
@@ -1236,13 +1086,6 @@
       });
     }
 
-    var TM_SCORE = window.TM_CONFIG;
-    var scoreContext = TM_SCORE && TM_SCORE.createSuiteRepositoryBaselineContext
-      ? TM_SCORE.createSuiteRepositoryBaselineContext(combinedEvidence, ns, function (row) {
-          return _deriveWeightedScore(row);
-        })
-      : null;
-
     var rootPath = getRootPath();
     var evidenceLibraryUrl = rootPath + 'evidence/';
 
@@ -1250,14 +1093,13 @@
     if (combinedEvidence.length) {
       evidenceContent = '<div class="se-ev-grid">' +
         combinedEvidence.map(function(ev){
-          var TM_G = window.TM_CONFIG;
-          var gradeChar = TM_G && TM_G.isScoringEligible && !TM_G.isScoringEligible(ev)
-            ? '' : (ev.grade || '').toUpperCase().charAt(0);
+          var gradeChar = (ev.grade || '').toUpperCase().charAt(0);
           // Fallback: if no persisted per-row grade, derive from live weighted score + gradeFloors.
           // Logic lives in TM_CONFIG.effectiveGrade — single source shared with evidence-library.js.
           if (!gradeChar) {
+            var TM_G = window.TM_CONFIG;
             if (TM_G && TM_G.effectiveGrade) {
-              var liveScore = _deriveWeightedScore(ev, scoreContext);
+              var liveScore = _deriveWeightedScore(ev);
               gradeChar = TM_G.effectiveGrade(ev, liveScore);
             }
           }
@@ -1344,13 +1186,13 @@
           // MAG bar — shows the fully-weighted artifact score (base × weight × freshness × …).
           // (i) tooltip shows the full multiplier chain so users can verify each step.
           var tmRaw      = _deriveTrustNum(ev);       // pre-weight base (used inside tooltip chain)
-          var tmWeighted = _deriveWeightedScore(ev, scoreContext);  // post-weight score — displayed on bar
+          var tmWeighted = _deriveWeightedScore(ev);  // post-weight score — displayed on bar
           var skillTm    = ns.trustMagnitude || ns.overallTrustMagnitude || null;
           var barGrade   = trustGrade;
           var tmDisplay  = tmWeighted != null
             ? (Number.isInteger(tmWeighted) ? String(tmWeighted) : parseFloat(tmWeighted).toFixed(1))
             : '—';
-          var magTooltipText = _magTooltip(ev, tmRaw, skillTm, scoreContext);
+          var magTooltipText = _magTooltip(ev, tmRaw, skillTm);
           var magBarHtml = '<div class="se-ev-mag-bar"' +
             (barGrade ? ' data-trust-grade="' + esc(barGrade) + '"' : ' data-trust-grade="none"') + '>' +
             '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmDisplay) + '</span></span>' +

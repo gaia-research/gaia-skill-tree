@@ -19,7 +19,7 @@ tags:
 - two-stage-review
 - multi-agent
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-31'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -158,11 +158,6 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
     (type: peer-review)'
-- timestamp: '2026-08-29T17:15:56Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 117.65 -> 117.65, grade A -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:
@@ -176,7 +171,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:41:58Z'
-trustMagnitudeInputHash: a8d2b5ae838f76a8eb0fd7db0d3e6172cdb250643f8eb71f52582a215e5c999a
+trustMagnitudeInputHash: d7a7754e0096e07a63d0c78644848cd26091c03662b86cf3cca7af5135b1215b
 ---
 
 ## Overview

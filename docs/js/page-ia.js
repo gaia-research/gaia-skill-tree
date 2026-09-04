@@ -390,28 +390,11 @@
             branch: it.branch,
             genericSkillRef: e.genericSkillRef,
             trustMagnitude: e.trustMagnitude,
-            // Fusion Score travels with the skill so the plate can state how
-            // much distinct structure the capability composes. It reads very
-            // differently on the two branches (see plaque.js _hallFusion),
-            // which is exactly why the teaser now shows it.
-            fusionScore: e.fusionScore,
-            fusionBreakdown: e.fusionBreakdown,
-            suiteComponents: e.suiteComponents,
             onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
               jsStr(e.id) + '\');})()',
           };
         });
         return { skills: skills, primaryLevel: levelNum(group[0].entry.level) };
-      });
-
-      // Largest Suite Fusion Score in the rendered set, so the composition bar
-      // is scaled against this teaser's own maximum rather than a magic number.
-      var fusionMax = 1;
-      groupsRendered.forEach(function (g) {
-        g.skills.forEach(function (s) {
-          var v = Number(s.fusionScore);
-          if (isFinite(v) && v > fusionMax) fusionMax = v;
-        });
       });
 
       var hasFeatured = groupsRendered.some(function (g) { return g.primaryLevel >= 5; });
@@ -439,7 +422,6 @@
         return window.plaque.renderHallPlate(g.skills, {
           maxRows: isFeatured ? 4 : 3,
           featured: !!isFeatured,
-          fusionMax: fusionMax,
         });
       };
 

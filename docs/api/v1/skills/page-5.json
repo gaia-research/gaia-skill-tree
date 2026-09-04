@@ -1,165 +1,11 @@
 {
   "skills": [
     {
-      "id": "vercel/find-skills",
-      "name": "Find Skills",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "vercel",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/vercel/find-skills.json"
-      },
-      "genericSkillRef": "skill-discovery"
-    },
-    {
-      "id": "upsonic/unittest-generator",
-      "name": "Unittest Generator",
-      "level": "2★",
-      "trustMagnitude": 33.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "upsonic",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/upsonic/unittest-generator.json"
-      },
-      "genericSkillRef": "generate-test"
-    },
-    {
-      "id": "devin-ai/autonomous-swe",
-      "name": "Autonomous SWE",
-      "level": "2★",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "devin-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
-      },
-      "genericSkillRef": "autonomous-debug"
-    },
-    {
-      "id": "mattpocock/code-review",
-      "name": "Code Review",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 140.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/code-review.json"
-      },
-      "genericSkillRef": "requesting-code-review"
-    },
-    {
-      "id": "mattpocock/research",
-      "name": "Research",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/research.json"
-      },
-      "genericSkillRef": "research"
-    },
-    {
-      "id": "mattpocock/to-questionnaire",
-      "name": "To Questionnaire",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
-      },
-      "genericSkillRef": "questionnaire-generation"
-    },
-    {
-      "id": "mattpocock/wait-what",
-      "name": "Wait What",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wait-what.json"
-      },
-      "genericSkillRef": "plain-language-restatement"
-    },
-    {
-      "id": "mattpocock/wayfinder",
-      "name": "Wayfinder",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wayfinder.json"
-      },
-      "genericSkillRef": "decision-ticket-planning"
-    },
-    {
-      "id": "mattpocock/wizard",
-      "name": "Wizard",
-      "level": "2★",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wizard.json"
-      },
-      "genericSkillRef": "guided-setup-scripting"
-    },
-    {
       "id": "supabase/supabase",
       "name": "Supabase",
       "level": "2★",
       "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "supabase",
       "type": "basic",
       "branch": "standard",
@@ -175,8 +21,7 @@
       "name": "Supabase Postgres Best Practices",
       "level": "2★",
       "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "supabase",
       "type": "basic",
       "branch": "standard",
@@ -188,114 +33,11 @@
       "genericSkillRef": "postgres-best-practices"
     },
     {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 326.49,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "genericSkillRef": "engineering-discipline",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/grill-with-docs",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 228.28,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      },
-      "genericSkillRef": "mattpocock-misc",
-      "suiteComponents": [
-        "mattpocock/git-guardrails-claude-code",
-        "mattpocock/migrate-to-shoehorn",
-        "mattpocock/scaffold-exercises",
-        "mattpocock/setup-pre-commit"
-      ]
-    },
-    {
-      "id": "mattpocock/personal",
-      "name": "Personal",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 120.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/personal.json"
-      },
-      "genericSkillRef": "personal",
-      "suiteComponents": [
-        "mattpocock/edit-article",
-        "mattpocock/obsidian-vault"
-      ]
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 272.11,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/wait-what",
-        "mattpocock/write-a-skill"
-      ]
-    },
-    {
       "id": "remotion-dev/remotion-best-practices",
       "name": "Remotion Best Practices",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 274.83,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "fusion",
       "branch": "suite",
@@ -324,8 +66,7 @@
       "name": "Remotion Captions",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -341,8 +82,7 @@
       "name": "Remotion Create",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -358,8 +98,7 @@
       "name": "Remotion Docs",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 60.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "fusion",
       "branch": "standard",
@@ -375,8 +114,7 @@
       "name": "Remotion Interactivity",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -392,8 +130,7 @@
       "name": "Remotion Maps",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -409,8 +146,7 @@
       "name": "Remotion Markup",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -426,8 +162,7 @@
       "name": "Remotion Multimedia",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 40.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "fusion",
       "branch": "standard",
@@ -443,8 +178,7 @@
       "name": "Remotion Render",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -460,8 +194,7 @@
       "name": "Remotion SaaS",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -477,8 +210,7 @@
       "name": "Remotion Studio",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -494,8 +226,7 @@
       "name": "Remotion Upgrade",
       "level": "2★",
       "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
+      "overallTrustGrade": null,
       "contributor": "remotion-dev",
       "type": "basic",
       "branch": "standard",
@@ -509,7 +240,7 @@
   ],
   "page": 5,
   "totalPages": 5,
-  "totalSkills": 227,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json"

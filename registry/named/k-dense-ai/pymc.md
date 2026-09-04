@@ -9,7 +9,7 @@ level: 4★
 description: Build Bayesian models with PyMC using hierarchical models, MCMC, variational
   inference, and posterior checks.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-01'
 title: PyMC
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md
@@ -37,11 +37,6 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 267.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md
   evaluator: mbtiongson1
@@ -72,9 +67,6 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:49Z'
-trustMagnitude: 267.06
-overallTrustGrade: A
-trustMagnitudeInputHash: f182651b4cbf554d09095f57b5930004e288f11955725814645fe2a7277e43f4
 ---
 
 ## Installation

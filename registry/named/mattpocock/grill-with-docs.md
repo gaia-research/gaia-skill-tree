@@ -22,7 +22,7 @@ tags:
 - socratic-method
 - fusion
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -107,11 +107,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:52Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -125,7 +120,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:01:52Z'
-trustMagnitudeInputHash: de391ba0d895f44a2776aaf4eb74674e6d28c008b26b62c1b0eec216169f2524
+trustMagnitudeInputHash: 5ce1a22a9528fc9c688cd2a5f03e22ef55909be45178d3cb7d40193a2eb4cfeb
 ---
 
 ## Overview

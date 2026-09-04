@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
-  },
   "title": "The Skill Scaffolder",
   "genericSkillRef": "tool-creation",
   "origin": true,
@@ -116,12 +108,6 @@
       "previousValue": null,
       "newValue": null,
       "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'Replace write-a-skill with writing-great-skills... write-a-skill has been removed.' Successor is a differently-shaped reference skill (disable-model-invocation), not a 1:1 rename, so not relinked under this id."
-    },
-    {
-      "timestamp": "2026-08-29T17:15:54Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

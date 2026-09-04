@@ -19,7 +19,7 @@ tags:
 - releases
 - automation
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/github-code-review
@@ -67,13 +67,8 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 66.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -83,7 +78,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e8e3ac043da60bcc9bee6f9abe3c9d122e5032ee322e2609efb0a4cc65e7eb6d
+trustMagnitudeInputHash: 1df987fbdd79a999a7c3ca1ec7cf7a3b8f276f5dae52dbbc43911436f3012813
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

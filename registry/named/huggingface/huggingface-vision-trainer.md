@@ -20,7 +20,7 @@ tags:
 - segmentation
 - fine-tuning
 createdAt: '2026-05-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-03'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,12 +46,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: 9ea8f38d88ef7c3af4159dfd32eea926bbb277ff58f45421d7ee1ae0b5a38aae
+trustMagnitudeInputHash: 71a712396b0b1922b00967d041b6e89ce6f2ec18b7d2c6fead4c9cbfcc12f757
 ---
 
 ## Overview

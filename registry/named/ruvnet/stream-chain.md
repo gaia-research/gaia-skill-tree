@@ -19,7 +19,7 @@ tags:
 - context-chaining
 - data-transformation
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -51,11 +51,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 053cf1e6f25c49b8ccd55c6e5d957040be2ab5d82de8cd11a19dc456b4620a22
+trustMagnitudeInputHash: 476378b8769de873071e99bf12736384a003817d20d589b1a672c1f9101a01a6
 ---
 
 ## Overview

@@ -4,14 +4,8 @@ Covers:
 - Generic nodes and named skills merge into one {id: skillDict} map
 - Named entries win over a generic entry on id collision
 - Only status == "named" entries are included from the named half
-- The RFC §C-2 `role` key (e.g. `role: variant`) survives from named
-  entries' frontmatter into the merged map (Issue #1643 — it must NOT be
-  stripped from structural provenance)
+- The display-only `role` key is stripped from named entries
 - Missing registry/nodes or registry/named directories degrade gracefully
-
-Yggdrasil III retains fusion structure for inspection but assigns every
-fusion-recipe row 0 Trust Magnitude. Origin-count assertions no longer belong
-in this resolver suite because they do not affect scoring.
 """
 
 import json
@@ -77,15 +71,12 @@ def test_excludes_non_named_status(tmp_path):
     assert "bob/draft-skill" not in merged
 
 
-def test_preserves_role_key_from_named_entries(tmp_path):
-    """RFC §C-2's role: variant marker must survive into the merged map —
-    trustMagnitude.py's _gradedOriginCount() reads it to exclude a suite
-    component from the graded-origin count (Issue #1643 regression)."""
+def test_strips_role_key_from_named_entries(tmp_path):
     _write_named_skill(tmp_path, "alice/variant-skill", role="variant")
 
     merged = buildMergedSkillMap(tmp_path)
 
-    assert merged["alice/variant-skill"]["role"] == "variant"
+    assert "role" not in merged["alice/variant-skill"]
 
 
 def test_missing_registry_dirs_return_empty_map(tmp_path):

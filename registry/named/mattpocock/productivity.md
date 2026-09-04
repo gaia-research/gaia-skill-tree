@@ -10,9 +10,9 @@ level: 3★
 description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-08-20'
+trustMagnitude: 180.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -59,13 +59,8 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 120.0 -> 180.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-- timestamp: '2026-08-29T17:15:53Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 180.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 suiteRef: mattpocock/skills
-trustMagnitudeInputHash: 3f593d8eb8eca8e404a7efc7f24adaed0b956a7c16b23ea8d1f6d55acb7c9d3e
+trustMagnitudeInputHash: 7d29d5d833135693367eb0f68fe35a56c24c08e700e8e109a6d4e0652d0ec8f5
 suiteComponents:
 - mattpocock/grill-me
 - mattpocock/handoff

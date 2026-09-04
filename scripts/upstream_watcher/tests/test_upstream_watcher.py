@@ -37,7 +37,6 @@ from scripts.upstream_watcher.finder import (
 )
 from scripts.upstream_watcher.issuer import (
     _find_existing_issue,
-    create_issues,
     _payload_block,
     render_bootstrap_body,
     render_child_body,
@@ -359,72 +358,6 @@ class TestIdempotency:
         with patch("subprocess.run", side_effect=subprocess.TimeoutExpired("gh", 30)):
             result = _find_existing_issue("anything", "upstream:release")
         assert result is None
-
-    def test_run_cache_hit_short_circuits_gh(self):
-        """A title already created this run resolves from the cache, never calling gh."""
-        cache = {("upstream:release", "ruvnet/ruflo → v3.38.9"): 1574}
-
-        with patch("subprocess.run") as mock_run:
-            result = _find_existing_issue(
-                "ruvnet/ruflo → v3.38.9", "upstream:release", cache
-            )
-        assert result == 1574
-        mock_run.assert_not_called()
-
-    def test_run_cache_miss_falls_through_to_gh(self):
-        """A title not in the cache still queries gh."""
-        mock_result = MagicMock()
-        mock_result.returncode = 0
-        mock_result.stdout = json.dumps([])
-        cache = {("upstream:release", "other/repo → v1.0.0"): 99}
-
-        with patch("subprocess.run", return_value=mock_result) as mock_run:
-            result = _find_existing_issue(
-                "ruvnet/ruflo → v3.38.9", "upstream:release", cache
-            )
-        assert result is None
-        mock_run.assert_called_once()
-
-    def test_same_repo_findings_create_one_umbrella_per_run(self):
-        """Regression for the duplicate [upstream] storm (issues #1574-#1578).
-
-        Five skills from one upstream repo yield five findings that collapse
-        onto the same umbrella title.  GitHub's search index cannot see an
-        issue created moments earlier in the same run, so without the run
-        cache every finding created its own duplicate umbrella.
-        """
-        findings = [
-            {
-                "finding_type": "update",
-                "skillId": f"ruvnet/skill-{n}",
-                "newVersion": "v3.38.9",
-                "sourceUrl": "https://github.com/ruvnet/ruflo/blob/main/skills/x/SKILL.md",
-                "componentAdds": [],
-                "componentRemoves": [],
-                "linkLiveness": [],
-                "mode": "version-only",
-            }
-            for n in range(5)
-        ]
-
-        # gh never finds anything — exactly the index-lag condition.
-        empty = MagicMock()
-        empty.returncode = 0
-        empty.stdout = json.dumps([])
-
-        created: list[str] = []
-
-        def fake_create(title, labels, body, dry_run, verbose=False):
-            created.append(title)
-            return 1000 + len(created)
-
-        with patch("subprocess.run", return_value=empty), patch(
-            "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
-        ), patch("scripts.upstream_watcher.issuer._edit_umbrella_body"):
-            summaries = create_issues(findings, apply=True)
-
-        assert created == ["[upstream] ruvnet/ruflo → v3.38.9"]
-        assert sum(1 for s in summaries if s.get("skipped")) == 4
 
 
 # ---------------------------------------------------------------------------

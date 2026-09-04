@@ -9,7 +9,7 @@ level: 2★
 description: Creates original static visual artifacts such as posters and print-ready
   graphics from a design brief.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-30'
 title: Canvas Design
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md
@@ -36,11 +36,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from anthropics/static-artwork-design to anthropics/canvas-design
-- timestamp: '2026-08-29T17:15:43Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 43.52, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://arxiv.org/abs/2605.23657
   evaluator: unknown
@@ -68,9 +63,6 @@ evidence:
   sourceStartedAt: '2025-10-16'
 verification:
   firstEvidenceAt: '2026-07-29T20:23:11Z'
-trustMagnitude: 43.52
-overallTrustGrade: C
-trustMagnitudeInputHash: 60608f1e6a3b2707cfd9b402d0bee9b850ca37e7a83611371d2e1282159ca5fc
 ---
 
 ## Installation

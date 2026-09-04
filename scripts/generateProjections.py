@@ -592,7 +592,7 @@ def main():
         unique_skills = [s for s in skills if _GENERIC_BRANCH_MAP.get(s.get("id")) == "unique"]
         if unique_skills:
             f.write("## Uniques\n\n")
-            f.write("*Singular mastery skills — graph-isolated, with named implementations. Structure proposed via `gaia fuse` + `gaia push`; rank assigned only by canon curation.*\n\n")
+            f.write("*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*\n\n")
             f.write("| Name | Class | Top ★ | Skill Call |\n")
             f.write("|---|---|---|---|\n")
             for skill in unique_skills:

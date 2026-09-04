@@ -9,7 +9,7 @@ level: 1★
 description: Draft, edit, or QA Favor Church Manila communication so it feels warm,
   clear, and authentic.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Speak Like Favor
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
@@ -27,11 +27,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
   evaluator: favorchurch
@@ -42,9 +37,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:51Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: cdab2aac618974346bca85126ed6215981a5ae210988add84e6b64a3d101c5a8
 ---
 
 # Speak Like Favor

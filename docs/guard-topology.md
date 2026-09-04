@@ -50,9 +50,6 @@ All patterns are case-sensitive unless noted otherwise.
 | `type\s*[=:]\s*extra` | — | type=extra | Legacy Yggdrasil I taxonomy field value; use `type=fusion` |
 | `type\s*[=:]\s*ultimate` | — | type=ultimate | Legacy Yggdrasil I taxonomy field value; use `type=fusion` |
 | `\bapex\s+tier\b` | `re.IGNORECASE` | apex tier | Taxonomy-Ultimate synonym; `Ultimate`=5★ rank name, `Apex`=6★ Suite rank name. Never use "apex tier" as a taxonomy synonym. `scripts/**` is hard-excluded (generateBadges.py / generateOgCards.py use it as a legitimate 6★-rank descriptor). |
-| `\bfusion\s+magnitude\b` | `re.IGNORECASE` | fusion magnitude | Retired Yggdrasil II term for structure scored inside Trust Magnitude; use `Fusion Score` (the Yggdrasil III structural scalar, never an input to TM) |
-| `\bcomposition\s+score\b` | `re.IGNORECASE` | composition score | Synonym for the Yggdrasil III structural scalar; use `Fusion Score` |
-| `\bstructure\s+score\b` | `re.IGNORECASE` | structure score | Synonym for the Yggdrasil III structural scalar; use `Fusion Score` |
 
 ### Docs-only banned patterns (root `*.md` and `docs/**/*.md` only)
 

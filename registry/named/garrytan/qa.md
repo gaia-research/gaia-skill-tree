@@ -20,7 +20,7 @@ tags:
 - bug-fixing
 - e2e
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -86,17 +86,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-- timestamp: '2026-08-25T13:17:09Z'
-  action: recalibrate_trust_magnitude
-  contributor: unknown
-  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-- timestamp: '2026-08-29T17:15:47Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-trustMagnitude: 50.0
+trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -109,7 +99,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
-trustMagnitudeInputHash: 960a112fe13a7a12e03ee7cc62b21821ca61b221715660224703225d8a52db35
+trustMagnitudeInputHash: 16c58e0915bb3377d6fe7b76b2809103af83e02de4692c72a948868f55b737c5
 ---
 
 ## Overview

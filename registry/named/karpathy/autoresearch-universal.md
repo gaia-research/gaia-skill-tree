@@ -17,7 +17,7 @@ tags:
 - autonomous
 - paper-synthesis
 createdAt: '2026-04-29'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-05'
 evidence:
 - class: B
   source: https://github.com/karpathy/autoresearch
@@ -61,11 +61,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from karpathy/autoresearch to karpathy/autoresearch-universal
-- timestamp: '2026-08-29T17:15:51Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -77,7 +72,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a3ed93ef0507dd2310b19b343d07968b5dfedb7be355f6493c68c1690ccac0a6
+trustMagnitudeInputHash: 3e19af891001ee423fdd491bd17445b8d1e5424c7f89c35068512ceba684505d
 ---
 
 ## Overview

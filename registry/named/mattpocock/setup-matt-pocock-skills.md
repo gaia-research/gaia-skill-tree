@@ -10,7 +10,7 @@ level: 3★
 description: Scaffolds per-repo configuration for other engineering skills (like triage,
   tdd, diagnose).
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills
@@ -72,11 +72,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:53Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 56.21
 overallTrustGrade: B
 apexGateStatus:
@@ -90,7 +85,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:36:01Z'
-trustMagnitudeInputHash: fc552d7dcf75c8f1634f659b20f68978b4c3f2df36165be77313fb5e53fa4548
+trustMagnitudeInputHash: d14882b30c3e0aec412382b0c795b53273ab6f661f1024260471839e7a460482
 ---
 
 ## Installation

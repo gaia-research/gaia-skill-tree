@@ -28,11 +28,6 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/engineering
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 - timestamp: '2026-09-01T19:08:39Z'
   action: installation_updated
   contributor: mbtiongson1
@@ -51,9 +46,6 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-19T16:10:33Z'
 suiteRef: mattpocock/engineering
-trustMagnitude: 20.77
-overallTrustGrade: C
-trustMagnitudeInputHash: 93bd0e91667a5d4a00d86b8402add7c8824342cd7d80226d53827db026d275a3
 ---
 
 ## Installation

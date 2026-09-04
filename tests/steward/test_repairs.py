@@ -387,30 +387,21 @@ def test_agent_mirror_dirty_target_is_refused_before_overwrite(tmp_path: Path) -
     assert (root / ".claude/skills/alpha/SKILL.md").read_text(encoding="utf-8") == "# user edit\n"
 
 
-def _worktree_snapshot(root: Path) -> dict[str, bytes]:
-    """Every tracked-worktree file, keyed by repo-relative path.
-
-    `.gaia` is scratch state the repair legitimately writes.  `.git` is
-    excluded because git's background maintenance can drop files such as
-    `objects/maintenance.lock` into it at any moment, which has nothing to do
-    with what the repair touched and would otherwise fail this assertion at
-    random.
-    """
-    skip = {".gaia", ".git"}
-    return {
-        path.relative_to(root).as_posix(): path.read_bytes()
-        for path in root.rglob("*")
-        if path.is_file() and not skip & set(path.relative_to(root).parts)
-    }
-
-
 def test_agent_mirror_repair_changes_only_the_mirror_allowlist(tmp_path: Path) -> None:
     root = _agent_repo(tmp_path)
-    before = _worktree_snapshot(root)
+    before = {
+        path.relative_to(root).as_posix(): path.read_bytes()
+        for path in root.rglob("*")
+        if path.is_file() and ".gaia" not in path.relative_to(root).parts
+    }
 
     _agent_repair(root)
 
-    after = _worktree_snapshot(root)
+    after = {
+        path.relative_to(root).as_posix(): path.read_bytes()
+        for path in root.rglob("*")
+        if path.is_file() and ".gaia" not in path.relative_to(root).parts
+    }
     changed = sorted(path for path in set(before) | set(after) if before.get(path) != after.get(path))
     assert changed == [
         ".claude/skills/alpha/SKILL.md",

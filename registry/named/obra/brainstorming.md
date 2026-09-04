@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: brainstorming
 status: named
 title: The Collaborative Blueprint
-level: 4★
+level: 3★
 description: Explores user intent, requirements, and design before implementation.
   Turns ideas into fully formed designs and specs through natural collaborative dialogue.
 links:
@@ -18,7 +18,7 @@ tags:
 - collaboration
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-09-02'
+updatedAt: '2026-07-31'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -123,17 +123,8 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
     (type: peer-review)'
-- timestamp: '2026-08-29T17:15:55Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 95.15 -> 110.15, grade B -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-09-02T15:11:41Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
-trustMagnitude: 110.15
-overallTrustGrade: A
+trustMagnitude: 95.15
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -145,7 +136,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:48:14Z'
-trustMagnitudeInputHash: 187b018197782ec871e537e0ce283472c47f644a5d678142c8d81845948d9948
+trustMagnitudeInputHash: c4bb503427298e66e85aef80869d5aaf4fa8f1286f98ae55fe1f9122c7660fc0
 ---
 
 ## Overview

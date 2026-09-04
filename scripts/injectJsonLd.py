@@ -104,18 +104,6 @@ def _ld_named_skill(contributor: str, slug: str) -> list[dict]:
     ]
 
 
-def _ld_reports_index() -> list[dict]:
-    """CollectionPage for the weekly reports index."""
-    return [
-        {
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "name": "Weekly Reports",
-            "url": BASE_URL + "/reports/",
-        }
-    ]
-
-
 def _ld_report(week_id: str) -> list[dict]:
     """Article + NewsArticle for a weekly report."""
     url = f"{BASE_URL}/reports/{week_id}/"
@@ -196,10 +184,6 @@ def _classify(rel: Path) -> list[dict]:
         slug = parts[2].removesuffix(".html")
         return _ld_named_skill(parts[1], slug)
 
-    # Reports index: reports/index.html
-    if rel == Path("reports/index.html"):
-        return _ld_reports_index()
-
     # Reports sub-page: reports/<week>/index.html
     if len(parts) == 3 and parts[0] == "reports" and parts[2] == "index.html":
         return _ld_report(parts[1])
@@ -223,17 +207,11 @@ def _classify(rel: Path) -> list[dict]:
 # ── injection logic ───────────────────────────────────────────────────────────
 
 def _render_block(payloads: list[dict]) -> str:
-    """Render one or more JSON-LD payloads into a single injectable <script> block.
-
-    A single payload is emitted as a bare JSON object (unchanged, byte-for-byte,
-    from prior behaviour). Multiple payloads are emitted as a JSON array — the
-    only way to put more than one JSON-LD node in one <script> tag and still
-    have the tag contain valid JSON.
-    """
-    if len(payloads) == 1:
-        inner = json.dumps(payloads[0], indent=2, ensure_ascii=False)
-    else:
-        inner = json.dumps(payloads, indent=2, ensure_ascii=False)
+    """Render one or more JSON-LD payloads into a single injectable <script> block."""
+    parts: list[str] = []
+    for payload in payloads:
+        parts.append(json.dumps(payload, indent=2, ensure_ascii=False))
+    inner = "\n".join(parts)
     return f'<script type="application/ld+json" data-injector="gaia-json-ld">\n{inner}\n</script>'
 
 

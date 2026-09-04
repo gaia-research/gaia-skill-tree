@@ -43,7 +43,7 @@ The TM methodology page covers *how scores are computed*. It does **not** cover
 | 4★+ | Live, verifiable usage evidence required. Seed/placeholder evidence is insufficient. |
 | 4★+ Specialist | Vendor-locked skills: Depth-of-Integration rubric (META.md §2.3) |
 | 6★ Suite (Apex) | Grade S + 6-predicate Apex gate (META.md §4.3) |
-| 6★ Unique (Unique Impossible) | Grade S + provisional 5-predicate gate (Apex set minus directNestedSuiteGte1, META.md §4.4; branch distinction ratified under Yggdrasil III, predicate set otherwise unchanged) |
+| 6★ Unique (Unique Impossible) | Grade S + provisional 5-predicate gate (Apex set minus directNestedSuiteGte1, META.md §4.4; deferred to Yggdrasil III) |
 
 When asked "should this skill be 4★?", run this check **before** computing TM:
 1. Does `links.github` point to a concrete file via `/blob/`?

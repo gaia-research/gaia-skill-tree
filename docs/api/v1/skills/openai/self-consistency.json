@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/openai.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
-  },
   "title": "The Majority Consensus",
   "genericSkillRef": "self-consistency",
   "origin": false,
@@ -111,12 +103,6 @@
       "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:56Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 100.0 -> 100.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

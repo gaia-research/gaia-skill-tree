@@ -5,11 +5,11 @@ contributor: k-dense-ai
 origin: false
 genericSkillRef: cheminformatics-analysis
 status: named
-level: 4★
+level: 2★
 description: Perform cheminformatics analysis with RDKit for molecular parsing, descriptors,
   fingerprints, reactions, and similarity.
 createdAt: '2026-07-31'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-01'
 title: RDKit
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md
@@ -33,15 +33,6 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
     (type: github-stars-own)'
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 170.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-09-02T15:11:32Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md
   evaluator: mbtiongson1
@@ -72,9 +63,6 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:59Z'
-trustMagnitude: 170.06
-overallTrustGrade: A
-trustMagnitudeInputHash: aa80994869b369dcc8422216a150ba1186240e8444d4fa60b1fef185c77508f6
 ---
 
 ## Installation

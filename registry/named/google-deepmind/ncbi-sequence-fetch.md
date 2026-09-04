@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.
   Supports direct accession lookup, CDS translation, gene+organism search, locus lookup,
   PubMed-linked sequences, patent protein extraction, and organism+length fallback
   search. Use when you need to fetch biological sequences by accession, gene name,
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
 evidence:
@@ -100,10 +100,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/ncbi_sequence_fetch to google-deepmind/ncbi-sequence-fetch
-- timestamp: '2026-09-02T15:11:25Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

@@ -11,7 +11,7 @@ level: 2★
 description: Design deep modules with small interfaces and large implementations for
   better testability.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T12:58:38Z'
   action: add
@@ -64,11 +64,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
-- timestamp: '2026-08-29T17:15:52Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md
   evaluator: unknown
@@ -99,8 +94,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:03:53Z'
-trustMagnitude: 41.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -110,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 83aeaeaaf6caa9cceecb81937c55ded401ae5a4cd79a2d3749cc02d8e1682389
+trustMagnitudeInputHash: 5a285ad4ce39781560b51ab109e896053606239fe117082494fc6bd73efef651
 title: Codebase Design
 ---
 

@@ -2,26 +2,18 @@
   "id": "firecrawl/firecrawl-build-onboarding",
   "name": "Firecrawl Onboarding",
   "contributor": "firecrawl",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 184.51,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 79.76,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "Firecrawl Onboarding",
   "genericSkillRef": "agent-environment-setup",
@@ -95,18 +87,6 @@
       "action": "rank_up",
       "contributor": "marcotiongson",
       "details": "Calibrated level from 2★ to 3★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:44Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:16Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

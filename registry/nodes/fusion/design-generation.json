@@ -5,7 +5,6 @@
   "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
   "prerequisites": [
     "code-generation",
-    "ui-audit",
     "vision-qa"
   ],
   "derivatives": [
@@ -16,7 +15,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-08-22",
+  "updatedAt": "2026-07-16",
   "version": "0.1.0",
   "timeline": [
     {

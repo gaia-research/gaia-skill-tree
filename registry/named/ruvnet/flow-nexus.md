@@ -20,7 +20,7 @@ tags:
 - neural-training
 - queen-seraphina
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/flow-nexus-neural
@@ -66,13 +66,8 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
-- timestamp: '2026-08-29T17:15:58Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 96.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 96.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -82,7 +77,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e3e469ea614c63c8ead7495b8e0f3be1393f770f60eed9f95cf4ae19c935f895
+trustMagnitudeInputHash: 30bafed85a286ab06dfab8838217aa63fafa38885329370900f0d3229ec78f1f
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

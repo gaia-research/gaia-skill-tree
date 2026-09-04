@@ -19,7 +19,7 @@ tags:
 - jobs
 - datasets
 createdAt: '2026-05-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-03'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -45,12 +45,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: 66e225c7d85d6e29c7534842e7f5744f4d4e5041c9bae5920fb30b35c7113399
+trustMagnitudeInputHash: 42d31e3ccaeefb074f7ba0632a0636d493cf8cb05dfbab3bf5935e6c53265a0c
 ---
 
 ## Overview
