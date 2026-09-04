@@ -11,7 +11,7 @@ createdAt: '2026-07-13'
 updatedAt: '2026-09-04'
 title: Firecrawl Research Index
 links:
-  github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md
+  github: https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md
 timeline:
 - timestamp: '2026-07-13T06:22:18Z'
   action: add

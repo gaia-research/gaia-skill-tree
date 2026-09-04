@@ -11,7 +11,7 @@ createdAt: '2026-07-13'
 updatedAt: '2026-09-04'
 title: Firecrawl Search
 links:
-  github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
+  github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md
 timeline:
 - timestamp: '2026-07-13T06:22:17Z'
   action: add
