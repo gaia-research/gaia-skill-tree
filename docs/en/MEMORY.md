@@ -2,6 +2,93 @@
 
 ---
 
+## 2026-09-04 — Routine 046
+
+**Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** CONTINUE — Routine 045's "Planned next": ROTATE audit of
+`manual-curation-pipeline.html` (least-recently-touched at routine 037) for
+drift against the current `gaia dev` verb set.
+
+### Trigger
+
+Read `manual-curation-pipeline.html` end to end and cross-checked every
+`gaia dev` invocation against its real argparse definition in
+`src/gaia_cli/commands/dev/__init__.py` and implementation in
+`src/gaia_cli/commands/dev/calibrate.py`. Three places on the page invoke
+`gaia dev calibrate contributor/skill --stars N` (Phase 5's build/calibrate
+code block, the cheat sheet's Phase 5 line, and the "Become a contributor"
+table). `--stars` is not a real flag on `dev_calibrate` — the parser only
+defines a positional `skill_id` and a positional `level` (help text: "New
+level (e.g. 3★)"), and `meta_calibrate_command` validates `level` against
+`ALLOWED_LEVELS = ["1★", ..., "6★"]`, rejecting anything else with an error
+naming the correct positional form. `--stars` is a real flag elsewhere on
+the page (`gaia dev evidence --type github-stars-own --stars N`), which is
+likely how the wrong flag got copied onto `calibrate` in an earlier routine.
+
+### What I did
+
+Fixed all three `gaia dev calibrate` examples in
+`docs/en/manual-curation-pipeline.html` to use the real positional
+`<level>` argument instead of the fictional `--stars` flag:
+- Phase 5 code block: `gaia dev calibrate contributor/skill-id --stars 2` →
+  `gaia dev calibrate contributor/skill-id 2★`
+- Cheat sheet Phase 5 line: `gaia dev calibrate contributor/skill --stars N`
+  → `gaia dev calibrate contributor/skill N★`
+- "Become a contributor" table row: same fix, in the plain `<code>` cell
+  (not a code-fence, so no span markup needed)
+
+Updated `DOCS.md` row 13 with routine 046's fix and added it to the row's
+routine history list.
+
+### Design decisions
+
+- Kept the level example as a star-suffixed value (`2★`/`N★`) to match the
+  CLI's own help text and error-message guidance exactly, rather than a bare
+  number — a bare numeral is what the CLI rejects.
+- Left the rest of the page alone; every other `gaia dev` command on it
+  (`prefill`, `push`, `evidence`, `build`, `validate`, `docs`, `fuse`,
+  `named`) matched its current argparse signature on inspection, so this
+  was the one real drift point, not a wider rewrite.
+
+### Issues informed
+
+None filed or closed — documentation accuracy fix; the CLI's calibrate
+signature (positional level, no `--stars` flag) has been stable.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`,
+`docs/en/DOCS.md`, `docs/en/MEMORY.md` only. `html.parser` parse-check
+clean. Vocabulary grep (`merge|combine|compose|rarity`) — only hits are
+pre-existing `gh pr merge` command examples and "Merge PR" as a GitHub
+action name, not the Fusion concept; zero new violations. No new hex
+introduced (diff-scanned, zero hits). All three stylesheets (`tokens.css`,
+`styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — fixed three `gaia dev calibrate`
+  examples from a fictional `--stars N` flag to the real positional
+  `<level>` argument
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 047)
+
+- ROTATE: `skill-hierarchy.html` and `fusion.html` are now the
+  least-recently-touched pages (routine 028/029, both also covered by the
+  editor-026wk pass) among pages not already refreshed by recent routines.
+  Both still teach the retired Yggdrasil I four-tier model in full per
+  DOCS.md's own Vocabulary Rules note — worth checking whether that's still
+  accurate or whether issue #1479's tracked migration has since landed.
+
+### Token spend
+
+2026-09-04 Sonnet 5 Low: ~50k in, ~4k out. ~$0.19
+
+---
+
 ## 2026-09-03 — Routine 045
 
 **Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)

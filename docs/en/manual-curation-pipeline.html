@@ -914,7 +914,7 @@
 <span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> scripts/trust_appraise.py <span class="arg">--skill</span> contributor/skill-id
 
 <span class="c"># Only after you approve the proposed calibration:</span>
-<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev calibrate contributor/skill-id <span class="arg">--stars</span> 2
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev calibrate contributor/skill-id <span class="arg">2★</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev validate</pre>
         </div>
 
@@ -1027,7 +1027,7 @@
 <span class="c"># ... repeat for each evidence type ...</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev build
 <span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> scripts/trust_appraise.py <span class="arg">--skill</span> contributor/skill
-<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev calibrate contributor/skill <span class="arg">--stars</span> N  <span class="c"># after your approval</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev calibrate contributor/skill <span class="arg">N★</span>  <span class="c"># after your approval</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev validate
 
 <span class="c"># ── Phase 6: Close ───────────────────────────────────────────</span>
@@ -1050,7 +1050,7 @@
               <tr><td>Add a named implementation</td><td><code>gaia dev named --contributor handle --skill slug --generic id --upstream &lt;blob-url&gt;</code></td></tr>
               <tr><td>Add an evidence row</td><td><code>gaia dev evidence contributor/skill "&lt;url&gt;" --type repo-own --commits N ...</code></td></tr>
               <tr><td>Appraise Trust Magnitude</td><td><code>PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill</code></td></tr>
-              <tr><td>Calibrate star level</td><td><code>gaia dev calibrate contributor/skill --stars N</code></td></tr>
+              <tr><td>Calibrate star level</td><td><code>gaia dev calibrate contributor/skill N★</code></td></tr>
               <tr><td>Fuse a suite capstone</td><td><code>gaia dev fuse &lt;id&gt; --name "..." --prereqs id1,id2 --named-capstone contributor/slug</code></td></tr>
               <tr><td>Validate registry</td><td><code>GAIA_OPERATOR_OVERRIDE=1 gaia dev validate</code></td></tr>
               <tr><td>Regenerate site artifacts</td><td><code>GAIA_OPERATOR_OVERRIDE=1 gaia dev docs</code></td></tr>
