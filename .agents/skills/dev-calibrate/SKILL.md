@@ -46,6 +46,14 @@ steps:
   - id: verify-landed
     run: python scripts/inspectTrustMagnitude.py --skill {skill_id}
     proves: re-inspected stored level equals decide's target_level — confirmed against live state, not trusted from calibrate's own stdout
+  - id: relabel-dependent-origins
+    judgment: RELABEL_APEX_ORIGINS | NO_DEPENDENT_ORIGINS
+    rules: >-
+      Find every named skill whose fusion-recipe.origins or suiteComponents
+      includes skill_id. Re-run origin-grade resolution and re-inspect any Apex
+      Gate predicate state that depends on graded-origin counts. Land any
+      resulting calibration change through gaia dev calibrate (never hand-edit
+      an origin label or Apex predicate).
   - id: rebuild-docs
     run: gaia dev docs
     proves: Class S artifacts (docs/graph/*, docs/api/v1/*) regenerated to reflect the new level
