@@ -7,7 +7,7 @@ genericSkillRef: document-editing
 status: named
 title: The Section-by-Section Rewrite
 catalogRef: mattpocock-edit-article
-level: 4★
+level: 1★
 description: Edits articles by first sectioning them as a DAG of information dependencies,
   confirming the section order, then rewriting each section for clarity and flow with
   a 240-character-per-paragraph constraint.
@@ -20,8 +20,7 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-09-02'
-suiteRef: mattpocock/personal
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -89,6 +88,17 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ due to dead/deprecated blob link under META §2.4
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -124,8 +134,8 @@ evidence:
     mattpocock/skills repo (verified 2026-06-20)
   views: 412000
   sourceStartedAt: '2025-01-01'
-trustMagnitude: 306.13
-overallTrustGrade: A
+trustMagnitude: 94.92
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -137,8 +147,9 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: ac7b9de25521e1e17a9de43d7fa097e768bbab32ee47bb085423636418953c15
+trustMagnitudeInputHash: bece26c8f9a7ae5c1985083a8a34b53463c9f0f5c0e14e209225d895272439be
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

@@ -25,7 +25,7 @@
   },
   "title": "Remotion Create",
   "genericSkillRef": "video-scaffolding",
-  "origin": true,
+  "origin": false,
   "description": "remotion-dev named skill for remotion-create",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

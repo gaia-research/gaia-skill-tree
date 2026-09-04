@@ -22,8 +22,7 @@ tags:
 - testability
 - deletion-test
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,6 +66,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/issues/180
   evaluator: mbtiongson1
@@ -84,7 +88,8 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T12:35:07Z'
-trustMagnitudeInputHash: 818b9ac669fbdfc0aad3ae6969c98c4b81eec80ff5adb3f8c9efda52a025bcf5
+trustMagnitudeInputHash: 49e1882aeaf5b57d26f9913ee3afc66d5dc3b3e15021f2c9290b62daa95e3bf0
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

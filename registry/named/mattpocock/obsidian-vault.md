@@ -6,12 +6,11 @@ origin: false
 genericSkillRef: personal-knowledge-management
 status: named
 title: The Obsidian Vault Mapper
-level: 4★
+level: 1★
 description: Manage notes and organization in a specific Obsidian vault using Title
   Case and wikilinks.
 createdAt: '2026-05-21'
-updatedAt: '2026-09-02'
-suiteRef: mattpocock/personal
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault
 evidence:
@@ -103,8 +102,19 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 306.13
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ due to dead/deprecated blob link under META §2.4
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 94.92
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -114,10 +124,11 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: edc269178e4d567153c29a4e69256decad48e91c9cd83d2ff11835556d81f4c2
+trustMagnitudeInputHash: 3b0168a25c73ef667766bdced806a474b5d28ed21fa997b3be4854e1cd51946f
 verification:
   firstEvidenceAt: '2026-06-19T17:07:33Z'
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

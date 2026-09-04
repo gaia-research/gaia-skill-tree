@@ -20,7 +20,7 @@ tags:
 - skill-scaffolding
 - progressive-disclosure
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 timeline:
@@ -68,6 +68,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:
@@ -96,9 +101,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
-suiteRef: mattpocock/productivity
-trustMagnitudeInputHash: 71ee5b45d5b84c5700f5e78d0dcda5039a23ff39d6aa04ffa9c6bfa3fe054471
+trustMagnitudeInputHash: 429f39b59b9a32ee64b6bbf058a965faa8a69b4b89979dbe55ad4a74b3bf13e6
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

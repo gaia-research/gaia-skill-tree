@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.
   Supports direct accession lookup, CDS translation, gene+organism search, locus lookup,
   PubMed-linked sequences, patent protein extraction, and organism+length fallback
   search. Use when you need to fetch biological sequences by accession, gene name,
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/42/D1/D7/1054454
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 82.0
-  grade: S
-  notes: NCBI 2014 — NAR; GenBank/BLAST/Entrez infrastructure for sequence retrieval;
-    foundational bioinformatics resource
-  reviewers: 3
-  sourceStartedAt: '2014-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:34Z'
   action: evidence_graded
@@ -104,8 +94,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -115,7 +112,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: c03993ef71fd4318c9967f5baf4af1bf13b9ef82bf3a5faaba2c33baae39c006
+trustMagnitudeInputHash: aa65bf0998e1575496c673c50dcc85f8450009a78906ee450969471018680883
 verification:
   firstEvidenceAt: '2026-06-19T17:06:58Z'
 ---

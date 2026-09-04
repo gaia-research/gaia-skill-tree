@@ -5,7 +5,7 @@
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
-      "trustMagnitude": 33.0,
+      "trustMagnitude": 30.0,
       "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "upsonic",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "upsonic/unittest-generator",
     "level": "2★",
-    "trustMagnitude": 33.0
+    "trustMagnitude": 30.0
   },
-  "prestigeScore": 33.0,
+  "prestigeScore": 30.0,
   "gradeDistribution": {
     "C": 1
   },

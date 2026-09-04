@@ -113,7 +113,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · garrytan/canary  [3★]
   │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ ○ /error-interpretation  (↑ see above)
-  ├─ ○ garrytan/document-generate  [4★]
+  ├─ ○ garrytan/document-generate  [3★]
   ├─ · ████████/browse  (↑ see above)
   ├─ · garrytan/cso  [4★]
   │  ├─ · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
@@ -153,11 +153,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ ayghri/i-have-adhd  [4★]
   ├─ · garrytan/gstack-upgrade  [2★]
   │  ├─ ○ ████████/hf-cli  (↑ see above)
-  │  └─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · garrytan/landing-report  [2★]
   │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  └─ ○ mattpocock/triage  [3★]
-  └─ · stanfordnlp/dspy  [4★]
+  └─ · garrytan/plan-tune  [2★]
      ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ ○ /generate-text  (↑ see above)
 
@@ -166,9 +166,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [3★]
   │  ├─ · firecrawl/firecrawl-build-onboarding  [4★]
-  │  │  ├─ ○ garrytan/document-generate  [4★]
+  │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
-  │  ├─ · devin-ai/autonomous-swe  [4★]
+  │  ├─ · mattpocock/diagnose  [4★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -180,10 +180,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  ├─ ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ ○ /plan-decompose
   │  │  │  └─ ○ /self-critique
-  │  │  ├─ · mattpocock/ubiquitous-language  [4★]
+  │  │  ├─ · ruvnet/v3-ddd-architecture  [2★]
   │  │  │  ├─ ○ /extract-entities
   │  │  │  └─ ○ ████████/requirements-engineer
-  │  │  └─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
   │  ├─ · mattpocock/to-spec  [5★]
   │  │  ├─ ○ garrytan/retro  [3★]
@@ -222,11 +222,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · mattpocock/productivity  [3★]
   │  ├─ · mattpocock/handoff  [3★]
   │  │  ├─ ○ /summarize  (↑ see above)
-  │  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  │  ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  │  └─ ○ garrytan/context-restore  [2★]
   │  ├─ ○ garrytan/context-restore  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-me  [3★]  (↑ see above)
-  │  ├─ · mattpocock/write-a-skill  [4★]
+  │  ├─ · mattpocock/write-a-skill  [2★]
   │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ ○ /tool-use  (↑ see above)
   │  ├─ · garrytan/setup-gbrain  [2★]
@@ -234,7 +234,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ ○ /retrieve
   │  ├─ ○ mattpocock/to-questionnaire  [2★]
   │  └─ ○ mattpocock/wait-what  [2★]
-  └─ · mattpocock/write-a-skill  [4★]  (↑ see above)
+  └─ · mattpocock/write-a-skill  [2★]  (↑ see above)
 
 ◆ pbakaus/impeccable  [5★]
 ─────────────────────────────────────────────────────────────────
@@ -317,20 +317,14 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   ├─ ○ browser-use/browser-harness  [4★]
   ├─ · firecrawl/firecrawl-build-onboarding  [4★]
-  │  ├─ ○ garrytan/document-generate  [4★]
+  │  ├─ ○ garrytan/document-generate  [3★]
   │  └─ ○ /tool-use
-  └─ ○ firecrawl/firecrawl-research-index  [5★]
-
-◆ disler/agent-fusion  [3★]
-─────────────────────────────────────────────────────────────────
-  ├─ ○ disler/opinion  [2★]
-  ├─ ○ disler/plan-synthesis  [2★]
-  └─ ○ disler/auto-review  [2★]
+  └─ ○ ████████/firecrawl-research-index
 
 ◆ mattpocock/personal  [3★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ○ garrytan/document-generate  [4★]
-  └─ · mattpocock/obsidian-vault  [4★]
+  ├─ ○ garrytan/document-generate  [3★]
+  └─ · ████████/obsidian-vault
      ├─ ○ /retrieve
      └─ ○ garrytan/context-restore  [2★]
 
@@ -345,14 +339,20 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ remotion-dev/remotion-interactivity  [2★]
   └─ ○ remotion-dev/remotion-captions  [2★]
 
+◆ ████████/agent-fusion
+─────────────────────────────────────────────────────────────────
+  ├─ ○ disler/opinion  [2★]
+  ├─ ○ disler/plan-synthesis  [2★]
+  └─ ○ disler/auto-review  [2★]
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   ◉ firecrawl/firecrawl-build-onboarding  [4★]
-    ├─ ○ garrytan/document-generate  [4★]
+    ├─ ○ garrytan/document-generate  [3★]
     └─ ○ /tool-use
-  ◉ devin-ai/autonomous-swe  [4★]
+  ◉ mattpocock/diagnose  [4★]
     ├─ ○ garrytan/design-html  [3★]
     ├─ ○ /code-execution
     └─ ○ /error-interpretation
@@ -379,16 +379,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ garrytan/office-hours  [3★]
   ◉ leonxlnx/brandkit  [4★]
   ◉ browser-use/browser-harness  [4★]
-  ◉ k-dense-ai/rdkit  [4★]
-    ├─ ○ /molecular-databases
-    ├─ · /molecular-visualization
-    │  ├─ ○ /protein-structure-analysis
-    │  └─ ○ /scientific-visualization
-    └─ · ████████/huggingface-datasets
-       ├─ ○ /generate-sql
-       ├─ ○ /data-visualize
-       └─ ○ /summarize
-  ◉ openai/few-shot-learning  [4★]
   ◉ garrytan/ship  [4★]
     ├─ · addy-osmani/code-review-and-quality  [4★]
     │  ├─ ○ garrytan/design-html  [3★]
@@ -396,99 +386,22 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  └─ ○ garrytan/benchmark  [3★]
     └─ ○ /diff-content  (↑ see above)
   ◉ ayghri/i-have-adhd  [4★]
-  ◉ k-dense-ai/torch-geometric  [4★]
-    ├─ · ████████/huggingface-datasets
-    │  ├─ ○ /generate-sql
-    │  ├─ ○ /data-visualize
-    │  └─ ○ /summarize
-    ├─ ○ ████████/huggingface-llm-trainer
-    └─ · /ml-pipeline
-       ├─ · ████████/huggingface-datasets  (↑ see above)
-       ├─ · garrytan/health  [2★]
-       │  ├─ ○ upsonic/unittest-generator  [2★]
-       │  ├─ ○ /code-execution
-       │  └─ ○ /error-interpretation
-       └─ ○ garrytan/design-html  [3★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ safishamsi/graphify  [5★]
     ├─ ○ /extract-entities
     └─ ○ /logical-inference
-  ◉ firecrawl/firecrawl-research-index  [5★]
-  ◉ k-dense-ai/deepchem  [4★]
-    ├─ ○ /molecular-databases
-    ├─ · ████████/huggingface-datasets
-    │  ├─ ○ /generate-sql
-    │  ├─ ○ /data-visualize
-    │  └─ ○ /summarize
-    └─ · /ml-pipeline
-       ├─ · ████████/huggingface-datasets  (↑ see above)
-       ├─ · garrytan/health  [2★]
-       │  ├─ ○ upsonic/unittest-generator  [2★]
-       │  ├─ ○ /code-execution
-       │  └─ ○ /error-interpretation
-       └─ ○ garrytan/design-html  [3★]
-  ◉ k-dense-ai/pytorch-lightning  [4★]
-    ├─ · /ml-pipeline
-    │  ├─ · ████████/huggingface-datasets
-    │  │  ├─ ○ /generate-sql
-    │  │  ├─ ○ /data-visualize
-    │  │  └─ ○ /summarize
-    │  ├─ · garrytan/health  [2★]
-    │  │  ├─ ○ upsonic/unittest-generator  [2★]
-    │  │  ├─ ○ /code-execution
-    │  │  └─ ○ /error-interpretation
-    │  └─ ○ garrytan/design-html  [3★]
-    ├─ · ruvnet/flow-nexus-neural  [2★]
-    │  ├─ ○ ████████/parallel-execution
-    │  └─ ○ /embed-text
-    └─ · /ml-artifact-management
-       ├─ ○ ████████/hf-cli
-       └─ ○ /classify
   ◉ addy-osmani/performance-optimization  [4★]
-  ◉ mattpocock/obsidian-vault  [4★]
-    ├─ ○ /retrieve
-    └─ ○ garrytan/context-restore  [2★]
   ◉ mattpocock/to-spec  [5★]
     ├─ ○ garrytan/retro  [3★]
     └─ ○ /plan-decompose
-  ◉ stanfordnlp/dspy  [4★]
-    ├─ ○ garrytan/benchmark  [3★]
-    └─ ○ /generate-text
-  ◉ k-dense-ai/qiskit  [4★]
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [5★]
-  ◉ k-dense-ai/stable-baselines3  [4★]
-    ├─ ○ /reward-modeling
-    ├─ · /ml-pipeline
-    │  ├─ · ████████/huggingface-datasets
-    │  │  ├─ ○ /generate-sql
-    │  │  ├─ ○ /data-visualize
-    │  │  └─ ○ /summarize
-    │  ├─ · garrytan/health  [2★]
-    │  │  ├─ ○ upsonic/unittest-generator  [2★]
-    │  │  ├─ ○ /code-execution
-    │  │  └─ ○ /error-interpretation
-    │  └─ ○ garrytan/design-html  [3★]
-    └─ · garrytan/health  [2★]  (↑ see above)
   ◉ garrytan/cso  [4★]
     ├─ · addy-osmani/code-review-and-quality  [4★]
     │  ├─ ○ garrytan/design-html  [3★]
     │  ├─ ○ /diff-content
     │  └─ ○ garrytan/benchmark  [3★]
     └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ◉ k-dense-ai/scanpy  [4★]
-  ◉ k-dense-ai/scvi-tools  [4★]
-    ├─ · /computational-biology-workflows
-    │  ├─ ○ /bioinformatic-sequence-analysis
-    │  ├─ ○ /genomic-data-retrieval
-    │  ├─ ○ /molecular-databases
-    │  ├─ ○ /protein-structure-analysis
-    │  └─ ○ /proteomic-data-retrieval
-    ├─ ○ k-dense-ai/pymc  [4★]
-    └─ · ████████/huggingface-datasets
-       ├─ ○ /generate-sql
-       ├─ ○ /data-visualize
-       └─ ○ /summarize
   ◉ obra/subagent-driven-development  [4★]
     ├─ · obra/executing-plans  [5★]
     │  ├─ · obra/writing-plans  [4★]
@@ -502,25 +415,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ ○ garrytan/design-html  [3★]
        ├─ ○ /diff-content
        └─ ○ garrytan/benchmark  [3★]
-  ◉ mattpocock/write-a-skill  [4★]
-    ├─ ○ garrytan/design-html  [3★]
-    └─ ○ /tool-use
-  ◉ k-dense-ai/transformers  [4★]
-    ├─ ○ ████████/huggingface-llm-trainer
-    ├─ ○ /embed-text
-    └─ · /ml-pipeline
-       ├─ · ████████/huggingface-datasets
-       │  ├─ ○ /generate-sql
-       │  ├─ ○ /data-visualize
-       │  └─ ○ /summarize
-       ├─ · garrytan/health  [2★]
-       │  ├─ ○ upsonic/unittest-generator  [2★]
-       │  ├─ ○ /code-execution
-       │  └─ ○ /error-interpretation
-       └─ ○ garrytan/design-html  [3★]
-  ◉ mattpocock/ubiquitous-language  [4★]
-    ├─ ○ /extract-entities
-    └─ ○ ████████/requirements-engineer
   ◉ obra/using-git-worktrees  [4★]
     ├─ ○ /code-execution
     └─ ○ /tool-use
@@ -541,6 +435,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/triage-conference
   ○ ████████/ticket-transfer
   ○ ████████/evidence-attestation
+  ○ /few-shot-learning
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ ████████/financial-assistance
@@ -549,18 +444,20 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /pathway-ontology-retrieval
   ○ supabase/supabase-postgres-best-practices  [2★]
   ○ /prompt-caching
+  ○ ████████/qiskit
   ○ oso95/scroll-world  [3★]
-  ○ openai/self-consistency  [3★]
-  ○ huggingface/semantic-cache  [2★]
+  ○ /self-consistency
+  ○ /semantic-cache
   ○ ruvnet/stream-chain  [2★]
   ○ ████████/log-to-daily
+  ○ ████████/scanpy
   ○ mattpocock/codebase-design  [2★]
   ○ anthropics/canvas-design  [2★]
   ○ supabase/supabase  [2★]
   ○ /synthetic-data-generation
   ○ addy-osmani/test-driven-development  [3★]
   ○ /time-series-forecasting
-  ○ getagentseal/codeburn  [2★]
+  ○ ████████/cost
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 

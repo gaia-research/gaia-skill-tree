@@ -2,7 +2,7 @@
 id: laravel/upgrade-laravel-v13
 name: Upgrade Laravel v13
 contributor: laravel
-origin: true
+origin: false
 genericSkillRef: framework-upgrade
 status: named
 title: The Versionist's Trial
@@ -17,20 +17,8 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
-evidence:
-- class: B
-  source: https://github.com/laravel/boost/issues/698
-  evaluator: mbtiongson1
-  date: '2026-04-30'
-  notes: 'Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework"
-    upgrade workflow published by the Laravel team. (backfilled — class-to-type migration)
-    (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
-  type: repo
-  trustNumber: 70.0
-  commits: 965
-  contributors: 107
-  grade: B
+updatedAt: '2026-09-04'
+evidence: []
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
   action: evidence_graded
@@ -58,8 +46,8 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -69,7 +57,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0830387bcf097491900e5eff3ada8ea453b1b5089578ac45d283395e2e658560
+trustMagnitudeInputHash: 91d49986f363f2adcc80b2fb47dbb4b7bba964704c3dcc8473d47b0e237fe001
 installable: false
 ---
 

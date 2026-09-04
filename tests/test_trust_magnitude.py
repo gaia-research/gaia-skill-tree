@@ -565,7 +565,7 @@ def test_tm_input_hash_ignores_structural_fusion_metadata_but_tracks_suite_ref()
             },
         ],
     }
-    changedSuiteRef = {**base, "suiteRef": "taste/other"}
+    changedSuiteRef = {**base, "suiteRef": "other/other"}
 
     assert computeTrustMagnitude(base) == computeTrustMagnitude(changedStructuralMetadata)
     assert computeTrustMagnitudeInputHash(base) == computeTrustMagnitudeInputHash(changedStructuralMetadata)

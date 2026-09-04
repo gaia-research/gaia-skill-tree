@@ -2,17 +2,17 @@
 id: google-deepmind/reactome-database
 name: Reactome-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Query the Reactome database (Analysis and Content Services). Use when
   the user asks about pathway analysis, gene list enrichment, retrieving results by
   token, finding unmapped or not-found identifiers, mapping identifiers, reaction
   participants (inputs, outputs), pathway hierarchy (including top-level pathways),
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/52/D1/D672/7369850
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: Reactome 2024 — NAR; manually curated pathway knowledgebase, Elixir/GCBR
-    core data resource
-  reviewers: 3
-  sourceStartedAt: '2024-01-04'
 timeline:
 - timestamp: '2026-06-14T12:32:38Z'
   action: evidence_graded
@@ -100,8 +90,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/reactome_database to google-deepmind/reactome-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -111,7 +108,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0ae16500d0c5ab8bb1cd8fde696842e7f33afa40e0c41bba9df6b378ff6f9fe7
+trustMagnitudeInputHash: 44ae471c2d4187dc8ae7dd8483bbaca96462edb49f43ef35ecede559e172ffc9
 verification:
   firstEvidenceAt: '2026-06-19T17:05:47Z'
 ---

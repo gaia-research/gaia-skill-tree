@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -101,8 +101,8 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 4★ to 5★
-trustMagnitude: 297.8
-overallTrustGrade: S
+trustMagnitude: 171.88
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -123,14 +123,6 @@ evidence:
     standalone skill)
   stars: 113188
   grade: A
-- source: https://arxiv.org/abs/2408.03910
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)
-  citations: 89
-  grade: C
 - source: https://www.youtube.com/watch?v=q6t8xTjV5rM
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -148,7 +140,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: 5d00d00673f0e0c55901a4637d18cd084719c1a138b99567f5e26d752e457492
+trustMagnitudeInputHash: d7500c8cedb263c5d4b773dd7d46d773e756ceb6533f73dd0667af2157d85c64
 ---
 
 ## Overview

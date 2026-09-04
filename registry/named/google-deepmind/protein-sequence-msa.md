@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 3★
+level: 1★
 description: Performs multiple sequence alignment of proteins with EBI Clustal Omega.
   Use when you need to align multiple sequences to assess similarity, domain conservation,
   or key residue conservation. Supports up to 4000 sequences and a maximum file size
@@ -13,7 +13,7 @@ description: Performs multiple sequence alignment of proteins with EBI Clustal O
   BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use
   Foldseek, PyMOL), or if you only have a single sequence.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
 evidence:
@@ -29,16 +29,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Sievers et al. 2011 Molecular Systems Biology: Clustal Omega multiple sequence
-    alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa
-    skill (uses EBI Clustal Omega endpoint).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -72,8 +62,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/protein_sequence_msa to google-deepmind/protein-sequence-msa
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +82,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:24:03Z'
-trustMagnitudeInputHash: 631aa5051cb03e0ffd99b24d07c9f79c648b5fe843f74364b7db07a8f95f9339
+trustMagnitudeInputHash: 2d2f1297bbb7932c13daab540fe96710285a6ab8855538e04e4736e25767859b
 ---
 
 ## Prerequisites

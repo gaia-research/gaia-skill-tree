@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03",
+  "generatedAt": "2026-09-04",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1263,7 +1263,6 @@
           "mattpocock/diagnose",
           "mattpocock/diagnosing-bugs",
           "mattpocock/domain-modeling",
-          "mattpocock/edit-article",
           "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
@@ -1272,7 +1271,6 @@
           "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
           "mattpocock/migrate-to-shoehorn",
-          "mattpocock/obsidian-vault",
           "mattpocock/prototype",
           "mattpocock/research",
           "mattpocock/resolving-merge-conflicts",
@@ -1286,7 +1284,6 @@
           "mattpocock/to-spec",
           "mattpocock/to-tickets",
           "mattpocock/triage",
-          "mattpocock/ubiquitous-language",
           "mattpocock/wait-what",
           "mattpocock/wayfinder",
           "mattpocock/wizard",
@@ -1320,26 +1317,6 @@
           "fileSeal": "diagnose-seal.svg"
         },
         {
-          "id": "mattpocock/edit-article",
-          "name": "Edit Article",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/edit-article",
-          "file": "edit-article.svg",
-          "fileSeal": "edit-article-seal.svg"
-        },
-        {
-          "id": "mattpocock/obsidian-vault",
-          "name": "Obsidian Vault Manager",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/obsidian-vault",
-          "file": "obsidian-vault.svg",
-          "fileSeal": "obsidian-vault-seal.svg"
-        },
-        {
           "id": "mattpocock/to-tickets",
           "name": "To Tickets",
           "rank": 4,
@@ -1348,16 +1325,6 @@
           "slash": "/to-tickets",
           "file": "to-tickets.svg",
           "fileSeal": "to-tickets-seal.svg"
-        },
-        {
-          "id": "mattpocock/ubiquitous-language",
-          "name": "Ubiquitous Language",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/ubiquitous-language",
-          "file": "ubiquitous-language.svg",
-          "fileSeal": "ubiquitous-language-seal.svg"
         },
         {
           "id": "mattpocock/engineering",
@@ -1848,21 +1815,11 @@
           "anthropic/skill-creator"
         ]
       },
-      "topSkill": "anthropic/skill-creator",
-      "topRank": 4,
-      "topIsUnique": true,
+      "topSkill": "anthropic/pptx",
+      "topRank": 2,
+      "topIsUnique": false,
       "count": 2,
       "namedSkills": [
-        {
-          "id": "anthropic/skill-creator",
-          "name": "Skill Creator",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/skill-creator",
-          "file": "skill-creator.svg",
-          "fileSeal": "skill-creator-seal.svg"
-        },
         {
           "id": "anthropic/pptx",
           "name": "PPTX Editor",
@@ -1872,6 +1829,16 @@
           "slash": "/pptx",
           "file": "pptx.svg",
           "fileSeal": "pptx-seal.svg"
+        },
+        {
+          "id": "anthropic/skill-creator",
+          "name": "Skill Creator",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/skill-creator",
+          "file": "skill-creator.svg",
+          "fileSeal": "skill-creator-seal.svg"
         }
       ]
     },
@@ -1938,6 +1905,58 @@
         }
       ]
     },
+    "mvanhorn": {
+      "repos": [
+        "mvanhorn/last30days-skill"
+      ],
+      "skillsByRepo": {
+        "mvanhorn/last30days-skill": [
+          "mvanhorn/last30days"
+        ]
+      },
+      "topSkill": "mvanhorn/last30days",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "mvanhorn/last30days",
+          "name": "Last 30 Days Web Research",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/last30days",
+          "file": "last30days.svg",
+          "fileSeal": "last30days-seal.svg"
+        }
+      ]
+    },
+    "balukosuri": {
+      "repos": [
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill"
+      ],
+      "skillsByRepo": {
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill": [
+          "balukosuri/autoresearch-universal"
+        ]
+      },
+      "topSkill": "balukosuri/autoresearch-universal",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "balukosuri/autoresearch-universal",
+          "name": "AutoResearch",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/autoresearch-universal",
+          "file": "autoresearch-universal.svg",
+          "fileSeal": "autoresearch-universal-seal.svg"
+        }
+      ]
+    },
     "bradautomates": {
       "repos": [
         "bradautomates/claude-video"
@@ -1974,28 +1993,17 @@
           "firecrawl/firecrawl-build-interact",
           "firecrawl/firecrawl-build-onboarding",
           "firecrawl/firecrawl-build-scrape",
-          "firecrawl/firecrawl-build-search",
-          "firecrawl/firecrawl-research-index"
+          "firecrawl/firecrawl-build-search"
         ],
         "firecrawl/firecrawl": [
           "firecrawl/firecrawl-skills"
         ]
       },
-      "topSkill": "firecrawl/firecrawl-research-index",
-      "topRank": 5,
+      "topSkill": "firecrawl/firecrawl-build-onboarding",
+      "topRank": 4,
       "topIsUnique": true,
       "count": 6,
       "namedSkills": [
-        {
-          "id": "firecrawl/firecrawl-research-index",
-          "name": "Firecrawl Research Index",
-          "rank": 5,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/firecrawl-research-index",
-          "file": "firecrawl-research-index.svg",
-          "fileSeal": "firecrawl-research-index-seal.svg"
-        },
         {
           "id": "firecrawl/firecrawl-build-interact",
           "name": "Firecrawl Interact",
@@ -2074,32 +2082,6 @@
         }
       ]
     },
-    "devin-ai": {
-      "repos": [
-        "cognition-labs/devin"
-      ],
-      "skillsByRepo": {
-        "cognition-labs/devin": [
-          "devin-ai/autonomous-swe"
-        ]
-      },
-      "topSkill": "devin-ai/autonomous-swe",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "devin-ai/autonomous-swe",
-          "name": "Autonomous SWE",
-          "rank": 2,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/autonomous-swe",
-          "file": "autonomous-swe.svg",
-          "fileSeal": "autonomous-swe-seal.svg"
-        }
-      ]
-    },
     "dietrichgebert": {
       "repos": [
         "DietrichGebert/ponytail"
@@ -2132,27 +2114,16 @@
       ],
       "skillsByRepo": {
         "disler/fusion-harness": [
-          "disler/agent-fusion",
           "disler/auto-review",
           "disler/opinion",
           "disler/plan-synthesis"
         ]
       },
-      "topSkill": "disler/agent-fusion",
-      "topRank": 3,
+      "topSkill": "disler/auto-review",
+      "topRank": 2,
       "topIsUnique": false,
       "count": 4,
       "namedSkills": [
-        {
-          "id": "disler/agent-fusion",
-          "name": "Agent Fusion",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/agent-fusion",
-          "file": "agent-fusion.svg",
-          "fileSeal": "agent-fusion-seal.svg"
-        },
         {
           "id": "disler/auto-review",
           "name": "Auto-Review",
@@ -2222,26 +2193,6 @@
           "slash": "/fuse",
           "file": "fuse.svg",
           "fileSeal": "fuse-seal.svg"
-        }
-      ]
-    },
-    "getagentseal": {
-      "repos": [],
-      "skillsByRepo": {},
-      "topSkill": "getagentseal/codeburn",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "getagentseal/codeburn",
-          "name": "CodeBurn",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/codeburn",
-          "file": "codeburn.svg",
-          "fileSeal": "codeburn-seal.svg"
         }
       ]
     },
@@ -2367,32 +2318,6 @@
         }
       ]
     },
-    "stanfordnlp": {
-      "repos": [
-        "stanfordnlp/dspy"
-      ],
-      "skillsByRepo": {
-        "stanfordnlp/dspy": [
-          "stanfordnlp/dspy"
-        ]
-      },
-      "topSkill": "stanfordnlp/dspy",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "stanfordnlp/dspy",
-          "name": "DSPy",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/dspy",
-          "file": "dspy.svg",
-          "fileSeal": "dspy-seal.svg"
-        }
-      ]
-    },
     "spring-ai": {
       "repos": [
         "spring-ai-alibaba/examples"
@@ -2416,203 +2341,6 @@
           "slash": "/readme-generate",
           "file": "readme-generate.svg",
           "fileSeal": "readme-generate-seal.svg"
-        }
-      ]
-    },
-    "huggingface": {
-      "repos": [],
-      "skillsByRepo": {},
-      "topSkill": "huggingface/semantic-cache",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 7,
-      "namedSkills": [
-        {
-          "id": "huggingface/semantic-cache",
-          "name": "Semantic Cache",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/semantic-cache",
-          "file": "semantic-cache.svg",
-          "fileSeal": "semantic-cache-seal.svg"
-        }
-      ]
-    },
-    "k-dense-ai": {
-      "repos": [
-        "K-Dense-AI/scientific-agent-skills"
-      ],
-      "skillsByRepo": {
-        "K-Dense-AI/scientific-agent-skills": [
-          "k-dense-ai/deepchem",
-          "k-dense-ai/pymc",
-          "k-dense-ai/pytorch-lightning",
-          "k-dense-ai/qiskit",
-          "k-dense-ai/rdkit",
-          "k-dense-ai/scanpy",
-          "k-dense-ai/scvi-tools",
-          "k-dense-ai/stable-baselines3",
-          "k-dense-ai/torch-geometric",
-          "k-dense-ai/transformers"
-        ]
-      },
-      "topSkill": "k-dense-ai/deepchem",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 10,
-      "namedSkills": [
-        {
-          "id": "k-dense-ai/deepchem",
-          "name": "DeepChem",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/deepchem",
-          "file": "deepchem.svg",
-          "fileSeal": "deepchem-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/pymc",
-          "name": "PyMC",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/pymc",
-          "file": "pymc.svg",
-          "fileSeal": "pymc-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/pytorch-lightning",
-          "name": "PyTorch Lightning",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/pytorch-lightning",
-          "file": "pytorch-lightning.svg",
-          "fileSeal": "pytorch-lightning-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/qiskit",
-          "name": "Qiskit",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/qiskit",
-          "file": "qiskit.svg",
-          "fileSeal": "qiskit-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/rdkit",
-          "name": "RDKit",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/rdkit",
-          "file": "rdkit.svg",
-          "fileSeal": "rdkit-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/scanpy",
-          "name": "Scanpy",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/scanpy",
-          "file": "scanpy.svg",
-          "fileSeal": "scanpy-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/scvi-tools",
-          "name": "scvi-tools",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/scvi-tools",
-          "file": "scvi-tools.svg",
-          "fileSeal": "scvi-tools-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/stable-baselines3",
-          "name": "Stable Baselines3",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/stable-baselines3",
-          "file": "stable-baselines3.svg",
-          "fileSeal": "stable-baselines3-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/torch-geometric",
-          "name": "Torch Geometric",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/torch-geometric",
-          "file": "torch-geometric.svg",
-          "fileSeal": "torch-geometric-seal.svg"
-        },
-        {
-          "id": "k-dense-ai/transformers",
-          "name": "Transformers",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/transformers",
-          "file": "transformers.svg",
-          "fileSeal": "transformers-seal.svg"
-        }
-      ]
-    },
-    "mvanhorn": {
-      "repos": [
-        "mvanhorn/last30days-skill"
-      ],
-      "skillsByRepo": {
-        "mvanhorn/last30days-skill": [
-          "mvanhorn/last30days"
-        ]
-      },
-      "topSkill": "mvanhorn/last30days",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "mvanhorn/last30days",
-          "name": "Last 30 Days Web Research",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/last30days",
-          "file": "last30days.svg",
-          "fileSeal": "last30days-seal.svg"
-        }
-      ]
-    },
-    "karpathy": {
-      "repos": [
-        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill"
-      ],
-      "skillsByRepo": {
-        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill": [
-          "karpathy/autoresearch-universal"
-        ]
-      },
-      "topSkill": "karpathy/autoresearch-universal",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "karpathy/autoresearch-universal",
-          "name": "AutoResearch",
-          "rank": 2,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/autoresearch-universal",
-          "file": "autoresearch-universal.svg",
-          "fileSeal": "autoresearch-universal-seal.svg"
         }
       ]
     },
@@ -2835,36 +2563,6 @@
           "slash": "/feed-monitoring",
           "file": "feed-monitoring.svg",
           "fileSeal": "feed-monitoring-seal.svg"
-        }
-      ]
-    },
-    "openai": {
-      "repos": [],
-      "skillsByRepo": {},
-      "topSkill": "openai/few-shot-learning",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 2,
-      "namedSkills": [
-        {
-          "id": "openai/few-shot-learning",
-          "name": "Few-Shot Learning",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/few-shot-learning",
-          "file": "few-shot-learning.svg",
-          "fileSeal": "few-shot-learning-seal.svg"
-        },
-        {
-          "id": "openai/self-consistency",
-          "name": "Self-Consistency",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/self-consistency",
-          "file": "self-consistency.svg",
-          "fileSeal": "self-consistency-seal.svg"
         }
       ]
     },
@@ -3100,330 +2798,14 @@
       ],
       "skillsByRepo": {
         "google-deepmind/science-skills": [
-          "google-deepmind/alphafold-database-fetch-and-analyze",
-          "google-deepmind/alphagenome-single-variant-analysis",
-          "google-deepmind/chembl-database",
-          "google-deepmind/clinical-trials-database",
-          "google-deepmind/clinvar-database",
-          "google-deepmind/dbsnp-database",
-          "google-deepmind/embl-ebi-ols",
-          "google-deepmind/encode-ccres-database",
-          "google-deepmind/ensembl-database",
-          "google-deepmind/foldseek-structural-search",
-          "google-deepmind/gnomad-database",
-          "google-deepmind/gtex-database",
-          "google-deepmind/human-protein-atlas-database",
-          "google-deepmind/interpro-database",
-          "google-deepmind/jaspar-database",
-          "google-deepmind/literature-search-arxiv",
-          "google-deepmind/literature-search-biorxiv",
-          "google-deepmind/literature-search-europepmc",
-          "google-deepmind/literature-search-openalex",
-          "google-deepmind/ncbi-sequence-fetch",
-          "google-deepmind/openfda-database",
-          "google-deepmind/opentargets-database",
-          "google-deepmind/pdb-database",
-          "google-deepmind/protein-sequence-msa",
-          "google-deepmind/protein-sequence-similarity-search",
-          "google-deepmind/pubchem-database",
-          "google-deepmind/pubmed-database",
-          "google-deepmind/pymol",
-          "google-deepmind/quickgo-database",
-          "google-deepmind/reactome-database",
-          "google-deepmind/science_skills_common",
-          "google-deepmind/string-database",
-          "google-deepmind/ucsc-conservation-and-tfbs",
-          "google-deepmind/unibind-database",
-          "google-deepmind/uniprot-database",
-          "google-deepmind/uv",
           "google-deepmind/workflow-skill-creator"
         ]
       },
-      "topSkill": "google-deepmind/alphafold-database-fetch-and-analyze",
+      "topSkill": "google-deepmind/workflow-skill-creator",
       "topRank": 4,
       "topIsUnique": true,
-      "count": 37,
+      "count": 36,
       "namedSkills": [
-        {
-          "id": "google-deepmind/alphafold-database-fetch-and-analyze",
-          "name": "Alphafold-Database-Fetch-And-Analyze",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/alphafold-database-fetch-and-analyze",
-          "file": "alphafold-database-fetch-and-analyze.svg",
-          "fileSeal": "alphafold-database-fetch-and-analyze-seal.svg"
-        },
-        {
-          "id": "google-deepmind/alphagenome-single-variant-analysis",
-          "name": "Alphagenome-Single-Variant-Analysis",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/alphagenome-single-variant-analysis",
-          "file": "alphagenome-single-variant-analysis.svg",
-          "fileSeal": "alphagenome-single-variant-analysis-seal.svg"
-        },
-        {
-          "id": "google-deepmind/clinical-trials-database",
-          "name": "Clinical-Trials-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/clinical-trials-database",
-          "file": "clinical-trials-database.svg",
-          "fileSeal": "clinical-trials-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/embl-ebi-ols",
-          "name": "Embl-Ebi-Ols",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/embl-ebi-ols",
-          "file": "embl-ebi-ols.svg",
-          "fileSeal": "embl-ebi-ols-seal.svg"
-        },
-        {
-          "id": "google-deepmind/encode-ccres-database",
-          "name": "Encode-Ccres-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/encode-ccres-database",
-          "file": "encode-ccres-database.svg",
-          "fileSeal": "encode-ccres-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/ensembl-database",
-          "name": "Ensembl-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/ensembl-database",
-          "file": "ensembl-database.svg",
-          "fileSeal": "ensembl-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/foldseek-structural-search",
-          "name": "Foldseek-Structural-Search",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/foldseek-structural-search",
-          "file": "foldseek-structural-search.svg",
-          "fileSeal": "foldseek-structural-search-seal.svg"
-        },
-        {
-          "id": "google-deepmind/gnomad-database",
-          "name": "Gnomad-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/gnomad-database",
-          "file": "gnomad-database.svg",
-          "fileSeal": "gnomad-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/gtex-database",
-          "name": "Gtex-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/gtex-database",
-          "file": "gtex-database.svg",
-          "fileSeal": "gtex-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/human-protein-atlas-database",
-          "name": "Human-Protein-Atlas-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/human-protein-atlas-database",
-          "file": "human-protein-atlas-database.svg",
-          "fileSeal": "human-protein-atlas-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/interpro-database",
-          "name": "Interpro-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/interpro-database",
-          "file": "interpro-database.svg",
-          "fileSeal": "interpro-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/jaspar-database",
-          "name": "Jaspar-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/jaspar-database",
-          "file": "jaspar-database.svg",
-          "fileSeal": "jaspar-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/literature-search-europepmc",
-          "name": "Literature-Search-Europepmc",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/literature-search-europepmc",
-          "file": "literature-search-europepmc.svg",
-          "fileSeal": "literature-search-europepmc-seal.svg"
-        },
-        {
-          "id": "google-deepmind/literature-search-openalex",
-          "name": "Literature-Search-Openalex",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/literature-search-openalex",
-          "file": "literature-search-openalex.svg",
-          "fileSeal": "literature-search-openalex-seal.svg"
-        },
-        {
-          "id": "google-deepmind/ncbi-sequence-fetch",
-          "name": "Ncbi-Sequence-Fetch",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/ncbi-sequence-fetch",
-          "file": "ncbi-sequence-fetch.svg",
-          "fileSeal": "ncbi-sequence-fetch-seal.svg"
-        },
-        {
-          "id": "google-deepmind/openfda-database",
-          "name": "Openfda-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/openfda-database",
-          "file": "openfda-database.svg",
-          "fileSeal": "openfda-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/opentargets-database",
-          "name": "Opentargets-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/opentargets-database",
-          "file": "opentargets-database.svg",
-          "fileSeal": "opentargets-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/pdb-database",
-          "name": "Pdb-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/pdb-database",
-          "file": "pdb-database.svg",
-          "fileSeal": "pdb-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/protein-sequence-similarity-search",
-          "name": "Protein-Sequence-Similarity-Search",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/protein-sequence-similarity-search",
-          "file": "protein-sequence-similarity-search.svg",
-          "fileSeal": "protein-sequence-similarity-search-seal.svg"
-        },
-        {
-          "id": "google-deepmind/pubchem-database",
-          "name": "Pubchem-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/pubchem-database",
-          "file": "pubchem-database.svg",
-          "fileSeal": "pubchem-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/pymol",
-          "name": "Pymol",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/pymol",
-          "file": "pymol.svg",
-          "fileSeal": "pymol-seal.svg"
-        },
-        {
-          "id": "google-deepmind/quickgo-database",
-          "name": "Quickgo-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/quickgo-database",
-          "file": "quickgo-database.svg",
-          "fileSeal": "quickgo-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/reactome-database",
-          "name": "Reactome-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/reactome-database",
-          "file": "reactome-database.svg",
-          "fileSeal": "reactome-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/science_skills_common",
-          "name": "Science-Skills-Common",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/science_skills_common",
-          "file": "science_skills_common.svg",
-          "fileSeal": "science_skills_common-seal.svg"
-        },
-        {
-          "id": "google-deepmind/ucsc-conservation-and-tfbs",
-          "name": "Ucsc-Conservation-And-Tfbs",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/ucsc-conservation-and-tfbs",
-          "file": "ucsc-conservation-and-tfbs.svg",
-          "fileSeal": "ucsc-conservation-and-tfbs-seal.svg"
-        },
-        {
-          "id": "google-deepmind/unibind-database",
-          "name": "Unibind-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/unibind-database",
-          "file": "unibind-database.svg",
-          "fileSeal": "unibind-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/uniprot-database",
-          "name": "Uniprot-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/uniprot-database",
-          "file": "uniprot-database.svg",
-          "fileSeal": "uniprot-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/uv",
-          "name": "Uv",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/uv",
-          "file": "uv.svg",
-          "fileSeal": "uv-seal.svg"
-        },
         {
           "id": "google-deepmind/workflow-skill-creator",
           "name": "Workflow-Skill-Creator",
@@ -3433,86 +2815,6 @@
           "slash": "/workflow-skill-creator",
           "file": "workflow-skill-creator.svg",
           "fileSeal": "workflow-skill-creator-seal.svg"
-        },
-        {
-          "id": "google-deepmind/chembl-database",
-          "name": "Chembl-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/chembl-database",
-          "file": "chembl-database.svg",
-          "fileSeal": "chembl-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/clinvar-database",
-          "name": "Clinvar-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/clinvar-database",
-          "file": "clinvar-database.svg",
-          "fileSeal": "clinvar-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/dbsnp-database",
-          "name": "Dbsnp-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/dbsnp-database",
-          "file": "dbsnp-database.svg",
-          "fileSeal": "dbsnp-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/literature-search-arxiv",
-          "name": "Literature-Search-Arxiv",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/literature-search-arxiv",
-          "file": "literature-search-arxiv.svg",
-          "fileSeal": "literature-search-arxiv-seal.svg"
-        },
-        {
-          "id": "google-deepmind/literature-search-biorxiv",
-          "name": "Literature-Search-Biorxiv",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/literature-search-biorxiv",
-          "file": "literature-search-biorxiv.svg",
-          "fileSeal": "literature-search-biorxiv-seal.svg"
-        },
-        {
-          "id": "google-deepmind/protein-sequence-msa",
-          "name": "Protein-Sequence-Msa",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/protein-sequence-msa",
-          "file": "protein-sequence-msa.svg",
-          "fileSeal": "protein-sequence-msa-seal.svg"
-        },
-        {
-          "id": "google-deepmind/pubmed-database",
-          "name": "Pubmed-Database",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/pubmed-database",
-          "file": "pubmed-database.svg",
-          "fileSeal": "pubmed-database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/string-database",
-          "name": "String-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/string-database",
-          "file": "string-database.svg",
-          "fileSeal": "string-database-seal.svg"
         }
       ]
     },

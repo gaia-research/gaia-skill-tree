@@ -64,7 +64,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [4★]
+  ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [4★]
   │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
@@ -104,11 +104,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
@@ -116,9 +116,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ mattpocock/domain-modeling  [2★]
   ├─ · · mattpocock/engineering  [3★]
   │  ├─ · · firecrawl/firecrawl-build-onboarding  [4★]
-  │  │  ├─ · ○ garrytan/document-generate  [4★]
+  │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
-  │  ├─ · · devin-ai/autonomous-swe  [4★]
+  │  ├─ · · mattpocock/diagnose  [4★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
@@ -130,10 +130,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
-  │  │  ├─ · · mattpocock/ubiquitous-language  [4★]
+  │  │  ├─ · · ruvnet/v3-ddd-architecture  [2★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
-  │  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
   │  ├─ · · mattpocock/to-spec  [5★]
   │  │  ├─ ✓ ○ garrytan/retro  [3★]
@@ -172,11 +172,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · mattpocock/productivity  [3★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
-  │  │  ├─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  │  └─ · ○ garrytan/context-restore  [2★]
   │  ├─ · ○ garrytan/context-restore  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
-  │  ├─ · · mattpocock/write-a-skill  [4★]
+  │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
   │  ├─ · · garrytan/setup-gbrain  [2★]
@@ -184,7 +184,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
   │  └─ · ○ mattpocock/wait-what  [2★]
-  └─ · · mattpocock/write-a-skill  [4★]  (↑ see above)
+  └─ · · mattpocock/write-a-skill  [2★]  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.

@@ -2,7 +2,7 @@
 id: pexp13/sentiment-analysis
 name: Sentiment Analysis
 contributor: pexp13
-origin: true
+origin: false
 genericSkillRef: sentiment-analysis
 status: awakened
 level: 1★
@@ -13,9 +13,9 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-08-06'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-09-04'
+trustMagnitude: 126.07
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -97,7 +97,7 @@ timeline:
 evidence: []
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
-trustMagnitudeInputHash: null
+trustMagnitudeInputHash: 09a35c5933ed72ab5158b92ae00c3043d2f37ffc813bcaa8e1b52e77e728ec7b
 installable: false
 ---
 

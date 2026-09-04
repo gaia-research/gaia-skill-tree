@@ -64,7 +64,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [4★]
+  ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [4★]
   │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
@@ -104,11 +104,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
@@ -120,9 +120,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   ├─ ✓ ○ browser-use/browser-harness  [4★]
   ├─ · · firecrawl/firecrawl-build-onboarding  [4★]
-  │  ├─ · ○ garrytan/document-generate  [4★]
+  │  ├─ · ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ firecrawl/firecrawl-research-index  [5★]
+  └─ · ○ ████████/firecrawl-research-index
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.

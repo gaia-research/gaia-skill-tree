@@ -10,7 +10,7 @@ description: Plan a huge chunk of work (more than one agent session can hold) as
   shared map of decision tickets on your issue tracker, and resolve them one at a
   time until the way to the destination is clear.
 createdAt: '2026-08-20'
-updatedAt: '2026-09-01'
+updatedAt: '2026-09-04'
 title: The Decision Ticket Cartographer
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md
@@ -36,7 +36,12 @@ timeline:
 - timestamp: '2026-09-01T19:08:39Z'
   action: installation_updated
   contributor: mbtiongson1
-  details: 'Filled in the placeholder Installation section (Gaia tracker-document setup)'
+  details: Filled in the placeholder Installation section (Gaia tracker-document setup)
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 20.77 -> 20.77, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md
   evaluator: marco-tngsn
@@ -50,10 +55,10 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-08-19T16:10:33Z'
-suiteRef: mattpocock/engineering
 trustMagnitude: 20.77
 overallTrustGrade: C
-trustMagnitudeInputHash: 93bd0e91667a5d4a00d86b8402add7c8824342cd7d80226d53827db026d275a3
+trustMagnitudeInputHash: 1eaf1060bcfc43b649b81385a84a512931d7171dde3baea94f94c6559817616f
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

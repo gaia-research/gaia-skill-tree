@@ -173,7 +173,7 @@ def load_suite_mappings(suites_dir):
                     # Map the fusion skill to its members
                     suite_to_components[fusion] = sorted(list(set(members)))
                     for m in members:
-                        skill_to_suite[m] = fusion
+                        skill_to_suite[m] = suite_id
 
             standalones = data.get("standalones", [])
             constituents.extend(standalones)

@@ -9,7 +9,7 @@ level: 3★
 description: Walks through built work, diagnoses gaps, and fixes issues before completion
   is declared.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:04:50Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
   updatedAt: '2026-09-01'
@@ -100,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a95d37979b9f42f99fa0be989b31c3210ca3a6d18c99321edf9b2be5307ddfff
+trustMagnitudeInputHash: 29543ee7f8ca243279ba01b0c9510065adfa70c92adc39736d89fc2fac179291
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md
 ---

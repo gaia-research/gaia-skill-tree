@@ -5,8 +5,8 @@
       "id": "martin-stepanoski/nielsen-heuristics-audit",
       "name": "Nielsen Heuristics Audit",
       "level": "3★",
-      "trustMagnitude": 94.9,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 4.9,
+      "overallTrustGrade": "ungraded",
       "fusionScore": 0.0,
       "contributor": "martin-stepanoski",
       "type": "basic",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "martin-stepanoski/nielsen-heuristics-audit",
     "level": "3★",
-    "trustMagnitude": 94.9
+    "trustMagnitude": 4.9
   },
-  "prestigeScore": 94.9,
+  "prestigeScore": 4.9,
   "gradeDistribution": {
-    "B": 1
+    "ungraded": 1
   },
   "_links": {
     "self": "/api/v1/contributors/martin-stepanoski.json",

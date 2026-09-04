@@ -11,7 +11,7 @@ level: 2★
 description: Create exercise directory structures with sections, problems, solutions,
   and explainers that pass linting.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-19T13:01:41Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md
   evaluator: unknown
@@ -110,9 +115,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 763a947db45032c8a48515247203e3bc93cdded19abaefc5c44489e4eac948f3
+trustMagnitudeInputHash: 22118e1b63fe9e1c4c2039b44ccc046cfc52db163709cb5d9b501de5044b0314
 title: Scaffold Exercises
-suiteRef: mattpocock/misc
+suiteRef: "mattpocock/misc"
 ---
 
 ## Installation

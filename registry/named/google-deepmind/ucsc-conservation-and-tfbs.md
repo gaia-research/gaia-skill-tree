@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription
   Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether
   genomic variants or regions are evolutionarily conserved, functionally important,
   or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md
 evidence:
@@ -26,16 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://genome.cshlp.org/content/17/12/1797
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 82.0
-  grade: S
-  notes: UCSC 28-vertebrate alignment 2007 — Genome Research; PhyloP conservation
-    tracks used by UCSC TFBS browser
-  reviewers: 3
-  sourceStartedAt: '2007-12-01'
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
@@ -104,8 +94,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -115,7 +112,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 05fbaa7ec5279eaf658677e37dc562f4f3c6cc42f4c5dafb401f1593d372f3f8
+trustMagnitudeInputHash: 0bf9d9320bd5e94be868b86d9ea108acddfa9cdbd38322a0c93882052c3385bd
 verification:
   firstEvidenceAt: '2026-06-19T17:06:59Z'
 ---

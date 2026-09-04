@@ -1,16 +1,16 @@
 ---
 id: k-dense-ai/scanpy
-name: Scanpy
+name: Scanpy Prompt Wrapper
 contributor: k-dense-ai
 origin: false
 genericSkillRef: single-cell-analysis
 status: named
-level: 4★
+level: 1★
 description: Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering,
   visualization, and differential expression.
 createdAt: '2026-07-31'
-updatedAt: '2026-09-02'
-title: Scanpy
+updatedAt: '2026-09-04'
+title: Scanpy Prompt Wrapper
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md
 timeline:
@@ -46,6 +46,18 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned monorepo stars; retitled as prompt
+    wrapper
+- timestamp: '2026-09-04T09:13:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 5.0 -> 50.0, grade ungraded -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md
   evaluator: mbtiongson1
@@ -54,31 +66,11 @@ evidence:
   notes: 'Public K-Dense SKILL.md for the named implementation approved in #813 Group
     B.'
   grade: C
-- source: https://github.com/K-Dense-AI/scientific-agent-skills
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: repo-own
-  notes: 'K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445,
-    contributors=43, sourceStartedAt=2025-10-19.'
-  commits: 445
-  contributors: 43
-  sourceStartedAt: '2025-10-19'
-  grade: B
-- source: https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
-  updatedAt: '2026-09-01'
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: github-stars-own
-  notes: Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source
-    URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.
-  stars: 41201
-  skillCountInRepo: 158
-  sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:58Z'
-trustMagnitude: 197.06
-overallTrustGrade: A
-trustMagnitudeInputHash: 0f31539e567e456995c269a503a70d58af4282eda2f3ac81710e6931bc9ad12e
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: b182c807b18ccdcf801c5e20ca6d99a682dc40156900d9d504c54ca8df197b92
 ---
 
 ## Installation

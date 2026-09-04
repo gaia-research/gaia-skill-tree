@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Use when needing clinical significance, pathogenicity classifications
   (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding "hard
   positive" benchmark controls for human genomic variants.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
 evidence:
@@ -25,15 +25,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/44/D1/D862/2502717
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Landrum et al. 2015 NAR: ClinVar public archive of interpretations of clinically
-    relevant variants. 2,571 citations (Semantic Scholar 2026-06-19).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -71,8 +62,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/clinvar_database to google-deepmind/clinvar-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -84,7 +82,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:35Z'
-trustMagnitudeInputHash: b0e3691464b50be259453c99015972869a1638e61be9d6a1693aae2eec59ffe7
+trustMagnitudeInputHash: e569d957ac9c07ce9fa52e53e8af92523d4a7c6fb61b2df9fc125221cbeae1dd
 ---
 
 # ClinVar Database

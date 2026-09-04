@@ -20,7 +20,6 @@ tags:
 - mmr
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/agentdb
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -76,6 +75,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 071455ccbf90a795c2818d22bc7a3870d32e956e704d050dbb9bbc7c155a5ab4
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

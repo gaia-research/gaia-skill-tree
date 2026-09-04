@@ -49,8 +49,8 @@
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
       "level": "4★",
-      "trustMagnitude": 209.65,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "mattpocock",
       "type": "fusion",
@@ -63,45 +63,11 @@
       "genericSkillRef": "autonomous-debug"
     },
     {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "4★",
-      "trustMagnitude": 209.65,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "mattpocock/obsidian-vault",
-      "name": "Obsidian Vault Manager",
-      "level": "4★",
-      "trustMagnitude": 209.65,
-      "overallTrustGrade": "A",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      },
-      "genericSkillRef": "personal-knowledge-management"
-    },
-    {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "4★",
-      "trustMagnitude": 209.65,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "mattpocock",
       "type": "fusion",
@@ -112,23 +78,6 @@
         "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
       "genericSkillRef": "vertical-slice-planning"
-    },
-    {
-      "id": "mattpocock/ubiquitous-language",
-      "name": "Ubiquitous Language",
-      "level": "4★",
-      "trustMagnitude": 209.65,
-      "overallTrustGrade": "A",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      },
-      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "mattpocock/grill-me",
@@ -726,16 +675,16 @@
       ]
     }
   ],
-  "namedSkillsCount": 39,
+  "namedSkillsCount": 36,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
     "trustMagnitude": 233.42
   },
-  "prestigeScore": 2491.24,
+  "prestigeScore": 1632.83,
   "gradeDistribution": {
-    "A": 6,
-    "B": 7,
+    "A": 1,
+    "B": 9,
     "C": 22,
     "ungraded": 4
   },

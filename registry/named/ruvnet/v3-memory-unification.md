@@ -21,7 +21,6 @@ tags:
 - v3-sprint
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/ruflo-v3
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -53,6 +52,7 @@ timeline:
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 trustMagnitudeInputHash: ba4d2cc5661fdad4ac29f624dc56a242ac79d9010155b269a0caceff4bbdd15b
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

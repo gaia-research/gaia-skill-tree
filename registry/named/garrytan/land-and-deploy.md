@@ -20,7 +20,7 @@ tags:
 - merge
 - canary
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -96,6 +96,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -109,7 +114,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:34Z'
-trustMagnitudeInputHash: 577bfeac5a013cd6aedd56683522d825b8333afacf53743b843354c75e3acafb
+trustMagnitudeInputHash: 6d047bbaab43bcfcad0abf2ffe9630c1c310ba748c630b210d77870e2b094269
 ---
 
 ## Overview

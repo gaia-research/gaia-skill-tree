@@ -64,7 +64,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [4★]
+  ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [4★]
   │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
@@ -104,87 +104,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
-
-══════════════════════════════════════════════════════════════════════
-Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-══════════════════════════════════════════════════════════════════════
-
-  · ◉ k-dense-ai/torch-geometric  [4★]
-    ├─ · · ████████/huggingface-datasets
-    │  ├─ · ○ /generate-sql
-    │  ├─ · ○ /data-visualize
-    │  └─ · ○ /summarize
-    ├─ · ○ ████████/huggingface-llm-trainer
-    └─ · · /ml-pipeline
-       ├─ · · ████████/huggingface-datasets  (↑ see above)
-       ├─ · · garrytan/health  [2★]
-       │  ├─ ✓ ○ upsonic/unittest-generator  [2★]
-       │  ├─ · ○ /code-execution
-       │  └─ · ○ /error-interpretation
-       └─ · ○ garrytan/design-html  [3★]
-  · ◉ k-dense-ai/deepchem  [4★]
-    ├─ · ○ /molecular-databases
-    ├─ · · ████████/huggingface-datasets
-    │  ├─ · ○ /generate-sql
-    │  ├─ · ○ /data-visualize
-    │  └─ · ○ /summarize
-    └─ · · /ml-pipeline
-       ├─ · · ████████/huggingface-datasets  (↑ see above)
-       ├─ · · garrytan/health  [2★]
-       │  ├─ ✓ ○ upsonic/unittest-generator  [2★]
-       │  ├─ · ○ /code-execution
-       │  └─ · ○ /error-interpretation
-       └─ · ○ garrytan/design-html  [3★]
-  · ◉ k-dense-ai/pytorch-lightning  [4★]
-    ├─ · · /ml-pipeline
-    │  ├─ · · ████████/huggingface-datasets
-    │  │  ├─ · ○ /generate-sql
-    │  │  ├─ · ○ /data-visualize
-    │  │  └─ · ○ /summarize
-    │  ├─ · · garrytan/health  [2★]
-    │  │  ├─ ✓ ○ upsonic/unittest-generator  [2★]
-    │  │  ├─ · ○ /code-execution
-    │  │  └─ · ○ /error-interpretation
-    │  └─ · ○ garrytan/design-html  [3★]
-    ├─ · · ruvnet/flow-nexus-neural  [2★]
-    │  ├─ · ○ ████████/parallel-execution
-    │  └─ · ○ /embed-text
-    └─ · · /ml-artifact-management
-       ├─ · ○ ████████/hf-cli
-       └─ · ○ /classify
-  · ◉ k-dense-ai/stable-baselines3  [4★]
-    ├─ · ○ /reward-modeling
-    ├─ · · /ml-pipeline
-    │  ├─ · · ████████/huggingface-datasets
-    │  │  ├─ · ○ /generate-sql
-    │  │  ├─ · ○ /data-visualize
-    │  │  └─ · ○ /summarize
-    │  ├─ · · garrytan/health  [2★]
-    │  │  ├─ ✓ ○ upsonic/unittest-generator  [2★]
-    │  │  ├─ · ○ /code-execution
-    │  │  └─ · ○ /error-interpretation
-    │  └─ · ○ garrytan/design-html  [3★]
-    └─ · · garrytan/health  [2★]  (↑ see above)
-  · ◉ k-dense-ai/transformers  [4★]
-    ├─ · ○ ████████/huggingface-llm-trainer
-    ├─ · ○ /embed-text
-    └─ · · /ml-pipeline
-       ├─ · · ████████/huggingface-datasets
-       │  ├─ · ○ /generate-sql
-       │  ├─ · ○ /data-visualize
-       │  └─ · ○ /summarize
-       ├─ · · garrytan/health  [2★]
-       │  ├─ ✓ ○ upsonic/unittest-generator  [2★]
-       │  ├─ · ○ /code-execution
-       │  └─ · ○ /error-interpretation
-       └─ · ○ garrytan/design-html  [3★]
 ```
 
 ## Pending Combinations

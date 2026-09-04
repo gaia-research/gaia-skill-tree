@@ -21,7 +21,6 @@ tags:
 - workflow
 createdAt: '2026-04-30'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/flow-nexus
 timeline:
 - timestamp: '2026-06-02T23:48:21Z'
   action: demote
@@ -53,6 +52,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 3f2f7662fc11748d1c1bc140bd091168e2a5c50e79fc648c7a69683ea428422b
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-04T07:48:16Z",
+  "generatedAt": "2026-09-04T11:27:33Z",
   "firstRun": false,
   "skills": [
     {
@@ -29,20 +29,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
-      }
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "4★",
-      "contributor": "anthropic",
-      "trustMagnitude": 211.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
       }
     },
     {
@@ -214,20 +200,6 @@
       }
     },
     {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "3★",
-      "contributor": "disler",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
-    {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
       "level": "3★",
@@ -284,105 +256,21 @@
       }
     },
     {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 211.48,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.22,
-      "tmDelta": -2.54,
-      "new": false,
+      "id": "balukosuri/autoresearch-universal",
+      "name": "AutoResearch",
+      "level": "2★",
+      "contributor": "balukosuri",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 194.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.2,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 194.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.2,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 194.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.2,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 185.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.19,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/rdkit",
-      "name": "RDKit",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 167.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.16,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scvi-tools",
-      "name": "scvi-tools",
-      "level": "4★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 167.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 47.16,
-      "tmDelta": -2.54,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
+        "self": "/api/v1/skills/balukosuri/autoresearch-universal.json"
       }
     }
   ],
-  "totalTrending": 27,
+  "totalTrending": 19,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

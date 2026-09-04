@@ -5,8 +5,8 @@
       "id": "laravel/upgrade-laravel-v13",
       "name": "Upgrade Laravel v13",
       "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
       "fusionScore": 0.0,
       "contributor": "laravel",
       "type": "basic",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "laravel/upgrade-laravel-v13",
     "level": "2★",
-    "trustMagnitude": 36.0
+    "trustMagnitude": 0.0
   },
-  "prestigeScore": 36.0,
+  "prestigeScore": 0.0,
   "gradeDistribution": {
-    "C": 1
+    "ungraded": 1
   },
   "_links": {
     "self": "/api/v1/contributors/laravel.json",

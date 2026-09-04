@@ -5,8 +5,8 @@
   "level": "5★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 314.62,
-  "overallTrustGrade": "S",
+  "trustMagnitude": 190.0,
+  "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique Ultimate",
   "medallion": "◉",
@@ -32,7 +32,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": true,
+    "overallGradeS": false,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -55,22 +55,6 @@
       "commits": 260,
       "contributors": 36,
       "grade": "B"
-    },
-    {
-      "source": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py",
-      "evaluator": "unknown",
-      "date": "2026-07-05",
-      "type": "benchmark-result",
-      "benchmarkId": "humaneval@v1.0",
-      "score": 0.5,
-      "unit": "pass@1",
-      "runAt": "2026-07-05T00:00:00Z",
-      "provenance": "pending",
-      "attestor": "pending-ci-reproduction",
-      "notes": "Dogfood seed; will be promoted to ci-reproduced by the first real workflow run of benchmark-humaneval-ci.yml.",
-      "datasetHash": "244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8",
-      "benchmarkInputHash": "3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9",
-      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py"
     },
     {
       "source": "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py",
@@ -189,6 +173,12 @@
       "action": "demote",
       "contributor": "unknown",
       "details": "Calibrated level from 5★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

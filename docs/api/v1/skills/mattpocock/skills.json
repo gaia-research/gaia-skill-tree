@@ -28,7 +28,7 @@
   "origin": true,
   "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
   "apexGateStatus": {
-    "aGradedOriginsGte5": true,
+    "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": true,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": true,
@@ -225,6 +225,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 329.45 -> 329.9, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 329.9 -> 233.42, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

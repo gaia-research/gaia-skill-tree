@@ -9,7 +9,7 @@ level: 5★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -83,6 +83,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 5★ to 5★
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-09-01'
@@ -98,21 +103,6 @@ evidence:
   commits: 260
   contributors: 36
   grade: B
-- source: https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
-  evaluator: unknown
-  date: '2026-07-05'
-  type: benchmark-result
-  benchmarkId: humaneval@v1.0
-  score: 0.5
-  unit: pass@1
-  runAt: '2026-07-05T00:00:00Z'
-  provenance: pending
-  attestor: pending-ci-reproduction
-  notes: Dogfood seed; will be promoted to ci-reproduced by the first real workflow
-    run of benchmark-humaneval-ci.yml.
-  datasetHash: 244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8
-  benchmarkInputHash: 3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9
-  harnessUrl: https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
 - source: https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py
   evaluator: unknown
   date: '2026-07-06'
@@ -131,8 +121,8 @@ verification:
 title: Code Simplification
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 426.0
-overallTrustGrade: S
+trustMagnitude: 50.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -142,7 +132,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a9dfd5b5f167382b504dd77da0761e1b26d9ef9f3a37da007be980bf654b83d2
+trustMagnitudeInputHash: 679fd8aa02eb83cdc17b7c51e10b21c2bec6ebc2808700899d27a155812bd0ae
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
 ---

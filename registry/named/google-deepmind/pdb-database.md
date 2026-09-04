@@ -2,16 +2,16 @@
 id: google-deepmind/pdb-database
 name: Pdb-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: protein-structure-analysis
 status: awakened
-level: 4★
+level: 1★
 description: Use when you want to search for or download experimentally-determined
   3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports
   searching by sequence similarity, structure similarity, chemical and other attributes.
   Also use to get metadata about biomolecular structure experiments.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md
 evidence:
@@ -26,15 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/28/1/235/2384399
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic
-    Scholar 2026-06-19). Foundational PDB database paper.'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -72,8 +63,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/pdb_database to google-deepmind/pdb-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +83,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:20Z'
-trustMagnitudeInputHash: b643de23ba1c4a842f2b3b143ae842a07b5c540a735f7831688b1550cf08b05b
+trustMagnitudeInputHash: bee8445992e5200b169048243c95c91646976af4c3651722b4a0694e9ccff60c
 ---
 
 # RCSB Protein Data Bank skill

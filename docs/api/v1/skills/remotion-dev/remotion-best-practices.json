@@ -25,7 +25,7 @@
   },
   "title": "Remotion Best Practices",
   "genericSkillRef": "video-composition",
-  "origin": true,
+  "origin": false,
   "description": "remotion-dev named skill for remotion-best-practices",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

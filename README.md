@@ -59,9 +59,9 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [3★]
   │  ├─ · firecrawl/firecrawl-build-onboarding  [4★]
-  │  │  ├─ ○ garrytan/document-generate  [4★]
+  │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
-  │  ├─ · devin-ai/autonomous-swe  [4★]
+  │  ├─ · mattpocock/diagnose  [4★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -89,9 +89,9 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ firecrawl/firecrawl-build-onboarding  [4★]
-    ├─ ○ garrytan/document-generate  [4★]
+    ├─ ○ garrytan/document-generate  [3★]
     └─ ○ /tool-use
-  ◉ devin-ai/autonomous-swe  [4★]
+  ◉ mattpocock/diagnose  [4★]
     ├─ ○ garrytan/design-html  [3★]
 
 (284 skills total — see docs/tree.md)

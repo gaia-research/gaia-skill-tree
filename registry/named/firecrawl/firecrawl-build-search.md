@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
@@ -59,6 +59,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 319.62, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 104.31 -> 83.62, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -78,21 +83,21 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
-- source: https://github.com/firecrawl/firecrawl/stargazers
+- source: https://github.com/firecrawl/skills/stargazers
   updatedAt: '2026-09-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 175038
+  stars: 98
   skillCountInRepo: 6
   grade: B
 verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 catalogRef: firecrawl-firecrawl-build-search
 suiteRef: firecrawl/firecrawl-skills
-trustMagnitude: 319.62
-overallTrustGrade: A
-trustMagnitudeInputHash: 7313d8ac3cbf3b3b1dbbd5c1bfdaac114e0db1f5e8884678e2180a9f5e0e06cc
+trustMagnitude: 83.62
+overallTrustGrade: B
+trustMagnitudeInputHash: 0ece15a18818be29e3d8c50cb520b0ea38f56e6119e94aaac6a78d02c8e8aa91
 ---
 
 ## Installation

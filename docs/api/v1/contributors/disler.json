@@ -2,28 +2,6 @@
   "handle": "disler",
   "namedSkills": [
     {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "3★",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
-      "contributor": "disler",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      },
-      "genericSkillRef": "agent-fusion",
-      "suiteComponents": [
-        "disler/auto-review",
-        "disler/opinion",
-        "disler/plan-synthesis"
-      ]
-    },
-    {
       "id": "disler/auto-review",
       "name": "Auto-Review",
       "level": "2★",
@@ -75,15 +53,15 @@
       "genericSkillRef": "plan-synthesis"
     }
   ],
-  "namedSkillsCount": 4,
+  "namedSkillsCount": 3,
   "topSkill": {
-    "id": "disler/agent-fusion",
-    "level": "3★",
-    "trustMagnitude": 37.54
+    "id": "disler/auto-review",
+    "level": "2★",
+    "trustMagnitude": 36.34
   },
-  "prestigeScore": 146.56,
+  "prestigeScore": 109.02,
   "gradeDistribution": {
-    "C": 4
+    "C": 3
   },
   "_links": {
     "self": "/api/v1/contributors/disler.json",

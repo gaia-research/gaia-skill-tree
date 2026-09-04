@@ -21,7 +21,6 @@ tags:
 - fault-tolerance
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -77,6 +76,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 0ba5ae4d600c14642bf22b208bb0cabf1c35091d2ae66bec03a015be8cb04ccc
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

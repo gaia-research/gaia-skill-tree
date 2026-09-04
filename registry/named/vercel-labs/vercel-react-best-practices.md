@@ -9,7 +9,7 @@ level: 4★
 description: Optimizes component rendering, data fetching, and bundle composition
   in React applications while preserving requested behavior.
 createdAt: '2026-07-30'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 title: Vercel React Best Practices
 links:
   github: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md
@@ -64,6 +64,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 159.01 -> 162.66, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
   updatedAt: '2026-09-01'
@@ -107,9 +112,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:22:46Z'
-trustMagnitude: 159.01
+trustMagnitude: 162.66
 overallTrustGrade: A
-trustMagnitudeInputHash: 71eb8536a487169c22f36dcd932adb6cd687bdfc27b81a843587400ca1a8feb9
+trustMagnitudeInputHash: c85068aa4025392ee2bf09f69ad8171e8e6a98a8a68800413bc8564d4c908253
 ---
 
 ## Installation

@@ -7,7 +7,7 @@ genericSkillRef: tool-creation
 status: named
 title: The Skill Forger's Art
 catalogRef: anthropic-skill-creator
-level: 4★
+level: 2★
 description: Interviews the user through a structured dialogue to elicit the skill's
   purpose, trigger conditions, and step-by-step instructions, then programmatically
   writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.
@@ -19,7 +19,7 @@ tags:
 - claude-code
 - tool-creation
 createdAt: '2026-04-30'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -75,8 +75,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 211.52
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 2★
+  details: Demoted to 2★ and stripped hijacked citations (ToolMaker paper and HF MMLU
+    benchmark)
+trustMagnitude: 30.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -87,15 +94,6 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 evidence:
-- source: https://arxiv.org/abs/2305.17126
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19
-    (arXiv:2305.17126)
-  citations: 300
-  grade: B
 - source: https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -111,21 +109,9 @@ evidence:
   notes: 'Claude Code community: engineering discipline for prompt engineering praised,
     A/B eval harness noted for overhead on long refinement loops. Mid-2026.'
   grade: C
-- source: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-  evaluator: unknown
-  date: '2026-07-05'
-  type: benchmark-result
-  benchmarkId: mmlu@2024-03
-  score: 86.8
-  unit: pct
-  runAt: '2024-03-01T00:00:00Z'
-  provenance: mirrored
-  attestor: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-  datasetHash: ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5
-  benchmarkInputHash: 6fa69c944f0e74add4ed3a136321e0247224eb1a8cebab1e0a85763532d6daf5
 verification:
   firstEvidenceAt: '2026-06-19T09:22:07Z'
-trustMagnitudeInputHash: 94a28cb9a9d763a7579c49b2cad73723cadb60e131987a5513ccc7fa42e8624e
+trustMagnitudeInputHash: 624d258a0b46ecd0e0a3d27a7ae3c1971d3e206f38cb9a2ccabcd87f715fc0c4
 ---
 
 ## Overview

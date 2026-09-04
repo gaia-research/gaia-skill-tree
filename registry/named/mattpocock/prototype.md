@@ -10,8 +10,7 @@ level: 2★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype
 evidence:
@@ -68,6 +67,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 41.21 -> 41.21, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.21 -> 41.21, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 41.21
 overallTrustGrade: C
 apexGateStatus:
@@ -81,7 +85,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:35:44Z'
-trustMagnitudeInputHash: 2364d8cf6bf2640d1625e7fd0a3dd1facc1dc490304bb641b8a2e40e86bf858e
+trustMagnitudeInputHash: 50ebb1457fdbe4f36d4f10b61aa5be0ea3ccc40453a3375efcbb24ac76af10cb
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

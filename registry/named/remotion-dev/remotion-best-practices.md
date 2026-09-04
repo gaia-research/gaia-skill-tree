@@ -2,13 +2,13 @@
 id: remotion-dev/remotion-best-practices
 name: Remotion Best Practices
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: video-composition
 status: named
 level: 2★
 description: remotion-dev named skill for remotion-best-practices
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Remotion Best Practices
 timeline:
 - timestamp: '2026-08-10T14:48:24Z'

@@ -19,7 +19,6 @@ tags:
 - review
 createdAt: '2026-05-18'
 updatedAt: '2026-08-30'
-suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'
   action: demote
@@ -87,6 +86,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
 trustMagnitudeInputHash: 86a44362aa3578028af33da61ca459f2490feefab1e2bda27c914043faacec54
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

@@ -22,8 +22,7 @@ tags:
 - socratic-method
 - fusion
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md
@@ -112,6 +111,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -125,7 +129,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:01:52Z'
-trustMagnitudeInputHash: de391ba0d895f44a2776aaf4eb74674e6d28c008b26b62c1b0eec216169f2524
+trustMagnitudeInputHash: 8f73445280e14fedda1e6cfe70a8f3aeca0bef0b1f1840bf187320439a7b71fa
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

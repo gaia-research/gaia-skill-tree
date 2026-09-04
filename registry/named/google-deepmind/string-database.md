@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Query the STRING database for protein-protein interactions (PPIs), functional
   enrichment, and homology. Use when the user asks about interactions between specific
   proteins, interaction evidence, confidence scores, protein interaction partners,
   or pathway enrichments.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md
 evidence:
@@ -26,15 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/51/D1/D638/6825349
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Szklarczyk et al. 2022 NAR: STRING database in 2023 — protein-protein association
-    networks. 7,077 citations (Semantic Scholar 2026-06-19).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:38Z'
   action: evidence_graded
@@ -72,8 +63,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/string_database to google-deepmind/string-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +83,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:23Z'
-trustMagnitudeInputHash: fa66fd3a3d2dbb922d22fa817610d12cdb19c4926ffe4194edb8af901dfeb6eb
+trustMagnitudeInputHash: 2f14aeee71167f29b96d82b10884c59c95e07411bb58e1655293751adaf7f350
 ---
 
 # STRING Database Skill

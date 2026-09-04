@@ -21,7 +21,6 @@ tags:
 - model-marketplace
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/flow-nexus
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -77,6 +76,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 12da2c985e4ea6c398f534ccf71b146767fb05eb8f3fa5d834d6905187540173
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

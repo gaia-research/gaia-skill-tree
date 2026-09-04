@@ -19,7 +19,6 @@ tags:
 - strategy-optimization
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/reasoningbank
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -75,6 +74,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 99fedab29adb9c2859ff22759997bc42f37d841304f73307fe5220bc6c6a3fc6
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

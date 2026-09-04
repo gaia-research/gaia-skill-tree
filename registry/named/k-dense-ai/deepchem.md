@@ -1,16 +1,16 @@
 ---
 id: k-dense-ai/deepchem
-name: DeepChem
+name: DeepChem Prompt Wrapper
 contributor: k-dense-ai
 origin: false
 genericSkillRef: molecular-machine-learning
 status: named
-level: 4★
+level: 1★
 description: Run molecular machine learning workflows with DeepChem for property prediction,
   featurization, and benchmarked datasets.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-30'
-title: DeepChem
+updatedAt: '2026-09-04'
+title: DeepChem Prompt Wrapper
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md
 timeline:
@@ -42,6 +42,18 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 258.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned monorepo stars; retitled as prompt
+    wrapper
+- timestamp: '2026-09-04T09:13:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 5.0 -> 111.0, grade ungraded -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md
   evaluator: mbtiongson1
@@ -50,31 +62,11 @@ evidence:
   notes: 'Public K-Dense SKILL.md for the named implementation approved in #813 Group
     B.'
   grade: C
-- source: https://github.com/K-Dense-AI/scientific-agent-skills
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: repo-own
-  notes: 'K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445,
-    contributors=43, sourceStartedAt=2025-10-19.'
-  commits: 445
-  contributors: 43
-  sourceStartedAt: '2025-10-19'
-  grade: B
-- source: https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
-  updatedAt: '2026-09-01'
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: github-stars-own
-  notes: Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source
-    URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.
-  stars: 41201
-  skillCountInRepo: 158
-  sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:56Z'
-trustMagnitude: 258.06
+trustMagnitude: 111.0
 overallTrustGrade: A
-trustMagnitudeInputHash: 4faecb2a05768fc2e636b2df9225c27b42537edd354ff2bed69774ef5f2ef8b9
+trustMagnitudeInputHash: 379adb60f9f8e9c9938ac1477a5e985d20b1e1cb058a3ff33a611f1e19cca096
 ---
 
 ## Installation

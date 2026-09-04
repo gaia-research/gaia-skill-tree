@@ -19,7 +19,6 @@ tags:
 - associative-retrieval
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/agentdb
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -67,6 +66,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 19f099c394919f7aa0a5d0d78a429f35362aa969d4eda2ad3f5511ba51ba4606
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

@@ -19,7 +19,7 @@ tags:
 - domain-glossary
 - codebase-orientation
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 trustMagnitude: 0.0
@@ -59,9 +59,14 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 022fa498184a658c09c368693b08e22f56689d67fecf95bef4a8acc11b6599d7
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: c3ff9cc768313fa062ba0d9ddda129d376c705ada6f6a04c779137751f85a0e1
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

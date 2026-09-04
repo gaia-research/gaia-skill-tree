@@ -20,7 +20,6 @@ tags:
 - parallel-execution
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/dual-mode
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -68,6 +67,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 7b1eae7d17f5b2c94f9c9f645a4ff1badd106409199365411d18cfb8a7d56198
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

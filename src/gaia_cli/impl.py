@@ -3090,7 +3090,12 @@ def mcp_command(args):
 
 
 def docs_command(args):
-    script = Path(args.registry) / "scripts" / "build_docs.py"
+    reg = Path(args.registry)
+    script = reg / "scripts" / "build_docs.py"
+    if not script.exists():
+        script = reg.parent / "scripts" / "build_docs.py"
+    if not script.exists():
+        script = Path("scripts/build_docs.py")
     cmd = [sys.executable, str(script)]
     if getattr(args, "check", False):
         cmd.append("--check")

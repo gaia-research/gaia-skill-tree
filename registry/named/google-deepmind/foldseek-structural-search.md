@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: protein-structure-analysis
 status: awakened
-level: 4★
+level: 1★
 description: Performs 3D structural searches of proteins against various databases
   (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user
   provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find
   structurally similar proteins. Do NOT use if the user only provides a protein sequence,
   gene name, or UniProt ID.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://www.nature.com/articles/s41587-023-01773-0
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 90.0
-  grade: S
-  notes: 'Foldseek: fast and accurate protein structure search — Nature Biotechnology
-    2023; 3D structure alignment at sequence search speed'
-  reviewers: 3
-  sourceStartedAt: '2023-05-08'
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
@@ -105,8 +95,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -116,7 +113,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 527427a21880c6b8858f2f89dd100df34b9ca2dc1f870ff11e8904ef0624a159
+trustMagnitudeInputHash: c927a2f2df6eae7eb0a3bdb96ec3e9ea7bc46386128077ab51fab3b95fc24cda
 verification:
   firstEvidenceAt: '2026-06-19T17:05:41Z'
 ---

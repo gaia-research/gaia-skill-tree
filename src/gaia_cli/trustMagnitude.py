@@ -282,14 +282,71 @@ def _githubRepositoryFromRow(row: dict) -> Optional[str]:
     return None
 
 
+CANONICAL_ROOT_SUITES: dict[str, str] = {
+    "garrytan/garrytan": "garrytan/gstack",
+    "garrytan/gstack": "garrytan/gstack",
+    "mattpocock/engineering": "mattpocock/skills",
+    "mattpocock/productivity": "mattpocock/skills",
+    "mattpocock/personal": "mattpocock/skills",
+    "mattpocock/misc": "mattpocock/skills",
+    "mattpocock/skills": "mattpocock/skills",
+    "ruvnet/agentdb": "ruvnet/ruflo",
+    "ruvnet/flow-nexus": "ruvnet/ruflo",
+    "ruvnet/github-suite": "ruvnet/ruflo",
+    "ruvnet/ruflo-v3": "ruvnet/ruflo",
+    "ruvnet/dual-mode": "ruvnet/ruflo",
+    "ruvnet/reasoningbank": "ruvnet/ruflo",
+    "ruvnet/ruflo": "ruvnet/ruflo",
+    "addy-osmani/agent-skills": "addyosmani/agent-skills",
+    "firecrawl/firecrawl-skills": "firecrawl/firecrawl",
+}
+
+
 def _isSuiteRootRepositoryEvidence(row: dict, skill: dict) -> bool:
-    """Whether a component row is shared own-repository evidence from suiteRef."""
+    """Whether a component row is shared own-repository evidence from suiteRef.
+
+    Sub-suites and intermediate categories cannot evade the 50.0 TM component
+    cap: if a row is from the suite repository or if the repository owner
+    matches the suiteRef owner (or canonical root suite), it is properly capped.
+    A component's own specific repository evidence (matching skill.id) remains
+    uncapped.
+    """
     suiteRef = skill.get("suiteRef")
     if not isinstance(suiteRef, str) or "/" not in suiteRef:
         return False
     if _typeOf(row) not in {"github-stars-own", "repo-own"}:
         return False
-    return _githubRepositoryFromRow(row) == suiteRef.strip().lower()
+    rowRepo = _githubRepositoryFromRow(row)
+    if not rowRepo:
+        return False
+    rowRepo = rowRepo.strip().lower()
+    skillId = (skill.get("id") or "").strip().lower()
+    if skillId and rowRepo == skillId:
+        return False
+
+    suiteRefLower = suiteRef.strip().lower()
+    if rowRepo == suiteRefLower:
+        return True
+
+    # Check canonical root suite resolution (e.g. garrytan/garrytan -> garrytan/gstack)
+    canonicalRoot = CANONICAL_ROOT_SUITES.get(suiteRefLower, suiteRefLower)
+    if rowRepo == canonicalRoot:
+        return True
+
+    # Check repository owner against suiteRef owner or canonical root suite owner,
+    # normalizing hyphenation / punctuation (e.g. addy-osmani vs addyosmani).
+    rowOwner = rowRepo.split("/")[0]
+    suiteOwner = suiteRefLower.split("/")[0]
+    rootOwner = canonicalRoot.split("/")[0]
+
+    normRowOwner = rowOwner.replace("-", "").replace("_", "")
+    normSuiteOwner = suiteOwner.replace("-", "").replace("_", "")
+    normRootOwner = rootOwner.replace("-", "").replace("_", "")
+
+    if normRowOwner in (normSuiteOwner, normRootOwner):
+        return True
+
+    return False
 
 
 def _freshnessFactor(row: dict, evidenceType: str) -> float:

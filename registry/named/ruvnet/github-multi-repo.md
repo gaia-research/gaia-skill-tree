@@ -20,7 +20,6 @@ tags:
 - bulk-operations
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/github-suite
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -68,6 +67,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 8189d83c1566106c1c6c5db9a4a1dd7a0e535747e4e3c69f516fe5a6fab2bd8d
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

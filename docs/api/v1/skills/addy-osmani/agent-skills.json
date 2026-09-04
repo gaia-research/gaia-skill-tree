@@ -28,7 +28,7 @@
   "origin": true,
   "description": "Production-grade engineering command suite for AI coding agents spanning the full development lifecycle — spec, plan, build, test, review, web performance, ship, and simplify.",
   "apexGateStatus": {
-    "aGradedOriginsGte5": true,
+    "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
@@ -188,6 +188,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 256.3 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 286.0 -> 174.62, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -20,7 +20,6 @@ tags:
 - memory-retrieval
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/dual-mode
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -68,6 +67,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 85a2724808d82643a7b39922ff1837c8b0548dea9bc953261039a3c0133a30f0
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

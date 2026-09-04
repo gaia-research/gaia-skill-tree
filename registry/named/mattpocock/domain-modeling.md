@@ -11,7 +11,7 @@ level: 2★
 description: Build and sharpen a project domain model with ubiquitous language and
   CONTEXT.md maintenance.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-19T12:59:14Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md
   evaluator: unknown
@@ -110,7 +115,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7abdd529495aebbe05cb71e8ca7853bae1bec52ea0954936111703e5905275b5
+trustMagnitudeInputHash: 102f409460341f8b1c961bbb605cb2ad042e917ca37162425f9730c0c45cbf15
 title: Domain Modeling
 ---
 

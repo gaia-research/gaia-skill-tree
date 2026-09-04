@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -198,7 +198,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 256.68 -> 290.0, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitude: 290.0
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 290.0 -> 174.59, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 174.59
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -213,7 +218,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:21:01Z'
-trustMagnitudeInputHash: 6f4db3db46397b44b6d016446cdf7e7a232ba47eb19640e301dd67f8ac0d44e8
+trustMagnitudeInputHash: ac37545709da95026b2454d1a5bf76ecdccaa5e9fed8021096e35ab568b892fb
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

@@ -5,7 +5,7 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 33.0,
+  "trustMagnitude": 30.0,
   "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
@@ -45,15 +45,6 @@
     "systemWideCap": null
   },
   "evidence": [
-    {
-      "source": "https://arxiv.org/abs/2403.16218",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "arxiv",
-      "class": "A",
-      "notes": "Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)",
-      "citations": 15
-    },
     {
       "source": "https://www.youtube.com/watch?v=fHNTpPpQQBo",
       "evaluator": "mbtiongson1",

@@ -9,7 +9,7 @@ level: 5★
 description: Planning and task breakdown workflow decomposing features into manageable
   vertical slices.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -83,6 +83,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 5★ to 5★
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
   updatedAt: '2026-09-01'
@@ -121,8 +126,8 @@ verification:
 title: Planning and Task Breakdown
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 331.0
-overallTrustGrade: S
+trustMagnitude: 95.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -132,7 +137,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b6183e1d9b5aedcddea2fd916737149de4bc808e9c572586f27370be8303238d
+trustMagnitudeInputHash: 1857e286475bbd8d846f0aae13116a98e9b845ef7cb4cf057505f364dc24226a
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
 ---

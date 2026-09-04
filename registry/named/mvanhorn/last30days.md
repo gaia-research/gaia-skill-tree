@@ -18,7 +18,7 @@ tags:
 - autonomous-crawl
 - synthesis
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-30T06:00:00Z'
   action: propose
@@ -63,6 +63,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 298.3, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 298.3 -> 205.15, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md
   updatedAt: '2026-09-01'
@@ -91,9 +96,9 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-30T06:07:26Z'
-trustMagnitude: 298.3
+trustMagnitude: 205.15
 overallTrustGrade: A
-trustMagnitudeInputHash: 92ea7998f3fd122d3455af1e26b400b8050be31cd4d0c3757a449b350172e312
+trustMagnitudeInputHash: 6f10651a704cf49a7d12ae9fa986f62938ff40fa5ddfac8f69e70aa068434e72
 ---
 
 ## Overview

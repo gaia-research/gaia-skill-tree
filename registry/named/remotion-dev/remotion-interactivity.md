@@ -2,13 +2,13 @@
 id: remotion-dev/remotion-interactivity
 name: Remotion Interactivity
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: video-interactivity
 status: named
 level: 2★
 description: remotion-dev named skill for remotion-interactivity
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Remotion Interactivity
 timeline:
 - timestamp: '2026-08-10T14:48:05Z'

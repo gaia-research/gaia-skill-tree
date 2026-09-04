@@ -19,7 +19,6 @@ tags:
 - production
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/agentdb
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -67,6 +66,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: fad5d8075abf9d9e550e1b94bbf443bbbfb75ac294365f0923acb4fc738c01f7
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

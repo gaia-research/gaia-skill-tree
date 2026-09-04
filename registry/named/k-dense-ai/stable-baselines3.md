@@ -1,16 +1,16 @@
 ---
 id: k-dense-ai/stable-baselines3
-name: Stable Baselines3
+name: Stable Baselines3 Prompt Wrapper
 contributor: k-dense-ai
 origin: false
 genericSkillRef: reinforcement-learning-training
 status: named
-level: 4★
+level: 1★
 description: Train reinforcement learning agents with Stable-Baselines3 using PPO,
   SAC, DQN, TD3, and related algorithms.
 createdAt: '2026-07-31'
-updatedAt: '2026-09-02'
-title: Stable Baselines3
+updatedAt: '2026-09-04'
+title: Stable Baselines3 Prompt Wrapper
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
 timeline:
@@ -46,6 +46,18 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned monorepo stars; retitled as prompt
+    wrapper
+- timestamp: '2026-09-04T09:13:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 5.0 -> 50.0, grade ungraded -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md
   evaluator: mbtiongson1
@@ -54,31 +66,11 @@ evidence:
   notes: 'Public K-Dense SKILL.md for the named implementation approved in #813 Group
     B.'
   grade: C
-- source: https://github.com/K-Dense-AI/scientific-agent-skills
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: repo-own
-  notes: 'K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445,
-    contributors=43, sourceStartedAt=2025-10-19.'
-  commits: 445
-  contributors: 43
-  sourceStartedAt: '2025-10-19'
-  grade: B
-- source: https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
-  updatedAt: '2026-09-01'
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: github-stars-own
-  notes: Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source
-    URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.
-  stars: 41201
-  skillCountInRepo: 158
-  sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:49:02Z'
-trustMagnitude: 197.06
-overallTrustGrade: A
-trustMagnitudeInputHash: ceee78fc45e4d307a56b716b04688ae1248c4391712edc0f7f40f7f623d08db6
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 018be677bb1d6c7cb284f8a5aa6cbfe2e1507e7167fd422bd39a56eae301ef4d
 ---
 
 ## Installation

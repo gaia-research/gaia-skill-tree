@@ -2,17 +2,17 @@
 id: google-deepmind/protein-sequence-similarity-search
 name: Protein-Sequence-Similarity-Search
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: bioinformatic-sequence-analysis
 status: awakened
-level: 4★
+level: 1★
 description: Searches for homologous protein sequences using MMseqs2 (fast, default)
   or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein
   sequence or FASTA file and asks to find homologues, sequence matches, or wants to
   infer protein function based on sequence similarity, but not when the user wants
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
@@ -36,16 +36,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://www.nature.com/articles/s41587-023-01773-0
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 88.0
-  grade: S
-  notes: Foldseek — Nature Biotechnology 2023; protein structure and sequence similarity
-    search at scale; core method
-  reviewers: 3
-  sourceStartedAt: '2023-05-08'
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
@@ -115,8 +105,15 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/protein_sequence_similarity_search
     to google-deepmind/protein-sequence-similarity-search
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -126,7 +123,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 50f510f72904feec31c2156e187fa4f10aa81efe7b377d752411a882c363e8f8
+trustMagnitudeInputHash: 5e9a256734134b5933a15fc5661bed7618e6fef07b304dfbf25ba9f7c8afe03f
 verification:
   firstEvidenceAt: '2026-06-19T17:07:01Z'
 ---

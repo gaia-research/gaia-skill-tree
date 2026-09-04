@@ -20,7 +20,6 @@ tags:
 - state-persistence
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -76,6 +75,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b16f01ca622c6928bb59122ce47b784442f7a2e77742c156fb7f73702eeb73ab
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

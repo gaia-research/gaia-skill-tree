@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -155,7 +155,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 315.15 -> 315.15, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitude: 315.15
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 220.81
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -170,7 +175,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:17:53Z'
-trustMagnitudeInputHash: 8d4003b2af8702021a2b6d55abc7e70da58e017cd4da49e5107b9100f3855896
+trustMagnitudeInputHash: 02178485dd223c9757a30b673b732920d1a7b0ff1d9354c3886f98666c949e54
 upstream:
   mode: components
   releasedAt: '2026-07-02T21:58:30Z'

@@ -20,7 +20,7 @@ tags:
 - canary
 - anomaly-detection
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -96,6 +96,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -109,7 +114,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: e26db9b6ace7def84c33acc66b606b5ca533b1fc83faeef54a2d4e5cfd48eb75
+trustMagnitudeInputHash: 4b7216e8396181042b06dbeadfb366fdefe29ad37fd295eb2a0fe4a2a85a40c8
 ---
 
 ## Overview

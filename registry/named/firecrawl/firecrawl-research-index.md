@@ -5,10 +5,10 @@ contributor: firecrawl
 origin: false
 genericSkillRef: literature-search
 status: named
-level: 5★
+level: 1★
 description: Retrieve and query academic literature through Firecrawl Research.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 title: Firecrawl Research Index
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md
@@ -53,6 +53,18 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 5★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 5★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned blog benchmark row; aligned stars to
+    firecrawl/skills
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -62,33 +74,21 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
-- source: https://github.com/firecrawl/firecrawl/stargazers
+- source: https://github.com/firecrawl/skills/stargazers
   updatedAt: '2026-09-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 175038
+  stars: 98
   skillCountInRepo: 6
   grade: B
-- type: benchmark-result
-  source: https://www.firecrawl.dev/blog/research-index-launch
-  evaluator: mbtiongson1
-  date: '2026-08-03'
-  benchmarkId: alphaxiv-arxivqa@v1.0
-  score: 53.3
-  unit: pct
-  provenance: reported
-  attestor: https://www.firecrawl.dev/blog/research-index-launch
-  notes: 'Firecrawl-reported ArXivQA recall: 53.3% at $0.32/task versus 45.4% next
-    best; MRR 0.750.'
-  grade: A
 catalogRef: firecrawl-firecrawl-research-index
 suiteRef: firecrawl/firecrawl-skills
 verification:
   firstEvidenceAt: '2026-07-30T22:15:52Z'
-trustMagnitude: 360.62
-overallTrustGrade: S
-trustMagnitudeInputHash: cbd1f3627d7b9ed26815bb23599913b120914ab3723634e8d282a8e84d24189b
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 1c26fb59547aba9256933134b0f0f608a2f3dd38d084e7aff848768ac9107aff
 ---
 
 ## Installation

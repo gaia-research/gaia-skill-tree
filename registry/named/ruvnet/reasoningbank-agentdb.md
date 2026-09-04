@@ -19,7 +19,6 @@ tags:
 - self-improvement
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/reasoningbank
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -51,6 +50,7 @@ timeline:
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 trustMagnitudeInputHash: e5d998e5861ff478d0a976b551d1f64ebf787b0b7136627d741fa8d1fcbee7de
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

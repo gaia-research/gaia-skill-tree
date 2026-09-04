@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 180.07,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -144,6 +144,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

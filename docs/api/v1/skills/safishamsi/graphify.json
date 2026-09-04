@@ -5,7 +5,7 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 189.68,
+  "trustMagnitude": 171.88,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique Ultimate",
@@ -53,16 +53,6 @@
       "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
       "stars": 113188,
       "grade": "A"
-    },
-    {
-      "source": "https://arxiv.org/abs/2408.03910",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "arxiv",
-      "class": "A",
-      "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)",
-      "citations": 89,
-      "grade": "C"
     },
     {
       "source": "https://www.youtube.com/watch?v=q6t8xTjV5rM",

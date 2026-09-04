@@ -9,7 +9,7 @@ level: 3★
 description: 'Utility and setup skills that do not fit the engineering/productivity
   split: guardrails, migration, exercise scaffolding, and pre-commit setup.'
 createdAt: '2026-08-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: The Matt Pocock Utility Belt
 timeline:
 - timestamp: '2026-08-19T11:50:18Z'
@@ -31,6 +31,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 120.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 suiteComponents:
 - mattpocock/git-guardrails-claude-code
 - mattpocock/migrate-to-shoehorn
@@ -38,7 +43,7 @@ suiteComponents:
 - mattpocock/setup-pre-commit
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
-trustMagnitudeInputHash: b740acb86a2a8ca2157b76bf5877f3caffa17d7ba572447f9684824366b5835d
+trustMagnitudeInputHash: 018523d3f63c221131eb22fdfc1529f096f0cbe9d1ddf2b0be1427f581e797cc
 ---
 
 ## Installation

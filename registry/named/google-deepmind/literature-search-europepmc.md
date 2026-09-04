@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Search Europe PMC for scientific literature and download open-access
   full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists
   and bibliography.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
 evidence:
@@ -25,16 +25,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://europepmc.org/RestfulWebService
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 78.0
-  grade: S
-  notes: Europe PMC REST API — curated access to 48M+ life-science articles, preprints,
-    patents; EMBL-EBI maintained
-  reviewers: 3
-  sourceStartedAt: '2015-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -102,8 +92,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -113,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: df011f78f8ea39675c019c5cc28968916c1385ec08c9a6e3002ceb1483141134
+trustMagnitudeInputHash: c24d3e0546a22ac584dd9ff08c70bd66f8af33322a92e2f6599a21e44053ce69
 verification:
   firstEvidenceAt: '2026-06-19T17:07:02Z'
 ---

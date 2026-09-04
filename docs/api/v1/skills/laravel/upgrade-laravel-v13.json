@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 36.0,
-  "overallTrustGrade": "C",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": "ungraded",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -25,7 +25,7 @@
   },
   "title": "The Versionist's Trial",
   "genericSkillRef": "framework-upgrade",
-  "origin": true,
+  "origin": false,
   "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
   "tags": [
     "laravel",
@@ -43,20 +43,7 @@
     "crossOrgVerifier": null,
     "systemWideCap": null
   },
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/laravel/boost/issues/698",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework\" upgrade workflow published by the Laravel team. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-      "type": "repo",
-      "trustNumber": 70.0,
-      "commits": 965,
-      "contributors": 107,
-      "grade": "B"
-    }
-  ],
+  "evidence": [],
   "timeline": [
     {
       "timestamp": "2026-06-14T12:32:42Z",

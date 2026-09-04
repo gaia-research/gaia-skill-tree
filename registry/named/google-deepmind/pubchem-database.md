@@ -2,15 +2,15 @@
 id: google-deepmind/pubchem-database
 name: Pubchem-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: molecular-databases
 status: awakened
-level: 4★
+level: 1★
 description: Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure
   searches, bioactivity, for cheminformatics. Use when a user asks about a specific
   chemical, drug, or molecule.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md
 evidence:
@@ -25,16 +25,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/53/D1/D1516/7903365
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: PubChem 2025 — NAR; comprehensive public chemical database, biological activities
-    data
-  reviewers: 3
-  sourceStartedAt: '2025-01-07'
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
@@ -98,8 +88,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/pubchem_database to google-deepmind/pubchem-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -109,7 +106,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9628973e66bc1b5f94eda26b168eec00aea477114e2ca118d2a6073ef61934fb
+trustMagnitudeInputHash: 374029fbb0f468e680da05aa0a08dbf23760ea4bfbb4bf902860a39a6e4d4835
 verification:
   firstEvidenceAt: '2026-06-19T17:05:44Z'
 ---

@@ -22,7 +22,6 @@ tags:
 - ideation
 createdAt: '2026-05-12'
 updatedAt: '2026-08-30'
-suiteRef: garrytan/garrytan
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
@@ -97,6 +96,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
 trustMagnitudeInputHash: af3b9656deb3b7236fdcf7b2b8088af1b223fae9dec94589838da230c16b75e8
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

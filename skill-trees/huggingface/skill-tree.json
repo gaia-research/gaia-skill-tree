@@ -4,18 +4,18 @@
   "unlockedSkills": [
     {
       "skillId": "huggingface/hf-cli",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "demote"
         }
@@ -23,18 +23,18 @@
     },
     {
       "skillId": "huggingface/huggingface-datasets",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:28Z",
           "source": "demote"
         }
@@ -42,18 +42,18 @@
     },
     {
       "skillId": "huggingface/huggingface-llm-trainer",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:28Z",
           "source": "demote"
         }
@@ -61,18 +61,18 @@
     },
     {
       "skillId": "huggingface/huggingface-papers",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:28Z",
           "source": "demote"
         }
@@ -80,71 +80,37 @@
     },
     {
       "skillId": "huggingface/huggingface-vision-trainer",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:28Z",
           "source": "demote"
-        }
-      ]
-    },
-    {
-      "skillId": "huggingface/semantic-cache",
-      "level": "2★",
-      "unlockedAt": "2026-05-15T00:00:00Z",
-      "unlockedIn": "huggingface/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "4★",
-          "achievedAt": "2026-05-15T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "1★",
-          "achievedAt": "2026-06-02T23:48:18Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-04T20:30:53Z",
-          "source": "promotion"
-        },
-        {
-          "level": "1★",
-          "achievedAt": "2026-06-04T20:34:03Z",
-          "source": "demote"
-        },
-        {
-          "level": "2★",
-          "achievedAt": "2026-06-20T06:31:28Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "huggingface/transformers-js",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-03T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-03T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:28Z",
           "source": "demote"
         }
@@ -158,7 +124,7 @@
       "skillId": "huggingface/hf-cli",
       "details": "Registered named skill huggingface/hf-cli",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-03T00:00:00Z",
@@ -166,7 +132,7 @@
       "skillId": "huggingface/huggingface-datasets",
       "details": "Registered named skill huggingface/huggingface-datasets",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-03T00:00:00Z",
@@ -174,7 +140,7 @@
       "skillId": "huggingface/huggingface-llm-trainer",
       "details": "Registered named skill huggingface/huggingface-llm-trainer",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-03T00:00:00Z",
@@ -182,7 +148,7 @@
       "skillId": "huggingface/huggingface-papers",
       "details": "Registered named skill huggingface/huggingface-papers",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-03T00:00:00Z",
@@ -190,7 +156,7 @@
       "skillId": "huggingface/huggingface-vision-trainer",
       "details": "Registered named skill huggingface/huggingface-vision-trainer",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-03T00:00:00Z",
@@ -198,94 +164,54 @@
       "skillId": "huggingface/transformers-js",
       "details": "Registered named skill huggingface/transformers-js",
       "previousValue": null,
-      "newValue": "2★"
-    },
-    {
-      "timestamp": "2026-05-15T00:00:00Z",
-      "action": "register",
-      "skillId": "huggingface/semantic-cache",
-      "details": "Registered named skill huggingface/semantic-cache",
-      "previousValue": null,
-      "newValue": "4★"
-    },
-    {
-      "timestamp": "2026-06-02T23:48:18Z",
-      "action": "demote",
-      "skillId": "huggingface/semantic-cache",
-      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 4★→1★.",
-      "previousValue": "4★",
-      "newValue": "1★"
-    },
-    {
-      "timestamp": "2026-06-04T20:30:53Z",
-      "action": "rank_up",
-      "skillId": "huggingface/semantic-cache",
-      "details": "GitHub blob link restored → recalibrated 1★→4★.",
-      "previousValue": "1★",
-      "newValue": "4★"
-    },
-    {
-      "timestamp": "2026-06-04T20:34:03Z",
-      "action": "demote",
-      "skillId": "huggingface/semantic-cache",
-      "details": "Reclassified Unique→Basic and marked registry-only (installable:false) → demoted 4★→1★.",
-      "previousValue": "4★",
-      "newValue": "1★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/hf-cli"
     },
     {
       "timestamp": "2026-06-20T06:31:28Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/huggingface-datasets"
     },
     {
       "timestamp": "2026-06-20T06:31:28Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "1★",
-      "details": "Level updated from 3★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 3\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/huggingface-llm-trainer"
     },
     {
       "timestamp": "2026-06-20T06:31:28Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/huggingface-papers"
     },
     {
       "timestamp": "2026-06-20T06:31:28Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "1★",
-      "details": "Level updated from 3★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 3\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/huggingface-vision-trainer"
     },
     {
       "timestamp": "2026-06-20T06:31:28Z",
-      "action": "rank_up",
-      "previousValue": "1★",
-      "newValue": "2★",
-      "details": "Level updated from 1★ to 2★ per G7 final rankings calibration.",
-      "skillId": "huggingface/semantic-cache"
-    },
-    {
-      "timestamp": "2026-06-20T06:31:28Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "huggingface/transformers-js"
     }
   ],

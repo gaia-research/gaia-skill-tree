@@ -21,8 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-09-02'
-suiteRef: garrytan/garrytan
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/cso/SKILL.md
@@ -101,8 +100,13 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 286.0
-overallTrustGrade: A
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 50.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -114,7 +118,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
-trustMagnitudeInputHash: 5ddd6ebebe5ab9264c9cba36429ad7a3e00c4ad46fb0bb4709cff6e7f57492d0
+trustMagnitudeInputHash: f6755c79a1f46126e06afccde7bc43746860afec4cd779be3df58b398581e6ed
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

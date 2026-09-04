@@ -9,7 +9,7 @@ level: 3★
 description: Captures implementation decisions and tradeoffs before planning so the
   agent begins with explicit shared context.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:04:47Z'
   action: add
@@ -73,6 +73,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
   updatedAt: '2026-09-01'
@@ -104,7 +109,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e686dc1103146a7e06d684a0c49c42e3b0e139613a308bc684a47e698f4e4a73
+trustMagnitudeInputHash: 5f90ddd088173e2441215dc943524a7cba67b069dbe65ca317aa2dcb003c6b73
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md
 ---

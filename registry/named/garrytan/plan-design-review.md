@@ -20,7 +20,7 @@ tags:
 - plan-review
 - ui-ux
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -96,6 +96,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -109,7 +114,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 708b600ab59cfc429d4d4847e7ea5b628b7d53688807598ebaa123a769231216
+trustMagnitudeInputHash: c44a5b87efe0497eabcbb717004aacde7220c3724fe85536bd884a3f974b295d
 ---
 
 ## Overview

@@ -2,13 +2,13 @@
 id: remotion-dev/remotion-create
 name: Remotion Create
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: video-scaffolding
 status: named
 level: 2★
 description: remotion-dev named skill for remotion-create
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Remotion Create
 timeline:
 - timestamp: '2026-08-10T14:48:01Z'

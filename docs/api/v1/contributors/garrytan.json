@@ -67,23 +67,6 @@
       ]
     },
     {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "4★",
-      "trustMagnitude": 180.07,
-      "overallTrustGrade": "A",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "genericSkillRef": "security-audit"
-    },
-    {
       "id": "garrytan/browse",
       "name": "Browse",
       "level": "3★",
@@ -201,6 +184,23 @@
         "self": "/api/v1/skills/garrytan/canary.json"
       },
       "genericSkillRef": "detect-anomaly"
+    },
+    {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "4★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      },
+      "genericSkillRef": "security-audit"
     },
     {
       "id": "garrytan/design-consultation",
@@ -861,10 +861,10 @@
     "level": "5★",
     "trustMagnitude": 225.66
   },
-  "prestigeScore": 2423.23,
+  "prestigeScore": 2293.16,
   "gradeDistribution": {
-    "A": 2,
-    "B": 20,
+    "A": 1,
+    "B": 21,
     "C": 25
   },
   "_links": {

@@ -108,6 +108,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 329.28, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 329.28 -> 221.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

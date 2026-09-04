@@ -20,7 +20,6 @@ tags:
 - background-workers
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/dual-mode
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -68,6 +67,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 74b77077984bcb2533c9e766e9d94a813969ea28399e5edc5e35f3d08983769c
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

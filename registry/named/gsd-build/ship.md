@@ -9,7 +9,7 @@ level: 3★
 description: Creates the pull request, runs review, archives the completed phase,
   and prepares the next iteration.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:04:52Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md
   updatedAt: '2026-09-01'
@@ -100,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5632103402b38fb99a999797ef7993874235a2e025c84d605a49e58bbae27615
+trustMagnitudeInputHash: 6675464e9c191b259a3a309e88eeee24f85150b8793f6d4cebc1f38e97bfb73f
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md
 ---

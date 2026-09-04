@@ -5,7 +5,7 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 218.14,
+  "trustMagnitude": 169.34,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique Ultimate",
@@ -68,39 +68,12 @@
       "grade": "B"
     },
     {
-      "source": "https://arxiv.org/abs/2411.01606",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "arxiv",
-      "class": "A",
-      "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
-      "citations": 19
-    },
-    {
       "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
       "evaluator": "mbtiongson1",
       "date": "2026-06-19",
       "type": "social-signal",
       "class": "A",
       "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
-    },
-    {
-      "source": "https://github.com/pbakaus/impeccable/issues/268",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "peer-review",
-      "class": "A",
-      "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
-      "grade": "C"
-    },
-    {
-      "source": "https://github.com/pbakaus/impeccable/issues/183",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "peer-review",
-      "class": "A",
-      "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
-      "grade": "C"
     }
   ],
   "timeline": [

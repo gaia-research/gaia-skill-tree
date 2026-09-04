@@ -21,7 +21,6 @@ tags:
 - ai-assistant
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/flow-nexus
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -77,6 +76,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 83a33bd011b4111a3e42b8c8dfc74ff0515ee12eb5bcfa0e51900ad384ebef71
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

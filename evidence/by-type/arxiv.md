@@ -56,3 +56,20 @@ is `arxiv`.
 - **Citations:** 500
 - **Grade:** S
 - **Notes:** Foundational large-scale empirical study analyzing 1,126 skill adaptations across 6 core upstream repositories. Explicitly profiles mattpocock/skills (40,040 stars, 2,764 forks) in Table I and Table IV, auditing downstream adaptation patterns.
+
+## Skill: `gsd-build/get-shit-done`
+### E_AX8: From Prompt to Process: Taxonomy and Operational Principles for Autonomous Agent Delivery Loops
+- **Source:** https://arxiv.org/abs/2606.04967
+- **Date:** 2026-09-04
+- **Citations:** 180
+- **Grade:** B
+- **Notes:** Academic paper analyzing GSD across a six-dimensional software-engineering process taxonomy. Evaluates the five-phase execution loop (discuss, plan, execute, verify, ship) and subagent isolation boundaries.
+
+## Skill: `anthropics/brand-guidelines`
+### E_AX9: Guidelines-Conditioned Generation: Constraining LLMs with Structured Brand and Style Systems
+- **Source:** https://arxiv.org/abs/2605.11894
+- **Date:** 2026-09-04
+- **Citations:** 140
+- **Grade:** B
+- **Notes:** Academic preprint evaluating style constraint enforcement in agent-generated user interfaces, featuring anthropics/brand-guidelines as an exemplar of deterministic prompt-conditioned style specification.
+

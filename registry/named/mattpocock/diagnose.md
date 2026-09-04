@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -124,8 +124,13 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 306.13
-overallTrustGrade: A
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 94.92
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -137,9 +142,9 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 5d9da11faf0a525fe7d3338835368e51a6f90627039e596ba21b7104c94067b1
+trustMagnitudeInputHash: a107af1ae2829d53ae0ec828016debf078f062e02ba5f13105556a34f7c1c08d
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

@@ -11,7 +11,7 @@ description: 'Review the changes since a fixed point (commit, branch, tag, or me
   and Spec (does the code match what the originating issue/spec asked for?). Runs
   both reviews in parallel sub-agents and reports them side by side.'
 createdAt: '2026-08-20'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: The Twin-Axis Reviewer
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 20.77 -> 20.77, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md
   evaluator: marco-tngsn
@@ -47,10 +52,10 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-08-19T16:10:32Z'
-suiteRef: mattpocock/engineering
 trustMagnitude: 20.77
 overallTrustGrade: C
-trustMagnitudeInputHash: caeb5c93f2caed548314b2ffc1ea2b5b9fb61f13bb9fc7769fda0c6aa8c3666a
+trustMagnitudeInputHash: 9aa4d17a73af9e94b3d17e872534e120909ea086ba6b95b2d1f49e8b3c3ae51c
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

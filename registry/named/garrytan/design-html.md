@@ -20,7 +20,7 @@ tags:
 - design-to-code
 - production
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -74,6 +74,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md
@@ -113,7 +118,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: eebb36da89fc1838a6a41195209e11b05241fed5607fa7e9f70bc84805f54731
+trustMagnitudeInputHash: f569c492e93ae3e43e26a4e055ee613b7850028146abd266e57a55462495be15
 ---
 
 ## Overview

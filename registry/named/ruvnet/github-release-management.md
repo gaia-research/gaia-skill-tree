@@ -21,7 +21,6 @@ tags:
 - automation
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/github-suite
 timeline:
 - timestamp: '2026-06-02T23:48:18Z'
   action: demote
@@ -53,6 +52,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: e6be8759ddac3a07d45ea6d61e9ceea52de9b91c8e961034ea190669c3537017
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

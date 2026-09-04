@@ -2,13 +2,13 @@
 id: remotion-dev/remotion-maps
 name: Remotion Maps
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: map-animation
 status: named
 level: 2★
 description: remotion-dev named skill for remotion-maps
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Remotion Maps
 timeline:
 - timestamp: '2026-08-10T14:48:04Z'

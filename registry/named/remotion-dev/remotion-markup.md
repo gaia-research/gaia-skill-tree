@@ -2,13 +2,13 @@
 id: remotion-dev/remotion-markup
 name: Remotion Markup
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: timeline-animation
 status: named
 level: 2★
 description: remotion-dev named skill for remotion-markup
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Remotion Markup
 timeline:
 - timestamp: '2026-08-10T14:48:02Z'

@@ -25,7 +25,7 @@
   },
   "title": "Remotion Studio",
   "genericSkillRef": "video-preview",
-  "origin": true,
+  "origin": false,
   "description": "remotion-dev named skill for remotion-studio",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical
   ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID,
   HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies
   (parents, children, ancestors), look up properties and individuals, get autocomplete
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: OLS4 (Ontology Lookup Service) 2025 — PMC/NAR; open source search engine
-    for biomedical ontologies
-  reviewers: 3
-  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:30Z'
   action: evidence_graded
@@ -104,8 +94,15 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -115,7 +112,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f309c914b9f8536122525e8b3c65acfa158039f8495816f08feae88872dbf0e0
+trustMagnitudeInputHash: f77dda7a85546ae6f27241111e7b8ac9c4a233d02e35a62a05096da9110748b4
 verification:
   firstEvidenceAt: '2026-06-19T17:05:39Z'
 ---

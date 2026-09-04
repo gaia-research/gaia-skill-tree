@@ -9,7 +9,7 @@ level: 3★
 description: Researches, decomposes, and verifies an implementation plan against a
   fresh context window before execution.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:04:48Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
   updatedAt: '2026-09-01'
@@ -100,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7adddd862f9d621ecde243c52c1f5b81377e839d04b8d3cd50e222670ebb2c0b
+trustMagnitudeInputHash: b1e59f2b4c61dd89363da02bbd4343ea98e98798eb3b5bfa9cc87ed440cf579d
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
 ---

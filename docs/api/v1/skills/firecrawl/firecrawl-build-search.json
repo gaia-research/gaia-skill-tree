@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 218.13,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 83.62,
+  "overallTrustGrade": "B",
   "branch": "unique",
   "rankWord": "Unique",
   "medallion": "◉",
@@ -61,12 +61,12 @@
       "sourceStartedAt": "2023-08-01"
     },
     {
-      "source": "https://github.com/firecrawl/firecrawl/stargazers",
+      "source": "https://github.com/firecrawl/skills/stargazers",
       "updatedAt": "2026-09-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
-      "stars": 175038,
+      "stars": 98,
       "skillCountInRepo": 6,
       "grade": "B"
     }
@@ -129,6 +129,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 319.62, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 104.31 -> 83.62, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

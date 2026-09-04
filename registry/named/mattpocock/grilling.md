@@ -11,7 +11,7 @@ level: 2★
 description: Interview the user relentlessly about a plan to stress-test it before
   building.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-19T12:59:50Z'
   action: add
@@ -69,6 +69,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
   evaluator: unknown
@@ -110,7 +115,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e0ef299778d6ff5b6fa5dc55362f5dcb85b98337687bd767a4b4bdf4f37f4613
+trustMagnitudeInputHash: 41f2701876e68c0fe6df1114e05a7a9b070f1f5f9628497060bbfa9552c7435f
 title: Grilling
 ---
 

@@ -21,7 +21,6 @@ tags:
 - sprints
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/github-suite
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -53,6 +52,7 @@ timeline:
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 trustMagnitudeInputHash: a2ea33502fc7199e545b82f3b02b0ce7814f5fed9fb8cead92ce5eed42848a93
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

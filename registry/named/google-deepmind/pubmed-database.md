@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Search PubMed for scientific literature, including published clinical
   trials. Fetch abstracts and full text. Link published research to biological databases
   (gene, protein, nucleotide, PubChem) to discover associations between papers and
   specific compounds or genes. Verify medical spelling, match raw citations, and cache
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://pubmed.ncbi.nlm.nih.gov/
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'NCBI PubMed: NIH National Library of Medicine biomedical literature database.
-    Peer-reviewed infrastructure used by millions of researchers globally (reviewed
-    and maintained by NLM since 1996).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -81,8 +71,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/pubmed_database to google-deepmind/pubmed-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -94,7 +91,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:23:55Z'
-trustMagnitudeInputHash: 6b1b943e73a31e3a709640049bb4be455ab87a26ecd6dcde00938f983814fc33
+trustMagnitudeInputHash: 3d92e7ff1e16d98bac709ec76dc4947aa1af582d27740416da6333d68ba8b3fe
 ---
 
 # PubMed API

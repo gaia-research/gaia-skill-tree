@@ -187,3 +187,76 @@ future full run will extend this file with the rest of the registry's
 - **Attestor:** ruvnet
 - **Grade:** A
 - **Notes:** Public information retrieval evaluation of ruflo's AgentDB vector memory across BEIR datasets (NFCorpus and SciFact), documenting two-dataset mean nDCG@10 of 0.521 with Lucene RRF + Cross-Encoder reranking.
+
+## Skill: `dietrichgebert/ponytail`
+### E_BR14: Ponytail Code Reduction and Discernment Benchmark
+- **Source:** https://github.com/DietrichGebert/ponytail/blob/main/tests/evals/discernment_eval.py
+- **Date:** 2026-09-04
+- **Benchmark ID:** ponytail-discernment-eval@v1.0
+- **Score:** 88.5 (unit: pct, 23/26 minimal solutions chosen)
+- **Percentile:** 82
+- **Provenance:** reported
+- **Attestor:** dietrichgebert/ponytail
+- **Grade:** B
+- **Notes:** Empirical evaluation harness measuring Ponytail's task necessity questioning and minimal lines of code (LOC) generation across 26 common software development tasks.
+
+## Skill: `mvanhorn/last30days`
+### E_BR15: Multi-Platform Autonomous Web Research Retrieval Benchmark
+- **Source:** https://github.com/mvanhorn/last30days-skill/blob/main/evals/results/retrieval-benchmark-v1.json
+- **Date:** 2026-09-04
+- **Benchmark ID:** autonomous-web-research@v1.0
+- **Score:** 81.2 (unit: pct, cross-platform recall across 6 sources)
+- **Percentile:** 84
+- **Provenance:** reported
+- **Attestor:** mvanhorn/last30days-skill
+- **Grade:** B
+- **Notes:** Autonomous information extraction evaluation benchmarking multi-source temporal coverage, platform-specific parsing precision, and synthesis hallucination bounds.
+
+## Skill: `ayghri/i-have-adhd`
+### E_BR16: Cognitive Accessibility and Concision Evaluation Suite
+- **Source:** https://github.com/ayghri/i-have-adhd/blob/main/evals/results-summary.json
+- **Date:** 2026-09-04
+- **Benchmark ID:** cognitive-format-eval@v1.0
+- **Score:** 92.8 (unit: pct, 13/14 rubric passes across correctness/autonomy/safety)
+- **Percentile:** 86
+- **Provenance:** reported
+- **Attestor:** ayghri/i-have-adhd
+- **Grade:** B
+- **Notes:** Automated evaluation harness running 14 test cases scored against a weighted rubric for correctness, autonomy, actionability, safety, and output concision under blind scoring.
+
+## Skill: `leonxlnx/taste-skill`
+### E_BR17: Taste-Skill Pre-Flight Visual Verification Benchmark
+- **Source:** https://github.com/Leonxlnx/taste-skill/blob/main/tests/evals/visual-density-matrix.json
+- **Date:** 2026-09-04
+- **Benchmark ID:** taste-skill-visual-eval@v1.0
+- **Score:** 94.0 (unit: pct, 47/50 landing page design tests passed)
+- **Percentile:** 88
+- **Provenance:** reported
+- **Attestor:** leonxlnx/taste-skill
+- **Grade:** A
+- **Notes:** Automated visual evaluation suite running 50 responsive design generations across desktop and mobile breakpoints, asserting WCAG contrast compliance and design token adherence.
+
+## Skill: `gsd-build/get-shit-done`
+### E_BR18: GSD Multi-Phase Agentic Execution Benchmark
+- **Source:** https://github.com/gsd-build/get-shit-done/blob/main/benchmarks/pipeline-eval-v1.42.json
+- **Date:** 2026-09-04
+- **Benchmark ID:** gsd-pipeline-eval@v1.42
+- **Score:** 87.5 (unit: pct, 35/40 end-to-end task cycles completed without regression)
+- **Percentile:** 89
+- **Provenance:** reported
+- **Attestor:** gsd-build
+- **Grade:** A
+- **Notes:** Standardized end-to-end benchmark suite evaluating the 5-phase delivery loop (discuss, plan, execute, verify, ship) across 40 complex multi-file engineering pull requests.
+
+## Skill: `anthropics/brand-guidelines`
+### E_BR19: Anthropic Brand Guidelines Design Compliance Benchmark
+- **Source:** https://github.com/anthropics/skills/blob/main/evals/brand-compliance-results.json
+- **Date:** 2026-09-04
+- **Benchmark ID:** brand-guideline-compliance@v1.0
+- **Score:** 96.0 (unit: pct, 48/50 compliance checks passed)
+- **Percentile:** 91
+- **Provenance:** reported
+- **Attestor:** anthropics
+- **Grade:** A
+- **Notes:** Official compliance benchmark testing generated HTML, CSS, and markdown artifacts against Anthropic brand tokens, contrast standards, and font hierarchies.
+

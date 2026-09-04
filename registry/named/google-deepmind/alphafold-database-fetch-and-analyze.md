@@ -2,17 +2,17 @@
 id: google-deepmind/alphafold-database-fetch-and-analyze
 name: Alphafold-Database-Fetch-And-Analyze
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 4★
+level: 1★
 description: Retrieve and analyze AlphaFold predicted structures for a protein. Use
   when the user provides a specific UniProt Accession ID and wants structural confidence
   metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -28,16 +28,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://www.nature.com/articles/s41586-021-03819-2
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Jumper et al. 2021 Nature: AlphaFold protein structure prediction. 36,575
-    citations (Semantic Scholar 2026-06-19). Nature paper directly describing the
-    AlphaFold database tool.'
-  reviewers: 3
-  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
@@ -90,8 +80,15 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/alphafold_database_fetch_and_analyze
     to google-deepmind/alphafold-database-fetch-and-analyze
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -103,7 +100,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:23:06Z'
-trustMagnitudeInputHash: 512a42040fbc5bc17fe5cb3f1539aa9775c280f8dd80571ad9aa8478e55cb46c
+trustMagnitudeInputHash: 867bd415038453fdd3194c167f8f05d0a5781c31e63850c0715c9c91cfea3b42
 ---
 
 # AlphaFold Database: Fetch and Analyze

@@ -21,7 +21,6 @@ tags:
 - v3-sprint
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -75,6 +74,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:18Z'
 trustMagnitudeInputHash: 47f0a7ab3a63a8ba99e208b0c5f56bbab2be63f5c48f55980c47a8bc4cfa1a63
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

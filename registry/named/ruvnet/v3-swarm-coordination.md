@@ -20,7 +20,6 @@ tags:
 - v3-sprint
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/ruflo-v3
 timeline:
 - timestamp: '2026-06-02T23:48:21Z'
   action: demote
@@ -52,6 +51,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b01c3d2350d555bdce0e3ae8ba5d192492d84b6a756728827a4f2d6eb788ac1b
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

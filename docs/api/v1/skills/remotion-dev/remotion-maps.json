@@ -25,7 +25,7 @@
   },
   "title": "Remotion Maps",
   "genericSkillRef": "map-animation",
-  "origin": true,
+  "origin": false,
   "description": "remotion-dev named skill for remotion-maps",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

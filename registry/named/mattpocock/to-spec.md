@@ -21,8 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
@@ -123,6 +122,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -136,7 +140,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:36:40Z'
-trustMagnitudeInputHash: 6eaf06a2a91c69e2310d62e631119e40edb69d37d67cb74c4c08809137e8c0a5
+trustMagnitudeInputHash: 37b20efdb83f0e75de9d0a2e984a26a7602a16196a74460cad4d4642bfa23602
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

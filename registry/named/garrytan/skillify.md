@@ -18,7 +18,7 @@ tags:
 - automation
 - meta
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -94,6 +94,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -107,7 +112,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
-trustMagnitudeInputHash: 5a24c34bb4151dc7371aa19778a6d6265e145d8155a315daf616ab12b85815a7
+trustMagnitudeInputHash: 1cc0bc6b2e206f51f26b314be48de2bb8c063cd86971f6d8979dcbe002cde3e0
 ---
 
 ## Overview

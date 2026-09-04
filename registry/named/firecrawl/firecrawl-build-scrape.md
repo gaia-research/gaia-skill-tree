@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl page extraction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: Firecrawl Scrape
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md
@@ -68,6 +68,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 346.02, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 130.71 -> 110.02, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -97,21 +102,21 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
-- source: https://github.com/firecrawl/firecrawl/stargazers
+- source: https://github.com/firecrawl/skills/stargazers
   updatedAt: '2026-09-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 175038
+  stars: 98
   skillCountInRepo: 6
   grade: B
 verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
 catalogRef: firecrawl-firecrawl-build-scrape
 suiteRef: firecrawl/firecrawl-skills
-trustMagnitude: 346.02
+trustMagnitude: 110.02
 overallTrustGrade: A
-trustMagnitudeInputHash: 8ca07487f17cb7613a8021a02cb37386e8060445dbf3f52d24c07ff1a187b421
+trustMagnitudeInputHash: 3c3fab68882a0272ccc84bbab616f605f8df0f4c6f3f87a89cb0e9ed1111cf29
 ---
 
 ## Installation

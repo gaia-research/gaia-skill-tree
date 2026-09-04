@@ -19,7 +19,6 @@ tags:
 - adaptation
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/agentdb
 timeline:
 - timestamp: '2026-06-02T23:48:20Z'
   action: demote
@@ -51,6 +50,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 3f8ef3d445b37170db065d22f12388ed989450d89837e7ace73737f7cd26cbc1
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

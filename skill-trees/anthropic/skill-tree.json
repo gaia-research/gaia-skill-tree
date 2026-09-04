@@ -18,7 +18,7 @@
     },
     {
       "skillId": "anthropic/skill-creator",
-      "level": "4★",
+      "level": "2★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "anthropic/gaia-skill-tree",
       "combinedFrom": [],
@@ -37,6 +37,11 @@
           "level": "4★",
           "achievedAt": "2026-09-02T15:11:14Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -72,6 +77,14 @@
       "previousValue": "3★",
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
+      "skillId": "anthropic/skill-creator"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
       "skillId": "anthropic/skill-creator"
     }
   ],

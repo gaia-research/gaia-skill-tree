@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -114,14 +114,14 @@ evidence:
     P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026).'
 - type: github-stars-own
   updatedAt: '2026-09-01'
-  source: https://github.com/firecrawl/firecrawl/stargazers
-  stars: 175038
+  source: https://github.com/firecrawl/skills/stargazers
+  stars: 98
   skillCountInRepo: 6
   grade: B
   evaluator: mbtiongson1
   date: '2026-07-13'
-trustMagnitude: 286.0
-overallTrustGrade: A
+trustMagnitude: 70.69
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -133,7 +133,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: 63c209ef1809b89e0badb21b7adb2501ac1865c6bf6147de2dcc1dcb4f88b3cc
+trustMagnitudeInputHash: e89db6eaa6ee4c818b88e83542ff34fd8ee6630a2a48e1c3d03272c16fc25305
 suiteComponents:
 - firecrawl/firecrawl-build-interact
 - firecrawl/firecrawl-build-onboarding

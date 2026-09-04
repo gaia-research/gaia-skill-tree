@@ -20,7 +20,7 @@ tags:
 - bug-fixing
 - e2e
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -96,6 +96,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -109,7 +114,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
-trustMagnitudeInputHash: 960a112fe13a7a12e03ee7cc62b21821ca61b221715660224703225d8a52db35
+trustMagnitudeInputHash: 738615dfe66706fecb70090b496e9135409b4a3a26c0bf505e96f5e4113d5d8c
 ---
 
 ## Overview

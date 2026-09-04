@@ -19,7 +19,6 @@ tags:
 - qa
 createdAt: '2026-05-18'
 updatedAt: '2026-08-30'
-suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: rank_up
@@ -147,6 +146,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
 trustMagnitudeInputHash: adec7c44562426890821045cd6e6f130bc23aa76df3c2dfa0884517ede21a30a
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

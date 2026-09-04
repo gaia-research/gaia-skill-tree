@@ -20,7 +20,6 @@ tags:
 - embeddings
 createdAt: '2026-05-19'
 updatedAt: '2026-08-30'
-suiteRef: ruvnet/agentdb
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -68,6 +67,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 42947f04153065d366d8bfc68eb0c6f1c9494dd7589a48d1e406ea682593260a
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

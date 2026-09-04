@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 184.51,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 70.69,
+  "overallTrustGrade": "B",
   "branch": "suite",
   "rankWord": "Extra",
   "medallion": "◆",
@@ -34,7 +34,7 @@
     "crawler"
   ],
   "apexGateStatus": {
-    "aGradedOriginsGte5": true,
+    "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
@@ -67,8 +67,8 @@
     {
       "type": "github-stars-own",
       "updatedAt": "2026-09-01",
-      "source": "https://github.com/firecrawl/firecrawl/stargazers",
-      "stars": 175038,
+      "source": "https://github.com/firecrawl/skills/stargazers",
+      "stars": 98,
       "skillCountInRepo": 6,
       "grade": "B",
       "evaluator": "mbtiongson1",

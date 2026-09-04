@@ -11,7 +11,7 @@ description: 'Measurement-driven performance workflow: baseline with Lighthouse 
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-04'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -85,6 +85,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 83.2 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -110,8 +115,8 @@ evidence:
     standalone skill)
   stars: 91329
   grade: B
-trustMagnitude: 286.0
-overallTrustGrade: A
+trustMagnitude: 50.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -123,7 +128,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
-trustMagnitudeInputHash: d89147228ac8f245ed24debfab6c2eb041acadd7ad2aaa59b49485ee573258d6
+trustMagnitudeInputHash: bf1dd799013c66e14dd0e7bc9b24d362a85bc80846712c2e79962de718806635
 suiteRef: addy-osmani/agent-skills
 ---
 
