@@ -4,6 +4,44 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-04, Registry Integrity Sweep Completed, Imposter Aggregators Purged, Sub-Suite Cap Patched, Full Recalibration #1706 Executed, PR #1721 Opened, Issue #1720 Filed)
+
+### TLDR
+
+- Completed deep forensic audit across all 339 named skills in the registry. Identified systemic provenance breakdowns: aggregator monorepo star laundering (K-Dense-AI squatting 41,201 stars on 10 standard Python libraries), pure academic prompting papers without code (`openai/few-shot-learning`, `openai/self-consistency`), closed commercial SaaS (`devin-ai/autonomous-swe`), software libraries (`stanfordnlp/dspy`), awesome-list stubs, and sub-suites evading component adoption caps.
+- Purged 12 non-skill and imposter entries from `registry/named/` and cleaned phantom user trees (`skill-trees/`).
+- Reattributed `karpathy/autoresearch-universal` to its true community author, `balukosuri/autoresearch-universal`.
+- Decontaminated the evidence data lake: stripped 35 historical database consortium papers (PDB 2000, dbSNP 2001, PubMed) and Astral `uv` rows from `google-deepmind/*.md`, stripped 41k monorepo stars from `k-dense-ai/*.md`, stripped 176k core engine stars from `firecrawl/*.md`, and removed hijacked academic citations from `anthropic/skill-creator`, `pbakaus/impeccable`, `upsonic/unittest-generator`, `martin-stepanoski/nielsen-heuristics-audit`, `safishamsi/graphify`, and `laravel/upgrade-laravel-v13`.
+- Enforced Star Bar 404 blob demotions to 1★ for `disler/agent-fusion`, `mattpocock/edit-article`, `mattpocock/obsidian-vault`, and `mattpocock/ubiquitous-language`, and revoked unearned `origin: true` flags.
+- Patched sub-suite cap engine evasion in `src/gaia_cli/trustMagnitude.py`: added `CANONICAL_ROOT_SUITES` to enforce the strict 50.0 TM component adoption ceiling across all nested sub-suites (`garrytan/gstack`, `mattpocock/skills`, `addy-osmani/agent-skills`, `ruvnet/ruflo`, `firecrawl/firecrawl`). True component-specific evidence remains uncapped.
+- Ingested 22 fresh, grounded evidence rows across `evidence/by-type/` for legitimate 4★ skills (`dietrichgebert/ponytail`, `mvanhorn/last30days`, `ayghri/i-have-adhd`, `leonxlnx/taste-skill`, `gsd-build/get-shit-done`, `anthropics/brand-guidelines`).
+- Executed registry-wide trust recalibration (`gaia dev calibrate-trust-magnitude --all`) and backfilled 39 timeline demote events into contributor trees. All 280 active named skills now agree across frontmatter caches, `named-skills.json`, and API endpoints.
+- Rebuilt Class S site artifacts, API projections, badges, graphs, and search indices.
+- Rewrote the announcement meta-post `docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md` and updated `docs/codex/trust-methodology.html` with the Provenance & Attribution Integrity Invariants.
+- Pushed branch `dev/integration-registry-integrity-sweep-2026-09` (`231c6a217`), opened integration PR #1721 (**FOUNDER-GATED**), and filed documentation tracking issue #1720.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Forensic Audit & Purge | ✅ 12 non-skill / imposter entries purged; 98+ contaminated evidence rows stripped; K-Dense demoted |
+| Engine Cap Hardening | ✅ `_isSuiteRootRepositoryEvidence` patched with `CANONICAL_ROOT_SUITES` in `src/gaia_cli/trustMagnitude.py` |
+| Evidence Ingestion | ✅ 22 grounded evidence rows ingested into `evidence/by-type/` for 4★ skills |
+| Full Recalibration (#1706) | ✅ Recalibrated 280 named skills under logarithmic curve (#1705); 39 timeline demotes backfilled |
+| Documentation & Meta Post | ✅ Meta post rewritten, `posts.json` updated, `docs/codex/trust-methodology.html` updated |
+| Documentation Audit Issue | ✅ Filed Issue #1720 (`docs(audit): reconcile trust magnitude documentation...`) |
+| Integration PR |  PR #1721 opened targeting `main` on `dev/integration-registry-integrity-sweep-2026-09` (**FOUNDER-GATED**) |
+| Test Suites | ✅ 1,546 unit & integration tests passed; all 5 validation gates green |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/integration-registry-integrity-sweep-2026-09` | `231c6a217` | Integration branch carrying full registry integrity sweep + recalibration (PR #1721) |
+| `main` | `48368aba7` | Upstream production base; target for PR #1721 (**FOUNDER-GATED**) |
+
+---
+
 ## State Snapshot (2026-09-04, Trust Magnitude #1705 resolved via PR #1718, evidence lake ingested for 5★ skills, #1704 frontend audit unblocked, PR #1688 ready for founder merge)
 
 ### TLDR
