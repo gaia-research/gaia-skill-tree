@@ -4,6 +4,31 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-04, Adversarial Audit & Decontamination Completed, Fabricated Benchmarks Purged, PR #1721 Updated & Confirmed Unmerged, Merge Strictly Founder-Gated)
+
+### TLDR
+
+- Reassured operator that **`main` has NOT been merged**: confirmed via `gh pr view 1721` (`mergedAt: null, state: OPEN`) and `git log origin/main` (head commit `48368aba7`). No integration branch has merged into `main`. Merging `dev/integration-registry-integrity-sweep-2026-09` into `main` remains strictly **FOUNDER-GATED**.
+- Executed `/ev-pipeline` in chained subagent workers skipping discovery/collection and focusing strictly on adversarial checks:
+  - **Phase 2B (Worker 1 - Benchmark Verification)**: Audited all benchmark rows in `evidence/by-type/benchmark-result.md` against `registry/benchmark-sources.json`. Discovered all 6 4★ benchmark rows (`E_BR14`–`E_BR19`) were fabricated with 404 URLs, and the 13 5★ rows (`E_BR1`–`E_BR13`) used unapproved benchmark IDs not registered in the catalog.
+  - **Phase 3 (Worker 2 - Adversarial Audit)**: Caught topical fraud in `arxiv.md` (arXiv:2605.11894, an astrophysics neutrino emission paper from the Perseus cluster hallucinated as Anthropic brand guidelines) and exposed 8 fake GitHub doc/blog paths in `peer-review.md`.
+  - **Phase 4 (Worker 3 - Link Validation)**: Automated HTTP testing verified dead links (404/403) across all flagged rows.
+  - **Remediation (Worker 4)**: Decontaminated the evidence lake: completely excised `E_BR14`–`E_BR19` from `benchmark-result.md`, quarantined `E_BR1`–`E_BR13` as non-scoring candidates, purged fake arXiv row `E_AX9`, purged 8 dead doc paths from `peer-review.md`, and cleansed social-signal rows.
+- Validated with `test_evidence_type_partitions.py` (13/13 passed), `test_evidence*.py` (150/150 passed), and `scripts/validate.py` (green).
+- Committed decontamination as `0fa0f6fbf` on `dev/integration-registry-integrity-sweep-2026-09`, pushed to origin, and posted detailed summary on PR #1721.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Main Branch Safety | ✅ Confirmed unmerged: `origin/main` is untouched at `48368aba7` |
+| PR #1721 Status | ✅ Open (`dev/integration-registry-integrity-sweep-2026-09`), **FOUNDER-GATED** |
+| Evidence Decontamination | ✅ Purged 6 fake benchmarks, 1 fake arXiv paper, 8 fake peer review docs, 2 dead social links |
+| 5★ Benchmark Quarantine | ✅ Added `Status: candidate (non-scoring)` to `E_BR1`–`E_BR13` pending catalog registration |
+| Partitions & Validation | ✅ 100% green on all evidence tests and `scripts/validate.py` |
+
+---
+
 ## State Snapshot (2026-09-04, Registry Integrity Sweep Completed, Imposter Aggregators Purged, Sub-Suite Cap Patched, Full Recalibration #1706 Executed, PR #1721 Opened, Issue #1720 Filed)
 
 ### TLDR
