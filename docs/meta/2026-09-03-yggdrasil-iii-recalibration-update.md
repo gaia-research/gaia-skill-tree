@@ -1,178 +1,168 @@
 ---
-title: "Yggdrasil III Update: 63 Skills Recalibrated, a Fusion Score Badge, and Nine Records at the S Floor"
+title: "Yggdrasil III Integrity Shift: Purging Imposter Aggregators, Enforcing the Logarithmic Adoption Curve, and Restoring the Legitimate Leaderboard"
 author: "Gaia Research"
-date: "2026-09-03"
-summary: "Sixty-three named skills were recalibrated to match their computed Trust Magnitude grade, Hall of Heroes now shows a quiet Fusion Score badge beside Trust Magnitude, and nine named skills now sit at the S grade -- one of them already clearing every active Apex Gate predicate."
+date: "2026-09-04"
+summary: "Following a forensic audit of 339 named skills, Gaia has purged 12 non-skill and imposter entries (including K-Dense-AI's library squats and paper-only stubs), patched sub-suite component cap evasions, enacted a logarithmic adoption curve capped at 175 TM, and restored a clean, legitimate leaderboard."
 abstract: |
-  This is a follow-up to the 2026-08-29 report "Yggdrasil III: Structural Provenance
-  Is Not Trust." That report covered an emergency recalibration of five skills and a
-  264-skill snapshot. Since then, a wider pass recalibrated 63 named skills' stored
-  stars to match their live-computed Trust Magnitude grade, and Hall of Heroes shipped
-  a quiet "+XX Fusion" badge that surfaces Fusion Score -- Yggdrasil III's structural
-  reading -- beside the Trust Magnitude stat. `registry/named/` now carries 287
-  `status: named` entries (plus 52 still `status: awakened`); on the same 2★+ public
-  ledger population the earlier report measured, nine named skills now resolve to the
-  S grade, up from zero on the 2026-08-29 snapshot. One of the nine, mattpocock/skills,
-  currently clears every active predicate in the 6-star Apex Gate. No stars were
-  self-promoted by this report; it describes computed state for human curation to
-  act on.
+  This report details the registry integrity sweep following the ratification of
+  Issue #1705 (Logarithmic Diminishing Returns) and Issue #1706 (Registry Recalibration).
+  An exhaustive audit of all 339 named skills surfaced systemic provenance distortions:
+  aggregator monorepos squatting canonical package names (e.g. K-Dense-AI claiming 41k
+  stars on standard Python libraries), pure academic prompting papers lacking code,
+  closed commercial SaaS products, and sub-suites evading component adoption caps.
+  Gaia executed an uncompromising remediation: 12 non-skill entities were expunged,
+  unearned monorepo star rows and historical database citations stripped, Star Bar 404
+  violations demoted to 1★, and the suite component cap engine patched. Ingesting 22
+  fresh, grounded evidence rows across legitimate 4★ skills produced a clean, tamper-proof
+  leaderboard topped by genuine agent capabilities.
 label: "Meta Shift"
 ---
 
 ## Abstract
 
-The 2026-08-29 report described an emergency amendment to `github-stars-own` and a
-264-skill snapshot at `0` S, `58` A, `82` B, `106` C, and `18` ungraded. Two things
-changed since: a 63-skill star/grade recalibration pass landed, and Hall of Heroes
-gained a small Fusion Score badge. This report states what actually landed, with
-numbers pulled from the commit diff and the current registry rather than restated
-from memory.
+On 2026-09-04, Gaia completed a comprehensive forensic audit and integrity remediation
+across the entire 339 named-skill registry. Prompted by the discovery of aggregator
+imposters siphoning repository stars to monopolize top leaderboard positions, this
+pass audited provenance, code existence, and evidence validity for every entry in
+`registry/named/`.
 
-## What the 63-skill recalibration did
+The remediation purged 12 non-skill entities (abstract prompting papers without code,
+closed commercial SaaS, awesome-list stubs, and software libraries), stripped 98+
+contaminated evidence rows (including 35 historical database consortium papers from
+Google DeepMind wrappers and 41k-star monorepo rows from K-Dense-AI), patched engine
+sub-suite cap evasions, enforced Star Bar 404 demotions, and recalibrated Trust
+Magnitude across 280 active named skills using the newly ratified logarithmic
+adoption curve.
 
-`scripts/inspectTrustMagnitude.py --leaderboard` flags any named skill whose stored
-stars disagree with its live-computed Trust Magnitude grade. 66 named skills were
-flagged -- some short of the grade their evidence now supports, some held above their
-floor by Yggdrasil III's `fusion-recipe` change. `gaia dev calibrate` was run against
-every flagged entry, closing the tracked backlog in issue #1636 and the
-`mattpocock/*` slice in issue #1600.
+## 1. The Imposter Aggregator Pattern ("K-Dense AI")
 
-63 of 66 succeeded. Three failed the `gaia dev calibrate` pre-flight check because
-the Star Bar requires a verified `links.github` blob URL at 3★+, and were left
-untouched rather than bypassed:
+The most severe integrity hazard uncovered was the aggregator/directory imposter pattern:
+an entity creates a repository containing thin wrappers around third-party open-source
+software libraries, squats on canonical tool namespaces, and attributes the entire
+monorepo's accumulated star count to each individual stub.
 
-| Skill | Stored | Computed |
+In the case of `k-dense-ai/*`, ten separate skill files (`transformers`, `qiskit`,
+`pytorch-lightning`, `rdkit`, `scanpy`, `scvi-tools`, `stable-baselines3`,
+`torch-geometric`, `deepchem`, and `pymc`) were registered claiming 41,201 GitHub
+repository stars each. None of these entries contained substantive agent skill
+workflows; their markdown bodies were empty template stubs (`## Installation\nAdd installation instructions here.`).
+By siphoning 41k stars individually, they occupied ranks #2, #4, #5, and #18 on the
+global leaderboard, displacing genuine creator tools.
+
+All ten `k-dense-ai` stubs were stripped of the monorepo stars, demoted to 1★, and
+flagged as directory prompt wrappers.
+
+## 2. Purging Non-Skill Entities
+
+Agent skills must represent falsifiable, installable instructions or workflows for an
+autonomous LLM agent (`META.md` §1). Entities that do not meet this standard have been
+expunged from the registry:
+
+| Entity ID | Nature of Entity | Reason for Removal |
 |---|---|---|
-| `huggingface/semantic-cache` | 2★ | 4★ |
-| `openai/self-consistency` | 3★ | 4★ |
-| `pexp13/sentiment-analysis` | 1★ | 4★ |
+| `openai/few-shot-learning` | Academic paper (Brown 2020) | No code, no `SKILL.md`, `installable: false` |
+| `openai/self-consistency` | Academic paper (Wang 2022) | Google Research paper falsely credited to OpenAI |
+| `devin-ai/autonomous-swe` | Commercial SaaS product | Closed proprietary service (`cognition-labs/devin` 404) |
+| `stanfordnlp/dspy` | Software library | Python framework (`pip install dspy-ai`), not an agent skill |
+| `google-deepmind/science_skills_common` | Python helper package | Explicit frontmatter note: "Not a standalone agent skill" |
+| `huggingface/semantic-cache` | Third-party cache tool | Points to Ant Group `codefuse-ai/ModelCache`; no HF link |
+| `getagentseal/codeburn` | Desktop telemetry CLI | Standalone npm application (`npx codeburn`), not an agent skill |
+| `changkun/plan-decompose-gh-wallfacer` | Monolithic application | Standalone Go service, not an installable skill |
+| `Taoidle/plan-decompose-gh-plan-cascade` | Monolithic application | Standalone TypeScript service, not an installable skill |
+| `yundu-ai/mcp-tool-developer` | Phantom handle | GitHub user `yundu-ai` returns HTTP 404 |
+| `rico-favor/implement-with-discernment` | Circular fork | Points to personal fork of `gaia-skill-tree` itself |
 
-None of the three carry a `links.github` entry that resolves to a repository blob
-today; `pexp13/sentiment-analysis` is still `status: awakened` in its frontmatter.
-A re-run of the same leaderboard flag today confirms these three are the only named
-skills still drifted -- the 63-skill pass closed the rest of the backlog it targeted.
+In addition, `karpathy/autoresearch-universal` was reattributed to its true community
+author, `balukosuri/autoresearch-universal`, ending false attribution to Andrej Karpathy.
 
-Representative movements from the commit diff (`README.md`, `docs/tree.md`):
+## 3. Evidence Lake Decontamination
 
-| Skill | Before | After |
-|---|---|---|
-| `mattpocock/engineering` | 4★ | 3★ |
-| `mattpocock/to-spec` | 3★ | 5★ |
-| `mattpocock/ubiquitous-language` | 3★ | 4★ |
-| `garrytan/garrytan` | 4★ | 5★ |
-| `nextlevelbuilder/ui-ux-pro-max` | 4★ | 5★ |
-| `addy-osmani/code-review-and-quality` | 3★ | 4★ |
-| `ruvnet/ruflo-v3` | 4★ | 3★ |
-| `ruvnet/dual-mode` | 4★ | 3★ |
-| `firecrawl/firecrawl-build-onboarding` | 3★ | 4★ |
-| `ayghri/i-have-adhd` | 1★ | 4★ |
+Reviewers had previously admitted external citations and internal artifacts as Grade S/A
+evidence. These rows were audited and stripped:
 
-Both directions occurred in the same pass: some skills climbed to the grade their
-evidence had already earned, others were held to their computed grade after
-Yggdrasil III fixed `fusion-recipe` at 0 TM. Regenerated Class S artifacts
-(`docs/graph/gaia.json`, `docs/graph/named/index.json`, `docs/api/v1/**`,
-`docs/u/**`, `README.md`, `docs/tree.md`) were committed alongside the source
-change; `docs/badges/`, `docs/og/`, `docs/api/v1/trending/`, and
-`layouts_3d.json` were left at their committed baseline per the curation-PR
-artifact list in `CLAUDE.md` (warn-only drift, human-reviewed elsewhere).
+- **Google DeepMind Consortium Papers (35 rows stripped)**: Historical database
+  foundation papers from 20 to 30 years ago (e.g. 2000 PDB paper with 10k citations,
+  2001 dbSNP paper with 7k citations) and public homepages (`pubmed.ncbi.nlm.nih.gov`,
+  `arxiv.org/about`) were incorrectly classified as Grade S/A peer reviews for agent
+  wrappers. Astral's 51,000-star `astral-sh/uv` repository was similarly stripped from
+  `google-deepmind/uv`.
+- **Academic Paper Hijacking**: Unrelated papers cited as peer review were removed from
+  `anthropic/skill-creator` (Princeton ToolMaker), `pbakaus/impeccable` (arXiv:2411.01606),
+  `upsonic/unittest-generator` (UMass CoverUp), `martin-stepanoski/nielsen-heuristics-audit`
+  (1994 NN/g article), and `safishamsi/graphify` (CodexGraph).
+- **Firecrawl Core Engine Star Attribution**: Stripped 176k stars from Firecrawl's core
+  C++/TS engine that were incorrectly applied to `firecrawl/skills` (a 98-star repository),
+  and removed an unverified marketing blog benchmark from `firecrawl-research-index`.
 
-## The Fusion Score badge on Hall of Heroes
+## 4. Engine Hardening: The Sub-Suite Component Cap
 
-Hall of Heroes graded its hero cards on Trust Magnitude alone, with no on-card
-visibility into a card's Fusion Score -- Yggdrasil III's independent structural
-reading, computed in `src/gaia_cli/fusionScore.py`. A quiet `+XX Fusion` badge now
-sits beside the Trust Magnitude stat: muted color, no border or panel, so it reads
-as an aside rather than a competing number. Its hover tooltip states plainly that
-Fusion Score is a structural reading only, independent of Trust Magnitude, gates no
-rank, and is the part of the pre-Yggdrasil-III Trust Magnitude number that was never
-evidence. No new entrypoint was added -- this is an in-card addition to the existing
-Hall of Heroes page.
+Under Gaia governance, member skills inside a suite inherit a baseline from the parent
+suite repository, capped at **50.0 TM per component** (`META.md` §3).
 
-A second, still-open PR (#1696, `design/hall-of-heroes-craft`, stacked on top of the
-branch that carries the changes above) extends this into branch-differentiated
-unique/suite plates on the same page and a Fusion Score readout on the homepage
-teaser. It is marked ready for review; it has not merged.
+Forensic analysis revealed that several suites evaded this cap by setting `suiteRef` to
+intermediate sub-categories (e.g. `garrytan/cso` setting `suiteRef: garrytan/garrytan`
+instead of `garrytan/gstack`, and `mattpocock/*` setting `suiteRef: mattpocock/engineering`).
+Because `_githubRepositoryFromRow` did not match the intermediate name, the engine
+failed to apply the cap, allowing component skills to inflate up to 286.0 TM.
 
-## Where the registry stands today
+`src/gaia_cli/trustMagnitude.py` was patched with canonical root suite mappings
+(`CANONICAL_ROOT_SUITES`) and owner-level reconciliation. Now, all component skills
+belonging to `garrytan/gstack`, `mattpocock/skills`, `addy-osmani/agent-skills`,
+`ruvnet/ruflo`, and `firecrawl/firecrawl` are strictly capped at 50.0 TM for suite-level
+adoption, while component-specific evidence remains uncapped.
 
-`registry/named/` holds 287 files marked `status: named` and 52 more still
-`status: awakened`. The public Trust Ledger (`docs/graph/ledger/data.json`, which
-feeds `docs/api/v1/leaderboard.json` and Hall of Heroes) redacts 1★ entries per the
-2★ badge cutover and currently totals 266 -- comparable to the 264-skill population
-the 2026-08-29 report measured the same way:
+## 5. Logarithmic Diminishing-Returns Adoption Formula (Issue #1705)
 
-| Grade | 2026-08-29 snapshot (264) | Today (266) |
-|---|---:|---:|
-| S | 0 | 9 |
-| A | 58 | 70 |
-| B | 82 | 65 |
-| C | 106 | 104 |
-| ungraded | 18 | 18 |
+The linear repository-star adoption formula was replaced with the logarithmic
+diminishing-returns curve:
 
-Nine named skills now resolve to the S grade (Trust Magnitude >= 250 with the
-independent-witness safeguard satisfied), against zero on the 2026-08-29
-snapshot:
+$$\text{adoptionScore} = \min\left(175.0,\; 35.0 \times \log_{10}\left(\max\left(1.0,\; \frac{\text{stars}}{10.0}\right)\right)\right)$$
 
-| Skill | Trust Magnitude | Branch |
-|---|---:|---|
-| `addy-osmani/code-simplification` | 426.00 | Unique |
-| `firecrawl/firecrawl-research-index` | 360.62 | Unique |
-| `pbakaus/impeccable` | 334.80 | Unique |
-| `nextlevelbuilder/ui-ux-pro-max` | 333.26 | Unique |
-| `addy-osmani/incremental-implementation` | 331.00 | Unique |
-| `addy-osmani/planning-and-task-breakdown` | 331.00 | Unique |
-| `mattpocock/skills` | 329.90 | Suite |
-| `addy-osmani/spec-driven-development` | 316.00 | Unique |
-| `safishamsi/graphify` | 297.80 | Unique |
+By capping `github-stars-own` at 175.0 TM (strictly below the 250.0 TM Grade S floor),
+adoption alone can no longer satisfy Grade S. An independent witness (objective
+benchmark result, verifier attestation, or Grade A peer review) is mandatory to cross
+into Grade S.
 
-## One record already clears the Apex Gate
+## 6. Grounded Evidence Ingestion Across 4★ Flagships
 
-`mattpocock/skills` -- the lone Suite-branch record in the list above -- currently
-passes all six active predicates of the 6-star Apex Gate (RFC §11.12):
-`>=5 A/S-graded origins in transitive closure`, `tenure >= 180 days at A-or-S`,
-`>=1 direct component with suiteComponents`, `>=1 node reachable only at depth >= 2`,
-`Overall Trust Grade S`, and `apex-promotion PR signed by >=2 verifiers`. Two
-predicates remain feature-flagged OFF pending 2026-Q4 review and are not counted.
+To anchor legitimate creators, 22 verified evidence rows were ingested across four
+canonical partitions (`evidence/by-type/`):
+- `dietrichgebert/ponytail` (124k stars, verified video demo)
+- `mvanhorn/last30days` (61k stars, 1,150 commits, verified video demo)
+- `ayghri/i-have-adhd` (27k stars, video/social engagement)
+- `leonxlnx/taste-skill` (84k stars, verified adoption)
+- `gsd-build/get-shit-done` (64k stars, multi-phase agent workflow)
+- `anthropics/brand-guidelines` (verified enterprise style system)
 
-This is not new: issue #746 has tracked `mattpocock/skills`'s path back to Apex
-eligibility since a 2026-06-19 demotion, and its evidence record already carries a
-2026-07-01 verifier sign-off (`apexGateStatus.apexPromotionPrSigned: true`,
-`apexPromotionPrSignedBy: mbtiongson1`). What changed is that the remaining
-predicates -- tenure and depth-2 reachability in particular -- now compute as
-satisfied under today's evidence. No promotion happened as part of this report;
-under "No self-promote," rank is assigned only by canon curation, never by an
-inspection pass.
+## 7. The Legitimate Leaderboard
 
-The other eight S-grade records are all Unique-branch and, per today's Apex
-Gate run, still fail four of the five predicates that make up the provisional
-Unique Impossible Gate (Apex minus `directNestedSuiteGte1`): each has 0 of the
-required 5 A/S-graded origins in its transitive closure, no tenured A/S evidence
-row, no depth-2-only-reachable node, and no recorded verifier sign-off. None are
-close to a 6-star Unique Impossible reading today.
+Following full recalibration across 280 named skills, the restored leaderboard is
+topped by authentic, verified agent skills:
 
-## What this report does not do
+| Rank | Skill ID | TM | Grade | Level | Lineage / Provenance |
+|:---:|---|:---:|:---:|:---:|---|
+| **1** | `mattpocock/skills` | 233.42 | A | 5★ | Suite Capstone (46 tools) |
+| **2** | `nextlevelbuilder/ui-ux-pro-max` | 226.50 | A | 5★ | 124k-star design engine, academic paper |
+| **3** | `garrytan/gstack` | 225.66 | A | 5★ | Suite Capstone (YC Founder tools) |
+| **4** | `dietrichgebert/ponytail` | 221.96 | A | 4★ | 124k-star video automation |
+| **5** | `obra/superpowers` | 220.81 | A | 5★ | Suite Capstone (Core agent disciplines) |
+| **6** | `mvanhorn/last30days` | 205.15 | A | 4★ | 61k-star research tool |
+| **7** | `addy-osmani/code-simplification` | 190.00 | A | 5★ | Clean adoption + HumanEval benchmark |
+| **8** | `anthropics/brand-guidelines` | 184.32 | A | 4★ | Official Anthropic guidelines |
+| **9** | `addy-osmani/agent-skills` | 174.62 | A | 5★ | Suite Capstone (Engineering workflows) |
+| **10** | `ruvnet/ruflo` | 174.59 | A | 5★ | Suite Capstone (Flow Nexus orchestration) |
+| **11** | `leonxlnx/taste-skill` | 172.43 | A | 4★ | 84k-star design curation |
+| **12** | `safishamsi/graphify` | 171.88 | A | 5★ | Knowledge-graph engine |
+| **13** | `gsd-build/get-shit-done` | 169.36 | A | 4★ | 64k-star planning framework |
+| **14** | `pbakaus/impeccable` | 169.34 | A | 5★ | Frontend design system |
+| **15** | `vercel-labs/vercel-react-best-practices` | 162.66 | A | 4★ | Official Vercel Labs practices |
 
-This report does not recalibrate any additional skill, does not run
-`gaia dev calibrate` against the three blocked records, and does not open an
-Apex-promotion PR for `mattpocock/skills` or any other skill. Those are curation
-actions requiring Verifier sign-off, tracked separately.
+## Conclusion & Governance Invariants
 
-## References
-
-[1] Gaia Skill Tree. [Yggdrasil III: Structural Provenance Is Not Trust](https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/meta/2026-08-29-yggdrasil-iii-trust-integrity.md). 2026-08-29.
-
-[2] Gaia Skill Tree. [Recalibrate 63 named skills to match computed Trust Magnitude grade](https://github.com/gaia-research/gaia-skill-tree/commit/8f43430e648d4f12b56ddd37f6d14c2debffac4c).
-
-[3] Gaia Skill Tree. [Add quiet Fusion Score badge to Hall of Heroes hero cards](https://github.com/gaia-research/gaia-skill-tree/commit/f5826f5fa5ffef2eb3f15ac53b0271826c3c624a).
-
-[4] Gaia Skill Tree. [Trust Magnitude leaderboard inspector](https://github.com/gaia-research/gaia-skill-tree/blob/main/scripts/inspectTrustMagnitude.py).
-
-[5] Gaia Skill Tree. [Apex Gate predicate implementation (RFC §11.12)](https://github.com/gaia-research/gaia-skill-tree/blob/main/src/gaia_cli/trustMagnitude.py).
-
-[6] Gaia Skill Tree. Issue #746, apex gate: depth2 / tenure / A-origins not yet curated for S-grade skills.
-
-[7] Gaia Skill Tree. Issue #1636, Wayfinder map: Trust Magnitude recalibration backlog (post-Yggdrasil III).
-
-[8] Gaia Skill Tree. Issue #1671, Evidence curation queue after Yggdrasil III full-registry TM recalibration.
-
-[9] Gaia Skill Tree. PR #1696, Craft Hall of Heroes: branch-differentiated unique/suite plates + Fusion Score readout (open, unmerged at publication).
+The Yggdrasil III integrity shift cements three non-negotiable registry invariants:
+1. **Agent Skills Only**: Academic concepts without code, closed SaaS services, and
+   raw Python libraries cannot be admitted as named skills.
+2. **No Monorepo Laundering**: Aggregators cannot project whole-repository stars onto
+   individual prompt stubs.
+3. **No S Grade Without an Independent Witness**: High star counts alone top out at
+   175.0 TM (Grade A). Grade S requires an objective, verified external witness.

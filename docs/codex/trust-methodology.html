@@ -756,14 +756,21 @@
       </p>
 
       <div class="tm-callout" style="margin-bottom: 1.5rem;">
-        <div class="tm-callout-label"><code>suiteRef</code> component baseline</div>
+        <div class="tm-callout-label"><code>suiteRef</code> component baseline &amp; Provenance Invariants</div>
         <p>
           A suite member identified by <code>suiteRef</code> may receive a limited inherited
           repository-wide baseline from <code>github-stars-own</code> and <code>repo-own</code> evidence
           at the suite capstone. The combined baseline is capped at <strong>50 TM per component</strong>:
           it cannot alone make the component Overall Trust Grade A or S. Component-specific
           <code>benchmark-result</code>, <code>peer-review</code>, and <code>verifier-attestation</code>
-          rows remain fully eligible and are not reduced by this baseline cap.
+          rows remain fully eligible and are not reduced by this baseline cap. All intermediate sub-suites
+          and categories map to their canonical root suite to ensure this ceiling is strictly enforced.
+        </p>
+        <p style="margin-top: 0.75rem;">
+          <strong>Provenance &amp; Attribution Integrity:</strong> Skills must represent genuine, executable agent skills
+          authored and maintained by the contributor. Aggregators and monorepos may not project whole-repository stars
+          onto individual wrapper stubs (no monorepo star laundering). Standard software libraries, closed commercial
+          SaaS products, and academic prompting papers without code cannot be admitted as named skills.
         </p>
       </div>
 
