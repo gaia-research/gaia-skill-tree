@@ -171,7 +171,7 @@ def mostEfficientNextType(skill: dict, mergedMap: dict) -> str:
     if "verifier-attestation" not in existingTypes:
         suggestions.append("verifier-attestation (30 TM per verifier, weight 1.5 = 45 raw)")
     if "github-stars-own" not in existingTypes:
-        suggestions.append("github-stars-own (1000 stars = 1.0 magnitude, weight 1.0)")
+        suggestions.append("github-stars-own (logarithmic adoption: min(175, 35*log10(stars/10)), weight 1.0, cap 175)")
     if "benchmark-result" not in existingTypes:
         suggestions.append("benchmark-result (percentile-based, weight 1.4, cap 100)")
     if "proxy-containment" not in existingTypes:

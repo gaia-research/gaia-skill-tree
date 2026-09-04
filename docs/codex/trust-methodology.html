@@ -548,12 +548,12 @@
           <tbody>
             <tr>
               <td><code>github-stars-own</code></td>
-              <td>min(250, stars / 250)</td>
+              <td>min(175.0, 35.0 × log₁₀(max(1.0, stars / 10.0)))</td>
               <td>1.0</td>
-              <td>250</td>
+              <td>175.0</td>
               <td>—  (1 row max)</td>
               <td>Refresh quarterly</td>
-              <td>Public adoption of the contributor's own repo implementing the skill.</td>
+              <td>Public adoption of the contributor's own repo implementing the skill under logarithmic diminishing returns (#1705).</td>
             </tr>
             <tr>
               <td><code>proxy-containment</code></td>

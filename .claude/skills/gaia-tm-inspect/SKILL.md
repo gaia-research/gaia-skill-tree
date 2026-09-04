@@ -94,7 +94,7 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 | Type | Magnitude Formula | Weight | Cap |
 |---|---|---|---|
 | fusion-recipe | — (never scores) | 0 | 0 |
-| github-stars-own | stars / 1000 | 1.0 | 200 |
+| github-stars-own | min(175.0, 35.0 × log10(stars/10)) (stars > 10) | 1.0 | 175 |
 | proxy-containment | (externalStars/1000)×0.8 (min 10k stars) | 1.0 | 160 |
 | verifier-attestation | 30 × verifiers | 1.5 | — |
 | benchmark-result | percentile (field required — omitting it scores 0) | 1.4 | 100 |
@@ -116,7 +116,7 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 
 | Grade | TM Floor | Additional Gates |
 |---|---|---|
-| S | 250 | distinctTypes >= 3 AND has non-self-producible evidence |
+| S | 250 | distinctTypes >= 3 AND independent witness (`benchmark-result`, `verifier-attestation`, or Grade A `peer-review`) |
 | A | 100 | — |
 | B | 50 | — |
 | C | 20 | — |
@@ -125,6 +125,7 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 ### Common dead-row causes to watch for
 
 - `social-signal` with views < 1000 → scores 0 regardless of type weight
+- Suite component shared repository evidence is capped at 50.0 TM per component across `github-stars-own` and `repo-own` (#1705).
 - `github-stars-own` and `repo-own` pointing to the same URL → deduped; only the higher score counts
 - `benchmark-result` missing `percentile` field → magnitude = 0
 - Large suite with `github-stars-own` at the repo root → per-skill contribution tiny due to `/ skill_count_in_repo` divisor; use `social-signal` or `peer-review` instead

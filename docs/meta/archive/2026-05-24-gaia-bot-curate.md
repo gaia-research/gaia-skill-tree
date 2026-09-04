@@ -1,5 +1,7 @@
 # gaia-bot-curate run (2026-05-24)
 
+> **Historical Archive Notice (Pre-Yggdrasil-III Baseline)**: This report is retained solely for historical audit record and reflects the registry state prior to the Yggdrasil III recalibration (#1705). Star ratings, trust scores, and formulas herein are superseded by current registry readings under the logarithmic adoption curve and integrity invariants.
+
 - Branch used for this follow-up: `work` (repo has no local `origin` remote configured).
 - Remotes discovered: none (`git remote -v` returned empty).
 - `bot/*` refs discovered: 0 across both local and remote namespaces.
