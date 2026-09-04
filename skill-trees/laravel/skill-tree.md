@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ laravel/upgrade-laravel-v13 | Basic | 2★ | Named | laravel/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ laravel/upgrade-laravel-v13 | Basic | 1★ | Awakened | laravel/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 

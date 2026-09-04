@@ -18,7 +18,7 @@
 | ○ garrytan/codex | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/context-restore | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/context-save | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/cso | Basic | 4★ | Extra | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/cso | Basic | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
 | ○ garrytan/design-consultation | Basic | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/design-html | Basic | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/design-review | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
@@ -27,7 +27,7 @@
 | ○ garrytan/document-generate | Basic | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/document-release | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/freeze | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/garrytan | Basic | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/garrytan | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
 | ○ garrytan/gstack-upgrade | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/gstack | Basic | 5★ | Ultimate | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/guard | Basic | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |

@@ -17,7 +17,7 @@
 | ○ obra/receiving-code-review | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/requesting-code-review | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/subagent-driven-development | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/superpowers | Basic | 5★ | Ultimate | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/superpowers | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/systematic-debugging | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/using-git-worktrees | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/verification-before-completion | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |

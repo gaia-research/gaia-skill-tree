@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ martin-stepanoski/nielsen-heuristics-audit | Basic | 3★ | Evolved | martin-stepanoski/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ martin-stepanoski/nielsen-heuristics-audit | Basic | 1★ | Awakened | martin-stepanoski/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 

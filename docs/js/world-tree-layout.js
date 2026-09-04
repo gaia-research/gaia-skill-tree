@@ -940,10 +940,10 @@
       var localHeight = treeHeight * (componentIndex === 0 ? 1 : scale * 0.86);
       var sideIndex = Math.floor((componentIndex - 1) / 2);
       var side = componentIndex === 0 ? 0 : (componentIndex % 2 ? -1 : 1);
-      var offsetX = componentIndex === 0 ? 0 : side * (width * 0.68 + sideIndex * width * 0.23);
+      var offsetX = componentIndex === 0 ? 0 : side * (width * 0.38 + sideIndex * width * 0.14);
       var offsetY = componentIndex === 0 ? 0 : treeHeight * 0.22;
       var local = layoutComponent(ids, byId, indexes, depth, closures.descendants, localWidth, localHeight);
-      var fieldOffsetRadius = componentIndex === 0 ? 0 : width * (0.56 + sideIndex * 0.18);
+      var fieldOffsetRadius = componentIndex === 0 ? 0 : width * (0.32 + sideIndex * 0.12);
       var fieldOffsetAngle = componentIndex * 2.399963229728653;
       ids.forEach(function (id) {
         var heroPoint = local.hero[id];

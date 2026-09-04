@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ pbakaus/impeccable | Basic | 5★ | Ultimate | pbakaus/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ pbakaus/impeccable | Basic | 4★ | Extra | pbakaus/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 

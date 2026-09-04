@@ -11,14 +11,14 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ addy-osmani/test-driven-development | Basic | 2★ | Named | addy-osmani/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ addy-osmani/agent-skills | Basic | 5★ | Ultimate | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/code-review-and-quality | Basic | 4★ | Extra | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/code-simplification | Basic | 5★ | Ultimate | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/incremental-implementation | Basic | 5★ | Ultimate | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/performance-optimization | Basic | 4★ | Extra | addy-osmani/gaia-skill-tree | 2026-05-31T00:00:00Z |
-| ○ addy-osmani/planning-and-task-breakdown | Basic | 5★ | Ultimate | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/shipping-and-launch | Basic | 4★ | Extra | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ addy-osmani/spec-driven-development | Basic | 5★ | Ultimate | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/agent-skills | Basic | 4★ | Extra | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-review-and-quality | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-simplification | Basic | 4★ | Extra | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/incremental-implementation | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/performance-optimization | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-05-31T00:00:00Z |
+| ○ addy-osmani/planning-and-task-breakdown | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/shipping-and-launch | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/spec-driven-development | Basic | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
 
 ---
 
