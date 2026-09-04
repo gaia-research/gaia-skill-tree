@@ -4,12 +4,12 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
-## State Snapshot (2026-09-04, PR #1723 Merged to Restore Main, Full 12-Dimension Meta Sweep Executed, 4 Issues Filed, Safe Remediations Committed)
+## State Snapshot (2026-09-04, Pre-Yggdrasil-III Main Rollback & Whole-Registry Meta Sweep — PR #1723 Merged, 4 Issues Filed, 10 Atomic Remediations Landed, Localhost Live)
 
 ### TLDR
 
 - **Main Restored:** Successfully executed founder instruction to merge **[PR #1723](https://github.com/gaia-research/gaia-skill-tree/pull/1723)**. `origin/main` is now 100% byte-for-byte identical to the pre-Yggdrasil-III baseline (`29463f9f0`). All Yggdrasil III history is strictly isolated on the dev integration branch (`dev/integration-registry-integrity-sweep-2026-09`, PR #1721).
-- **Meta Sweep Audit Executed:** Audited `gaia-meta-sweep` against canonical `META.md`, uncovered out-of-date instructions and scripts, and authored `scripts/run_meta_sweep.py` to run all 12 dimensions across 284 generics and 328 named skills.
+- **Meta Sweep Review & Modernization:** Audited `gaia-meta-sweep` against canonical `META.md`, uncovered out-of-date instructions (the obsolete pre-June-2026 "earliest" origin rule) and un-modernized scripts (`scripts/verify_evidence.py` lacking named skills concurrency and using deprecated `--class`), and authored `scripts/run_meta_sweep.py` to run all 12 dimensions concurrently across 284 generics and 328 named skills.
 - **Issues Filed (Per Founder Instruction):**
   1. **[Issue #1724](https://github.com/gaia-research/gaia-skill-tree/issues/1724):** `fix(scripts): modernize verify_evidence.py for type-first evidence lake and named skills concurrency`
   2. **[Issue #1725](https://github.com/gaia-research/gaia-skill-tree/issues/1725):** `fix(skills): update gaia-meta-sweep origin-attribution rule from earliest to META §4.1 most-renowned`
@@ -17,25 +17,67 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
   4. **[Issue #1727](https://github.com/gaia-research/gaia-skill-tree/issues/1727):** `fix(registry): purge testuser mock author/evaluator artifact from mattpocock skills`
 - **Frequent Commits Landed (Apply-Safe Remediations):**
   - `9ea03c19a`: Updated `gaia-meta-sweep` Dimension 3 to evaluate Origin per META §4.1 renowned rule.
-  - `f19a73185`: Repaired upstream SKILL.md paths for 5 Firecrawl skills (`build/` and `core/` subdirectories).
-  - `314317754`: Repaired upstream prompt paths for 4 Disler skills (`prompts/` directory).
+  - `f19a73185`: Repaired upstream SKILL.md paths for 5 Firecrawl skills (`skills/build/` and `skills/core/`).
+  - `314317754`: Repaired upstream prompt paths for 4 Disler skills (`extensions/fusion-harness/prompts/`).
   - `488677450`: Repaired upstream path for `langgenius/component-refactoring` -> `how-to-write-component`.
-  - `7b953aef2`: Demoted `panniantong/agent-reach` to 1★ for Star Bar violation.
+  - `7b953aef2`: Demoted `panniantong/agent-reach` to 1★ for Star Bar violation (upstream repo lacks `SKILL.md`).
   - `8c1a12162`: Stripped Origin standing from 9 demoted 1★ skills per META §4.1.
   - `a67f9692a`: Purged `testuser` mock author/evaluator fixtures from 14 Matt Pocock skills.
   - `72fcb4595`: Realigned Origin standing to highest-ranking implementations across 4 generic buckets.
   - `9a7d7dc93`: Added `scripts/run_meta_sweep.py` and published formal HTML report and findings JSON.
-- **Verification:** All 144 unit tests passed, `validate.py` 10/10 green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` green.
+- **Verification & Observability:** All 144 unit tests passed, `validate.py` 10/10 green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` green. Background HTTP daemon active on `localhost:8000`.
 
 ### What changed this session
 
 | Layer | State |
 |---|---|
 | `origin/main` | ✅ Cleanly restored to `29463f9f0` (pre-Yggdrasil-III) via PR #1723 merge |
-| Issues Logged | ✅ #1724, #1725, #1726, #1727 filed |
+| Issues Logged | ✅ #1724, #1725, #1726, #1727 filed on tracker |
 | Registry Integrity | ✅ 10 dead links fixed, 9 invalid origins stripped, 4 outclassed origins realigned, 14 testuser stubs purged, 1 Star Bar demotion applied |
 | Reports Published | ✅ `docs/meta/reports/2026-09-04-registry-integrity-sweep.html` & `.findings.json` |
+| Tooling Modernized | ✅ `scripts/run_meta_sweep.py` authored for 12-dimension concurrent registry sweeps |
 | Tests & Gates | ✅ 10/10 validation checks green, zero DAG cycles, timeline transparency intact |
+| Localhost UI | ✅ Live on `http://localhost:8000` (docs and audit reports mounted) |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `967ac17d4` | Merged (PR #1723) | Pre-Yggdrasil-III baseline (`29463f9f0` byte-for-byte) |
+| `dev/integration-registry-integrity-sweep-2026-09` | `913fe737a` | Open (PR #1721) | Holds ALL Yggdrasil III history + full integrity remediation |
+
+### Issues + PRs touched
+
+| ID | Type | Title | Status |
+|---|---|---|---|
+| PR #1723 | PR | `revert: restore main to pre-Yggdrasil-III baseline (29463f9f0)` | **MERGED** |
+| PR #1721 | PR | `feat(yggdrasil-iii): registry integrity sweep, imposter purge, and trust recalibration` | Open (Founder-gated) |
+| Issue #1724 | Issue | `fix(scripts): modernize verify_evidence.py for type-first evidence lake and named skills concurrency` | Open (Filed) |
+| Issue #1725 | Issue | `fix(skills): update gaia-meta-sweep origin-attribution rule from earliest to META §4.1 most-renowned` | Open (Filed & fixed in sweep) |
+| Issue #1726 | Issue | `fix(registry): repair URL drift for Firecrawl, Disler, and LangGenius skills and enforce Star Bar on Panniantong` | Open (Filed & remediated) |
+| Issue #1727 | Issue | `fix(registry): purge testuser mock author/evaluator artifact from mattpocock skills` | Open (Filed & remediated) |
+
+### Routing — where things live now
+
+- **Local Preview Server:** `http://localhost:8000` (serving `docs/` directly).
+- **Sweep Report:** `http://localhost:8000/meta/reports/2026-09-04-registry-integrity-sweep.html`
+- **Machine-Readable Findings:** `docs/meta/reports/2026-09-04-registry-integrity-sweep.findings.json`
+- **Sweep Automation Script:** `scripts/run_meta_sweep.py` (concurrent 12-dimension scanner)
+
+### Lessons / hazards preserved
+
+1. **Origin Rule Authority Invariant:** Always check `META.md` §4.1 rather than skill files when auditing Origin standing. Pre-June-2026 rules used "earliest createdAt", but the current canon is merit-based (most renowned / highest-rated).
+2. **Path Shifts in Upstream Monorepos:** When upstream repos restructure (e.g. Firecrawl moving skills into `skills/build/` and `skills/core/`), skills can silently 404 without breaking local schema validation unless concurrent liveness is actively polled.
+3. **Mock Identity Leakage:** Test fixtures like `testuser` must be caught at intake time before landing in production skill timelines or evaluator fields.
+
+### Open questions for next orchestrator
+
+1. When founder is ready to land Yggdrasil III on `main`, review and merge **PR #1721**.
+2. Work off the filed backlog issues (#1724, #1725, #1726, #1727) to close them out alongside PR #1721.
+
+### Token cost (this session)
+
+- Multi-turn forensic session: ~68 turns, ~1.2M context tokens processed across 4 subagent chains and inline tooling. Estimate: ~$6.40.
 
 ---
 
