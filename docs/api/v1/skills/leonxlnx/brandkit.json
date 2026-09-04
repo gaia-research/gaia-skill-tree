@@ -25,7 +25,7 @@
   },
   "title": "Brandkit",
   "genericSkillRef": "brand-guideline-application",
-  "origin": true,
+  "origin": false,
   "description": "Visual identity director generating comprehensive brand guidelines, color palettes, typography moodboards, and logo systems from briefs.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

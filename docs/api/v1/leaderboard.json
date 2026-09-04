@@ -1,9 +1,9 @@
 {
   "distribution": {
-    "total": 209,
-    "S": 0,
-    "A": 22,
-    "B": 66,
+    "total": 208,
+    "S": 3,
+    "A": 19,
+    "B": 65,
     "C": 101,
     "ungraded": 20,
     "floor": 0,
@@ -12,17 +12,45 @@
   "rows": [
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 233.42,
-      "grade": "A",
+      "trustMagnitude": 373.22,
+      "grade": "S",
       "level": "5★",
       "typeBreakdown": {
+        "arxiv": 105.2,
+        "peer-review": 75.0,
         "github-stars-own": 153.52,
-        "arxiv": 10.4,
-        "social-signal": 39.5,
-        "peer-review": 30.0
+        "social-signal": 39.5
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "garrytan/gstack",
+      "trustMagnitude": 355.66,
+      "grade": "S",
+      "level": "5★",
+      "typeBreakdown": {
+        "arxiv": 70.0,
+        "peer-review": 60.0,
+        "repo-own": 36.0,
+        "github-stars-own": 144.07,
+        "social-signal": 45.59
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "id": "safishamsi/graphify",
+      "trustMagnitude": 316.88,
+      "grade": "S",
+      "level": "5★",
+      "typeBreakdown": {
+        "arxiv": 100.0,
+        "peer-review": 75.0,
+        "github-stars-own": 141.88
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -36,19 +64,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "id": "garrytan/gstack",
-      "trustMagnitude": 225.66,
-      "grade": "A",
-      "level": "5★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 144.07,
-        "social-signal": 45.59
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "id": "dietrichgebert/ponytail",
@@ -112,7 +127,7 @@
         "repo-own": 36.0,
         "github-stars-own": 148.32
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -151,18 +166,6 @@
       },
       "origin": false,
       "branch": "suite"
-    },
-    {
-      "id": "safishamsi/graphify",
-      "trustMagnitude": 171.88,
-      "grade": "A",
-      "level": "5★",
-      "typeBreakdown": {
-        "github-stars-own": 141.88,
-        "peer-review": 30.0
-      },
-      "origin": true,
-      "branch": "unique"
     },
     {
       "id": "gsd-build/get-shit-done",
@@ -378,7 +381,7 @@
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -611,18 +614,6 @@
       "branch": "standard"
     },
     {
-      "id": "panniantong/agent-reach",
-      "trustMagnitude": 53.86,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "social-signal": 48.86,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "addy-osmani/code-review-and-quality",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -655,7 +646,7 @@
         "github-stars-own": 39.69,
         "repo-own": 10.31
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -859,7 +850,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -943,7 +934,7 @@
         "github-stars-own": 39.56,
         "repo-own": 10.44
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1076,7 +1067,7 @@
         "repo-own": 36.0,
         "peer-review": 9.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1100,7 +1091,7 @@
         "repo-own": 36.0,
         "peer-review": 9.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1526,7 +1517,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {

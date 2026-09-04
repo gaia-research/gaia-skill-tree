@@ -1,34 +1,17 @@
 {
   "skills": [
     {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "4★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
       },
@@ -37,15 +20,15 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "firecrawl",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
@@ -88,15 +71,15 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       },
@@ -849,11 +832,28 @@
         "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
       },
       "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "mattpocock/grilling",
+      "name": "Grilling",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grilling.json"
+      },
+      "genericSkillRef": "design-review"
     }
   ],
   "page": 2,
-  "totalPages": 5,
-  "totalSkills": 206,
+  "totalPages": 4,
+  "totalSkills": 185,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

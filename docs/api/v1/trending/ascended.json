@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T11:27:33Z",
+  "generatedAt": "2026-09-04T18:31:25Z",
   "skills": [
     {
       "id": "vercel-labs/vercel-react-best-practices",
@@ -19,8 +19,8 @@
       "name": "Graphify",
       "level": "5★",
       "contributor": "safishamsi",
-      "trustMagnitude": 171.88,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 316.88,
+      "overallTrustGrade": "S",
       "ascendedAt": "2026-09-02T15:11:45Z",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
@@ -30,7 +30,7 @@
     {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
-      "level": "5★",
+      "level": "4★",
       "contributor": "pbakaus",
       "trustMagnitude": 169.34,
       "overallTrustGrade": "A",
@@ -56,7 +56,7 @@
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
-      "level": "5★",
+      "level": "4★",
       "contributor": "nextlevelbuilder",
       "trustMagnitude": 226.5,
       "overallTrustGrade": "A",
@@ -69,7 +69,7 @@
     {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
-      "level": "4★",
+      "level": "3★",
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
@@ -82,7 +82,7 @@
     {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
-      "level": "4★",
+      "level": "3★",
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
@@ -238,7 +238,7 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "4★",
+      "level": "3★",
       "contributor": "garrytan",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -251,7 +251,7 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -264,7 +264,7 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -316,7 +316,7 @@
     {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 80.0,
       "overallTrustGrade": "B",
@@ -329,7 +329,7 @@
     {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
-      "level": "4★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -342,7 +342,7 @@
     {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 95.0,
       "overallTrustGrade": "B",
@@ -355,7 +355,7 @@
     {
       "id": "addy-osmani/planning-and-task-breakdown",
       "name": "Planning and Task Breakdown",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 95.0,
       "overallTrustGrade": "B",
@@ -368,7 +368,7 @@
     {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
-      "level": "5★",
+      "level": "4★",
       "contributor": "addy-osmani",
       "trustMagnitude": 190.0,
       "overallTrustGrade": "A",
@@ -381,7 +381,7 @@
     {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
-      "level": "4★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",

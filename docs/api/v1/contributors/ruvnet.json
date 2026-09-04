@@ -4,14 +4,14 @@
     {
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
-      "level": "5★",
+      "level": "4★",
       "trustMagnitude": 174.59,
       "overallTrustGrade": "A",
       "fusionScore": 389.74,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Ultimate",
+      "rankWord": "Extra",
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
@@ -87,15 +87,15 @@
     {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 88.5,
       "overallTrustGrade": "B",
       "fusionScore": 140.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       },
@@ -108,15 +108,15 @@
     {
       "id": "ruvnet/agentdb",
       "name": "AgentDB",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 81.0,
       "overallTrustGrade": "B",
       "fusionScore": 240.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       },
@@ -251,14 +251,14 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 120.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
@@ -290,14 +290,14 @@
     {
       "id": "ruvnet/flow-nexus",
       "name": "Flow Nexus",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 240.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
@@ -363,14 +363,14 @@
     {
       "id": "ruvnet/github-suite",
       "name": "GitHub Suite",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 240.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
@@ -421,14 +421,14 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 274.83,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
@@ -605,7 +605,7 @@
   "namedSkillsCount": 30,
   "topSkill": {
     "id": "ruvnet/ruflo",
-    "level": "5★",
+    "level": "4★",
     "trustMagnitude": 174.59
   },
   "prestigeScore": 1375.11,

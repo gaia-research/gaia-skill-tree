@@ -590,6 +590,20 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
             entry["apexGateStatus"] = apex_status
 
+            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)
+            GRADE_MAX_STARS = {
+                "S": 6,
+                "A": 4,
+                "B": 3,
+                "C": 2,
+                "ungraded": 1,
+            }
+            current_grade = entry.get("overallTrustGrade", "ungraded")
+            max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
+            raw_stars = level_num(entry.get("level", ""))
+            if raw_stars > max_allowed_stars:
+                entry["level"] = f"{max_allowed_stars}★"
+
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");
             # TM is copy-through (already injected above) — no recompute here.

@@ -27,7 +27,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ laravel/upgrade-laravel-v13  [2★]
+  ✓ ○ ████████/upgrade-laravel-v13
 ```
 
 ## Pending Combinations

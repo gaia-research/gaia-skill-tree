@@ -25,7 +25,7 @@
   },
   "title": "Brand Guidelines",
   "genericSkillRef": "brand-guideline-application",
-  "origin": false,
+  "origin": true,
   "description": "Applies Anthropic's official brand colors, typography, and visual rules to artifacts that need Anthropic's look and feel.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

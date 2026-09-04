@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-04T11:27:33Z",
+  "generatedAt": "2026-09-04T18:31:25Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "5★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 316.88,
+      "overallTrustGrade": "S",
+      "trendingScore": 80.36,
+      "tmDelta": 19.08,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
     {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
@@ -15,6 +29,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+      }
+    },
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 373.22,
+      "overallTrustGrade": "S",
+      "trendingScore": 55.95,
+      "tmDelta": 43.32,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
       }
     },
     {
@@ -202,7 +230,7 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "3★",
+      "level": "2★",
       "contributor": "garrytan",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
@@ -216,7 +244,7 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "3★",
+      "level": "2★",
       "contributor": "ruvnet",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
@@ -230,7 +258,7 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "3★",
+      "level": "2★",
       "contributor": "ruvnet",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
@@ -242,17 +270,17 @@
       }
     },
     {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 0,
-      "overallTrustGrade": "ungraded",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
+      "id": "garrytan/gstack",
+      "name": "Founder Mode",
+      "level": "5★",
+      "contributor": "garrytan",
+      "trustMagnitude": 355.66,
+      "overallTrustGrade": "S",
+      "trendingScore": 35.52,
+      "tmDelta": 24.07,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
+        "self": "/api/v1/skills/garrytan/gstack.json"
       }
     },
     {
@@ -270,7 +298,7 @@
       }
     }
   ],
-  "totalTrending": 19,
+  "totalTrending": 21,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

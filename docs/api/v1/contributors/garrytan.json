@@ -5,8 +5,8 @@
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
-      "trustMagnitude": 225.66,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 355.66,
+      "overallTrustGrade": "S",
       "fusionScore": 392.87,
       "contributor": "garrytan",
       "type": "fusion",
@@ -188,15 +188,15 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "garrytan",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       },
@@ -562,14 +562,14 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
@@ -859,11 +859,11 @@
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
-    "trustMagnitude": 225.66
+    "trustMagnitude": 355.66
   },
-  "prestigeScore": 2293.16,
+  "prestigeScore": 2423.16,
   "gradeDistribution": {
-    "A": 1,
+    "S": 1,
     "B": 21,
     "C": 25
   },

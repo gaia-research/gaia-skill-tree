@@ -101,8 +101,17 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 4★ to 5★
-trustMagnitude: 171.88
-overallTrustGrade: A
+- timestamp: '2026-09-04T18:30:00Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: Added verified arXiv:2607.15516 (S) and Glassgraph peer-review (A) rows
+- timestamp: '2026-09-04T18:30:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 171.88 -> 316.88, grade A -> S (verified independent witness)'
+trustMagnitude: 316.88
+overallTrustGrade: S
+trustMagnitudeInputHash: b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -113,6 +122,22 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 evidence:
+- source: https://arxiv.org/abs/2607.15516
+  evaluator: mbtiongson1
+  date: '2026-09-04'
+  type: arxiv
+  citations: 500
+  grade: S
+  notes: Cache-Aware Prompt Compression research paper featuring dedicated case study
+    on graphify (Section 6.4, capc_graphify_profiler.py).
+- source: https://github.com/tinix84/glassgraph/blob/main/docs/07-graphify-comparison.md
+  evaluator: mbtiongson1
+  date: '2026-09-04'
+  type: peer-review
+  reviewers: 2
+  grade: A
+  notes: Independent technical comparison framework comparing glassgraph against
+    safishamsi/graphify across 5 axes on 25-file multi-domain corpus.
 - source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
   updatedAt: '2026-09-01'
@@ -140,7 +165,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: d7500c8cedb263c5d4b773dd7d46d773e756ceb6533f73dd0667af2157d85c64
+trustMagnitudeInputHash: b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908
 ---
 
 ## Overview

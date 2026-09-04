@@ -21,15 +21,15 @@
     {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 83.62,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       },
@@ -38,15 +38,15 @@
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 70.69,
       "overallTrustGrade": "B",
       "fusionScore": 240.0,
       "contributor": "firecrawl",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       },
@@ -62,15 +62,15 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "firecrawl",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
       },
@@ -79,15 +79,15 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 40.0,
       "contributor": "firecrawl",
       "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },

@@ -598,7 +598,7 @@
         "origin": true,
         "genericSkillRef": "git-ship-done-pipeline",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "Production-grade engineering command suite for AI coding agents spanning the full development lifecycle — spec, plan, build, test, review, web performance, ship, and simplify.",
         "title": "Agent Skills",
         "installable": true,
@@ -793,8 +793,8 @@
         "installBody": "Install the full Addy Osmani agent skills suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nThis is the recommended path from the upstream repo's Quick Start.",
         "role": "origin",
         "branch": "suite",
-        "rank": 5,
-        "rankWord": "Ultimate",
+        "rank": 4,
+        "rankWord": "Extra",
         "medallion": "◆",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -1039,7 +1039,7 @@
         "origin": false,
         "genericSkillRef": "code-review-pipeline",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Code review and quality enforcement workflow checking code style and patterns.",
         "title": "Code Review and Quality",
         "installable": true,
@@ -1176,15 +1176,11 @@
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 1/3 graded evidence sources"
-        },
         "fusionScore": 60.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -1570,7 +1566,7 @@
         "origin": false,
         "genericSkillRef": "refactor-code",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "Code simplification workflow identifying opportunities to reduce cognitive complexity.",
         "title": "Code Simplification",
         "installable": true,
@@ -1741,8 +1737,8 @@
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
         "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
+        "rank": 4,
+        "rankWord": "Unique",
         "medallion": "◉",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -1907,7 +1903,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -1917,7 +1913,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -1963,31 +1959,31 @@
           {
             "timestamp": "2026-06-19T18:37:34Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:34Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:35Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:36Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:29Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -2061,7 +2057,7 @@
         "origin": false,
         "genericSkillRef": "executing-plans",
         "status": "named",
-        "level": "5★",
+        "level": "3★",
         "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
         "title": "Incremental Implementation",
         "installable": true,
@@ -2230,15 +2226,11 @@
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
-        "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        },
         "fusionScore": 80.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -2446,7 +2438,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -2456,7 +2448,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -2502,31 +2494,31 @@
           {
             "timestamp": "2026-06-19T18:37:30Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:30Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:32Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:32Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:29Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -2599,7 +2591,7 @@
         "origin": true,
         "genericSkillRef": "performance-tuning",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Measurement-driven performance workflow: baseline with Lighthouse and RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.",
         "title": "The Perf Loop",
         "tags": [
@@ -2752,15 +2744,11 @@
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "origin",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
-        },
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -2952,7 +2940,7 @@
         "origin": false,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "5★",
+        "level": "3★",
         "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
         "title": "Planning and Task Breakdown",
         "installable": true,
@@ -3127,15 +3115,11 @@
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
-        "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        },
         "fusionScore": 40.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -3149,10 +3133,10 @@
         "id": "mattpocock/to-tickets",
         "name": "To Tickets",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
         "title": "The Vertical Slicer",
         "catalogRef": "mattpocock-to-issues",
@@ -3322,16 +3306,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        },
         "fusionScore": 40.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -3345,10 +3325,10 @@
         "id": "garrytan/garrytan",
         "name": "Autoplan",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
         "title": "Founder Mode Autoplan",
         "catalogRef": "garrytan-autoplan",
@@ -3465,10 +3445,10 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -3490,10 +3470,10 @@
         "id": "addy-osmani/shipping-and-launch",
         "name": "Shipping and Launch",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Shipping and launch readiness checks for code deployment and integration.",
         "title": "Shipping and Launch",
         "installable": true,
@@ -3629,16 +3609,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 1/3 graded evidence sources"
-        },
         "fusionScore": 80.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -3652,7 +3628,7 @@
         "id": "garrytan/ship",
         "name": "Ship",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "3★",
@@ -3793,7 +3769,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -4114,7 +4090,7 @@
         "origin": false,
         "genericSkillRef": "prd-generation",
         "status": "named",
-        "level": "5★",
+        "level": "3★",
         "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
         "title": "Spec-Driven Development",
         "installable": true,
@@ -4267,15 +4243,11 @@
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
-        "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
-        },
         "fusionScore": 40.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -4486,7 +4458,7 @@
         "id": "mattpocock/tdd",
         "name": "TDD",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "test-driven-development",
         "status": "named",
         "level": "3★",
@@ -4504,7 +4476,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -4514,7 +4486,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -4560,31 +4532,31 @@
           {
             "timestamp": "2026-06-19T18:37:47Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:48Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:49Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:49Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:32Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -4633,7 +4605,7 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -4652,7 +4624,7 @@
         "id": "addy-osmani/test-driven-development",
         "name": "Test-Driven Development",
         "contributor": "addy-osmani",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "test-driven-development",
         "status": "named",
         "level": "2★",
@@ -4761,7 +4733,7 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -5658,7 +5630,7 @@
         "id": "anthropics/brand-guidelines",
         "name": "Brand Guidelines",
         "contributor": "anthropics",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "brand-guideline-application",
         "status": "named",
         "level": "4★",
@@ -5743,7 +5715,7 @@
         "trustMagnitudeInputHash": "c7e164b4d95ec341754a138a9ae248650101fac5ca81a8057499a90d21db37c3",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5776,7 +5748,7 @@
         "id": "leonxlnx/brandkit",
         "name": "brandkit",
         "contributor": "leonxlnx",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "brand-guideline-application",
         "status": "named",
         "level": "3★",
@@ -5860,7 +5832,7 @@
         "trustMagnitudeInputHash": "55f0946be2128cef64d61cef444aa8676322fff7b793e0f94a1763fc1b4df36e",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -6915,12 +6887,12 @@
         "origin": false,
         "genericSkillRef": "browser-control",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Integrate Firecrawl browser interaction into product code.",
         "title": "Firecrawl Interact",
         "catalogRef": "firecrawl-firecrawl-build-interact",
         "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
         },
         "evidence": [
           {
@@ -7019,15 +6991,11 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
-        },
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -8145,7 +8113,7 @@
         "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
         "title": "Agent Fusion",
         "links": {
-          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md"
+          "github": "https://github.com/disler/fusion-harness/blob/main/README.md"
         },
         "evidence": [
           {
@@ -8283,7 +8251,7 @@
         "description": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
         "title": "Auto-Review",
         "links": {
-          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_VALIDATOR.md"
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md"
         },
         "evidence": [
           {
@@ -8369,7 +8337,7 @@
         "description": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.",
         "title": "Opinion",
         "links": {
-          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md"
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md"
         },
         "evidence": [
           {
@@ -8455,7 +8423,7 @@
         "description": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
         "title": "Plan Synthesis",
         "links": {
-          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_FUSION_MERGE.md"
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_FUSION_MERGE.md"
         },
         "evidence": [
           {
@@ -9288,12 +9256,12 @@
         "origin": true,
         "genericSkillRef": "agent-environment-setup",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Configure Firecrawl credentials and client setup for agent tools.",
         "title": "Firecrawl Onboarding",
         "catalogRef": "firecrawl-firecrawl-build-onboarding",
         "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md"
         },
         "evidence": [
           {
@@ -9392,15 +9360,11 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
-        },
         "fusionScore": 40.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -9559,7 +9523,7 @@
         "title": "Firecrawl Scrape",
         "catalogRef": "firecrawl-firecrawl-build-scrape",
         "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-scrape/SKILL.md"
         },
         "evidence": [
           {
@@ -9848,12 +9812,12 @@
         "origin": true,
         "genericSkillRef": "web-search",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Integrate Firecrawl web search into product code.",
         "title": "Firecrawl Search",
         "catalogRef": "firecrawl-firecrawl-build-search",
         "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md"
         },
         "evidence": [
           {
@@ -9974,15 +9938,11 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        },
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -10006,7 +9966,7 @@
         "title": "Firecrawl Research Index",
         "catalogRef": "firecrawl-firecrawl-research-index",
         "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md"
         },
         "evidence": [
           {
@@ -10142,7 +10102,7 @@
         "origin": true,
         "genericSkillRef": "firecrawl",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Suite of Firecrawl skills for web scraping, search, browser interaction, environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest init --all --browser`",
         "title": "The Web Infuser",
         "catalogRef": "firecrawl-firecrawl",
@@ -10313,9 +10273,9 @@
         "type": "fusion",
         "role": "origin",
         "branch": "suite",
-        "rank": 4,
-        "rankWord": "Extra",
-        "medallion": "◆",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -11848,7 +11808,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -11858,7 +11818,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -11904,31 +11864,31 @@
           {
             "timestamp": "2026-06-19T18:37:24Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:24Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:25Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:26Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:27Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -12015,7 +11975,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -12025,7 +11985,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -12071,31 +12031,31 @@
           {
             "timestamp": "2026-06-19T18:37:44Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:44Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:46Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:46Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:32Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -12701,7 +12661,7 @@
         "origin": true,
         "genericSkillRef": "security-audit",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Infrastructure-first security audit focusing on secrets archaeology, dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE threat modeling, and active verification with daily (zero-noise) and monthly (comprehensive) scan modes.",
         "title": "Chief Security Officer Mode",
         "catalogRef": "garrytan-cso",
@@ -12841,15 +12801,11 @@
         },
         "type": "fusion",
         "role": "origin",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
-        },
         "fusionScore": 80.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -13657,7 +13613,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -13667,7 +13623,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -13713,31 +13669,31 @@
           {
             "timestamp": "2026-06-19T18:37:27Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:27Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:29Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:29Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:28Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -13810,7 +13766,7 @@
         "origin": true,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "Systematically evaluates a user interface against established usability heuristics, accessibility standards, visual style rules, color palettes, typography, and motion guidelines.",
         "title": "UI/UX Pro Max",
         "links": {
@@ -13962,8 +13918,8 @@
           "systemWideCap": null
         },
         "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
+        "rank": 4,
+        "rankWord": "Unique",
         "medallion": "◉",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -14294,7 +14250,7 @@
         "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
         "title": "The Ten Laws of Sight",
         "catalogRef": "martin-stepanoski-nielsen-heuristics-audit",
@@ -14402,8 +14358,8 @@
         "type": "basic",
         "role": "variant",
         "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -14672,6 +14628,24 @@
         },
         "evidence": [
           {
+            "source": "https://arxiv.org/abs/2607.18970",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "arxiv",
+            "citations": 350,
+            "grade": "A",
+            "notes": "Peer-reviewed preprint evaluating garrytan/gstack across Section 4.4, 5.3.2, and 6.1 (commit 7447472)."
+          },
+          {
+            "source": "https://www.augmentcode.com/learn/garry-tan-gstack-claude-code",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "peer-review",
+            "reviewers": 2,
+            "grade": "A",
+            "notes": "Comprehensive technical teardown by Augment Code engineering analyzing gstack prompt caching, token footprints, and isolation."
+          },
+          {
             "class": "A",
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "mbtiongson1",
@@ -14796,6 +14770,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 331.59 -> 225.66, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added verified arXiv:2607.18970 (A) and Augment Code peer-review (A) rows"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 225.66 -> 355.66, grade A -> S (verified independent witness)"
           }
         ],
         "suiteComponents": [
@@ -14846,15 +14832,15 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
-        "trustMagnitude": 225.66,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 355.66,
+        "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "05149b67ca519ff096b3d8695417ff7af36764dd0816549f0e816ec6024a70bb",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": true,
-          "overallGradeS": false,
+          "overallGradeS": true,
           "apexPromotionPrSigned": true,
           "crossOrgVerifier": null,
           "systemWideCap": null
@@ -15226,7 +15212,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -15236,7 +15222,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -15282,31 +15268,31 @@
           {
             "timestamp": "2026-06-19T18:37:17Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:18Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:19Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:19Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:26Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -17877,7 +17863,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -17887,7 +17873,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -17897,7 +17883,7 @@
           },
           {
             "source": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 65.0,
@@ -17935,43 +17921,43 @@
           {
             "timestamp": "2026-06-19T18:37:51Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:51Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:53Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:53Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:39:16Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type: social-signal)"
           },
           {
             "timestamp": "2026-06-19T18:39:16Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:33Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -18201,7 +18187,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -18211,7 +18197,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -18257,31 +18243,31 @@
           {
             "timestamp": "2026-06-19T18:37:40Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:41Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:42Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:42Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:31Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -18368,7 +18354,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -18378,7 +18364,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -18424,31 +18410,31 @@
           {
             "timestamp": "2026-06-19T18:37:54Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:55Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:56Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:56Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:34Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -22592,7 +22578,7 @@
         "origin": false,
         "genericSkillRef": "framework-upgrade",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
         "title": "The Versionist's Trial",
         "catalogRef": "laravel-upgrade-laravel-v13",
@@ -22662,8 +22648,8 @@
         "type": "basic",
         "role": "variant",
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -22682,7 +22668,7 @@
         "origin": false,
         "genericSkillRef": "framework-upgrade",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-upgrade",
         "title": "Remotion Upgrade",
         "createdAt": "2026-08-10",
@@ -22719,8 +22705,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -22741,7 +22727,7 @@
         "origin": true,
         "genericSkillRef": "design-generation",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
         "title": "The Aesthetic Shield",
         "tags": [
@@ -22916,8 +22902,8 @@
         "type": "fusion",
         "role": "origin",
         "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
+        "rank": 4,
+        "rankWord": "Unique",
         "medallion": "◉",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -24073,7 +24059,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -24083,7 +24069,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -24093,7 +24079,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -24103,7 +24089,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -24149,55 +24135,55 @@
           {
             "timestamp": "2026-06-19T18:36:45Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:36:45Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:36:51Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:36:51Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:11Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:11Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:13Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:13Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:24Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -24489,7 +24475,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -24499,7 +24485,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -24545,31 +24531,31 @@
           {
             "timestamp": "2026-06-19T18:37:14Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:15Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:16Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:16Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:25Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -24642,7 +24628,7 @@
         "origin": false,
         "genericSkillRef": "autonomous-debug",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Disciplined Diagnosis Loop",
         "catalogRef": "mattpocock-diagnose",
@@ -24815,15 +24801,11 @@
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        },
         "fusionScore": 60.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -24857,7 +24839,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -24867,7 +24849,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -24913,31 +24895,31 @@
           {
             "timestamp": "2026-06-19T18:37:21Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:21Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:22Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:22Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:26Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -25010,7 +24992,7 @@
         "origin": true,
         "genericSkillRef": "engineering-discipline",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
@@ -25116,8 +25098,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -25695,7 +25677,7 @@
         "origin": false,
         "genericSkillRef": "mattpocock-misc",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Utility and setup skills that do not fit the engineering/productivity split: guardrails, migration, exercise scaffolding, and pre-commit setup.",
         "title": "The Matt Pocock Utility Belt",
         "createdAt": "2026-08-19",
@@ -25755,8 +25737,8 @@
           "systemWideCap": null
         },
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -25959,7 +25941,7 @@
         "origin": true,
         "genericSkillRef": "personal",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Personal Suite",
         "installable": false,
@@ -26024,8 +26006,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -26050,7 +26032,7 @@
         "origin": true,
         "genericSkillRef": "productivity",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
@@ -26136,8 +26118,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -26382,7 +26364,7 @@
         "origin": true,
         "genericSkillRef": "git-integration",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
         "title": "The GitHub Maestro",
         "catalogRef": "ruvnet-github-suite",
@@ -26485,8 +26467,8 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -26524,7 +26506,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
@@ -26534,7 +26516,7 @@
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts",
-            "evaluator": "testuser",
+            "evaluator": "mbtiongson1",
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 45.0,
@@ -26580,31 +26562,31 @@
           {
             "timestamp": "2026-06-19T18:37:37Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md (type: repo-own)"
           },
           {
             "timestamp": "2026-06-19T18:37:37Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md as B (trustNumber: 65.0)"
           },
           {
             "timestamp": "2026-06-19T18:37:39Z",
             "action": "evidence_added",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts (type: self-attestation)"
           },
           {
             "timestamp": "2026-06-19T18:37:39Z",
             "action": "evidence_graded",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts as C (trustNumber: 45.0)"
           },
           {
             "timestamp": "2026-06-19T18:41:30Z",
             "action": "rank_up",
-            "contributor": "testuser",
+            "contributor": "mbtiongson1",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           },
           {
@@ -26684,6 +26666,24 @@
           "github": "https://github.com/mattpocock/skills"
         },
         "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2607.03238",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "arxiv",
+            "citations": 500,
+            "grade": "S",
+            "notes": "Foundational empirical study analyzing 1,126 skill adaptations across 6 core upstream repositories, explicitly profiling mattpocock/skills in Table I and Table IV."
+          },
+          {
+            "source": "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "peer-review",
+            "reviewers": 2,
+            "grade": "A",
+            "notes": "Technical architectural evaluation by Frontend Mastery analyzing Matt Pocock skills suite, isolation boundaries, and tool orchestration."
+          },
           {
             "source": "https://github.com/mattpocock/skills/stargazers",
             "evaluator": "mbtiongson1",
@@ -26879,6 +26879,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 329.9 -> 233.42, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added verified arXiv:2607.03238 (S) and Frontend Mastery peer-review (A) rows"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 233.42 -> 373.22, grade A -> S (verified independent witness)"
           }
         ],
         "suiteComponents": [
@@ -26908,15 +26920,15 @@
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 233.42,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "3c4d16203616e0ad584ed4a1f97f0a10c87c2df855a77c8cf1f073e4184a1030",
+        "trustMagnitude": 373.22,
+        "overallTrustGrade": "S",
+        "trustMagnitudeInputHash": "5a3f8e5344ee096697734916eb25f664b093fc9c244d0f6aad05774ffb1cc7ab",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": true,
-          "overallGradeS": false,
+          "overallGradeS": true,
           "apexPromotionPrSigned": true,
           "crossOrgVerifier": null,
           "systemWideCap": null
@@ -29336,7 +29348,7 @@
         "origin": true,
         "genericSkillRef": "superpowers",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "A complete software development methodology for coding agents — brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline unified into a single agentic workflow.",
         "title": "The Complete Agentic Discipline",
         "tags": [
@@ -29542,8 +29554,8 @@
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```bash\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Antigravity\n\nInstall Superpowers as a plugin from this repository:\n\n```bash\nagy plugin install https://github.com/obra/superpowers\n```bash\nAntigravity runs the plugin's session-start hook, so Superpowers is active from\nthe first message. Reinstall with the same command to update.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```\n\n### Kimi Code\n\nSuperpowers is available in Kimi Code's plugin marketplace.\n\n- Open Kimi Code's plugin manager:\n\n  ```bash\n  /plugins\n  ```\n\n- Go to `Marketplace` > `Superpowers` and install it.\n\n- Or install directly from this repository:\n\n  ```bash\n  /plugins install https://github.com/obra/superpowers\n  ```\n\n- Detailed docs: [docs/README.kimi.md](docs/README.kimi.md)\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Pi\n\nInstall Superpowers as a Pi package from this repository:\n\n```bash\npi install git:github.com/obra/superpowers\n```bash\nFor local development, run Pi with this checkout loaded as a temporary package:\n\n```bash\npi -e /path/to/superpowers\n```\n\nThe Pi package loads the Superpowers skills and a small extension that injects the `using-superpowers` bootstrap at session startup and again after compaction. Pi has native skills, so no compatibility `Skill` tool is required. Subagent and task-list tools remain optional Pi companion packages.",
         "role": "origin",
         "branch": "suite",
-        "rank": 5,
-        "rankWord": "Ultimate",
+        "rank": 4,
+        "rankWord": "Extra",
         "medallion": "◆",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -29945,7 +29957,7 @@
         "origin": false,
         "genericSkillRef": "agent-reach",
         "status": "named",
-        "level": "3★",
+        "level": "1★",
         "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
         "title": "Agent Reach",
         "links": {
@@ -30049,6 +30061,14 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 53.86, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T00:00:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "3★",
+            "newValue": "1★",
+            "details": "Demoted to 1★ due to Star Bar violation (upstream repo lacks SKILL.md capability definition)"
           }
         ],
         "trustMagnitude": 53.86,
@@ -30068,8 +30088,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30090,7 +30110,7 @@
         "origin": false,
         "genericSkillRef": "video-composition",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-best-practices",
         "title": "Remotion Best Practices",
         "createdAt": "2026-08-10",
@@ -30151,8 +30171,8 @@
           "systemWideCap": null
         },
         "branch": "suite",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -30177,7 +30197,7 @@
         "origin": false,
         "genericSkillRef": "video-captions",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-captions",
         "title": "Remotion Captions",
         "createdAt": "2026-08-10",
@@ -30220,8 +30240,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30242,7 +30262,7 @@
         "origin": false,
         "genericSkillRef": "video-scaffolding",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-create",
         "title": "Remotion Create",
         "createdAt": "2026-08-10",
@@ -30285,8 +30305,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30307,7 +30327,7 @@
         "origin": false,
         "genericSkillRef": "wiki-search",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-docs",
         "title": "Remotion Docs",
         "createdAt": "2026-08-10",
@@ -30344,8 +30364,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 60.0,
@@ -30366,7 +30386,7 @@
         "origin": false,
         "genericSkillRef": "video-interactivity",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-interactivity",
         "title": "Remotion Interactivity",
         "createdAt": "2026-08-10",
@@ -30409,8 +30429,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30431,7 +30451,7 @@
         "origin": false,
         "genericSkillRef": "map-animation",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-maps",
         "title": "Remotion Maps",
         "createdAt": "2026-08-10",
@@ -30474,8 +30494,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30496,7 +30516,7 @@
         "origin": false,
         "genericSkillRef": "timeline-animation",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-markup",
         "title": "Remotion Markup",
         "createdAt": "2026-08-10",
@@ -30539,8 +30559,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30561,7 +30581,7 @@
         "origin": false,
         "genericSkillRef": "generative-media",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-multimedia",
         "title": "Remotion Multimedia",
         "createdAt": "2026-08-10",
@@ -30598,8 +30618,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 40.0,
@@ -30620,7 +30640,7 @@
         "origin": false,
         "genericSkillRef": "video-rendering",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-render",
         "title": "Remotion Render",
         "createdAt": "2026-08-10",
@@ -30663,8 +30683,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30685,7 +30705,7 @@
         "origin": false,
         "genericSkillRef": "video-saas",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-saas",
         "title": "Remotion SaaS",
         "createdAt": "2026-08-10",
@@ -30728,8 +30748,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -30750,7 +30770,7 @@
         "origin": false,
         "genericSkillRef": "video-preview",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "remotion-dev named skill for remotion-studio",
         "title": "Remotion Studio",
         "createdAt": "2026-08-10",
@@ -30793,8 +30813,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -31401,7 +31421,7 @@
         "origin": true,
         "genericSkillRef": "agent-memory-platform",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.",
         "title": "The Memory Sovereign",
         "catalogRef": "ruvnet-agentdb",
@@ -31547,9 +31567,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 4,
-        "rankWord": "Extra",
-        "medallion": "◆",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -31883,7 +31903,7 @@
         "origin": true,
         "genericSkillRef": "dual-mode",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.",
         "title": "The Hybrid Conductor",
         "catalogRef": "ruvnet-dual-mode",
@@ -31998,8 +32018,8 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -32524,7 +32544,7 @@
         "origin": true,
         "genericSkillRef": "multi-node-orchestration",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.",
         "title": "The Grand Conductor's Trilogy",
         "catalogRef": "ruvnet-flow-nexus",
@@ -32626,8 +32646,8 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -33274,7 +33294,7 @@
         "origin": true,
         "genericSkillRef": "reasoning-pattern-bank",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
         "title": "The Pattern Sage",
         "catalogRef": "ruvnet-reasoningbank",
@@ -33458,9 +33478,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 4,
-        "rankWord": "Extra",
-        "medallion": "◆",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -33484,7 +33504,7 @@
         "origin": true,
         "genericSkillRef": "platform-modernization-sprint",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
         "title": "The V3 Architect",
         "catalogRef": "ruvnet-ruflo-v3",
@@ -33614,8 +33634,8 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -33640,7 +33660,7 @@
         "origin": true,
         "genericSkillRef": "multi-topology-orchestration",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "The complete Ruflo orchestration platform: flow nexus, AgentDB memory sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization — unified at 6★ apex.",
         "title": "The Agentic Sovereign",
         "catalogRef": "ruvnet-ruflo",
@@ -33894,8 +33914,8 @@
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
         "role": "origin",
         "branch": "suite",
-        "rank": 5,
-        "rankWord": "Ultimate",
+        "rank": 4,
+        "rankWord": "Extra",
         "medallion": "◆",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -34770,6 +34790,24 @@
         },
         "evidence": [
           {
+            "source": "https://arxiv.org/abs/2607.15516",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "arxiv",
+            "citations": 500,
+            "grade": "S",
+            "notes": "Cache-Aware Prompt Compression research paper featuring dedicated case study on graphify (Section 6.4, capc_graphify_profiler.py)."
+          },
+          {
+            "source": "https://github.com/tinix84/glassgraph/blob/main/docs/07-graphify-comparison.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-04",
+            "type": "peer-review",
+            "reviewers": 2,
+            "grade": "A",
+            "notes": "Independent technical comparison framework comparing glassgraph against safishamsi/graphify across 5 axes on 25-file multi-domain corpus."
+          },
+          {
             "source": "https://github.com/safishamsi/graphify/stargazers",
             "evaluator": "mbtiongson1",
             "updatedAt": "2026-09-01",
@@ -34916,17 +34954,29 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added verified arXiv:2607.15516 (S) and Glassgraph peer-review (A) rows"
+          },
+          {
+            "timestamp": "2026-09-04T18:30:00Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 171.88 -> 316.88, grade A -> S (verified independent witness)"
           }
         ],
-        "trustMagnitude": 171.88,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "d7500c8cedb263c5d4b773dd7d46d773e756ceb6533f73dd0667af2157d85c64",
+        "trustMagnitude": 316.88,
+        "overallTrustGrade": "S",
+        "trustMagnitudeInputHash": "b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
+          "overallGradeS": true,
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
@@ -34939,8 +34989,8 @@
         "medallion": "◉",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 graded evidence sources"
+          "passes": true,
+          "reason": "direct evidence gate satisfied"
         },
         "fusionScore": 40.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
@@ -35065,7 +35115,7 @@
         "origin": false,
         "genericSkillRef": "postgres-best-practices",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "supabase named skill for supabase-postgres-best-practices",
         "title": "Supabase Postgres Best Practices",
         "createdAt": "2026-08-10",
@@ -35101,8 +35151,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -35123,7 +35173,7 @@
         "origin": false,
         "genericSkillRef": "supabase",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "supabase named skill for supabase core integration",
         "title": "Supabase",
         "createdAt": "2026-08-10",
@@ -35159,8 +35209,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -40782,7 +40832,7 @@
       "description": "Refactor high-complexity React components in Dify frontend.",
       "installable": false,
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/how-to-write-component/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-08-05",

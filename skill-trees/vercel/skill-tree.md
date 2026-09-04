@@ -26,17 +26,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · addy-osmani/code-review-and-quality  [4★]
+  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [5★]
-  ├─ · · garrytan/garrytan  [5★]
+  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · · garrytan/design-shotgun  [3★]
@@ -52,8 +52,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · · garrytan/ship  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · addy-osmani/shipping-and-launch  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
   │  ├─ · · ████████/github-workflow-automation
@@ -66,12 +66,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /error-interpretation  (↑ see above)
   ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
-  ├─ · · garrytan/cso  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · garrytan/cso  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [4★]
+  ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · · garrytan/skillify  [3★]

@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-04T11:27:33Z",
+  "generatedAt": "2026-09-04T18:31:25Z",
   "firstRun": false,
   "skills": [
     {
@@ -18,9 +18,23 @@
       }
     },
     {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "5★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 316.88,
+      "overallTrustGrade": "S",
+      "trendingScore": 294.68,
+      "tmDelta": 200.31,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
-      "level": "5★",
+      "level": "4★",
       "contributor": "addy-osmani",
       "trustMagnitude": 190.0,
       "overallTrustGrade": "A",
@@ -74,23 +88,9 @@
       }
     },
     {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "5★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 171.88,
-      "overallTrustGrade": "A",
-      "trendingScore": 114.8,
-      "tmDelta": 55.31,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
-    },
-    {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 95.0,
       "overallTrustGrade": "B",
@@ -104,7 +104,7 @@
     {
       "id": "addy-osmani/planning-and-task-breakdown",
       "name": "Planning and Task Breakdown",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 95.0,
       "overallTrustGrade": "B",
@@ -118,7 +118,7 @@
     {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
-      "level": "5★",
+      "level": "4★",
       "contributor": "pbakaus",
       "trustMagnitude": 169.34,
       "overallTrustGrade": "A",
@@ -146,7 +146,7 @@
     {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
-      "level": "5★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 80.0,
       "overallTrustGrade": "B",
@@ -174,7 +174,7 @@
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
-      "level": "5★",
+      "level": "4★",
       "contributor": "nextlevelbuilder",
       "trustMagnitude": 226.5,
       "overallTrustGrade": "A",
@@ -216,7 +216,7 @@
     {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
-      "level": "4★",
+      "level": "3★",
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
@@ -244,7 +244,7 @@
     {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
-      "level": "4★",
+      "level": "3★",
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
@@ -258,7 +258,7 @@
     {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
-      "level": "4★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -272,7 +272,7 @@
     {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
-      "level": "4★",
+      "level": "3★",
       "contributor": "addy-osmani",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -286,7 +286,7 @@
     {
       "id": "garrytan/cso",
       "name": "CSO",
-      "level": "4★",
+      "level": "3★",
       "contributor": "garrytan",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -678,7 +678,7 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -692,7 +692,7 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -800,37 +800,9 @@
       "_links": {
         "self": "/api/v1/skills/mattpocock/wizard.json"
       }
-    },
-    {
-      "id": "supabase/supabase",
-      "name": "Supabase",
-      "level": "2★",
-      "contributor": "supabase",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase.json"
-      }
-    },
-    {
-      "id": "supabase/supabase-postgres-best-practices",
-      "name": "Supabase Postgres Best Practices",
-      "level": "2★",
-      "contributor": "supabase",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
-      }
     }
   ],
-  "totalTrending": 59,
+  "totalTrending": 57,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

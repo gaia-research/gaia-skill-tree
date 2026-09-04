@@ -1,11 +1,11 @@
 {
   "version": "7.13.2",
-  "generatedAt": "2026-09-04T11:32:38Z",
+  "generatedAt": "2026-09-04T18:31:23Z",
   "summary": {
-    "total": 209,
-    "S": 0,
-    "A": 22,
-    "B": 66,
+    "total": 208,
+    "S": 3,
+    "A": 19,
+    "B": 65,
     "C": 101,
     "ungraded": 20,
     "floor": 0,
@@ -14,22 +14,87 @@
   "rows": [
     {
       "skillId": "mattpocock/skills",
-      "tm": 233.42,
-      "grade": "A",
+      "tm": 373.22,
+      "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
       "juneStars": "5★",
-      "g7Stars": "4★",
+      "g7Stars": "5★",
       "flag": "",
-      "apexResults": null,
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": true,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": true,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": true,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
       "typeBreakdown": {
+        "arxiv": 105.2,
+        "peer-review": 75.0,
         "github-stars-own": 153.52,
-        "arxiv": 10.4,
-        "social-signal": 39.5,
-        "peer-review": 30.0
+        "social-signal": 39.5
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "tm": 355.66,
+      "grade": "S",
+      "currentStars": "5★",
+      "mayStars": "5★",
+      "juneStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": true,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": true,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
+      "typeBreakdown": {
+        "arxiv": 70.0,
+        "peer-review": 60.0,
+        "repo-own": 36.0,
+        "github-stars-own": 144.07,
+        "social-signal": 45.59
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "safishamsi/graphify",
+      "tm": 316.88,
+      "grade": "S",
+      "currentStars": "5★",
+      "mayStars": "1★",
+      "juneStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": false,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
+      "typeBreakdown": {
+        "arxiv": 100.0,
+        "peer-review": 75.0,
+        "github-stars-own": 141.88
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "nextlevelbuilder/ui-ux-pro-max",
@@ -48,24 +113,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "skillId": "garrytan/gstack",
-      "tm": 225.66,
-      "grade": "A",
-      "currentStars": "5★",
-      "mayStars": "5★",
-      "juneStars": "5★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 144.07,
-        "social-signal": 45.59
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "skillId": "dietrichgebert/ponytail",
@@ -154,7 +201,7 @@
         "repo-own": 36.0,
         "github-stars-own": 148.32
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -208,23 +255,6 @@
       },
       "origin": false,
       "branch": "suite"
-    },
-    {
-      "skillId": "safishamsi/graphify",
-      "tm": 171.88,
-      "grade": "A",
-      "currentStars": "5★",
-      "mayStars": "1★",
-      "juneStars": "5★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 141.88,
-        "peer-review": 30.0
-      },
-      "origin": true,
-      "branch": "unique"
     },
     {
       "skillId": "gsd-build/get-shit-done",
@@ -525,7 +555,7 @@
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -853,23 +883,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "panniantong/agent-reach",
-      "tm": 53.86,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "social-signal": 48.86,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "addy-osmani/code-review-and-quality",
       "tm": 50.0,
       "grade": "B",
@@ -917,7 +930,7 @@
         "github-stars-own": 39.69,
         "repo-own": 10.31
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -1206,7 +1219,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1325,7 +1338,7 @@
         "github-stars-own": 39.56,
         "repo-own": 10.44
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1513,7 +1526,7 @@
         "repo-own": 36.0,
         "peer-review": 9.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1547,7 +1560,7 @@
         "repo-own": 36.0,
         "peer-review": 9.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2158,7 +2171,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {

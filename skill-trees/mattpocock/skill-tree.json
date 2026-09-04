@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "mattpocock/diagnose",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -23,6 +23,11 @@
           "level": "4★",
           "achievedAt": "2026-09-02T15:11:39Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -57,7 +62,7 @@
     },
     {
       "skillId": "mattpocock/engineering",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -85,6 +90,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-09-02T15:11:39Z",
+          "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-09-02T15:11:40Z",
           "source": "demote"
         }
       ]
@@ -186,7 +196,7 @@
     },
     {
       "skillId": "mattpocock/personal",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -200,12 +210,17 @@
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-08-30T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/productivity",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -228,6 +243,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-08-20T04:39:10Z",
+          "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-08-30T00:00:01Z",
           "source": "demote"
         }
       ]
@@ -287,7 +307,7 @@
     },
     {
       "skillId": "mattpocock/to-tickets",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -301,6 +321,11 @@
           "level": "4★",
           "achievedAt": "2026-09-02T15:11:40Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -1389,6 +1414,22 @@
       "skillId": "mattpocock/tdd"
     },
     {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/personal"
+    },
+    {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/productivity"
+    },
+    {
       "timestamp": "2026-09-02T15:11:39Z",
       "action": "rank_up",
       "previousValue": "3★",
@@ -1437,6 +1478,14 @@
       "skillId": "mattpocock/ubiquitous-language"
     },
     {
+      "timestamp": "2026-09-02T15:11:40Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/engineering"
+    },
+    {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
       "previousValue": "4★",
@@ -1459,6 +1508,22 @@
       "newValue": "1★",
       "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/ubiquitous-language"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/diagnose"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/to-tickets"
     }
   ],
   "stats": {

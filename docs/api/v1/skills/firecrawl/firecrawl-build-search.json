@@ -2,14 +2,14 @@
   "id": "firecrawl/firecrawl-build-search",
   "name": "Firecrawl Search",
   "contributor": "firecrawl",
-  "level": "4★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 83.62,
   "overallTrustGrade": "B",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
@@ -138,6 +138,6 @@
     }
   ],
   "links": {
-    "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md"
   }
 }

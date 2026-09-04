@@ -141,7 +141,7 @@
     },
     {
       "skillId": "garrytan/cso",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -160,6 +160,11 @@
           "level": "4★",
           "achievedAt": "2026-09-02T15:11:17Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -327,7 +332,7 @@
     },
     {
       "skillId": "garrytan/garrytan",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -355,6 +360,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-09-02T15:11:18Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-09-02T15:11:19Z",
           "source": "demote"
         }
       ]
@@ -1557,6 +1567,22 @@
       "newValue": "3★",
       "details": "Calibrated level from 4★ to 3★",
       "skillId": "garrytan/garrytan"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:19Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "garrytan/garrytan"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "garrytan/cso"
     }
   ],
   "stats": {

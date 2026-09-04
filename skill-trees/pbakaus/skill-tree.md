@@ -23,7 +23,7 @@ GAIA SKILL TREE — pbakaus  ·  generated 2026-09-04
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-✓ ◆ pbakaus/impeccable  [5★]
+✓ ◆ pbakaus/impeccable  [4★]
   ├─ · ○ garrytan/design-html  [3★]
   ├─ · ○ leonxlnx/redesign-skill  [3★]
   └─ · ○ leonxlnx/image-to-code-skill  [3★]

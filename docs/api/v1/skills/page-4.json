@@ -1,23 +1,6 @@
 {
   "skills": [
     {
-      "id": "ruvnet/agentdb-memory-patterns",
-      "name": "AgentDB Memory Patterns",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
-      },
-      "genericSkillRef": "memory-pattern-design"
-    },
-    {
       "id": "ruvnet/agentdb-optimization",
       "name": "AgentDB Optimization",
       "level": "2★",
@@ -105,14 +88,14 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 120.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
@@ -144,14 +127,14 @@
     {
       "id": "ruvnet/flow-nexus",
       "name": "Flow Nexus",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 240.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
@@ -217,14 +200,14 @@
     {
       "id": "ruvnet/github-suite",
       "name": "GitHub Suite",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 240.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
@@ -275,14 +258,14 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 274.83,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
@@ -641,299 +624,13 @@
         "self": "/api/v1/skills/mattpocock/wizard.json"
       },
       "genericSkillRef": "guided-setup-scripting"
-    },
-    {
-      "id": "supabase/supabase",
-      "name": "Supabase",
-      "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "supabase",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase.json"
-      },
-      "genericSkillRef": "supabase"
-    },
-    {
-      "id": "supabase/supabase-postgres-best-practices",
-      "name": "Supabase Postgres Best Practices",
-      "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "supabase",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
-      },
-      "genericSkillRef": "postgres-best-practices"
-    },
-    {
-      "id": "martin-stepanoski/nielsen-heuristics-audit",
-      "name": "Nielsen Heuristics Audit",
-      "level": "3★",
-      "trustMagnitude": 4.9,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "martin-stepanoski",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "laravel/upgrade-laravel-v13",
-      "name": "Upgrade Laravel v13",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "laravel",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
-      },
-      "genericSkillRef": "framework-upgrade"
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 326.49,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "genericSkillRef": "engineering-discipline",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/grill-with-docs",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 228.28,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      },
-      "genericSkillRef": "mattpocock-misc",
-      "suiteComponents": [
-        "mattpocock/git-guardrails-claude-code",
-        "mattpocock/migrate-to-shoehorn",
-        "mattpocock/scaffold-exercises",
-        "mattpocock/setup-pre-commit"
-      ]
-    },
-    {
-      "id": "mattpocock/personal",
-      "name": "Personal",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 120.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/personal.json"
-      },
-      "genericSkillRef": "personal",
-      "suiteComponents": [
-        "mattpocock/edit-article",
-        "mattpocock/obsidian-vault"
-      ]
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "3★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 272.11,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/wait-what",
-        "mattpocock/write-a-skill"
-      ]
-    },
-    {
-      "id": "remotion-dev/remotion-best-practices",
-      "name": "Remotion Best Practices",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 274.83,
-      "contributor": "remotion-dev",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
-      },
-      "genericSkillRef": "video-composition",
-      "suiteComponents": [
-        "remotion-dev/remotion-captions",
-        "remotion-dev/remotion-create",
-        "remotion-dev/remotion-docs",
-        "remotion-dev/remotion-interactivity",
-        "remotion-dev/remotion-maps",
-        "remotion-dev/remotion-markup",
-        "remotion-dev/remotion-multimedia",
-        "remotion-dev/remotion-render",
-        "remotion-dev/remotion-saas",
-        "remotion-dev/remotion-studio",
-        "remotion-dev/remotion-upgrade"
-      ]
-    },
-    {
-      "id": "remotion-dev/remotion-captions",
-      "name": "Remotion Captions",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
-      },
-      "genericSkillRef": "video-captions"
-    },
-    {
-      "id": "remotion-dev/remotion-create",
-      "name": "Remotion Create",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
-      },
-      "genericSkillRef": "video-scaffolding"
-    },
-    {
-      "id": "remotion-dev/remotion-docs",
-      "name": "Remotion Docs",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 60.0,
-      "contributor": "remotion-dev",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-docs.json"
-      },
-      "genericSkillRef": "wiki-search"
-    },
-    {
-      "id": "remotion-dev/remotion-interactivity",
-      "name": "Remotion Interactivity",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
-      },
-      "genericSkillRef": "video-interactivity"
-    },
-    {
-      "id": "remotion-dev/remotion-maps",
-      "name": "Remotion Maps",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "fusionScore": 0.0,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
-      },
-      "genericSkillRef": "map-animation"
     }
   ],
   "page": 4,
-  "totalPages": 5,
-  "totalSkills": 206,
+  "totalPages": 4,
+  "totalSkills": 185,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
-    "prev": "/api/v1/skills/page-3.json",
-    "next": "/api/v1/skills/page-5.json"
+    "prev": "/api/v1/skills/page-3.json"
   }
 }

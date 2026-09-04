@@ -5,8 +5,8 @@
       "id": "safishamsi/graphify",
       "name": "Graphify",
       "level": "5★",
-      "trustMagnitude": 171.88,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 316.88,
+      "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "safishamsi",
       "type": "fusion",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "safishamsi/graphify",
     "level": "5★",
-    "trustMagnitude": 171.88
+    "trustMagnitude": 316.88
   },
-  "prestigeScore": 171.88,
+  "prestigeScore": 316.88,
   "gradeDistribution": {
-    "A": 1
+    "S": 1
   },
   "_links": {
     "self": "/api/v1/contributors/safishamsi.json",

@@ -72,6 +72,22 @@ suiteComponents:
 - garrytan/sync-gbrain
 - garrytan/unfreeze
 evidence:
+- source: https://arxiv.org/abs/2607.18970
+  evaluator: mbtiongson1
+  date: '2026-09-04'
+  type: arxiv
+  citations: 350
+  grade: A
+  notes: Peer-reviewed preprint evaluating garrytan/gstack across Section 4.4, 5.3.2,
+    and 6.1 (commit 7447472).
+- source: https://www.augmentcode.com/learn/garry-tan-gstack-claude-code
+  evaluator: mbtiongson1
+  date: '2026-09-04'
+  type: peer-review
+  reviewers: 2
+  grade: A
+  notes: Comprehensive technical teardown by Augment Code engineering analyzing gstack
+    prompt caching, token footprints, and isolation.
 - class: A
   source: https://github.com/garrytan/gstack
   evaluator: mbtiongson1
@@ -174,8 +190,17 @@ timeline:
   contributor: unknown
   details: 'TM 331.59 -> 225.66, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitude: 225.66
-overallTrustGrade: A
+- timestamp: '2026-09-04T18:30:00Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: Added verified arXiv:2607.18970 (A) and Augment Code peer-review (A) rows
+- timestamp: '2026-09-04T18:30:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 225.66 -> 355.66, grade A -> S (verified independent witness)'
+trustMagnitude: 355.66
+overallTrustGrade: S
+trustMagnitudeInputHash: bd751ff855a38a7a9120b8b659b4d57bb5f06cf71c4d6dc4fc617e96bf463593
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

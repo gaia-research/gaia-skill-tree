@@ -89,7 +89,7 @@
     },
     {
       "skillId": "ruvnet/agentdb",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -113,6 +113,11 @@
           "level": "4★",
           "achievedAt": "2026-07-20T00:00:01Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-08-30T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -179,7 +184,7 @@
     },
     {
       "skillId": "ruvnet/dual-mode",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -207,6 +212,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-09-02T15:11:44Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-09-02T15:11:45Z",
           "source": "demote"
         }
       ]
@@ -294,7 +304,7 @@
     },
     {
       "skillId": "ruvnet/flow-nexus",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -307,6 +317,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:36Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-08-30T00:00:01Z",
           "source": "demote"
         }
       ]
@@ -384,7 +399,7 @@
     },
     {
       "skillId": "ruvnet/github-suite",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -397,6 +412,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:36Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-08-30T00:00:01Z",
           "source": "demote"
         }
       ]
@@ -546,7 +566,7 @@
     },
     {
       "skillId": "ruvnet/reasoningbank",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -570,12 +590,17 @@
           "level": "4★",
           "achievedAt": "2026-07-20T00:00:01Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-08-30T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/ruflo-v3",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -599,12 +624,17 @@
           "level": "3★",
           "achievedAt": "2026-09-02T15:11:44Z",
           "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-09-02T15:11:45Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/ruflo",
-      "level": "5★",
+      "level": "4★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -617,8 +647,12 @@
         {
           "level": "5★",
           "achievedAt": "2026-06-18T12:54:50Z",
-          "source": "demote",
-          "note": "G7 apex cutover — apex gate failed; backfilled from trunk timeline (CLI gap)"
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -1683,6 +1717,38 @@
       "skillId": "ruvnet/ruflo-v3"
     },
     {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/agentdb"
+    },
+    {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/flow-nexus"
+    },
+    {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/github-suite"
+    },
+    {
+      "timestamp": "2026-08-30T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/reasoningbank"
+    },
+    {
       "timestamp": "2026-09-02T15:11:44Z",
       "action": "demote",
       "previousValue": "4★",
@@ -1697,6 +1763,30 @@
       "newValue": "3★",
       "details": "Calibrated level from 4★ to 3★",
       "skillId": "ruvnet/ruflo-v3"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:45Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/dual-mode"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:45Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/ruflo-v3"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "5★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/ruflo"
     }
   ],
   "stats": {

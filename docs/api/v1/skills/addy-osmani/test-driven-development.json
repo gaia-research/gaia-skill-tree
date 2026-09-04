@@ -25,7 +25,7 @@
   },
   "title": "The Red-Green Oath",
   "genericSkillRef": "test-driven-development",
-  "origin": true,
+  "origin": false,
   "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
   "tags": [
     "tdd",

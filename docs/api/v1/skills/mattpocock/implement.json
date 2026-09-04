@@ -46,7 +46,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "repo-own",
       "trustNumber": 65.0,
@@ -56,7 +56,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "self-attestation",
       "trustNumber": 45.0,
@@ -100,31 +100,31 @@
     {
       "timestamp": "2026-06-19T18:37:30Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md (type: repo-own)"
     },
     {
       "timestamp": "2026-06-19T18:37:30Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md as B (trustNumber: 65.0)"
     },
     {
       "timestamp": "2026-06-19T18:37:32Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement (type: self-attestation)"
     },
     {
       "timestamp": "2026-06-19T18:37:32Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement as C (trustNumber: 45.0)"
     },
     {
       "timestamp": "2026-06-19T18:41:29Z",
       "action": "rank_up",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
     },
     {

@@ -5,8 +5,8 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 233.42,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 373.22,
+  "overallTrustGrade": "S",
   "branch": "suite",
   "rankWord": "Ultimate",
   "medallion": "◆",
@@ -32,12 +32,30 @@
     "sourceTenureDaysGte180AorS": true,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": true,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": true,
     "crossOrgVerifier": null,
     "systemWideCap": null
   },
   "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2607.03238",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "arxiv",
+      "citations": 500,
+      "grade": "S",
+      "notes": "Foundational empirical study analyzing 1,126 skill adaptations across 6 core upstream repositories, explicitly profiling mattpocock/skills in Table I and Table IV."
+    },
+    {
+      "source": "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "peer-review",
+      "reviewers": 2,
+      "grade": "A",
+      "notes": "Technical architectural evaluation by Frontend Mastery analyzing Matt Pocock skills suite, isolation boundaries, and tool orchestration."
+    },
     {
       "source": "https://github.com/mattpocock/skills/stargazers",
       "evaluator": "mbtiongson1",
@@ -231,6 +249,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 329.9 -> 233.42, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added verified arXiv:2607.03238 (S) and Frontend Mastery peer-review (A) rows"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 233.42 -> 373.22, grade A -> S (verified independent witness)"
     }
   ],
   "links": {

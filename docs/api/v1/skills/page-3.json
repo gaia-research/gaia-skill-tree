@@ -1,23 +1,6 @@
 {
   "skills": [
     {
-      "id": "mattpocock/grilling",
-      "name": "Grilling",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grilling.json"
-      },
-      "genericSkillRef": "design-review"
-    },
-    {
       "id": "mattpocock/implement",
       "name": "Implement",
       "level": "2★",
@@ -377,14 +360,14 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
@@ -855,11 +838,28 @@
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       },
       "genericSkillRef": "distributed-vector-memory"
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "name": "AgentDB Memory Patterns",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
+      },
+      "genericSkillRef": "memory-pattern-design"
     }
   ],
   "page": 3,
-  "totalPages": 5,
-  "totalSkills": 206,
+  "totalPages": 4,
+  "totalSkills": 185,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

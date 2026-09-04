@@ -4,14 +4,14 @@
     {
       "id": "obra/superpowers",
       "name": "Superpowers",
-      "level": "5★",
+      "level": "4★",
       "trustMagnitude": 220.81,
       "overallTrustGrade": "A",
       "fusionScore": 300.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Ultimate",
+      "rankWord": "Extra",
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
@@ -222,7 +222,7 @@
   "namedSkillsCount": 12,
   "topSkill": {
     "id": "obra/superpowers",
-    "level": "5★",
+    "level": "4★",
     "trustMagnitude": 220.81
   },
   "prestigeScore": 1089.86,

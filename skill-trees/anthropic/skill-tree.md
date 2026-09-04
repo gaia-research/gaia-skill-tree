@@ -27,17 +27,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · addy-osmani/code-review-and-quality  [4★]
+  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [5★]
-  ├─ · · garrytan/garrytan  [5★]
+  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · · garrytan/design-shotgun  [3★]
@@ -53,8 +53,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · · garrytan/ship  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · addy-osmani/shipping-and-launch  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
   │  ├─ · · ████████/github-workflow-automation
@@ -67,12 +67,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /error-interpretation  (↑ see above)
   ├─ ✓ ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
-  ├─ · · garrytan/cso  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · garrytan/cso  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [4★]
+  ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · · garrytan/skillify  [3★]
@@ -115,11 +115,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
-  ├─ · · mattpocock/engineering  [3★]
-  │  ├─ · · firecrawl/firecrawl-build-onboarding  [4★]
+  ├─ · · ████████/engineering
+  │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
-  │  ├─ · · mattpocock/diagnose  [4★]
+  │  ├─ · · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
@@ -136,18 +136,18 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  └─ · ○ ████████/requirements-engineer
   │  │  └─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
-  │  ├─ · · mattpocock/to-spec  [5★]
+  │  ├─ · · mattpocock/to-spec  [3★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
-  │  ├─ · ○ addy-osmani/code-simplification  [5★]
-  │  ├─ · · garrytan/garrytan  [5★]
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]
+  │  ├─ · · mattpocock/to-tickets  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
-  │  │  ├─ · · addy-osmani/code-review-and-quality  [4★]
+  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  │  ├─ · ○ /diff-content
   │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -155,22 +155,22 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
   │  ├─ · · mattpocock/research  [2★]
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
-  ├─ · · mattpocock/misc  [3★]
+  ├─ · · ████████/misc
   │  ├─ · · garrytan/careful  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
-  │  ├─ · ○ addy-osmani/code-simplification  [5★]  (↑ see above)
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
   │  └─ · · garrytan/skillify  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · mattpocock/productivity  [3★]
+  ├─ · · ████████/productivity
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
@@ -187,31 +187,23 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ mattpocock/wait-what  [2★]
   └─ ✓ · mattpocock/write-a-skill  [2★]  (↑ see above)
 
-· ◆ firecrawl/firecrawl-skills  [4★]
+· ◆ firecrawl/firecrawl-skills  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  ├─ · ○ /parse-html
   │  └─ · ○ /extract-entities
-  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [4★]
-  ├─ · · firecrawl/firecrawl-build-onboarding  [4★]
+  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
+  ├─ · ○ browser-use/browser-harness  [3★]
+  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
   └─ · ○ ████████/firecrawl-research-index
 
-· ◆ mattpocock/personal  [3★]
+· ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
   └─ · · ████████/obsidian-vault
      ├─ · ○ /retrieve
      └─ · ○ garrytan/context-restore  [2★]
-
-══════════════════════════════════════════════════════════════════════
-Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-══════════════════════════════════════════════════════════════════════
-
-  · ◉ firecrawl/firecrawl-build-onboarding  [4★]
-    ├─ ✓ ○ garrytan/document-generate  [3★]
-    └─ · ○ /tool-use
 ```
 
 ## Pending Combinations

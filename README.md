@@ -57,11 +57,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ```text
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
-  ├─ · mattpocock/engineering  [3★]
-  │  ├─ · firecrawl/firecrawl-build-onboarding  [4★]
+  ├─ · ████████/engineering
+  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
-  │  ├─ · mattpocock/diagnose  [4★]
+  │  ├─ · mattpocock/diagnose  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -74,25 +74,25 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [4★]
+  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ ○ nextlevelbuilder/ui-ux-pro-max  [5★]
-  ├─ · garrytan/garrytan  [5★]
+  ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
+  ├─ · mattpocock/to-tickets  [3★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ · leonxlnx/stitch-skill  [3★]
   │  ├─ · ████████/browse
-  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ firecrawl/firecrawl-build-onboarding  [4★]
-    ├─ ○ garrytan/document-generate  [3★]
-    └─ ○ /tool-use
-  ◉ mattpocock/diagnose  [4★]
-    ├─ ○ garrytan/design-html  [3★]
+  ◉ mvanhorn/last30days  [4★]
+    ├─ · /ghostwrite
+    │  ├─ · mattpocock/research  [2★]
+    │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
+    │  │  ├─ ○ /summarize
 
 (284 skills total — see docs/tree.md)
 ```
