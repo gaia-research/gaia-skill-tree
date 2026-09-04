@@ -5,7 +5,7 @@
       "id": "mvanhorn/last30days",
       "name": "Last 30 Days Web Research",
       "level": "4★",
-      "trustMagnitude": 316.09,
+      "trustMagnitude": 205.15,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mvanhorn",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "mvanhorn/last30days",
     "level": "4★",
-    "trustMagnitude": 316.09
+    "trustMagnitude": 205.15
   },
-  "prestigeScore": 316.09,
+  "prestigeScore": 205.15,
   "gradeDistribution": {
     "A": 1
   },

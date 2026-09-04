@@ -5,7 +5,7 @@
       "id": "leonxlnx/taste-skill",
       "name": "taste-skill",
       "level": "4★",
-      "trustMagnitude": 286.0,
+      "trustMagnitude": 172.43,
       "overallTrustGrade": "A",
       "fusionScore": 256.57,
       "contributor": "leonxlnx",
@@ -223,9 +223,9 @@
   "topSkill": {
     "id": "leonxlnx/taste-skill",
     "level": "4★",
-    "trustMagnitude": 286.0
+    "trustMagnitude": 172.43
   },
-  "prestigeScore": 836.0,
+  "prestigeScore": 722.43,
   "gradeDistribution": {
     "A": 1,
     "B": 11

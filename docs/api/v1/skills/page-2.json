@@ -1,21 +1,21 @@
 {
   "skills": [
     {
-      "id": "ayghri/i-have-adhd",
-      "name": "I Have ADHD",
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
       "level": "4★",
-      "trustMagnitude": 104.97,
+      "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "ayghri",
-      "type": "basic",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
       "branch": "unique",
       "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
-        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+        "self": "/api/v1/skills/obra/writing-plans.json"
       },
-      "genericSkillRef": "format-output"
+      "genericSkillRef": "writing-plans"
     },
     {
       "id": "openai/self-consistency",

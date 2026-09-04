@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-08-29T17:16:46Z",
+  "generatedAt": "2026-09-04T06:56:23Z",
   "buckets": [
     {
       "genericSkillRef": "refactor-code",
       "implementations": 3,
-      "topTM": 426.0,
+      "topTM": 314.62,
       "skills": [
         {
           "id": "addy-osmani/code-simplification",
-          "trustMagnitude": 426.0,
-          "level": "3★",
+          "trustMagnitude": 314.62,
+          "level": "5★",
           "overallTrustGrade": "S",
           "origin": true
         },
@@ -32,11 +32,11 @@
     {
       "genericSkillRef": "web-scrape",
       "implementations": 2,
-      "topTM": 346.02,
+      "topTM": 244.53,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-scrape",
-          "trustMagnitude": 346.02,
+          "trustMagnitude": 244.53,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -53,13 +53,13 @@
     {
       "genericSkillRef": "ux-audit",
       "implementations": 5,
-      "topTM": 333.26,
+      "topTM": 226.5,
       "skills": [
         {
           "id": "nextlevelbuilder/ui-ux-pro-max",
-          "trustMagnitude": 333.26,
-          "level": "4★",
-          "overallTrustGrade": "S",
+          "trustMagnitude": 226.5,
+          "level": "5★",
+          "overallTrustGrade": "A",
           "origin": true
         },
         {
@@ -95,13 +95,13 @@
     {
       "genericSkillRef": "executing-plans",
       "implementations": 3,
-      "topTM": 331.0,
+      "topTM": 219.62,
       "skills": [
         {
           "id": "addy-osmani/incremental-implementation",
-          "trustMagnitude": 331.0,
-          "level": "3★",
-          "overallTrustGrade": "S",
+          "trustMagnitude": 219.62,
+          "level": "5★",
+          "overallTrustGrade": "A",
           "origin": true
         },
         {
@@ -123,48 +123,104 @@
     {
       "genericSkillRef": "vertical-slice-planning",
       "implementations": 3,
-      "topTM": 331.0,
+      "topTM": 219.62,
       "skills": [
         {
           "id": "addy-osmani/planning-and-task-breakdown",
-          "trustMagnitude": 331.0,
-          "level": "3★",
-          "overallTrustGrade": "S",
+          "trustMagnitude": 219.62,
+          "level": "5★",
+          "overallTrustGrade": "A",
           "origin": true
         },
         {
           "id": "mattpocock/to-tickets",
-          "trustMagnitude": 306.13,
-          "level": "3★",
+          "trustMagnitude": 209.65,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": false
         },
         {
           "id": "garrytan/garrytan",
           "trustMagnitude": 36.0,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "C",
           "origin": false
         }
       ]
     },
     {
-      "genericSkillRef": "prd-generation",
-      "implementations": 2,
-      "topTM": 316.0,
+      "genericSkillRef": "design-generation",
+      "implementations": 7,
+      "topTM": 218.14,
       "skills": [
         {
-          "id": "addy-osmani/spec-driven-development",
-          "trustMagnitude": 316.0,
-          "level": "3★",
-          "overallTrustGrade": "S",
+          "id": "pbakaus/impeccable",
+          "trustMagnitude": 218.14,
+          "level": "5★",
+          "overallTrustGrade": "A",
           "origin": true
         },
         {
-          "id": "mattpocock/to-spec",
-          "trustMagnitude": 63.71,
+          "id": "leonxlnx/taste-skill",
+          "trustMagnitude": 172.43,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": false
+        },
+        {
+          "id": "leonxlnx/brutalist-skill",
+          "trustMagnitude": 50.0,
           "level": "3★",
           "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "leonxlnx/gpt-tasteskill",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "leonxlnx/minimalist-skill",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "leonxlnx/soft-skill",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "nexu-io/open-design",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "tool-creation",
+      "implementations": 2,
+      "topTM": 211.52,
+      "skills": [
+        {
+          "id": "anthropic/skill-creator",
+          "trustMagnitude": 211.52,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "mattpocock/write-a-skill",
+          "trustMagnitude": 45.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
           "origin": false
         }
       ]
@@ -172,12 +228,12 @@
     {
       "genericSkillRef": "autonomous-debug",
       "implementations": 2,
-      "topTM": 306.13,
+      "topTM": 209.65,
       "skills": [
         {
           "id": "mattpocock/diagnose",
-          "trustMagnitude": 306.13,
-          "level": "3★",
+          "trustMagnitude": 209.65,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -193,12 +249,12 @@
     {
       "genericSkillRef": "document-editing",
       "implementations": 4,
-      "topTM": 306.13,
+      "topTM": 209.65,
       "skills": [
         {
           "id": "mattpocock/edit-article",
-          "trustMagnitude": 306.13,
-          "level": "3★",
+          "trustMagnitude": 209.65,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -228,12 +284,12 @@
     {
       "genericSkillRef": "ubiquitous-language",
       "implementations": 2,
-      "topTM": 306.13,
+      "topTM": 209.65,
       "skills": [
         {
           "id": "mattpocock/ubiquitous-language",
-          "trustMagnitude": 306.13,
-          "level": "3★",
+          "trustMagnitude": 209.65,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -247,69 +303,13 @@
       ]
     },
     {
-      "genericSkillRef": "design-generation",
-      "implementations": 7,
-      "topTM": 298.62,
-      "skills": [
-        {
-          "id": "pbakaus/impeccable",
-          "trustMagnitude": 298.62,
-          "level": "4★",
-          "overallTrustGrade": "S",
-          "origin": true
-        },
-        {
-          "id": "leonxlnx/taste-skill",
-          "trustMagnitude": 286.0,
-          "level": "4★",
-          "overallTrustGrade": "A",
-          "origin": false
-        },
-        {
-          "id": "leonxlnx/brutalist-skill",
-          "trustMagnitude": 50.0,
-          "level": "2★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "leonxlnx/gpt-tasteskill",
-          "trustMagnitude": 50.0,
-          "level": "2★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "leonxlnx/minimalist-skill",
-          "trustMagnitude": 50.0,
-          "level": "2★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "leonxlnx/soft-skill",
-          "trustMagnitude": 50.0,
-          "level": "2★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "nexu-io/open-design",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
       "genericSkillRef": "autonomous-web-research",
       "implementations": 2,
-      "topTM": 298.3,
+      "topTM": 205.15,
       "skills": [
         {
           "id": "mvanhorn/last30days",
-          "trustMagnitude": 298.3,
+          "trustMagnitude": 205.15,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -324,105 +324,21 @@
       ]
     },
     {
-      "genericSkillRef": "git-ship-done-pipeline",
+      "genericSkillRef": "prd-generation",
       "implementations": 2,
-      "topTM": 286.0,
+      "topTM": 204.62,
       "skills": [
         {
-          "id": "addy-osmani/agent-skills",
-          "trustMagnitude": 286.0,
+          "id": "addy-osmani/spec-driven-development",
+          "trustMagnitude": 204.62,
           "level": "5★",
           "overallTrustGrade": "A",
           "origin": true
         },
         {
-          "id": "gsd-build/get-shit-done",
-          "trustMagnitude": 286.0,
-          "level": "4★",
-          "overallTrustGrade": "A",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "code-review-pipeline",
-      "implementations": 3,
-      "topTM": 286.0,
-      "skills": [
-        {
-          "id": "addy-osmani/code-review-and-quality",
-          "trustMagnitude": 286.0,
+          "id": "mattpocock/to-spec",
+          "trustMagnitude": 63.71,
           "level": "3★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "garrytan/plan-eng-review",
-          "trustMagnitude": 66.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "garrytan/review",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "finishing-a-development-branch",
-      "implementations": 4,
-      "topTM": 286.0,
-      "skills": [
-        {
-          "id": "addy-osmani/shipping-and-launch",
-          "trustMagnitude": 286.0,
-          "level": "3★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "garrytan/ship",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "gsd-build/ship",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "obra/finishing-a-development-branch",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "brand-guideline-application",
-      "implementations": 2,
-      "topTM": 286.0,
-      "skills": [
-        {
-          "id": "anthropics/brand-guidelines",
-          "trustMagnitude": 286.0,
-          "level": "3★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "leonxlnx/brandkit",
-          "trustMagnitude": 50.0,
-          "level": "2★",
           "overallTrustGrade": "B",
           "origin": false
         }
@@ -431,12 +347,12 @@
     {
       "genericSkillRef": "browser-control",
       "implementations": 5,
-      "topTM": 286.0,
+      "topTM": 184.51,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-interact",
-          "trustMagnitude": 286.0,
-          "level": "3★",
+          "trustMagnitude": 184.51,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -473,12 +389,12 @@
     {
       "genericSkillRef": "agent-environment-setup",
       "implementations": 2,
-      "topTM": 286.0,
+      "topTM": 184.51,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-onboarding",
-          "trustMagnitude": 286.0,
-          "level": "3★",
+          "trustMagnitude": 184.51,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -492,20 +408,132 @@
       ]
     },
     {
-      "genericSkillRef": "tool-creation",
+      "genericSkillRef": "brand-guideline-application",
       "implementations": 2,
-      "topTM": 211.52,
+      "topTM": 184.32,
       "skills": [
         {
-          "id": "anthropic/skill-creator",
-          "trustMagnitude": 211.52,
-          "level": "3★",
+          "id": "anthropics/brand-guidelines",
+          "trustMagnitude": 184.32,
+          "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
         {
-          "id": "mattpocock/write-a-skill",
-          "trustMagnitude": 45.0,
+          "id": "leonxlnx/brandkit",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "git-ship-done-pipeline",
+      "implementations": 2,
+      "topTM": 174.62,
+      "skills": [
+        {
+          "id": "addy-osmani/agent-skills",
+          "trustMagnitude": 174.62,
+          "level": "5★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "gsd-build/get-shit-done",
+          "trustMagnitude": 169.36,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "code-review-pipeline",
+      "implementations": 3,
+      "topTM": 174.62,
+      "skills": [
+        {
+          "id": "addy-osmani/code-review-and-quality",
+          "trustMagnitude": 174.62,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/plan-eng-review",
+          "trustMagnitude": 66.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/review",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "finishing-a-development-branch",
+      "implementations": 4,
+      "topTM": 174.62,
+      "skills": [
+        {
+          "id": "addy-osmani/shipping-and-launch",
+          "trustMagnitude": 174.62,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/ship",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "gsd-build/ship",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "obra/finishing-a-development-branch",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "format-output",
+      "implementations": 3,
+      "topTM": 119.66,
+      "skills": [
+        {
+          "id": "ayghri/i-have-adhd",
+          "trustMagnitude": 119.66,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "leonxlnx/output-skill",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/make-pdf",
+          "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
           "origin": false
@@ -536,27 +564,6 @@
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "brainstorming",
-      "implementations": 2,
-      "topTM": 110.15,
-      "skills": [
-        {
-          "id": "obra/brainstorming",
-          "trustMagnitude": 110.15,
-          "level": "3★",
-          "overallTrustGrade": "A",
-          "origin": true
-        },
-        {
-          "id": "gsd-build/discuss-phase",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
           "origin": false
         }
       ]

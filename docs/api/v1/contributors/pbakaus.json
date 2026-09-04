@@ -5,8 +5,8 @@
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "5★",
-      "trustMagnitude": 334.8,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 218.14,
+      "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "pbakaus",
       "type": "fusion",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "pbakaus/impeccable",
     "level": "5★",
-    "trustMagnitude": 334.8
+    "trustMagnitude": 218.14
   },
-  "prestigeScore": 334.8,
+  "prestigeScore": 218.14,
   "gradeDistribution": {
-    "S": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/pbakaus.json",
