@@ -19,7 +19,7 @@ tags:
 - ux
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0b130ac0727552af501c1c127191651274ec753ab39cf6331c55f96e741e362d
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: 0df3e927ca21afea6fb449fa30ae1ecbeb7c52c59bf6b2e66f11cbf72d7e5dbc
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

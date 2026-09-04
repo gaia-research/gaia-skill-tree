@@ -9,7 +9,7 @@ level: 5★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -88,6 +88,11 @@ timeline:
   contributor: unknown
   details: 'TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-09-01'
@@ -121,8 +126,8 @@ verification:
 title: Code Simplification
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 50.0
-overallTrustGrade: B
+trustMagnitude: 190.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -132,7 +137,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 679fd8aa02eb83cdc17b7c51e10b21c2bec6ebc2808700899d27a155812bd0ae
+trustMagnitudeInputHash: 3e4029d56e96324f4015a0d45dd557ccf414b342fe014e65326706a5dbcdbb81
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
 ---

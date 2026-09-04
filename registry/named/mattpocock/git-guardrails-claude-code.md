@@ -11,7 +11,7 @@ level: 2★
 description: Set up Claude Code hooks to block dangerous git commands before they
   execute.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T12:59:34Z'
   action: add
@@ -74,6 +74,11 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
   evaluator: unknown
@@ -115,9 +120,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5eba37158bb3cf645a4dd9fdee74ac53bab567b3ce6a18616cfc7bd6421aad7f
+trustMagnitudeInputHash: fa9a0814f1e0984e06c4fa5c5c79ca79fba37b5a823aa436700bdaa85b184169
 title: Git Guardrails for Claude Code
-suiteRef: "mattpocock/misc"
+suiteRef: mattpocock/misc
 ---
 
 ## Installation

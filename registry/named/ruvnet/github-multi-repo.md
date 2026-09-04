@@ -19,7 +19,7 @@ tags:
 - dependency-tracking
 - bulk-operations
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8189d83c1566106c1c6c5db9a4a1dd7a0e535747e4e3c69f516fe5a6fab2bd8d
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: e292a86f292547c02afa6123ae9ddfbc73899f4caa786e1f67b2ccc15cdbdefa
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

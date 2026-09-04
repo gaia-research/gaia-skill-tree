@@ -19,7 +19,7 @@ tags:
 - api-contracts
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0cb955625c64d74e20fffe3bb9c0fc11cbada476463907f9bd2f0fcf59cbc437
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: 7b2513bf20d221d8b4713f5145306e2ffd6b52525468c0905c0cdf4ea3132be4
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

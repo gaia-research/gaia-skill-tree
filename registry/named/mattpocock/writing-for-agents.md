@@ -11,7 +11,7 @@ level: 2★
 description: Reference for writing and editing skills to be predictable — vocabulary
   and principles for deterministic skills.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T13:03:02Z'
   action: add
@@ -82,6 +82,11 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
   evaluator: unknown
@@ -123,7 +128,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 28f75e82cd9a7852be913571defb6fc26c14ff53a3d89a95f827ad915fe13ced
+trustMagnitudeInputHash: 11aca17a2e96303090ee3600618013e6512dfc2e717b7b4fb5d086de5002d669
 title: Writing For Agents
 ---
 

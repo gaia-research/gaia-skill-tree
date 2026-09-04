@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -197,7 +197,12 @@ timeline:
 - timestamp: '2026-09-04T18:30:00Z'
   action: recalibrate_trust_magnitude
   contributor: mbtiongson1
-  details: 'TM 225.66 -> 355.66, grade A -> S (verified independent witness)'
+  details: TM 225.66 -> 355.66, grade A -> S (verified independent witness)
+- timestamp: '2026-09-04T18:43:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 355.66 -> 355.66, grade S -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 355.66
 overallTrustGrade: S
 trustMagnitudeInputHash: bd751ff855a38a7a9120b8b659b4d57bb5f06cf71c4d6dc4fc617e96bf463593
@@ -214,7 +219,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
-trustMagnitudeInputHash: 05149b67ca519ff096b3d8695417ff7af36764dd0816549f0e816ec6024a70bb
 ---
 
 ## Overview

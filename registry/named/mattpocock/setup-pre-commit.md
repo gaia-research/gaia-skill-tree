@@ -11,7 +11,7 @@ level: 2★
 description: Set up Husky pre-commit hooks with lint-staged, Prettier, type checking,
   and tests.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T13:02:03Z'
   action: add
@@ -74,6 +74,11 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
   evaluator: unknown
@@ -115,9 +120,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2d3ac9f390292a475e8345821e33634387a1a675fac37a208519778abed392c5
+trustMagnitudeInputHash: a641587f956704c18a55102ba830f1c95af0af69ea0bcb8e9daed5c99d2f96c1
 title: Setup Pre-commit
-suiteRef: "mattpocock/misc"
+suiteRef: mattpocock/misc
 ---
 
 ## Installation

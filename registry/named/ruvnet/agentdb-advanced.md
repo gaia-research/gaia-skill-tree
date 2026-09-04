@@ -19,7 +19,7 @@ tags:
 - hybrid-search
 - mmr
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -63,6 +63,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -74,8 +79,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 071455ccbf90a795c2818d22bc7a3870d32e956e704d050dbb9bbc7c155a5ab4
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: d4a739a53fd424cfc27e5aed56c9b022b69ac007221718e2e3c2bd8ecabbe2db
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

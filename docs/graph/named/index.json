@@ -1497,7 +1497,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:17Z",
@@ -1525,12 +1525,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "99ea206e460de2b43c1900a2aface2e0c592f7d2bd6aa1e1fbad3a052ce28cf0",
+        "trustMagnitudeInputHash": "eeb3ae87eef47ca2683e0c906b12f079210f27b6f3ab50899c267901478edd64",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1609,7 +1615,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:19Z",
@@ -1717,12 +1723,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
         "trustMagnitude": 190.0,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "679fd8aa02eb83cdc17b7c51e10b21c2bec6ebc2808700899d27a155812bd0ae",
+        "trustMagnitudeInputHash": "3e4029d56e96324f4015a0d45dd557ccf414b342fe014e65326706a5dbcdbb81",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1932,7 +1944,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:05Z",
@@ -2015,12 +2027,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/misc",
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "8d30c6052e3c2d777dd719f356fd0e111a47ce4cd738e9f88e977387c83ae85b",
+        "trustMagnitudeInputHash": "3f9bdfcb15cf77d23f165802b67c9b8d94505f395c6666ad1f3804d36344ecf8",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2467,7 +2485,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:00:19Z",
@@ -2550,11 +2568,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "8cd0aec54066bfb7c07c98a255e26d82c3802a555caf97142b5d0884db8a2b62",
+        "trustMagnitudeInputHash": "a0237d3738ff473744c5d1702e663ae41625c744ee323b62396d7cf52462dbf6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2870,7 +2894,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -2898,12 +2922,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "80c7dc4aac11f9639bfb13f10d3378398561972a7f4a758b20e0efb56ae29b6a",
+        "trustMagnitudeInputHash": "560a2db40d347a2a3352df88285b3dc4905ed3dda4cd4d364c74cd9b4a60b379",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4505,7 +4535,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:23Z",
@@ -4588,11 +4618,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "10e7f9d8ef1772cb2c9f45bc2acc4c7726344760c4140a88871ab0132cd78cb3",
+        "trustMagnitudeInputHash": "5776f9e6e804dbac770a2622d062d478cf949cfcaf4d4881bb9577a3272e8055",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7277,7 +7313,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -7369,12 +7405,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 88.5,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "adec7c44562426890821045cd6e6f130bc23aa76df3c2dfa0884517ede21a30a",
+        "trustMagnitudeInputHash": "63c67813bd921c61fbf5f8e5c982875fa300f6209af1d1d4911d88eab887a1d7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11837,7 +11879,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:34Z",
@@ -11920,12 +11962,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/misc",
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "5eba37158bb3cf645a4dd9fdee74ac53bab567b3ce6a18616cfc7bd6421aad7f",
+        "trustMagnitudeInputHash": "fa9a0814f1e0984e06c4fa5c5c79ca79fba37b5a823aa436700bdaa85b184169",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12004,7 +12052,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:03Z",
@@ -12087,12 +12135,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/misc",
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "2d3ac9f390292a475e8345821e33634387a1a675fac37a208519778abed392c5",
+        "trustMagnitudeInputHash": "a641587f956704c18a55102ba830f1c95af0af69ea0bcb8e9daed5c99d2f96c1",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12974,7 +13028,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -13002,12 +13056,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "bf8cb72e23ed4b735eaa8dc80e10b9afdc789f93f2efe8dd0b3f19e46d30253a",
+        "trustMagnitudeInputHash": "9e7d1587fa06492983a21279da8728be108f77ef91f2f14837a807473b738773",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13346,7 +13406,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:09Z",
@@ -13403,12 +13463,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "86a44362aa3578028af33da61ca459f2490feefab1e2bda27c914043faacec54",
+        "trustMagnitudeInputHash": "e879ba7a61b90eb7501b0bb2b0c702dbb2a47b92c1c671f776ef1059b3343b5c",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13642,7 +13708,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:50Z",
@@ -13725,11 +13791,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "41f2701876e68c0fe6df1114e05a7a9b070f1f5f9628497060bbfa9552c7435f",
+        "trustMagnitudeInputHash": "e0ef299778d6ff5b6fa5dc55362f5dcb85b98337687bd767a4b4bdf4f37f4613",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -14681,7 +14753,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -14782,6 +14854,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 225.66 -> 355.66, grade A -> S (verified independent witness)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 355.66 -> 355.66, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -14834,7 +14912,7 @@
         ],
         "trustMagnitude": 355.66,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "05149b67ca519ff096b3d8695417ff7af36764dd0816549f0e816ec6024a70bb",
+        "trustMagnitudeInputHash": "bd751ff855a38a7a9120b8b659b4d57bb5f06cf71c4d6dc4fc617e96bf463593",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -15241,7 +15319,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:59Z",
@@ -15324,11 +15402,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "42220087c3384c57b7e01dd54d53efe6035c9151fdae120f3c877139ea75d95c",
+        "trustMagnitudeInputHash": "1c58591da2296c6d1ee1215c3c448c470754d93ca4c00e24480ff11187c37623",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -15993,7 +16077,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -16021,12 +16105,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "a2ea33502fc7199e545b82f3b02b0ce7814f5fed9fb8cead92ce5eed42848a93",
+        "trustMagnitudeInputHash": "44e5fb454935c09198f7bb06aeeb6737e0a374bdec8c7c347741a8bc956914a7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -16188,7 +16278,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -16216,12 +16306,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "ba4d2cc5661fdad4ac29f624dc56a242ac79d9010155b269a0caceff4bbdd15b",
+        "trustMagnitudeInputHash": "65ddbad347c545e83e8b9236e6f32bdea8ae3f5d1a12f5f5cc2921589adc3016",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -16296,7 +16392,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -16352,12 +16448,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 66.0,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "af3b9656deb3b7236fdcf7b2b8088af1b223fae9dec94589838da230c16b75e8",
+        "trustMagnitudeInputHash": "03043b4bc6ec86d292039fdc168d10737101afa316f9a673dd2798cdce846a29",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -16654,7 +16756,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -16682,12 +16784,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "08080c8e7046860f052781bc4395b3673991d3d404814eb7bd00d1c407b1a2aa",
+        "trustMagnitudeInputHash": "652b4d0172955f144e79184e1a10cdd7f76af10d68ca5b2ce9675c26c60db163",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -18216,7 +18324,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:41Z",
@@ -18299,12 +18407,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/misc",
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "22118e1b63fe9e1c4c2039b44ccc046cfc52db163709cb5d9b501de5044b0314",
+        "trustMagnitudeInputHash": "763a947db45032c8a48515247203e3bc93cdded19abaefc5c44489e4eac948f3",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -18383,7 +18497,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:03:02Z",
@@ -18478,11 +18592,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "28f75e82cd9a7852be913571defb6fc26c14ff53a3d89a95f827ad915fe13ced",
+        "trustMagnitudeInputHash": "11aca17a2e96303090ee3600618013e6512dfc2e717b7b4fb5d086de5002d669",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -21263,7 +21383,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:18Z",
@@ -21291,12 +21411,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "e6be8759ddac3a07d45ea6d61e9ceea52de9b91c8e961034ea190669c3537017",
+        "trustMagnitudeInputHash": "786a889995892613fa8f608181b338309d66238bc3002e42f59ba0091b45b2d3",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -24108,7 +24234,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:22Z",
@@ -24221,11 +24347,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "47e6c67515bccd372bd275c68a5eeb7933ecdd69e98f70b015cd2298f5a18407",
+        "trustMagnitudeInputHash": "fc769333ce03a6093419f470b6c6864ce7ad969a0da9d5844d29b1829433e631",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -24504,7 +24636,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:38Z",
@@ -24587,11 +24719,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "10dae474411ac8804b58c9b4803dd65a35520a45a1eab2a2ad6f263f37477467",
+        "trustMagnitudeInputHash": "83aeaeaaf6caa9cceecb81937c55ded401ae5a4cd79a2d3749cc02d8e1682389",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -24868,7 +25006,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:14Z",
@@ -24951,11 +25089,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "102f409460341f8b1c961bbb605cb2ad042e917ca37162425f9730c0c45cbf15",
+        "trustMagnitudeInputHash": "7abdd529495aebbe05cb71e8ca7853bae1bec52ea0954936111703e5905275b5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -25681,7 +25825,7 @@
         "description": "Utility and setup skills that do not fit the engineering/productivity split: guardrails, migration, exercise scaffolding, and pre-commit setup.",
         "title": "The Matt Pocock Utility Belt",
         "createdAt": "2026-08-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-08-19T11:50:18Z",
@@ -25712,6 +25856,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -25722,7 +25872,7 @@
         ],
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "018523d3f63c221131eb22fdfc1529f096f0cbe9d1ddf2b0be1427f581e797cc",
+        "trustMagnitudeInputHash": "b740acb86a2a8ca2157b76bf5877f3caffa17d7ba572447f9684824366b5835d",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -26535,7 +26685,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:24Z",
@@ -26618,11 +26768,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "92e036e314b4bf45ea8ba0ed70e0a21b343370a1526cc5f197ed208c906af834",
+        "trustMagnitudeInputHash": "21523ce2ee6cbda73385140941ed438fa5362dfcdd7ee6716013e53516a401a4",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -27313,7 +27469,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:18Z",
@@ -27352,12 +27508,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "47f0a7ab3a63a8ba99e208b0c5f56bbab2be63f5c48f55980c47a8bc4cfa1a63",
+        "trustMagnitudeInputHash": "8001549d76f985907a9e900310a21225fed430f9b55e5d7e46f8a0b368a6333f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -30864,7 +31026,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -30909,12 +31071,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "071455ccbf90a795c2818d22bc7a3870d32e956e704d050dbb9bbc7c155a5ab4",
+        "trustMagnitudeInputHash": "d4a739a53fd424cfc27e5aed56c9b022b69ac007221718e2e3c2bd8ecabbe2db",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -30964,7 +31132,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:20Z",
@@ -30992,12 +31160,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "3f8ef3d445b37170db065d22f12388ed989450d89837e7ace73737f7cd26cbc1",
+        "trustMagnitudeInputHash": "c6749b358527292365dc9213fb2d02b3c6d0ffe6a0f08df19bfaa49eb79e3385",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31045,7 +31219,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -31073,12 +31247,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "e5d998e5861ff478d0a976b551d1f64ebf787b0b7136627d741fa8d1fcbee7de",
+        "trustMagnitudeInputHash": "c93c4b66638d2a738664a49c2e5598eb35b871b945ad195fb534411e0d2dd660",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31142,7 +31322,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:50Z",
@@ -31175,12 +31355,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "19f099c394919f7aa0a5d0d78a429f35362aa969d4eda2ad3f5511ba51ba4606",
+        "trustMagnitudeInputHash": "44e34078eaba21bf6abff4f210eca3a76261585c089552d7a97716ad925a3eb6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31244,7 +31430,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:51Z",
@@ -31277,12 +31463,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "fad5d8075abf9d9e550e1b94bbf443bbbfb75ac294365f0923acb4fc738c01f7",
+        "trustMagnitudeInputHash": "6afa7592b33fc328348917ca017886b8b76b902cfcece20193bf19e7f791cfae",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31347,7 +31539,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:51Z",
@@ -31380,12 +31572,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "42947f04153065d366d8bfc68eb0c6f1c9494dd7589a48d1e406ea682593260a",
+        "trustMagnitudeInputHash": "abe0fc88e8fbd0b9c7be8f7efc4b2e79313a42dec5afb7c4e1e7baf37d9f547a",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31726,7 +31924,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -31759,12 +31957,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "85a2724808d82643a7b39922ff1837c8b0548dea9bc953261039a3c0133a30f0",
+        "trustMagnitudeInputHash": "f8609a4045fd9610bae4e8aa8404eed34941cd8ac6acae5427de61ef3194b780",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -31829,7 +32033,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -31862,12 +32066,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "7b1eae7d17f5b2c94f9c9f645a4ff1badd106409199365411d18cfb8a7d56198",
+        "trustMagnitudeInputHash": "ee993b66957fcbe273df8ec40eb04b2e7eb334a6fffbe54b638298b64c25ee1f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32073,7 +32283,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:54Z",
@@ -32106,12 +32316,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "74b77077984bcb2533c9e766e9d94a813969ea28399e5edc5e35f3d08983769c",
+        "trustMagnitudeInputHash": "94ede8e0a486bc2a9b5ef5a8dbbec170e7b2c9d22b2b6eae21ce551c1e2e67b6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32176,7 +32392,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:20Z",
@@ -32221,12 +32437,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "12da2c985e4ea6c398f534ccf71b146767fb05eb8f3fa5d834d6905187540173",
+        "trustMagnitudeInputHash": "20c8a88ef537a12d94ea1e72da61369b955e7ecfc4ec01f34743fbdc0236e1a7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32291,7 +32513,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:20Z",
@@ -32336,12 +32558,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "83a33bd011b4111a3e42b8c8dfc74ff0515ee12eb5bcfa0e51900ad384ebef71",
+        "trustMagnitudeInputHash": "35ba47ae18654ac89d8c66a32789bdf57cb8d5704384a76ad29255249a65596e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32392,7 +32620,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:21Z",
@@ -32420,12 +32648,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "3f2f7662fc11748d1c1bc140bd091168e2a5c50e79fc648c7a69683ea428422b",
+        "trustMagnitudeInputHash": "ab5fb041f3b8612bcaa22365192c1bafeb97ad2689e65462d632aa3f831cd33e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32474,7 +32708,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:21Z",
@@ -32502,12 +32736,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "b01c3d2350d555bdce0e3ae8ba5d192492d84b6a756728827a4f2d6eb788ac1b",
+        "trustMagnitudeInputHash": "5ace1b3584a5f8d1da6541a187ce15059f2d4e038d5f6732e968d25ff22b3943",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32701,7 +32941,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:56Z",
@@ -32734,12 +32974,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "8189d83c1566106c1c6c5db9a4a1dd7a0e535747e4e3c69f516fe5a6fab2bd8d",
+        "trustMagnitudeInputHash": "e292a86f292547c02afa6123ae9ddfbc73899f4caa786e1f67b2ccc15cdbdefa",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -32789,7 +33035,7 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:21Z",
@@ -32817,12 +33063,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "466e52c81db1bc2115cf86c36501046fd2deae6be25f593563cb5f5846aa87ad",
+        "trustMagnitudeInputHash": "c4f3ed9548c39500f92238e83d62cd588b081a673975063ff72baf5dee8f2cfd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -33208,7 +33460,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
@@ -33253,12 +33505,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "99fedab29adb9c2859ff22759997bc42f37d841304f73307fe5220bc6c6a3fc6",
+        "trustMagnitudeInputHash": "f8cf37946c899b3f60aa9b3e96a45a8c7ea225f099af1797e6e5204b2f7fa040",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -34158,7 +34416,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:23Z",
@@ -34203,12 +34461,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "b16f01ca622c6928bb59122ce47b784442f7a2e77742c156fb7f73702eeb73ab",
+        "trustMagnitudeInputHash": "915eae87f4bf31455df9055fa0c5a41f98bbb4df7b54cd41819171257d0b05d5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -34274,7 +34538,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:23Z",
@@ -34319,12 +34583,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "0ba5ae4d600c14642bf22b208bb0cabf1c35091d2ae66bec03a015be8cb04ccc",
+        "trustMagnitudeInputHash": "a2d710db7d9aa58c981056e73a368f2b7e246ab9e7ee40efaeefa3bc8af7c752",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -34390,7 +34660,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:00Z",
@@ -34423,12 +34693,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "0b130ac0727552af501c1c127191651274ec753ab39cf6331c55f96e741e362d",
+        "trustMagnitudeInputHash": "0df3e927ca21afea6fb449fa30ae1ecbeb7c52c59bf6b2e66f11cbf72d7e5dbc",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -34494,7 +34770,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:01Z",
@@ -34527,12 +34803,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "0cb955625c64d74e20fffe3bb9c0fc11cbada476463907f9bd2f0fcf59cbc437",
+        "trustMagnitudeInputHash": "7b2513bf20d221d8b4713f5145306e2ffd6b52525468c0905c0cdf4ea3132be4",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -34598,7 +34880,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:01Z",
@@ -34631,12 +34913,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "540e3dbe1d66c1ac3e2e91fb426c1cf1d3c40e26f1d3475a7a6bcf46f0861abe",
+        "trustMagnitudeInputHash": "e2183ac7b76b178bb6c8ba7660c367d734b023ecfc16ae5577013d9587ee2ad6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

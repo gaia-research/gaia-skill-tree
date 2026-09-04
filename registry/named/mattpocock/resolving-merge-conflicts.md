@@ -11,7 +11,7 @@ level: 2★
 description: Resolve in-progress git merge and rebase conflicts preserving both intents
   with automated checks.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T13:01:24Z'
   action: add
@@ -74,6 +74,11 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md
   evaluator: unknown
@@ -115,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 92e036e314b4bf45ea8ba0ed70e0a21b343370a1526cc5f197ed208c906af834
+trustMagnitudeInputHash: 21523ce2ee6cbda73385140941ed438fa5362dfcdd7ee6716013e53516a401a4
 title: Resolving Merge Conflicts
 ---
 

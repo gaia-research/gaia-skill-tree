@@ -19,7 +19,7 @@ tags:
 - task-routing
 - parallel-execution
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7b1eae7d17f5b2c94f9c9f645a4ff1badd106409199365411d18cfb8a7d56198
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: ee993b66957fcbe273df8ec40eb04b2e7eb334a6fffbe54b638298b64c25ee1f
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

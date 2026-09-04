@@ -20,7 +20,7 @@ tags:
 - e2b
 - model-marketplace
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -64,6 +64,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -75,8 +80,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 12da2c985e4ea6c398f534ccf71b146767fb05eb8f3fa5d834d6905187540173
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: 20c8a88ef537a12d94ea1e72da61369b955e7ecfc4ec01f34743fbdc0236e1a7
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

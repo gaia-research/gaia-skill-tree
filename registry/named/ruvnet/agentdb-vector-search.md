@@ -19,7 +19,7 @@ tags:
 - semantic-search
 - embeddings
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 42947f04153065d366d8bfc68eb0c6f1c9494dd7589a48d1e406ea682593260a
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: abe0fc88e8fbd0b9c7be8f7efc4b2e79313a42dec5afb7c4e1e7baf37d9f547a
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

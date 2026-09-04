@@ -20,7 +20,7 @@ tags:
 - payments
 - ai-assistant
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -64,6 +64,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -75,8 +80,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 83a33bd011b4111a3e42b8c8dfc74ff0515ee12eb5bcfa0e51900ad384ebef71
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: 35ba47ae18654ac89d8c66a32789bdf57cb8d5704384a76ad29255249a65596e
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

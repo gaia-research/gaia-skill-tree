@@ -19,7 +19,7 @@ tags:
 - worker-health
 - memory-retrieval
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -55,6 +55,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,8 +71,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 85a2724808d82643a7b39922ff1837c8b0548dea9bc953261039a3c0133a30f0
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: f8609a4045fd9610bae4e8aa8404eed34941cd8ac6acae5427de61ef3194b780
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

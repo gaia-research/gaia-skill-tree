@@ -21,7 +21,7 @@ tags:
 - throughput
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -52,8 +52,13 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitudeInputHash: 80c7dc4aac11f9639bfb13f10d3378398561972a7f4a758b20e0efb56ae29b6a
-suiteRef: "ruvnet/ruflo"
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 560a2db40d347a2a3352df88285b3dc4905ed3dda4cd4d364c74cd9b4a60b379
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

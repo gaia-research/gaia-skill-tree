@@ -18,7 +18,7 @@ tags:
 - design
 - review
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'
   action: demote
@@ -58,6 +58,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md
@@ -85,8 +90,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 86a44362aa3578028af33da61ca459f2490feefab1e2bda27c914043faacec54
-suiteRef: "garrytan/gstack"
+trustMagnitudeInputHash: e879ba7a61b90eb7501b0bb2b0c702dbb2a47b92c1c671f776ef1059b3343b5c
+suiteRef: garrytan/gstack
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - sqlite
 - associative-retrieval
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -54,6 +54,11 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -65,8 +70,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 19f099c394919f7aa0a5d0d78a429f35362aa969d4eda2ad3f5511ba51ba4606
-suiteRef: "ruvnet/ruflo"
+trustMagnitudeInputHash: 44e34078eaba21bf6abff4f210eca3a76261585c089552d7a97716ad925a3eb6
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

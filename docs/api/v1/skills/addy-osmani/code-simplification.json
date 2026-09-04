@@ -179,6 +179,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T18:43:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

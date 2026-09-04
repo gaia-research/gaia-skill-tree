@@ -11,7 +11,7 @@ level: 2★
 description: Systematic diagnosis loop for hard bugs and performance regressions using
   a tight feedback loop.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T12:58:59Z'
   action: add
@@ -74,6 +74,11 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
   evaluator: unknown
@@ -115,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 42220087c3384c57b7e01dd54d53efe6035c9151fdae120f3c877139ea75d95c
+trustMagnitudeInputHash: 1c58591da2296c6d1ee1215c3c448c470754d93ca4c00e24480ff11187c37623
 title: Diagnosing Bugs
 ---
 
