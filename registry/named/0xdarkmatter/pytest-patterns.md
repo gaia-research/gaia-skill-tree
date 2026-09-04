@@ -2,7 +2,7 @@
 id: 0xdarkmatter/pytest-patterns
 name: Pytest Patterns
 contributor: 0xdarkmatter
-origin: true
+origin: false
 genericSkillRef: automated-testing
 status: named
 title: The Quality Guardian

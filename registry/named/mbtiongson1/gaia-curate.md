@@ -2,7 +2,7 @@
 id: mbtiongson1/gaia-curate
 name: Gaia Curate
 contributor: mbtiongson1
-origin: true
+origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★

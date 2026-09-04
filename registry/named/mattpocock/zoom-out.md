@@ -2,7 +2,7 @@
 id: mattpocock/zoom-out
 name: Zoom Out
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: code-explain
 status: named
 title: The Abstraction Lift

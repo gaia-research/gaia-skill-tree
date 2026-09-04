@@ -2,7 +2,7 @@
 id: yonatangross/orchestkit-rag
 name: OrchestrKit RAG
 contributor: yonatangross
-origin: true
+origin: false
 genericSkillRef: rag-pipeline
 status: named
 title: The Knowledge Architect

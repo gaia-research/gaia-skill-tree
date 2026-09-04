@@ -2,7 +2,7 @@
 id: ruvnet/flow-nexus-swarm
 name: Flow Nexus Swarm
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: multi-agent-orchestration-v
 status: named
 title: The Grand Conductor's Blueprint

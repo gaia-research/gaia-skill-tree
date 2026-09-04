@@ -2,7 +2,7 @@
 id: juliusbrussee/caveman
 name: Caveman
 contributor: juliusbrussee
-origin: true
+origin: false
 genericSkillRef: context-compression
 status: named
 level: 1★
