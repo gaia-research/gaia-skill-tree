@@ -171,3 +171,44 @@ gh pr list --state open --json number,title,updatedAt,isDraft \
 # Close a rogue PR superseded by consolidation
 gh pr close <n> --comment "Closing — superseded by #<consolidation-PR>. ..."
 ```
+
+---
+
+## 7. `gh stack` — gotchas and best practices
+
+Learned live on 2026-09-02 while consolidating the Yggdrasil III meta stack and the agent-playbooks (#1644) stack onto `dev/integration-ygg3-playbooks-2026-09-02`. Keep this section current whenever a `gh stack` session surfaces a new surprise.
+
+### 7.1 The workflow
+
+```bash
+gh stack init --base <trunk> branch1 branch2 branch3 ...   # adopt existing branches bottom-to-top
+gh stack rebase                                              # cascading rebase: trunk -> branch1 -> branch2 -> ...
+gh stack rebase --continue   # after resolving a conflict, git add, then continue
+gh stack view --short                                        # inspect before pushing anything
+gh stack submit --auto                                       # push + open/update PRs + retarget bases
+```
+
+### 7.2 Gotcha — pushing a base branch can auto-merge every PR stacked on it, with no `gh stack` involvement at all
+
+This is a **GitHub platform behavior**, not a `gh-stack` bug, and it is easy to misdiagnose as "`gh stack submit --auto` merged my PR." The actual mechanism, confirmed via `gh api .../issues/<n>/timeline` on PR #1680 and #1681 in this session:
+
+- Neither PR's *head* branch ever moved. There was no `head_ref_force_pushed` event, no `auto_merge_enabled` event — just `merged` then `closed`, timestamped exactly when the *base* branch was force-pushed.
+- What moved was `dev/agent-playbooks-1644`, the shared **base** those two PRs targeted. A cascading rebase (see §7.3) force-pushed it from a ~5-commit branch to the full, 79-commits-ahead integration-branch tip.
+- GitHub detects, on any push to a branch that is the base of an open PR, whether that PR's head commit is now reachable from the new base tip. If it is — i.e. the base branch now already contains everything the PR would have added — GitHub closes the PR as merged, retroactively pointing at whatever commit first introduced that content (which can predate the push by hours). No merge button, no API call, no `--auto` flag involved.
+- **Net content impact can be zero** (the PR's head was already byte-identical to content already on the base — no code shipped that wasn't already there), but the **PR state change is real and cannot be undone**: GitHub does not allow reopening a PR once it shows `MERGED`.
+
+The actionable pre-flight check, regardless of whether you're using `gh stack` or plain `git push`/`gh pr edit --base`: **before pushing any branch that is the base of an open PR, run `git merge-base --is-ancestor <PR-head> <new-base-tip>` for every PR based on it.** If it returns true, pushing that base will close that PR as merged the moment it lands — decide explicitly (accept it, or close the PR yourself first with an explanatory comment) rather than being surprised by it. Retargeting via `gh pr edit --base` does **not** avoid this — the trigger is the base-branch push, not which tool moved it.
+
+### 7.3 Gotcha — rebasing a zero-delta branch can silently balloon its scope
+
+When a bottom-of-stack branch has 0 unique commits vs. a trunk that is many commits ahead, `gh stack rebase` doesn't rebase it "in place" — it moves the branch's tip all the way to the **full trunk tip**. Any branch stacked on top of it inherits that full trunk content too, not just the original narrow slice it was meant to carry. In this session, `dev/agent-playbooks-1644` (originally a ~5-commit branch) got force-pushed to be byte-identical to the entire 79-commit-ahead `dev/integration-ygg3-playbooks-2026-09-02` tip, and every PR still queued on top of it (#1683, #1685, #1686) inherited that expanded base. This is easy to miss because `gh stack rebase`'s "✓ Rebased X onto Y" output reads the same whether it replayed real commits or just fast-forwarded to a much larger tip.
+
+- Run `gh stack view` and spot-check `git log --oneline -5 <branch>` after a rebase, before `submit`, if any leg of the stack was suspected to be a full ancestor of the trunk.
+
+### 7.4 Best practices distilled
+
+1. **Audit ancestry first.** For every branch you're about to feed into `gh stack init --base <trunk>`, run the `git merge-base --is-ancestor` check up front. Branches already absorbed by the trunk are candidates for closing outright, not rebasing.
+2. **Resolve conflicts by checking the shipped implementation, not by picking a side.** When a cascading rebase conflicts on prose/docs that describes behavior a paired code change also touches (e.g. a spec file conflicting alongside the script that implements the spec), inspect the actual implementation in the commit being replayed to determine which side is factually correct — don't default to "ours" or "theirs."
+3. **`gh stack view --short` before `gh stack submit`, always.** It's the cheapest way to catch an unexpectedly-collapsed stack before pushing it.
+4. **Treat any push to a PR's base branch as merge-capable**, not just a retarget — this holds whether the push comes from `gh stack submit`, plain `git push`, or `gh pr edit --base`. If the ask is strictly "retarget, don't merge," run the ancestry check in §7.2 on every dependent PR first; there is no tool-level flag that suppresses GitHub's own reachability detection.
+5. **A branch already fully absorbed by the trunk is not a rebase candidate — it's a close-the-PR candidate.** Feeding it into `gh stack init`/`rebase`/`submit` anyway won't "consolidate" it; it will force-push the trunk's full tip onto that branch (see §7.3) and cascade-close every PR still stacked on top of it, including ones with real, un-absorbed commits that happen to sit downstream. Audit the whole chain's ancestry *before* deciding to touch any of it, not branch-by-branch as you go.
