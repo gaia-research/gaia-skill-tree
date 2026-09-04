@@ -4,6 +4,29 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-04, Pre-Yggdrasil-III Revert PR #1723 Opened, PR #1721 Holds Full Yggdrasil III + Integrity Sweep, Both Founder-Gated)
+
+### TLDR
+
+- Responded immediately to founder directive: *\"yep we need that reverted entirely before Yggdrasil III. All of Yggdrasil III should be in this dev integration branch\"*.
+- Prepared clean revert branch `infra/revert-main-to-pre-ygg3` using `git read-tree -u --reset 29463f9f0`. Verified `git diff 29463f9f0 HEAD` is 100% empty — the tree is byte-for-byte identical to the pre-Yggdrasil-III baseline at commit `29463f9f0` (Wed Sep 2 08:54:12 2026 +0800).
+- Pushed branch `infra/revert-main-to-pre-ygg3` and opened **[Pull Request #1723](https://github.com/gaia-research/gaia-skill-tree/pull/1723)** targeting `main`:
+  `revert: restore main to pre-Yggdrasil-III baseline (29463f9f0)`.
+  This cleanly rolls `main` back, undoing PR #1688, PR #1718, and release v7.13.2.
+- Confirmed that the integration branch `dev/integration-registry-integrity-sweep-2026-09` (**PR #1721**) holds the **entirety of Yggdrasil III** (all 10 original stacked PRs, playbooks, sensors, Hall of Heroes craft, Fusion Score) PLUS the forensic integrity sweep, imposter purge, suite cap engine hardening, decontaminated evidence lake, and clean logarithmic trust recalibration.
+- Once Marcus merges PR #1723, `main` will be clean at `29463f9f0`. PR #1721 will then serve as the single, clean, verified integration PR to bring all of Yggdrasil III into `main` whenever founder-approved.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Revert PR #1723 | ✅ Opened targeting `main`: restores tree to `29463f9f0` byte-for-byte (**FOUNDER-GATED**) |
+| Integration PR #1721 | ✅ Holds ALL of Yggdrasil III + integrity sweep + decontaminated evidence on `dev/integration-registry-integrity-sweep-2026-09` |
+| Evidence Lake | ✅ 100% decontaminated (404 benchmarks, Perseus preprint, fake doc URLs excised) |
+| Tests & Gates | ✅ 1,546 unit tests passed, all 5 validation checks green |
+
+---
+
 ## State Snapshot (2026-09-04, Adversarial Audit & Decontamination Completed, Fabricated Benchmarks Purged, PR #1721 Updated & Confirmed Unmerged, Merge Strictly Founder-Gated)
 
 ### TLDR
