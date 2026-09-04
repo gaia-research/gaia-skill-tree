@@ -2,7 +2,7 @@
 id: leonxlnx/brandkit
 name: brandkit
 contributor: leonxlnx
-origin: true
+origin: false
 genericSkillRef: brand-guideline-application
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: addy-osmani/test-driven-development
 name: Test-Driven Development
 contributor: addy-osmani
-origin: true
+origin: false
 genericSkillRef: test-driven-development
 status: named
 title: The Red-Green Oath

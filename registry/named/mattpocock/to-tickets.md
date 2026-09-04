@@ -2,7 +2,7 @@
 id: mattpocock/to-tickets
 name: To Tickets
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: vertical-slice-planning
 status: named
 title: The Vertical Slicer

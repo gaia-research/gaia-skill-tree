@@ -2,7 +2,7 @@
 id: anthropics/brand-guidelines
 name: Brand Guidelines
 contributor: anthropics
-origin: false
+origin: true
 genericSkillRef: brand-guideline-application
 status: named
 level: 4★

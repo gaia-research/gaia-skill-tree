@@ -2,7 +2,7 @@
 id: mattpocock/tdd
 name: TDD
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: test-driven-development
 status: named
 links:

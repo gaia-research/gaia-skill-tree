@@ -2,7 +2,7 @@
 id: garrytan/garrytan
 name: Autoplan
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: vertical-slice-planning
 status: named
 title: Founder Mode Autoplan

@@ -2,7 +2,7 @@
 id: addy-osmani/shipping-and-launch
 name: Shipping and Launch
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: finishing-a-development-branch
 status: named
 level: 4★
