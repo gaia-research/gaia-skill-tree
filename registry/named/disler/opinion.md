@@ -9,7 +9,7 @@ level: 2★
 description: Formulate and articulate a strong, reasoned opinion or recommendation
   as a discrete agent step, avoiding model selection bias and decision paralysis.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-31'
 title: Opinion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md
@@ -27,11 +27,6 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Origin status set to true.
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 36.34, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=AQl5Q-0l7FQ
   evaluator: unknown
@@ -45,9 +40,6 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-29T20:23:34Z'
 suiteRef: disler/agent-fusion
-trustMagnitude: 36.34
-overallTrustGrade: C
-trustMagnitudeInputHash: 9e80acd5f2a76bfc6f10dc58a258bd2301f59a45e431d83686a415d28973fa66
 ---
 
 ## Installation

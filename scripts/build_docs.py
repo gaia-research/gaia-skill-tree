@@ -604,11 +604,6 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
-        # docs/en/* pages read window.GAIA_VERSION for their version chip but
-        # were never registered here, so the chip never updated (Issue #1542).
-        "en/index.html",
-        "en/evidence-classes.html",
-        "en/share-bundles.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():

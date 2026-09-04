@@ -17,7 +17,7 @@ tags:
 - signal-discovery
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
@@ -62,11 +62,6 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
-- timestamp: '2026-08-29T17:15:55Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -78,7 +73,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 073b41c4aa4a52ceefae437f7b01822ec751358bcd7573c762a41ce03270d90c
+trustMagnitudeInputHash: f876256aec3e5b099c8f4416932011859c902fd03e09d2978cd8b659ef173fc4
 installable: false
 ---
 

@@ -18,7 +18,7 @@ tags:
 - automation
 - meta
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -84,17 +84,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-- timestamp: '2026-08-25T13:17:09Z'
-  action: recalibrate_trust_magnitude
-  contributor: unknown
-  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-- timestamp: '2026-08-29T17:15:48Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
-trustMagnitude: 50.0
+trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -107,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
-trustMagnitudeInputHash: 5a24c34bb4151dc7371aa19778a6d6265e145d8155a315daf616ab12b85815a7
+trustMagnitudeInputHash: afde557e68445b1914b3438d0cb5ddddd3747dd07f7ed534d6c19175782ce141
 ---
 
 ## Overview

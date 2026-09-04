@@ -20,7 +20,7 @@ tags:
 - load-balancing
 - fault-tolerance
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -60,11 +60,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -76,7 +71,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0ba5ae4d600c14642bf22b208bb0cabf1c35091d2ae66bec03a015be8cb04ccc
+trustMagnitudeInputHash: 5d038c7cb4b99776196955aba41138ff18ad60c07091a4d5bf9c638cac71c482
 ---
 
 ## Overview

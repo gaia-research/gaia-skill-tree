@@ -6,7 +6,7 @@
   "type": "basic",
   "status": "named",
   "trustMagnitude": 5.0,
-  "overallTrustGrade": "ungraded",
+  "overallTrustGrade": null,
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -14,14 +14,6 @@
     "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json",
     "contributor": "/api/v1/contributors/supabase.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "Supabase Postgres Best Practices",
   "genericSkillRef": "postgres-best-practices",
@@ -43,12 +35,6 @@
       "action": "add",
       "contributor": "mbtiongson1",
       "details": "Added named skill supabase/supabase-postgres-best-practices"
-    },
-    {
-      "timestamp": "2026-08-29T17:16:01Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ]
 }

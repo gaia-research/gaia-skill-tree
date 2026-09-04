@@ -92,7 +92,7 @@ pip install -e ".[docs]"
 | `gaia fuse <skillId>` | Confirm a detected combination or declare a custom fusion locally, then `gaia push` to propose it to canon |
 | `gaia tree` | View your local-first user skill tree |
 | `gaia dev list --generic --named` | List generic and named skills |
-| `gaia dev evidence <skillId> <url> --type <type> <typed numeric flags>` | Add an evidence row. Typed magnitude inputs (for example `--stars`, `--citations`, or `--commits`/`--contributors`) drive its Evidence Grade; `--trust <number>` is only the legacy/fallback `trustNumber` path when no typed magnitude can be computed. |
+| `gaia dev evidence <skillId> <url> --class <S\|A\|B\|C\|D> --type <type>` | Add an evidence row to a skill (use the typed numeric flags below to drive Trust Magnitude correctly) |
 | `gaia dev evidence ... --stars N` | GitHub star count (for `github-stars-own` / `github-stars-proxy`) |
 | `gaia dev evidence ... --views N` | View count (for `social-signal`) |
 | `gaia dev evidence ... --citations N` | Citation count (for `arxiv` / `peer-review`) |
@@ -363,3 +363,4 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
 * **When you change `registry/nodes/` or `registry/named/`**, run `gaia dev docs` and commit the Class S artifacts (`docs/graph/*`) alongside the source change in the same PR. CI Guard E in `docs-cohesion.yml` enforces this.
 * **Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
 * **Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
+

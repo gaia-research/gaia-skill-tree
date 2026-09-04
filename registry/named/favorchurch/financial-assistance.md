@@ -9,7 +9,7 @@ level: 1★
 description: Process financial assistance applications - coupon assignment, request
   tracking, and updates.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Financial Assistance
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md
@@ -27,11 +27,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md
   evaluator: favorchurch
@@ -42,9 +37,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:45Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: bb747e0a54f08acae231b0cc5d71c85532eb466084ac43b5ed0bc6727cfd896e
 ---
 
 # Financial Assistance

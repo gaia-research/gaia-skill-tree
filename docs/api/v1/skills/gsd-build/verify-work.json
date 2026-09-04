@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 50.0,
+  "trustMagnitude": 52.15,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,14 +14,6 @@
     "self": "/api/v1/skills/gsd-build/verify-work.json",
     "contributor": "/api/v1/contributors/gsd-build.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "GSD Verify Work",
   "genericSkillRef": "verification-before-completion",
@@ -134,12 +126,6 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:49Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

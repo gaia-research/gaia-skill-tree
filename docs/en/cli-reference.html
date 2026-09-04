@@ -825,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.6.2</span>
+    <span class="nav-version">v7.7.2</span>
   </nav>
 
   <div class="page-layout">
@@ -866,6 +866,7 @@
           <li><a href="#mcp"><code>mcp</code></a></li>
           <li><a href="#version"><code>version</code></a></li>
           <li><a href="#validate"><code>validate</code></a></li>
+          <li><a href="#steward"><code>steward</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -880,14 +881,27 @@
         <ul class="sidebar-links">
           <li><a href="#dev-add"><code>dev add</code></a></li>
           <li><a href="#dev-evidence"><code>dev evidence</code></a></li>
+          <li><a href="#dev-rm-evidence"><code>dev rm-evidence</code></a></li>
+          <li><a href="#dev-verify"><code>dev verify</code></a></li>
+          <li><a href="#dev-calibrate"><code>dev calibrate</code></a></li>
+          <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code></a></li>
+          <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code></a></li>
+          <li><a href="#dev-fuse"><code>dev fuse</code></a></li>
           <li><a href="#dev-merge"><code>dev merge</code></a></li>
           <li><a href="#dev-split"><code>dev split</code></a></li>
           <li><a href="#dev-rename"><code>dev rename</code></a></li>
+          <li><a href="#dev-rm"><code>dev rm</code></a></li>
+          <li><a href="#dev-link"><code>dev link</code></a></li>
+          <li><a href="#dev-reclassify"><code>dev reclassify</code></a></li>
+          <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
+          <li><a href="#dev-diff"><code>dev diff</code></a></li>
+          <li><a href="#dev-arbor"><code>dev arbor</code></a></li>
           <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code></a></li>
           <li><a href="#dev-freeze"><code>dev freeze</code></a></li>
+          <li><a href="#dev-build"><code>dev build</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -960,6 +974,7 @@
             <li><a href="#mcp"><code>mcp</code> — Start MCP server</a></li>
             <li><a href="#version"><code>version</code> — Show version</a></li>
             <li><a href="#validate"><code>validate</code> — Run lint suite</a></li>
+            <li><a href="#steward"><code>steward</code> — Autonomous maintenance</a></li>
             <li><a href="#share"><code>share</code> — Export share bundle</a></li>
             <li><a href="#install"><code>install</code> — Dual-mode installer</a></li>
           </ul>
@@ -969,14 +984,27 @@
           <ul class="toc-section-list">
             <li><a href="#dev-add"><code>dev add</code> — Add node</a></li>
             <li><a href="#dev-evidence"><code>dev evidence</code> — Add evidence</a></li>
+            <li><a href="#dev-rm-evidence"><code>dev rm-evidence</code> — Remove evidence</a></li>
+            <li><a href="#dev-verify"><code>dev verify</code> — Verify/dispute evidence</a></li>
+            <li><a href="#dev-calibrate"><code>dev calibrate</code> — Set star level</a></li>
+            <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code> — Backfill evidence grades</a></li>
+            <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code> — Refresh Trust Magnitude cache</a></li>
+            <li><a href="#dev-fuse"><code>dev fuse</code> — Create fusion node</a></li>
             <li><a href="#dev-merge"><code>dev merge</code> — Merge nodes</a></li>
             <li><a href="#dev-split"><code>dev split</code> — Split node</a></li>
             <li><a href="#dev-rename"><code>dev rename</code> — Rename a skill</a></li>
+            <li><a href="#dev-rm"><code>dev rm</code> — Remove a skill</a></li>
+            <li><a href="#dev-link"><code>dev link</code> — Link prerequisite edges</a></li>
+            <li><a href="#dev-reclassify"><code>dev reclassify</code> — Reclassify structural type</a></li>
+            <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
+            <li><a href="#dev-diff"><code>dev diff</code> — Diff registry vs main</a></li>
+            <li><a href="#dev-arbor"><code>dev arbor</code> — Arbor sidecar store</a></li>
             <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code> — Upstream tracking</a></li>
             <li><a href="#dev-freeze"><code>dev freeze</code> — Freeze skill</a></li>
+            <li><a href="#dev-build"><code>dev build</code> — Compile registry & docs</a></li>
             <li><a href="#global-flags">Global Flags</a></li>
           </ul>
         </div>
@@ -1670,14 +1698,14 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Purely informational — prints install and run instructions for the standalone Gaia MCP server.</li>
-              <li>Standalone <code>@gaia-research/mcp</code> was decommissioned on 2026-08-19; summon now ships bundled in the <a href="mcp-server.html"><code>skill-heaven</code></a> plugin.</li>
+              <li>The server itself lives in a dedicated package, <a href="mcp-server.html"><code>@gaia-research/mcp</code></a>, not in this repo.</li>
             </ul>
             <div class="example-block">
               <div class="example-label">examples</div>
               <pre><span class="cmd">gaia dev mcp</span>
 <span class="c"># Output:</span>
-<span class="c">#   claude plugin install skill-heaven@gaia-skill-heaven</span>
-<span class="c">#   Source and releases: https://github.com/gaia-research/gaia-skill-heaven</span></pre>
+<span class="c">#   claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0</span>
+<span class="c">#   Source and releases: https://github.com/gaia-research/gaia-mcp</span></pre>
             </div>
           </div>
         </div>
@@ -1696,7 +1724,7 @@
             </ul>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="cmd">gaia version</span>    <span class="c"># → 7.4.2</span>
+              <pre><span class="cmd">gaia version</span>    <span class="c"># → 7.7.2</span>
 <span class="cmd">gaia --version</span></pre>
             </div>
           </div>
@@ -1752,6 +1780,89 @@
               <strong>Used in release CI.</strong> <code>gaia dev release</code> calls
               <code>gaia dev validate</code> internally. Run it locally before filing a
               registry PR to catch schema or timeline issues early.
+            </div>
+          </div>
+        </div>
+
+        <!-- steward -->
+        <div class="cmd-card" id="steward">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia steward</span>
+            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder} [options]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Autonomous repository maintenance steward and debt reconciliation engine.</li>
+              <li>Runs local read-only sensors, manages bounded maintenance lanes, and handles patch verification.</li>
+              <li>Enforces strict policy boundaries: never executes arbitrary commands or spends unbounded agent turns.</li>
+            </ul>
+
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Subcommand / Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>scan [--json]</code></td>
+                  <td style="max-width: 420px;">Run local sensors to detect and report repository maintenance debt. Writes receipts strictly under <code>.gaia/steward/</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>run [--json]</code></td>
+                  <td style="max-width: 420px;">Execute at most one policy-authorized Class A debt repair with automated independent proof.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>dispatch &lt;debt_id&gt; [--prompt] [--json]</code></td>
+                  <td style="max-width: 420px;">Render a report-only Class B task packet or agent prompt for a specific maintenance debt.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane status [--json]</code></td>
+                  <td style="max-width: 420px;">Report the state of the bounded rolling maintenance lane.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane next [--prompt] [--json]</code></td>
+                  <td style="max-width: 420px;">Hand out the next eligible bounded task from the lane (agent pickup point).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>lane record &lt;debt_id&gt; --verdict {accept,reject,escalate} [--note &lt;text&gt;]</code></td>
+                  <td style="max-width: 420px;">Record an independent verifier's judgment on a completed maintenance dispatch.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>verify &lt;debt_id&gt; --diff &lt;diff&gt; --proof &lt;json&gt; [--prompt]</code></td>
+                  <td style="max-width: 420px;">Independently verify a candidate patch against the envelope recorded in its dispatch receipt.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>founder [--json]</code></td>
+                  <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Scan current repository maintenance debt</span>
+<span class="cmd">gaia steward scan</span>
+
+<span class="c"># Pick up the next bounded maintenance task as an agent prompt</span>
+<span class="cmd">gaia steward lane next --prompt</span>
+
+<span class="c"># Run policy-authorized single Class A repair</span>
+<span class="cmd">gaia steward run</span>
+
+<span class="c"># Record an independent verification decision</span>
+<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span></pre>
             </div>
           </div>
         </div>
@@ -1958,21 +2069,31 @@
                   <td>false</td>
                 </tr>
                 <tr>
-                  <td>--no-build</td>
-                  <td>Skip rebuilding docs and graph assets after adding.</td>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after adding (opt-in; slower).</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding. No-op alias — this is already the default.</td>
+                  <td>true</td>
                 </tr>
               </tbody>
             </table>
+            <div class="callout info" style="margin-bottom:0.85rem;">
+              Docs rebuild is opt-in: a mutating command skips <code>gaia dev docs</code>
+              regeneration by default. Pass <code>--build</code> when you need the rebuild
+              in the same step (e.g. before manually inspecting <code>docs/graph/</code>).
+            </div>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Add a new Basic skill</span>
+              <pre><span class="c"># Add a new Basic skill (no docs rebuild, the default)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
   <span class="arg">--type basic --description "Reliably emits JSON/XML/YAML matching a given schema."</span>
 
-<span class="c"># Add an Extra skill without triggering a full rebuild</span>
+<span class="c"># Add an Extra skill and rebuild docs/graph assets in the same step</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Chain-of-Thought Reasoning"</span> \
-  <span class="arg">--type extra --no-build</span></pre>
+  <span class="arg">--type extra --build</span></pre>
             </div>
           </div>
         </div>
@@ -2042,9 +2163,14 @@
                   <td>—</td>
                 </tr>
                 <tr>
-                  <td>--no-build</td>
-                  <td>Skip rebuilding docs and graph assets after adding evidence.</td>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after adding evidence (opt-in; slower).</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding evidence. No-op alias — this is already the default.</td>
+                  <td>true</td>
                 </tr>
               </tbody>
             </table>
@@ -2058,6 +2184,365 @@
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
   <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
   --type arxiv --trust 100 --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev rm-evidence -->
+        <div class="cmd-card" id="dev-rm-evidence">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev rm-evidence</span>
+            <span class="cmd-signature">&lt;skill-id&gt; (--index &lt;N&gt; | --source &lt;URL&gt;) [--yes] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Removes an evidence entry from a skill node by index number or matching source URL.</li>
+              <li>Prompts for confirmation unless <code>--yes</code> is provided.</li>
+              <li>Skips documentation rebuild by default. Pass <code>--build</code> to regenerate artifacts.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Skill ID to remove evidence from.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--index &lt;N&gt;</td>
+                  <td style="max-width: 420px;">0-based index of the evidence entry to remove.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--source &lt;URL&gt;</td>
+                  <td style="max-width: 420px;">Source URL to match and remove.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--yes, -y</td>
+                  <td style="max-width: 420px;">Skip interactive confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after removing evidence.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Remove evidence by source URL</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm-evidence</span> <span class="arg">web-scrape --source https://example.com/stale-paper.pdf --yes</span>
+
+<span class="c"># Remove evidence by index</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm-evidence</span> <span class="arg">web-scrape --index 0</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev verify -->
+        <div class="cmd-card" id="dev-verify">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev verify</span>
+            <span class="cmd-signature">&lt;skill-id&gt; --index &lt;N&gt; [--dispute] [--notes &lt;text&gt;] [--source &lt;url&gt;] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Verifies or disputes an existing evidence row attached to a skill node.</li>
+              <li>Records the verifier attestation with optional dispute rationale and discussion URL.</li>
+              <li>Skips documentation rebuild by default. Pass <code>--build</code> to regenerate artifacts.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Skill ID containing the evidence entry.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--index &lt;N&gt;</td>
+                  <td style="max-width: 420px;">0-based index of the evidence row to verify.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--dispute</td>
+                  <td style="max-width: 420px;">Flag the evidence as disputed rather than verified.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--notes &lt;text&gt;</td>
+                  <td style="max-width: 420px;">Notes explaining the verification or dispute finding.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--source &lt;url&gt;</td>
+                  <td style="max-width: 420px;">URL to the audit PR or discussion thread.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after recording verification.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Verify an evidence row</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev verify</span> <span class="arg">web-scrape --index 0 --notes "Confirmed working upstream repository"</span>
+
+<span class="c"># Dispute an invalid benchmark row</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev verify</span> <span class="arg">web-scrape --index 1 --dispute --notes "Dead URL 404"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate -->
+        <div class="cmd-card" id="dev-calibrate">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate</span>
+            <span class="cmd-signature">&lt;contributor/skill-id&gt; &lt;level&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Sets a Named Skill's star level directly (1★–6★).</li>
+              <li>Stars live only on named skills — a generic reference has no level to set.</li>
+              <li>Logs a <code>rank_up</code> or <code>demote</code> timeline event automatically.</li>
+            </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ 3★+ requires a verified repo link.</strong> Calibrating to 3★ or
+              higher checks for a <code>links.github</code> value containing <code>/blob/</code>
+              (the Star Bar rule, META.md §2.4) and refuses the write otherwise — unless the
+              skill has <code>suiteComponents</code>, which derive trust from their components
+              instead of a personal repo link.
+            </div>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after calibrating (opt-in; slower).</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after calibrating. No-op alias — this is already the default.</td>
+                  <td>true</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Calibrate a named skill to 3★ (requires a blob/ repo link already on file)</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate</span> <span class="arg">mattpocock/skills 3★</span>
+
+<span class="c"># Demote back to 2★</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate</span> <span class="arg">mattpocock/skills 2★</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate-evidence-grades -->
+        <div class="cmd-card" id="dev-calibrate-evidence-grades">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate-evidence-grades</span>
+            <span class="cmd-signature">[--skill &lt;id&gt;] [--scope all|generic|named] [--dry-run] [--yes]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Backfills each evidence row's per-row Evidence Grade from its artifact score, using the thresholds in <code>meta.json</code>.</li>
+              <li>Walks every generic node and named skill file, or just one skill with <code>--skill</code>.</li>
+              <li>Skips auto-derived rows (<code>_autoDerived: true</code>) — those are computed, not stored.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--dry-run</td>
+                  <td>Show what would change without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--skill &lt;id&gt;</td>
+                  <td>Only process this skill (generic ref or <code>contributor/name</code>).</td>
+                  <td>all skills</td>
+                </tr>
+                <tr>
+                  <td>--scope</td>
+                  <td>Limit to <code>generic</code> nodes, <code>named</code> files, or <code>all</code>.</td>
+                  <td>all</td>
+                </tr>
+                <tr>
+                  <td>--yes / -y</td>
+                  <td>Skip the confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview grade backfill for one named skill first</span>
+<span class="cmd">gaia dev calibrate-evidence-grades</span> <span class="arg">--skill mattpocock/skills --dry-run</span>
+
+<span class="c"># Apply it across the whole registry without a confirmation prompt</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate-evidence-grades</span> <span class="arg">--yes</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate-trust-magnitude -->
+        <div class="cmd-card" id="dev-calibrate-trust-magnitude">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate-trust-magnitude</span>
+            <span class="cmd-signature">(--skill &lt;contributor/id&gt;... | --all) [--dry-run] [--yes]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Refreshes the cached <code>trustMagnitude</code>, <code>overallTrustGrade</code>, and <code>trustMagnitudeInputHash</code> frontmatter fields from the live Trust Magnitude formula.</li>
+              <li>These three fields are a disposable cache — the generated site already recomputes the live value on every build, but a named skill's own frontmatter stays frozen until this verb re-stamps it.</li>
+              <li>Closes the CLI gap earlier migration timeline entries flagged: before this verb existed, only an archived one-off script could write these fields.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--skill &lt;contributor/id&gt;</td>
+                  <td>Named skill to refresh. Repeatable. Mutually exclusive with <code>--all</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--all</td>
+                  <td>Refresh every named skill in the registry.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--dry-run</td>
+                  <td>Show the old → new Trust Magnitude / grade without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--yes / -y</td>
+                  <td>Skip the confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview the refresh for two named skills</span>
+<span class="cmd">gaia dev calibrate-trust-magnitude</span> <span class="arg">--skill mattpocock/skills --skill mattpocock/engineering --dry-run</span>
+
+<span class="c"># Refresh every named skill's cached Trust Magnitude fields</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate-trust-magnitude</span> <span class="arg">--all --yes</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev fuse -->
+        <div class="cmd-card" id="dev-fuse">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev fuse</span>
+            <span class="cmd-signature">&lt;generic-id&gt; [--name &lt;name&gt;] [--description &lt;desc&gt;] [--prereqs &lt;ids&gt;] [--named-capstone &lt;contributor/slug&gt;] [--suite-components &lt;ids&gt;] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Creates or updates a starless generic fusion node (<code>registry/nodes/fusion/&lt;generic-id&gt;.json</code>) and optional suite manifest (<code>registry/suites/&lt;contributor&gt;/&lt;slug&gt;.json</code>).</li>
+              <li>Links prerequisite generic skills and attaches named suite components atomically.</li>
+              <li>Skips documentation rebuild by default. Pass <code>--build</code> to regenerate artifacts.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;generic-id&gt;</td>
+                  <td style="max-width: 420px;">Starless generic skill ID to create or update (e.g. <code>get-shit-done</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--name &lt;name&gt;</td>
+                  <td style="max-width: 420px;">Human-readable display name (required if creating).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--description &lt;desc&gt;</td>
+                  <td style="max-width: 420px;">Description text (&ge;10 characters; required if creating).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--prereqs &lt;ids&gt;</td>
+                  <td style="max-width: 420px;">Comma-separated list of prerequisite generic skill IDs.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--named-capstone &lt;contributor/slug&gt;</td>
+                  <td style="max-width: 420px;">Existing named capstone skill to associate with this fusion.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--suite-components &lt;ids&gt;</td>
+                  <td style="max-width: 420px;">Comma-separated named skill IDs to persist into the suite manifest.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after fusing.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Create a fusion node and wire suite components</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev fuse</span> <span class="arg">get-shit-done \
+  --name "Get Shit Done" \
+  --description "Autonomous execution workflow combining multiple tools" \
+  --prereqs planning,execution \
+  --named-capstone gsd-build/get-shit-done \
+  --suite-components gsd-build/planning,gsd-build/execution</span></pre>
             </div>
           </div>
         </div>
@@ -2127,6 +2612,228 @@
 
 <span class="c"># Rename a Named Skill</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rename</span> <span class="arg">marco/old-slug marco/new-slug</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev rm -->
+        <div class="cmd-card" id="dev-rm">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev rm</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [--reason &lt;text&gt;] [--yes] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Removes a generic skill node or a Named Skill (<code>contributor/slug</code>) from the registry.</li>
+              <li>Cleans up prerequisite and derivative links across adjacent nodes automatically.</li>
+              <li>Logs a removal timeline event. For named skills, <code>--reason</code> is recorded in the timeline.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Generic or named skill ID to remove.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--reason &lt;text&gt;</td>
+                  <td style="max-width: 420px;">Human-readable reason for removal logged to the timeline.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--yes, -y</td>
+                  <td style="max-width: 420px;">Skip interactive confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after removing the skill.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Remove a deprecated named skill</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rm</span> <span class="arg">contributor/old-skill --reason "Replaced by new upstream suite" --yes</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev link -->
+        <div class="cmd-card" id="dev-link">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev link</span>
+            <span class="cmd-signature">&lt;target&gt; &lt;prereqs&gt; [--reset] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Links skills together in the DAG by adding prerequisite edges to the target node.</li>
+              <li>Pass <code>--reset</code> to replace all existing prerequisites instead of appending.</li>
+              <li>Checks for circular dependencies before writing changes.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;target&gt;</td>
+                  <td style="max-width: 420px;">Target skill ID receiving prerequisite edges.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>&lt;prereqs&gt;</td>
+                  <td style="max-width: 420px;">Comma-separated list of prerequisite skill IDs.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--reset</td>
+                  <td style="max-width: 420px;">Overwrite existing prerequisites instead of appending.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after updating links.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Link web-scrape to require browser-driver and html-parser</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev link</span> <span class="arg">web-scrape browser-driver,html-parser</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev reclassify -->
+        <div class="cmd-card" id="dev-reclassify">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev reclassify</span>
+            <span class="cmd-signature">&lt;skill-id&gt; {basic,fusion} [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Changes the structural type of a generic skill node between <code>basic</code> (0 prerequisites) and <code>fusion</code> (&ge;1 prerequisite).</li>
+              <li>Moves the underlying JSON file between <code>registry/nodes/basic/</code> and <code>registry/nodes/fusion/</code>.</li>
+              <li>Updates all referencing metadata and logs a reclassification event.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Generic skill ID to reclassify.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>{basic,fusion}</td>
+                  <td style="max-width: 420px;">New structural type under Yggdrasil II taxonomy.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation after reclassifying.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev reclassify</span> <span class="arg">data-pipeline fusion</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev update-named -->
+        <div class="cmd-card" id="dev-update-named">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev update-named</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [options] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Updates frontmatter properties of an existing Named Skill (<code>registry/named/&lt;contributor&gt;/&lt;slug&gt;.md</code>).</li>
+              <li>Supports updating title, status, genericRef, suiteRef, suiteComponents, origin, github-link, and installable flags.</li>
+              <li>Logs an update timeline event automatically.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">Named skill ID (e.g. <code>contributor/skill-name</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--title &lt;title&gt;</td>
+                  <td style="max-width: 420px;">Display lore title for the named skill.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--status &lt;status&gt;</td>
+                  <td style="max-width: 420px;">Lifecycle status (<code>awakened</code>, <code>named</code>, etc.).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--generic-ref &lt;id&gt;</td>
+                  <td style="max-width: 420px;">Generic skill reference ID fulfilled by this implementation.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--github-link &lt;url&gt;</td>
+                  <td style="max-width: 420px;">GitHub source link (must be a <code>blob/</code> link for 3★+).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--origin {true,false}</td>
+                  <td style="max-width: 420px;">Set whether this implementation is the canonical Origin.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--installable {true,false}</td>
+                  <td style="max-width: 420px;">Set installability status in share bundles and manifests.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--build</td>
+                  <td style="max-width: 420px;">Rebuild site documentation and indexes after updating.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Update generic reference and origin flag</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev update-named</span> <span class="arg">karpathy/web-scrape --generic-ref web-scrape --origin true</span></pre>
             </div>
           </div>
         </div>
@@ -2237,8 +2944,101 @@
             </ul>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="cmd">gaia dev audit</span>
-<span class="cmd">gaia dev diff</span>  <span class="c"># show substantive changes vs main</span></pre>
+              <pre><span class="cmd">gaia dev audit</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev diff -->
+        <div class="cmd-card" id="dev-diff">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev diff</span>
+            <span class="cmd-signature">[ref] [--base &lt;base-ref&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Shows substantive registry additions and modifications in a branch compared to main.</li>
+              <li>Strips generated artifact noise (Class S rebuilds, timestamps) to surface real content changes.</li>
+              <li>Short branch names automatically resolve with <code>origin/</code> prefix.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>[ref]</td>
+                  <td style="max-width: 420px;">Branch or ref to compare against the base.</td>
+                  <td>HEAD</td>
+                </tr>
+                <tr>
+                  <td>--base &lt;base-ref&gt;</td>
+                  <td style="max-width: 420px;">Base git ref to compare against.</td>
+                  <td>origin/main</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Compare current branch against origin/main</span>
+<span class="cmd">gaia dev diff</span>
+
+<span class="c"># Compare a review branch against main</span>
+<span class="cmd">gaia dev diff</span> <span class="arg">review/meta/intake-batch-42</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev arbor -->
+        <div class="cmd-card" id="dev-arbor">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev arbor</span>
+            <span class="cmd-signature">{import, check, replay} [input]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Manages declaration-first Arbor sidecar records and benchmark receipts.</li>
+              <li>Supports immutable record import, schema and profile validation, and deterministic profile replay.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Subcommand / Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>import &lt;file.json&gt;</code></td>
+                  <td style="max-width: 420px;">Validate and immutably import a declaration or benchmark receipt JSON file.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td><code>check [file.json]</code></td>
+                  <td style="max-width: 420px;">Validate one record or the complete Arbor source/profile store if omitted.</td>
+                  <td>all store</td>
+                </tr>
+                <tr>
+                  <td><code>replay</code></td>
+                  <td style="max-width: 420px;">Recompute generated Arbor profiles deterministically from immutable sources.</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Check Arbor store integrity</span>
+<span class="cmd">gaia dev arbor check</span>
+
+<span class="c"># Import a benchmark receipt</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev arbor import</span> <span class="arg">receipts/gaia-benchmark-run-01.json</span></pre>
             </div>
           </div>
         </div>
@@ -2378,6 +3178,26 @@
               <div class="example-label">examples</div>
               <pre><span class="c"># Freeze an unmaintained named skill with a reason</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev freeze</span> <span class="arg">mattpocock/old-skill --reason "unmaintained, repository archived by owner"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev build -->
+        <div class="cmd-card" id="dev-build">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev build</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Compiles all Class S site-served artifacts, visual graphs, and registry indexes across the repository.</li>
+              <li>Regenerates <code>docs/graph/gaia.json</code>, <code>docs/graph/gaia.gexf</code>, <code>docs/graph/gaia.svg</code>, <code>docs/graph/named/index.json</code>, and <code>registry/named-skills.json</code>.</li>
+              <li>Essential step after running batched <code>gaia dev</code> operations without individual rebuilds.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev build</span></pre>
             </div>
           </div>
         </div>

@@ -37,27 +37,10 @@ def buildMergedSkillMap(registryPath: str | Path = ".") -> dict[str, dict[str, A
     Generic half: every `registry/nodes/**/*.json`, keyed by its `id` field.
     Named half: every `registry/named/**/*.md` whose frontmatter `status` is
     `"named"` (matching the bucket filter `generateNamedIndex.py` applies),
-    keyed by its `id` field, with its frontmatter passed through as-is —
-    INCLUDING `role` when present.
-
-    `role` here is the genuine RFC §C-2 frontmatter field: `role: variant`
-    marks a suite component that must be EXCLUDED from the graded-origin
-    count in fusion-recipe Trust Magnitude scoring (`_gradedOriginCount` in
-    `trustMagnitude.py` reads it for exactly this). It must NOT be confused
-    with the unrelated, display-only "champion vs variant" UI role that
-    `generateNamedIndex.py::role_for_entry()` injects into its own in-memory
-    bucket entries (`entry["role"] = "origin" | "variant"`) to pick which
-    named skill a bucket shows first — that UI role is never read from
-    frontmatter and never reaches this function's `fm` dict at all, since
-    this function parses frontmatter directly rather than consuming bucket
-    entries. An earlier version of this function stripped `role`
-    unconditionally, copying the stripping pattern from commit `59a87e45d`
-    (which correctly strips the *bucket-entry* UI role in
-    `generateNamedIndex.py`'s separate `named_skill_map`) without noticing
-    the two `role`s are different fields on different data paths — that
-    blanket strip here silently dropped the real RFC field, making every
-    `role: variant` suite component wrongly count as a full graded origin
-    (Issue #1643).
+    keyed by its `id` field, with the display-only `role` key stripped (a
+    named entry's `role` marks "champion vs variant" within its own bucket —
+    leaking it into a shared lookup map previously zeroed out non-champion
+    origins' contribution to fusion-recipe grading; see commit `59a87e45d`).
 
     Named entries win over a generic entry on id collision, mirroring
     `generateNamedIndex.py`'s `{**generic_skills_map, **named_skill_map}`.
@@ -88,6 +71,7 @@ def buildMergedSkillMap(registryPath: str | Path = ".") -> dict[str, dict[str, A
             skillId = fm.get("id")
             if not skillId:
                 continue
+            fm = {k: v for k, v in fm.items() if k != "role"}
             mergedMap[skillId] = fm
 
     return mergedMap

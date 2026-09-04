@@ -2,26 +2,18 @@
   "id": "ruvnet/ruflo-v3",
   "name": "Ruflo V3",
   "contributor": "ruvnet",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 36.0,
-  "overallTrustGrade": "C",
+  "trustMagnitude": 216.0,
+  "overallTrustGrade": "A",
   "branch": "suite",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "rankWord": "Extra",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/ruvnet/ruflo-v3.json",
     "contributor": "/api/v1/contributors/ruvnet.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 274.83,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 12,
-    "transitiveCount": 24,
-    "maxDepth": 3,
-    "nestedSuiteCount": 0
   },
   "title": "The V3 Architect",
   "genericSkillRef": "platform-modernization-sprint",
@@ -107,24 +99,6 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-08-29T06:54:39Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "unknown",
-      "details": "TM 216.0 -> 186.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:59Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 186.0 -> 36.0, grade A -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:44Z",
-      "action": "demote",
-      "contributor": "unknown",
-      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

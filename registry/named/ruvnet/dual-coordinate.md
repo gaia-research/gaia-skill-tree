@@ -19,7 +19,7 @@ tags:
 - task-routing
 - parallel-execution
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/dual-mode
 evidence:
 - class: B
@@ -51,11 +51,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:58Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7b1eae7d17f5b2c94f9c9f645a4ff1badd106409199365411d18cfb8a7d56198
+trustMagnitudeInputHash: e9047334727842d45ba6c3d14056f70bb85ff8ff715bb49d053188b1f75025d1
 ---
 
 ## Overview

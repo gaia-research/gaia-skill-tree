@@ -2,26 +2,18 @@
   "id": "mattpocock/obsidian-vault",
   "name": "Obsidian Vault Manager",
   "contributor": "mattpocock",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 209.65,
+  "trustMagnitude": 106.13,
   "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/obsidian-vault.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 40.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "The Obsidian Vault Mapper",
   "genericSkillRef": "personal-knowledge-management",
@@ -138,18 +130,6 @@
       "previousValue": null,
       "newValue": null,
       "details": "deleted upstream for security: hardcoded personal vault path, was model-invocable"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:53Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:40Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

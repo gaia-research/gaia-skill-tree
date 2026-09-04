@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "7.13.2";</script>
+  <script>window.GAIA_VERSION = "7.11.2";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -35,22 +35,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=7.13.2">
-  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.13.2">
-  <link rel="stylesheet" href="css/plaque.css?v=7.13.2">
+  <link rel="stylesheet" href="css/styles.css?v=7.11.2">
+  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.11.2">
+  <link rel="stylesheet" href="css/plaque.css?v=7.11.2">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
-  <link rel="stylesheet" href="css/alpha-rail.css?v=7.13.2">
+  <link rel="stylesheet" href="css/alpha-rail.css?v=7.11.2">
   <!-- Homepage-only World Tree composition and 2D ↔ 3D explorer shell. -->
-  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.13.2">
+  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.11.2">
 
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=7.13.2"></script>
+  <script src="js/icons.js?v=7.11.2"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=7.13.2"></script>
+  <script src="js/rank-badge.js?v=7.11.2"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/tm-config.js?v=7.13.2"></script>
-  <script src="js/skill-semantics.js?v=7.13.2"></script>
-  <script src="js/plaque.js?v=7.13.2"></script>
+  <script src="js/tm-config.js?v=7.11.2"></script>
+  <script src="js/skill-semantics.js?v=7.11.2"></script>
+  <script src="js/plaque.js?v=7.11.2"></script>
   <style>
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
@@ -310,8 +310,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=7.13.2"></script>
-  <script src="js/site-nav.js?v=7.13.2"></script>
+  <script src="js/mounts.js?v=7.11.2"></script>
+  <script src="js/site-nav.js?v=7.11.2"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
@@ -336,9 +336,9 @@
         <span>Explore in 3D</span>
       </button>
       <!-- gaia-hero-post-start -->
-    <a href="meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html" class="hero-audit-btn" target="_blank" aria-label="View Meta Shift">
+    <a href="meta/reports/2026-08-20-from-question-to-code-matt-pococks-skill-curation.html" class="hero-audit-btn" target="_blank" aria-label="View Suite Curation">
       <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
-      <span>Meta Shift</span>
+      <span>Suite Curation</span>
       <span class="hero-audit-btn-arrow">↗</span>
     </a>
     <!-- gaia-hero-post-end -->
@@ -592,13 +592,13 @@
       </a>
     </div>
   </section>
-  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.13.2">
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.11.2">
   <!-- Tooltip — required for SVG bar hover (delegated handlers in leaderboard.js
        short-circuit when this element is absent). position:fixed so it escapes
        any overflow:hidden ancestor. -->
   <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
   <script>window.GAIA_LB_EMBED_HOST = true;</script>
-  <script src="trust/leaderboard/leaderboard.js?v=7.13.2"></script>
+  <script src="trust/leaderboard/leaderboard.js?v=7.11.2"></script>
 
   <div class="section-divider"></div>
 
@@ -764,8 +764,8 @@
               </div>
             </div>
             <div class="rite-term">
-              <pre><span class="cmd">claude plugin install</span> <span class="str">skill-heaven@gaia-skill-heaven</span></pre>
-              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Skill Heaven bundles its own summon MCP server, so there is nothing to configure. Standalone <code>@gaia-research/mcp</code> was decommissioned on 2026-08-19. See <a href="/en/mcp-server.html" class="text-tier-basic">the MCP server guide</a> for details.</span></div>
+              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-research/mcp</span></pre>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-research/mcp</code>. v0.1.0 is read-only — it searches and inspects the graph; installing stays with the CLI. See <a href="/en/mcp-server.html" class="text-tier-basic">the MCP server guide</a> for platform-specific config-file examples.</span></div>
             </div>
           </li>
           <li class="rite-step">
@@ -845,7 +845,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 3. Check the existing Registry for overlap before proposing a new kebab-case ID.
 4. Curate real, resolvable evidence. Include my supplied evidence, preserve its source, use GitHub `blob/` links rather than `tree/`, and never invent metrics or claims.
 5. Treat this as `self-made` and attribute the named submission to my authenticated GitHub username only if the sources confirm I am the Origin Contributor. If they indicate another origin, stop and explain the attribution conflict.
-6. Draft the complete Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
+6. Draft the complete Yggdrasil II Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
 7. Before opening anything, summarise the proposed skill, attribution, evidence, exact issue title, and the validated YAML. Ask: “Open this skill Intake as @&lt;my-handle&gt;? [Y/n]”
 8. Only after I confirm, submit through the Skill Intake issue template—or run `gaia push --from-file skills.yml --yes`—and return the issue URL. Never use both routes, never commit or push to the target repository, and do not modify canonical Registry files directly.
 9. If a temporary clone was used, optionally ask if I want to delete it.</pre>
@@ -1148,8 +1148,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <p class="aov-rail-label">Unique terminal · five predicates</p>
               <p class="aov-stars" role="img" aria-label="Six out of six stars"><span aria-hidden="true">★★★★★★</span></p>
               <h3 id="aov-impossible-title">Unique Impossible <button class="aov-provisional" type="button" aria-describedby="aov-provisional-note">◇ Provisional</button></h3>
-              <span class="aov-tooltip" id="aov-provisional-note" role="tooltip">The five-predicate gate is an explicit bridge state. The Suite/Unique branch distinction is ratified under Yggdrasil III; the five-predicate gate itself remains provisional.</span>
-              <p>The Unique terminal. Five predicates, provisional. The Unique Impossible Gate is the Suite Apex Gate minus the directNestedSuiteGte1 predicate. The gate itself remains provisional.</p>
+              <span class="aov-tooltip" id="aov-provisional-note" role="tooltip">The five-predicate gate is an explicit bridge state. Formal Yggdrasil III ratification is pending; no tracking issue exists yet.</span>
+              <p>The Unique terminal. Five predicates, provisional. The Unique Impossible Gate is the Suite Apex Gate minus the directNestedSuiteGte1 predicate. Formal ratification pending.</p>
             </div>
             <ol class="aov-gate" aria-label="Provisional Unique Impossible Gate predicates">
               <li><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
@@ -1241,20 +1241,20 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
     <div class="path-meta-queue" id="meta-report-callout">
       <!-- gaia-posts-start -->
-          <a href="meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html" class="pmq-post">
-            <span class="pmq-label">Meta Shift</span>
-            <h4 class="pmq-title">Yggdrasil III Update: 63 Skills Recalibrated, a Fusion Score Badge, and Nine Records at the S Floor <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-            <p class="pmq-summary">Sixty-three named skills recalibrated to their computed Trust Magnitude grade, a new Fusion Score badge on Hall of Heroes, and nine S-grade records -- one already clearing the 6-star Apex Gate.</p>
-          </a>
-          <a href="meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html" class="pmq-post">
-            <span class="pmq-label">Meta Shift</span>
-            <h4 class="pmq-title">Yggdrasil III: Structural Provenance Is Not Trust <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-            <p class="pmq-summary">Yggdrasil III separates structural provenance from trust and recalibrates repository-star adoption so every current 5-star skill remains above the 250 TM floor. Stored stars did not change.</p>
-          </a>
           <a href="meta/reports/2026-08-20-from-question-to-code-matt-pococks-skill-curation.html" class="pmq-post">
             <span class="pmq-label">Suite Curation</span>
             <h4 class="pmq-title">From Question to Code: Matt Pocock's Skill Curation <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
             <p class="pmq-summary">Gaia's Matt Pocock curation maps a connected work loop—from shaping a problem to implementation, review, and handoff—while keeping suite structure, trust, and historical records visible.</p>
+          </a>
+          <a href="meta/reports/2026-08-10-98-out-of-100-arent-good-enough.html" class="pmq-post">
+            <span class="pmq-label">Curation Report</span>
+            <h4 class="pmq-title">98 Out of the Top 100 Installed Skills Aren't Good Enough <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">We ran the skills.sh top-100 leaderboard through our curation pipeline. 73 of 100 entries are from two vendor clusters gaming install count. Here's what actually survived.</p>
+          </a>
+          <a href="meta/reports/2026-08-06-a-registry-correction-on-caveman-and-two-install-fixes.html" class="pmq-post">
+            <span class="pmq-label">Registry Correction</span>
+            <h4 class="pmq-title">A Registry Correction on caveman, and Two Install Fixes <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">mattpocock/caveman removed and replaced by its true original at an honest 1-star; two skills got clearer install slugs; several silent install failures now fail honestly.</p>
           </a>
           <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
@@ -1271,7 +1271,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=7.13.2"></script>
+  <script src="js/site-footer.js?v=7.11.2"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
   <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
@@ -1365,19 +1365,19 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=7.13.2" defer></script>
-  <script src="js/world-tree-layout.js?v=7.13.2" defer></script>
-  <script src="js/skill-graph.js?v=7.13.2" defer></script>
-  <script src="js/hud-toggle.js?v=7.13.2" defer></script>
-  <script src="js/scroll-reveal.js?v=7.13.2" defer></script>
+  <script src="js/atlas-helpers.js?v=7.11.2" defer></script>
+  <script src="js/world-tree-layout.js?v=7.11.2" defer></script>
+  <script src="js/skill-graph.js?v=7.11.2" defer></script>
+  <script src="js/hud-toggle.js?v=7.11.2" defer></script>
+  <script src="js/scroll-reveal.js?v=7.11.2" defer></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=7.13.2" defer></script>
-  <script src="js/skill-explorer.js?v=7.13.2" defer></script>
-  <script src="js/ui.js?v=7.13.2" defer></script>
-  <script src="js/page-ia.js?v=7.13.2" defer></script>
-  <script src="js/plaque-reveal.js?v=7.13.2" defer></script>
-  <script src="js/ascension-overdrive-v4.js?v=7.13.2" defer></script>
+  <script src="js/alpha-rail.js?v=7.11.2" defer></script>
+  <script src="js/skill-explorer.js?v=7.11.2" defer></script>
+  <script src="js/ui.js?v=7.11.2" defer></script>
+  <script src="js/page-ia.js?v=7.11.2" defer></script>
+  <script src="js/plaque-reveal.js?v=7.11.2" defer></script>
+  <script src="js/ascension-overdrive-v4.js?v=7.11.2" defer></script>
 
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
@@ -1521,8 +1521,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=7.13.2" defer></script>
-  <script src="js/hoh-modal.js?v=7.13.2" defer></script>
+  <script src="js/profile-share.js?v=7.11.2" defer></script>
+  <script src="js/hoh-modal.js?v=7.11.2" defer></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>
@@ -1567,7 +1567,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           { delay: 800, action: () => addLocalLog("<span class='cmd'>$ gaia scan</span>", "cmd") },
           { delay: 600, action: () => addLocalLog("[System] Scanning workspace repositories for evidence...", "system") },
           { delay: 600, action: () => addLocalLog("[System] Found capability: `openai/swarm` (awakened status)", "system") },
-          { delay: 600, action: () => addLocalLog("[System] Found evidence: repo-own (reproducible repo file)", "pass") },
+          { delay: 600, action: () => addLocalLog("[System] Found evidence: Class B (reproducible repo file)", "pass") },
 
           // Step 4: gaia push (creates GitHub issue)
           { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
@@ -1581,7 +1581,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           { delay: 1000, action: () => addRemoteLog("[GitHub] Detected Intake Issue #402: \"Intake: Add openai/swarm\"", "system") },
           { delay: 800, action: () => addRemoteLog("[System] Launching automated Reviewer Agent checks...", "system") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Verifying evidence URLs...", "check-run") },
-          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified repo-own source is a valid github blob URL.", "pass") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified Class B source is a valid github blob URL.", "pass") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Checking for prerequisite duplicates...", "check-run") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Concept is novel and maps to generic Literature Search.", "pass") },
           { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Leaving review checklist comment on Issue #402.", "pass") },
@@ -1625,5 +1625,5 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=284; namedSkills=287; uniqueSkills=50 -->
+<!-- skills=283; namedSkills=274; uniqueSkills=29 -->
 <!-- gaia:stats-end -->

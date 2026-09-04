@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/karpathy.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 228.28,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 5,
-    "transitiveCount": 12,
-    "maxDepth": 2,
-    "nestedSuiteCount": 0
-  },
   "title": "The Scholar's Compass",
   "genericSkillRef": "autonomous-web-research",
   "origin": false,
@@ -100,12 +92,6 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from karpathy/autoresearch to karpathy/autoresearch-universal"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:51Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

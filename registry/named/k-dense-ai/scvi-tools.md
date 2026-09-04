@@ -5,11 +5,11 @@ contributor: k-dense-ai
 origin: false
 genericSkillRef: single-cell-omics-modeling
 status: named
-level: 4★
+level: 2★
 description: Model single-cell omics data with scvi-tools for batch correction, transfer
   learning, and multimodal integration.
 createdAt: '2026-07-31'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-01'
 title: scvi-tools
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md
@@ -33,15 +33,6 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
     (type: github-stars-own)'
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 170.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-09-02T15:11:33Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md
   evaluator: mbtiongson1
@@ -72,9 +63,6 @@ evidence:
   sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:53Z'
-trustMagnitude: 170.06
-overallTrustGrade: A
-trustMagnitudeInputHash: ae8c41ead14c220809dc7daffa40b6bc8eef70f2c0dccfe48d178a91e34e610b
 ---
 
 ## Installation

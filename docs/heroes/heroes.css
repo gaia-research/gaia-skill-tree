@@ -13,31 +13,7 @@
   --heroes-gold-rgb: 251, 191, 36;
   --heroes-frost: oklch(0.92 0.01 220);
   --heroes-frost-dim: oklch(0.75 0.03 230);
-  /* Secondary reading colour. --heroes-frost-dim was only ever used at 0.6
-     opacity, which put small mono text near the AA floor and made every
-     secondary figure read as disabled. This one is used at full opacity and
-     clears 4.5:1 against --heroes-bg-deep with room to spare. */
-  --heroes-ink-2: oklch(0.80 0.02 232);
   --heroes-honor: var(--honor-red, oklch(0.63 0.24 25));
-
-  /* ── Branch materials ──────────────────────────────────────────
-     Lifted from the Ascension Overdrive v4 palette (ascension-overdrive-v4.css
-     .aov) so the Hall speaks Overdrive's own material language rather than
-     inventing a second one. Suite is warm and assembled: gilded, brass, cream.
-     Unique is cold and singular: void ground lit by one white point. Rank
-     colour still rides on --stage-accent; these are the MATERIAL underneath it,
-     which is what makes the two branches read apart at a glance. */
-  --heroes-suite-cream: oklch(0.92 0.025 85);
-  --heroes-suite-gold: oklch(0.78 0.14 82);
-  --heroes-suite-brass: oklch(0.65 0.10 72);
-  --heroes-suite-ink: oklch(0.25 0.02 75);
-  --heroes-unique-void: oklch(0.13 0.015 260);
-  --heroes-unique-singularity: oklch(0.96 0.01 240);
-  --heroes-unique-fracture: oklch(0.55 0.03 245);
-
-  --heroes-art: '../assets/ascension-overdrive';
-  /* Motion: one exponential ease for every reveal on this page. */
-  --heroes-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --heroes-font-display: var(--font-display, 'EB Garamond', Georgia, serif);
   --heroes-font-body: var(--font-body, 'Bricolage Grotesque', Inter, sans-serif);
   --heroes-font-mono: var(--font-mono, 'Departure Mono', monospace);
@@ -60,12 +36,6 @@
   color: var(--heroes-frost);
   isolation: isolate;
   padding-top: 5rem;
-  /* The gallery is a <main>, and the site's global document column caps <main>
-     at 1080px with auto margins. A hall is not a document: the paper runs to
-     the edges and the plate is centred on the viewport, not on a column. */
-  max-width: none;
-  margin-inline: 0;
-  padding-inline: 0;
 }
 
 /* Force body background to match so no blue-dark bleed shows on the sides. */
@@ -87,28 +57,6 @@ body:has(.heroes-gallery) {
   opacity: 0.45;
 }
 
-/* The Hall's paper. The Overdrive astrolabe substrate is the same engraved
-   plate the Ascension section stands on, so the gallery reads as a page of the
-   atlas rather than a black void with cards floating in it. Fixed, so the
-   plates travel across one continuous sheet. */
-.heroes-gallery::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background-image: url('../assets/ascension-overdrive/aov4-astrolabe-substrate-mobile.webp');
-  background-size: cover;
-  background-position: 50% 42%;
-  opacity: 0.5;
-}
-
-@media (min-width: 820px) {
-  .heroes-gallery::after {
-    background-image: url('../assets/ascension-overdrive/aov4-astrolabe-substrate.webp');
-  }
-}
-
 
 /* ── Header stage ────────────────────────────────────────────── */
 /* min-height base 70svh (mobile); enhanced to 100svh at min-width: 1200px.  */
@@ -118,9 +66,9 @@ body:has(.heroes-gallery) {
   min-height: 70svh;
   padding: 4rem 2rem;
   position: relative;
-  /* Tint only. The opaque --heroes-bg-ink layer that used to sit under this
-     gradient hid the astrolabe ground the rest of the Hall stands on. */
-  background: radial-gradient(ellipse 80% 70% at 50% 35%, rgba(251, 191, 36, 0.08) 0%, transparent 70%);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 35%, rgba(251, 191, 36, 0.08) 0%, transparent 70%),
+    var(--heroes-bg-ink);
 }
 
 .heroes-header__inner {
@@ -156,87 +104,8 @@ body:has(.heroes-gallery) {
   animation-delay: 0.2s;
 }
 
-/* The fork paragraph is the page's thesis: it names the two branches and warns
-   that the Fusion Score means different things on each. Measure is capped by
-   --heroes-prose-max on the parent (680px, inside the 65-75ch rule). */
-.heroes-header__fork {
-  font-family: var(--heroes-font-body);
-  font-size: clamp(0.94rem, 1.4vw, 1.05rem);
-  line-height: 1.62;
-  color: var(--heroes-ink-2);
-  margin: 1.5rem auto 0;
-  max-width: 56ch;
-  text-wrap: pretty;
-  animation: heroes-subtitle-enter 1.4s var(--heroes-ease) both;
-  animation-delay: 0.32s;
-}
-
-.heroes-header__fork strong {
-  font-weight: 600;
-  color: var(--heroes-suite-cream);
-}
-
-.heroes-header__fork strong[data-branch="suite"] {
-  color: var(--heroes-suite-gold);
-}
-
-.heroes-header__fork strong[data-branch="unique"] {
-  color: var(--rank-4-unique, oklch(0.48 0.24 296));
-  /* The 4-unique violet is dark against the deep ground, so the branch word
-     gets its own lighter tint rather than the raw token. */
-  color: color-mix(in oklch, var(--rank-4-unique, oklch(0.48 0.24 296)) 42%, var(--heroes-unique-singularity));
-}
-
-.heroes-header__tally {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem 1.4rem;
-  margin: 1.9rem 0 0;
-  font-family: var(--heroes-font-mono);
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--heroes-ink-2);
-  animation: heroes-meta-enter 1s var(--heroes-ease) both;
-  animation-delay: 0.5s;
-}
-
-.heroes-header__tally[hidden] {
-  display: none;
-}
-
-.heroes-header__tally-item {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.42rem;
-}
-
-.heroes-header__tally-item strong {
-  font-weight: 600;
-  color: var(--heroes-frost);
-}
-
-.heroes-header__tally-glyph {
-  font-size: 0.85em;
-}
-
-.heroes-header__tally-item[data-branch="suite"] .heroes-header__tally-glyph,
-.heroes-header__tally-item[data-branch="suite"] strong {
-  color: var(--heroes-suite-gold);
-}
-
-.heroes-header__tally-item[data-branch="unique"] .heroes-header__tally-glyph,
-.heroes-header__tally-item[data-branch="unique"] strong {
-  color: color-mix(in oklch, var(--rank-4-unique, oklch(0.48 0.24 296)) 42%, var(--heroes-unique-singularity));
-}
-
-.heroes-header__tally-item--total {
-  color: color-mix(in oklch, var(--heroes-ink-2) 72%, transparent);
-}
-
 .heroes-header__scroll-hint {
-  margin-top: 3rem;
+  margin-top: 5rem;
   animation: heroes-bounce 2s ease-in-out infinite;
   animation-delay: 2s;
   opacity: 0.4;
@@ -915,7 +784,6 @@ body:has(.heroes-gallery) {
   --stage-accent: var(--heroes-gold-warm);
   --stage-accent-rgb: var(--heroes-gold-rgb);
   position: relative;
-  width: 100%;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -963,30 +831,36 @@ body:has(.heroes-gallery) {
   --stage-accent-rgb: 224, 137, 74;
 }
 
-/* Tier-specific stage backgrounds.
-   Each stage used to paint an opaque --heroes-bg-deep base. That was invisible
-   while the whole Hall was one flat near-black, but a stage is only as wide as
-   its content, so against the astrolabe ground it cut a hard black slab out of
-   the paper. The tint stays; the opaque layer under it is gone. */
+/* Tier-specific stage backgrounds */
 .hero-stage--ultimate {
-  background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(var(--stage-accent-rgb), 0.08) 0%, transparent 70%);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(var(--stage-accent-rgb), 0.08) 0%, transparent 70%),
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--apex {
-  background: radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.07) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.07) 0%, transparent 65%),
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--unique {
-  background: radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.06) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.06) 0%, transparent 65%),
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--extra {
-  background: radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.05) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.05) 0%, transparent 65%),
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--basic,
 .hero-stage--named {
-  background: radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.04) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.04) 0%, transparent 65%),
+    var(--heroes-bg-deep);
 }
 
 /* Stage divider */
@@ -1287,9 +1161,8 @@ body:has(.heroes-gallery) {
   gap: 0.8rem;
   font-family: var(--heroes-font-mono);
   font-size: 0.75rem;
-  /* Was --heroes-frost at 0.72 opacity, which landed under 4.5:1 on the ink
-     ground. --heroes-ink-2 is the same reading blue at full strength. */
-  color: var(--heroes-ink-2);
+  color: var(--heroes-frost);
+  opacity: 0.72;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -1331,511 +1204,36 @@ body:has(.heroes-gallery) {
 }
 
 
-/* ── Chapter heads ───────────────────────────────────────────────
-   One per branch+rank run. The old hairline-and-word divider could not carry
-   the Hall's structure once it reached 80 plates; this is a real section
-   opening with a glyph, the branch-forked rank label, what the branch means,
-   and how many plates follow. Set in the display face so it reads as a heading
-   rather than another HUD strip. */
-.heroes-chapter {
-  --chapter-accent: var(--heroes-gold-warm);
-  --chapter-accent-rgb: var(--heroes-gold-rgb);
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  /* The glyph belongs to the heading line, not to the whole block. Spanning it
-     down all three rows parked the mark beside the note, where it read as a
-     bullet on a sentence rather than a section mark on a title. */
-  grid-template-areas:
-    'glyph title'
-    '.     note'
-    '.     count';
-  align-items: start;
-  column-gap: clamp(0.7rem, 2.4vw, 1.1rem);
-  row-gap: 0.28rem;
+/* ── Tier section dividers ───────────────────────────────────── */
+.heroes-tier-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
   max-width: var(--heroes-content-max);
   margin: 0 auto;
-  padding: 5.5rem 1.25rem 2.75rem;
 }
 
-.heroes-chapter[data-first="true"] {
-  padding-top: 3.25rem;
-}
-
-.heroes-chapter::before {
-  content: '';
-  position: absolute;
-  left: 1.25rem;
-  right: 1.25rem;
-  top: 2.5rem;
+.heroes-tier-divider__line {
+  flex: 1;
   height: 1px;
   background: linear-gradient(
     90deg,
-    rgba(var(--chapter-accent-rgb), 0.42) 0%,
-    rgba(var(--chapter-accent-rgb), 0.14) 44%,
+    transparent 0%,
+    var(--heroes-gold-warm) 50%,
     transparent 100%
   );
-}
-
-.heroes-chapter[data-first="true"]::before {
-  display: none;
-}
-
-.heroes-chapter[data-branch="suite"] {
-  --chapter-accent: var(--heroes-suite-gold);
-  --chapter-accent-rgb: 214, 164, 76;
-}
-
-.heroes-chapter[data-branch="unique"] {
-  --chapter-accent: color-mix(in oklch, var(--rank-4-unique, oklch(0.48 0.24 296)) 44%, var(--heroes-unique-singularity));
-  --chapter-accent-rgb: 168, 142, 232;
-}
-
-/* The chapter accent forks with the ladder, exactly as --stage-accent does
-   above. Keyed on branch alone it could not: the "Unique Ultimate · 5★" head
-   announced itself in the 4★ violet while every plate beneath it rendered
-   burnished copper, and the "Extra · 4★" head sat gold above fuchsia plates.
-   The head and its own plates now carry the same rank.
-   Unique is mixed toward --heroes-unique-singularity because these are 2.1rem
-   display headings on near-black; the raw rank token is too dark to read at
-   that size. The glow keeps the pure rank hue.
-   The mix runs in oklab, not oklch: singularity sits at hue 240, so an oklch
-   mix interpolates around the hue wheel and drags the 5★ copper (hue 55) the
-   long way to pink. oklab blends rectangularly, so it only lightens and
-   desaturates and the rank hue survives. */
-.heroes-chapter[data-branch="suite"][data-level="4"] {
-  --chapter-accent: var(--rank-4);
-  --chapter-accent-rgb: var(--rank-4-rgb);
-}
-.heroes-chapter[data-branch="suite"][data-level="5"] {
-  --chapter-accent: var(--rank-5);
-  --chapter-accent-rgb: var(--rank-5-rgb);
-}
-.heroes-chapter[data-branch="suite"][data-level="6"] {
-  --chapter-accent: var(--rank-6);
-  --chapter-accent-rgb: var(--rank-6-rgb);
-}
-.heroes-chapter[data-branch="unique"][data-level="4"] {
-  --chapter-accent: color-mix(in oklab, var(--rank-4-unique) 44%, var(--heroes-unique-singularity));
-  --chapter-accent-rgb: var(--rank-4-unique-rgb);
-}
-.heroes-chapter[data-branch="unique"][data-level="5"] {
-  --chapter-accent: color-mix(in oklab, var(--rank-5-unique) 66%, var(--heroes-unique-singularity));
-  --chapter-accent-rgb: var(--rank-5-unique-rgb);
-}
-.heroes-chapter[data-branch="unique"][data-level="6"] {
-  --chapter-accent: color-mix(in oklab, var(--rank-6-unique) 72%, var(--heroes-unique-singularity));
-  --chapter-accent-rgb: var(--rank-6-unique-rgb);
-}
-
-.heroes-chapter__glyph {
-  grid-area: glyph;
-  align-self: center;
-  font-family: var(--heroes-font-mono);
-  font-size: 1.6rem;
-  line-height: 1;
-  color: var(--chapter-accent);
-  text-shadow: 0 0 18px rgba(var(--chapter-accent-rgb), 0.45);
-}
-
-.heroes-chapter__title {
-  grid-area: title;
-  margin: 0;
-  font-family: var(--heroes-font-display);
-  font-size: clamp(1.5rem, 4.2vw, 2.1rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  color: var(--chapter-accent);
-  text-wrap: balance;
-}
-
-.heroes-chapter__note {
-  grid-area: note;
-  margin: 0;
-  max-width: 46ch;
-  font-family: var(--heroes-font-body);
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: var(--heroes-ink-2);
-  text-wrap: pretty;
-}
-
-.heroes-chapter__count {
-  grid-area: count;
-  margin-top: 0.35rem;
-  font-family: var(--heroes-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: color-mix(in oklch, var(--heroes-ink-2) 68%, transparent);
-}
-
-
-/* ── Branch material ─────────────────────────────────────────────
-   The single most useful thing the Hall can say about a plate is which way it
-   came up the ladder. Rank colour alone could not carry that: at 4★ the whole
-   Unique run looked like one 64-plate block. So the branch now changes the
-   MATERIAL of the crest, not just its hue.
-
-     Suite  — gilded. Rotated diamond backplate (the ◆ the taxonomy already
-              uses), warm brass edge, the Overdrive suite haze behind it.
-     Unique — a closed ring around a single core (the ◉ the taxonomy already
-              uses), cold void ground, the Overdrive orrery field behind it.
-
-   Both keep the rank ramp on --stage-accent, so rank still reads inside a
-   branch. Geometry comes straight from each branch's own glyph, which is why
-   it is legible without a legend. */
-
-.hero-card__field {
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  width: clamp(260px, 46vw, 420px);
-  height: clamp(260px, 46vw, 420px);
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.92);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  transition: opacity 900ms var(--heroes-ease), transform 1100ms var(--heroes-ease);
-}
-
-.hero-stage.is-visible .hero-card__field {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* Suite: gilded haze. The plate is near-white artwork, so it is masked to a
-   soft disc and screened at low strength; that lets the gold wisps read as
-   light coming off the crest instead of a grey rectangle. */
-.hero-stage[data-branch="suite"] .hero-card__field {
-  background-image: url('../assets/ascension-overdrive/aov3-haze-suite.webp');
-  background-size: cover;
-  mix-blend-mode: screen;
-  opacity: 0;
-  mask-image: radial-gradient(circle at 50% 50%, black 12%, transparent 68%);
-}
-
-.hero-stage[data-branch="suite"].is-visible .hero-card__field {
   opacity: 0.3;
 }
 
-/* Unique: the orrery. Already a concentric-ring diagram, which is the ◉ mark
-   drawn at scale, and already in the violet register the Unique ladder starts
-   from. Tinted to the plate's own rank accent so 4★ violet, 5★ burnished
-   copper and 6★ ember stay distinguishable inside the branch. */
-.hero-stage[data-branch="unique"] .hero-card__field {
-  background-image: url('../assets/ascension-overdrive/aov4-rank-3-field-mobile.webp');
-  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 74%);
-  filter: saturate(0.7);
-}
-
-.hero-stage[data-branch="unique"].is-visible .hero-card__field {
-  opacity: 0.62;
-}
-
-.hero-stage[data-branch="unique"].is-active .hero-card__field {
-  opacity: 0.78;
-  transform: translate(-50%, -50%) scale(1.03);
-}
-
-@media (min-width: 820px) {
-  .hero-stage[data-branch="unique"] .hero-card__field {
-    background-image: url('../assets/ascension-overdrive/aov4-rank-3-field.webp');
-  }
-}
-
-/* Unique backplate: a ring, not a diamond. Same element, no extra markup. */
-.hero-stage[data-branch="unique"] .hero-card__crest-diamond-back {
-  transform: rotate(0deg);
-  border-radius: 50%;
-  border-width: 1px;
-  border-color: rgba(var(--stage-accent-rgb), 0.5);
-  background: radial-gradient(
-    circle at 50% 42%,
-    rgba(var(--stage-accent-rgb), 0.16) 0%,
-    transparent 62%
-  );
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--stage-accent-rgb), 0.14),
-    0 12px 48px rgba(0, 0, 0, 0.55),
-    0 0 52px rgba(var(--stage-accent-rgb), 0.16);
-}
-
-/* The outer ring of the ◉ — a second, wider circle so the mark reads as
-   concentric rather than as a single hoop. */
-.hero-stage[data-branch="unique"] .hero-card__crest-diamond-back::before {
-  content: '';
-  position: absolute;
-  inset: -18px;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.2);
-}
-
-.hero-stage[data-branch="unique"].is-active .hero-card__crest-diamond-back,
-.hero-stage[data-branch="unique"] .hero-card__crest-wrapper:hover .hero-card__crest-diamond-back {
-  transform: rotate(0deg) scale(1.05);
-}
-
-/* The shared entrance keyframe holds rotate(45deg) through its whole run, so a
-   Unique crest would snap back to a diamond the moment it animated in. The ring
-   gets its own entrance: same curve, no rotation. */
-@keyframes hero-ring-enter {
-  0%   { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.hero-stage[data-branch="unique"].is-visible .hero-card__crest-diamond-back {
-  animation: hero-ring-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* Suite backplate: keep the diamond, add the brass edge that makes it read as
-   an assembled plate rather than an outline. */
-.hero-stage[data-branch="suite"] .hero-card__crest-diamond-back {
-  border-color: color-mix(in oklch, var(--heroes-suite-brass) 76%, transparent);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--stage-accent-rgb), 0.1) 0%,
-      transparent 45%,
-      rgba(var(--stage-accent-rgb), 0.06) 100%
-    );
-}
-
-.hero-stage[data-branch="suite"] .hero-card__crest-square-front {
-  border-color: color-mix(in oklch, var(--heroes-suite-gold) 62%, transparent);
-}
-
-.hero-stage[data-branch="unique"] .hero-card__crest-square-front {
-  border-color: rgba(var(--stage-accent-rgb), 0.62);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.7),
-    0 0 0 5px var(--heroes-unique-void),
-    0 0 0 6px rgba(var(--stage-accent-rgb), 0.28);
-}
-
-
-/* ── Branch mark ─────────────────────────────────────────────────
-   Says the branch in words. Glyph, word and colour all carry it, so the fork
-   survives for readers who cannot use hue. */
-.hero-card__branchmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.32rem 0.72rem 0.32rem 0.55rem;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.34);
-  border-radius: 2px;
-  background: rgba(var(--stage-accent-rgb), 0.07);
-  font-family: var(--heroes-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+.heroes-tier-divider__label {
+  font-family: var(--heroes-font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--heroes-frost);
-}
-
-.hero-card__branchmark-glyph {
-  font-size: 0.95rem;
-  line-height: 1;
-  color: var(--stage-accent);
-}
-
-.hero-stage[data-branch="suite"] .hero-card__branchmark {
-  border-color: color-mix(in oklch, var(--heroes-suite-brass) 70%, transparent);
-  background: color-mix(in oklch, var(--heroes-suite-ink) 55%, transparent);
-  color: var(--heroes-suite-cream);
-}
-
-.hero-stage[data-branch="unique"] .hero-card__branchmark {
-  background: color-mix(in oklch, var(--heroes-unique-void) 82%, transparent);
-  color: var(--heroes-unique-singularity);
-}
-
-
-/* ── Ledger column ───────────────────────────────────────────── */
-.hero-card__ledger {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  min-width: 0;
-  max-width: 100%;
-}
-
-
-/* ── Fusion Score readout ────────────────────────────────────────
-   Two shapes for two branches, because the underlying numbers are not
-   comparable. See heroFusionHtml() in heroes.js for the data check behind
-   this split. */
-.hero-card__fusion {
-  display: grid;
-  gap: 0.2rem;
-  justify-items: center;
-  padding: 0.7rem 1.1rem;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.22);
-  border-radius: 3px;
-  font-family: var(--heroes-font-mono);
-  cursor: help;
-}
-
-.hero-card__fusion-label {
-  font-size: 0.63rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--heroes-ink-2);
-}
-
-.hero-card__fusion-value {
-  font-size: 1.5rem;
-  line-height: 1.1;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--stage-accent);
-  font-variant-numeric: tabular-nums;
-}
-
-.hero-card__fusion-sub {
-  font-size: 0.68rem;
-  letter-spacing: 0.05em;
-  color: var(--heroes-ink-2);
-  text-align: center;
-}
-
-/* Suite: composition is the branch's defining fact, so it gets the headline
-   figure and a bar read against the Hall's own largest score. */
-.hero-card__fusion--suite {
-  min-width: min(100%, 15rem);
-  border-color: color-mix(in oklch, var(--heroes-suite-brass) 62%, transparent);
-  background: color-mix(in oklch, var(--heroes-suite-ink) 45%, transparent);
-}
-
-.hero-card__fusion--suite .hero-card__fusion-value {
-  font-size: 2rem;
-  color: var(--heroes-suite-gold);
-}
-
-.hero-card__fusion-bar {
-  display: block;
-  width: 100%;
-  height: 3px;
-  margin-top: 0.5rem;
-  background: color-mix(in oklch, var(--heroes-suite-brass) 26%, transparent);
-  overflow: hidden;
-}
-
-.hero-card__fusion-bar-fill {
-  display: block;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--heroes-suite-brass) 0%,
-    var(--heroes-suite-gold) 100%
-  );
-  transform-origin: left center;
-  transform: scaleX(0);
-  transition: transform 1200ms var(--heroes-ease) 250ms;
-}
-
-.hero-stage.is-visible .hero-card__fusion-bar-fill {
-  transform: scaleX(1);
-}
-
-/* Unique: a ledger line, not a headline. Most Unique entries compose little or
-   nothing, and overselling a 40 next to a Suite's 390 would be a lie. */
-.hero-card__fusion--unique {
-  grid-auto-flow: column;
-  align-items: baseline;
-  justify-items: start;
-  gap: 0.6rem;
-  padding: 0.42rem 0.85rem;
-  border-color: rgba(var(--stage-accent-rgb), 0.26);
-  background: color-mix(in oklch, var(--heroes-unique-void) 62%, transparent);
-}
-
-.hero-card__fusion--unique .hero-card__fusion-value {
-  font-size: 0.95rem;
-}
-
-.hero-card__fusion--unique .hero-card__fusion-sub {
-  text-align: start;
-}
-
-/* A zero here is a finding, not an absence: this capability composes nothing
-   distinct of its own. Stated rather than blanked. */
-.hero-card__fusion--zero .hero-card__fusion-value {
-  color: var(--heroes-ink-2);
-}
-
-/* Below ~560px the three-column ledger line squeezes the clause into a ragged
-   hanging wrap. Give the clause its own full-width row instead. */
-@media (max-width: 559px) {
-  .hero-card__fusion--unique {
-    grid-auto-flow: row;
-    grid-template-columns: auto 1fr;
-    grid-template-areas:
-      'label value'
-      'sub   sub';
-    row-gap: 0.24rem;
-    column-gap: 0.6rem;
-  }
-
-  .hero-card__fusion--unique .hero-card__fusion-label {
-    grid-area: label;
-  }
-
-  .hero-card__fusion--unique .hero-card__fusion-value {
-    grid-area: value;
-  }
-
-  .hero-card__fusion--unique .hero-card__fusion-sub {
-    grid-area: sub;
-  }
-}
-
-/* ── Card actions ────────────────────────────────────────────── */
-.hero-card__actions {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 0.2rem;
-}
-
-.hero-card__cta {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 8px 18px;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.45);
-  border-radius: 6px;
-  background: rgba(var(--stage-accent-rgb), 0.12);
-  color: var(--heroes-frost);
-  font-family: var(--heroes-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
-}
-
-.hero-card__cta:hover,
-.hero-card__cta:focus-visible {
-  background: rgba(var(--stage-accent-rgb), 0.2);
-  border-color: var(--stage-accent);
-  transform: translateY(-1px);
-}
-
-.hero-card__cta:focus-visible,
-.hero-card__share:focus-visible {
-  outline: 2px solid var(--stage-accent);
-  outline-offset: 3px;
+  color: var(--heroes-gold-warm);
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
 
@@ -2283,63 +1681,6 @@ body:has(.heroes-gallery) {
   }
 }
 
-/* ── 1000px+ — the plate becomes a spread ────────────────────────
-   Stacked and centred, each plate wasted roughly a third of a full-height
-   viewport on empty space below the share button, and the eye had to travel
-   the whole screen height to get from the crest to the name. Side by side:
-   crest left, everything you read right, both on one baseline. Placed after
-   the 1200px block on purpose so the larger crest sizes there still apply. */
-@media (min-width: 1000px) {
-  .hero-card {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    justify-items: start;
-    column-gap: clamp(2.5rem, 5vw, 5rem);
-    max-width: min(var(--heroes-content-max), 68rem);
-  }
-
-  .hero-card__canvas {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-
-  .hero-card__crest-wrapper {
-    grid-column: 1;
-    grid-row: 1;
-    margin-bottom: 0;
-  }
-
-  .hero-card__ledger {
-    grid-column: 2;
-    grid-row: 1;
-    align-items: flex-start;
-    gap: 1.15rem;
-  }
-
-  .hero-card__meta {
-    text-align: start;
-  }
-
-  .hero-card__name {
-    letter-spacing: -0.01em;
-  }
-
-  .hero-card__stats {
-    justify-content: flex-start;
-  }
-
-  .hero-card__actions {
-    justify-content: flex-start;
-  }
-
-  /* The field plate is anchored to the crest, so it recentres with it. */
-  .hero-card__field {
-    width: clamp(320px, 30vw, 520px);
-    height: clamp(320px, 30vw, 520px);
-  }
-}
-
 
 /* ── Gold-wreath avatar inside hero crest (E3/E4) ──────────────
    hero-card__crest-square-front now contains a .hero-card__crest-avatar
@@ -2410,20 +1751,6 @@ body:has(.heroes-gallery) {
     clip-path: none !important;
   }
 
-  /* Geometry is not motion. The Suite backplate IS a diamond because of its
-     rotate(45deg), and the blanket transform reset above flattened it into a
-     square — so the one visual that distinguishes a Suite crest from a Unique
-     ring disappeared for anyone who asked for less motion. Restore the static
-     rotation (and the Unique ring's explicit un-rotation) without restoring
-     any of the entrance transforms the reset is actually there to kill. */
-  .hero-card__crest-diamond-back {
-    transform: rotate(45deg) !important;
-  }
-
-  .hero-stage[data-branch="unique"] .hero-card__crest-diamond-back {
-    transform: rotate(0deg) !important;
-  }
-
   .heroes-ledger-rail__progress,
   .hero-stage::after,
   .hero-card {
@@ -2449,37 +1776,5 @@ body:has(.heroes-gallery) {
 
   .hero-card__canvas {
     display: none;
-  }
-
-  /* Branch geometry is not decoration here: the rotated square IS the Suite
-     mark and the ring IS the Unique mark. The blanket transform reset above
-     would flatten both into the same square, so the two shapes are restored
-     with no motion attached. */
-  .hero-stage[data-branch="suite"] .hero-card__crest-diamond-back {
-    transform: rotate(45deg) !important;
-  }
-
-  .hero-stage[data-branch="unique"] .hero-card__crest-diamond-back {
-    transform: none !important;
-  }
-
-  /* The field plate and the composition bar carry meaning too (which branch,
-     how much structure). Both land at their end state immediately. */
-  .hero-card__field {
-    animation: none !important;
-    transition: none !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .hero-card__fusion-bar-fill {
-    transition: none !important;
-    transform: scaleX(1) !important;
-  }
-
-  .hero-card__cta,
-  .hero-card__branchmark,
-  .heroes-chapter {
-    animation: none !important;
-    transition: none !important;
   }
 }

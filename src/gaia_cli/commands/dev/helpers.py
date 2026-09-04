@@ -65,18 +65,12 @@ def _fail_dev_preflight(message: str, *, fix: str | None = None) -> None:
 
 
 def _run_dev_preflights(checks: Iterable[Callable[[], None]]) -> None:
-    """Run all invariant checks and abort before any write if any fail."""
-    failures = []
-    for check in checks:
-        try:
+    """Run invariant checks and abort before any write if one fails."""
+    try:
+        for check in checks:
             check()
-        except DevPreflightError as error:
-            failures.append(error)
-
-    for error in failures:
+    except DevPreflightError as error:
         print(_format_dev_preflight_error(error), file=sys.stderr)
-
-    if failures:
         sys.exit(1)
 
 

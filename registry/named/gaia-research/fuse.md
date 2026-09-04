@@ -11,7 +11,7 @@ description: 'Composes multiple named skill implementations for a single contrib
   node existence, researching evidence, writing the ultimate node, back-linking derivatives
   on components, updating registry indexes, and opening a pull request.'
 createdAt: '2026-07-08'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-05'
 timeline:
 - timestamp: '2026-07-08T10:19:43Z'
   action: add
@@ -60,11 +60,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from gaia-research/skill-fuse to gaia-research/fuse
-- timestamp: '2026-08-29T17:15:45Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 41.62, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: unknown
@@ -95,9 +90,6 @@ verification:
 links:
   github: https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md
 title: Skill Fusion
-trustMagnitude: 41.62
-overallTrustGrade: C
-trustMagnitudeInputHash: d4a2d3ffb7552ba6ca3ad019d859b468771c4c6c27e6d8e5700e8dfd53db1a38
 ---
 
 ## Installation

@@ -2,26 +2,18 @@
   "id": "addy-osmani/code-simplification",
   "name": "Code Simplification",
   "contributor": "addy-osmani",
-  "level": "5★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 314.62,
-  "overallTrustGrade": "S",
-  "branch": "unique",
-  "rankWord": "Unique Ultimate",
-  "medallion": "◉",
+  "trustMagnitude": 198.83,
+  "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/code-simplification.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "Code Simplification",
   "genericSkillRef": "refactor-code",
@@ -32,7 +24,7 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": true,
+    "overallGradeS": false,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
@@ -171,24 +163,6 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py (type: benchmark-result)"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:42Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:04:27Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 5★"
-    },
-    {
-      "timestamp": "2026-09-02T15:05:19Z",
-      "action": "demote",
-      "contributor": "unknown",
-      "details": "Calibrated level from 5★ to 5★"
     }
   ],
   "links": {

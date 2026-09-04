@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -84,11 +84,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:51Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 94.9 -> 94.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 94.9
 overallTrustGrade: B
 apexGateStatus:
@@ -100,7 +95,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e314675ad3aa51f310cec752be953a4ea0e2dfdc86c8ebf51d2578cedeaf2b2d
+trustMagnitudeInputHash: ebebef54c32e30f7a3ebec75974b18d77cd03c054deca8e3748cb0480d4ab0d8
 verification:
   firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---

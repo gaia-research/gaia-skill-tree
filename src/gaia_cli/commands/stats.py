@@ -30,8 +30,8 @@ LEVEL_LABELS = {
     "1★": "Awakened",
     "2★": "Named",
     "3★": "Evolved",
-    "4★": "Extra",
-    "5★": "Ultimate",
+    "4★": "Hardened",
+    "5★": "Transcendent",
     "6★": "Apex",
 }
 

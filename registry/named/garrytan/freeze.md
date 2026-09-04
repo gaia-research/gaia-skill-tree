@@ -17,7 +17,7 @@ tags:
 - freeze
 - release-management
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -55,11 +55,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:46Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -73,7 +68,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:30Z'
-trustMagnitudeInputHash: 8c2f14a852a5102d7ac3658f87bd87df268721dcc1229a4c127f619710bce81a
+trustMagnitudeInputHash: b21ee081b26f05409c5ef5962762130d88157d5a1d5edef73c750db686447bf9
 ---
 
 ## Overview

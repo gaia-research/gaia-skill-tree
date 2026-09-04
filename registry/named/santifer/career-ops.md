@@ -16,7 +16,7 @@ tags:
 - job-search
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/santifer/career-ops
@@ -52,11 +52,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:16:00Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -68,7 +63,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f66b8bab9090b4c6c4ae71d1d5d346e40effe2c35cff8af8084df2ba59bee3bc
+trustMagnitudeInputHash: db5e5fe407e1d3eddc4c12ec7d832aa90879d4912de57076e5017d183e2f42e0
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - performance
 - production
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/agentdb
 evidence:
 - class: B
@@ -50,11 +50,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:58Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -66,7 +61,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fad5d8075abf9d9e550e1b94bbf443bbbfb75ac294365f0923acb4fc738c01f7
+trustMagnitudeInputHash: c1ef526d467fdfdc4bafc6a7e3cacc60f88f755c22ba2287d859cd847f667b71
 ---
 
 ## Overview

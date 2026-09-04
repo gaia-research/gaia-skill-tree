@@ -2,26 +2,18 @@
   "id": "disler/agent-fusion",
   "name": "Agent Fusion",
   "contributor": "disler",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 37.54,
-  "overallTrustGrade": "C",
+  "trustMagnitude": 127.54,
+  "overallTrustGrade": "A",
   "branch": "suite",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "rankWord": "Extra",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/disler/agent-fusion.json",
     "contributor": "/api/v1/contributors/disler.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 120.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 6,
-    "transitiveCount": 6,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "Agent Fusion",
   "genericSkillRef": "agent-fusion",
@@ -97,18 +89,6 @@
       "action": "rank_up",
       "contributor": "marcotiongson",
       "details": "Calibrated level from 2★ to 4★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:44Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 37.54, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:15Z",
-      "action": "demote",
-      "contributor": "unknown",
-      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

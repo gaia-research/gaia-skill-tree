@@ -11,7 +11,7 @@ description: Measures avoidable CI iteration cost for a pull request by classify
   on avoidable push rounds, and surfacing pre-push checks that would have prevented
   them.
 createdAt: '2026-07-08'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-05'
 timeline:
 - timestamp: '2026-07-08T10:19:05Z'
   action: add
@@ -47,11 +47,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from gaia-research/skill-ci-churn to gaia-research/ci-churn
-- timestamp: '2026-08-29T17:15:45Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 41.0, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: unknown
@@ -74,9 +69,6 @@ verification:
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md
 title: CI Churn Analysis
-trustMagnitude: 41.0
-overallTrustGrade: C
-trustMagnitudeInputHash: ac3992860d84417ddcccba4fb2ab4699f794be2cb7e39838719342f9aa545356
 ---
 
 ## Installation

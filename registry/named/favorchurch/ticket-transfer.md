@@ -9,7 +9,7 @@ level: 1★
 description: End-to-end workflow for processing ticket transfer requests, updates,
   and confirmation emails.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Ticket Transfer
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md
@@ -27,11 +27,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md
   evaluator: favorchurch
@@ -42,9 +37,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:48Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: fe7f79bbe146efa50b91949dc0ed0291a78f4048c93cc0f762e9413d6924f06f
 ---
 
 # Ticket Transfer Workflow

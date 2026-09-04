@@ -11,7 +11,7 @@ description: Generate an interactive bash wizard that walks a human through step
   or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off
   migration or cutover.
 createdAt: '2026-08-20'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-20'
 title: The Guided Setup Wizard
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md
@@ -29,11 +29,6 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/engineering
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md
   evaluator: marco-tngsn
@@ -48,9 +43,6 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-19T16:10:33Z'
 suiteRef: mattpocock/engineering
-trustMagnitude: 20.77
-overallTrustGrade: C
-trustMagnitudeInputHash: 28d1c5646b3fef4765cd790b14596b960c18d455989a6ea0a3e24c6e5594526f
 ---
 
 ## Installation

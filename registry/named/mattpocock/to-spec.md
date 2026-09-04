@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -118,11 +118,6 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -136,7 +131,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:36:40Z'
-trustMagnitudeInputHash: 6eaf06a2a91c69e2310d62e631119e40edb69d37d67cb74c4c08809137e8c0a5
+trustMagnitudeInputHash: a9e47a620a0d1cfb65630b7802c8c79f150dd5d77f0afedf33ead9bde0ea11cb
 ---
 
 ## Overview

@@ -15,14 +15,6 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 60.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 3,
-    "transitiveCount": 3,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
-  },
   "title": "Scaffold Exercises",
   "genericSkillRef": "skill-authoring",
   "origin": false,
@@ -144,12 +136,6 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 1★ to 2★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:53Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

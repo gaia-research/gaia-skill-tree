@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical
   ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID,
   HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies
   (parents, children, ancestors), look up properties and individuals, get autocomplete
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
 evidence:
@@ -100,10 +100,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/embl_ebi_ols to google-deepmind/embl-ebi-ols
-- timestamp: '2026-09-02T15:11:19Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

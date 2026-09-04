@@ -10,7 +10,7 @@ description: Produces a prioritized review queue of Gaia registry entries needin
   attention — flagging stale evidence, broken links, mis-classified tiers, and naming
   inconsistencies in one structured audit pass.
 createdAt: '2026-05-27'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 title: The Triage Director
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md
@@ -52,11 +52,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:55Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - class: B
   source: https://github.com/gaia-research/gaia-skill-tree
@@ -82,7 +77,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f239c8b5d313d4f20e59d1637a70404e639458f5a46b12526272a1b74f0dd8ec
+trustMagnitudeInputHash: a3f29b1653856287eda15aba25ae5cc16e26ae696ac3a739b57b11ed0b39c6dc
 ---
 
 ## Overview

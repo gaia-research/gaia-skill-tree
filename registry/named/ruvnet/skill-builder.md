@@ -19,7 +19,7 @@ tags:
 - skill-development
 - testing
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-19'
 suiteRef: ruvnet/ruflo
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
@@ -46,12 +46,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:59Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: 98822c4bf2fc7a027d4dca7f6ab2a8b2c81f7f31573ee183d28ffbde59070031
+trustMagnitudeInputHash: b74ce526083c08bfdf6d38ed44abe89c9007cd1af91e02680c4735fff1e392cb
 ---
 
 ## Overview

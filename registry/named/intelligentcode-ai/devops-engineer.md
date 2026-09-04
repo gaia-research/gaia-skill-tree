@@ -19,7 +19,7 @@ tags:
 - kubernetes
 - terraform
 - rollback
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
@@ -80,11 +80,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -96,7 +91,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9a66bfbc8b22a71601d12b5380b8bb10d09d3d5285911a65b6af24d0fa544690
+trustMagnitudeInputHash: 69abf5236f9a1a5aa4b8f1faa39ff215cc29866b13b0e0d77e8f551a31059e08
 verification:
   firstEvidenceAt: '2026-06-19T17:10:43Z'
 ---

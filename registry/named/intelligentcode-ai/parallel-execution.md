@@ -16,7 +16,7 @@ tags:
 - concurrency
 - task-execution
 - queue
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
@@ -77,11 +77,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -93,7 +88,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 62fbb433f7bd8f00f151a41369a0d2be35526d9a95a76d3debeee4c303ec666e
+trustMagnitudeInputHash: 9a005e6cb37f556d586495a51fd4d3b632cbc17ad1fc69658b0179321d7dba1d
 verification:
   firstEvidenceAt: '2026-06-19T17:10:46Z'
 ---

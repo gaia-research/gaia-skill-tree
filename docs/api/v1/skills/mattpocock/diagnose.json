@@ -2,26 +2,18 @@
   "id": "mattpocock/diagnose",
   "name": "Diagnose",
   "contributor": "mattpocock",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 209.65,
+  "trustMagnitude": 106.13,
   "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/diagnose.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 60.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 3,
-    "transitiveCount": 3,
-    "maxDepth": 1,
-    "nestedSuiteCount": 0
   },
   "title": "The Disciplined Diagnosis Loop",
   "genericSkillRef": "autonomous-debug",
@@ -163,18 +155,6 @@
       "previousValue": null,
       "newValue": null,
       "details": "Removed from mattpocock/skills suite in v1.0.1 (per skill's own description); superseded by mattpocock/diagnosing-bugs, which links the same upstream engineering/diagnosing-bugs/SKILL.md."
-    },
-    {
-      "timestamp": "2026-08-29T17:15:52Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:39Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

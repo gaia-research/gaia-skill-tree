@@ -2,26 +2,18 @@
   "id": "anthropics/brand-guidelines",
   "name": "Brand Guidelines",
   "contributor": "anthropics",
-  "level": "4★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 184.32,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 79.23,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/anthropics/brand-guidelines.json",
     "contributor": "/api/v1/contributors/anthropics.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "Brand Guidelines",
   "genericSkillRef": "brand-guideline-application",
@@ -86,18 +78,6 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:43Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:14Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

@@ -19,7 +19,7 @@ tags:
 - contracts
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -51,11 +51,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:16:00Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 540e3dbe1d66c1ac3e2e91fb426c1cf1d3c40e26f1d3475a7a6bcf46f0861abe
+trustMagnitudeInputHash: 0101e071c5986a27b4a78be1da56701c4dbc5c3c37c059e9e4185a2dd6f882c3
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - cross-browser
 - user-journey
 - visual-regression
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
@@ -79,11 +79,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:50Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -95,7 +90,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a6c1e6eabef6c235652fa4cedcd9cf70bc1d6a79ce01198ae310d863947195e2
+trustMagnitudeInputHash: ed010fb59ee82c805db443ff7f60c3aac9b7f86742a45f4d974de2fbf869c35b
 verification:
   firstEvidenceAt: '2026-06-19T17:10:52Z'
 ---

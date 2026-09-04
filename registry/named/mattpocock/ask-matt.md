@@ -11,7 +11,7 @@ level: 2★
 description: Productivity skill for routing questions to the right expert or skill
   in a workspace.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T12:58:22Z'
   action: add
@@ -88,11 +88,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
-- timestamp: '2026-08-29T17:15:52Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md
   evaluator: unknown
@@ -139,8 +134,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:03:36Z'
-trustMagnitude: 41.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -150,7 +145,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fc769333ce03a6093419f470b6c6864ce7ad969a0da9d5844d29b1829433e631
+trustMagnitudeInputHash: ac7e99815540d5245b73b80a00d5ff8da9c3a86c47f30dadd666fc8e27ad0b44
 title: Ask Matt
 ---
 

@@ -2,26 +2,18 @@
   "id": "mattpocock/edit-article",
   "name": "Edit Article",
   "contributor": "mattpocock",
-  "level": "4★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 209.65,
+  "trustMagnitude": 106.13,
   "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/edit-article.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "The Section-by-Section Rewrite",
   "genericSkillRef": "document-editing",
@@ -163,18 +155,6 @@
       "previousValue": null,
       "newValue": null,
       "details": "personal/ bucket deleted upstream (v1.2.x); no successor"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:52Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:39Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

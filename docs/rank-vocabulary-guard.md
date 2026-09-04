@@ -42,9 +42,6 @@ Source of truth for banned synonyms: **CONTEXT.md §"Banned synonyms"**.
 | `type=extra` / `type: extra` | legacy Yggdrasil I field value | `type=fusion` / `type: fusion` | `type\s*[=:]\s*extra` | Case-sensitive |
 | `type=ultimate` / `type: ultimate` | legacy Yggdrasil I field value | `type=fusion` / `type: fusion` | `type\s*[=:]\s*ultimate` | Case-sensitive |
 | `apex tier` | taxonomy-Ultimate synonym | n/a — Apex is the 6★ Suite rank | `\bapex\s+tier\b` | **Case-insensitive.** `scripts/**` hard-excluded (generateBadges.py uses it as a legitimate 6★-rank descriptor). |
-| `fusion magnitude` | Yggdrasil II term for structure scored **inside** Trust Magnitude | `Fusion Score` | `\bfusion\s+magnitude\b` | Case-**insensitive**. Yggdrasil III fixed the `fusion-recipe` row at 0 TM and moved structure out to Fusion Score; the old word re-implies the removed coupling |
-| `composition score` | informal name for the structural scalar | `Fusion Score` | `\bcomposition\s+score\b` | Case-**insensitive** |
-| `structure score` | informal name for the structural scalar | `Fusion Score` | `\bstructure\s+score\b` | Case-**insensitive** |
 
 **Key nuance — capital S vs lowercase s:**
 
@@ -140,8 +137,6 @@ and from the table below, then run `python scripts/check_rank_vocabulary.py` (mu
 | `founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md` | Ultimate skill, apex tier | G7 RFC; pre-Yggdrasil-II naming + "apex tier" as 6★ descriptor |
 | `founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md` | all | Historical workflow notes |
 | `founder/handovers/done/g7-mattpocock-audit/_issue_comment.md` | apex tier | "apex tier" as 6★ descriptor in historical issue comment |
-| `founder/handovers/YGGDRASIL_III_FUSION_SCORE_PLAN.md` | fusion magnitude | Fusion Score design doc; names the retired term it replaces |
-| `founder/handovers/done/g7-mattpocock-audit/_issue_comment_v2.md` | fusion magnitude | Historical issue comment; names the retired term |
 | `founder/handovers/phase-1.5/issues/I8.md` | all | Historical issue doc |
 
 ### Docs-only allowlist (`DOCS_ONLY_ALLOWLIST_PATHS` — G7/G8 only)

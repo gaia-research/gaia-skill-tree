@@ -7,9 +7,9 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic | 2★ | `/adaptive-pattern-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Fusion | 2★ | `/advanced-swarm-coordination` |
 | · /adversarial-robustness-testing | Fusion | — | `/adversarial-robustness-testing` |
-| · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 4★ | `/agent-environment-setup` |
+| · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 3★ | `/agent-environment-setup` |
 | · /agent-eval | Fusion | — | `/agent-eval` |
-| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 3★ | `/agent-fusion` |
+| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 4★ | `/agent-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 4★ | `/agent-memory-platform` |
@@ -20,17 +20,16 @@
 | ○ [disler](../docs/u/disler/)/auto-review | Basic | 2★ | `/auto-review` |
 | · [garrytan](../docs/u/garrytan/)/health | Fusion | 2★ | `/automated-testing` |
 | · /autonomous-data-scientist | Fusion | — | `/autonomous-data-scientist` |
-| · [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Fusion | 4★ | `/autonomous-debug` |
+| · [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Fusion | 3★ | `/autonomous-debug` |
 | · [mvanhorn](../docs/u/mvanhorn/)/last30days | Fusion | 4★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic | — | `/bioinformatic-sequence-analysis` |
-| · [obra](../docs/u/obra/)/brainstorming | Fusion | 4★ | `/brainstorming` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/brandkit | Basic | 4★ | `/brand-guideline-application` |
+| · [obra](../docs/u/obra/)/brainstorming | Fusion | 3★ | `/brainstorming` |
 | · ████████/browse | Fusion | — | `/browser-automation` |
-| ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic | 4★ | `/browser-control` |
+| ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic | 3★ | `/browser-control` |
 | · [santifer](../docs/u/santifer/)/career-ops | Fusion | 2★ | `/career-operations` |
 | · /causal-inference | Fusion | — | `/causal-inference` |
 | ○ /chain-of-thought | Basic | — | `/chain-of-thought` |
-| · [k-dense-ai](../docs/u/k-dense-ai/)/rdkit | Fusion | 4★ | `/cheminformatics-analysis` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/rdkit | Fusion | 2★ | `/cheminformatics-analysis` |
 | ○ /chunk-document | Basic | — | `/chunk-document` |
 | ○ /cite-sources | Basic | — | `/cite-sources` |
 | ○ /classify | Basic | — | `/classify` |
@@ -39,7 +38,7 @@
 | ○ /code-execution | Basic | — | `/code-execution` |
 | ○ ████████/zoom-out | Basic | — | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic | 3★ | `/code-generation` |
-| · [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Fusion | 4★ | `/code-review-pipeline` |
+| · [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Fusion | 3★ | `/code-review-pipeline` |
 | · /collaborative-diagramming | Fusion | — | `/collaborative-diagramming` |
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
 | · /computational-science-platform | Fusion | — | `/computational-science-platform` |
@@ -52,9 +51,9 @@
 | ○ /data-visualize | Basic | — | `/data-visualize` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
 | · [garrytan](../docs/u/garrytan/)/land-and-deploy | Fusion | 3★ | `/deployment-automation` |
-| · [pbakaus](../docs/u/pbakaus/)/impeccable | Fusion | 5★ | `/design-generation` |
+| · [nexu-io](../docs/u/nexu-io/)/open-design | Fusion | 2★ | `/design-generation` |
 | · [garrytan](../docs/u/garrytan/)/design-shotgun | Fusion | 3★ | `/design-review` |
-| · [leonxlnx](../docs/u/leonxlnx/)/stitch-skill | Fusion | 3★ | `/design-system-extraction` |
+| · [garrytan](../docs/u/garrytan/)/design-consultation | Fusion | 3★ | `/design-system-extraction` |
 | · [garrytan](../docs/u/garrytan/)/canary | Fusion | 3★ | `/detect-anomaly` |
 | ○ /diff-content | Basic | — | `/diff-content` |
 | · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 3★ | `/dispatching-parallel-agents` |
@@ -62,25 +61,25 @@
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Fusion | 2★ | `/distributed-neural-training` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
-| ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 4★ | `/document-editing` |
+| ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
 | ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
-| · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 3★ | `/dual-mode` |
+| · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 4★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
 | ○ /embed-text | Basic | — | `/embed-text` |
-| · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 3★ | `/engineering-discipline` |
+| · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 4★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic | 3★ | `/evaluate-output` |
-| · [obra](../docs/u/obra/)/executing-plans | Fusion | 5★ | `/executing-plans` |
+| · [obra](../docs/u/obra/)/executing-plans | Fusion | 3★ | `/executing-plans` |
 | · /explainability-audit | Fusion | — | `/explainability-audit` |
 | ○ /extract-entities | Basic | — | `/extract-entities` |
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
 | ○ [openai](../docs/u/openai/)/few-shot-learning | Basic | 4★ | `/few-shot-learning` |
 | · /financial-modeling | Fusion | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
-| · [garrytan](../docs/u/garrytan/)/ship | Fusion | 4★ | `/finishing-a-development-branch` |
+| · [garrytan](../docs/u/garrytan/)/ship | Fusion | 3★ | `/finishing-a-development-branch` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 4★ | `/firecrawl` |
-| ○ [ayghri](../docs/u/ayghri/)/i-have-adhd | Basic | 4★ | `/format-output` |
+| ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic | 2★ | `/format-output` |
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
 | · /full-stack-developer | Fusion | — | `/full-stack-developer` |
 | · /function-calling | Fusion | — | `/function-calling` |
@@ -107,11 +106,11 @@
 | ○ /image-caption | Basic | — | `/image-caption` |
 | ○ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Basic | 4★ | `/implement-with-discernment` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
-| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
+| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
-| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 5★ | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-maps | Basic | 2★ | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
@@ -133,7 +132,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic | 2★ | `/multi-repo-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo | Fusion | 5★ | `/multi-topology-orchestration` |
 | · ████████/transformers-js | Fusion | — | `/multimodal-reasoning` |
-| · [k-dense-ai](../docs/u/k-dense-ai/)/pytorch-lightning | Fusion | 4★ | `/neural-training-orchestration` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/pytorch-lightning | Fusion | 3★ | `/neural-training-orchestration` |
 | · /ontology-alignment | Fusion | — | `/ontology-alignment` |
 | ○ [disler](../docs/u/disler/)/opinion | Basic | 2★ | `/opinion` |
 | ○ /optical-character-recognition | Basic | — | `/optical-character-recognition` |
@@ -143,13 +142,13 @@
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 4★ | `/performance-tuning` |
 | · [mattpocock](../docs/u/mattpocock/)/personal | Fusion | 3★ | `/personal` |
-| · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 4★ | `/personal-knowledge-management` |
+| · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
 | ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
-| · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 3★ | `/platform-modernization-sprint` |
-| · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 5★ | `/prd-generation` |
+| · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 4★ | `/platform-modernization-sprint` |
+| · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Basic | 4★ | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 3★ | `/productivity` |
@@ -159,23 +158,21 @@
 | ○ /protein-structure-analysis | Basic | — | `/protein-structure-analysis` |
 | ○ /proteomic-data-retrieval | Basic | — | `/proteomic-data-retrieval` |
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
-| ○ [k-dense-ai](../docs/u/k-dense-ai/)/qiskit | Basic | 4★ | `/quantum-circuit-programming` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic | 3★ | `/question-answer` |
 | ○ [mattpocock](../docs/u/mattpocock/)/to-questionnaire | Basic | 2★ | `/questionnaire-generation` |
 | · ████████/orchestkit-rag | Fusion | — | `/rag-pipeline` |
 | ○ /rank | Basic | — | `/rank` |
 | · /re-act-reasoning | Fusion | — | `/re-act-reasoning` |
-| ○ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Basic | 4★ | `/react-performance-optimization` |
 | · /real-time-voice-assistant | Fusion | — | `/real-time-voice-assistant` |
 | · [ruvnet](../docs/u/ruvnet/)/reasoningbank | Fusion | 4★ | `/reasoning-pattern-bank` |
 | · [obra](../docs/u/obra/)/receiving-code-review | Fusion | 2★ | `/receiving-code-review` |
 | · /recursive-self-improvement | Fusion | — | `/recursive-self-improvement` |
-| ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic | 5★ | `/refactor-code` |
+| ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic | 3★ | `/refactor-code` |
 | · ████████/gaia-bot-curate | Fusion | — | `/registry-curation` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Fusion | 2★ | `/registry-entry-audit` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Fusion | 2★ | `/registry-health-scan` |
 | · /regulatory-compliance-mapping | Fusion | — | `/regulatory-compliance-mapping` |
-| · [k-dense-ai](../docs/u/k-dense-ai/)/stable-baselines3 | Fusion | 4★ | `/reinforcement-learning-training` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/stable-baselines3 | Fusion | 3★ | `/reinforcement-learning-training` |
 | · ████████/release | Fusion | — | `/release-automation` |
 | · [obra](../docs/u/obra/)/requesting-code-review | Fusion | 2★ | `/requesting-code-review` |
 | ○ ████████/requirements-engineer | Basic | — | `/requirements-analysis` |
@@ -190,11 +187,10 @@
 | · /scientific-writing | Fusion | — | `/scientific-writing` |
 | ○ /score-relevance | Basic | — | `/score-relevance` |
 | · /search-engine-optimization | Fusion | — | `/search-engine-optimization` |
-| · [garrytan](../docs/u/garrytan/)/cso | Fusion | 4★ | `/security-audit` |
+| · [garrytan](../docs/u/garrytan/)/cso | Fusion | 3★ | `/security-audit` |
 | ○ /self-critique | Basic | — | `/self-critique` |
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
-| ○ [k-dense-ai](../docs/u/k-dense-ai/)/scanpy | Basic | 4★ | `/single-cell-analysis` |
-| · [k-dense-ai](../docs/u/k-dense-ai/)/scvi-tools | Fusion | 4★ | `/single-cell-omics-modeling` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/scvi-tools | Fusion | 2★ | `/single-cell-omics-modeling` |
 | · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 2★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
@@ -212,28 +208,27 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic | 2★ | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic | 2★ | `/system-integration` |
 | · [garrytan](../docs/u/garrytan/)/investigate | Fusion | 3★ | `/systematic-debugging` |
-| · ████████/unlazy | Fusion | — | `/task-depth-enforcement` |
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-markup | Basic | 2★ | `/timeline-animation` |
 | ○ /tokenize | Basic | — | `/tokenize` |
 | · /tool-chaining | Fusion | — | `/tool-chaining` |
-| · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 4★ | `/tool-creation` |
+| · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 3★ | `/tool-creation` |
 | ○ /tool-select | Basic | — | `/tool-select` |
 | ○ /tool-use | Basic | — | `/tool-use` |
-| · [k-dense-ai](../docs/u/k-dense-ai/)/transformers | Fusion | 4★ | `/transformer-model-engineering` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/transformers | Fusion | 3★ | `/transformer-model-engineering` |
 | ○ /translate | Basic | — | `/translate` |
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
-| · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 4★ | `/ubiquitous-language` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/redesign-skill | Basic | 3★ | `/ui-audit` |
+| · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
+| ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ui-audit` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
-| ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 5★ | `/ux-audit` |
+| ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
-| · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 5★ | `/vertical-slice-planning` |
+| · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 4★ | `/vertical-slice-planning` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-captions | Basic | 2★ | `/video-captions` |
 | · [remotion-dev](../docs/u/remotion-dev/)/remotion-best-practices | Fusion | 2★ | `/video-composition` |
 | · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |
@@ -242,7 +237,7 @@
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-render | Basic | 2★ | `/video-rendering` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-saas | Basic | 2★ | `/video-saas` |
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-create | Basic | 2★ | `/video-scaffolding` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/image-to-code-skill | Basic | 3★ | `/vision-qa` |
+| ○ /vision-qa | Basic | — | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |
 | · /web-best-practices | Fusion | — | `/web-best-practices` |
@@ -259,47 +254,23 @@
 
 ## Uniques
 
-*Singular mastery skills — graph-isolated, with named implementations. Structure proposed via `gaia fuse` + `gaia push`; rank assigned only by canon curation.*
+*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
-| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Unique Skill | 4★ | `/agent-environment-setup` |
-| ◉ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Unique Skill | 4★ | `/autonomous-debug` |
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
-| ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
-| ◉ [leonxlnx](../docs/u/leonxlnx/)/brandkit | Unique Skill | 4★ | `/brand-guideline-application` |
-| ◉ [browser-use](../docs/u/browser-use/)/browser-harness | Unique Skill | 4★ | `/browser-control` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/rdkit | Unique Skill | 4★ | `/cheminformatics-analysis` |
-| ◉ [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Unique Skill | 4★ | `/code-review-pipeline` |
-| ◉ [garrytan](../docs/u/garrytan/)/document-generate | Unique Skill | 4★ | `/document-editing` |
-| ◉ [obra](../docs/u/obra/)/executing-plans | Unique Skill | 5★ | `/executing-plans` |
 | ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
-| ◉ [garrytan](../docs/u/garrytan/)/ship | Unique Skill | 4★ | `/finishing-a-development-branch` |
-| ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
 | ◉ [k-dense-ai](../docs/u/k-dense-ai/)/torch-geometric | Unique Skill | 4★ | `/graph-neural-network-modeling` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
-| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
-| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Unique Skill | 5★ | `/literature-search` |
+| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
 | ◉ [k-dense-ai](../docs/u/k-dense-ai/)/deepchem | Unique Skill | 4★ | `/molecular-machine-learning` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/pytorch-lightning | Unique Skill | 4★ | `/neural-training-orchestration` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
-| ◉ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Unique Skill | 4★ | `/personal-knowledge-management` |
-| ◉ [mattpocock](../docs/u/mattpocock/)/to-spec | Unique Skill | 5★ | `/prd-generation` |
 | ◉ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Unique Skill | 4★ | `/probabilistic-programming` |
 | ◉ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Unique Skill | 4★ | `/prompt-optimization` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/qiskit | Unique Skill | 4★ | `/quantum-circuit-programming` |
-| ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
-| ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 5★ | `/refactor-code` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/stable-baselines3 | Unique Skill | 4★ | `/reinforcement-learning-training` |
-| ◉ [garrytan](../docs/u/garrytan/)/cso | Unique Skill | 4★ | `/security-audit` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/scanpy | Unique Skill | 4★ | `/single-cell-analysis` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/scvi-tools | Unique Skill | 4★ | `/single-cell-omics-modeling` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
-| ◉ [mattpocock](../docs/u/mattpocock/)/write-a-skill | Unique Skill | 4★ | `/tool-creation` |
-| ◉ [k-dense-ai](../docs/u/k-dense-ai/)/transformers | Unique Skill | 4★ | `/transformer-model-engineering` |
-| ◉ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Unique Skill | 4★ | `/ubiquitous-language` |
+| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ui-audit` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
-| ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 5★ | `/ux-audit` |
+| ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Unique Skill | 4★ | `/web-search` |
 | ◉ [obra](../docs/u/obra/)/writing-plans | Unique Skill | 4★ | `/writing-plans` |
@@ -312,6 +283,7 @@
 |---|---|---|---|
 | ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
+| ○ Brand Guideline Application | Intrinsic Skill | 3★ | `/brand-guideline-application` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
@@ -324,16 +296,19 @@
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
-| ○ Image Generate | Intrinsic Skill | 3★ | `/image-generate` |
+| ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
+| ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
+| ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | 2★ | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Session Journaling | Intrinsic Skill | — | `/session-journaling` |
+| ○ Single-Cell Analysis | Intrinsic Skill | 3★ | `/single-cell-analysis` |
 | ○ Software Design | Intrinsic Skill | 2★ | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ supabase | Intrinsic Skill | 2★ | `/supabase` |

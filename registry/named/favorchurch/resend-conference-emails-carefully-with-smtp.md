@@ -9,7 +9,7 @@ level: 1★
 description: Safely re-send or bulk-bump QR ticket emails to many attendees via SMTP
   relay.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Resend Conference Emails Carefully with SMTP
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
@@ -27,11 +27,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
   evaluator: favorchurch
@@ -42,9 +37,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:41Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: 6b4927b09319dfcf4be423cb74867aa0376afc1212474a189b6c0c6d27c292eb
 ---
 
 # Resend Conference Emails Carefully (SMTP)

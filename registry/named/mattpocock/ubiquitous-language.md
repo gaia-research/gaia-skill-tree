@@ -7,7 +7,7 @@ genericSkillRef: ubiquitous-language
 status: named
 title: The Domain Linguist
 catalogRef: mattpocock-ubiquitous-language
-level: 4★
+level: 3★
 description: Extracts and formalises a project's domain terminology into a shared
   glossary, enforcing consistent naming across code and conversations to eliminate
   ambiguity. Removed from mattpocock/skills suite in v1.0.1.
@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-05'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -111,17 +111,8 @@ timeline:
   previousValue: null
   newValue: null
   details: superseded by mattpocock/domain-modeling upstream (folded in v1.2.x)
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-- timestamp: '2026-09-02T15:11:40Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
-trustMagnitude: 306.13
-overallTrustGrade: A
+trustMagnitude: 90.38
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -132,7 +123,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: aaff95bf30e0b38bd436d0ea76fc1e2f002e5bb8afb9f8550eb7ec087b32a1b5
+trustMagnitudeInputHash: 93c720242a46b215789bae724573d16cd95c9b5acb9a4ed1a137fa308cdb34f8
 verification:
   firstEvidenceAt: '2026-06-19T16:57:17Z'
 installable: false

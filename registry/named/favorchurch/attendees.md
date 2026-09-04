@@ -9,7 +9,7 @@ level: 1★
 description: Count attendees for any event by checking Favor Event Tickets first,
   then Fluro as a fallback.
 createdAt: '2026-07-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-14'
 title: Attendees
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
@@ -31,11 +31,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 1★
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
   evaluator: favorchurch
@@ -46,9 +41,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-13T16:34:22Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: 35881f74d6e753594e32540dfdc4fd18050803e7767610d2e3d7e0a8b6c437a6
 ---
 
 # Attendees Skill

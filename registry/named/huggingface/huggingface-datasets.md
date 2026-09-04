@@ -20,7 +20,7 @@ tags:
 - parquet
 - data-analysis
 createdAt: '2026-05-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-03'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,12 +46,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: 67fa5c1a3769a91a9cbdafb1e3d506a3c6b3f48a40d81fe2f89e64ca6c22e893
+trustMagnitudeInputHash: 019a6f5d4b7f006329654997bedec28a7c94b028414f1d7b2e66ec54ae3cd09b
 ---
 
 ## Overview

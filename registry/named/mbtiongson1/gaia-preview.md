@@ -10,7 +10,7 @@ description: Generates a preview render of proposed registry changes — showing
   new or modified skill entries will appear on the profile page and in the skill graph
   before the PR is merged.
 createdAt: '2026-05-27'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 title: The Change Previewer
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
@@ -44,11 +44,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:55Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - class: B
   source: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
@@ -75,7 +70,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: 5c970b261de53c6482740b8b4410d30c0c86322d92e167089b809da99a92afd1
+trustMagnitudeInputHash: 3d01123aac42521b009db4ca9803edb48c63d32523bde8516740c444e299c722
 ---
 
 ## Overview

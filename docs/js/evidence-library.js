@@ -131,8 +131,7 @@
                   skillId: ns.id,
                   skillName: ns.name,
                   skillLevel: ns.level,
-                  layer: 'named',
-                  _suiteRef: ns.suiteRef || null
+                  layer: 'named'
                 });
               });
             }
@@ -383,12 +382,6 @@
         ? `<span class="ev-group-title-named">${esc(g.skillName)}</span>`
         : `<span class="ev-group-title-generic">${esc(g.skillName)}</span>`;
 
-      const TM = window.TM_CONFIG;
-      const suiteSkill = g.entries.length && g.entries[0]._suiteRef ? { suiteRef: g.entries[0]._suiteRef } : null;
-      const baselineContext = TM && TM.createSuiteRepositoryBaselineContext
-        ? TM.createSuiteRepositoryBaselineContext(g.entries, suiteSkill, row => deriveWeightedScore(row))
-        : null;
-
       return `
         <div class="ev-group ${isCollapsed ? 'collapsed' : ''}" data-group-id="${esc(g.skillId)}">
           <div class="ev-group-header">
@@ -405,7 +398,7 @@
           </div>
           <div class="ev-group-body">
             <div class="se-ev-grid">
-              ${g.entries.map(ev => renderRow(ev, baselineContext)).join('')}
+              ${g.entries.map(renderRow).join('')}
             </div>
           </div>
         </div>`;
@@ -415,11 +408,9 @@
   // Derive weighted artifact score (mirrors _deriveWeightedScore in skill-explorer.js).
   // ALWAYS uses the live formula. Returns null when no metric drivers — never falls back
   // to ev.trustNumber (which is unweighted legacy storage).
-  function deriveWeightedScore(ev, baselineContext) {
+  function deriveWeightedScore(ev) {
     const TM = window.TM_CONFIG;
     if (!TM) return null;
-    const eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
-    if (!eligibility.eligible) return eligibility.structuralOnly ? 0 : null;
     const t = TM.canonicalType(ev.type || '');
     const cfg = TM.TYPES[t];
     if (!cfg) return null;
@@ -442,20 +433,15 @@
                    'proxy-containment': 0.25, 'benchmark-result': 0.15 }[t];
       if (im) score *= im;
     }
-    const finalScore = Math.round(TM.applyContributionCap(t, score) * 10) / 10;
-    if (baselineContext && TM.applySuiteRepositoryBaseline) {
-      return TM.applySuiteRepositoryBaseline(finalScore, ev, baselineContext);
-    }
-    const multiplier = ev._suiteRepositoryCapMultiplier == null ? 1 : ev._suiteRepositoryCapMultiplier;
-    return Math.round(finalScore * multiplier * 10) / 10;
+    return Math.round(score * 10) / 10;
   }
 
   // Derive the effective display grade for an evidence row.
   // Delegates to TM_CONFIG.effectiveGrade (single source of truth in tm-config.js).
-  function effectiveGrade(ev, baselineContext) {
+  function effectiveGrade(ev) {
     const TM = window.TM_CONFIG;
     if (!TM || !TM.effectiveGrade) return (ev.grade || '').toUpperCase().charAt(0) || '';
-    return TM.effectiveGrade(ev, deriveWeightedScore(ev, baselineContext));
+    return TM.effectiveGrade(ev, deriveWeightedScore(ev));
   }
 
   // Build (i) tooltip for a type pill — reads from TM_CONFIG
@@ -467,22 +453,18 @@
     return cfg.label.toUpperCase() + ' evidence\nFormula: ' + cfg.formula +
       '\nweight ×' + cfg.weight +
       (cfg.cap != null ? '  ·  cap ' + cfg.cap : '') +
-      (cfg.contributionCap != null ? '  ·  final contribution cap ' + cfg.contributionCap : '') +
       (cfg.gradeCeiling ? '  ·  ceiling ' + cfg.gradeCeiling : '') +
       '\nSee: ' + ((TM.RFC && TM.RFC.types) || TM.RFC_BASE);
   }
 
   // Build (i) tooltip for MAG bar — shows full chain
-  function magTooltip(ev, weighted, baselineContext) {
+  function magTooltip(ev, weighted) {
     const TM = window.TM_CONFIG;
     if (!TM) return 'Trust config unavailable.';
     const t = TM.canonicalType(ev.type || '');
     const cfg = TM.TYPES[t];
     if (!cfg) return ev.type || '';
     const lines = [cfg.label.toUpperCase() + ' · ' + cfg.formula, ''];
-    const eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
-    if (!eligibility.eligible && !eligibility.structuralOnly) return lines.concat(['No positive TM: ' + eligibility.reason + '.', '= MAG —']).join('\n');
-    if (eligibility.structuralOnly) return lines.concat(['Structural/provenance metadata only; contributes 0 TM.', '= MAG 0.0']).join('\n');
     const d = cfg.describe ? cfg.describe(ev) : null;
     if (d && d.value != null) {
       const capped = TM.applyCap(t, d.value);
@@ -503,23 +485,12 @@
         lines.push('× creator:    ' + (ev.creatorMultiplier || 1.0).toFixed(2));
         lines.push('× engagement: ' + (ev.engagementRatio || 1.0).toFixed(2));
       }
-      if (cfg.contributionCap != null) {
-        const uncapped = capped * cfg.weight;
-        const contributionNote = uncapped > cfg.contributionCap
-          ? '  (capped from ' + uncapped.toFixed(1) + ')'
-          : '';
-        lines.push('final cap:    ' + cfg.contributionCap + contributionNote);
-      }
       if (cfg.plateau) {
         if (cfg.plateau.maxRows === 1) lines.push('× plateau:    1.00  (max 1 row)');
         else lines.push('× plateau:    ' + cfg.plateau.factors.join(' / ') + '  (max ' + cfg.plateau.maxRows + ' rows)');
       }
       lines.push('');
       lines.push('= MAG ' + (weighted != null ? weighted.toFixed(1) : '—') + '  (pre-plateau approximation)');
-      if (TM.suiteRepositoryBaselineNote && TM.isSuiteRepositoryBaselineRow(ev, baselineContext)) {
-        const baselineNote = TM.suiteRepositoryBaselineNote(baselineContext);
-        if (baselineNote) lines.push(baselineNote);
-      }
     } else {
       lines.push('No metric drivers recorded for this row.');
       const hints = {
@@ -527,7 +498,7 @@
         'verifier-attestation': 'verifiers', 'benchmark-result': 'base score × lane',
         'arxiv': 'citations', 'peer-review': 'reviewers',
         'repo-own': 'commits + contributors', 'self-attestation': '(flat 10 — no fields needed)',
-        'social-signal': 'views (≥1000)', 'fusion-recipe': 'structural/provenance metadata only (0 TM)',
+        'social-signal': 'views (≥1000)', 'fusion-recipe': 'origins (or gradedOriginCount)',
       };
       lines.push('Add ' + (hints[t] || 'metric fields') + ' to compute a live score.');
     }
@@ -559,26 +530,25 @@
   }
 
   // Render a single evidence row as a mosaic card (matches se-ev-card pattern)
-  function renderRow(ev, baselineContext) {
+  function renderRow(ev) {
     const TM = window.TM_CONFIG;
     const normType = ev.type || 'repo-own';
     const typeLbl = typeLabel(normType);
     const shortSrc = formatUrl(ev.source || '');
-    const gradeChar = TM && TM.isScoringEligible && !TM.isScoringEligible(ev)
-      ? '' : (ev.grade || '').toUpperCase().charAt(0);
+    const gradeChar = (ev.grade || '').toUpperCase().charAt(0);
     const isUngraded = !gradeChar;
 
     // Type pill (i) tooltip
     const pillTip = typePillTooltip(normType);
 
     // Weighted MAG score + MAG bar grade colour
-    const weighted = deriveWeightedScore(ev, baselineContext);
-    const barGradeChar = effectiveGrade(ev, baselineContext);
+    const weighted = deriveWeightedScore(ev);
+    const barGradeChar = effectiveGrade(ev);
     const barGrade = barGradeChar || 'none';
     const magDisplay = weighted != null
       ? (Number.isInteger(weighted) ? String(weighted) : weighted.toFixed(1))
       : '—';
-    const magTip = magTooltip(ev, weighted, baselineContext);
+    const magTip = magTooltip(ev, weighted);
 
     // Metrics chips — same as se-ev-card
     const chips = [];

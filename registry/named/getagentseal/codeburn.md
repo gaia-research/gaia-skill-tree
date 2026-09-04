@@ -14,7 +14,7 @@ tags:
 - cost
 - tokens
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/getagentseal/codeburn
@@ -51,11 +51,6 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
-- timestamp: '2026-08-29T17:15:48Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f7d999327baaeed6857a1187a3b2ea1ac90593b5a76f4b27696d835d51837dbd
+trustMagnitudeInputHash: fed10b7235b3ffa4e485f54f4f888ce10942520a42c4de78e170d73da7ba822e
 installable: false
 ---
 

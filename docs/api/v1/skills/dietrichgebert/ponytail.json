@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 221.96,
+  "trustMagnitude": 109.09,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -14,14 +14,6 @@
     "self": "/api/v1/skills/dietrichgebert/ponytail.json",
     "contributor": "/api/v1/contributors/dietrichgebert.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 0.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 0,
-    "transitiveCount": 0,
-    "maxDepth": 0,
-    "nestedSuiteCount": 0
   },
   "title": "Ponytail",
   "genericSkillRef": "implement-with-discernment",
@@ -102,12 +94,6 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 4★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:44Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 329.28, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

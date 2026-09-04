@@ -9,7 +9,7 @@ level: 3★
 description: Runs implementation plans in parallel executor waves where each executor
   starts from a clean context.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:49Z'
   action: add
@@ -64,11 +64,6 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md
-- timestamp: '2026-08-29T17:15:48Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
   updatedAt: '2026-09-01'
@@ -89,7 +84,7 @@ verification:
 title: GSD Execute Phase
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 50.0
+trustMagnitude: 52.16
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -100,7 +95,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9563f1e1df5a920e1eb0668def8478f59756e8e9f333c4a96b7eb32606efd186
+trustMagnitudeInputHash: 85790c7452b97aaf2c601aae7c269c068b80a1697e66c723885c54462b9760a2
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md
 ---

@@ -18,7 +18,7 @@ tags:
 - implementation
 - plan-driven
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -108,11 +108,6 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:56Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 95.15 -> 95.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 95.15
 overallTrustGrade: B
 apexGateStatus:
@@ -126,7 +121,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:46:36Z'
-trustMagnitudeInputHash: 5a59bccb98024be395f88015fa2c3ee6bfce3500b2a63c4ca3f725bd08cb8f4a
+trustMagnitudeInputHash: 2a7fca512d632eec72d6cefc7fad5584820c2e4ab104778e71f3c069592eda8c
 ---
 
 ## Overview

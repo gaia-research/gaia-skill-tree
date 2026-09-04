@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -87,11 +87,6 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-- timestamp: '2026-08-29T17:15:45Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 223.52 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -120,7 +115,7 @@ evidence:
   grade: B
   evaluator: mbtiongson1
   date: '2026-07-13'
-trustMagnitude: 286.0
+trustMagnitude: 223.52
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -133,7 +128,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: 63c209ef1809b89e0badb21b7adb2501ac1865c6bf6147de2dcc1dcb4f88b3cc
+trustMagnitudeInputHash: bc865a773c50df9fe80e056b41575039c7bf61f6b8ce2122a55da282b280e464
 suiteComponents:
 - firecrawl/firecrawl-build-interact
 - firecrawl/firecrawl-build-onboarding

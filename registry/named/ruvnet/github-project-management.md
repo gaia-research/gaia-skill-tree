@@ -20,7 +20,7 @@ tags:
 - milestones
 - sprints
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-05-19'
 suiteRef: ruvnet/github-suite
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
@@ -47,12 +47,7 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:58Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
-trustMagnitudeInputHash: a2ea33502fc7199e545b82f3b02b0ce7814f5fed9fb8cead92ce5eed42848a93
+trustMagnitudeInputHash: 28f2a47a0260d1fe32fb1b66317e83af81fac99d65d1c9a94166da97ce6e9be4
 ---
 
 ## Overview

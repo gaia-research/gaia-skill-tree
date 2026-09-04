@@ -22,7 +22,7 @@ tags:
 - agent-brief
 - github-issues
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -82,11 +82,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 56.21
 overallTrustGrade: B
 apexGateStatus:
@@ -100,7 +95,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:37:49Z'
-trustMagnitudeInputHash: fde5b7e75f0685f820b737b20cd722303f7d1a0ff759907dcf02c325c994050c
+trustMagnitudeInputHash: b42ad58a3257d98f302c8af93e6764416cb0013fcbf194586aef8699be94c842
 ---
 
 ## Overview

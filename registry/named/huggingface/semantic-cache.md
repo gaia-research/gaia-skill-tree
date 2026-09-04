@@ -16,7 +16,7 @@ tags:
 - cost-optimization
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-05'
 evidence:
 - class: B
   source: https://github.com/codefuse-ai/ModelCache
@@ -89,14 +89,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
     (type: benchmark-result)'
-- timestamp: '2026-08-29T17:15:49Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 125.46, grade C -> A (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 installable: false
-trustMagnitude: 125.46
-overallTrustGrade: A
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -106,7 +101,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 84c2b73d815a5871945fc489b184aedadc94eb566e429707dc3b2b574f417f4d
+trustMagnitudeInputHash: 218c09e58c2261c5210efad6f857a14f94bb2f35051476ca0207c34654dd5904
 verification:
   firstEvidenceAt: '2026-07-04T22:35:20Z'
 ---

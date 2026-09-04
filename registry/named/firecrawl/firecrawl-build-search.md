@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-08-30'
+updatedAt: '2026-07-31'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
@@ -54,11 +54,6 @@ timeline:
   contributor: marcotiongson
   details: 'Added evidence from https://github.com/firecrawl/firecrawl/stargazers
     (type: github-stars-own)'
-- timestamp: '2026-08-29T17:15:44Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 319.62, grade (none) -> A (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -90,9 +85,6 @@ verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 catalogRef: firecrawl-firecrawl-build-search
 suiteRef: firecrawl/firecrawl-skills
-trustMagnitude: 319.62
-overallTrustGrade: A
-trustMagnitudeInputHash: 7313d8ac3cbf3b3b1dbbd5c1bfdaac114e0db1f5e8884678e2180a9f5e0e06cc
 ---
 
 ## Installation

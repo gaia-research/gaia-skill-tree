@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query, search, and download data from the openFDA API for drugs, devices,
   foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency
   data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k)
   clearances, NDC lookups, and any FDA safety or regulatory data query across all
   28 API endpoints.
 createdAt: '2026-05-23'
-updatedAt: '2026-09-02'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md
 evidence:
@@ -99,10 +99,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/openfda_database to google-deepmind/openfda-database
-- timestamp: '2026-09-02T15:11:25Z'
-  action: rank_up
-  contributor: unknown
-  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

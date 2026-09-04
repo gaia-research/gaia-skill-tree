@@ -196,7 +196,7 @@ After Phase 5 produces the findings.json, replay the high-confidence subset prog
 After every mutation, validate immediately — a half-applied set that fails CI is worse than no mutations at all:
 
 ```bash
-gaia dev validate
+gaia validate
 gaia dev validate --intake
 gaia dev docs
 ```
@@ -210,7 +210,7 @@ Report back:
 - Path to the HTML report and timeline JSON
 - Counts: findings by priority, fusion candidates, new generic proposals, surviving after Verify
 - Any mutations applied (or "none — read-only run")
-- Validation status (`gaia dev validate` exit code if mutations were applied)
+- Validation status (`gaia validate` exit code if mutations were applied)
 - Suggested follow-ups: which P0/P1 findings should be routed to `/gaia-audit` for source-level correction
 
 ## Gotchas

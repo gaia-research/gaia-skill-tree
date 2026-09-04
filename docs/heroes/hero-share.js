@@ -19,27 +19,30 @@
     var skillType = btn.getAttribute('data-share-type') || 'basic';
     var slug = skillId.split('/').pop() || handle;
 
-    // Rank, type and branch ride on the button as data attributes written by
-    // heroes.js renderHeroStage. They used to be scraped back out of the
-    // rendered stats row, which read the "fused" count as the level and put the
-    // wrong rank on every shared plaque; the DOM read is kept only as a
-    // fallback for a stage rendered before those attributes existed.
+    // Attempt to find the named skill in window._gaiaNamedAll (populated
+    // by other pages). For heroes/, we build the ns object from the DOM +
+    // known data.
     var stage = btn.closest('.hero-stage');
-    var level = btn.getAttribute('data-share-level') || '';
-    if (!level && stage) level = stage.getAttribute('data-level') || '';
-
     var ns = {
       id: skillId,
       contributor: handle,
       name: slug,
-      level: level,
+      level: '',
       type: skillType,
-      branch: btn.getAttribute('data-share-branch') || '',
       origin: true,
       ogPath: 'og/' + handle + '/' + slug + '.svg',
       description: '',
       tags: []
     };
+
+    // Extract level from the stats display if available
+    if (stage) {
+      var statValues = stage.querySelectorAll('.hero-card__stat-value');
+      if (statValues.length >= 2) {
+        ns.level = statValues[1].textContent.trim();
+      }
+      ns.type = stage.getAttribute('data-skill-type') || ns.type;
+    }
 
     // Open the share modal
     if (typeof window.openHohFullscreenModal === 'function') {

@@ -10,7 +10,7 @@ description: CLI + agent skill invoked via /cost. Reads JSONL session logs from 
   Claude Code, Codex, opencode; prices every turn against BerriAI/litellm's catalog;
   auto-refreshes prices.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-08-05'
 title: Cost
 links:
   github: https://github.com/gaia-research/skill-cost/blob/main/SKILL.md
@@ -36,11 +36,6 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from gaia-research/skill-cost to gaia-research/cost
-- timestamp: '2026-08-29T17:15:45Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 evidence:
 - source: https://github.com/gaia-research/skill-cost
   evaluator: unknown
@@ -62,9 +57,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:17:29Z'
-trustMagnitude: 5.0
-overallTrustGrade: ungraded
-trustMagnitudeInputHash: e0e0c85af22fe0d72a8aeefe6b7dfbef3fefd188bef9985bca6407912f95e1fd
 ---
 
 ## Installation

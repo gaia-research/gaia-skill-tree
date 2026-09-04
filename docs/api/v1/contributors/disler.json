@@ -4,15 +4,14 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "3★",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "fusionScore": 120.0,
+      "level": "4★",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "A",
       "contributor": "disler",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
       },
@@ -29,7 +28,6 @@
       "level": "2★",
       "trustMagnitude": 36.34,
       "overallTrustGrade": "C",
-      "fusionScore": 0.0,
       "contributor": "disler",
       "type": "basic",
       "branch": "standard",
@@ -46,7 +44,6 @@
       "level": "2★",
       "trustMagnitude": 36.34,
       "overallTrustGrade": "C",
-      "fusionScore": 0.0,
       "contributor": "disler",
       "type": "basic",
       "branch": "standard",
@@ -63,7 +60,6 @@
       "level": "2★",
       "trustMagnitude": 36.34,
       "overallTrustGrade": "C",
-      "fusionScore": 0.0,
       "contributor": "disler",
       "type": "basic",
       "branch": "standard",
@@ -78,12 +74,13 @@
   "namedSkillsCount": 4,
   "topSkill": {
     "id": "disler/agent-fusion",
-    "level": "3★",
-    "trustMagnitude": 37.54
+    "level": "4★",
+    "trustMagnitude": 127.54
   },
-  "prestigeScore": 146.56,
+  "prestigeScore": 236.56,
   "gradeDistribution": {
-    "C": 4
+    "A": 1,
+    "C": 3
   },
   "_links": {
     "self": "/api/v1/contributors/disler.json",

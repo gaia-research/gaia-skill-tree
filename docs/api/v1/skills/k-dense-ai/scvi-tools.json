@@ -2,26 +2,18 @@
   "id": "k-dense-ai/scvi-tools",
   "name": "scvi-tools",
   "contributor": "k-dense-ai",
-  "level": "4★",
+  "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 167.52,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 51.3,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/k-dense-ai/scvi-tools.json",
     "contributor": "/api/v1/contributors/k-dense-ai.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 220.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 3,
-    "transitiveCount": 11,
-    "maxDepth": 2,
-    "nestedSuiteCount": 0
   },
   "title": "scvi-tools",
   "genericSkillRef": "single-cell-omics-modeling",
@@ -93,18 +85,6 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:50Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM (none) -> 170.06, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:33Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 2★ to 4★"
     }
   ],
   "links": {

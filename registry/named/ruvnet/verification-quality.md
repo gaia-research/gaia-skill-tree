@@ -19,7 +19,7 @@ tags:
 - quality-gates
 - completion
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -55,11 +55,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-- timestamp: '2026-08-29T17:16:00Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -73,7 +68,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:18Z'
-trustMagnitudeInputHash: 7d922e93a493252d7de60bada75423b28b85bec9b933810978bfa85f1c517ec2
+trustMagnitudeInputHash: 28d429297bcbaa0d0ce3c0611a27dc006b2513a3fd1a7a1179b77bbfd568c252
 ---
 
 ## Overview

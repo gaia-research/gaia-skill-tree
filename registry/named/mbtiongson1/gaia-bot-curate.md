@@ -10,7 +10,7 @@ description: Runs an automated batch curation pass over the Gaia skill registry 
   scanning for new agent skills, validating evidence, and opening versioned draft
   PRs without human intervention.
 createdAt: '2026-05-27'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-01'
 title: The Automated Curator
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md
@@ -40,11 +40,6 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-- timestamp: '2026-08-29T17:15:54Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
-    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,7 +51,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5d7e5b5a94b45e358c45f4fe051e7a6a68d400469010f2c28eedd9d11928fa49
+trustMagnitudeInputHash: 9bb9d2905db22370679e847dce6c1c55cbc7f736d1a648aeb8980a78cb5cc5d0
 ---
 
 ## Overview

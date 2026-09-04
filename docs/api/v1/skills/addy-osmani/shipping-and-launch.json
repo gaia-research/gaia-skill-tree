@@ -2,26 +2,18 @@
   "id": "addy-osmani/shipping-and-launch",
   "name": "Shipping and Launch",
   "contributor": "addy-osmani",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 174.62,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 58.83,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
-  },
-  "fusionScore": 80.0,
-  "fusionScoreVersion": "yggdrasil-iii-v1",
-  "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 4,
-    "maxDepth": 2,
-    "nestedSuiteCount": 0
   },
   "title": "Shipping and Launch",
   "genericSkillRef": "finishing-a-development-branch",
@@ -128,18 +120,6 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
-    },
-    {
-      "timestamp": "2026-08-29T17:15:42Z",
-      "action": "recalibrate_trust_magnitude",
-      "contributor": "mbtiongson1",
-      "details": "TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-    },
-    {
-      "timestamp": "2026-09-02T15:11:12Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

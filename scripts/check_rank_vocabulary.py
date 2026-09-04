@@ -27,11 +27,6 @@ BANNED PATTERNS  (applied to full scan scope — all case-sensitive unless noted
                             scripts/** hard-excluded; generateBadges.py/generateOgCards.py use
                             it as a legitimate 6★-rank descriptor — confirmed excluded.
                             Stale positive assertions in other guards/tests should be removed.
-  \\bfusion\\s+magnitude\\b, \\bcomposition\\s+score\\b, \\bstructure\\s+score\\b
-                            — CASE-INSENSITIVE Fusion Score synonyms (Yggdrasil III structural
-                            scalar); CONTEXT.md §Banned synonyms: use "Fusion Score" for all
-                            three. Added 2026-09-03 to close a gap: these were banned in
-                            CONTEXT.md with no enforcing pattern.
 
 DOCS-ONLY BANNED PATTERNS  (root *.md and docs/**/*.md only; added #999 Step 2)
   \\bG7\\b  — internal engineering codename; use "TM Index (2026 Q2)" in public docs
@@ -108,16 +103,6 @@ BANNED_PATTERNS = [
     # scripts/** hard-excluded: generateBadges.py + generateOgCards.py use 'apex tier' as
     # a legitimate 6★-rank descriptor — confirmed excluded via HARD_EXCLUDE_GLOBS.
     (re.compile(r'\bapex\s+tier\b', re.IGNORECASE), 'apex tier', 'taxonomy-Ultimate synonym — CONTEXT.md §Banned synonyms; Ultimate=5★ rank name, Apex=6★ Suite rank name; never use "apex tier" as a taxonomy synonym. scripts/** hard-excluded.'),
-    # Fusion Score synonyms (Yggdrasil III structural scalar) — CONTEXT.md §Banned synonyms:
-    # "fusion magnitude / composition score / structure score — for the Yggdrasil III
-    #  structural scalar; use Fusion Score." Full scope (like Transcendent/Hardened/Fusion
-    # Skill above), not docs-only: these are retired/incorrect terms that must never surface
-    # anywhere in canonical content, not internal codenames with a legitimate broad internal
-    # audience the way G7/G8 are. Case-insensitive: plain-English phrases can appear in any
-    # casing in prose.
-    (re.compile(r'\bfusion\s+magnitude\b', re.IGNORECASE), 'fusion magnitude', 'retired Yggdrasil II term for structure scored INSIDE Trust Magnitude — CONTEXT.md §Banned synonyms; use "Fusion Score" (the Yggdrasil III structural scalar, never an input to TM).'),
-    (re.compile(r'\bcomposition\s+score\b', re.IGNORECASE), 'composition score', 'synonym for the Yggdrasil III structural scalar — CONTEXT.md §Banned synonyms; use "Fusion Score".'),
-    (re.compile(r'\bstructure\s+score\b', re.IGNORECASE), 'structure score', 'synonym for the Yggdrasil III structural scalar — CONTEXT.md §Banned synonyms; use "Fusion Score".'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -202,8 +187,6 @@ ALLOWLIST_PATHS = {
     'founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md',            # G7 RFC; pre-Yggdrasil-II naming ("Ultimate skill") in engineering spec  # #994
     'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',   # Historical workflow notes
     'founder/handovers/done/g7-mattpocock-audit/_issue_comment.md',    # Historical issue comment; "apex tier" as 6★ descriptor  # #994
-    'founder/handovers/done/g7-mattpocock-audit/_issue_comment_v2.md', # Historical issue comment; names retired "fusion magnitude"  # 2026-09-03 Fusion Score sweep
-    'founder/handovers/YGGDRASIL_III_FUSION_SCORE_PLAN.md',        # Fusion Score design doc; names the retired "fusion magnitude" term it replaces  # 2026-09-03 Fusion Score sweep
     'founder/handovers/phase-1.5/issues/I8.md',                   # Historical issue doc
 
     # ── registry/named/** migration provenance notes (#997 Yggdrasil II migration) ────
@@ -412,7 +395,7 @@ def main():
 
     print('=== Yggdrasil II Rank Vocabulary Guard  (Refs #999) ===')
     print(f'Repo root : {repo_root}')
-    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate, "apex tier" (case-insensitive), "fusion magnitude" / "composition score" / "structure score" (case-insensitive)')
+    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate, "apex tier" (case-insensitive)')
     print(f'Docs-only : G7, G8 (external/public docs only; founder/handovers/** and registry/** exempt)')
     print(f'Allowed   : Extra Skill / Ultimate Skill (capital-S rank phrasings); Extra/Ultimate bare; Basic, Fusion (bare types)')
     print()

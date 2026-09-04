@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-skill-tree` · 20 terms across 2 namespace(s) · updated **2026-08-10**.
+> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-08-10**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -14,7 +14,7 @@
 | Namespace | Owned by | File | Terms |
 |---|---|---|---|
 | `gaia.skills` | `gaia-skill-tree` | `scripts/lexicon/lexicon.json` | 11 |
-| `gaia.trust` | `gaia-skill-tree` | `scripts/lexicon/lexicon.gaia.trust.json` | 9 |
+| `gaia.trust` | `gaia-skill-tree` | `scripts/lexicon/lexicon.gaia.trust.json` | 7 |
 
 Terms owned by **gaia-research/gaia-research** are listed name-only in `scripts/lexicon/lexicon.foreign.json` and are
 defined there, never here:
@@ -132,8 +132,6 @@ to make a decision.
 |---|---|---|---|
 | `Trust Magnitude` | ✅ canonical | CONTEXT.md § Evidence and trust | The score a rank-up gates on. Computed from graded evidence; the public label for the scoring engine is TM Index, versioned by calendar quarter. |
 | `TM Index` | ✅ canonical | CONTEXT.md § Evidence and trust | The public-facing, quarter-versioned name for the Trust Magnitude scoring engine — TM Index (2026 Q2), TM Index (2026 Q3). The G-series (G7, G8, …) is the internal engineering codename and stays internal. |
-| `Fusion Score` | ✅ canonical | META.md § 2.1e Fusion Score (Yggdrasil III structural scalar) | The structural reading ratified by Yggdrasil III: how much distinct capability a skill composes, derived from canonical prerequisites, suite components, and origin structure. A peer of Trust Magnitude, never an input to it — informational in V1, gating no star, rank, or Trust Grade. |
-| `fusion magnitude` | ⛔ banned | META.md § 2.1e Fusion Score (Yggdrasil III structural scalar) | The retired Yggdrasil II term for structure scored INSIDE Trust Magnitude. Yggdrasil III fixed that contribution at 0 TM and moved the reading out to Fusion Score; reusing the old word re-implies the coupling that was removed. **Use `Fusion Score`.** |
 | `Evidence Grade` | ✅ canonical | CONTEXT.md § Evidence and trust | The graded quality of one evidence row. Every star above 1★ requires graded evidence. |
 | `Evidence Class` | ⛔ banned | CONTEXT.md § Relationships | The deprecated axis Evidence Grade replaces. **Use `Evidence Grade`.** |
 | `Evidence Floor` | ⛔ banned | CONTEXT.md § Relationships (Yggdrasil II) | The retired per-star minimum-evidence column. Ranking up gates on Trust Magnitude now, not on a per-star floor. **Use `Trust Magnitude`.** |

@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — stanfordnlp  ·  generated 2026-09-04
+GAIA SKILL TREE — stanfordnlp  ·  generated 2026-09-01
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -26,15 +26,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · addy-osmani/code-review-and-quality  [4★]
+  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [5★]
-  ├─ · · garrytan/garrytan  [5★]
+  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
+  ├─ · · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ · · leonxlnx/stitch-skill  [3★]
+  ├─ · · garrytan/design-consultation  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
@@ -52,8 +52,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · · garrytan/ship  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · garrytan/ship  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
   │  ├─ · · ████████/github-workflow-automation
@@ -64,12 +64,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [4★]
+  ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
-  ├─ · · garrytan/cso  [4★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [4★]  (↑ see above)
+  ├─ · · garrytan/cso  [3★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [4★]
+  ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
@@ -101,10 +101,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/setup-gbrain  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ ayghri/i-have-adhd  [4★]
+  ├─ · ○ garrytan/make-pdf  [2★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]

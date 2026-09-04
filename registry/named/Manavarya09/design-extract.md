@@ -16,7 +16,7 @@ tags:
 - tailwind
 - scraping
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/Manavarya09/design-extract
@@ -61,11 +61,6 @@ timeline:
     2026-08-05; git smart-HTTP probe confirms not clonable. No verified relink target
     (npm pkg ''designlang'' has no repository field; unrelated single-commit tobiags/designlang
     copy is too weak a provenance signal). See issue #1447.'
-- timestamp: '2026-08-29T17:15:42Z'
-  action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
-    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -77,7 +72,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: acf593aff3141781449e7cac358d8b83bbfda4b673511991fdd4563950dc179e
+trustMagnitudeInputHash: e6a67963e6916ea87b9db72e7d37ff0df05305e13129a0084d6ed463ed36ac8e
 installable: false
 ---
 

@@ -4,15 +4,14 @@
     {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
-      "level": "4★",
-      "trustMagnitude": 184.32,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
+      "level": "3★",
+      "trustMagnitude": 79.23,
+      "overallTrustGrade": "B",
       "contributor": "anthropics",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
       },
@@ -24,7 +23,6 @@
       "level": "2★",
       "trustMagnitude": 43.52,
       "overallTrustGrade": "C",
-      "fusionScore": 0.0,
       "contributor": "anthropics",
       "type": "basic",
       "branch": "standard",
@@ -39,12 +37,12 @@
   "namedSkillsCount": 2,
   "topSkill": {
     "id": "anthropics/brand-guidelines",
-    "level": "4★",
-    "trustMagnitude": 184.32
+    "level": "3★",
+    "trustMagnitude": 79.23
   },
-  "prestigeScore": 227.84,
+  "prestigeScore": 122.75,
   "gradeDistribution": {
-    "A": 1,
+    "B": 1,
     "C": 1
   },
   "_links": {
