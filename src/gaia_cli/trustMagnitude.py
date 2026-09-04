@@ -59,8 +59,10 @@ TYPE_WEIGHTS = {
 }
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
+# Yggdrasil III recalibration (#1705): github-stars-own capped at 175.0 (below
+# the 250.0 Grade S floor), ensuring adoption alone cannot satisfy Grade S.
 TYPE_CAPS = {
-    "github-stars-own": 250.0,
+    "github-stars-own": 175.0,
     "proxy-containment": 160.0,
     "benchmark-result": 100.0,
     "arxiv": 100.0,
@@ -511,11 +513,12 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        # Yggdrasil III emergency calibration (#1665): repository adoption is
-        # direct evidence for the curated skill set, so do not divide it by
-        # the number of skills in that repository. One TM per 250 stars,
-        # capped at the 5★ TM floor; the S-grade witness gate still applies.
-        return min(250.0, stars / 250.0)
+        # Yggdrasil III recalibration (#1705): logarithmic diminishing-returns curve
+        # for repository adoption. Capped at 175 TM (below the 250 S floor), ensuring
+        # stars alone cannot achieve Grade S without strong independent corroboration.
+        if stars <= 10.0:
+            return 0.0
+        return min(175.0, 35.0 * math.log10(stars / 10.0))
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
@@ -1036,16 +1039,36 @@ def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = N
     })
 
 
+def _isEligibleWitnessRow(row: dict, score: Optional[float], skill: dict) -> bool:
+    """Return whether an evidence row qualifies as an independent S-grade witness.
+
+    S-grade witness requires meaningful evidence quality (#1705):
+    - eligible objective `benchmark-result` (positive score)
+    - valid `verifier-attestation` (positive score, active verifier)
+    - `peer-review` only when its effective evidence grade is at least A
+      (Grade C/B community summaries or issue threads do not unlock S).
+    """
+    if score is None or score <= 0.0:
+        return False
+    if _rowLayerOf(row) != _ownLayerOf(skill):
+        return False
+    rowType = _typeOf(row)
+    if rowType in ("benchmark-result", "verifier-attestation"):
+        return True
+    if rowType == "peer-review":
+        rowGrade = _grade(row)
+        if rowGrade in ("S", "A") or score >= 60.0:
+            return True
+    return False
+
+
 def _hasEligibleIndependentWitness(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
-        _typeOf(row) in INDEPENDENT_S_WITNESS_TYPES
-        and _rowLayerOf(row) == _ownLayerOf(skill)
-        and score is not None
-        and score > 0.0
+        _isEligibleWitnessRow(row, score, skill)
         for row, score in _scoredEvidenceRows(skill, genericSkillMap)
     )
 
@@ -1436,10 +1459,7 @@ def explainTrustMagnitude(
         and score > 0.0
     })
     hasIndependentWitness = any(
-        _typeOf(row) in INDEPENDENT_S_WITNESS_TYPES
-        and _rowLayerOf(row) == _ownLayerOf(skill)
-        and score is not None
-        and score > 0.0
+        _isEligibleWitnessRow(row, score, skill)
         for row, score in rowsWithScores
     )
     grade = computeOverallTrustGrade(totalTM, distinctTypes, hasIndependentWitness)

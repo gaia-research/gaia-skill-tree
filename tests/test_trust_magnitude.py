@@ -82,11 +82,11 @@ def test_fusion_recipe_type_weight_is_zero():
 
 
 def test_github_stars_own_magnitude_basic():
-    """Yggdrasil III: m = min(250, stars / 250). weight=1.0."""
+    """Yggdrasil III (#1705): m = min(175, 35 * log10(stars / 10)). weight=1.0."""
     row = {"type": "github-stars-own", "stars": 5000}
     score = computeArtifactScore(row)
-    # 5000/250 = 20.0; weight 1.0 => 20.0
-    assert score == pytest.approx(20.0)
+    # 35 * log10(500) = 35 * 2.69897 = 94.46395...
+    assert score == pytest.approx(35.0 * math.log10(500.0))
 
 
 def test_proxy_containment_below_threshold_returns_zero():
@@ -172,21 +172,21 @@ def test_social_signal_magnitude_log_views():
 
 
 def test_repo_adoption_single_skill():
-    """Yggdrasil III: repository adoption contributes one TM per 250 stars."""
+    """Yggdrasil III: repository adoption follows log curve without mothership divisor."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 1}
-    assert computeArtifactScore(row) == pytest.approx(16.0)
+    assert computeArtifactScore(row) == pytest.approx(35.0 * math.log10(400.0))
 
 
 def test_repo_adoption_is_not_divided_by_two_skills():
     """skillCountInRepo no longer discounts the shared adoption signal."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 2}
-    assert computeArtifactScore(row) == pytest.approx(16.0)
+    assert computeArtifactScore(row) == pytest.approx(35.0 * math.log10(400.0))
 
 
 def test_repo_adoption_is_not_divided_by_large_skill_count():
     """Large curated suites retain the repository's direct adoption evidence."""
     row = {"type": "github-stars-own", "stars": 4000, "skillCountInRepo": 100}
-    assert computeArtifactScore(row) == pytest.approx(16.0)
+    assert computeArtifactScore(row) == pytest.approx(35.0 * math.log10(400.0))
 
 
 def test_same_source_dedup_collapses_duplicate_urls():
@@ -198,8 +198,8 @@ def test_same_source_dedup_collapses_duplicate_urls():
         ]
     }
     tm = computeTrustMagnitude(skill)
-    # Both same canonical URL; higher (5000 -> 20.0) wins; 1000 dropped.
-    assert tm == pytest.approx(20.0)
+    # Both same canonical URL; higher (5000 -> 94.46) wins; 1000 dropped.
+    assert tm == pytest.approx(35.0 * math.log10(500.0))
 
 
 def test_same_source_dedup_normalizes_tree_to_blob():
@@ -359,14 +359,15 @@ def test_diversity_gate_S_passes_with_three_types_and_independent_witness():
     [
         {"type": "verifier-attestation", "verifiers": 2},
         _verified_benchmark_row(),
-        {"type": "peer-review", "reviewers": 2},
+        {"type": "peer-review", "reviewers": 3},
     ],
 )
 def test_s_accepts_each_positive_eligible_independent_witness_class(witness):
     """Each approved witness class can satisfy S when the rest of the gate holds."""
     skill = {
         "evidence": [
-            {"type": "github-stars-own", "stars": 200000},
+            {"type": "github-stars-own", "stars": 500000},
+            {"type": "arxiv", "citations": 250},
             {"type": "repo-own", "commits": 100000, "contributors": 100},
             witness,
         ]
@@ -382,6 +383,7 @@ def test_s_accepts_each_positive_eligible_independent_witness_class(witness):
         {"type": "verifier-attestation", "verifiers": 2, "verifierActiveRank": False},
         {"type": "peer-review", "reviewers": 2, "autoMinted": True},
         {"type": "peer-review", "reviewers": 2, "lastVerified": "2000-01-01"},
+        {"type": "peer-review", "reviewers": 1, "grade": "C"},
     ],
 )
 def test_s_rejects_invalid_phantom_deranked_and_zero_independent_witnesses(invalidWitness):
@@ -407,7 +409,8 @@ def test_s_rejects_an_inherited_only_independent_witness():
     named = {
         "genericSkillRef": genericId,
         "evidence": [
-            {"type": "github-stars-own", "stars": 200000},
+            {"type": "github-stars-own", "stars": 500000},
+            {"type": "arxiv", "citations": 500, "source": "https://arxiv.org/abs/2401.00000"},
             {
                 "type": "repo-own",
                 "commits": 100000,
@@ -431,7 +434,8 @@ def test_fusion_repo_and_stars_cannot_reach_s():
             {"type": "repo-own", "commits": 100000, "contributors": 100},
         ]
     }
-    assert computeTrustMagnitude(skill) == pytest.approx(286.0)
+    expected = 35.0 * math.log10(20000.0) + 36.0
+    assert computeTrustMagnitude(skill) == pytest.approx(expected)
     assert "fusion-recipe" not in computeTrustMagnitudeByType(skill)
     assert computeOverallTrustGradeFromSkill(skill) == "A"
 
@@ -525,7 +529,8 @@ def test_standalone_own_repository_evidence_remains_uncapped():
     standalone = _taste_like_component()
     standalone.pop("suiteRef")
 
-    assert computeTrustMagnitude(standalone) == pytest.approx(286.0)
+    expected = 35.0 * math.log10(20000.0) + 36.0
+    assert computeTrustMagnitude(standalone) == pytest.approx(expected)
     assert computeOverallTrustGradeFromSkill(standalone) == "A"
 
 
