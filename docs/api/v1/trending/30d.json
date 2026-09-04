@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-01T15:47:43Z",
+  "generatedAt": "2026-09-04T18:03:39Z",
   "firstRun": false,
   "skills": [
     {
@@ -85,20 +85,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 154.38,
-      "overallTrustGrade": "A",
-      "trendingScore": 109.47,
-      "tmDelta": 78.68,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     },
     {
@@ -214,20 +200,6 @@
       }
     },
     {
-      "id": "ruvnet/hive-mind",
-      "name": "Hive Mind",
-      "level": "3★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 98.54,
-      "overallTrustGrade": "B",
-      "trendingScore": 49.27,
-      "tmDelta": 98.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind.json"
-      }
-    },
-    {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
       "level": "3★",
@@ -284,20 +256,6 @@
       }
     },
     {
-      "id": "vercel-labs/vercel-react-best-practices",
-      "name": "Vercel React Best Practices",
-      "level": "3★",
-      "contributor": "vercel-labs",
-      "trustMagnitude": 50.84,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.42,
-      "tmDelta": 50.84,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
-      }
-    },
-    {
       "id": "mattpocock/tdd",
       "name": "TDD",
       "level": "3★",
@@ -309,34 +267,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mattpocock/tdd.json"
-      }
-    },
-    {
-      "id": "gaia-research/fuse",
-      "name": "Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.62,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.81,
-      "tmDelta": 41.62,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/fuse.json"
-      }
-    },
-    {
-      "id": "gaia-research/ci-churn",
-      "name": "CI Churn",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       }
     },
     {
@@ -564,20 +494,6 @@
       }
     },
     {
-      "id": "bradautomates/watch",
-      "name": "Watch",
-      "level": "2★",
-      "contributor": "bradautomates",
-      "trustMagnitude": 37.47,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.73,
-      "tmDelta": 37.47,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/bradautomates/watch.json"
-      }
-    },
-    {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
       "level": "3★",
@@ -589,20 +505,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
-      }
-    },
-    {
-      "id": "karpathy/autoresearch-universal",
-      "name": "AutoResearch",
-      "level": "2★",
-      "contributor": "karpathy",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.0,
-      "tmDelta": 36.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
       }
     },
     {
@@ -1110,6 +1012,20 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 154.38,
+      "overallTrustGrade": "A",
+      "trendingScore": 4.6,
+      "tmDelta": 4.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
@@ -1135,6 +1051,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 98.54,
+      "overallTrustGrade": "B",
+      "trendingScore": 2.96,
+      "tmDelta": 2.45,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
       }
     },
     {
@@ -1192,9 +1122,23 @@
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
       }
+    },
+    {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "3★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 50.84,
+      "overallTrustGrade": "B",
+      "trendingScore": 0.5,
+      "tmDelta": 0.36,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      }
     }
   ],
-  "totalTrending": 85,
+  "totalTrending": 81,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
