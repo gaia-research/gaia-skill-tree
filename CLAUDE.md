@@ -65,7 +65,7 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 ## Edit Safety
 
 - After Edit/Write on JS/HTML, read the file back to verify no duplication or merged lines; run syntax check if available.
-- Avoid hex color fallbacks; use design tokens only (CI guard rejects hex).
+- Avoid hex color fallbacks in JS/CSS; use design tokens only (CI Guard A rejects hex in `docs/**/*.{js,css}`; standalone SVG badges/OG-cards and legacy HTML inline styles are tracked separately).
 - When bumping assets, update cache-bust version strings across all referencing pages.
 
 ## Frontend changes are HUMAN-GATED — founder review before merge
