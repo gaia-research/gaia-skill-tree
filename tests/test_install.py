@@ -24,6 +24,8 @@ from gaia_cli.install import (
     resolve_named_skill_reference,
     _parse_github_url,
     _run_git,
+    _is_direct_skill_ref,
+    _resolve_direct_reference,
 )
 
 
@@ -835,3 +837,145 @@ class TestInstallTargetValidation:
         installed_ids = {e["id"] for e in manifest["installed"]}
         assert "testuser/good" in installed_ids
         assert "testuser/broken" not in installed_ids
+
+
+class TestDirectUrlAndShorthandInstall:
+    """Tests for universal direct GitHub URL and shorthand installs."""
+
+    def test_parse_github_url_extensions(self):
+        # .git suffix stripped cleanly
+        repo, branch, subpath = _parse_github_url("https://github.com/owner/repo.git")
+        assert repo == "https://github.com/owner/repo.git"
+        assert branch is None
+        assert subpath == ""
+
+        # git@ SSH URL
+        repo, branch, subpath = _parse_github_url("git@github.com:owner/repo.git")
+        assert repo == "https://github.com/owner/repo.git"
+        assert branch is None
+        assert subpath == ""
+
+        # github.com without scheme
+        repo, branch, subpath = _parse_github_url("github.com/owner/repo")
+        assert repo == "https://github.com/owner/repo.git"
+        assert branch is None
+        assert subpath == ""
+
+        # Shorthand owner/repo
+        repo, branch, subpath = _parse_github_url("gaia-research/skill-image-tuner")
+        assert repo == "https://github.com/gaia-research/skill-image-tuner.git"
+        assert branch is None
+        assert subpath == ""
+
+        # Shorthand owner/repo@branch
+        repo, branch, subpath = _parse_github_url("gaia-research/skill-image-tuner@dev")
+        assert repo == "https://github.com/gaia-research/skill-image-tuner.git"
+        assert branch == "dev"
+        assert subpath == ""
+
+    def test_resolve_direct_reference(self):
+        # Full URL with skill- prefix in repo name strips prefix
+        sid, meta = _resolve_direct_reference("https://github.com/gaia-research/skill-image-tuner")
+        assert sid == "gaia-research/image-tuner"
+        assert meta["name"] == "image-tuner"
+        assert meta.get("unindexed") is True
+
+        # Full URL with tree subpath uses subpath slug
+        sid, meta = _resolve_direct_reference("https://github.com/owner/repo/tree/main/skills/my-feature")
+        assert sid == "owner/my-feature"
+        assert meta["name"] == "my-feature"
+
+        # Shorthand owner/repo
+        sid, meta = _resolve_direct_reference("gaia-research/skill-image-tuner")
+        assert sid == "gaia-research/image-tuner"
+
+        # Bare string without slash returns None
+        sid, meta = _resolve_direct_reference("plain-name-without-slash")
+        assert sid is None
+        assert meta is None
+
+    def test_install_direct_github_url(self, tmp_path, monkeypatch, capsys):
+        """install_skill directly installs from a GitHub URL even if not in registry."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(tmp_path, [])
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                os.makedirs(dest, exist_ok=True)
+                with open(os.path.join(dest, "SKILL.md"), "w") as f:
+                    f.write("---\nname: image-tuner\n---\n# Image Tuner\n")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+
+        result = install_skill("https://github.com/gaia-research/skill-image-tuner", str(tmp_path))
+        assert result is True
+        captured = capsys.readouterr()
+        assert "✓ Installed: gaia-research/image-tuner" in captured.out
+
+        manifest = load_manifest()
+        assert len(manifest["installed"]) == 1
+        entry = manifest["installed"][0]
+        assert entry["id"] == "gaia-research/image-tuner"
+        assert entry.get("unindexed") is True
+        assert "image-tuner" in entry["localPath"]
+        assert os.path.isdir(entry["localPath"])
+
+    def test_install_direct_shorthand_repo(self, tmp_path, monkeypatch, capsys):
+        """install_skill directly installs from shorthand owner/repo when not in registry."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(tmp_path, [])
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                os.makedirs(dest, exist_ok=True)
+                with open(os.path.join(dest, "SKILL.md"), "w") as f:
+                    f.write("---\nname: my-tool\n---\n# My Tool\n")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+
+        result = install_skill("contributor/skill-my-tool", str(tmp_path))
+        assert result is True
+
+        manifest = load_manifest()
+        assert any(e["id"] == "contributor/my-tool" for e in manifest["installed"])
+
+    def test_uninstall_by_bare_slug(self, tmp_path, monkeypatch, capsys):
+        """uninstall_skill uninstalls using the bare slug as well as canonical ID."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(tmp_path, [])
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                os.makedirs(dest, exist_ok=True)
+                with open(os.path.join(dest, "SKILL.md"), "w") as f:
+                    f.write("---\nname: image-tuner\n---\n# Image Tuner\n")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+
+        assert install_skill("https://github.com/gaia-research/skill-image-tuner", str(tmp_path)) is True
+        manifest = load_manifest()
+        assert len(manifest["installed"]) == 1
+
+        # Uninstall via bare slug "image-tuner"
+        assert uninstall_skill("image-tuner") is True
+        manifest_after = load_manifest()
+        assert len(manifest_after["installed"]) == 0
+
