@@ -96,19 +96,20 @@
 
     'github-stars-own': {
       label: 'stars',
-      formula: 'min(250, stars/250)',
+      formula: 'min(175, 35 × log₁₀(max(1, stars/10)))',
       describe: function (row) {
         var s = row.stars != null ? Number(row.stars) : null;
         if (s == null) return null;
-        var val = Math.min(250, s / 250);
-        return { value: val, expr: 'min(250, ' + s + '/250)' };
+        if (s <= 10) return { value: 0, expr: 'stars ' + s + ' ≤ 10 → score 0' };
+        var val = Math.min(175, 35 * Math.log10(s / 10));
+        return { value: val, expr: 'min(175, 35 × log₁₀(' + s + '/10))' };
       },
       weight: 1.0,
-      cap: 250,
+      cap: 175,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 88, A: 60, B: 35, C: 20 },
-      gradeCeiling: null,
+      gradeFloors: { A: 100, B: 50, C: 20 },
+      gradeCeiling: 'A',
       anchor: 'types',
     },
 

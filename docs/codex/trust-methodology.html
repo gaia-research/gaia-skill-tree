@@ -357,6 +357,7 @@
       <ol class="codex-toc__list">
         <li><a href="#quick-math"><strong>Quick Math Reference</strong> — start here</a></li>
         <li><a href="#trust-magnitude">Trust Magnitude formula (full)</a></li>
+        <li><a href="#tm-calculator"><strong>Interactive Calculator &amp; Visualizer</strong></a></li>
         <li><a href="#evidence-types">Evidence types table</a></li>
         <li><a href="#fusion-score">Fusion Score — the second, structural lane</a></li>
         <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
@@ -522,6 +523,18 @@
         <li><strong style="color: var(--text);">Dedup:</strong> duplicate URL rows are collapsed to a single entry before any scoring begins.</li>
         <li><strong style="color: var(--text);">Role guard:</strong> structural roles such as <code>role='origin'</code> still govern graph/rank predicates; <code>fusion-recipe</code> remains metadata and scores 0.</li>
       </ul>
+    </section>
+
+    <!-- ─── §1b INTERACTIVE CALCULATOR & FORMULA VISUALIZER ─── -->
+    <section class="process-section" id="tm-calculator">
+      <h2>Interactive Trust Magnitude Calculator</h2>
+      <p class="section-sub">
+        Visual explanation of how raw evidence transforms into Trust Magnitude and how the
+        final Overall Trust Grade is determined. Adjust inputs or select presets below to inspect
+        the logarithmic adoption curve, multi-channel accumulation, and the Grade S admission gate in real time.
+      </p>
+
+      <div id="tm-calculator-mount"></div>
     </section>
 
     <!-- ─── §2 EVIDENCE TYPES TABLE ─── -->
@@ -1506,6 +1519,8 @@
   </button>
 
   <!-- ─── SCRIPTS ─── -->
+  <script src="../js/tm-config.js?v=7.13.2"></script>
+  <script src="../js/tm-calculator.js?v=7.13.2"></script>
   <script src="../js/atlas-helpers.js?v=7.13.2"></script>
   <script src="../js/ui.js?v=7.13.2"></script>
   <script src="../js/page-ia.js?v=7.13.2"></script>
