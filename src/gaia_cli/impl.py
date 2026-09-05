@@ -3165,9 +3165,16 @@ def release_command(args):
         "pyproject.toml",
         "packages/cli-npm/package.json",
         "registry/gaia.json",
+        "src/gaia_cli/impl.py",
     ]
     existing_version_files = [
-        f for f in version_files if os.path.exists(os.path.join(root, f))
+        f
+        for f in version_files
+        if os.path.exists(os.path.join(root, f))
+        and subprocess.run(
+            ["git", "check-ignore", "-q", f],
+            cwd=root,
+        ).returncode != 0
     ]
 
     def _run_git(*cmd, cwd=root):
