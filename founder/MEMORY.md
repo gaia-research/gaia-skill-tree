@@ -4,6 +4,47 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-05, Full Trust Recalibration, Grade Clamping, 3D Tree Tethering, Guard A Policy & Codex Calculator — PR #1721 Stack Hardened, 8 Issues Closed)
+
+### TLDR
+
+- **Issue #1729 Resolved (`eb85d5eaf`):** Clamped named skill star level to Trust Magnitude grade ceiling (`GRADE_MAX_STARS`) in `scripts/generateNamedIndex.py`, ingested verified arXiv and Grade A peer-review rows into `mattpocock/skills`, `garrytan/gstack`, and `safishamsi/graphify` to provide independent witnesses and qualify Grade S (5★), and reconciled 52 rank shifts across 26 skills using `scripts/trace_timeline.py --all --apply`.
+- **Issue #1728 Resolved (`fdf2e7982`):** Tethered disconnected satellite groves (`video-preview`, `agent-fusion`) in `docs/js/world-tree-layout.js` by scaling grove offset from `0.68 * width` to `0.38 * width` and field radius from `0.56 * width` to `0.32 * width`, constraining layout bounds from `[-516, 532]` to `[-288, 304]` with 27/27 unit tests green.
+- **Issue #1700 Resolved (`8e171a770`):** Refreshed stale frontmatter `trustMagnitude`, `overallTrustGrade`, and `trustMagnitudeInputHash` across all 48 drifting named skills via `gaia dev calibrate-trust-magnitude --all --yes`, achieving 280/280 cache-validity and index checks green.
+- **Issue #1720 Resolved (`459e3cd8d`):** Reconciled secondary documentation, schemas, and playbooks (`docs/codex/trust-methodology.html`, `registry/schema/meta.json`, `docs/api/v1/evidence-types.json`, `scripts/inspectTrustMagnitude.py`, `.agents/skills/trust-appraise*`, `.agents/skills/gaia-tm-inspect`) with the logarithmic adoption curve (`min(175.0, 35.0 * log10(max(1.0, stars / 10.0)))`), 175 TM cap, 50.0 TM suite component cap, and independent witness rules. Added historical archive disclaimers to `docs/meta/archive/`.
+- **Issue #1706 Resolved (`d920dd38f`):** Closed recalibration follow-up and added `relabel-dependent-origins` step to `.agents/skills/dev-calibrate/SKILL.md` and `.claude/skills/dev-calibrate/SKILL.md` with playbook contract verified.
+- **Issue #1704 Resolved (`22fd074dd`):** Completed frontend hex-color audit across 1,060 SVGs and 150 HTML files. Ratified Guard A scope invariant for live JS/CSS stylesheets and updated `CLAUDE.md` § Edit Safety.
+- **Issue #1722 Resolved (`81d6b5513`):** Authored lightweight, mobile-first interactive Trust Magnitude calculator & formula visualizer in `docs/js/tm-calculator.js` mounted inside `docs/codex/trust-methodology.html`. Visualized logarithmic adoption curve with landmarks (1k, 10k, 50k, 100k, 250k), progressive additive calculation (`TM = Σ scores`), 3-criteria Grade S admission gate, and 5 one-click presets. Added 6/6 test parity assertions in `tests/test_tm_calculator_parity.py`.
+- **Issue #1699 Resolved (`e7347f118`):** Added preflight `_preflight_calibrate_status` in `src/gaia_cli/commands/dev/calibrate.py` to strictly reject calibrating `status: awakened` skills to 2★+, filtered `scripts/inspectTrustMagnitude.py` to `status == "named"`, and reconciled 3 unclassified awakened skills (`workflow-skill-creator`, `hermes-tweet`, `repo-docs-before-pr`) to 1★ Awakened with reconciled timelines.
+- **Status & Invariants:** Zero open blockers on Yggdrasil III stack. All 2,459 unit and integration tests passing, 10/10 `validate.py` checks green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` 280/280 green, `check_hex_colors.py` Guard A green. Integration branch `dev/integration-registry-integrity-sweep-2026-09` is clean and pushed. Merging to `main` remains founder-gated.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Trust Recalibration | ✅ 100% of 280 named skills calibrated under logarithmic adoption curve with 0 drift |
+| Grade Ceiling Clamping | ✅ Build-time clamping enforces TM grade ceilings (S: 6★, A: 4★, B: 3★, C: 2★, ungraded: 1★) |
+| World Tree 3D Layout | ✅ Satellite zero-edge groves tethered inside canopy radius (offset 0.38w, field 0.32w) |
+| Interactive Visualizer | ✅ Responsive TM calculator & logarithmic curve visualizer live in `docs/codex/` |
+| CLI Safety Preflights | ✅ `_preflight_calibrate_status` blocks calibrating awakened skills to 2★+ |
+| Playbooks Hardened | ✅ `dev-calibrate` includes `relabel-dependent-origins` step, contract verified |
+| Test Coverage | ✅ 6 new parity tests in `test_tm_calculator_parity.py`; 2,459 total tests green |
+| Issues Closed | ✅ #1729, #1728, #1700, #1720, #1706, #1704, #1722, #1699 closed with commit links |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `967ac17d4` | Merged (PR #1723) | Pre-Yggdrasil-III baseline (`29463f9f0` byte-for-byte) |
+| `dev/integration-registry-integrity-sweep-2026-09` | `e7347f118` | Open (PR #1721) | Holds hardened Yggdrasil III, recalibration, and full integrity fixes |
+
+### Issues + PRs touched
+
+- **PR #1721:** Updated with full suite of fixes and documentation (ready for founder review).
+- **Closed Issues:** #1729, #1728, #1700, #1720, #1706, #1704, #1722, #1699.
+
+---
+
 ## State Snapshot (2026-09-04, Pre-Yggdrasil-III Main Rollback & Whole-Registry Meta Sweep — PR #1723 Merged, 4 Issues Filed, 10 Atomic Remediations Landed, Localhost Live)
 
 ### TLDR
