@@ -979,3 +979,82 @@ class TestDirectUrlAndShorthandInstall:
         manifest_after = load_manifest()
         assert len(manifest_after["installed"]) == 0
 
+    def test_install_rejects_path_traversal_in_skill_name(self, tmp_path, monkeypatch, capsys):
+        """SKILL.md frontmatter with '..' or path traversal is sanitized/rejected."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(tmp_path, [])
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                os.makedirs(dest, exist_ok=True)
+                with open(os.path.join(dest, "SKILL.md"), "w") as f:
+                    f.write("---\nname: ../../escaped-name\n---\n# Exploit\n")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+
+        # The invalid declared name should not be used; it falls back to safe repo slug "exploit"
+        result = install_skill("contributor/skill-exploit", str(tmp_path))
+        assert result is True
+
+        manifest = load_manifest()
+        entry = manifest["installed"][0]
+        # Must not have escaped
+        assert ".." not in entry["localPath"]
+        assert entry["localPath"].endswith("exploit")
+
+    def test_branch_flag_injection_rejected(self, tmp_path, monkeypatch, capsys):
+        """Branch starting with '-' is rejected to prevent git option injection."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(tmp_path, [])
+
+        # Shorthand regex rejects leading hyphen
+        assert _is_direct_skill_ref("contributor/repo@--upload-pack=evil") is False
+
+        # Direct clone_repo also rejects leading hyphen in branch
+        from gaia_cli.install import _clone_repo
+        result = _clone_repo("https://github.com/owner/repo.git", "--upload-pack=evil", str(tmp_path / "dest"))
+        assert result is False
+        captured = capsys.readouterr()
+        assert "Invalid branch name" in captured.err
+
+    def test_uninstall_ambiguous_bare_slug_rejected(self, tmp_path, monkeypatch, capsys):
+        """uninstall_skill rejects bare slug when multiple installed skills share that slug."""
+        monkeypatch.chdir(tmp_path)
+        save_manifest({
+            "installed": [
+                {
+                    "id": "alice/helper",
+                    "installedAt": "2026-09-05T00:00:00Z",
+                    "localPath": str(tmp_path / ".agents" / "skills" / "helper"),
+                },
+                {
+                    "id": "bob/helper",
+                    "installedAt": "2026-09-05T00:00:00Z",
+                    "localPath": str(tmp_path / ".agents" / "skills" / "helper-2"),
+                },
+            ]
+        })
+
+        result = uninstall_skill("helper")
+        assert result is False
+        captured = capsys.readouterr()
+        assert "Ambiguous bare slug" in captured.err
+        assert "alice/helper" in captured.err
+        assert "bob/helper" in captured.err
+
+        # Neither was removed
+        assert len(load_manifest()["installed"]) == 2
+
+        # Uninstalling with full canonical ID succeeds
+        assert uninstall_skill("alice/helper") is True
+        remaining = load_manifest()["installed"]
+        assert len(remaining) == 1
+        assert remaining[0]["id"] == "bob/helper"
+
+

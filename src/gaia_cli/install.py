@@ -135,8 +135,11 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
         repo_url = f"https://github.com/{owner}/{repo}.git"
         return repo_url, None, ""
 
-    # Shorthand owner/repo or owner/repo@branch
-    shorthand_match = re.match(r"^([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+?)(?:\.git)?(?:@([a-zA-Z0-9_./-]+))?$", url)
+    # Shorthand owner/repo or owner/repo@branch (branch must not start with a hyphen)
+    shorthand_match = re.match(
+        r"^([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+?)(?:\.git)?(?:@([a-zA-Z0-9_][a-zA-Z0-9_./-]*))?$",
+        url,
+    )
     if shorthand_match:
         owner, repo, branch = shorthand_match.groups()
         repo_url = f"https://github.com/{owner}/{repo}.git"
@@ -155,7 +158,7 @@ def _is_direct_skill_ref(skill_ref: str) -> bool:
         or skill_ref.startswith("github.com/")
     ):
         return True
-    if re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+(?:\.git)?(?:@[\w./-]+)?$", skill_ref):
+    if re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+(?:\.git)?(?:@[a-zA-Z0-9_][\w./-]*)?$", skill_ref):
         return True
     return False
 
@@ -174,8 +177,8 @@ def _resolve_direct_reference(skill_ref: str) -> tuple[str, dict] | tuple[None, 
     ):
         return None, None
 
-    # Extract owner and repo name from repo_url
-    match = re.match(r"(?:https?://[^/]+|git@[^:]+:)/([^/]+)/([^/]+?)(?:\.git)?$", repo_url)
+    # Extract owner and repo name from repo_url (supports https://host/owner/repo or git@host:owner/repo)
+    match = re.match(r"(?:https?://[^/]+(?:/|:)|git@[^:]+:)(?:/)?([^/]+)/([^/]+?)(?:\.git)?$", repo_url)
     if not match:
         return None, None
 
@@ -222,8 +225,11 @@ def _clone_repo(repo_url: str, branch: str | None, dest: str) -> bool:
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     args = ["clone", "--single-branch", "--depth", "1"]
     if branch:
+        if branch.startswith("-"):
+            print(f"Error: Invalid branch name '{branch}'.", file=sys.stderr)
+            return False
         args += ["-b", branch]
-    args += [repo_url, dest]
+    args += ["--", repo_url, dest]
     return _run_git(args)
 
 
@@ -347,11 +353,16 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
         fm = _parse_frontmatter(skill_md_path)
         if isinstance(fm, dict) and fm.get("name"):
             declared_name = str(fm["name"]).strip()
-            if declared_name and "/" not in declared_name:
+            # Strict slug validation: alphanumeric, dash, underscore only, no path traversal
+            if declared_name and re.match(r"^[a-zA-Z0-9_-]+$", declared_name):
                 skill_slug = declared_name
                 sid = f"{owner}/{skill_slug}"
 
-    local_skill_path = os.path.join(target_dir, skill_slug)
+    target_dir_abs = os.path.abspath(target_dir)
+    local_skill_path = os.path.abspath(os.path.join(target_dir_abs, skill_slug))
+    if not local_skill_path.startswith(target_dir_abs + os.sep):
+        print(f"Error: Invalid skill slug '{skill_slug}' escapes target directory.", file=sys.stderr)
+        return False
 
     if os.path.exists(local_skill_path) or os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
         if os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
@@ -565,15 +576,25 @@ def update_skills(registry_path: str):
 def uninstall_skill(skill_id):
     skill_id = skill_id.lstrip("/")
     manifest = load_manifest()
-    entry = next(
-        (s for s in manifest["installed"] if s["id"] == skill_id or s["id"].split("/", 1)[-1] == skill_id),
-        None,
-    )
-    
-    if not entry:
+    matches = [
+        s for s in manifest["installed"]
+        if s["id"] == skill_id or s["id"].split("/", 1)[-1] == skill_id
+    ]
+
+    if not matches:
         print(f"Skill {skill_id} is not installed.")
         return False
 
+    if len(matches) > 1:
+        matched_ids = ", ".join(s["id"] for s in matches)
+        print(
+            f"Error: Ambiguous bare slug '{skill_id}' matches multiple installed skills: {matched_ids}. "
+            "Please specify the full ID (owner/slug) to uninstall.",
+            file=sys.stderr,
+        )
+        return False
+
+    entry = matches[0]
     target_id = entry["id"]
     if "localPath" in entry:
         lp = entry["localPath"]
