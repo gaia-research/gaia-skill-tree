@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04",
+  "generatedAt": "2026-09-05",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2497,78 +2497,6 @@
           "slash": "/find-skills",
           "file": "find-skills.svg",
           "fileSeal": "find-skills-seal.svg"
-        }
-      ]
-    },
-    "gaiabot": {
-      "repos": [],
-      "skillsByRepo": {},
-      "topSkill": "gaiabot/repo-docs-before-pr",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 2,
-      "namedSkills": [
-        {
-          "id": "gaiabot/repo-docs-before-pr",
-          "name": "Repo Docs Before PR",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/repo-docs-before-pr",
-          "file": "repo-docs-before-pr.svg",
-          "fileSeal": "repo-docs-before-pr-seal.svg"
-        }
-      ]
-    },
-    "google-deepmind": {
-      "repos": [
-        "google-deepmind/science-skills"
-      ],
-      "skillsByRepo": {
-        "google-deepmind/science-skills": [
-          "google-deepmind/workflow-skill-creator"
-        ]
-      },
-      "topSkill": "google-deepmind/workflow-skill-creator",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 36,
-      "namedSkills": [
-        {
-          "id": "google-deepmind/workflow-skill-creator",
-          "name": "Workflow-Skill-Creator",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/workflow-skill-creator",
-          "file": "workflow-skill-creator.svg",
-          "fileSeal": "workflow-skill-creator-seal.svg"
-        }
-      ]
-    },
-    "xquik-dev": {
-      "repos": [
-        "Xquik-dev/hermes-tweet"
-      ],
-      "skillsByRepo": {
-        "Xquik-dev/hermes-tweet": [
-          "xquik-dev/hermes-tweet"
-        ]
-      },
-      "topSkill": "xquik-dev/hermes-tweet",
-      "topRank": 3,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "xquik-dev/hermes-tweet",
-          "name": "Hermes Tweet",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/hermes-tweet",
-          "file": "hermes-tweet.svg",
-          "fileSeal": "hermes-tweet-seal.svg"
         }
       ]
     }

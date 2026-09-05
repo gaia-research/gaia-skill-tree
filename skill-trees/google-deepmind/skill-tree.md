@@ -45,7 +45,7 @@
 | ○ google-deepmind/unibind-database | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/uniprot-database | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/uv | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/workflow-skill-creator | Basic | 4★ | Extra | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/workflow-skill-creator | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 

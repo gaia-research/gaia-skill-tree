@@ -4,43 +4,43 @@
   "unlockedSkills": [
     {
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-05-25T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:21Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:41Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -48,48 +48,48 @@
     },
     {
       "skillId": "google-deepmind/alphagenome-single-variant-analysis",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-05-25T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:21Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:42Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:19Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -97,23 +97,23 @@
     },
     {
       "skillId": "google-deepmind/chembl-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -121,28 +121,28 @@
     },
     {
       "skillId": "google-deepmind/clinical-trials-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -150,23 +150,23 @@
     },
     {
       "skillId": "google-deepmind/clinvar-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -174,23 +174,23 @@
     },
     {
       "skillId": "google-deepmind/dbsnp-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -198,43 +198,43 @@
     },
     {
       "skillId": "google-deepmind/embl-ebi-ols",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:22Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:42Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:19Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -242,43 +242,43 @@
     },
     {
       "skillId": "google-deepmind/encode-ccres-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:22Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:43Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:20Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -286,43 +286,43 @@
     },
     {
       "skillId": "google-deepmind/ensembl-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:23Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:43Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -330,43 +330,43 @@
     },
     {
       "skillId": "google-deepmind/foldseek-structural-search",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:44Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:21Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -374,43 +374,43 @@
     },
     {
       "skillId": "google-deepmind/gnomad-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:24Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:45Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:21Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -418,43 +418,43 @@
     },
     {
       "skillId": "google-deepmind/gtex-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:45Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:22Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -462,43 +462,43 @@
     },
     {
       "skillId": "google-deepmind/human-protein-atlas-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:46Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:22Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -506,43 +506,43 @@
     },
     {
       "skillId": "google-deepmind/interpro-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:46Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:23Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -550,43 +550,43 @@
     },
     {
       "skillId": "google-deepmind/jaspar-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:47Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:23Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -594,23 +594,23 @@
     },
     {
       "skillId": "google-deepmind/literature-search-arxiv",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -618,23 +618,23 @@
     },
     {
       "skillId": "google-deepmind/literature-search-biorxiv",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -642,43 +642,43 @@
     },
     {
       "skillId": "google-deepmind/literature-search-europepmc",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:47Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:24Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -686,23 +686,23 @@
     },
     {
       "skillId": "google-deepmind/literature-search-openalex",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:25Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -710,43 +710,43 @@
     },
     {
       "skillId": "google-deepmind/ncbi-sequence-fetch",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:48Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:25Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -754,43 +754,43 @@
     },
     {
       "skillId": "google-deepmind/openfda-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:28Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:48Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:25Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -798,43 +798,43 @@
     },
     {
       "skillId": "google-deepmind/opentargets-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:28Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:49Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:26Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -842,28 +842,28 @@
     },
     {
       "skillId": "google-deepmind/pdb-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -871,23 +871,23 @@
     },
     {
       "skillId": "google-deepmind/protein-sequence-msa",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-05-25T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -895,43 +895,43 @@
     },
     {
       "skillId": "google-deepmind/protein-sequence-similarity-search",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:29Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:49Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -939,43 +939,43 @@
     },
     {
       "skillId": "google-deepmind/pubchem-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:30Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:50Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -983,23 +983,23 @@
     },
     {
       "skillId": "google-deepmind/pubmed-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1007,33 +1007,33 @@
     },
     {
       "skillId": "google-deepmind/pymol",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:30Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1041,43 +1041,43 @@
     },
     {
       "skillId": "google-deepmind/quickgo-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:26Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:31Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:51Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:26Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1085,43 +1085,43 @@
     },
     {
       "skillId": "google-deepmind/reactome-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:31Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:51Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1129,23 +1129,23 @@
     },
     {
       "skillId": "google-deepmind/string-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1153,43 +1153,43 @@
     },
     {
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:32Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:52Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:28Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1197,43 +1197,43 @@
     },
     {
       "skillId": "google-deepmind/unibind-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:33Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:53Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-09-02T15:11:28Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1241,28 +1241,28 @@
     },
     {
       "skillId": "google-deepmind/uniprot-database",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1270,33 +1270,33 @@
     },
     {
       "skillId": "google-deepmind/uv",
-      "level": "1\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:33Z",
           "source": "promotion"
         },
         {
-          "level": "1\u2605",
+          "level": "1★",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
         }
@@ -1304,40 +1304,45 @@
     },
     {
       "skillId": "google-deepmind/workflow-skill-creator",
-      "level": "4\u2605",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-06-20T06:31:27Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-30T22:37:34Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-07-30T23:21:54Z",
           "source": "demote"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-08-05T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -1349,7 +1354,7 @@
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze",
       "details": "Registered named skill google-deepmind/alphafold_database_fetch_and_analyze",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1357,7 +1362,7 @@
       "skillId": "google-deepmind/alphagenome-single-variant-analysis",
       "details": "Registered named skill google-deepmind/alphagenome_single_variant_analysis",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1365,7 +1370,7 @@
       "skillId": "google-deepmind/chembl-database",
       "details": "Registered named skill google-deepmind/chembl_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1373,7 +1378,7 @@
       "skillId": "google-deepmind/clinical-trials-database",
       "details": "Registered named skill google-deepmind/clinical_trials_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1381,7 +1386,7 @@
       "skillId": "google-deepmind/clinvar-database",
       "details": "Registered named skill google-deepmind/clinvar_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1389,7 +1394,7 @@
       "skillId": "google-deepmind/dbsnp-database",
       "details": "Registered named skill google-deepmind/dbsnp_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1397,7 +1402,7 @@
       "skillId": "google-deepmind/embl-ebi-ols",
       "details": "Registered named skill google-deepmind/embl_ebi_ols",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1405,7 +1410,7 @@
       "skillId": "google-deepmind/encode-ccres-database",
       "details": "Registered named skill google-deepmind/encode_ccres_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1413,7 +1418,7 @@
       "skillId": "google-deepmind/ensembl-database",
       "details": "Registered named skill google-deepmind/ensembl_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1421,7 +1426,7 @@
       "skillId": "google-deepmind/foldseek-structural-search",
       "details": "Registered named skill google-deepmind/foldseek_structural_search",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1429,7 +1434,7 @@
       "skillId": "google-deepmind/gnomad-database",
       "details": "Registered named skill google-deepmind/gnomad_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1437,7 +1442,7 @@
       "skillId": "google-deepmind/gtex-database",
       "details": "Registered named skill google-deepmind/gtex_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1445,7 +1450,7 @@
       "skillId": "google-deepmind/human-protein-atlas-database",
       "details": "Registered named skill google-deepmind/human_protein_atlas_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1453,7 +1458,7 @@
       "skillId": "google-deepmind/interpro-database",
       "details": "Registered named skill google-deepmind/interpro_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1461,7 +1466,7 @@
       "skillId": "google-deepmind/jaspar-database",
       "details": "Registered named skill google-deepmind/jaspar_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1469,7 +1474,7 @@
       "skillId": "google-deepmind/literature-search-arxiv",
       "details": "Registered named skill google-deepmind/literature_search_arxiv",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1477,7 +1482,7 @@
       "skillId": "google-deepmind/literature-search-biorxiv",
       "details": "Registered named skill google-deepmind/literature_search_biorxiv",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1485,7 +1490,7 @@
       "skillId": "google-deepmind/literature-search-europepmc",
       "details": "Registered named skill google-deepmind/literature_search_europepmc",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1493,7 +1498,7 @@
       "skillId": "google-deepmind/literature-search-openalex",
       "details": "Registered named skill google-deepmind/literature_search_openalex",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1501,7 +1506,7 @@
       "skillId": "google-deepmind/ncbi-sequence-fetch",
       "details": "Registered named skill google-deepmind/ncbi_sequence_fetch",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1509,7 +1514,7 @@
       "skillId": "google-deepmind/openfda-database",
       "details": "Registered named skill google-deepmind/openfda_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1517,7 +1522,7 @@
       "skillId": "google-deepmind/opentargets-database",
       "details": "Registered named skill google-deepmind/opentargets_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1525,7 +1530,7 @@
       "skillId": "google-deepmind/pdb-database",
       "details": "Registered named skill google-deepmind/pdb_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1533,7 +1538,7 @@
       "skillId": "google-deepmind/protein-sequence-msa",
       "details": "Registered named skill google-deepmind/protein_sequence_msa",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1541,7 +1546,7 @@
       "skillId": "google-deepmind/protein-sequence-similarity-search",
       "details": "Registered named skill google-deepmind/protein_sequence_similarity_search",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1549,7 +1554,7 @@
       "skillId": "google-deepmind/pubchem-database",
       "details": "Registered named skill google-deepmind/pubchem_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1557,7 +1562,7 @@
       "skillId": "google-deepmind/pubmed-database",
       "details": "Registered named skill google-deepmind/pubmed_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1565,7 +1570,7 @@
       "skillId": "google-deepmind/pymol",
       "details": "Registered named skill google-deepmind/pymol",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1573,7 +1578,7 @@
       "skillId": "google-deepmind/quickgo-database",
       "details": "Registered named skill google-deepmind/quickgo_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1581,7 +1586,7 @@
       "skillId": "google-deepmind/reactome-database",
       "details": "Registered named skill google-deepmind/reactome_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1589,7 +1594,7 @@
       "skillId": "google-deepmind/string-database",
       "details": "Registered named skill google-deepmind/string_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1597,7 +1602,7 @@
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs",
       "details": "Registered named skill google-deepmind/ucsc_conservation_and_tfbs",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1605,7 +1610,7 @@
       "skillId": "google-deepmind/unibind-database",
       "details": "Registered named skill google-deepmind/unibind_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1613,7 +1618,7 @@
       "skillId": "google-deepmind/uniprot-database",
       "details": "Registered named skill google-deepmind/uniprot_database",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1621,7 +1626,7 @@
       "skillId": "google-deepmind/uv",
       "details": "Registered named skill google-deepmind/uv",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -1629,1342 +1634,1350 @@
       "skillId": "google-deepmind/workflow-skill-creator",
       "details": "Registered named skill google-deepmind/workflow_skill_creator",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-05-25T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-05-25T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-05-25T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/protein-sequence-msa"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 3\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Level updated from 3★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/chembl-database"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/clinical-trials-database"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/clinvar-database"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/dbsnp-database"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-06-20T06:31:24Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/literature-search-arxiv"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/literature-search-biorxiv"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-06-20T06:31:25Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/literature-search-openalex"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/pdb-database"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/pubmed-database"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/pymol"
     },
     {
       "timestamp": "2026-06-20T06:31:26Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/string-database"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/uniprot-database"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/uv"
     },
     {
       "timestamp": "2026-06-20T06:31:27Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "4\u2605",
-      "details": "Level updated from 2\u2605 to 4\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
       "skillId": "google-deepmind/workflow-skill-creator"
     },
     {
       "timestamp": "2026-06-21T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/clinical-trials-database"
     },
     {
       "timestamp": "2026-06-21T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pdb-database"
     },
     {
       "timestamp": "2026-06-21T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/uniprot-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pymol"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/uv"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/workflow-skill-creator"
     },
     {
       "timestamp": "2026-07-30T22:37:21Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-07-30T22:37:21Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-07-30T22:37:22Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-07-30T22:37:22Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-07-30T22:37:23Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-07-30T22:37:24Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-07-30T22:37:24Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-07-30T22:37:25Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-07-30T22:37:25Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-07-30T22:37:26Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-07-30T22:37:26Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-07-30T22:37:27Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-07-30T22:37:27Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-07-30T22:37:28Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-07-30T22:37:28Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-07-30T22:37:29Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-07-30T22:37:30Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-07-30T22:37:30Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/pymol"
     },
     {
       "timestamp": "2026-07-30T22:37:31Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-07-30T22:37:31Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-07-30T22:37:32Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-07-30T22:37:33Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/uv"
     },
     {
       "timestamp": "2026-07-30T22:37:33Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-07-30T22:37:34Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/workflow-skill-creator"
     },
     {
       "timestamp": "2026-07-30T23:21:41Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-07-30T23:21:42Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-07-30T23:21:42Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-07-30T23:21:43Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-07-30T23:21:43Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-07-30T23:21:44Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-07-30T23:21:45Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-07-30T23:21:45Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-07-30T23:21:46Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-07-30T23:21:46Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-07-30T23:21:47Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-07-30T23:21:47Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-07-30T23:21:48Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-07-30T23:21:48Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-07-30T23:21:49Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-07-30T23:21:49Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-07-30T23:21:50Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-07-30T23:21:51Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-07-30T23:21:51Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-07-30T23:21:52Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-07-30T23:21:53Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-07-30T23:21:54Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "3\u2605",
-      "details": "Calibrated level from 4\u2605 to 3\u2605",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
       "skillId": "google-deepmind/workflow-skill-creator"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-07-31T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/workflow-skill-creator"
+    },
+    {
+      "timestamp": "2026-08-05T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/workflow-skill-creator"
     },
     {
       "timestamp": "2026-09-02T15:11:19Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-09-02T15:11:19Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-09-02T15:11:20Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-09-02T15:11:21Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-09-02T15:11:21Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-09-02T15:11:22Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-09-02T15:11:22Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-09-02T15:11:23Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-09-02T15:11:23Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-09-02T15:11:24Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-09-02T15:11:25Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-09-02T15:11:25Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-09-02T15:11:26Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-09-02T15:11:26Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-09-02T15:11:28Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-09-02T15:11:28Z",
       "action": "rank_up",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605",
-      "details": "Calibrated level from 3\u2605 to 4\u2605",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphafold-database-fetch-and-analyze"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/alphagenome-single-variant-analysis"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/chembl-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/clinical-trials-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/clinvar-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/dbsnp-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/embl-ebi-ols"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/encode-ccres-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ensembl-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/foldseek-structural-search"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/gnomad-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/gtex-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/human-protein-atlas-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/interpro-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/jaspar-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/literature-search-arxiv"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/literature-search-biorxiv"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/literature-search-europepmc"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/literature-search-openalex"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ncbi-sequence-fetch"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/openfda-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/opentargets-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pdb-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/protein-sequence-msa"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/protein-sequence-similarity-search"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pubchem-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pubmed-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/pymol"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/quickgo-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/reactome-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "3\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/string-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/ucsc-conservation-and-tfbs"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/unibind-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/uniprot-database"
     },
     {
       "timestamp": "2026-09-04T00:00:01Z",
       "action": "demote",
-      "previousValue": "4\u2605",
-      "newValue": "1\u2605",
-      "details": "Reconciled to current registry level 1\u2605 (registry-side recalibration; no source event recorded).",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/uv"
     }
   ],

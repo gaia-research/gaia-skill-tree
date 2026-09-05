@@ -36078,7 +36078,7 @@
       "origin": false,
       "genericSkillRef": "write-report",
       "status": "awakened",
-      "level": "2★",
+      "level": "1★",
       "description": "Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.",
       "installable": false,
       "tags": [
@@ -36105,6 +36105,14 @@
       "createdAt": "2026-05-01",
       "updatedAt": "2026-08-06",
       "timeline": [
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "2★",
+          "newValue": "1★"
+        },
         {
           "timestamp": "2026-06-10T05:38:16Z",
           "action": "evidence_added",
@@ -36159,8 +36167,8 @@
       },
       "type": "basic",
       "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
+      "rank": 1,
+      "rankWord": "Awakened",
       "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
@@ -40906,7 +40914,7 @@
       "origin": true,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "4★",
+      "level": "1★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -40937,8 +40945,16 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-08-05",
+      "updatedAt": "2026-09-05",
       "timeline": [
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "4★",
+          "newValue": "1★"
+        },
         {
           "timestamp": "2026-06-14T12:32:40Z",
           "action": "evidence_graded",
@@ -41023,6 +41039,12 @@
           "action": "rename",
           "contributor": "unknown",
           "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
+        },
+        {
+          "timestamp": "2026-09-05T03:50:03Z",
+          "action": "demote",
+          "contributor": "unknown",
+          "details": "Calibrated level from 1★ to 1★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -41039,10 +41061,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -41697,7 +41719,7 @@
       "origin": true,
       "genericSkillRef": "x-twitter-automation",
       "status": "awakened",
-      "level": "3★",
+      "level": "1★",
       "description": "Installable Hermes Agent skill and plugin for X/Twitter search, reply reading, user lookup, monitoring, follower export, and approval-gated write actions.",
       "tags": [
         "x-twitter",
@@ -41737,6 +41759,14 @@
       "createdAt": "2026-05-15",
       "updatedAt": "2026-06-21",
       "timeline": [
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "3★",
+          "newValue": "1★"
+        },
         {
           "timestamp": "2026-06-14T12:33:03Z",
           "action": "evidence_graded",
@@ -41802,8 +41832,8 @@
       },
       "type": "fusion",
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 1,
+      "rankWord": "Awakened",
       "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     }

@@ -15,6 +15,7 @@ from gaia_cli.commands.dev.helpers import (
     _confirm_destructive,
     _run_dev_preflights,
     _preflight_starbar_blob_link,
+    _preflight_calibrate_status,
     _fail_dev_preflight,
 )
 
@@ -48,6 +49,7 @@ def meta_calibrate_command(args):
     skill_data, body = _parse_md(node_file)
     _run_dev_preflights([
         lambda: _preflight_starbar_blob_link(skill_id, skill_data, level),
+        lambda: _preflight_calibrate_status(skill_id, skill_data, level),
     ])
     old_level = skill_data.get("level", "2★")
     skill_data["level"] = level

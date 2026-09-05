@@ -5,7 +5,7 @@ contributor: gaiabot
 origin: false
 genericSkillRef: write-report
 status: awakened
-level: 2★
+level: 1★
 description: Builds and validates repository documentation as a pre-PR guardrail by
   reminding contributors to run the local docs drift check, then surfaces actionable
   regeneration commands so pull requests do not fail CI on documentation freshness.
@@ -32,6 +32,12 @@ evidence:
   trustNumber: 70.0
   grade: B
 timeline:
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
+  previousValue: 2★
+  newValue: 1★
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
   contributor: unknown

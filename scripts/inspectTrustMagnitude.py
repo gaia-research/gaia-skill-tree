@@ -115,7 +115,8 @@ def loadAllNamedSkills() -> list[dict]:
         fm, _ = loadNamedSkill(p)
         if fm is None:
             continue
-        skills.append(fm)
+        if fm.get("status") == "named" and fm.get("id"):
+            skills.append(fm)
     return skills
 
 

@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 208,
+    "total": 205,
     "S": 3,
-    "A": 19,
+    "A": 18,
     "B": 65,
-    "C": 101,
+    "C": 99,
     "ungraded": 20,
     "floor": 0,
     "up": 0
@@ -277,18 +277,6 @@
         "social-signal": 60.02,
         "repo-own": 25.46,
         "github-stars-own": 24.54
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "id": "google-deepmind/workflow-skill-creator",
-      "trustMagnitude": 100.82,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "repo-own": 10.82,
-        "peer-review": 90.0
       },
       "origin": true,
       "branch": "unique"
@@ -1141,18 +1129,6 @@
       "branch": "standard"
     },
     {
-      "id": "xquik-dev/hermes-tweet",
-      "trustMagnitude": 42.47,
-      "grade": "C",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 6.12,
-        "social-signal": 36.35
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
       "id": "gaia-research/fuse",
       "trustMagnitude": 41.62,
       "grade": "C",
@@ -1401,17 +1377,6 @@
     },
     {
       "id": "balukosuri/autoresearch-universal",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "gaiabot/repo-docs-before-pr",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",

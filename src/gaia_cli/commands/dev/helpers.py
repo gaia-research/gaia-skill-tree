@@ -125,6 +125,18 @@ def _preflight_starbar_blob_link(skill_id: str, skill_data: dict, level: str) ->
     )
 
 
+def _preflight_calibrate_status(skill_id: str, skill_data: dict, level: str) -> None:
+    if level != "1★" and skill_data.get("status") == "awakened":
+        _fail_dev_preflight(
+            f"Cannot calibrate {skill_id} to {level}: skill has status='awakened'. "
+            "Skills at 2★+ must have status='named'.",
+            fix=(
+                f"Promote the skill to 'named' first via `gaia dev update-named {skill_id} "
+                "--status named --title '<title>'`."
+            ),
+        )
+
+
 def _preflight_url(value: str | None, flag: str) -> None:
     if not value:
         return

@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "xquik-dev/hermes-tweet",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "xquik-dev/gaia-skill-tree",
       "combinedFrom": [],
@@ -22,6 +22,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:38Z",
+          "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-21T00:00:01Z",
           "source": "demote"
         }
       ]
@@ -50,6 +55,14 @@
       "previousValue": "4★",
       "newValue": "3★",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "xquik-dev/hermes-tweet"
+    },
+    {
+      "timestamp": "2026-06-21T00:00:01Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "xquik-dev/hermes-tweet"
     }
   ],

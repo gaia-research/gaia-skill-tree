@@ -1,12 +1,12 @@
 {
   "version": "7.13.2",
-  "generatedAt": "2026-09-05T03:44:33Z",
+  "generatedAt": "2026-09-05T03:50:17Z",
   "summary": {
-    "total": 208,
+    "total": 205,
     "S": 3,
-    "A": 19,
+    "A": 18,
     "B": 65,
-    "C": 101,
+    "C": 99,
     "ungraded": 20,
     "floor": 0,
     "up": 0
@@ -411,23 +411,6 @@
         "social-signal": 60.02,
         "repo-own": 25.46,
         "github-stars-own": 24.54
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "google-deepmind/workflow-skill-creator",
-      "tm": 100.82,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "2★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 10.82,
-        "peer-review": 90.0
       },
       "origin": true,
       "branch": "unique"
@@ -1630,23 +1613,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "xquik-dev/hermes-tweet",
-      "tm": 42.47,
-      "grade": "C",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 6.12,
-        "social-signal": 36.35
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
       "skillId": "gaia-research/fuse",
       "tm": 41.62,
       "grade": "C",
@@ -2000,22 +1966,6 @@
     },
     {
       "skillId": "balukosuri/autoresearch-universal",
-      "tm": 36.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "gaiabot/repo-docs-before-pr",
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
