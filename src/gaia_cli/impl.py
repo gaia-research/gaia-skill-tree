@@ -4081,7 +4081,7 @@ def get_parser():
     skills_install.add_argument(
         "skill_id",
         metavar="skill",
-        help="Skill ID, catalogRef, or unique bare slug to install",
+        help="Skill ID, catalogRef, bare slug, or GitHub URL / repo shorthand to install",
     )
     skills_install.add_argument(
         "--suite", action="store_true", help="Install as a suite (recursive)"
