@@ -811,9 +811,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.4.2"></script>
-  <script src="../js/site-nav.js?v=7.4.2"></script>
-  <script src="../js/ui.js?v=7.4.2"></script>
+  <script src="../js/mounts.js?v=7.11.3"></script>
+  <script src="../js/site-nav.js?v=7.11.3"></script>
+  <script src="../js/ui.js?v=7.11.2"></script>
 
 
 
@@ -825,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.7.2</span>
+    <span class="nav-version">v7.11.3</span>
   </nav>
 
   <div class="page-layout">
@@ -1700,6 +1700,12 @@
               <li>Purely informational — prints install and run instructions for the standalone Gaia MCP server.</li>
               <li>The server itself lives in a dedicated package, <a href="mcp-server.html"><code>@gaia-research/mcp</code></a>, not in this repo.</li>
             </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ This is a literal transcript, not a recommendation.</strong> <code>@gaia-research/mcp</code>
+              has been decommissioned and deprecated on npm since 2026-08-19. For the supported path, install
+              <code>skill-heaven</code> via <code>claude plugin install skill-heaven@gaia-skill-heaven</code> —
+              see the <a href="mcp-server.html">MCP Server guide</a>.
+            </div>
             <div class="example-block">
               <div class="example-label">examples</div>
               <pre><span class="cmd">gaia dev mcp</span>
@@ -3259,7 +3265,7 @@
 
   <!-- footer -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=7.3.8"></script>
+  <script src="../js/site-footer.js?v=7.11.3"></script>
 
   <script>
     /* Sidebar scroll-spy */

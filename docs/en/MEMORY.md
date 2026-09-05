@@ -2,6 +2,154 @@
 
 ---
 
+## 2026-09-05 — Weekly Editor Pass (editor-047wk)
+
+**Branch:** `docs/routines/044` (PR #1687 — shipped this pass via squash merge)
+
+**Role:** Weekly editor. Reviewed the week's accreted PR (routines 044–046),
+audited `docs/en/` for staleness beyond what the dailies caught, fixed what
+was found, and shipped.
+
+### Branch state at start
+
+Only one `docs/routines/*` branch existed (`docs/routines/044`, PR #1687,
+draft, 3 commits: 044/045/046). No daily drifted onto a separate PR this
+week — nothing to consolidate. CI was green on all 12 checks.
+
+### Audit
+
+1. **Verified routine 045's mcp-server.html rewrite against issue #1549** —
+   confirmed via the issue body that narrowing the public tool surface to
+   `summon` (dropping `gaia_search`/`gaia_inspect`/`gaia_status` from
+   reader-facing copy) is a real, closed owner ruling, not an error. The
+   tools still exist and work; this is a presentation decision. No action
+   needed there.
+2. **Found `docs/en/cli-reference.html`'s `gaia dev mcp` card was the one
+   surface issue #1549 named that never got reconciled** — routine 045
+   explicitly scoped itself to `mcp-server.html` only. The card's example
+   output is a literal, still-accurate transcript of what `gaia dev mcp`
+   prints today (verified against `mcp_command()` in `src/gaia_cli/impl.py`,
+   which still emits the deprecated `@gaia-research/mcp@0.1.0` install line —
+   that's a CLI-code gap, out of docs scope, not touched here). Left the
+   transcript alone but added a callout matching the pattern already used on
+   `mcp-server.html`/README.md: flags it as literal-not-recommended and
+   points to `claude plugin install skill-heaven@gaia-skill-heaven`.
+3. **Found a self-contradiction in `DOCS.md` itself.** The Page Map (rows 4,
+   8) says an "editor pass closes #1479" for `skill-hierarchy.html`/
+   `fusion.html`'s Type/Branch migration, but the Vocabulary Rules section
+   still said both pages "teach the retired model in full — tracked in
+   issue #1479; don't copy... until that lands." Routine 046's own
+   "Planned next" note read this stale warning and queued a re-check for
+   routine 047. Verified directly: issue #1479 closed 2026-08-15, and both
+   pages' anchor IDs/glyphs (`#basic`, `#type-fusion`, `#unique-branch`,
+   `#suite-branch`) confirm the Type/Branch model is what's actually on the
+   page. Rewrote the stale warning to state the migration is done, which
+   also removes the false lead the next routine would have chased.
+4. **Version chips and asset cache-busting were stale site-wide.** Every
+   `docs/en/*.html` page showed a `v7.7.2` nav chip (the dynamic
+   `window.GAIA_VERSION` hook in `index.html`/`evidence-classes.html` is
+   dead code on these pages — nothing ever defines that global here, unlike
+   the top-level `docs/*.html` pages which inline it) while
+   `pyproject.toml` is at `7.11.3`. Same staleness on the shared-asset
+   cache-bust query strings: `mounts.js`/`site-nav.js`/`site-footer.js`
+   were pinned at `?v=7.4.2`/`?v=7.3.8` across every page vs. `?v=7.11.3`
+   on the live site's own top-level pages; `ui.js` was pinned at `?v=7.4.2`
+   vs. `?v=7.11.2` live (that asset's own last-touched version, not the
+   current release — matched that convention rather than over-bumping).
+   Bumped all of it, plus `timeline-audit.html`'s inline "as of v7.7.2" CLI
+   gap note (content re-verified as still accurate against
+   `src/gaia_cli/timeline.py` — only the version pin was stale).
+
+### What I did
+
+- `docs/en/cli-reference.html` — added a `callout warn` under the
+  `gaia dev mcp` card noting the transcript is literal, not a
+  recommendation, with a pointer to the `skill-heaven` plugin install.
+- `docs/en/DOCS.md` — rewrote the stale #1479 warning in Vocabulary Rules;
+  updated Page Map row 3 with the `cli-reference.html` fix and
+  `editor-047wk` history tag.
+- All 13 `docs/en/*.html` pages — bumped the `v7.7.2` version chip to
+  `v7.11.3`; bumped `mounts.js`/`site-nav.js`/`site-footer.js` cache-bust
+  strings to `?v=7.11.3` and `ui.js` to `?v=7.11.2`, matching the live
+  site's current pins.
+- `docs/en/timeline-audit.html` — bumped the inline "as of v7.7.2" CLI-gap
+  note to `v7.11.3` (content unchanged, still accurate).
+
+### What users must adapt
+
+Nothing behavioral — this is a documentation-currency pass. Anyone who had
+`docs/en/cli-reference.html`'s `gaia dev mcp` transcript bookmarked as "the
+way to install Gaia MCP" should switch to
+`claude plugin install skill-heaven@gaia-skill-heaven` per the new callout.
+
+### What I cut, merged, or deleted
+
+Nothing cut this week — no redundant sections found across the 13 pages
+during this pass. The one deletion was textual: the stale, now-false #1479
+warning in `DOCS.md`'s Vocabulary Rules (replaced, not removed outright, so
+the resolution stays discoverable).
+
+### Stale entries cleared
+
+- `DOCS.md` Vocabulary Rules' stale #1479 warning (see Audit #3).
+- Site-wide version chip drift (`v7.7.2` → `v7.11.3`, 13 pages).
+- Site-wide JS asset cache-bust drift (3 shared assets × 13 pages).
+- `cli-reference.html`'s incomplete #1549 reconciliation (see Audit #2).
+
+### How I worked
+
+Solo, no subagents fanned out — the week's remainder was narrow enough
+(one open PR, no drift, CI already green) that a full read-through of the
+diff plus a targeted staleness sweep (grep for version strings, cross-check
+open/closed issues named in recent routine commits, spot-check CLI claims
+against source) covered it faster than orchestrating workers. Read
+`CONTEXT.md` conventions and prior `MEMORY.md`/`DOCS.md` entries for
+pattern-matching (callout markup, routine-history tagging) rather than
+inventing new ones.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/**` only (checked after every
+  edit round).
+- `html.parser` parse-check clean on all 13 pages.
+- Diff-scanned for new hex colors (none — only issue-number `#nnnn`
+  references matched the regex).
+- Banned-synonym grep (`merge|combine|compose|rarity`) on the full diff —
+  zero new hits.
+- Cross-checked `gaia dev mcp`'s real output against `mcp_command()` in
+  `src/gaia_cli/impl.py` and the timeline CLI gaps against
+  `src/gaia_cli/timeline.py` before writing anything about either.
+- Confirmed issue #1479 (closed) and #1549 (open, but the specific claim
+  routine 045 made is a real ruling within it) directly via the GitHub API
+  rather than trusting the commit messages that cited them.
+
+### Ship
+
+CI green (12/12 checks) at merge time. Squash-merged PR #1687 into `main`.
+
+### Planned next (Routine 047)
+
+- Issue #1549 is still open and lists `docs/index.html`, `README.md`,
+  `AGENTS.md`, and `.mcp.json` as surfaces with the old
+  `@gaia-research/mcp` install path — all out of `docs/en/**` scope for
+  this routine. `docs/index.html` in particular still shows
+  `claude mcp add gaia -- npx @gaia-research/mcp` as its only MCP install
+  instruction with no decommission note, unlike every reconciled `docs/en/`
+  surface. That's a real gap, but it's outside this weekly editor's write
+  scope (`docs/en/**` only) — flag it to the founder rather than silently
+  leaving it, and don't let a future `docs/en/` routine assume it's covered.
+- The underlying CLI defect noted in Audit #2 (`gaia dev mcp` still prints
+  the deprecated `@gaia-research/mcp@0.1.0` line) is a `src/gaia_cli` code
+  fix, not a docs fix — also out of scope here, also worth a founder note
+  or a tracked issue rather than silent knowledge that evaporates with this
+  session.
+
+### Token spend
+
+2026-09-05 Sonnet 5 High: ~95k in, ~10k out. ~$0.65
+
+---
+
 ## 2026-09-04 — Routine 046
 
 **Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)
