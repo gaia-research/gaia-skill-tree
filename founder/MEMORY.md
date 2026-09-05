@@ -4,6 +4,49 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-05, Yggdrasil III Meta Shift Report, High-Visibility Banners, CodeQL Clean & Pre-Merge State — PR #1721 Ready for Main)
+
+### TLDR
+
+- **Consolidated Yggdrasil III Meta Shift Report (`00ca17395`):** Combined the August 25 and September 3-5 reports into a single, comprehensive public report at `docs/meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html` labeled "Yggdrasil III New Meta". Framed from the user perspective (starts with the WHY, removes all internal dev/git jargon, SHOWS rank shifts and tables across 4 milestones, and embeds 6 SVG diagrams).
+- **High-Visibility Site Banners (`00ca17395`):** Added prominent pill banners across the three key entry surfaces:
+  1. Hall of Heroes dedicated page (`docs/heroes/index.html` & `heroes.css`).
+  2. Hall of Heroes homepage mini gallery (`docs/index.html` & `styles.css`).
+  3. Trust Leaderboard preview panel on the homepage (`docs/index.html` & `leaderboard.css`).
+  All styles conform strictly to CI Guard A with zero banned hex literals.
+- **Universal CLI Install Merged (`50c724a95`):** Rebased and merged PR #1731 onto the integration branch, providing direct GitHub URL and shorthand installs (`gaia install owner/repo`) with sanitized SKILL.md names and hardened git clone flags.
+- **CodeQL Security Hardening (`67f49d5dd`):** Resolved CodeQL URL sanitization warning in `src/gaia_cli/install.py` (`_parse_github_url` and `_is_direct_skill_ref`) using strict regex anchors (`re.match(r"^github\.com/", ...)`).
+- **Integration Status:** Branch `dev/integration-registry-integrity-sweep-2026-09` is clean, synced with origin, and all PR checks on #1721 are green. Ready for merge to `main`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Meta Shift Report | ✅ Consolidated into definitive public report with 6 SVG diagrams and zero dev jargon |
+| Public Notification Banners | ✅ Deployed on Hall of Heroes, homepage HoH mini gallery, and Trust Leaderboard preview |
+| CLI Direct Install | ✅ Universal GitHub URL and shorthand install support landed (PR #1731) |
+| Security / CodeQL | ✅ URL substring sanitization hardened in `src/gaia_cli/install.py` |
+| CI Gates & Invariants | ✅ 10/10 validate.py checks, Guard A hex check, and TM consistency (280/280) green |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `1bccbe26f` | Base branch | Target for PR #1721 |
+| `dev/integration-registry-integrity-sweep-2026-09` | `67f49d5dd` | PR #1721 Open | Holds full Yggdrasil III, recalibration, CLI install, and public reports |
+
+### Issues + PRs touched
+
+- **PR #1721:** Updated with meta post, high-visibility banners, and security fixes.
+- **PR #1731:** Merged into integration branch.
+
+### Open questions for next orchestrator
+
+- Founder merge of PR #1721 into `main`.
+- Major version release bump (`v8.0.0`) and PyPI publication.
+
+---
+
 ## State Snapshot (2026-09-05, Full Trust Recalibration, Grade Clamping, 3D Tree Tethering, Guard A Policy & Codex Calculator — PR #1721 Stack Hardened, 8 Issues Closed)
 
 ### TLDR
