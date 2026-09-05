@@ -10,7 +10,7 @@ description: Produces privacy-safe proof objects from agent claims by recording 
   evidence supports or contradicts each claim, what raw content was intentionally
   omitted, what verdict follows, and what would make the evidence stale.
 createdAt: '2026-07-09'
-updatedAt: '2026-07-09'
+updatedAt: '2026-08-30'
 title: Evidence Attestation
 timeline:
 - timestamp: '2026-07-08T21:02:20Z'
@@ -39,6 +39,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 7.34, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md
   evaluator: unknown
@@ -52,6 +57,9 @@ verification:
   firstEvidenceAt: '2026-07-08T21:02:39Z'
 links:
   github: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md
+trustMagnitude: 7.34
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 249050d940ce8a9e2237a958fdb46f1b25f6e3cd2e5ae09f81a5a34e5146f85a
 ---
 
 ## Installation

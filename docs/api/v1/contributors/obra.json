@@ -4,13 +4,14 @@
     {
       "id": "obra/superpowers",
       "name": "Superpowers",
-      "level": "5★",
-      "trustMagnitude": 445.15,
-      "overallTrustGrade": "S",
+      "level": "4★",
+      "trustMagnitude": 220.81,
+      "overallTrustGrade": "A",
+      "fusionScore": 300.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Ultimate",
+      "rankWord": "Extra",
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
@@ -36,6 +37,7 @@
       "level": "4★",
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
+      "fusionScore": 220.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "unique",
@@ -52,6 +54,7 @@
       "level": "4★",
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
+      "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "unique",
@@ -65,14 +68,15 @@
     {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
+      "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
       },
@@ -84,6 +88,7 @@
       "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
+      "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "unique",
@@ -100,6 +105,7 @@
       "level": "3★",
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
+      "fusionScore": 80.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -116,6 +122,7 @@
       "level": "3★",
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
+      "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -127,27 +134,12 @@
       "genericSkillRef": "verification-before-completion"
     },
     {
-      "id": "obra/dispatching-parallel-agents",
-      "name": "Dispatching Parallel Agents",
-      "level": "3★",
-      "trustMagnitude": 86.0,
-      "overallTrustGrade": "B",
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
-      },
-      "genericSkillRef": "dispatching-parallel-agents"
-    },
-    {
       "id": "obra/systematic-debugging",
       "name": "Systematic Debugging",
       "level": "3★",
       "trustMagnitude": 65.15,
       "overallTrustGrade": "B",
+      "fusionScore": 40.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -159,11 +151,29 @@
       "genericSkillRef": "systematic-debugging"
     },
     {
+      "id": "obra/dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      },
+      "genericSkillRef": "dispatching-parallel-agents"
+    },
+    {
       "id": "obra/finishing-a-development-branch",
       "name": "Finishing a Development Branch",
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 80.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -180,6 +190,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 220.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -196,6 +207,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 140.0,
       "contributor": "obra",
       "type": "fusion",
       "branch": "standard",
@@ -210,13 +222,12 @@
   "namedSkillsCount": 12,
   "topSkill": {
     "id": "obra/superpowers",
-    "level": "5★",
-    "trustMagnitude": 445.15
+    "level": "4★",
+    "trustMagnitude": 220.81
   },
-  "prestigeScore": 1350.2,
+  "prestigeScore": 1089.86,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 5,
     "B": 4,
     "C": 3
   },

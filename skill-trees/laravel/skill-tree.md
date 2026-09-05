@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ laravel/upgrade-laravel-v13 | Basic | 2★ | Named | laravel/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ laravel/upgrade-laravel-v13 | Basic | 1★ | Awakened | laravel/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 
@@ -27,7 +27,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ laravel/upgrade-laravel-v13  [2★]
+  ✓ ○ ████████/upgrade-laravel-v13
 ```
 
 ## Pending Combinations

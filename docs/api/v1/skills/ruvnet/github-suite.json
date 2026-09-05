@@ -2,18 +2,26 @@
   "id": "ruvnet/github-suite",
   "name": "GitHub Suite",
   "contributor": "ruvnet",
-  "level": "3★",
+  "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 66.0,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
   "branch": "suite",
-  "rankWord": "Evolved",
+  "rankWord": "Named",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/ruvnet/github-suite.json",
     "contributor": "/api/v1/contributors/ruvnet.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 240.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 6,
+    "transitiveCount": 14,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
   },
   "title": "The GitHub Maestro",
   "genericSkillRef": "git-integration",
@@ -90,6 +98,12 @@
       "previousValue": null,
       "newValue": "v3.25.5",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:59Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

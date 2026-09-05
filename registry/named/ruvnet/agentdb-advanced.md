@@ -19,8 +19,7 @@ tags:
 - hybrid-search
 - mmr
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
-suiteRef: ruvnet/agentdb
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -59,6 +58,16 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -70,7 +79,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3aaf2e5a1a8c9e216a3f7171c4d44f43f3798d25c2132d85e59d8b7796d1c0a7
+trustMagnitudeInputHash: d4a739a53fd424cfc27e5aed56c9b022b69ac007221718e2e3c2bd8ecabbe2db
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

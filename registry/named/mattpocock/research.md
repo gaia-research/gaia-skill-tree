@@ -10,7 +10,7 @@ description: Investigate a question against high-trust primary sources and captu
   the findings as a Markdown file in the repo. Use when the user wants a topic researched,
   docs or API facts gathered, or reading legwork delegated to a background agent.
 createdAt: '2026-08-20'
-updatedAt: '2026-08-20'
+updatedAt: '2026-09-04'
 title: The Primary-Source Researcher
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md
@@ -28,6 +28,16 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/engineering
+- timestamp: '2026-08-29T17:15:53Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 20.77 -> 20.77, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md
   evaluator: marco-tngsn
@@ -41,7 +51,10 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-08-19T16:10:33Z'
-suiteRef: mattpocock/engineering
+trustMagnitude: 20.77
+overallTrustGrade: C
+trustMagnitudeInputHash: 28349aa0e34769e698f0158001f26e3ff1bb15ea72e7131d3eb4d184d9b5eccb
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

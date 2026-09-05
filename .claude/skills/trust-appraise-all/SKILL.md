@@ -32,7 +32,7 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 - Each evidence row with the full score chain:
   `base magnitude → × type weight → × freshness → × mothership/creator/engagement → × inheritMultiplier → × plateau → final score`
 - Dead rows (score = 0.0) and why (missing views, stars below threshold, deranked verifier, etc.)
-- Fusion-recipe summary if `suiteComponents` is present: component count, graded origins, raw fusion magnitude
+- Fusion-recipe summary if `suiteComponents` is present: component count, graded origins, Fusion Score (informational, 0 TM)
 - Total TM, overall grade, and exact points to the next grade threshold
 - Most efficient evidence type to add for the next TM jump
 
@@ -93,8 +93,8 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 
 | Type | Magnitude Formula | Weight | Cap |
 |---|---|---|---|
-| fusion-recipe | 20×N (N≤10); 200+20√(N-10) (N>10) | 1.5 | — |
-| github-stars-own | stars / 1000 | 1.0 | 200 |
+| fusion-recipe | — (never scores) | 0 | 0 |
+| github-stars-own | min(175.0, 35.0 × log10(stars/10)) (stars > 10) | 1.0 | 175 |
 | proxy-containment | (externalStars/1000)×0.8 (min 10k stars) | 1.0 | 160 |
 | verifier-attestation | 30 × verifiers | 1.5 | — |
 | benchmark-result | percentile (field required — omitting it scores 0) | 1.4 | 100 |
@@ -104,11 +104,19 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 | self-attestation | 10 | 0.5 | 10 |
 | social-signal | log10(views)×8 (min 1k views) | 1.0 | 80 (sum cap) |
 
+> **fusion-recipe scores 0 TM.** Under Yggdrasil III, structure is reported by a separate,
+> informational scalar — **Fusion Score** — never by Trust Magnitude. Over `N` distinct
+> non-variant nodes in the resolved structural closure:
+> `FS = 0` when `N = 0`; `FS = 20 × N` when `1 ≤ N ≤ 10`; `FS = 200 + 20 × √(N − 10)` when `N > 10`.
+> Fusion Score gates no star, no rank, and no Trust Grade. Whenever you report one, also state
+> that published TM fell for suites and fusions because this row went to 0 TM — **no evidence
+> row, star count, or rank was edited** (META.md §2.1e).
+
 ### Grade thresholds
 
 | Grade | TM Floor | Additional Gates |
 |---|---|---|
-| S | 250 | distinctTypes >= 3 AND has non-self-producible evidence |
+| S | 250 | distinctTypes >= 3 AND independent witness (`benchmark-result`, `verifier-attestation`, or Grade A `peer-review`) |
 | A | 100 | — |
 | B | 50 | — |
 | C | 20 | — |
@@ -117,6 +125,7 @@ TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
 ### Common dead-row causes to watch for
 
 - `social-signal` with views < 1000 → scores 0 regardless of type weight
+- Suite component shared repository evidence is capped at 50.0 TM per component across `github-stars-own` and `repo-own` (#1705).
 - `github-stars-own` and `repo-own` pointing to the same URL → deduped; only the higher score counts
 - `benchmark-result` missing `percentile` field → magnitude = 0
 - Large suite with `github-stars-own` at the repo root → per-skill contribution tiny due to `/ skill_count_in_repo` divisor; use `social-signal` or `peer-review` instead

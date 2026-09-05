@@ -7,7 +7,7 @@ genericSkillRef: autonomous-debug
 status: named
 title: The Disciplined Diagnosis Loop
 catalogRef: mattpocock-diagnose
-level: 3★
+level: 4★
 description: Drives a rigorous five-phase debugging discipline — build a feedback
   loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -115,7 +115,21 @@ timeline:
   newValue: null
   details: Removed from mattpocock/skills suite in v1.0.1 (per skill's own description);
     superseded by mattpocock/diagnosing-bugs, which links the same upstream engineering/diagnosing-bugs/SKILL.md.
-trustMagnitude: 90.38
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:39Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -128,9 +142,9 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de
+trustMagnitudeInputHash: a107af1ae2829d53ae0ec828016debf078f062e02ba5f13105556a34f7c1c08d
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

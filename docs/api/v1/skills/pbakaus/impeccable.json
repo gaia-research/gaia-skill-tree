@@ -3,9 +3,9 @@
   "name": "Impeccable",
   "contributor": "pbakaus",
   "level": "4★",
-  "type": "basic",
+  "type": "fusion",
   "status": "named",
-  "trustMagnitude": 149.32,
+  "trustMagnitude": 169.34,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -15,8 +15,16 @@
     "contributor": "/api/v1/contributors/pbakaus.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Aesthetic Shield",
-  "genericSkillRef": "ui-audit",
+  "genericSkillRef": "design-generation",
   "origin": true,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [
@@ -60,39 +68,12 @@
       "grade": "B"
     },
     {
-      "source": "https://arxiv.org/abs/2411.01606",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "arxiv",
-      "class": "A",
-      "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
-      "citations": 19
-    },
-    {
       "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
       "evaluator": "mbtiongson1",
       "date": "2026-06-19",
       "type": "social-signal",
       "class": "A",
       "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
-    },
-    {
-      "source": "https://github.com/pbakaus/impeccable/issues/268",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "peer-review",
-      "class": "A",
-      "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
-      "grade": "C"
-    },
-    {
-      "source": "https://github.com/pbakaus/impeccable/issues/183",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "peer-review",
-      "class": "A",
-      "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
-      "grade": "C"
     }
   ],
   "timeline": [
@@ -193,6 +174,18 @@
       "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:57Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 122.8 -> 298.62, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:43Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 5★"
     }
   ],
   "links": {

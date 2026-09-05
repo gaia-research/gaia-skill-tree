@@ -2,27 +2,12 @@
   "handle": "anthropic",
   "namedSkills": [
     {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "3★",
-      "trustMagnitude": 211.52,
-      "overallTrustGrade": "A",
-      "contributor": "anthropic",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      },
-      "genericSkillRef": "tool-creation"
-    },
-    {
       "id": "anthropic/pptx",
       "name": "PPTX Editor",
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "anthropic",
       "type": "basic",
       "branch": "standard",
@@ -32,18 +17,34 @@
         "self": "/api/v1/skills/anthropic/pptx.json"
       },
       "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "anthropic",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      },
+      "genericSkillRef": "tool-creation"
     }
   ],
   "namedSkillsCount": 2,
   "topSkill": {
-    "id": "anthropic/skill-creator",
-    "level": "3★",
-    "trustMagnitude": 211.52
+    "id": "anthropic/pptx",
+    "level": "2★",
+    "trustMagnitude": 36.0
   },
-  "prestigeScore": 247.52,
+  "prestigeScore": 66.0,
   "gradeDistribution": {
-    "A": 1,
-    "C": 1
+    "C": 2
   },
   "_links": {
     "self": "/api/v1/contributors/anthropic.json",

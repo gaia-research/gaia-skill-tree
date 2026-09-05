@@ -1,5 +1,7 @@
 # METASHIFT: May 2026 Programmatic Registry Audit
 
+> **Historical Archive Notice (Pre-Yggdrasil-III Baseline)**: This report is retained solely for historical audit record and reflects the registry state prior to the Yggdrasil III recalibration (#1705). Star ratings, trust scores, and formulas herein are superseded by current registry readings under the logarithmic adoption curve and integrity invariants.
+
 This audit restores registry integrity by enforcing hardened prestige rules from **META.md** and canonical terms from **CONTEXT.md**. All rank shifts are executed via the `gaia` CLI to ensure timeline logging.
 
 ## 1. Reclassifications (Schema Integrity)

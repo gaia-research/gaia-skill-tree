@@ -5,7 +5,7 @@ contributor: xquik-dev
 origin: true
 genericSkillRef: x-twitter-automation
 status: awakened
-level: 3★
+level: 1★
 description: Installable Hermes Agent skill and plugin for X/Twitter search, reply
   reading, user lookup, monitoring, follower export, and approval-gated write actions.
 links:
@@ -44,6 +44,12 @@ evidence:
   views: 35000
   sourceStartedAt: '2025-01-01'
 timeline:
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
+  previousValue: 3★
+  newValue: 1★
 - timestamp: '2026-06-14T12:33:03Z'
   action: evidence_graded
   contributor: unknown

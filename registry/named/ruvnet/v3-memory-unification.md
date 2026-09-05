@@ -20,8 +20,7 @@ tags:
 - rag-memory
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
-suiteRef: ruvnet/ruflo-v3
+updatedAt: '2026-09-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +46,18 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 0be0499946a317702b9c3b3e4a12ff1ae39d9c5903aa0f63d1c254e3031f91e8
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 65ddbad347c545e83e8b9236e6f32bdea8ae3f5d1a12f5f5cc2921589adc3016
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

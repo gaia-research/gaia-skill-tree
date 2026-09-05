@@ -2,18 +2,26 @@
   "id": "addy-osmani/agent-skills",
   "name": "Agent Skills",
   "contributor": "addy-osmani",
-  "level": "5★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 298.83,
-  "overallTrustGrade": "S",
+  "trustMagnitude": 174.62,
+  "overallTrustGrade": "A",
   "branch": "suite",
-  "rankWord": "Ultimate",
+  "rankWord": "Extra",
   "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/agent-skills.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 284.85,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 13,
+    "transitiveCount": 28,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "Agent Skills",
   "genericSkillRef": "git-ship-done-pipeline",
@@ -168,6 +176,24 @@
       "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:16Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 293.14 -> 256.3, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T16:26:46Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 256.3 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 286.0 -> 174.62, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

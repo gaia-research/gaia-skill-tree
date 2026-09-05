@@ -5,11 +5,11 @@ contributor: vercel-labs
 origin: false
 genericSkillRef: react-performance-optimization
 status: named
-level: 3★
+level: 4★
 description: Optimizes component rendering, data fetching, and bundle composition
   in React applications while preserving requested behavior.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 title: Vercel React Best Practices
 links:
   github: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md
@@ -55,6 +55,20 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from vercel-labs/react-best-practices to vercel-labs/vercel-react-best-practices
+- timestamp: '2026-08-29T17:16:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 159.01, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:46Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 159.01 -> 162.66, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
   updatedAt: '2026-09-01'
@@ -98,6 +112,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:22:46Z'
+trustMagnitude: 162.66
+overallTrustGrade: A
+trustMagnitudeInputHash: c85068aa4025392ee2bf09f69ad8171e8e6a98a8a68800413bc8564d4c908253
 ---
 
 ## Installation

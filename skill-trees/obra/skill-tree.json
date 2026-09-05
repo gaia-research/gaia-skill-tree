@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "obra/brainstorming",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -17,6 +17,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-02T15:11:41Z",
           "source": "promotion"
         }
       ]
@@ -122,7 +127,7 @@
     },
     {
       "skillId": "obra/superpowers",
-      "level": "5★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -131,6 +136,11 @@
           "level": "5★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -410,6 +420,22 @@
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
       "skillId": "obra/writing-plans"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:41Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "obra/brainstorming"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "5★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "obra/superpowers"
     }
   ],
   "stats": {

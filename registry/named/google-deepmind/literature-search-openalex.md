@@ -2,17 +2,17 @@
 id: google-deepmind/literature-search-openalex
 name: Literature-Search-Openalex
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Query the OpenAlex scholarly database for research papers, authors, institutions,
   topics, sources, publishers, funders, geo-locations, and keywords. Use when searching
   academic papers, resolving DOIs, downloading open-access PDFs, finding an author's
   publications, aggregating bibliometric data (citation counts, h-index, impact factor),
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://openalex.org/about
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 78.0
-  grade: S
-  notes: OpenAlex — fully open catalog 200M+ scholarly works; Priem & Heather 2022;
-    replaces Microsoft Academic
-  reviewers: 3
-  sourceStartedAt: '2022-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:34Z'
   action: evidence_graded
@@ -89,8 +79,15 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/literature_search_openalex to
     google-deepmind/literature-search-openalex
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -100,7 +97,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0bd8ed800e255c7aa45f871f228c1e54c3c0adda5f7c9b582c110be21b80d513
+trustMagnitudeInputHash: e8f86b9fbdcb1303da9ff98653355467d37ecdb1c55663b82b726b817f6ea2e3
 verification:
   firstEvidenceAt: '2026-06-19T17:06:49Z'
 ---

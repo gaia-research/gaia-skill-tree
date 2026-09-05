@@ -18,7 +18,7 @@ tags:
 - llm
 - evaluation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -60,6 +60,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -73,7 +78,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: d9653a3ba47a096d1e0e40556df669acb579415cf01e8e96904abca73249d363
+trustMagnitudeInputHash: 3aebf88aca279b2a253216213cc74e9ebff390b568f5e724d2d877d353e164b4
 ---
 
 ## Overview

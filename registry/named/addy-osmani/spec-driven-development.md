@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: prd-generation
 status: named
-level: 3★
+level: 5★
 description: Spec-driven development workflow enforcing specification generation before
   any coding starts.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:42:16Z'
   action: add
@@ -65,6 +65,20 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
     (type: peer-review)'
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-02T15:11:13Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 5★
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
   updatedAt: '2026-09-01'
@@ -95,7 +109,7 @@ verification:
 title: Spec-Driven Development
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 53.14
+trustMagnitude: 80.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -106,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ad81871fb5a557792a021b4ce9cd1c5888b54c597b5975a57a15694cc9d35c69
+trustMagnitudeInputHash: 78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
 ---

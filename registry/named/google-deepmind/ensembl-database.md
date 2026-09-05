@@ -2,16 +2,16 @@
 id: google-deepmind/ensembl-database
 name: Ensembl-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Query the Ensembl database to resolve gene, transcript, and protein IDs,
   fetch genomic or protein sequences, retrieve gene structures (exons), and get variant
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
 evidence:
@@ -26,16 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/54/D1/D1053/8343504
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: Ensembl 2025 — NAR database issue; genome annotation, gene models, genetic
-    variation
-  reviewers: 3
-  sourceStartedAt: '2025-01-08'
 timeline:
 - timestamp: '2026-06-14T12:32:30Z'
   action: evidence_graded
@@ -99,8 +89,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/ensembl_database to google-deepmind/ensembl-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -110,7 +107,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a7cb6d55e67bf4f3e8ec023d89a72366d2e4c68cd495ee76c1f7285c39b67764
+trustMagnitudeInputHash: f47e70b1067d60be9cb6a5f026971e8a83dea6990cf7801444aa2e6b86373e64
 verification:
   firstEvidenceAt: '2026-06-19T17:05:37Z'
 ---

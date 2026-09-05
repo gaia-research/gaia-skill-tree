@@ -20,8 +20,7 @@ tags:
 - milestones
 - sprints
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
-suiteRef: ruvnet/github-suite
+updatedAt: '2026-09-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +46,18 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 28f2a47a0260d1fe32fb1b66317e83af81fac99d65d1c9a94166da97ce6e9be4
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 44e5fb454935c09198f7bb06aeeb6737e0a374bdec8c7c347741a8bc956914a7
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

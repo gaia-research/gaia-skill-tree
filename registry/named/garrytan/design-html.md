@@ -20,7 +20,7 @@ tags:
 - design-to-code
 - production
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-09-04'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -64,6 +64,21 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md
@@ -90,7 +105,7 @@ evidence:
   stars: 130700
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 63.73
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -103,7 +118,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 59476342421b329329fedf5a7402082e6eafba26e7d288945c00dbe1658deac8
+trustMagnitudeInputHash: f569c492e93ae3e43e26a4e055ee613b7850028146abd266e57a55462495be15
 ---
 
 ## Overview

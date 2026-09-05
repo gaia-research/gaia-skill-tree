@@ -2,13 +2,13 @@
 id: addy-osmani/shipping-and-launch
 name: Shipping and Launch
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: finishing-a-development-branch
 status: named
-level: 3★
+level: 4★
 description: Shipping and launch readiness checks for code deployment and integration.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -59,6 +59,20 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:42Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-02T15:11:12Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md
   updatedAt: '2026-09-01'
@@ -79,7 +93,7 @@ verification:
 title: Shipping and Launch
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 53.14
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -90,7 +104,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4cab31dd5d68c254b5cb459e5e04b29d0d65f92fbb48317072c57c1787795c51
+trustMagnitudeInputHash: 2e9e0bf94a8958602444e8195d711fff2e7ba61e46f746fa947c319ac3f338b0
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md
 ---

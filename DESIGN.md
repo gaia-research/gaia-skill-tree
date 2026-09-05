@@ -306,9 +306,9 @@ Additional tokens used only in the explorer overlay (not added to `:root` — de
 
 ---
 
-## Rarity (computed)
+## Rarity (removed)
 
-Rarity is derived from real agent prevalence by `scripts/computeRarity.py` — never declared by contributors. It does not have a fixed color in the UI; rarity labels are rendered in `var(--muted)` text within skill pages and tree views.
+Removed. The rarity axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) was retired in issue #356: the field is gone from the schemas, the generated mirrors, and all CLI/MCP code paths, and `scripts/computeRarity.py` no longer exists. There is no live rendering surface. See CONTEXT.md § Rarity.
 
 ---
 

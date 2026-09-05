@@ -22,8 +22,7 @@ tags:
 - agent-brief
 - github-issues
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
@@ -82,6 +81,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 56.21
 overallTrustGrade: B
 apexGateStatus:
@@ -95,7 +104,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:37:49Z'
-trustMagnitudeInputHash: b42ad58a3257d98f302c8af93e6764416cb0013fcbf194586aef8699be94c842
+trustMagnitudeInputHash: 500783b2f1645d904740dee92b36ebf668b4ca3cf0b0a30a817882d634f29732
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

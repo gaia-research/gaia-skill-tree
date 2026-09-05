@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-07-20'
+updatedAt: '2026-09-04'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -188,8 +188,23 @@ timeline:
     fusion (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 482.27
-overallTrustGrade: S
+- timestamp: '2026-08-25T11:23:15Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 482.27 -> 256.68, grade S -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-08-29T16:26:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 256.68 -> 290.0, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 290.0 -> 174.59, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 174.59
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -203,7 +218,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:21:01Z'
-trustMagnitudeInputHash: 490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2
+trustMagnitudeInputHash: ac37545709da95026b2454d1a5bf76ecdccaa5e9fed8021096e35ab568b892fb
 upstream:
   mode: components
   releasedAt: '2026-07-08T17:27:46Z'

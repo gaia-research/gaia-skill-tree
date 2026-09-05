@@ -15,22 +15,22 @@
 | ○ ruvnet/agentdb-memory-patterns | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-optimization | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-vector-search | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/agentdb | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/agentdb | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentic-jujutsu | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/browser | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-collect | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-coordinate | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/dual-mode | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/dual-mode | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-spawn | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-neural | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-platform | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-swarm | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ ruvnet/flow-nexus | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/flow-nexus | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-code-review | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-multi-repo | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-project-management | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-release-management | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/github-suite | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/github-suite | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-workflow-automation | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/hive-mind | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/hooks-automation | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -38,9 +38,9 @@
 | ○ ruvnet/performance-analysis | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank-agentdb | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank-intelligence | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/reasoningbank | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo-v3 | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo | Basic | 5★ | Ultimate | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/reasoningbank | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo-v3 | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/skill-builder | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/stream-chain | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -70,68 +70,6 @@ GAIA SKILL TREE — ruvnet  ·  generated 2026-09-05
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-✓ ◆ ruvnet/ruflo  [5★]
-  ├─ ✓ · ruvnet/flow-nexus  [3★]
-  │  ├─ ✓ · ████████/flow-nexus-swarm
-  │  │  ├─ · · /plan-and-execute
-  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
-  │  │  │  ├─ · ○ /plan-decompose
-  │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
-  │  │  └─ · ○ /tool-select  (↑ see above)
-  │  ├─ ✓ · ruvnet/flow-nexus-platform  [2★]
-  │  │  ├─ · ○ ████████/hf-cli
-  │  │  └─ · ○ /tool-use
-  │  └─ ✓ · ruvnet/flow-nexus-neural  [2★]
-  │     ├─ · ○ ████████/parallel-execution
-  │     └─ · ○ /embed-text
-  ├─ ✓ · ruvnet/agentdb  [4★]
-  │  ├─ ✓ · ruvnet/agentdb-advanced  [2★]
-  │  │  ├─ ✓ ○ ruvnet/agentdb-vector-search  [2★]
-  │  │  └─ ✓ · garrytan/learn  [2★]
-  │  │     ├─ · ○ garrytan/context-restore  [2★]
-  │  │     └─ · ○ /retrieve
-  │  ├─ ✓ · ████████/agentdb-learning
-  │  │  ├─ ✓ ○ ruvnet/reasoningbank-intelligence  [2★]
-  │  │  └─ ✓ · garrytan/learn  [2★]  (↑ see above)
-  │  ├─ ✓ ○ ruvnet/agentdb-memory-patterns  [2★]
-  │  ├─ ✓ ○ ruvnet/agentdb-optimization  [2★]
-  │  └─ ✓ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ ✓ · ruvnet/github-suite  [3★]
-  │  ├─ ✓ · addy-osmani/code-review-and-quality  [3★]
-  │  │  ├─ · ○ garrytan/design-html  [3★]
-  │  │  ├─ · ○ /diff-content
-  │  │  └─ · ○ garrytan/benchmark  [3★]
-  │  ├─ ✓ ○ ruvnet/github-multi-repo  [2★]
-  │  ├─ · · garrytan/land-and-deploy  [3★]
-  │  │  ├─ ✓ · ████████/github-workflow-automation
-  │  │  │  ├─ · ○ /plan-decompose  (↑ see above)
-  │  │  │  ├─ · ○ /tool-use  (↑ see above)
-  │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
-  │  │  └─ · ○ /code-execution
-  │  ├─ ✓ · garrytan/landing-report  [2★]
-  │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  │  └─ · ○ mattpocock/triage  [3★]
-  │  └─ ✓ · ████████/github-workflow-automation  (↑ see above)
-  ├─ ✓ · ruvnet/reasoningbank  [4★]
-  │  ├─ ✓ ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
-  │  └─ ✓ · ████████/agentdb-learning  (↑ see above)
-  ├─ ✓ · ruvnet/ruflo-v3  [4★]
-  │  ├─ ✓ ○ ruvnet/v3-cli-modernization  [2★]
-  │  ├─ ✓ ○ ruvnet/v3-core-implementation  [2★]
-  │  ├─ ✓ ○ ruvnet/v3-integration-deep  [2★]
-  │  ├─ ✓ ○ addy-osmani/performance-optimization  [4★]
-  │  └─ ✓ · ruvnet/swarm-advanced  [2★]
-  │     ├─ ✓ ○ ruvnet/swarm-orchestration  [2★]
-  │     └─ · · garrytan/codex  [2★]
-  │        ├─ · ○ /self-critique
-  │        ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  │        └─ · ○ /chain-of-thought
-  └─ ✓ · ruvnet/dual-mode  [4★]
-     ├─ ✓ ○ ruvnet/dual-spawn  [2★]
-     ├─ ✓ ○ ruvnet/dual-collect  [2★]
-     └─ ✓ ○ ruvnet/dual-coordinate  [2★]
-
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
@@ -140,12 +78,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · garrytan/garrytan  [4★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ · · garrytan/design-consultation  [3★]
+  ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ ✓ · ████████/browse
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · · garrytan/design-shotgun  [3★]
@@ -161,7 +99,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · · garrytan/ship  [3★]
+  ├─ · · addy-osmani/shipping-and-launch  [3★]
   │  ├─ ✓ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
@@ -180,7 +118,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ ✓ · garrytan/skillify  [3★]
@@ -210,24 +148,24 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/setup-gbrain  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ garrytan/make-pdf  [2★]
+  ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ ✓ · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
-  ├─ · · mattpocock/engineering  [4★]
+  ├─ · · ████████/engineering
   │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
-  │  ├─ · · devin-ai/autonomous-swe  [3★]
+  │  ├─ · · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
@@ -239,7 +177,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
-  │  │  ├─ ✓ · mattpocock/ubiquitous-language  [3★]
+  │  │  ├─ ✓ · ruvnet/v3-ddd-architecture  [2★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
   │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
@@ -250,8 +188,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
-  │  ├─ · ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · · garrytan/garrytan  [4★]
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]
+  │  ├─ · · mattpocock/to-tickets  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
@@ -263,29 +201,29 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
   │  ├─ · · mattpocock/research  [2★]
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
-  ├─ · · mattpocock/misc  [3★]
+  ├─ · · ████████/misc
   │  ├─ · · garrytan/careful  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
-  │  ├─ · ○ addy-osmani/code-simplification  [3★]  (↑ see above)
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
   │  └─ ✓ · garrytan/skillify  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · mattpocock/productivity  [3★]
+  ├─ · · ████████/productivity
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  │  └─ · ○ garrytan/context-restore  [2★]
   │  ├─ · ○ garrytan/context-restore  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
-  │  ├─ · · mattpocock/write-a-skill  [3★]
+  │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
   │  ├─ · · garrytan/setup-gbrain  [2★]
@@ -293,10 +231,72 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
   │  └─ · ○ mattpocock/wait-what  [2★]
-  └─ · · mattpocock/write-a-skill  [3★]  (↑ see above)
+  └─ · · mattpocock/write-a-skill  [2★]  (↑ see above)
 
-· ◆ obra/superpowers  [5★]
-  ├─ · · obra/brainstorming  [3★]
+✓ ◆ ruvnet/ruflo  [4★]
+  ├─ ✓ · ruvnet/flow-nexus  [2★]
+  │  ├─ ✓ · ████████/flow-nexus-swarm
+  │  │  ├─ · · /plan-and-execute
+  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
+  │  │  │  ├─ · ○ /plan-decompose
+  │  │  │  └─ · ○ /tool-select
+  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
+  │  │  └─ · ○ /tool-select  (↑ see above)
+  │  ├─ ✓ · ruvnet/flow-nexus-platform  [2★]
+  │  │  ├─ · ○ ████████/hf-cli
+  │  │  └─ · ○ /tool-use
+  │  └─ ✓ · ruvnet/flow-nexus-neural  [2★]
+  │     ├─ · ○ ████████/parallel-execution
+  │     └─ · ○ /embed-text
+  ├─ ✓ · ruvnet/agentdb  [3★]
+  │  ├─ ✓ · ruvnet/agentdb-advanced  [2★]
+  │  │  ├─ ✓ ○ ruvnet/agentdb-vector-search  [2★]
+  │  │  └─ ✓ · garrytan/learn  [2★]
+  │  │     ├─ · ○ garrytan/context-restore  [2★]
+  │  │     └─ · ○ /retrieve
+  │  ├─ ✓ · ████████/agentdb-learning
+  │  │  ├─ ✓ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  │  └─ ✓ · garrytan/learn  [2★]  (↑ see above)
+  │  ├─ ✓ ○ ruvnet/agentdb-memory-patterns  [2★]
+  │  ├─ ✓ ○ ruvnet/agentdb-optimization  [2★]
+  │  └─ ✓ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+  ├─ ✓ · ruvnet/github-suite  [2★]
+  │  ├─ ✓ · addy-osmani/code-review-and-quality  [3★]
+  │  │  ├─ · ○ garrytan/design-html  [3★]
+  │  │  ├─ · ○ /diff-content
+  │  │  └─ · ○ garrytan/benchmark  [3★]
+  │  ├─ ✓ ○ ruvnet/github-multi-repo  [2★]
+  │  ├─ · · garrytan/land-and-deploy  [3★]
+  │  │  ├─ ✓ · ████████/github-workflow-automation
+  │  │  │  ├─ · ○ /plan-decompose  (↑ see above)
+  │  │  │  ├─ · ○ /tool-use  (↑ see above)
+  │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
+  │  │  └─ · ○ /code-execution
+  │  ├─ ✓ · garrytan/landing-report  [2★]
+  │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
+  │  │  └─ · ○ mattpocock/triage  [3★]
+  │  └─ ✓ · ████████/github-workflow-automation  (↑ see above)
+  ├─ ✓ · ruvnet/reasoningbank  [3★]
+  │  ├─ ✓ ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
+  │  └─ ✓ · ████████/agentdb-learning  (↑ see above)
+  ├─ ✓ · ruvnet/ruflo-v3  [2★]
+  │  ├─ ✓ ○ ruvnet/v3-cli-modernization  [2★]
+  │  ├─ ✓ ○ ruvnet/v3-core-implementation  [2★]
+  │  ├─ ✓ ○ ruvnet/v3-integration-deep  [2★]
+  │  ├─ ✓ ○ addy-osmani/performance-optimization  [3★]
+  │  └─ ✓ · ruvnet/swarm-advanced  [2★]
+  │     ├─ ✓ ○ ruvnet/swarm-orchestration  [2★]
+  │     └─ · · garrytan/codex  [2★]
+  │        ├─ · ○ /self-critique
+  │        ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
+  │        └─ · ○ /chain-of-thought
+  └─ ✓ · ruvnet/dual-mode  [2★]
+     ├─ ✓ ○ ruvnet/dual-spawn  [2★]
+     ├─ ✓ ○ ruvnet/dual-collect  [2★]
+     └─ ✓ ○ ruvnet/dual-coordinate  [2★]
+
+· ◆ obra/superpowers  [4★]
+  ├─ · · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ · · obra/dispatching-parallel-agents  [3★]
@@ -307,7 +307,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
-  ├─ · · garrytan/ship  [3★]
+  ├─ · · addy-osmani/shipping-and-launch  [3★]
   │  ├─ ✓ · addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
@@ -334,8 +334,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   └─ · · obra/writing-plans  [4★]  (↑ see above)
 
-· ◆ addy-osmani/agent-skills  [5★]
-  ├─ · · obra/brainstorming  [3★]
+· ◆ addy-osmani/agent-skills  [4★]
+  ├─ · · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ · · obra/writing-plans  [4★]
@@ -355,7 +355,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
-  └─ · · garrytan/ship  [3★]
+  └─ · · addy-osmani/shipping-and-launch  [3★]
      ├─ ✓ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
@@ -363,7 +363,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ◉ addy-osmani/performance-optimization  [4★]
   ✓ ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
     │  ├─ · · obra/writing-plans  [4★]

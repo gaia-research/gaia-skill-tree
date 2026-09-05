@@ -36,12 +36,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · garrytan/garrytan  [4★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ · · garrytan/design-consultation  [3★]
+  ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · · garrytan/design-shotgun  [3★]
@@ -57,7 +57,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ ✓ · garrytan/ship  [3★]
+  ├─ ✓ · addy-osmani/shipping-and-launch  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
@@ -76,7 +76,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · · garrytan/skillify  [3★]
@@ -106,19 +106,19 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/setup-gbrain  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ garrytan/make-pdf  [2★]
+  ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ obra/superpowers  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+· ◆ obra/superpowers  [4★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ · · obra/dispatching-parallel-agents  [3★]
@@ -129,7 +129,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
-  ├─ ✓ · garrytan/ship  [3★]
+  ├─ ✓ · addy-osmani/shipping-and-launch  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
@@ -156,8 +156,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   └─ ✓ · obra/writing-plans  [4★]  (↑ see above)
 
-✓ ◆ addy-osmani/agent-skills  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+✓ ◆ addy-osmani/agent-skills  [4★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ ✓ · obra/writing-plans  [4★]
@@ -177,7 +177,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
-  └─ ✓ · garrytan/ship  [3★]
+  └─ ✓ · addy-osmani/shipping-and-launch  [3★]
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
@@ -185,6 +185,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  ✓ ◉ obra/brainstorming  [4★]
+    ├─ · ○ ████████/requirements-engineer
+    └─ · ○ garrytan/office-hours  [3★]
   ✓ ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
     │  ├─ ✓ · obra/writing-plans  [4★]

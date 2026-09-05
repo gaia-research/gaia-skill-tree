@@ -20,7 +20,7 @@ tags:
 - markitdown
 - presentations
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 evidence:
 - class: B
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
@@ -56,6 +56,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +72,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ed475aa7f004de37562229e394a554eba5427e1a8b34bc0e6ac08b81d904f30d
+trustMagnitudeInputHash: 09948a85e8eae40f82e23f52d9a5f711f9fcc0a501f60bb053c02bb592a74360
 ---
 
 ## Overview

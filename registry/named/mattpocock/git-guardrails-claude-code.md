@@ -11,7 +11,7 @@ level: 2★
 description: Set up Claude Code hooks to block dangerous git commands before they
   execute.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T12:59:34Z'
   action: add
@@ -29,27 +29,27 @@ timeline:
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 - timestamp: '2026-06-19T18:37:24Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
     (type: repo-own)'
 - timestamp: '2026-06-19T18:37:24Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
     as B (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:37:25Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code
     (type: self-attestation)'
 - timestamp: '2026-06-19T18:37:26Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code
     as C (trustNumber: 45.0)'
 - timestamp: '2026-06-19T18:41:27Z'
   action: rank_up
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
 - timestamp: '2026-06-20T06:31:31Z'
@@ -64,13 +64,28 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
   evaluator: unknown
   date: '2026-06-19'
   class: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
@@ -78,7 +93,7 @@ evidence:
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 45.0
@@ -94,8 +109,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:04:53Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 41.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -105,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e6cba724ab46e5f9079c9be9a8bf7d654d8ae2f788ea091ec200339afbe7e275
+trustMagnitudeInputHash: fa9a0814f1e0984e06c4fa5c5c79ca79fba37b5a823aa436700bdaa85b184169
 title: Git Guardrails for Claude Code
 suiteRef: mattpocock/misc
 ---

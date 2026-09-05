@@ -1,0 +1,104 @@
+{
+  "id": "leonxlnx/minimalist-skill",
+  "name": "minimalist-skill",
+  "contributor": "leonxlnx",
+  "level": "3★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/leonxlnx/minimalist-skill.json",
+    "contributor": "/api/v1/contributors/leonxlnx.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "Minimalist UI",
+  "genericSkillRef": "design-generation",
+  "origin": false,
+  "description": "Utilitarian editorial minimalism UI archetype featuring macro-whitespace, monochrome palettes, and clean document-inspired layouts.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": true,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-22",
+      "type": "github-stars-own",
+      "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+      "stars": 79067,
+      "sourceStartedAt": "2026-02-19",
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/leonxlnx/taste-skill",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-22",
+      "type": "repo-own",
+      "notes": "152 commits, 6 contributors, MIT license",
+      "commits": 152,
+      "contributors": 6,
+      "sourceStartedAt": "2026-02-19",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-22T08:07:43Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill leonxlnx/minimalist-skill"
+    },
+    {
+      "timestamp": "2026-08-22T08:08:16Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-08-22T08:08:19Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-08-22T08:08:36Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to leonxlnx/taste-skill"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:51Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:37Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md"
+  }
+}

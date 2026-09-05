@@ -15,9 +15,17 @@
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
   "title": "The Red-Green Oath",
   "genericSkillRef": "test-driven-development",
-  "origin": true,
+  "origin": false,
   "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
   "tags": [
     "tdd",
@@ -102,6 +110,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 36.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 45.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

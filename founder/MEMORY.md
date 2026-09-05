@@ -4,6 +4,464 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-09-05, Yggdrasil III Meta Shift Report, High-Visibility Banners, CodeQL Clean & Pre-Merge State — PR #1721 Ready for Main)
+
+### TLDR
+
+- **Consolidated Yggdrasil III Meta Shift Report (`00ca17395`):** Combined the August 25 and September 3-5 reports into a single, comprehensive public report at `docs/meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html` labeled "Yggdrasil III New Meta". Framed from the user perspective (starts with the WHY, removes all internal dev/git jargon, SHOWS rank shifts and tables across 4 milestones, and embeds 6 SVG diagrams).
+- **High-Visibility Site Banners (`00ca17395`):** Added prominent pill banners across the three key entry surfaces:
+  1. Hall of Heroes dedicated page (`docs/heroes/index.html` & `heroes.css`).
+  2. Hall of Heroes homepage mini gallery (`docs/index.html` & `styles.css`).
+  3. Trust Leaderboard preview panel on the homepage (`docs/index.html` & `leaderboard.css`).
+  All styles conform strictly to CI Guard A with zero banned hex literals.
+- **Universal CLI Install Merged (`50c724a95`):** Rebased and merged PR #1731 onto the integration branch, providing direct GitHub URL and shorthand installs (`gaia install owner/repo`) with sanitized SKILL.md names and hardened git clone flags.
+- **CodeQL Security Hardening (`67f49d5dd`):** Resolved CodeQL URL sanitization warning in `src/gaia_cli/install.py` (`_parse_github_url` and `_is_direct_skill_ref`) using strict regex anchors (`re.match(r"^github\.com/", ...)`).
+- **Integration Status:** Branch `dev/integration-registry-integrity-sweep-2026-09` is clean, synced with origin, and all PR checks on #1721 are green. Ready for merge to `main`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Meta Shift Report | ✅ Consolidated into definitive public report with 6 SVG diagrams and zero dev jargon |
+| Public Notification Banners | ✅ Deployed on Hall of Heroes, homepage HoH mini gallery, and Trust Leaderboard preview |
+| CLI Direct Install | ✅ Universal GitHub URL and shorthand install support landed (PR #1731) |
+| Security / CodeQL | ✅ URL substring sanitization hardened in `src/gaia_cli/install.py` |
+| CI Gates & Invariants | ✅ 10/10 validate.py checks, Guard A hex check, and TM consistency (280/280) green |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `1bccbe26f` | Base branch | Target for PR #1721 |
+| `dev/integration-registry-integrity-sweep-2026-09` | `67f49d5dd` | PR #1721 Open | Holds full Yggdrasil III, recalibration, CLI install, and public reports |
+
+### Issues + PRs touched
+
+- **PR #1721:** Updated with meta post, high-visibility banners, and security fixes.
+- **PR #1731:** Merged into integration branch.
+
+### Open questions for next orchestrator
+
+- Founder merge of PR #1721 into `main`.
+- Major version release bump (`v8.0.0`) and PyPI publication.
+
+---
+
+## State Snapshot (2026-09-05, Full Trust Recalibration, Grade Clamping, 3D Tree Tethering, Guard A Policy & Codex Calculator — PR #1721 Stack Hardened, 8 Issues Closed)
+
+### TLDR
+
+- **Issue #1729 Resolved (`eb85d5eaf`):** Clamped named skill star level to Trust Magnitude grade ceiling (`GRADE_MAX_STARS`) in `scripts/generateNamedIndex.py`, ingested verified arXiv and Grade A peer-review rows into `mattpocock/skills`, `garrytan/gstack`, and `safishamsi/graphify` to provide independent witnesses and qualify Grade S (5★), and reconciled 52 rank shifts across 26 skills using `scripts/trace_timeline.py --all --apply`.
+- **Issue #1728 Resolved (`fdf2e7982`):** Tethered disconnected satellite groves (`video-preview`, `agent-fusion`) in `docs/js/world-tree-layout.js` by scaling grove offset from `0.68 * width` to `0.38 * width` and field radius from `0.56 * width` to `0.32 * width`, constraining layout bounds from `[-516, 532]` to `[-288, 304]` with 27/27 unit tests green.
+- **Issue #1700 Resolved (`8e171a770`):** Refreshed stale frontmatter `trustMagnitude`, `overallTrustGrade`, and `trustMagnitudeInputHash` across all 48 drifting named skills via `gaia dev calibrate-trust-magnitude --all --yes`, achieving 280/280 cache-validity and index checks green.
+- **Issue #1720 Resolved (`459e3cd8d`):** Reconciled secondary documentation, schemas, and playbooks (`docs/codex/trust-methodology.html`, `registry/schema/meta.json`, `docs/api/v1/evidence-types.json`, `scripts/inspectTrustMagnitude.py`, `.agents/skills/trust-appraise*`, `.agents/skills/gaia-tm-inspect`) with the logarithmic adoption curve (`min(175.0, 35.0 * log10(max(1.0, stars / 10.0)))`), 175 TM cap, 50.0 TM suite component cap, and independent witness rules. Added historical archive disclaimers to `docs/meta/archive/`.
+- **Issue #1706 Resolved (`d920dd38f`):** Closed recalibration follow-up and added `relabel-dependent-origins` step to `.agents/skills/dev-calibrate/SKILL.md` and `.claude/skills/dev-calibrate/SKILL.md` with playbook contract verified.
+- **Issue #1704 Resolved (`22fd074dd`):** Completed frontend hex-color audit across 1,060 SVGs and 150 HTML files. Ratified Guard A scope invariant for live JS/CSS stylesheets and updated `CLAUDE.md` § Edit Safety.
+- **Issue #1722 Resolved (`81d6b5513`):** Authored lightweight, mobile-first interactive Trust Magnitude calculator & formula visualizer in `docs/js/tm-calculator.js` mounted inside `docs/codex/trust-methodology.html`. Visualized logarithmic adoption curve with landmarks (1k, 10k, 50k, 100k, 250k), progressive additive calculation (`TM = Σ scores`), 3-criteria Grade S admission gate, and 5 one-click presets. Added 6/6 test parity assertions in `tests/test_tm_calculator_parity.py`.
+- **Issue #1699 Resolved (`e7347f118`):** Added preflight `_preflight_calibrate_status` in `src/gaia_cli/commands/dev/calibrate.py` to strictly reject calibrating `status: awakened` skills to 2★+, filtered `scripts/inspectTrustMagnitude.py` to `status == "named"`, and reconciled 3 unclassified awakened skills (`workflow-skill-creator`, `hermes-tweet`, `repo-docs-before-pr`) to 1★ Awakened with reconciled timelines.
+- **Status & Invariants:** Zero open blockers on Yggdrasil III stack. All 2,459 unit and integration tests passing, 10/10 `validate.py` checks green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` 280/280 green, `check_hex_colors.py` Guard A green. Integration branch `dev/integration-registry-integrity-sweep-2026-09` is clean and pushed. Merging to `main` remains founder-gated.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Trust Recalibration | ✅ 100% of 280 named skills calibrated under logarithmic adoption curve with 0 drift |
+| Grade Ceiling Clamping | ✅ Build-time clamping enforces TM grade ceilings (S: 6★, A: 4★, B: 3★, C: 2★, ungraded: 1★) |
+| World Tree 3D Layout | ✅ Satellite zero-edge groves tethered inside canopy radius (offset 0.38w, field 0.32w) |
+| Interactive Visualizer | ✅ Responsive TM calculator & logarithmic curve visualizer live in `docs/codex/` |
+| CLI Safety Preflights | ✅ `_preflight_calibrate_status` blocks calibrating awakened skills to 2★+ |
+| Playbooks Hardened | ✅ `dev-calibrate` includes `relabel-dependent-origins` step, contract verified |
+| Test Coverage | ✅ 6 new parity tests in `test_tm_calculator_parity.py`; 2,459 total tests green |
+| Issues Closed | ✅ #1729, #1728, #1700, #1720, #1706, #1704, #1722, #1699 closed with commit links |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `967ac17d4` | Merged (PR #1723) | Pre-Yggdrasil-III baseline (`29463f9f0` byte-for-byte) |
+| `dev/integration-registry-integrity-sweep-2026-09` | `e7347f118` | Open (PR #1721) | Holds hardened Yggdrasil III, recalibration, and full integrity fixes |
+
+### Issues + PRs touched
+
+- **PR #1721:** Updated with full suite of fixes and documentation (ready for founder review).
+- **Closed Issues:** #1729, #1728, #1700, #1720, #1706, #1704, #1722, #1699.
+
+---
+
+## State Snapshot (2026-09-04, Pre-Yggdrasil-III Main Rollback & Whole-Registry Meta Sweep — PR #1723 Merged, 4 Issues Filed, 10 Atomic Remediations Landed, Localhost Live)
+
+### TLDR
+
+- **Main Restored:** Successfully executed founder instruction to merge **[PR #1723](https://github.com/gaia-research/gaia-skill-tree/pull/1723)**. `origin/main` is now 100% byte-for-byte identical to the pre-Yggdrasil-III baseline (`29463f9f0`). All Yggdrasil III history is strictly isolated on the dev integration branch (`dev/integration-registry-integrity-sweep-2026-09`, PR #1721).
+- **Meta Sweep Review & Modernization:** Audited `gaia-meta-sweep` against canonical `META.md`, uncovered out-of-date instructions (the obsolete pre-June-2026 "earliest" origin rule) and un-modernized scripts (`scripts/verify_evidence.py` lacking named skills concurrency and using deprecated `--class`), and authored `scripts/run_meta_sweep.py` to run all 12 dimensions concurrently across 284 generics and 328 named skills.
+- **Issues Filed (Per Founder Instruction):**
+  1. **[Issue #1724](https://github.com/gaia-research/gaia-skill-tree/issues/1724):** `fix(scripts): modernize verify_evidence.py for type-first evidence lake and named skills concurrency`
+  2. **[Issue #1725](https://github.com/gaia-research/gaia-skill-tree/issues/1725):** `fix(skills): update gaia-meta-sweep origin-attribution rule from earliest to META §4.1 most-renowned`
+  3. **[Issue #1726](https://github.com/gaia-research/gaia-skill-tree/issues/1726):** `fix(registry): repair URL drift for Firecrawl, Disler, and LangGenius skills and enforce Star Bar on Panniantong`
+  4. **[Issue #1727](https://github.com/gaia-research/gaia-skill-tree/issues/1727):** `fix(registry): purge testuser mock author/evaluator artifact from mattpocock skills`
+- **Frequent Commits Landed (Apply-Safe Remediations):**
+  - `9ea03c19a`: Updated `gaia-meta-sweep` Dimension 3 to evaluate Origin per META §4.1 renowned rule.
+  - `f19a73185`: Repaired upstream SKILL.md paths for 5 Firecrawl skills (`skills/build/` and `skills/core/`).
+  - `314317754`: Repaired upstream prompt paths for 4 Disler skills (`extensions/fusion-harness/prompts/`).
+  - `488677450`: Repaired upstream path for `langgenius/component-refactoring` -> `how-to-write-component`.
+  - `7b953aef2`: Demoted `panniantong/agent-reach` to 1★ for Star Bar violation (upstream repo lacks `SKILL.md`).
+  - `8c1a12162`: Stripped Origin standing from 9 demoted 1★ skills per META §4.1.
+  - `a67f9692a`: Purged `testuser` mock author/evaluator fixtures from 14 Matt Pocock skills.
+  - `72fcb4595`: Realigned Origin standing to highest-ranking implementations across 4 generic buckets.
+  - `9a7d7dc93`: Added `scripts/run_meta_sweep.py` and published formal HTML report and findings JSON.
+- **Verification & Observability:** All 144 unit tests passed, `validate.py` 10/10 green, `validate_timelines.py` green, `check_trust_magnitude_consistency.py` green. Background HTTP daemon active on `localhost:8000`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| `origin/main` | ✅ Cleanly restored to `29463f9f0` (pre-Yggdrasil-III) via PR #1723 merge |
+| Issues Logged | ✅ #1724, #1725, #1726, #1727 filed on tracker |
+| Registry Integrity | ✅ 10 dead links fixed, 9 invalid origins stripped, 4 outclassed origins realigned, 14 testuser stubs purged, 1 Star Bar demotion applied |
+| Reports Published | ✅ `docs/meta/reports/2026-09-04-registry-integrity-sweep.html` & `.findings.json` |
+| Tooling Modernized | ✅ `scripts/run_meta_sweep.py` authored for 12-dimension concurrent registry sweeps |
+| Tests & Gates | ✅ 10/10 validation checks green, zero DAG cycles, timeline transparency intact |
+| Localhost UI | ✅ Live on `http://localhost:8000` (docs and audit reports mounted) |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status | Purpose |
+|---|---|---|---|
+| `main` | `967ac17d4` | Merged (PR #1723) | Pre-Yggdrasil-III baseline (`29463f9f0` byte-for-byte) |
+| `dev/integration-registry-integrity-sweep-2026-09` | `913fe737a` | Open (PR #1721) | Holds ALL Yggdrasil III history + full integrity remediation |
+
+### Issues + PRs touched
+
+| ID | Type | Title | Status |
+|---|---|---|---|
+| PR #1723 | PR | `revert: restore main to pre-Yggdrasil-III baseline (29463f9f0)` | **MERGED** |
+| PR #1721 | PR | `feat(yggdrasil-iii): registry integrity sweep, imposter purge, and trust recalibration` | Open (Founder-gated) |
+| Issue #1724 | Issue | `fix(scripts): modernize verify_evidence.py for type-first evidence lake and named skills concurrency` | Open (Filed) |
+| Issue #1725 | Issue | `fix(skills): update gaia-meta-sweep origin-attribution rule from earliest to META §4.1 most-renowned` | Open (Filed & fixed in sweep) |
+| Issue #1726 | Issue | `fix(registry): repair URL drift for Firecrawl, Disler, and LangGenius skills and enforce Star Bar on Panniantong` | Open (Filed & remediated) |
+| Issue #1727 | Issue | `fix(registry): purge testuser mock author/evaluator artifact from mattpocock skills` | Open (Filed & remediated) |
+
+### Routing — where things live now
+
+- **Local Preview Server:** `http://localhost:8000` (serving `docs/` directly).
+- **Sweep Report:** `http://localhost:8000/meta/reports/2026-09-04-registry-integrity-sweep.html`
+- **Machine-Readable Findings:** `docs/meta/reports/2026-09-04-registry-integrity-sweep.findings.json`
+- **Sweep Automation Script:** `scripts/run_meta_sweep.py` (concurrent 12-dimension scanner)
+
+### Lessons / hazards preserved
+
+1. **Origin Rule Authority Invariant:** Always check `META.md` §4.1 rather than skill files when auditing Origin standing. Pre-June-2026 rules used "earliest createdAt", but the current canon is merit-based (most renowned / highest-rated).
+2. **Path Shifts in Upstream Monorepos:** When upstream repos restructure (e.g. Firecrawl moving skills into `skills/build/` and `skills/core/`), skills can silently 404 without breaking local schema validation unless concurrent liveness is actively polled.
+3. **Mock Identity Leakage:** Test fixtures like `testuser` must be caught at intake time before landing in production skill timelines or evaluator fields.
+
+### Open questions for next orchestrator
+
+1. When founder is ready to land Yggdrasil III on `main`, review and merge **PR #1721**.
+2. Work off the filed backlog issues (#1724, #1725, #1726, #1727) to close them out alongside PR #1721.
+
+### Token cost (this session)
+
+- Multi-turn forensic session: ~68 turns, ~1.2M context tokens processed across 4 subagent chains and inline tooling. Estimate: ~$6.40.
+
+---
+
+## State Snapshot (2026-09-04, Pre-Yggdrasil-III Revert PR #1723 Opened, PR #1721 Holds Full Yggdrasil III + Integrity Sweep, Both Founder-Gated)
+
+### TLDR
+
+- Responded immediately to founder directive: *\"yep we need that reverted entirely before Yggdrasil III. All of Yggdrasil III should be in this dev integration branch\"*.
+- Prepared clean revert branch `infra/revert-main-to-pre-ygg3` using `git read-tree -u --reset 29463f9f0`. Verified `git diff 29463f9f0 HEAD` is 100% empty — the tree is byte-for-byte identical to the pre-Yggdrasil-III baseline at commit `29463f9f0` (Wed Sep 2 08:54:12 2026 +0800).
+- Pushed branch `infra/revert-main-to-pre-ygg3` and opened **[Pull Request #1723](https://github.com/gaia-research/gaia-skill-tree/pull/1723)** targeting `main`:
+  `revert: restore main to pre-Yggdrasil-III baseline (29463f9f0)`.
+  This cleanly rolls `main` back, undoing PR #1688, PR #1718, and release v7.13.2.
+- Confirmed that the integration branch `dev/integration-registry-integrity-sweep-2026-09` (**PR #1721**) holds the **entirety of Yggdrasil III** (all 10 original stacked PRs, playbooks, sensors, Hall of Heroes craft, Fusion Score) PLUS the forensic integrity sweep, imposter purge, suite cap engine hardening, decontaminated evidence lake, and clean logarithmic trust recalibration.
+- Once Marcus merges PR #1723, `main` will be clean at `29463f9f0`. PR #1721 will then serve as the single, clean, verified integration PR to bring all of Yggdrasil III into `main` whenever founder-approved.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Revert PR #1723 | ✅ Opened targeting `main`: restores tree to `29463f9f0` byte-for-byte (**FOUNDER-GATED**) |
+| Integration PR #1721 | ✅ Holds ALL of Yggdrasil III + integrity sweep + decontaminated evidence on `dev/integration-registry-integrity-sweep-2026-09` |
+| Evidence Lake | ✅ 100% decontaminated (404 benchmarks, Perseus preprint, fake doc URLs excised) |
+| Tests & Gates | ✅ 1,546 unit tests passed, all 5 validation checks green |
+
+---
+
+## State Snapshot (2026-09-04, Adversarial Audit & Decontamination Completed, Fabricated Benchmarks Purged, PR #1721 Updated & Confirmed Unmerged, Merge Strictly Founder-Gated)
+
+### TLDR
+
+- Reassured operator that **`main` has NOT been merged**: confirmed via `gh pr view 1721` (`mergedAt: null, state: OPEN`) and `git log origin/main` (head commit `48368aba7`). No integration branch has merged into `main`. Merging `dev/integration-registry-integrity-sweep-2026-09` into `main` remains strictly **FOUNDER-GATED**.
+- Executed `/ev-pipeline` in chained subagent workers skipping discovery/collection and focusing strictly on adversarial checks:
+  - **Phase 2B (Worker 1 - Benchmark Verification)**: Audited all benchmark rows in `evidence/by-type/benchmark-result.md` against `registry/benchmark-sources.json`. Discovered all 6 4★ benchmark rows (`E_BR14`–`E_BR19`) were fabricated with 404 URLs, and the 13 5★ rows (`E_BR1`–`E_BR13`) used unapproved benchmark IDs not registered in the catalog.
+  - **Phase 3 (Worker 2 - Adversarial Audit)**: Caught topical fraud in `arxiv.md` (arXiv:2605.11894, an astrophysics neutrino emission paper from the Perseus cluster hallucinated as Anthropic brand guidelines) and exposed 8 fake GitHub doc/blog paths in `peer-review.md`.
+  - **Phase 4 (Worker 3 - Link Validation)**: Automated HTTP testing verified dead links (404/403) across all flagged rows.
+  - **Remediation (Worker 4)**: Decontaminated the evidence lake: completely excised `E_BR14`–`E_BR19` from `benchmark-result.md`, quarantined `E_BR1`–`E_BR13` as non-scoring candidates, purged fake arXiv row `E_AX9`, purged 8 dead doc paths from `peer-review.md`, and cleansed social-signal rows.
+- Validated with `test_evidence_type_partitions.py` (13/13 passed), `test_evidence*.py` (150/150 passed), and `scripts/validate.py` (green).
+- Committed decontamination as `0fa0f6fbf` on `dev/integration-registry-integrity-sweep-2026-09`, pushed to origin, and posted detailed summary on PR #1721.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Main Branch Safety | ✅ Confirmed unmerged: `origin/main` is untouched at `48368aba7` |
+| PR #1721 Status | ✅ Open (`dev/integration-registry-integrity-sweep-2026-09`), **FOUNDER-GATED** |
+| Evidence Decontamination | ✅ Purged 6 fake benchmarks, 1 fake arXiv paper, 8 fake peer review docs, 2 dead social links |
+| 5★ Benchmark Quarantine | ✅ Added `Status: candidate (non-scoring)` to `E_BR1`–`E_BR13` pending catalog registration |
+| Partitions & Validation | ✅ 100% green on all evidence tests and `scripts/validate.py` |
+
+---
+
+## State Snapshot (2026-09-04, Registry Integrity Sweep Completed, Imposter Aggregators Purged, Sub-Suite Cap Patched, Full Recalibration #1706 Executed, PR #1721 Opened, Issue #1720 Filed)
+
+### TLDR
+
+- Completed deep forensic audit across all 339 named skills in the registry. Identified systemic provenance breakdowns: aggregator monorepo star laundering (K-Dense-AI squatting 41,201 stars on 10 standard Python libraries), pure academic prompting papers without code (`openai/few-shot-learning`, `openai/self-consistency`), closed commercial SaaS (`devin-ai/autonomous-swe`), software libraries (`stanfordnlp/dspy`), awesome-list stubs, and sub-suites evading component adoption caps.
+- Purged 12 non-skill and imposter entries from `registry/named/` and cleaned phantom user trees (`skill-trees/`).
+- Reattributed `karpathy/autoresearch-universal` to its true community author, `balukosuri/autoresearch-universal`.
+- Decontaminated the evidence data lake: stripped 35 historical database consortium papers (PDB 2000, dbSNP 2001, PubMed) and Astral `uv` rows from `google-deepmind/*.md`, stripped 41k monorepo stars from `k-dense-ai/*.md`, stripped 176k core engine stars from `firecrawl/*.md`, and removed hijacked academic citations from `anthropic/skill-creator`, `pbakaus/impeccable`, `upsonic/unittest-generator`, `martin-stepanoski/nielsen-heuristics-audit`, `safishamsi/graphify`, and `laravel/upgrade-laravel-v13`.
+- Enforced Star Bar 404 blob demotions to 1★ for `disler/agent-fusion`, `mattpocock/edit-article`, `mattpocock/obsidian-vault`, and `mattpocock/ubiquitous-language`, and revoked unearned `origin: true` flags.
+- Patched sub-suite cap engine evasion in `src/gaia_cli/trustMagnitude.py`: added `CANONICAL_ROOT_SUITES` to enforce the strict 50.0 TM component adoption ceiling across all nested sub-suites (`garrytan/gstack`, `mattpocock/skills`, `addy-osmani/agent-skills`, `ruvnet/ruflo`, `firecrawl/firecrawl`). True component-specific evidence remains uncapped.
+- Ingested 22 fresh, grounded evidence rows across `evidence/by-type/` for legitimate 4★ skills (`dietrichgebert/ponytail`, `mvanhorn/last30days`, `ayghri/i-have-adhd`, `leonxlnx/taste-skill`, `gsd-build/get-shit-done`, `anthropics/brand-guidelines`).
+- Executed registry-wide trust recalibration (`gaia dev calibrate-trust-magnitude --all`) and backfilled 39 timeline demote events into contributor trees. All 280 active named skills now agree across frontmatter caches, `named-skills.json`, and API endpoints.
+- Rebuilt Class S site artifacts, API projections, badges, graphs, and search indices.
+- Rewrote the announcement meta-post `docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md` and updated `docs/codex/trust-methodology.html` with the Provenance & Attribution Integrity Invariants.
+- Pushed branch `dev/integration-registry-integrity-sweep-2026-09` (`231c6a217`), opened integration PR #1721 (**FOUNDER-GATED**), and filed documentation tracking issue #1720.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Forensic Audit & Purge | ✅ 12 non-skill / imposter entries purged; 98+ contaminated evidence rows stripped; K-Dense demoted |
+| Engine Cap Hardening | ✅ `_isSuiteRootRepositoryEvidence` patched with `CANONICAL_ROOT_SUITES` in `src/gaia_cli/trustMagnitude.py` |
+| Evidence Ingestion | ✅ 22 grounded evidence rows ingested into `evidence/by-type/` for 4★ skills |
+| Full Recalibration (#1706) | ✅ Recalibrated 280 named skills under logarithmic curve (#1705); 39 timeline demotes backfilled |
+| Documentation & Meta Post | ✅ Meta post rewritten, `posts.json` updated, `docs/codex/trust-methodology.html` updated |
+| Documentation Audit Issue | ✅ Filed Issue #1720 (`docs(audit): reconcile trust magnitude documentation...`) |
+| Integration PR |  PR #1721 opened targeting `main` on `dev/integration-registry-integrity-sweep-2026-09` (**FOUNDER-GATED**) |
+| Test Suites | ✅ 1,546 unit & integration tests passed; all 5 validation gates green |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/integration-registry-integrity-sweep-2026-09` | `231c6a217` | Integration branch carrying full registry integrity sweep + recalibration (PR #1721) |
+| `main` | `48368aba7` | Upstream production base; target for PR #1721 (**FOUNDER-GATED**) |
+
+---
+
+## State Snapshot (2026-09-04, Trust Magnitude #1705 resolved via PR #1718, evidence lake ingested for 5★ skills, #1704 frontend audit unblocked, PR #1688 ready for founder merge)
+
+### TLDR
+
+- Resolved Issue #1705 (Trust Magnitude star-scoring distortion): implemented the ratified logarithmic diminishing-returns curve ($\min(175, 35 \times \log_{10}(\max(1, \text{stars}/10)))$) with a hard 175 TM type cap on `github-stars-own` and a hardened independent witness gate for Grade S requiring objective `benchmark-result`, active `verifier-attestation`, or `peer-review` with grade $\ge$ A.
+- Submitted and merged PR #1718 into `dev/integration-ygg3-playbooks-2026-09-02` with 100% CI checks green (all 17 checks passing). Closed Issue #1705 with full mathematical and architectural rationale.
+- Completed multi-agent evidence collection workflow `ev-pipeline-grounded-ingestion-mtmkvhzt-jw8mcx`: evaluated 44 candidates, approved 41 high-integrity evidence artifacts, and adversarially purged 3 hallucinated/unattributed candidates.
+- Partitioned and committed the 41 approved rows into canonical evidence data lake files (`evidence/by-type/benchmark-result.md`, `evidence/by-type/peer-review.md`, `evidence/by-type/arxiv.md`, `evidence/by-type/social-signal.md`). Pushed to `dev/integration-ygg3-playbooks-2026-09-02` (`ce044e0f9`).
+- Audited Issue #1704 (hex-color guard): scanned 1,060 SVGs (822 badges, 227 OG images) and 150 HTML files (27 legacy `docs/en/*.html` files with inline `<style>`). Proved that standalone SVGs cannot resolve CSS custom properties (`var(--token)`) under W3C sandbox rules; confirmed Guard A scope (`docs/**/*.js`, `docs/**/*.css`) is structurally correct; removed `blocker` label from Issue #1704.
+- Leaderboard verification: `safishamsi/graphify` accurately positioned at Grade A (189.7 TM), curing the pathological S promotion; `addy-osmani/code-simplification` (314.6 TM) and `firecrawl/firecrawl-research-index` (259.1 TM) legitimately retain Grade S with verified witnesses.
+- PR #1688 is clean, mergeable, and fully unblocked, pending mandatory founder merge sign-off.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Issue #1705 | ✅ Resolved & closed — PR #1718 merged into integration branch |
+| PR #1718 | ✅ Merged into `dev/integration-ygg3-playbooks-2026-09-02` (17/17 CI checks passed green) |
+| Evidence Lake Ingestion (#1713–#1714) | ✅ 41 critic-approved evidence rows ingested into `evidence/by-type/` across 7 flagship 5★ skills; 3 hallucinated rows purged |
+| Issue #1704 (Guard A audit) | ✅ Audited, policy established, `blocker` label removed |
+| PR #1688 | 🚀 100% unblocked, clean working tree, CI re-queued on latest integration head |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/integration-ygg3-playbooks-2026-09-02` | `ce044e0f9` | Integration head: carries PR #1718 + evidence lake ingestion; PR #1688 base |
+| `main` | `29463f9f0` | Target for PR #1688 merge (founder-gated) |
+
+---
+
+## State Snapshot (2026-09-03, PR #1696 readied, Yggdrasil III issue sweep, two-agent dispatch, PR-stack unwind, Fusion Score/Hall-of-Heroes ruling)
+
+### TLDR
+
+- Marked PR #1696 ready for review; confirmed the live stack: #1696 (`design/hall-of-heroes-craft`) → #1693 (`review/meta/hall-of-heroes-recalibration-2026-09`) → #1688 (`dev/integration-ygg3-playbooks-2026-09-02`) → `main`.
+- Yggdrasil III issue sweep via `/gaia-triage`: closed **#1600** (Matt Pocock 3-way TM reconciliation — verified directly, all three surfaces now agree). Left **#1636** and **#1671** open with status-update comments (real backlog remains; flagged that #1600 closing orphans the 35-skill calibration-lag backlog it was tracking — founder call pending).
+- Dispatched two background agents: a Sonnet meta-post agent (published `docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md`, opened draft **PR #1697**, filed bundled issue **#1698**) and a fact-check agent (verified the 63-skill recalibration is structurally sound, filed **#1699** and **#1700** for pre-existing defects, and flagged a CONTEXT.md vocabulary conflict on PR #1696).
+- User then unstacked local `gh stack` tooling and asked for a PR-graph restack: loaded `/gaia-orchestrator` persona (per CLAUDE.md's "required for this branch strategy" clause). Ran `git merge-base --is-ancestor` across 12 branches, confirmed 5 PRs (#1667, #1668, #1669, #1672, #1678) were fully superseded (already merged into the integration branch via prior `merge: ... onto the integration base` commits) and closed them; retargeted 3 still-live PRs (#1683, #1694, #1695) to base `dev/integration-ygg3-playbooks-2026-09-02` directly.
+- Founder ruling: the fact-check agent's flagged conflict (`CONTEXT.md` banned Fusion Score "on the Hall of Heroes"; PR #1696 puts it there) was resolved by amending CONTEXT.md, not the design. `git blame` showed the clause was the user's own commit `3621824ce` (2026-09-01, Fusion Score ratification) — a placeholder caution predating the page's actual design. Edited CONTEXT.md directly (founder-doc superadmin authority) to strike the Hall-of-Heroes clause and record the ruling inline; committed as `942e52b6b` onto `design/hall-of-heroes-craft` (PR #1696); posted a closing comment on the PR.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1696 | ✅ Marked ready for review; later gained commit `942e52b6b` (CONTEXT.md ruling) |
+| Issue #1600 | ✅ Closed — Matt Pocock TM reconciliation verified fixed (dry-run/API/frontmatter all agree: `mattpocock/skills` 329.9; engineering/productivity/personal/misc all 0.0) |
+| Issues #1636, #1671 | ⏳ Left open, status-update comments posted — real unresolved backlog in both |
+| PR #1697 (meta-post) | ⏳ Draft — needs a JSON-LD staleness fix (`build_docs.py --check` fails on this file only) before mergeable |
+| Issue #1698 | ✅ Filed — bundles remaining 3-skill recalibration + Apex/Unique-Impossible gate-testing of the 9 current S-grade skills |
+| Issues #1699, #1700 | ✅ Filed — pre-existing defects found incidentally during fact-check (not caused by this session's recalibration) |
+| PR-stack restack | ✅ 5 superseded PRs closed (#1667, #1668, #1669, #1672, #1678), 3 live PRs (#1683, #1694, #1695) retargeted to the integration branch |
+| CONTEXT.md | ✅ Amended — Fusion Score now explicitly permitted on the Hall of Heroes (clearly labeled, kept separate from the TM/grade display) |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/hall-of-heroes-craft` | `942e52b6b` | PR #1696, ready for review, includes the CONTEXT.md ruling commit |
+| `review/meta/hall-of-heroes-recalibration-2026-09` | `f5826f5fa` | PR #1693, open against the integration branch |
+| `dev/integration-ygg3-playbooks-2026-09-02` | `fbf2594cf` | PR #1688, open against `main` |
+| `docs/yggdrasil-iii-recalibration-update-2026-09` | `5e32a5e90` | PR #1697 (draft), open against #1693's branch; JSON-LD fix outstanding |
+| `dev/agent-playbooks-p3-contract-checker-1644` | (unchanged) | PR #1683, retargeted to integration branch |
+| `dev/dev-calibrate-playbook` | (unchanged) | PR #1694, retargeted to integration branch |
+| `docs/playbook-first-policy` | (unchanged) | PR #1695, retargeted to integration branch |
+
+### Issues + PRs touched
+
+- **Closed (issues):** #1600.
+- **Commented, left open (issues):** #1636, #1671.
+- **Filed (issues):** #1698, #1699, #1700.
+- **Closed (PRs, superseded/already-merged):** #1667, #1668, #1669, #1672, #1678.
+- **Retargeted (PRs, base → `dev/integration-ygg3-playbooks-2026-09-02`):** #1683, #1694, #1695.
+- **Readied:** #1696.
+- **Opened:** #1697 (draft).
+- **Commented (PR):** #1696 (CONTEXT.md ruling closure).
+
+### Routing — where things live now
+
+- The Yggdrasil III integration stack is now a clean 4-deep chain: `main` ← #1688 ← #1693 ← #1696, with #1697 (meta-post) also based on #1693's branch, and #1683/#1694/#1695 (agent-playbooks epic #1644 work) now flat against #1688's branch instead of stacked on each other or on the now-closed old chain.
+- The old parallel Yggdrasil III chain (`dev/yggdrasil-iii-newmeta` → `dev/steward-sensors-fleet` → `fix/trust-magnitude-full-recalibration` → `dev/yggdrasil-iii-fusion-score-plan` → `dev/pr-stack-plan-1644-b2516d`) is fully retired — every branch in it was already an ancestor of the integration branch; all 5 of its PRs are closed.
+- Next recalibration + gate-testing work is tracked in **#1698** only (per explicit "one issue only for all" instruction) — do not open parallel tracking issues for the same scope.
+- Pre-existing defect backlog: #1699 (calibrate CLI gap, `status:awakened` → 4★), #1700 (stale `trustMagnitude` cache, `ayghri/i-have-adhd` grade-contradiction).
+
+### Lessons / hazards preserved
+
+- **`gh stack` local tracking can drift from GitHub's actual PR bases.** When a user runs `gh stack unstack`, PR bases on GitHub do NOT auto-update — they must be retargeted by hand (`gh pr edit --base`). Always re-verify with `git merge-base --is-ancestor` before assuming a stacked PR still needs its old base; a branch fully absorbed into a downstream integration branch means the PR is closeable, not just re-basable.
+- **Batching many `gh pr close`/`gh pr edit` calls into one Bash invocation risks a partial-execution + rejection mismatch** — one call in this session's first batched attempt executed (PR #1667 closed) before the tool use was rejected as a whole. Issue destructive multi-PR operations as separate tool calls, one per PR, so the user can grant/reject each individually and partial state stays legible.
+- **A CONTEXT.md "avoid" clause is not automatically a considered design constraint** — `git blame` revealed the Hall-of-Heroes exclusion was a same-day placeholder caution from the ratification commit itself, not a separately deliberated rule. When a fact-check/audit flags a vocabulary violation, check blame/commit context before assuming the *implementation* is wrong; sometimes the *rule* was provisional and the founder amends it instead.
+- Superadmin mode (root `*.md` + `founder/`) direct-edit authority was exercised here for the first time this session: CONTEXT.md edited directly by the orchestrator, committed straight onto the PR branch that needed it (no delegation, no separate feature-branch detour), per `founder/ORCHESTRATOR.md`'s standing grant.
+
+### Open questions for next orchestrator
+
+- **#1636's orphaned backlog:** with #1600 closed, the 35-skill calibration-lag backlog #1636 was routing through #1600 ("no separate Wayfinder ticket for this batch") has no tracker. Needs a founder call: fold into #1636 directly, open a fresh ticket, or confirm the remaining non-mattpocock names are already covered by the 63-skill pass.
+- **PR #1697's JSON-LD fix:** still outstanding — offered to dispatch a follow-up agent, awaiting user's go/no-go (asked at session's last turn, not yet answered as of this snapshot).
+- **#1687 (`docs/routines/044`)** was surveyed but is unrelated to the Yggdrasil III epic — left untouched, no action taken or needed.
+
+### Token cost (this session)
+
+- Not measured — no `pi-cost`/`COST.md` data source available in this environment; two background subagents logged `173263` and `181973` tokens respectively per their own usage blocks (meta-post agent: 76 tool uses / 575s; fact-check agent: 73 tool uses / 591s).
+
+---
+
+## State Snapshot (2026-08-29, full sensor fleet wired into Gaia Steward — PR #1664)
+
+### TLDR
+
+- Designed, planned, and implemented 6 new deterministic, read-only sensors for Gaia Steward, expanding default sensors from 5 to 11.
+- All 6 sensor issues filed, implemented on feature branches, reviewed, and consolidated into integration branch `dev/steward-sensors-fleet` (`fb2a5261a`):
+  - #1609: `TaxonomyScriptDriftSensor` (Class B)
+  - #1580: `UpstreamWatcherSensor` (Class B)
+  - #1654: `KnowledgeContradictionSensor` (Class B)
+  - #1655: `EvidenceLinkHealthSensor` (Class B)
+  - #1656: `GeneratedProjectionsSensor` (Class B)
+  - #1657: `BenchmarkFreshnessSensor` (Class B)
+- Updated `founder/steward/POLICY.yaml` to classify authority and calibrated priority weights across all 11 sensors.
+- Full test suite passing 100%: 300/300 steward tests pass (`pytest tests/steward/`).
+- Ran scout fleet across `scripts/`, `.github/workflows/`, and `.agents/skills/` to catalog redundant legacy verification mechanisms ready for deprecation.
+- Created integration PR #1664 against `main`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Sensor Fleet Implementation | ✅ 6 new sensors wired in `src/gaia_cli/steward/sensors.py` (`default_sensors()` = 11 total) |
+| Policy & Authority Configuration | ✅ `founder/steward/POLICY.yaml` updated with all 11 debt kinds under `authority` & `priority` |
+| Test Coverage | ✅ 300 tests passing in `tests/steward/` (including 108 comprehensive sensor tests) |
+| Feature Branches & PRs | ✅ PRs #1658, #1659, #1660, #1661, #1662, #1663 consolidated into `dev/steward-sensors-fleet` |
+| Scout Fleet Analysis | ✅ Identified candidate legacy scripts (`scripts/check_taxonomy_authority.py`, `scripts/validate.py` sub-checks, `scripts/check_rank_vocabulary.py`) for retirement |
+| Integration PR | ✅ PR #1664 opened against `main` |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/steward-sensors-fleet` | Integration branch with all 11 sensors wired, tests passing, head `fb2a5261a`. |
+| PR #1664 | Integration PR `dev/steward-sensors-fleet` → `main` (open, clean). |
+| PRs #1658, #1659, #1660, #1661, #1662, #1663 | Closed/merged into `dev/steward-sensors-fleet`. |
+
+### Scout Fleet Findings — Candidates for Retirement
+
+- **`scripts/check_taxonomy_authority.py`**: Can be retired; checks for read-time branch derivation and shim calls are fully subsumed by `TaxonomyScriptDriftSensor`.
+- **`scripts/check_rank_vocabulary.py`**: Code checks subsumed by `TaxonomyScriptDriftSensor`; markdown vocabulary checks to be absorbed into `KnowledgeContradictionSensor`.
+- **`scripts/validate.py` (partial sub-checks)**: JSON schema, prerequisite counts, DAG cycle checks, and benchmark row validation are now continuously observed by `RegistryIntegritySensor` and `BenchmarkFreshnessSensor`.
+- **Workflows (`.github/workflows/taxonomy-authority-guard.yml`, `rank-vocabulary-guard.yml`)**: Can be consolidated into `gaia steward scan`.
+
+### Token usage & Cost (this session via /pi-cost)
+
+- **Main Session**: 112 turns, 644,014 input tokens, 35,333 output tokens, 9,629,790 cache read tokens ($1.7837)
+- **Subagent Runs**: 169 turns, 1,161,783 input tokens, 66,537 output tokens, 16,607,006 cache read tokens ($3.6009)
+- **Total Session Cost**: $5.3846
+
+---
+
+## State Snapshot (2026-08-25, Yggdrasil III stack merged to integration; intake #1608 restacked behind it)
+
+### TLDR
+
+- **Yggdrasil III (#1625-#1628) is fully merged into `dev/yggdrasil-iii-newmeta`**, squash-merged in dependency order (1/4 meta contract → 2/4 backend fusion cap + witness gate → 3/4 frontend/methodology → 4/4 test coverage). All four are `merged: true` on GitHub. #1626 and #1628 showed CI as `unstable` pre-merge (Schema+DAG / Test-Build failures) — confirmed to be isolation artifacts of testing each slice before its predecessor landed, not real defects; expected under the integration-branch red-CI tolerance.
+- **PR #1629** (Yggdrasil III trust integrity rules, draft, `needs-review`) is a separate proposal also based on `dev/yggdrasil-iii-newmeta` — NOT part of the numbered 1/4-4/4 stack, left untouched.
+- **PR #1608** (evidence-intake batch #1607, draft, was stale/dirty against `main`) retargeted from `main` → `dev/yggdrasil-iii-newmeta`, so it now lands last, behind the Yggdrasil III rule change — deliberate, since it touches registry data and the founder wants clean timeline entries rather than a reconstructed branch.
+- **Merge (not rebase) of `dev/yggdrasil-iii-newmeta` into `review/meta/intake-1607` done by a delegated worker** — clean, pushed as merge commit `65d4ae0`. No data-file conflicts (`registry/nodes/`, `registry/named/`, `named-skills.json`, `skill-trees/**` all merged without overlap). Only conflicts were 4 Class S generated-artifact timestamp/version fields (`docs/graph/gaia.json`, `.gexf`, `named/index.json`, `docs/graph/ledger/data.json`), hand-resolved to the newer side — **still needs a real `gaia dev docs --check` regen pass before #1608 is PR-ready**, flagged but not yet actioned.
+- **Post-merge doc-drift sweep** (scoped via Explore agent): found stale "Trust Magnitude is unbounded" language surviving in three places pre-merge. After re-checking against the merged `dev/yggdrasil-iii-newmeta` HEAD: `META.md` was already self-corrected by #1625 (false alarm, dropped). `docs/js/tm-config.js` comment was also a false alarm (per-row cap comment, unrelated to the fusion-recipe `contributionCap: 200` which is already correct). Two real defects: `CONTRIBUTING.md` (fixed this session, see below) and `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` line 101 (a published historical post — founder ruling: leave as-is, don't retroactively edit archived history; a forward-pointer belongs in a new post instead).
+- **"Arbor" resolved**: `docs/meta/2026-08-24-arbor-review-launch.md` (rendered post, unrelated to Yggdrasil/TM — a behavioral-evidence sidecar announcement). Founder decision: post content stays as-is, but **archive it from the live queue** (`docs/meta/posts.json` + `docs/index.html` wiring) — relaunch deferred to later. **Not yet executed** — next session's first task.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Yggdrasil III stack → `dev/yggdrasil-iii-newmeta` | ✅ #1625, #1626, #1627, #1628 all squash-merged, in order |
+| `review/meta/intake-1607` rebase-by-merge | ✅ `dev/yggdrasil-iii-newmeta` merged in, pushed as `65d4ae0`, no data conflicts |
+| `docs/graph/*` Class S artifacts on `review/meta/intake-1607` | ⏳ Hand-resolved timestamps only — real `gaia dev docs` regen still owed before PR-ready |
+| `CONTRIBUTING.md` unbounded-TM wording | ✅ Fixed directly (superadmin), PR **#1633** → `dev/yggdrasil-iii-newmeta` |
+| `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` | ⏹️ Deliberately left untouched (historical record, founder ruling) |
+| Arbor post archival | ⏳ Not started — scoped only, execute next session |
+| `founder/MEMORY.md` | ✅ This backfill (was missing any entry for this work) |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/yggdrasil-iii-newmeta` | Integration branch, now carries all 4 Yggdrasil III slices + release v7.11.0 base. Head `8f8f5ed`. |
+| `dev/yggdrasil-iii-review` / #1629 | Open draft, separate proposal, not part of this session's merge. |
+| `review/meta/intake-1607` / #1608 | Base retargeted to `dev/yggdrasil-iii-newmeta`; merge-forward done (`65d4ae0`); still draft, still needs Class S regen before ready. |
+| `infra/contributing-tm-cap-wording` / #1633 | Open, targets `dev/yggdrasil-iii-newmeta`, ready to merge (docs-only, no rendered diff, not human-gated). |
+| `main` | Unchanged by this session. |
+
+### Routing — where things live now
+
+- Integration branch for this sprint: `dev/yggdrasil-iii-newmeta`. Everything above lands there before the eventual aggregate PR to `main`.
+- Intake #1608 is intentionally sequenced to merge **last** in this stack (data-touching, needs clean timeline entries against the already-landed rule change).
+
+### Lessons / hazards preserved
+
+- Stacked PRs that all target the same integration-branch base directly (not chained on each other) will show `unstable`/failing required checks on the middle-of-stack PRs before their predecessors land — this is expected, not a signal to stop, when the founder has approved the merge order. Verify by reading the actual check-run failures (Schema+DAG, Test-Build) rather than trusting `mergeable_state` alone.
+- When retargeting a stale intake PR's base, `git merge` (not rebase) forward into the intake branch keeps its own commits/timeline entries intact — delegated to a worker with an explicit instruction set separating "resolve normally" (docs/schema/methodology) from "stop and report, never resolve" (registry data, timeline arrays). Worked cleanly; only Class S timestamp conflicts surfaced.
+- Doc-drift sweeps need re-verification against the actual merged HEAD, not just the pre-merge checkout — two of three initially-flagged "stale" files turned out to already be fixed or never actually stale once checked post-merge.
+
+### Open questions for next orchestrator
+
+- Execute Arbor post archival (pull from `docs/meta/posts.json` live queue + `docs/index.html` hero/queue wiring; keep source `.md` and rendered `.html` on disk for later relaunch).
+- Run `gaia dev docs --check` regen pass on `review/meta/intake-1607` and commit the real Class S artifacts (supersedes the hand-resolved timestamps).
+- Decide whether `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` gets a forward-pointer note in a *new* post referencing the Yggdrasil III cap (raised, not yet decided).
+- #1633 (`CONTRIBUTING.md` fix) is small/ungated — safe to merge into `dev/yggdrasil-iii-newmeta` on green CI without further review.
+
+### Token cost (this session)
+
+- Not tracked — founder directed to skip unless PR bodies carried it; none did.
+
+---
+
 ## State Snapshot (2026-08-13, Steward V1.3 + V1.4 + V1.5 assembled on integration — GREEN, awaiting founder merge gate)
 
 ### TLDR

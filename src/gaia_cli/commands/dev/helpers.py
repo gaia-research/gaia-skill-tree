@@ -65,12 +65,18 @@ def _fail_dev_preflight(message: str, *, fix: str | None = None) -> None:
 
 
 def _run_dev_preflights(checks: Iterable[Callable[[], None]]) -> None:
-    """Run invariant checks and abort before any write if one fails."""
-    try:
-        for check in checks:
+    """Run all invariant checks and abort before any write if any fail."""
+    failures = []
+    for check in checks:
+        try:
             check()
-    except DevPreflightError as error:
+        except DevPreflightError as error:
+            failures.append(error)
+
+    for error in failures:
         print(_format_dev_preflight_error(error), file=sys.stderr)
+
+    if failures:
         sys.exit(1)
 
 
@@ -117,6 +123,18 @@ def _preflight_starbar_blob_link(skill_id: str, skill_data: dict, level: str) ->
             "--github-link https://github.com/<owner>/<repo>/blob/<branch>/<path-to-skill>`."
         ),
     )
+
+
+def _preflight_calibrate_status(skill_id: str, skill_data: dict, level: str) -> None:
+    if level != "1★" and skill_data.get("status") == "awakened":
+        _fail_dev_preflight(
+            f"Cannot calibrate {skill_id} to {level}: skill has status='awakened'. "
+            "Skills at 2★+ must have status='named'.",
+            fix=(
+                f"Promote the skill to 'named' first via `gaia dev update-named {skill_id} "
+                "--status named --title '<title>'`."
+            ),
+        )
 
 
 def _preflight_url(value: str | None, flag: str) -> None:

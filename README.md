@@ -57,11 +57,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ```text
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
-  ├─ · mattpocock/engineering  [4★]
+  ├─ · ████████/engineering
   │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
-  │  ├─ · devin-ai/autonomous-swe  [3★]
+  │  ├─ · mattpocock/diagnose  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -79,22 +79,22 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · garrytan/garrytan  [4★]
+  ├─ · mattpocock/to-tickets  [3★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ · garrytan/design-consultation  [3★]
+  ├─ · leonxlnx/stitch-skill  [3★]
   │  ├─ · ████████/browse
-  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ mvanhorn/last30days  [4★]
     ├─ · /ghostwrite
     │  ├─ · mattpocock/research  [2★]
-    │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+    │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
 
-(283 skills total — see docs/tree.md)
+(284 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -175,7 +175,7 @@ This is the evidence grade at the Skill level.
 **1. CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.11.4`.
+Current Gaia CLI version: `7.13.2`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -494,7 +494,7 @@ The registry is programmatically managed. All meta shifts (adding, merging, spli
 
 Gaia does not store personal information.
 
-- **Skills are summarised, not stored.** `gaia scan` records capability type, level, and evidence class — never file contents, prompt text, or conversation history.
+- **Skills are summarised, not stored.** `gaia scan` records capability type, level, and evidence grade — never file contents, prompt text, or conversation history.
 - **Only public repo links.** The registry stores your public GitHub username and a public repo URL when you explicitly submit a named skill. Nothing else.
 - **Generalised by default.** Skill descriptions capture capability categories, not personal details about you or your agent's behaviour.
 - **No telemetry.** The CLI and the static website collect zero analytics or usage data.

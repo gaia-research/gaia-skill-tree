@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 68.67,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/garrytan/cso.json",
     "contributor": "/api/v1/contributors/garrytan.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 80.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 4,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
   },
   "title": "Chief Security Officer Mode",
   "genericSkillRef": "security-audit",
@@ -118,6 +126,30 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-25T13:17:09Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 67.4 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:17Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

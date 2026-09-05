@@ -2,7 +2,7 @@
 id: ruvnet/agentdb-learning
 name: AgentDB Learning
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: agent-memory-learning
 status: named
 title: The Pattern Seeker
@@ -18,8 +18,7 @@ tags:
 - pattern-recognition
 - adaptation
 createdAt: '2026-05-19'
-updatedAt: '2026-06-02'
-suiteRef: ruvnet/agentdb
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-02T23:48:20Z'
   action: demote
@@ -34,6 +33,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -45,7 +54,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a54f1c67171c575dd6916e85eeec439a8e79428ad2a2dbd8e759791d52a075d2
+trustMagnitudeInputHash: c6749b358527292365dc9213fb2d02b3c6d0ffe6a0f08df19bfaa49eb79e3385
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

@@ -48,7 +48,7 @@ local ref:
 
 ```bash
 git fetch origin main
-gaia dev diff 2>/dev/null || gaia validate
+gaia dev diff 2>/dev/null || gaia dev validate
 ```
 
 `gaia dev diff` compares registry nodes on this branch against `origin/main`.

@@ -2,18 +2,26 @@
   "id": "safishamsi/graphify",
   "name": "Graphify",
   "contributor": "safishamsi",
-  "level": "4★",
+  "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 160.99,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 316.88,
+  "overallTrustGrade": "S",
   "branch": "unique",
-  "rankWord": "Unique",
+  "rankWord": "Unique Ultimate",
   "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/safishamsi/graphify.json",
     "contributor": "/api/v1/contributors/safishamsi.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "The Structural Muse",
   "genericSkillRef": "knowledge-graph-build",
@@ -29,12 +37,30 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": false,
     "crossOrgVerifier": null,
     "systemWideCap": null
   },
   "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2607.15516",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "arxiv",
+      "citations": 500,
+      "grade": "S",
+      "notes": "Cache-Aware Prompt Compression research paper featuring dedicated case study on graphify (Section 6.4, capc_graphify_profiler.py)."
+    },
+    {
+      "source": "https://github.com/tinix84/glassgraph/blob/main/docs/07-graphify-comparison.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "peer-review",
+      "reviewers": 2,
+      "grade": "A",
+      "notes": "Independent technical comparison framework comparing glassgraph against safishamsi/graphify across 5 axes on 25-file multi-domain corpus."
+    },
     {
       "source": "https://github.com/safishamsi/graphify/stargazers",
       "evaluator": "mbtiongson1",
@@ -45,16 +71,6 @@
       "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
       "stars": 113188,
       "grade": "A"
-    },
-    {
-      "source": "https://arxiv.org/abs/2408.03910",
-      "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "arxiv",
-      "class": "A",
-      "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)",
-      "citations": 89,
-      "grade": "C"
     },
     {
       "source": "https://www.youtube.com/watch?v=q6t8xTjV5rM",
@@ -178,6 +194,30 @@
       "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:16:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 116.57 -> 297.8, grade A -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:45Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added verified arXiv:2607.15516 (S) and Glassgraph peer-review (A) rows"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 171.88 -> 316.88, grade A -> S (verified independent witness)"
     }
   ],
   "links": {

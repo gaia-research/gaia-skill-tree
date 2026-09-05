@@ -2,18 +2,26 @@
   "id": "obra/brainstorming",
   "name": "Brainstorming",
   "contributor": "obra",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 110.15,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/obra/brainstorming.json",
     "contributor": "/api/v1/contributors/obra.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "The Collaborative Blueprint",
   "genericSkillRef": "brainstorming",
@@ -169,6 +177,18 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 95.15 -> 110.15, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:41Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

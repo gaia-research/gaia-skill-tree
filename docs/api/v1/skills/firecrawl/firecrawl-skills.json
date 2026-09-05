@@ -2,18 +2,26 @@
   "id": "firecrawl/firecrawl-skills",
   "name": "Firecrawl Skills",
   "contributor": "firecrawl",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 229.76,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 70.69,
+  "overallTrustGrade": "B",
   "branch": "suite",
-  "rankWord": "Extra",
-  "medallion": "◆",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-skills.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 240.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 10,
+    "transitiveCount": 14,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
   },
   "title": "The Web Infuser",
   "genericSkillRef": "firecrawl",
@@ -59,8 +67,8 @@
     {
       "type": "github-stars-own",
       "updatedAt": "2026-09-01",
-      "source": "https://github.com/firecrawl/firecrawl/stargazers",
-      "stars": 175038,
+      "source": "https://github.com/firecrawl/skills/stargazers",
+      "stars": 98,
       "skillCountInRepo": 6,
       "grade": "B",
       "evaluator": "mbtiongson1",
@@ -159,6 +167,12 @@
       "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 223.52 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

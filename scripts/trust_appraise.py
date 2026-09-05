@@ -23,9 +23,9 @@ SRC = REPO_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from gaia_cli.fusionScore import fusionScoreProjection  # noqa: E402
 from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
-    computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
     computeRowArtifactScores,
     computeTrustMagnitude,
@@ -103,7 +103,7 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
         "commits": commitCount,
         "evidenceUrl": evidenceUrl,
         "tm": round(tm, 2),
-        "grade": computeOverallTrustGrade(tm, distinctTypes=3, hasNonSelfProducible=True),
+        "grade": computeOverallTrustGradeFromSkill(skill),
         "byType": computeTrustMagnitudeByType(skill),
     }
 
@@ -143,6 +143,9 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
                 "skillRef": skillRef,
                 "tm": round(tm, 2),
                 "grade": grade,
+                # Structural reading, reported beside TM and never mixed into
+                # it — see fusionScore.py for why the lanes stay separate.
+                **fusionScoreProjection(skill, mergedMap, mergedMap),
                 "byType": dict(byType),
                 "rows": [
                     {
@@ -186,6 +189,7 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
         "skillRef": skillRef,
         "tm": round(tm, 2),
         "grade": grade,
+        **fusionScoreProjection(skill, mergedMap, mergedMap),
         "byType": dict(byType),
         "rows": [
             {
@@ -228,6 +232,16 @@ def main() -> int:
                 continue
             print(f"\n=== {r['skillRef']} ===")
             print(f"  TM: {r['tm']:.1f}  Grade: {r['grade']}")
+            fb = r.get("fusionBreakdown") or {}
+            print(
+                f"  Fusion Score: {r.get('fusionScore', 0):.2f}"
+                f"  ({r.get('fusionScoreVersion', '')};"
+                f" direct {fb.get('directCount', 0)},"
+                f" transitive {fb.get('transitiveCount', 0)},"
+                f" depth {fb.get('maxDepth', 0)},"
+                f" nested suites {fb.get('nestedSuiteCount', 0)})"
+            )
+            print("  Fusion Score is structural only — it gates no rank and feeds no TM.")
             print(f"  {'Type':<22} {'Score':>7}  {'Trust':>6}  Source")
             for row in r["rows"]:
                 print(f"  {row['type']:<22} {row['score']:>7.1f}  {str(row['trust'] or ''):>6}  {row['source']}")

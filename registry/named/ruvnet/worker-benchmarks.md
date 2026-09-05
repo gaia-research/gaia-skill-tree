@@ -19,7 +19,7 @@ tags:
 - throughput
 - quality-scoring
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
@@ -46,7 +46,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 993a4ba9e6056da8f292f060901ded87add3f1d23b1c84b090abc3ddbaddb7f3
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 515ddf97aa467fe54075c2d00ae74796e99fbbb145938786dc6c40ccdc9f55e6
 ---
 
 ## Overview

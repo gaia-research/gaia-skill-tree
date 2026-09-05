@@ -20,8 +20,7 @@ tags:
 - payments
 - ai-assistant
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
-suiteRef: ruvnet/flow-nexus
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -60,6 +59,16 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -71,7 +80,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d137fc6a01304453abba2430241852af74e825d474d99a62a4fe3fb2dd23de59
+trustMagnitudeInputHash: 35ba47ae18654ac89d8c66a32789bdf57cb8d5704384a76ad29255249a65596e
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

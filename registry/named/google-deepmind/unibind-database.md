@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Queries the UniBind database for experimentally validated transcription
   factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets,
   downloading binding site coordinates (BED/FASTA) for local analysis, or listing
   available datasets by species, cell line, or TF name. Don't use to query specific
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 82.0
-  grade: S
-  notes: UniBind 2021 — PMC NAR database issue; 72M+ direct TF-DNA interactions from
-    ChIP-seq across 9 species
-  reviewers: 3
-  sourceStartedAt: '2021-06-01'
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
@@ -100,8 +90,19 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/unibind_database to google-deepmind/unibind-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:28Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -111,7 +112,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f8c509bf94a9c084026882c8f9438f4709b7cc14f2eb108e07629839237cf743
+trustMagnitudeInputHash: 1e64942d0049c10a8aca4b4c5af2e50ba3c0a80e13f2ff6274e9a82683737e0f
 verification:
   firstEvidenceAt: '2026-06-19T17:06:50Z'
 ---

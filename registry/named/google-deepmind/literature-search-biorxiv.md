@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Browse, filter, and download life sciences, biology, and medical preprints
   from bioRxiv and medRxiv. Supports fetching paper metadata by DOI, and browsing
   by date range with category and keyword filters. Keyword filtering is local, so
   date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
 evidence:
@@ -26,16 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://biorxiv.org/about-biorxiv
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'bioRxiv: Cold Spring Harbor Laboratory open-access biology preprint server.
-    Launched 2013, >200k preprints. Primary infrastructure for the bioRxiv search
-    skill.'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -72,8 +62,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/literature_search_biorxiv to google-deepmind/literature-search-biorxiv
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +82,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:51Z'
-trustMagnitudeInputHash: 423f7cfb15b7e9361231d53cb74e3066396aad298bc1a8b804ec8c60f88fc5d9
+trustMagnitudeInputHash: 034fa784413c7d860021402368061e2b0de4436605bcf6186b8d14ae2be10b65
 ---
 
 # bioRxiv and medRxiv Literature Search

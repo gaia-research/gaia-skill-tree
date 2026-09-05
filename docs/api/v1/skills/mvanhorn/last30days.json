@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 133.55,
+  "trustMagnitude": 205.15,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/mvanhorn/last30days.json",
     "contributor": "/api/v1/contributors/mvanhorn.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 228.28,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 5,
+    "transitiveCount": 12,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
   },
   "title": "Autonomous Web Research (Last 30 Days)",
   "genericSkillRef": "autonomous-web-research",
@@ -116,6 +124,18 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 298.3, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 298.3 -> 205.15, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

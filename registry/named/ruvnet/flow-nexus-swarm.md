@@ -2,7 +2,7 @@
 id: ruvnet/flow-nexus-swarm
 name: Flow Nexus Swarm
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: multi-agent-orchestration-v
 status: named
 title: The Grand Conductor's Blueprint
@@ -20,8 +20,7 @@ tags:
 - event-driven
 - workflow
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
-suiteRef: ruvnet/flow-nexus
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-02T23:48:21Z'
   action: demote
@@ -36,6 +35,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:58Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +56,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 26a30e85dfa7608cc824493ad4a31e868cf06db9b3cf162983edc448338fb1c2
+trustMagnitudeInputHash: ab5fb041f3b8612bcaa22365192c1bafeb97ad2689e65462d632aa3f831cd33e
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

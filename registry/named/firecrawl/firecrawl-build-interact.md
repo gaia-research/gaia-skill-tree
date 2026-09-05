@@ -5,13 +5,13 @@ contributor: firecrawl
 origin: false
 genericSkillRef: browser-control
 status: named
-level: 3★
+level: 4★
 description: Integrate Firecrawl browser interaction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 title: Firecrawl Interact
 links:
-  github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md
+  github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md
 timeline:
 - timestamp: '2026-07-13T06:22:17Z'
   action: add
@@ -39,6 +39,20 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:15Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -48,18 +62,21 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
-- source: https://github.com/firecrawl/firecrawl/stargazers
+- source: https://github.com/firecrawl/skills/stargazers
   updatedAt: '2026-09-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 175038
+  stars: 98
   skillCountInRepo: 6
   grade: B
 catalogRef: firecrawl-firecrawl-build-interact
 suiteRef: firecrawl/firecrawl-skills
 verification:
   firstEvidenceAt: '2026-07-30T22:15:50Z'
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: d1cdb3e2facbe85c6581c80c505424b287cfb391dac6861d95d250102b462033
 ---
 
 ## Installation

@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 106.13,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 94.92,
+  "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -15,9 +15,17 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Vertical Slicer",
   "genericSkillRef": "vertical-slice-planning",
-  "origin": false,
+  "origin": true,
   "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
   "tags": [
     "vertical-slicing",
@@ -154,6 +162,24 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:54Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:40Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

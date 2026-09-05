@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: true
 genericSkillRef: skill-authoring
 status: awakened
-level: 4★
+level: 1★
 description: Distills a completed user workflow or interaction into a reusable agent
   skill. Use when the user asks to turn their workflow, interaction, or multi-step
   process into a skill, or when they say "make this a skill", "create a skill from
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-05'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -38,6 +38,13 @@ evidence:
   reviewers: 3
   sourceStartedAt: '2024-01-01'
 timeline:
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: 'Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status:
+    named per CONTEXT.md) (#1699)'
+  previousValue: 4★
+  newValue: 1★
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
   contributor: unknown
@@ -100,6 +107,10 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator
+- timestamp: '2026-09-05T03:50:03Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 1★ to 1★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

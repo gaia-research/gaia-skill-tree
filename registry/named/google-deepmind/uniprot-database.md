@@ -2,16 +2,16 @@
 id: google-deepmind/uniprot-database
 name: Uniprot-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Access protein metadata, function, taxonomy, and sequences across UniProtKB,
   UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving
   functional annotations and publications. Don't use for sequence alignment, protein
   folding, or sequence similarity search (use specialized skills for those tasks).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
 evidence:
@@ -26,15 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/51/D1/D523/6835362
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in
-    2023. 5,729 citations (Semantic Scholar 2026-06-19).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
@@ -72,8 +63,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/uniprot_database to google-deepmind/uniprot-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +83,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:22Z'
-trustMagnitudeInputHash: aaf01865208b700817c1d42d5090578415b46fab3428a61e9006faa96c7faf70
+trustMagnitudeInputHash: 6a1699d7dd98725d4ba8ef34fdfa8cb85c3ad07b717c11cf1e024286a77bba9a
 ---
 
 # UniProt Database Access

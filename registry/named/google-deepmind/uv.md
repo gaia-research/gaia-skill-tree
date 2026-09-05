@@ -2,14 +2,14 @@
 id: google-deepmind/uv
 name: Uv
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: computational-science-platform
 status: awakened
-level: 4★
+level: 1★
 description: Checks whether the uv Python package manager is installed and installs
   it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
 evidence:
@@ -24,16 +24,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://github.com/astral-sh/uv
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 78.0
-  grade: S
-  notes: uv — ultra-fast Python package manager by Astral (Ruff team); 51k+ GitHub
-    stars; replaces pip+venv+poetry
-  reviewers: 3
-  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
@@ -92,8 +82,15 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -103,7 +100,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1e681dd683e378e65adadcc58e92dd0560095480fea01e7c5d82c251c2c403e6
+trustMagnitudeInputHash: 7656dc8fa9c4337e3e288f25feb36ed4dfd776676b331216d8d775860ab036be
 verification:
   firstEvidenceAt: '2026-06-19T17:06:52Z'
 ---

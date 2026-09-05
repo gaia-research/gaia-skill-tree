@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Query, search, and download data from the openFDA API for drugs, devices,
   foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency
   data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k)
   clearances, NDC lookups, and any FDA safety or regulatory data query across all
   28 API endpoints.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://open.fda.gov/apis/drug/event/
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 75.0
-  grade: S
-  notes: openFDA FAERS API — FDA public adverse event reporting system; US drug safety
-    surveillance database
-  reviewers: 3
-  sourceStartedAt: '2015-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:34Z'
   action: evidence_graded
@@ -99,8 +89,19 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/openfda_database to google-deepmind/openfda-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:25Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -110,7 +111,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: cd27c08ced223785f8d45964ddc1ecd9005cbd91337a26552799b080847aa7f9
+trustMagnitudeInputHash: 2e8d56bae64b148e2fe41c747dde7f126fdea4821e9b187a45b86461590431a4
 verification:
   firstEvidenceAt: '2026-06-19T17:06:55Z'
 ---

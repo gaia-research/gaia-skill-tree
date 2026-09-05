@@ -9,7 +9,7 @@ level: 3★
 description: Creates the pull request, runs review, archives the completed phase,
   and prepares the next iteration.
 createdAt: '2026-07-03'
-updatedAt: '2026-08-06'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:04:52Z'
   action: add
@@ -64,6 +64,16 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md
   updatedAt: '2026-09-01'
@@ -84,7 +94,7 @@ verification:
 title: GSD Ship Phase
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 52.16
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -95,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3dfda9583775f46f9fcc81ddbbed752729906411f811523152e48513c443a2b5
+trustMagnitudeInputHash: 6675464e9c191b259a3a309e88eeee24f85150b8793f6d4cebc1f38e97bfb73f
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md
 ---

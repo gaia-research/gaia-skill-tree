@@ -7,7 +7,7 @@ genericSkillRef: document-editing
 status: named
 title: The Section-by-Section Rewrite
 catalogRef: mattpocock-edit-article
-level: 3★
+level: 1★
 description: Edits articles by first sectioning them as a DAG of information dependencies,
   confirming the section order, then rewriting each section for clarity and flow with
   a 240-character-per-paragraph constraint.
@@ -20,8 +20,7 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
-suiteRef: mattpocock/personal
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -80,6 +79,26 @@ timeline:
   previousValue: null
   newValue: null
   details: personal/ bucket deleted upstream (v1.2.x); no successor
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:39Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ due to dead/deprecated blob link under META §2.4
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -115,7 +134,7 @@ evidence:
     mattpocock/skills repo (verified 2026-06-20)
   views: 412000
   sourceStartedAt: '2025-01-01'
-trustMagnitude: 90.38
+trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -128,8 +147,9 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: 991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9
+trustMagnitudeInputHash: bece26c8f9a7ae5c1985083a8a34b53463c9f0f5c0e14e209225d895272439be
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

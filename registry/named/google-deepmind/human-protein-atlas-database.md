@@ -5,11 +5,11 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Use when you want to retrieve semi-quantitative protein expression and
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
@@ -24,16 +24,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://www.nature.com/articles/s41587-025-02659-z
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: Human Protein Atlas 2025 — Nature Biotechnology; protein association atlas
-    covering 116M protein pairs across cells/tissues
-  reviewers: 3
-  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:32Z'
   action: evidence_graded
@@ -98,8 +88,19 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/human_protein_atlas_database to
     google-deepmind/human-protein-atlas-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:22Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -109,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: aaa007cacad69b64ea41fa8ee4d7eb616169475e03ad25c6bbdbd5301f688223
+trustMagnitudeInputHash: 59096a8c6fd8ac9b7ac1032cf319ab23f8631454cb13bf19d016b3ae276f38b7
 verification:
   firstEvidenceAt: '2026-06-19T17:06:46Z'
 ---

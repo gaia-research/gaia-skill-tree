@@ -17,7 +17,7 @@ tags:
 - planning
 - quality
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -55,6 +55,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -68,7 +73,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: 04f0569e1ac1e41008a83781a98077184bcc931c3ed2a37424000c62fcc3e46a
+trustMagnitudeInputHash: f5235d8755ae941e4dd1a7d33a62535605bbf1f2b214316103877277567cc016
 ---
 
 ## Overview

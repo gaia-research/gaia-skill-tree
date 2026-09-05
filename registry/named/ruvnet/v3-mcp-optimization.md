@@ -20,8 +20,7 @@ tags:
 - caching
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
-suiteRef: ruvnet/ruflo-v3
+updatedAt: '2026-09-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,7 +46,18 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 9ad845f3faa0fa5178bee6a28fbd3c2857e495ca5fd91a4ca18688c495f8e0ab
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: 652b4d0172955f144e79184e1a10cdd7f76af10d68ca5b2ce9675c26c60db163
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

@@ -2,7 +2,7 @@
 id: gooseworks/notte-browser
 name: Notte Browser
 contributor: gooseworks
-origin: true
+origin: false
 genericSkillRef: browser-automation
 status: named
 title: The Digital Navigator
@@ -20,7 +20,7 @@ tags:
 - scraping
 - notte
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-08-30'
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
@@ -35,6 +35,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,7 +51,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 88af03accb18d36810821e3a05c47fff256494284cd65195de8851546317053d
+trustMagnitudeInputHash: d68400ca6e2dc215d17166caed152ae5c8c1aa922b2a0d105f4da3018d0c3340
 ---
 
 ## Overview

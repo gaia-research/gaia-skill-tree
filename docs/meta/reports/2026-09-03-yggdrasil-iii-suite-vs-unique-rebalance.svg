@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" role="img" aria-labelledby="title desc">
+  <title id="title">Suite vs. Unique Rebalancing Under Yggdrasil III</title>
+  <desc id="desc">A comparison diagram showing how Suites fuse components with a capped adoption baseline at 50 TM and get a headline Fusion Score composition, while Uniques rely on distinct own-layer evidence and a quiet ledger line. Both are capped at 175 TM adoption without an independent witness to reach S grade.</desc>
+  <defs>
+    <marker id="greenArr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#166534"/></marker>
+    <marker id="blueArr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#1e3a5f"/></marker>
+    <marker id="grayArr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#9ca3af"/></marker>
+    <style>
+      .bg{fill:#fff}.panel{fill:#fafaf9;stroke:#d6d3d1;stroke-width:2;rx:14}.heading{font:700 20px Arial,Helvetica,sans-serif;fill:#111827}.sub{font:400 13px Arial,Helvetica,sans-serif;fill:#57534e}.box{fill:#fff;stroke:#78716c;stroke-width:1.5;rx:10}.suite-box{fill:#fff7ed;stroke:#c2410c}.unique-box{fill:#eff6ff;stroke:#1e3a5f}.cap-box{fill:#fef3c7;stroke:#d97706}.evidence-box{fill:#f0fdf4;stroke:#15803d}.struct-box{fill:#f5f5f4;stroke:#9ca3af;stroke-dasharray:7 5}.label{font:700 13px Arial,Helvetica,sans-serif;fill:#1c1917}.small{font:400 11.5px Arial,Helvetica,sans-serif;fill:#44403c}.value{font:700 15px Arial,Helvetica,sans-serif}.suite-text{fill:#c2410c}.unique-text{fill:#1e3a5f}.green-text{fill:#166534}.cap-text{fill:#d97706}.muted{fill:#9ca3af}.line-green{stroke:#166534;stroke-width:2;fill:none;marker-end:url(#greenArr)}.line-blue{stroke:#1e3a5f;stroke-width:2;fill:none;marker-end:url(#blueArr)}.line-gray{stroke:#9ca3af;stroke-width:1.5;stroke-dasharray:6 4;fill:none;marker-end:url(#grayArr)}.divider{stroke:#d6d3d1;stroke-width:1;stroke-dasharray:8 6}.badge{font:700 10px 'Courier New',monospace;letter-spacing:0.06em}
+    </style>
+  </defs>
+  <rect class="bg" width="1000" height="580" rx="16"/>
+
+  <!-- Title & Subtitle -->
+  <text class="heading" x="500" y="26" text-anchor="middle">Suite vs. Unique: Rebalanced Evidence Flow &amp; Fair Ranks</text>
+  <text class="sub" x="500" y="44" text-anchor="middle">Why rebalanced: Suite stubs previously cloned parent stars to take top ranks — now capped to reward genuine standalone skills</text>
+
+  <!-- Suite panel -->
+  <rect class="panel" x="20" y="52" width="480" height="518"/>
+  <text class="heading" x="260" y="82" text-anchor="middle" style="font-size:17px">Suite Branch</text>
+  <rect x="200" y="88" width="120" height="22" rx="11" fill="#c2410c" opacity="0.15" stroke="none"/>
+  <text class="badge suite-text" x="260" y="103" text-anchor="middle">+XX FUSION</text>
+
+  <!-- Suite repo box -->
+  <rect class="box suite-box" x="120" y="120" width="280" height="60"/>
+  <text class="label" x="260" y="144" text-anchor="middle">Shared Suite Repository</text>
+  <text class="small" x="260" y="162" text-anchor="middle">Shared repository stars &amp; identity</text>
+
+  <!-- Cap indicator -->
+  <rect class="box cap-box" x="170" y="198" width="180" height="32"/>
+  <text class="value cap-text" x="260" y="220" text-anchor="middle">Capped at ≤ 50 TM</text>
+
+  <!-- Arrows from repo to components -->
+  <path class="line-green" d="M200 180 V190 H100 V264"/>
+  <path class="line-green" d="M260 180 V264"/>
+  <path class="line-green" d="M320 180 V190 H420 V264"/>
+
+  <!-- Component boxes -->
+  <rect class="box evidence-box" x="40" y="264" width="120" height="72"/>
+  <text class="label" x="100" y="288" text-anchor="middle">Component A</text>
+  <text class="value green-text" x="100" y="306" text-anchor="middle">≤ 50 TM</text>
+  <text class="small" x="100" y="324" text-anchor="middle">shared baseline</text>
+
+  <rect class="box evidence-box" x="200" y="264" width="120" height="72"/>
+  <text class="label" x="260" y="288" text-anchor="middle">Component B</text>
+  <text class="value green-text" x="260" y="306" text-anchor="middle">≤ 50 TM</text>
+  <text class="small" x="260" y="324" text-anchor="middle">shared baseline</text>
+
+  <rect class="box evidence-box" x="360" y="264" width="120" height="72"/>
+  <text class="label" x="420" y="288" text-anchor="middle">Component C</text>
+  <text class="value green-text" x="420" y="306" text-anchor="middle">≤ 50 TM</text>
+  <text class="small" x="420" y="324" text-anchor="middle">shared baseline</text>
+
+  <!-- Fusion recipe line (structural, 0 TM) -->
+  <rect class="box struct-box" x="120" y="352" width="280" height="32"/>
+  <text class="small" x="260" y="373" text-anchor="middle" style="fill:#78716c">Structural lineage = 0 TM (graph metadata, no rank boost)</text>
+  <path class="line-gray" d="M100 336 V345 H260"/>
+  <path class="line-gray" d="M420 336 V345 H270"/>
+
+  <!-- Component-specific evidence -->
+  <rect class="box evidence-box" x="40" y="404" width="120" height="50"/>
+  <text class="small" x="100" y="424" text-anchor="middle">A-specific</text>
+  <text class="value green-text" x="100" y="444" text-anchor="middle">eligible</text>
+  <rect class="box evidence-box" x="200" y="404" width="120" height="50"/>
+  <text class="small" x="260" y="424" text-anchor="middle">B-specific</text>
+  <text class="value green-text" x="260" y="444" text-anchor="middle">eligible</text>
+  <rect class="box evidence-box" x="360" y="404" width="120" height="50"/>
+  <text class="small" x="420" y="424" text-anchor="middle">C-specific</text>
+  <text class="value green-text" x="420" y="444" text-anchor="middle">eligible</text>
+
+  <!-- Headline Fusion Score readout -->
+  <rect fill="#fff7ed" stroke="#c2410c" stroke-width="1.5" x="60" y="474" width="400" height="40" rx="8"/>
+  <text class="label" x="260" y="494" text-anchor="middle" style="fill:#c2410c;font-size:12px">Hall of Heroes: headline Fusion Score badge · TM rank separate</text>
+  <text class="small" x="260" y="510" text-anchor="middle">Fusion Score measures ecosystem breadth; Trust Magnitude governs rank</text>
+
+  <!-- Unique panel -->
+  <rect class="panel" x="520" y="52" width="460" height="518"/>
+  <text class="heading" x="750" y="82" text-anchor="middle" style="font-size:17px">Unique Branch</text>
+  <rect x="690" y="88" width="120" height="22" rx="11" fill="#1e3a5f" opacity="0.12" stroke="none"/>
+  <text class="badge unique-text" x="750" y="103" text-anchor="middle">QUIET LEDGER</text>
+
+  <!-- Unique's own repo -->
+  <rect class="box unique-box" x="610" y="130" width="280" height="60"/>
+  <text class="label" x="750" y="154" text-anchor="middle">Dedicated Repository</text>
+  <text class="small" x="750" y="172" text-anchor="middle">Direct project stars (distinct, unshared)</text>
+
+  <!-- Adoption layer -->
+  <path class="line-blue" d="M750 190 V230"/>
+  <rect class="box cap-box" x="660" y="230" width="180" height="42"/>
+  <text class="value cap-text" x="750" y="250" text-anchor="middle">Adoption ≤ 175 TM</text>
+  <text class="small" x="750" y="266" text-anchor="middle">logarithmic curve prevents star monopoly</text>
+
+  <!-- Evidence layers -->
+  <path class="line-blue" d="M750 272 V310"/>
+  <rect class="box evidence-box" x="620" y="310" width="260" height="60"/>
+  <text class="label" x="750" y="334" text-anchor="middle">Verified Standalone Evidence</text>
+  <text class="small" x="750" y="352" text-anchor="middle">benchmarks, verifier attestations, peer reviews</text>
+
+  <!-- S-grade safeguard -->
+  <path class="line-blue" d="M750 370 V400"/>
+  <rect fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5" x="620" y="400" width="260" height="68" rx="8"/>
+  <text class="label" x="750" y="422" text-anchor="middle" style="fill:#7c3aed">S-Grade Rank Gate</text>
+  <text class="small" x="750" y="440" text-anchor="middle">TM ≥ 250 + 3 Evidence Types</text>
+  <text class="small" x="750" y="456" text-anchor="middle">+ 1 independent external witness</text>
+
+  <!-- Quiet ledger note -->
+  <rect fill="#eff6ff" stroke="#1e3a5f" stroke-width="1.5" x="600" y="488" width="360" height="40" rx="8"/>
+  <text class="label" x="780" y="508" text-anchor="middle" style="fill:#1e3a5f;font-size:12px">Hall of Heroes: pure Trust Magnitude rank</text>
+  <text class="small" x="780" y="524" text-anchor="middle">Rank earned purely through verified evidence and user adoption</text>
+
+  <!-- Shared cap callout at bottom -->
+  <rect fill="#fef3c7" stroke="#d97706" stroke-width="1.5" x="180" y="548" width="640" height="26" rx="6"/>
+  <text class="small" x="500" y="566" text-anchor="middle" style="fill:#92400e;font-weight:600">Why ranks shifted: Stars alone cannot reach Grade S (capped at 175 TM) — top ranks require external evidence</text>
+</svg>

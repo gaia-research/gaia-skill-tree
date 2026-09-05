@@ -5,11 +5,11 @@ contributor: panniantong
 origin: false
 genericSkillRef: agent-reach
 status: named
-level: 3★
+level: 1★
 description: Gives an AI agent internet access by routing web requests across 16+
   platforms with MCP support and harness-agnostic integration.
 createdAt: '2026-07-30'
-updatedAt: '2026-07-30'
+updatedAt: '2026-08-30'
 title: Agent Reach
 links:
   github: https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md
@@ -46,6 +46,17 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 53.86, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ due to Star Bar violation (upstream repo lacks SKILL.md capability definition)
 evidence:
 - source: https://lobehub.com/skills/panniantong-agent-reach-skill
   evaluator: unknown
@@ -89,6 +100,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:21:28Z'
+trustMagnitude: 53.86
+overallTrustGrade: B
+trustMagnitudeInputHash: 14c069bd883324e5192fc9845715470db7a0f1db0628d8de1dffa7bb7d2553b3
 ---
 
 ## Installation

@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 52.15,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/gsd-build/plan-phase.json",
     "contributor": "/api/v1/contributors/gsd-build.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "GSD Plan Phase",
   "genericSkillRef": "writing-plans",
@@ -126,6 +134,18 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:49Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 52.16 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

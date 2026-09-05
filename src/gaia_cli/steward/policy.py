@@ -78,10 +78,16 @@ _DISPATCH_RULE_KEYS = {
 # invites reading a stronger model as a wider envelope. The ban is enforced here
 # rather than left to prompt etiquette, because policy is the only place an
 # author would think to put a model name.
-_BANNED_CAPABILITY_WORDS = (
+BANNED_CAPABILITY_WORDS = (
     "claude", "hermes", "codex", "cursor", "copilot", "gpt", "gemini", "llama",
     "mistral", "openai", "anthropic", "google", "opus", "sonnet", "haiku",
     "fable", "sol", "terra", "luna", "model", "harness", "llm",
+)
+_BANNED_CAPABILITY_TIER = re.compile(
+    r"(?:\b(?:low|med|medium|high|max)[ -](?:tier|rung|effort)\b|"
+    r"\b(?:tier|rung|effort)\s+(?:low|med|medium|high|max)\b|"
+    r"\b(?:xhigh|ultra)\b)",
+    flags=re.IGNORECASE,
 )
 _ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
 # Class A envelopes are pinned in code. Class B envelopes are free text in
@@ -430,11 +436,7 @@ class StewardPolicy:
             capability = _nonempty_string(
                 rule["capability"], f"routing.dispatchRules.{rule_id}.capability"
             )
-            named = sorted(
-                word
-                for word in _BANNED_CAPABILITY_WORDS
-                if re.search(rf"\b{word}\b", capability, flags=re.IGNORECASE)
-            )
+            named = find_banned_capability_terms(capability)
             if named:
                 raise PolicyError(
                     f"routing.dispatchRules.{rule_id}.capability must describe the "
@@ -572,6 +574,18 @@ def _mapping(value: Any, name: str) -> Mapping[str, Any]:
     if not all(isinstance(key, str) and key for key in value):
         raise PolicyError(f"{name} keys must be non-empty strings")
     return value
+
+
+def find_banned_capability_terms(capability: str) -> tuple[str, ...]:
+    """Return canonical routing terms forbidden in advisory capability prose."""
+
+    named = {
+        match.group(0).lower()
+        for word in BANNED_CAPABILITY_WORDS
+        if (match := re.search(rf"\b{re.escape(word)}\b", capability, flags=re.IGNORECASE))
+    }
+    named.update(match.group(0).lower() for match in _BANNED_CAPABILITY_TIER.finditer(capability))
+    return tuple(sorted(named))
 
 
 def _safe_relative_path(value: Any, name: str) -> Path:

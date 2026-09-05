@@ -406,6 +406,60 @@ nav:not(.footer-cols):not(.footer-rail) {
   text-shadow: 0 0 18px rgba(var(--apex-gold-rgb), .35);
 }
 
+/* ── Registry-era stamp (`III`) ──────────────────────────────────────────
+   Hunter's-Atlas ledger register: a flat rectangular stamp in neutral tokens.
+   Explicitly NOT a rank badge — no star glyph, no rank name, no --rank-3, no
+   violet glow, no medallion, no circle, no shimmer, no pulse. `III` next to a
+   wordmark must read as "ruleset three", never as "3★ Evolved".
+
+   Sized in em off the nav's own font-size and given a line-height that fits
+   inside the existing 26px seal box, so it cannot change the fixed nav height. */
+.nav-era-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: .1em .42em;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: .14em;
+  text-indent: .14em;              /* balance the trailing letter-space */
+  text-decoration: none;
+  color: var(--muted);
+  background: transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+.nav-era-stamp:hover,
+.nav-era-stamp:focus-visible {
+  color: var(--text);
+  border-color: var(--text);
+}
+/* The stamp links to the Yggdrasil III report, so keyboard focus needs a real
+   ring — the hover color shift alone is not a focus indicator. */
+.nav-era-stamp:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Narrow widths: the WORDMARK yields, the stamp does not. `.nav-era-stamp` is
+   flex-shrink:0 above, so opening up the logo/wordmark to shrinking is all
+   that's needed for the stamp to survive at 320px. */
+@media (max-width: 480px) {
+  .nav-logo {
+    min-width: 0;
+  }
+  .nav-wordmark {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 /* Docs nav: <a class="nav-logo">Gaia <span>◆</span></a>. The span is the
    seal stand-in. Match the same ceremonial treatment as the SVG seal. */
 nav.docs-nav .nav-logo > span {
@@ -10443,6 +10497,71 @@ button.nav-graph-trigger:hover {
   letter-spacing: 0.06em;
 }
 
+/* ── Meta Shift Notification in HoH mini ── */
+.hoh-mini-shift-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.32rem 0.75rem;
+  margin: 0 0 1rem;
+  background: color-mix(in oklch, var(--bg-surface) 85%, var(--apex-gold) 15%);
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.32);
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem, 1vw, 0.78rem);
+  line-height: 1.35;
+  color: var(--text);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 16px rgba(var(--apex-gold-rgb), 0.08);
+}
+
+.hoh-mini-shift-pill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.42rem;
+  border-radius: 9999px;
+  background: rgba(var(--apex-gold-rgb), 0.2);
+  color: var(--apex-gold);
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.4);
+  flex-shrink: 0;
+}
+
+.hoh-mini-shift-text {
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.hoh-mini-shift-text strong {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+
+.hoh-mini-shift-link {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--apex-gold);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.hoh-mini-shift-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .hoh-mini-shift-banner {
+    flex-wrap: wrap;
+    border-radius: 10px;
+    padding: 0.45rem 0.65rem;
+    gap: 0.35rem;
+  }
+}
+
 .hoh-section--mini h2 {
   max-width: 10ch;
   margin-bottom: 0.85rem;
@@ -10626,7 +10745,24 @@ button.nav-graph-trigger:hover {
   gap: 0.85rem;
 }
 
+/* Plates in a row share a bottom edge, and the Fusion Score readout sits on
+   it, so the figures line up across the row instead of floating at whatever
+   height the skill list above them happened to end. */
+.hoh-section--mini .hoh-featured > *,
+.hoh-section--mini .hoh-grid > * {
+  align-self: stretch;
+}
+
+.hoh-section--mini .plaque--hall .plaque__hall-content {
+  flex: 1 1 auto;
+}
+
+.hoh-section--mini .plaque--hall .plaque__hall-fusion {
+  margin-top: auto;
+}
+
 .hoh-section--mini .plaque--hall {
+  height: auto;
   --hoh-card-atmosphere:
     radial-gradient(ellipse 42% 68% at 80% 18%, rgba(var(--plaque-accent-rgb), 0.12), transparent 70%),
     linear-gradient(116deg, transparent 0%, transparent 60%, rgba(var(--plaque-accent-rgb), 0.18) 61%, transparent 62%);
@@ -10638,27 +10774,19 @@ button.nav-graph-trigger:hover {
     rgba(15, 23, 42, 0.72);
 }
 
-/* Fix 3b — rank-token backgrounds for HoH cards (rank 4–6 override the default blue-tinted base) */
-.hoh-section--mini .plaque--hall[data-level="4"] {
-  --plaque-accent-rgb: var(--rank-4-rgb);
-  background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-4-rgb), 0.10), transparent 58%),
-    rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-4-rgb), 0.35);
-}
-.hoh-section--mini .plaque--hall[data-level="5"] {
-  --plaque-accent-rgb: var(--rank-5-rgb);
-  background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-5-rgb), 0.12), transparent 58%),
-    rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-5-rgb), 0.38);
-}
+/* Card wash for 4★+ plates.
+   This used to re-derive the accent from data-level alone (--rank-4/5/6-rgb),
+   which is the Suite ladder — so every Unique Ultimate on the homepage was
+   painted Suite amber while its rows rendered violet, and the two halves of
+   the same plate disagreed. The branch+rank accent is resolved once on
+   .plaque--hall in plaque.css; read it here instead of re-deriving it. */
+.hoh-section--mini .plaque--hall[data-level="4"],
+.hoh-section--mini .plaque--hall[data-level="5"],
 .hoh-section--mini .plaque--hall[data-level="6"] {
-  --plaque-accent-rgb: var(--rank-6-rgb);
   background:
-    radial-gradient(circle at 50% -24%, rgba(var(--rank-6-rgb), 0.14), transparent 58%),
+    radial-gradient(circle at 50% -24%, rgba(var(--plaque-accent-rgb), 0.12), transparent 58%),
     rgba(15, 23, 42, 0.72);
-  border-color: rgba(var(--rank-6-rgb), 0.45);
+  border-color: rgba(var(--plaque-accent-rgb), 0.38);
 }
 
 .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
@@ -12964,6 +13092,98 @@ body[data-overall-grade="S"] .report-card {
 }
 .se-notch-info:hover {
   opacity: 1;
+}
+
+/* ── Fusion Score strip (Yggdrasil III) ─────────────────────────────────────
+   Sits directly BELOW the graded trust notch in the skill modal, as its peer.
+   Deliberately the quietest surface in the hero: neutral border, muted text,
+   monospace figures, no grade color, no medallion, no glow. Trust is the
+   colored bar; structure is this ledger row. If this ever reads as a second
+   grade, the separation the design exists to protect has been lost. */
+.se-fusion-strip {
+  margin-top: 1rem;
+  padding: .55rem .8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  /* A neutral panel, not a transparent void: the trust notch directly above is
+     a saturated grade slab, and without its own ground this strip reads as
+     loose text hanging off the plaque rather than the second reading it is. */
+  background: var(--surface);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem 1rem;
+  font-family: var(--font-mono);
+  cursor: help;
+}
+.se-fs-head {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .5rem;
+}
+.se-fs-key {
+  font-size: .62rem;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+.se-fs-value {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.se-fs-cells {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.se-fs-cell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .3rem;
+}
+.se-fs-cell-label {
+  font-size: .6rem;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+.se-fs-cell-value {
+  font-size: .72rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.se-fs-note {
+  margin-left: auto;
+  font-size: .6rem;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+/* Migration line — full-width, below the figures. Reads as prose, not as a
+   ledger cell, because it is the one part of this strip a returning reader
+   NEEDS: it explains where their old Trust Magnitude went. */
+.se-fs-migration {
+  flex-basis: 100%;
+  margin-top: .15rem;
+  padding-top: .45rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: .68rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.se-fs-migration em {
+  font-style: normal;
+  color: var(--text);
+}
+@media (max-width: 480px) {
+  .se-fusion-strip {
+    gap: .4rem .7rem;
+  }
+  .se-fs-note {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
 }
 
 /* (i) button inside type pills */

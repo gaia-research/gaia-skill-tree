@@ -2,18 +2,26 @@
   "id": "firecrawl/firecrawl-build-search",
   "name": "Firecrawl Search",
   "contributor": "firecrawl",
-  "level": "4★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 113.38,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 83.62,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
   },
   "title": "Firecrawl Search",
   "genericSkillRef": "web-search",
@@ -53,12 +61,12 @@
       "sourceStartedAt": "2023-08-01"
     },
     {
-      "source": "https://github.com/firecrawl/firecrawl/stargazers",
+      "source": "https://github.com/firecrawl/skills/stargazers",
       "updatedAt": "2026-09-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
-      "stars": 175038,
+      "stars": 98,
       "skillCountInRepo": 6,
       "grade": "B"
     }
@@ -115,9 +123,21 @@
       "action": "evidence_added",
       "contributor": "marcotiongson",
       "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 319.62, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 104.31 -> 83.62, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
-    "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md"
   }
 }

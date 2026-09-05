@@ -1,6 +1,28 @@
 {
   "posts": [
     {
+      "id": "2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor",
+      "type": "report",
+      "date": "2026-09-05",
+      "title": "Yggdrasil III Meta Shift: Structural Provenance, Logarithmic Adoption, and the Full S-Grade & Leaderboard Recalibration",
+      "summary": "The definitive Yggdrasil III chronicle (August 25 – September 5, 2026): the foundational crisis ruling that structural provenance is not trust, the emergency repository-star recalibration, Fusion Score ratification, forensic audit of 339 named skills with 12 imposter purges, evidence lake decontamination of 35 DeepMind consortium rows and hijacked citations, logarithmic adoption curve capped at 175 TM, the Grade S witness gate, and the dramatic S-grade shifts culminating in only three authentic skills earning Grade S through verified independent witnesses.",
+      "label": "Yggdrasil III New Meta",
+      "url": "meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-09-03-yggdrasil-iii-recalibration-update.md"
+    },
+    {
+      "id": "2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust",
+      "type": "report",
+      "date": "2026-08-29",
+      "title": "Yggdrasil III: Structural Provenance Is Not Trust",
+      "summary": "Yggdrasil III separates structural provenance from trust and recalibrates repository-star adoption so every current 5-star skill remains above the 250 TM floor. Stored stars did not change.",
+      "label": "Meta Shift",
+      "url": "meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-29-yggdrasil-iii-trust-integrity.md"
+    },
+    {
       "id": "2026-08-20-from-question-to-code-matt-pococks-skill-curation",
       "type": "report",
       "date": "2026-08-20",

@@ -13,6 +13,16 @@
           "level": "4★",
           "achievedAt": "2026-05-14T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "5★",
+          "achievedAt": "2026-09-02T15:11:43Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-04T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +35,22 @@
       "details": "Registered named skill pbakaus/impeccable",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:43Z",
+      "action": "rank_up",
+      "previousValue": "4★",
+      "newValue": "5★",
+      "details": "Calibrated level from 4★ to 5★",
+      "skillId": "pbakaus/impeccable"
+    },
+    {
+      "timestamp": "2026-09-04T00:00:01Z",
+      "action": "demote",
+      "previousValue": "5★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "pbakaus/impeccable"
     }
   ],
   "stats": {

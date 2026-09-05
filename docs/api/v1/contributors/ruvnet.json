@@ -4,13 +4,14 @@
     {
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
-      "level": "5★",
-      "trustMagnitude": 488.28,
-      "overallTrustGrade": "S",
+      "level": "4★",
+      "trustMagnitude": 174.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 389.74,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Ultimate",
+      "rankWord": "Extra",
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
@@ -67,16 +68,368 @@
       ]
     },
     {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "4★",
-      "trustMagnitude": 216.0,
-      "overallTrustGrade": "A",
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "trustMagnitude": 95.02,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
+      },
+      "genericSkillRef": "distributed-consensus-coordination"
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "3★",
+      "trustMagnitude": 88.5,
+      "overallTrustGrade": "B",
+      "fusionScore": 140.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      },
+      "genericSkillRef": "reasoning-pattern-bank",
+      "suiteComponents": [
+        "ruvnet/reasoningbank-agentdb",
+        "ruvnet/reasoningbank-intelligence"
+      ]
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "3★",
+      "trustMagnitude": 81.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      },
+      "genericSkillRef": "agent-memory-platform",
+      "suiteComponents": [
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search"
+      ]
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "name": "AgentDB Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
+      },
+      "genericSkillRef": "distributed-vector-memory"
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "name": "AgentDB Memory Patterns",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
+      },
+      "genericSkillRef": "memory-pattern-design"
+    },
+    {
+      "id": "ruvnet/agentdb-optimization",
+      "name": "AgentDB Optimization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
+      },
+      "genericSkillRef": "vector-db-optimization"
+    },
+    {
+      "id": "ruvnet/agentdb-vector-search",
+      "name": "AgentDB Vector Search",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
+      },
+      "genericSkillRef": "vector-search"
+    },
+    {
+      "id": "ruvnet/agentic-jujutsu",
+      "name": "Agentic Jujutsu",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
+      },
+      "genericSkillRef": "git-diff-risk-analysis"
+    },
+    {
+      "id": "ruvnet/dual-collect",
+      "name": "Dual Collect",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-collect.json"
+      },
+      "genericSkillRef": "headless-worker-collect"
+    },
+    {
+      "id": "ruvnet/dual-coordinate",
+      "name": "Dual Coordinate",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
+      },
+      "genericSkillRef": "hybrid-workflow-coordination"
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 120.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      },
+      "genericSkillRef": "dual-mode",
+      "suiteComponents": [
+        "ruvnet/dual-collect",
+        "ruvnet/dual-coordinate",
+        "ruvnet/dual-spawn"
+      ]
+    },
+    {
+      "id": "ruvnet/dual-spawn",
+      "name": "Dual Spawn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
+      },
+      "genericSkillRef": "headless-worker-spawn"
+    },
+    {
+      "id": "ruvnet/flow-nexus",
+      "name": "Flow Nexus",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
+      },
+      "genericSkillRef": "multi-node-orchestration",
+      "suiteComponents": [
+        "ruvnet/flow-nexus-neural",
+        "ruvnet/flow-nexus-platform",
+        "ruvnet/flow-nexus-swarm"
+      ]
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      },
+      "genericSkillRef": "distributed-neural-training"
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      },
+      "genericSkillRef": "cloud-platform-management"
+    },
+    {
+      "id": "ruvnet/github-multi-repo",
+      "name": "GitHub Multi-Repo",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
+      },
+      "genericSkillRef": "multi-repo-coordination"
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      },
+      "genericSkillRef": "git-integration",
+      "suiteComponents": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
+    },
+    {
+      "id": "ruvnet/pair-programming",
+      "name": "Pair Programming",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 220.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/pair-programming.json"
+      },
+      "genericSkillRef": "subagent-driven-development"
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      },
+      "genericSkillRef": "adaptive-pattern-learning"
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 274.83,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       },
@@ -96,343 +449,12 @@
       ]
     },
     {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "4★",
-      "trustMagnitude": 201.0,
-      "overallTrustGrade": "A",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
-      ]
-    },
-    {
-      "id": "ruvnet/dual-mode",
-      "name": "Dual Mode",
-      "level": "4★",
-      "trustMagnitude": 126.0,
-      "overallTrustGrade": "A",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-mode.json"
-      },
-      "genericSkillRef": "dual-mode",
-      "suiteComponents": [
-        "ruvnet/dual-collect",
-        "ruvnet/dual-coordinate",
-        "ruvnet/dual-spawn"
-      ]
-    },
-    {
-      "id": "ruvnet/reasoningbank",
-      "name": "ReasoningBank",
-      "level": "4★",
-      "trustMagnitude": 118.5,
-      "overallTrustGrade": "A",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      },
-      "genericSkillRef": "reasoning-pattern-bank",
-      "suiteComponents": [
-        "ruvnet/reasoningbank-agentdb",
-        "ruvnet/reasoningbank-intelligence"
-      ]
-    },
-    {
-      "id": "ruvnet/hive-mind",
-      "name": "Hive Mind",
-      "level": "3★",
-      "trustMagnitude": 98.54,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind.json"
-      },
-      "genericSkillRef": "distributed-consensus-coordination"
-    },
-    {
-      "id": "ruvnet/flow-nexus",
-      "name": "Flow Nexus",
-      "level": "3★",
-      "trustMagnitude": 96.0,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
-      },
-      "genericSkillRef": "multi-node-orchestration",
-      "suiteComponents": [
-        "ruvnet/flow-nexus-neural",
-        "ruvnet/flow-nexus-platform",
-        "ruvnet/flow-nexus-swarm"
-      ]
-    },
-    {
-      "id": "ruvnet/github-suite",
-      "name": "GitHub Suite",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/github-suite.json"
-      },
-      "genericSkillRef": "git-integration",
-      "suiteComponents": [
-        "ruvnet/github-code-review",
-        "ruvnet/github-multi-repo",
-        "ruvnet/github-project-management",
-        "ruvnet/github-release-management",
-        "ruvnet/github-workflow-automation"
-      ]
-    },
-    {
-      "id": "ruvnet/agentdb-advanced",
-      "name": "AgentDB Advanced",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
-      },
-      "genericSkillRef": "distributed-vector-memory"
-    },
-    {
-      "id": "ruvnet/agentdb-memory-patterns",
-      "name": "AgentDB Memory Patterns",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
-      },
-      "genericSkillRef": "memory-pattern-design"
-    },
-    {
-      "id": "ruvnet/agentdb-optimization",
-      "name": "AgentDB Optimization",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
-      },
-      "genericSkillRef": "vector-db-optimization"
-    },
-    {
-      "id": "ruvnet/agentdb-vector-search",
-      "name": "AgentDB Vector Search",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
-      },
-      "genericSkillRef": "vector-search"
-    },
-    {
-      "id": "ruvnet/agentic-jujutsu",
-      "name": "Agentic Jujutsu",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
-      },
-      "genericSkillRef": "git-diff-risk-analysis"
-    },
-    {
-      "id": "ruvnet/dual-collect",
-      "name": "Dual Collect",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-collect.json"
-      },
-      "genericSkillRef": "headless-worker-collect"
-    },
-    {
-      "id": "ruvnet/dual-coordinate",
-      "name": "Dual Coordinate",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
-      },
-      "genericSkillRef": "hybrid-workflow-coordination"
-    },
-    {
-      "id": "ruvnet/dual-spawn",
-      "name": "Dual Spawn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
-      },
-      "genericSkillRef": "headless-worker-spawn"
-    },
-    {
-      "id": "ruvnet/flow-nexus-neural",
-      "name": "Flow Nexus Neural",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
-      },
-      "genericSkillRef": "distributed-neural-training"
-    },
-    {
-      "id": "ruvnet/flow-nexus-platform",
-      "name": "Flow Nexus Platform",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
-      },
-      "genericSkillRef": "cloud-platform-management"
-    },
-    {
-      "id": "ruvnet/github-multi-repo",
-      "name": "GitHub Multi-Repo",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
-      },
-      "genericSkillRef": "multi-repo-coordination"
-    },
-    {
-      "id": "ruvnet/pair-programming",
-      "name": "Pair Programming",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/pair-programming.json"
-      },
-      "genericSkillRef": "subagent-driven-development"
-    },
-    {
-      "id": "ruvnet/reasoningbank-intelligence",
-      "name": "ReasoningBank Intelligence",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
-      },
-      "genericSkillRef": "adaptive-pattern-learning"
-    },
-    {
       "id": "ruvnet/stream-chain",
       "name": "Stream Chain",
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -449,6 +471,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 100.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "standard",
@@ -465,6 +488,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -481,6 +505,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -497,6 +522,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -513,6 +539,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "standard",
@@ -529,6 +556,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -545,6 +573,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 40.0,
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "standard",
@@ -561,6 +590,7 @@
       "level": "2★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "ruvnet",
       "type": "basic",
       "branch": "standard",
@@ -575,15 +605,14 @@
   "namedSkillsCount": 30,
   "topSkill": {
     "id": "ruvnet/ruflo",
-    "level": "5★",
-    "trustMagnitude": 488.28
+    "level": "4★",
+    "trustMagnitude": 174.59
   },
-  "prestigeScore": 2202.32,
+  "prestigeScore": 1375.11,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 1,
     "B": 3,
-    "C": 22
+    "C": 26
   },
   "_links": {
     "self": "/api/v1/contributors/ruvnet.json",

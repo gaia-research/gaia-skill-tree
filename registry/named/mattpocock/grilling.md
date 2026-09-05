@@ -11,7 +11,7 @@ level: 2★
 description: Interview the user relentlessly about a plan to stress-test it before
   building.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T12:59:50Z'
   action: add
@@ -29,27 +29,27 @@ timeline:
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 - timestamp: '2026-06-19T18:37:27Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
     (type: repo-own)'
 - timestamp: '2026-06-19T18:37:27Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
     as B (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:37:29Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
     (type: self-attestation)'
 - timestamp: '2026-06-19T18:37:29Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
     as C (trustNumber: 45.0)'
 - timestamp: '2026-06-19T18:41:28Z'
   action: rank_up
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
 - timestamp: '2026-06-20T06:31:31Z'
@@ -64,13 +64,28 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
   evaluator: unknown
   date: '2026-06-19'
   class: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
@@ -78,7 +93,7 @@ evidence:
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 45.0
@@ -94,8 +109,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:05:10Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 41.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -105,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1c442c52cddd24686fa12753d84d52636d6e1787a5e47fbe24d62fc6d18865b3
+trustMagnitudeInputHash: e0ef299778d6ff5b6fa5dc55362f5dcb85b98337687bd767a4b4bdf4f37f4613
 title: Grilling
 ---
 

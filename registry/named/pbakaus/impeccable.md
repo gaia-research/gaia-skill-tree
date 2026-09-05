@@ -3,10 +3,10 @@ id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
 origin: true
-genericSkillRef: ui-audit
+genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
-level: 4★
+level: 5★
 description: Elite design vocabulary and audit tool for polishing AI-generated frontend
   code.
 links:
@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-07-30'
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -41,13 +41,6 @@ evidence:
     standalone skill)
   stars: 64523
   grade: B
-- source: https://arxiv.org/abs/2411.01606
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)
-  citations: 19
 - source: https://www.youtube.com/watch?v=k5f2uP33u5g
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -55,22 +48,6 @@ evidence:
   class: A
   notes: 'Full Stack YouTube: "Every AI Website Looks the Same | Here''s the Fix."
     Paul Bakaus'' Impeccable design steering skill walkthrough. Topical authority.'
-- source: https://github.com/pbakaus/impeccable/issues/268
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: Production bug in live skill affecting session stability on frequently re-rendering
-    pages; root cause and fix documented.
-  grade: C
-- source: https://github.com/pbakaus/impeccable/issues/183
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: Live skill incompatibility with Vite watcher; .impeccable state mutations
-    trigger full-page reloads in watched project root.
-  grade: C
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -142,7 +119,16 @@ timeline:
     migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 122.8
+- timestamp: '2026-08-29T17:15:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 122.8 -> 298.62, grade A -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:43Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 4★ to 5★
+trustMagnitude: 169.34
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -155,7 +141,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
-trustMagnitudeInputHash: 9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef
+trustMagnitudeInputHash: fc68fc69a66033275d09e5daab30dd226ea508851bd77b25fca70577aaddb72f
 ---
 
 ## Overview

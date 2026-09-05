@@ -19,7 +19,7 @@ tags:
 - event-driven
 - performance-tracking
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -51,6 +51,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -62,7 +67,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 78fdbe12ff58dd47fb08725b6dc0f37a86beba8fe95d19560327060a37a02fb6
+trustMagnitudeInputHash: 2061b9337d6dfbb29bd67c52b71be62945ce659eeb99a8fc8a86eecb3c01c83b
 ---
 
 ## Overview

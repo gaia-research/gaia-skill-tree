@@ -17,7 +17,7 @@ tags:
 - model-context-protocol
 - tool-integration
 - cli
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
@@ -78,6 +78,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -89,7 +94,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d0cad627c1f98aa52862ce55655dd2cc2410da700991c68b04a8c1402f1e4af3
+trustMagnitudeInputHash: a9aefe7a7ce6e20b6f6dfa99f1c19b829aec85871e9f17cf1dab94b5e24497d5
 verification:
   firstEvidenceAt: '2026-06-19T17:10:45Z'
 ---

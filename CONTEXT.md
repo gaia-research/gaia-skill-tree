@@ -65,7 +65,7 @@ The rank name for a 5★ Unique-branch skill. Renders alongside "Ultimate" in Su
 _Avoid_: dropping the "Unique" qualifier in copy that references the Unique branch.
 
 **Unique Impossible** _(6★ rank name, Unique branch — Yggdrasil II)_:
-The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; formal ratification deferred to a follow-up RFC (Yggdrasil III candidate). Expected to be extraordinarily rare.
+The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; the branch distinction is ratified under Yggdrasil III (META.md §4.4); the 5-predicate gate itself stays provisional pending a follow-up RFC. Expected to be extraordinarily rare.
 _Avoid_: using "Apex" for a Unique-branch 6★ (Apex is Suite-branch only, post-Yggdrasil II).
 
 **Fusion structure**:
@@ -85,7 +85,7 @@ The naming series for schema-type Meta Shifts that reshape the skill tree's stru
 _Avoid_: inventing parallel schema-RFC names.
 
 **TM Index** _(Series B — Trust Magnitude cadence)_:
-The public-facing name for the Trust Magnitude scoring engine, versioned by calendar quarter. **TM Index (2026 Q2)** = the G7 Trust Taxonomy RFC (ratified 2026-06-16). **TM Index (2026 Q3)** = planned branch-aware formula rebuild (blocked by Yggdrasil II). The G-series (G7, G8, …) is the internal engineering codename; **TM Index (YYYY QN)** is the public label.
+The public-facing name for the Trust Magnitude scoring engine, versioned by calendar quarter. **TM Index (2026 Q2)** = the G7 Trust Taxonomy RFC (ratified 2026-06-16). **TM Index (2026 Q3)** = branch-aware formula rebuild; the Yggdrasil II dependency cleared at that ratification (2026-07-07), and Yggdrasil III subsequently ratified the branch-aware rank split (META.md §4.4). The G-series (G7, G8, …) is the internal engineering codename; **TM Index (YYYY QN)** is the public label.
 _Avoid_: using the G-series codename in external docs or changelogs.
 
 **Meta Shift**:
@@ -143,6 +143,20 @@ _Avoid_: showing the trust number in copy; "trust score" (the term is "trust num
 **Overall Trust Grade**:
 A skill's *aggregate* standing — the accumulation of its individual **Evidence Grades** that establishes the capability "beyond reasonable doubt." Computed from the evidence inventory at build time and **never stored in a node** (Programmatic-First); it materialises only in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). Distinct from a single demonstration's **Evidence Grade**.
 _Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
+
+**Fusion Score**:
+A skill's *structural* reading — how much distinct capability it composes, derived from canonical prerequisites, suite components, and origin structure. Ratified by Yggdrasil III as a **second, independent** scalar alongside **Trust Magnitude**: TM answers "how much evidence corroborates this?", Fusion Score answers "how much structure does this compose?". Informational in V1 — it gates no rank, no star, and no Trust Grade. Computed at build time in one Python authority and materialised only in generated projections; **never stored on a node** and never written to Named Skill frontmatter.
+_Avoid_: calling it a trust number, a second grade, or a capability score; describing a high Fusion Score as "stronger evidence"; mixing it into a **Trust Magnitude** breakdown or the Trust Ledger; treating it as an **Evidence Type**, an **Evidence Grade**, a rank input, or an Apex predicate; storing it in a registry node.
+
+**Fusion Score on the Hall of Heroes** _(ruling, 2026-09-03, supersedes the prior blanket exclusion)_: a clearly labeled Fusion Score readout — separate from the Trust Magnitude/grade display, never blended into it — is permitted on the Hall of Heroes. The original "or the Hall of Heroes" clause above was written at ratification time before any concrete design existed for the page; it was a placeholder caution, not a considered ban. The constraint that still applies is the one already stated: never presented as a trust number, second grade, or Apex predicate, and never merged into the Trust Magnitude breakdown itself.
+
+**Repository Adoption Curve & S-Witness Quality** _(ruling, Issue #1705, 2026-09-03)_:
+Under Yggdrasil III recalibration (#1705), `github-stars-own` scales via a logarithmic diminishing-returns curve: $\min(175, 35 \times \log_{10}(\max(1, \text{stars} / 10)))$, capped at 175 TM (below the 250 Grade S floor). Adoption alone can never satisfy Grade S without meaningful corroborating evidence. Additionally, the S-witness gate is hardened: an independent witness from `peer-review` must carry at least Grade A evidence quality (score ≥ 60.0 or effective grade S/A); weak Grade C community sentiment summaries or issue threads do not qualify.
+_Rejected Alternative_: The Star Authority Multiplier proposed in #1665 was rejected because adoption must not multiply unrelated evidence channels; Trust Magnitude remains strictly additive across independent evidence rows.
+
+**the Yggdrasil III number movement** (transitional copy rule):
+Under Yggdrasil II, `fusion-recipe` structure was scored *inside* Trust Magnitude, so suites and fusions carried a large TM. Yggdrasil III fixed that row at 0 TM and reports the structure as **Fusion Score** instead — which is why published TM values fell for those skills while **no evidence row, star count, or rank was edited**. Any surface that shows a Fusion Score must say this plainly, so a returning reader cannot read the movement as a demotion.
+_Avoid_: reporting the drop without the cause; the words "downgrade", "penalty", or "lost trust" for this movement; implying a skill became less capable; presenting Fusion Score as compensation or as points restored.
 
 **rank tenure**:
 How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Evolved rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
@@ -461,6 +475,8 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
 - `Fusion Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=fusion` label stands bare. Use **Fusion**.
+- `fusion magnitude` / `composition score` / `structure score` — for the Yggdrasil III structural scalar; use **Fusion Score**. `fusion magnitude` in particular names the *retired* Yggdrasil II term for the same structure scored inside Trust Magnitude — reusing it re-implies the coupling Yggdrasil III removed.
+- `fusion trust` / `structural trust` / `second trust score` — Fusion Score is not trust in any sense; use **Fusion Score** and say **structural** where the contrast is needed
 - `G7` / `G8` (in external / public docs) — use **TM Index (2026 Q2)** / **TM Index (2026 Q3)**; the G-series is internal engineering codename only
 - `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
 - `graph-isolated singularities` — for Unique section; use **Uniques**

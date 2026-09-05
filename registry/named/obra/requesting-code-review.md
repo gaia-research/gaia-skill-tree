@@ -19,7 +19,7 @@ tags:
 - pre-merge
 - isolated-context
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -56,6 +56,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -67,7 +72,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 137bb6d275f16fd372c3cf8d98a484390a148d5f614b65cf96e9969f8724d6e6
+trustMagnitudeInputHash: 6e277c7e769a8763ba0c9da4f59cff84741dd422fc1618186f30d26f64c91925
 ---
 
 ## Overview

@@ -19,7 +19,7 @@ tags:
 - collaborative
 - feedback-loops
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -55,6 +55,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -68,7 +73,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:18Z'
-trustMagnitudeInputHash: 808895e2a308ed10e020da3b0ff2c61842f641ecbc94cddcc4785f5b7b06247d
+trustMagnitudeInputHash: 80b62ae356b457cb9ee4ba0815e67fe0366193c8e2d3feaab77a3e1a72425b23
 ---
 
 ## Overview

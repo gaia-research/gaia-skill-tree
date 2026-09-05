@@ -7,7 +7,7 @@ genericSkillRef: security-audit
 status: named
 title: Chief Security Officer Mode
 catalogRef: garrytan-cso
-level: 3★
+level: 4★
 description: Infrastructure-first security audit focusing on secrets archaeology,
   dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE threat
   modeling, and active verification with daily (zero-noise) and monthly (comprehensive)
@@ -21,8 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-06-21'
-suiteRef: garrytan/garrytan
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/cso/SKILL.md
@@ -87,7 +86,26 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
-trustMagnitude: 63.73
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-08-29T17:15:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 67.4 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-02T15:11:17Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -100,7 +118,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
-trustMagnitudeInputHash: 1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a
+trustMagnitudeInputHash: f6755c79a1f46126e06afccde7bc43746860afec4cd779be3df58b398581e6ed
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

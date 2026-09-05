@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API.
   Use this when you need to map genes to biological processes, molecular functions,
   or cellular components, find genes associated with a specific pathway/GO term, or
   explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets)
   or mechanistic signaling pathway diagrams (use KEGG).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: Gene Ontology 2025 — PMC; comprehensive GO knowledgebase; QuickGO is EBI's
-    GO browser
-  reviewers: 3
-  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -100,8 +90,19 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/quickgo_database to google-deepmind/quickgo-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:26Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -111,7 +112,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f775e5276f956557ea7473ce3cffd8b0ee4de59694aa61bde8d172d656a62ef5
+trustMagnitudeInputHash: 6d47638bf52b5fae429e773b6ce348aeb8f6f7036892e0d091f167464bb794e8
 verification:
   firstEvidenceAt: '2026-06-19T17:05:48Z'
 ---

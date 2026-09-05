@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Search for scientific papers, preprints, and publications on arXiv. Extract
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
 evidence:
@@ -25,15 +25,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://arxiv.org/about
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'arXiv e-print repository: Cornell University open-access preprint platform.
-    Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -70,8 +61,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/literature_search_arxiv to google-deepmind/literature-search-arxiv
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -83,7 +81,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:49Z'
-trustMagnitudeInputHash: eee3b1b5a5f3c090ba0e91c9c4af6f8a17dc85f520a2ecac40e81e0b9f02ce04
+trustMagnitudeInputHash: 16b1e8aabebdd7efb4880a54c9fb4eeaed78b0b3e812d80ff81a547849999768
 ---
 
 # arXiv Search and Retrieval

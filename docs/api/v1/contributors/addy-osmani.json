@@ -2,15 +2,33 @@
   "handle": "addy-osmani",
   "namedSkills": [
     {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "4★",
+      "trustMagnitude": 190.0,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      },
+      "genericSkillRef": "refactor-code"
+    },
+    {
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
-      "level": "5★",
-      "trustMagnitude": 298.83,
-      "overallTrustGrade": "S",
+      "level": "4★",
+      "trustMagnitude": 174.62,
+      "overallTrustGrade": "A",
+      "fusionScore": 284.85,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Ultimate",
+      "rankWord": "Extra",
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
@@ -28,43 +46,12 @@
       ]
     },
     {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "3★",
-      "trustMagnitude": 198.83,
-      "overallTrustGrade": "A",
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      },
-      "genericSkillRef": "refactor-code"
-    },
-    {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "4★",
-      "trustMagnitude": 127.33,
-      "overallTrustGrade": "A",
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      },
-      "genericSkillRef": "performance-tuning"
-    },
-    {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
       "level": "3★",
-      "trustMagnitude": 103.83,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 95.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -79,8 +66,9 @@
       "id": "addy-osmani/planning-and-task-breakdown",
       "name": "Planning and Task Breakdown",
       "level": "3★",
-      "trustMagnitude": 103.83,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 95.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -95,8 +83,9 @@
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
       "level": "3★",
-      "trustMagnitude": 88.83,
+      "trustMagnitude": 80.0,
       "overallTrustGrade": "B",
+      "fusionScore": 40.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -111,8 +100,9 @@
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
-      "trustMagnitude": 58.83,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
+      "fusionScore": 60.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -124,11 +114,29 @@
       "genericSkillRef": "code-review-pipeline"
     },
     {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      },
+      "genericSkillRef": "performance-tuning"
+    },
+    {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
-      "trustMagnitude": 58.83,
+      "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
+      "fusionScore": 80.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -145,6 +153,7 @@
       "level": "2★",
       "trustMagnitude": 45.0,
       "overallTrustGrade": "C",
+      "fusionScore": 0.0,
       "contributor": "addy-osmani",
       "type": "basic",
       "branch": "standard",
@@ -158,15 +167,14 @@
   ],
   "namedSkillsCount": 9,
   "topSkill": {
-    "id": "addy-osmani/agent-skills",
-    "level": "5★",
-    "trustMagnitude": 298.83
+    "id": "addy-osmani/code-simplification",
+    "level": "4★",
+    "trustMagnitude": 190.0
   },
-  "prestigeScore": 1084.14,
+  "prestigeScore": 829.62,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
-    "B": 3,
+    "A": 2,
+    "B": 6,
     "C": 1
   },
   "_links": {

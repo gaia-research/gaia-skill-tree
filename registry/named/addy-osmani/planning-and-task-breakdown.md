@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: vertical-slice-planning
 status: named
-level: 3★
+level: 5★
 description: Planning and task breakdown workflow decomposing features into manageable
   vertical slices.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -70,6 +70,24 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
     (type: peer-review)'
+- timestamp: '2026-08-29T17:15:42Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-02T15:04:50Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 5★
+- timestamp: '2026-09-02T15:05:20Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 5★ to 5★
+- timestamp: '2026-09-04T10:58:43Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
   updatedAt: '2026-09-01'
@@ -108,7 +126,7 @@ verification:
 title: Planning and Task Breakdown
 installable: true
 suiteRef: addy-osmani/agent-skills
-trustMagnitude: 53.14
+trustMagnitude: 95.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -119,7 +137,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1efb6a18a406cee1cf25e7d35c588008ee5b652b53acd65a0dfb1d0392c4776e
+trustMagnitudeInputHash: 1857e286475bbd8d846f0aae13116a98e9b845ef7cb4cf057505f364dc24226a
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
 ---

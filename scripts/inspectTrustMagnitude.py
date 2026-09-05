@@ -24,6 +24,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
+from gaia_cli.taxonomy import rankWord, branchFor  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
     APEX_AGRADED_ORIGINS_MIN,
     GRADE_A_FLOOR,
@@ -44,17 +46,6 @@ FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)", re.DOTALL)
 
 # Force UTF-8 stdout (handles Windows cp1252)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-
-# CONTEXT.md nomenclature: the axis is "stars"; individual values use rank names
-STARS_TO_RANK_NAME: dict[str, str] = {
-    "0★": "Unawakened",
-    "1★": "Awakened",
-    "2★": "Named",
-    "3★": "Evolved",
-    "4★": "Hardened",
-    "5★": "Transcendent",
-    "6★": "Transcendent ★",
-}
 
 # G7 RFC §10.10: trust grade -> effective stars
 GRADE_TO_EFFECTIVE_STARS: dict[str, str] = {
@@ -92,37 +83,30 @@ def loadNamedSkill(path: Path) -> tuple[dict | None, str]:
     return fm, m.group(2)
 
 
-def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
-    gmap: dict[str, dict] = {}
-    for p in nodesDir.rglob("*.json"):
-        try:
-            d = json.loads(p.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        sid = d.get("id")
-        if sid:
-            gmap[sid] = d
-    return gmap
-
-
-def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
-    """Walk registry/named/**/*.md, keyed by skill id."""
-    nmap: dict[str, dict] = {}
-    for p in namedDir.rglob("*.md"):
-        fm, _ = loadNamedSkill(p)
-        if fm is None:
-            continue
-        sid = fm.get("id")
-        if sid:
-            nmap[sid] = fm
-    return nmap
-
-
 def buildMaps() -> tuple[dict, dict]:
-    """Return (mergedMap, namedSkillMap)."""
-    gmap = buildGenericSkillMap(NODES_DIR)
-    nmap = buildNamedSkillMap(NAMED_DIR)
-    return {**gmap, **nmap}, nmap
+    """Return (mergedMap, namedSkillMap).
+
+    Both built from the shared `gaia_cli.registryMaps.buildMergedSkillMap()`
+    resolver (Issue #1643) rather than this script's own forked
+    `buildGenericSkillMap`/`buildNamedSkillMap` (retired here). This script
+    used to be the one place in the codebase that resolved the RFC §C-2
+    `role: variant` suite-component exclusion correctly, precisely because
+    it had never adopted the shared resolver back when that resolver still
+    blanket-stripped `role` — see the registryMaps.py docstring for the
+    full history. Now that the shared resolver preserves `role`, this fork
+    is redundant and drifts if left alone, so it's retired in favor of the
+    one canonical map builder every other TM caller (calibrate.py,
+    trust_appraise.py, check_trust_magnitude_consistency.py,
+    generateNamedIndex.py) already uses.
+
+    `namedSkillMap` is the same merged map, reused for this script's own
+    named-component lookups (e.g. resolving a `suiteComponents` id's grade
+    for display) — `buildMergedSkillMap()` already keys every `status:
+    "named"` entry by its full id, which is the only status this script's
+    component-lookup paths need to resolve.
+    """
+    merged = buildMergedSkillMap(REPO_ROOT)
+    return merged, merged
 
 
 def loadAllNamedSkills() -> list[dict]:
@@ -131,14 +115,20 @@ def loadAllNamedSkills() -> list[dict]:
         fm, _ = loadNamedSkill(p)
         if fm is None:
             continue
-        skills.append(fm)
+        if fm.get("status") == "named" and fm.get("id"):
+            skills.append(fm)
     return skills
 
 
-def starsLabel(stars: str) -> str:
-    """Return 'X★ RankName' e.g. '4★ Hardened'."""
-    name = STARS_TO_RANK_NAME.get(stars, "")
-    return f"{stars} {name}" if name else stars
+def starsLabel(stars: str, skill_frontmatter: dict | None = None) -> str:
+    """Return 'X★ RankName' e.g. '4★ Extra' or '4★ Unique'."""
+    if not stars:
+        return ""
+    branch = branchFor(skill_frontmatter) if skill_frontmatter is not None else "standard"
+    if not any(ch.isdigit() for ch in str(stars)):
+        return str(stars)
+    word = rankWord(stars, branch)
+    return f"{stars} {word}" if word else str(stars)
 
 
 def effectiveRank(grade: str, currentStars: str) -> tuple[str, str]:
@@ -182,7 +172,7 @@ def mostEfficientNextType(skill: dict, mergedMap: dict) -> str:
     if "verifier-attestation" not in existingTypes:
         suggestions.append("verifier-attestation (30 TM per verifier, weight 1.5 = 45 raw)")
     if "github-stars-own" not in existingTypes:
-        suggestions.append("github-stars-own (1000 stars = 1.0 magnitude, weight 1.0)")
+        suggestions.append("github-stars-own (logarithmic adoption: min(175, 35*log10(stars/10)), weight 1.0, cap 175)")
     if "benchmark-result" not in existingTypes:
         suggestions.append("benchmark-result (percentile-based, weight 1.4, cap 100)")
     if "proxy-containment" not in existingTypes:
@@ -202,7 +192,7 @@ def formatApexGateLines(skill: dict, mergedMap: dict, namedSkillMap: dict) -> li
 
     lines = []
     verdict = "PASS — apex-eligible" if apex else f"FAIL — {passedCount}/{len(activeResults)} active predicates passed"
-    lines.append(f"  Apex gate (6-star Transcendent):  {verdict}")
+    lines.append(f"  Apex gate (6-star Apex):  {verdict}")
     lines.append(f"  {'─'*64}")
     for key, val in results.items():
         mark = "PASS" if val is True else ("FAIL" if val is False else "OFF ")
@@ -249,9 +239,9 @@ def inspectMode(skillId: str) -> int:
     nextGrade, pointsNeeded = nextGradeInfo(tm)
 
     print(f"\n--- Stars & Grade ---")
-    print(f"  Current stars:  {starsLabel(currentStars)}")
+    print(f"  Current stars:  {starsLabel(currentStars, fm)}")
     print(f"  Trust Grade:    {grade}  (TM {tm:.2f})")
-    print(f"  G7 Eff. stars:  {starsLabel(g7Stars)}{'  ' + flag if flag else ''}")
+    print(f"  G7 Eff. stars:  {starsLabel(g7Stars, fm)}{'  ' + flag if flag else ''}")
 
     print(f"\n--- Next Grade Analysis ---")
     if pointsNeeded > 0:
@@ -324,7 +314,7 @@ def leaderboardMode() -> int:
     print(f"{'='*W}")
     print(f"GAIA TRUST MAGNITUDE LEADERBOARD — {len(rows)} named skills")
     print(f"{'='*W}")
-    print(f"  Stars     = current stars (CONTEXT.md rank names: Awakened/Named/Evolved/Hardened/Transcendent)")
+    print(f"  Stars     = current stars (CONTEXT.md rank names: Awakened/Named/Evolved/Extra/Ultimate/Apex)")
     print(f"  G7 Stars  = effective stars per G7 RFC (S=5-star A=4-star B=3-star C=2-star ungraded=1-star)")
     print(f"  [floor]   = rank-floor §10.10: 4-star+ held at >= Evolved (3-star) despite grade")
     print(f"  [up]      = G7 grade implies promotion above current stars")
@@ -457,11 +447,11 @@ def buildSkillJson(skillId: str, mergedMap: dict, namedSkillMap: dict) -> dict |
         "contributor": fm.get("contributor") or skillId.split("/")[0],
         "description": fm.get("description") or "",
         "stars": currentStars,
-        "starsLabel": starsLabel(currentStars),
+        "starsLabel": starsLabel(currentStars, fm),
         "tm": round(tm, 2),
         "grade": grade,
         "g7Stars": g7Stars,
-        "g7StarsLabel": starsLabel(g7Stars),
+        "g7StarsLabel": starsLabel(g7Stars, fm),
         "rankFlag": rankFlag,
         "nextGrade": nextGrade,
         "pointsNeeded": round(pointsNeeded, 2),

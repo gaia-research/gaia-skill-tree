@@ -2,12 +2,12 @@
 id: mattpocock/to-tickets
 name: To Tickets
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: vertical-slice-planning
 status: named
 title: The Vertical Slicer
 catalogRef: mattpocock-to-issues
-level: 3★
+level: 4★
 description: Breaks a plan, spec, or PRD into independently-grabbable GitHub issues
   as tracer-bullet vertical slices that each cut through all integration layers end-to-end.
   Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity,
@@ -22,8 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-08-19'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
@@ -114,7 +113,21 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md
-trustMagnitude: 90.38
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:40Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -125,9 +138,10 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 848d74165305557c250a81ef7bdaa739c61a32f9474a7823d247db12b83549d7
+trustMagnitudeInputHash: f60ba86f4827a9866a6f332f4250bb2650c817fcc63b6cef5ce4854da59f5e22
 verification:
   firstEvidenceAt: '2026-06-19T17:07:36Z'
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

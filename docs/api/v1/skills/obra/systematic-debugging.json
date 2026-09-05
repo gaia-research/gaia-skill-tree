@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/obra.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Root Cause Hunter",
   "genericSkillRef": "systematic-debugging",
   "origin": false,
@@ -138,6 +146,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T14:32:19Z",
       "details": "TM 65.15 -> 65.15, grade B -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:56Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 65.15 -> 65.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

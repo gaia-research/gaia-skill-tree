@@ -21,8 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
-suiteRef: mattpocock/productivity
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
@@ -112,6 +111,16 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -125,7 +134,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:00:13Z'
-trustMagnitudeInputHash: fa43a5c8bbc1b5a76b7b1d6a8eb97b77c91976f3927f2b97d994e8c38cd65ef5
+trustMagnitudeInputHash: c35a5c427b8915e22a0ac8d17ab0a6bf03a1bf3086797c5c59fc2d5f1fa54f2e
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
   "title": "The Primary-Source Researcher",
   "genericSkillRef": "research",
   "origin": false,
@@ -59,6 +67,18 @@
       "action": "suite_ref_set",
       "contributor": "mbtiongson1",
       "details": "Set suiteRef to mattpocock/engineering"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:53Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 20.77, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 20.77 -> 20.77, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

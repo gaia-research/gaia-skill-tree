@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ safishamsi/graphify | Basic | 4★ | Extra | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ safishamsi/graphify | Basic | 5★ | Ultimate | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 
@@ -27,7 +27,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ◉ safishamsi/graphify  [4★]
+  ✓ ◉ safishamsi/graphify  [5★]
     ├─ · ○ /extract-entities
     └─ · ○ /logical-inference
 ```

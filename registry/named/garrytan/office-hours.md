@@ -21,8 +21,7 @@ tags:
 - y-combinator
 - ideation
 createdAt: '2026-05-12'
-updatedAt: '2026-06-21'
-suiteRef: garrytan/garrytan
+updatedAt: '2026-09-05'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
@@ -78,6 +77,16 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:
@@ -91,7 +100,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: 66b83f951c78243b54a8eb00806ba80d863b5df43f507e7a3e6e97f1babd0095
+trustMagnitudeInputHash: 03043b4bc6ec86d292039fdc168d10737101afa316f9a673dd2798cdce846a29
+suiteRef: garrytan/gstack
 ---
 
 ## Overview

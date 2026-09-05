@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Query Open Targets Platform for target-disease associations, drug target
   discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic
   target identification.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md
 evidence:
@@ -25,16 +25,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/53/D1/D1467/7917960
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: Open Targets Platform 2025 — NAR; drug target identification and prioritization
-    platform
-  reviewers: 3
-  sourceStartedAt: '2025-01-07'
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -98,8 +88,19 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/opentargets_database to google-deepmind/opentargets-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:26Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -109,7 +110,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 79355fde8118f38def9957357ed25fd6cb9b15056a29c8abc528a874840d76ae
+trustMagnitudeInputHash: eef428c1b063f8115c75b8216737a2eb9466d49fe38aeccf1f05698ff73bfbf6
 verification:
   firstEvidenceAt: '2026-06-19T17:05:43Z'
 ---

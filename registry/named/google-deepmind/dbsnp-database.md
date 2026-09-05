@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Use when you want to look up, map, and search for short genetic variants
   (SNPs, indels) in NCBI's dbSNP database. Resolves between rsIDs, genomic coordinates
   in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations,
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
 evidence:
@@ -26,15 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/29/1/308/1116395
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285
-    citations (Semantic Scholar 2026-06-19).'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -72,8 +63,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/dbsnp_database to google-deepmind/dbsnp-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -85,7 +83,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:36Z'
-trustMagnitudeInputHash: 7ad65013c3d761cfd008a7e3407a1a36fc15731654d30c04db9700b9d10d5899
+trustMagnitudeInputHash: e4e50de963536f4a4306b7f363f28238d8945b8215f3b32dae6b61db7c94a98c
 ---
 
 # dbSNP Database Integration

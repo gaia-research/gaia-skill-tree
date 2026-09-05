@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ obra/brainstorming | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/brainstorming | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/dispatching-parallel-agents | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/executing-plans | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/finishing-a-development-branch | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/receiving-code-review | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/requesting-code-review | Basic | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/subagent-driven-development | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/superpowers | Basic | 5★ | Ultimate | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/superpowers | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/systematic-debugging | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/using-git-worktrees | Basic | 4★ | Extra | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/verification-before-completion | Basic | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
@@ -42,12 +42,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · garrytan/garrytan  [4★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ · · garrytan/design-consultation  [3★]
+  ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · · garrytan/design-shotgun  [3★]
@@ -63,7 +63,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
-  ├─ ✓ · garrytan/ship  [3★]
+  ├─ ✓ · addy-osmani/shipping-and-launch  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
@@ -82,7 +82,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · · garrytan/skillify  [3★]
@@ -112,24 +112,24 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/setup-gbrain  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ garrytan/make-pdf  [2★]
+  ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [4★]
+  └─ · · garrytan/plan-tune  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
-  ├─ · · mattpocock/engineering  [4★]
+  ├─ · · ████████/engineering
   │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
-  │  ├─ · · devin-ai/autonomous-swe  [3★]
+  │  ├─ · · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
@@ -141,7 +141,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
-  │  │  ├─ · · mattpocock/ubiquitous-language  [3★]
+  │  │  ├─ · · ruvnet/v3-ddd-architecture  [2★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
   │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
@@ -152,8 +152,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
-  │  ├─ · ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · · garrytan/garrytan  [4★]
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]
+  │  ├─ · · mattpocock/to-tickets  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ ✓ · obra/requesting-code-review  [2★]
@@ -165,29 +165,29 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
   │  ├─ · · mattpocock/research  [2★]
-  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
-  ├─ · · mattpocock/misc  [3★]
+  ├─ · · ████████/misc
   │  ├─ · · garrytan/careful  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
-  │  ├─ · ○ addy-osmani/code-simplification  [3★]  (↑ see above)
+  │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
   │  └─ · · garrytan/skillify  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · mattpocock/productivity  [3★]
+  ├─ · · ████████/productivity
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  │  └─ · ○ garrytan/context-restore  [2★]
   │  ├─ · ○ garrytan/context-restore  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
-  │  ├─ · · mattpocock/write-a-skill  [3★]
+  │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
   │  ├─ · · garrytan/setup-gbrain  [2★]
@@ -195,10 +195,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
   │  └─ · ○ mattpocock/wait-what  [2★]
-  └─ · · mattpocock/write-a-skill  [3★]  (↑ see above)
+  └─ · · mattpocock/write-a-skill  [2★]  (↑ see above)
 
-✓ ◆ obra/superpowers  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+✓ ◆ obra/superpowers  [4★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ ✓ · obra/dispatching-parallel-agents  [3★]
@@ -209,7 +209,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
-  ├─ ✓ · garrytan/ship  [3★]
+  ├─ ✓ · addy-osmani/shipping-and-launch  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
@@ -236,8 +236,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]  (↑ see above)
   └─ ✓ · obra/writing-plans  [4★]  (↑ see above)
 
-· ◆ addy-osmani/agent-skills  [5★]
-  ├─ ✓ · obra/brainstorming  [3★]
+· ◆ addy-osmani/agent-skills  [4★]
+  ├─ ✓ · obra/brainstorming  [4★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
   ├─ ✓ · obra/writing-plans  [4★]
@@ -257,7 +257,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · obra/verification-before-completion  [3★]
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
-  └─ ✓ · garrytan/ship  [3★]
+  └─ ✓ · addy-osmani/shipping-and-launch  [3★]
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
@@ -265,6 +265,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  ✓ ◉ obra/brainstorming  [4★]
+    ├─ · ○ ████████/requirements-engineer
+    └─ · ○ garrytan/office-hours  [3★]
   ✓ ◉ obra/subagent-driven-development  [4★]
     ├─ ✓ · obra/executing-plans  [3★]
     │  ├─ ✓ · obra/writing-plans  [4★]

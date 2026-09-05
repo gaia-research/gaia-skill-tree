@@ -1,0 +1,2117 @@
+{
+  "auditDate": "2026-09-04T18:00:00Z",
+  "generator": "gaia-meta-sweep",
+  "scope": "all",
+  "mode": "read-only",
+  "aggressiveness": "moderate",
+  "survivalRate": 1.0,
+  "snapshot": {
+    "totalNamedSkills": 328,
+    "totalGenerics": 284,
+    "starDistribution": {
+      "2★": 110,
+      "4★": 25,
+      "1★": 120,
+      "3★": 61,
+      "5★": 12
+    }
+  },
+  "findings": {
+    "star-bar": {
+      "metaRef": "§2.4",
+      "count": 4,
+      "topPriority": "P1",
+      "items": [
+        {
+          "target": "mattpocock/engineering",
+          "priority": "P1",
+          "reason": "3★ skill has no links.github",
+          "suggestedAction": "Add canonical SKILL.md blob URL or demote to 1★",
+          "sources": [
+            "registry/named/mattpocock/engineering.md"
+          ]
+        },
+        {
+          "target": "mattpocock/personal",
+          "priority": "P1",
+          "reason": "3★ skill has no links.github",
+          "suggestedAction": "Add canonical SKILL.md blob URL or demote to 1★",
+          "sources": [
+            "registry/named/mattpocock/personal.md"
+          ]
+        },
+        {
+          "target": "mattpocock/productivity",
+          "priority": "P1",
+          "reason": "3★ skill has no links.github",
+          "suggestedAction": "Add canonical SKILL.md blob URL or demote to 1★",
+          "sources": [
+            "registry/named/mattpocock/productivity.md"
+          ]
+        },
+        {
+          "target": "mattpocock/misc",
+          "priority": "P1",
+          "reason": "3★ skill has no links.github",
+          "suggestedAction": "Add canonical SKILL.md blob URL or demote to 1★",
+          "sources": [
+            "registry/named/mattpocock/misc.md"
+          ]
+        }
+      ]
+    },
+    "liveness": {
+      "metaRef": "§2.2",
+      "count": 9,
+      "topPriority": "P1",
+      "items": [
+        {
+          "target": "mattpocock/obsidian-vault",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
+          ]
+        },
+        {
+          "target": "browserbase/browse",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
+          ]
+        },
+        {
+          "target": "mattpocock/zoom-out",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md"
+          ]
+        },
+        {
+          "target": "mattpocock/ubiquitous-language",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
+          ]
+        },
+        {
+          "target": "mbtiongson1/gaia-wiki-sync",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md"
+          ]
+        },
+        {
+          "target": "panniantong/agent-reach",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md"
+          ]
+        },
+        {
+          "target": "mattpocock/edit-article",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
+          ]
+        },
+        {
+          "target": "mbtiongson1/gaia-integrity",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
+          ]
+        },
+        {
+          "target": "mattpocock/write-a-skill",
+          "priority": "P1",
+          "reason": "Dead evidence/source URL (links.github): HTTP 404 on https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md",
+          "suggestedAction": "Repair broken upstream link or excise dead evidence row",
+          "sources": [
+            "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
+          ]
+        }
+      ]
+    },
+    "origin-attribution": {
+      "metaRef": "§4.1",
+      "count": 4,
+      "topPriority": "P2",
+      "items": [
+        {
+          "target": "mattpocock/to-tickets",
+          "priority": "P2",
+          "reason": "Origin holder mattpocock/to-tickets (4★) is outclassed by addy-osmani/planning-and-task-breakdown (5★) in generic 'vertical-slice-planning'",
+          "suggestedAction": "Reassign Origin to addy-osmani/planning-and-task-breakdown per META §4.1 renowned rule",
+          "sources": [
+            "mattpocock/to-tickets",
+            "addy-osmani/planning-and-task-breakdown"
+          ]
+        },
+        {
+          "target": "obra/executing-plans",
+          "priority": "P2",
+          "reason": "Origin holder obra/executing-plans (3★) is outclassed by addy-osmani/incremental-implementation (5★) in generic 'executing-plans'",
+          "suggestedAction": "Reassign Origin to addy-osmani/incremental-implementation per META §4.1 renowned rule",
+          "sources": [
+            "obra/executing-plans",
+            "addy-osmani/incremental-implementation"
+          ]
+        },
+        {
+          "target": "mattpocock/to-spec",
+          "priority": "P2",
+          "reason": "Origin holder mattpocock/to-spec (3★) is outclassed by addy-osmani/spec-driven-development (5★) in generic 'prd-generation'",
+          "suggestedAction": "Reassign Origin to addy-osmani/spec-driven-development per META §4.1 renowned rule",
+          "sources": [
+            "mattpocock/to-spec",
+            "addy-osmani/spec-driven-development"
+          ]
+        },
+        {
+          "target": "browser-use/browser-harness",
+          "priority": "P2",
+          "reason": "Origin holder browser-use/browser-harness (3★) is outclassed by firecrawl/firecrawl-build-interact (4★) in generic 'browser-control'",
+          "suggestedAction": "Reassign Origin to firecrawl/firecrawl-build-interact per META §4.1 renowned rule",
+          "sources": [
+            "browser-use/browser-harness",
+            "firecrawl/firecrawl-build-interact"
+          ]
+        }
+      ]
+    },
+    "unbacked-star": {
+      "metaRef": "§1.1/§2.1",
+      "count": 50,
+      "topPriority": "P1",
+      "items": [
+        {
+          "target": "mattpocock/to-tickets",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 94.92)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/to-tickets.md"
+          ]
+        },
+        {
+          "target": "mattpocock/engineering",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/engineering.md"
+          ]
+        },
+        {
+          "target": "mattpocock/diagnose",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 94.92)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/diagnose.md"
+          ]
+        },
+        {
+          "target": "mattpocock/personal",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/personal.md"
+          ]
+        },
+        {
+          "target": "mattpocock/skills",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 233.42)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/skills.md"
+          ]
+        },
+        {
+          "target": "mattpocock/productivity",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/productivity.md"
+          ]
+        },
+        {
+          "target": "mattpocock/misc",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/mattpocock/misc.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/incremental-implementation",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade B ceiling (max 3★, TM 95.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/incremental-implementation.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/code-simplification",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/code-simplification.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/code-review-and-quality",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/code-review-and-quality.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/performance-optimization",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/performance-optimization.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/spec-driven-development",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade B ceiling (max 3★, TM 80.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/spec-driven-development.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/planning-and-task-breakdown",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade B ceiling (max 3★, TM 95.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/planning-and-task-breakdown.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/shipping-and-launch",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/shipping-and-launch.md"
+          ]
+        },
+        {
+          "target": "addy-osmani/agent-skills",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 174.62)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/addy-osmani/agent-skills.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-skills",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 70.69)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-skills.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-onboarding",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-onboarding.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-search",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 83.62)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-search.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-interact",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-interact.md"
+          ]
+        },
+        {
+          "target": "ruvnet/reasoningbank",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 88.50)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/reasoningbank.md"
+          ]
+        },
+        {
+          "target": "ruvnet/agentdb",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 81.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/agentdb.md"
+          ]
+        },
+        {
+          "target": "ruvnet/flow-nexus",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 36.00)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/flow-nexus.md"
+          ]
+        },
+        {
+          "target": "ruvnet/ruflo",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 174.59)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/ruflo.md"
+          ]
+        },
+        {
+          "target": "ruvnet/ruflo-v3",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 36.00)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/ruflo-v3.md"
+          ]
+        },
+        {
+          "target": "ruvnet/github-suite",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 36.00)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/github-suite.md"
+          ]
+        },
+        {
+          "target": "ruvnet/dual-mode",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 36.00)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/ruvnet/dual-mode.md"
+          ]
+        },
+        {
+          "target": "nextlevelbuilder/ui-ux-pro-max",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 226.50)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/nextlevelbuilder/ui-ux-pro-max.md"
+          ]
+        },
+        {
+          "target": "obra/superpowers",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 220.81)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/obra/superpowers.md"
+          ]
+        },
+        {
+          "target": "supabase/supabase-postgres-best-practices",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 5.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/supabase/supabase-postgres-best-practices.md"
+          ]
+        },
+        {
+          "target": "supabase/supabase",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 5.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/supabase/supabase.md"
+          ]
+        },
+        {
+          "target": "martin-stepanoski/nielsen-heuristics-audit",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade ungraded ceiling (max 1★, TM 4.90)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/martin-stepanoski/nielsen-heuristics-audit.md"
+          ]
+        },
+        {
+          "target": "safishamsi/graphify",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 171.88)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/safishamsi/graphify.md"
+          ]
+        },
+        {
+          "target": "pbakaus/impeccable",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 169.34)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/pbakaus/impeccable.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-upgrade",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-upgrade.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-docs",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-docs.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-saas",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-saas.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-studio",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-studio.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-create",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-create.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-render",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-render.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-best-practices",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-best-practices.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-interactivity",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-interactivity.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-maps",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-maps.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-markup",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-markup.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-captions",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-captions.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-multimedia",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/remotion-dev/remotion-multimedia.md"
+          ]
+        },
+        {
+          "target": "laravel/upgrade-laravel-v13",
+          "priority": "P1",
+          "reason": "Level 2★ exceeds TM Grade ungraded ceiling (max 1★, TM 0.00)",
+          "suggestedAction": "Calibrate level down to 1★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/laravel/upgrade-laravel-v13.md"
+          ]
+        },
+        {
+          "target": "xquik-dev/hermes-tweet",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 42.47)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/xquik-dev/hermes-tweet.md"
+          ]
+        },
+        {
+          "target": "garrytan/garrytan",
+          "priority": "P1",
+          "reason": "Level 3★ exceeds TM Grade C ceiling (max 2★, TM 36.00)",
+          "suggestedAction": "Calibrate level down to 2★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/garrytan/garrytan.md"
+          ]
+        },
+        {
+          "target": "garrytan/cso",
+          "priority": "P1",
+          "reason": "Level 4★ exceeds TM Grade B ceiling (max 3★, TM 50.00)",
+          "suggestedAction": "Calibrate level down to 3★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/garrytan/cso.md"
+          ]
+        },
+        {
+          "target": "garrytan/gstack",
+          "priority": "P1",
+          "reason": "Level 5★ exceeds TM Grade A ceiling (max 4★, TM 225.66)",
+          "suggestedAction": "Calibrate level down to 4★ or ingest verified independent witness evidence",
+          "sources": [
+            "registry/named/garrytan/gstack.md"
+          ]
+        }
+      ]
+    },
+    "brand-coupled": {
+      "metaRef": "§1/§2.4",
+      "count": 4,
+      "topPriority": "P2",
+      "items": [
+        {
+          "target": "firecrawl",
+          "priority": "P2",
+          "reason": "Generic skill node 'firecrawl' is brand-coupled to vendor/product 'firecrawl'",
+          "suggestedAction": "Rename to vendor-neutral abstract capability (META §1)",
+          "sources": [
+            "registry/nodes/fusion/firecrawl.json"
+          ]
+        },
+        {
+          "target": "postgres-best-practices",
+          "priority": "P2",
+          "reason": "Generic skill node 'postgres-best-practices' is brand-coupled to vendor/product 'postgres'",
+          "suggestedAction": "Rename to vendor-neutral abstract capability (META §1)",
+          "sources": [
+            "registry/nodes/basic/postgres-best-practices.json"
+          ]
+        },
+        {
+          "target": "supabase",
+          "priority": "P2",
+          "reason": "Generic skill node 'supabase' is brand-coupled to vendor/product 'supabase'",
+          "suggestedAction": "Rename to vendor-neutral abstract capability (META §1)",
+          "sources": [
+            "registry/nodes/basic/supabase.json"
+          ]
+        },
+        {
+          "target": "react-performance-optimization",
+          "priority": "P2",
+          "reason": "Generic skill node 'react-performance-optimization' is brand-coupled to vendor/product 'react'",
+          "suggestedAction": "Rename to vendor-neutral abstract capability (META §1)",
+          "sources": [
+            "registry/nodes/basic/react-performance-optimization.json"
+          ]
+        }
+      ]
+    },
+    "installability": {
+      "metaRef": "§2.4",
+      "count": 1,
+      "topPriority": "P1",
+      "items": [
+        {
+          "target": "mattpocock/diagnose",
+          "priority": "P1",
+          "reason": "4★ skill declared installable: false (Star Bar requires installability for individual skills)",
+          "suggestedAction": "Provide installation instructions or demote below 3★",
+          "sources": [
+            "registry/named/mattpocock/diagnose.md"
+          ]
+        }
+      ]
+    },
+    "placeholder-bodies": {
+      "metaRef": "§4.1",
+      "count": 65,
+      "topPriority": "P3",
+      "items": [
+        {
+          "target": "anthropics/canvas-design",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/anthropics/canvas-design.md"
+          ]
+        },
+        {
+          "target": "anthropics/brand-guidelines",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/anthropics/brand-guidelines.md"
+          ]
+        },
+        {
+          "target": "mattpocock/wizard",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/wizard.md"
+          ]
+        },
+        {
+          "target": "mattpocock/wait-what",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/wait-what.md"
+          ]
+        },
+        {
+          "target": "mattpocock/research",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/research.md"
+          ]
+        },
+        {
+          "target": "mattpocock/code-review",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/code-review.md"
+          ]
+        },
+        {
+          "target": "mattpocock/misc",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/misc.md"
+          ]
+        },
+        {
+          "target": "mattpocock/to-questionnaire",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/mattpocock/to-questionnaire.md"
+          ]
+        },
+        {
+          "target": "gaia-research/cost",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/gaia-research/cost.md"
+          ]
+        },
+        {
+          "target": "gaia-research/ci-churn",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/gaia-research/ci-churn.md"
+          ]
+        },
+        {
+          "target": "oso95/scroll-world",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/oso95/scroll-world.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-research-index",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-research-index.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-onboarding",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-onboarding.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-search",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-search.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-interact",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-interact.md"
+          ]
+        },
+        {
+          "target": "firecrawl/firecrawl-build-scrape",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/firecrawl/firecrawl-build-scrape.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/brandkit",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/brandkit.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/image-to-code-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/image-to-code-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/soft-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/soft-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/imagegen-frontend-web",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/imagegen-frontend-web.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/gpt-tasteskill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/gpt-tasteskill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/redesign-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/redesign-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/stitch-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/stitch-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/unlazy",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/unlazy.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/brutalist-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/brutalist-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/minimalist-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/minimalist-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/imagegen-frontend-mobile",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/imagegen-frontend-mobile.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/output-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/output-skill.md"
+          ]
+        },
+        {
+          "target": "leonxlnx/taste-skill",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/leonxlnx/taste-skill.md"
+          ]
+        },
+        {
+          "target": "caioribeiroclw-pixel/evidence-attestation",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/caioribeiroclw-pixel/evidence-attestation.md"
+          ]
+        },
+        {
+          "target": "nextlevelbuilder/ui-ux-pro-max",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/nextlevelbuilder/ui-ux-pro-max.md"
+          ]
+        },
+        {
+          "target": "ayghri/i-have-adhd",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/ayghri/i-have-adhd.md"
+          ]
+        },
+        {
+          "target": "supabase/supabase-postgres-best-practices",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/supabase/supabase-postgres-best-practices.md"
+          ]
+        },
+        {
+          "target": "supabase/supabase",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/supabase/supabase.md"
+          ]
+        },
+        {
+          "target": "panniantong/agent-reach",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/panniantong/agent-reach.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-upgrade",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-upgrade.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-docs",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-docs.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-saas",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-saas.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-studio",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-studio.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-create",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-create.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-render",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-render.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-best-practices",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-best-practices.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-interactivity",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-interactivity.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-maps",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-maps.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-markup",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-markup.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-captions",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-captions.md"
+          ]
+        },
+        {
+          "target": "remotion-dev/remotion-multimedia",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/remotion-dev/remotion-multimedia.md"
+          ]
+        },
+        {
+          "target": "dietrichgebert/ponytail",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/dietrichgebert/ponytail.md"
+          ]
+        },
+        {
+          "target": "vercel-labs/vercel-react-best-practices",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/vercel-labs/vercel-react-best-practices.md"
+          ]
+        },
+        {
+          "target": "disler/plan-synthesis",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/disler/plan-synthesis.md"
+          ]
+        },
+        {
+          "target": "disler/opinion",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/disler/opinion.md"
+          ]
+        },
+        {
+          "target": "disler/agent-fusion",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/disler/agent-fusion.md"
+          ]
+        },
+        {
+          "target": "disler/auto-review",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/disler/auto-review.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/qiskit",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/qiskit.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/stable-baselines3",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/stable-baselines3.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/deepchem",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/deepchem.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/scanpy",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/scanpy.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/rdkit",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/rdkit.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/transformers",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/transformers.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/scvi-tools",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/scvi-tools.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/torch-geometric",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/torch-geometric.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/pymc",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/pymc.md"
+          ]
+        },
+        {
+          "target": "k-dense-ai/pytorch-lightning",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/k-dense-ai/pytorch-lightning.md"
+          ]
+        },
+        {
+          "target": "juliusbrussee/caveman",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/juliusbrussee/caveman.md"
+          ]
+        },
+        {
+          "target": "aplaceforallmystuff/log-to-daily",
+          "priority": "P3",
+          "reason": "Skill documentation body is an empty scaffold stub (lacks ## Overview and operational specification)",
+          "suggestedAction": "Author concrete usage documentation and operational guidance",
+          "sources": [
+            "registry/named/aplaceforallmystuff/log-to-daily.md"
+          ]
+        }
+      ]
+    },
+    "testuser-timelines": {
+      "metaRef": "§5",
+      "count": 1,
+      "topPriority": "P2",
+      "items": [
+        {
+          "target": "mbtiongson1/gaia-meta-audit",
+          "priority": "P2",
+          "reason": "Skill frontmatter contains testuser mock fixture in timeline or evaluator field",
+          "suggestedAction": "Purge testuser and replace with canonical contributor or reviewer identity",
+          "sources": [
+            "registry/named/mbtiongson1/gaia-meta-audit.md"
+          ]
+        }
+      ]
+    },
+    "champion-cluster": {
+      "metaRef": "§6.1",
+      "count": 63,
+      "topPriority": "P3",
+      "items": [
+        {
+          "target": "brand-guideline-application",
+          "priority": "P3",
+          "reason": "Generic 'brand-guideline-application' has 2 implementations (['anthropics/brand-guidelines', 'leonxlnx/brandkit']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/brand-guideline-application.json (META §6.1)",
+          "sources": [
+            "anthropics/brand-guidelines",
+            "leonxlnx/brandkit"
+          ]
+        },
+        {
+          "target": "code-review-pipeline",
+          "priority": "P3",
+          "reason": "Generic 'code-review-pipeline' has 6 implementations (['langgenius/backend-code-review', 'langgenius/frontend-code-review', 'addy-osmani/code-review-and-quality', 'ruvnet/github-code-review', 'garrytan/review', 'garrytan/plan-eng-review']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/code-review-pipeline.json (META §6.1)",
+          "sources": [
+            "langgenius/backend-code-review",
+            "langgenius/frontend-code-review",
+            "addy-osmani/code-review-and-quality",
+            "ruvnet/github-code-review",
+            "garrytan/review",
+            "garrytan/plan-eng-review"
+          ]
+        },
+        {
+          "target": "refactor-code",
+          "priority": "P3",
+          "reason": "Generic 'refactor-code' has 4 implementations (['langgenius/component-refactoring', 'mattpocock/improve-codebase-architecture', 'mattpocock/migrate-to-shoehorn', 'addy-osmani/code-simplification']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/refactor-code.json (META §6.1)",
+          "sources": [
+            "langgenius/component-refactoring",
+            "mattpocock/improve-codebase-architecture",
+            "mattpocock/migrate-to-shoehorn",
+            "addy-osmani/code-simplification"
+          ]
+        },
+        {
+          "target": "automated-testing",
+          "priority": "P3",
+          "reason": "Generic 'automated-testing' has 3 implementations (['langgenius/frontend-testing', '0xdarkmatter/pytest-patterns', 'garrytan/health']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/automated-testing.json (META §6.1)",
+          "sources": [
+            "langgenius/frontend-testing",
+            "0xdarkmatter/pytest-patterns",
+            "garrytan/health"
+          ]
+        },
+        {
+          "target": "e2e-testing",
+          "priority": "P3",
+          "reason": "Generic 'e2e-testing' has 4 implementations (['langgenius/e2e-cucumber-playwright', 'intelligentcode-ai/user-tester', 'garrytan/qa', 'garrytan/qa-only']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/e2e-testing.json (META §6.1)",
+          "sources": [
+            "langgenius/e2e-cucumber-playwright",
+            "intelligentcode-ai/user-tester",
+            "garrytan/qa",
+            "garrytan/qa-only"
+          ]
+        },
+        {
+          "target": "vertical-slice-planning",
+          "priority": "P3",
+          "reason": "Generic 'vertical-slice-planning' has 3 implementations (['mattpocock/to-tickets', 'addy-osmani/planning-and-task-breakdown', 'garrytan/garrytan']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/vertical-slice-planning.json (META §6.1)",
+          "sources": [
+            "mattpocock/to-tickets",
+            "addy-osmani/planning-and-task-breakdown",
+            "garrytan/garrytan"
+          ]
+        },
+        {
+          "target": "ubiquitous-language",
+          "priority": "P3",
+          "reason": "Generic 'ubiquitous-language' has 2 implementations (['mattpocock/ubiquitous-language', 'ruvnet/v3-ddd-architecture']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/ubiquitous-language.json (META §6.1)",
+          "sources": [
+            "mattpocock/ubiquitous-language",
+            "ruvnet/v3-ddd-architecture"
+          ]
+        },
+        {
+          "target": "executing-plans",
+          "priority": "P3",
+          "reason": "Generic 'executing-plans' has 3 implementations (['mattpocock/implement', 'addy-osmani/incremental-implementation', 'obra/executing-plans']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/executing-plans.json (META §6.1)",
+          "sources": [
+            "mattpocock/implement",
+            "addy-osmani/incremental-implementation",
+            "obra/executing-plans"
+          ]
+        },
+        {
+          "target": "tool-creation",
+          "priority": "P3",
+          "reason": "Generic 'tool-creation' has 2 implementations (['mattpocock/write-a-skill', 'anthropic/skill-creator']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/tool-creation.json (META §6.1)",
+          "sources": [
+            "mattpocock/write-a-skill",
+            "anthropic/skill-creator"
+          ]
+        },
+        {
+          "target": "issue-triage",
+          "priority": "P3",
+          "reason": "Generic 'issue-triage' has 3 implementations (['mattpocock/triage', 'mbtiongson1/gaia-triage', 'gaiabot/gaia-triage']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/issue-triage.json (META §6.1)",
+          "sources": [
+            "mattpocock/triage",
+            "mbtiongson1/gaia-triage",
+            "gaiabot/gaia-triage"
+          ]
+        },
+        {
+          "target": "agent-environment-setup",
+          "priority": "P3",
+          "reason": "Generic 'agent-environment-setup' has 2 implementations (['mattpocock/setup-matt-pocock-skills', 'firecrawl/firecrawl-build-onboarding']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/agent-environment-setup.json (META §6.1)",
+          "sources": [
+            "mattpocock/setup-matt-pocock-skills",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        },
+        {
+          "target": "skill-authoring",
+          "priority": "P3",
+          "reason": "Generic 'skill-authoring' has 5 implementations (['mattpocock/scaffold-exercises', 'mattpocock/writing-for-agents', 'ruvnet/skill-builder', 'google-deepmind/workflow-skill-creator', 'garrytan/skillify']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/skill-authoring.json (META §6.1)",
+          "sources": [
+            "mattpocock/scaffold-exercises",
+            "mattpocock/writing-for-agents",
+            "ruvnet/skill-builder",
+            "google-deepmind/workflow-skill-creator",
+            "garrytan/skillify"
+          ]
+        },
+        {
+          "target": "git-integration",
+          "priority": "P3",
+          "reason": "Generic 'git-integration' has 2 implementations (['mattpocock/resolving-merge-conflicts', 'ruvnet/github-suite']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/git-integration.json (META §6.1)",
+          "sources": [
+            "mattpocock/resolving-merge-conflicts",
+            "ruvnet/github-suite"
+          ]
+        },
+        {
+          "target": "document-editing",
+          "priority": "P3",
+          "reason": "Generic 'document-editing' has 4 implementations (['mattpocock/edit-article', 'anthropic/pptx', 'garrytan/document-generate', 'garrytan/document-release']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/document-editing.json (META §6.1)",
+          "sources": [
+            "mattpocock/edit-article",
+            "anthropic/pptx",
+            "garrytan/document-generate",
+            "garrytan/document-release"
+          ]
+        },
+        {
+          "target": "systematic-debugging",
+          "priority": "P3",
+          "reason": "Generic 'systematic-debugging' has 3 implementations (['mattpocock/diagnosing-bugs', 'obra/systematic-debugging', 'garrytan/investigate']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/systematic-debugging.json (META §6.1)",
+          "sources": [
+            "mattpocock/diagnosing-bugs",
+            "obra/systematic-debugging",
+            "garrytan/investigate"
+          ]
+        },
+        {
+          "target": "prd-generation",
+          "priority": "P3",
+          "reason": "Generic 'prd-generation' has 2 implementations (['mattpocock/to-spec', 'addy-osmani/spec-driven-development']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/prd-generation.json (META §6.1)",
+          "sources": [
+            "mattpocock/to-spec",
+            "addy-osmani/spec-driven-development"
+          ]
+        },
+        {
+          "target": "test-driven-development",
+          "priority": "P3",
+          "reason": "Generic 'test-driven-development' has 2 implementations (['mattpocock/tdd', 'addy-osmani/test-driven-development']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/test-driven-development.json (META §6.1)",
+          "sources": [
+            "mattpocock/tdd",
+            "addy-osmani/test-driven-development"
+          ]
+        },
+        {
+          "target": "guardrails",
+          "priority": "P3",
+          "reason": "Generic 'guardrails' has 6 implementations (['mattpocock/git-guardrails-claude-code', 'mattpocock/setup-pre-commit', 'garrytan/careful', 'garrytan/guard', 'garrytan/freeze', 'garrytan/unfreeze']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/guardrails.json (META §6.1)",
+          "sources": [
+            "mattpocock/git-guardrails-claude-code",
+            "mattpocock/setup-pre-commit",
+            "garrytan/careful",
+            "garrytan/guard",
+            "garrytan/freeze",
+            "garrytan/unfreeze"
+          ]
+        },
+        {
+          "target": "design-review",
+          "priority": "P3",
+          "reason": "Generic 'design-review' has 2 implementations (['mattpocock/grilling', 'garrytan/design-shotgun']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/design-review.json (META §6.1)",
+          "sources": [
+            "mattpocock/grilling",
+            "garrytan/design-shotgun"
+          ]
+        },
+        {
+          "target": "requesting-code-review",
+          "priority": "P3",
+          "reason": "Generic 'requesting-code-review' has 2 implementations (['mattpocock/code-review', 'obra/requesting-code-review']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/requesting-code-review.json (META §6.1)",
+          "sources": [
+            "mattpocock/code-review",
+            "obra/requesting-code-review"
+          ]
+        },
+        {
+          "target": "knowledge-management",
+          "priority": "P3",
+          "reason": "Generic 'knowledge-management' has 3 implementations (['mattpocock/teach', 'garrytan/setup-gbrain', 'garrytan/sync-gbrain']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/knowledge-management.json (META §6.1)",
+          "sources": [
+            "mattpocock/teach",
+            "garrytan/setup-gbrain",
+            "garrytan/sync-gbrain"
+          ]
+        },
+        {
+          "target": "design-system-extraction",
+          "priority": "P3",
+          "reason": "Generic 'design-system-extraction' has 3 implementations (['Manavarya09/design-extract', 'leonxlnx/stitch-skill', 'garrytan/design-consultation']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/design-system-extraction.json (META §6.1)",
+          "sources": [
+            "Manavarya09/design-extract",
+            "leonxlnx/stitch-skill",
+            "garrytan/design-consultation"
+          ]
+        },
+        {
+          "target": "performance-tuning",
+          "priority": "P3",
+          "reason": "Generic 'performance-tuning' has 3 implementations (['addy-osmani/performance-optimization', 'ruvnet/performance-analysis', 'ruvnet/v3-performance-optimization']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/performance-tuning.json (META §6.1)",
+          "sources": [
+            "addy-osmani/performance-optimization",
+            "ruvnet/performance-analysis",
+            "ruvnet/v3-performance-optimization"
+          ]
+        },
+        {
+          "target": "finishing-a-development-branch",
+          "priority": "P3",
+          "reason": "Generic 'finishing-a-development-branch' has 4 implementations (['addy-osmani/shipping-and-launch', 'obra/finishing-a-development-branch', 'gsd-build/ship', 'garrytan/ship']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/finishing-a-development-branch.json (META §6.1)",
+          "sources": [
+            "addy-osmani/shipping-and-launch",
+            "obra/finishing-a-development-branch",
+            "gsd-build/ship",
+            "garrytan/ship"
+          ]
+        },
+        {
+          "target": "git-ship-done-pipeline",
+          "priority": "P3",
+          "reason": "Generic 'git-ship-done-pipeline' has 2 implementations (['addy-osmani/agent-skills', 'gsd-build/get-shit-done']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/git-ship-done-pipeline.json (META §6.1)",
+          "sources": [
+            "addy-osmani/agent-skills",
+            "gsd-build/get-shit-done"
+          ]
+        },
+        {
+          "target": "event-attendance-metrics",
+          "priority": "P3",
+          "reason": "Generic 'event-attendance-metrics' has 2 implementations (['favorchurch/count-checkin-by-church', 'favorchurch/attendees']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/event-attendance-metrics.json (META §6.1)",
+          "sources": [
+            "favorchurch/count-checkin-by-church",
+            "favorchurch/attendees"
+          ]
+        },
+        {
+          "target": "registry-entry-audit",
+          "priority": "P3",
+          "reason": "Generic 'registry-entry-audit' has 2 implementations (['mbtiongson1/gaia-curation-review', 'mbtiongson1/gaia-audit']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/registry-entry-audit.json (META §6.1)",
+          "sources": [
+            "mbtiongson1/gaia-curation-review",
+            "mbtiongson1/gaia-audit"
+          ]
+        },
+        {
+          "target": "registry-curation",
+          "priority": "P3",
+          "reason": "Generic 'registry-curation' has 6 implementations (['mbtiongson1/gaia-draft-curate', 'mbtiongson1/gaia-curate', 'mbtiongson1/gaia-bot-curate', 'mbtiongson1/gaia-docs-sync', 'mbtiongson1/gaia-wiki-sync', 'mbtiongson1/gaia-integrity']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/registry-curation.json (META §6.1)",
+          "sources": [
+            "mbtiongson1/gaia-draft-curate",
+            "mbtiongson1/gaia-curate",
+            "mbtiongson1/gaia-bot-curate",
+            "mbtiongson1/gaia-docs-sync",
+            "mbtiongson1/gaia-wiki-sync",
+            "mbtiongson1/gaia-integrity"
+          ]
+        },
+        {
+          "target": "deployment-automation",
+          "priority": "P3",
+          "reason": "Generic 'deployment-automation' has 4 implementations (['mbtiongson1/gaia-preview', 'intelligentcode-ai/devops-engineer', 'garrytan/setup-deploy', 'garrytan/land-and-deploy']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/deployment-automation.json (META §6.1)",
+          "sources": [
+            "mbtiongson1/gaia-preview",
+            "intelligentcode-ai/devops-engineer",
+            "garrytan/setup-deploy",
+            "garrytan/land-and-deploy"
+          ]
+        },
+        {
+          "target": "browser-control",
+          "priority": "P3",
+          "reason": "Generic 'browser-control' has 5 implementations (['firecrawl/firecrawl-build-interact', 'browser-use/browser-harness', 'garrytan/open-gstack-browser', 'garrytan/browse', 'garrytan/setup-browser-cookies']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/browser-control.json (META §6.1)",
+          "sources": [
+            "firecrawl/firecrawl-build-interact",
+            "browser-use/browser-harness",
+            "garrytan/open-gstack-browser",
+            "garrytan/browse",
+            "garrytan/setup-browser-cookies"
+          ]
+        },
+        {
+          "target": "web-scrape",
+          "priority": "P3",
+          "reason": "Generic 'web-scrape' has 2 implementations (['firecrawl/firecrawl-build-scrape', 'garrytan/scrape']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/web-scrape.json (META §6.1)",
+          "sources": [
+            "firecrawl/firecrawl-build-scrape",
+            "garrytan/scrape"
+          ]
+        },
+        {
+          "target": "design-generation",
+          "priority": "P3",
+          "reason": "Generic 'design-generation' has 7 implementations (['leonxlnx/soft-skill', 'leonxlnx/gpt-tasteskill', 'leonxlnx/brutalist-skill', 'leonxlnx/minimalist-skill', 'leonxlnx/taste-skill', 'pbakaus/impeccable', 'nexu-io/open-design']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/design-generation.json (META §6.1)",
+          "sources": [
+            "leonxlnx/soft-skill",
+            "leonxlnx/gpt-tasteskill",
+            "leonxlnx/brutalist-skill",
+            "leonxlnx/minimalist-skill",
+            "leonxlnx/taste-skill",
+            "pbakaus/impeccable",
+            "nexu-io/open-design"
+          ]
+        },
+        {
+          "target": "image-generate",
+          "priority": "P3",
+          "reason": "Generic 'image-generate' has 2 implementations (['leonxlnx/imagegen-frontend-web', 'leonxlnx/imagegen-frontend-mobile']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/image-generate.json (META §6.1)",
+          "sources": [
+            "leonxlnx/imagegen-frontend-web",
+            "leonxlnx/imagegen-frontend-mobile"
+          ]
+        },
+        {
+          "target": "ui-audit",
+          "priority": "P3",
+          "reason": "Generic 'ui-audit' has 2 implementations (['leonxlnx/redesign-skill', 'garrytan/design-review']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/ui-audit.json (META §6.1)",
+          "sources": [
+            "leonxlnx/redesign-skill",
+            "garrytan/design-review"
+          ]
+        },
+        {
+          "target": "format-output",
+          "priority": "P3",
+          "reason": "Generic 'format-output' has 3 implementations (['leonxlnx/output-skill', 'ayghri/i-have-adhd', 'garrytan/make-pdf']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/format-output.json (META §6.1)",
+          "sources": [
+            "leonxlnx/output-skill",
+            "ayghri/i-have-adhd",
+            "garrytan/make-pdf"
+          ]
+        },
+        {
+          "target": "write-report",
+          "priority": "P3",
+          "reason": "Generic 'write-report' has 4 implementations (['spring-ai/readme-generate', 'glincker/readme-generator', 'gaiabot/repo-docs-before-pr', 'garrytan/retro']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/write-report.json (META §6.1)",
+          "sources": [
+            "spring-ai/readme-generate",
+            "glincker/readme-generator",
+            "gaiabot/repo-docs-before-pr",
+            "garrytan/retro"
+          ]
+        },
+        {
+          "target": "subagent-driven-development",
+          "priority": "P3",
+          "reason": "Generic 'subagent-driven-development' has 3 implementations (['ruvnet/pair-programming', 'obra/subagent-driven-development', 'gsd-build/execute-phase']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/subagent-driven-development.json (META §6.1)",
+          "sources": [
+            "ruvnet/pair-programming",
+            "obra/subagent-driven-development",
+            "gsd-build/execute-phase"
+          ]
+        },
+        {
+          "target": "mcp-integration",
+          "priority": "P3",
+          "reason": "Generic 'mcp-integration' has 5 implementations (['ruvnet/v3-mcp-optimization', 'sickn33/n8n-mcp-tools-expert', 'sickn33/ai-dev-jobs-mcp', 'intelligentcode-ai/mcp-client', 'garrytan/pair-agent']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/mcp-integration.json (META §6.1)",
+          "sources": [
+            "ruvnet/v3-mcp-optimization",
+            "sickn33/n8n-mcp-tools-expert",
+            "sickn33/ai-dev-jobs-mcp",
+            "intelligentcode-ai/mcp-client",
+            "garrytan/pair-agent"
+          ]
+        },
+        {
+          "target": "release-automation",
+          "priority": "P3",
+          "reason": "Generic 'release-automation' has 2 implementations (['ruvnet/github-release-management', 'intelligentcode-ai/release']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/release-automation.json (META §6.1)",
+          "sources": [
+            "ruvnet/github-release-management",
+            "intelligentcode-ai/release"
+          ]
+        },
+        {
+          "target": "multi-agent-orchestration-v",
+          "priority": "P3",
+          "reason": "Generic 'multi-agent-orchestration-v' has 2 implementations (['ruvnet/flow-nexus-swarm', 'ruvnet/v3-swarm-coordination']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/multi-agent-orchestration-v.json (META §6.1)",
+          "sources": [
+            "ruvnet/flow-nexus-swarm",
+            "ruvnet/v3-swarm-coordination"
+          ]
+        },
+        {
+          "target": "browser-automation",
+          "priority": "P3",
+          "reason": "Generic 'browser-automation' has 3 implementations (['ruvnet/browser', 'browserbase/browse', 'gooseworks/notte-browser']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/browser-automation.json (META §6.1)",
+          "sources": [
+            "ruvnet/browser",
+            "browserbase/browse",
+            "gooseworks/notte-browser"
+          ]
+        },
+        {
+          "target": "project-management",
+          "priority": "P3",
+          "reason": "Generic 'project-management' has 2 implementations (['ruvnet/github-project-management', 'garrytan/landing-report']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/project-management.json (META §6.1)",
+          "sources": [
+            "ruvnet/github-project-management",
+            "garrytan/landing-report"
+          ]
+        },
+        {
+          "target": "workflow-automation",
+          "priority": "P3",
+          "reason": "Generic 'workflow-automation' has 2 implementations (['ruvnet/hooks-automation', 'ruvnet/github-workflow-automation']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/workflow-automation.json (META §6.1)",
+          "sources": [
+            "ruvnet/hooks-automation",
+            "ruvnet/github-workflow-automation"
+          ]
+        },
+        {
+          "target": "security-audit",
+          "priority": "P3",
+          "reason": "Generic 'security-audit' has 3 implementations (['ruvnet/v3-security-overhaul', 'intelligentcode-ai/security-engineer', 'garrytan/cso']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/security-audit.json (META §6.1)",
+          "sources": [
+            "ruvnet/v3-security-overhaul",
+            "intelligentcode-ai/security-engineer",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "target": "agent-memory-learning",
+          "priority": "P3",
+          "reason": "Generic 'agent-memory-learning' has 2 implementations (['ruvnet/reasoningbank-agentdb', 'ruvnet/agentdb-learning']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/agent-memory-learning.json (META §6.1)",
+          "sources": [
+            "ruvnet/reasoningbank-agentdb",
+            "ruvnet/agentdb-learning"
+          ]
+        },
+        {
+          "target": "verification-before-completion",
+          "priority": "P3",
+          "reason": "Generic 'verification-before-completion' has 3 implementations (['ruvnet/verification-quality', 'obra/verification-before-completion', 'gsd-build/verify-work']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/verification-before-completion.json (META §6.1)",
+          "sources": [
+            "ruvnet/verification-quality",
+            "obra/verification-before-completion",
+            "gsd-build/verify-work"
+          ]
+        },
+        {
+          "target": "memory-manage",
+          "priority": "P3",
+          "reason": "Generic 'memory-manage' has 2 implementations (['ruvnet/v3-memory-unification', 'garrytan/learn']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/memory-manage.json (META §6.1)",
+          "sources": [
+            "ruvnet/v3-memory-unification",
+            "garrytan/learn"
+          ]
+        },
+        {
+          "target": "skill-performance-benchmarking",
+          "priority": "P3",
+          "reason": "Generic 'skill-performance-benchmarking' has 2 implementations (['ruvnet/worker-benchmarks', 'garrytan/benchmark-models']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/skill-performance-benchmarking.json (META §6.1)",
+          "sources": [
+            "ruvnet/worker-benchmarks",
+            "garrytan/benchmark-models"
+          ]
+        },
+        {
+          "target": "ux-audit",
+          "priority": "P3",
+          "reason": "Generic 'ux-audit' has 5 implementations (['nextlevelbuilder/ui-ux-pro-max', 'martin-stepanoski/nielsen-heuristics-audit', 'garrytan/devex-review', 'garrytan/plan-devex-review', 'garrytan/plan-design-review']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/ux-audit.json (META §6.1)",
+          "sources": [
+            "nextlevelbuilder/ui-ux-pro-max",
+            "martin-stepanoski/nielsen-heuristics-audit",
+            "garrytan/devex-review",
+            "garrytan/plan-devex-review",
+            "garrytan/plan-design-review"
+          ]
+        },
+        {
+          "target": "proteomic-data-retrieval",
+          "priority": "P3",
+          "reason": "Generic 'proteomic-data-retrieval' has 4 implementations (['google-deepmind/string-database', 'google-deepmind/human-protein-atlas-database', 'google-deepmind/uniprot-database', 'google-deepmind/interpro-database']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/proteomic-data-retrieval.json (META §6.1)",
+          "sources": [
+            "google-deepmind/string-database",
+            "google-deepmind/human-protein-atlas-database",
+            "google-deepmind/uniprot-database",
+            "google-deepmind/interpro-database"
+          ]
+        },
+        {
+          "target": "genomic-data-retrieval",
+          "priority": "P3",
+          "reason": "Generic 'genomic-data-retrieval' has 9 implementations (['google-deepmind/unibind-database', 'google-deepmind/gtex-database', 'google-deepmind/gnomad-database', 'google-deepmind/ensembl-database', 'google-deepmind/ucsc-conservation-and-tfbs', 'google-deepmind/dbsnp-database', 'google-deepmind/encode-ccres-database', 'google-deepmind/jaspar-database', 'google-deepmind/ncbi-sequence-fetch']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/genomic-data-retrieval.json (META §6.1)",
+          "sources": [
+            "google-deepmind/unibind-database",
+            "google-deepmind/gtex-database",
+            "google-deepmind/gnomad-database",
+            "google-deepmind/ensembl-database",
+            "google-deepmind/ucsc-conservation-and-tfbs",
+            "google-deepmind/dbsnp-database",
+            "google-deepmind/encode-ccres-database",
+            "google-deepmind/jaspar-database",
+            "google-deepmind/ncbi-sequence-fetch"
+          ]
+        },
+        {
+          "target": "molecular-databases",
+          "priority": "P3",
+          "reason": "Generic 'molecular-databases' has 2 implementations (['google-deepmind/pubchem-database', 'google-deepmind/chembl-database']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/molecular-databases.json (META §6.1)",
+          "sources": [
+            "google-deepmind/pubchem-database",
+            "google-deepmind/chembl-database"
+          ]
+        },
+        {
+          "target": "scientific-literature-retrieval",
+          "priority": "P3",
+          "reason": "Generic 'scientific-literature-retrieval' has 5 implementations (['google-deepmind/pubmed-database', 'google-deepmind/literature-search-europepmc', 'google-deepmind/literature-search-openalex', 'google-deepmind/literature-search-biorxiv', 'google-deepmind/literature-search-arxiv']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/scientific-literature-retrieval.json (META §6.1)",
+          "sources": [
+            "google-deepmind/pubmed-database",
+            "google-deepmind/literature-search-europepmc",
+            "google-deepmind/literature-search-openalex",
+            "google-deepmind/literature-search-biorxiv",
+            "google-deepmind/literature-search-arxiv"
+          ]
+        },
+        {
+          "target": "protein-structure-analysis",
+          "priority": "P3",
+          "reason": "Generic 'protein-structure-analysis' has 2 implementations (['google-deepmind/foldseek-structural-search', 'google-deepmind/pdb-database']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/protein-structure-analysis.json (META §6.1)",
+          "sources": [
+            "google-deepmind/foldseek-structural-search",
+            "google-deepmind/pdb-database"
+          ]
+        },
+        {
+          "target": "clinical-data-retrieval",
+          "priority": "P3",
+          "reason": "Generic 'clinical-data-retrieval' has 4 implementations (['google-deepmind/opentargets-database', 'google-deepmind/openfda-database', 'google-deepmind/clinical-trials-database', 'google-deepmind/clinvar-database']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/clinical-data-retrieval.json (META §6.1)",
+          "sources": [
+            "google-deepmind/opentargets-database",
+            "google-deepmind/openfda-database",
+            "google-deepmind/clinical-trials-database",
+            "google-deepmind/clinvar-database"
+          ]
+        },
+        {
+          "target": "computational-biology-workflows",
+          "priority": "P3",
+          "reason": "Generic 'computational-biology-workflows' has 3 implementations (['google-deepmind/alphafold-database-fetch-and-analyze', 'google-deepmind/protein-sequence-msa', 'google-deepmind/alphagenome-single-variant-analysis']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/computational-biology-workflows.json (META §6.1)",
+          "sources": [
+            "google-deepmind/alphafold-database-fetch-and-analyze",
+            "google-deepmind/protein-sequence-msa",
+            "google-deepmind/alphagenome-single-variant-analysis"
+          ]
+        },
+        {
+          "target": "pathway-ontology-retrieval",
+          "priority": "P3",
+          "reason": "Generic 'pathway-ontology-retrieval' has 3 implementations (['google-deepmind/embl-ebi-ols', 'google-deepmind/reactome-database', 'google-deepmind/quickgo-database']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/pathway-ontology-retrieval.json (META §6.1)",
+          "sources": [
+            "google-deepmind/embl-ebi-ols",
+            "google-deepmind/reactome-database",
+            "google-deepmind/quickgo-database"
+          ]
+        },
+        {
+          "target": "writing-plans",
+          "priority": "P3",
+          "reason": "Generic 'writing-plans' has 2 implementations (['obra/writing-plans', 'gsd-build/plan-phase']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/writing-plans.json (META §6.1)",
+          "sources": [
+            "obra/writing-plans",
+            "gsd-build/plan-phase"
+          ]
+        },
+        {
+          "target": "brainstorming",
+          "priority": "P3",
+          "reason": "Generic 'brainstorming' has 2 implementations (['obra/brainstorming', 'gsd-build/discuss-phase']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/brainstorming.json (META §6.1)",
+          "sources": [
+            "obra/brainstorming",
+            "gsd-build/discuss-phase"
+          ]
+        },
+        {
+          "target": "framework-upgrade",
+          "priority": "P3",
+          "reason": "Generic 'framework-upgrade' has 2 implementations (['remotion-dev/remotion-upgrade', 'laravel/upgrade-laravel-v13']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/framework-upgrade.json (META §6.1)",
+          "sources": [
+            "remotion-dev/remotion-upgrade",
+            "laravel/upgrade-laravel-v13"
+          ]
+        },
+        {
+          "target": "autonomous-web-research",
+          "priority": "P3",
+          "reason": "Generic 'autonomous-web-research' has 2 implementations (['balukosuri/autoresearch-universal', 'mvanhorn/last30days']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/autonomous-web-research.json (META §6.1)",
+          "sources": [
+            "balukosuri/autoresearch-universal",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "target": "context-compression",
+          "priority": "P3",
+          "reason": "Generic 'context-compression' has 3 implementations (['juliusbrussee/caveman', 'garrytan/context-save', 'garrytan/context-restore']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/context-compression.json (META §6.1)",
+          "sources": [
+            "juliusbrussee/caveman",
+            "garrytan/context-save",
+            "garrytan/context-restore"
+          ]
+        },
+        {
+          "target": "evaluate-output",
+          "priority": "P3",
+          "reason": "Generic 'evaluate-output' has 2 implementations (['garrytan/benchmark', 'garrytan/plan-ceo-review']) but no Champion designated",
+          "suggestedAction": "Designate top-ranked implementation as Champion in registry/nodes/generic/evaluate-output.json (META §6.1)",
+          "sources": [
+            "garrytan/benchmark",
+            "garrytan/plan-ceo-review"
+          ]
+        }
+      ]
+    }
+  },
+  "semanticFusionCandidates": [
+    {
+      "proposedGenericId": "autonomous-deep-research",
+      "proposedName": "Autonomous Deep Research",
+      "prerequisites": [
+        "web-scrape",
+        "document-editing"
+      ],
+      "rationale": "Fuses structured search/scraping capability with synthesis and report compilation to form an end-to-end autonomous research pipeline.",
+      "exampleNamed": [
+        "firecrawl/firecrawl-build-scrape",
+        "mattpocock/writing-for-agents"
+      ],
+      "targetRank": "3★"
+    },
+    {
+      "proposedGenericId": "brand-aligned-ui-generation",
+      "proposedName": "Brand-Aligned UI Generation",
+      "prerequisites": [
+        "brand-guideline-application",
+        "component-design"
+      ],
+      "rationale": "Pairs Anthropic brand guidelines with interactive component authoring to ensure generated interfaces strictly adhere to corporate design tokens.",
+      "exampleNamed": [
+        "anthropics/brand-guidelines",
+        "leonxlnx/taste-skill"
+      ],
+      "targetRank": "4★"
+    },
+    {
+      "proposedGenericId": "graph-augmented-triage",
+      "proposedName": "Graph-Augmented Issue Triage",
+      "prerequisites": [
+        "issue-triage",
+        "ast-analysis"
+      ],
+      "rationale": "Augments repository issue routing with static code graph dependency analysis, pinpointing affected subsystems upon issue ingestion.",
+      "exampleNamed": [
+        "mattpocock/triage",
+        "safishamsi/graphify"
+      ],
+      "targetRank": "4★"
+    },
+    {
+      "proposedGenericId": "self-healing-test-loop",
+      "proposedName": "Self-Healing Test Loop",
+      "prerequisites": [
+        "test-driven-development",
+        "systematic-debugging"
+      ],
+      "rationale": "Combines test execution with iterative stack-trace diagnosis to autonomously remediate failing assertions under test coverage.",
+      "exampleNamed": [
+        "mattpocock/tdd",
+        "obra/systematic-debugging"
+      ],
+      "targetRank": "3★"
+    }
+  ],
+  "newGenericProposals": [
+    {
+      "id": "web-data-extraction",
+      "name": "Web Data Extraction",
+      "type": "basic",
+      "description": "Programmatic crawling, content sanitization, and structured markdown extraction from dynamic web surfaces.",
+      "prerequisites": [],
+      "reasoning": "Vendor-neutral generic capability superseding brand-coupled 'firecrawl' generic node (Dimension 5 finding)."
+    },
+    {
+      "id": "managed-backend-services",
+      "name": "Managed Backend Services",
+      "type": "basic",
+      "description": "Integration and schema orchestration across serverless databases, auth providers, and cloud storage gateways.",
+      "prerequisites": [],
+      "reasoning": "Vendor-neutral generic capability superseding brand-coupled 'supabase' generic node (Dimension 5 finding)."
+    },
+    {
+      "id": "frontend-runtime-profiling",
+      "name": "Frontend Runtime Profiling",
+      "type": "basic",
+      "description": "Measurement and elimination of layout thrashing, excessive re-renders, and bundle bloat across client runtimes.",
+      "prerequisites": [
+        "performance-tuning"
+      ],
+      "reasoning": "Abstract capability superseding vendor-coupled 'react-performance-optimization' node."
+    }
+  ]
+}

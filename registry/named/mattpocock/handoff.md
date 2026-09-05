@@ -10,8 +10,7 @@ level: 3★
 description: Compacts the current conversation into a summary for a fresh agent to
   continue the work.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-21'
-suiteRef: mattpocock/productivity
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff
 evidence:
@@ -120,6 +119,16 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -133,7 +142,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:33:32Z'
-trustMagnitudeInputHash: 2f4991fdd86fa9d43e89b01fa5cc924762dda957019dd375014572ce1c54df59
+trustMagnitudeInputHash: 8a02d6aa3a8ccd2e4ae149a13f2c8551735a66942040d1b6714f52de86aa792e
+suiteRef: "mattpocock/skills"
 ---
 
 ## Installation

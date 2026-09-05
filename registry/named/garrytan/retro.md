@@ -17,7 +17,7 @@ tags:
 - retrospective
 - documentation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
@@ -66,6 +66,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 81.0 -> 81.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/retro/SKILL.md
@@ -107,7 +112,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
-trustMagnitudeInputHash: 81d1739446069724c5a876ba8ab47924dc80666a72b524f02d673fd4279905f6
+trustMagnitudeInputHash: ecfef5010f2fae4ce39a71cbb86df0874fef0ebdf53baa6214cee63829f46107
 ---
 
 ## Overview

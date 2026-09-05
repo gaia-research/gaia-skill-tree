@@ -18,8 +18,7 @@ tags:
 - agentdb
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
-suiteRef: ruvnet/reasoningbank
+updatedAt: '2026-09-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -45,7 +44,18 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
-trustMagnitudeInputHash: 12a3dc0d1d60b194d1984c85fa896d21ac13170ce51dd2441646f681e85e7d42
+- timestamp: '2026-08-29T17:15:59Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: c93c4b66638d2a738664a49c2e5598eb35b871b945ad195fb534411e0d2dd660
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

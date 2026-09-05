@@ -19,8 +19,7 @@ tags:
 - anti-drift
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-06-02'
-suiteRef: ruvnet/ruflo-v3
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-02T23:48:21Z'
   action: demote
@@ -35,6 +34,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:16:00Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T18:43:52Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -46,7 +55,8 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a646d3f0bec1249b9a4c977bac8e9d49bb719aacda51e72020bc98abf38be115
+trustMagnitudeInputHash: 5ace1b3584a5f8d1da6541a187ce15059f2d4e038d5f6732e968d25ff22b3943
+suiteRef: ruvnet/ruflo
 ---
 
 ## Overview

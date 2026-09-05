@@ -2,18 +2,26 @@
   "id": "addy-osmani/code-simplification",
   "name": "Code Simplification",
   "contributor": "addy-osmani",
-  "level": "3★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 198.83,
+  "trustMagnitude": 190.0,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/code-simplification.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
   },
   "title": "Code Simplification",
   "genericSkillRef": "refactor-code",
@@ -47,22 +55,6 @@
       "commits": 260,
       "contributors": 36,
       "grade": "B"
-    },
-    {
-      "source": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py",
-      "evaluator": "unknown",
-      "date": "2026-07-05",
-      "type": "benchmark-result",
-      "benchmarkId": "humaneval@v1.0",
-      "score": 0.5,
-      "unit": "pass@1",
-      "runAt": "2026-07-05T00:00:00Z",
-      "provenance": "pending",
-      "attestor": "pending-ci-reproduction",
-      "notes": "Dogfood seed; will be promoted to ci-reproduced by the first real workflow run of benchmark-humaneval-ci.yml.",
-      "datasetHash": "244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8",
-      "benchmarkInputHash": "3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9",
-      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py"
     },
     {
       "source": "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py",
@@ -163,6 +155,36 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:42Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 53.14 -> 426.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:04:27Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-02T15:05:19Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 5★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:43Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 174.62 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T18:43:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

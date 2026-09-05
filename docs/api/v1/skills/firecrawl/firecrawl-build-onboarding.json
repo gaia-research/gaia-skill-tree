@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 79.76,
+  "trustMagnitude": 50.0,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
   },
   "title": "Firecrawl Onboarding",
   "genericSkillRef": "agent-environment-setup",
@@ -41,12 +49,12 @@
       "sourceStartedAt": "2023-08-01"
     },
     {
-      "source": "https://github.com/firecrawl/firecrawl/stargazers",
+      "source": "https://github.com/firecrawl/skills/stargazers",
       "updatedAt": "2026-09-01",
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "github-stars-own",
-      "stars": 175038,
+      "stars": 98,
       "skillCountInRepo": 6,
       "grade": "B"
     }
@@ -87,9 +95,27 @@
       "action": "rank_up",
       "contributor": "marcotiongson",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-02T15:11:16Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
-    "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md"
   }
 }

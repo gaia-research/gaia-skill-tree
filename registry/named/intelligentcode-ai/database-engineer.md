@@ -19,7 +19,7 @@ tags:
 - graph-db
 - time-series
 - normalization
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
@@ -80,6 +80,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-29T17:15:49Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 6.3 -> 6.3, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -91,7 +96,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1a8346c67da0d626e34c516c8b9fc495272cab7691a2b17fdd8bd0bd00961630
+trustMagnitudeInputHash: d1654c8a2e9593ca10d9990fff2ee51bf2fbb96ba3eb7f887d53278c6e9eb6f6
 verification:
   firstEvidenceAt: '2026-06-19T17:10:42Z'
 ---

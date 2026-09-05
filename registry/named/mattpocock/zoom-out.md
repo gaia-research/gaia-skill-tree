@@ -2,7 +2,7 @@
 id: mattpocock/zoom-out
 name: Zoom Out
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: code-explain
 status: named
 title: The Abstraction Lift
@@ -19,7 +19,7 @@ tags:
 - domain-glossary
 - codebase-orientation
 createdAt: '2026-04-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 trustMagnitude: 0.0
@@ -54,9 +54,19 @@ timeline:
   newValue: null
   details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''zoom-out
     went unused in practice, so it''s been removed from the repo.'' No replacement.'
-suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitudeInputHash: c3ff9cc768313fa062ba0d9ddda129d376c705ada6f6a04c779137751f85a0e1
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

@@ -17,7 +17,7 @@ tags:
 - release
 - changelog
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -55,6 +55,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-29T17:15:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -68,7 +73,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:27Z'
-trustMagnitudeInputHash: bc7702c0ec373b7aa4f9fdb2cfaa11e2614c35b7536d975cfa9d4bcca2a19ec2
+trustMagnitudeInputHash: 5a33023bd4fcb55ac82c1c28abc2f03bbd3c76cde372159e9f5a7c1bbd9f7445
 ---
 
 ## Overview

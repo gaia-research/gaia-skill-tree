@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/oso95.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
   "title": "Scroll World",
   "genericSkillRef": "scroll-world",
   "origin": false,
@@ -107,6 +115,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:57Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 60.98, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

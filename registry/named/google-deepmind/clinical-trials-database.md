@@ -2,16 +2,16 @@
 id: google-deepmind/clinical-trials-database
 name: Clinical-Trials-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 4★
+level: 1★
 description: Query ClinicalTrials.gov via APIv2. Use when you want to search for trials
   by condition, drug, location, status, or phase; retrieve trial details by NCT ID;
   check eligibility/inclusion criteria; count trials across conditions or time periods;
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
@@ -26,16 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://clinicaltrials.gov/about-site/about-ctgov
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'ClinicalTrials.gov: NIH/NLM clinical study registry. Primary infrastructure
-    for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH
-    since 2007.'
-  reviewers: 2
-  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -73,8 +63,15 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/clinical_trials_database to google-deepmind/clinical-trials-database
-trustMagnitude: 70.82
-overallTrustGrade: B
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -86,7 +83,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:29:48Z'
-trustMagnitudeInputHash: cfd8143ddd2067e469ab37e441446e05261f526dbe7fef4bbb3d797aaecf7ed1
+trustMagnitudeInputHash: 0416d394201f16c6464357fc0d224e65c2eee386dd7a366fc7f63cdbca04a038
 ---
 
 # Clinical Trials Database

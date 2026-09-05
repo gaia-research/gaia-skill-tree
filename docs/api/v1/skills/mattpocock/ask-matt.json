@@ -15,6 +15,14 @@
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
   "title": "Ask Matt",
   "genericSkillRef": "route-intent",
   "origin": false,
@@ -38,7 +46,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "repo-own",
       "trustNumber": 65.0,
@@ -48,7 +56,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "self-attestation",
       "trustNumber": 45.0,
@@ -58,7 +66,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "repo-own",
       "trustNumber": 65.0,
@@ -68,7 +76,7 @@
     },
     {
       "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
-      "evaluator": "testuser",
+      "evaluator": "mbtiongson1",
       "date": "2026-06-20",
       "type": "self-attestation",
       "trustNumber": 45.0,
@@ -112,55 +120,55 @@
     {
       "timestamp": "2026-06-19T18:36:45Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md (type: repo-own)"
     },
     {
       "timestamp": "2026-06-19T18:36:45Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md as B (trustNumber: 65.0)"
     },
     {
       "timestamp": "2026-06-19T18:36:51Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt (type: self-attestation)"
     },
     {
       "timestamp": "2026-06-19T18:36:51Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt as C (trustNumber: 45.0)"
     },
     {
       "timestamp": "2026-06-19T18:37:11Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md (type: repo-own)"
     },
     {
       "timestamp": "2026-06-19T18:37:11Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md as B (trustNumber: 65.0)"
     },
     {
       "timestamp": "2026-06-19T18:37:13Z",
       "action": "evidence_added",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt (type: self-attestation)"
     },
     {
       "timestamp": "2026-06-19T18:37:13Z",
       "action": "evidence_graded",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt as C (trustNumber: 45.0)"
     },
     {
       "timestamp": "2026-06-19T18:41:24Z",
       "action": "rank_up",
-      "contributor": "testuser",
+      "contributor": "mbtiongson1",
       "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
     },
     {
@@ -186,6 +194,24 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 1★ to 2★"
+    },
+    {
+      "timestamp": "2026-08-29T17:15:52Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T18:43:51Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

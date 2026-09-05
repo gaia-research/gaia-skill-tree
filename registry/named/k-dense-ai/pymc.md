@@ -1,16 +1,16 @@
 ---
 id: k-dense-ai/pymc
-name: PyMC
+name: PyMC Prompt Wrapper
 contributor: k-dense-ai
 origin: false
 genericSkillRef: probabilistic-programming
 status: named
-level: 4★
+level: 1★
 description: Build Bayesian models with PyMC using hierarchical models, MCMC, variational
   inference, and posterior checks.
 createdAt: '2026-07-31'
-updatedAt: '2026-08-01'
-title: PyMC
+updatedAt: '2026-09-04'
+title: PyMC Prompt Wrapper
 links:
   github: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md
 timeline:
@@ -37,6 +37,23 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-08-29T17:15:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 267.06, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned monorepo stars; retitled as prompt
+    wrapper
+- timestamp: '2026-09-04T09:13:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 5.0 -> 120.0, grade ungraded -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md
   evaluator: mbtiongson1
@@ -45,28 +62,11 @@ evidence:
   notes: 'Public K-Dense SKILL.md for the named implementation approved in #813 Group
     B.'
   grade: C
-- source: https://github.com/K-Dense-AI/scientific-agent-skills
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: repo-own
-  notes: 'K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445,
-    contributors=43, sourceStartedAt=2025-10-19.'
-  commits: 445
-  contributors: 43
-  sourceStartedAt: '2025-10-19'
-  grade: B
-- source: https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars
-  updatedAt: '2026-09-01'
-  evaluator: mbtiongson1
-  date: '2026-07-31'
-  type: github-stars-own
-  notes: Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source
-    URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.
-  stars: 41201
-  skillCountInRepo: 158
-  sourceStartedAt: '2025-10-19'
 verification:
   firstEvidenceAt: '2026-07-31T14:48:49Z'
+trustMagnitude: 120.0
+overallTrustGrade: A
+trustMagnitudeInputHash: 236b9caaad1dfa414abe6870d14c2e76e4f162c0880c0ea663328cfbeeb8f2c0
 ---
 
 ## Installation

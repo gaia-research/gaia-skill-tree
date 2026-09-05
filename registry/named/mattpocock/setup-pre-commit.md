@@ -11,7 +11,7 @@ level: 2★
 description: Set up Husky pre-commit hooks with lint-staged, Prettier, type checking,
   and tests.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-20'
+updatedAt: '2026-09-05'
 timeline:
 - timestamp: '2026-06-19T13:02:03Z'
   action: add
@@ -29,27 +29,27 @@ timeline:
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 - timestamp: '2026-06-19T18:37:44Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
     (type: repo-own)'
 - timestamp: '2026-06-19T18:37:44Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
     as B (trustNumber: 65.0)'
 - timestamp: '2026-06-19T18:37:46Z'
   action: evidence_added
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit
     (type: self-attestation)'
 - timestamp: '2026-06-19T18:37:46Z'
   action: evidence_graded
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit
     as C (trustNumber: 45.0)'
 - timestamp: '2026-06-19T18:41:32Z'
   action: rank_up
-  contributor: testuser
+  contributor: mbtiongson1
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
 - timestamp: '2026-06-20T06:31:32Z'
@@ -64,13 +64,28 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 2★
+- timestamp: '2026-08-29T17:15:53Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 41.0, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-09-04T18:43:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
   evaluator: unknown
   date: '2026-06-19'
   class: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
@@ -78,7 +93,7 @@ evidence:
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit
-  evaluator: testuser
+  evaluator: mbtiongson1
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 45.0
@@ -94,8 +109,8 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:06:47Z'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 41.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -105,7 +120,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2
+trustMagnitudeInputHash: a641587f956704c18a55102ba830f1c95af0af69ea0bcb8e9daed5c99d2f96c1
 title: Setup Pre-commit
 suiteRef: mattpocock/misc
 ---

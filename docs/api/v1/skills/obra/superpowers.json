@@ -2,18 +2,26 @@
   "id": "obra/superpowers",
   "name": "Superpowers",
   "contributor": "obra",
-  "level": "5★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 445.15,
-  "overallTrustGrade": "S",
+  "trustMagnitude": 220.81,
+  "overallTrustGrade": "A",
   "branch": "suite",
-  "rankWord": "Ultimate",
+  "rankWord": "Extra",
   "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/obra/superpowers.json",
     "contributor": "/api/v1/contributors/obra.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 300.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 22,
+    "transitiveCount": 35,
+    "maxDepth": 3,
+    "nestedSuiteCount": 0
   },
   "title": "The Complete Agentic Discipline",
   "genericSkillRef": "superpowers",
@@ -177,6 +185,24 @@
       "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:16Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 445.15 -> 315.15, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T16:26:47Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 315.15 -> 315.15, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:45Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

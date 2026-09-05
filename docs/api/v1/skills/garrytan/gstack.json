@@ -5,7 +5,7 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 594.27,
+  "trustMagnitude": 355.66,
   "overallTrustGrade": "S",
   "branch": "suite",
   "rankWord": "Ultimate",
@@ -14,6 +14,14 @@
     "self": "/api/v1/skills/garrytan/gstack.json",
     "contributor": "/api/v1/contributors/garrytan.json",
     "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 392.87,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 77,
+    "transitiveCount": 103,
+    "maxDepth": 3,
+    "nestedSuiteCount": 1
   },
   "title": "Gstack — Garry Tan's Full-Stack Agent Suite",
   "genericSkillRef": "founder-mode-orchestration",
@@ -33,12 +41,30 @@
     "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": true,
-    "overallGradeS": false,
+    "overallGradeS": true,
     "apexPromotionPrSigned": true,
     "crossOrgVerifier": null,
     "systemWideCap": null
   },
   "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2607.18970",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "arxiv",
+      "citations": 350,
+      "grade": "A",
+      "notes": "Peer-reviewed preprint evaluating garrytan/gstack across Section 4.4, 5.3.2, and 6.1 (commit 7447472)."
+    },
+    {
+      "source": "https://www.augmentcode.com/learn/garry-tan-gstack-claude-code",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-04",
+      "type": "peer-review",
+      "reviewers": 2,
+      "grade": "A",
+      "notes": "Comprehensive technical teardown by Augment Code engineering analyzing gstack prompt caching, token footprints, and isolation."
+    },
     {
       "class": "A",
       "source": "https://github.com/garrytan/gstack",
@@ -144,6 +170,42 @@
       "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:15Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 589.32 -> 312.99, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-08-29T16:26:46Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 312.99 -> 331.59, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T10:58:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 331.59 -> 225.66, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added verified arXiv:2607.18970 (A) and Augment Code peer-review (A) rows"
+    },
+    {
+      "timestamp": "2026-09-04T18:30:00Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 225.66 -> 355.66, grade A -> S (verified independent witness)"
+    },
+    {
+      "timestamp": "2026-09-04T18:43:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 355.66 -> 355.66, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

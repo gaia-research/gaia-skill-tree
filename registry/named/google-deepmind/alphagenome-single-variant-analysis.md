@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 3★
+level: 1★
 description: Analyzes genetic variant effects on gene expression (RNA-seq), chromatin
   accessibility (DNASE), histone marks (ChIP), and transcription factors using the
   AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity,
@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -30,16 +30,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://www.nature.com/articles/s41586-025-10014-0
-  evaluator: unknown
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: 'Avsec et al. 2026 Nature: Advancing regulatory variant effect prediction
-    with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for
-    the AlphaGenome variant analysis tool.'
-  reviewers: 3
-  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
@@ -102,8 +92,19 @@ timeline:
   contributor: unknown
   details: Renamed named skill from google-deepmind/alphagenome_single_variant_analysis
     to google-deepmind/alphagenome-single-variant-analysis
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:19Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -115,7 +116,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T14:23:25Z'
-trustMagnitudeInputHash: 19839c9c6892fdd3a55211b1d7cf543a9b4dcb7c9d6daf9c6b419ee9deda8aef
+trustMagnitudeInputHash: d4f7a4a666b57495e8f960a260a2fa119e898c7ffb9eba1cfe46b5a099a8f033
 ---
 
 # Variant Analysis using AlphaGenome

@@ -7,7 +7,7 @@ genericSkillRef: ubiquitous-language
 status: named
 title: The Domain Linguist
 catalogRef: mattpocock-ubiquitous-language
-level: 3★
+level: 1★
 description: Extracts and formalises a project's domain terminology into a shared
   glossary, enforcing consistent naming across code and conversations to eliminate
   ambiguity. Removed from mattpocock/skills suite in v1.0.1.
@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -111,7 +111,27 @@ timeline:
   previousValue: null
   newValue: null
   details: superseded by mattpocock/domain-modeling upstream (folded in v1.2.x)
-trustMagnitude: 90.38
+- timestamp: '2026-08-29T17:15:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:40Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ due to dead/deprecated blob link under META §2.4
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -122,11 +142,11 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 93c720242a46b215789bae724573d16cd95c9b5acb9a4ed1a137fa308cdb34f8
+trustMagnitudeInputHash: b07d195722f1666c41a3fe7b12fc71f87b1ec951727c7f5d6c4fdb357263e5bd
 verification:
   firstEvidenceAt: '2026-06-19T16:57:17Z'
 installable: false
+suiteRef: "mattpocock/skills"
 ---
 
 ## Overview

@@ -2,18 +2,18 @@
 id: disler/agent-fusion
 name: Agent Fusion
 contributor: disler
-origin: true
+origin: false
 genericSkillRef: agent-fusion
 status: named
-level: 4★
+level: 1★
 description: 'Orchestrate multiple specialized AI models as a fused agentic team:
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
 createdAt: '2026-07-30'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 title: Agent Fusion
 links:
-  github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md
+  github: https://github.com/disler/fusion-harness/blob/main/README.md
 timeline:
 - timestamp: '2026-07-29T20:14:46Z'
   action: add
@@ -41,6 +41,21 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-08-29T17:15:44Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 37.54, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-02T15:11:15Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 3★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned origin flag
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown
@@ -68,6 +83,9 @@ suiteComponents:
 - disler/auto-review
 - disler/opinion
 - disler/plan-synthesis
+trustMagnitude: 37.54
+overallTrustGrade: C
+trustMagnitudeInputHash: f47f0ab05bffa96f71dd07fefbd87297e548def6ff8f2445156203d90db8dc40
 ---
 
 ## Installation

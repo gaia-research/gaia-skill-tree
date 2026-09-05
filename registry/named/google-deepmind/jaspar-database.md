@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 1★
 description: Query the JASPAR database for Transcription Factor (TF) binding profiles.
   Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices
   (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting
   TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).
 createdAt: '2026-05-23'
-updatedAt: '2026-08-05'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md
 evidence:
@@ -26,16 +26,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://academic.oup.com/nar/article/52/D1/D174/7420101
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 85.0
-  grade: S
-  notes: JASPAR 2024 — NAR; largest open-access TF binding profile database; 8-organism
-    TFBS tracks
-  reviewers: 3
-  sourceStartedAt: '2024-01-04'
 timeline:
 - timestamp: '2026-06-14T12:32:32Z'
   action: evidence_graded
@@ -99,8 +89,19 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/jaspar_database to google-deepmind/jaspar-database
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-02T15:11:23Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -110,7 +111,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 61de340c0594b68b15ce13d359ff8ca7d43edd6f227038ac5e67f61306bebe84
+trustMagnitudeInputHash: c8e07060d4ab3a7520d88931ed85c412b02558877d469f91a41ab01d72794368
 verification:
   firstEvidenceAt: '2026-06-19T17:05:36Z'
 ---

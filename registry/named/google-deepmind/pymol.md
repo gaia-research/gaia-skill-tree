@@ -2,17 +2,17 @@
 id: google-deepmind/pymol
 name: Pymol
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: molecular-visualization
 status: awakened
-level: 4★
+level: 1★
 description: Visualize, analyze, and render protein and molecular structures using
   PyMOL. Use when the user wants to create images of protein structures, perform structural
   alignments or superposition, measure distances or contacts, highlight binding sites
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-31'
+updatedAt: '2026-09-04'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -27,16 +27,6 @@ evidence:
   commits: 6
   contributors: 3
   grade: C
-- source: https://pymol.org/support.html
-  evaluator: unknown
-  date: '2026-06-20'
-  type: peer-review
-  trustNumber: 80.0
-  grade: S
-  notes: PyMOL — Schrodinger; widely-used molecular visualization system; canonical
-    reference for 3D protein structure analysis
-  reviewers: 3
-  sourceStartedAt: '2002-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -95,8 +85,15 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-09-04T00:00:00Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 1★
+  details: Demoted to 1★ and stripped unearned external database evidence and origin
+    flag
+trustMagnitude: 10.82
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -106,7 +103,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4c017577f2c3dc460521a4f0f190b6826ff363a97d7ef01686b303305185e814
+trustMagnitudeInputHash: a237c4383934d198ed95c1c1d77be542d75f6551575ab24ec46cf970098b89c6
 verification:
   firstEvidenceAt: '2026-06-19T17:06:54Z'
 ---

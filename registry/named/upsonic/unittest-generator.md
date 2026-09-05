@@ -18,8 +18,8 @@ tags:
 - python
 - autonomous-agent
 createdAt: '2026-04-30'
-updatedAt: '2026-08-06'
-trustMagnitude: 33.0
+updatedAt: '2026-09-04'
+trustMagnitude: 30.0
 overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -66,14 +66,12 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
+- timestamp: '2026-08-29T17:16:01Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 33.0 -> 33.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
-- source: https://arxiv.org/abs/2403.16218
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)
-  citations: 15
 - source: https://www.youtube.com/watch?v=fHNTpPpQQBo
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -91,7 +89,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
-trustMagnitudeInputHash: 6b3fef7f19fab551c00e99cbf661282004523fb0e79418487fd1fde173a76079
+trustMagnitudeInputHash: d0e915367c193fcb6dd309bb65dbbf42aeafb51e9af5152599ea19878774eb8a
 installable: false
 ---
 

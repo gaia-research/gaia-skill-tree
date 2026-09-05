@@ -1,7 +1,7 @@
 ---
 name: trust-appraise
 description: >
-  Dry-run Trust Magnitude for proposed named skills or suites before curation. Use when deciding whether a proposed suite deserves A/S treatment, when checking fusion-recipe bias, when comparing repo stars vs suite component counts, or when asked to appraise a candidate before adding it to the registry.
+  Dry-run Trust Magnitude for proposed named skills or suites before curation. Use when deciding whether a proposed suite deserves A/S treatment, when checking Fusion Score structural inputs, when comparing repo stars vs suite component counts, or when asked to appraise a candidate before adding it to the registry.
 version: "1.0.0"
 genericSkillRef: registry-inspection
 ---
@@ -39,9 +39,10 @@ PYTHONPATH=src python3 scripts/trust_appraise.py --skill foo/bar --json
 **Registry node mode (`--skill`):** reads `registry/nodes/` directly and calls the same `computeTrustMagnitude` + `computeRowArtifactScores` used by the live registry. Shows per-row artifact scores so you can see exactly which evidence entries are contributing TM and which are scoring 0.
 
 **Suite proposal mode (`--repo`):** builds a temporary skill object combining live GitHub signals:
-- `github-stars-own` with `skillCountInRepo` so mothership discount applies.
+- `github-stars-own` scored under logarithmic diminishing-returns adoption (`min(175.0, 35.0 * log10(stars/10.0))` capped at 175 TM; #1705), with `skillCountInRepo` so mothership discount applies.
 - `repo-own` from live GitHub contributor and contribution counts.
-- `fusion-recipe` from the proposed curated component count.
+- `fusion-recipe` from the proposed curated component count — structural only, contributing **0 TM**. It feeds the informational **Fusion Score**, never Trust Magnitude (META.md §2.1e).
+- Component repository evidence is bounded to 50.0 TM per suite component to prevent sub-suite cap evasion. Grade S (5★) requires an independent witness row (`benchmark-result`, `verifier-attestation`, or Grade A `peer-review`) and cannot be reached by repository stars alone.
 
 ## Important caveat
 

@@ -604,6 +604,11 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
+        # docs/en/* pages read window.GAIA_VERSION for their version chip but
+        # were never registered here, so the chip never updated (Issue #1542).
+        "en/index.html",
+        "en/evidence-classes.html",
+        "en/share-bundles.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():
@@ -1501,11 +1506,14 @@ def build_og_cards(check: bool) -> bool:
                 dst = committed / svg_rel
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src, dst)
-            # 2. Remove committed SVGs that are no longer generated
+            # 2. Remove committed SVGs and PNGs that are no longer generated
             for svg_rel in committed_svgs - candidate_svgs:
                 stale = committed / svg_rel
                 if stale.exists():
                     stale.unlink()
+                stale_png = stale.with_suffix(".png")
+                if stale_png.exists():
+                    stale_png.unlink()
             # 3. Remove empty handle directories
             for handle_dir in committed.iterdir():
                 if handle_dir.is_dir() and not any(handle_dir.iterdir()):

@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-07-20'
+updatedAt: '2026-09-04'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -145,8 +145,23 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 445.15
-overallTrustGrade: S
+- timestamp: '2026-08-25T11:23:16Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 445.15 -> 315.15, grade S -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-08-29T16:26:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 315.15 -> 315.15, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-09-04T10:58:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 220.81
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -160,7 +175,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:17:53Z'
-trustMagnitudeInputHash: 2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606
+trustMagnitudeInputHash: 02178485dd223c9757a30b673b732920d1a7b0ff1d9354c3886f98666c949e54
 upstream:
   mode: components
   releasedAt: '2026-07-02T21:58:30Z'

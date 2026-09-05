@@ -173,7 +173,7 @@ def load_suite_mappings(suites_dir):
                     # Map the fusion skill to its members
                     suite_to_components[fusion] = sorted(list(set(members)))
                     for m in members:
-                        skill_to_suite[m] = fusion
+                        skill_to_suite[m] = suite_id
 
             standalones = data.get("standalones", [])
             constituents.extend(standalones)
@@ -425,6 +425,25 @@ def _inject_resolved_taxonomy(entry):
     entry["contractVersion"] = "gaia-public-v1"
 
 
+def _inject_fusion_scores(buckets, merged_map):
+    """Annotate each bucket entry with the Yggdrasil III Fusion Score.
+
+    Fusion Score is the *structural* reading — how much distinct capability a
+    node composes — and is computed here, in the projection, precisely because
+    the registry persists structural inputs and never the derived answer. It
+    is deliberately independent of everything `_inject_trust_grades()` does:
+    no evidence row, Trust Magnitude value, Trust Grade, star count, or
+    freshness stamp reaches `fusionScore.py`.
+
+    V1 is informational. Nothing promotes on it.
+    """
+    from gaia_cli.fusionScore import fusionScoreProjection
+
+    for _ref, entries in buckets.items():
+        for entry in entries:
+            entry.update(fusionScoreProjection(entry, merged_map, merged_map))
+
+
 def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=None):
     """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
     and apexGateStatus.
@@ -447,6 +466,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     (report.html, skill-explorer.js) can render TM cards without re-computing.
 
     Mutates entries in-place; no fields are stored in registry nodes.
+
+    Returns the canonical merged generic+named skill map it built, so the
+    Fusion Score projection can resolve its structural closure against the
+    identical registry context rather than constructing a second, divergent
+    one.
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
@@ -499,6 +523,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
         merged_map = buildMergedSkillMap(repo_root)
     else:
         merged_map = {**generic_skills_map, **named_skill_map}
+
+    # Handed back to write_index() so the Fusion Score projection resolves its
+    # structural closure against the SAME registry context TM used. Two maps
+    # would mean two different graphs and two different answers.
+    injected_merged_map = merged_map
 
     for _ref, entries in buckets.items():
         for entry in entries:
@@ -561,6 +590,20 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
             entry["apexGateStatus"] = apex_status
 
+            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)
+            GRADE_MAX_STARS = {
+                "S": 6,
+                "A": 4,
+                "B": 3,
+                "C": 2,
+                "ungraded": 1,
+            }
+            current_grade = entry.get("overallTrustGrade", "ungraded")
+            max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
+            raw_stars = level_num(entry.get("level", ""))
+            if raw_stars > max_allowed_stars:
+                entry["level"] = f"{max_allowed_stars}★"
+
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");
             # TM is copy-through (already injected above) — no recompute here.
@@ -582,12 +625,18 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                     "reason": gate["reason"],
                 }
 
+    return injected_merged_map
+
 
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
                 generic_skills_map=None, gate_config=None, repo_root=None):
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
-        _inject_trust_grades(buckets, generic_skills_map, gate_config or {}, repo_root=repo_root)
+        merged_map = _inject_trust_grades(
+            buckets, generic_skills_map, gate_config or {}, repo_root=repo_root
+        )
+        # Structural lane, computed after and independently of the trust lane.
+        _inject_fusion_scores(buckets, merged_map)
     for entry in awaiting_classification:
         _inject_resolved_taxonomy(entry)
 

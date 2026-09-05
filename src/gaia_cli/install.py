@@ -82,14 +82,31 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
 
     Examples:
     - https://github.com/owner/repo -> (https://github.com/owner/repo.git, None, "")
+    - https://github.com/owner/repo.git -> (https://github.com/owner/repo.git, None, "")
     - https://github.com/owner/repo/blob/main/path/to/skill.md -> (https://github.com/owner/repo.git, main, path/to)
     - https://github.com/owner/repo/tree/main/path/to/skill -> (https://github.com/owner/repo.git, main, path/to/skill)
+    - github.com/owner/repo -> (https://github.com/owner/repo.git, None, "")
+    - git@github.com:owner/repo.git -> (https://github.com/owner/repo.git, None, "")
+    - owner/repo -> (https://github.com/owner/repo.git, None, "")
+    - owner/repo@branch -> (https://github.com/owner/repo.git, branch, "")
     """
-    url = url.rstrip("/")
-    # Pattern for blob URLs: https://github.com/owner/repo/blob/branch/path
-    blob_match = re.match(r"https://github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.*)", url)
+    url = url.strip().rstrip("/")
+
+    # Pattern for git@github.com:owner/repo(.git)?
+    ssh_match = re.match(r"^git@github\.com:([^/]+)/([^/]+?)(?:\.git)?$", url)
+    if ssh_match:
+        owner, repo = ssh_match.groups()
+        return f"https://github.com/{owner}/{repo}.git", None, ""
+
+    # Normalize github.com/... -> https://github.com/...
+    if re.match(r"^github\.com/", url):
+        url = "https://" + url
+
+    # Pattern for blob URLs: https?://github.com/owner/repo/blob/branch/path
+    blob_match = re.match(r"https?://github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.*)", url)
     if blob_match:
         owner, repo, branch, path = blob_match.groups()
+        repo = repo.removesuffix(".git")
         repo_url = f"https://github.com/{owner}/{repo}.git"
         # If path is to a file, take the directory
         if path.endswith(".md"):
@@ -98,25 +115,99 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
             subpath = path
         return repo_url, branch, subpath
 
-    # Pattern for tree URLs: https://github.com/owner/repo/tree/branch[/path]
+    # Pattern for tree URLs: https?://github.com/owner/repo/tree/branch[/path]
     # tree/ paths always refer to directories — use the path verbatim (no dirname step).
     # This is a common curator copy-paste mistake; handle it correctly rather than
     # silently falling through to the bare-repo pattern and dropping the subpath.
-    tree_match = re.match(r"https://github\.com/([^/]+)/([^/]+)/tree/([^/]+)(.*)", url)
+    tree_match = re.match(r"https?://github\.com/([^/]+)/([^/]+)/tree/([^/]+)(.*)", url)
     if tree_match:
         owner, repo, branch, path = tree_match.groups()
+        repo = repo.removesuffix(".git")
         repo_url = f"https://github.com/{owner}/{repo}.git"
         subpath = path.lstrip("/")  # strip leading slash; empty string = repo root
         return repo_url, branch, subpath
 
-    # Pattern for base repo: https://github.com/owner/repo
-    repo_match = re.match(r"https://github\.com/([^/]+)/([^/]+)", url)
+    # Pattern for base repo: https?://github.com/owner/repo
+    repo_match = re.match(r"https?://github\.com/([^/]+)/([^/]+)", url)
     if repo_match:
         owner, repo = repo_match.groups()
+        repo = repo.removesuffix(".git")
         repo_url = f"https://github.com/{owner}/{repo}.git"
         return repo_url, None, ""
 
+    # Shorthand owner/repo or owner/repo@branch (branch must not start with a hyphen)
+    shorthand_match = re.match(
+        r"^([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+?)(?:\.git)?(?:@([a-zA-Z0-9_][a-zA-Z0-9_./-]*))?$",
+        url,
+    )
+    if shorthand_match:
+        owner, repo, branch = shorthand_match.groups()
+        repo_url = f"https://github.com/{owner}/{repo}.git"
+        return repo_url, branch, ""
+
     return url, None, ""
+
+
+def _is_direct_skill_ref(skill_ref: str) -> bool:
+    """Check if skill_ref looks like a direct URL or repository reference."""
+    skill_ref = skill_ref.strip().lstrip("/")
+    if (
+        skill_ref.startswith("https://")
+        or skill_ref.startswith("http://")
+        or skill_ref.startswith("git@")
+        or re.match(r"^github\.com/", skill_ref)
+    ):
+        return True
+    if re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+(?:\.git)?(?:@[a-zA-Z0-9_][\w./-]*)?$", skill_ref):
+        return True
+    return False
+
+
+def _resolve_direct_reference(skill_ref: str) -> tuple[str, dict] | tuple[None, None]:
+    """Resolve an unindexed/direct GitHub URL or shorthand to (sid, meta)."""
+    clean_ref = skill_ref.strip().lstrip("/")
+    if not _is_direct_skill_ref(clean_ref):
+        return None, None
+
+    repo_url, branch, subpath = _parse_github_url(clean_ref)
+    if not repo_url or not (
+        repo_url.startswith("http://")
+        or repo_url.startswith("https://")
+        or repo_url.startswith("git@")
+    ):
+        return None, None
+
+    # Extract owner and repo name from repo_url (supports https://host/owner/repo or git@host:owner/repo)
+    match = re.match(r"(?:https?://[^/]+(?:/|:)|git@[^:]+:)(?:/)?([^/]+)/([^/]+?)(?:\.git)?$", repo_url)
+    if not match:
+        return None, None
+
+    owner, repo_name = match.groups()
+
+    # Determine initial slug:
+    # 1. If subpath is specified (e.g. tree/main/path/to/skill), use the last directory segment
+    # 2. If subpath is empty and repo_name starts with 'skill-', strip 'skill-' prefix
+    # 3. Otherwise use repo_name
+    if subpath:
+        slug = subpath.rstrip("/").split("/")[-1]
+    elif repo_name.startswith("skill-") and len(repo_name) > 6:
+        slug = repo_name[6:]
+    else:
+        slug = repo_name
+
+    sid = f"{owner}/{slug}"
+    meta = {
+        "id": sid,
+        "name": slug,
+        "links": {
+            "github": clean_ref
+            if (clean_ref.startswith("http://") or clean_ref.startswith("https://"))
+            else f"https://github.com/{owner}/{repo_name}"
+        },
+        "unindexed": True,
+        "status": "unindexed",
+    }
+    return sid, meta
 
 
 def _run_git(args: list[str], cwd: str | None = None) -> bool:
@@ -134,8 +225,11 @@ def _clone_repo(repo_url: str, branch: str | None, dest: str) -> bool:
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     args = ["clone", "--single-branch", "--depth", "1"]
     if branch:
+        if branch.startswith("-"):
+            print(f"Error: Invalid branch name '{branch}'.", file=sys.stderr)
+            return False
         args += ["-b", branch]
-    args += [repo_url, dest]
+    args += ["--", repo_url, dest]
     return _run_git(args)
 
 
@@ -226,8 +320,6 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
     os.makedirs(target_dir, exist_ok=True)
 
     skill_slug = sid.split("/", 1)[1]
-    local_skill_path = os.path.join(target_dir, skill_slug)
-
     source_skill_path = os.path.join(global_cache, subpath)
 
     # Validate the resolved source before linking/copying it in — a stale or
@@ -253,6 +345,23 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
             f"Error: no SKILL.md at {source_skill_path}.",
             file=sys.stderr,
         )
+        return False
+
+    # For unindexed direct installations, inspect SKILL.md for declared name
+    if isinstance(meta, dict) and meta.get("unindexed"):
+        skill_md_path = os.path.join(source_skill_path, "SKILL.md")
+        fm = _parse_frontmatter(skill_md_path)
+        if isinstance(fm, dict) and fm.get("name"):
+            declared_name = str(fm["name"]).strip()
+            # Strict slug validation: alphanumeric, dash, underscore only, no path traversal
+            if declared_name and re.match(r"^[a-zA-Z0-9_-]+$", declared_name):
+                skill_slug = declared_name
+                sid = f"{owner}/{skill_slug}"
+
+    target_dir_abs = os.path.abspath(target_dir)
+    local_skill_path = os.path.abspath(os.path.join(target_dir_abs, skill_slug))
+    if not local_skill_path.startswith(target_dir_abs + os.sep):
+        print(f"Error: Invalid skill slug '{skill_slug}' escapes target directory.", file=sys.stderr)
         return False
 
     if os.path.exists(local_skill_path) or os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
@@ -294,6 +403,8 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
         "localPath": local_skill_path,
         "location": location,
     }
+    if isinstance(meta, dict) and meta.get("unindexed"):
+        entry["unindexed"] = True
     if existing:
         # If reinstalling with different location, clean up old path
         old_path = existing.get("localPath")
@@ -334,6 +445,11 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
 
     sid, meta = resolve_named_skill_reference(skill_id, registry_path)
     if not sid:
+        # Fall back to direct repository/URL reference for unindexed skills
+        direct_sid, direct_meta = _resolve_direct_reference(skill_id)
+        if direct_sid and direct_meta:
+            return _install_single(direct_sid, direct_meta, registry_path, visited, location=location)
+
         print(f"Error: Skill '{skill_id}' not found in registry.", file=sys.stderr)
         return False
 
@@ -460,12 +576,26 @@ def update_skills(registry_path: str):
 def uninstall_skill(skill_id):
     skill_id = skill_id.lstrip("/")
     manifest = load_manifest()
-    entry = next((s for s in manifest["installed"] if s["id"] == skill_id), None)
-    
-    if not entry:
+    matches = [
+        s for s in manifest["installed"]
+        if s["id"] == skill_id or s["id"].split("/", 1)[-1] == skill_id
+    ]
+
+    if not matches:
         print(f"Skill {skill_id} is not installed.")
         return False
 
+    if len(matches) > 1:
+        matched_ids = ", ".join(s["id"] for s in matches)
+        print(
+            f"Error: Ambiguous bare slug '{skill_id}' matches multiple installed skills: {matched_ids}. "
+            "Please specify the full ID (owner/slug) to uninstall.",
+            file=sys.stderr,
+        )
+        return False
+
+    entry = matches[0]
+    target_id = entry["id"]
     if "localPath" in entry:
         lp = entry["localPath"]
         if os.path.exists(lp) or os.path.islink(lp) or isLinkOrJunction(lp):
@@ -479,9 +609,9 @@ def uninstall_skill(skill_id):
             else:
                 os.remove(lp)
 
-    manifest["installed"] = [s for s in manifest["installed"] if s["id"] != skill_id]
+    manifest["installed"] = [s for s in manifest["installed"] if s["id"] != target_id]
     save_manifest(manifest)
-    print(f"Uninstalled: {skill_id}")
+    print(f"Uninstalled: {target_id}")
     return True
 
 
