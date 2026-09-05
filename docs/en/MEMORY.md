@@ -2,6 +2,410 @@
 
 ---
 
+## 2026-09-05 — Weekly Editor Pass (editor-047wk)
+
+**Branch:** `docs/routines/044` (PR #1687 — shipped this pass via squash merge)
+
+**Role:** Weekly editor. Reviewed the week's accreted PR (routines 044–046),
+audited `docs/en/` for staleness beyond what the dailies caught, fixed what
+was found, and shipped.
+
+### Branch state at start
+
+Only one `docs/routines/*` branch existed (`docs/routines/044`, PR #1687,
+draft, 3 commits: 044/045/046). No daily drifted onto a separate PR this
+week — nothing to consolidate. CI was green on all 12 checks.
+
+### Audit
+
+1. **Verified routine 045's mcp-server.html rewrite against issue #1549** —
+   confirmed via the issue body that narrowing the public tool surface to
+   `summon` (dropping `gaia_search`/`gaia_inspect`/`gaia_status` from
+   reader-facing copy) is a real, closed owner ruling, not an error. The
+   tools still exist and work; this is a presentation decision. No action
+   needed there.
+2. **Found `docs/en/cli-reference.html`'s `gaia dev mcp` card was the one
+   surface issue #1549 named that never got reconciled** — routine 045
+   explicitly scoped itself to `mcp-server.html` only. The card's example
+   output is a literal, still-accurate transcript of what `gaia dev mcp`
+   prints today (verified against `mcp_command()` in `src/gaia_cli/impl.py`,
+   which still emits the deprecated `@gaia-research/mcp@0.1.0` install line —
+   that's a CLI-code gap, out of docs scope, not touched here). Left the
+   transcript alone but added a callout matching the pattern already used on
+   `mcp-server.html`/README.md: flags it as literal-not-recommended and
+   points to `claude plugin install skill-heaven@gaia-skill-heaven`.
+3. **Found a self-contradiction in `DOCS.md` itself.** The Page Map (rows 4,
+   8) says an "editor pass closes #1479" for `skill-hierarchy.html`/
+   `fusion.html`'s Type/Branch migration, but the Vocabulary Rules section
+   still said both pages "teach the retired model in full — tracked in
+   issue #1479; don't copy... until that lands." Routine 046's own
+   "Planned next" note read this stale warning and queued a re-check for
+   routine 047. Verified directly: issue #1479 closed 2026-08-15, and both
+   pages' anchor IDs/glyphs (`#basic`, `#type-fusion`, `#unique-branch`,
+   `#suite-branch`) confirm the Type/Branch model is what's actually on the
+   page. Rewrote the stale warning to state the migration is done, which
+   also removes the false lead the next routine would have chased.
+4. **Version chips and asset cache-busting were stale site-wide.** Every
+   `docs/en/*.html` page showed a `v7.7.2` nav chip (the dynamic
+   `window.GAIA_VERSION` hook in `index.html`/`evidence-classes.html` is
+   dead code on these pages — nothing ever defines that global here, unlike
+   the top-level `docs/*.html` pages which inline it) while
+   `pyproject.toml` is at `7.11.3`. Same staleness on the shared-asset
+   cache-bust query strings: `mounts.js`/`site-nav.js`/`site-footer.js`
+   were pinned at `?v=7.4.2`/`?v=7.3.8` across every page vs. `?v=7.11.3`
+   on the live site's own top-level pages; `ui.js` was pinned at `?v=7.4.2`
+   vs. `?v=7.11.2` live (that asset's own last-touched version, not the
+   current release — matched that convention rather than over-bumping).
+   Bumped all of it, plus `timeline-audit.html`'s inline "as of v7.7.2" CLI
+   gap note (content re-verified as still accurate against
+   `src/gaia_cli/timeline.py` — only the version pin was stale).
+
+### What I did
+
+- `docs/en/cli-reference.html` — added a `callout warn` under the
+  `gaia dev mcp` card noting the transcript is literal, not a
+  recommendation, with a pointer to the `skill-heaven` plugin install.
+- `docs/en/DOCS.md` — rewrote the stale #1479 warning in Vocabulary Rules;
+  updated Page Map row 3 with the `cli-reference.html` fix and
+  `editor-047wk` history tag.
+- All 13 `docs/en/*.html` pages — bumped the `v7.7.2` version chip to
+  `v7.11.3`; bumped `mounts.js`/`site-nav.js`/`site-footer.js` cache-bust
+  strings to `?v=7.11.3` and `ui.js` to `?v=7.11.2`, matching the live
+  site's current pins.
+- `docs/en/timeline-audit.html` — bumped the inline "as of v7.7.2" CLI-gap
+  note to `v7.11.3` (content unchanged, still accurate).
+
+### What users must adapt
+
+Nothing behavioral — this is a documentation-currency pass. Anyone who had
+`docs/en/cli-reference.html`'s `gaia dev mcp` transcript bookmarked as "the
+way to install Gaia MCP" should switch to
+`claude plugin install skill-heaven@gaia-skill-heaven` per the new callout.
+
+### What I cut, merged, or deleted
+
+Nothing cut this week — no redundant sections found across the 13 pages
+during this pass. The one deletion was textual: the stale, now-false #1479
+warning in `DOCS.md`'s Vocabulary Rules (replaced, not removed outright, so
+the resolution stays discoverable).
+
+### Stale entries cleared
+
+- `DOCS.md` Vocabulary Rules' stale #1479 warning (see Audit #3).
+- Site-wide version chip drift (`v7.7.2` → `v7.11.3`, 13 pages).
+- Site-wide JS asset cache-bust drift (3 shared assets × 13 pages).
+- `cli-reference.html`'s incomplete #1549 reconciliation (see Audit #2).
+
+### How I worked
+
+Solo, no subagents fanned out — the week's remainder was narrow enough
+(one open PR, no drift, CI already green) that a full read-through of the
+diff plus a targeted staleness sweep (grep for version strings, cross-check
+open/closed issues named in recent routine commits, spot-check CLI claims
+against source) covered it faster than orchestrating workers. Read
+`CONTEXT.md` conventions and prior `MEMORY.md`/`DOCS.md` entries for
+pattern-matching (callout markup, routine-history tagging) rather than
+inventing new ones.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/**` only (checked after every
+  edit round).
+- `html.parser` parse-check clean on all 13 pages.
+- Diff-scanned for new hex colors (none — only issue-number `#nnnn`
+  references matched the regex).
+- Banned-synonym grep (`merge|combine|compose|rarity`) on the full diff —
+  zero new hits.
+- Cross-checked `gaia dev mcp`'s real output against `mcp_command()` in
+  `src/gaia_cli/impl.py` and the timeline CLI gaps against
+  `src/gaia_cli/timeline.py` before writing anything about either.
+- Confirmed issue #1479 (closed) and #1549 (open, but the specific claim
+  routine 045 made is a real ruling within it) directly via the GitHub API
+  rather than trusting the commit messages that cited them.
+
+### Ship
+
+CI green (12/12 checks) at merge time. Squash-merged PR #1687 into `main`.
+
+### Planned next (Routine 047)
+
+- Issue #1549 is still open and lists `docs/index.html`, `README.md`,
+  `AGENTS.md`, and `.mcp.json` as surfaces with the old
+  `@gaia-research/mcp` install path — all out of `docs/en/**` scope for
+  this routine. `docs/index.html` in particular still shows
+  `claude mcp add gaia -- npx @gaia-research/mcp` as its only MCP install
+  instruction with no decommission note, unlike every reconciled `docs/en/`
+  surface. That's a real gap, but it's outside this weekly editor's write
+  scope (`docs/en/**` only) — flag it to the founder rather than silently
+  leaving it, and don't let a future `docs/en/` routine assume it's covered.
+- The underlying CLI defect noted in Audit #2 (`gaia dev mcp` still prints
+  the deprecated `@gaia-research/mcp@0.1.0` line) is a `src/gaia_cli` code
+  fix, not a docs fix — also out of scope here, also worth a founder note
+  or a tracked issue rather than silent knowledge that evaporates with this
+  session.
+
+### Token spend
+
+2026-09-05 Sonnet 5 High: ~95k in, ~10k out. ~$0.65
+
+---
+
+## 2026-09-04 — Routine 046
+
+**Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** CONTINUE — Routine 045's "Planned next": ROTATE audit of
+`manual-curation-pipeline.html` (least-recently-touched at routine 037) for
+drift against the current `gaia dev` verb set.
+
+### Trigger
+
+Read `manual-curation-pipeline.html` end to end and cross-checked every
+`gaia dev` invocation against its real argparse definition in
+`src/gaia_cli/commands/dev/__init__.py` and implementation in
+`src/gaia_cli/commands/dev/calibrate.py`. Three places on the page invoke
+`gaia dev calibrate contributor/skill --stars N` (Phase 5's build/calibrate
+code block, the cheat sheet's Phase 5 line, and the "Become a contributor"
+table). `--stars` is not a real flag on `dev_calibrate` — the parser only
+defines a positional `skill_id` and a positional `level` (help text: "New
+level (e.g. 3★)"), and `meta_calibrate_command` validates `level` against
+`ALLOWED_LEVELS = ["1★", ..., "6★"]`, rejecting anything else with an error
+naming the correct positional form. `--stars` is a real flag elsewhere on
+the page (`gaia dev evidence --type github-stars-own --stars N`), which is
+likely how the wrong flag got copied onto `calibrate` in an earlier routine.
+
+### What I did
+
+Fixed all three `gaia dev calibrate` examples in
+`docs/en/manual-curation-pipeline.html` to use the real positional
+`<level>` argument instead of the fictional `--stars` flag:
+- Phase 5 code block: `gaia dev calibrate contributor/skill-id --stars 2` →
+  `gaia dev calibrate contributor/skill-id 2★`
+- Cheat sheet Phase 5 line: `gaia dev calibrate contributor/skill --stars N`
+  → `gaia dev calibrate contributor/skill N★`
+- "Become a contributor" table row: same fix, in the plain `<code>` cell
+  (not a code-fence, so no span markup needed)
+
+Updated `DOCS.md` row 13 with routine 046's fix and added it to the row's
+routine history list.
+
+### Design decisions
+
+- Kept the level example as a star-suffixed value (`2★`/`N★`) to match the
+  CLI's own help text and error-message guidance exactly, rather than a bare
+  number — a bare numeral is what the CLI rejects.
+- Left the rest of the page alone; every other `gaia dev` command on it
+  (`prefill`, `push`, `evidence`, `build`, `validate`, `docs`, `fuse`,
+  `named`) matched its current argparse signature on inspection, so this
+  was the one real drift point, not a wider rewrite.
+
+### Issues informed
+
+None filed or closed — documentation accuracy fix; the CLI's calibrate
+signature (positional level, no `--stars` flag) has been stable.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`,
+`docs/en/DOCS.md`, `docs/en/MEMORY.md` only. `html.parser` parse-check
+clean. Vocabulary grep (`merge|combine|compose|rarity`) — only hits are
+pre-existing `gh pr merge` command examples and "Merge PR" as a GitHub
+action name, not the Fusion concept; zero new violations. No new hex
+introduced (diff-scanned, zero hits). All three stylesheets (`tokens.css`,
+`styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — fixed three `gaia dev calibrate`
+  examples from a fictional `--stars N` flag to the real positional
+  `<level>` argument
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 047)
+
+- ROTATE: `skill-hierarchy.html` and `fusion.html` are now the
+  least-recently-touched pages (routine 028/029, both also covered by the
+  editor-026wk pass) among pages not already refreshed by recent routines.
+  Both still teach the retired Yggdrasil I four-tier model in full per
+  DOCS.md's own Vocabulary Rules note — worth checking whether that's still
+  accurate or whether issue #1479's tracked migration has since landed.
+
+### Token spend
+
+2026-09-04 Sonnet 5 Low: ~50k in, ~4k out. ~$0.19
+
+---
+
+## 2026-09-03 — Routine 045
+
+**Branch:** `docs/routines/044` (PR #1687 still open — continued on it per the one-open-PR rule)
+
+**Task chosen:** CONTINUE — Routine 044's "Planned next": reconcile DOCS.md row 9
+(`mcp-server.html`) against the page's real content after the Skill Heaven
+plugin reconciliation.
+
+### Trigger
+
+Routine 044 flagged that DOCS.md row 9 still described the MCP Server page as
+matching a "live v0.4.0 surface" of four tools (`gaia_search`/`gaia_inspect`/
+`summon`/`gaia_status`), but the page itself was reconciled to a
+`summon`-only Skill Heaven model back on 2026-08-22 (PR #1549, commit
+`b362f5268`) and clarified again the next day (`a244b638d`). Read the page
+end to end against that commit's diff to find the real state.
+
+### What I did
+
+1. Confirmed via `git show b362f5268 -- docs/en/mcp-server.html` that the
+   "Overview," "Installation," and "Core Mechanic" sections were rewritten to
+   the `summon`-only model, but the diff never touched the "How it works" or
+   "Prompt examples" sections — they still described `gaia_search`/
+   `gaia_inspect`/`gaia_status` calls that no longer exist on the page's own
+   tool list.
+2. Fixed `docs/en/mcp-server.html`:
+   - "How it works": dropped the leftover "Search and inspection return
+     structured Registry facts" sentence; reworded the summon-resolution
+     sentence so it doesn't imply separate search/inspect tool calls.
+   - "Prompt examples": replaced the search/inspect/status example prompts
+     with three `summon`-only prompts, matching the single tool card in the
+     "Core Mechanic" section.
+3. Updated DOCS.md row 9 to describe the actual current page (decommissioned
+   standalone MCP, `skill-heaven` plugin's single `summon` tool) instead of
+   the stale four-tool description, and added routine 045 to its history.
+
+### Design decisions
+
+- Treated this as a real content gap, not just a DOCS.md bookkeeping fix —
+  the page had two sections quietly contradicting its own "Core Mechanic"
+  section, which is worse than a stale changelog line.
+- Kept the fix to the one page (`mcp-server.html`) plus DOCS.md's row for it,
+  per the one-page-per-run limit. Did not touch `faq.html` or `docs/agent.md`
+  — both were already reconciled in the same commit that missed this page's
+  two sections.
+
+### Issues informed
+
+None filed or closed — documentation accuracy fix; the underlying decommission
+was already settled by #1549.
+
+### Verification
+
+`git status` scoped to `docs/en/mcp-server.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check on `mcp-server.html`
+clean. Vocabulary grep (`merge|combine|compose|rarity`) — zero hits outside
+DOCS.md's own rule text. No new hex introduced (diff-scanned). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/mcp-server.html` — fixed "How it works" and "Prompt examples" to
+  match the `summon`-only Skill Heaven model
+- `docs/en/DOCS.md` — page map row 9 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 046)
+
+- ROTATE: `manual-curation-pipeline.html` is now the least-recently-touched
+  page (routine 037), tied with `timeline-audit.html`/`mcp-server.html`
+  history but those two were just refreshed. Worth a fresh read-through for
+  drift against the current `gaia dev` verb set before assuming it's still
+  accurate.
+
+### Token spend
+
+2026-09-03 Sonnet 5 Low: ~55k in, ~3k out. ~$0.20
+
+---
+
+## 2026-09-02 — Routine 044
+
+**Branch:** `docs/routines/044` (new — PR #1544/`docs/routines/030` merged 2026-09-01,
+so per the branch rule this starts the next open PR from `origin/main`)
+
+**Task chosen:** SYNC — `gaia dev validate`'s CI enforcement section in
+`timeline-audit.html` was missing a check that's been live since 2026-08-20.
+
+### Trigger
+
+Checked `git log origin/main` since the last routine for merges/releases (found
+`chore: release v7.11.2` and an unrelated skills-install feature — no CLI
+behavior change in that range). Fell back to reading the least-recently-touched
+page (`timeline-audit.html`, still at routine 025, tied with `mcp-server.html`
+but `mcp-server.html` had already been reconciled for the MCP decommission by
+non-routine PRs #1549/`a244b638d` on 2026-09-01) against the real CLI before
+assuming a page marked "Done" was still accurate.
+
+Read `validate_command()` in `src/gaia_cli/impl.py` (the implementation behind
+`gaia dev validate`) end to end. It runs four checks, not the three the page
+documented: `scripts/validate.py` (canonical graph validator), `scripts/validate_redaction.py`
+(redaction gate), `scripts/validate_timelines.py` (Transparency Gate), and a
+fourth block added by `4ba12dbff` (`fix(trust-magnitude): reconcile dry-run,
+API, and source TM`, Issue #1600, merged 2026-08-20) that calls
+`scripts/check_trust_magnitude_consistency.py` — the Trust Magnitude
+Consistency Gate. That commit predates this page's last routine touch (025)
+by weeks and was never mirrored here, even though routine 034 already
+documented the CLI verb it's paired with (`gaia dev calibrate-trust-magnitude`)
+on `cli-reference.html`.
+
+### What I did
+
+Added the missing `# → Trust Magnitude Consistency Gate
+(check_trust_magnitude_consistency.py)` line to the `gaia dev validate` code
+block in the CI enforcement section (`id="ci"`), and updated the block's
+label from "running all three validation checks locally" to "running all four
+validation checks locally."
+
+### Design decisions
+
+- Scoped to the one `gaia dev validate` code block — left the three other
+  "three ___" phrases on the page alone (three tools table, three
+  script actions, three drift-cause cards) since none of them describe the
+  validate-command check count; rewriting them would be an unrelated, larger
+  edit.
+- Did not add a new prose paragraph or callout explaining the Trust Magnitude
+  gate itself — the page's job here is an accurate command listing, and the
+  gate is already documented in depth on `cli-reference.html`'s
+  `gaia dev calibrate-trust-magnitude` card (routine 034).
+
+### Issues informed
+
+None filed or closed — documentation-only accuracy fix; the CLI behavior
+itself has been stable since 2026-08-20.
+
+### Verification
+
+`git status` scoped to `docs/en/timeline-audit.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) on the file — zero hits. No new hex
+introduced (diff-scanned, zero hits). All three stylesheets (`tokens.css`,
+`styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/timeline-audit.html` — added the Trust Magnitude Consistency Gate
+  line to the `gaia dev validate` CI enforcement listing
+- `docs/en/DOCS.md` — page map row 12 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 045)
+
+- `docs/en/DOCS.md`'s row 9 description for `mcp-server.html` still claims the
+  live tool surface is `gaia_search`/`gaia_inspect`/`summon`/`gaia_status`,
+  but the page itself (reconciled by non-routine PR #1549 on 2026-09-01) now
+  documents only `summon` as the Core Mechanic under the Skill Heaven plugin
+  and states standalone Gaia MCP is decommissioned. Worth reading both
+  against the live MCP tool surface and reconciling whichever is stale —
+  DOCS.md's map description, or a gap in the page's own tool coverage.
+- If that's a dead end, ROTATE next falls to `mcp-server.html` proper or
+  `skill-hierarchy.html`/`fusion.html` (tied oldest at 028/029 among pages not
+  already covered by this routine's fallback).
+
+### Token spend
+
+2026-09-02 Sonnet 5 Low: ~50k in, ~4k out. ~$0.19
+
+---
+
 ## 2026-09-01 — Routine 043
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the one-open-PR rule)
