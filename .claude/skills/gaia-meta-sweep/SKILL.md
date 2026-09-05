@@ -79,7 +79,7 @@ Dimensions:
 
 1. `star-bar` — every 3★+ named skill missing/dead `links.github` (META §2.4)
 2. `liveness` — run `python scripts/verify_evidence.py`, return broken URLs (META §2.2 Liveness Heartbeat)
-3. `origin-attribution` — for every `genericSkillRef`, sort named skills by `createdAt`; flag any non-earliest with `origin: true` (META §4.1)
+3. `origin-attribution` — for every `genericSkillRef`, evaluate Origin standing per META §4.1 (most renowned / highest-rated, ties broken by TM score, exactly one Origin per bucket, ≤1★ cannot hold Origin). Flag multiple origins, ≤1★ origin claims, or lower-ranked skills holding Origin when a higher-ranked/higher-TM implementation exists.
 4. `unbacked-star` — named skills whose `level` is not backed by their own + inherited evidence (generics are starless — no overshoot possible)
 5. `brand-coupled` — generic IDs containing brand/product names (META §1, §2.4)
 6. `heavy-deps` — 3★+ named skills with known heavyweight deps / niche integrations (generic demerits are removed from the schema)
