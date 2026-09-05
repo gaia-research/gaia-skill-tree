@@ -99,7 +99,7 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
         return f"https://github.com/{owner}/{repo}.git", None, ""
 
     # Normalize github.com/... -> https://github.com/...
-    if url.startswith("github.com/"):
+    if re.match(r"^github\.com/", url):
         url = "https://" + url
 
     # Pattern for blob URLs: https?://github.com/owner/repo/blob/branch/path
@@ -155,7 +155,7 @@ def _is_direct_skill_ref(skill_ref: str) -> bool:
         skill_ref.startswith("https://")
         or skill_ref.startswith("http://")
         or skill_ref.startswith("git@")
-        or skill_ref.startswith("github.com/")
+        or re.match(r"^github\.com/", skill_ref)
     ):
         return True
     if re.match(r"^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+(?:\.git)?(?:@[a-zA-Z0-9_][\w./-]*)?$", skill_ref):
