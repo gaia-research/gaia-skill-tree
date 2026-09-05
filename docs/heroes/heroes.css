@@ -128,6 +128,75 @@ body:has(.heroes-gallery) {
   max-width: var(--heroes-prose-max);
 }
 
+/* ── Meta Shift Recalibration banner ─────────────────────────── */
+.heroes-header__shift-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.42rem 0.95rem;
+  margin: 0 auto 1.8rem;
+  background: color-mix(in oklch, var(--heroes-bg-ink) 85%, var(--heroes-gold-warm) 15%);
+  border: 1px solid color-mix(in oklch, var(--heroes-gold-warm) 35%, transparent);
+  border-radius: 9999px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 16px rgba(var(--heroes-gold-rgb), 0.08);
+  font-family: var(--heroes-font-body);
+  font-size: clamp(0.78rem, 1.1vw, 0.84rem);
+  line-height: 1.35;
+  color: var(--heroes-frost);
+  animation: heroes-subtitle-enter 1.2s var(--heroes-ease) both;
+}
+
+.heroes-header__shift-pill {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.48rem;
+  border-radius: 9999px;
+  background: rgba(var(--heroes-gold-rgb), 0.18);
+  color: var(--heroes-gold-warm);
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.35);
+  flex-shrink: 0;
+}
+
+.heroes-header__shift-text {
+  color: var(--heroes-frost-dim);
+}
+
+.heroes-header__shift-text strong {
+  color: var(--heroes-suite-cream);
+  font-weight: 600;
+}
+
+.heroes-header__shift-link {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--heroes-gold-warm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.heroes-header__shift-link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .heroes-header__shift-banner {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 0.55rem 0.8rem;
+    gap: 0.4rem;
+  }
+}
+
 .heroes-header__title {
   font-family: var(--heroes-font-display);
   font-size: clamp(2.4rem, 10vw, 3rem);

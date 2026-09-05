@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Logarithmic Adoption Curve: Old Linear vs. New Capped</title>
+  <desc id="desc">A chart plotting GitHub stars from 10 to 1,000,000 against Trust Magnitude adoption score. The old linear/unbounded curve shoots upward indefinitely. The new logarithmic curve follows min(175, 35 * log10(max(1, stars/10))) and asymptotes at the 175 TM cap. Key skills are plotted: ponytail at 124k stars, taste-skill at 84k, gsd at 64k, last30days at 61k.</desc>
+  <defs>
+    <style>
+      .bg{fill:#ffffff}.axis{stroke:#1c1917;stroke-width:2;fill:none}.grid{stroke:#e5e5e5;stroke-width:0.5}.axis-label{font:600 12px Arial,Helvetica,sans-serif;fill:#1c1917}.axis-title{font:600 14px Arial,Helvetica,sans-serif;fill:#111827}.tick{font:400 10px 'Courier New',monospace;fill:#78716c}.heading{font:700 22px Arial,Helvetica,sans-serif;fill:#111827}.sub{font:400 13px Arial,Helvetica,sans-serif;fill:#57534e}.old-curve{stroke:#dc2626;stroke-width:2.5;fill:none;stroke-dasharray:8 5;opacity:0.6}.new-curve{stroke:#166534;stroke-width:3;fill:none}.cap-line{stroke:#7c3aed;stroke-width:1.5;stroke-dasharray:6 4}.s-line{stroke:#d97706;stroke-width:1.5;stroke-dasharray:6 4}.dot{r:6;stroke:#fff;stroke-width:2}.dot-label{font:600 11px Arial,Helvetica,sans-serif;fill:#111827}.dot-sub{font:400 10px Arial,Helvetica,sans-serif;fill:#57534e}.legend-box{fill:#fafaf9;stroke:#d6d3d1;stroke-width:1;rx:8}.legend-text{font:400 11px Arial,Helvetica,sans-serif;fill:#44403c}.formula-box{fill:#f0fdf4;stroke:#166534;stroke-width:1.5;rx:8}.formula{font:600 13px 'Courier New',monospace;fill:#166534}.cap-label{font:600 11px Arial,Helvetica,sans-serif;fill:#7c3aed}.s-label{font:600 11px Arial,Helvetica,sans-serif;fill:#d97706}
+    </style>
+  </defs>
+  <rect class="bg" width="900" height="520" rx="16"/>
+
+  <!-- Title & Subtitle -->
+  <text class="heading" x="450" y="30" text-anchor="middle">Logarithmic Adoption Curve: Diminishing Returns on GitHub Stars</text>
+  <text class="sub" x="450" y="52" text-anchor="middle">Why rebalanced: Linear stars gave runaway credit to raw popularity — Logarithmic curve adoption caps adoption at 175 TM</text>
+
+  <!-- Chart area: x:100-820, y:80-420 -->
+  <!-- Y axis -->
+  <line class="axis" x1="100" y1="80" x2="100" y2="420"/>
+  <!-- X axis -->
+  <line class="axis" x1="100" y1="420" x2="820" y2="420"/>
+
+  <!-- Grid lines horizontal -->
+  <line class="grid" x1="100" y1="352" x2="820" y2="352"/><!-- 50 TM -->
+  <line class="grid" x1="100" y1="284" x2="820" y2="284"/><!-- 100 TM -->
+  <line class="grid" x1="100" y1="216" x2="820" y2="216"/><!-- 150 TM -->
+  <line class="grid" x1="100" y1="182" x2="820" y2="182"/><!-- 175 TM -->
+  <line class="grid" x1="100" y1="148" x2="820" y2="148"/><!-- 200 TM -->
+  <line class="grid" x1="100" y1="114" x2="820" y2="114"/><!-- 225 TM -->
+  <line class="grid" x1="100" y1="80" x2="820" y2="80"/><!-- 250 TM -->
+
+  <!-- Y axis ticks -->
+  <text class="tick" x="90" y="424" text-anchor="end">0</text>
+  <text class="tick" x="90" y="356" text-anchor="end">50</text>
+  <text class="tick" x="90" y="288" text-anchor="end">100</text>
+  <text class="tick" x="90" y="220" text-anchor="end">150</text>
+  <text class="tick" x="90" y="186" text-anchor="end">175</text>
+  <text class="tick" x="90" y="152" text-anchor="end">200</text>
+  <text class="tick" x="90" y="84" text-anchor="end">250</text>
+  <text class="axis-title" x="30" y="250" text-anchor="middle" transform="rotate(-90,30,250)">Adoption TM Score</text>
+
+  <!-- X axis: log scale from 10 to 1M -->
+  <!-- x positions: 10=100, 100=244, 1k=388, 10k=532, 100k=676, 1M=820 -->
+  <text class="tick" x="100" y="440">10</text>
+  <text class="tick" x="244" y="440">100</text>
+  <text class="tick" x="388" y="440">1k</text>
+  <text class="tick" x="532" y="440">10k</text>
+  <text class="tick" x="676" y="440">100k</text>
+  <text class="tick" x="820" y="440">1M</text>
+  <text class="axis-title" x="460" y="468">GitHub Stars (log scale)</text>
+
+  <!-- Vertical grid on log x axis -->
+  <line class="grid" x1="244" y1="80" x2="244" y2="420"/>
+  <line class="grid" x1="388" y1="80" x2="388" y2="420"/>
+  <line class="grid" x1="532" y1="80" x2="532" y2="420"/>
+  <line class="grid" x1="676" y1="80" x2="676" y2="420"/>
+
+  <!-- 175 TM cap line -->
+  <line class="cap-line" x1="100" y1="182" x2="820" y2="182"/>
+  <text class="cap-label" x="826" y="186">175 TM CAP</text>
+
+  <!-- 250 TM S-grade line -->
+  <line class="s-line" x1="100" y1="80" x2="820" y2="80"/>
+  <text class="s-label" x="826" y="84">S FLOOR (250)</text>
+
+  <!-- Old linear curve (unbounded, rising steeply) -->
+  <!-- old formula: stars/250, so 10→0.04, 100→0.4, 1k→4, 10k→40, 62.5k→250, 100k→400, 1M→4000 -->
+  <!-- Clamping display at top of chart -->
+  <path class="old-curve" d="M100 420 L244 419.5 L388 414.5 L532 365.6 L620 182 L676 80"/>
+
+  <!-- New logarithmic curve -->
+  <!-- 35*log10(stars/10): 10→0, 100→35, 1k→70, 10k→105, 100k→140, 1M→175 -->
+  <!-- y mapping: val → 420 - val * (340/250) = 420 - val*1.36 -->
+  <!-- 10→420, 100→420-47.6=372.4, 1k→420-95.2=324.8, 10k→420-142.8=277.2, 100k→420-190.4=229.6, 1M→420-238=182 -->
+  <path class="new-curve" d="M100 420 Q172 392 244 372 Q316 346 388 325 Q460 302 532 277 Q604 256 676 230 Q748 208 820 182"/>
+
+  <!-- Skill dots on new curve with ranks -->
+  <!-- last30days: 61k stars → log10(6100)=3.785 → 35*3.785=132.5 → y=420-132.5*1.36=239.8 → x≈660 -->
+  <circle class="dot" cx="656" cy="240" fill="#166534"/>
+  <text class="dot-label" x="592" y="228">#4 last30days</text>
+  <text class="dot-sub" x="592" y="242">61k ★ → 132 TM</text>
+
+  <!-- gsd: 64k stars → log10(6400)=3.806 → 35*3.806=133.2 → y=239 → x≈662 -->
+  <circle class="dot" cx="664" cy="238" fill="#166534"/>
+  <text class="dot-label" x="680" y="262">#3 gsd</text>
+  <text class="dot-sub" x="680" y="276">64k ★ → 133 TM</text>
+
+  <!-- taste-skill: 84k stars → log10(8400)=3.924 → 35*3.924=137.3 → y=233 → x≈682 -->
+  <circle class="dot" cx="684" cy="233" fill="#166534"/>
+  <text class="dot-label" x="694" y="220">#2 taste-skill</text>
+  <text class="dot-sub" x="694" y="234">84k ★ → 137 TM</text>
+
+  <!-- ponytail: 124k stars → log10(12400)=4.093 → 35*4.093=143.3 → y=225 → x≈700 -->
+  <circle class="dot" cx="700" cy="225" fill="#166534"/>
+  <text class="dot-label" x="716" y="205">#1 ponytail</text>
+  <text class="dot-sub" x="716" y="219">124k ★ → 143 TM</text>
+
+  <!-- Suite component cap at 50 TM -->
+  <line stroke="#c2410c" stroke-width="1.5" stroke-dasharray="4 4" x1="100" y1="352" x2="600" y2="352"/>
+  <text x="606" y="356" style="font:600 10px Arial,Helvetica,sans-serif;fill:#c2410c">SUITE CAP (50)</text>
+
+  <!-- Formula box -->
+  <rect class="formula-box" x="140" y="90" width="350" height="52"/>
+  <text class="formula" x="315" y="112" text-anchor="middle">adoptionScore = min(175.0,</text>
+  <text class="formula" x="315" y="132" text-anchor="middle">  35.0 × log₁₀(max(1.0, stars/10)))</text>
+
+  <!-- Legend -->
+  <rect class="legend-box" x="560" y="90" width="220" height="88"/>
+  <line x1="576" y1="108" x2="616" y2="108" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="8 5" opacity="0.6"/>
+  <text class="legend-text" x="624" y="112">Old linear (unbounded)</text>
+  <line x1="576" y1="132" x2="616" y2="132" stroke="#166534" stroke-width="3"/>
+  <text class="legend-text" x="624" y="136">New logarithmic (capped)</text>
+  <line x1="576" y1="152" x2="616" y2="152" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text class="legend-text" x="624" y="156">175 TM adoption cap</text>
+  <line x1="576" y1="170" x2="616" y2="170" stroke="#d97706" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text class="legend-text" x="624" y="174">250 TM S-grade floor</text>
+
+  <!-- Annotation: key insight -->
+  <rect fill="#fef3c7" stroke="#d97706" stroke-width="1" x="140" y="480" width="620" height="30" rx="6"/>
+  <text x="450" y="500" text-anchor="middle" style="font:600 12px Arial,Helvetica,sans-serif;fill:#92400e">Why ranks shifted: Adoption alone (175 TM max) cannot reach Grade S (250 TM) — top ranks require external evidence</text>
+</svg>
