@@ -86,6 +86,12 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md; changed notes, stars"
+    },
+    {
+      "timestamp": "2026-09-06T18:04:24Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

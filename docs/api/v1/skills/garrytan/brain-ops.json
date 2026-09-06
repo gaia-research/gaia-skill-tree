@@ -80,6 +80,12 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed named skill from garrytan/brain-operations to garrytan/brain-ops"
+    },
+    {
+      "timestamp": "2026-09-06T18:04:23Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

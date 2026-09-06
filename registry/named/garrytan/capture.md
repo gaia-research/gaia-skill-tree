@@ -5,7 +5,7 @@ contributor: garrytan
 origin: false
 genericSkillRef: personal-knowledge-management
 status: named
-level: 4★
+level: 3★
 description: Captures thoughts and content into a persistent personal knowledge brain
   through one idempotent ingestion entrypoint.
 createdAt: '2026-09-07'
@@ -41,6 +41,10 @@ timeline:
   contributor: unknown
   details: 'Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md;
     changed notes, stars'
+- timestamp: '2026-09-06T18:04:24Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md
   evaluator: mbtiongson1
@@ -55,7 +59,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:27Z'
-suiteRef: "garrytan/gbrain"
+suiteRef: garrytan/gbrain
 ---
 
 ## Installation

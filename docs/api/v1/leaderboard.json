@@ -724,12 +724,12 @@
       "id": "garrytan/brain-ops",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "garrytan/canary",
@@ -747,12 +747,12 @@
       "id": "garrytan/capture",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "garrytan/concept-synthesis",

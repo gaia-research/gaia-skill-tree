@@ -1,6 +1,6 @@
 {
   "version": "8.1.1",
-  "generatedAt": "2026-09-06T17:58:01Z",
+  "generatedAt": "2026-09-06T18:04:55Z",
   "summary": {
     "total": 209,
     "S": 3,
@@ -1038,9 +1038,9 @@
       "skillId": "garrytan/brain-ops",
       "tm": 50.0,
       "grade": "B",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1048,7 +1048,7 @@
         "github-stars-own": 50.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/canary",
@@ -1071,9 +1071,9 @@
       "skillId": "garrytan/capture",
       "tm": 50.0,
       "grade": "B",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1081,7 +1081,7 @@
         "github-stars-own": 50.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/concept-synthesis",

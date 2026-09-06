@@ -5,7 +5,7 @@ contributor: garrytan
 origin: false
 genericSkillRef: knowledge-management
 status: named
-level: 4★
+level: 3★
 description: Performs the brain-first read, enrich, write, attribution, and backlink
   cycle for a persistent knowledge base.
 createdAt: '2026-09-07'
@@ -36,6 +36,10 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from garrytan/brain-operations to garrytan/brain-ops
+- timestamp: '2026-09-06T18:04:23Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
   evaluator: mbtiongson1
@@ -50,7 +54,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:25Z'
-suiteRef: "garrytan/gbrain"
+suiteRef: garrytan/gbrain
 ---
 
 ## Installation
