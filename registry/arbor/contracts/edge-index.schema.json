@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-edge-index/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "edgeSetVersion", "coverage", "edges"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-edge-index/v1"},
+    "edgeSetVersion": {"$ref": "#/definitions/nonEmpty"},
+    "coverage": {"$ref": "#/definitions/coverage"},
+    "edges": {"type": "array", "items": {"$ref": "#/definitions/edge"}}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pairsEvaluated", "absenceMeaning"],
+      "properties": {
+        "pairsEvaluated": {"type": "integer", "minimum": 0},
+        "absenceMeaning": {"const": "not-evaluated"}
+      }
+    },
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": {"$ref": "#/definitions/endpoint"},
+        "to": {"$ref": "#/definitions/endpoint"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declarationSha256", "claimId"],
+      "properties": {
+        "declarationSha256": {"$ref": "#/definitions/sha256"},
+        "claimId": {"$ref": "#/definitions/recordId"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "basis"],
+      "properties": {
+        "actor": {"$ref": "#/definitions/nonEmpty"},
+        "basis": {"$ref": "#/definitions/nonEmpty"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "edgeKey", "pair", "target", "relation", "conditions", "authority", "support", "declarationSource", "observationSources", "interpretationSource", "structuralOverlap", "pairApplicable"],
+      "properties": {
+        "schema": {"const": "gaia.arbor-edge/v1"},
+        "edgeKey": {"$ref": "#/definitions/sha256"},
+        "pair": {"$ref": "#/definitions/pair"},
+        "target": {"$ref": "#/definitions/target"},
+        "relation": {"enum": ["stabilizes", "amplifies", "conflicts", "recovers", "compresses-after", "unlocks", "duplicates"]},
+        "conditions": {"$ref": "#/definitions/nonEmpty"},
+        "authority": {"$ref": "#/definitions/authority"},
+        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
+        "declarationSource": {"$ref": "#/definitions/sha256"},
+        "observationSources": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
+        "interpretationSource": {"anyOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+        "structuralOverlap": {"const": "not-evaluated"},
+        "pairApplicable": {"type": "boolean"}
+      }
+    }
+  }
+}
