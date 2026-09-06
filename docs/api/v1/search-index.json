@@ -3561,6 +3561,34 @@
     ]
   },
   {
+    "id": "citrolabs/ego-browser",
+    "name": "Ego Browser",
+    "contributor": "citrolabs",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 36.0,
+    "branch": "standard",
+    "tokens": [
+      "agents",
+      "ai",
+      "based",
+      "browser",
+      "chromium",
+      "control",
+      "direct",
+      "ego",
+      "human",
+      "interaction",
+      "isolated",
+      "pages",
+      "providing",
+      "runtime",
+      "sessions",
+      "users",
+      "web"
+    ]
+  },
+  {
     "id": "garrytan/benchmark-models",
     "name": "Benchmark Models",
     "contributor": "garrytan",

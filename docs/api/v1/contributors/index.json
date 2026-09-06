@@ -326,6 +326,19 @@
       }
     },
     {
+      "handle": "citrolabs",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "citrolabs/ego-browser",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/citrolabs.json"
+      }
+    },
+    {
       "handle": "nexu-io",
       "namedSkills": 1,
       "topSkill": {
@@ -404,7 +417,7 @@
       }
     }
   ],
-  "totalContributors": 31,
+  "totalContributors": 32,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }
