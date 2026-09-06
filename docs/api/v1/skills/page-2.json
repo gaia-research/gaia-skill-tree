@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "mattpocock/triage",
+      "name": "Triage",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/triage.json"
+      },
+      "genericSkillRef": "issue-triage"
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
@@ -832,28 +849,11 @@
         "self": "/api/v1/skills/mattpocock/codebase-design.json"
       },
       "genericSkillRef": "software-design"
-    },
-    {
-      "id": "mattpocock/diagnosing-bugs",
-      "name": "Diagnosing Bugs",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
-      },
-      "genericSkillRef": "systematic-debugging"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 188,
+  "totalSkills": 189,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",
