@@ -1056,8 +1056,8 @@ def build_arbor_projection(check: bool) -> bool:
     if committed.exists():
         actual = {
             str(path.relative_to(committed)): path.read_bytes()
-            for path in committed.rglob("*.json")
-            if path.is_file()
+            for path in committed.rglob("*")
+            if path.is_file() or path.is_symlink()
         }
     if actual == expected:
         return False

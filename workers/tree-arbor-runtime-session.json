@@ -1,0 +1,16 @@
+{
+  "sessionFile": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-issue-116-worktrees-tree-arbor-runtime--/2026-09-06T17-36-00-499Z_01a077ca-95e7-745e-83d9-9802198dad2f.jsonl",
+  "sessionId": "01a077ca-95e7-745e-83d9-9802198dad2f",
+  "provider": "openai-codex",
+  "model": "gpt-5.6-luna",
+  "modelIdentity": "openai-codex/gpt-5.6-luna",
+  "effort": "xhigh",
+  "version": "0.85.1",
+  "pane": "w7:pF",
+  "workspace": "w7",
+  "tab": "w7:t1",
+  "cwd": "/private/tmp/issue-116-worktrees/tree-arbor-runtime",
+  "branch": "dev/issue116-arbor-runtime",
+  "delegates": 0,
+  "base": "bf150f68b"
+}
