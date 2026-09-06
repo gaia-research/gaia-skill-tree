@@ -2,11 +2,11 @@
 id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
-origin: false
+origin: true
 genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
-level: 5★
+level: 4★
 description: Elite design vocabulary and audit tool for polishing AI-generated frontend
   code.
 links:
@@ -132,6 +132,14 @@ timeline:
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to leonxlnx/taste-skill.
+- timestamp: '2026-09-06T06:03:08Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★ (TM 169.34, Grade A)
+- timestamp: '2026-09-06T06:05:00Z'
+  action: calibrate
+  contributor: mbtiongson1
+  details: Assigned Origin standing as Unique branch origin on design-generation.
 trustMagnitude: 169.34
 overallTrustGrade: A
 apexGateStatus:

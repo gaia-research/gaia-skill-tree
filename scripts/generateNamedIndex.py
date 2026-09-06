@@ -7,7 +7,7 @@ named skill, groups them by genericSkillRef, and writes registry/named-skills.js
 Validation rules:
   - Each named skill has all required fields.
   - genericSkillRef resolves to a skill ID in registry/gaia.json.
-  - At most one origin: true per genericSkillRef bucket.
+  - At most one origin: true per branch per genericSkillRef bucket.
   - level is a valid star rating (1★–6★; 1★ indicates a demoted/uninstallable skill).
 
 Usage:
@@ -401,14 +401,20 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
             e.get("id", ""),
         ))
 
-    # Origin uniqueness per bucket (named only)
+    # Origin uniqueness per branch per bucket (named only)
     for ref, entries in buckets.items():
         origins = [e for e in entries if e.get("origin") is True]
         if len(origins) > 1:
-            origin_ids = [e.get("id", "?") for e in origins]
-            errors.append(
-                f"genericSkillRef '{ref}': more than one origin:true — {origin_ids}"
-            )
+            origins_by_branch = {}
+            for e in origins:
+                b = branchFor(e)
+                origins_by_branch.setdefault(b, []).append(e)
+            for b, b_origins in origins_by_branch.items():
+                if len(b_origins) > 1:
+                    origin_ids = [e.get("id", "?") for e in b_origins]
+                    errors.append(
+                        f"genericSkillRef '{ref}': more than one origin:true on branch '{b}' — {origin_ids}"
+                    )
 
     return errors, buckets, awaiting_classification, by_contributor
 

@@ -119,6 +119,12 @@
       "action": "demote",
       "contributor": "unknown",
       "details": "Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills."
+    },
+    {
+      "timestamp": "2026-09-06T06:04:29Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

@@ -110,6 +110,12 @@
       "action": "demote",
       "contributor": "unknown",
       "details": "Origin status removed. Transferred to mattpocock/resolving-merge-conflicts."
+    },
+    {
+      "timestamp": "2026-09-06T06:04:30Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 2★"
     }
   ],
   "links": {

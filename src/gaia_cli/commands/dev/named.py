@@ -3,6 +3,7 @@ import datetime
 from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir
+from gaia_cli.taxonomy import branchFor
 from gaia_cli.timeline import append_skill_event
 from gaia_cli.commands.dev.helpers import (
     _find_named_file,
@@ -111,25 +112,27 @@ def meta_update_named_command(args):
             changed = True
             origin_changed = True
 
-            # Uniqueness constraint: if we're setting origin=True, strip it from others in the same bucket
+            # Uniqueness constraint: if we're setting origin=True, strip it from others in the same bucket AND same branch
             if target_val and meta.get("genericSkillRef"):
                 bucket_ref = meta["genericSkillRef"]
+                current_branch = branchFor(meta)
                 for other_file in named_dir.rglob("*.md"):
                     if other_file == target_file:
                         continue
                     o_meta, o_body = _parse_md(other_file)
                     if o_meta.get("genericSkillRef") == bucket_ref and o_meta.get("origin") is True:
-                        o_meta["origin"] = False
-                        o_meta["updatedAt"] = datetime.date.today().isoformat()
-                        _write_md(other_file, o_meta, o_body)
-                        append_skill_event(
-                            o_meta["id"],
-                            "demote",
-                            _get_contributor(),
-                            f"Origin status removed. Transferred to {skill_id}.",
-                            registry_path=registry_path
-                        )
-                        print(f"Removed origin from competing skill: {o_meta['id']}")
+                        if branchFor(o_meta) == current_branch:
+                            o_meta["origin"] = False
+                            o_meta["updatedAt"] = datetime.date.today().isoformat()
+                            _write_md(other_file, o_meta, o_body)
+                            append_skill_event(
+                                o_meta["id"],
+                                "demote",
+                                _get_contributor(),
+                                f"Origin status removed. Transferred to {skill_id}.",
+                                registry_path=registry_path
+                            )
+                            print(f"Removed origin from competing skill in branch '{current_branch}': {o_meta['id']}")
 
     if changed:
         meta["updatedAt"] = datetime.date.today().isoformat()

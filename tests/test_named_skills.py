@@ -86,7 +86,7 @@ class TestNamedSkillIndexGeneration(unittest.TestCase):
     """Test generateNamedIndex.py bucket grouping and origin uniqueness."""
 
     def test_single_origin_per_bucket(self):
-        """validate_and_group allows only one origin per genericSkillRef."""
+        """validate_and_group allows only one origin per genericSkillRef within the same branch."""
         from scripts.generateNamedIndex import validate_and_group
 
         named_skills = [
@@ -96,6 +96,47 @@ class TestNamedSkillIndexGeneration(unittest.TestCase):
         graph_data = {"skills": [{"id": "web-search"}]}
         errors, *_ = validate_and_group(named_skills, graph_data)
         self.assertTrue(any("origin" in e.lower() for e in errors), f"Expected origin duplicate error, got: {errors}")
+
+    def test_branch_scoped_origins_coexist_per_bucket(self):
+        """Suites and distinct branches can each hold origin if they share the same genericSkillRef."""
+        from scripts.generateNamedIndex import validate_and_group
+
+        named_skills = [
+            ("registry/named/alice/suite-capstone.md", {
+                "id": "alice/suite-capstone", "name": "Suite Capstone", "contributor": "alice",
+                "origin": True, "genericSkillRef": "design-generation", "status": "named",
+                "level": "4★", "description": "Suite version.",
+                "suiteComponents": ["alice/sub-1", "alice/sub-2"]
+            }),
+            ("registry/named/bob/unique-skill.md", {
+                "id": "bob/unique-skill", "name": "Unique Skill", "contributor": "bob",
+                "origin": True, "genericSkillRef": "design-generation", "status": "named",
+                "level": "4★", "description": "Unique version."
+            }),
+        ]
+        graph_data = {"skills": [{"id": "design-generation"}]}
+        errors, buckets, *_ = validate_and_group(named_skills, graph_data)
+        self.assertEqual(errors, [])
+        self.assertIn("design-generation", buckets)
+        self.assertEqual(len(buckets["design-generation"]), 2)
+        origins = [s for s in buckets["design-generation"] if s.get("origin") is True]
+        self.assertEqual(len(origins), 2)
+
+        # Negative test: two skills on the SAME branch (e.g. two 4★ Uniques) must still fail validation
+        same_branch_skills = [
+            ("registry/named/bob/unique-skill-1.md", {
+                "id": "bob/unique-skill-1", "name": "Unique Skill 1", "contributor": "bob",
+                "origin": True, "genericSkillRef": "design-generation", "status": "named",
+                "level": "4★", "description": "Unique version 1."
+            }),
+            ("registry/named/carol/unique-skill-2.md", {
+                "id": "carol/unique-skill-2", "name": "Unique Skill 2", "contributor": "carol",
+                "origin": True, "genericSkillRef": "design-generation", "status": "named",
+                "level": "4★", "description": "Unique version 2."
+            }),
+        ]
+        errors_same, *_ = validate_and_group(same_branch_skills, graph_data)
+        self.assertTrue(any("origin:true on branch 'unique'" in e for e in errors_same), f"Expected branch duplicate error, got: {errors_same}")
 
     def test_bucket_groups_by_generic_ref(self):
         """validate_and_group returns correct bucket grouping."""

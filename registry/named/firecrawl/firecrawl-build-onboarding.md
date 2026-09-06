@@ -5,7 +5,7 @@ contributor: firecrawl
 origin: false
 genericSkillRef: agent-environment-setup
 status: named
-level: 4★
+level: 3★
 description: Configure Firecrawl credentials and client setup for agent tools.
 createdAt: '2026-07-13'
 updatedAt: '2026-09-06'
@@ -57,6 +57,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills.
+- timestamp: '2026-09-06T06:04:29Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl

@@ -183,12 +183,12 @@
       "id": "pbakaus/impeccable",
       "trustMagnitude": 169.34,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 133.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -605,13 +605,13 @@
       "id": "addy-osmani/code-review-and-quality",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -641,25 +641,25 @@
       "id": "firecrawl/firecrawl-build-interact",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "garrytan/benchmark",
@@ -1918,7 +1918,7 @@
       "id": "ruvnet/github-suite",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },

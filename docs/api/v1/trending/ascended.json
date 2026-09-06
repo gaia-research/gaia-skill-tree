@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-09-06T05:29:47Z",
+  "generatedAt": "2026-09-06T06:04:52Z",
   "skills": [
+    {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "contributor": "pbakaus",
+      "trustMagnitude": 169.34,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T06:05:00Z",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      }
+    },
     {
       "id": "leonxlnx/image-to-code-skill",
       "name": "image-to-code-skill",
@@ -299,19 +311,6 @@
       "ascendedAt": "2026-09-02T15:11:45Z",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
-      },
-      "previousLevel": "4★"
-    },
-    {
-      "id": "pbakaus/impeccable",
-      "name": "Impeccable",
-      "level": "4★",
-      "contributor": "pbakaus",
-      "trustMagnitude": 169.34,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:43Z",
-      "_links": {
-        "self": "/api/v1/skills/pbakaus/impeccable.json"
       },
       "previousLevel": "4★"
     },

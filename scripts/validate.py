@@ -53,6 +53,11 @@ import argparse
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
+_SRC = _REPO_ROOT / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
+
+from gaia_cli.taxonomy import branchFor
 
 if sys.platform == "win32":
     import io
@@ -502,7 +507,7 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
       - All required fields are present.
       - level is 2★ or above.
       - genericSkillRef resolves to a skill ID in graph (gaia.json).
-      - At most one origin: true per genericSkillRef bucket.
+      - At most one origin: true per branch per genericSkillRef bucket.
       - status 'named' requires title OR catalogRef (reviewer gate).
       - title/catalogRef requires status 'named' (prevents contributor bypassing).
       - catalogRef (if set) resolves to an item id in real_skill_catalog.json.
@@ -613,15 +618,21 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
         if not missing and level in _NAMED_VALID_LEVELS:
             buckets[ref].append(fm)
 
-    # Origin uniqueness per bucket
+    # Origin uniqueness per branch per bucket (at most 1 origin per branch per genericSkillRef)
     for ref, entries in buckets.items():
         origins = [e for e in entries if e.get("origin") is True]
         if len(origins) > 1:
-            ids = [e.get("id", "?") for e in origins]
-            errors.append(
-                f"Named skills: genericSkillRef '{ref}' has more than one "
-                f"origin:true — {ids}"
-            )
+            origins_by_branch = {}
+            for e in origins:
+                b = branchFor(e)
+                origins_by_branch.setdefault(b, []).append(e)
+            for b, b_origins in origins_by_branch.items():
+                if len(b_origins) > 1:
+                    ids = [e.get("id", "?") for e in b_origins]
+                    errors.append(
+                        f"Named skills: genericSkillRef '{ref}' has more than one "
+                        f"origin:true on branch '{b}' — {ids}"
+                    )
 
     return errors
 

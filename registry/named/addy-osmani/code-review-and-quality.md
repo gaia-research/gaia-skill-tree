@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: code-review-pipeline
 status: named
-level: 4★
+level: 3★
 description: Code review and quality enforcement workflow checking code style and
   patterns.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -74,6 +74,10 @@ timeline:
   contributor: unknown
   details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T06:04:29Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 3★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md
   updatedAt: '2026-09-01'

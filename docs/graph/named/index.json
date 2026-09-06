@@ -1033,164 +1033,6 @@
     ],
     "code-review-pipeline": [
       {
-        "id": "addy-osmani/code-review-and-quality",
-        "name": "Code Review and Quality",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "code-review-pipeline",
-        "status": "named",
-        "level": "3★",
-        "description": "Code review and quality enforcement workflow checking code style and patterns.",
-        "title": "Code Review and Quality",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/code-review-and-quality"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:24Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:13Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:13Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:03Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:09Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:07:11Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:51Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:06Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:42Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:01:41Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 50.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "9d32a0d4f4dfa8c5f5e925f1ea1ef420b65e32db6c7753c426c234daa761f70e",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 60.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 3,
-          "transitiveCount": 3,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "garrytan/plan-eng-review",
         "name": "Plan Eng Review",
         "contributor": "garrytan",
@@ -1314,6 +1156,170 @@
         },
         "type": "fusion",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "addy-osmani/code-review-and-quality",
+        "name": "Code Review and Quality",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "code-review-pipeline",
+        "status": "named",
+        "level": "3★",
+        "description": "Code review and quality enforcement workflow checking code style and patterns.",
+        "title": "Code Review and Quality",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/code-review-and-quality"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:13Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:03Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:09Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:07:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:51Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:06Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:42Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 286.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:01:41Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T06:04:29Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "9d32a0d4f4dfa8c5f5e925f1ea1ef420b65e32db6c7753c426c234daa761f70e",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -6959,131 +6965,6 @@
     ],
     "browser-control": [
       {
-        "id": "firecrawl/firecrawl-build-interact",
-        "name": "Firecrawl Interact",
-        "contributor": "firecrawl",
-        "origin": false,
-        "genericSkillRef": "browser-control",
-        "status": "named",
-        "level": "3★",
-        "description": "Integrate Firecrawl browser interaction into product code.",
-        "title": "Firecrawl Interact",
-        "catalogRef": "firecrawl-firecrawl-build-interact",
-        "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
-        },
-        "evidence": [
-          {
-            "type": "repo-own",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "commits": 5714,
-            "contributors": 155,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13",
-            "sourceStartedAt": "2023-08-01"
-          },
-          {
-            "source": "https://github.com/firecrawl/skills/stargazers",
-            "updatedAt": "2026-09-01",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-31",
-            "type": "github-stars-own",
-            "stars": 98,
-            "skillCountInRepo": 6,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-13T06:22:17Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill firecrawl/browser-interaction-integration"
-          },
-          {
-            "timestamp": "2026-07-13T06:22:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to firecrawl/firecrawl"
-          },
-          {
-            "timestamp": "2026-07-13T09:08:45Z",
-            "action": "note",
-            "contributor": "mbtiongson1",
-            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:49Z",
-            "action": "evidence_removed",
-            "contributor": "marcotiongson",
-            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:50Z",
-            "action": "evidence_added",
-            "contributor": "marcotiongson",
-            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-30T22:36:54Z",
-            "action": "rank_up",
-            "contributor": "marcotiongson",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:15Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "firecrawl/firecrawl-skills",
-        "trustMagnitude": 50.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "d1cdb3e2facbe85c6581c80c505424b287cfb391dac6861d95d250102b462033",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "garrytan/browse",
         "name": "Browse",
         "contributor": "garrytan",
@@ -7483,6 +7364,137 @@
         },
         "type": "basic",
         "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "firecrawl/firecrawl-build-interact",
+        "name": "Firecrawl Interact",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "3★",
+        "description": "Integrate Firecrawl browser interaction into product code.",
+        "title": "Firecrawl Interact",
+        "catalogRef": "firecrawl-firecrawl-build-interact",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "repo-own",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "commits": 5714,
+            "contributors": 155,
+            "grade": "B",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-13",
+            "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/skills/stargazers",
+            "updatedAt": "2026-09-01",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 98,
+            "skillCountInRepo": 6,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/browser-interaction-integration"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T09:08:45Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:49Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:15Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T06:04:28Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl-skills",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "d1cdb3e2facbe85c6581c80c505424b287cfb391dac6861d95d250102b462033",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -9352,137 +9364,6 @@
     ],
     "agent-environment-setup": [
       {
-        "id": "firecrawl/firecrawl-build-onboarding",
-        "name": "Firecrawl Onboarding",
-        "contributor": "firecrawl",
-        "origin": false,
-        "genericSkillRef": "agent-environment-setup",
-        "status": "named",
-        "level": "3★",
-        "description": "Configure Firecrawl credentials and client setup for agent tools.",
-        "title": "Firecrawl Onboarding",
-        "catalogRef": "firecrawl-firecrawl-build-onboarding",
-        "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md"
-        },
-        "evidence": [
-          {
-            "type": "repo-own",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "commits": 5714,
-            "contributors": 155,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13",
-            "sourceStartedAt": "2023-08-01"
-          },
-          {
-            "source": "https://github.com/firecrawl/skills/stargazers",
-            "updatedAt": "2026-09-01",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-31",
-            "type": "github-stars-own",
-            "stars": 98,
-            "skillCountInRepo": 6,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-06",
-        "timeline": [
-          {
-            "timestamp": "2026-07-13T06:22:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill firecrawl/agent-environment-auth"
-          },
-          {
-            "timestamp": "2026-07-13T06:22:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to firecrawl/firecrawl"
-          },
-          {
-            "timestamp": "2026-07-13T09:08:46Z",
-            "action": "note",
-            "contributor": "mbtiongson1",
-            "details": "Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding — aligned to official firecrawl/skills repo naming"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:50Z",
-            "action": "evidence_removed",
-            "contributor": "marcotiongson",
-            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:50Z",
-            "action": "evidence_added",
-            "contributor": "marcotiongson",
-            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-30T22:36:54Z",
-            "action": "rank_up",
-            "contributor": "marcotiongson",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:16Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-06T05:29:06Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills."
-          }
-        ],
-        "suiteRef": "firecrawl/firecrawl-skills",
-        "trustMagnitude": 50.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "a37771a66ec02cc6b5ce8cff2dc8a08a9f8daff3c711dee3e6f84ddc301263dc",
-        "type": "fusion",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "mattpocock/setup-matt-pocock-skills",
         "name": "Setup Matt Pocock Skills",
         "contributor": "mattpocock",
@@ -9609,6 +9490,143 @@
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "firecrawl/firecrawl-build-onboarding",
+        "name": "Firecrawl Onboarding",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "3★",
+        "description": "Configure Firecrawl credentials and client setup for agent tools.",
+        "title": "Firecrawl Onboarding",
+        "catalogRef": "firecrawl-firecrawl-build-onboarding",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "repo-own",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "commits": 5714,
+            "contributors": 155,
+            "grade": "B",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-13",
+            "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/skills/stargazers",
+            "updatedAt": "2026-09-01",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 98,
+            "skillCountInRepo": 6,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/agent-environment-auth"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T09:08:46Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:06Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills."
+          },
+          {
+            "timestamp": "2026-09-06T06:04:29Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl-skills",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "a37771a66ec02cc6b5ce8cff2dc8a08a9f8daff3c711dee3e6f84ddc301263dc",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -22973,10 +22991,145 @@
     ],
     "design-generation": [
       {
+        "id": "leonxlnx/taste-skill",
+        "name": "taste-skill",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Anti-slop frontend master skill for landing pages, portfolios, and redesigns. Infers design direction, dials visual variance and density, applies real design systems, and runs strict pre-flight checks.",
+        "title": "Taste Skill",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill repository",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T07:11:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/taste-skill"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:13:42Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:52Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=leonxlnx/taste-skill, suiteComponents+=['leonxlnx/redesign-skill', 'leonxlnx/brandkit', 'leonxlnx/imagegen-frontend-web', 'leonxlnx/imagegen-frontend-mobile', 'leonxlnx/gpt-tasteskill', 'leonxlnx/brutalist-skill', 'leonxlnx/minimalist-skill', 'leonxlnx/soft-skill', 'leonxlnx/stitch-skill', 'leonxlnx/image-to-code-skill', 'leonxlnx/output-skill']."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T06:53:36Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:54Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
+        "suiteComponents": [
+          "leonxlnx/brandkit",
+          "leonxlnx/brutalist-skill",
+          "leonxlnx/gpt-tasteskill",
+          "leonxlnx/image-to-code-skill",
+          "leonxlnx/imagegen-frontend-mobile",
+          "leonxlnx/imagegen-frontend-web",
+          "leonxlnx/minimalist-skill",
+          "leonxlnx/output-skill",
+          "leonxlnx/redesign-skill",
+          "leonxlnx/soft-skill",
+          "leonxlnx/stitch-skill"
+        ],
+        "trustMagnitude": 172.43,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 256.57,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 14,
+          "transitiveCount": 18,
+          "maxDepth": 3,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "pbakaus/impeccable",
         "name": "Impeccable",
         "contributor": "pbakaus",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "design-generation",
         "status": "named",
         "level": "4★",
@@ -23142,6 +23295,18 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Origin status removed. Transferred to leonxlnx/taste-skill."
+          },
+          {
+            "timestamp": "2026-09-06T06:03:08Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★ (TM 169.34, Grade A)"
+          },
+          {
+            "timestamp": "2026-09-06T06:05:00Z",
+            "action": "calibrate",
+            "contributor": "mbtiongson1",
+            "details": "Assigned Origin standing as Unique branch origin on design-generation."
           }
         ],
         "trustMagnitude": 169.34,
@@ -23158,7 +23323,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "unique",
         "rank": 4,
         "rankWord": "Unique",
@@ -23174,141 +23339,6 @@
           "directCount": 3,
           "transitiveCount": 3,
           "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "leonxlnx/taste-skill",
-        "name": "taste-skill",
-        "contributor": "leonxlnx",
-        "origin": true,
-        "genericSkillRef": "design-generation",
-        "status": "named",
-        "level": "4★",
-        "description": "Anti-slop frontend master skill for landing pages, portfolios, and redesigns. Infers design direction, dials visual variance and density, applies real design systems, and runs strict pre-flight checks.",
-        "title": "Taste Skill",
-        "links": {
-          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-08-22",
-            "type": "github-stars-own",
-            "notes": "79.0k stars on Leonxlnx/taste-skill repository",
-            "stars": 79067,
-            "sourceStartedAt": "2026-02-19",
-            "grade": "A"
-          },
-          {
-            "source": "https://github.com/leonxlnx/taste-skill",
-            "evaluator": "mbtiongson1",
-            "date": "2026-08-22",
-            "type": "repo-own",
-            "notes": "152 commits, 6 contributors, MIT license",
-            "commits": 152,
-            "contributors": 6,
-            "sourceStartedAt": "2026-02-19",
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-06",
-        "timeline": [
-          {
-            "timestamp": "2026-08-22T07:11:01Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill leonxlnx/taste-skill"
-          },
-          {
-            "timestamp": "2026-08-22T07:11:07Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-08-22T07:11:11Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-08-22T07:13:42Z",
-            "action": "rank_up",
-            "contributor": "mbtiongson1",
-            "details": "Calibrated level from 2★ to 4★"
-          },
-          {
-            "timestamp": "2026-08-22T08:08:52Z",
-            "action": "suite_ref_set",
-            "contributor": "mbtiongson1",
-            "details": "Updated via `gaia dev fuse`: suiteRef=leonxlnx/taste-skill, suiteComponents+=['leonxlnx/redesign-skill', 'leonxlnx/brandkit', 'leonxlnx/imagegen-frontend-web', 'leonxlnx/imagegen-frontend-mobile', 'leonxlnx/gpt-tasteskill', 'leonxlnx/brutalist-skill', 'leonxlnx/minimalist-skill', 'leonxlnx/soft-skill', 'leonxlnx/stitch-skill', 'leonxlnx/image-to-code-skill', 'leonxlnx/output-skill']."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:51Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-04T06:53:36Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-06T05:28:54Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          }
-        ],
-        "suiteComponents": [
-          "leonxlnx/brandkit",
-          "leonxlnx/brutalist-skill",
-          "leonxlnx/gpt-tasteskill",
-          "leonxlnx/image-to-code-skill",
-          "leonxlnx/imagegen-frontend-mobile",
-          "leonxlnx/imagegen-frontend-web",
-          "leonxlnx/minimalist-skill",
-          "leonxlnx/output-skill",
-          "leonxlnx/redesign-skill",
-          "leonxlnx/soft-skill",
-          "leonxlnx/stitch-skill"
-        ],
-        "trustMagnitude": 172.43,
-        "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a",
-        "type": "fusion",
-        "installBody": "Add installation instructions here.",
-        "role": "origin",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "suite",
-        "rank": 4,
-        "rankWord": "Extra",
-        "medallion": "◆",
-        "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        },
-        "fusionScore": 256.57,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 14,
-          "transitiveCount": 18,
-          "maxDepth": 3,
           "nestedSuiteCount": 0
         }
       },
@@ -26688,139 +26718,6 @@
     ],
     "git-integration": [
       {
-        "id": "ruvnet/github-suite",
-        "name": "GitHub Suite",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "git-integration",
-        "status": "named",
-        "level": "2★",
-        "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
-        "title": "The GitHub Maestro",
-        "catalogRef": "ruvnet-github-suite",
-        "tags": [
-          "github",
-          "platform-mastery",
-          "code-review",
-          "releases",
-          "automation"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/ruvnet/ruflo",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-19",
-            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 6899,
-            "contributors": 32,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-06",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:56Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:20Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:39Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:44Z",
-            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:36Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
-          },
-          {
-            "timestamp": "2026-07-08T19:57:13Z",
-            "action": "upstream_synced",
-            "contributor": "github-actions[bot]",
-            "previousValue": null,
-            "newValue": "v3.25.5",
-            "details": "first-run baseline"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:59Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-06T05:29:09Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to mattpocock/resolving-merge-conflicts."
-          }
-        ],
-        "suiteRef": "ruvnet/ruflo",
-        "suiteComponents": [
-          "ruvnet/github-code-review",
-          "ruvnet/github-multi-repo",
-          "ruvnet/github-project-management",
-          "ruvnet/github-release-management",
-          "ruvnet/github-workflow-automation"
-        ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "e8e3ac043da60bcc9bee6f9abe3c9d122e5032ee322e2609efb0a4cc65e7eb6d",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant",
-        "branch": "suite",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 1/3 components carry graded evidence"
-        },
-        "fusionScore": 240.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 6,
-          "transitiveCount": 14,
-          "maxDepth": 2,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "mattpocock/resolving-merge-conflicts",
         "name": "Resolving Merge Conflicts",
         "contributor": "mattpocock",
@@ -26994,6 +26891,145 @@
         "fusionBreakdown": {
           "directCount": 5,
           "transitiveCount": 13,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "ruvnet/github-suite",
+        "name": "GitHub Suite",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "git-integration",
+        "status": "named",
+        "level": "2★",
+        "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
+        "title": "The GitHub Maestro",
+        "catalogRef": "ruvnet-github-suite",
+        "tags": [
+          "github",
+          "platform-mastery",
+          "code-review",
+          "releases",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 6899,
+            "contributors": 32,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:56Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:36Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:57:13Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:59Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:09Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/resolving-merge-conflicts."
+          },
+          {
+            "timestamp": "2026-09-06T06:04:30Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
+          }
+        ],
+        "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/github-code-review",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-project-management",
+          "ruvnet/github-release-management",
+          "ruvnet/github-workflow-automation"
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "e8e3ac043da60bcc9bee6f9abe3c9d122e5032ee322e2609efb0a4cc65e7eb6d",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
+        "role": "variant",
+        "branch": "suite",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 components carry graded evidence"
+        },
+        "fusionScore": 240.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 14,
           "maxDepth": 2,
           "nestedSuiteCount": 0
         }

@@ -7,7 +7,7 @@ genericSkillRef: git-integration
 status: named
 title: The GitHub Maestro
 catalogRef: ruvnet-github-suite
-level: 3★
+level: 2★
 description: Full GitHub platform automation fused from 5 skills — code review, multi-repo
   coordination, project management, release management, and workflow automation.
 links:
@@ -76,6 +76,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to mattpocock/resolving-merge-conflicts.
+- timestamp: '2026-09-06T06:04:30Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
