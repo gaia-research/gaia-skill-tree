@@ -61,3 +61,26 @@ All candidate suite components were audited to verify they are **real, independe
    - Lazy workflow set: installed on demand via `npx hyperframes skills update <workflow>`.
    - General harness fallback: compatible with `npx skills add heygen-com/hyperframes --skill <name>` and native subagent directory discovery.
 3. **No Phantom Skills:** Zero directories in the suite lack a runnable `SKILL.md`. Every component is an independent, functional skill unit.
+
+---
+
+## 4. Final Suite Promotion and Topology Decision
+
+The canonical suite contains the capstone plus **18 promoted components**. `heygen-com/general-video` remains verified and installable but is excluded because its catch-all routing scope duplicates the `heygen-com/hyperframes` capstone.
+
+| Generic capability | Promoted implementations | Origin decision |
+|---|---|---|
+| `video-captions` | `embedded-captions` | Origin (sole implementation) |
+| `video-scaffolding` | `hyperframes-cli` | Origin (sole implementation) |
+| `video-rendering` | `hyperframes-core` | Origin (sole implementation) |
+| `timeline-animation` | `hyperframes-animation`, `hyperframes-keyframes`, `motion-graphics` | `hyperframes-animation` is Origin; specialized workflows are not |
+| `video-composition` | `faceless-explainer`, `music-to-video`, `pr-to-video`, `product-launch-video`, `talking-head-recut` | No component Origin assigned in the broad shared bucket |
+| `skill-discovery` | `hyperframes-registry` | No Origin; incumbent retained |
+| `framework-upgrade` | `remotion-to-hyperframes` | No Origin; adapter does not displace incumbents |
+| `design-source-import` | `figma` | New vendor-neutral basic; Origin (sole implementation) |
+| `audio-mixing` | `hyperframes-audio` | New vendor-neutral basic; Origin (sole implementation) |
+| `creative-direction` | `hyperframes-creative` | New vendor-neutral basic; Origin (sole implementation) |
+| `media-asset-orchestration` | `media-use` | New vendor-neutral basic; Origin (sole implementation) |
+| `interactive-presentation-authoring` | `slideshow` | New vendor-neutral basic; Origin (sole implementation) |
+
+All 18 components inherit the verified host-repository evidence with `skillCountInRepo: 20`. Yggdrasil III's shared-suite cap limits each component to **50.00 TM (Grade B)**, supporting **3★ Evolved** and no higher. The capstone independently appraises at **163.63 TM (Grade A)**, supporting **4★ Extra**. It is not eligible for 5★ because 5★ requires TM ≥250.

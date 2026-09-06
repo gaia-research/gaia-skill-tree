@@ -1,0 +1,31 @@
+{
+  "id": "heygen-com/hyperframes",
+  "name": "Video Composition",
+  "contributor": "heygen-com",
+  "description": "Guiding agents to create, organize, and render code-defined video compositions using programmatic frameworks across the full workflow from scaffolding to render.",
+  "version": "1.0.0",
+  "capstone": "heygen-com/hyperframes",
+  "suites": [],
+  "standalones": [
+    "heygen-com/embedded-captions",
+    "heygen-com/faceless-explainer",
+    "heygen-com/figma",
+    "heygen-com/hyperframes-animation",
+    "heygen-com/hyperframes-audio",
+    "heygen-com/hyperframes-cli",
+    "heygen-com/hyperframes-core",
+    "heygen-com/hyperframes-creative",
+    "heygen-com/hyperframes-keyframes",
+    "heygen-com/hyperframes-registry",
+    "heygen-com/media-use",
+    "heygen-com/motion-graphics",
+    "heygen-com/music-to-video",
+    "heygen-com/pr-to-video",
+    "heygen-com/product-launch-video",
+    "heygen-com/remotion-to-hyperframes",
+    "heygen-com/slideshow",
+    "heygen-com/talking-head-recut"
+  ],
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07"
+}
