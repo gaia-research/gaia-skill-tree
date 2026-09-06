@@ -833,7 +833,11 @@ def buildEdgeIndex(
 ) -> dict:
     sources = sources or allSourceRecords(registryRoot)
     entries = buildEdgeEntries(sources, registryRoot)
-    pairs = {pairKey(entry["pair"]) for entry in entries}
+    # Coverage describes observed pairs, not the number of authored claims.
+    pairs = {
+        pairKey(observation["pair"])
+        for observation in sources[EDGE_OBSERVATION_SCHEMA].values()
+    }
     index = {
         "schema": EDGE_INDEX_SCHEMA,
         "edgeSetVersion": EDGE_SCHEMA,
