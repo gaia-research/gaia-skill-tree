@@ -2072,6 +2072,32 @@
         }
       ]
     },
+    "citrolabs": {
+      "repos": [
+        "citrolabs/ego-lite"
+      ],
+      "skillsByRepo": {
+        "citrolabs/ego-lite": [
+          "citrolabs/ego-browser"
+        ]
+      },
+      "topSkill": "citrolabs/ego-browser",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "citrolabs/ego-browser",
+          "name": "Ego Browser",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/ego-browser",
+          "file": "ego-browser.svg",
+          "fileSeal": "ego-browser-seal.svg"
+        }
+      ]
+    },
     "dietrichgebert": {
       "repos": [
         "DietrichGebert/ponytail"

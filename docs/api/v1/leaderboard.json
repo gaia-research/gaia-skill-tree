@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 206,
     "S": 3,
     "A": 21,
     "B": 65,
-    "C": 99,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -1413,6 +1413,17 @@
     },
     {
       "id": "balukosuri/autoresearch-universal",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "citrolabs/ego-browser",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
