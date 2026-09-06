@@ -2360,6 +2360,32 @@
         }
       ]
     },
+    "nateherkai": {
+      "repos": [
+        "nateherkai/scroll-craft"
+      ],
+      "skillsByRepo": {
+        "nateherkai/scroll-craft": [
+          "nateherkai/scroll-craft"
+        ]
+      },
+      "topSkill": "nateherkai/scroll-craft",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nateherkai/scroll-craft",
+          "name": "Scroll Craft",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scroll-craft",
+          "file": "scroll-craft.svg",
+          "fileSeal": "scroll-craft-seal.svg"
+        }
+      ]
+    },
     "nousresearch": {
       "repos": [],
       "skillsByRepo": {},
