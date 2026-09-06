@@ -46,7 +46,8 @@ envelope**; the ENDGAME §9 result profile is its payload; `gaia.arbor-profile/v
 lens, unchanged.
 
 **`status` is a required enum, never a silent `null`:** `present` · `absent-no-accepted-record` ·
-`absent-subject-version-mismatch` · `absent-superseded`.
+`absent-subject-version-mismatch` · `absent-superseded` · `unavailable-unsupported-payload` (a payload
+arrived that no accepted contract identifies — the builder rejected it; see §2.1 fail-closed).
 
 ### 1.1 Two axes that must never be conflated
 
@@ -62,13 +63,22 @@ inherently positive or negative:**
 | `benchmark-revised` | the governed interpretation **changed** the claim — **direction unspecified**; a revision may strengthen, weaken, redirect, or re-scope it | a negative finding, a demotion, or a refutation |
 | `inconclusive` | governed, and the evidence did not settle it | missing, or neutral-effect |
 
-**Behavioral effect lives in exactly two places, and `support` is neither:** the signed
-`measurements` on an observation record, and an edge's declared `relation`. A reader that infers
-direction or magnitude from `support` has manufactured a finding. Concretely: `relation: conflicts`
-at `support: inconclusive` means *a negative-valence interaction was claimed and the evidence did not
-settle it* — not *a proven conflict*; and `support: benchmark-revised` on a `relation: amplifies`
-claim says the claim moved, not which way. Direction must be read from the revised claim text and the
-measurements, never from the support label.
+**A consumer reads behavioral effect only from an explicitly accepted statement under known
+semantics and matching conditions** — an accepted claim, an edge's declared `relation`, or an accepted
+HH result payload. It never *calculates* one. Specifically forbidden:
+
+- **inferring direction or magnitude from `support`** — that is the axis confusion §1.1 exists to stop;
+- **reading a sign off a raw `measurement`** — a measurement is a conclusion-free observation, and its
+  sign carries no beneficial/harmful valence on its own. Whether a delta is good, bad, or irrelevant is
+  a governed judgement, and the ledger is frozen precisely so nobody re-derives one downstream;
+- **parsing free prose** — `rationale`, `conditions`, and revised claim text are for a human reader.
+  A consumer that regex-reads them has bypassed governance.
+
+Concretely: `relation: conflicts` at `support: inconclusive` means *a negative-valence interaction was
+claimed and the evidence did not settle it* — not *a proven conflict*; and `support: benchmark-revised`
+on a `relation: amplifies` claim says the claim moved, not which way, and a consumer that cannot read
+which way from an accepted structured field **abstains**. **Unknown semantics, unknown units, or
+unmatched conditions ⇒ abstain on that statement** and disclose the abstention.
 
 ### 1.2 Reader rules for absence, staleness, and version drift
 
@@ -125,11 +135,37 @@ Four record classes, on the same axis the sidecar already uses:
    `gaia.arbor-interpretation/v1` for claims. Parallel active acceptances for one subject are rejected.
 4. **Projection** — the `hellHeaven` lens, materialized from the single active acceptance.
 
-### 2.1 The HH payload must carry applicability per behavioral claim
+### 2.1 The HH payload — the lens is defined now, the payload contract is not
 
-A finite-number map plus a `dimensionSetVersion` is **not sufficient**: the moment a unit or a
-semantic convention becomes load-bearing, an envelope-level condition blob cannot say which claim it
-governs. Required shape — **every behavioral claim carries its own applicability**:
+**The HH result payload contract is research-owned and unpublished. This packet does not freeze it,
+and must not, merely to give the envelope something to hold.** What the Tree defines now is the *lens*:
+its `status`, its provenance chain (§2), its acceptance gate, and one durable requirement stated below.
+The metric set, the units, and the result contract itself remain research's to publish.
+
+**The one durable requirement — applicability must be preserved.** Whatever shape research publishes,
+each behavioral statement must arrive with the conditions under which it holds; a finite-number map
+plus a `dimensionSetVersion` is not sufficient, because an envelope-level condition blob cannot say
+which statement it governs. That is a constraint on *acceptance*, not a schema this packet imposes.
+
+**Fail closed until the contract exists.** Concretely, in `gaia.arbor-runtime/v1`:
+
+- the **empty lens is fully valid and fully implementable now** — `status: absent-no-accepted-record`,
+  no payload, nothing pending. A4 ships and validates this today with no research dependency;
+- an **unsupported populated lens fails closed**: if a payload is present and no accepted research
+  contract identifies its shape, the builder **rejects the record** and the lens publishes
+  `status: unavailable-unsupported-payload`. It does **not** pass the bytes through, and it does not
+  guess;
+- **the initial absent lens must not be presented as though acceptance were operational.** There is no
+  accepted HH contract, so there is no working acceptance path to demonstrate. Saying otherwise —
+  in a PR body, a downstream doc, or a demo — would be a fabricated happy path;
+- the only permitted populated examples are **explicitly labelled schema fixtures**, marked as
+  illustrative, never committed as evidence and never counted as a closed loop.
+
+Once research publishes and ratifies a payload contract, the lens evolves to carry it in a separate
+upstream ask — not by widening this packet.
+
+**The per-claim shape below is a PROPOSAL for that future ask, offered so the applicability
+requirement is concrete. It is not a contract, and nothing implements it in A2–A4:**
 
 ```
 result:
@@ -145,11 +181,13 @@ result:
 applicability: { conditions, regime, harness{name,version}, model, arm, taskFamily }
 ```
 
-`conditions` is required and non-empty on every applicability block — the same discipline the existing
-declaration `claim.conditions` already enforces. `unit` and `semantics` are required per dimension;
-`direction` states which sign is which so a reader never guesses valence. A reader that does not
-recognise a `unit`, a `semantics` string, or the `unitVocabularyDigest` **abstains on that dimension**
-and says so — it does not coerce the number. Envelope-level conditions are forbidden as a substitute.
+In this proposal `conditions` would be required and non-empty on every applicability block — the same
+discipline the existing declaration `claim.conditions` already enforces — with `unit` and `semantics`
+required per dimension and `direction` stating which sign is which, so a reader never guesses valence.
+A reader that does not recognise a `unit`, a `semantics` string, or the `unitVocabularyDigest`
+**abstains on that dimension** and says so; it does not coerce the number (§1.1). Envelope-level
+conditions would be forbidden as a substitute. **Research may publish a different shape that satisfies
+the applicability requirement differently; if so, this proposal loses and the published shape wins.**
 
 ### 2.2 Stamps — proposed here, not yet research-defined
 
@@ -217,10 +255,22 @@ because pair identity and per-endpoint content pins must be carried **and verifi
   `conditions`, `authority`, `support`, `declarationSource`, `observationSources[]`,
   `interpretationSource`, and the constant `structuralOverlap: "not-evaluated"`.
 
-**Parallel, not reused.** The `arm`, `environment`, `artifacts`, `measurement`, `authority`
-definitions and the four-value `support` enum are **copied verbatim** from the existing contracts so
-the two chains stay semantically identical. Only subject cardinality differs. All four new schemas are
-`additionalProperties: false`.
+**Parallel, not reused.** The `arm`, `environment`, `artifacts`, `measurement` and `authority`
+definitions are **copied verbatim** from the existing contracts so the two chains stay semantically
+identical. Only subject cardinality differs. All four new schemas are `additionalProperties: false`.
+
+**`support` has two different cardinalities upstream and both must be copied exactly — do not
+normalise them:**
+
+| Contract | Enum | Verified source |
+|---|---|---|
+| `gaia.arbor-interpretation/v1` (governed source) | **4 values** — `benchmark-confirmed` `benchmark-qualified` `benchmark-revised` `inconclusive` | `interpretation.schema.json` `properties.support.enum` |
+| `gaia.arbor-profile/v1` (projection claim) | **5 values** — the four above **plus `expert-declared`** | `profile.schema.json` `definitions.claim.properties.support.enum` |
+
+`expert-declared` is a *projection* state meaning "no governed interpretation exists yet"; it is not
+something an interpretation may assert. So `gaia.arbor-edge-interpretation/v1` copies the **4-value**
+enum and `gaia.arbor-edge/v1` copies the **5-value** enum. Copying the wrong cardinality either lets a
+curator assert `expert-declared` or makes an un-interpreted edge unrepresentable.
 
 **Pair-integrity validators the builder MUST run — this is precisely what reuse could not give:**
 
@@ -239,9 +289,17 @@ the two chains stay semantically identical. Only subject cardinality differs. Al
 under `profiles/<skill>/<hash>.json`. It publishes to a **store-wide index**,
 `docs/graph/arbor/edges.json` (`schema: gaia.arbor-edge-index/v1`, no generated timestamp), keyed by
 `edgeKey = sha256(canonical([from.id, from.contentSha256, to.id, to.contentSha256, relation, claimId]))`.
-The same edge then appears in the `interactions` lens of **both** endpoints' runtime projections — and
-only where that endpoint's `contentSha256` matches its pin; otherwise that subject's lens reads
-`absent-subject-version-mismatch`.
+The same edge then appears in the `interactions` lens of **both** endpoints' runtime projections.
+
+**Publication and runtime applicability are different questions, and both endpoints govern the second.**
+An edge stays published under an endpoint whose `contentSha256` still matches its pin — that record is
+**historical pinned data** and is correct to retain. But **a runtime reader MUST abstain from the edge
+if *either* participant no longer matches its pin**, including the endpoint the reader did not ask
+about. A pairwise claim is only applicable when the pair it was made about is the pair in front of you;
+one drifted endpoint invalidates the claim in both directions. The projection therefore carries an
+explicit per-edge `pairApplicable: true | false` (false as soon as either pin mismatches), so a reader
+never has to re-derive it, and a `false` edge is presented as **abstain**, never as absence of an
+interaction.
 
 - **G3 —** deterministic publication, plus `coverage: { pairsEvaluated: 0, absenceMeaning: "not-evaluated" }`.
 - **G4 —** structural separation enforced structurally, not by convention: a new `STRUCTURAL_KEYS`
@@ -264,21 +322,36 @@ first-class outcome.
 Identity is four-part: `(namespace, sourceId, skillId, contentSha256)`. Materialization identity is
 separate: `materialization { mechanism, harness{name,version}, route }`.
 
-**Namespace alone neither grants nor prohibits canonical enrichment.** The gate is a **proven mapping
-to the same canonical subject at exact content**:
+**Content alone is NOT subject identity.** Two candidates can ship a byte-identical `SKILL.md` while
+bundling different scripts, fixtures or assets, resolving through different source routes, or running
+under different execution conditions. A digest match is **necessary and not sufficient**; there is no
+`mapped-by-content` shortcut, and an earlier revision of this packet was wrong to propose one.
+
+Enrichment requires **all three** to hold together:
+
+1. **Proven canonical subject mapping** — the candidate is demonstrated to *be* a named canonical
+   subject, not merely to resemble one. **Verified canonical route identity is expected to suffice**
+   (the candidate resolves through the same `links.github` `blob/branch/subpath` the registry records).
+   **Do not invent a new mapping ontology to satisfy this** — if existing canonical route verification
+   covers the case, that is the mechanism; a new shipped record type would need its own upstream ask.
+2. **Matching content and version** — `contentSha256` equal, and the projection's `subject` version
+   pins match.
+3. **Applicable conditions** — the accepted statement's execution / source / materialization
+   conditions match the candidate's actual `materialization { mechanism, harness{name,version}, route }`
+   and harness context. A statement whose conditions do not apply is not enrichment; the reader abstains.
 
 | Condition | Enrichment | Reason code |
 |---|---|---|
-| `namespace == "gaia.canonical"`, `skillId` resolves, `contentSha256` matches | **applies** | the trivial case |
-| non-Gaia source whose resolved content digest **equals** a canonical subject's `contentSha256` | **applies** — same bytes are the same subject | `mapped-by-content` |
-| non-Gaia source with an explicit governed mapping record asserting the identity, plus a digest match | **applies** | `mapped-by-governed-record` |
-| a plausible but unverified identity (same name, same repo, different or unknown bytes) | **does not apply** | `out-of-scope-mapping-unproven` |
-| no mapping attempted or available | **does not apply** | `out-of-scope-no-mapping` |
+| all three above hold (the `namespace == "gaia.canonical"` case is the trivial instance) | **applies** | `mapped-and-applicable` |
+| mapping proven, content matches, but conditions do not apply | **does not apply** | `conditions-unmatched` |
+| content matches but the subject mapping is not proven | **does not apply** | `mapping-unproven` |
+| no mapping attempted or available | **does not apply** | `no-mapping` |
 
-The last two are recorded as `arbor: { status: "out-of-scope-for-publisher", reason }` — which is
-neither "unknown because broken" nor "unreachable". An external candidate need not be registered in
-Gaia to be enriched; it must be **proven to be the same subject at the same bytes**. Tree-owned
-evidence covers Tree's scope and says so. Tree exports no stars, rank, grade, or Trust Magnitude as
+**Absent enrichment never disqualifies a candidate.** The bottom three rows record
+`arbor: { status: "absent", reason }` — neither "unknown because broken" nor "unreachable" — and the
+candidate **remains fully eligible** for retrieval and composition on its own terms. An external
+candidate need not be registered in Gaia; it must be proven to be the same subject, at the same
+content, under conditions that actually apply. Tree-owned evidence covers Tree's scope and says so. Tree exports no stars, rank, grade, or Trust Magnitude as
 behavior — already enforced recursively by `PRESTIGE_KEYS`, which must be extended to every new
 contract above. No new live API and no generic federation standard: snapshot and HTTP GET are the same
 Class S bytes.
@@ -331,20 +404,43 @@ refusal* at `PASS` (≈L538-560). So the projection reads `gaiaHealth` and `caus
 - **`materializable`** — `gaiaHealth == materialized` (a real directory containing `SKILL.md`), or
   every suite component installed. Comparator findings (`DIRNAME_MISMATCH`, `CONTENT_*`, `NPX_*`) are
   curation/parity debt reported elsewhere and **cannot change this state**.
-- **`not-materializable`** — only where the cause is durable and evidenced:
-  `NOT_A_SKILL_DIR`, `NO_SKILL_MD`, `DANGLING_SYMLINK`, `SUITE_COMPONENT_FAILED` (all of which are
-  positive observations of a *wrong thing on disk*), and `reason: no-source` for a `NO_SOURCE` skill
-  that refused correctly — **a correct refusal is a parity PASS and a truthful negative.**
+- **`not-materializable`** — only where an **actually observed intrinsic or pinned-content cause**
+  is recorded. Two cases qualify today:
+  - `NOT_A_SKILL_DIR`, `NO_SKILL_MD`, `DANGLING_SYMLINK` — the clone succeeded and the **pinned content
+    itself** is wrong: a file where a directory was expected, a tree with no `SKILL.md`, a subpath that
+    does not exist upstream. These are positive observations of the delivered bytes, not of the network.
+  - `reason: no-source` for a `NO_SOURCE` skill that refused correctly — **a correct refusal is a parity
+    PASS and a truthful negative.**
+
+  **`SUITE_COMPONENT_FAILED` is NOT in this set.** A component can fail for exactly the same
+  auth / DNS / private-repo / transient reasons as any other fetch. It projects `unknown` unless every
+  failing component independently carries an intrinsic pinned-content cause from the list above.
 - **`unknown`** — everything ambiguous. Specifically:
-  - **`GIT_CLONE_FAILED` is `unknown` by default.** `classify_gaia_failure` assigns it on the strings
-    `"git error"` or `"fatal:"`, which cover 404, private-repo, expired-auth, DNS, proxy and
-    rate-limit **indistinguishably**. It becomes `not-materializable` only with a
-    `classifiedCause` in `{repo-absent, path-absent}` backed by an unauthenticated HTTP status
-    recorded in the observation, or by repeated identical failure across ≥2 observations at different
-    `checkedAt`. Reason codes: `source-unreachable-at-check` (unknown) vs `repo-absent` (negative).
-  - **`GAIA_INSTALL_FAILED` is `unknown` by default.** It is literally the classifier's fallback
-    bucket — `f"exit {code}: {tail}"` with no taxonomy — so the label carries no cause. It becomes
-    `not-materializable` only with a `classifiedCause`; otherwise `reason: unclassified-install-failure`.
+  - **`GIT_CLONE_FAILED` is `unknown`, and stays `unknown`.** `classify_gaia_failure` assigns it on
+    the strings `"git error"` or `"fatal:"`, which cover 404, private-repo, expired-auth, DNS, proxy
+    and rate-limit **indistinguishably**. Two rules follow, and an earlier revision of this packet got
+    both wrong:
+    - **An unauthenticated 404 is not evidence of absence.** GitHub returns 404 for a private
+      repository to an unauthorised caller — that is deliberate, and indistinguishable from deletion.
+      It **must not** produce a `repo-absent` verdict.
+    - **Repetition does not convert ambiguity into fact.** There is no two-repeat (or N-repeat)
+      threshold. A failure that is auth-, DNS- or visibility-ambiguous stays ambiguous no matter how
+      many times it is observed; a post-hoc repeat threshold would be exactly the kind of manufactured
+      verdict this packet forbids elsewhere.
+
+    What the observation *may* record is the scoped, honest fact:
+    `reason: inaccessible-at-check` with `checkedAt` and `causeEvidence`. **`inaccessible-at-check`
+    is not `not-materializable`** — it says the operator could not reach the source at that moment
+    under that credential set, and nothing about whether the skill is intrinsically materializable.
+  - **`GAIA_INSTALL_FAILED` is `unknown`, and stays `unknown`.** It is literally the classifier's
+    fallback bucket — `f"exit {code}: {tail}"` with no taxonomy — so the label carries no cause at all.
+    `reason: unclassified-install-failure`.
+
+  **No cause taxonomy is assumed to exist.** `classifiedCause` is named here only as the *shape* a
+  future upstream taxonomy would occupy. Until such a taxonomy is defined and ratified upstream,
+  **no `classifiedCause` value promotes anything to `not-materializable`**, and the implementer must
+  not invent one. The intrinsic-content cases above stand on their own observed evidence, not on a
+  taxonomy.
   - `TIMEOUT` and other `HARNESS`-origin codes; the skill absent from the observation;
     `UNEXPECTED_SUCCESS` (contradictory).
 
@@ -419,11 +515,22 @@ integration → `main` merge, which is founder-gated.
 | PR | Branch | Files | Acceptance |
 |---|---|---|---|
 | **A1** (this) | `dev/issue116-arbor-design` | `founder/handovers/2026-09-06-issue116-arbor-runtime.md` | packet merged to integration |
-| **A2** contracts | `dev/issue116-arbor-contracts` | `registry/arbor/contracts/{edge-declaration,edge-observation,edge-interpretation,edge,hh-observation-ref,hh-acceptance,runtime}.schema.json`; `registry/arbor/README.md` | every new schema `additionalProperties: false`; the `arm`/`environment`/`measurement`/`authority`/`support` definitions are byte-identical to their originals; a hand-written invalid doc per contract is rejected |
+| **A2** contracts | `dev/issue116-arbor-contracts` | `registry/arbor/contracts/{edge-declaration,edge-observation,edge-interpretation,edge,hh-observation-ref,hh-acceptance,runtime}.schema.json`; `registry/arbor/README.md` | every new schema `additionalProperties: false`; the `arm`/`environment`/`artifacts`/`measurement`/`authority` definitions are byte-identical to their originals; **`support` copies the 4-value interpretation enum into `edge-interpretation` and the 5-value projection enum into `edge` — a test asserts an interpretation asserting `expert-declared` is rejected and an un-interpreted edge projects `expert-declared`**; a hand-written invalid doc per contract is rejected |
 | **A3** builder | `dev/issue116-arbor-builder` | `src/gaia_cli/arbor.py` (`SCHEMA_FILES`, `SOURCE_DIRECTORIES`, `STRUCTURAL_KEYS`, per-class rejection-set decision, the six §3 pair validators, `edgeKey`, HH acceptance chain, `buildProfiles` → `buildRuntime`), `src/gaia_cli/commands/dev/arborCmd.py`, `tests/` | `gaia dev arbor check` green on an empty store; two consecutive `replay` runs byte-identical; each of the six pair validators has a rejecting test (mismatched endpoint digest, cross-pair observation, self-edge, reversed-pair dedup, forked interpretation, unadmitted endpoint); parallel active HH acceptance rejected; a `prerequisite` key on an edge source rejected; a bare-number `behavior` dimension without `unit`/`semantics` rejected |
-| **A4** publish | `dev/issue116-arbor-publish` | `scripts/build_docs.py` (`build_arbor_projection` step + `changed` term), `docs/graph/arbor/{edges.json,runtime/}` | `python scripts/build_docs.py --check` exits 0 and makes no network call; empty snapshot committed and schema-valid; no timestamp in output; an edge appears in both endpoints' lenses, and vanishes from one when that endpoint's hash is bumped |
+| **A4** publish | `dev/issue116-arbor-publish` | `scripts/build_docs.py` (`build_arbor_projection` step + `changed` term), `docs/graph/arbor/{edges.json,runtime/}` | `python scripts/build_docs.py --check` exits 0 and makes no network call; empty snapshot committed and schema-valid; no timestamp in output; an edge appears in both endpoints' lenses; **and a two-part endpoint test: bumping endpoint A's hash must (i) drop the edge from A's lens AND (ii) set `pairApplicable: false` in B's lens, where B's own hash is unchanged** — asserting only (i) is inadequate and must not be the whole test |
 | **B1** observation | `dev/issue116-installability-observation` | `scripts/install_parity.py` (`--observation`), `registry/installability/contracts/observation.schema.json` (`registry/schema/` **not** touched) | `--observation` on a single-skill run (`--only garrytan/health`, ~30s) emits a schema-valid file carrying `sourceRoute`, `resolvedRevision`, `deliveredContentSha256`, `gaiaHealth`, `comparator` and `causeEvidence` as separate fields; **no CI wiring** |
 | **B2** projection | `dev/issue116-installability-publish` | `scripts/build_docs.py` (`build_installability_projection` + `changed` term), `docs/graph/installability/index.json`, `docs/agents/install-parity.md` (+1 paragraph) | offline `--check` exits 0; a `NO_SOURCE` correct refusal projects `not-materializable / no-source` **while its parity verdict is PASS**; a `DIRNAME_MISMATCH` projects `materializable`; an unclassified `GIT_CLONE_FAILED` and an unclassified `GAIA_INSTALL_FAILED` both project `unknown`; a changed `links.github` route projects `unknown / route-changed` with no network access |
+
+**Everything above is proposed, not ratified.** Every `$id`, field name, reason code, `edgeKey`
+formula, digest and pin in this packet is a **proposed shape awaiting review under G1** — naming one
+here does not publish it, and downstream docs must not cite them as canonical. The existing four
+source schemas remain **unchanged** by this packet.
+
+**Schema-only implementation is not lane closure.** Landing A2–A4 and B1–B2 delivers *contracts,
+validators, and empty valid snapshots* — nothing more. It does **not** close lane **G** (#1711 needs a
+real governed edge), lane **A** (`gaia-skill-heaven#118` needs a profile to consume), or lane **E**
+(#208 needs one closed evidence loop with a human curator gate). An empty snapshot is a correct and
+honest deliverable; reporting it as a closed lane is not.
 
 **Migration and unknown states.** Nothing migrates: `gaia.arbor-profile/v1` documents stay byte-valid
 and are embedded verbatim. There are zero existing sources, so there is no back-fill. Every new lens
@@ -440,8 +547,9 @@ ships `absent-no-accepted-record`, and every new index ships empty-but-valid.
 4. **The stamp vocabulary and the HH unit vocabulary are research-owned.** If implementation needs a
    hard enum to validate either, that is a signal to stop and ask upstream — not to invent one
    (`#118` kill criterion, mirrored).
-5. **Durable-negative classification for install failures needs a cause taxonomy that does not exist
-   yet.** Until `classifiedCause` is defined and populated, `GIT_CLONE_FAILED` and
-   `GAIA_INSTALL_FAILED` project `unknown`. That is correct, not a gap to paper over.
+5. **No install-failure cause taxonomy exists, and none is assumed.** `GIT_CLONE_FAILED` and
+   `GAIA_INSTALL_FAILED` project `unknown` and stay there: an unauthenticated 404 can mask a private
+   repo, and repetition never converts ambiguity into fact. `inaccessible-at-check` is a scoped,
+   honest observation, **not** a negative. Defining such a taxonomy is a separate upstream ask.
 6. **integration → `main`** is founder-gated. No public frontend surface changes in any PR above;
    the new artifacts are JSON only, so no `window.GAIA_MOUNTS` entry and no design-review gate applies.
