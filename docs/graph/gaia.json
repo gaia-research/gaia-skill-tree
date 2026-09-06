@@ -1,6 +1,6 @@
 {
   "$schema": "registry/schema/skill.schema.json",
-  "generatedAt": "2026-09-06T16:54:33Z",
+  "generatedAt": "2026-09-06T18:00:12Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -3766,9 +3766,9 @@
     },
     {
       "id": "context-safe-execution",
-      "name": "Context-Safe Execution",
+      "name": "Context Safe Execution",
       "type": "basic",
-      "description": "Routes data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.",
+      "description": "Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.",
       "prerequisites": [],
       "derivatives": [],
       "evidence": [],
@@ -3779,9 +3779,9 @@
       "version": "0.1.0",
       "timeline": [
         {
-          "timestamp": "2026-09-06T16:52:48Z",
+          "timestamp": "2026-09-06T17:49:00Z",
           "action": "add",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Added generic skill context-safe-execution"
         }
       ],

@@ -23,10 +23,10 @@
     "maxDepth": 0,
     "nestedSuiteCount": 0
   },
-  "title": "The Context Guardian",
+  "title": "Context Mode",
   "genericSkillRef": "context-safe-execution",
   "origin": true,
-  "description": "Use context-mode tools (ctx_execute, ctx_execute_file) instead of Bash/cat when processing\nlarge outputs. Triggers: \"analyze logs\", \"summarize output\", \"process data\",\n\"parse JSON\", \"filter results\", \"extract errors\", \"check build output\",\n\"analyze dependencies\", \"process API response\", \"large file analysis\",\n\"page snapshot\", \"browser snapshot\", \"DOM structure\", \"inspect page\",\n\"accessibility tree\", \"Playwright snapshot\",\n\"run tests\", \"test output\", \"coverage report\", \"git log\", \"recent commits\",\n\"diff between branches\", \"list containers\", \"pod status\", \"disk usage\",\n\"fetch docs\", \"API reference\", \"index documentation\",\n\"call API\", \"check response\", \"query results\",\n\"find TODOs\", \"count lines\", \"codebase statistics\", \"security audit\",\n\"outdated packages\", \"dependency tree\", \"cloud resources\", \"CI/CD output\".\nAlso triggers on ANY MCP tool output that may exceed 20 lines.\nSubagent routing is handled automatically via PreToolUse hook.",
+  "description": "Use context-mode tools (ctx_execute, ctx_execute_file) instead of Bash/cat when processing large outputs. Triggers: \"analyze logs\", \"summarize output\", \"process data\", \"parse JSON\", \"filter results\", \"extract errors\", \"check build output\", \"analyze dependencies\", \"process API response\", \"large file analysis\", \"page snapshot\", \"browser snapshot\", \"DOM structure\", \"inspect page\", \"accessibility tree\", \"Playwright snapshot\", \"run tests\", \"test output\", \"coverage report\", \"git log\", \"recent commits\", \"diff between branches\", \"list containers\", \"pod status\", \"disk usage\", \"fetch docs\", \"API reference\", \"index documentation\", \"call API\", \"check response\", \"query results\", \"find TODOs\", \"count lines\", \"codebase statistics\", \"security audit\", \"outdated packages\", \"dependency tree\", \"cloud resources\", \"CI/CD output\".\nAlso triggers on ANY MCP tool output that may exceed 20 lines.\nSubagent routing is handled automatically via PreToolUse hook.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": false,
@@ -40,56 +40,54 @@
   "evidence": [
     {
       "source": "https://github.com/mksglu/context-mode",
-      "evaluator": "unknown",
-      "date": "2026-09-07",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-06",
       "type": "repo-own",
-      "notes": "GitHub repository metadata verified at pinned intake review: 2,172 commits and 110 listed contributors; repository implementation source for context-mode.",
+      "notes": "Verified upstream repository metrics at the approved pinned source; repo skill-count discount is based on 11 SKILL.md files.",
       "commits": 2172,
       "contributors": 110,
-      "sourceStartedAt": "2026-09-01",
       "grade": "B"
     },
     {
       "source": "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-09-07",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-06",
       "type": "github-stars-own",
-      "notes": "Pinned canonical upstream SKILL.md verified at commit 6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf; repository stars and skill-file count verified via GitHub API.",
+      "notes": "Verified GitHub stars and 11 SKILL.md files at the approved canonical root pinned commit; license is Elastic License 2.0 (ELv2).",
       "stars": 20473,
       "skillCountInRepo": 11,
-      "sourceStartedAt": "2026-09-01",
       "grade": "A"
     }
   ],
   "timeline": [
     {
-      "timestamp": "2026-09-06T16:53:26Z",
+      "timestamp": "2026-09-06T17:50:40Z",
       "action": "add",
-      "contributor": "unknown",
+      "contributor": "mbtiongson1",
       "details": "Added named skill mksglu/context-mode"
     },
     {
-      "timestamp": "2026-09-06T16:53:42Z",
+      "timestamp": "2026-09-06T17:50:44Z",
       "action": "evidence_added",
-      "contributor": "unknown",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mksglu/context-mode (type: repo-own)"
     },
     {
-      "timestamp": "2026-09-06T16:53:48Z",
+      "timestamp": "2026-09-06T17:50:48Z",
       "action": "evidence_added",
-      "contributor": "unknown",
+      "contributor": "mbtiongson1",
       "details": "Added evidence from https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md (type: github-stars-own)"
     },
     {
-      "timestamp": "2026-09-06T16:54:12Z",
+      "timestamp": "2026-09-06T17:51:12Z",
       "action": "rank_up",
-      "contributor": "unknown",
+      "contributor": "mbtiongson1",
       "details": "Origin status set to true."
     },
     {
-      "timestamp": "2026-09-06T16:54:18Z",
+      "timestamp": "2026-09-06T17:51:24Z",
       "action": "rank_up",
-      "contributor": "unknown",
+      "contributor": "mbtiongson1",
       "details": "Calibrated level from 2★ to 4★"
     }
   ],
