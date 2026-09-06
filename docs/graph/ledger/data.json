@@ -1,15 +1,15 @@
 {
-  "version": "8.1.0",
-  "generatedAt": "2026-09-06T10:22:21Z",
+  "version": "8.0.0",
+  "generatedAt": "2026-09-06T15:39:31Z",
   "summary": {
-    "total": 205,
+    "total": 206,
     "S": 3,
-    "A": 21,
+    "A": 22,
     "B": 65,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
@@ -306,6 +306,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "heygen-com/hyperframes",
+      "tm": 163.63,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "vercel-labs/vercel-react-best-practices",

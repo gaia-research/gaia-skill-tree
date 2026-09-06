@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 206,
     "S": 3,
-    "A": 21,
+    "A": 22,
     "B": 65,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
@@ -202,6 +202,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "trustMagnitude": 163.63,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "vercel-labs/vercel-react-best-practices",

@@ -1,0 +1,36 @@
+{
+  "handle": "heygen-com",
+  "namedSkills": [
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "3★",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "heygen-com/hyperframes",
+    "level": "3★",
+    "trustMagnitude": 163.63
+  },
+  "prestigeScore": 163.63,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/heygen-com.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

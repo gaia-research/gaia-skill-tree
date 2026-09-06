@@ -308,6 +308,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ ○ /diff-content  (↑ see above)
 
+◆ heygen-com/hyperframes  [3★]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ ████████/remotion-create
+  ├─ ○ ████████/remotion-markup
+  ├─ ○ ████████/remotion-studio
+  ├─ ○ ████████/remotion-render
+  ├─ ○ ████████/remotion-maps
+  ├─ ○ ████████/remotion-saas
+  ├─ ○ ████████/remotion-interactivity
+  └─ ○ ████████/remotion-captions
+
 ◆ firecrawl/firecrawl-skills  [3★]
 ─────────────────────────────────────────────────────────────────
   ├─ · firecrawl/firecrawl-build-scrape  [4★]
@@ -320,17 +331,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/document-generate  [3★]
   │  └─ ○ /tool-use
   └─ ○ ████████/firecrawl-research-index
-
-◆ ████████/remotion-best-practices
-─────────────────────────────────────────────────────────────────
-  ├─ ○ ████████/remotion-create
-  ├─ ○ ████████/remotion-markup
-  ├─ ○ ████████/remotion-studio
-  ├─ ○ ████████/remotion-render
-  ├─ ○ ████████/remotion-maps
-  ├─ ○ ████████/remotion-saas
-  ├─ ○ ████████/remotion-interactivity
-  └─ ○ ████████/remotion-captions
 
 ◆ ████████/agent-fusion
 ─────────────────────────────────────────────────────────────────
