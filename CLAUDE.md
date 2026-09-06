@@ -17,6 +17,15 @@ Every sprint ships COMPLETE; a sprint does NOT generate follow-up issues.
 - "Done" = nothing left a reasonable reviewer would call a direct consequence of the sprint's changes. Rolling-window CI false positives, doc drift, deferred surface states, and CLI gaps the sprint introduced are all in-scope.
 - Genuinely new, out-of-scope work discovered during a sprint may still be filed (normal backlog hygiene). Only the sprint's own remainder is forbidden as "future work."
 
+## Stale Tooling & Tech Debt Discipline
+
+As Gaia has evolved through three major meta eras (Yggdrasil I user self-promotion → Yggdrasil II type/branch orthogonality → Yggdrasil III logarithmic TM, 0 TM fusion-recipe, and structural Fusion Score), some legacy CLI verbs, test scripts, and curation checklists retain assumptions from earlier epochs.
+
+- **Be wary of stale tooling:** Always verify ground truth against live Yggdrasil III code (`src/gaia_cli/trustMagnitude.py`, `META.md`, `GOVERNANCE.md`). Do not blindly trust legacy scripts or comments when they conflict with the active specification.
+- **Log tech debt issues aggressively:** Whenever you encounter tooling friction, misleading errors, or pre-Yggdrasil-III assumptions (e.g. scripts reading empty generic nodes, conflated Unique vs Suite branch origin gates, or deprecated CLI flags), file a GitHub issue immediately with clear repro and remediation steps.
+- **Suite-branch vs Unique-branch origin rules:** 4★ requires Overall Trust Grade A (TM ≥ 100) and live verified blob evidence. On the **Unique branch** (standalone), 4★ Unique requires bucket-level Origin. On the **Suite branch** (carrying `suiteComponents`), 4★ Extra does NOT require bucket-level Origin on its generic bucket; Suite origin requirements apply at 5★ Ultimate (holding Origin on ≥1 of the `suiteComponents` per `META.md` §4.2).
+
+
 ## Git Workflow
 
 Never push directly to main.

@@ -408,3 +408,22 @@ class TestUniqueBranchGateOriginFork:
         assert res["originPresent"] is True
         assert res["passed"] is True
 
+    def test_suite_components_delegates_to_suite_branch(self, monkeypatch):
+        """A skill with suiteComponents is on the Suite branch, not Unique.
+        checkUniqueBranchGate returns passed=False with branch='suite' and an explanation."""
+        self._patch_tm_branch(monkeypatch, tm=150.0, branch="suite")
+        named = {
+            "id": "leonxlnx/taste-skill",
+            "contributor": "leonxlnx",
+            "genericSkillRef": "design-generation",
+            "origin": False,
+            "suiteComponents": ["leonxlnx/brandkit", "leonxlnx/minimalist-skill"],
+        }
+        res = checkUniqueBranchGate(named, "4★")
+        assert res["passed"] is False
+        assert res["branch"] == "suite"
+        assert res["reason"] is not None
+        assert "Suite branch applies" in res["reason"]
+        assert res["tmThresholdMet"] is True
+
+
