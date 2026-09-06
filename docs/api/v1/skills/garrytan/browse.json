@@ -25,7 +25,7 @@
   },
   "title": "Gstack Browse — Directed Browser Navigation",
   "genericSkillRef": "browser-control",
-  "origin": false,
+  "origin": true,
   "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
   "tags": [
     "browser-control",
@@ -195,6 +195,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:03Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

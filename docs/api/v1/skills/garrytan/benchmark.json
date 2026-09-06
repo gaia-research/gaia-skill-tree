@@ -25,7 +25,7 @@
   },
   "title": "Gstack Benchmark",
   "genericSkillRef": "evaluate-output",
-  "origin": false,
+  "origin": true,
   "description": "Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in load times, Core Web Vitals, and bundle sizes across specified pages.",
   "tags": [
     "performance",
@@ -143,6 +143,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:25Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

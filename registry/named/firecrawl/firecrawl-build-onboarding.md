@@ -2,13 +2,13 @@
 id: firecrawl/firecrawl-build-onboarding
 name: Firecrawl Onboarding
 contributor: firecrawl
-origin: true
+origin: false
 genericSkillRef: agent-environment-setup
 status: named
 level: 4★
 description: Configure Firecrawl credentials and client setup for agent tools.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 title: Firecrawl Onboarding
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md
@@ -53,6 +53,10 @@ timeline:
   contributor: unknown
   details: 'TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:06Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills.
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl

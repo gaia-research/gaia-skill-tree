@@ -2,7 +2,7 @@
 id: garrytan/investigate
 name: Investigate
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: systematic-debugging
 status: named
 title: Gstack Investigate
@@ -20,7 +20,7 @@ tags:
 - investigation
 - systematic
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
@@ -79,6 +79,10 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:06Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to obra/systematic-debugging.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md

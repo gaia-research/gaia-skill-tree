@@ -2,14 +2,14 @@
 id: ayghri/i-have-adhd
 name: I Have ADHD
 contributor: ayghri
-origin: false
+origin: true
 genericSkillRef: format-output
 status: named
 level: 4★
 description: Structures raw output into a specified format such as markdown, JSON,
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 title: I Have ADHD
 links:
   github: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
@@ -59,6 +59,10 @@ timeline:
   contributor: unknown
   details: 'TM 59.56 -> 119.66, grade B -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:28:57Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   updatedAt: '2026-09-01'

@@ -2,7 +2,7 @@
 id: ruvnet/github-suite
 name: GitHub Suite
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: git-integration
 status: named
 title: The GitHub Maestro
@@ -19,7 +19,7 @@ tags:
 - releases
 - automation
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/github-code-review
@@ -72,6 +72,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:09Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to mattpocock/resolving-merge-conflicts.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

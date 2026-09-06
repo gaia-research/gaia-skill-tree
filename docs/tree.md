@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-09-05
+GAIA SKILL TREE  ·  generated 2026-09-06
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -12,12 +12,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [3★]
+  ├─ · garrytan/plan-eng-review  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · mattpocock/to-tickets  [3★]
+  ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ · leonxlnx/stitch-skill  [3★]
@@ -29,7 +29,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ ○ /plan-decompose  (↑ see above)
   ├─ ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · garrytan/investigate  [3★]
+  ├─ · obra/systematic-debugging  [3★]
   │  ├─ ○ /hypothesis-generate
   │  └─ ○ /error-interpretation
   ├─ · garrytan/qa  [3★]
@@ -39,7 +39,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ ○ /code-execution
   │     └─ ○ /error-interpretation  (↑ see above)
   ├─ · addy-osmani/shipping-and-launch  [3★]
-  │  ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ○ /diff-content  (↑ see above)
   ├─ · garrytan/land-and-deploy  [3★]
   │  ├─ · ████████/github-workflow-automation
@@ -53,9 +53,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ garrytan/document-generate  [3★]
   ├─ · ████████/browse  (↑ see above)
   ├─ · garrytan/cso  [3★]
-  │  ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ ○ browser-use/browser-harness  [3★]
+  ├─ ○ garrytan/browse  [3★]
   ├─ · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ ○ /parse-html  (↑ see above)
@@ -102,7 +102,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ─────────────────────────────────────────────────────────────────
   ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · ████████/engineering
-  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
+  │  ├─ · mattpocock/setup-matt-pocock-skills  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
   │  ├─ · mattpocock/diagnose  [3★]
@@ -122,18 +122,18 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  └─ ○ ████████/requirements-engineer
   │  │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ · mattpocock/to-spec  [3★]
+  │  ├─ · addy-osmani/spec-driven-development  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ · mattpocock/prototype  [2★]
   │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ ○ /code-execution  (↑ see above)
   │  ├─ ○ addy-osmani/code-simplification  [4★]
-  │  ├─ · mattpocock/to-tickets  [3★]
+  │  ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  └─ ○ mattpocock/ask-matt  [2★]
   │  ├─ · obra/requesting-code-review  [2★]
-  │  │  ├─ · addy-osmani/code-review-and-quality  [3★]
+  │  │  ├─ · garrytan/plan-eng-review  [3★]
   │  │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  │  ├─ ○ /diff-content
   │  │  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -201,8 +201,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ ○ ruvnet/agentdb-optimization  [2★]
   │  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · ruvnet/github-suite  [2★]
-  │  ├─ · addy-osmani/code-review-and-quality  [3★]
+  ├─ · mattpocock/resolving-merge-conflicts  [2★]
+  │  ├─ · garrytan/plan-eng-review  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /diff-content
   │  │  └─ ○ garrytan/benchmark  [3★]
@@ -236,7 +236,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ ruvnet/dual-collect  [2★]
      └─ ○ ruvnet/dual-coordinate  [2★]
 
-◆ pbakaus/impeccable  [4★]
+◆ leonxlnx/taste-skill  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/design-html  [3★]
   ├─ ○ leonxlnx/redesign-skill  [3★]
@@ -256,14 +256,14 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ ○ ████████/requirements-engineer  (↑ see above)
   │  └─ ○ /tool-use
   ├─ · addy-osmani/shipping-and-launch  [3★]
-  │  ├─ · addy-osmani/code-review-and-quality  [3★]
+  │  ├─ · garrytan/plan-eng-review  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /diff-content
   │  │  └─ ○ garrytan/benchmark  [3★]
   │  └─ ○ /diff-content  (↑ see above)
   ├─ · obra/receiving-code-review  [2★]
   │  ├─ · obra/requesting-code-review  [2★]
-  │  │  ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  │  ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  │  └─ · obra/dispatching-parallel-agents  [3★]  (↑ see above)
   │  └─ · obra/verification-before-completion  [3★]
   │     ├─ ○ /code-execution
@@ -272,8 +272,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · obra/subagent-driven-development  [4★]
   │  ├─ · obra/executing-plans  [3★]  (↑ see above)
   │  ├─ · obra/dispatching-parallel-agents  [3★]  (↑ see above)
-  │  └─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
-  ├─ · garrytan/investigate  [3★]
+  │  └─ · garrytan/plan-eng-review  [3★]  (↑ see above)
+  ├─ · obra/systematic-debugging  [3★]
   │  ├─ ○ /hypothesis-generate
   │  └─ ○ /error-interpretation
   ├─ · obra/using-git-worktrees  [4★]
@@ -297,7 +297,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · obra/dispatching-parallel-agents  [3★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  └─ ○ ████████/parallel-execution
-  │  └─ · addy-osmani/code-review-and-quality  [3★]
+  │  └─ · garrytan/plan-eng-review  [3★]
   │     ├─ ○ garrytan/design-html  [3★]
   │     ├─ ○ /diff-content
   │     └─ ○ garrytan/benchmark  [3★]
@@ -305,7 +305,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /code-execution
   │  └─ ○ /self-critique
   └─ · addy-osmani/shipping-and-launch  [3★]
-     ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+     ├─ · garrytan/plan-eng-review  [3★]  (↑ see above)
      └─ ○ /diff-content  (↑ see above)
 
 ◆ firecrawl/firecrawl-skills  [3★]
@@ -315,8 +315,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /parse-html
   │  └─ ○ /extract-entities
   ├─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
-  ├─ ○ browser-use/browser-harness  [3★]
-  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
+  ├─ ○ garrytan/browse  [3★]
+  ├─ · mattpocock/setup-matt-pocock-skills  [3★]
   │  ├─ ○ garrytan/document-generate  [3★]
   │  └─ ○ /tool-use
   └─ ○ ████████/firecrawl-research-index
@@ -387,7 +387,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · obra/dispatching-parallel-agents  [3★]
     │  ├─ ○ /plan-decompose  (↑ see above)
     │  └─ ○ ████████/parallel-execution
-    └─ · addy-osmani/code-review-and-quality  [3★]
+    └─ · garrytan/plan-eng-review  [3★]
        ├─ ○ garrytan/design-html  [3★]
        ├─ ○ /diff-content
        └─ ○ garrytan/benchmark  [3★]
@@ -437,4 +437,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-09-05. Do not edit directly.*
+*Generated from gaia.json on 2026-09-06. Do not edit directly.*

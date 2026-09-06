@@ -25,7 +25,7 @@
   },
   "title": "Gstack Careful — Conservative Execution Mode",
   "genericSkillRef": "guardrails",
-  "origin": false,
+  "origin": true,
   "description": "Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and logs all side effects.",
   "tags": [
     "guardrails",
@@ -120,6 +120,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:20Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

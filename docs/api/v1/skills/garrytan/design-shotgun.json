@@ -25,7 +25,7 @@
   },
   "title": "Design Shotgun",
   "genericSkillRef": "design-review",
-  "origin": false,
+  "origin": true,
   "description": "Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and iterates until a preferred visual direction is reached.",
   "tags": [
     "ui-ux",
@@ -143,6 +143,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:29Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

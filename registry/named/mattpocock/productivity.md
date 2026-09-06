@@ -2,7 +2,7 @@
 id: mattpocock/productivity
 name: Productivity
 contributor: mattpocock
-origin: true
+origin: false
 title: The Matt Pocock Productivity Suite
 genericSkillRef: productivity
 status: named
@@ -10,7 +10,7 @@ level: 3★
 description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -64,6 +64,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 180.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:29:10Z'
+  action: demote
+  contributor: unknown
+  details: Origin status set to false.
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: 3f593d8eb8eca8e404a7efc7f24adaed0b956a7c16b23ea8d1f6d55acb7c9d3e
 suiteComponents:

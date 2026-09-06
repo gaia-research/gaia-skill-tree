@@ -25,7 +25,7 @@
   },
   "title": "Vercel React Best Practices",
   "genericSkillRef": "react-performance-optimization",
-  "origin": false,
+  "origin": true,
   "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -159,6 +159,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 159.01 -> 162.66, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:28:56Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

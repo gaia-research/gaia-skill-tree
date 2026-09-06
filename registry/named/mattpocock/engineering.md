@@ -2,7 +2,7 @@
 id: mattpocock/engineering
 name: Engineering
 contributor: mattpocock
-origin: true
+origin: false
 title: The Matt Pocock Engineering Discipline
 genericSkillRef: engineering-discipline
 status: named
@@ -10,7 +10,7 @@ level: 3★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-06'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -71,6 +71,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-09-06T05:29:10Z'
+  action: demote
+  contributor: unknown
+  details: Origin status set to false.
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: c8f32799b72b48f795e40ddaf8f9adf62bd8e938190cf06ff6f352b882fd087f
 suiteComponents:

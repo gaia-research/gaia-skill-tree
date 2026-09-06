@@ -2,14 +2,14 @@
 id: oso95/scroll-world
 name: Scroll World
 contributor: oso95
-origin: false
+origin: true
 genericSkillRef: scroll-world
 status: named
 level: 3★
 description: Builds scroll-scrubbed 3D world landing pages for any brand or industry,
   flying camera paths through connected scenes with zero cuts.
 createdAt: '2026-07-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 title: Scroll World
 links:
   github: https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md
@@ -46,6 +46,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 60.98, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:29:24Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/oso95/scroll-world
   evaluator: unknown

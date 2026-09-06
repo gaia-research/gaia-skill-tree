@@ -2,7 +2,7 @@
 id: mattpocock/grill-me
 name: Grill Me
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: grill-me
 status: named
 title: The Relentless Interviewer
@@ -21,7 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
@@ -121,6 +121,10 @@ timeline:
   contributor: unknown
   details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:22Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -135,7 +139,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:00:13Z'
 trustMagnitudeInputHash: c35a5c427b8915e22a0ac8d17ab0a6bf03a1bf3086797c5c59fc2d5f1fa54f2e
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview

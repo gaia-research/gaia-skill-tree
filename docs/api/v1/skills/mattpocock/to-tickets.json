@@ -25,7 +25,7 @@
   },
   "title": "The Vertical Slicer",
   "genericSkillRef": "vertical-slice-planning",
-  "origin": true,
+  "origin": false,
   "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
   "tags": [
     "vertical-slicing",
@@ -180,6 +180,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:07Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to addy-osmani/planning-and-task-breakdown."
     }
   ],
   "links": {

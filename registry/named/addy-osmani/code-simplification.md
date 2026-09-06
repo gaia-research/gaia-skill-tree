@@ -2,14 +2,14 @@
 id: addy-osmani/code-simplification
 name: Code Simplification
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: refactor-code
 status: named
 level: 5★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-05'
+updatedAt: '2026-09-06'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -93,6 +93,10 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:28:53Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-09-01'

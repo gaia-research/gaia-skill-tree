@@ -2,14 +2,14 @@
 id: addy-osmani/planning-and-task-breakdown
 name: Planning and Task Breakdown
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: vertical-slice-planning
 status: named
 level: 5★
 description: Planning and task breakdown workflow decomposing features into manageable
   vertical slices.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -88,6 +88,10 @@ timeline:
   contributor: unknown
   details: 'TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:08Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
   updatedAt: '2026-09-01'

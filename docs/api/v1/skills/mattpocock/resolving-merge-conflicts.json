@@ -25,7 +25,7 @@
   },
   "title": "Resolving Merge Conflicts",
   "genericSkillRef": "git-integration",
-  "origin": false,
+  "origin": true,
   "description": "Resolve in-progress git merge and rebase conflicts preserving both intents with automated checks.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -162,6 +162,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:10Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

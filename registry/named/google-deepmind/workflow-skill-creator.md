@@ -2,7 +2,7 @@
 id: google-deepmind/workflow-skill-creator
 name: Workflow-Skill-Creator
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: skill-authoring
 status: awakened
 level: 1★
@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-09-05'
+updatedAt: '2026-09-06'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -111,6 +111,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 1★ to 1★
+- timestamp: '2026-09-06T05:29:35Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to garrytan/skillify.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

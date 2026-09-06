@@ -25,7 +25,7 @@
   },
   "title": "The Handoff Protocol",
   "genericSkillRef": "agent-handoff",
-  "origin": false,
+  "origin": true,
   "description": "Compacts the current conversation into a summary for a fresh agent to continue the work.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -186,6 +186,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:21Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

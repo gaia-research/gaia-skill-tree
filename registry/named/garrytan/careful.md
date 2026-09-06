@@ -2,7 +2,7 @@
 id: garrytan/careful
 name: Careful
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: guardrails
 status: named
 title: Gstack Careful — Conservative Execution Mode
@@ -18,7 +18,7 @@ tags:
 - safety
 - confirmation
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -80,6 +80,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:20Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

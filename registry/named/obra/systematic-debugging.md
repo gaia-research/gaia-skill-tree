@@ -2,7 +2,7 @@
 id: obra/systematic-debugging
 name: Systematic Debugging
 contributor: obra
-origin: false
+origin: true
 genericSkillRef: systematic-debugging
 status: named
 title: The Root Cause Hunter
@@ -19,7 +19,7 @@ tags:
 - instrumentation
 - reproduction
 createdAt: '2026-05-18'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -102,6 +102,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 65.15 -> 65.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:06Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 65.15
 overallTrustGrade: B
 apexGateStatus:

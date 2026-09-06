@@ -25,7 +25,7 @@
   },
   "title": "Firecrawl Onboarding",
   "genericSkillRef": "agent-environment-setup",
-  "origin": true,
+  "origin": false,
   "description": "Configure Firecrawl credentials and client setup for agent tools.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -113,6 +113,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:06Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills."
     }
   ],
   "links": {

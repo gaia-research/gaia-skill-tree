@@ -25,7 +25,7 @@
   },
   "title": "Planning and Task Breakdown",
   "genericSkillRef": "vertical-slice-planning",
-  "origin": false,
+  "origin": true,
   "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -184,6 +184,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:08Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

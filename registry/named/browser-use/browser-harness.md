@@ -2,7 +2,7 @@
 id: browser-use/browser-harness
 name: Browser Harness
 contributor: browser-use
-origin: true
+origin: false
 genericSkillRef: browser-control
 status: named
 title: The Dom Whispering
@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -134,6 +134,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:03Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to garrytan/browse.
 trustMagnitude: 73.59
 overallTrustGrade: B
 apexGateStatus:

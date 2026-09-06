@@ -25,7 +25,7 @@
   },
   "title": "Scroll World",
   "genericSkillRef": "scroll-world",
-  "origin": false,
+  "origin": true,
   "description": "Builds scroll-scrubbed 3D world landing pages for any brand or industry, flying camera paths through connected scenes with zero cuts.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -121,6 +121,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 60.98, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:24Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

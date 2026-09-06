@@ -76,7 +76,7 @@
         "social-signal": 42.58,
         "arxiv": 0.7
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -115,7 +115,7 @@
         "repo-own": 10.31,
         "benchmark-result": 140.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -164,7 +164,7 @@
         "github-stars-own": 136.43,
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -188,7 +188,7 @@
         "repo-own": 36.0,
         "github-stars-own": 133.34
       },
-      "origin": true,
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -202,7 +202,7 @@
         "social-signal": 35.41,
         "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -213,7 +213,7 @@
       "typeBreakdown": {
         "github-stars-own": 119.66
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -343,7 +343,7 @@
         "repo-own": 10.31,
         "peer-review": 45.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -356,7 +356,7 @@
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -369,7 +369,7 @@
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
-      "origin": true,
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -381,7 +381,7 @@
         "repo-own": 36.0,
         "peer-review": 52.5
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -443,7 +443,7 @@
         "repo-own": 10.31,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -455,7 +455,7 @@
         "repo-own": 36.0,
         "social-signal": 37.59
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -479,7 +479,7 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -503,7 +503,7 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -515,7 +515,7 @@
         "repo-own": 36.0,
         "social-signal": 29.15
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -527,7 +527,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -551,7 +551,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -563,7 +563,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -574,7 +574,7 @@
       "typeBreakdown": {
         "social-signal": 60.98
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -586,7 +586,7 @@
         "repo-own": 11.21,
         "peer-review": 45.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -658,7 +658,7 @@
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
-      "origin": true,
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -670,7 +670,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -682,7 +682,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -730,7 +730,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -754,7 +754,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -766,7 +766,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -814,7 +814,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -850,7 +850,7 @@
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -958,7 +958,7 @@
         "github-stars-own": 39.56,
         "repo-own": 10.44
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1269,7 +1269,7 @@
         "self-attestation": 5.0,
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1922,7 +1922,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {
@@ -2226,7 +2226,7 @@
       "grade": "ungraded",
       "level": "3★",
       "typeBreakdown": {},
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {
@@ -2244,7 +2244,7 @@
       "grade": "ungraded",
       "level": "3★",
       "typeBreakdown": {},
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {
@@ -2253,7 +2253,7 @@
       "grade": "ungraded",
       "level": "3★",
       "typeBreakdown": {},
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {

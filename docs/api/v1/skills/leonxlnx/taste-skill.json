@@ -25,7 +25,7 @@
   },
   "title": "Taste Skill",
   "genericSkillRef": "design-generation",
-  "origin": false,
+  "origin": true,
   "description": "Anti-slop frontend master skill for landing pages, portfolios, and redesigns. Infers design direction, dials visual variance and density, applies real design systems, and runs strict pre-flight checks.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -102,6 +102,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:28:54Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

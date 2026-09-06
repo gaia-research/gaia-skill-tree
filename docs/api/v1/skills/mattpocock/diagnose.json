@@ -25,7 +25,7 @@
   },
   "title": "The Disciplined Diagnosis Loop",
   "genericSkillRef": "autonomous-debug",
-  "origin": false,
+  "origin": true,
   "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
   "tags": [
     "debugging",
@@ -181,6 +181,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:16Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

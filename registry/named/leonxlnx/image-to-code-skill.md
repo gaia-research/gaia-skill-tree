@@ -2,14 +2,14 @@
 id: leonxlnx/image-to-code-skill
 name: image-to-code-skill
 contributor: leonxlnx
-origin: false
+origin: true
 genericSkillRef: vision-qa
 status: named
 level: 3★
 description: Multimodal visual decomposition and pixel-accurate translation of UI
   mockups into responsive frontend code.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-02'
+updatedAt: '2026-09-06'
 title: Image to Code
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
@@ -40,6 +40,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-09-06T05:29:36Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
   evaluator: mbtiongson1

@@ -25,7 +25,7 @@
   },
   "title": "The GitHub Maestro",
   "genericSkillRef": "git-integration",
-  "origin": true,
+  "origin": false,
   "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
   "tags": [
     "github",
@@ -104,6 +104,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:09Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to mattpocock/resolving-merge-conflicts."
     }
   ],
   "links": {

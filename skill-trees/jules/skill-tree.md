@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — jules  ·  generated 2026-09-05
+GAIA SKILL TREE — jules  ·  generated 2026-09-06
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -31,7 +31,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
   ├─ · · ████████/engineering
-  │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
+  │  ├─ · · mattpocock/setup-matt-pocock-skills  [3★]
   │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
   │  ├─ ✓ · mattpocock/diagnose  [3★]
@@ -51,18 +51,18 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  └─ · ○ ████████/requirements-engineer
   │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
-  │  ├─ · · mattpocock/to-spec  [3★]
+  │  ├─ · · addy-osmani/spec-driven-development  [3★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
   │  ├─ · ○ addy-osmani/code-simplification  [4★]
-  │  ├─ · · mattpocock/to-tickets  [3★]
+  │  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
-  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  │  │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  │  ├─ · ○ /diff-content
   │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -129,8 +129,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · · ruvnet/github-suite  [2★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  ├─ · · mattpocock/resolving-merge-conflicts  [2★]
+  │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]

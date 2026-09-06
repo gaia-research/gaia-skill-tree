@@ -2,7 +2,7 @@
 id: dietrichgebert/ponytail
 name: Ponytail
 contributor: dietrichgebert
-origin: false
+origin: true
 genericSkillRef: implement-with-discernment
 status: named
 level: 4★
@@ -10,7 +10,7 @@ description: 'Forces the laziest solution that actually works: question whether 
   task should exist, prefer standard library and native features, and ship the smallest
   correct implementation.'
 createdAt: '2026-07-31'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 title: Ponytail
 links:
   github: https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md
@@ -48,6 +48,10 @@ timeline:
   contributor: unknown
   details: 'TM 329.28 -> 221.96, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:28:52Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/DietrichGebert/ponytail
   evaluator: unknown

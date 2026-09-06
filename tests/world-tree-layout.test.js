@@ -165,7 +165,9 @@ test('structural wood is a deterministic subset while all canonical graft edges 
     result.nodeMeta[target].hemisphere === 'outside'
     || result.heroPose[target].y < result.heroPose[source].y), true);
 
-  const seedPoints = result.isolates.map((id) => result.heroPose[id]);
+  const seedPoints = result.isolates
+    .filter((id) => result.nodeMeta[id].hemisphere !== 'outside')
+    .map((id) => result.heroPose[id]);
   const primaryCrownWidth = robustWidth(silhouetteBands(result.components[0].map((id) => result.heroPose[id])).crown);
   assert.ok(robustWidth(seedPoints) < primaryCrownWidth * 0.25, 'isolates must remain a compact seed bulb');
 });

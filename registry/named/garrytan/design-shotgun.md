@@ -2,7 +2,7 @@
 id: garrytan/design-shotgun
 name: Design Shotgun
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: design-review
 status: named
 title: Design Shotgun
@@ -19,7 +19,7 @@ tags:
 - prototyping
 - visual-qa
 createdAt: '2026-05-12'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -100,6 +100,10 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:29Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

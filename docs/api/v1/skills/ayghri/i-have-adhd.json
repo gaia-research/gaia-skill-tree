@@ -25,7 +25,7 @@
   },
   "title": "I Have ADHD",
   "genericSkillRef": "format-output",
-  "origin": false,
+  "origin": true,
   "description": "Structures raw output into a specified format such as markdown, JSON, CSV, HTML, or cognitive accessibility layout constraints.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -136,6 +136,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 59.56 -> 119.66, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:28:57Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

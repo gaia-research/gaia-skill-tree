@@ -25,7 +25,7 @@
   },
   "title": "Gstack Canary",
   "genericSkillRef": "detect-anomaly",
-  "origin": false,
+  "origin": true,
   "description": "Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance regressions, and broken links — designed to surface failures within the first 10 minutes so problems are caught before they reach users at scale.",
   "tags": [
     "monitoring",
@@ -143,6 +143,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:27Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

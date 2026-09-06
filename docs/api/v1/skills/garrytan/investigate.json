@@ -25,7 +25,7 @@
   },
   "title": "Gstack Investigate",
   "genericSkillRef": "systematic-debugging",
-  "origin": true,
+  "origin": false,
   "description": "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes.",
   "tags": [
     "debugging",
@@ -149,6 +149,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-06T05:29:06Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to obra/systematic-debugging."
     }
   ],
   "links": {

@@ -25,7 +25,7 @@
   },
   "title": "The Aesthetic Shield",
   "genericSkillRef": "design-generation",
-  "origin": true,
+  "origin": false,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [
     "design",
@@ -186,6 +186,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 4★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-06T05:28:54Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to leonxlnx/taste-skill."
     }
   ],
   "links": {

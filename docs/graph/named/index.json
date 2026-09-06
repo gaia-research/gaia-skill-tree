@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05",
+  "generatedAt": "2026-09-06",
   "buckets": {
     "automated-testing": [
       {
@@ -1194,7 +1194,7 @@
         "id": "garrytan/plan-eng-review",
         "name": "Plan Eng Review",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "code-review-pipeline",
         "status": "named",
         "level": "3★",
@@ -1234,7 +1234,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -1290,6 +1290,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1307,7 +1313,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -1569,7 +1575,7 @@
         "id": "addy-osmani/code-simplification",
         "name": "Code Simplification",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "refactor-code",
         "status": "named",
         "level": "4★",
@@ -1615,7 +1621,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:19Z",
@@ -1729,6 +1735,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:53Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -1747,7 +1759,7 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
+        "role": "origin",
         "branch": "unique",
         "rank": 4,
         "rankWord": "Unique",
@@ -2967,7 +2979,7 @@
         "id": "addy-osmani/planning-and-task-breakdown",
         "name": "Planning and Task Breakdown",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
         "level": "3★",
@@ -3018,7 +3030,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -3126,6 +3138,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:08Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3144,7 +3162,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -3163,7 +3181,7 @@
         "id": "mattpocock/to-tickets",
         "name": "To Tickets",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
         "level": "3★",
@@ -3220,7 +3238,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -3318,6 +3336,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:07Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to addy-osmani/planning-and-task-breakdown."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -3336,7 +3360,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -4117,7 +4141,7 @@
         "id": "addy-osmani/spec-driven-development",
         "name": "Spec-Driven Development",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "prd-generation",
         "status": "named",
         "level": "3★",
@@ -4158,7 +4182,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:16Z",
@@ -4254,6 +4278,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:04Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -4272,7 +4302,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -4291,7 +4321,7 @@
         "id": "mattpocock/to-spec",
         "name": "To PRD",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "prd-generation",
         "status": "named",
         "level": "3★",
@@ -4357,7 +4387,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -4449,6 +4479,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:03Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to addy-osmani/spec-driven-development."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -4467,7 +4503,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -6120,7 +6156,7 @@
         "id": "ayghri/i-have-adhd",
         "name": "I Have ADHD",
         "contributor": "ayghri",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "format-output",
         "status": "named",
         "level": "4★",
@@ -6169,7 +6205,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:23Z",
@@ -6230,6 +6266,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 59.56 -> 119.66, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:57Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "trustMagnitude": 119.66,
@@ -6237,7 +6279,7 @@
         "trustMagnitudeInputHash": "ee21f8d0981aa197ed1681d8b81148961f1e16607132eb573aaf1d9bf45ba757",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7042,10 +7084,222 @@
         }
       },
       {
+        "id": "garrytan/browse",
+        "name": "Browse",
+        "contributor": "garrytan",
+        "origin": true,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "3★",
+        "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
+        "title": "Gstack Browse — Directed Browser Navigation",
+        "catalogRef": "garrytan-browse",
+        "tags": [
+          "browser-control",
+          "navigation",
+          "qa"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+            "type": "repo",
+            "commits": 323,
+            "contributors": 9,
+            "trustNumber": 70.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/2055",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/2048",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1989",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1953",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1784",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-02T23:45:09Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:19Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2055 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2048 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1989 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1953 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:40:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1784 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:45Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T18:43:50Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:03Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "trustMagnitude": 88.5,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "63c67813bd921c61fbf5f8e5c982875fa300f6209af1d1d4911d88eab887a1d7",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "browser-use/browser-harness",
         "name": "Browser Harness",
         "contributor": "browser-use",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "browser-control",
         "status": "named",
         "level": "3★",
@@ -7103,7 +7357,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -7206,217 +7460,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:03Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/browse."
           }
         ],
         "trustMagnitude": 73.59,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "0ecb67a513e951f5b0729ec70bd4f8785bdee8f7e174e7eec2b111b32630d201",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "garrytan/browse",
-        "name": "Browse",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "browser-control",
-        "status": "named",
-        "level": "3★",
-        "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
-        "title": "Gstack Browse — Directed Browser Navigation",
-        "catalogRef": "garrytan-browse",
-        "tags": [
-          "browser-control",
-          "navigation",
-          "qa"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-            "type": "repo",
-            "commits": 323,
-            "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
-          },
-          {
-            "source": "https://github.com/garrytan/gstack/issues/2055",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Bug report for /browse",
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/garrytan/gstack/issues/2048",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Bug report for /browse",
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/garrytan/gstack/issues/1989",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Bug report for /browse"
-          },
-          {
-            "source": "https://github.com/garrytan/gstack/issues/1953",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Bug report for /browse"
-          },
-          {
-            "source": "https://github.com/garrytan/gstack/issues/1784",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Bug report for /browse"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-05",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:32:59Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-06-02T23:45:09Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 2★"
-          },
-          {
-            "timestamp": "2026-06-03T05:51:28Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
-          },
-          {
-            "timestamp": "2026-06-03T05:51:38Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:19Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:14Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:36:26Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:39:00Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2055 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:39:16Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2048 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:39:31Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1989 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:39:48Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1953 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:40:03Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1784 (type: peer-review)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:50Z",
-            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:37Z",
-            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:45Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-04T18:43:50Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 88.5,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "63c67813bd921c61fbf5f8e5c982875fa300f6209af1d1d4911d88eab887a1d7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8018,7 +8072,7 @@
         "id": "dietrichgebert/ponytail",
         "name": "Ponytail",
         "contributor": "dietrichgebert",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "implement-with-discernment",
         "status": "named",
         "level": "4★",
@@ -8063,7 +8117,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:36Z",
@@ -8106,6 +8160,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 329.28 -> 221.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:52Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "trustMagnitude": 221.96,
@@ -8113,7 +8173,7 @@
         "trustMagnitudeInputHash": "ba80d576568d9a0a266bb8d71cd5884a11a149390c543985cb4a55df91b8b6f1",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9295,7 +9355,7 @@
         "id": "firecrawl/firecrawl-build-onboarding",
         "name": "Firecrawl Onboarding",
         "contributor": "firecrawl",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "agent-environment-setup",
         "status": "named",
         "level": "3★",
@@ -9328,7 +9388,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -9383,6 +9443,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:06Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/setup-matt-pocock-skills."
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -9391,7 +9457,7 @@
         "trustMagnitudeInputHash": "a37771a66ec02cc6b5ce8cff2dc8a08a9f8daff3c711dee3e6f84ddc301263dc",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
-        "role": "origin",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9420,7 +9486,7 @@
         "id": "mattpocock/setup-matt-pocock-skills",
         "name": "Setup Matt Pocock Skills",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "agent-environment-setup",
         "status": "named",
         "level": "3★",
@@ -9462,7 +9528,7 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -9518,6 +9584,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:07Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -9536,7 +9608,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -10914,7 +10986,7 @@
         "id": "garrytan/benchmark",
         "name": "Benchmark",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "evaluate-output",
         "status": "named",
         "level": "3★",
@@ -10958,7 +11030,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -11032,6 +11104,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:25Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -11049,7 +11127,7 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -11224,7 +11302,7 @@
         "id": "garrytan/canary",
         "name": "Canary",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "detect-anomaly",
         "status": "named",
         "level": "3★",
@@ -11268,7 +11346,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -11342,6 +11420,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:27Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -11359,7 +11443,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -11380,7 +11464,7 @@
         "id": "garrytan/careful",
         "name": "Careful",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "guardrails",
         "status": "named",
         "level": "3★",
@@ -11419,7 +11503,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -11475,6 +11559,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 66.0 -> 66.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:20Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -11492,7 +11582,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -13507,7 +13597,7 @@
         "id": "garrytan/design-shotgun",
         "name": "Design Shotgun",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "design-review",
         "status": "named",
         "level": "3★",
@@ -13551,7 +13641,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -13625,6 +13715,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:29Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -13642,7 +13738,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -14947,10 +15043,178 @@
     ],
     "systematic-debugging": [
       {
+        "id": "obra/systematic-debugging",
+        "name": "Systematic Debugging",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "systematic-debugging",
+        "status": "named",
+        "level": "3★",
+        "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
+        "title": "The Root Cause Hunter",
+        "tags": [
+          "debugging",
+          "root-cause",
+          "hypothesis-driven",
+          "instrumentation",
+          "reproduction"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 609,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1795",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Mentions systematic-debugging as candidate for nested subagents."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402,
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/investigate."
+          },
+          {
+            "timestamp": "2026-06-14T12:32:48Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:47:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1795 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:27:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 36.0 -> 65.15, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 65.15 -> 65.15, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 65.15 -> 65.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:06Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
+        "suiteRef": "obra/superpowers",
+        "trustMagnitude": 65.15,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "5fa67a44ffcdb3e5cbac1bb38505df733e3e63f2e7823c3241682988fb3d566c",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "garrytan/investigate",
         "name": "Investigate",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "systematic-debugging",
         "status": "named",
         "level": "3★",
@@ -14994,7 +15258,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -15074,174 +15338,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:06Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to obra/systematic-debugging."
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 50.0,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "3b8206952d8a3374a6825f6f81905d2d28f551fad2d744425a32c2d7091a44ff",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "obra/systematic-debugging",
-        "name": "Systematic Debugging",
-        "contributor": "obra",
-        "origin": false,
-        "genericSkillRef": "systematic-debugging",
-        "status": "named",
-        "level": "3★",
-        "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
-        "title": "The Root Cause Hunter",
-        "tags": [
-          "debugging",
-          "root-cause",
-          "hypothesis-driven",
-          "instrumentation",
-          "reproduction"
-        ],
-        "links": {
-          "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-18",
-            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 609,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://github.com/obra/superpowers/issues/1795",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "social-signal",
-            "class": "A",
-            "notes": "Mentions systematic-debugging as candidate for nested subagents."
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
-            "evaluator": "unknown",
-            "date": "2026-06-19",
-            "type": "social-signal",
-            "class": "A",
-            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402,
-            "grade": "B"
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
-            "evaluator": "unknown",
-            "date": "2026-06-19"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:33:00Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to garrytan/investigate."
-          },
-          {
-            "timestamp": "2026-06-14T12:32:48Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:07:58Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:47:17Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/obra/superpowers/issues/1795 (type: social-signal)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:51Z",
-            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:43Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T14:26:03Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
-          },
-          {
-            "timestamp": "2026-06-19T14:27:53Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T14:31:47Z",
-            "details": "TM 36.0 -> 65.15, grade C -> B (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T14:32:19Z",
-            "details": "TM 65.15 -> 65.15, grade B -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:56Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 65.15 -> 65.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "obra/superpowers",
-        "trustMagnitude": 65.15,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "5fa67a44ffcdb3e5cbac1bb38505df733e3e63f2e7823c3241682988fb3d566c",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -15446,7 +15554,7 @@
         "id": "garrytan/land-and-deploy",
         "name": "Land and Deploy",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "deployment-automation",
         "status": "named",
         "level": "3★",
@@ -15490,7 +15598,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -15564,6 +15672,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:31Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -15581,7 +15695,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -16936,7 +17050,7 @@
         "id": "garrytan/qa",
         "name": "QA",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "e2e-testing",
         "status": "named",
         "level": "3★",
@@ -16980,7 +17094,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -17054,6 +17168,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:33Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -17071,7 +17191,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -18124,7 +18244,7 @@
         "id": "garrytan/skillify",
         "name": "Skillify",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "skill-authoring",
         "status": "named",
         "level": "3★",
@@ -18167,7 +18287,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -18241,6 +18361,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:35Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -18258,7 +18384,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -22850,7 +22976,7 @@
         "id": "pbakaus/impeccable",
         "name": "Impeccable",
         "contributor": "pbakaus",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "design-generation",
         "status": "named",
         "level": "4★",
@@ -22899,7 +23025,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -23010,6 +23136,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:54Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to leonxlnx/taste-skill."
           }
         ],
         "trustMagnitude": 169.34,
@@ -23026,7 +23158,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "unique",
         "rank": 4,
         "rankWord": "Unique",
@@ -23049,7 +23181,7 @@
         "id": "leonxlnx/taste-skill",
         "name": "taste-skill",
         "contributor": "leonxlnx",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "design-generation",
         "status": "named",
         "level": "4★",
@@ -23082,7 +23214,7 @@
           }
         ],
         "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-08-22T07:11:01Z",
@@ -23125,6 +23257,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:54Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteComponents": [
@@ -23145,7 +23283,7 @@
         "trustMagnitudeInputHash": "8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -23724,7 +23862,7 @@
         "id": "leonxlnx/image-to-code-skill",
         "name": "image-to-code-skill",
         "contributor": "leonxlnx",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "vision-qa",
         "status": "named",
         "level": "3★",
@@ -23757,7 +23895,7 @@
           }
         ],
         "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-02",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-08-22T08:07:45Z",
@@ -23794,6 +23932,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:36Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "leonxlnx/taste-skill",
@@ -23802,7 +23946,7 @@
         "trustMagnitudeInputHash": "abde51837947f4180bed82debe378688c3c4aa2aea161b9b71d1010d97364948",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -24763,7 +24907,7 @@
         "id": "mattpocock/diagnose",
         "name": "Diagnose",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "autonomous-debug",
         "status": "named",
         "level": "3★",
@@ -24820,7 +24964,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -24920,6 +25064,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -24938,7 +25088,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -25133,14 +25283,14 @@
         "id": "mattpocock/engineering",
         "name": "Engineering",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "engineering-discipline",
         "status": "named",
         "level": "1★",
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-09-02",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -25206,6 +25356,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:10Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status set to false."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -25240,7 +25396,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
+        "role": "variant",
         "branch": "suite",
         "rank": 1,
         "rankWord": "Awakened",
@@ -25265,7 +25421,7 @@
         "id": "mattpocock/grill-me",
         "name": "Grill Me",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "grill-me",
         "status": "named",
         "level": "3★",
@@ -25331,7 +25487,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -25405,6 +25561,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:22Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -25423,7 +25585,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -25619,7 +25781,7 @@
         "id": "mattpocock/handoff",
         "name": "Handoff",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "agent-handoff",
         "status": "named",
         "level": "3★",
@@ -25693,7 +25855,7 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -25779,6 +25941,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:21Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -25797,7 +25965,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -26088,7 +26256,7 @@
         "id": "mattpocock/personal",
         "name": "Personal",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "personal",
         "status": "named",
         "level": "1★",
@@ -26096,7 +26264,7 @@
         "title": "The Matt Pocock Personal Suite",
         "installable": false,
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -26132,6 +26300,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 60.0 -> 0.0, grade B -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:10Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status set to false."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -26154,7 +26328,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
+        "role": "variant",
         "branch": "suite",
         "rank": 1,
         "rankWord": "Awakened",
@@ -26179,14 +26353,14 @@
         "id": "mattpocock/productivity",
         "name": "Productivity",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "productivity",
         "status": "named",
         "level": "1★",
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -26240,6 +26414,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 180.0 -> 0.0, grade A -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:10Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status set to false."
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -26266,7 +26446,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
+        "role": "variant",
         "branch": "suite",
         "rank": 1,
         "rankWord": "Awakened",
@@ -26511,7 +26691,7 @@
         "id": "ruvnet/github-suite",
         "name": "GitHub Suite",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "git-integration",
         "status": "named",
         "level": "2★",
@@ -26543,7 +26723,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:56Z",
@@ -26590,6 +26770,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:09Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/resolving-merge-conflicts."
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -26615,7 +26801,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin",
+        "role": "variant",
         "branch": "suite",
         "rank": 2,
         "rankWord": "Named",
@@ -26638,7 +26824,7 @@
         "id": "mattpocock/resolving-merge-conflicts",
         "name": "Resolving Merge Conflicts",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "git-integration",
         "status": "named",
         "level": "2★",
@@ -26685,7 +26871,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:24Z",
@@ -26774,6 +26960,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:10Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "trustMagnitude": 41.0,
@@ -26791,7 +26983,7 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
+        "role": "origin",
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -29983,7 +30175,7 @@
         "id": "oso95/scroll-world",
         "name": "Scroll World",
         "contributor": "oso95",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "scroll-world",
         "status": "named",
         "level": "3★",
@@ -30035,7 +30227,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:23Z",
@@ -30078,6 +30270,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 60.98, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:29:24Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "trustMagnitude": 60.98,
@@ -30085,7 +30283,7 @@
         "trustMagnitudeInputHash": "7e0e17c63325393f3e37796bbce7a2fdd3b91024edccd60dd4fc744d4afc31ac",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -35649,7 +35847,7 @@
         "id": "vercel-labs/vercel-react-best-practices",
         "name": "Vercel React Best Practices",
         "contributor": "vercel-labs",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "react-performance-optimization",
         "status": "named",
         "level": "4★",
@@ -35709,7 +35907,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-06",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:42Z",
@@ -35782,6 +35980,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 159.01 -> 162.66, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T05:28:56Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "trustMagnitude": 162.66,
@@ -35789,7 +35993,7 @@
         "trustMagnitudeInputHash": "c85068aa4025392ee2bf09f69ad8171e8e6a98a8a68800413bc8564d4c908253",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -40911,7 +41115,7 @@
       "id": "google-deepmind/workflow-skill-creator",
       "name": "Workflow-Skill-Creator",
       "contributor": "google-deepmind",
-      "origin": true,
+      "origin": false,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
       "level": "1★",
@@ -40945,7 +41149,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-09-05",
+      "updatedAt": "2026-09-06",
       "timeline": [
         {
           "timestamp": "2026-09-05T00:00:00Z",
@@ -41045,6 +41249,12 @@
           "action": "demote",
           "contributor": "unknown",
           "details": "Calibrated level from 1★ to 1★"
+        },
+        {
+          "timestamp": "2026-09-06T05:29:35Z",
+          "action": "demote",
+          "contributor": "unknown",
+          "details": "Origin status removed. Transferred to garrytan/skillify."
         }
       ],
       "trustMagnitude": 100.82,

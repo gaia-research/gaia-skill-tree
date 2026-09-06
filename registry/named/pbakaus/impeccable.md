@@ -2,7 +2,7 @@
 id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
-origin: true
+origin: false
 genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield
@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -128,6 +128,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 4★ to 5★
+- timestamp: '2026-09-06T05:28:54Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to leonxlnx/taste-skill.
 trustMagnitude: 169.34
 overallTrustGrade: A
 apexGateStatus:

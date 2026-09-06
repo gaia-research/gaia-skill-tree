@@ -2,7 +2,7 @@
 id: garrytan/browse
 name: Browse
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: browser-control
 status: named
 title: Gstack Browse — Directed Browser Navigation
@@ -18,7 +18,7 @@ tags:
 - navigation
 - qa
 createdAt: '2026-05-18'
-updatedAt: '2026-09-05'
+updatedAt: '2026-09-06'
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: rank_up
@@ -91,6 +91,10 @@ timeline:
   contributor: unknown
   details: 'TM 88.5 -> 88.5, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:03Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/browse/SKILL.md

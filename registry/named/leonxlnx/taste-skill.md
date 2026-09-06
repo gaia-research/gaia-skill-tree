@@ -2,7 +2,7 @@
 id: leonxlnx/taste-skill
 name: taste-skill
 contributor: leonxlnx
-origin: false
+origin: true
 genericSkillRef: design-generation
 status: named
 level: 4★
@@ -10,7 +10,7 @@ description: Anti-slop frontend master skill for landing pages, portfolios, and 
   Infers design direction, dials visual variance and density, applies real design
   systems, and runs strict pre-flight checks.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 title: Taste Skill
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
@@ -50,6 +50,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:28:54Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
   evaluator: mbtiongson1

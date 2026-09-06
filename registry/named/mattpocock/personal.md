@@ -2,7 +2,7 @@
 id: mattpocock/personal
 name: Personal
 contributor: mattpocock
-origin: true
+origin: false
 title: The Matt Pocock Personal Suite
 genericSkillRef: personal
 status: named
@@ -10,7 +10,7 @@ level: 3★
 description: Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-06'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,6 +47,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 60.0 -> 0.0, grade B -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:29:10Z'
+  action: demote
+  contributor: unknown
+  details: Origin status set to false.
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article

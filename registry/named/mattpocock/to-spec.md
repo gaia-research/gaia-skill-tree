@@ -2,7 +2,7 @@
 id: mattpocock/to-spec
 name: To PRD
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: prd-generation
 status: named
 title: The PRD Synthesiser
@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
@@ -127,6 +127,10 @@ timeline:
   contributor: unknown
   details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:03Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to addy-osmani/spec-driven-development.
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -141,7 +145,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:36:40Z'
 trustMagnitudeInputHash: 37b20efdb83f0e75de9d0a2e984a26a7602a16196a74460cad4d4642bfa23602
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview

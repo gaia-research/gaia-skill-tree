@@ -2,7 +2,7 @@
 id: garrytan/qa
 name: QA
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: e2e-testing
 status: named
 title: Gstack QA
@@ -20,7 +20,7 @@ tags:
 - bug-fixing
 - e2e
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -101,6 +101,10 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:33Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

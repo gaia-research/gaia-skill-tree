@@ -2,7 +2,7 @@
 id: mattpocock/setup-matt-pocock-skills
 name: Setup Matt Pocock Skills
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: agent-environment-setup
 status: named
 title: The Environment Scaffolder
@@ -10,7 +10,7 @@ level: 3★
 description: Scaffolds per-repo configuration for other engineering skills (like triage,
   tdd, diagnose).
 createdAt: '2026-05-21'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills
 evidence:
@@ -81,6 +81,10 @@ timeline:
   contributor: unknown
   details: 'TM 56.21 -> 56.21, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:07Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 56.21
 overallTrustGrade: B
 apexGateStatus:
@@ -95,7 +99,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:36:01Z'
 trustMagnitudeInputHash: 8fb173313bff59a85ff6508d74740cdff5fc837407665d547e4b1f7b1d83043b
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Installation

@@ -2,7 +2,7 @@
 id: mattpocock/resolving-merge-conflicts
 name: Resolving Merge Conflicts
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: git-integration
 status: named
 links:
@@ -11,7 +11,7 @@ level: 2★
 description: Resolve in-progress git merge and rebase conflicts preserving both intents
   with automated checks.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-05'
+updatedAt: '2026-09-06'
 timeline:
 - timestamp: '2026-06-19T13:01:24Z'
   action: add
@@ -79,6 +79,10 @@ timeline:
   contributor: unknown
   details: 'TM 41.0 -> 41.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-06T05:29:10Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md
   evaluator: unknown

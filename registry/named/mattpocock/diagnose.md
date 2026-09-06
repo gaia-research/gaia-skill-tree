@@ -2,7 +2,7 @@
 id: mattpocock/diagnose
 name: Diagnose
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: autonomous-debug
 status: named
 title: The Disciplined Diagnosis Loop
@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-06'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -129,6 +129,10 @@ timeline:
   contributor: unknown
   details: 'TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-06T05:29:16Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
@@ -144,7 +148,7 @@ verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: a107af1ae2829d53ae0ec828016debf078f062e02ba5f13105556a34f7c1c08d
 installable: false
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview
