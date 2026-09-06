@@ -2360,6 +2360,32 @@
         }
       ]
     },
+    "mksglu": {
+      "repos": [
+        "mksglu/context-mode"
+      ],
+      "skillsByRepo": {
+        "mksglu/context-mode": [
+          "mksglu/context-mode"
+        ]
+      },
+      "topSkill": "mksglu/context-mode",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/context-mode",
+          "file": "context-mode.svg",
+          "fileSeal": "context-mode-seal.svg"
+        }
+      ]
+    },
     "nousresearch": {
       "repos": [],
       "skillsByRepo": {},
