@@ -1,0 +1,64 @@
+{
+  "batchId": "20260905191416-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-09-05T19:14:16Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "scroll-driven-web-design",
+      "name": "Scroll-Driven Web Design",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification.",
+      "attribution": {
+        "upstream_author": "nateherkai",
+        "skill_file_url": "https://github.com/nateherkai/scroll-craft/blob/main/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/nateherkai/scroll-craft",
+          "notes": "MIT, Claude Code and Codex skill for scroll-driven websites featuring 8 page grammars, scrub-video encoding, and Playwright verification."
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/nateherkai/scroll-craft/blob/main/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+          "notes": "Upstream agent skill definition covering visitor journey planning, feeling curves, dimensional hero depth, and headless scroll verification."
+        }
+      ],
+      "named": {
+        "contributor": "nateherkai",
+        "skill_name": "scroll-craft",
+        "links_github": "https://github.com/nateherkai/scroll-craft/blob/main/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "scroll-driven-web-design",
+      "targetSkillId": "schema-design",
+      "score": 0.541,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "scroll-driven-web-design",
+      "targetSkillId": "static-artwork-design",
+      "score": 0.533,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "scroll-driven-web-design",
+      "targetSkillId": "collaborative-diagramming",
+      "score": 0.531,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}

@@ -2308,6 +2308,32 @@
         }
       ]
     },
+    "heygen-com": {
+      "repos": [
+        "heygen-com/hyperframes"
+      ],
+      "skillsByRepo": {
+        "heygen-com/hyperframes": [
+          "heygen-com/hyperframes"
+        ]
+      },
+      "topSkill": "heygen-com/hyperframes",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "heygen-com/hyperframes",
+          "name": "HyperFrames",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/hyperframes",
+          "file": "hyperframes.svg",
+          "fileSeal": "hyperframes-seal.svg"
+        }
+      ]
+    },
     "pbakaus": {
       "repos": [
         "pbakaus/impeccable"

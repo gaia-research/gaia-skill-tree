@@ -1,0 +1,64 @@
+{
+  "batchId": "20260905191407-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-09-05T19:14:07Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "html-video-composition",
+      "name": "HTML Video Composition",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Composes and renders deterministic videos from HTML, CSS, media assets, and seekable web animations using declarative data attributes for timing and headless browser frame extraction.",
+      "attribution": {
+        "upstream_author": "heygen-com",
+        "skill_file_url": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/heygen-com/hyperframes",
+          "notes": "43K+ stars, Apache 2.0. Open-source framework by HeyGen for turning HTML/CSS and seekable web animations into deterministic MP4 videos."
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md",
+          "notes": "Upstream agent skill entry point and router orchestrating 20 specialized video creation workflows and domain skills."
+        }
+      ],
+      "named": {
+        "contributor": "heygen-com",
+        "skill_name": "hyperframes",
+        "links_github": "https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "html-video-composition",
+      "targetSkillId": "video-composition",
+      "score": 0.872,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "html-video-composition",
+      "targetSkillId": "video-captions",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "html-video-composition",
+      "targetSkillId": "distributed-consensus-coordination",
+      "score": 0.591,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}
