@@ -20448,6 +20448,200 @@
         }
       }
     ],
+    "video-composition": [
+      {
+        "id": "heygen-com/hyperframes",
+        "name": "HyperFrames",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Suite orchestrator and router for HyperFrames: programmatic video composition framework compiling HTML, CSS, JavaScript, WebGL, WebGPU, and Canvas into production videos.",
+        "title": "HyperFrames",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-06",
+            "type": "github-stars-own",
+            "notes": "Live verified GitHub stargazers for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-06",
+            "type": "repo-own",
+            "notes": "Live verified repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-06",
+            "type": "self-attestation",
+            "notes": "Upstream orchestrator and router entry point SKILL.md",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-09-06",
+        "updatedAt": "2026-09-06",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T15:29:17Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T15:29:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T15:29:29Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T15:29:31Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-09-06T15:30:00Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Install via the HyperFrames CLI:\n\n```bash\nnpx hyperframes init\n```\n\nOr install using the Agent Skills CLI:\n\n```bash\nnpx skills add heygen-com/hyperframes --skill hyperframes\n```\n\nFor the complete suite:\n\n```bash\nnpx skills add heygen-com/hyperframes --all\n```",
+        "role": "variant",
+        "trustMagnitude": 163.63,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 8,
+          "transitiveCount": 8,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-best-practices",
+        "name": "Remotion Best Practices",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-best-practices",
+        "title": "Remotion Best Practices",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:24Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-best-practices"
+          },
+          {
+            "timestamp": "2026-08-10T14:48:57Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef=remotion-dev/remotion-best-practices, genericSkillRef=video-composition via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-08-11T08:38:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteComponents": [
+          "remotion-dev/remotion-captions",
+          "remotion-dev/remotion-create",
+          "remotion-dev/remotion-docs",
+          "remotion-dev/remotion-interactivity",
+          "remotion-dev/remotion-maps",
+          "remotion-dev/remotion-markup",
+          "remotion-dev/remotion-multimedia",
+          "remotion-dev/remotion-render",
+          "remotion-dev/remotion-saas",
+          "remotion-dev/remotion-studio",
+          "remotion-dev/remotion-upgrade"
+        ],
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "3ab1301895028e3ccee4324051e0bf4343ede64a0e4232e05ff2aac3fd75dadd",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        },
+        "fusionScore": 274.83,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 19,
+          "transitiveCount": 24,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
     "api-call": [
       {
         "id": "huggingface/hf-cli",
@@ -30571,93 +30765,6 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "video-composition": [
-      {
-        "id": "remotion-dev/remotion-best-practices",
-        "name": "Remotion Best Practices",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "video-composition",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-best-practices",
-        "title": "Remotion Best Practices",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:24Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-best-practices"
-          },
-          {
-            "timestamp": "2026-08-10T14:48:57Z",
-            "action": "suite_ref_set",
-            "contributor": "mbtiongson1",
-            "details": "Set suiteRef=remotion-dev/remotion-best-practices, genericSkillRef=video-composition via `gaia dev fuse`."
-          },
-          {
-            "timestamp": "2026-08-11T08:38:18Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteComponents": [
-          "remotion-dev/remotion-captions",
-          "remotion-dev/remotion-create",
-          "remotion-dev/remotion-docs",
-          "remotion-dev/remotion-interactivity",
-          "remotion-dev/remotion-maps",
-          "remotion-dev/remotion-markup",
-          "remotion-dev/remotion-multimedia",
-          "remotion-dev/remotion-render",
-          "remotion-dev/remotion-saas",
-          "remotion-dev/remotion-studio",
-          "remotion-dev/remotion-upgrade"
-        ],
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "3ab1301895028e3ccee4324051e0bf4343ede64a0e4232e05ff2aac3fd75dadd",
-        "type": "fusion",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "suite",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 0/3 components carry graded evidence"
-        },
-        "fusionScore": 274.83,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 19,
-          "transitiveCount": 24,
-          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -42333,6 +42440,9 @@
       "gsd-build/plan-phase",
       "gsd-build/ship",
       "gsd-build/verify-work"
+    ],
+    "heygen-com": [
+      "heygen-com/hyperframes"
     ],
     "huggingface": [
       "huggingface/hf-cli",
