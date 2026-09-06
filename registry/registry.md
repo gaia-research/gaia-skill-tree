@@ -232,7 +232,7 @@
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
 | · [mattpocock](../docs/u/mattpocock/)/to-tickets | Fusion | 3★ | `/vertical-slice-planning` |
 | ○ ████████/remotion-captions | Basic | — | `/video-captions` |
-| · ████████/remotion-best-practices | Fusion | — | `/video-composition` |
+| · [heygen-com](../docs/u/heygen-com/)/hyperframes | Fusion | 3★ | `/video-composition` |
 | · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |
 | ○ ████████/remotion-interactivity | Basic | — | `/video-interactivity` |
 | ○ ████████/remotion-studio | Basic | — | `/video-preview` |
