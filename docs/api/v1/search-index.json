@@ -478,6 +478,35 @@
     ]
   },
   {
+    "id": "heygen-com/hyperframes",
+    "name": "HyperFrames",
+    "contributor": "heygen-com",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 163.63,
+    "branch": "standard",
+    "tokens": [
+      "canvas",
+      "compiling",
+      "composition",
+      "css",
+      "framework",
+      "html",
+      "hyperframes",
+      "into",
+      "javascript",
+      "orchestrator",
+      "production",
+      "programmatic",
+      "router",
+      "suite",
+      "video",
+      "videos",
+      "webgl",
+      "webgpu"
+    ]
+  },
+  {
     "id": "vercel-labs/vercel-react-best-practices",
     "name": "Vercel React Best Practices",
     "contributor": "vercel-labs",

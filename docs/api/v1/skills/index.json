@@ -429,6 +429,23 @@
       "genericSkillRef": "design-generation"
     },
     {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "3★",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
@@ -1047,28 +1064,11 @@
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
       },
       "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "mattpocock/triage",
-      "name": "Triage",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/triage.json"
-      },
-      "genericSkillRef": "issue-triage"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 188,
+  "totalSkills": 189,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
