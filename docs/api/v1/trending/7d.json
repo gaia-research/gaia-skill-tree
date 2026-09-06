@@ -1,8 +1,50 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-05T03:44:35Z",
+  "generatedAt": "2026-09-06T09:55:10Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 199.13,
+      "overallTrustGrade": "A",
+      "trendingScore": 4271.73,
+      "tmDelta": 199.13,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      }
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 2252.5,
+      "tmDelta": 102.5,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 2252.5,
+      "tmDelta": 102.5,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
@@ -298,7 +340,7 @@
       }
     }
   ],
-  "totalTrending": 21,
+  "totalTrending": 24,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

@@ -6,13 +6,13 @@ origin: true
 title: The Matt Pocock Engineering Discipline
 genericSkillRef: engineering-discipline
 status: named
-level: 3★
+level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-09-02'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-09-06'
+trustMagnitude: 102.5
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -71,8 +71,65 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-09-06T09:50:13Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+- timestamp: '2026-09-06T09:50:20Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: repo-own)'
+- timestamp: '2026-09-06T09:50:29Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs
+    (type: social-signal)'
+- timestamp: '2026-09-06T09:50:36Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.aihero.dev/skills-to-spec (type: social-signal)'
+- timestamp: '2026-09-06T09:50:45Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6
+    (type: social-signal)'
+- timestamp: '2026-09-06T09:51:37Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6'
+- timestamp: '2026-09-06T09:51:39Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://www.aihero.dev/skills-to-spec'
+- timestamp: '2026-09-06T09:51:41Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs'
+- timestamp: '2026-09-06T09:52:05Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs
+    (type: peer-review)'
+- timestamp: '2026-09-06T09:52:07Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.aihero.dev/skills-to-spec (type: peer-review)'
+- timestamp: '2026-09-06T09:52:29Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6
+    (type: peer-review)'
+- timestamp: '2026-09-06T09:54:37Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-09-06T10:04:18Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 102.5, grade ungraded -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 suiteRef: mattpocock/skills
-trustMagnitudeInputHash: c8f32799b72b48f795e40ddaf8f9adf62bd8e938190cf06ff6f352b882fd087f
+trustMagnitudeInputHash: 51a26a30ef7def4a2c82935956485b8903e86cf799123679bfa3c17fbcb6d657
 suiteComponents:
 - mattpocock/code-review
 - mattpocock/diagnose
@@ -88,6 +145,62 @@ suiteComponents:
 - mattpocock/wayfinder
 - mattpocock/wizard
 - mattpocock/zoom-out
+evidence:
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-09-06'
+  type: github-stars-own
+  notes: 253 k GitHub stars on mattpocock/skills — upstream repository for all engineering-discipline
+    suite components (code-review, diagnose, grill-with-docs, to-spec, to-tickets,
+    triage, etc.).
+  stars: 253393
+  sourceStartedAt: '2026-02-03'
+  grade: A
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-09-06'
+  type: repo-own
+  notes: 459 commits, 4 contributors (mattpocock, claude, TESTPERSONAL, github-actions[bot])
+    on the upstream skills repo. Engineering-discipline skills (to-spec, to-tickets,
+    diagnose, grill-with-docs, code-review, triage, etc.) are the primary content.
+  commits: 459
+  contributors: 4
+  sourceStartedAt: '2026-02-03'
+  grade: C
+- source: https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs
+  evaluator: mbtiongson1
+  date: '2026-09-06'
+  type: peer-review
+  notes: Independent technical deep-dive by aihero.dev reviewing /grill-me and /grill-with-docs
+    — 9 failure modes, grilling scope, context-window limits, parallelism patterns.
+    Covers core engineering-discipline skills (grill-with-docs, handoff, prototype).
+    1 independent author.
+  reviewers: 1
+  sourceStartedAt: '2026-05-01'
+  grade: C
+- source: https://www.aihero.dev/skills-to-spec
+  evaluator: mbtiongson1
+  date: '2026-09-06'
+  type: peer-review
+  notes: Independent technical deep-dive by aihero.dev reviewing /to-spec — usage
+    contract, seam selection, multi-session vs single-session decision, grill→to-spec→to-tickets→implement
+    chain. Covers core engineering workflow. 1 independent author.
+  reviewers: 1
+  sourceStartedAt: '2026-06-01'
+  grade: C
+- source: https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6
+  evaluator: mbtiongson1
+  date: '2026-09-06'
+  type: peer-review
+  notes: 'Independent 7-min Medium review (Plain English, Aug 2026) testing the full
+    engineering workflow: grilling, TDD, diagnosing-bugs, to-spec, to-tickets, handoffs,
+    architecture reviews, prototypes. Conclusion: skills impose engineering discipline
+    on agents rather than being prompt wrappers. 1 independent reviewer.'
+  reviewers: 1
+  sourceStartedAt: '2026-08-19'
+  grade: C
+verification:
+  firstEvidenceAt: '2026-09-06T09:50:13Z'
 ---
 ## Overview
 

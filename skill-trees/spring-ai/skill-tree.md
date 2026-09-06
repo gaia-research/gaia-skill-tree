@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — spring-ai  ·  generated 2026-09-05
+GAIA SKILL TREE — spring-ai  ·  generated 2026-09-06
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -114,7 +114,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
-  ├─ · · ████████/engineering
+  ├─ · · mattpocock/engineering  [4★]
   │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
@@ -159,7 +159,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /cite-sources
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
-  ├─ · · ████████/misc
+  ├─ · · mattpocock/misc  [4★]
   │  ├─ · · garrytan/careful  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  ├─ · ○ /classify
@@ -169,7 +169,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · ████████/productivity
+  ├─ · · mattpocock/productivity  [4★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)

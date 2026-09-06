@@ -1,13 +1,13 @@
 {
-  "version": "7.14.0",
-  "generatedAt": "2026-09-05T20:43:04Z",
+  "version": "8.0.0",
+  "generatedAt": "2026-09-06T10:09:22Z",
   "summary": {
     "total": 205,
     "S": 3,
-    "A": 18,
+    "A": 21,
     "B": 65,
     "C": 99,
-    "ungraded": 20,
+    "ungraded": 17,
     "floor": 0,
     "up": 0
   },
@@ -168,6 +168,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "mattpocock/misc",
+      "tm": 199.13,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 154.13,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "skillId": "addy-osmani/code-simplification",
@@ -414,6 +431,40 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "tm": 102.5,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "5★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
+        "peer-review": 52.5
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "tm": 102.5,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
+        "peer-review": 52.5
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "skillId": "obra/executing-plans",
@@ -3195,49 +3246,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "mattpocock/engineering",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "3★",
-      "mayStars": "5★",
-      "juneStars": "3★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "skillId": "mattpocock/misc",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "suite"
-    },
-    {
       "skillId": "mattpocock/personal",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "skillId": "mattpocock/productivity",
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "3★",
