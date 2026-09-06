@@ -208,6 +208,29 @@
       "genericSkillRef": "autonomous-web-research"
     },
     {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "trustMagnitude": 199.13,
+      "overallTrustGrade": "A",
+      "fusionScore": 228.28,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      },
+      "genericSkillRef": "mattpocock-misc",
+      "suiteComponents": [
+        "mattpocock/git-guardrails-claude-code",
+        "mattpocock/migrate-to-shoehorn",
+        "mattpocock/scaffold-exercises",
+        "mattpocock/setup-pre-commit"
+      ]
+    },
+    {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
       "level": "4★",
@@ -523,6 +546,64 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "genericSkillRef": "web-scrape"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "fusionScore": 326.49,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "fusionScore": 272.11,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what",
+        "mattpocock/write-a-skill"
+      ]
     },
     {
       "id": "obra/executing-plans",
@@ -983,62 +1064,11 @@
         "self": "/api/v1/skills/mattpocock/triage.json"
       },
       "genericSkillRef": "issue-triage"
-    },
-    {
-      "id": "addy-osmani/code-review-and-quality",
-      "name": "Code Review and Quality",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
-    },
-    {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      },
-      "genericSkillRef": "performance-tuning"
-    },
-    {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 185,
+  "totalSkills": 188,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

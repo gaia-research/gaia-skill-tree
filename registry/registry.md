@@ -68,7 +68,7 @@
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
 | ○ /embed-text | Basic | — | `/embed-text` |
-| · ████████/engineering | Fusion | — | `/engineering-discipline` |
+| · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 4★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic | 3★ | `/evaluate-output` |
 | · [obra](../docs/u/obra/)/executing-plans | Fusion | 3★ | `/executing-plans` |
@@ -115,7 +115,7 @@
 | ○ ████████/remotion-maps | Basic | — | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
 | · /mathematical-animation | Fusion | — | `/mathematical-animation` |
-| · ████████/misc | Fusion | — | `/mattpocock-misc` |
+| · [mattpocock](../docs/u/mattpocock/)/misc | Fusion | 4★ | `/mattpocock-misc` |
 | · /mcp-debugger-control | Fusion | — | `/mcp-debugger-control` |
 | ○ [garrytan](../docs/u/garrytan/)/pair-agent | Basic | 2★ | `/mcp-integration` |
 | · /mcp-server-creation | Fusion | — | `/mcp-server-creation` |
@@ -151,7 +151,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
-| · ████████/productivity | Fusion | — | `/productivity` |
+| · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [garrytan](../docs/u/garrytan/)/plan-tune | Fusion | 2★ | `/prompt-optimization` |

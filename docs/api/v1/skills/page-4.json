@@ -1,6 +1,57 @@
 {
   "skills": [
     {
+      "id": "obra/requesting-code-review",
+      "name": "Requesting Code Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 140.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/requesting-code-review.json"
+      },
+      "genericSkillRef": "requesting-code-review"
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "name": "AgentDB Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
+      },
+      "genericSkillRef": "distributed-vector-memory"
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "name": "AgentDB Memory Patterns",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
+      },
+      "genericSkillRef": "memory-pattern-design"
+    },
+    {
       "id": "ruvnet/agentdb-optimization",
       "name": "AgentDB Optimization",
       "level": "2★",
@@ -628,7 +679,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 185,
+  "totalSkills": 188,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

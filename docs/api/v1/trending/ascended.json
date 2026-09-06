@@ -1,6 +1,45 @@
 {
-  "generatedAt": "2026-09-05T03:44:35Z",
+  "generatedAt": "2026-09-06T09:55:10Z",
   "skills": [
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 199.13,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T09:54:41Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T09:54:39Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T09:54:37Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
@@ -349,45 +388,6 @@
       "ascendedAt": "2026-09-02T15:05:20Z",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "name": "Planning and Task Breakdown",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:04:50Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "4★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 190.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:04:27Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/code-review-and-quality",
-      "name": "Code Review and Quality",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:01:41Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
       },
       "previousLevel": "3★"
     }

@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-05T03:44:35Z",
+  "generatedAt": "2026-09-06T09:55:10Z",
   "firstRun": false,
   "skills": [
     {
@@ -130,6 +130,20 @@
       }
     },
     {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 199.13,
+      "overallTrustGrade": "A",
+      "trendingScore": 99.56,
+      "tmDelta": 199.13,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      }
+    },
+    {
       "id": "mvanhorn/last30days",
       "name": "Last 30 Days Web Research",
       "level": "4★",
@@ -183,6 +197,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 79.58,
+      "tmDelta": -17.5,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
       }
     },
     {
@@ -802,7 +830,7 @@
       }
     }
   ],
-  "totalTrending": 57,
+  "totalTrending": 59,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

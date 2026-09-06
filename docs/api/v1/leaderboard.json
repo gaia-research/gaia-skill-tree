@@ -2,10 +2,10 @@
   "distribution": {
     "total": 205,
     "S": 3,
-    "A": 18,
+    "A": 21,
     "B": 65,
     "C": 99,
-    "ungraded": 20,
+    "ungraded": 17,
     "floor": 0,
     "up": 0
   },
@@ -104,6 +104,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "mattpocock/misc",
+      "trustMagnitude": 199.13,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 154.13,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -280,6 +292,30 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "trustMagnitude": 102.5,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
+        "peer-review": 52.5
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "trustMagnitude": 102.5,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
+        "peer-review": 52.5
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "obra/executing-plans",
@@ -2221,34 +2257,7 @@
       "branch": "standard"
     },
     {
-      "id": "mattpocock/engineering",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "3★",
-      "typeBreakdown": {},
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "id": "mattpocock/misc",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "3★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "suite"
-    },
-    {
       "id": "mattpocock/personal",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "3★",
-      "typeBreakdown": {},
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "id": "mattpocock/productivity",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
       "level": "3★",

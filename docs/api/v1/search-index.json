@@ -237,6 +237,35 @@
     ]
   },
   {
+    "id": "mattpocock/misc",
+    "name": "Misc",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 199.13,
+    "branch": "suite",
+    "tokens": [
+      "commit",
+      "do",
+      "engineering",
+      "exercise",
+      "fit",
+      "guardrails",
+      "mattpocock",
+      "migration",
+      "misc",
+      "not",
+      "pre",
+      "productivity",
+      "scaffolding",
+      "setup",
+      "skills",
+      "split",
+      "that",
+      "utility"
+    ]
+  },
+  {
     "id": "addy-osmani/code-simplification",
     "name": "Code Simplification",
     "contributor": "addy-osmani",
@@ -668,6 +697,51 @@
       "product",
       "scrape",
       "web"
+    ]
+  },
+  {
+    "id": "mattpocock/engineering",
+    "name": "Engineering",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 102.5,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "discipline",
+      "engineering",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
+    ]
+  },
+  {
+    "id": "mattpocock/productivity",
+    "name": "Productivity",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 102.5,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "productivity",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
     ]
   },
   {

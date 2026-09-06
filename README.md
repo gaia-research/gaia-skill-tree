@@ -57,7 +57,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ```text
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
-  ├─ · ████████/engineering
+  ├─ · mattpocock/engineering  [4★]
   │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
   │  │  └─ ○ /tool-use
