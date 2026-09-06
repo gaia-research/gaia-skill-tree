@@ -333,6 +333,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="context-safe-execution" label="Context-Safe Execution">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="conversational-agent" label="Conversational Agent">
         <attvalues>
           <attvalue for="level" value="" />

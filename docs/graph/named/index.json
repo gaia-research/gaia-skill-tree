@@ -29430,6 +29430,112 @@
         }
       }
     ],
+    "context-safe-execution": [
+      {
+        "id": "mksglu/context-mode",
+        "name": "Context Mode",
+        "contributor": "mksglu",
+        "origin": true,
+        "genericSkillRef": "context-safe-execution",
+        "status": "named",
+        "level": "4★",
+        "description": "Use context-mode tools (ctx_execute, ctx_execute_file) instead of Bash/cat when processing\nlarge outputs. Triggers: \"analyze logs\", \"summarize output\", \"process data\",\n\"parse JSON\", \"filter results\", \"extract errors\", \"check build output\",\n\"analyze dependencies\", \"process API response\", \"large file analysis\",\n\"page snapshot\", \"browser snapshot\", \"DOM structure\", \"inspect page\",\n\"accessibility tree\", \"Playwright snapshot\",\n\"run tests\", \"test output\", \"coverage report\", \"git log\", \"recent commits\",\n\"diff between branches\", \"list containers\", \"pod status\", \"disk usage\",\n\"fetch docs\", \"API reference\", \"index documentation\",\n\"call API\", \"check response\", \"query results\",\n\"find TODOs\", \"count lines\", \"codebase statistics\", \"security audit\",\n\"outdated packages\", \"dependency tree\", \"cloud resources\", \"CI/CD output\".\nAlso triggers on ANY MCP tool output that may exceed 20 lines.\nSubagent routing is handled automatically via PreToolUse hook.",
+        "title": "The Context Guardian",
+        "links": {
+          "github": "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mksglu/context-mode",
+            "evaluator": "unknown",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "GitHub repository metadata verified at pinned intake review: 2,172 commits and 110 listed contributors; repository implementation source for context-mode.",
+            "commits": 2172,
+            "contributors": 110,
+            "sourceStartedAt": "2026-09-01",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned canonical upstream SKILL.md verified at commit 6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf; repository stars and skill-file count verified via GitHub API.",
+            "stars": 20473,
+            "skillCountInRepo": 11,
+            "sourceStartedAt": "2026-09-01",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:53:26Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill mksglu/context-mode"
+          },
+          {
+            "timestamp": "2026-09-06T16:53:42Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mksglu/context-mode (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:53:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:54:12Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T16:54:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 151.89,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 2/3 graded evidence sources"
+        },
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
     "feed-monitoring": [
       {
         "id": "nousresearch/feed-monitoring",
@@ -42450,6 +42556,9 @@
       "mbtiongson1/gaia-triage",
       "mbtiongson1/gaia-wiki-sync",
       "mbtiongson1/graphify-triage"
+    ],
+    "mksglu": [
+      "mksglu/context-mode"
     ],
     "mvanhorn": [
       "mvanhorn/last30days"
