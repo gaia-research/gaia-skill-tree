@@ -10,12 +10,19 @@ import pytest
 
 from gaia_cli.arbor import (
     ArborError,
+    EDGE_DECLARATION_SCHEMA,
+    EDGE_INTERPRETATION_SCHEMA,
+    EDGE_OBSERVATION_SCHEMA,
+    HH_ACCEPTANCE_SCHEMA,
+    HH_OBSERVATION_REF_SCHEMA,
     checkStore,
     contentDigest,
+    edgeKey,
     importSource,
     profilePath,
     readJson,
     replay,
+    runtimePath,
     validateRecord,
     writeAtomic,
 )
@@ -491,3 +498,269 @@ def test_profile_path_keeps_skill_identity_and_exact_hash_separate(tmp_path):
 def test_digest_is_stable_for_governed_records():
     record = declaration()
     assert contentDigest(record) == contentDigest(json.loads(json.dumps(record)))
+
+
+def makeEdgeStore(tmpPath: Path) -> Path:
+    contracts = Path(__file__).parents[1] / "registry" / "arbor" / "contracts"
+    shutil.copytree(contracts, tmpPath / "registry" / "arbor" / "contracts")
+    for skillId in ("edge-a", "edge-b", "edge-c", "edge-d"):
+        source = tmpPath / "registry" / "nodes" / "basic" / f"{skillId}.json"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_bytes(json.dumps({"id": skillId, "type": "basic"}, separators=(",", ":")).encode() + b"\n")
+    return tmpPath
+
+
+def edgeHash(root: Path, skillId: str) -> str:
+    return hashlib.sha256(
+        (json.dumps({"id": skillId, "type": "basic"}, separators=(",", ":")) + "\n").encode()
+    ).hexdigest()
+
+
+def edgePair(root: Path, left: str = "edge-a", right: str = "edge-b") -> dict:
+    return {
+        "from": {"id": left, "contentSha256": edgeHash(root, left)},
+        "to": {"id": right, "contentSha256": edgeHash(root, right)},
+    }
+
+
+def edgeDeclaration(root: Path, pair: dict | None = None, declarationId: str = "edge-declaration") -> dict:
+    return {
+        "schema": EDGE_DECLARATION_SCHEMA,
+        "declarationId": declarationId,
+        "declaredAt": "2026-09-01T00:00:00Z",
+        "pair": pair or edgePair(root),
+        "claims": [
+            {
+                "id": "same-claim",
+                "relation": "stabilizes",
+                "conditions": "under the synthetic fixture only",
+                "rationale": "synthetic contract coverage",
+                "authority": {"actor": "fixture/curator", "basis": "test"},
+            }
+        ],
+    }
+
+
+def edgeObservation(declarationDigest: str, pair: dict) -> dict:
+    environment = {
+        "model": "fixture-model",
+        "harness": "fixture-harness",
+        "artifacts": {
+            "taskSha256": TASK_HASH,
+            "fixtureSha256": FIXTURE_HASH,
+            "evaluatorSha256": EVALUATOR_HASH,
+        },
+    }
+    return {
+        "schema": EDGE_OBSERVATION_SCHEMA,
+        "pair": pair,
+        "target": {"declarationSha256": declarationDigest, "claimId": "same-claim"},
+        "benchmark": {"id": "edge-fixture", "version": "1"},
+        "control": {"definition": "control", "environment": environment},
+        "treatment": {"definition": "treatment", "environment": environment},
+        "provenance": {
+            "runner": "fixture-runner",
+            "observedAt": "2026-09-01T01:00:00Z",
+            "artifacts": [{"uri": "fixture://edge", "sha256": RUN_ARTIFACT_HASH}],
+        },
+        "measurements": [
+            {
+                "metric": "fixture-errors",
+                "unit": "count",
+                "control": {"value": 2},
+                "treatment": {"value": 1},
+            }
+        ],
+    }
+
+
+def edgeInterpretation(declarationDigest: str, pair: dict, observationDigest: str, support: str = "benchmark-confirmed") -> dict:
+    return {
+        "schema": EDGE_INTERPRETATION_SCHEMA,
+        "interpretationId": "edge-interpretation",
+        "interpretedAt": "2026-09-01T02:00:00Z",
+        "pair": pair,
+        "target": {"declarationSha256": declarationDigest, "claimId": "same-claim"},
+        "authority": {"actor": "fixture/curator", "basis": "governed fixture review"},
+        "support": support,
+        "rationale": "synthetic governed interpretation",
+        "observationSources": [observationDigest],
+    }
+
+
+def hhReference(digest: str = "6" * 64) -> dict:
+    return {
+        "schema": HH_OBSERVATION_REF_SCHEMA,
+        "ledgerRecordDigest": digest,
+        "benchmarkVersion": "fixture-1",
+        "harness": {"name": "fixture-harness", "version": "1"},
+        "model": "fixture-model",
+        "arm": "control",
+        "repeatIndex": 0,
+        "taskSetHash": TASK_HASH,
+    }
+
+
+def hhAcceptance(subject: dict, observationDigest: str) -> dict:
+    return {
+        "schema": HH_ACCEPTANCE_SCHEMA,
+        "acceptanceId": "fixture-hh-acceptance",
+        "acceptedAt": "2026-09-01T03:00:00Z",
+        "subject": subject,
+        "authority": {"actor": "fixture/curator", "basis": "research fixture"},
+        "indexId": "hell-heaven",
+        "indexVersion": "future-unpublished-version",
+        "resultDigest": "7" * 64,
+        "observationRefs": [observationDigest],
+    }
+
+
+def importArborRecord(root: Path, tmpPath: Path, name: str, record: dict) -> tuple[Path, str, bool]:
+    return importSource(writeRecord(tmpPath, name, record), root)
+
+
+def test_empty_arbor_replay_is_valid_and_deterministic(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    assert checkStore(root) == 0
+    first = replay(root)
+    edgeBytes = (root / "registry" / "arbor" / "edges.json").read_bytes()
+    second = replay(root)
+    assert first == second == []
+    assert edgeBytes == (root / "registry" / "arbor" / "edges.json").read_bytes()
+    assert readJson(root / "registry" / "arbor" / "edges.json")["edges"] == []
+    assert not list((root / "registry" / "arbor" / "sources").rglob("*.json"))
+
+
+def test_edge_schema_copies_arm_definitions_and_keeps_support_cardinality(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    benchmark = readJson(root / "registry" / "arbor" / "contracts" / "benchmark-receipt.schema.json")
+    observation = readJson(root / "registry" / "arbor" / "contracts" / "edge-observation.schema.json")
+    assert observation["definitions"]["arm"] == benchmark["definitions"]["arm"]
+    assert observation["definitions"]["environment"] == benchmark["definitions"]["environment"]
+    assert observation["definitions"]["artifacts"] == benchmark["definitions"]["artifacts"]
+    assert observation["definitions"]["measurement"] == benchmark["definitions"]["measurement"]
+    pair = edgePair(root)
+    record = edgeDeclaration(root, pair)
+    _, declarationDigest, _ = importArborRecord(root, tmp_path, "edge.json", record)
+    _, observationDigest, _ = importArborRecord(
+        root, tmp_path, "edge-observation.json", edgeObservation(declarationDigest, pair)
+    )
+    interpretationRecord = edgeInterpretation(declarationDigest, pair, observationDigest)
+    assert validateRecord(interpretationRecord, root) == EDGE_INTERPRETATION_SCHEMA
+    interpretationRecord["support"] = "expert-declared"
+    with pytest.raises(ArborError, match="expert-declared.*is not one of"):
+        validateRecord(interpretationRecord, root)
+    replay(root)
+    edge = readJson(root / "registry" / "arbor" / "edges.json")["edges"][0]
+    assert edge["support"] == "expert-declared"
+
+
+def test_edge_pair_rejects_self_and_unadmitted_or_mismatched_endpoints(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    selfPair = edgePair(root, "edge-a", "edge-a")
+    with pytest.raises(ArborError, match="self-edge"):
+        validateRecord(edgeDeclaration(root, selfPair), root)
+    missing = edgePair(root)
+    missing["to"] = {"id": "missing", "contentSha256": "0" * 64}
+    with pytest.raises(ArborError, match="canonical skill id does not exist"):
+        importArborRecord(root, tmp_path, "missing.json", edgeDeclaration(root, missing, "missing-edge"))
+    mismatched = edgePair(root)
+    mismatched["from"]["contentSha256"] = "0" * 64
+    with pytest.raises(ArborError, match="canonical skill hash mismatch"):
+        importArborRecord(root, tmp_path, "mismatch.json", edgeDeclaration(root, mismatched, "mismatch-edge"))
+
+
+def test_edge_observation_must_match_both_declaration_pair_and_target(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    _, declarationDigest, _ = importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root, pair))
+    badPair = edgePair(root, "edge-c", "edge-d")
+    with pytest.raises(ArborError, match="pair differs"):
+        importArborRecord(root, tmp_path, "cross-pair.json", edgeObservation(declarationDigest, badPair))
+
+
+def test_reversed_edge_pairs_are_distinct_and_edge_keys_include_declaration_identity(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    _, firstDigest, _ = importArborRecord(root, tmp_path, "first.json", edgeDeclaration(root, pair, "first-edge"))
+    reverse = {"from": pair["to"], "to": pair["from"]}
+    _, secondDigest, _ = importArborRecord(root, tmp_path, "second.json", edgeDeclaration(root, reverse, "second-edge"))
+    replay(root)
+    edges = readJson(root / "registry" / "arbor" / "edges.json")["edges"]
+    assert len(edges) == 2
+    assert {edge["declarationSource"] for edge in edges} == {firstDigest, secondDigest}
+    assert edges[0]["edgeKey"] != edges[1]["edgeKey"]
+    assert edgeKey(pair, {"declarationSha256": firstDigest, "claimId": "same-claim"}, "stabilizes") != edgeKey(
+        pair, {"declarationSha256": secondDigest, "claimId": "same-claim"}, "stabilizes"
+    )
+
+
+def test_parallel_edge_interpretations_are_rejected_until_superseded(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    _, declarationDigest, _ = importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root, pair))
+    _, observationDigest, _ = importArborRecord(
+        root, tmp_path, "observation.json", edgeObservation(declarationDigest, pair)
+    )
+    first = edgeInterpretation(declarationDigest, pair, observationDigest)
+    _, firstDigest, _ = importArborRecord(root, tmp_path, "interpretation.json", first)
+    competing = edgeInterpretation(declarationDigest, pair, observationDigest, "inconclusive")
+    competing["interpretationId"] = "competing-edge-interpretation"
+    with pytest.raises(ArborError, match="multiple active"):
+        importArborRecord(root, tmp_path, "competing.json", competing)
+    revised = edgeInterpretation(declarationDigest, pair, observationDigest, "benchmark-qualified")
+    revised["interpretationId"] = "revised-edge-interpretation"
+    revised["supersedesSha256"] = firstDigest
+    importArborRecord(root, tmp_path, "revised.json", revised)
+    replay(root)
+    assert readJson(root / "registry" / "arbor" / "edges.json")["edges"][0]["support"] == "benchmark-qualified"
+
+
+@pytest.mark.parametrize("field", ["prerequisite", "prerequisites", "prereqs", "fusion", "suiteComponents"])
+def test_edge_sources_reject_structural_fields_recursively(tmp_path, field):
+    root = makeEdgeStore(tmp_path)
+    record = edgeDeclaration(root)
+    record["claims"][0][field] = "not allowed"
+    with pytest.raises(ArborError, match="structural Arbor field is forbidden"):
+        validateRecord(record, root)
+
+
+def test_edge_source_rejects_recursive_prestige(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    record = edgeDeclaration(root)
+    record["claims"][0]["authority"]["stars"] = 5
+    with pytest.raises(ArborError, match="prestige field is forbidden"):
+        validateRecord(record, root)
+
+
+def test_hh_acceptance_is_absent_or_explicitly_unavailable_but_never_fabricated(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    source = root / "registry" / "nodes" / "basic" / "edge-a.json"
+    subject = {"id": "edge-a", "contentSha256": hashlib.sha256(source.read_bytes()).hexdigest()}
+    _, referenceDigest, _ = importArborRecord(root, tmp_path, "hh-ref.json", hhReference())
+    importArborRecord(root, tmp_path, "hh-acceptance.json", hhAcceptance(subject, referenceDigest))
+    replay(root)
+    runtimeFile = runtimePath(root / "registry" / "arbor", "edge-a", subject["contentSha256"])
+    runtime = readJson(runtimeFile)
+    assert runtime["lenses"]["claims"]["status"] == "absent-no-accepted-record"
+    assert runtime["lenses"]["hellHeaven"]["status"] == "unavailable-unsupported-payload"
+    assert runtime["lenses"]["hellHeaven"]["result"] is None
+    source.write_bytes(b'{"id":"edge-a","type":"basic","changed":true}\n')
+    replay(root)
+    stale = readJson(runtimeFile)
+    assert stale["lenses"]["hellHeaven"]["status"] == "absent-subject-version-mismatch"
+
+
+def test_endpoint_drift_drops_changed_lens_and_abstains_in_unchanged_lens(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    pair = edgePair(root)
+    importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root, pair))
+    replay(root)
+    aRuntime = runtimePath(root / "registry" / "arbor", "edge-a", edgeHash(root, "edge-a"))
+    bRuntime = runtimePath(root / "registry" / "arbor", "edge-b", edgeHash(root, "edge-b"))
+    (root / "registry" / "nodes" / "basic" / "edge-a.json").write_bytes(b'{"id":"edge-a","type":"basic","version":2}\n')
+    replay(root)
+    assert readJson(aRuntime)["lenses"]["interactions"]["edges"] == []
+    bEdges = readJson(bRuntime)["lenses"]["interactions"]["edges"]
+    assert len(bEdges) == 1
+    assert bEdges[0]["pairApplicable"] is False
