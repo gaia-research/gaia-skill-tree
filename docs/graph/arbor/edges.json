@@ -1,0 +1,9 @@
+{
+  "coverage": {
+    "absenceMeaning": "not-evaluated",
+    "pairsEvaluated": 0
+  },
+  "edgeSetVersion": "gaia.arbor-edge/v1",
+  "edges": [],
+  "schema": "gaia.arbor-edge-index/v1"
+}

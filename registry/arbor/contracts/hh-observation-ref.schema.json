@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.hh-observation-ref/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "ledgerRecordDigest", "benchmarkVersion", "harness", "model", "arm", "repeatIndex", "taskSetHash"],
+  "properties": {
+    "schema": {"const": "gaia.hh-observation-ref/v1"},
+    "ledgerRecordDigest": {"$ref": "#/definitions/sha256"},
+    "benchmarkVersion": {"$ref": "#/definitions/nonEmpty"},
+    "harness": {"$ref": "#/definitions/harness"},
+    "model": {"$ref": "#/definitions/nonEmpty"},
+    "arm": {"enum": ["control", "treatment"]},
+    "repeatIndex": {"type": "integer", "minimum": 0},
+    "taskSetHash": {"$ref": "#/definitions/sha256"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "harness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"$ref": "#/definitions/nonEmpty"},
+        "version": {"$ref": "#/definitions/nonEmpty"}
+      }
+    }
+  }
+}

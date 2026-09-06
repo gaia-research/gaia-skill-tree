@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-edge-declaration/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "declarationId", "declaredAt", "pair", "claims"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-edge-declaration/v1"},
+    "declarationId": {"$ref": "#/definitions/recordId"},
+    "declaredAt": {"type": "string", "format": "date-time"},
+    "pair": {"$ref": "#/definitions/pair"},
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/claim"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": {"$ref": "#/definitions/endpoint"},
+        "to": {"$ref": "#/definitions/endpoint"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "basis"],
+      "properties": {
+        "actor": {"$ref": "#/definitions/nonEmpty"},
+        "basis": {"$ref": "#/definitions/nonEmpty"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "relation", "conditions", "rationale", "authority"],
+      "properties": {
+        "id": {"$ref": "#/definitions/recordId"},
+        "relation": {"enum": ["stabilizes", "amplifies", "conflicts", "recovers", "compresses-after", "unlocks", "duplicates"]},
+        "conditions": {"$ref": "#/definitions/nonEmpty"},
+        "rationale": {"$ref": "#/definitions/nonEmpty"},
+        "authority": {"$ref": "#/definitions/authority"}
+      }
+    }
+  }
+}
