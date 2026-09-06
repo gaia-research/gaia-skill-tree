@@ -248,6 +248,19 @@
       }
     },
     {
+      "handle": "nateherkai",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nateherkai/scroll-craft",
+        "level": "3★",
+        "trustMagnitude": 82.22
+      },
+      "prestigeScore": 82.22,
+      "_links": {
+        "self": "/api/v1/contributors/nateherkai.json"
+      }
+    },
+    {
       "handle": "browser-use",
       "namedSkills": 1,
       "topSkill": {
@@ -404,7 +417,7 @@
       }
     }
   ],
-  "totalContributors": 31,
+  "totalContributors": 32,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

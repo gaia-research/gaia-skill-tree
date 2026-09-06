@@ -1,0 +1,36 @@
+{
+  "handle": "nateherkai",
+  "namedSkills": [
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "nateherkai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "genericSkillRef": "scroll-driven-web-design"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "nateherkai/scroll-craft",
+    "level": "3★",
+    "trustMagnitude": 82.22
+  },
+  "prestigeScore": 82.22,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/nateherkai.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -301,6 +301,7 @@
 | ○ postgres-best-practices | Intrinsic Skill | — | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | — | `/quantum-circuit-programming` |
+| ○ Scroll-Driven Web Design | Intrinsic Skill | 3★ | `/scroll-driven-web-design` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | — | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |

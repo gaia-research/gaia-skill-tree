@@ -1439,6 +1439,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="scroll-driven-web-design" label="Scroll-Driven Web Design">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="scroll-world" label="Scroll World">
         <attvalues>
           <attvalue for="level" value="" />

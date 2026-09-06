@@ -421,6 +421,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/supabase-postgres-best-practices
   ○ /prompt-caching
   ○ ████████/qiskit
+  ○ nateherkai/scroll-craft  [3★]
   ○ oso95/scroll-world  [3★]
   ○ /self-consistency
   ○ /semantic-cache

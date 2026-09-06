@@ -1,9 +1,9 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 206,
     "S": 3,
     "A": 21,
-    "B": 65,
+    "B": 66,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
@@ -444,6 +444,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "trustMagnitude": 82.22,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/retro",
