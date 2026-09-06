@@ -1,15 +1,15 @@
 {
   "version": "8.1.1",
-  "generatedAt": "2026-09-06T17:04:53Z",
+  "generatedAt": "2026-09-06T17:58:01Z",
   "summary": {
-    "total": 208,
+    "total": 209,
     "S": 3,
     "A": 22,
-    "B": 67,
+    "B": 68,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
-    "up": 1
+    "up": 0
   },
   "rows": [
     {
@@ -327,14 +327,14 @@
       "branch": "unique"
     },
     {
-      "skillId": "garrytan/concept-synthesis",
+      "skillId": "garrytan/gbrain",
       "tm": 121.52,
       "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 121.52
@@ -1035,7 +1035,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "garrytan/brain-operations",
+      "skillId": "garrytan/brain-ops",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "4★",
@@ -1082,6 +1082,22 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "skillId": "garrytan/concept-synthesis",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/cso",

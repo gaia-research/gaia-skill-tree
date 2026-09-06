@@ -84,6 +84,7 @@
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
 | · /full-stack-developer | Fusion | — | `/full-stack-developer` |
 | · /function-calling | Fusion | — | `/function-calling` |
+| · [garrytan](../docs/u/garrytan/)/gbrain | Fusion | 4★ | `/gbrain` |
 | ○ /generate-sql | Basic | — | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic | 2★ | `/generate-test` |
 | ○ /generate-text | Basic | — | `/generate-text` |
@@ -109,7 +110,7 @@
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
-| · [garrytan](../docs/u/garrytan/)/brain-operations | Fusion | 3★ | `/knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
 | ○ ████████/firecrawl-research-index | Basic | — | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |

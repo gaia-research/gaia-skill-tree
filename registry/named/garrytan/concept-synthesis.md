@@ -51,9 +51,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:29Z'
-suiteComponents:
-- garrytan/brain-operations
-- garrytan/capture
+suiteRef: "garrytan/gbrain"
 ---
 
 ## Installation

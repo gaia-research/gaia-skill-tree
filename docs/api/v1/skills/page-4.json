@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "nexu-io",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "nousresearch/feed-monitoring",
       "name": "Feed Monitoring",
       "level": "2★",
@@ -730,7 +747,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 191,
+  "totalSkills": 192,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

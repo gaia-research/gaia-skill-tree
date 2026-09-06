@@ -5,9 +5,9 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 121.52,
-  "overallTrustGrade": "A",
-  "branch": "suite",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
@@ -15,11 +15,11 @@
     "contributor": "/api/v1/contributors/garrytan.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 140.0,
+  "fusionScore": 80.0,
   "fusionScoreVersion": "yggdrasil-iii-v1",
   "fusionBreakdown": {
-    "directCount": 4,
-    "transitiveCount": 7,
+    "directCount": 2,
+    "transitiveCount": 4,
     "maxDepth": 2,
     "nestedSuiteCount": 0
   },
@@ -84,9 +84,5 @@
   ],
   "links": {
     "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md"
-  },
-  "suiteComponents": [
-    "garrytan/brain-operations",
-    "garrytan/capture"
-  ]
+  }
 }

@@ -55,7 +55,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:27Z'
-suiteRef: garrytan/concept-synthesis
+suiteRef: "garrytan/gbrain"
 ---
 
 ## Installation

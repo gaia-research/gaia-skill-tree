@@ -11221,8 +11221,8 @@
     ],
     "knowledge-management": [
       {
-        "id": "garrytan/brain-operations",
-        "name": "Brain Operations",
+        "id": "garrytan/brain-ops",
+        "name": "Brain Ops",
         "contributor": "garrytan",
         "origin": false,
         "genericSkillRef": "knowledge-management",
@@ -11272,9 +11272,15 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md; changed notes, stars"
+          },
+          {
+            "timestamp": "2026-09-06T17:51:45Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from garrytan/brain-operations to garrytan/brain-ops"
           }
         ],
-        "suiteRef": "garrytan/concept-synthesis",
+        "suiteRef": "garrytan/gbrain",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -11907,7 +11913,7 @@
             "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md; changed notes, stars"
           }
         ],
-        "suiteRef": "garrytan/concept-synthesis",
+        "suiteRef": "garrytan/gbrain",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -13088,15 +13094,12 @@
             "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md; changed notes, stars"
           }
         ],
-        "suiteComponents": [
-          "garrytan/brain-operations",
-          "garrytan/capture"
-        ],
+        "suiteRef": "garrytan/gbrain",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 121.52,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13107,20 +13110,16 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "suite",
+        "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "only 2/3 components carry graded evidence"
-        },
-        "fusionScore": 140.0,
+        "fusionScore": 80.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
-          "directCount": 4,
-          "transitiveCount": 7,
+          "directCount": 2,
+          "transitiveCount": 4,
           "maxDepth": 2,
           "nestedSuiteCount": 0
         }
@@ -15401,6 +15400,100 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "gbrain": [
+      {
+        "id": "garrytan/gbrain",
+        "name": "GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "gbrain",
+        "status": "named",
+        "level": "4★",
+        "description": "The installable GBrain router and capstone for knowledge capture, operations, and concept synthesis.",
+        "title": "GBrain — Knowledge Intelligence Suite",
+        "links": {
+          "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md",
+            "evaluator": "unknown",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned upstream router at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; root README documents the canonical install path and orchestrates the suite. Live repository has 29,650 stars and 73 bundled skills; repo-wide adoption is discounted by skill count.",
+            "stars": 29650,
+            "skillCountInRepo": 73,
+            "sourceStartedAt": "2026-09-03",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:51:46Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill garrytan/gbrain"
+          },
+          {
+            "timestamp": "2026-09-06T17:51:57Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Updated via `gaia dev fuse`: suiteRef=garrytan/gbrain, suiteComponents+=['garrytan/brain-ops', 'garrytan/capture', 'garrytan/concept-synthesis']."
+          },
+          {
+            "timestamp": "2026-09-06T17:52:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:52:54Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "suiteComponents": [
+          "garrytan/brain-ops",
+          "garrytan/capture",
+          "garrytan/concept-synthesis"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 121.52,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 200.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 10,
+          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -42515,7 +42608,7 @@
     "garrytan": [
       "garrytan/benchmark-models",
       "garrytan/benchmark",
-      "garrytan/brain-operations",
+      "garrytan/brain-ops",
       "garrytan/browse",
       "garrytan/canary",
       "garrytan/capture",
@@ -42534,6 +42627,7 @@
       "garrytan/document-release",
       "garrytan/freeze",
       "garrytan/garrytan",
+      "garrytan/gbrain",
       "garrytan/gstack-upgrade",
       "garrytan/gstack",
       "garrytan/guard",

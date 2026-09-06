@@ -1,6 +1,6 @@
 ---
-id: garrytan/brain-operations
-name: Brain Operations
+id: garrytan/brain-ops
+name: Brain Ops
 contributor: garrytan
 origin: false
 genericSkillRef: knowledge-management
@@ -32,6 +32,10 @@ timeline:
   contributor: unknown
   details: 'Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md;
     changed notes, stars'
+- timestamp: '2026-09-06T17:51:45Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from garrytan/brain-operations to garrytan/brain-ops
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
   evaluator: mbtiongson1
@@ -46,7 +50,7 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:25Z'
-suiteRef: garrytan/concept-synthesis
+suiteRef: "garrytan/gbrain"
 ---
 
 ## Installation

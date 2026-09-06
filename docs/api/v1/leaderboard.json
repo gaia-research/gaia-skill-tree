@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 208,
+    "total": 209,
     "S": 3,
     "A": 22,
-    "B": 67,
+    "B": 68,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
-    "up": 1
+    "up": 0
   },
   "rows": [
     {
@@ -218,10 +218,10 @@
       "branch": "unique"
     },
     {
-      "id": "garrytan/concept-synthesis",
+      "id": "garrytan/gbrain",
       "trustMagnitude": 121.52,
       "grade": "A",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "github-stars-own": 121.52
       },
@@ -721,7 +721,7 @@
       "branch": "standard"
     },
     {
-      "id": "garrytan/brain-operations",
+      "id": "garrytan/brain-ops",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "4★",
@@ -753,6 +753,17 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/cso",

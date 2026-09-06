@@ -59,15 +59,16 @@
           "garrytan/unfreeze"
         ],
         "garrytan/gbrain": [
-          "garrytan/brain-operations",
+          "garrytan/brain-ops",
           "garrytan/capture",
-          "garrytan/concept-synthesis"
+          "garrytan/concept-synthesis",
+          "garrytan/gbrain"
         ]
       },
       "topSkill": "garrytan/gstack",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 50,
+      "count": 51,
       "namedSkills": [
         {
           "id": "garrytan/gstack",
@@ -80,6 +81,16 @@
           "fileSeal": "gstack-seal.svg"
         },
         {
+          "id": "garrytan/gbrain",
+          "name": "GBrain",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/gbrain",
+          "file": "gbrain.svg",
+          "fileSeal": "gbrain-seal.svg"
+        },
+        {
           "id": "garrytan/benchmark",
           "name": "Benchmark",
           "rank": 3,
@@ -90,14 +101,14 @@
           "fileSeal": "benchmark-seal.svg"
         },
         {
-          "id": "garrytan/brain-operations",
-          "name": "Brain Operations",
+          "id": "garrytan/brain-ops",
+          "name": "Brain Ops",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/brain-operations",
-          "file": "brain-operations.svg",
-          "fileSeal": "brain-operations-seal.svg"
+          "slash": "/brain-ops",
+          "file": "brain-ops.svg",
+          "fileSeal": "brain-ops-seal.svg"
         },
         {
           "id": "garrytan/browse",
@@ -144,7 +155,7 @@
           "name": "Concept Synthesis",
           "rank": 3,
           "type": "fusion",
-          "branch": "suite",
+          "branch": "standard",
           "slash": "/concept-synthesis",
           "file": "concept-synthesis.svg",
           "fileSeal": "concept-synthesis-seal.svg"

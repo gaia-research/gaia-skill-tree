@@ -446,24 +446,25 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
-      "id": "garrytan/concept-synthesis",
-      "name": "Concept Synthesis",
-      "level": "3★",
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
       "trustMagnitude": 121.52,
       "overallTrustGrade": "A",
-      "fusionScore": 140.0,
+      "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
-        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+        "self": "/api/v1/skills/garrytan/gbrain.json"
       },
-      "genericSkillRef": "concept-synthesis",
+      "genericSkillRef": "gbrain",
       "suiteComponents": [
-        "garrytan/brain-operations",
-        "garrytan/capture"
+        "garrytan/brain-ops",
+        "garrytan/capture",
+        "garrytan/concept-synthesis"
       ]
     },
     {
@@ -1072,7 +1073,7 @@
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 191,
+  "totalSkills": 192,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

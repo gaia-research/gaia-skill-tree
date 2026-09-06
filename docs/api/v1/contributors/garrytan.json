@@ -67,24 +67,25 @@
       ]
     },
     {
-      "id": "garrytan/concept-synthesis",
-      "name": "Concept Synthesis",
-      "level": "3★",
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
       "trustMagnitude": 121.52,
       "overallTrustGrade": "A",
-      "fusionScore": 140.0,
+      "fusionScore": 200.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
-        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+        "self": "/api/v1/skills/garrytan/gbrain.json"
       },
-      "genericSkillRef": "concept-synthesis",
+      "genericSkillRef": "gbrain",
       "suiteComponents": [
-        "garrytan/brain-operations",
-        "garrytan/capture"
+        "garrytan/brain-ops",
+        "garrytan/capture",
+        "garrytan/concept-synthesis"
       ]
     },
     {
@@ -190,8 +191,8 @@
       "genericSkillRef": "evaluate-output"
     },
     {
-      "id": "garrytan/brain-operations",
-      "name": "Brain Operations",
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
       "level": "3★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -202,7 +203,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/garrytan/brain-operations.json"
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
       },
       "genericSkillRef": "knowledge-management"
     },
@@ -239,6 +240,23 @@
         "self": "/api/v1/skills/garrytan/capture.json"
       },
       "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "genericSkillRef": "concept-synthesis"
     },
     {
       "id": "garrytan/cso",
@@ -910,17 +928,17 @@
       "genericSkillRef": "guardrails"
     }
   ],
-  "namedSkillsCount": 50,
+  "namedSkillsCount": 51,
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
     "trustMagnitude": 355.66
   },
-  "prestigeScore": 2644.68,
+  "prestigeScore": 2694.68,
   "gradeDistribution": {
     "S": 1,
     "A": 1,
-    "B": 23,
+    "B": 24,
     "C": 25
   },
   "_links": {
