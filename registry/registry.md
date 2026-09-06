@@ -44,6 +44,7 @@
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
 | · /computational-science-platform | Fusion | — | `/computational-science-platform` |
 | ○ /computer-use | Basic | — | `/computer-use` |
+| · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 3★ | `/concept-synthesis` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic | 2★ | `/context-compression` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
@@ -83,6 +84,7 @@
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
 | · /full-stack-developer | Fusion | — | `/full-stack-developer` |
 | · /function-calling | Fusion | — | `/function-calling` |
+| · [garrytan](../docs/u/garrytan/)/gbrain | Fusion | 4★ | `/gbrain` |
 | ○ /generate-sql | Basic | — | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic | 2★ | `/generate-test` |
 | ○ /generate-text | Basic | — | `/generate-text` |
@@ -108,7 +110,7 @@
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
-| · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
 | ○ ████████/firecrawl-research-index | Basic | — | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
@@ -142,7 +144,7 @@
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 3★ | `/performance-tuning` |
 | · ████████/personal | Fusion | — | `/personal` |
-| · ████████/obsidian-vault | Fusion | — | `/personal-knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/capture | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |

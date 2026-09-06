@@ -11219,6 +11219,483 @@
         }
       }
     ],
+    "knowledge-management": [
+      {
+        "id": "garrytan/brain-ops",
+        "name": "Brain Ops",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Performs the brain-first read, enrich, write, attribution, and backlink cycle for a persistent knowledge base.",
+        "title": "GBrain Brain Operations",
+        "links": {
+          "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned upstream implementation at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; live GitHub repository has 29,650 stars and 73 bundled skills; source is concrete and installable through the canonical gbrain router.",
+            "stars": 29650,
+            "skillCountInRepo": 73,
+            "sourceStartedAt": "2026-09-03",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:53:42Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill garrytan/brain-operations"
+          },
+          {
+            "timestamp": "2026-09-06T16:54:25Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:55:25Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-06T17:04:15Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md; changed notes, stars"
+          },
+          {
+            "timestamp": "2026-09-06T17:51:45Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from garrytan/brain-operations to garrytan/brain-ops"
+          },
+          {
+            "timestamp": "2026-09-06T18:04:23Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "garrytan/gbrain",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "garrytan/setup-gbrain",
+        "name": "Setup GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a sample query.",
+        "title": "Gstack Setup GBrain — Knowledge Base Initialisation",
+        "catalogRef": "garrytan-setup-gbrain",
+        "tags": [
+          "knowledge-management",
+          "setup",
+          "gbrain"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+            "type": "repo",
+            "commits": 323,
+            "contributors": 9,
+            "trustNumber": 70.0,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-08-30",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:26Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:48Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "18eed9c69c084ddcd0196f554daf5e6c803ba87e7f791913dd34aba0622c5968",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "garrytan/sync-gbrain",
+        "name": "Sync GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors.",
+        "title": "Gstack Sync GBrain — Knowledge Base Sync",
+        "catalogRef": "garrytan-sync-gbrain",
+        "tags": [
+          "knowledge-management",
+          "sync",
+          "gbrain"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors. (backfilled — class-to-type migration)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 323,
+            "contributors": 9,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-08-30",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:37Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:26Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:57Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:48Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "97434bc31b7e68b729dc168b56aa01b8f5d5ea68b629888b88cbf6f0df094fea",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "mattpocock/teach",
+        "name": "Teach",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Teach the user a new skill or concept in a workspace with mission, reference materials, and lessons.",
+        "title": "Teach",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "class": "B"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-20",
+            "type": "repo-own",
+            "trustNumber": 65.0,
+            "notes": "I13 classify: repo-own evidence backfill (skill file)",
+            "skillCountInRepo": 34,
+            "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 45.0,
+            "grade": "C",
+            "notes": "I13 classify: contributor-owned skill directory evidence",
+            "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 65.0,
+            "grade": "B",
+            "notes": "I13 classify: YouTube video 'Learn anything with the /teach skill' (86K views) — mattpocock's own channel",
+            "views": 86000,
+            "sourceStartedAt": "2026-06-19"
+          }
+        ],
+        "createdAt": "2026-06-19",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-06-19T13:02:46Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill mattpocock/teach"
+          },
+          {
+            "timestamp": "2026-06-19T13:07:26Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:51Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:51Z",
+            "action": "evidence_graded",
+            "contributor": "mbtiongson1",
+            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:53Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:53Z",
+            "action": "evidence_graded",
+            "contributor": "mbtiongson1",
+            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach as C (trustNumber: 45.0)"
+          },
+          {
+            "timestamp": "2026-06-19T18:39:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T18:39:16Z",
+            "action": "evidence_graded",
+            "contributor": "mbtiongson1",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T18:41:33Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:14Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/productivity"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:54Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 0.0 -> 44.48, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:45Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 44.48 -> 44.48, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "mattpocock/skills",
+        "trustMagnitude": 44.48,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "793d80005c490b798e5d2190fa98e44ec3444c00826304912094a2ac2b3c1733",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
     "detect-anomaly": [
       {
         "id": "garrytan/canary",
@@ -11363,6 +11840,286 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "personal-knowledge-management": [
+      {
+        "id": "garrytan/capture",
+        "name": "Capture",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "personal-knowledge-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Captures thoughts and content into a persistent personal knowledge brain through one idempotent ingestion entrypoint.",
+        "title": "GBrain Capture",
+        "links": {
+          "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned upstream implementation at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; live GitHub repository has 29,650 stars and 73 bundled skills; source is concrete and installable through the canonical gbrain router.",
+            "stars": 29650,
+            "skillCountInRepo": 73,
+            "sourceStartedAt": "2026-09-03",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:53:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill garrytan/capture"
+          },
+          {
+            "timestamp": "2026-09-06T16:54:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:55:27Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-06T16:56:31Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T16:56:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:04:17Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md; changed notes, stars"
+          },
+          {
+            "timestamp": "2026-09-06T18:04:24Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "garrytan/gbrain",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "mattpocock/obsidian-vault",
+        "name": "Obsidian Vault Manager",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "personal-knowledge-management",
+        "status": "named",
+        "level": "1★",
+        "description": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
+        "title": "The Obsidian Vault Mapper",
+        "installable": false,
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "Obsidian vault management and PKM automation. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 137,
+            "contributors": 3,
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "updatedAt": "2026-09-01",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "C",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; obsidian-vault is part of this repo",
+            "stars": 243413,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "B",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
+          }
+        ],
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:43Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:33Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:35Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:10Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "deleted upstream for security: hardcoded personal vault path, was model-invocable"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:53Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:40Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T00:00:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "1★",
+            "details": "Demoted to 1★ due to dead/deprecated blob link under META §2.4"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:45Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "mattpocock/skills",
+        "trustMagnitude": 94.92,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "3b0168a25c73ef667766bdced806a474b5d28ed21fa997b3be4854e1cd51946f",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 40.0,
@@ -12284,6 +13041,98 @@
           "directCount": 3,
           "transitiveCount": 3,
           "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "concept-synthesis": [
+      {
+        "id": "garrytan/concept-synthesis",
+        "name": "Concept Synthesis",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "concept-synthesis",
+        "status": "named",
+        "level": "3★",
+        "description": "Synthesizes and curates raw knowledge concepts into a grounded, tiered intellectual map.",
+        "title": "GBrain Concept Synthesis",
+        "links": {
+          "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned upstream implementation at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; live GitHub repository has 29,650 stars and 73 bundled skills; source is concrete and installable through the canonical gbrain router.",
+            "stars": 29650,
+            "skillCountInRepo": 73,
+            "sourceStartedAt": "2026-09-03",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:53:45Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill garrytan/concept-synthesis"
+          },
+          {
+            "timestamp": "2026-09-06T16:54:01Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Updated via `gaia dev fuse`: suiteRef=garrytan/concept-synthesis, suiteComponents+=['garrytan/brain-operations', 'garrytan/capture', 'garrytan/concept-synthesis']."
+          },
+          {
+            "timestamp": "2026-09-06T16:54:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:55:29Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:04:19Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md; changed notes, stars"
+          }
+        ],
+        "suiteRef": "garrytan/gbrain",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -14563,6 +15412,100 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "gbrain": [
+      {
+        "id": "garrytan/gbrain",
+        "name": "GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "gbrain",
+        "status": "named",
+        "level": "4★",
+        "description": "The installable GBrain router and capstone for knowledge capture, operations, and concept synthesis.",
+        "title": "GBrain — Knowledge Intelligence Suite",
+        "links": {
+          "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md",
+            "evaluator": "unknown",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Pinned upstream router at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; root README documents the canonical install path and orchestrates the suite. Live repository has 29,650 stars and 73 bundled skills; repo-wide adoption is discounted by skill count.",
+            "stars": 29650,
+            "skillCountInRepo": 73,
+            "sourceStartedAt": "2026-09-03",
+            "grade": "A"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:51:46Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill garrytan/gbrain"
+          },
+          {
+            "timestamp": "2026-09-06T17:51:57Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Updated via `gaia dev fuse`: suiteRef=garrytan/gbrain, suiteComponents+=['garrytan/brain-ops', 'garrytan/capture', 'garrytan/concept-synthesis']."
+          },
+          {
+            "timestamp": "2026-09-06T17:52:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:52:54Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "suiteComponents": [
+          "garrytan/brain-ops",
+          "garrytan/capture",
+          "garrytan/concept-synthesis"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 121.52,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 200.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 6,
+          "transitiveCount": 10,
+          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -17734,387 +18677,6 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "knowledge-management": [
-      {
-        "id": "garrytan/setup-gbrain",
-        "name": "Setup GBrain",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "knowledge-management",
-        "status": "named",
-        "level": "2★",
-        "description": "Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a sample query.",
-        "title": "Gstack Setup GBrain — Knowledge Base Initialisation",
-        "catalogRef": "garrytan-setup-gbrain",
-        "tags": [
-          "knowledge-management",
-          "setup",
-          "gbrain"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-            "type": "repo",
-            "commits": 323,
-            "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:36Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:26Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:15Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:36:26Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:48Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "18eed9c69c084ddcd0196f554daf5e6c803ba87e7f791913dd34aba0622c5968",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "garrytan/sync-gbrain",
-        "name": "Sync GBrain",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "knowledge-management",
-        "status": "named",
-        "level": "2★",
-        "description": "Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors.",
-        "title": "Gstack Sync GBrain — Knowledge Base Sync",
-        "catalogRef": "garrytan-sync-gbrain",
-        "tags": [
-          "knowledge-management",
-          "sync",
-          "gbrain"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors. (backfilled — class-to-type migration)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 323,
-            "contributors": 9,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:37Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:26Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:16Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:07:57Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:48Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "97434bc31b7e68b729dc168b56aa01b8f5d5ea68b629888b88cbf6f0df094fea",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "mattpocock/teach",
-        "name": "Teach",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "knowledge-management",
-        "status": "named",
-        "level": "2★",
-        "description": "Teach the user a new skill or concept in a workspace with mission, reference materials, and lessons.",
-        "title": "Teach",
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
-            "evaluator": "unknown",
-            "date": "2026-06-19",
-            "class": "B"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-20",
-            "type": "repo-own",
-            "trustNumber": 65.0,
-            "notes": "I13 classify: repo-own evidence backfill (skill file)",
-            "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-20",
-            "type": "self-attestation",
-            "trustNumber": 45.0,
-            "grade": "C",
-            "notes": "I13 classify: contributor-owned skill directory evidence",
-            "sourceStartedAt": "2026-06-19"
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-20",
-            "type": "social-signal",
-            "trustNumber": 65.0,
-            "grade": "B",
-            "notes": "I13 classify: YouTube video 'Learn anything with the /teach skill' (86K views) — mattpocock's own channel",
-            "views": 86000,
-            "sourceStartedAt": "2026-06-19"
-          }
-        ],
-        "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-06-19T13:02:46Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill mattpocock/teach"
-          },
-          {
-            "timestamp": "2026-06-19T13:07:26Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:51Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:51Z",
-            "action": "evidence_graded",
-            "contributor": "mbtiongson1",
-            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md as B (trustNumber: 65.0)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:53Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach (type: self-attestation)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:53Z",
-            "action": "evidence_graded",
-            "contributor": "mbtiongson1",
-            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach as C (trustNumber: 45.0)"
-          },
-          {
-            "timestamp": "2026-06-19T18:39:16Z",
-            "action": "evidence_added",
-            "contributor": "mbtiongson1",
-            "details": "Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type: social-signal)"
-          },
-          {
-            "timestamp": "2026-06-19T18:39:16Z",
-            "action": "evidence_graded",
-            "contributor": "mbtiongson1",
-            "details": "Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B (trustNumber: 65.0)"
-          },
-          {
-            "timestamp": "2026-06-19T18:41:33Z",
-            "action": "rank_up",
-            "contributor": "mbtiongson1",
-            "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
-          },
-          {
-            "timestamp": "2026-08-20T04:55:14Z",
-            "action": "suite_ref_set",
-            "contributor": "mbtiongson1",
-            "details": "Set suiteRef to mattpocock/productivity"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:54Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 0.0 -> 44.48, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:45Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 44.48 -> 44.48, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "mattpocock/skills",
-        "trustMagnitude": 44.48,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "793d80005c490b798e5d2190fa98e44ec3444c00826304912094a2ac2b3c1733",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
           "nestedSuiteCount": 0
         }
       }
@@ -26117,184 +26679,6 @@
           "directCount": 7,
           "transitiveCount": 12,
           "maxDepth": 2,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "personal-knowledge-management": [
-      {
-        "id": "mattpocock/obsidian-vault",
-        "name": "Obsidian Vault Manager",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "personal-knowledge-management",
-        "status": "named",
-        "level": "1★",
-        "description": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
-        "title": "The Obsidian Vault Mapper",
-        "installable": false,
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-22",
-            "notes": "Obsidian vault management and PKM automation. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 137,
-            "contributors": 3,
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills",
-            "evaluator": "unknown",
-            "updatedAt": "2026-09-01",
-            "date": "2026-06-20",
-            "type": "github-stars-own",
-            "trustNumber": 88.0,
-            "grade": "C",
-            "notes": "mattpocock/skills suite — 137k GitHub stars; obsidian-vault is part of this repo",
-            "stars": 243413,
-            "skillCountInRepo": 21,
-            "sourceStartedAt": "2025-01-01"
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
-            "evaluator": "unknown",
-            "date": "2026-06-20",
-            "type": "social-signal",
-            "trustNumber": 82.0,
-            "grade": "B",
-            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
-            "views": 412000,
-            "sourceStartedAt": "2025-01-01"
-          }
-        ],
-        "createdAt": "2026-05-21",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:43Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:33Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:33Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:35Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:35Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T17:13:03Z",
-            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-19T11:49:10Z",
-            "action": "upstream_deprecated",
-            "contributor": "unknown",
-            "previousValue": null,
-            "newValue": null,
-            "details": "deleted upstream for security: hardcoded personal vault path, was model-invocable"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:53Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:40Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T00:00:00Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "1★",
-            "details": "Demoted to 1★ due to dead/deprecated blob link under META §2.4"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:45Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "mattpocock/skills",
-        "trustMagnitude": 94.92,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "3b0168a25c73ef667766bdced806a474b5d28ed21fa997b3be4854e1cd51946f",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
           "nestedSuiteCount": 0
         }
       }
@@ -42236,10 +42620,13 @@
     "garrytan": [
       "garrytan/benchmark-models",
       "garrytan/benchmark",
+      "garrytan/brain-ops",
       "garrytan/browse",
       "garrytan/canary",
+      "garrytan/capture",
       "garrytan/careful",
       "garrytan/codex",
+      "garrytan/concept-synthesis",
       "garrytan/context-restore",
       "garrytan/context-save",
       "garrytan/cso",
@@ -42252,6 +42639,7 @@
       "garrytan/document-release",
       "garrytan/freeze",
       "garrytan/garrytan",
+      "garrytan/gbrain",
       "garrytan/gstack-upgrade",
       "garrytan/gstack",
       "garrytan/guard",

@@ -5,6 +5,7 @@
   "contributors": {
     "garrytan": {
       "repos": [
+        "garrytan/gbrain",
         "garrytan/gstack"
       ],
       "skillsByRepo": {
@@ -56,12 +57,18 @@
           "garrytan/skillify",
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
+        ],
+        "garrytan/gbrain": [
+          "garrytan/brain-ops",
+          "garrytan/capture",
+          "garrytan/concept-synthesis",
+          "garrytan/gbrain"
         ]
       },
       "topSkill": "garrytan/gstack",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 47,
+      "count": 51,
       "namedSkills": [
         {
           "id": "garrytan/gstack",
@@ -74,6 +81,16 @@
           "fileSeal": "gstack-seal.svg"
         },
         {
+          "id": "garrytan/gbrain",
+          "name": "GBrain",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/gbrain",
+          "file": "gbrain.svg",
+          "fileSeal": "gbrain-seal.svg"
+        },
+        {
           "id": "garrytan/benchmark",
           "name": "Benchmark",
           "rank": 3,
@@ -82,6 +99,16 @@
           "slash": "/benchmark",
           "file": "benchmark.svg",
           "fileSeal": "benchmark-seal.svg"
+        },
+        {
+          "id": "garrytan/brain-ops",
+          "name": "Brain Ops",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/brain-ops",
+          "file": "brain-ops.svg",
+          "fileSeal": "brain-ops-seal.svg"
         },
         {
           "id": "garrytan/browse",
@@ -104,6 +131,16 @@
           "fileSeal": "canary-seal.svg"
         },
         {
+          "id": "garrytan/capture",
+          "name": "Capture",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/capture",
+          "file": "capture.svg",
+          "fileSeal": "capture-seal.svg"
+        },
+        {
           "id": "garrytan/careful",
           "name": "Careful",
           "rank": 3,
@@ -112,6 +149,16 @@
           "slash": "/careful",
           "file": "careful.svg",
           "fileSeal": "careful-seal.svg"
+        },
+        {
+          "id": "garrytan/concept-synthesis",
+          "name": "Concept Synthesis",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/concept-synthesis",
+          "file": "concept-synthesis.svg",
+          "fileSeal": "concept-synthesis-seal.svg"
         },
         {
           "id": "garrytan/cso",

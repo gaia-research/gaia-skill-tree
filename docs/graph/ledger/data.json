@@ -1,11 +1,11 @@
 {
   "version": "8.1.1",
-  "generatedAt": "2026-09-06T16:19:01Z",
+  "generatedAt": "2026-09-06T18:04:55Z",
   "summary": {
-    "total": 205,
+    "total": 209,
     "S": 3,
-    "A": 21,
-    "B": 65,
+    "A": 22,
+    "B": 68,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
@@ -325,6 +325,22 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "skillId": "garrytan/gbrain",
+      "tm": 121.52,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 121.52
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "skillId": "ayghri/i-have-adhd",
@@ -1019,6 +1035,22 @@
       "branch": "standard"
     },
     {
+      "skillId": "garrytan/brain-ops",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "garrytan/canary",
       "tm": 50.0,
       "grade": "B",
@@ -1031,6 +1063,38 @@
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/capture",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/concept-synthesis",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"

@@ -1,9 +1,9 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 209,
     "S": 3,
-    "A": 21,
-    "B": 65,
+    "A": 22,
+    "B": 68,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
@@ -216,6 +216,17 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "id": "garrytan/gbrain",
+      "trustMagnitude": 121.52,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 121.52
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -710,6 +721,17 @@
       "branch": "standard"
     },
     {
+      "id": "garrytan/brain-ops",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "garrytan/canary",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -717,6 +739,28 @@
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/capture",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
