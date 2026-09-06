@@ -73,7 +73,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · /agent-eval
   │  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ ○ /score-relevance
-  │  ├─ ○ vercel/find-skills  [2★]
+  │  ├─ ○ vercel/find-skills  [3★]
   │  └─ ○ /statistical-analysis
   ├─ · garrytan/health  [2★]  (↑ see above)
   ├─ ○ garrytan/pair-agent  [2★]
@@ -236,6 +236,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ ruvnet/dual-collect  [2★]
      └─ ○ ruvnet/dual-coordinate  [2★]
 
+◆ heygen-com/hyperframes  [4★]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ heygen-com/hyperframes-cli  [3★]
+  ├─ ○ heygen-com/hyperframes-animation  [3★]
+  ├─ ○ ████████/remotion-studio
+  ├─ ○ heygen-com/hyperframes-core  [3★]
+  ├─ ○ ████████/remotion-maps
+  ├─ ○ ████████/remotion-saas
+  ├─ ○ ████████/remotion-interactivity
+  └─ ○ heygen-com/embedded-captions  [3★]
+
 ◆ pbakaus/impeccable  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/design-html  [3★]
@@ -321,17 +332,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /tool-use
   └─ ○ ████████/firecrawl-research-index
 
-◆ ████████/remotion-best-practices
-─────────────────────────────────────────────────────────────────
-  ├─ ○ ████████/remotion-create
-  ├─ ○ ████████/remotion-markup
-  ├─ ○ ████████/remotion-studio
-  ├─ ○ ████████/remotion-render
-  ├─ ○ ████████/remotion-maps
-  ├─ ○ ████████/remotion-saas
-  ├─ ○ ████████/remotion-interactivity
-  └─ ○ ████████/remotion-captions
-
 ◆ ████████/agent-fusion
 ─────────────────────────────────────────────────────────────────
   ├─ ○ disler/opinion  [2★]
@@ -401,21 +401,26 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 ══════════════════════════════════════════════════════════════════════
 
   ○ ████████/agent-reach
+  ○ heygen-com/hyperframes-audio  [3★]
   ○ /autonomous-engineering-platform
   ○ gaia-research/ci-churn  [2★]
   ○ /clinical-data-retrieval
+  ○ heygen-com/hyperframes-creative  [3★]
   ○ ████████/update-unique-churches
   ○ /cultural-localization
+  ○ heygen-com/figma  [3★]
   ○ ████████/attendees
   ○ ████████/export-attendees
   ○ ████████/triage-conference
   ○ ████████/ticket-transfer
   ○ ████████/evidence-attestation
   ○ /few-shot-learning
-  ○ ████████/upgrade-laravel-v13
+  ○ heygen-com/remotion-to-hyperframes  [3★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ ████████/financial-assistance
   ○ leonxlnx/imagegen-frontend-web  [3★]
+  ○ heygen-com/slideshow  [3★]
+  ○ heygen-com/media-use  [3★]
   ○ ████████/huggingface-vision-trainer
   ○ /pathway-ontology-retrieval
   ○ ████████/supabase-postgres-best-practices

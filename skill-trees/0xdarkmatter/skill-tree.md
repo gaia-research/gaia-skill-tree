@@ -87,7 +87,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · /agent-eval
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · ○ /score-relevance
-  │  ├─ · ○ vercel/find-skills  [2★]
+  │  ├─ · ○ vercel/find-skills  [3★]
   │  └─ · ○ /statistical-analysis
   ├─ ✓ · garrytan/health  [2★]  (↑ see above)
   ├─ · ○ garrytan/pair-agent  [2★]

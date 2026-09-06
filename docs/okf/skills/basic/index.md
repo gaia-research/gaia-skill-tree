@@ -4,6 +4,7 @@
 * [Adaptive Pattern Learning](/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
 * [Agent Reach](/agent-reach.md) - Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.
 * [Audience Model](/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
+* [Audio Mixing](/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
 * [Auto-Review](/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
 * [Autonomous Engineering Platform](/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
@@ -23,9 +24,11 @@
 * [Computer Use](/computer-use.md) - Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.
 * [Context Compression](/context-compression.md) - Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).
 * [Core Platform Implementation](/core-platform-implementation.md) - Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.
+* [Creative Direction](/creative-direction.md) - Define the visual concept, tone, structure, and design decisions that guide a coherent creative production.
 * [Cultural Localization](/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
 * [Decision Ticket Planning](/decision-ticket-planning.md) - Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.
+* [Design Source Import](/design-source-import.md) - Import design sources into a composition workflow as reusable visual assets and layout inputs without depending on a particular design vendor.
 * [Diff Content](/diff-content.md) - Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.
 * [Document Editing](/document-editing.md) - Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.
 * [Domain Modeling](/domain-modeling.md) - Build and maintain a shared domain model with ubiquitous language and architectural decision records.
@@ -55,11 +58,13 @@
 * [Hypothesis Generation](/hypothesis-generate.md) - Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.
 * [Image Caption](/image-caption.md) - Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.
 * [Image Generate](/image-generate.md) - Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.
+* [Interactive Presentation Authoring](/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
 * [Literature Search](/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.
 * [Logical Inference](/logical-inference.md) - Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.
 * [MCP Integration](/mcp-integration.md) - Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.
 * [Math Reason](/math-reason.md) - Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.
+* [Media Asset Orchestration](/media-asset-orchestration.md) - Discover, prepare, organize, and route media assets through a repeatable composition workflow.
 * [Memory Pattern Design](/memory-pattern-design.md) - Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.
 * [Molecular Databases](/molecular-databases.md) - Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).
 * [Multi-Repo Coordination](/multi-repo-coordination.md) - Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.

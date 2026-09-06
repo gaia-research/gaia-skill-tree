@@ -1,9 +1,9 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 224,
     "S": 3,
-    "A": 21,
-    "B": 65,
+    "A": 22,
+    "B": 83,
     "C": 99,
     "ungraded": 17,
     "floor": 0,
@@ -202,6 +202,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "trustMagnitude": 163.63,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "vercel-labs/vercel-react-best-practices",
@@ -945,6 +957,222 @@
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/embedded-captions",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/faceless-explainer",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/figma",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-animation",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-audio",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-core",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-creative",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-keyframes",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-registry",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/media-use",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/pr-to-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/product-launch-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/remotion-to-hyperframes",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/slideshow",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/talking-head-recut",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"

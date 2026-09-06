@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 140,
+      "count": 145,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -25,6 +25,11 @@
           "id": "audience-model",
           "name": "Audience Model",
           "summary": "Adapts tone, complexity, and framing of output to match a target audience profile."
+        },
+        {
+          "id": "audio-mixing",
+          "name": "Audio Mixing",
+          "summary": "Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing."
         },
         {
           "id": "auto-review",
@@ -117,6 +122,11 @@
           "summary": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts."
         },
         {
+          "id": "creative-direction",
+          "name": "Creative Direction",
+          "summary": "Define the visual concept, tone, structure, and design decisions that guide a coherent creative production."
+        },
+        {
           "id": "crm-data-cleanup",
           "name": "CRM Data Cleanup",
           "summary": "Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases."
@@ -135,6 +145,11 @@
           "id": "decision-ticket-planning",
           "name": "Decision Ticket Planning",
           "summary": "Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear."
+        },
+        {
+          "id": "design-source-import",
+          "name": "Design Source Import",
+          "summary": "Import design sources into a composition workflow as reusable visual assets and layout inputs without depending on a particular design vendor."
         },
         {
           "id": "diff-content",
@@ -292,6 +307,11 @@
           "summary": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done."
         },
         {
+          "id": "interactive-presentation-authoring",
+          "name": "Interactive Presentation Authoring",
+          "summary": "Design and implement presentations with structured slides, navigation, and interactive visual content."
+        },
+        {
           "id": "issue-triage",
           "name": "Issue Triage",
           "summary": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff."
@@ -320,6 +340,11 @@
           "id": "mcp-integration",
           "name": "MCP Integration",
           "summary": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers \\u2014 enumerate available tools, execute calls, and handle responses across any MCP-compatible backend."
+        },
+        {
+          "id": "media-asset-orchestration",
+          "name": "Media Asset Orchestration",
+          "summary": "Discover, prepare, organize, and route media assets through a repeatable composition workflow."
         },
         {
           "id": "memory-pattern-design",

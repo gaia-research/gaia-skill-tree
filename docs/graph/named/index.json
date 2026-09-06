@@ -20448,6 +20448,190 @@
         }
       }
     ],
+    "video-captions": [
+      {
+        "id": "heygen-com/embedded-captions",
+        "name": "Embedded Captions",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "video-captions",
+        "status": "named",
+        "level": "3★",
+        "description": "Subtitle and caption synchronization engine for code-defined video, generating word-level animated typography, styling, and transcript alignments.",
+        "title": "The Typographic Director",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:20:26Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/embedded-captions"
+          },
+          {
+            "timestamp": "2026-09-06T16:20:39Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T16:21:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:01Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:47Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:39Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:24Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:19Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/embedded-captions.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "eace656a5b0345855a22825e833bfd82684113ce7608e11939295951c65b06b4",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update embedded-captions\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-captions",
+        "name": "Remotion Captions",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-captions",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-captions",
+        "title": "Remotion Captions",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:06Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-captions"
+          },
+          {
+            "timestamp": "2026-08-11T08:38:17Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "26835c8c07bd3ed9c551d7c211495036e249bdb30e3a449dab86fc1b2de73eb1",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
     "video-composition": [
       {
         "id": "heygen-com/hyperframes",
@@ -20456,7 +20640,7 @@
         "origin": false,
         "genericSkillRef": "video-composition",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Suite orchestrator and router for HyperFrames: programmatic video composition framework compiling HTML, CSS, JavaScript, WebGL, WebGPU, and Canvas into production videos.",
         "title": "HyperFrames",
         "links": {
@@ -20468,10 +20652,11 @@
             "evaluator": "mbtiongson1",
             "date": "2026-09-06",
             "type": "github-stars-own",
-            "notes": "Live verified GitHub stargazers for heygen-com/hyperframes",
+            "notes": "Host repository stars for heygen-com/hyperframes",
             "stars": 44308,
             "skillCountInRepo": 20,
-            "grade": "A"
+            "grade": "A",
+            "sourceStartedAt": "2025-06-16"
           },
           {
             "source": "https://github.com/heygen-com/hyperframes",
@@ -20494,7 +20679,7 @@
           }
         ],
         "createdAt": "2026-09-06",
-        "updatedAt": "2026-09-06",
+        "updatedAt": "2026-09-07",
         "timeline": [
           {
             "timestamp": "2026-09-06T15:29:17Z",
@@ -20525,16 +20710,754 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:13Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=heygen-com/hyperframes, suiteComponents+=['heygen-com/hyperframes-core', 'heygen-com/hyperframes-cli', 'heygen-com/hyperframes-animation', 'heygen-com/embedded-captions']."
+          },
+          {
+            "timestamp": "2026-09-06T16:21:50Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-06T16:48:08Z",
+            "action": "evidence_graded",
+            "contributor": "mbtiongson1",
+            "details": "Updated evidence #0 metadata from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md; changed notes, sourceStartedAt"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:15Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=heygen-com/hyperframes, suiteComponents+=['heygen-com/hyperframes-keyframes', 'heygen-com/hyperframes-creative', 'heygen-com/hyperframes-audio', 'heygen-com/hyperframes-registry', 'heygen-com/media-use', 'heygen-com/motion-graphics', 'heygen-com/music-to-video', 'heygen-com/pr-to-video', 'heygen-com/product-launch-video', 'heygen-com/remotion-to-hyperframes', 'heygen-com/slideshow', 'heygen-com/talking-head-recut', 'heygen-com/faceless-explainer', 'heygen-com/figma']."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:44Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:44:42Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=heygen-com/hyperframes."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:41Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 163.63, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:36Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes.md"
           }
         ],
-        "type": "fusion",
-        "installBody": "Install via the HyperFrames CLI:\n\n```bash\nnpx hyperframes init\n```\n\nOr install using the Agent Skills CLI:\n\n```bash\nnpx skills add heygen-com/hyperframes --skill hyperframes\n```\n\nFor the complete suite:\n\n```bash\nnpx skills add heygen-com/hyperframes --all\n```",
-        "role": "variant",
+        "suiteComponents": [
+          "heygen-com/embedded-captions",
+          "heygen-com/faceless-explainer",
+          "heygen-com/figma",
+          "heygen-com/hyperframes-animation",
+          "heygen-com/hyperframes-audio",
+          "heygen-com/hyperframes-cli",
+          "heygen-com/hyperframes-core",
+          "heygen-com/hyperframes-creative",
+          "heygen-com/hyperframes-keyframes",
+          "heygen-com/hyperframes-registry",
+          "heygen-com/media-use",
+          "heygen-com/motion-graphics",
+          "heygen-com/music-to-video",
+          "heygen-com/pr-to-video",
+          "heygen-com/product-launch-video",
+          "heygen-com/remotion-to-hyperframes",
+          "heygen-com/slideshow",
+          "heygen-com/talking-head-recut"
+        ],
         "trustMagnitude": 163.63,
         "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "121fc2097a60cc4a77facdf6a9cca5474518053ba003a0930980deade4d443f0",
+        "type": "fusion",
+        "installBody": "Initialize a HyperFrames project with the upstream CLI:\n\n```bash\nnpx hyperframes init\n```\n\nTo install or update the upstream HyperFrames entry skill:\n\n```bash\nnpx skills add heygen-com/hyperframes --skill hyperframes\n```\n\nThe entry skill is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md).",
+        "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        },
+        "fusionScore": 280.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 26,
+          "transitiveCount": 26,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/faceless-explainer",
+        "name": "Faceless Explainer",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Turn arbitrary text — an article, notes, a topic, a brief — into a faceless explainer video: there is no site or footage to capture, so the visuals are invented per scene (typography, abstract graphics, diagrams, data-viz). Use for topic explainers, concept breakdowns, how-tos, listicles. Not a video built from a website (/product-launch-video — promo or tour). Unclear → /hyperframes.",
+        "title": "The Explainer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:11Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/faceless-explainer"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:12Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:51Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:52Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:30Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:30Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:18Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:13Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:46:28Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:20Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/faceless-explainer.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "87adfb1c249e8058c6b8c873a939e2c1027a4be6166ea899d538d369918e99da",
+        "type": "fusion",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update faceless-explainer\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 8,
+          "transitiveCount": 8,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/music-to-video",
+        "name": "Music To Video",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video — lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces → the input-matched workflow (see /hyperframes). Unclear → /hyperframes.",
+        "title": "The Beat Director",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/music-to-video"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:05Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:40Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:41Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:00Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:00Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:13Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:26Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:14Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:30Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/music-to-video.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "5116ad71a3ccf5f1af53353e015029d692e3186ea5512ee30fb7e0f4d8c9226e",
+        "type": "fusion",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update music-to-video\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 8,
+          "transitiveCount": 8,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/pr-to-video",
+        "name": "Pr To Video",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video — changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear → /hyperframes.",
+        "title": "The Change Narrator",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:06Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/pr-to-video"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:06Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:42Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:43Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:04Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:04Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:14Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:26Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:18Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:31Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/pr-to-video.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "9b10dcfb1007f4f0a42af3f38eba661a55a59fc08ed0ef97660d359561362328",
+        "type": "fusion",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update pr-to-video\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 8,
+          "transitiveCount": 8,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/product-launch-video",
+        "name": "Product Launch Video",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video — SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too — the brief carries the show-it-as-is intent. Unclear → /hyperframes.",
+        "title": "The Launch Director",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:07Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/product-launch-video"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:08Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:44Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:45Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:09Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:09Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:15Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:27Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:23Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:32Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/product-launch-video.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "24908bdf10da061372653b0884648c50e5bff1eb9b35554a85173ff889e0d60d",
+        "type": "fusion",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update product-launch-video\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 160.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 8,
+          "transitiveCount": 8,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/talking-head-recut",
+        "name": "Talking Head Recut",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "3★",
+        "description": "Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on \"graphic overlays\", \"on-screen graphics\", \"package / dress up my video\". Not plain subtitles (/embedded-captions). Unclear → /hyperframes.",
+        "title": "The Overlay Producer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:10Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/talking-head-recut"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:11Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:49Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:50Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:25Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:25Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:30Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:36Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:35Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/talking-head-recut.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "c9cb9c9b16b1d3b6ebb3b046622fdb3f13557d2097e1930b58b2426cbee13ee9",
+        "type": "fusion",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update talking-head-recut\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -20638,6 +21561,1961 @@
           "directCount": 19,
           "transitiveCount": 24,
           "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "design-source-import": [
+      {
+        "id": "heygen-com/figma",
+        "name": "Figma",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "design-source-import",
+        "status": "named",
+        "level": "3★",
+        "description": "Import Figma content into a HyperFrames composition — rendered assets, brand tokens, components, storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI), connector-assisted motion when available, and shaders from a connector or native export. Use when the user pastes a figma.com link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.",
+        "title": "The Design Importer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:13Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/figma"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:13Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:53Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:54Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:31Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:19Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:46:32Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:21Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/figma.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "a2654f4ded16802f97b6f1ab7a93f9f037508d6bf94f89ce9474f9ebe2fd4484",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update figma\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "timeline-animation": [
+      {
+        "id": "heygen-com/hyperframes-animation",
+        "name": "HyperFrames Animation",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "3★",
+        "description": "Timeline-based motion driver compiling HTML/CSS/DOM transforms, physics springs, and bezier easings into frame-accurate video sequences.",
+        "title": "The Motion Architect",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:20:45Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-animation"
+          },
+          {
+            "timestamp": "2026-09-06T16:20:50Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T16:21:04Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:05Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:49Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:38Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:36Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:22Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-animation.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "4a027e8d6ddf69143866cd705bc7da2534b437562cddbfd53725dd818e06e5df",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-animation\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/hyperframes-keyframes",
+        "name": "Hyperframes Keyframes",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "3★",
+        "description": "Use when a HyperFrames composition needs a punch-in, punch-out, zoom, reframe, Ken Burns treatment, camera move, visual match/whip handoff, or other seek-safe 2D/3D keyframes; also for GSAP, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth, or `hyperframes keyframes` diagnostics. Don't use for broad scene strategy, brand design, media sourcing, captions, or general video planning.",
+        "title": "The Camera Choreographer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:22:57Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-keyframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:22:58Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:31Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:39Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:09Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:26Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-keyframes.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "dc6a6214e8e49b308ba83a5cab662a266325385b261a6a7030b3eaca26b4a58a",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-keyframes\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "heygen-com/motion-graphics",
+        "name": "Motion Graphics",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "3★",
+        "description": "A short, design-led motion graphic where motion is the message — kinetic typography, stat count-up, chart/data-viz hit, logo sting / brand lockup, lower-third / callout / social overlay, animated map (highlight regions, connect places, zoom to a location), animated tweet / news-article / headline, webpage / UI animation (scroll, cursor, callouts), or fusing a real image's geometry into a chart. Usually under 10s (up to ~30s), no narration or live-action subject; renders to MP4 or transparent overlay. Longer / narrated / multi-scene → /general-video. Unclear → /hyperframes.",
+        "title": "The Motion Designer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/motion-graphics"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:04Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:39Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:40Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:55Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:24:55Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:12Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:25Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:29Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/motion-graphics.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "a894b7d1e00852d8f9c6090e1b6ddbe8d1cdb1d4ecb178d8ebe836e512e77f9b",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update motion-graphics\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-markup",
+        "name": "Remotion Markup",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-markup",
+        "title": "Remotion Markup",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-markup"
+          },
+          {
+            "timestamp": "2026-08-11T08:38:09Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "1a7ed7380b4b7abbdd3f2b8db4989efd6a14f897fc5f21b380fd55383a4ac25d",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "audio-mixing": [
+      {
+        "id": "heygen-com/hyperframes-audio",
+        "name": "Hyperframes Audio",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "audio-mixing",
+        "status": "named",
+        "level": "3★",
+        "description": "Use when audio already placed in a HyperFrames composition needs to be mixed: fade-in/fade-out, crossfade, track gain or volume, volume automation, ducking, a music bed that fights a voiceover (voiceover carve), effects on a track (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), automation envelopes drawn on a track's volume or any effect parameter, or one submix bus carrying a chain, a fader and an automation clock for several tracks at once (`<hf-audio-group>`). Don't use for sourcing or generating audio — finding BGM, SFX, or making a voiceover is `/media-use`. Don't use for clip timing or track layout, which is `/hyperframes-core`.",
+        "title": "The Sound Engineer",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:22:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-audio"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:00Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:35Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:45Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:24:45Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:10Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:40Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:23Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-audio.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "40ca0ba04221e95d0d6c8631fba630e9f326c8baa5042723112bc134ee1732a9",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-audio\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "video-scaffolding": [
+      {
+        "id": "heygen-com/hyperframes-cli",
+        "name": "HyperFrames CLI",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "video-scaffolding",
+        "status": "named",
+        "level": "3★",
+        "description": "Project initialization, template scaffolding, skill lifecycle management, and CI render runner for HyperFrames video projects.",
+        "title": "The Project Scaffolder",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:20:39Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-cli"
+          },
+          {
+            "timestamp": "2026-09-06T16:20:44Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T16:21:02Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:03Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:48Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:37Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:24Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-cli.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "23d8a654046f302410f88ae8b0616b389073d363079af40e5898eea0399fd8e7",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-cli\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-create",
+        "name": "Remotion Create",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-scaffolding",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-create",
+        "title": "Remotion Create",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-create"
+          },
+          {
+            "timestamp": "2026-08-11T08:38:08Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "bf4f01f0e69659c2ee73f568ac0361c38c47ce520dbbfba63a0f7e7f4df65620",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "video-rendering": [
+      {
+        "id": "heygen-com/hyperframes-core",
+        "name": "HyperFrames Core",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "video-rendering",
+        "status": "named",
+        "level": "3★",
+        "description": "Core rendering pipeline orchestrating headless browser execution, WebGL canvas capture, audio-video multiplexing, and deterministic frame export.",
+        "title": "The DOM Render Engine",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T16:20:51Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-core"
+          },
+          {
+            "timestamp": "2026-09-06T16:20:56Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T16:21:06Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T16:21:50Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:36Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:46:48Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:25Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-core.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "cf9d1fb0358cdec1d7d8a8f242fada6426ac8c54f90e632634b9e3ceeea61ae4",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-core\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-render",
+        "name": "Remotion Render",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-rendering",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-render",
+        "title": "Remotion Render",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-render"
+          },
+          {
+            "timestamp": "2026-08-11T08:38:11Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "ea4c074fe21df6a5c4d8862755caeed65bdc51653ff429c82b679b7ca08d4656",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "creative-direction": [
+      {
+        "id": "heygen-com/hyperframes-creative",
+        "name": "Hyperframes Creative",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "creative-direction",
+        "status": "named",
+        "level": "3★",
+        "description": "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.",
+        "title": "The Visual Director",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:22:58Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-creative"
+          },
+          {
+            "timestamp": "2026-09-06T17:22:59Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:33Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:40Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:09Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:22Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:46:52Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:26Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-creative.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "e725359a39a5f5f74747f0751d786fbc78bf59c23b4c3514f0525b551bbe3cfe",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-creative\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "skill-discovery": [
+      {
+        "id": "heygen-com/hyperframes-registry",
+        "name": "Hyperframes Registry",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "skill-discovery",
+        "status": "named",
+        "level": "3★",
+        "description": "Install, discover, and wire registry blocks and components into HyperFrames compositions. Use when running hyperframes add or hyperframes catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with hyperframes.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea → scaffold → validate → PR).",
+        "title": "The Component Curator",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/hyperframes-registry"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:01Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:35Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:36Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:46Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:11Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:47:01Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:27Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-registry.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "2f995c79ee7935d08203cbea8681ad7d02cddca21194e8a31dda1a6f0f9d53e2",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update hyperframes-registry\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "vercel/find-skills",
+        "name": "Find Skills",
+        "contributor": "vercel",
+        "origin": true,
+        "genericSkillRef": "skill-discovery",
+        "status": "named",
+        "level": "2★",
+        "description": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
+        "title": "The Registry Scout",
+        "catalogRef": "vercel-find-skills",
+        "tags": [
+          "skill-registry",
+          "discovery",
+          "skills-sh",
+          "auto-install"
+        ],
+        "links": {
+          "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks\" install counts, and auto-installs matching skills. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 330,
+            "contributors": 102,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-08-30",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:33:03Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-29T17:16:01Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "e9b0e41aa29e16173ea74e7e600f001baa7f877f306c0cd7611aaf9130e63fd7",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "media-asset-orchestration": [
+      {
+        "id": "heygen-com/media-use",
+        "name": "Media Use",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "media-asset-orchestration",
+        "status": "named",
+        "level": "3★",
+        "description": "Agent Media OS, the single skill for every media need in a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.",
+        "title": "The Media Steward",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/media-use"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:03Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:37Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:38Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:24:50Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:24:50Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:12Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:47:05Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:28Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/media-use.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "2e45ab8fae336b018999deee913253fd3833b9e7798796ea715f6df576984a20",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update media-use\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "framework-upgrade": [
+      {
+        "id": "heygen-com/remotion-to-hyperframes",
+        "name": "Remotion To Hyperframes",
+        "contributor": "heygen-com",
+        "origin": false,
+        "genericSkillRef": "framework-upgrade",
+        "status": "named",
+        "level": "3★",
+        "description": "Port an existing Remotion (React) composition's source to HyperFrames HTML. Use ONLY on an explicit ask to port/convert/migrate/translate a Remotion source — one-way, Remotion-only. A passing Remotion mention, reference-only code, or \"make something like my Remotion video\" is a fresh build (/general-video). Unclear → /hyperframes.",
+        "title": "The Framework Migrator",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:08Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/remotion-to-hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:09Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:46Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:47Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:15Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:15Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:16Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:43:28Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-09-06T17:47:27Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:33Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/remotion-to-hyperframes.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "94671e8b7596a705d9591888138e8c94a68e354eeffe32e64c3afa09fa3f4ed3",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update remotion-to-hyperframes\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md).",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "laravel/upgrade-laravel-v13",
+        "name": "Upgrade Laravel v13",
+        "contributor": "laravel",
+        "origin": false,
+        "genericSkillRef": "framework-upgrade",
+        "status": "named",
+        "level": "1★",
+        "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
+        "title": "The Versionist's Trial",
+        "catalogRef": "laravel-upgrade-laravel-v13",
+        "installable": false,
+        "tags": [
+          "laravel",
+          "php",
+          "framework-upgrade",
+          "migration"
+        ],
+        "evidence": [],
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-09-04",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:42Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/laravel/boost/issues/698 as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:18Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "91d49986f363f2adcc80b2fb47dbb4b7bba964704c3dcc8473d47b0e237fe001",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "remotion-dev/remotion-upgrade",
+        "name": "Remotion Upgrade",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "framework-upgrade",
+        "status": "named",
+        "level": "1★",
+        "description": "remotion-dev named skill for remotion-upgrade",
+        "title": "Remotion Upgrade",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-30",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:07Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-upgrade"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "trustMagnitude": 0.0,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "17b5e80201454812ce0baf7c193213ff568cdb7ecb04da34ed66a1b7f3d635cf",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "interactive-presentation-authoring": [
+      {
+        "id": "heygen-com/slideshow",
+        "name": "Slideshow",
+        "contributor": "heygen-com",
+        "origin": true,
+        "genericSkillRef": "interactive-presentation-authoring",
+        "status": "named",
+        "level": "3★",
+        "description": "Author a HyperFrames slideshow — a presentation, pitch deck, or interactive deck with discrete slides, fragment reveals, branching, hotspot navigation, and built-in presenter mode with speaker notes; also converts an existing page into a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly ask for a slideshow, confirm before authoring. Unclear → /hyperframes.",
+        "title": "The Deck Architect",
+        "links": {
+          "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "github-stars-own",
+            "notes": "Host repository stars for heygen-com/hyperframes",
+            "stars": 44308,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/heygen-com/hyperframes",
+            "evaluator": "mbtiongson1",
+            "date": "2026-09-07",
+            "type": "repo-own",
+            "notes": "Host repository metrics for heygen-com/hyperframes",
+            "commits": 4199,
+            "contributors": 57,
+            "skillCountInRepo": 20,
+            "sourceStartedAt": "2025-06-16",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-09-07",
+        "updatedAt": "2026-09-07",
+        "timeline": [
+          {
+            "timestamp": "2026-09-06T17:23:09Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill heygen-com/slideshow"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:10Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Updated GitHub link to https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:48Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:23:49Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-06T17:25:21Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-06T17:25:21Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to heygen-com/hyperframes"
+          },
+          {
+            "timestamp": "2026-09-06T17:28:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-06T17:47:32Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-06T18:00:34Z",
+            "action": "installation_updated",
+            "contributor": "mbtiongson1",
+            "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/slideshow.md"
+          }
+        ],
+        "suiteRef": "heygen-com/hyperframes",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "88078d54c48c105a254a7069ecc7c74fe00a46b5301cd4348a1354f75ad16185",
+        "type": "basic",
+        "installBody": "Install or update this workflow with the HyperFrames CLI:\n\n```bash\nnpx hyperframes skills update slideshow\n```\n\nThe workflow is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md).",
+        "role": "origin",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
           "nestedSuiteCount": 0
         }
       }
@@ -22886,155 +25764,6 @@
           "directCount": 3,
           "transitiveCount": 12,
           "maxDepth": 3,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "framework-upgrade": [
-      {
-        "id": "laravel/upgrade-laravel-v13",
-        "name": "Upgrade Laravel v13",
-        "contributor": "laravel",
-        "origin": false,
-        "genericSkillRef": "framework-upgrade",
-        "status": "named",
-        "level": "1★",
-        "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
-        "title": "The Versionist's Trial",
-        "catalogRef": "laravel-upgrade-laravel-v13",
-        "installable": false,
-        "tags": [
-          "laravel",
-          "php",
-          "framework-upgrade",
-          "migration"
-        ],
-        "evidence": [],
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:42Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/laravel/boost/issues/698 as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:40Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-06T04:54:18Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:51Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "91d49986f363f2adcc80b2fb47dbb4b7bba964704c3dcc8473d47b0e237fe001",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "remotion-dev/remotion-upgrade",
-        "name": "Remotion Upgrade",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "framework-upgrade",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-upgrade",
-        "title": "Remotion Upgrade",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:07Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-upgrade"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "remotion-dev/remotion-best-practices",
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "17b5e80201454812ce0baf7c193213ff568cdb7ecb04da34ed66a1b7f3d635cf",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
           "nestedSuiteCount": 0
         }
       }
@@ -30769,136 +33498,6 @@
         }
       }
     ],
-    "video-captions": [
-      {
-        "id": "remotion-dev/remotion-captions",
-        "name": "Remotion Captions",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "video-captions",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-captions",
-        "title": "Remotion Captions",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:06Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-captions"
-          },
-          {
-            "timestamp": "2026-08-11T08:38:17Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "remotion-dev/remotion-best-practices",
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "26835c8c07bd3ed9c551d7c211495036e249bdb30e3a449dab86fc1b2de73eb1",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "video-scaffolding": [
-      {
-        "id": "remotion-dev/remotion-create",
-        "name": "Remotion Create",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "video-scaffolding",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-create",
-        "title": "Remotion Create",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:01Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-create"
-          },
-          {
-            "timestamp": "2026-08-11T08:38:08Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "remotion-dev/remotion-best-practices",
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "bf4f01f0e69659c2ee73f568ac0361c38c47ce520dbbfba63a0f7e7f4df65620",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
     "wiki-search": [
       {
         "id": "remotion-dev/remotion-docs",
@@ -31088,71 +33687,6 @@
         }
       }
     ],
-    "timeline-animation": [
-      {
-        "id": "remotion-dev/remotion-markup",
-        "name": "Remotion Markup",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "timeline-animation",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-markup",
-        "title": "Remotion Markup",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:02Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-markup"
-          },
-          {
-            "timestamp": "2026-08-11T08:38:09Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "remotion-dev/remotion-best-practices",
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "1a7ed7380b4b7abbdd3f2b8db4989efd6a14f897fc5f21b380fd55383a4ac25d",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
     "generative-media": [
       {
         "id": "remotion-dev/remotion-multimedia",
@@ -31208,71 +33742,6 @@
           "directCount": 2,
           "transitiveCount": 2,
           "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "video-rendering": [
-      {
-        "id": "remotion-dev/remotion-render",
-        "name": "Remotion Render",
-        "contributor": "remotion-dev",
-        "origin": false,
-        "genericSkillRef": "video-rendering",
-        "status": "named",
-        "level": "1★",
-        "description": "remotion-dev named skill for remotion-render",
-        "title": "Remotion Render",
-        "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-08-10T14:48:03Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill remotion-dev/remotion-render"
-          },
-          {
-            "timestamp": "2026-08-11T08:38:11Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:57Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "remotion-dev/remotion-best-practices",
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "ea4c074fe21df6a5c4d8862755caeed65bdc51653ff429c82b679b7ca08d4656",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
           "nestedSuiteCount": 0
         }
       }
@@ -36227,107 +38696,6 @@
           "passes": false,
           "reason": "only 2/3 graded evidence sources"
         },
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      }
-    ],
-    "skill-discovery": [
-      {
-        "id": "vercel/find-skills",
-        "name": "Find Skills",
-        "contributor": "vercel",
-        "origin": true,
-        "genericSkillRef": "skill-discovery",
-        "status": "named",
-        "level": "2★",
-        "description": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
-        "title": "The Registry Scout",
-        "catalogRef": "vercel-find-skills",
-        "tags": [
-          "skill-registry",
-          "discovery",
-          "skills-sh",
-          "auto-install"
-        ],
-        "links": {
-          "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-04-30",
-            "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks\" install counts, and auto-installs matching skills. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 330,
-            "contributors": 102,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-30",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:33:03Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:21Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:39Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:45Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-29T17:16:01Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "e9b0e41aa29e16173ea74e7e600f001baa7f877f306c0cd7611aaf9130e63fd7",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -42442,7 +44810,25 @@
       "gsd-build/verify-work"
     ],
     "heygen-com": [
-      "heygen-com/hyperframes"
+      "heygen-com/embedded-captions",
+      "heygen-com/faceless-explainer",
+      "heygen-com/figma",
+      "heygen-com/hyperframes-animation",
+      "heygen-com/hyperframes-audio",
+      "heygen-com/hyperframes-cli",
+      "heygen-com/hyperframes-core",
+      "heygen-com/hyperframes-creative",
+      "heygen-com/hyperframes-keyframes",
+      "heygen-com/hyperframes-registry",
+      "heygen-com/hyperframes",
+      "heygen-com/media-use",
+      "heygen-com/motion-graphics",
+      "heygen-com/music-to-video",
+      "heygen-com/pr-to-video",
+      "heygen-com/product-launch-video",
+      "heygen-com/remotion-to-hyperframes",
+      "heygen-com/slideshow",
+      "heygen-com/talking-head-recut"
     ],
     "huggingface": [
       "huggingface/hf-cli",

@@ -109,6 +109,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="audio-mixing" label="Audio Mixing">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="auto-review" label="Auto-Review">
         <attvalues>
           <attvalue for="level" value="" />
@@ -347,6 +354,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="creative-direction" label="Creative Direction">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="crm-data-cleanup" label="CRM Data Cleanup">
         <attvalues>
           <attvalue for="level" value="" />
@@ -401,6 +415,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="fusion" />
+        </attvalues>
+      </node>
+      <node id="design-source-import" label="Design Source Import">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="design-system-extraction" label="Design System Extraction">
@@ -830,6 +851,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="interactive-presentation-authoring" label="Interactive Presentation Authoring">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="issue-triage" label="Issue Triage">
         <attvalues>
           <attvalue for="level" value="" />
@@ -926,6 +954,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="fusion" />
+        </attvalues>
+      </node>
+      <node id="media-asset-orchestration" label="Media Asset Orchestration">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="memory-manage" label="Memory Manage">
