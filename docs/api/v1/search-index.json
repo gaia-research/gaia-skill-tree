@@ -507,6 +507,29 @@
     ]
   },
   {
+    "id": "garrytan/concept-synthesis",
+    "name": "Concept Synthesis",
+    "contributor": "garrytan",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 121.52,
+    "branch": "suite",
+    "tokens": [
+      "concept",
+      "concepts",
+      "curates",
+      "grounded",
+      "intellectual",
+      "into",
+      "knowledge",
+      "map",
+      "raw",
+      "synthesis",
+      "synthesizes",
+      "tiered"
+    ]
+  },
+  {
     "id": "ayghri/i-have-adhd",
     "name": "I Have ADHD",
     "contributor": "ayghri",
@@ -1744,6 +1767,31 @@
     ]
   },
   {
+    "id": "garrytan/brain-operations",
+    "name": "Brain Operations",
+    "contributor": "garrytan",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.0,
+    "branch": "standard",
+    "tokens": [
+      "attribution",
+      "backlink",
+      "base",
+      "brain",
+      "cycle",
+      "enrich",
+      "first",
+      "knowledge",
+      "management",
+      "operations",
+      "performs",
+      "persistent",
+      "read",
+      "write"
+    ]
+  },
+  {
     "id": "garrytan/canary",
     "name": "Canary",
     "contributor": "garrytan",
@@ -1780,6 +1828,32 @@
       "then",
       "watches",
       "—"
+    ]
+  },
+  {
+    "id": "garrytan/capture",
+    "name": "Capture",
+    "contributor": "garrytan",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.0,
+    "branch": "standard",
+    "tokens": [
+      "brain",
+      "capture",
+      "captures",
+      "content",
+      "entrypoint",
+      "idempotent",
+      "ingestion",
+      "into",
+      "knowledge",
+      "management",
+      "one",
+      "persistent",
+      "personal",
+      "thoughts",
+      "through"
     ]
   },
   {

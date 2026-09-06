@@ -144,7 +144,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
-  ├─ ✓ · garrytan/setup-gbrain  [2★]
+  ├─ ✓ · garrytan/brain-operations  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
   ├─ ✓ ○ ayghri/i-have-adhd  [4★]
@@ -225,7 +225,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
-  │  ├─ ✓ · garrytan/setup-gbrain  [2★]
+  │  ├─ ✓ · garrytan/brain-operations  [3★]
   │  │  ├─ · ○ ████████/hf-cli
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
@@ -375,9 +375,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /tool-use
   └─ · ○ ████████/firecrawl-research-index
 
+· ◆ garrytan/concept-synthesis  [3★]
+  ├─ ✓ · garrytan/brain-operations  [3★]
+  │  ├─ · ○ ████████/hf-cli
+  │  └─ · ○ /retrieve
+  └─ · ○ /logical-inference
+
 · ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
-  └─ · · ████████/obsidian-vault
+  └─ · · garrytan/capture  [3★]
      ├─ · ○ /retrieve
      └─ ✓ ○ garrytan/context-restore  [2★]
 

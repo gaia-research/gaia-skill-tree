@@ -5,6 +5,7 @@
   "contributors": {
     "garrytan": {
       "repos": [
+        "garrytan/gbrain",
         "garrytan/gstack"
       ],
       "skillsByRepo": {
@@ -56,12 +57,17 @@
           "garrytan/skillify",
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
+        ],
+        "garrytan/gbrain": [
+          "garrytan/brain-operations",
+          "garrytan/capture",
+          "garrytan/concept-synthesis"
         ]
       },
       "topSkill": "garrytan/gstack",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 47,
+      "count": 50,
       "namedSkills": [
         {
           "id": "garrytan/gstack",
@@ -84,6 +90,16 @@
           "fileSeal": "benchmark-seal.svg"
         },
         {
+          "id": "garrytan/brain-operations",
+          "name": "Brain Operations",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/brain-operations",
+          "file": "brain-operations.svg",
+          "fileSeal": "brain-operations-seal.svg"
+        },
+        {
           "id": "garrytan/browse",
           "name": "Browse",
           "rank": 3,
@@ -104,6 +120,16 @@
           "fileSeal": "canary-seal.svg"
         },
         {
+          "id": "garrytan/capture",
+          "name": "Capture",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/capture",
+          "file": "capture.svg",
+          "fileSeal": "capture-seal.svg"
+        },
+        {
           "id": "garrytan/careful",
           "name": "Careful",
           "rank": 3,
@@ -112,6 +138,16 @@
           "slash": "/careful",
           "file": "careful.svg",
           "fileSeal": "careful-seal.svg"
+        },
+        {
+          "id": "garrytan/concept-synthesis",
+          "name": "Concept Synthesis",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/concept-synthesis",
+          "file": "concept-synthesis.svg",
+          "fileSeal": "concept-synthesis-seal.svg"
         },
         {
           "id": "garrytan/cso",

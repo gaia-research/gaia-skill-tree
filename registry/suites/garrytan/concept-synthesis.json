@@ -1,0 +1,16 @@
+{
+  "id": "garrytan/concept-synthesis",
+  "name": "Concept Synthesis",
+  "contributor": "garrytan",
+  "description": "Synthesizes and curates raw knowledge concepts into a grounded, tiered intellectual map.",
+  "version": "1.0.0",
+  "capstone": "garrytan/concept-synthesis",
+  "suites": [],
+  "standalones": [
+    "garrytan/brain-operations",
+    "garrytan/capture",
+    "garrytan/concept-synthesis"
+  ],
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07"
+}

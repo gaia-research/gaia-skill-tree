@@ -67,6 +67,27 @@
       ]
     },
     {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "fusionScore": 140.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "genericSkillRef": "concept-synthesis",
+      "suiteComponents": [
+        "garrytan/brain-operations",
+        "garrytan/capture"
+      ]
+    },
+    {
       "id": "garrytan/browse",
       "name": "Browse",
       "level": "3★",
@@ -169,6 +190,23 @@
       "genericSkillRef": "evaluate-output"
     },
     {
+      "id": "garrytan/brain-operations",
+      "name": "Brain Operations",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-operations.json"
+      },
+      "genericSkillRef": "knowledge-management"
+    },
+    {
       "id": "garrytan/canary",
       "name": "Canary",
       "level": "3★",
@@ -184,6 +222,23 @@
         "self": "/api/v1/skills/garrytan/canary.json"
       },
       "genericSkillRef": "detect-anomaly"
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
     },
     {
       "id": "garrytan/cso",
@@ -855,16 +910,17 @@
       "genericSkillRef": "guardrails"
     }
   ],
-  "namedSkillsCount": 47,
+  "namedSkillsCount": 50,
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
     "trustMagnitude": 355.66
   },
-  "prestigeScore": 2423.16,
+  "prestigeScore": 2644.68,
   "gradeDistribution": {
     "S": 1,
-    "B": 21,
+    "A": 1,
+    "B": 23,
     "C": 25
   },
   "_links": {

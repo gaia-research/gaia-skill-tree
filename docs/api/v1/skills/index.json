@@ -446,6 +446,27 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "fusionScore": 140.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "genericSkillRef": "concept-synthesis",
+      "suiteComponents": [
+        "garrytan/brain-operations",
+        "garrytan/capture"
+      ]
+    },
+    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -1047,28 +1068,11 @@
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
       },
       "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "mattpocock/triage",
-      "name": "Triage",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/triage.json"
-      },
-      "genericSkillRef": "issue-triage"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 188,
+  "totalSkills": 191,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
