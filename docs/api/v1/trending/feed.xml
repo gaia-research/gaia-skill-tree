@@ -5,147 +5,147 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Sep 2026 09:55:10 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2026 16:19:03 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Misc (+199.1 TM)</title>
+      <title>Graphify (+155.9 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/safishamsi/graphify</link>
+      <description>Trust Magnitude: 316.9 · Grade S</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-09-06</guid>
+    </item>
+    <item>
+      <title>Vercel React Best Practices (+111.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/vercel-labs/vercel-react-best-practices</link>
+      <description>Trust Magnitude: 162.7 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-vercel-labs/vercel-react-best-practices-2026-09-06</guid>
+    </item>
+    <item>
+      <title>Misc (+79.1 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/mattpocock/misc</link>
       <description>Trust Magnitude: 199.1 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-mattpocock/misc-2026-09-06</guid>
     </item>
     <item>
-      <title>Engineering (+102.5 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/engineering</link>
-      <description>Trust Magnitude: 102.5 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/engineering-2026-09-06</guid>
+      <title>Brand Guidelines (+105.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/anthropics/brand-guidelines</link>
+      <description>Trust Magnitude: 184.3 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-anthropics/brand-guidelines-2026-09-06</guid>
     </item>
     <item>
-      <title>Productivity (+102.5 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/productivity</link>
-      <description>Trust Magnitude: 102.5 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/productivity-2026-09-06</guid>
+      <title>Ponytail (+112.9 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/dietrichgebert/ponytail</link>
+      <description>Trust Magnitude: 222.0 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-dietrichgebert/ponytail-2026-09-06</guid>
     </item>
     <item>
-      <title>Graphify (+19.1 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/safishamsi/graphify</link>
-      <description>Trust Magnitude: 316.9 · Grade S</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-09-06</guid>
+      <title>taste-skill (+172.4 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/taste-skill</link>
+      <description>Trust Magnitude: 172.4 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-leonxlnx/taste-skill-2026-09-06</guid>
+    </item>
+    <item>
+      <title>Last 30 Days Web Research (+71.6 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mvanhorn/last30days</link>
+      <description>Trust Magnitude: 205.2 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mvanhorn/last30days-2026-09-06</guid>
+    </item>
+    <item>
+      <title>Impeccable (+20.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable</link>
+      <description>Trust Magnitude: 169.3 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-pbakaus/impeccable-2026-09-06</guid>
+    </item>
+    <item>
+      <title>UI/UX Pro Max (+19.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/nextlevelbuilder/ui-ux-pro-max</link>
+      <description>Trust Magnitude: 226.5 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-nextlevelbuilder/ui-ux-pro-max-2026-09-06</guid>
     </item>
     <item>
       <title>I Have ADHD (+119.7 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/ayghri/i-have-adhd</link>
       <description>Trust Magnitude: 119.7 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-ayghri/i-have-adhd-2026-09-06</guid>
-    </item>
-    <item>
-      <title>Matt Pocock Skills (+43.3 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/skills</link>
-      <description>Trust Magnitude: 373.2 · Grade S</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-09-06</guid>
-    </item>
-    <item>
-      <title>Vercel React Best Practices (+3.6 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/vercel-labs/vercel-react-best-practices</link>
-      <description>Trust Magnitude: 162.7 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-vercel-labs/vercel-react-best-practices-2026-09-06</guid>
     </item>
     <item>
       <title>Brainstorming</title>
       <link>https://gaiaskilltree.com/named/#explorer/obra/brainstorming</link>
       <description>Trust Magnitude: 110.2 · Grade A</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-obra/brainstorming-2026-09-06</guid>
     </item>
     <item>
-      <title>brandkit</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/brandkit</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/brandkit-2026-09-06</guid>
+      <title>Code Simplification (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-simplification</link>
+      <description>Trust Magnitude: 190.0 · Grade A</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-simplification-2026-09-06</guid>
     </item>
     <item>
-      <title>brutalist-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/brutalist-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/brutalist-skill-2026-09-06</guid>
+      <title>Incremental Implementation (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/incremental-implementation</link>
+      <description>Trust Magnitude: 95.0 · Grade B</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/incremental-implementation-2026-09-06</guid>
     </item>
     <item>
-      <title>gpt-tasteskill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/gpt-tasteskill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/gpt-tasteskill-2026-09-06</guid>
+      <title>Planning and Task Breakdown (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/planning-and-task-breakdown</link>
+      <description>Trust Magnitude: 95.0 · Grade B</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/planning-and-task-breakdown-2026-09-06</guid>
     </item>
     <item>
-      <title>image-to-code-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/image-to-code-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/image-to-code-skill-2026-09-06</guid>
+      <title>Spec-Driven Development (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/spec-driven-development</link>
+      <description>Trust Magnitude: 80.0 · Grade B</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/spec-driven-development-2026-09-06</guid>
     </item>
     <item>
-      <title>imagegen-frontend-mobile</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/imagegen-frontend-mobile</link>
+      <title>Code Review and Quality (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-review-and-quality</link>
       <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/imagegen-frontend-mobile-2026-09-06</guid>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-review-and-quality-2026-09-06</guid>
     </item>
     <item>
-      <title>imagegen-frontend-web</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/imagegen-frontend-web</link>
+      <title>Shipping and Launch (-8.8 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/shipping-and-launch</link>
       <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/imagegen-frontend-web-2026-09-06</guid>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/shipping-and-launch-2026-09-06</guid>
     </item>
     <item>
-      <title>minimalist-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/minimalist-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/minimalist-skill-2026-09-06</guid>
+      <title>Diagnose (-11.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/diagnose</link>
+      <description>Trust Magnitude: 94.9 · Grade B</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/diagnose-2026-09-06</guid>
     </item>
     <item>
-      <title>output-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/output-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/output-skill-2026-09-06</guid>
+      <title>To Tickets (-11.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/to-tickets</link>
+      <description>Trust Magnitude: 94.9 · Grade B</description>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/to-tickets-2026-09-06</guid>
     </item>
     <item>
-      <title>redesign-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/redesign-skill</link>
+      <title>CSO (-18.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/garrytan/cso</link>
       <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/redesign-skill-2026-09-06</guid>
-    </item>
-    <item>
-      <title>soft-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/soft-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/soft-skill-2026-09-06</guid>
-    </item>
-    <item>
-      <title>stitch-skill</title>
-      <link>https://gaiaskilltree.com/named/#explorer/leonxlnx/stitch-skill</link>
-      <description>Trust Magnitude: 50.0 · Grade B</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-leonxlnx/stitch-skill-2026-09-06</guid>
-    </item>
-    <item>
-      <title>Autoplan</title>
-      <link>https://gaiaskilltree.com/named/#explorer/garrytan/garrytan</link>
-      <description>Trust Magnitude: 36.0 · Grade C</description>
-      <pubDate>Sun, 06 Sep 2026 09:55:10 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-garrytan/garrytan-2026-09-06</guid>
+      <pubDate>Sun, 06 Sep 2026 16:19:03 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-garrytan/cso-2026-09-06</guid>
     </item>
   </channel>
 </rss>
