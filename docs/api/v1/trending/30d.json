@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-06T09:55:10Z",
+  "generatedAt": "2026-09-06T15:39:39Z",
   "firstRun": false,
   "skills": [
     {
@@ -197,6 +197,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "trendingScore": 81.81,
+      "tmDelta": 163.63,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
       }
     },
     {
@@ -830,7 +844,7 @@
       }
     }
   ],
-  "totalTrending": 59,
+  "totalTrending": 60,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

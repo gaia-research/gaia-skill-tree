@@ -196,6 +196,19 @@
       }
     },
     {
+      "handle": "heygen-com",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "heygen-com/hyperframes",
+        "level": "3★",
+        "trustMagnitude": 163.63
+      },
+      "prestigeScore": 163.63,
+      "_links": {
+        "self": "/api/v1/contributors/heygen-com.json"
+      }
+    },
+    {
       "handle": "vercel-labs",
       "namedSkills": 1,
       "topSkill": {
@@ -404,7 +417,7 @@
       }
     }
   ],
-  "totalContributors": 31,
+  "totalContributors": 32,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

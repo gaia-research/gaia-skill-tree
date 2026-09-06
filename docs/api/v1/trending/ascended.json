@@ -1,6 +1,19 @@
 {
-  "generatedAt": "2026-09-06T09:55:10Z",
+  "generatedAt": "2026-09-06T15:39:39Z",
   "skills": [
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T15:30:00Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "mattpocock/misc",
       "name": "Misc",
@@ -375,19 +388,6 @@
       "ascendedAt": "2026-09-02T15:11:12Z",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:05:20Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
       },
       "previousLevel": "3★"
     }

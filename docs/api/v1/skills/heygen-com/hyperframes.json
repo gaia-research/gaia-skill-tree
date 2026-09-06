@@ -1,0 +1,106 @@
+{
+  "id": "heygen-com/hyperframes",
+  "name": "HyperFrames",
+  "contributor": "heygen-com",
+  "level": "3★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 163.63,
+  "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/heygen-com/hyperframes.json",
+    "contributor": "/api/v1/contributors/heygen-com.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 160.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 8,
+    "transitiveCount": 8,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "HyperFrames",
+  "genericSkillRef": "video-composition",
+  "origin": false,
+  "description": "Suite orchestrator and router for HyperFrames: programmatic video composition framework compiling HTML, CSS, JavaScript, WebGL, WebGPU, and Canvas into production videos.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-06",
+      "type": "github-stars-own",
+      "notes": "Live verified GitHub stargazers for heygen-com/hyperframes",
+      "stars": 44308,
+      "skillCountInRepo": 20,
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/heygen-com/hyperframes",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-06",
+      "type": "repo-own",
+      "notes": "Live verified repository metrics for heygen-com/hyperframes",
+      "commits": 4199,
+      "contributors": 57,
+      "skillCountInRepo": 20,
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-06",
+      "type": "self-attestation",
+      "notes": "Upstream orchestrator and router entry point SKILL.md",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T15:29:17Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill heygen-com/hyperframes"
+    },
+    {
+      "timestamp": "2026-09-06T15:29:26Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-09-06T15:29:29Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/heygen-com/hyperframes (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-09-06T15:29:31Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-09-06T15:30:00Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 3★"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md"
+  }
+}
