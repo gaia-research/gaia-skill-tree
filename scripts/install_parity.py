@@ -29,12 +29,15 @@ import concurrent.futures
 import hashlib
 import json
 import os
+import re
 import shutil
 import statistics
 import subprocess
 import sys
 import threading
 import time
+from datetime import datetime, timezone
+from urllib.parse import urlsplit, urlunsplit
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
@@ -46,6 +49,9 @@ from gaia_cli.install import _parse_github_url  # noqa: E402
 # Pinned so a KPI shift is attributable to a registry change, not a tool
 # upgrade. The resolved version is recorded in the JSON report.
 DEFAULT_NPX_VERSION = "1.5.21"
+OBSERVATION_SCHEMA = "gaia.installability-observation/v1"
+OBSERVATION_TOOL_VERSION = "1"
+MAX_STDERR_TAIL = 2048
 
 # Exactly what the npm CLI's installer skips when it copies a skill directory
 # (see installer.ts in vercel-labs/skills). Anything else present on one side
@@ -182,6 +188,18 @@ class Result:
     suite_installed: int = 0
     suite_total: int = 0
     suite_ref: str | None = None
+    gaia_health: str = "not-observed"
+    gaia_exit_code: int | None = None
+    classified_cause: str | None = None
+    intrinsic_cause: str | None = None
+    source_route: dict | None = None
+    skill_content_sha256: str | None = None
+    resolved_revision: str | None = None
+    delivered_content_sha256: str | None = None
+    comparator_dirname: str = "not-observed"
+    comparator_content: str = "not-observed"
+    gaia_stderr_tail: str | None = None
+    gaia_stderr_digest: str | None = None
 
     def fail(self, code: str, detail: str) -> None:
         self.verdict = FAIL
@@ -282,6 +300,92 @@ def npx_ref(skill: Skill) -> str:
     return base
 
 
+def canonical_json_bytes(value: object) -> bytes:
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            + "\\n").encode("utf-8")
+
+
+def sha256_file(path: str) -> str | None:
+    try:
+        digest = hashlib.sha256()
+        with open(path, "rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(block)
+        return digest.hexdigest()
+    except OSError:
+        return None
+
+
+def canonical_skill_path(repo_root: str, skill_id: str) -> str | None:
+    """Resolve only a canonical named-skill path; reject traversal/symlinks."""
+    if not re.fullmatch(r"[^/]+/[^/]+", skill_id):
+        return None
+    named_root = os.path.realpath(os.path.join(repo_root, "registry", "named"))
+    path = os.path.abspath(os.path.join(named_root, *skill_id.split("/")) + ".md")
+    if os.path.commonpath((named_root, path)) != named_root:
+        return None
+    if os.path.islink(path) or not os.path.isfile(path):
+        return None
+    return path
+
+
+def source_route(skill: Skill) -> dict | None:
+    """Return the exact parsed route without ever publishing URL credentials."""
+    if not skill.github:
+        return None
+    parsed = urlsplit(skill.github)
+    if parsed.username is not None or parsed.password is not None:
+        return None
+    if parsed.scheme in {"http", "https"} and parsed.query:
+        # A query-bearing source link is not a canonical registry route. Do not
+        # risk copying a signed URL or token into a durable observation.
+        return None
+    if not skill.repo_url:
+        return None
+    repo_parts = skill.repo_url.rstrip("/").split("/")
+    repo = repo_parts[-1].removesuffix(".git") if repo_parts else ""
+    owner = repo_parts[-2] if len(repo_parts) > 1 else ""
+    if not owner or not repo:
+        return None
+    return {
+        "url": skill.github,
+        "owner": owner,
+        "repo": repo,
+        "ref": skill.branch,
+        "subpath": skill.subpath,
+    }
+
+
+def sanitize_diagnostic(value: str | None) -> tuple[str | None, str | None]:
+    """Return a bounded safe tail and digest; never persist raw installer text."""
+    if not value:
+        return None, None
+    text = re.sub(r"\x1b(?:\[[0-?]*[ -/]*[@-~]|\][^\x07]*(?:\x07|\x1b\\))", "", value)
+    text = re.sub(r"(?i)(https?://)([^/\s:@]+):([^@\s/]+)@", r"\1<redacted>@", text)
+    text = re.sub(r"(?i)\b(?:bearer|basic)\s+[^\s]+", "<redacted-auth>", text)
+    text = re.sub(r"(?i)\b(?:ghp|gho|ghs|ghr|github_pat)_[A-Za-z0-9_\-]+", "<redacted-token>", text)
+    text = re.sub(r"(?i)(token|password|passwd|secret|api[_-]?key|access[_-]?token)\s*[=:]\s*[^\s&]+", r"\1=<redacted>", text)
+    text = re.sub(r"(?i)(https?://[^\s?]+)\?[^\s]+", r"\1?<redacted-query>", text)
+    digest = hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()
+    tail = text[-MAX_STDERR_TAIL:]
+    return tail, digest
+
+
+def resolved_revision(cfg, skill: Skill) -> str | None:
+    """Read HEAD only from the clone cache that Gaia actually used."""
+    if not skill.repo_url:
+        return None
+    cache = cache_dir_for(cfg, skill)
+    code, out, _ = run(
+        ["git", "-C", cache, "rev-parse", "HEAD"],
+        cfg.repo_root,
+        dict(os.environ),
+        cfg.timeout,
+    )
+    revision = out.strip()
+    return revision if code == 0 and re.fullmatch(r"[0-9a-fA-F]{40}", revision) else None
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Content comparison
 # ─────────────────────────────────────────────────────────────────────────────
@@ -304,6 +408,21 @@ def hash_tree(root: str) -> dict[str, str]:
                 digest = f"UNREADABLE:{exc}"
             digests[rel.replace(os.sep, "/")] = digest
     return digests
+
+
+def content_digest(digests: dict[str, str]) -> str:
+    """Digest a sorted, path-keyed file digest map for observations."""
+    canonical = json.dumps(
+        {path: digests[path] for path in sorted(digests)},
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def installed_content_digest(root: str) -> str:
+    """Return the bounded, deterministic digest of a delivered skill tree."""
+    return content_digest(hash_tree(root))
 
 
 def summarize(paths: list[str], limit: int = 6) -> str:
@@ -341,6 +460,7 @@ def compare_trees(result: Result, gaia_root: str, npx_root: str) -> None:
             "CONTENT_BYTES_DIFFER",
             f"{len(differing)} file(s) differ in content: {summarize(differing)}",
         )
+    result.comparator_content = "diff" if (missing or extra or differing) else "match"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -502,10 +622,31 @@ def classify_gaia_failure(code: int, out: str, err: str) -> tuple[str, str]:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
+INTRINSIC_CAUSES = {"NOT_A_SKILL_DIR", "NO_SKILL_MD", "DANGLING_SYMLINK"}
+
+
+def _set_gaia_failure(result: Result, code: int, out: str, err: str) -> tuple[str, str]:
+    result.gaia_health = "failed"
+    result.gaia_exit_code = code
+    failure_code, detail = classify_gaia_failure(code, out, err)
+    # Operational labels are intentionally not a durable negative. Direct
+    # local-tree problems are recorded separately as intrinsic evidence; the
+    # future upstream `classifiedCause` taxonomy remains unset.
+    result.classified_cause = None
+    return failure_code, detail
+
+
+def _set_gaia_refusal(result: Result, code: int) -> None:
+    result.gaia_health = "refused"
+    result.gaia_exit_code = code
+
+
 def check_gaia_health(result: Result, entry: dict) -> str | None:
     """Validate what gaia actually put on disk. Returns the resolved root."""
     local_path = entry.get("localPath")
     if not local_path:
+        result.gaia_health = "failed"
+        result.gaia_exit_code = 0
         result.fail("GAIA_INSTALL_FAILED", "manifest entry has no localPath")
         return None
 
@@ -516,6 +657,9 @@ def check_gaia_health(result: Result, entry: dict) -> str | None:
     # does not handle junctions.
     resolved = os.path.realpath(local_path)
     if not os.path.exists(resolved):
+        result.gaia_health = "failed"
+        result.gaia_exit_code = 0
+        result.intrinsic_cause = "DANGLING_SYMLINK"
         result.fail(
             "DANGLING_SYMLINK",
             f"gaia reported success but {result.gaia_dirname} -> {resolved} "
@@ -523,6 +667,9 @@ def check_gaia_health(result: Result, entry: dict) -> str | None:
         )
         return None
     if not os.path.isdir(resolved):
+        result.gaia_health = "failed"
+        result.gaia_exit_code = 0
+        result.intrinsic_cause = "NOT_A_SKILL_DIR"
         result.fail(
             "NOT_A_SKILL_DIR",
             f"gaia exited 0 but installed a non-directory: {resolved} "
@@ -530,26 +677,35 @@ def check_gaia_health(result: Result, entry: dict) -> str | None:
         )
         return None
     if not os.path.exists(os.path.join(resolved, "SKILL.md")):
+        result.gaia_health = "failed"
+        result.gaia_exit_code = 0
+        result.intrinsic_cause = "NO_SKILL_MD"
         result.fail("NO_SKILL_MD", f"no SKILL.md in installed tree {resolved}")
         return None
+    result.gaia_health = "materialized"
+    result.gaia_exit_code = 0
+    result.delivered_content_sha256 = installed_content_digest(resolved)
     return resolved
 
 
 def check_no_source(result: Result, code: int, out: str, err: str) -> None:
     """A NO_SOURCE skill must fail, and must fail with the right message."""
+    result.gaia_exit_code = code
     if code == 0:
+        result.gaia_health = "failed"
         result.fail(
             "UNEXPECTED_SUCCESS",
             "skill has no links.github but gaia install exited 0",
         )
         return
+    _set_gaia_refusal(result, code)
     blob = f"{out}\n{err}".lower()
     # Two honest refusals, not one. A skill can reach NO_SOURCE either by having
     # no links.github at all, or by being curated `installable: false` (which
     # pops the links block). The installer names the second case explicitly, and
     # that message is the more accurate of the two — accept both.
     if not any(phrase in blob for phrase in NO_SOURCE_REFUSALS):
-        failure_code, detail = classify_gaia_failure(code, out, err)
+        failure_code, detail = _set_gaia_failure(result, code, out, err)
         result.fail(
             "GAIA_INSTALL_FAILED",
             f"expected a no-source refusal, got {failure_code}: {detail}",
@@ -591,12 +747,17 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         suite_ref=skill.suite_ref,
     )
     result.repo_url = skill.repo_url
+    result.source_route = source_route(skill)
+    canonical = canonical_skill_path(cfg.repo_root, skill.id)
+    result.skill_content_sha256 = sha256_file(canonical) if canonical else None
     sandbox = os.path.join(cfg.run_root, "sandboxes", skill.id.replace("/", "__"))
     os.makedirs(sandbox, exist_ok=True)
 
     try:
         code, out, err, seconds = install_gaia(cfg, skill, sandbox)
         result.gaia_seconds = seconds
+        result.gaia_stderr_tail, result.gaia_stderr_digest = sanitize_diagnostic(err)
+        result.resolved_revision = resolved_revision(cfg, skill)
 
         if skill.category == NO_SOURCE:
             check_no_source(result, code, out, err)
@@ -607,16 +768,23 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         # Checking the components first turns "exit 1" into the list of which
         # ones actually failed.
         if skill.category == SUITE:
+            result.gaia_exit_code = code
             check_suite(result, skill, read_manifest(sandbox))
-            if code != 0 and result.verdict == PASS:
-                # Every named component landed but gaia still failed — the suite
-                # root itself, or something else install_suite reported.
-                failure_code, detail = classify_gaia_failure(code, out, err)
-                result.fail(failure_code, detail)
+            if code == 0 and result.verdict == PASS:
+                result.gaia_health = "materialized"
+            elif code != 0:
+                result.gaia_health = "failed"
+                if result.verdict == PASS:
+                    # Every named component landed but gaia still failed — the
+                    # suite root itself, or something else install_suite reported.
+                    failure_code, detail = _set_gaia_failure(result, code, out, err)
+                    result.fail(failure_code, detail)
+            else:
+                result.gaia_health = "failed"
             return result
 
         if code != 0:
-            failure_code, detail = classify_gaia_failure(code, out, err)
+            failure_code, detail = _set_gaia_failure(result, code, out, err)
             result.fail(failure_code, detail)
             if failure_code in ("TIMEOUT", "GIT_CLONE_FAILED"):
                 purge_cache(cfg, skill)
@@ -626,6 +794,8 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
 
         entry = manifest_entry(manifest, skill.id)
         if entry is None:
+            result.gaia_health = "failed"
+            result.gaia_exit_code = code
             result.fail(
                 "GAIA_INSTALL_FAILED",
                 "gaia exited 0 but wrote no manifest entry for this skill",
@@ -678,6 +848,7 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
             return result
 
         if result.npx_discovered > 1:
+            result.comparator_dirname = "not-observed"
             names = [os.path.basename(r) for r in roots]
             result.fail(
                 "NPX_FAN_OUT",
@@ -687,6 +858,7 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
             return result
 
         result.npx_dirname = os.path.basename(roots[0])
+        result.comparator_dirname = "match" if result.gaia_dirname == result.npx_dirname else "diff"
         check_dirname(result)
         compare_trees(result, gaia_root, roots[0])
         return result
@@ -727,7 +899,7 @@ def check_repo_group(cfg, skills: list[Skill], progress) -> list[Result]:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-def require_tools(cfg) -> None:
+def require_tools(cfg) -> str | None:
     missing = [tool for tool in ("git", "node", "npm") if shutil.which(tool) is None]
     if missing:
         raise SystemExit(
@@ -746,6 +918,8 @@ def require_tools(cfg) -> None:
             f"Could not run the gaia CLI ({' '.join(cfg.gaia_cmd)}): "
             f"{(err or out).strip()}"
         )
+    version = (out or err).strip().splitlines()
+    return version[-1].strip() if version else None
 
 
 def install_npx_tool(cfg) -> str:
@@ -1070,6 +1244,110 @@ def render(results: list[Result], kpis: dict) -> None:
     print(f"Tooling: skills@{kpis['tooling']['npxVersion']}")
 
 
+def git_revision(repo_root: str) -> str | None:
+    code, out, _ = run(["git", "rev-parse", "HEAD"], repo_root, dict(os.environ), 30)
+    revision = out.strip()
+    return revision if code == 0 and re.fullmatch(r"[0-9a-fA-F]{40}", revision) else None
+
+
+def observation_payload(
+    results: list[Result],
+    cfg,
+    args,
+    run_id: str,
+    index_path: str,
+    npx_version: str,
+    gaia_version: str | None,
+    checked_at: str | None = None,
+) -> dict:
+    """Build the closed, tree-scoped observation document.
+
+    This is deliberately separate from the parity report: comparator failures
+    are recorded as comparator facts and cannot rewrite Gaia-side health.
+    """
+    checked_at = checked_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return {
+        "schema": OBSERVATION_SCHEMA,
+        "checkedAt": checked_at,
+        "runId": run_id,
+        "registryCommit": git_revision(cfg.repo_root),
+        "indexPath": os.path.relpath(index_path, cfg.repo_root),
+        "scope": {
+            "ids": sorted(r.skill_id for r in results),
+            "only": sorted(args.only),
+            "contributors": sorted(args.contributor),
+            "categories": sorted(args.category),
+            "limit": args.limit,
+        },
+        "toolVersion": OBSERVATION_TOOL_VERSION,
+        "gaiaVersion": gaia_version,
+        "npxVersion": npx_version,
+        "gaiaCommand": list(cfg.gaia_cmd),
+        "timeoutSeconds": cfg.timeout,
+        "jobs": cfg.jobs,
+        "skills": [
+            {
+                "id": result.skill_id,
+                "category": result.category,
+                "sourceRoute": result.source_route,
+                "resolvedRevision": result.resolved_revision,
+                "skillContentSha256": result.skill_content_sha256,
+                "deliveredContentSha256": result.delivered_content_sha256,
+                "gaiaHealth": result.gaia_health,
+                "comparator": {
+                    "dirname": result.comparator_dirname,
+                    "content": result.comparator_content,
+                },
+                "causeEvidence": {
+                    "classifiedCause": result.classified_cause,
+                    "intrinsicCause": result.intrinsic_cause,
+                    "exitCode": result.gaia_exit_code,
+                    "stderrDigest": result.gaia_stderr_digest,
+                    "stderrTail": result.gaia_stderr_tail,
+                },
+            }
+            for result in sorted(results, key=lambda item: item.skill_id)
+        ],
+    }
+
+
+def validate_observation_payload(payload: dict) -> None:
+    """Fail closed before an operator observation leaves the harness."""
+    try:
+        import jsonschema
+        with open(
+            os.path.join(REPO_ROOT_DIR, "registry", "installability", "contracts", "observation.schema.json"),
+            "r",
+            encoding="utf-8",
+        ) as handle:
+            schema = json.load(handle)
+        errors = sorted(
+            jsonschema.Draft7Validator(schema).iter_errors(payload),
+            key=lambda error: list(error.path),
+        )
+    except ImportError as exc:
+        raise ValueError("jsonschema is required to write an observation") from exc
+    if errors:
+        error = errors[0]
+        location = ".".join(str(part) for part in error.path) or "$"
+        raise ValueError(f"invalid observation at {location}: {error.message}")
+
+
+def write_observation(path: str, payload: dict) -> str:
+    """Atomically write an operator-selected observation path and return digest."""
+    validate_observation_payload(payload)
+    absolute = os.path.abspath(path)
+    if os.path.isdir(absolute):
+        raise ValueError(f"observation path is a directory: {path}")
+    os.makedirs(os.path.dirname(absolute), exist_ok=True)
+    encoded = json.dumps(payload, ensure_ascii=False, indent=2) + "\\n"
+    temporary = absolute + f".tmp.{os.getpid()}"
+    with open(temporary, "w", encoding="utf-8") as handle:
+        handle.write(encoded)
+    os.replace(temporary, absolute)
+    return hashlib.sha256(canonical_json_bytes(payload)).hexdigest()
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CLI
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1102,6 +1380,8 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
                         help="Override the gaia command (default: this checkout via -m gaia_cli)")
     parser.add_argument("--json", dest="json_path", default=None, metavar="PATH",
                         help="Write the full machine-readable report here")
+    parser.add_argument("--observation", dest="observation_path", default=None, metavar="PATH",
+                        help="Write one tree-scoped installability observation here")
     parser.add_argument("--keep", action="store_true",
                         help="Keep sandboxes for inspection instead of deleting them")
     parser.add_argument("--list", action="store_true",
@@ -1161,7 +1441,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     try:
-        require_tools(cfg)
+        gaia_version = require_tools(cfg)
         npx_version = install_npx_tool(cfg)
     except SystemExit as exc:
         print(f"Precondition failed: {exc}", file=sys.stderr)
@@ -1249,6 +1529,25 @@ def main(argv: list[str] | None = None) -> int:
         with open(args.json_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
         print(f"\nReport: {args.json_path}")
+
+    if args.observation_path:
+        try:
+            observation = observation_payload(
+                results,
+                cfg,
+                args,
+                run_id,
+                index_path,
+                npx_version,
+                gaia_version,
+            )
+            digest = write_observation(args.observation_path, observation)
+        except (OSError, TypeError, ValueError) as exc:
+            print(f"Could not write observation: {exc}", file=sys.stderr)
+            if not cfg.keep:
+                shutil.rmtree(run_root, ignore_errors=True)
+            return 2
+        print(f"Observation: {args.observation_path} (sha256:{digest})")
 
     if not cfg.keep:
         shutil.rmtree(run_root, ignore_errors=True)

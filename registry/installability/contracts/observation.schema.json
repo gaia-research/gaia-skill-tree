@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schemas/gaia.installability-observation.v1.json",
+  "title": "Gaia tree-scoped installability observation",
+  "description": "A bounded operator observation of Gaia-side installation health. It is not a global freshness or admission claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "checkedAt",
+    "runId",
+    "registryCommit",
+    "indexPath",
+    "scope",
+    "toolVersion",
+    "gaiaVersion",
+    "npxVersion",
+    "gaiaCommand",
+    "timeoutSeconds",
+    "jobs",
+    "skills"
+  ],
+  "properties": {
+    "schema": {"const": "gaia.installability-observation/v1"},
+    "checkedAt": {"type": "string", "format": "date-time"},
+    "runId": {"type": "string", "minLength": 1, "maxLength": 128},
+    "registryCommit": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-fA-F]{40}$"
+    },
+    "indexPath": {"type": "string", "minLength": 1, "maxLength": 256},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ids", "only", "contributors", "categories", "limit"],
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/skillId"},
+          "uniqueItems": true
+        },
+        "only": {"type": "array", "items": {"type": "string"}},
+        "contributors": {"type": "array", "items": {"type": "string"}},
+        "categories": {
+          "type": "array",
+          "items": {"enum": ["STANDARD", "REPO_ROOT", "SUITE", "NO_SOURCE"]},
+          "uniqueItems": true
+        },
+        "limit": {"type": "integer", "minimum": 0}
+      }
+    },
+    "toolVersion": {"type": "string", "minLength": 1, "maxLength": 32},
+    "gaiaVersion": {"type": ["string", "null"], "maxLength": 128},
+    "npxVersion": {"type": ["string", "null"], "maxLength": 128},
+    "gaiaCommand": {
+      "type": "array",
+      "items": {"type": "string", "maxLength": 512},
+      "minItems": 1
+    },
+    "timeoutSeconds": {"type": "integer", "minimum": 1},
+    "jobs": {"type": "integer", "minimum": 1},
+    "skills": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/skillObservation"},
+      "uniqueItems": true,
+      "minItems": 1
+    }
+  },
+  "definitions": {
+    "skillId": {
+      "type": "string",
+      "pattern": "^[^/\\s]+/[^/\\s]+$",
+      "maxLength": 256
+    },
+    "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"},
+    "revision": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$"},
+    "sourceRoute": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["url", "owner", "repo", "ref", "subpath"],
+      "properties": {
+        "url": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 128},
+        "repo": {"type": "string", "minLength": 1, "maxLength": 128},
+        "ref": {"type": ["string", "null"], "maxLength": 256},
+        "subpath": {"type": "string", "maxLength": 512}
+      }
+    },
+    "comparator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dirname", "content"],
+      "properties": {
+        "dirname": {"enum": ["match", "diff", "not-observed"]},
+        "content": {"enum": ["match", "diff", "not-observed"]}
+      }
+    },
+    "causeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classifiedCause", "intrinsicCause", "exitCode", "stderrDigest", "stderrTail"],
+      "properties": {
+        "classifiedCause": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "intrinsicCause": {
+          "type": ["string", "null"],
+          "enum": ["NOT_A_SKILL_DIR", "NO_SKILL_MD", "DANGLING_SYMLINK", null]
+        },
+        "exitCode": {"type": ["integer", "null"], "minimum": 0},
+        "stderrDigest": {"$ref": "#/definitions/sha256"},
+        "stderrTail": {"type": ["string", "null"], "maxLength": 2048}
+      }
+    },
+    "skillObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "sourceRoute",
+        "resolvedRevision",
+        "skillContentSha256",
+        "deliveredContentSha256",
+        "gaiaHealth",
+        "comparator",
+        "causeEvidence"
+      ],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "category": {"enum": ["STANDARD", "REPO_ROOT", "SUITE", "NO_SOURCE"]},
+        "sourceRoute": {"$ref": "#/definitions/sourceRoute"},
+        "resolvedRevision": {"$ref": "#/definitions/revision"},
+        "skillContentSha256": {"$ref": "#/definitions/sha256"},
+        "deliveredContentSha256": {"$ref": "#/definitions/sha256"},
+        "gaiaHealth": {"enum": ["materialized", "refused", "failed", "not-observed"]},
+        "comparator": {"$ref": "#/definitions/comparator"},
+        "causeEvidence": {"$ref": "#/definitions/causeEvidence"}
+      }
+    }
+  }
+}
