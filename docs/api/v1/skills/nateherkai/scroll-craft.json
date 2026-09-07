@@ -1,0 +1,126 @@
+{
+  "id": "nateherkai/scroll-craft",
+  "name": "Scroll Craft",
+  "contributor": "nateherkai",
+  "level": "3★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 82.22,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/nateherkai/scroll-craft.json",
+    "contributor": "/api/v1/contributors/nateherkai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
+  "title": "Scroll Craft",
+  "genericSkillRef": "scroll-driven-web-design",
+  "origin": false,
+  "description": "Build premium scroll-driven landing pages for service, product, food, and drink brands. Plan the visitor journey, page grammar, emotional peak, and bespoke signature move. Create dimensional heroes with independent visual planes, restrained motion, and separate mobile composition. Use supplied photos and footage or generate photoreal assets through kie.ai, write semantic HTML, and verify desktop, mobile, and reduced-motion scroll states visually. Use for \"scrollcraft\", \"scroll craft\", \"layered hero\", \"premium hero\", \"cinematic hero\", \"scrollytelling\", \"scroll animation site\", \"a site where scrolling plays a video\", \"Apple-style landing page\", \"3D scroll world\", \"interactive landing page\", \"make my brand a scroll experience\", \"this looks like a template\", or requests for a distinctive website that feels like an experience rather than a document.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/nateherkai/scroll-craft",
+      "evaluator": "unknown",
+      "date": "2026-09-07",
+      "type": "repo-own",
+      "notes": "Live verified GitHub repository metrics at pinned upstream commit; MIT licensed scroll-driven web design skill repository.",
+      "commits": 15,
+      "contributors": 1,
+      "skillCountInRepo": 1,
+      "sourceStartedAt": "2026-08-22"
+    },
+    {
+      "source": "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-07",
+      "type": "github-stars-own",
+      "notes": "Live verified GitHub stargazer count for the pinned upstream repository and concrete SKILL.md implementation.",
+      "stars": 2058,
+      "skillCountInRepo": 1,
+      "sourceStartedAt": "2026-08-22",
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-07",
+      "type": "self-attestation",
+      "notes": "Pinned upstream SKILL.md defining Scroll Craft implementation and verification procedure; description copied verbatim from upstream frontmatter.",
+      "sourceStartedAt": "2026-08-22",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T16:52:49Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill nateherkai/scroll-craft"
+    },
+    {
+      "timestamp": "2026-09-06T16:52:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/nateherkai/scroll-craft (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-09-06T16:53:00Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-09-06T16:53:23Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-09-06T16:57:41Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 metadata from https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md; changed evaluator"
+    },
+    {
+      "timestamp": "2026-09-06T16:58:41Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md"
+    },
+    {
+      "timestamp": "2026-09-06T16:58:47Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-09-06T16:59:08Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md"
+  }
+}

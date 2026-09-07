@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-07T01:01:09Z",
+  "generatedAt": "2026-09-07T01:51:51Z",
   "firstRun": false,
   "skills": [
     {
@@ -169,6 +169,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "trendingScore": 41.11,
+      "tmDelta": 82.22,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
       }
     },
     {
@@ -522,7 +536,7 @@
       }
     }
   ],
-  "totalTrending": 37,
+  "totalTrending": 38,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

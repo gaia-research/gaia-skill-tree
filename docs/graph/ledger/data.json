@@ -1,11 +1,11 @@
 {
   "version": "8.2.1",
-  "generatedAt": "2026-09-07T01:38:08Z",
+  "generatedAt": "2026-09-07T01:51:47Z",
   "summary": {
-    "total": 207,
+    "total": 208,
     "S": 3,
     "A": 22,
-    "B": 65,
+    "B": 66,
     "C": 100,
     "ungraded": 17,
     "floor": 0,
@@ -660,6 +660,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "nateherkai/scroll-craft",
+      "tm": 82.22,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/retro",

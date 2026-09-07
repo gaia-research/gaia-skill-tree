@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 141,
+      "count": 142,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -495,6 +495,11 @@
           "id": "score-relevance",
           "name": "Score Relevance",
           "summary": "Assigns a numerical relevance score to candidate items relative to a query or objective."
+        },
+        {
+          "id": "scroll-driven-web-design",
+          "name": "Scroll-Driven Web Design",
+          "summary": "Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification."
         },
         {
           "id": "scroll-world",

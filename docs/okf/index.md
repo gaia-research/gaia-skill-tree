@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (141)
+### Basic Skills (142)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -105,6 +105,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Scientific Visualization](/skills/basic/scientific-visualization.md) - Creates publication-ready scientific figures and visualizes molecular structures.
 * [Score Relevance](/skills/basic/score-relevance.md) - Assigns a numerical relevance score to candidate items relative to a query or objective.
 * [Scroll World](/skills/basic/scroll-world.md) - Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes.
+* [Scroll-Driven Web Design](/skills/basic/scroll-driven-web-design.md) - Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification.
 * [Self-Consistency](/skills/basic/self-consistency.md) - Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.
 * [Self-Critique](/skills/basic/self-critique.md) - Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.
 * [Semantic Cache](/skills/basic/semantic-cache.md) - Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.
