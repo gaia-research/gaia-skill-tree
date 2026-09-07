@@ -1061,6 +1061,62 @@ def build_benchmark_projection(check: bool) -> bool:
         return "nothing changed" not in result.stdout
 
 
+def build_arbor_projection(check: bool) -> bool:
+    """Project immutable Arbor sources into the owned Class S artifact directory."""
+
+    from gaia_cli.arbor import (
+        assertManagedTree,
+        buildArborProjection,
+        managedChild,
+        managedPath,
+        serializeRecord,
+    )
+
+    # --check must refuse an unsafe managed tree rather than inspect or clean
+    # through a symlink. Write mode has the same refusal boundary.
+    committed = managedPath(ROOT, "docs", "graph", "arbor")
+    assertManagedTree(committed)
+    projection = buildArborProjection(ROOT)
+    expected = {
+        relative: serializeRecord(record)
+        for relative, record in projection.items()
+    }
+    actual = {}
+    if committed.exists():
+        actual = {
+            str(path.relative_to(committed)): path.read_bytes()
+            for path in committed.rglob("*")
+            if path.is_file() or path.is_symlink()
+        }
+    if actual == expected:
+        return False
+    if check:
+        missing = sorted(set(expected) - set(actual))
+        extra = sorted(set(actual) - set(expected))
+        for relative in missing:
+            print(f"diff docs/graph/arbor/{relative} (missing)")
+        for relative in extra:
+            print(f"diff docs/graph/arbor/{relative} (stale)")
+        for relative in sorted(set(expected) & set(actual)):
+            if expected[relative] != actual[relative]:
+                print(f"diff docs/graph/arbor/{relative}")
+        return True
+
+    # Arbor owns this directory exclusively; stale cleanup cannot escape it.
+    if committed.exists():
+        for path in sorted(committed.rglob("*"), key=lambda item: len(item.parts), reverse=True):
+            if path.is_file() or path.is_symlink():
+                path.unlink()
+            elif path.is_dir():
+                path.rmdir()
+    committed.mkdir(parents=True, exist_ok=True)
+    for relative, content in expected.items():
+        destination = managedChild(committed, *Path(relative).parts)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(content)
+    return True
+
+
 def build_trending_projection(check: bool) -> bool:
     """Run buildTrendingProjection.py to a tempdir and diff against docs/api/v1/trending/."""
     script = SCRIPTS / "buildTrendingProjection.py"
@@ -1676,6 +1732,7 @@ def main(argv: list[str] | None = None) -> int:
         "installability-projection", build_installability_projection, args.check
     )
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    arbor_changed = _run_step("arbor-projection", build_arbor_projection, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
     benchmark_proj_changed = _run_step("benchmark-projection", build_benchmark_projection, args.check)
@@ -1791,6 +1848,7 @@ def main(argv: list[str] | None = None) -> int:
         or named_index_changed
         or installability_changed
         or docs_named_changed
+        or arbor_changed
         or trust_ledger_changed
         or api_changed
         or benchmark_proj_changed

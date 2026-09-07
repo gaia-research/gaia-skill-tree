@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.hh-acceptance/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "acceptanceId", "acceptedAt", "subject", "authority", "indexId", "indexVersion", "resultDigest", "observationRefs"],
+  "properties": {
+    "schema": {"const": "gaia.hh-acceptance/v1"},
+    "acceptanceId": {"$ref": "#/definitions/recordId"},
+    "acceptedAt": {"type": "string", "format": "date-time"},
+    "subject": {"$ref": "#/definitions/skill"},
+    "authority": {"$ref": "#/definitions/authority"},
+    "indexId": {"const": "hell-heaven"},
+    "indexVersion": {"$ref": "#/definitions/nonEmpty"},
+    "resultDigest": {"$ref": "#/definitions/sha256"},
+    "observationRefs": {"$ref": "#/definitions/digests"},
+    "supersedes": {"$ref": "#/definitions/sha256"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "digests": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "basis"],
+      "properties": {
+        "actor": {"$ref": "#/definitions/nonEmpty"},
+        "basis": {"$ref": "#/definitions/nonEmpty"}
+      }
+    }
+  }
+}

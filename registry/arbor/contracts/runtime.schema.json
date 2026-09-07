@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-runtime/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "subject", "inputDigest", "lenses"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-runtime/v1"},
+    "subject": {"$ref": "#/definitions/skill"},
+    "inputDigest": {"$ref": "#/definitions/sha256"},
+    "lenses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claims", "hellHeaven", "interactions"],
+      "properties": {
+        "claims": {"$ref": "#/definitions/claimsLens"},
+        "hellHeaven": {"$ref": "#/definitions/hellHeavenLens"},
+        "interactions": {"$ref": "#/definitions/interactionsLens"}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["present", "absent-no-accepted-record", "absent-subject-version-mismatch", "absent-superseded", "unavailable-unsupported-payload"]
+    },
+    "digestOrNull": {
+      "anyOf": [
+        {"$ref": "#/definitions/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "claimsLens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceDigest", "profile"],
+      "properties": {
+        "status": {"$ref": "#/definitions/status"},
+        "sourceDigest": {"$ref": "#/definitions/digestOrNull"},
+        "profile": {"type": ["object", "null"]}
+      }
+    },
+    "hellHeavenLens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceDigest", "result"],
+      "properties": {
+        "status": {"$ref": "#/definitions/status"},
+        "sourceDigest": {"$ref": "#/definitions/digestOrNull"},
+        "result": {"type": ["object", "null"]}
+      }
+    },
+    "interactionsLens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceDigest", "edges"],
+      "properties": {
+        "status": {"$ref": "#/definitions/status"},
+        "sourceDigest": {"$ref": "#/definitions/digestOrNull"},
+        "edges": {"type": "array", "items": {"type": "object"}}
+      }
+    }
+  }
+}
