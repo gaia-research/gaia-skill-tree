@@ -220,7 +220,11 @@ def _projection_for_skill(skill_id: str, current: dict, observations: list[dict]
             if observed["id"] != skill_id:
                 continue
             route_changed = not _same_route(observed["sourceRoute"], current_route)
-            content_changed = observed["skillContentSha256"] != current_digest
+            content_changed = (
+                observed["skillContentSha256"] != current_digest
+                or observed["skillContentSha256"] is None
+                or current_digest is None
+            )
             if route_changed or content_changed:
                 reason = "subject-changed" if content_changed else "route-changed"
                 mismatches.append((reason, document, observed))
@@ -275,6 +279,12 @@ def _projection_for_skill(skill_id: str, current: dict, observations: list[dict]
             return base("intrinsic-content-failure", "not-materializable", digest, document["checkedAt"], observed)
         if cause == "GIT_CLONE_FAILED":
             return base("inaccessible-at-check", "unknown", digest, document["checkedAt"], observed)
+        if cause == "TIMEOUT":
+            return base("timeout", "unknown", digest, document["checkedAt"], observed)
+        if cause == "SUITE_COMPONENT_FAILED":
+            return base("suite-component-failed", "unknown", digest, document["checkedAt"], observed)
+        if cause == "UNEXPECTED_SUCCESS":
+            return base("contradictory-observation", "unknown", digest, document["checkedAt"], observed)
         return base("unclassified-install-failure", "unknown", digest, document["checkedAt"], observed)
     return base("unexpected-refusal", "unknown", digest, document["checkedAt"], observed)
 
