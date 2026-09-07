@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 209,
+    "total": 212,
     "S": 3,
-    "A": 22,
-    "B": 68,
-    "C": 99,
+    "A": 23,
+    "B": 69,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -215,6 +215,18 @@
         "self-attestation": 5.0
       },
       "origin": false,
+      "branch": "unique"
+    },
+    {
+      "id": "mksglu/context-mode",
+      "trustMagnitude": 151.89,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 115.89
+      },
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -455,6 +467,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "trustMagnitude": 82.22,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/retro",
@@ -1457,6 +1481,17 @@
     },
     {
       "id": "balukosuri/autoresearch-universal",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "citrolabs/ego-browser",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",

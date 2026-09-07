@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 140,
+      "count": 142,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -110,6 +110,11 @@
           "id": "context-compression",
           "name": "Context Compression",
           "summary": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua)."
+        },
+        {
+          "id": "context-safe-execution",
+          "name": "Context Safe Execution",
+          "summary": "Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context."
         },
         {
           "id": "core-platform-implementation",
@@ -490,6 +495,11 @@
           "id": "score-relevance",
           "name": "Score Relevance",
           "summary": "Assigns a numerical relevance score to candidate items relative to a query or objective."
+        },
+        {
+          "id": "scroll-driven-web-design",
+          "name": "Scroll-Driven Web Design",
+          "summary": "Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification."
         },
         {
           "id": "scroll-world",

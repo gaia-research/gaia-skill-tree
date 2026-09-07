@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (140)
+### Basic Skills (142)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -32,6 +32,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Code Generation](/skills/basic/code-generation.md) - Produces syntactically correct and functionally appropriate source code from specifications or prompts.
 * [Computer Use](/skills/basic/computer-use.md) - Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.
 * [Context Compression](/skills/basic/context-compression.md) - Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).
+* [Context Safe Execution](/skills/basic/context-safe-execution.md) - Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.
 * [Core Platform Implementation](/skills/basic/core-platform-implementation.md) - Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.
 * [Cultural Localization](/skills/basic/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/skills/basic/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
@@ -104,6 +105,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Scientific Visualization](/skills/basic/scientific-visualization.md) - Creates publication-ready scientific figures and visualizes molecular structures.
 * [Score Relevance](/skills/basic/score-relevance.md) - Assigns a numerical relevance score to candidate items relative to a query or objective.
 * [Scroll World](/skills/basic/scroll-world.md) - Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes.
+* [Scroll-Driven Web Design](/skills/basic/scroll-driven-web-design.md) - Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification.
 * [Self-Consistency](/skills/basic/self-consistency.md) - Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.
 * [Self-Critique](/skills/basic/self-critique.md) - Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.
 * [Semantic Cache](/skills/basic/semantic-cache.md) - Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.

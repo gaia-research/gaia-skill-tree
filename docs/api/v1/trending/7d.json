@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-06T16:19:03Z",
+  "generatedAt": "2026-09-07T01:51:51Z",
   "firstRun": false,
   "skills": [
     {
@@ -102,6 +102,20 @@
       }
     },
     {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "trendingScore": 75.94,
+      "tmDelta": 151.89,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      }
+    },
+    {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "4★",
@@ -155,6 +169,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "trendingScore": 41.11,
+      "tmDelta": 82.22,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
       }
     },
     {
@@ -452,6 +480,20 @@
       }
     },
     {
+      "id": "citrolabs/ego-browser",
+      "name": "Ego Browser",
+      "level": "2★",
+      "contributor": "citrolabs",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/citrolabs/ego-browser.json"
+      }
+    },
+    {
       "id": "mattpocock/productivity",
       "name": "Productivity",
       "level": "4★",
@@ -494,7 +536,7 @@
       }
     }
   ],
-  "totalTrending": 35,
+  "totalTrending": 38,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

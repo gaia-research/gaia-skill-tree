@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06",
+  "generatedAt": "2026-09-07",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2119,6 +2119,32 @@
         }
       ]
     },
+    "citrolabs": {
+      "repos": [
+        "citrolabs/ego-lite"
+      ],
+      "skillsByRepo": {
+        "citrolabs/ego-lite": [
+          "citrolabs/ego-browser"
+        ]
+      },
+      "topSkill": "citrolabs/ego-browser",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "citrolabs/ego-browser",
+          "name": "Ego Browser",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/ego-browser",
+          "file": "ego-browser.svg",
+          "fileSeal": "ego-browser-seal.svg"
+        }
+      ]
+    },
     "dietrichgebert": {
       "repos": [
         "DietrichGebert/ponytail"
@@ -2404,6 +2430,58 @@
           "slash": "/open-design",
           "file": "open-design.svg",
           "fileSeal": "open-design-seal.svg"
+        }
+      ]
+    },
+    "mksglu": {
+      "repos": [
+        "mksglu/context-mode"
+      ],
+      "skillsByRepo": {
+        "mksglu/context-mode": [
+          "mksglu/context-mode"
+        ]
+      },
+      "topSkill": "mksglu/context-mode",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/context-mode",
+          "file": "context-mode.svg",
+          "fileSeal": "context-mode-seal.svg"
+        }
+      ]
+    },
+    "nateherkai": {
+      "repos": [
+        "nateherkai/scroll-craft"
+      ],
+      "skillsByRepo": {
+        "nateherkai/scroll-craft": [
+          "nateherkai/scroll-craft"
+        ]
+      },
+      "topSkill": "nateherkai/scroll-craft",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nateherkai/scroll-craft",
+          "name": "Scroll Craft",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scroll-craft",
+          "file": "scroll-craft.svg",
+          "fileSeal": "scroll-craft-seal.svg"
         }
       ]
     },

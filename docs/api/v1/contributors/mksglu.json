@@ -1,0 +1,36 @@
+{
+  "handle": "mksglu",
+  "namedSkills": [
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "mksglu",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      },
+      "genericSkillRef": "context-safe-execution"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "mksglu/context-mode",
+    "level": "4★",
+    "trustMagnitude": 151.89
+  },
+  "prestigeScore": 151.89,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/mksglu.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

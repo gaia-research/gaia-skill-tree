@@ -18,7 +18,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — anthropic  ·  generated 2026-09-06
+GAIA SKILL TREE — anthropic  ·  generated 2026-09-07
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -99,7 +99,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
-  ├─ · · garrytan/setup-gbrain  [2★]
+  ├─ · · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
   ├─ · ○ ayghri/i-have-adhd  [4★]
@@ -180,7 +180,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ✓ · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
-  │  ├─ · · garrytan/setup-gbrain  [2★]
+  │  ├─ · · garrytan/brain-ops  [3★]
   │  │  ├─ · ○ ████████/hf-cli
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
@@ -201,7 +201,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
-  └─ · · ████████/obsidian-vault
+  └─ · · garrytan/capture  [3★]
      ├─ · ○ /retrieve
      └─ · ○ garrytan/context-restore  [2★]
 ```
