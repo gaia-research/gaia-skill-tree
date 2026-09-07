@@ -241,6 +241,7 @@ def test_equal_time_diagnostic_digest_does_not_create_conflict(tmp_path):
     (obs_dir / f"{observation_digest(first)}.json").unlink()
     second = json.loads(json.dumps(first))
     second["runId"] = "b"
+    second["checkedAt"] = "2026-09-06T18:00:00+00:00"
     second["skills"][0]["causeEvidence"]["stderrDigest"] = "e" * 64
     second["skills"][0]["causeEvidence"]["stderrTail"] = "different per-run path"
     (obs_dir / f"{observation_digest(second)}.json").write_text(

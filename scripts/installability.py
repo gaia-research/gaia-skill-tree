@@ -272,7 +272,6 @@ def _semantic_signature(document: dict, observed: dict) -> str:
     context = {
         key: document[key]
         for key in (
-            "checkedAt",
             "registryCommit",
             "indexPath",
             "scope",
