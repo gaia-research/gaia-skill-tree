@@ -511,7 +511,7 @@
             </tr>
             <tr>
               <td><span class="type-pill">fusion-recipe</span></td>
-              <td>Auto-derived for every fused/Ultimate skill from its <code>suiteComponents</code>. Only origins graded ≥C count toward the tally.</td>
+              <td>Auto-derived for every fused/Ultimate skill from its <code>suiteComponents</code>. Structural/provenance metadata only — contributes <strong>0 TM</strong> under Yggdrasil III. The composed structure it represents is reported separately as <strong>Fusion Score</strong>, never folded back into Trust Magnitude.</td>
               <td>Not hand-submitted — written by <code>gaia dev fuse</code> / <code>merge</code> when a suite skill is built.</td>
             </tr>
             <tr>
@@ -606,6 +606,13 @@
         <li><strong>Distinct from a single entry's grade</strong> — three Bronze entries can yield a Gold Overall Trust Grade in aggregate.</li>
         <li><strong>Never hand-assigned</strong> — writing this field to a node directly violates Programmatic-First and CI will reject the PR.</li>
       </ul>
+      <p>
+        The number underneath the letter grade is <strong>Trust Magnitude</strong> (TM) — the sole
+        promotion gate (4★ requires TM ≥ 100, 5★ requires TM ≥ 250). TM sums positive-scoring evidence
+        rows only; structural metadata like <code>fusion-recipe</code> contributes none of it. Do not
+        confuse TM with <strong>Fusion Score</strong>, a separate, independent scalar that reports
+        composed structure and has no bearing on grade or promotion.
+      </p>
 
       <h2 id="verification">Verification States</h2>
       <p>

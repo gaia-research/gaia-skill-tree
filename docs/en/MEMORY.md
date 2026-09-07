@@ -2,6 +2,97 @@
 
 ---
 
+## 2026-09-07 — Routine 047
+
+**Branch:** `docs/routines/047` (new — routine 044's PR #1687 was squash-merged by
+the weekly editor on 2026-09-05, so per the one-open-PR rule this starts the next
+branch from `origin/main` rather than continuing a closed PR)
+
+**Task chosen:** SYNC — the editor pass's own "Planned next" items (issue #1549
+surfaces outside `docs/en/`, and a `src/gaia_cli` code defect) are both explicitly
+out of this routine's write scope. Checked `git log origin/main` since the last
+routine instead: a real meta shift landed between v7.14.0 and the current v8.2.0
+— "Yggdrasil III" ratified `fusion-recipe` at a fixed **0 TM** (previously it
+scored into Trust Magnitude via a tally of qualifying origins) and introduced a
+separate, independent **Fusion Score** scalar to report composed structure
+instead. Confirmed against `META.md` §2.1e and §2.1 ("Scoring: TM sums
+positive-scoring evidence rows only. `fusion-recipe` is retained as
+structural/provenance/rank metadata and contributes 0 TM").
+
+### What I did
+
+`docs/en/evidence-classes.html` was the one page in `docs/en/` that documents
+evidence scoring behavior, and its Evidence Type table's `fusion-recipe` row
+still said "Only origins graded ≥C count toward the tally" — describing the
+retired Yggdrasil II behavior where fusion structure scored directly into TM.
+Also found the page never named "Trust Magnitude" anywhere, despite being the
+Evidence & Trust reference page and TM being the actual numeric promotion gate
+behind the "Overall Trust Grade" section it does document.
+
+- Rewrote the `fusion-recipe` row: now states it is structural/provenance
+  metadata contributing **0 TM** under Yggdrasil III, with the composed
+  structure reported separately as Fusion Score.
+- Added one paragraph under "Overall Trust Grade" naming Trust Magnitude (TM)
+  as the sole numeric promotion gate (4★ ≥ 100, 5★ ≥ 250), stating it sums only
+  positive-scoring evidence rows, and explicitly distinguishing it from Fusion
+  Score so a reader doesn't conflate the two after seeing both terms in the
+  wild.
+
+### Design decisions
+
+- Kept the addition to one short paragraph rather than documenting the full
+  TM formula (logarithmic star curve, mothership discount, etc.) — that
+  belongs to a fuller Trust Magnitude treatment this page doesn't yet attempt,
+  and is bigger than a one-page daily slice.
+- Did not touch `fusion.html` even though it also covers fusion mechanics —
+  scope stayed to the page that actually documents evidence *scoring*
+  (fusion-recipe's TM contribution), not fusion's structural/prerequisite
+  mechanics. Flagged below for a future routine.
+
+### Issues informed
+
+None filed — this is a documentation-accuracy fix for behavior that already
+shipped and is ratified in `META.md`; no open question to escalate.
+
+### Verification
+
+- `git status --short` — only `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` touched.
+- Banned-synonym grep (`merge|combine|compose|rarity`) on the changed file —
+  the only hit is the pre-existing, permitted `gaia dev fuse` / `merge` CLI
+  verb reference (unchanged by this edit), not the Fusion concept.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new hex.
+- `html.parser` parse-check clean on the edited page.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked; version chip already at `v8.2.0` (auto-synced, untouched).
+- Cross-checked the new claim directly against `META.md` §2.1/§2.1e rather
+  than trusting commit-message summaries.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — `fusion-recipe` row fixed; Trust
+  Magnitude / Fusion Score distinction added under Overall Trust Grade.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 048)
+
+- `docs/en/fusion.html` likely needs the same Yggdrasil III pass: check
+  whether it still implies `fusion-recipe`/suite structure feeds Trust
+  Magnitude directly, and whether it should introduce Fusion Score as the
+  concept that now reports that structure.
+- Consider whether `docs/en/evidence-classes.html` should eventually document
+  the actual TM formula pieces (logarithmic `github-stars-own` curve capped
+  at 175 TM, mothership discount) rather than only qualitative descriptions —
+  bigger than one routine, worth scoping deliberately rather than doing
+  piecemeal.
+
+### Token spend
+
+2026-09-07 Sonnet 5 Low: ~55k in, ~4k out. ~$0.20
+
+---
+
 ## 2026-09-05 — Weekly Editor Pass (editor-047wk)
 
 **Branch:** `docs/routines/044` (PR #1687 — shipped this pass via squash merge)
