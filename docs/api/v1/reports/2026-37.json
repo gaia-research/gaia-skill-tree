@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-37",
+  "isoYear": 2026,
+  "isoWeek": 37,
+  "generatedAt": "2026-09-07T14:01:05Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "8.4.1",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "contributor": "safishamsi",
+          "level": "5★",
+          "trustMagnitude": 316.88,
+          "trustGrade": "S",
+          "trendingScore": 235.26,
+          "tmDelta": 155.89,
+          "isNew": false,
+          "url": "/named/#explorer/safishamsi/graphify"
+        },
+        {
+          "id": "vercel-labs/vercel-react-best-practices",
+          "name": "Vercel React Best Practices",
+          "contributor": "vercel-labs",
+          "level": "4★",
+          "trustMagnitude": 162.66,
+          "trustGrade": "A",
+          "trendingScore": 205.81,
+          "tmDelta": 111.82,
+          "isNew": false,
+          "url": "/named/#explorer/vercel-labs/vercel-react-best-practices"
+        },
+        {
+          "id": "mattpocock/misc",
+          "name": "Misc",
+          "contributor": "mattpocock",
+          "level": "4★",
+          "trustMagnitude": 199.13,
+          "trustGrade": "A",
+          "trendingScore": 182.32,
+          "tmDelta": 79.13,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/misc"
+        },
+        {
+          "id": "anthropics/brand-guidelines",
+          "name": "Brand Guidelines",
+          "contributor": "anthropics",
+          "level": "4★",
+          "trustMagnitude": 184.32,
+          "trustGrade": "A",
+          "trendingScore": 181.62,
+          "tmDelta": 105.09,
+          "isNew": false,
+          "url": "/named/#explorer/anthropics/brand-guidelines"
+        },
+        {
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "contributor": "dietrichgebert",
+          "level": "4★",
+          "trustMagnitude": 221.96,
+          "trustGrade": "A",
+          "trendingScore": 133.56,
+          "tmDelta": 112.87,
+          "isNew": false,
+          "url": "/named/#explorer/dietrichgebert/ponytail"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "contributor": "mksglu",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 151.89,
+          "trustGrade": "A",
+          "ascendedAt": "2026-09-06T17:59:58Z",
+          "url": "/named/#explorer/mksglu/context-mode"
+        },
+        {
+          "id": "garrytan/gbrain",
+          "name": "GBrain",
+          "contributor": "garrytan",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 121.52,
+          "trustGrade": "A",
+          "ascendedAt": "2026-09-06T17:52:54Z",
+          "url": "/named/#explorer/garrytan/gbrain"
+        },
+        {
+          "id": "heygen-com/hyperframes-creative",
+          "name": "Hyperframes Creative",
+          "contributor": "heygen-com",
+          "level": "3★",
+          "previousLevel": null,
+          "trustMagnitude": 50.0,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-06T17:43:22Z",
+          "url": "/named/#explorer/heygen-com/hyperframes-creative"
+        },
+        {
+          "id": "heygen-com/figma",
+          "name": "Figma",
+          "contributor": "heygen-com",
+          "level": "3★",
+          "previousLevel": null,
+          "trustMagnitude": 50.0,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-06T17:43:17Z",
+          "url": "/named/#explorer/heygen-com/figma"
+        },
+        {
+          "id": "heygen-com/faceless-explainer",
+          "name": "Faceless Explainer",
+          "contributor": "heygen-com",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 50.0,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-06T17:28:18Z",
+          "url": "/named/#explorer/heygen-com/faceless-explainer"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "ux-audit",
+          "implementations": 4,
+          "topTM": 226.5,
+          "skills": [
+            {
+              "id": "nextlevelbuilder/ui-ux-pro-max",
+              "level": "4★",
+              "trustMagnitude": 226.5,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+            },
+            {
+              "id": "garrytan/plan-design-review",
+              "level": "3★",
+              "trustMagnitude": 50.0,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-design-review"
+            },
+            {
+              "id": "garrytan/plan-devex-review",
+              "level": "3★",
+              "trustMagnitude": 50.0,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-devex-review"
+            },
+            {
+              "id": "garrytan/devex-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/devex-review"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "autonomous-web-research",
+          "implementations": 2,
+          "topTM": 205.15,
+          "skills": [
+            {
+              "id": "mvanhorn/last30days",
+              "level": "4★",
+              "trustMagnitude": 205.15,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/mvanhorn/last30days"
+            },
+            {
+              "id": "balukosuri/autoresearch-universal",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/balukosuri/autoresearch-universal"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "refactor-code",
+          "implementations": 3,
+          "topTM": 190.0,
+          "skills": [
+            {
+              "id": "addy-osmani/code-simplification",
+              "level": "4★",
+              "trustMagnitude": 190.0,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/addy-osmani/code-simplification"
+            },
+            {
+              "id": "mattpocock/improve-codebase-architecture",
+              "level": "2★",
+              "trustMagnitude": 45.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/improve-codebase-architecture"
+            },
+            {
+              "id": "mattpocock/migrate-to-shoehorn",
+              "level": "2★",
+              "trustMagnitude": 41.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/migrate-to-shoehorn"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-37/",
+    "json": "/api/v1/reports/2026-37.json",
+    "previous": "/reports/2026-36/",
+    "archive": "/reports/"
+  }
+}
