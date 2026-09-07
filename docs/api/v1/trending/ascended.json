@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T01:51:51Z",
+  "generatedAt": "2026-09-07T03:00:35Z",
   "skills": [
     {
       "id": "mksglu/context-mode",
@@ -15,6 +15,19 @@
       "previousLevel": "2★"
     },
     {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T17:52:54Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
@@ -24,6 +37,45 @@
       "ascendedAt": "2026-09-06T16:59:08Z",
       "_links": {
         "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:29Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:27Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:25Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
       },
       "previousLevel": "2★"
     },
@@ -336,58 +388,6 @@
       "ascendedAt": "2026-09-02T15:11:15Z",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
-      "level": "4★",
-      "contributor": "anthropics",
-      "trustMagnitude": 184.32,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "ayghri/i-have-adhd",
-      "name": "I Have ADHD",
-      "level": "4★",
-      "contributor": "ayghri",
-      "trustMagnitude": 119.66,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "2★",
-      "contributor": "anthropic",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:13Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
       "previousLevel": "3★"
     }

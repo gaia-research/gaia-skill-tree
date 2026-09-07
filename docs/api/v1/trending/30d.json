@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-07T01:51:51Z",
+  "generatedAt": "2026-09-07T03:00:35Z",
   "firstRun": false,
   "skills": [
     {
@@ -242,6 +242,20 @@
       }
     },
     {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 60.76,
+      "tmDelta": 121.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
+      }
+    },
+    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -379,6 +393,48 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-spec.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
+      }
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      }
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
       }
     },
     {
@@ -872,7 +928,7 @@
       }
     }
   ],
-  "totalTrending": 62,
+  "totalTrending": 66,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
