@@ -1,12 +1,12 @@
 {
-  "version": "8.1.1",
-  "generatedAt": "2026-09-06T17:15:31Z",
+  "version": "8.2.1",
+  "generatedAt": "2026-09-07T01:51:47Z",
   "summary": {
-    "total": 206,
+    "total": 208,
     "S": 3,
-    "A": 21,
+    "A": 22,
     "B": 66,
-    "C": 99,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -324,6 +324,23 @@
         "self-attestation": 5.0
       },
       "origin": false,
+      "branch": "unique"
+    },
+    {
+      "skillId": "mksglu/context-mode",
+      "tm": 151.89,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 115.89
+      },
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -2034,6 +2051,22 @@
     },
     {
       "skillId": "balukosuri/autoresearch-universal",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "citrolabs/ego-browser",
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",

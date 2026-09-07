@@ -1,6 +1,32 @@
 {
-  "generatedAt": "2026-09-06T16:19:03Z",
+  "generatedAt": "2026-09-07T01:51:51Z",
   "skills": [
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T17:59:58Z",
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:59:08Z",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "mattpocock/misc",
       "name": "Misc",
@@ -362,32 +388,6 @@
       "ascendedAt": "2026-09-02T15:11:13Z",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:12Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:05:20Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
       },
       "previousLevel": "3★"
     }
