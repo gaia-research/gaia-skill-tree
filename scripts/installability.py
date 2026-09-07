@@ -201,11 +201,11 @@ def _load_current_index(repo_root: Path) -> tuple[dict[str, dict], str]:
     raise ValueError("no canonical named-skill index found")
 
 
-def _load_observations(
-    observation_dir: Path, repo_root: Path
-) -> tuple[list[dict], list[dict]]:
+def _load_observations(observation_dir: Path) -> tuple[list[dict], list[dict]]:
     """Return validated observations and stable top-level observation refs."""
-    assert_no_symlink_components(observation_dir, anchor=repo_root)
+    # Operator scratch directories may live outside the checkout, but every
+    # physical component must still be real so reads cannot follow an alias.
+    assert_no_symlink_components(observation_dir)
     if observation_dir.is_symlink():
         raise ValueError(f"observation directory is not a real directory: {observation_dir}")
     if not observation_dir.exists():
@@ -427,7 +427,7 @@ def build_installability_projection(
     repo_root = Path(repo_root).resolve()
     observation_dir = Path(observation_dir) if observation_dir is not None else repo_root / "registry" / "installability" / "observations"
     current, index_path = _load_current_index(repo_root)
-    observations, refs = _load_observations(observation_dir, repo_root)
+    observations, refs = _load_observations(observation_dir)
     projected = {
         skill_id: _projection_for_skill(skill_id, current, observations)
         for skill_id in sorted(current)
