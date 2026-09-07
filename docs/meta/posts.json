@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-09-07-september-2026-intake-wave-evidence-before-promotion",
+      "type": "report",
+      "date": "2026-09-07",
+      "title": "September 2026 Intake Wave: Evidence Before Promotion",
+      "summary": "Seven intake issues resolved through one topology gate, evidence verification, bounded suite curation, and honest rejection.",
+      "label": "Curation Report",
+      "url": "meta/reports/2026-09-07-september-2026-intake-wave-evidence-before-promotion.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-09-INTAKE-WAVE.md"
+    },
+    {
       "id": "2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor",
       "type": "report",
       "date": "2026-09-05",
