@@ -34,6 +34,7 @@ import shutil
 import statistics
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from datetime import datetime, timezone
@@ -1392,10 +1393,32 @@ def write_observation(path: str, payload: dict) -> str:
     os.makedirs(os.path.dirname(absolute), exist_ok=True)
     assert_no_symlink_components(absolute)
     encoded = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
-    temporary = absolute + f".tmp.{os.getpid()}"
-    with open(temporary, "w", encoding="utf-8") as handle:
-        handle.write(encoded)
-    os.replace(temporary, absolute)
+    descriptor = None
+    temporary = None
+    try:
+        descriptor, temporary = tempfile.mkstemp(
+            prefix=f".{os.path.basename(absolute)}.",
+            suffix=".tmp",
+            dir=os.path.dirname(absolute),
+            text=True,
+        )
+        # mkstemp creates the file with O_EXCL in the already validated parent;
+        # use its descriptor directly rather than reopening a predictable name.
+        assert_no_symlink_components(temporary)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            descriptor = None
+            handle.write(encoded)
+        assert_no_symlink_components(absolute)
+        os.replace(temporary, absolute)
+        temporary = None
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
+        if temporary is not None:
+            try:
+                os.unlink(temporary)
+            except FileNotFoundError:
+                pass
     return hashlib.sha256(canonical_json_bytes(payload)).hexdigest()
 
 

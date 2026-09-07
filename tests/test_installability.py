@@ -361,6 +361,41 @@ def test_projection_output_and_observation_destination_reject_symlink_parents(tm
     assert_no_symlink_components(tmp_path / "safe" / "scratch.json")
 
 
+def test_observation_temp_creation_is_exclusive_and_cleans_only_its_temp(tmp_path):
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    result.source_route = _route()
+    result.skill_content_sha256 = "a" * 64
+    result.gaia_health = "materialized"
+    result.gaia_exit_code = 0
+    result.delivered_content_sha256 = "b" * 64
+    args = argparse.Namespace(only=["alice/demo"], contributor=[], category=[], limit=0)
+    cfg = argparse.Namespace(
+        repo_root=str(ROOT), gaia_cmd=["python", "-m", "gaia_cli"], timeout=60, jobs=1
+    )
+    payload = install_parity.observation_payload(
+        [result], cfg, args, "run", ROOT / "docs/graph/named/index.json", "1.5.21", "8.1.0",
+        checked_at="2026-09-06T18:00:00Z",
+    )
+
+    for suffix, plant in (("symlink", "symlink"), ("hardlink", "hardlink")):
+        destination = tmp_path / suffix / "obs.json"
+        destination.parent.mkdir()
+        outside = tmp_path / f"{suffix}-target"
+        outside.write_text("must remain unchanged", encoding="utf-8")
+        old_temp = Path(f"{destination}.tmp.{os.getpid()}")
+        if plant == "symlink":
+            os.symlink(outside, old_temp)
+        else:
+            os.link(outside, old_temp)
+
+        digest = install_parity.write_observation(str(destination), payload)
+        assert destination.is_file()
+        assert json.loads(destination.read_text(encoding="utf-8")) == payload
+        assert outside.read_text(encoding="utf-8") == "must remain unchanged"
+        assert old_temp.exists()
+        assert digest == observation_digest(payload)
+
+
 def test_projection_is_deterministic_and_validates_schema(tmp_path):
     root, skill_path = _fixture_repo(tmp_path)
     _observation(root, skill_path)
