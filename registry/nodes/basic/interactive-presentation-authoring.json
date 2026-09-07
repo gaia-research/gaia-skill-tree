@@ -1,0 +1,22 @@
+{
+  "id": "interactive-presentation-authoring",
+  "name": "Interactive Presentation Authoring",
+  "type": "basic",
+  "description": "Design and implement presentations with structured slides, navigation, and interactive visual content.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:43:13Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill interactive-presentation-authoring"
+    }
+  ]
+}

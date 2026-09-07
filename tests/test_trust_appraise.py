@@ -45,3 +45,22 @@ def test_suite_appraisal_grades_the_actual_synthetic_evidence(monkeypatch):
     assert result["tm"] == 186.54
     assert result["grade"] == "A"
     assert "fusion-recipe" not in result["byType"]
+
+
+def test_appraise_skill_named_resolves_real_tm():
+    """Named skill appraises with real TM from .md frontmatter (Issue #1742)."""
+    appraiser = loadAppraiser()
+    result = appraiser.appraise_skill("leonxlnx/taste-skill")
+    assert result["skillRef"] == "leonxlnx/taste-skill"
+    assert result["tm"] == 172.43
+    assert result["grade"] == "A"
+    assert "github-stars-own" in result["byType"]
+
+
+def test_appraise_node_delegation():
+    """appraiseNode delegates directly to appraise_skill."""
+    appraiser = loadAppraiser()
+    res1 = appraiser.appraise_skill("leonxlnx/taste-skill")
+    res2 = appraiser.appraiseNode("leonxlnx/taste-skill")
+    assert res1 == res2
+

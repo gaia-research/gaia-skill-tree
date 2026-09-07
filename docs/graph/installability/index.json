@@ -443,6 +443,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "citrolabs/ego-browser": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/citrolabs/ego-lite/blob/5ca3c36cba2240b8df2e22ba32127747029039d5/skills/ego-browser/SKILL.md",
+        "owner": "citrolabs",
+        "repo": "ego-lite",
+        "ref": "5ca3c36cba2240b8df2e22ba32127747029039d5",
+        "subpath": "skills/ego-browser",
+        "entrypoint": "skills/ego-browser/SKILL.md",
+        "installSubpath": "skills/ego-browser"
+      },
+      "currentSkillContentSha256": "8147c6fc9cfcc256bde8e897b99350d8b4fa6133ce3ea2bbd82778831ee987b2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "dietrichgebert/ponytail": {
       "state": "unknown",
       "reason": "not-observed",
@@ -975,6 +995,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/brain-ops": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "8c70f6255047a7647adb30b1d6333a48068d9fa5",
+        "subpath": "skills/brain-ops",
+        "entrypoint": "skills/brain-ops/SKILL.md",
+        "installSubpath": "skills/brain-ops"
+      },
+      "currentSkillContentSha256": "bf12b4c5dfbeb6d40ec86a6b64459323286f0f8fb717662525100f5c624cbae5",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/browse": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1015,6 +1055,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/capture": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "8c70f6255047a7647adb30b1d6333a48068d9fa5",
+        "subpath": "skills/capture",
+        "entrypoint": "skills/capture/SKILL.md",
+        "installSubpath": "skills/capture"
+      },
+      "currentSkillContentSha256": "3f284c606adcd634979abf271b99553b9bd4b23663b1e709e93b246022d8001a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/careful": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1050,6 +1110,26 @@
         "installSubpath": "codex"
       },
       "currentSkillContentSha256": "9e7b7934568005b39b6b1c027c21bd7981873d12d2e371417c04cef49846ba3c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/concept-synthesis": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "8c70f6255047a7647adb30b1d6333a48068d9fa5",
+        "subpath": "skills/concept-synthesis",
+        "entrypoint": "skills/concept-synthesis/SKILL.md",
+        "installSubpath": "skills/concept-synthesis"
+      },
+      "currentSkillContentSha256": "6aa069591e653614fa7db401d7cecb375abc326106422fd3b823fd7ab3e61c21",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1290,6 +1370,26 @@
         "installSubpath": "autoplan"
       },
       "currentSkillContentSha256": "4949e17a660897493a5e701259040cba4292719721294713ffc40961b44e488a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/gbrain": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "8c70f6255047a7647adb30b1d6333a48068d9fa5",
+        "subpath": "",
+        "entrypoint": "README.md",
+        "installSubpath": ""
+      },
+      "currentSkillContentSha256": "86ca0565f7f6e45c696b069b1105398afa255d9bade10b10d4d9fcb4b2a42cca",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2750,6 +2850,386 @@
         "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "9b5c09c05b54e1f6690dbf81a796c82112265990709bef0d37a89909a9a9596f",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/embedded-captions": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/embedded-captions",
+        "entrypoint": "skills/embedded-captions/SKILL.md",
+        "installSubpath": "skills/embedded-captions"
+      },
+      "currentSkillContentSha256": "c5ef56ab8ae42e54f33c04d93e6b4b8733d12f30ebac58bd8f5ee7c22efb5f2d",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/faceless-explainer": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/faceless-explainer",
+        "entrypoint": "skills/faceless-explainer/SKILL.md",
+        "installSubpath": "skills/faceless-explainer"
+      },
+      "currentSkillContentSha256": "e777cee4865cac506056d72e450d669253d7339b4fb2e8d58adeba640668b104",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/figma": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/figma",
+        "entrypoint": "skills/figma/SKILL.md",
+        "installSubpath": "skills/figma"
+      },
+      "currentSkillContentSha256": "ac955a6593d67768b854c81c46298ab6ef5abd191d9e8c1cf6d171ddcd1ca5f4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes",
+        "entrypoint": "skills/hyperframes/SKILL.md",
+        "installSubpath": "skills/hyperframes"
+      },
+      "currentSkillContentSha256": "282a6ac10bf0cfa5c6974657712a4593482eee84433773b0cf862c329b8c2333",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-animation": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-animation",
+        "entrypoint": "skills/hyperframes-animation/SKILL.md",
+        "installSubpath": "skills/hyperframes-animation"
+      },
+      "currentSkillContentSha256": "d40eee64d948d5bf56637062a72b79e27f01f6db5aa1dd67f643b2a7bf494d34",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-audio": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-audio",
+        "entrypoint": "skills/hyperframes-audio/SKILL.md",
+        "installSubpath": "skills/hyperframes-audio"
+      },
+      "currentSkillContentSha256": "97fef9757505532bb4e29879068b71cf17443181f388f2c4b1d3715c4d7c5310",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-cli": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-cli",
+        "entrypoint": "skills/hyperframes-cli/SKILL.md",
+        "installSubpath": "skills/hyperframes-cli"
+      },
+      "currentSkillContentSha256": "b7ff0633937db30257339a5653d3697ef51a62ce1c9f5fdc1e53d5d2dd04d4de",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-core": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-core",
+        "entrypoint": "skills/hyperframes-core/SKILL.md",
+        "installSubpath": "skills/hyperframes-core"
+      },
+      "currentSkillContentSha256": "17b80924fe792f37e781801fc5f4c4d3625e0c40b2c2d768f33ebc1ba995b47d",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-creative": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-creative",
+        "entrypoint": "skills/hyperframes-creative/SKILL.md",
+        "installSubpath": "skills/hyperframes-creative"
+      },
+      "currentSkillContentSha256": "8d3e95e6ccb2af09da9c532e05dccc2da0b0c5f835d49d6825f40f92fa5c13e2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-keyframes": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-keyframes",
+        "entrypoint": "skills/hyperframes-keyframes/SKILL.md",
+        "installSubpath": "skills/hyperframes-keyframes"
+      },
+      "currentSkillContentSha256": "66ad9081b7666cd2b7bb6e85569626b1bfb4e75f062932a39a58bcf4c16ea470",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/hyperframes-registry": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/hyperframes-registry",
+        "entrypoint": "skills/hyperframes-registry/SKILL.md",
+        "installSubpath": "skills/hyperframes-registry"
+      },
+      "currentSkillContentSha256": "9bd416767eb9dbeaabab6028cce65727bd6bd379f91470c18c3c9b94acdd29f4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/media-use": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/media-use",
+        "entrypoint": "skills/media-use/SKILL.md",
+        "installSubpath": "skills/media-use"
+      },
+      "currentSkillContentSha256": "03101c0edf8da38fc17763187ba6681b26ff43c168516f6953a616345ce849dc",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/motion-graphics": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/motion-graphics",
+        "entrypoint": "skills/motion-graphics/SKILL.md",
+        "installSubpath": "skills/motion-graphics"
+      },
+      "currentSkillContentSha256": "b468a77219190893ad4507cf1744aaa441405f69cd3b25e1891c1f21718927ed",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/music-to-video": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/music-to-video",
+        "entrypoint": "skills/music-to-video/SKILL.md",
+        "installSubpath": "skills/music-to-video"
+      },
+      "currentSkillContentSha256": "26e3d183d5caffbdaf18f03b84887d5cf22d7ccf4bfc1f9f29f35d574253a00b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/pr-to-video": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/pr-to-video",
+        "entrypoint": "skills/pr-to-video/SKILL.md",
+        "installSubpath": "skills/pr-to-video"
+      },
+      "currentSkillContentSha256": "0e580da47c15edd5a5bb2d85dd9637c65e57a844ea09d772dada0d43d5f34166",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/product-launch-video": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/product-launch-video",
+        "entrypoint": "skills/product-launch-video/SKILL.md",
+        "installSubpath": "skills/product-launch-video"
+      },
+      "currentSkillContentSha256": "01f9f8738413767326475fbcd76be59580bb17447e906d8767135470063889ec",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/remotion-to-hyperframes": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/remotion-to-hyperframes",
+        "entrypoint": "skills/remotion-to-hyperframes/SKILL.md",
+        "installSubpath": "skills/remotion-to-hyperframes"
+      },
+      "currentSkillContentSha256": "636ec8d06d631ca9563dc0c9816336042607b966dbecf9894d1978f2aaf2a14e",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/slideshow": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/slideshow",
+        "entrypoint": "skills/slideshow/SKILL.md",
+        "installSubpath": "skills/slideshow"
+      },
+      "currentSkillContentSha256": "dcc815ee039e0079ba679b48b7a2a57509031167ab0881289face3cd825ec25e",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "heygen-com/talking-head-recut": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd",
+        "subpath": "skills/talking-head-recut",
+        "entrypoint": "skills/talking-head-recut/SKILL.md",
+        "installSubpath": "skills/talking-head-recut"
+      },
+      "currentSkillContentSha256": "ea7454f0b74a321981a115e84535e75840582eaf21355e856a297d798fee1b60",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4655,6 +5135,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "mksglu/context-mode": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md",
+        "owner": "mksglu",
+        "repo": "context-mode",
+        "ref": "6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf",
+        "subpath": "skills/context-mode",
+        "entrypoint": "skills/context-mode/SKILL.md",
+        "installSubpath": "skills/context-mode"
+      },
+      "currentSkillContentSha256": "96e33c51531640c6d07a1cfae17d12b964a62e6ddbc7a52af69297363c19a0bb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "mvanhorn/last30days": {
       "state": "unknown",
       "reason": "not-observed",
@@ -4670,6 +5170,26 @@
         "installSubpath": "skills/last30days"
       },
       "currentSkillContentSha256": "03728ee8c0468f6f8516a156036d835d1b1c53264d529fb343f5428d3beef5fb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "nateherkai/scroll-craft": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+        "owner": "nateherkai",
+        "repo": "scroll-craft",
+        "ref": "0b816225945e45380397d6a0487efa3c98916858",
+        "subpath": "plugins/nateherk-design/skills/scroll-craft",
+        "entrypoint": "plugins/nateherk-design/skills/scroll-craft/SKILL.md",
+        "installSubpath": "plugins/nateherk-design/skills/scroll-craft"
+      },
+      "currentSkillContentSha256": "e18115b97fb7aa8dd62d98d0421ed1835a2d37e9ee41e8121410227dce1d7c79",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

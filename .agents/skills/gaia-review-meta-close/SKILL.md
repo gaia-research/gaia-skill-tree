@@ -86,21 +86,33 @@ canonical inspector, which loads the named `.md` evidence:
 GAIA_OPERATOR_OVERRIDE=1 PYTHONPATH=src python3 scripts/inspectTrustMagnitude.py --skill <contributor/skill>
 ```
 
-Do NOT rely on `scripts/trust_appraise.py --skill` for named skills — it reads the
-generic node (empty evidence) and reports TM 0. `trust_appraise.py` is the
-pre-curation dry-run (`--repo` suite mode); the inspector is the post-ingest reader.
+Or run `scripts/trust_appraise.py --skill <contributor/skill>` (which reads the
+named `.md` frontmatter, loads generic and named maps, and computes live Trust
+Magnitude and Grade).
 
-### 4. GATE — calibration (TM band **and** Origin)
+### 4. GATE — calibration (TM band, branch rules, **and** Origin)
 
 Per `META.md`: TM bands map S≥250→5★, A≥100→4★, B≥50→3★, C≥20→2★, ungraded(<20)→1★.
-But **4★ additionally requires Origin status** — being the sole/most-renowned named
-implementation in the generic bucket (exactly one Origin per bucket). Before
-proposing 4★, check the bucket: `grep -rl "genericSkillRef: <slug>$" registry/named/`.
-If a stronger incumbent holds the bucket, the A-grade skill caps at 3★ unless you
-move competitors to a different generic (`gaia dev update-named <other> --generic-ref <new-bucket>`)
-and set `--origin true`.
+Every 4★ promotion requires Overall Trust Grade A (TM ≥ 100) and live verified blob
+evidence pointing to a concrete implementation file (The Star Bar, `META.md` §2.4).
 
-**STOP.** Present a table (skill | TM | grade | bucket occupancy | proposed star)
+However, **Origin requirements fork by branch**:
+- **Unique branch** (standalone skill, no `suiteComponents`): 4★ Unique requires
+  **bucket-level Origin** — being the most-renowned named implementation in the
+  generic bucket (`META.md` §4.1; exactly one Origin per bucket). Before proposing
+  4★ Unique, check the bucket: `grep -rl "genericSkillRef: <slug>$" registry/named/`.
+  If a stronger incumbent holds the bucket, the A-grade skill caps at 3★ unless you
+  move competitors to a different generic (`gaia dev update-named <other> --generic-ref <new-bucket>`)
+  and set `--origin true`.
+- **Suite branch** (suite capstone carrying `suiteComponents`): 4★ Extra does **NOT**
+  require bucket-level Origin on its generic bucket. The capstone represents a multi-skill
+  suite rather than a single bucket monopoly. Suite origin requirements apply at
+  **5★ Ultimate** (where the proposer must hold Origin on ≥1 of the `suiteComponents`
+  per `META.md` §4.2). Existing 4★ suite capstone precedents include `leonxlnx/taste-skill`
+  (4★ Extra, `origin: false` on generic `design-generation`, TM 172.43 Grade A) and
+  `gsd-build/get-shit-done` (4★ Extra).
+
+**STOP.** Present a table (skill | branch | TM | grade | bucket occupancy / suite status | proposed star)
 and get explicit operator approval. Then apply approved calibrations:
 `gaia dev calibrate <contributor/skill> <N★> --no-build` (star glyph, not bare int).
 A skill landing at 1★ is not Named — that is a legitimate outcome for ungraded
@@ -193,5 +205,5 @@ final merge to `main` is a human decision (this skill never merges).
 
 - `gaia dev build` strips `suiteComponents` without a suite manifest → use `gaia dev fuse` (§5).
 - `gaia dev validate` crashes on Windows (cp1252 on ✓) → the script runs it UTF-8-safe.
-- `trust_appraise.py --skill` reads the empty generic node for named skills → use `inspectTrustMagnitude.py` (§3).
+- `trust_appraise.py --skill` resolves named frontmatter and computes live TM/Grade (fixed in Issue #1742).
 - Windows checkouts introduce CRLF churn on every touched file → the script's LF-renormalized allowlist drops it.

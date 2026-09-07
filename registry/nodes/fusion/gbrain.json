@@ -1,0 +1,32 @@
+{
+  "id": "gbrain",
+  "name": "GBrain",
+  "type": "fusion",
+  "description": "Routes the GBrain knowledge, capture, and synthesis suite as one installable capability.",
+  "prerequisites": [
+    "knowledge-management",
+    "personal-knowledge-management",
+    "concept-synthesis"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:51:46Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill gbrain"
+    },
+    {
+      "timestamp": "2026-09-06T17:51:56Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-management, personal-knowledge-management, concept-synthesis."
+    }
+  ]
+}

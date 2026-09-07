@@ -8,7 +8,10 @@ evidence-grade reader, and the level-name/level-order metadata.
 """
 
 import json
+import logging
 import os
+
+logger = logging.getLogger(__name__)
 
 # Grade ordering for evidence rows: S > A > B > C (index 0 = strongest).
 _GRADE_ORDER = ["S", "A", "B", "C"]
@@ -186,7 +189,16 @@ def checkUniqueBranchGate(
 ) -> dict:
     """Evaluate the Unique-branch promotion gate for a named skill (Yggdrasil II).
 
-    Gate (Q3 decision log, amended 2026-07-19):
+    NOTE: This gate is strictly for the **Unique branch** (standalone skills
+    without ``suiteComponents``). If a skill has ``suiteComponents``, it sits on
+    the **Suite branch**, where promotion requirements differ:
+      - 4★ **Extra**: requires Overall Trust Grade A (TM >= 100) and live verified
+        blob evidence (Star Bar). It does NOT require bucket-level origin on its
+        generic bucket.
+      - 5★ **Ultimate**: requires Overall Trust Grade S (TM >= 250) and holding Origin
+        on >=1 of the ``suiteComponents`` (META.md §4.2).
+
+    Gate for Unique branch (Q3 decision log, amended 2026-07-19):
       - 4★ **Unique**          = Origin present + TM >= 100 (A-grade)
       - 5★ **Unique Ultimate** = Origin present + TM >= 250 (S-grade)
 
@@ -212,6 +224,8 @@ def checkUniqueBranchGate(
           "tm":             float,
           "grade":          str | None,   # required grade for this level (A/S)
           "passed":         bool,
+          "branch":         str,          # 'unique', 'suite', etc.
+          "reason":         str | None,   # explanation when non-unique or branch mismatch
         }
     """
     from gaia_cli.trustMagnitude import computeTrustMagnitude
@@ -226,6 +240,33 @@ def checkUniqueBranchGate(
     # resolve correctly in _gradedOriginCount — named skill IDs miss a generic-only map.
     mergedMap = {**(genericSkillMap or {}), **(namedSkillMap or {})}
     tm = float(computeTrustMagnitude(named, mergedMap))
+
+    # Clean check: if named has suiteComponents, it belongs to the Suite branch.
+    # The Unique branch gate is strictly for standalone skills on the Unique branch.
+    # On the Suite branch, 4★ Extra requires Grade A TM >= 100 and does NOT require
+    # bucket-level origin; Origin is required at 5★ Ultimate across suiteComponents
+    # per META.md §4.2.
+    if named.get("suiteComponents"):
+        logger.info(
+            "Skill '%s' has suiteComponents; Suite branch applies (4★ Extra requires "
+            "Grade A TM >= 100, origin not required until 5★ Ultimate per META.md §4.2), "
+            "not Unique branch.",
+            named.get("id"),
+        )
+        tm_threshold_met = bool(spec) and tm >= spec["tmFloor"]
+        return {
+            "originPresent": False,
+            "tmThresholdMet": tm_threshold_met,
+            "tm": round(tm, 2),
+            "grade": grade,
+            "passed": False,
+            "branch": "suite",
+            "reason": (
+                "Suite branch applies: skill defines suiteComponents. "
+                "4★ Extra requires Grade A TM >= 100 and does not require bucket-level origin; "
+                "origin is required at 5★ Ultimate across suiteComponents (META.md §4.2)."
+            ),
+        }
 
     # Confirm the skill sits on the Unique branch AT the target level.
     branch = computeBranch({**named, "level": level})
@@ -254,5 +295,6 @@ def checkUniqueBranchGate(
         "tm": round(tm, 2),
         "grade": grade,
         "passed": passed,
+        "branch": branch,
     }
 

@@ -44,8 +44,10 @@
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
 | · /computational-science-platform | Fusion | — | `/computational-science-platform` |
 | ○ /computer-use | Basic | — | `/computer-use` |
+| · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 3★ | `/concept-synthesis` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic | 2★ | `/context-compression` |
+| ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
 | · ████████/huggingface-datasets | Fusion | — | `/data-analysis` |
@@ -83,6 +85,7 @@
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
 | · /full-stack-developer | Fusion | — | `/full-stack-developer` |
 | · /function-calling | Fusion | — | `/function-calling` |
+| · [garrytan](../docs/u/garrytan/)/gbrain | Fusion | 4★ | `/gbrain` |
 | ○ /generate-sql | Basic | — | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic | 2★ | `/generate-test` |
 | ○ /generate-text | Basic | — | `/generate-text` |
@@ -108,7 +111,7 @@
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
-| · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
 | ○ ████████/firecrawl-research-index | Basic | — | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
@@ -142,7 +145,7 @@
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 3★ | `/performance-tuning` |
 | · ████████/personal | Fusion | — | `/personal` |
-| · ████████/obsidian-vault | Fusion | — | `/personal-knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/capture | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
@@ -193,7 +196,7 @@
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
 | · ████████/scvi-tools | Fusion | — | `/single-cell-omics-modeling` |
 | · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
-| ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 2★ | `/skill-discovery` |
+| ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 3★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
 | · [garrytan](../docs/u/garrytan/)/benchmark-models | Fusion | 2★ | `/skill-performance-benchmarking` |
@@ -213,7 +216,7 @@
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
-| ○ ████████/remotion-markup | Basic | — | `/timeline-animation` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-animation | Basic | 3★ | `/timeline-animation` |
 | ○ /tokenize | Basic | — | `/tokenize` |
 | · /tool-chaining | Fusion | — | `/tool-chaining` |
 | · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 2★ | `/tool-creation` |
@@ -231,14 +234,14 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
 | · [mattpocock](../docs/u/mattpocock/)/to-tickets | Fusion | 3★ | `/vertical-slice-planning` |
-| ○ ████████/remotion-captions | Basic | — | `/video-captions` |
-| · ████████/remotion-best-practices | Fusion | — | `/video-composition` |
+| ○ [heygen-com](../docs/u/heygen-com/)/embedded-captions | Basic | 3★ | `/video-captions` |
+| · [heygen-com](../docs/u/heygen-com/)/hyperframes | Fusion | 4★ | `/video-composition` |
 | · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |
 | ○ ████████/remotion-interactivity | Basic | — | `/video-interactivity` |
 | ○ ████████/remotion-studio | Basic | — | `/video-preview` |
-| ○ ████████/remotion-render | Basic | — | `/video-rendering` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-core | Basic | 3★ | `/video-rendering` |
 | ○ ████████/remotion-saas | Basic | — | `/video-saas` |
-| ○ ████████/remotion-create | Basic | — | `/video-scaffolding` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-cli | Basic | 3★ | `/video-scaffolding` |
 | ○ [leonxlnx](../docs/u/leonxlnx/)/image-to-code-skill | Basic | 3★ | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |
@@ -263,6 +266,7 @@
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
+| ◉ [mksglu](../docs/u/mksglu/)/context-mode | Unique Skill | 4★ | `/context-safe-execution` |
 | ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
 | ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
@@ -281,26 +285,32 @@
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
 | ○ Agent Reach | Intrinsic Skill | — | `/agent-reach` |
+| ○ Audio Mixing | Intrinsic Skill | 3★ | `/audio-mixing` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
+| ○ Creative Direction | Intrinsic Skill | 3★ | `/creative-direction` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
+| ○ Design Source Import | Intrinsic Skill | 3★ | `/design-source-import` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
 | ○ Event Ticket Transfer | Intrinsic Skill | — | `/event-ticket-transfer` |
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | — | `/few-shot-learning` |
-| ○ Framework Upgrade | Intrinsic Skill | — | `/framework-upgrade` |
+| ○ Framework Upgrade | Intrinsic Skill | 3★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | 3★ | `/image-generate` |
+| ○ Interactive Presentation Authoring | Intrinsic Skill | 3★ | `/interactive-presentation-authoring` |
+| ○ Media Asset Orchestration | Intrinsic Skill | 3★ | `/media-asset-orchestration` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ postgres-best-practices | Intrinsic Skill | — | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | — | `/quantum-circuit-programming` |
+| ○ Scroll-Driven Web Design | Intrinsic Skill | 3★ | `/scroll-driven-web-design` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | — | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |

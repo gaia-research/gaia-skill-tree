@@ -7,6 +7,14 @@ de-noising, or the leak guards by hand. It does NOT make curation judgments
 (calibration stars, Origin, suite promotion, naming) — those are the human/
 agent gates in the /gaia-review-meta-close skill.
 
+Branch calibration rules (Issue #1741 / META.md §4):
+  - 4★ requires Overall Trust Grade A (TM >= 100) and live verified blob evidence.
+  - Unique branch (standalone, no suiteComponents): 4★ Unique requires bucket-level Origin.
+  - Suite branch (suite capstone carrying suiteComponents): 4★ Extra does NOT require
+    bucket-level Origin on its generic bucket. Suite origin requirements apply at
+    5★ Ultimate (holding Origin on >=1 of the suiteComponents per META.md §4.2).
+    Precedents: leonxlnx/taste-skill, gsd-build/get-shit-done.
+
 What it does (all read-only unless --apply):
 
   status   Report what changed vs origin/main, split into:

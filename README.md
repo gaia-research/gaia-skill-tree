@@ -94,7 +94,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
 
-(284 skills total — see docs/tree.md)
+(293 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -175,7 +175,7 @@ This is the evidence grade at the Skill level.
 **1. CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `8.1.0`.
+Current Gaia CLI version: `8.4.1`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh

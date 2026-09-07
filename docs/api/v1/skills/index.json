@@ -429,6 +429,43 @@
       "genericSkillRef": "design-generation"
     },
     {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "fusionScore": 280.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition",
+      "suiteComponents": [
+        "heygen-com/embedded-captions",
+        "heygen-com/faceless-explainer",
+        "heygen-com/figma",
+        "heygen-com/hyperframes-animation",
+        "heygen-com/hyperframes-audio",
+        "heygen-com/hyperframes-cli",
+        "heygen-com/hyperframes-core",
+        "heygen-com/hyperframes-creative",
+        "heygen-com/hyperframes-keyframes",
+        "heygen-com/hyperframes-registry",
+        "heygen-com/media-use",
+        "heygen-com/motion-graphics",
+        "heygen-com/music-to-video",
+        "heygen-com/pr-to-video",
+        "heygen-com/product-launch-video",
+        "heygen-com/remotion-to-hyperframes",
+        "heygen-com/slideshow",
+        "heygen-com/talking-head-recut"
+      ]
+    },
+    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
@@ -444,6 +481,45 @@
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       },
       "genericSkillRef": "react-performance-optimization"
+    },
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "mksglu",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      },
+      "genericSkillRef": "context-safe-execution"
+    },
+    {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "fusionScore": 200.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
+      },
+      "genericSkillRef": "gbrain",
+      "suiteComponents": [
+        "garrytan/brain-ops",
+        "garrytan/capture",
+        "garrytan/concept-synthesis"
+      ]
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -780,6 +856,23 @@
       "genericSkillRef": "web-search"
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "nateherkai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "genericSkillRef": "scroll-driven-web-design"
+    },
+    {
       "id": "garrytan/retro",
       "name": "Retro",
       "level": "3★",
@@ -996,79 +1089,11 @@
         "self": "/api/v1/skills/mattpocock/handoff.json"
       },
       "genericSkillRef": "agent-handoff"
-    },
-    {
-      "id": "mattpocock/to-spec",
-      "name": "To PRD",
-      "level": "3★",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-spec.json"
-      },
-      "genericSkillRef": "prd-generation"
-    },
-    {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "oso95",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
-      },
-      "genericSkillRef": "scroll-world"
-    },
-    {
-      "id": "mattpocock/setup-matt-pocock-skills",
-      "name": "Setup Matt Pocock Skills",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
-      },
-      "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "mattpocock/triage",
-      "name": "Triage",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/triage.json"
-      },
-      "genericSkillRef": "issue-triage"
     }
   ],
   "page": 1,
-  "totalPages": 4,
-  "totalSkills": 188,
+  "totalPages": 5,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

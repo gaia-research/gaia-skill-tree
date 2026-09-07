@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — laravel  ·  generated 2026-09-06
+GAIA SKILL TREE — laravel  ·  generated 2026-09-07
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -27,7 +27,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ ████████/upgrade-laravel-v13
+  ✓ ○ heygen-com/remotion-to-hyperframes  [3★]
 ```
 
 ## Pending Combinations

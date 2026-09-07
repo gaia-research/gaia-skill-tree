@@ -1,50 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-06T09:55:10Z",
+  "generatedAt": "2026-09-07T03:20:14Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 199.13,
-      "overallTrustGrade": "A",
-      "trendingScore": 4271.73,
-      "tmDelta": 199.13,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      }
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 102.5,
-      "overallTrustGrade": "A",
-      "trendingScore": 2252.5,
-      "tmDelta": 102.5,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      }
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 102.5,
-      "overallTrustGrade": "A",
-      "trendingScore": 2252.5,
-      "tmDelta": 102.5,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
-    },
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
@@ -52,11 +10,165 @@
       "contributor": "safishamsi",
       "trustMagnitude": 316.88,
       "overallTrustGrade": "S",
-      "trendingScore": 80.36,
-      "tmDelta": 19.08,
+      "trendingScore": 235.26,
+      "tmDelta": 155.89,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "4★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 162.66,
+      "overallTrustGrade": "A",
+      "trendingScore": 205.81,
+      "tmDelta": 111.82,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      }
+    },
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 199.13,
+      "overallTrustGrade": "A",
+      "trendingScore": 182.32,
+      "tmDelta": 79.13,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      }
+    },
+    {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "4★",
+      "contributor": "anthropics",
+      "trustMagnitude": 184.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 181.62,
+      "tmDelta": 105.09,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      }
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 221.96,
+      "overallTrustGrade": "A",
+      "trendingScore": 133.56,
+      "tmDelta": 112.87,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      }
+    },
+    {
+      "id": "leonxlnx/taste-skill",
+      "name": "taste-skill",
+      "level": "4★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 172.43,
+      "overallTrustGrade": "A",
+      "trendingScore": 86.22,
+      "tmDelta": 172.43,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
+      }
+    },
+    {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "contributor": "mvanhorn",
+      "trustMagnitude": 205.15,
+      "overallTrustGrade": "A",
+      "trendingScore": 82.32,
+      "tmDelta": 71.6,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "trendingScore": 81.81,
+      "tmDelta": 163.63,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      }
+    },
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "trendingScore": 75.94,
+      "tmDelta": 151.89,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      }
+    },
+    {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "contributor": "pbakaus",
+      "trustMagnitude": 169.34,
+      "overallTrustGrade": "A",
+      "trendingScore": 72.7,
+      "tmDelta": 20.02,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      }
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 226.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 71.42,
+      "tmDelta": 19.53,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 60.76,
+      "tmDelta": 121.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
       }
     },
     {
@@ -74,34 +186,6 @@
       }
     },
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 373.22,
-      "overallTrustGrade": "S",
-      "trendingScore": 55.95,
-      "tmDelta": 43.32,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      }
-    },
-    {
-      "id": "vercel-labs/vercel-react-best-practices",
-      "name": "Vercel React Best Practices",
-      "level": "4★",
-      "contributor": "vercel-labs",
-      "trustMagnitude": 162.66,
-      "overallTrustGrade": "A",
-      "trendingScore": 54.11,
-      "tmDelta": 3.65,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
-      }
-    },
-    {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
       "level": "4★",
@@ -116,15 +200,449 @@
       }
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "trendingScore": 41.11,
+      "tmDelta": 82.22,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "4★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 190.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 40.28,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      }
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 95.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 39.47,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 95.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 39.47,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 80.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 39.18,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 38.17,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+      }
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 38.17,
+      "tmDelta": -8.83,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
+      }
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.68,
+      "tmDelta": -11.21,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.68,
+      "tmDelta": -11.21,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
+      }
+    },
+    {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.89,
+      "tmDelta": -18.67,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
+      }
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      }
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      }
+    },
+    {
+      "id": "heygen-com/embedded-captions",
+      "name": "Embedded Captions",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
+      }
+    },
+    {
+      "id": "heygen-com/faceless-explainer",
+      "name": "Faceless Explainer",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/faceless-explainer.json"
+      }
+    },
+    {
+      "id": "heygen-com/figma",
+      "name": "Figma",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/figma.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-animation",
+      "name": "HyperFrames Animation",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-animation.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-audio",
+      "name": "Hyperframes Audio",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-audio.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "name": "HyperFrames CLI",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-core",
+      "name": "HyperFrames Core",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-creative",
+      "name": "Hyperframes Creative",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-keyframes",
+      "name": "Hyperframes Keyframes",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes-registry",
+      "name": "Hyperframes Registry",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
+      }
+    },
+    {
+      "id": "heygen-com/media-use",
+      "name": "Media Use",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/media-use.json"
+      }
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "name": "Motion Graphics",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
+      }
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "name": "Music To Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/music-to-video.json"
+      }
+    },
+    {
+      "id": "heygen-com/pr-to-video",
+      "name": "Pr To Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
+      }
+    },
+    {
+      "id": "heygen-com/product-launch-video",
+      "name": "Product Launch Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
+      }
+    },
+    {
+      "id": "heygen-com/remotion-to-hyperframes",
+      "name": "Remotion To Hyperframes",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
+      }
+    },
+    {
+      "id": "heygen-com/slideshow",
+      "name": "Slideshow",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/slideshow.json"
+      }
+    },
+    {
+      "id": "heygen-com/talking-head-recut",
+      "name": "Talking Head Recut",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
+      }
+    },
+    {
       "id": "leonxlnx/brandkit",
       "name": "brandkit",
       "level": "3★",
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brandkit.json"
       }
@@ -136,9 +654,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
       }
@@ -150,9 +668,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
       }
@@ -164,9 +682,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
       }
@@ -178,9 +696,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
       }
@@ -192,9 +710,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
       }
@@ -206,9 +724,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
       }
@@ -220,9 +738,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/output-skill.json"
       }
@@ -234,9 +752,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
       }
@@ -248,9 +766,9 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/soft-skill.json"
       }
@@ -262,67 +780,11 @@
       "contributor": "leonxlnx",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
-      }
-    },
-    {
-      "id": "garrytan/garrytan",
-      "name": "Autoplan",
-      "level": "2★",
-      "contributor": "garrytan",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/garrytan.json"
-      }
-    },
-    {
-      "id": "ruvnet/dual-mode",
-      "name": "Dual Mode",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-mode.json"
-      }
-    },
-    {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
-      }
-    },
-    {
-      "id": "garrytan/gstack",
-      "name": "Founder Mode",
-      "level": "5★",
-      "contributor": "garrytan",
-      "trustMagnitude": 355.66,
-      "overallTrustGrade": "S",
-      "trendingScore": 35.52,
-      "tmDelta": 24.07,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gstack.json"
       }
     },
     {
@@ -338,9 +800,65 @@
       "_links": {
         "self": "/api/v1/skills/balukosuri/autoresearch-universal.json"
       }
+    },
+    {
+      "id": "citrolabs/ego-browser",
+      "name": "Ego Browser",
+      "level": "2★",
+      "contributor": "citrolabs",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/citrolabs/ego-browser.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 102.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 13.89,
+      "tmDelta": -77.5,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 12.78,
+      "tmDelta": -29.76,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 12.78,
+      "tmDelta": -29.76,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
     }
   ],
-  "totalTrending": 24,
+  "totalTrending": 61,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
