@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-06T16:19:03Z",
+  "generatedAt": "2026-09-07T00:46:04Z",
   "firstRun": false,
   "skills": [
     {
@@ -99,6 +99,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mvanhorn/last30days.json"
+      }
+    },
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "trendingScore": 75.94,
+      "tmDelta": 151.89,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
       }
     },
     {
@@ -494,7 +508,7 @@
       }
     }
   ],
-  "totalTrending": 35,
+  "totalTrending": 36,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
