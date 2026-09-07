@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import posixpath
 import re
 from datetime import datetime
 from pathlib import Path
@@ -57,13 +58,82 @@ def _validate(document: dict, schema_path: Path, label: str) -> None:
         raise ValueError(f"invalid {label} at {location}: {error.message}")
 
 
-def _safe_json_path(path: Path, root: Path) -> None:
-    if path.is_symlink():
-        raise ValueError(f"symlink input is not allowed: {path}")
+def assert_no_symlink_components(path: Path | str, anchor: Path | str | None = None) -> None:
+    """Reject symlinked path components before any managed read or write.
+
+    `/tmp -> /private/tmp` is the one expected macOS alias and is explicitly
+    allowed. All other nested symlinks are rejected, including a missing leaf.
+    """
+    lexical = Path(os.path.normpath(str(Path(path).absolute())))
+    root = Path(os.path.normpath(str(Path(anchor).absolute()))) if anchor is not None else Path(lexical.anchor)
     try:
-        path.resolve().relative_to(root.resolve())
+        relative = lexical.relative_to(root)
     except ValueError as exc:
-        raise ValueError(f"path escapes installability root: {path}") from exc
+        raise ValueError(f"path escapes managed root: {path}") from exc
+    cursor = root
+    if cursor.is_symlink():
+        resolved = cursor.resolve()
+        if not (cursor == Path("/tmp") and resolved == Path("/private/tmp")):
+            raise ValueError(f"symlink path component is not allowed: {cursor}")
+    for part in relative.parts:
+        cursor /= part
+        if cursor.is_symlink():
+            resolved = cursor.resolve()
+            if not (cursor == Path("/tmp") and resolved == Path("/private/tmp")):
+                raise ValueError(f"symlink path component is not allowed: {cursor}")
+
+
+def _safe_json_path(path: Path, root: Path) -> None:
+    assert_no_symlink_components(path, anchor=root)
+
+
+def canonical_source_route(url: str, install_subpath: str | None = None) -> dict:
+    """Parse a GitHub route once for both exporter and offline projector.
+
+    `subpath` is the Gaia-installed root (`blob/.../SKILL.md` becomes its
+    parent exactly as `_parse_github_url` does). `entrypoint` preserves the
+    raw route path and `installSubpath` records the actual Gaia parser result.
+    """
+    parsed = urlsplit(url)
+    if (
+        parsed.username is not None
+        or parsed.password is not None
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise ValueError("credential-bearing or query-bearing source route")
+    if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() != "github.com":
+        raise ValueError(f"unsupported source route: {url}")
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) < 2:
+        raise ValueError(f"incomplete source route: {url}")
+    owner, repo = parts[0], parts[1].removesuffix(".git")
+    ref = None
+    entrypoint = ""
+    subpath = ""
+    if len(parts) >= 3:
+        if parts[2] not in {"blob", "tree"} or len(parts) < 4:
+            raise ValueError(f"unsupported GitHub source route: {url}")
+        ref = parts[3]
+        entrypoint = "/".join(parts[4:])
+        subpath = (
+            posixpath.dirname(entrypoint)
+            if parts[2] == "blob" and entrypoint.endswith(".md")
+            else entrypoint
+        )
+    actual_install_subpath = subpath if install_subpath is None else install_subpath
+    for value in (subpath, entrypoint, actual_install_subpath):
+        if value.startswith("/") or ".." in Path(value).parts:
+            raise ValueError("source route contains path traversal")
+    return {
+        "url": url,
+        "owner": owner,
+        "repo": repo,
+        "ref": ref,
+        "subpath": subpath,
+        "entrypoint": entrypoint,
+        "installSubpath": actual_install_subpath,
+    }
 
 
 def _skill_path(repo_root: Path, skill_id: str) -> Path | None:
@@ -71,6 +141,7 @@ def _skill_path(repo_root: Path, skill_id: str) -> Path | None:
         raise ValueError(f"invalid skill id: {skill_id!r}")
     named_root = (repo_root / "registry" / "named").absolute()
     path = Path(str(named_root.joinpath(*skill_id.split("/"))) + ".md")
+    assert_no_symlink_components(path, anchor=repo_root)
     try:
         path.relative_to(named_root)
     except ValueError as exc:
@@ -97,25 +168,7 @@ def _file_digest(path: Path | None) -> str | None:
 
 
 def _route(link: str | None) -> dict | None:
-    if not link:
-        return None
-    parsed = urlsplit(link)
-    if parsed.username is not None or parsed.password is not None or parsed.query or parsed.fragment:
-        raise ValueError("credential-bearing or query-bearing source route")
-    if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() != "github.com":
-        raise ValueError(f"unsupported source route: {link}")
-    parts = [part for part in parsed.path.split("/") if part]
-    if len(parts) < 2:
-        raise ValueError(f"incomplete source route: {link}")
-    owner, repo = parts[0], parts[1].removesuffix(".git")
-    ref = None
-    subpath = ""
-    if len(parts) >= 3:
-        if parts[2] not in {"blob", "tree"} or len(parts) < 4:
-            raise ValueError(f"unsupported GitHub source route: {link}")
-        ref = parts[3]
-        subpath = "/".join(parts[4:])
-    return {"url": link, "owner": owner, "repo": repo, "ref": ref, "subpath": subpath}
+    return canonical_source_route(link) if link else None
 
 
 def _load_current_index(repo_root: Path) -> tuple[dict[str, dict], str]:
@@ -124,6 +177,7 @@ def _load_current_index(repo_root: Path) -> tuple[dict[str, dict], str]:
     # docs step, so it must not change this artifact's bytes or indexPath.
     candidates = [repo_root / "docs" / "graph" / "named" / "index.json"]
     for path in candidates:
+        assert_no_symlink_components(path, anchor=repo_root)
         if not path.exists():
             continue
         if path.is_symlink():
@@ -147,8 +201,11 @@ def _load_current_index(repo_root: Path) -> tuple[dict[str, dict], str]:
     raise ValueError("no canonical named-skill index found")
 
 
-def _load_observations(observation_dir: Path) -> tuple[list[dict], list[dict]]:
+def _load_observations(
+    observation_dir: Path, repo_root: Path
+) -> tuple[list[dict], list[dict]]:
     """Return validated observations and stable top-level observation refs."""
+    assert_no_symlink_components(observation_dir, anchor=repo_root)
     if observation_dir.is_symlink():
         raise ValueError(f"observation directory is not a real directory: {observation_dir}")
     if not observation_dir.exists():
@@ -185,11 +242,14 @@ def _load_observations(observation_dir: Path) -> tuple[list[dict], list[dict]]:
 def _assert_safe_route(route: dict | None) -> None:
     if route is None:
         return
-    parsed = urlsplit(route["url"])
-    if parsed.username is not None or parsed.password is not None or parsed.query or parsed.fragment:
-        raise ValueError("credential-bearing or query-bearing observation route")
-    if ".." in Path(route["subpath"]).parts:
-        raise ValueError("observation route contains path traversal")
+    expected = canonical_source_route(route["url"])
+    for key in ("url", "owner", "repo", "ref", "subpath", "entrypoint"):
+        if route[key] != expected[key]:
+            raise ValueError(f"observation route interpretation mismatch: {key}")
+    for key in ("subpath", "entrypoint", "installSubpath"):
+        value = route[key]
+        if value.startswith("/") or ".." in Path(value).parts:
+            raise ValueError("observation route contains path traversal")
 
 
 def _parse_time(value: str) -> datetime:
@@ -207,15 +267,58 @@ def _current_context(current: dict, skill_id: str) -> dict:
     return current.get(skill_id, {})
 
 
+def _semantic_signature(document: dict, observed: dict) -> str:
+    """Normalize every decision-relevant observation fact for tie detection."""
+    context = {
+        key: document[key]
+        for key in (
+            "checkedAt",
+            "registryCommit",
+            "indexPath",
+            "scope",
+            "toolVersion",
+            "gaiaVersion",
+            "npxVersion",
+            "gaiaCommand",
+            "timeoutSeconds",
+            "jobs",
+        )
+    }
+    semantic = {
+        "context": context,
+        "skill": {
+            key: observed[key]
+            for key in (
+                "id",
+                "category",
+                "sourceRoute",
+                "resolvedRevision",
+                "skillContentSha256",
+                "deliveredContentSha256",
+                "gaiaHealth",
+                "comparator",
+            )
+        },
+        # Diagnostics identify a failure but are not decision semantics. A
+        # clone path containing a per-run directory must not make two otherwise
+        # equivalent observations conflict.
+        "cause": {
+            key: observed["causeEvidence"][key]
+            for key in ("classifiedCause", "intrinsicCause", "exitCode")
+        },
+    }
+    return json.dumps(semantic, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
 def _projection_for_skill(skill_id: str, current: dict, observations: list[dict]) -> dict:
     current_item = _current_context(current, skill_id)
     current_route = current_item.get("sourceRoute")
     current_digest = current_item.get("skillContentSha256")
-    candidates: list[tuple[datetime, str, dict, dict]] = []
-    mismatches: list[tuple[str, dict, dict]] = []
+    records: list[tuple[datetime, str, dict, dict, str | None]] = []
 
     for document in observations:
         digest = observation_digest(document)
+        checked_at = _parse_time(document["checkedAt"])
         for observed in document["skills"]:
             if observed["id"] != skill_id:
                 continue
@@ -225,13 +328,18 @@ def _projection_for_skill(skill_id: str, current: dict, observations: list[dict]
                 or observed["skillContentSha256"] is None
                 or current_digest is None
             )
+            reason = None
             if route_changed or content_changed:
                 reason = "subject-changed" if content_changed else "route-changed"
-                mismatches.append((reason, document, observed))
-                continue
-            candidates.append((_parse_time(document["checkedAt"]), digest, document, observed))
+            records.append((checked_at, digest, document, observed, reason))
 
-    def base(reason: str, state: str, digest: str | None, observed_at: str | None, observed: dict | None) -> dict:
+    def base(
+        reason: str,
+        state: str,
+        digest: str | None,
+        observed_at: str | None,
+        observed: dict | None,
+    ) -> dict:
         return {
             "state": state,
             "reason": reason,
@@ -245,27 +353,49 @@ def _projection_for_skill(skill_id: str, current: dict, observations: list[dict]
             "deliveredContentSha256": observed["deliveredContentSha256"] if observed else None,
         }
 
-    if not candidates:
-        if mismatches:
-            reason, document, observed = sorted(
-                mismatches,
-                key=lambda item: (item[1]["checkedAt"], observation_digest(item[1])),
-                reverse=True,
-            )[0]
-            return base(reason, "unknown", observation_digest(document), document["checkedAt"], observed)
+    if not records:
         return base("not-observed", "unknown", None, None, None)
 
-    candidates.sort(key=lambda item: (item[0], item[1]), reverse=True)
-    newest_time = candidates[0][0]
-    newest = [candidate for candidate in candidates if candidate[0] == newest_time]
-    signatures = {
-        (candidate[3]["gaiaHealth"], candidate[3]["causeEvidence"]["classifiedCause"], candidate[3]["causeEvidence"]["intrinsicCause"])
-        for candidate in newest
+    newest_time = max(record[0] for record in records)
+    newest = [record for record in records if record[0] == newest_time]
+    newest_signatures = {
+        _semantic_signature(record[2], record[3]) for record in newest
     }
-    if len(signatures) > 1:
-        return base("ambiguous-observation", "unknown", None, newest_time.isoformat().replace("+00:00", "Z"), None)
+    newest_mismatches = [record for record in newest if record[4] is not None]
+    newest_matches = [record for record in newest if record[4] is None]
+    if len(newest_signatures) > 1 and len(newest) > 1:
+        return base(
+            "ambiguous-observation",
+            "unknown",
+            None,
+            newest_time.isoformat().replace("+00:00", "Z"),
+            None,
+        )
+    if newest_mismatches and newest_matches:
+        return base(
+            "ambiguous-observation",
+            "unknown",
+            None,
+            newest_time.isoformat().replace("+00:00", "Z"),
+            None,
+        )
+    if newest_mismatches:
+        record = sorted(newest, key=lambda item: item[1], reverse=True)[0]
+        _, digest, document, observed, reason = record
+        return base(reason, "unknown", digest, document["checkedAt"], observed)
 
-    _, digest, document, observed = newest[0]
+    candidates = newest_matches
+    if len({_semantic_signature(record[2], record[3]) for record in candidates}) > 1:
+        return base(
+            "ambiguous-observation",
+            "unknown",
+            None,
+            newest_time.isoformat().replace("+00:00", "Z"),
+            None,
+        )
+    _, digest, document, observed, _ = sorted(
+        candidates, key=lambda item: item[1], reverse=True
+    )[0]
     health = observed["gaiaHealth"]
     category = observed["category"]
     if health == "materialized":
@@ -297,7 +427,7 @@ def build_installability_projection(
     repo_root = Path(repo_root).resolve()
     observation_dir = Path(observation_dir) if observation_dir is not None else repo_root / "registry" / "installability" / "observations"
     current, index_path = _load_current_index(repo_root)
-    observations, refs = _load_observations(observation_dir)
+    observations, refs = _load_observations(observation_dir, repo_root)
     projected = {
         skill_id: _projection_for_skill(skill_id, current, observations)
         for skill_id in sorted(current)
@@ -311,16 +441,21 @@ def build_installability_projection(
     _validate(document, CONTRACTS / "projection.schema.json", "projection")
     return document
 
-def write_projection(document: dict, output: Path | str) -> bool:
+def write_projection(
+    document: dict, output: Path | str, anchor: Path | str | None = None
+) -> bool:
     """Write a projection only if bytes changed; return whether it changed."""
-    output = Path(output)
+    output = Path(output).absolute()
+    assert_no_symlink_components(output, anchor=anchor)
     output.parent.mkdir(parents=True, exist_ok=True)
+    assert_no_symlink_components(output, anchor=anchor)
     encoded = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
     if output.exists() and output.is_symlink():
         raise ValueError(f"projection output is a symlink: {output}")
     if output.exists() and output.read_text(encoding="utf-8") == encoded:
         return False
     temporary = output.with_name(f".{output.name}.{os.getpid()}.tmp")
+    assert_no_symlink_components(temporary, anchor=anchor)
     temporary.write_text(encoded, encoding="utf-8")
     os.replace(temporary, output)
     return True

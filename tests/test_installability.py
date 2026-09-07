@@ -8,7 +8,9 @@ import pytest
 
 from scripts import install_parity
 from scripts.installability import (
+    assert_no_symlink_components,
     build_installability_projection,
+    canonical_source_route,
     observation_digest,
     write_projection,
 )
@@ -18,13 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _route(ref="main", subpath="SKILL.md", repo="source"):
-    return {
-        "url": f"https://github.com/alice/{repo}/blob/{ref}/{subpath}",
-        "owner": "alice",
-        "repo": repo,
-        "ref": ref,
-        "subpath": subpath,
-    }
+    return canonical_source_route(
+        f"https://github.com/alice/{repo}/blob/{ref}/{subpath}"
+    )
 
 
 def _fixture_repo(tmp_path, *, source=True, content="---\nname: Demo\n---\n\nbody\n"):
@@ -133,6 +131,29 @@ def test_diagnostics_are_bounded_and_redacted():
     assert "ghp_verysecret" not in tail
 
 
+@pytest.mark.parametrize(
+    "url,subpath,entrypoint",
+    [
+        (
+            "https://github.com/alice/source/blob/main/health/SKILL.md",
+            "health",
+            "health/SKILL.md",
+        ),
+        (
+            "https://github.com/alice/source/tree/main/health",
+            "health",
+            "health",
+        ),
+        ("https://github.com/alice/source", "", ""),
+    ],
+)
+def test_shared_route_interpretation_preserves_entrypoint(url, subpath, entrypoint):
+    route = canonical_source_route(url)
+    assert route["subpath"] == subpath
+    assert route["entrypoint"] == entrypoint
+    assert route["installSubpath"] == subpath
+
+
 def test_materialized_dirname_mismatch_projects_materializable(tmp_path):
     root, skill_path = _fixture_repo(tmp_path)
     document = _observation(root, skill_path)
@@ -192,6 +213,47 @@ def test_conflicting_equally_current_observations_are_ambiguous(tmp_path):
     assert item["reason"] == "ambiguous-observation"
 
 
+def test_equal_time_provenance_and_comparator_conflicts_are_ambiguous(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    first = _observation(root, skill_path, run_id="a")
+    obs_dir = root / "registry" / "installability" / "observations"
+    (obs_dir / f"{observation_digest(first)}.json").unlink()
+    second = json.loads(json.dumps(first))
+    second["skills"][0]["resolvedRevision"] = "c" * 40
+    second["skills"][0]["deliveredContentSha256"] = "d" * 64
+    second["skills"][0]["comparator"] = {"dirname": "diff", "content": "diff"}
+    second["gaiaVersion"] = "different"
+    (obs_dir / f"{observation_digest(second)}.json").write_text(
+        json.dumps(second), encoding="utf-8"
+    )
+    (obs_dir / f"{observation_digest(first)}.json").write_text(
+        json.dumps(first), encoding="utf-8"
+    )
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "ambiguous-observation"
+
+
+def test_equal_time_diagnostic_digest_does_not_create_conflict(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    first = _observation(root, skill_path, run_id="a")
+    obs_dir = root / "registry" / "installability" / "observations"
+    (obs_dir / f"{observation_digest(first)}.json").unlink()
+    second = json.loads(json.dumps(first))
+    second["runId"] = "b"
+    second["skills"][0]["causeEvidence"]["stderrDigest"] = "e" * 64
+    second["skills"][0]["causeEvidence"]["stderrTail"] = "different per-run path"
+    (obs_dir / f"{observation_digest(second)}.json").write_text(
+        json.dumps(second), encoding="utf-8"
+    )
+    (obs_dir / f"{observation_digest(first)}.json").write_text(
+        json.dumps(first), encoding="utf-8"
+    )
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "materializable"
+    assert item["reason"] == "gaia-materialized"
+
+
 def test_intrinsic_pinned_content_evidence_is_the_only_failure_negative(tmp_path):
     root, skill_path = _fixture_repo(tmp_path)
     document = _observation(root, skill_path, health="failed")
@@ -220,6 +282,16 @@ def test_out_of_scope_observation_does_not_add_a_skill(tmp_path):
     assert projection["skills"]["alice/demo"]["reason"] == "not-observed"
 
 
+def test_route_parser_disagreement_is_unknown(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path, route=canonical_source_route(
+        _route()["url"], install_subpath="wrong-root"
+    ))
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "route-changed"
+
+
 def test_malformed_filename_and_symlink_are_rejected(tmp_path):
     root, skill_path = _fixture_repo(tmp_path)
     obs_dir = root / "registry" / "installability" / "observations"
@@ -233,6 +305,59 @@ def test_malformed_filename_and_symlink_are_rejected(tmp_path):
     os.symlink(target, obs_dir / ("a" * 64 + ".json"))
     with pytest.raises(ValueError, match="symlink"):
         build_installability_projection(root)
+
+
+def test_named_parent_symlink_is_rejected_without_touching_target(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    target = outside / "sentinel"
+    target.write_text("untouched", encoding="utf-8")
+    named = root / "registry" / "named"
+    skill_path.unlink()
+    (named / "alice").rmdir()
+    named.rmdir()
+    os.symlink(outside, named)
+    with pytest.raises(ValueError, match="symlink"):
+        build_installability_projection(root)
+    assert target.read_text(encoding="utf-8") == "untouched"
+
+
+def test_projection_output_and_observation_destination_reject_symlink_parents(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    projection = build_installability_projection(root)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    output_parent = root / "docs" / "graph" / "installability"
+    output_parent.parent.mkdir(parents=True, exist_ok=True)
+    os.symlink(outside, output_parent)
+    with pytest.raises(ValueError, match="symlink"):
+        write_projection(projection, output_parent / "index.json", anchor=root)
+    assert not (outside / "index.json").exists()
+
+    observation_parent = tmp_path / "observation-parent"
+    observation_parent.mkdir()
+    hostile = tmp_path / "hostile"
+    hostile.mkdir()
+    os.symlink(hostile, observation_parent / "nested")
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    result.source_route = _route()
+    result.skill_content_sha256 = "a" * 64
+    result.gaia_health = "materialized"
+    result.gaia_exit_code = 0
+    result.delivered_content_sha256 = "b" * 64
+    args = argparse.Namespace(only=["alice/demo"], contributor=[], category=[], limit=0)
+    cfg = argparse.Namespace(
+        repo_root=str(ROOT), gaia_cmd=["python", "-m", "gaia_cli"], timeout=60, jobs=1
+    )
+    payload = install_parity.observation_payload(
+        [result], cfg, args, "run", ROOT / "docs/graph/named/index.json", "1.5.21", "8.1.0",
+        checked_at="2026-09-06T18:00:00Z",
+    )
+    with pytest.raises(ValueError, match="symlink"):
+        install_parity.write_observation(str(observation_parent / "nested" / "obs.json"), payload)
+    assert not (hostile / "obs.json").exists()
+    assert_no_symlink_components(tmp_path / "safe" / "scratch.json")
 
 
 def test_projection_is_deterministic_and_validates_schema(tmp_path):

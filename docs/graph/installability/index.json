@@ -13,7 +13,9 @@
         "owner": "aiskillstore",
         "repo": "marketplace",
         "ref": "main",
-        "subpath": "skills/0xdarkmatter/python-pytest-patterns/SKILL.md"
+        "subpath": "skills/0xdarkmatter/python-pytest-patterns",
+        "entrypoint": "skills/0xdarkmatter/python-pytest-patterns/SKILL.md",
+        "installSubpath": "skills/0xdarkmatter/python-pytest-patterns"
       },
       "currentSkillContentSha256": "9622a51cf015957da882f634d4c708f2d4859a4824fef1f37c7b8aa2bd299fa6",
       "observedSourceRoute": null,
@@ -31,7 +33,9 @@
         "owner": "Manavarya09",
         "repo": "design-extract",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "6668a662ac7aa97d3a26048ca71d0c6d06bde6779da1abf2c636c4fd81a752ea",
       "observedSourceRoute": null,
@@ -49,7 +53,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "README.md"
+        "subpath": "",
+        "entrypoint": "README.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "d59c9d6d6af5d3b0a50f78bc5fb73c4894fdee2afe2854500e9fc90d47860dad",
       "observedSourceRoute": null,
@@ -67,7 +73,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/code-review-and-quality/SKILL.md"
+        "subpath": "skills/code-review-and-quality",
+        "entrypoint": "skills/code-review-and-quality/SKILL.md",
+        "installSubpath": "skills/code-review-and-quality"
       },
       "currentSkillContentSha256": "a574b27b0a6832ec4f2f36f7e1f62478aa05f8a6a68346a8a81ce1afda614c98",
       "observedSourceRoute": null,
@@ -85,7 +93,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/code-simplification/SKILL.md"
+        "subpath": "skills/code-simplification",
+        "entrypoint": "skills/code-simplification/SKILL.md",
+        "installSubpath": "skills/code-simplification"
       },
       "currentSkillContentSha256": "e0ede29f1b0d2f3444ee6d28fa7052665458402f242d373c96dc114a3b7bc8c2",
       "observedSourceRoute": null,
@@ -103,7 +113,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/incremental-implementation/SKILL.md"
+        "subpath": "skills/incremental-implementation",
+        "entrypoint": "skills/incremental-implementation/SKILL.md",
+        "installSubpath": "skills/incremental-implementation"
       },
       "currentSkillContentSha256": "2338e80e2f3e3d0ab14f5749085c98ecfc273ed3d0169dac3255824c9595579d",
       "observedSourceRoute": null,
@@ -121,7 +133,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/performance-optimization/SKILL.md"
+        "subpath": "skills/performance-optimization",
+        "entrypoint": "skills/performance-optimization/SKILL.md",
+        "installSubpath": "skills/performance-optimization"
       },
       "currentSkillContentSha256": "cfe1f607b050fa97a05b59537d4f4569da468ed312b58b080a4678034903ffdb",
       "observedSourceRoute": null,
@@ -139,7 +153,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/planning-and-task-breakdown/SKILL.md"
+        "subpath": "skills/planning-and-task-breakdown",
+        "entrypoint": "skills/planning-and-task-breakdown/SKILL.md",
+        "installSubpath": "skills/planning-and-task-breakdown"
       },
       "currentSkillContentSha256": "38749db0349f3201ea19cdfca8f5a3cfc076f0a2da3cc067d637a3a346e5d1d4",
       "observedSourceRoute": null,
@@ -157,7 +173,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/shipping-and-launch/SKILL.md"
+        "subpath": "skills/shipping-and-launch",
+        "entrypoint": "skills/shipping-and-launch/SKILL.md",
+        "installSubpath": "skills/shipping-and-launch"
       },
       "currentSkillContentSha256": "471b6f66f5710e460a527f329a2ef4beb85e7066fe20160bfaba85d48b7b1875",
       "observedSourceRoute": null,
@@ -175,7 +193,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/spec-driven-development/SKILL.md"
+        "subpath": "skills/spec-driven-development",
+        "entrypoint": "skills/spec-driven-development/SKILL.md",
+        "installSubpath": "skills/spec-driven-development"
       },
       "currentSkillContentSha256": "d5d87b18d5432e215de96f176eae3539df965acfecdfb801080c065b8f63f8f8",
       "observedSourceRoute": null,
@@ -193,7 +213,9 @@
         "owner": "addyosmani",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/test-driven-development/SKILL.md"
+        "subpath": "skills/test-driven-development",
+        "entrypoint": "skills/test-driven-development/SKILL.md",
+        "installSubpath": "skills/test-driven-development"
       },
       "currentSkillContentSha256": "f877d26f3fd92fd8d86735749878ba711405b3d834b21cfc41a4155e4dc6739b",
       "observedSourceRoute": null,
@@ -211,7 +233,9 @@
         "owner": "anthropics",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/pptx/SKILL.md"
+        "subpath": "skills/pptx",
+        "entrypoint": "skills/pptx/SKILL.md",
+        "installSubpath": "skills/pptx"
       },
       "currentSkillContentSha256": "642f3c03a1676b82e07259248ca0fbdd06b888c128663d3a5e2743aefa1f4374",
       "observedSourceRoute": null,
@@ -229,7 +253,9 @@
         "owner": "anthropics",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/skill-creator/SKILL.md"
+        "subpath": "skills/skill-creator",
+        "entrypoint": "skills/skill-creator/SKILL.md",
+        "installSubpath": "skills/skill-creator"
       },
       "currentSkillContentSha256": "cf1ad9d2229c2fc349f6585350db22ce75ad7df24c769b997f2d513b53b293d9",
       "observedSourceRoute": null,
@@ -247,7 +273,9 @@
         "owner": "anthropics",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/brand-guidelines/SKILL.md"
+        "subpath": "skills/brand-guidelines",
+        "entrypoint": "skills/brand-guidelines/SKILL.md",
+        "installSubpath": "skills/brand-guidelines"
       },
       "currentSkillContentSha256": "aff46b8a3c1440e68019770d73d52abb359dd4930786bc2e70aab1a84d8fd67b",
       "observedSourceRoute": null,
@@ -265,7 +293,9 @@
         "owner": "anthropics",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/canvas-design/SKILL.md"
+        "subpath": "skills/canvas-design",
+        "entrypoint": "skills/canvas-design/SKILL.md",
+        "installSubpath": "skills/canvas-design"
       },
       "currentSkillContentSha256": "3d9d0e81d025b185feb10d406c93421a133bd24b201817dbdf56e6f0e65d51e1",
       "observedSourceRoute": null,
@@ -283,7 +313,9 @@
         "owner": "aplaceforallmystuff",
         "repo": "daily-patterns-pack",
         "ref": "main",
-        "subpath": "skills/log-to-daily/SKILL.md"
+        "subpath": "skills/log-to-daily",
+        "entrypoint": "skills/log-to-daily/SKILL.md",
+        "installSubpath": "skills/log-to-daily"
       },
       "currentSkillContentSha256": "fe8fff0b9212ad8bcf6d2892ab5b8ea7eab4152447d6b6463412c53f49face38",
       "observedSourceRoute": null,
@@ -301,7 +333,9 @@
         "owner": "ayghri",
         "repo": "i-have-adhd",
         "ref": "main",
-        "subpath": "skills/i-have-adhd/SKILL.md"
+        "subpath": "skills/i-have-adhd",
+        "entrypoint": "skills/i-have-adhd/SKILL.md",
+        "installSubpath": "skills/i-have-adhd"
       },
       "currentSkillContentSha256": "ef123f7e3d206bf1265b82e00379f7c092e1d25d0ec82536fe761a4621a1daa7",
       "observedSourceRoute": null,
@@ -319,7 +353,9 @@
         "owner": "balukosuri",
         "repo": "Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "28b822d8088c3f3c7e293a3390b9f99637ea6201968f7e5308f80abf88875e5b",
       "observedSourceRoute": null,
@@ -337,7 +373,9 @@
         "owner": "bradautomates",
         "repo": "claude-video",
         "ref": "main",
-        "subpath": "skills/watch/SKILL.md"
+        "subpath": "skills/watch",
+        "entrypoint": "skills/watch/SKILL.md",
+        "installSubpath": "skills/watch"
       },
       "currentSkillContentSha256": "2cbb88bee508579b475784142f8420b432db109e4fd86e3608b5a258c99e4441",
       "observedSourceRoute": null,
@@ -355,7 +393,9 @@
         "owner": "browser-use",
         "repo": "browser-harness",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "f99075520459134f0e4521ff95232475d3a30db7ce7090b07a206cd916495468",
       "observedSourceRoute": null,
@@ -373,7 +413,9 @@
         "owner": "browserbase",
         "repo": "stagehand",
         "ref": "main",
-        "subpath": "packages/cli/skills/browse/SKILL.md"
+        "subpath": "packages/cli/skills/browse",
+        "entrypoint": "packages/cli/skills/browse/SKILL.md",
+        "installSubpath": "packages/cli/skills/browse"
       },
       "currentSkillContentSha256": "2747219ec3156b86869debf08421158d5ee13814ce0f82b4d90d7bfbe89dad0f",
       "observedSourceRoute": null,
@@ -391,7 +433,9 @@
         "owner": "caioribeiroclw-pixel",
         "repo": "pluribus",
         "ref": "main",
-        "subpath": "skills/evidence-attestation/SKILL.md"
+        "subpath": "skills/evidence-attestation",
+        "entrypoint": "skills/evidence-attestation/SKILL.md",
+        "installSubpath": "skills/evidence-attestation"
       },
       "currentSkillContentSha256": "b59455cde72ec812eede78e2dd54ed5ddf152c3cbb67a1aab2efc68a263ad6f3",
       "observedSourceRoute": null,
@@ -409,7 +453,9 @@
         "owner": "DietrichGebert",
         "repo": "ponytail",
         "ref": "main",
-        "subpath": "skills/ponytail/SKILL.md"
+        "subpath": "skills/ponytail",
+        "entrypoint": "skills/ponytail/SKILL.md",
+        "installSubpath": "skills/ponytail"
       },
       "currentSkillContentSha256": "ba6adcaadbdc21577928d31178fdaf5fb04188034acb87a5346b75cd9b6bcb9e",
       "observedSourceRoute": null,
@@ -427,7 +473,9 @@
         "owner": "disler",
         "repo": "fusion-harness",
         "ref": "main",
-        "subpath": "README.md"
+        "subpath": "",
+        "entrypoint": "README.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "007555c26399550b68d487c2491a90e755e31fa322952f97c3a72d93fd1447da",
       "observedSourceRoute": null,
@@ -445,7 +493,9 @@
         "owner": "disler",
         "repo": "fusion-harness",
         "ref": "main",
-        "subpath": "extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md"
+        "subpath": "extensions/fusion-harness/prompts",
+        "entrypoint": "extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md",
+        "installSubpath": "extensions/fusion-harness/prompts"
       },
       "currentSkillContentSha256": "4c3df0cc69906f55a0469c50fc751e2862a5b109eef33ddfce1d2a7dd4e3987d",
       "observedSourceRoute": null,
@@ -463,7 +513,9 @@
         "owner": "disler",
         "repo": "fusion-harness",
         "ref": "main",
-        "subpath": "extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md"
+        "subpath": "extensions/fusion-harness/prompts",
+        "entrypoint": "extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md",
+        "installSubpath": "extensions/fusion-harness/prompts"
       },
       "currentSkillContentSha256": "1406a171d1a9182636118c1ae80814f4746f8bf1100e0b766a0ba415963e8397",
       "observedSourceRoute": null,
@@ -481,7 +533,9 @@
         "owner": "disler",
         "repo": "fusion-harness",
         "ref": "main",
-        "subpath": "extensions/fusion-harness/prompts/USER_PROMPT_FUSION_MERGE.md"
+        "subpath": "extensions/fusion-harness/prompts",
+        "entrypoint": "extensions/fusion-harness/prompts/USER_PROMPT_FUSION_MERGE.md",
+        "installSubpath": "extensions/fusion-harness/prompts"
       },
       "currentSkillContentSha256": "3f618d4ed39edf290133b9f4cb01a4f1a8d64c76dc66cdb5a15841cfd7c7c754",
       "observedSourceRoute": null,
@@ -499,7 +553,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/attendees/SKILL.md"
+        "subpath": "CONFERENCE-2026/attendees",
+        "entrypoint": "CONFERENCE-2026/attendees/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/attendees"
       },
       "currentSkillContentSha256": "e9f5e701962dac7fa50486ba2abe09e9342ecc4414cc5c3c62d66470c7f42f87",
       "observedSourceRoute": null,
@@ -517,7 +573,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/count-checkin-by-church/SKILL.md"
+        "subpath": "CONFERENCE-2026/count-checkin-by-church",
+        "entrypoint": "CONFERENCE-2026/count-checkin-by-church/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/count-checkin-by-church"
       },
       "currentSkillContentSha256": "c68b79ef7288091afb96de3dd86b6138e99bd03f677700ad7e04735393df05f9",
       "observedSourceRoute": null,
@@ -535,7 +593,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/export-attendees/SKILL.md"
+        "subpath": "CONFERENCE-2026/export-attendees",
+        "entrypoint": "CONFERENCE-2026/export-attendees/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/export-attendees"
       },
       "currentSkillContentSha256": "0fb057b163c34af37bc9440254a929615158beedecb4e34a15cdd4e3c36a646f",
       "observedSourceRoute": null,
@@ -553,7 +613,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/financial-assistance/SKILL.md"
+        "subpath": "CONFERENCE-2026/financial-assistance",
+        "entrypoint": "CONFERENCE-2026/financial-assistance/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/financial-assistance"
       },
       "currentSkillContentSha256": "aa4649bc584cc711e6cabfba4506cd001a1ed1a7db4fc4207b5fbfe8df2a9c85",
       "observedSourceRoute": null,
@@ -571,7 +633,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md"
+        "subpath": "CONFERENCE-2026/resend-conference-emails-carefully-with-smtp",
+        "entrypoint": "CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/resend-conference-emails-carefully-with-smtp"
       },
       "currentSkillContentSha256": "5700a9797bee9ba43c2829027aeb70decccd99424820e85c721c2530176d9b37",
       "observedSourceRoute": null,
@@ -589,7 +653,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "speak-like-favor/SKILL.md"
+        "subpath": "speak-like-favor",
+        "entrypoint": "speak-like-favor/SKILL.md",
+        "installSubpath": "speak-like-favor"
       },
       "currentSkillContentSha256": "f9d079b173c1533ec7a936df36e87e08d0d24860a8f1c0405562ecf4441d0fc9",
       "observedSourceRoute": null,
@@ -607,7 +673,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/ticket-transfer/SKILL.md"
+        "subpath": "CONFERENCE-2026/ticket-transfer",
+        "entrypoint": "CONFERENCE-2026/ticket-transfer/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/ticket-transfer"
       },
       "currentSkillContentSha256": "676c6eb7cd933b4310e35d4566fcbdcc5e83b79e415c54092c0bbb99c7f5903d",
       "observedSourceRoute": null,
@@ -625,7 +693,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/triage-conference/SKILL.md"
+        "subpath": "CONFERENCE-2026/triage-conference",
+        "entrypoint": "CONFERENCE-2026/triage-conference/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/triage-conference"
       },
       "currentSkillContentSha256": "f717038181deb01a20143c67a871892db5c0041208e896c7b6fb02fa09a2a484",
       "observedSourceRoute": null,
@@ -643,7 +713,9 @@
         "owner": "favorchurch",
         "repo": "favor-skills",
         "ref": "main",
-        "subpath": "CONFERENCE-2026/update-unique-churches/SKILL.md"
+        "subpath": "CONFERENCE-2026/update-unique-churches",
+        "entrypoint": "CONFERENCE-2026/update-unique-churches/SKILL.md",
+        "installSubpath": "CONFERENCE-2026/update-unique-churches"
       },
       "currentSkillContentSha256": "28380514302eba504778508f575bc56516302a12c1159ab1cde716e7d14483d1",
       "observedSourceRoute": null,
@@ -661,7 +733,9 @@
         "owner": "firecrawl",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/build/firecrawl-build-interact/SKILL.md"
+        "subpath": "skills/build/firecrawl-build-interact",
+        "entrypoint": "skills/build/firecrawl-build-interact/SKILL.md",
+        "installSubpath": "skills/build/firecrawl-build-interact"
       },
       "currentSkillContentSha256": "561e28b4a2fe40b6a3bd5ebc2da094f9f24826992ca75c8edb6415d6bc02e25f",
       "observedSourceRoute": null,
@@ -679,7 +753,9 @@
         "owner": "firecrawl",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/build/firecrawl-build-onboarding/SKILL.md"
+        "subpath": "skills/build/firecrawl-build-onboarding",
+        "entrypoint": "skills/build/firecrawl-build-onboarding/SKILL.md",
+        "installSubpath": "skills/build/firecrawl-build-onboarding"
       },
       "currentSkillContentSha256": "3d5620cb109f757be8d98d9262c4dda835a5a4ab9189f0813dd0666aa21953a3",
       "observedSourceRoute": null,
@@ -697,7 +773,9 @@
         "owner": "firecrawl",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/build/firecrawl-build-scrape/SKILL.md"
+        "subpath": "skills/build/firecrawl-build-scrape",
+        "entrypoint": "skills/build/firecrawl-build-scrape/SKILL.md",
+        "installSubpath": "skills/build/firecrawl-build-scrape"
       },
       "currentSkillContentSha256": "c48e45afa61e580e5fab0d306513c02b04f80694e9b35958e9ee2b5ca262ac49",
       "observedSourceRoute": null,
@@ -715,7 +793,9 @@
         "owner": "firecrawl",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/build/firecrawl-build-search/SKILL.md"
+        "subpath": "skills/build/firecrawl-build-search",
+        "entrypoint": "skills/build/firecrawl-build-search/SKILL.md",
+        "installSubpath": "skills/build/firecrawl-build-search"
       },
       "currentSkillContentSha256": "dcc5c87298026682af014eccd510245436c808234fda27d22202a920a0821349",
       "observedSourceRoute": null,
@@ -733,7 +813,9 @@
         "owner": "firecrawl",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/core/firecrawl-research-index/SKILL.md"
+        "subpath": "skills/core/firecrawl-research-index",
+        "entrypoint": "skills/core/firecrawl-research-index/SKILL.md",
+        "installSubpath": "skills/core/firecrawl-research-index"
       },
       "currentSkillContentSha256": "d623f8fc55d68a6b7da839b27ca89ec84ca6e43f544c732f40c7fd82f367d1e6",
       "observedSourceRoute": null,
@@ -751,7 +833,9 @@
         "owner": "firecrawl",
         "repo": "firecrawl",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "4a5c901c5eb8eaff7192702b132862eb2a1b27392aa000571ecf68d3e9403aa2",
       "observedSourceRoute": null,
@@ -769,7 +853,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/ci-churn/SKILL.md"
+        "subpath": ".agents/skills/ci-churn",
+        "entrypoint": ".agents/skills/ci-churn/SKILL.md",
+        "installSubpath": ".agents/skills/ci-churn"
       },
       "currentSkillContentSha256": "7c24cb35f10cef4ca3518d280bf1b3c02c4b66127be025880c542f5b5fa52392",
       "observedSourceRoute": null,
@@ -787,7 +873,9 @@
         "owner": "gaia-research",
         "repo": "skill-cost",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "187fac9db1231d6a9255d8410fea34c5b71074b04b2e7b4abdcb675bf034cacb",
       "observedSourceRoute": null,
@@ -805,7 +893,9 @@
         "owner": "gaia-research",
         "repo": "skill-fuse",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "4ed7d62d31fc704e7d13510d0c78e9bad1a156a381fec7a39f05e2d8cfafdd90",
       "observedSourceRoute": null,
@@ -823,7 +913,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-triage/SKILL.md"
+        "subpath": ".agents/skills/gaia-triage",
+        "entrypoint": ".agents/skills/gaia-triage/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-triage"
       },
       "currentSkillContentSha256": "81f6312190d3e35fdb73acd6343eafc20b0bb328f0d80917d858d549faf682c9",
       "observedSourceRoute": null,
@@ -853,7 +945,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "benchmark/SKILL.md"
+        "subpath": "benchmark",
+        "entrypoint": "benchmark/SKILL.md",
+        "installSubpath": "benchmark"
       },
       "currentSkillContentSha256": "3f98f5ec6a588be5250a0eb8dcc74b75131e4393da8596aa06dd4aa88c6a51ce",
       "observedSourceRoute": null,
@@ -871,7 +965,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "benchmark-models/SKILL.md"
+        "subpath": "benchmark-models",
+        "entrypoint": "benchmark-models/SKILL.md",
+        "installSubpath": "benchmark-models"
       },
       "currentSkillContentSha256": "73d79a3071f0e7db5ab00e9cef3bee05e00af7f36ad210552f3319cee5a48304",
       "observedSourceRoute": null,
@@ -889,7 +985,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "browse/SKILL.md"
+        "subpath": "browse",
+        "entrypoint": "browse/SKILL.md",
+        "installSubpath": "browse"
       },
       "currentSkillContentSha256": "f97c6b15e1ae37373abf9f6646cf2e67cacca378d19ae0b041660341df05a6b8",
       "observedSourceRoute": null,
@@ -907,7 +1005,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "canary/SKILL.md"
+        "subpath": "canary",
+        "entrypoint": "canary/SKILL.md",
+        "installSubpath": "canary"
       },
       "currentSkillContentSha256": "c56bf6985aba6c97b2304e37d3c8a101f270216217e66bce5fa5586dd1269c3a",
       "observedSourceRoute": null,
@@ -925,7 +1025,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "careful/SKILL.md"
+        "subpath": "careful",
+        "entrypoint": "careful/SKILL.md",
+        "installSubpath": "careful"
       },
       "currentSkillContentSha256": "3f338042745eb5b652fb334e7fef2cded5add21a27ced959558461e139d4fe6b",
       "observedSourceRoute": null,
@@ -943,7 +1045,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "codex/SKILL.md"
+        "subpath": "codex",
+        "entrypoint": "codex/SKILL.md",
+        "installSubpath": "codex"
       },
       "currentSkillContentSha256": "9e7b7934568005b39b6b1c027c21bd7981873d12d2e371417c04cef49846ba3c",
       "observedSourceRoute": null,
@@ -961,7 +1065,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "context-restore/SKILL.md"
+        "subpath": "context-restore",
+        "entrypoint": "context-restore/SKILL.md",
+        "installSubpath": "context-restore"
       },
       "currentSkillContentSha256": "a835b396e4a87f861a3a3a1c6794655fca175203f8425077173463045c3e508f",
       "observedSourceRoute": null,
@@ -979,7 +1085,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "context-save/SKILL.md"
+        "subpath": "context-save",
+        "entrypoint": "context-save/SKILL.md",
+        "installSubpath": "context-save"
       },
       "currentSkillContentSha256": "a20c8177280f40a843a32eeaa7bdbf7ca0d2ca0dacacbf6e34d2b63e689c9635",
       "observedSourceRoute": null,
@@ -997,7 +1105,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "cso/SKILL.md"
+        "subpath": "cso",
+        "entrypoint": "cso/SKILL.md",
+        "installSubpath": "cso"
       },
       "currentSkillContentSha256": "af8097bd439d2fe202782aa43e853d5d1c1f2949ae22ad3ddcd59c904a3d7a6e",
       "observedSourceRoute": null,
@@ -1015,7 +1125,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "design-consultation/SKILL.md"
+        "subpath": "design-consultation",
+        "entrypoint": "design-consultation/SKILL.md",
+        "installSubpath": "design-consultation"
       },
       "currentSkillContentSha256": "19d93a287855b7bd258aa035498ed3389ff20203c5aec30f19c5a1b0fcead358",
       "observedSourceRoute": null,
@@ -1033,7 +1145,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "design-html/SKILL.md"
+        "subpath": "design-html",
+        "entrypoint": "design-html/SKILL.md",
+        "installSubpath": "design-html"
       },
       "currentSkillContentSha256": "9a4d0fb4e79c7bb1a9e14b9e56b033b1121b01b999e802d59cdc087ee98421a9",
       "observedSourceRoute": null,
@@ -1051,7 +1165,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "design-review/SKILL.md"
+        "subpath": "design-review",
+        "entrypoint": "design-review/SKILL.md",
+        "installSubpath": "design-review"
       },
       "currentSkillContentSha256": "937c48ad4b5589712e9aa720fba74670468b65afee1d0de6fbf4e9b31f47dfa0",
       "observedSourceRoute": null,
@@ -1069,7 +1185,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "design-shotgun/SKILL.md"
+        "subpath": "design-shotgun",
+        "entrypoint": "design-shotgun/SKILL.md",
+        "installSubpath": "design-shotgun"
       },
       "currentSkillContentSha256": "bb0915a8cb2216e9aa07fc6e241e01b5b518f812dab56300744d423336e7eda2",
       "observedSourceRoute": null,
@@ -1087,7 +1205,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "devex-review/SKILL.md"
+        "subpath": "devex-review",
+        "entrypoint": "devex-review/SKILL.md",
+        "installSubpath": "devex-review"
       },
       "currentSkillContentSha256": "1b6ca4294fec855fd73f8d4c5db4c1946a98ba01900d814eeaa28ecb7cfef7c4",
       "observedSourceRoute": null,
@@ -1105,7 +1225,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "document-generate/SKILL.md"
+        "subpath": "document-generate",
+        "entrypoint": "document-generate/SKILL.md",
+        "installSubpath": "document-generate"
       },
       "currentSkillContentSha256": "62d2b3b5762852306de74990ead63573970557b9eb244b8ff705efa9b99e3349",
       "observedSourceRoute": null,
@@ -1123,7 +1245,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "document-release/SKILL.md"
+        "subpath": "document-release",
+        "entrypoint": "document-release/SKILL.md",
+        "installSubpath": "document-release"
       },
       "currentSkillContentSha256": "71af20320eff927625cfe9e6a774bc479fa545256f3c059a67a77a87000b05ff",
       "observedSourceRoute": null,
@@ -1141,7 +1265,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "freeze/SKILL.md"
+        "subpath": "freeze",
+        "entrypoint": "freeze/SKILL.md",
+        "installSubpath": "freeze"
       },
       "currentSkillContentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
       "observedSourceRoute": null,
@@ -1159,7 +1285,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "autoplan/SKILL.md"
+        "subpath": "autoplan",
+        "entrypoint": "autoplan/SKILL.md",
+        "installSubpath": "autoplan"
       },
       "currentSkillContentSha256": "4949e17a660897493a5e701259040cba4292719721294713ffc40961b44e488a",
       "observedSourceRoute": null,
@@ -1177,7 +1305,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "da2cfef35b70fe51c7b4a393c6df87caf28fc24658661efe148f3190f4cf9048",
       "observedSourceRoute": null,
@@ -1195,7 +1325,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "gstack-upgrade/SKILL.md"
+        "subpath": "gstack-upgrade",
+        "entrypoint": "gstack-upgrade/SKILL.md",
+        "installSubpath": "gstack-upgrade"
       },
       "currentSkillContentSha256": "2d966a9b14f237b4a2e53c4cfd61e0f44b93a81d8460486fde0960894260aef6",
       "observedSourceRoute": null,
@@ -1213,7 +1345,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "guard/SKILL.md"
+        "subpath": "guard",
+        "entrypoint": "guard/SKILL.md",
+        "installSubpath": "guard"
       },
       "currentSkillContentSha256": "924f2484f03bf1c2d53f3dcc2ab8b3f8f82ab8b837ab47dbb65509edef45351c",
       "observedSourceRoute": null,
@@ -1231,7 +1365,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "health/SKILL.md"
+        "subpath": "health",
+        "entrypoint": "health/SKILL.md",
+        "installSubpath": "health"
       },
       "currentSkillContentSha256": "1fddae6041f1b6dd9a75b88957f2a3a93e7c1897060a13f7832994b0bdc15c6e",
       "observedSourceRoute": null,
@@ -1249,7 +1385,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "investigate/SKILL.md"
+        "subpath": "investigate",
+        "entrypoint": "investigate/SKILL.md",
+        "installSubpath": "investigate"
       },
       "currentSkillContentSha256": "a046ccc610f5d485ed60d4184b6b3173bfdfb27445260408d59467fa230f2af5",
       "observedSourceRoute": null,
@@ -1267,7 +1405,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "land-and-deploy/SKILL.md"
+        "subpath": "land-and-deploy",
+        "entrypoint": "land-and-deploy/SKILL.md",
+        "installSubpath": "land-and-deploy"
       },
       "currentSkillContentSha256": "537ae088e9087c2663e8e58c0c9b642f6f1a275d623c9972398300f6d25e7ee5",
       "observedSourceRoute": null,
@@ -1285,7 +1425,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "landing-report/SKILL.md"
+        "subpath": "landing-report",
+        "entrypoint": "landing-report/SKILL.md",
+        "installSubpath": "landing-report"
       },
       "currentSkillContentSha256": "511e8fab1e9a25a1ed31e96504b5db0d3ba98de12d9d1a363a5068d39ee3cc4d",
       "observedSourceRoute": null,
@@ -1303,7 +1445,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "learn/SKILL.md"
+        "subpath": "learn",
+        "entrypoint": "learn/SKILL.md",
+        "installSubpath": "learn"
       },
       "currentSkillContentSha256": "4aa964680f85708e68755d0e913f780afaca48ac8356cafe66e6fcdca67a0025",
       "observedSourceRoute": null,
@@ -1321,7 +1465,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "make-pdf/SKILL.md"
+        "subpath": "make-pdf",
+        "entrypoint": "make-pdf/SKILL.md",
+        "installSubpath": "make-pdf"
       },
       "currentSkillContentSha256": "b337deca79afc5097e7b6ceda9be2a7196c4ec24da5581fe7d4c037af7eef32a",
       "observedSourceRoute": null,
@@ -1339,7 +1485,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "office-hours/SKILL.md"
+        "subpath": "office-hours",
+        "entrypoint": "office-hours/SKILL.md",
+        "installSubpath": "office-hours"
       },
       "currentSkillContentSha256": "4ee596ede59899bc2042cbc1df1b56378304a9a209dc0145cfdd0be5871f3cd3",
       "observedSourceRoute": null,
@@ -1357,7 +1505,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "open-gstack-browser/SKILL.md"
+        "subpath": "open-gstack-browser",
+        "entrypoint": "open-gstack-browser/SKILL.md",
+        "installSubpath": "open-gstack-browser"
       },
       "currentSkillContentSha256": "a58bb7bdb3cb66f3754524fda96f7cc37f959ced8f42fd9964aa92b37fac753f",
       "observedSourceRoute": null,
@@ -1375,7 +1525,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "pair-agent/SKILL.md"
+        "subpath": "pair-agent",
+        "entrypoint": "pair-agent/SKILL.md",
+        "installSubpath": "pair-agent"
       },
       "currentSkillContentSha256": "7c4813ea2f8a9707b93a71e0e4471b844b222f5b774db79cb840d7722de9e858",
       "observedSourceRoute": null,
@@ -1393,7 +1545,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "plan-ceo-review/SKILL.md"
+        "subpath": "plan-ceo-review",
+        "entrypoint": "plan-ceo-review/SKILL.md",
+        "installSubpath": "plan-ceo-review"
       },
       "currentSkillContentSha256": "10786d7455a7ea885c907091d79eb82309c6b148bc7562abefb008209119cafa",
       "observedSourceRoute": null,
@@ -1411,7 +1565,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "plan-design-review/SKILL.md"
+        "subpath": "plan-design-review",
+        "entrypoint": "plan-design-review/SKILL.md",
+        "installSubpath": "plan-design-review"
       },
       "currentSkillContentSha256": "2c86c8080ccf40b8c0d48fd0023c17b6f2efdb04ecb789624845a7ef79e9a8af",
       "observedSourceRoute": null,
@@ -1429,7 +1585,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "plan-devex-review/SKILL.md"
+        "subpath": "plan-devex-review",
+        "entrypoint": "plan-devex-review/SKILL.md",
+        "installSubpath": "plan-devex-review"
       },
       "currentSkillContentSha256": "72c33e600a121e91fe32cbfa8806e1b92c847bcd064129897b378ae73bf4a4e2",
       "observedSourceRoute": null,
@@ -1447,7 +1605,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "plan-eng-review/SKILL.md"
+        "subpath": "plan-eng-review",
+        "entrypoint": "plan-eng-review/SKILL.md",
+        "installSubpath": "plan-eng-review"
       },
       "currentSkillContentSha256": "eda5ad0e56acd4c199889c11cc44ec88442554c405b8c063fd532fda71161940",
       "observedSourceRoute": null,
@@ -1465,7 +1625,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "plan-tune/SKILL.md"
+        "subpath": "plan-tune",
+        "entrypoint": "plan-tune/SKILL.md",
+        "installSubpath": "plan-tune"
       },
       "currentSkillContentSha256": "b09b214532842a0279548aa214e5827d1749be685834680b0c4afb2ff30c8cae",
       "observedSourceRoute": null,
@@ -1483,7 +1645,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "qa/SKILL.md"
+        "subpath": "qa",
+        "entrypoint": "qa/SKILL.md",
+        "installSubpath": "qa"
       },
       "currentSkillContentSha256": "effebd93513215420df2eaa6a0c04e35c19bb10676bfb7e1908b02bf8e5529d7",
       "observedSourceRoute": null,
@@ -1501,7 +1665,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "qa-only/SKILL.md"
+        "subpath": "qa-only",
+        "entrypoint": "qa-only/SKILL.md",
+        "installSubpath": "qa-only"
       },
       "currentSkillContentSha256": "266f1bbb6ce9f0036e0af82e91b94b50ad6200d42d81d4b8ef078bc1ebf7f26f",
       "observedSourceRoute": null,
@@ -1519,7 +1685,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "retro/SKILL.md"
+        "subpath": "retro",
+        "entrypoint": "retro/SKILL.md",
+        "installSubpath": "retro"
       },
       "currentSkillContentSha256": "8cef0b58055ae33929e6e105e080147a7006ddc99fbd2a9596a105ccc1c83fc7",
       "observedSourceRoute": null,
@@ -1537,7 +1705,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "review/SKILL.md"
+        "subpath": "review",
+        "entrypoint": "review/SKILL.md",
+        "installSubpath": "review"
       },
       "currentSkillContentSha256": "c5e396151a315fa8ba11b656411c2bab5d3baa76bbfe8f4d950fddc2718b100d",
       "observedSourceRoute": null,
@@ -1555,7 +1725,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "scrape/SKILL.md"
+        "subpath": "scrape",
+        "entrypoint": "scrape/SKILL.md",
+        "installSubpath": "scrape"
       },
       "currentSkillContentSha256": "4be5a54ce686cd6e11ac1195f1a85fef273c533df332e5c88bba8decfa8fc83b",
       "observedSourceRoute": null,
@@ -1573,7 +1745,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "setup-browser-cookies/SKILL.md"
+        "subpath": "setup-browser-cookies",
+        "entrypoint": "setup-browser-cookies/SKILL.md",
+        "installSubpath": "setup-browser-cookies"
       },
       "currentSkillContentSha256": "02caa052b576cee8a8506ce9b9ec7fbdeb50a378e8c80dec86fd05a16a4c6261",
       "observedSourceRoute": null,
@@ -1591,7 +1765,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "setup-deploy/SKILL.md"
+        "subpath": "setup-deploy",
+        "entrypoint": "setup-deploy/SKILL.md",
+        "installSubpath": "setup-deploy"
       },
       "currentSkillContentSha256": "efbf4f4cbeb64618d02ec6cbb5cbb05bf9b9fb5e657241140a81d2174a8b46fd",
       "observedSourceRoute": null,
@@ -1609,7 +1785,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "setup-gbrain/SKILL.md"
+        "subpath": "setup-gbrain",
+        "entrypoint": "setup-gbrain/SKILL.md",
+        "installSubpath": "setup-gbrain"
       },
       "currentSkillContentSha256": "f8599f51051a67792aa9ccffc7ac4cce17841e2aee36d10cb29f6f8418076f8c",
       "observedSourceRoute": null,
@@ -1627,7 +1805,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "ship/SKILL.md"
+        "subpath": "ship",
+        "entrypoint": "ship/SKILL.md",
+        "installSubpath": "ship"
       },
       "currentSkillContentSha256": "a8d0cd7a269e2478750cee05aed3f0753436e03f09c1472206c9697c58d097d8",
       "observedSourceRoute": null,
@@ -1645,7 +1825,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "skillify/SKILL.md"
+        "subpath": "skillify",
+        "entrypoint": "skillify/SKILL.md",
+        "installSubpath": "skillify"
       },
       "currentSkillContentSha256": "516b9df720867724f361202b6c5c70c7600906714a8a32389d4bd7d177be756d",
       "observedSourceRoute": null,
@@ -1663,7 +1845,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "sync-gbrain/SKILL.md"
+        "subpath": "sync-gbrain",
+        "entrypoint": "sync-gbrain/SKILL.md",
+        "installSubpath": "sync-gbrain"
       },
       "currentSkillContentSha256": "5f8fd4108d5bd2b604bd5c9ae8bee37c11dd0310ab479c299fbcb97b63cea40a",
       "observedSourceRoute": null,
@@ -1681,7 +1865,9 @@
         "owner": "garrytan",
         "repo": "gstack",
         "ref": "main",
-        "subpath": "unfreeze/SKILL.md"
+        "subpath": "unfreeze",
+        "entrypoint": "unfreeze/SKILL.md",
+        "installSubpath": "unfreeze"
       },
       "currentSkillContentSha256": "99bf26dd44b0a3eecc11aaabf6c8f0d178e26c4d70487930a5793d3fd39b11a3",
       "observedSourceRoute": null,
@@ -1699,7 +1885,9 @@
         "owner": "GLINCKER",
         "repo": "claude-code-marketplace",
         "ref": "main",
-        "subpath": "skills/documentation/readme-generator/SKILL.md"
+        "subpath": "skills/documentation/readme-generator",
+        "entrypoint": "skills/documentation/readme-generator/SKILL.md",
+        "installSubpath": "skills/documentation/readme-generator"
       },
       "currentSkillContentSha256": "89953c8a8e7859728d2e28cd8da2fde54ec2d64dba6b167f437894399fafb552",
       "observedSourceRoute": null,
@@ -1717,7 +1905,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/alphafold_database_fetch_and_analyze/SKILL.md"
+        "subpath": "skills/alphafold_database_fetch_and_analyze",
+        "entrypoint": "skills/alphafold_database_fetch_and_analyze/SKILL.md",
+        "installSubpath": "skills/alphafold_database_fetch_and_analyze"
       },
       "currentSkillContentSha256": "50fb75e876f25996ec162c378ab9ba4f9af477fd0c744385bb41df93859a80fb",
       "observedSourceRoute": null,
@@ -1735,7 +1925,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/alphagenome_single_variant_analysis/SKILL.md"
+        "subpath": "skills/alphagenome_single_variant_analysis",
+        "entrypoint": "skills/alphagenome_single_variant_analysis/SKILL.md",
+        "installSubpath": "skills/alphagenome_single_variant_analysis"
       },
       "currentSkillContentSha256": "867500302d57b4a1677e77d788293936861682d1ec6f4e1592fc42c2a67c5432",
       "observedSourceRoute": null,
@@ -1753,7 +1945,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/chembl_database/SKILL.md"
+        "subpath": "skills/chembl_database",
+        "entrypoint": "skills/chembl_database/SKILL.md",
+        "installSubpath": "skills/chembl_database"
       },
       "currentSkillContentSha256": "893c8b2a91735826d542eb18a6eb54075ea852be89b62294dd12f005ac3cbcd1",
       "observedSourceRoute": null,
@@ -1771,7 +1965,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/clinical_trials_database/SKILL.md"
+        "subpath": "skills/clinical_trials_database",
+        "entrypoint": "skills/clinical_trials_database/SKILL.md",
+        "installSubpath": "skills/clinical_trials_database"
       },
       "currentSkillContentSha256": "f061ca39685db7e8b631d96bd8d6262b47261fed4a984484d4a76e8c965acc57",
       "observedSourceRoute": null,
@@ -1789,7 +1985,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/clinvar_database/SKILL.md"
+        "subpath": "skills/clinvar_database",
+        "entrypoint": "skills/clinvar_database/SKILL.md",
+        "installSubpath": "skills/clinvar_database"
       },
       "currentSkillContentSha256": "2e2d670f301a4bfddda7165b4ff08c269f677157556b6323c343911f3e89b336",
       "observedSourceRoute": null,
@@ -1807,7 +2005,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/dbsnp_database/SKILL.md"
+        "subpath": "skills/dbsnp_database",
+        "entrypoint": "skills/dbsnp_database/SKILL.md",
+        "installSubpath": "skills/dbsnp_database"
       },
       "currentSkillContentSha256": "80b7897255125102491b50cdb99f4b51ae4aeadc8c741c127dded53db2c8f897",
       "observedSourceRoute": null,
@@ -1825,7 +2025,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/embl_ebi_ols/SKILL.md"
+        "subpath": "skills/embl_ebi_ols",
+        "entrypoint": "skills/embl_ebi_ols/SKILL.md",
+        "installSubpath": "skills/embl_ebi_ols"
       },
       "currentSkillContentSha256": "aba78009bf9c290114ed43f434d84122e46c4519e08deca6c1f40b25f778c338",
       "observedSourceRoute": null,
@@ -1843,7 +2045,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/encode_ccres_database/SKILL.md"
+        "subpath": "skills/encode_ccres_database",
+        "entrypoint": "skills/encode_ccres_database/SKILL.md",
+        "installSubpath": "skills/encode_ccres_database"
       },
       "currentSkillContentSha256": "62b5c77339736085a5fa41a7538dca951f61f549a47d1197719f47266b39e66d",
       "observedSourceRoute": null,
@@ -1861,7 +2065,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/ensembl_database/SKILL.md"
+        "subpath": "skills/ensembl_database",
+        "entrypoint": "skills/ensembl_database/SKILL.md",
+        "installSubpath": "skills/ensembl_database"
       },
       "currentSkillContentSha256": "66014f25c5d94c04d9813c9d61c56ff495596a504949e5479b4fa73cde67fff6",
       "observedSourceRoute": null,
@@ -1879,7 +2085,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/foldseek_structural_search/SKILL.md"
+        "subpath": "skills/foldseek_structural_search",
+        "entrypoint": "skills/foldseek_structural_search/SKILL.md",
+        "installSubpath": "skills/foldseek_structural_search"
       },
       "currentSkillContentSha256": "69f232b2913a93518b335fe8bcea633f39816a9e1b3dcb139465239e87f47b6f",
       "observedSourceRoute": null,
@@ -1897,7 +2105,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/gnomad_database/SKILL.md"
+        "subpath": "skills/gnomad_database",
+        "entrypoint": "skills/gnomad_database/SKILL.md",
+        "installSubpath": "skills/gnomad_database"
       },
       "currentSkillContentSha256": "4bbcdb724513ec70e7739217e81d5fe84c53a16d655cfc6bbe84d0a1a384ed02",
       "observedSourceRoute": null,
@@ -1915,7 +2125,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/gtex_database/SKILL.md"
+        "subpath": "skills/gtex_database",
+        "entrypoint": "skills/gtex_database/SKILL.md",
+        "installSubpath": "skills/gtex_database"
       },
       "currentSkillContentSha256": "a259e9288d24857d163da4be7a7dd7a4d039ecb08737911cc5ab3ffea2cdd08b",
       "observedSourceRoute": null,
@@ -1933,7 +2145,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/human_protein_atlas_database/SKILL.md"
+        "subpath": "skills/human_protein_atlas_database",
+        "entrypoint": "skills/human_protein_atlas_database/SKILL.md",
+        "installSubpath": "skills/human_protein_atlas_database"
       },
       "currentSkillContentSha256": "76949d67406aa0713b9a50e8b51405fdb4a1fa5632bd8fa5e53985dcb7bc4391",
       "observedSourceRoute": null,
@@ -1951,7 +2165,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/interpro_database/SKILL.md"
+        "subpath": "skills/interpro_database",
+        "entrypoint": "skills/interpro_database/SKILL.md",
+        "installSubpath": "skills/interpro_database"
       },
       "currentSkillContentSha256": "a6b6138c054accd8aa2dd40cfb1c7439fa108b93d9df0340afee453b5a4467df",
       "observedSourceRoute": null,
@@ -1969,7 +2185,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/jaspar_database/SKILL.md"
+        "subpath": "skills/jaspar_database",
+        "entrypoint": "skills/jaspar_database/SKILL.md",
+        "installSubpath": "skills/jaspar_database"
       },
       "currentSkillContentSha256": "16f8b353b030d1e496f2fc8a23875117ad700d792d7f0effbd2b4822ddac0af6",
       "observedSourceRoute": null,
@@ -1987,7 +2205,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/literature_search_arxiv/SKILL.md"
+        "subpath": "skills/literature_search_arxiv",
+        "entrypoint": "skills/literature_search_arxiv/SKILL.md",
+        "installSubpath": "skills/literature_search_arxiv"
       },
       "currentSkillContentSha256": "18f1b90d85d0472bebcfd7c30724facf16988f849573893cc9c6d3b9d1ad4487",
       "observedSourceRoute": null,
@@ -2005,7 +2225,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/literature_search_biorxiv/SKILL.md"
+        "subpath": "skills/literature_search_biorxiv",
+        "entrypoint": "skills/literature_search_biorxiv/SKILL.md",
+        "installSubpath": "skills/literature_search_biorxiv"
       },
       "currentSkillContentSha256": "38875e43f84a157f94d820e641d4ee5c7178e10b9d151e7915bc28c45a0993b9",
       "observedSourceRoute": null,
@@ -2023,7 +2245,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/literature_search_europepmc/SKILL.md"
+        "subpath": "skills/literature_search_europepmc",
+        "entrypoint": "skills/literature_search_europepmc/SKILL.md",
+        "installSubpath": "skills/literature_search_europepmc"
       },
       "currentSkillContentSha256": "d4e4a500bb80cd10dfdb1a3b10917d2436248c8ebf76947737b1e162cd770b2f",
       "observedSourceRoute": null,
@@ -2041,7 +2265,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/literature_search_openalex/SKILL.md"
+        "subpath": "skills/literature_search_openalex",
+        "entrypoint": "skills/literature_search_openalex/SKILL.md",
+        "installSubpath": "skills/literature_search_openalex"
       },
       "currentSkillContentSha256": "43ba6d0e25d1b8ab10bdd758b46fd885b7aabcd92a9685ca9dae6d219783ced4",
       "observedSourceRoute": null,
@@ -2059,7 +2285,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/ncbi_sequence_fetch/SKILL.md"
+        "subpath": "skills/ncbi_sequence_fetch",
+        "entrypoint": "skills/ncbi_sequence_fetch/SKILL.md",
+        "installSubpath": "skills/ncbi_sequence_fetch"
       },
       "currentSkillContentSha256": "97efa7c4a0fda948fd83c56d9db1ac951861b337be4cb80f150aabeb9eb7f130",
       "observedSourceRoute": null,
@@ -2077,7 +2305,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/openfda_database/SKILL.md"
+        "subpath": "skills/openfda_database",
+        "entrypoint": "skills/openfda_database/SKILL.md",
+        "installSubpath": "skills/openfda_database"
       },
       "currentSkillContentSha256": "b05ad6bbd84b8ae3d84401117787ad702cf9cae4a22add8ece7728e482b430f5",
       "observedSourceRoute": null,
@@ -2095,7 +2325,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/opentargets_database/SKILL.md"
+        "subpath": "skills/opentargets_database",
+        "entrypoint": "skills/opentargets_database/SKILL.md",
+        "installSubpath": "skills/opentargets_database"
       },
       "currentSkillContentSha256": "81616c107d4d39fc6a456f8a8a71da98ced3cd738072610d1c22ba7248339dfb",
       "observedSourceRoute": null,
@@ -2113,7 +2345,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/pdb_database/SKILL.md"
+        "subpath": "skills/pdb_database",
+        "entrypoint": "skills/pdb_database/SKILL.md",
+        "installSubpath": "skills/pdb_database"
       },
       "currentSkillContentSha256": "11030d8d978c8d532c97a528740363e81c65080a86ef67376c5dc828254624b2",
       "observedSourceRoute": null,
@@ -2131,7 +2365,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/protein_sequence_msa/SKILL.md"
+        "subpath": "skills/protein_sequence_msa",
+        "entrypoint": "skills/protein_sequence_msa/SKILL.md",
+        "installSubpath": "skills/protein_sequence_msa"
       },
       "currentSkillContentSha256": "82028e4a7dec2cc3ce28d9c89e4903f4897aa2c95e83630d2b85735672973235",
       "observedSourceRoute": null,
@@ -2149,7 +2385,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/protein_sequence_similarity_search/SKILL.md"
+        "subpath": "skills/protein_sequence_similarity_search",
+        "entrypoint": "skills/protein_sequence_similarity_search/SKILL.md",
+        "installSubpath": "skills/protein_sequence_similarity_search"
       },
       "currentSkillContentSha256": "9bced08a205876bff306d6946a4bc6fbb2ea80ca3079ed24822c47b8c788ec37",
       "observedSourceRoute": null,
@@ -2167,7 +2405,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/pubchem_database/SKILL.md"
+        "subpath": "skills/pubchem_database",
+        "entrypoint": "skills/pubchem_database/SKILL.md",
+        "installSubpath": "skills/pubchem_database"
       },
       "currentSkillContentSha256": "ea1f15c18609ecef5e065227f4f0ab063100926efdcec699fe84e1c1027bc679",
       "observedSourceRoute": null,
@@ -2185,7 +2425,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/pubmed_database/SKILL.md"
+        "subpath": "skills/pubmed_database",
+        "entrypoint": "skills/pubmed_database/SKILL.md",
+        "installSubpath": "skills/pubmed_database"
       },
       "currentSkillContentSha256": "83332609721b751483bd42bda0f0e32c94c7292f413745e86cd7aaceeba22cef",
       "observedSourceRoute": null,
@@ -2203,7 +2445,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/pymol/SKILL.md"
+        "subpath": "skills/pymol",
+        "entrypoint": "skills/pymol/SKILL.md",
+        "installSubpath": "skills/pymol"
       },
       "currentSkillContentSha256": "853fdab585516322d33fa35050dbb7c5d68f339ad2f40b27bb8074927ac57ed2",
       "observedSourceRoute": null,
@@ -2221,7 +2465,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/quickgo_database/SKILL.md"
+        "subpath": "skills/quickgo_database",
+        "entrypoint": "skills/quickgo_database/SKILL.md",
+        "installSubpath": "skills/quickgo_database"
       },
       "currentSkillContentSha256": "50e107f71ed369bef18b3899f887bea8a5e2d9d7b6d656526890011d4d6a7bae",
       "observedSourceRoute": null,
@@ -2239,7 +2485,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/reactome_database/SKILL.md"
+        "subpath": "skills/reactome_database",
+        "entrypoint": "skills/reactome_database/SKILL.md",
+        "installSubpath": "skills/reactome_database"
       },
       "currentSkillContentSha256": "6e4933b212213d9fd8b6115aa4c7b097d54dc090200b1ace74a677c7f19826f6",
       "observedSourceRoute": null,
@@ -2257,7 +2505,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/string_database/SKILL.md"
+        "subpath": "skills/string_database",
+        "entrypoint": "skills/string_database/SKILL.md",
+        "installSubpath": "skills/string_database"
       },
       "currentSkillContentSha256": "970adadadc24de52166b49760053b63cf548f467998fc39ca3a233341848beee",
       "observedSourceRoute": null,
@@ -2275,7 +2525,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/ucsc_conservation_and_tfbs/SKILL.md"
+        "subpath": "skills/ucsc_conservation_and_tfbs",
+        "entrypoint": "skills/ucsc_conservation_and_tfbs/SKILL.md",
+        "installSubpath": "skills/ucsc_conservation_and_tfbs"
       },
       "currentSkillContentSha256": "5fd49cdad061f3730a1107dbb5840bfeb4385bf163c03f0c578889ff604ecad5",
       "observedSourceRoute": null,
@@ -2293,7 +2545,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/unibind_database/SKILL.md"
+        "subpath": "skills/unibind_database",
+        "entrypoint": "skills/unibind_database/SKILL.md",
+        "installSubpath": "skills/unibind_database"
       },
       "currentSkillContentSha256": "938a089203cfa3fd3899ee82c02bff84b260dd760b88f450f55d149bbec0f150",
       "observedSourceRoute": null,
@@ -2311,7 +2565,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/uniprot_database/SKILL.md"
+        "subpath": "skills/uniprot_database",
+        "entrypoint": "skills/uniprot_database/SKILL.md",
+        "installSubpath": "skills/uniprot_database"
       },
       "currentSkillContentSha256": "20e7af6622614f72677bec9ba5fc69b5bd2e557b30cdba4a715997bf0708afb8",
       "observedSourceRoute": null,
@@ -2329,7 +2585,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/uv/SKILL.md"
+        "subpath": "skills/uv",
+        "entrypoint": "skills/uv/SKILL.md",
+        "installSubpath": "skills/uv"
       },
       "currentSkillContentSha256": "d6e3d3e88887c45d6b0d6c040df7897d5a363bd7d701fac54c0e8e3f60bbfe95",
       "observedSourceRoute": null,
@@ -2347,7 +2605,9 @@
         "owner": "google-deepmind",
         "repo": "science-skills",
         "ref": "main",
-        "subpath": "skills/workflow_skill_creator/SKILL.md"
+        "subpath": "skills/workflow_skill_creator",
+        "entrypoint": "skills/workflow_skill_creator/SKILL.md",
+        "installSubpath": "skills/workflow_skill_creator"
       },
       "currentSkillContentSha256": "532126a1fb3f5218f1b29988708ba26f24e61631c9ddba0fac49369081da3e91",
       "observedSourceRoute": null,
@@ -2365,7 +2625,9 @@
         "owner": "gooseworks-ai",
         "repo": "goose-skills",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "a54a6f29ce22fee832ede3171e6462661b8ba81b6536ad8b61c8b8cc923fe318",
       "observedSourceRoute": null,
@@ -2383,7 +2645,9 @@
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd/discuss-phase.md"
+        "subpath": "commands/gsd",
+        "entrypoint": "commands/gsd/discuss-phase.md",
+        "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "07253eac12e229d58eda980e3734a585d0237faae5b6e13608fd5df736644589",
       "observedSourceRoute": null,
@@ -2401,7 +2665,9 @@
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd/execute-phase.md"
+        "subpath": "commands/gsd",
+        "entrypoint": "commands/gsd/execute-phase.md",
+        "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "32d00dd4f91442fd2683cb6c9797b9f2ca6ac6059f959c892cba1148bd16ed44",
       "observedSourceRoute": null,
@@ -2419,7 +2685,9 @@
         "owner": "gsd-build",
         "repo": "get-shit-done",
         "ref": "main",
-        "subpath": "README.md"
+        "subpath": "",
+        "entrypoint": "README.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "efe80e92c0078621b825abf0e8feb53fb6338d165a4245e53574d3eaf6c81040",
       "observedSourceRoute": null,
@@ -2437,7 +2705,9 @@
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd/plan-phase.md"
+        "subpath": "commands/gsd",
+        "entrypoint": "commands/gsd/plan-phase.md",
+        "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "2a2818f336f6560f9cc4fd7803b592a6bd976f44dcc3fb8dd2f0c06f1c1b26ac",
       "observedSourceRoute": null,
@@ -2455,7 +2725,9 @@
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd/ship.md"
+        "subpath": "commands/gsd",
+        "entrypoint": "commands/gsd/ship.md",
+        "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "88f1a691e0a0d29d9ff650c2ffcab0acce690aa843d8f27a4f90915878473502",
       "observedSourceRoute": null,
@@ -2473,7 +2745,9 @@
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd/verify-work.md"
+        "subpath": "commands/gsd",
+        "entrypoint": "commands/gsd/verify-work.md",
+        "installSubpath": "commands/gsd"
       },
       "currentSkillContentSha256": "9b5c09c05b54e1f6690dbf81a796c82112265990709bef0d37a89909a9a9596f",
       "observedSourceRoute": null,
@@ -2491,7 +2765,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/hf-cli/SKILL.md"
+        "subpath": "skills/hf-cli",
+        "entrypoint": "skills/hf-cli/SKILL.md",
+        "installSubpath": "skills/hf-cli"
       },
       "currentSkillContentSha256": "6d807393f5b8e7aa5645ecdd3b300049cb84407207c91b521cfdc905415c1050",
       "observedSourceRoute": null,
@@ -2509,7 +2785,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/huggingface-datasets/SKILL.md"
+        "subpath": "skills/huggingface-datasets",
+        "entrypoint": "skills/huggingface-datasets/SKILL.md",
+        "installSubpath": "skills/huggingface-datasets"
       },
       "currentSkillContentSha256": "485d90d43633ea28d029184d30913f389867f9b22d10d29eee0b837cc94a8834",
       "observedSourceRoute": null,
@@ -2527,7 +2805,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/huggingface-llm-trainer/SKILL.md"
+        "subpath": "skills/huggingface-llm-trainer",
+        "entrypoint": "skills/huggingface-llm-trainer/SKILL.md",
+        "installSubpath": "skills/huggingface-llm-trainer"
       },
       "currentSkillContentSha256": "2049574b22c767a5f6e88cd7a669c6843cbcaf239deff3437b3a3b617d28ec7a",
       "observedSourceRoute": null,
@@ -2545,7 +2825,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/huggingface-papers/SKILL.md"
+        "subpath": "skills/huggingface-papers",
+        "entrypoint": "skills/huggingface-papers/SKILL.md",
+        "installSubpath": "skills/huggingface-papers"
       },
       "currentSkillContentSha256": "d11eaed4004f030b5641161127ec1db08b49f7d7e2e472d2719b3adbc093b4b3",
       "observedSourceRoute": null,
@@ -2563,7 +2845,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/huggingface-vision-trainer/SKILL.md"
+        "subpath": "skills/huggingface-vision-trainer",
+        "entrypoint": "skills/huggingface-vision-trainer/SKILL.md",
+        "installSubpath": "skills/huggingface-vision-trainer"
       },
       "currentSkillContentSha256": "b78e1f6c6752f00d116466d4d61671f2129a312d04b8c0915f0acc1d408348a8",
       "observedSourceRoute": null,
@@ -2581,7 +2865,9 @@
         "owner": "huggingface",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/transformers-js/SKILL.md"
+        "subpath": "skills/transformers-js",
+        "entrypoint": "skills/transformers-js/SKILL.md",
+        "installSubpath": "skills/transformers-js"
       },
       "currentSkillContentSha256": "cac54d88eb572d7716a4dd8bcd1e44a7f64e7711ad6122516cb97011eff7ffcc",
       "observedSourceRoute": null,
@@ -2599,7 +2885,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/database-engineer/SKILL.md"
+        "subpath": "skills/database-engineer",
+        "entrypoint": "skills/database-engineer/SKILL.md",
+        "installSubpath": "skills/database-engineer"
       },
       "currentSkillContentSha256": "bad6345ce163e280ca6a73c1ec6e5b860e42dc1014f3e5eba207bc4907b0e6ad",
       "observedSourceRoute": null,
@@ -2617,7 +2905,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/devops-engineer/SKILL.md"
+        "subpath": "skills/devops-engineer",
+        "entrypoint": "skills/devops-engineer/SKILL.md",
+        "installSubpath": "skills/devops-engineer"
       },
       "currentSkillContentSha256": "7fb794e6aeeca32ac55a67891dd4749decb46158fd65521eb7c117e226fb195f",
       "observedSourceRoute": null,
@@ -2635,7 +2925,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/mcp-client/SKILL.md"
+        "subpath": "skills/mcp-client",
+        "entrypoint": "skills/mcp-client/SKILL.md",
+        "installSubpath": "skills/mcp-client"
       },
       "currentSkillContentSha256": "b782ea915de2fdabba22889a553a45666d793cf1ef54dcfd14ad8398583b451a",
       "observedSourceRoute": null,
@@ -2653,7 +2945,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/parallel-execution/SKILL.md"
+        "subpath": "skills/parallel-execution",
+        "entrypoint": "skills/parallel-execution/SKILL.md",
+        "installSubpath": "skills/parallel-execution"
       },
       "currentSkillContentSha256": "070d22560c991dece4f668826e890b937c63151befde9e316161ca51d05e8804",
       "observedSourceRoute": null,
@@ -2671,7 +2965,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/release/SKILL.md"
+        "subpath": "skills/release",
+        "entrypoint": "skills/release/SKILL.md",
+        "installSubpath": "skills/release"
       },
       "currentSkillContentSha256": "890fc881208285045e29a5e51515c283027c357a3db29379b3e574ab16150abf",
       "observedSourceRoute": null,
@@ -2689,7 +2985,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/requirements-engineer/SKILL.md"
+        "subpath": "skills/requirements-engineer",
+        "entrypoint": "skills/requirements-engineer/SKILL.md",
+        "installSubpath": "skills/requirements-engineer"
       },
       "currentSkillContentSha256": "a386ae070890893510ac8f6645dc031ee32e9182c3a99c228e7c117413121531",
       "observedSourceRoute": null,
@@ -2707,7 +3005,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/security-engineer/SKILL.md"
+        "subpath": "skills/security-engineer",
+        "entrypoint": "skills/security-engineer/SKILL.md",
+        "installSubpath": "skills/security-engineer"
       },
       "currentSkillContentSha256": "dbefc0a23d67a9f0697ed5cdb248696dff5e6c7867b6192255df6f868f4f268a",
       "observedSourceRoute": null,
@@ -2725,7 +3025,9 @@
         "owner": "intelligentcode-ai",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/user-tester/SKILL.md"
+        "subpath": "skills/user-tester",
+        "entrypoint": "skills/user-tester/SKILL.md",
+        "installSubpath": "skills/user-tester"
       },
       "currentSkillContentSha256": "a727bc245d500ee0cdce25986bb835fab8669cf9775e9a4913916792876d9ac7",
       "observedSourceRoute": null,
@@ -2743,7 +3045,9 @@
         "owner": "JuliusBrussee",
         "repo": "caveman",
         "ref": "main",
-        "subpath": "skills/caveman/SKILL.md"
+        "subpath": "skills/caveman",
+        "entrypoint": "skills/caveman/SKILL.md",
+        "installSubpath": "skills/caveman"
       },
       "currentSkillContentSha256": "b3d5c6e2fcfd872d531452a3ccc3611f85374f0f781d4aefa5e4cf1fbf5fcfbf",
       "observedSourceRoute": null,
@@ -2761,7 +3065,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/deepchem/SKILL.md"
+        "subpath": "skills/deepchem",
+        "entrypoint": "skills/deepchem/SKILL.md",
+        "installSubpath": "skills/deepchem"
       },
       "currentSkillContentSha256": "ce77b3db9cd9b101cc9ae19ed8eda781e8f83be5ffa71d88586f2d591297e1d4",
       "observedSourceRoute": null,
@@ -2779,7 +3085,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/pymc/SKILL.md"
+        "subpath": "skills/pymc",
+        "entrypoint": "skills/pymc/SKILL.md",
+        "installSubpath": "skills/pymc"
       },
       "currentSkillContentSha256": "893d7f3f2b7987895245a3ad204ab41f96e32ddcd4b07ab0ffefa77478f02af2",
       "observedSourceRoute": null,
@@ -2797,7 +3105,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/pytorch-lightning/SKILL.md"
+        "subpath": "skills/pytorch-lightning",
+        "entrypoint": "skills/pytorch-lightning/SKILL.md",
+        "installSubpath": "skills/pytorch-lightning"
       },
       "currentSkillContentSha256": "0bc69ac5a398553391df00ab62b11c5371f9f6b2f647ef88be25607aaf1cdfa9",
       "observedSourceRoute": null,
@@ -2815,7 +3125,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/qiskit/SKILL.md"
+        "subpath": "skills/qiskit",
+        "entrypoint": "skills/qiskit/SKILL.md",
+        "installSubpath": "skills/qiskit"
       },
       "currentSkillContentSha256": "21c0a3e4133992d2a5c84781dbc62f5b08ebae9ae8bfd12860e040b9a89fe264",
       "observedSourceRoute": null,
@@ -2833,7 +3145,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/rdkit/SKILL.md"
+        "subpath": "skills/rdkit",
+        "entrypoint": "skills/rdkit/SKILL.md",
+        "installSubpath": "skills/rdkit"
       },
       "currentSkillContentSha256": "0bce448324c1770ed66908e3fe04610d00dd1b03d19a3ac4b9fa8d1a2cf09fb6",
       "observedSourceRoute": null,
@@ -2851,7 +3165,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/scanpy/SKILL.md"
+        "subpath": "skills/scanpy",
+        "entrypoint": "skills/scanpy/SKILL.md",
+        "installSubpath": "skills/scanpy"
       },
       "currentSkillContentSha256": "b9a9173a25fea7f900eb1c32b56b7160df3b19d1a826990b91bbc1c5f2af6369",
       "observedSourceRoute": null,
@@ -2869,7 +3185,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/scvi-tools/SKILL.md"
+        "subpath": "skills/scvi-tools",
+        "entrypoint": "skills/scvi-tools/SKILL.md",
+        "installSubpath": "skills/scvi-tools"
       },
       "currentSkillContentSha256": "a3b4b20ff93c6663149f9316c255d9bf521e36d28dd2181e64cc9602e9154f7f",
       "observedSourceRoute": null,
@@ -2887,7 +3205,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/stable-baselines3/SKILL.md"
+        "subpath": "skills/stable-baselines3",
+        "entrypoint": "skills/stable-baselines3/SKILL.md",
+        "installSubpath": "skills/stable-baselines3"
       },
       "currentSkillContentSha256": "5645b07b3737b719e84d3981d057cdafcecdb037aa889ed371f098c7b077af66",
       "observedSourceRoute": null,
@@ -2905,7 +3225,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/torch-geometric/SKILL.md"
+        "subpath": "skills/torch-geometric",
+        "entrypoint": "skills/torch-geometric/SKILL.md",
+        "installSubpath": "skills/torch-geometric"
       },
       "currentSkillContentSha256": "751adc18239a58b4a50e6ca777c821b12105016f3932ba6c1b9d924abd0e1b59",
       "observedSourceRoute": null,
@@ -2923,7 +3245,9 @@
         "owner": "K-Dense-AI",
         "repo": "scientific-agent-skills",
         "ref": "main",
-        "subpath": "skills/transformers/SKILL.md"
+        "subpath": "skills/transformers",
+        "entrypoint": "skills/transformers/SKILL.md",
+        "installSubpath": "skills/transformers"
       },
       "currentSkillContentSha256": "4fba767d14a9bb70d4d7fe64c70552fbf7b137a9730aafe691319f8bab976420",
       "observedSourceRoute": null,
@@ -2941,7 +3265,9 @@
         "owner": "langgenius",
         "repo": "dify",
         "ref": "main",
-        "subpath": ".agents/skills/backend-code-review/SKILL.md"
+        "subpath": ".agents/skills/backend-code-review",
+        "entrypoint": ".agents/skills/backend-code-review/SKILL.md",
+        "installSubpath": ".agents/skills/backend-code-review"
       },
       "currentSkillContentSha256": "9e19d4cc45f719478fd32b54869a900a036fb90cd1f9513e08174a4a2662edf5",
       "observedSourceRoute": null,
@@ -2959,7 +3285,9 @@
         "owner": "langgenius",
         "repo": "dify",
         "ref": "main",
-        "subpath": ".agents/skills/how-to-write-component/SKILL.md"
+        "subpath": ".agents/skills/how-to-write-component",
+        "entrypoint": ".agents/skills/how-to-write-component/SKILL.md",
+        "installSubpath": ".agents/skills/how-to-write-component"
       },
       "currentSkillContentSha256": "06a5d61a2f31c39273d7ed5ee01e5f3b7ce67537efe376bb66672d45a95488aa",
       "observedSourceRoute": null,
@@ -2977,7 +3305,9 @@
         "owner": "langgenius",
         "repo": "dify",
         "ref": "main",
-        "subpath": ".agents/skills/e2e-cucumber-playwright/SKILL.md"
+        "subpath": ".agents/skills/e2e-cucumber-playwright",
+        "entrypoint": ".agents/skills/e2e-cucumber-playwright/SKILL.md",
+        "installSubpath": ".agents/skills/e2e-cucumber-playwright"
       },
       "currentSkillContentSha256": "7707affc5f78d1b328b4ff2bdd667a896705defb201c63c97640be15a9963cfd",
       "observedSourceRoute": null,
@@ -2995,7 +3325,9 @@
         "owner": "langgenius",
         "repo": "dify",
         "ref": "main",
-        "subpath": ".agents/skills/frontend-code-review/SKILL.md"
+        "subpath": ".agents/skills/frontend-code-review",
+        "entrypoint": ".agents/skills/frontend-code-review/SKILL.md",
+        "installSubpath": ".agents/skills/frontend-code-review"
       },
       "currentSkillContentSha256": "51e78bcee27451a98f1a461f24b1964281b9aafeb7d436c0969b85d95a8d5ef9",
       "observedSourceRoute": null,
@@ -3013,7 +3345,9 @@
         "owner": "langgenius",
         "repo": "dify",
         "ref": "main",
-        "subpath": ".agents/skills/frontend-testing/SKILL.md"
+        "subpath": ".agents/skills/frontend-testing",
+        "entrypoint": ".agents/skills/frontend-testing/SKILL.md",
+        "installSubpath": ".agents/skills/frontend-testing"
       },
       "currentSkillContentSha256": "41c2469421254cb4f73ae74c649b84b11bc6a8f1ae552dd97ba0b384ef0481d9",
       "observedSourceRoute": null,
@@ -3043,7 +3377,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/brandkit/SKILL.md"
+        "subpath": "skills/brandkit",
+        "entrypoint": "skills/brandkit/SKILL.md",
+        "installSubpath": "skills/brandkit"
       },
       "currentSkillContentSha256": "2fb9555c6fbddb64133705f1062834e97a1bb08e34588c5ed46a4c5590b895b7",
       "observedSourceRoute": null,
@@ -3061,7 +3397,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/brutalist-skill/SKILL.md"
+        "subpath": "skills/brutalist-skill",
+        "entrypoint": "skills/brutalist-skill/SKILL.md",
+        "installSubpath": "skills/brutalist-skill"
       },
       "currentSkillContentSha256": "4bd5ffa726044eb1976988a222d050e68ab57659a62ab74b983301696643c7db",
       "observedSourceRoute": null,
@@ -3079,7 +3417,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/gpt-tasteskill/SKILL.md"
+        "subpath": "skills/gpt-tasteskill",
+        "entrypoint": "skills/gpt-tasteskill/SKILL.md",
+        "installSubpath": "skills/gpt-tasteskill"
       },
       "currentSkillContentSha256": "b02c2c58e68537bdbfce3b424465a996225512207a264631da3dfb8f1b123da4",
       "observedSourceRoute": null,
@@ -3097,7 +3437,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/image-to-code-skill/SKILL.md"
+        "subpath": "skills/image-to-code-skill",
+        "entrypoint": "skills/image-to-code-skill/SKILL.md",
+        "installSubpath": "skills/image-to-code-skill"
       },
       "currentSkillContentSha256": "7a630ab22294ac3ea09caf64b182897f26e6484b6d989a4d38621116c5685da6",
       "observedSourceRoute": null,
@@ -3115,7 +3457,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/imagegen-frontend-mobile/SKILL.md"
+        "subpath": "skills/imagegen-frontend-mobile",
+        "entrypoint": "skills/imagegen-frontend-mobile/SKILL.md",
+        "installSubpath": "skills/imagegen-frontend-mobile"
       },
       "currentSkillContentSha256": "de761284603379cbf7aba276a353772b17090b2fabdc381fa3f979d30ab8554b",
       "observedSourceRoute": null,
@@ -3133,7 +3477,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/imagegen-frontend-web/SKILL.md"
+        "subpath": "skills/imagegen-frontend-web",
+        "entrypoint": "skills/imagegen-frontend-web/SKILL.md",
+        "installSubpath": "skills/imagegen-frontend-web"
       },
       "currentSkillContentSha256": "233531ada86648c3236b0fef7bfb39ca36578f8a5168d8e8ce288b5a39d54868",
       "observedSourceRoute": null,
@@ -3151,7 +3497,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/minimalist-skill/SKILL.md"
+        "subpath": "skills/minimalist-skill",
+        "entrypoint": "skills/minimalist-skill/SKILL.md",
+        "installSubpath": "skills/minimalist-skill"
       },
       "currentSkillContentSha256": "63b409ec774a452af564ed10767ee9db353f684c297b90c05d63c7681670e6c5",
       "observedSourceRoute": null,
@@ -3169,7 +3517,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/output-skill/SKILL.md"
+        "subpath": "skills/output-skill",
+        "entrypoint": "skills/output-skill/SKILL.md",
+        "installSubpath": "skills/output-skill"
       },
       "currentSkillContentSha256": "af0ddc0e3725fa4ea5a4ff4f0dfc103c1638feb36c531274894d06c6e0945171",
       "observedSourceRoute": null,
@@ -3187,7 +3537,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/redesign-skill/SKILL.md"
+        "subpath": "skills/redesign-skill",
+        "entrypoint": "skills/redesign-skill/SKILL.md",
+        "installSubpath": "skills/redesign-skill"
       },
       "currentSkillContentSha256": "a5e4666ceae3a7f4d33642babcc8a2f23175d8fd43d836563d39c99183f72dee",
       "observedSourceRoute": null,
@@ -3205,7 +3557,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/soft-skill/SKILL.md"
+        "subpath": "skills/soft-skill",
+        "entrypoint": "skills/soft-skill/SKILL.md",
+        "installSubpath": "skills/soft-skill"
       },
       "currentSkillContentSha256": "b634e881462bb92e10bcc3db0accce9fc514ddd9a23df7dbbab6f630016190fa",
       "observedSourceRoute": null,
@@ -3223,7 +3577,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/stitch-skill/SKILL.md"
+        "subpath": "skills/stitch-skill",
+        "entrypoint": "skills/stitch-skill/SKILL.md",
+        "installSubpath": "skills/stitch-skill"
       },
       "currentSkillContentSha256": "cad5aa8984d2b65f5fcb61909e26ece57811b6b3a28128e89a6a84ae096adad4",
       "observedSourceRoute": null,
@@ -3241,7 +3597,9 @@
         "owner": "leonxlnx",
         "repo": "taste-skill",
         "ref": "main",
-        "subpath": "skills/taste-skill/SKILL.md"
+        "subpath": "skills/taste-skill",
+        "entrypoint": "skills/taste-skill/SKILL.md",
+        "installSubpath": "skills/taste-skill"
       },
       "currentSkillContentSha256": "a4f9f1871201eacdd4bd05bf7ed4ac843ce8fa9c3806649f1cf9d542cc9030c2",
       "observedSourceRoute": null,
@@ -3259,7 +3617,9 @@
         "owner": "leonxlnx",
         "repo": "unlazy",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "f5ce8958be89c0cbc75d78688f0f90c772f56dc8cabd30ce341f76568ef9b484",
       "observedSourceRoute": null,
@@ -3277,7 +3637,9 @@
         "owner": "mastepanoski",
         "repo": "claude-skills",
         "ref": "main",
-        "subpath": "skills/nielsen-heuristics-audit/SKILL.md"
+        "subpath": "skills/nielsen-heuristics-audit",
+        "entrypoint": "skills/nielsen-heuristics-audit/SKILL.md",
+        "installSubpath": "skills/nielsen-heuristics-audit"
       },
       "currentSkillContentSha256": "58747fd650273cc88abb05b79ea48e139f09d3309f6f1a5f7a5c9754570a2e7b",
       "observedSourceRoute": null,
@@ -3295,7 +3657,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/ask-matt/SKILL.md"
+        "subpath": "skills/engineering/ask-matt",
+        "entrypoint": "skills/engineering/ask-matt/SKILL.md",
+        "installSubpath": "skills/engineering/ask-matt"
       },
       "currentSkillContentSha256": "2382c92d9219034b4e8e7b3847a12bd60cac0d0788efcfee30a299db963a852b",
       "observedSourceRoute": null,
@@ -3313,7 +3677,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/code-review/SKILL.md"
+        "subpath": "skills/engineering/code-review",
+        "entrypoint": "skills/engineering/code-review/SKILL.md",
+        "installSubpath": "skills/engineering/code-review"
       },
       "currentSkillContentSha256": "249b3081ad589bc51ede47b2b1fbf935966ccf12cd188f99ba243777f5ea2b9b",
       "observedSourceRoute": null,
@@ -3331,7 +3697,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/codebase-design/SKILL.md"
+        "subpath": "skills/engineering/codebase-design",
+        "entrypoint": "skills/engineering/codebase-design/SKILL.md",
+        "installSubpath": "skills/engineering/codebase-design"
       },
       "currentSkillContentSha256": "e5e82baa66354cd535d6162b058a7a3d3445a92e371d737e7f56752370eda02e",
       "observedSourceRoute": null,
@@ -3349,7 +3717,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/diagnosing-bugs/SKILL.md"
+        "subpath": "skills/engineering/diagnosing-bugs",
+        "entrypoint": "skills/engineering/diagnosing-bugs/SKILL.md",
+        "installSubpath": "skills/engineering/diagnosing-bugs"
       },
       "currentSkillContentSha256": "17575f062d35f20ae48aad5056d188da47d8bf538f693b51a613e94ac9b47a72",
       "observedSourceRoute": null,
@@ -3367,7 +3737,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/diagnosing-bugs/SKILL.md"
+        "subpath": "skills/engineering/diagnosing-bugs",
+        "entrypoint": "skills/engineering/diagnosing-bugs/SKILL.md",
+        "installSubpath": "skills/engineering/diagnosing-bugs"
       },
       "currentSkillContentSha256": "df77b1351da3886ab547a226d8d0b33a00842bca1e541b805b4e0169e7453972",
       "observedSourceRoute": null,
@@ -3385,7 +3757,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/domain-modeling/SKILL.md"
+        "subpath": "skills/engineering/domain-modeling",
+        "entrypoint": "skills/engineering/domain-modeling/SKILL.md",
+        "installSubpath": "skills/engineering/domain-modeling"
       },
       "currentSkillContentSha256": "7eddca5d56c10a2541ae9051e2af14ab8393c06968ae12993bf56db15e9b95ca",
       "observedSourceRoute": null,
@@ -3403,7 +3777,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/personal/edit-article/SKILL.md"
+        "subpath": "skills/personal/edit-article",
+        "entrypoint": "skills/personal/edit-article/SKILL.md",
+        "installSubpath": "skills/personal/edit-article"
       },
       "currentSkillContentSha256": "daf70a083060e14fcc9b8fbb98f958aed55fedb59d40fd5ac3adad6fe353b71f",
       "observedSourceRoute": null,
@@ -3433,7 +3809,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/misc/git-guardrails-claude-code/SKILL.md"
+        "subpath": "skills/misc/git-guardrails-claude-code",
+        "entrypoint": "skills/misc/git-guardrails-claude-code/SKILL.md",
+        "installSubpath": "skills/misc/git-guardrails-claude-code"
       },
       "currentSkillContentSha256": "df1c82b3c540de85d9d8fcd79dd4047692878f7036a7fbbe8a4d2f2b7cedd4ba",
       "observedSourceRoute": null,
@@ -3451,7 +3829,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/grill-me/SKILL.md"
+        "subpath": "skills/productivity/grill-me",
+        "entrypoint": "skills/productivity/grill-me/SKILL.md",
+        "installSubpath": "skills/productivity/grill-me"
       },
       "currentSkillContentSha256": "e063fb0a994f10801cc2548799ff46863f108ee9d7175aeca1927be25592b113",
       "observedSourceRoute": null,
@@ -3469,7 +3849,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/grill-with-docs/SKILL.md"
+        "subpath": "skills/engineering/grill-with-docs",
+        "entrypoint": "skills/engineering/grill-with-docs/SKILL.md",
+        "installSubpath": "skills/engineering/grill-with-docs"
       },
       "currentSkillContentSha256": "f4c8c87b11fb9a43fbaff771aa4c75984a076ee441b4fee8990586c382ea4823",
       "observedSourceRoute": null,
@@ -3487,7 +3869,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/grilling/SKILL.md"
+        "subpath": "skills/productivity/grilling",
+        "entrypoint": "skills/productivity/grilling/SKILL.md",
+        "installSubpath": "skills/productivity/grilling"
       },
       "currentSkillContentSha256": "8d8a891fb9effd773c71484ef01699dd452bfab66c6b9fc24b918649c4339ee7",
       "observedSourceRoute": null,
@@ -3505,7 +3889,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/handoff"
+        "subpath": "skills/productivity/handoff",
+        "entrypoint": "skills/productivity/handoff",
+        "installSubpath": "skills/productivity/handoff"
       },
       "currentSkillContentSha256": "26a68ac719cc1ba3d7d8d4d5fd48f8c738a33309046414f15951c7c999cf2972",
       "observedSourceRoute": null,
@@ -3523,7 +3909,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/implement/SKILL.md"
+        "subpath": "skills/engineering/implement",
+        "entrypoint": "skills/engineering/implement/SKILL.md",
+        "installSubpath": "skills/engineering/implement"
       },
       "currentSkillContentSha256": "74b2febd776d1ac45a7201fed275addd5faade0d6e87d29b2ea678de5fa09695",
       "observedSourceRoute": null,
@@ -3541,7 +3929,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/improve-codebase-architecture/SKILL.md"
+        "subpath": "skills/engineering/improve-codebase-architecture",
+        "entrypoint": "skills/engineering/improve-codebase-architecture/SKILL.md",
+        "installSubpath": "skills/engineering/improve-codebase-architecture"
       },
       "currentSkillContentSha256": "1b388ec43525faea863e7752ecf03f21627ed00b13e66d44ff1cbc33708eab4d",
       "observedSourceRoute": null,
@@ -3559,7 +3949,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/misc/migrate-to-shoehorn/SKILL.md"
+        "subpath": "skills/misc/migrate-to-shoehorn",
+        "entrypoint": "skills/misc/migrate-to-shoehorn/SKILL.md",
+        "installSubpath": "skills/misc/migrate-to-shoehorn"
       },
       "currentSkillContentSha256": "fa07e550a0179f7b359f11a02a8b9857bfcb95300751b11fda1907177cc736c8",
       "observedSourceRoute": null,
@@ -3589,7 +3981,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/personal/obsidian-vault"
+        "subpath": "skills/personal/obsidian-vault",
+        "entrypoint": "skills/personal/obsidian-vault",
+        "installSubpath": "skills/personal/obsidian-vault"
       },
       "currentSkillContentSha256": "d5a8743b06f31d504cbe3937d34f464d0624bc1c1de357fa25249fb78715b712",
       "observedSourceRoute": null,
@@ -3631,7 +4025,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/prototype"
+        "subpath": "skills/engineering/prototype",
+        "entrypoint": "skills/engineering/prototype",
+        "installSubpath": "skills/engineering/prototype"
       },
       "currentSkillContentSha256": "58060b96863326192751b09933e23e816dfdd24d147c52fe92ea450410f305a3",
       "observedSourceRoute": null,
@@ -3649,7 +4045,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/research/SKILL.md"
+        "subpath": "skills/engineering/research",
+        "entrypoint": "skills/engineering/research/SKILL.md",
+        "installSubpath": "skills/engineering/research"
       },
       "currentSkillContentSha256": "d3c0d0453cf6c3732fd5ff9855c34d3ad9ef460a3c42bc7dece7fb6adb9d94d5",
       "observedSourceRoute": null,
@@ -3667,7 +4065,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/resolving-merge-conflicts/SKILL.md"
+        "subpath": "skills/engineering/resolving-merge-conflicts",
+        "entrypoint": "skills/engineering/resolving-merge-conflicts/SKILL.md",
+        "installSubpath": "skills/engineering/resolving-merge-conflicts"
       },
       "currentSkillContentSha256": "0262249f7cc4d25e458e733e39883bd84016b03895336fbfda60f1f2f03339b2",
       "observedSourceRoute": null,
@@ -3685,7 +4085,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/misc/scaffold-exercises/SKILL.md"
+        "subpath": "skills/misc/scaffold-exercises",
+        "entrypoint": "skills/misc/scaffold-exercises/SKILL.md",
+        "installSubpath": "skills/misc/scaffold-exercises"
       },
       "currentSkillContentSha256": "3c0545e4c236870fbf241ec6ff687c2c6de0ac4f51a97e8310b025055ab23860",
       "observedSourceRoute": null,
@@ -3703,7 +4105,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/setup-matt-pocock-skills"
+        "subpath": "skills/engineering/setup-matt-pocock-skills",
+        "entrypoint": "skills/engineering/setup-matt-pocock-skills",
+        "installSubpath": "skills/engineering/setup-matt-pocock-skills"
       },
       "currentSkillContentSha256": "dd6f630caea77010a6e932c4da095ab159aedcb01cd5e29b39654e1943461082",
       "observedSourceRoute": null,
@@ -3721,7 +4125,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/misc/setup-pre-commit/SKILL.md"
+        "subpath": "skills/misc/setup-pre-commit",
+        "entrypoint": "skills/misc/setup-pre-commit/SKILL.md",
+        "installSubpath": "skills/misc/setup-pre-commit"
       },
       "currentSkillContentSha256": "8e4e976ce08174b45db8ecdd245ad4c45f164147ce776ddc78bcad3f2570587b",
       "observedSourceRoute": null,
@@ -3739,7 +4145,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "28c4ba8e0ac269dfbdd5b125b22846add92ae1fbc6780c8c1d1b0dad40b26622",
       "observedSourceRoute": null,
@@ -3757,7 +4165,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/tdd/SKILL.md"
+        "subpath": "skills/engineering/tdd",
+        "entrypoint": "skills/engineering/tdd/SKILL.md",
+        "installSubpath": "skills/engineering/tdd"
       },
       "currentSkillContentSha256": "2b1a29b4d85a47093d6ced6d6182bdb97469623d0aa1ef6f28985a537e75c90e",
       "observedSourceRoute": null,
@@ -3775,7 +4185,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/teach/SKILL.md"
+        "subpath": "skills/productivity/teach",
+        "entrypoint": "skills/productivity/teach/SKILL.md",
+        "installSubpath": "skills/productivity/teach"
       },
       "currentSkillContentSha256": "e37fa55be125dbf8e7508f85cfa4bc5bd4dc14fcd76cec90f39359f4a2a61406",
       "observedSourceRoute": null,
@@ -3793,7 +4205,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/to-questionnaire/SKILL.md"
+        "subpath": "skills/productivity/to-questionnaire",
+        "entrypoint": "skills/productivity/to-questionnaire/SKILL.md",
+        "installSubpath": "skills/productivity/to-questionnaire"
       },
       "currentSkillContentSha256": "b9edf41e7c0cd132073391ee95e7a3660647af9aa2c7634a1a7e9aad81907fc1",
       "observedSourceRoute": null,
@@ -3811,7 +4225,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/to-spec/SKILL.md"
+        "subpath": "skills/engineering/to-spec",
+        "entrypoint": "skills/engineering/to-spec/SKILL.md",
+        "installSubpath": "skills/engineering/to-spec"
       },
       "currentSkillContentSha256": "5d9458a91d7c92b1c053bc5df219c80045a098a877b2232b047305e14df64074",
       "observedSourceRoute": null,
@@ -3829,7 +4245,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/to-tickets/SKILL.md"
+        "subpath": "skills/engineering/to-tickets",
+        "entrypoint": "skills/engineering/to-tickets/SKILL.md",
+        "installSubpath": "skills/engineering/to-tickets"
       },
       "currentSkillContentSha256": "620f4eae66c562dc79f6db0a70378af371876fd8f8bf85f62de02416faba8caa",
       "observedSourceRoute": null,
@@ -3847,7 +4265,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/triage/SKILL.md"
+        "subpath": "skills/engineering/triage",
+        "entrypoint": "skills/engineering/triage/SKILL.md",
+        "installSubpath": "skills/engineering/triage"
       },
       "currentSkillContentSha256": "8a69e96c4d22bf478d74ae8e4de1be35d09896880d2ee1ad9952eabc7280450a",
       "observedSourceRoute": null,
@@ -3865,7 +4285,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/deprecated/ubiquitous-language/SKILL.md"
+        "subpath": "skills/deprecated/ubiquitous-language",
+        "entrypoint": "skills/deprecated/ubiquitous-language/SKILL.md",
+        "installSubpath": "skills/deprecated/ubiquitous-language"
       },
       "currentSkillContentSha256": "6894c00c729a374fe5981243ceea3198bbc629272f8ce114ca25510e262e8084",
       "observedSourceRoute": null,
@@ -3883,7 +4305,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/wait-what/SKILL.md"
+        "subpath": "skills/productivity/wait-what",
+        "entrypoint": "skills/productivity/wait-what/SKILL.md",
+        "installSubpath": "skills/productivity/wait-what"
       },
       "currentSkillContentSha256": "dd30c4840f2b450d012a369b6bedee894a0f04c8b1e50d6170df66fce9926bbb",
       "observedSourceRoute": null,
@@ -3901,7 +4325,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/wayfinder/SKILL.md"
+        "subpath": "skills/engineering/wayfinder",
+        "entrypoint": "skills/engineering/wayfinder/SKILL.md",
+        "installSubpath": "skills/engineering/wayfinder"
       },
       "currentSkillContentSha256": "eb07fcf50aea873ffa809407798eedb586193f7636950d27a457bfc61b7fa7f8",
       "observedSourceRoute": null,
@@ -3919,7 +4345,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/wizard/SKILL.md"
+        "subpath": "skills/engineering/wizard",
+        "entrypoint": "skills/engineering/wizard/SKILL.md",
+        "installSubpath": "skills/engineering/wizard"
       },
       "currentSkillContentSha256": "7a5e0005a49308b4e20a278fdc03b25bcb2f89c9b9c8c51873ffb87d3434b374",
       "observedSourceRoute": null,
@@ -3937,7 +4365,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/write-a-skill/SKILL.md"
+        "subpath": "skills/productivity/write-a-skill",
+        "entrypoint": "skills/productivity/write-a-skill/SKILL.md",
+        "installSubpath": "skills/productivity/write-a-skill"
       },
       "currentSkillContentSha256": "e11d8c1450a978a3c9d07d1429af13073adda25ad644ad0d43385b8972f3c9ef",
       "observedSourceRoute": null,
@@ -3955,7 +4385,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/productivity/writing-for-agents/SKILL.md"
+        "subpath": "skills/productivity/writing-for-agents",
+        "entrypoint": "skills/productivity/writing-for-agents/SKILL.md",
+        "installSubpath": "skills/productivity/writing-for-agents"
       },
       "currentSkillContentSha256": "4e554ab28dc539d1524262fc3a697c3fb079fa3418c8c72a456dbd8121008b92",
       "observedSourceRoute": null,
@@ -3973,7 +4405,9 @@
         "owner": "mattpocock",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/engineering/zoom-out/SKILL.md"
+        "subpath": "skills/engineering/zoom-out",
+        "entrypoint": "skills/engineering/zoom-out/SKILL.md",
+        "installSubpath": "skills/engineering/zoom-out"
       },
       "currentSkillContentSha256": "ef82d29e186698d3c11459ca31dbca8c867529dab911e051cf17c20899443ed8",
       "observedSourceRoute": null,
@@ -3991,7 +4425,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-audit/SKILL.md"
+        "subpath": ".agents/skills/gaia-audit",
+        "entrypoint": ".agents/skills/gaia-audit/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-audit"
       },
       "currentSkillContentSha256": "f43db82afff0fda759d24809cbd146c0d2b7413e050c7b8cacbb3e0db948bb53",
       "observedSourceRoute": null,
@@ -4009,7 +4445,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-bot-curate/SKILL.md"
+        "subpath": ".agents/skills/gaia-bot-curate",
+        "entrypoint": ".agents/skills/gaia-bot-curate/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-bot-curate"
       },
       "currentSkillContentSha256": "bf30dceefda094588cfd3550fd890db84ac291672d74e9fde865d57cac0ecc49",
       "observedSourceRoute": null,
@@ -4027,7 +4465,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-curate/SKILL.md"
+        "subpath": ".agents/skills/gaia-curate",
+        "entrypoint": ".agents/skills/gaia-curate/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-curate"
       },
       "currentSkillContentSha256": "28a81d5f2aaebb6c8dc7c1f380b476fe57147491e943b9ce530ab09648c7c3db",
       "observedSourceRoute": null,
@@ -4045,7 +4485,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-curation-review/SKILL.md"
+        "subpath": ".agents/skills/gaia-curation-review",
+        "entrypoint": ".agents/skills/gaia-curation-review/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-curation-review"
       },
       "currentSkillContentSha256": "621af83b8ef31425e5eda496bca451a25aeae8ada5eae8383cbe7442325ca391",
       "observedSourceRoute": null,
@@ -4063,7 +4505,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-docs-sync/SKILL.md"
+        "subpath": ".agents/skills/gaia-docs-sync",
+        "entrypoint": ".agents/skills/gaia-docs-sync/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-docs-sync"
       },
       "currentSkillContentSha256": "9cd6ffc3d2c291b265797771a30488ec1005492642d2a497e836e798543e63ae",
       "observedSourceRoute": null,
@@ -4081,7 +4525,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-draft-curate/SKILL.md"
+        "subpath": ".agents/skills/gaia-draft-curate",
+        "entrypoint": ".agents/skills/gaia-draft-curate/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-draft-curate"
       },
       "currentSkillContentSha256": "9b05fb57265cb021fbad393609da7826a9a926d958e2ec879475a63bd0d54184",
       "observedSourceRoute": null,
@@ -4099,7 +4545,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-integrity/SKILL.md"
+        "subpath": ".agents/skills/gaia-integrity",
+        "entrypoint": ".agents/skills/gaia-integrity/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-integrity"
       },
       "currentSkillContentSha256": "33df1f69e4533b006212b83eea3f64ea2e27385ff8b21f6dda7b70dfb1c40505",
       "observedSourceRoute": null,
@@ -4117,7 +4565,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-meta-audit/SKILL.md"
+        "subpath": ".agents/skills/gaia-meta-audit",
+        "entrypoint": ".agents/skills/gaia-meta-audit/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-meta-audit"
       },
       "currentSkillContentSha256": "fa4ed3a7721d0ec59179de56a8d40fffaa8e19d863267cf31a1e2bd5359ee03f",
       "observedSourceRoute": null,
@@ -4135,7 +4585,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-preview/SKILL.md"
+        "subpath": ".agents/skills/gaia-preview",
+        "entrypoint": ".agents/skills/gaia-preview/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-preview"
       },
       "currentSkillContentSha256": "12c4fcd98751f321a9993c721c7a5a511f19d03a4b85c520a17e0eec48bb66f6",
       "observedSourceRoute": null,
@@ -4153,7 +4605,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-triage/SKILL.md"
+        "subpath": ".agents/skills/gaia-triage",
+        "entrypoint": ".agents/skills/gaia-triage/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-triage"
       },
       "currentSkillContentSha256": "cb4c75a2c21b1d78bd94e6fe2106b6b5f5a60fe1475a8d8a3dc38b5400a47524",
       "observedSourceRoute": null,
@@ -4171,7 +4625,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/gaia-wiki-sync/SKILL.md"
+        "subpath": ".agents/skills/gaia-wiki-sync",
+        "entrypoint": ".agents/skills/gaia-wiki-sync/SKILL.md",
+        "installSubpath": ".agents/skills/gaia-wiki-sync"
       },
       "currentSkillContentSha256": "22d6eb0d5f6f42e6c15443ebf4ebfedf730eefeb7e3428abfcd15d22f153e0c4",
       "observedSourceRoute": null,
@@ -4189,7 +4645,9 @@
         "owner": "gaia-research",
         "repo": "gaia-skill-tree",
         "ref": "main",
-        "subpath": ".agents/skills/graphify-triage/SKILL.md"
+        "subpath": ".agents/skills/graphify-triage",
+        "entrypoint": ".agents/skills/graphify-triage/SKILL.md",
+        "installSubpath": ".agents/skills/graphify-triage"
       },
       "currentSkillContentSha256": "0d04e91fce8566ad5b8c45615a81328409e30357a2da538c18d63cb3e958bfe1",
       "observedSourceRoute": null,
@@ -4207,7 +4665,9 @@
         "owner": "mvanhorn",
         "repo": "last30days-skill",
         "ref": "main",
-        "subpath": "skills/last30days/SKILL.md"
+        "subpath": "skills/last30days",
+        "entrypoint": "skills/last30days/SKILL.md",
+        "installSubpath": "skills/last30days"
       },
       "currentSkillContentSha256": "03728ee8c0468f6f8516a156036d835d1b1c53264d529fb343f5428d3beef5fb",
       "observedSourceRoute": null,
@@ -4225,7 +4685,9 @@
         "owner": "nextlevelbuilder",
         "repo": "ui-ux-pro-max-skill",
         "ref": "main",
-        "subpath": ".claude/skills/ui-ux-pro-max/SKILL.md"
+        "subpath": ".claude/skills/ui-ux-pro-max",
+        "entrypoint": ".claude/skills/ui-ux-pro-max/SKILL.md",
+        "installSubpath": ".claude/skills/ui-ux-pro-max"
       },
       "currentSkillContentSha256": "429211abdefe03d6e658d55b607effb3aa254a84cba15bbb48f47b87ac0e93fe",
       "observedSourceRoute": null,
@@ -4243,7 +4705,9 @@
         "owner": "nexu-io",
         "repo": "open-design",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "f92f547488a8046c59e0935c743b94b61e52bd76da9024c5da10107ee414ff71",
       "observedSourceRoute": null,
@@ -4273,7 +4737,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/brainstorming/SKILL.md"
+        "subpath": "skills/brainstorming",
+        "entrypoint": "skills/brainstorming/SKILL.md",
+        "installSubpath": "skills/brainstorming"
       },
       "currentSkillContentSha256": "4b88547826efb8a6e989119a49267a85107bdd349d0de77ed71aa679923932b9",
       "observedSourceRoute": null,
@@ -4291,7 +4757,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/dispatching-parallel-agents/SKILL.md"
+        "subpath": "skills/dispatching-parallel-agents",
+        "entrypoint": "skills/dispatching-parallel-agents/SKILL.md",
+        "installSubpath": "skills/dispatching-parallel-agents"
       },
       "currentSkillContentSha256": "f295e09e61a499ae87d1b95e48d5c6d5fe382dbead6041fd3e9df70cd4f8dc7a",
       "observedSourceRoute": null,
@@ -4309,7 +4777,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/executing-plans/SKILL.md"
+        "subpath": "skills/executing-plans",
+        "entrypoint": "skills/executing-plans/SKILL.md",
+        "installSubpath": "skills/executing-plans"
       },
       "currentSkillContentSha256": "17b6dbb5903798fd3cc06871b95e4c7ce16763dcc5182b8da5114845b9469b7a",
       "observedSourceRoute": null,
@@ -4327,7 +4797,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/finishing-a-development-branch/SKILL.md"
+        "subpath": "skills/finishing-a-development-branch",
+        "entrypoint": "skills/finishing-a-development-branch/SKILL.md",
+        "installSubpath": "skills/finishing-a-development-branch"
       },
       "currentSkillContentSha256": "131db10b1d59e971e432f21ea591b191a249eacf4943592b097ffc8f5926533c",
       "observedSourceRoute": null,
@@ -4345,7 +4817,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/receiving-code-review/SKILL.md"
+        "subpath": "skills/receiving-code-review",
+        "entrypoint": "skills/receiving-code-review/SKILL.md",
+        "installSubpath": "skills/receiving-code-review"
       },
       "currentSkillContentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
       "observedSourceRoute": null,
@@ -4363,7 +4837,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/requesting-code-review/SKILL.md"
+        "subpath": "skills/requesting-code-review",
+        "entrypoint": "skills/requesting-code-review/SKILL.md",
+        "installSubpath": "skills/requesting-code-review"
       },
       "currentSkillContentSha256": "b5b06640409ae606877c4f677632faa745343b8c7a76f1537de58400279ab397",
       "observedSourceRoute": null,
@@ -4381,7 +4857,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/subagent-driven-development/SKILL.md"
+        "subpath": "skills/subagent-driven-development",
+        "entrypoint": "skills/subagent-driven-development/SKILL.md",
+        "installSubpath": "skills/subagent-driven-development"
       },
       "currentSkillContentSha256": "1de89db6429470eefe80ab16c65e7742ad96b1155ba4d3aef38715293baacf2e",
       "observedSourceRoute": null,
@@ -4399,7 +4877,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "2dc6b61703979e681286685385f64f80b2e3c548305a61b418a1d2f0fede13a9",
       "observedSourceRoute": null,
@@ -4417,7 +4897,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/systematic-debugging/SKILL.md"
+        "subpath": "skills/systematic-debugging",
+        "entrypoint": "skills/systematic-debugging/SKILL.md",
+        "installSubpath": "skills/systematic-debugging"
       },
       "currentSkillContentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
       "observedSourceRoute": null,
@@ -4435,7 +4917,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/using-git-worktrees/SKILL.md"
+        "subpath": "skills/using-git-worktrees",
+        "entrypoint": "skills/using-git-worktrees/SKILL.md",
+        "installSubpath": "skills/using-git-worktrees"
       },
       "currentSkillContentSha256": "32fd01430149e078415349f761124ab4ed2d857fcb6bc1bc675e5ecc00b185e3",
       "observedSourceRoute": null,
@@ -4453,7 +4937,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/verification-before-completion/SKILL.md"
+        "subpath": "skills/verification-before-completion",
+        "entrypoint": "skills/verification-before-completion/SKILL.md",
+        "installSubpath": "skills/verification-before-completion"
       },
       "currentSkillContentSha256": "b7ad4a10cefe71a89fae14e4da569e8c21d190036cb69ac799c04737a451a870",
       "observedSourceRoute": null,
@@ -4471,7 +4957,9 @@
         "owner": "obra",
         "repo": "superpowers",
         "ref": "main",
-        "subpath": "skills/writing-plans/SKILL.md"
+        "subpath": "skills/writing-plans",
+        "entrypoint": "skills/writing-plans/SKILL.md",
+        "installSubpath": "skills/writing-plans"
       },
       "currentSkillContentSha256": "5bc14056ff66b931caf802ce1683318f300930a81c891ab03dff8ab2b96e7fa3",
       "observedSourceRoute": null,
@@ -4489,7 +4977,9 @@
         "owner": "oso95",
         "repo": "scroll-world",
         "ref": "main",
-        "subpath": "skills/scroll-world/SKILL.md"
+        "subpath": "skills/scroll-world",
+        "entrypoint": "skills/scroll-world/SKILL.md",
+        "installSubpath": "skills/scroll-world"
       },
       "currentSkillContentSha256": "e519d471197e15bcdc3b3cbfb13729c57a2f6587af8b829124d6aef1d54c0f3e",
       "observedSourceRoute": null,
@@ -4507,7 +4997,9 @@
         "owner": "Panniantong",
         "repo": "Agent-Reach",
         "ref": "main",
-        "subpath": "SKILL.md"
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "4f58088544e0d91614c1e605d7dfb068f1eadc06a183e44267cf43de6d534ec3",
       "observedSourceRoute": null,
@@ -4525,7 +5017,9 @@
         "owner": "pbakaus",
         "repo": "impeccable",
         "ref": "main",
-        "subpath": ".agents/skills/impeccable/SKILL.md"
+        "subpath": ".agents/skills/impeccable",
+        "entrypoint": ".agents/skills/impeccable/SKILL.md",
+        "installSubpath": ".agents/skills/impeccable"
       },
       "currentSkillContentSha256": "9ec0322853e3d448e32ff8f085643db25d4f2fab8c06dfcc0405b3f397dde4d6",
       "observedSourceRoute": null,
@@ -4699,7 +5193,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "62db8c805e049a140d44e73f44b74e711675ee880a225ca1a1f23597faa4046f",
       "observedSourceRoute": null,
@@ -4717,7 +5213,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "6305baba4249713c1183f18a5cdb5f8eaedec3482d6017d2345a946d74ea2540",
       "observedSourceRoute": null,
@@ -4735,7 +5233,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "8dd61191f549b983b65be41d42d9e78f9b1ca5e22ff863411e0121b7454c825f",
       "observedSourceRoute": null,
@@ -4753,7 +5253,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "b8e50ac5513b96dade95ee5572561b6c45910d0ce695800e6cafd221dcdab171",
       "observedSourceRoute": null,
@@ -4771,7 +5273,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "5f470851fc8b06d1d9faa74323c175c440abafdd2e9895e276d29ccbb3239720",
       "observedSourceRoute": null,
@@ -4789,7 +5293,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "be0d3318bbd4c5b4e5474fc4a8c209ad3d8fd69405770db8cb7f0e04c0427e7f",
       "observedSourceRoute": null,
@@ -4807,7 +5313,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "5da048e3dfc35672e286faeb2b90ec9e6edcf8ee0e82ab2f095ff54596cd5140",
       "observedSourceRoute": null,
@@ -4825,7 +5333,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "d5566dd07080f9a962b9cf16473e33102505612444a033afb697c80ef77557cc",
       "observedSourceRoute": null,
@@ -4843,7 +5353,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "3585d317aa322816705e07362425c04f1de72faeb55a7d24e6b36de380a23be5",
       "observedSourceRoute": null,
@@ -4861,7 +5373,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "1c3832337ef022ded394db883b44a30ca05765a35050143cf58d8cf4121ce525",
       "observedSourceRoute": null,
@@ -4879,7 +5393,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "579234afa5cf8a3fa500d7ef5e7745998c6767b20d2d9f926054adc3c963987c",
       "observedSourceRoute": null,
@@ -4897,7 +5413,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "facc55e22a75c155cdc45daf3cc98b7de92ba6abc81cf0f23c5259e81449dda2",
       "observedSourceRoute": null,
@@ -4915,7 +5433,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "16c4ee734a8b757827b5d3188916a96f3610fcf3deb5778675afb8c29a1081a3",
       "observedSourceRoute": null,
@@ -4933,7 +5453,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "da7af28f18b20ce0d521f8ef198688fac0dd6ace4611ba4df86a2fde81eccf2c",
       "observedSourceRoute": null,
@@ -4951,7 +5473,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "09346bd9085b0af07ac545377e03d0d95ad8e70ca69bc058a7381df9338ff6c9",
       "observedSourceRoute": null,
@@ -4969,7 +5493,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "0c45f4257c2c9f8d04ed3e0e4286a4a87df927a60b2bf81ea826604bd2c5cf9a",
       "observedSourceRoute": null,
@@ -4987,7 +5513,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "b6b939b3e9269c988a65aa1495e6d1bec15e134bbc1c1a15398d65b837dac953",
       "observedSourceRoute": null,
@@ -5005,7 +5533,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "e8abae74203d178165eacf4f135e43298f8908b508cff6a4a146a57fe6feafe8",
       "observedSourceRoute": null,
@@ -5023,7 +5553,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "e92ea0ae50a3874075b249869c52719bf5d5aeb3fe902f9133ed4cb7c1099c4f",
       "observedSourceRoute": null,
@@ -5041,7 +5573,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "c6368acf697245ab45f328cdbadeaed431aedd356ff7069c5dfd3e3c523d160c",
       "observedSourceRoute": null,
@@ -5059,7 +5593,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "7b03343455e72cbb9757af0e7974b84ffeda77db409ce9669293e22674293a3a",
       "observedSourceRoute": null,
@@ -5077,7 +5613,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "275c2768eb3a393421cf25037ca285328d532410d6f6419196d07ebfbe85a1c3",
       "observedSourceRoute": null,
@@ -5095,7 +5633,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": "main",
-        "subpath": ".agents/skills/hive-mind/SKILL.md"
+        "subpath": ".agents/skills/hive-mind",
+        "entrypoint": ".agents/skills/hive-mind/SKILL.md",
+        "installSubpath": ".agents/skills/hive-mind"
       },
       "currentSkillContentSha256": "de92797fcf2134963aff904291095fdd5459162f3b2ec4792663ff4e23dcba71",
       "observedSourceRoute": null,
@@ -5113,7 +5653,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "906a3a356793a233ee564adc654de105fd79f60a86da2ac0b3f5e433deed20bb",
       "observedSourceRoute": null,
@@ -5131,7 +5673,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "c9613e96d398e28005f40f1f2a912400d5212438e67d4e33278dd2d045993f81",
       "observedSourceRoute": null,
@@ -5149,7 +5693,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "0bca0856bd1cebbb8cac8028dfae6aa8670932dbb1c9c3fba77fb3b4faf2f1fb",
       "observedSourceRoute": null,
@@ -5167,7 +5713,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "5b58b20f732e1f988de2e9ba560b5d73abcaceeb52d08bfe401ab54798ebffcc",
       "observedSourceRoute": null,
@@ -5185,7 +5733,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "0f5041510fcf06d8b6417ae7a89fa97fe74e559e78a8347fc1df3af9e49f4d0a",
       "observedSourceRoute": null,
@@ -5203,7 +5753,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "97e0be8554729165245dfbe6d04d6243203a02feca06698e6e7ac103901fc51a",
       "observedSourceRoute": null,
@@ -5221,7 +5773,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "1adec7fdc0a3793bfa9da0060de3f3fcbff49515bc7a3adca25f07d9409b0d4f",
       "observedSourceRoute": null,
@@ -5239,7 +5793,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "c8e906484a31f9bb9165c76f650fb2add138b5d1f851ca892e3d4f7b22226a96",
       "observedSourceRoute": null,
@@ -5257,7 +5813,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "693d44f6c779a736c756f477ab888ee909c1a6241f3ab861e7fbbbc5eccce071",
       "observedSourceRoute": null,
@@ -5275,7 +5833,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "79cdda8171c61913d9caf9b26a2b5300668b7665a707d993b64b937d7abf067e",
       "observedSourceRoute": null,
@@ -5293,7 +5853,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "4f09bf1764e2e1133cb3ae747677a4701d36fbb2c598c415217680f0cb10d1e7",
       "observedSourceRoute": null,
@@ -5311,7 +5873,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "8863dcfc506b1303a3cabc894063fb515006d0df6b1666b3277fd0b19590b6fe",
       "observedSourceRoute": null,
@@ -5329,7 +5893,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "d2952acd28b7b3b581ca806b471162fbe5352a51e9b267d83d3fe911fb0d4f2b",
       "observedSourceRoute": null,
@@ -5347,7 +5913,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "d0f43fd5a98c9841174977fe042e0beb189d79c39dc430d11a4611ded4db6441",
       "observedSourceRoute": null,
@@ -5365,7 +5933,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "2ec43d3fd349118d7ed2bf099fdf3b3a15912b45f49dac166304cc885d97057f",
       "observedSourceRoute": null,
@@ -5383,7 +5953,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "f78a250b272a3095e250cab673215c97e73ab7b9939e79b541b3127a4c0f654d",
       "observedSourceRoute": null,
@@ -5401,7 +5973,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "9a5980d80a612e72dfcf6a40b57d4efd616713afcf4210b5dee30d9aacbad3de",
       "observedSourceRoute": null,
@@ -5419,7 +5993,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "b3ce87da01ddbd01e009b17ed71869d3ad7a07c04b4a002ba0753240d4912552",
       "observedSourceRoute": null,
@@ -5437,7 +6013,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "f4f65e9da40a40efddb88afd5f98583cb114e7b8e91bc7170c6e88918d5d49eb",
       "observedSourceRoute": null,
@@ -5455,7 +6033,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "e03954eef3055f161c6f96365dddb83f413891f04badf20bd7bcfc68a7e87e88",
       "observedSourceRoute": null,
@@ -5473,7 +6053,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "3372c3b98e41da349fe7bc41000378412ed5fd6570c01cb9b54033c77f26983c",
       "observedSourceRoute": null,
@@ -5491,7 +6073,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "203c3eabad5cefd7ab459aaa978d0cc1398752f3ca77a5036cd2aa2825a80109",
       "observedSourceRoute": null,
@@ -5509,7 +6093,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "047dab2623aafc0aed47ebeeedcc71d93beb27b21fbf9d22e63461273418f67d",
       "observedSourceRoute": null,
@@ -5527,7 +6113,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "3e06251616f7ed5ac190f59ad9dedaa1b992f20c27e0abbd6115fda10c406e68",
       "observedSourceRoute": null,
@@ -5545,7 +6133,9 @@
         "owner": "ruvnet",
         "repo": "ruflo",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "a20451b3e9a4be0260628e30ed35f016b10fab470831790ef232c0221b3282bc",
       "observedSourceRoute": null,
@@ -5563,7 +6153,9 @@
         "owner": "safishamsi",
         "repo": "graphify",
         "ref": "v8",
-        "subpath": "graphify/__init__.py"
+        "subpath": "graphify/__init__.py",
+        "entrypoint": "graphify/__init__.py",
+        "installSubpath": "graphify/__init__.py"
       },
       "currentSkillContentSha256": "fdcfbfc8865971cfadfa4ecaeb84e35296027a03effe531dc94180c4ee8ccec8",
       "observedSourceRoute": null,
@@ -5581,7 +6173,9 @@
         "owner": "santifer",
         "repo": "career-ops",
         "ref": "main",
-        "subpath": ".agents/skills/career-ops/SKILL.md"
+        "subpath": ".agents/skills/career-ops",
+        "entrypoint": ".agents/skills/career-ops/SKILL.md",
+        "installSubpath": ".agents/skills/career-ops"
       },
       "currentSkillContentSha256": "94d7ee9ab0952890d45f479b168ea5c31a9ef6cb436129a2cd1f940755ece0f3",
       "observedSourceRoute": null,
@@ -5635,7 +6229,9 @@
         "owner": "spring-ai-alibaba",
         "repo": "examples",
         "ref": "main",
-        "subpath": ".claude/skills/readme-generate/SKILL.md"
+        "subpath": ".claude/skills/readme-generate",
+        "entrypoint": ".claude/skills/readme-generate/SKILL.md",
+        "installSubpath": ".claude/skills/readme-generate"
       },
       "currentSkillContentSha256": "fcb44964f58c7ff84f3840eb7d494f9feb3d7da64d6814409ba6df92670f289b",
       "observedSourceRoute": null,
@@ -5689,7 +6285,9 @@
         "owner": "vercel-labs",
         "repo": "agent-skills",
         "ref": "main",
-        "subpath": "skills/react-best-practices/SKILL.md"
+        "subpath": "skills/react-best-practices",
+        "entrypoint": "skills/react-best-practices/SKILL.md",
+        "installSubpath": "skills/react-best-practices"
       },
       "currentSkillContentSha256": "ffff755ac51bbfd5c6a5ec61e811876b7b61451711f10514d2a5c1bda06526a5",
       "observedSourceRoute": null,
@@ -5707,7 +6305,9 @@
         "owner": "vercel-labs",
         "repo": "skills",
         "ref": "main",
-        "subpath": "skills/find-skills/SKILL.md"
+        "subpath": "skills/find-skills",
+        "entrypoint": "skills/find-skills/SKILL.md",
+        "installSubpath": "skills/find-skills"
       },
       "currentSkillContentSha256": "ea878c0daef63a5426206c4c3eaef74fa89ee485772a777329382f500646ebd6",
       "observedSourceRoute": null,
@@ -5725,7 +6325,9 @@
         "owner": "Xquik-dev",
         "repo": "hermes-tweet",
         "ref": "master",
-        "subpath": "skills/hermes-tweet/SKILL.md"
+        "subpath": "skills/hermes-tweet",
+        "entrypoint": "skills/hermes-tweet/SKILL.md",
+        "installSubpath": "skills/hermes-tweet"
       },
       "currentSkillContentSha256": "1f8e14ee51f2ba65e1861bc7ad471d1b4a0be409253e350945758af653443dc5",
       "observedSourceRoute": null,
@@ -5743,7 +6345,9 @@
         "owner": "yonatangross",
         "repo": "orchestkit",
         "ref": null,
-        "subpath": ""
+        "subpath": "",
+        "entrypoint": "",
+        "installSubpath": ""
       },
       "currentSkillContentSha256": "3dcb97495172d23749bd2735644a12b83527eb6f01bfadaab978c9d53a45cb02",
       "observedSourceRoute": null,

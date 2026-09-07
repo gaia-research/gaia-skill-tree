@@ -77,13 +77,15 @@
     "sourceRoute": {
       "type": ["object", "null"],
       "additionalProperties": false,
-      "required": ["url", "owner", "repo", "ref", "subpath"],
+      "required": ["url", "owner", "repo", "ref", "subpath", "entrypoint", "installSubpath"],
       "properties": {
         "url": {"type": "string", "minLength": 1, "maxLength": 1024},
         "owner": {"type": "string", "minLength": 1, "maxLength": 128},
         "repo": {"type": "string", "minLength": 1, "maxLength": 128},
         "ref": {"type": ["string", "null"], "maxLength": 256},
-        "subpath": {"type": "string", "maxLength": 512}
+        "subpath": {"type": "string", "maxLength": 512},
+        "entrypoint": {"type": "string", "maxLength": 512},
+        "installSubpath": {"type": "string", "maxLength": 512}
       }
     },
     "comparator": {

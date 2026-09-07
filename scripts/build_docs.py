@@ -48,6 +48,7 @@ SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS))
 from generateCssTokens import build_tokens_css, load_gaia  # noqa: E402
 from installability import (  # noqa: E402
+    assert_no_symlink_components,
     build_installability_projection as _build_installability_projection,
     write_projection,
 )
@@ -966,6 +967,7 @@ def build_trust_ledger(check: bool) -> bool:
 def build_installability_projection(check: bool) -> bool:
     """Project committed bounded observations without running install parity."""
     committed = ROOT / "docs" / "graph" / "installability" / "index.json"
+    assert_no_symlink_components(committed, anchor=ROOT)
     document = _build_installability_projection(ROOT)
     if check:
         encoded = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
@@ -976,7 +978,7 @@ def build_installability_projection(check: bool) -> bool:
             print("diff docs/graph/installability/index.json")
             return True
         return False
-    return write_projection(document, committed)
+    return write_projection(document, committed, anchor=ROOT)
 
 
 def build_api_projection(check: bool) -> bool:

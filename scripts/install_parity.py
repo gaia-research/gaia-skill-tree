@@ -37,7 +37,6 @@ import sys
 import threading
 import time
 from datetime import datetime, timezone
-from urllib.parse import urlsplit, urlunsplit
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
@@ -45,6 +44,16 @@ REPO_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO_ROOT_DIR, "src"))
 
 from gaia_cli.install import _parse_github_url  # noqa: E402
+try:
+    from installability import (  # noqa: E402
+        assert_no_symlink_components,
+        canonical_source_route,
+    )
+except ModuleNotFoundError:  # imported as scripts.install_parity by pytest
+    from scripts.installability import (  # noqa: E402
+        assert_no_symlink_components,
+        canonical_source_route,
+    )
 
 # Pinned so a KPI shift is attributable to a registry change, not a tool
 # upgrade. The resolved version is recorded in the JSON report.
@@ -134,6 +143,26 @@ print_lock = threading.Lock()
 def log(message: str) -> None:
     with print_lock:
         print(message, flush=True)
+
+
+def safe_mkdir(path: str, anchor: str | None = None) -> None:
+    assert_no_symlink_components(path, anchor=anchor)
+    os.makedirs(path, exist_ok=True)
+    assert_no_symlink_components(path, anchor=anchor)
+
+
+def safe_rmtree(path: str, anchor: str | None = None) -> None:
+    assert_no_symlink_components(path, anchor=anchor)
+    if os.path.islink(path):
+        raise ValueError(f"refusing to remove symlink path: {path}")
+    shutil.rmtree(path, ignore_errors=False)
+
+
+def is_within(path: str, root: str) -> bool:
+    try:
+        return os.path.commonpath((os.path.realpath(path), os.path.realpath(root))) == os.path.realpath(root)
+    except ValueError:
+        return False
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -228,6 +257,7 @@ def load_index(repo_root: str) -> tuple[list[dict], str]:
         os.path.join(repo_root, "docs", "graph", "named", "index.json"),
     ]
     for path in candidates:
+        assert_no_symlink_components(path, anchor=repo_root)
         if not os.path.exists(path):
             continue
         with open(path, "r", encoding="utf-8") as f:
@@ -320,9 +350,12 @@ def canonical_skill_path(repo_root: str, skill_id: str) -> str | None:
     """Resolve only a canonical named-skill path; reject traversal/symlinks."""
     if not re.fullmatch(r"[^/]+/[^/]+", skill_id):
         return None
-    named_root = os.path.realpath(os.path.join(repo_root, "registry", "named"))
+    named_root = os.path.abspath(os.path.join(repo_root, "registry", "named"))
     path = os.path.abspath(os.path.join(named_root, *skill_id.split("/")) + ".md")
     if os.path.commonpath((named_root, path)) != named_root:
+        return None
+    assert_no_symlink_components(path, anchor=repo_root)
+    if os.path.commonpath((os.path.abspath(repo_root), path)) != os.path.abspath(repo_root):
         return None
     if os.path.islink(path) or not os.path.isfile(path):
         return None
@@ -330,30 +363,15 @@ def canonical_skill_path(repo_root: str, skill_id: str) -> str | None:
 
 
 def source_route(skill: Skill) -> dict | None:
-    """Return the exact parsed route without ever publishing URL credentials."""
+    """Return the shared canonical route without publishing unsafe URLs."""
     if not skill.github:
         return None
-    parsed = urlsplit(skill.github)
-    if parsed.username is not None or parsed.password is not None:
+    try:
+        return canonical_source_route(skill.github, skill.subpath)
+    except ValueError:
+        # A credential/query-bearing or otherwise non-canonical link must not
+        # be copied into durable observation output.
         return None
-    if parsed.scheme in {"http", "https"} and (parsed.query or parsed.fragment):
-        # A query/fragment-bearing source link is not a canonical registry route. Do not
-        # risk copying a signed URL or token into a durable observation.
-        return None
-    if not skill.repo_url:
-        return None
-    repo_parts = skill.repo_url.rstrip("/").split("/")
-    repo = repo_parts[-1].removesuffix(".git") if repo_parts else ""
-    owner = repo_parts[-2] if len(repo_parts) > 1 else ""
-    if not owner or not repo:
-        return None
-    return {
-        "url": skill.github,
-        "owner": owner,
-        "repo": repo,
-        "ref": skill.branch,
-        "subpath": skill.subpath,
-    }
 
 
 def sanitize_diagnostic(value: str | None) -> tuple[str | None, str | None]:
@@ -401,6 +419,9 @@ def hash_tree(root: str) -> dict[str, str]:
                 continue
             full = os.path.join(dirpath, name)
             rel = os.path.relpath(full, root)
+            if os.path.islink(full) and not is_within(full, root):
+                digests[rel.replace(os.sep, "/")] = "UNSAFE_SYMLINK"
+                continue
             try:
                 with open(full, "rb") as f:
                     digest = hashlib.sha256(f.read()).hexdigest()
@@ -494,7 +515,7 @@ def install_gaia(cfg, skill: Skill, sandbox: str) -> tuple[int, str, str, float]
     created lazily by save_manifest().
     """
     cwd = os.path.join(sandbox, "gaia")
-    os.makedirs(cwd, exist_ok=True)
+    safe_mkdir(cwd, anchor=sandbox)
 
     env = dict(os.environ)
     env["GAIA_HOME"] = cfg.gaia_home
@@ -523,7 +544,7 @@ def install_npx(cfg, skill: Skill, sandbox: str) -> tuple[int, str, str, float]:
     home = os.path.join(sandbox, "npx-home")
     state = os.path.join(sandbox, "npx-state")
     for path in (cwd, home, state):
-        os.makedirs(path, exist_ok=True)
+        safe_mkdir(path, anchor=sandbox)
 
     env = dict(os.environ)
     env["HOME"] = home
@@ -556,11 +577,13 @@ def purge_cache(cfg, skill: Skill) -> None:
     silently install from a broken tree.
     """
     if skill.repo_url:
-        shutil.rmtree(cache_dir_for(cfg, skill), ignore_errors=True)
+        cache = cache_dir_for(cfg, skill)
+        safe_rmtree(cache, anchor=cfg.run_root) if os.path.lexists(cache) else None
 
 
 def read_manifest(sandbox: str) -> dict:
     path = os.path.join(sandbox, "gaia", ".gaia", "install-manifest.json")
+    assert_no_symlink_components(path, anchor=sandbox)
     if not os.path.exists(path):
         return {"installed": []}
     try:
@@ -594,7 +617,10 @@ def npx_roots(sandbox: str) -> list[str]:
         for name in sorted(os.listdir(base)):
             full = os.path.join(base, name)
             if os.path.isdir(full):
-                found.setdefault(os.path.realpath(full), full)
+                resolved = os.path.realpath(full)
+                if not is_within(resolved, sandbox):
+                    raise ValueError(f"npm skill path escapes sandbox: {full}")
+                found.setdefault(resolved, full)
     return [found[key] for key in sorted(found)]
 
 
@@ -638,7 +664,12 @@ def _set_gaia_refusal(result: Result, code: int) -> None:
     result.gaia_exit_code = code
 
 
-def check_gaia_health(result: Result, entry: dict, observe: bool = False) -> str | None:
+def check_gaia_health(
+    result: Result,
+    entry: dict,
+    observe: bool = False,
+    allowed_root: str | None = None,
+) -> str | None:
     """Validate what gaia actually put on disk. Returns the resolved root."""
     local_path = entry.get("localPath")
     if not local_path:
@@ -653,6 +684,11 @@ def check_gaia_health(result: Result, entry: dict, observe: bool = False) -> str
     # os.path.realpath resolves both symlinks and NTFS junctions; os.readlink
     # does not handle junctions.
     resolved = os.path.realpath(local_path)
+    if allowed_root and not is_within(resolved, allowed_root):
+        result.gaia_health = "failed"
+        result.gaia_exit_code = 0
+        result.fail("GAIA_INSTALL_FAILED", f"installed path escapes sandbox: {resolved}")
+        return None
     if not os.path.exists(resolved):
         result.gaia_health = "failed"
         result.gaia_exit_code = 0
@@ -710,7 +746,12 @@ def check_no_source(result: Result, code: int, out: str, err: str) -> None:
         )
 
 
-def check_suite(result: Result, skill: Skill, manifest: dict) -> None:
+def check_suite(
+    result: Result,
+    skill: Skill,
+    manifest: dict,
+    allowed_root: str | None = None,
+) -> None:
     """Suites skip the content diff; instead every component must install."""
     result.suite_total = len(skill.suite_components)
     missing = []
@@ -720,6 +761,9 @@ def check_suite(result: Result, skill: Skill, manifest: dict) -> None:
             missing.append(f"{component} (no manifest entry)")
             continue
         resolved = os.path.realpath(entry.get("localPath", ""))
+        if allowed_root and not is_within(resolved, allowed_root):
+            missing.append(f"{component} (path escapes sandbox: {resolved})")
+            continue
         if not os.path.isdir(resolved):
             missing.append(f"{component} (path missing: {resolved})")
             continue
@@ -751,7 +795,7 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         canonical = canonical_skill_path(cfg.repo_root, skill.id)
         result.skill_content_sha256 = sha256_file(canonical) if canonical else None
     sandbox = os.path.join(cfg.run_root, "sandboxes", skill.id.replace("/", "__"))
-    os.makedirs(sandbox, exist_ok=True)
+    safe_mkdir(sandbox, anchor=cfg.run_root)
 
     try:
         code, out, err, seconds = install_gaia(cfg, skill, sandbox)
@@ -770,7 +814,9 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         # ones actually failed.
         if skill.category == SUITE:
             result.gaia_exit_code = code
-            check_suite(result, skill, read_manifest(sandbox))
+            check_suite(
+                result, skill, read_manifest(sandbox), allowed_root=cfg.run_root
+            )
             if code == 0 and result.verdict == PASS:
                 result.gaia_health = "materialized"
             elif code != 0:
@@ -803,7 +849,9 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
             )
             return result
 
-        gaia_root = check_gaia_health(result, entry, observe=observe)
+        gaia_root = check_gaia_health(
+            result, entry, observe=observe, allowed_root=cfg.run_root
+        )
         if gaia_root is None:
             # gaia's own install is already broken; running the npm CLI would
             # only add a second, derivative failure.
@@ -864,8 +912,8 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         compare_trees(result, gaia_root, roots[0])
         return result
     finally:
-        if not cfg.keep:
-            shutil.rmtree(sandbox, ignore_errors=True)
+        if not cfg.keep and os.path.lexists(sandbox):
+            safe_rmtree(sandbox, anchor=cfg.run_root)
 
 
 def check_dirname(result: Result) -> None:
@@ -930,7 +978,7 @@ def install_npx_tool(cfg) -> str:
     resolution overhead and pins the version so KPIs stay comparable.
     """
     prefix = os.path.join(cfg.run_root, "npx-tool")
-    os.makedirs(prefix, exist_ok=True)
+    safe_mkdir(prefix, anchor=cfg.run_root)
     log(f"Installing skills@{cfg.npx_version} into {prefix} ...")
     code, out, err = run(
         [
@@ -1338,9 +1386,11 @@ def write_observation(path: str, payload: dict) -> str:
     """Atomically write an operator-selected observation path and return digest."""
     validate_observation_payload(payload)
     absolute = os.path.abspath(path)
+    assert_no_symlink_components(absolute)
     if os.path.isdir(absolute):
         raise ValueError(f"observation path is a directory: {path}")
     os.makedirs(os.path.dirname(absolute), exist_ok=True)
+    assert_no_symlink_components(absolute)
     encoded = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     temporary = absolute + f".tmp.{os.getpid()}"
     with open(temporary, "w", encoding="utf-8") as handle:
@@ -1427,7 +1477,11 @@ def main(argv: list[str] | None = None) -> int:
 
     run_id = time.strftime("%Y%m%dT%H%M%S")
     run_root = os.path.join(REPO_ROOT_DIR, "generated-output", "parity", run_id)
-    os.makedirs(run_root, exist_ok=True)
+    try:
+        safe_mkdir(run_root, anchor=REPO_ROOT_DIR)
+    except ValueError as exc:
+        print(f"Precondition failed: {exc}", file=sys.stderr)
+        return 2
 
     cfg = argparse.Namespace(
         repo_root=REPO_ROOT_DIR,
@@ -1492,7 +1546,15 @@ def main(argv: list[str] | None = None) -> int:
     render(results, kpis)
 
     if args.json_path:
-        os.makedirs(os.path.dirname(os.path.abspath(args.json_path)), exist_ok=True)
+        try:
+            assert_no_symlink_components(args.json_path)
+            os.makedirs(os.path.dirname(os.path.abspath(args.json_path)), exist_ok=True)
+            assert_no_symlink_components(args.json_path)
+        except (OSError, ValueError) as exc:
+            print(f"Could not write report: {exc}", file=sys.stderr)
+            if not cfg.keep:
+                safe_rmtree(run_root, anchor=REPO_ROOT_DIR)
+            return 2
         payload = {
             "runId": run_id,
             "indexPath": os.path.relpath(index_path, REPO_ROOT_DIR),
@@ -1546,13 +1608,13 @@ def main(argv: list[str] | None = None) -> int:
             digest = write_observation(args.observation_path, observation)
         except (OSError, TypeError, ValueError) as exc:
             print(f"Could not write observation: {exc}", file=sys.stderr)
-            if not cfg.keep:
-                shutil.rmtree(run_root, ignore_errors=True)
+            if not cfg.keep and os.path.lexists(run_root):
+                safe_rmtree(run_root, anchor=REPO_ROOT_DIR)
             return 2
         print(f"Observation: {args.observation_path} (sha256:{digest})")
 
     if not cfg.keep:
-        shutil.rmtree(run_root, ignore_errors=True)
+        safe_rmtree(run_root, anchor=REPO_ROOT_DIR)
     else:
         print(f"Sandboxes kept at {run_root}")
 

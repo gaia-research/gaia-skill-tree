@@ -17,7 +17,8 @@ python scripts/install_parity.py \
 
 The existing parity report, verdict, and exit code remain unchanged. The
 observation records Gaia-side health separately from the npm comparator and
-includes source route, canonical registry content hash, the revision actually
+includes source route (with both the raw entrypoint and the actual Gaia
+install subpath), canonical registry content hash, the revision actually
 resolved in Gaia's clone cache, delivered-content digest when a real local
 skill tree was observed, tool context, and bounded/redacted diagnostics.
 Operational failures have no positive installability meaning.
@@ -25,7 +26,10 @@ Operational failures have no positive installability meaning.
 An observation becomes publishable under `observations/<sha256>.json` only
 after the required human/evidence gate. Do not copy an agent-authored probe
 there and label it human evidence. The initial projection may therefore be an
-honest all-`unknown` snapshot.
+honest all-`unknown` snapshot. Pre-fix scratch records are not migrated or
+silently rewritten; if a future contract revision changes route fields, old
+immutable records remain on their original schema and are ignored or rejected
+until an explicit migration policy exists.
 
 ## Projection
 
