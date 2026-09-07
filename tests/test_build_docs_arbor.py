@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import shutil
 import sys
+import pytest
 from pathlib import Path
 
 
@@ -52,3 +54,43 @@ def test_arbor_projection_is_offline_scoped_and_deterministic(tmp_path, monkeypa
     assert outside.read_text(encoding="utf-8") == "keep"
     sources = tmp_path / "registry" / "arbor" / "sources"
     assert not sources.exists() or not list(sources.rglob("*.json"))
+
+
+@pytest.mark.parametrize("shape", ["root", "parent", "nested", "leaf"])
+def test_arbor_publisher_rejects_symlinked_managed_paths_without_deleting_target(
+    tmp_path, monkeypatch, shape
+):
+    buildDocs = loadBuildDocs()
+    monkeypatch.setattr(buildDocs, "ROOT", tmp_path)
+    shutil.copytree(
+        ROOT / "registry" / "arbor" / "contracts",
+        tmp_path / "registry" / "arbor" / "contracts",
+    )
+    buildDocs.build_arbor_projection(check=False)
+
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    marker = outside / "marker.txt"
+    marker.write_text("must survive", encoding="utf-8")
+    committed = tmp_path / "docs" / "graph" / "arbor"
+    if shape == "root":
+        shutil.rmtree(committed)
+        os.symlink(outside, committed)
+    elif shape == "parent":
+        shutil.rmtree(committed)
+        shutil.rmtree(tmp_path / "docs" / "graph")
+        os.symlink(outside, tmp_path / "docs" / "graph")
+    elif shape == "nested":
+        runtime = committed / "runtime"
+        shutil.rmtree(runtime)
+        os.symlink(outside, runtime)
+    else:
+        edges = committed / "edges.json"
+        edges.unlink()
+        os.symlink(marker, edges)
+
+    from gaia_cli.arbor import ArborError
+
+    with pytest.raises(ArborError, match="Arbor managed path"):
+        buildDocs.build_arbor_projection(check=True)
+    assert marker.read_text(encoding="utf-8") == "must survive"

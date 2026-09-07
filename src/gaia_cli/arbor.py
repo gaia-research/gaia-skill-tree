@@ -13,6 +13,7 @@ import json
 import math
 import os
 import re
+import stat
 import tempfile
 from contextlib import contextmanager
 from datetime import datetime
@@ -146,6 +147,102 @@ def contentDigest(value: object) -> str:
     return hashlib.sha256(canonicalBytes(value)).hexdigest()
 
 
+def repositoryRoot(registryRoot: str | Path) -> Path:
+    """Anchor all managed Arbor paths at the caller's physical repository root."""
+
+    try:
+        return Path(registryRoot).expanduser().resolve(strict=False)
+    except OSError as exc:
+        raise ArborError(f"cannot resolve Arbor repository root {registryRoot}: {exc}") from exc
+
+
+def _checkedPath(anchor: Path, parts: tuple[str | Path, ...]) -> Path:
+    anchor = Path(anchor)
+    candidate = anchor.joinpath(*parts)
+    try:
+        candidate.relative_to(anchor)
+    except ValueError as exc:
+        raise ArborError(f"Arbor managed path escapes repository root: {candidate}") from exc
+
+    current = anchor
+    for part in candidate.relative_to(anchor).parts:
+        current = current / part
+        try:
+            mode = current.lstat().st_mode
+        except FileNotFoundError:
+            break
+        except OSError as exc:
+            raise ArborError(f"cannot inspect Arbor managed path {current}: {exc}") from exc
+        if stat.S_ISLNK(mode):
+            raise ArborError(f"Arbor managed path cannot contain a symlink: {current}")
+        if current != candidate and not stat.S_ISDIR(mode):
+            raise ArborError(f"Arbor managed parent is not a directory: {current}")
+
+    try:
+        physical = candidate.resolve(strict=False)
+        physical.relative_to(anchor)
+    except (OSError, ValueError) as exc:
+        raise ArborError(f"Arbor managed path escapes repository root: {candidate}") from exc
+    return candidate
+
+
+def managedPath(registryRoot: str | Path, *parts: str | Path) -> Path:
+    """Return a path confined to the canonical repository root.
+
+    The input record path is intentionally not passed through this helper: users
+    may import a JSON file from outside the repository. Only Arbor-owned
+    destinations and readers are confined.
+    """
+
+    return _checkedPath(repositoryRoot(registryRoot), tuple(parts))
+
+
+def managedChild(root: Path, *parts: str | Path) -> Path:
+    """Validate a child of an already anchored managed directory."""
+
+    return _checkedPath(Path(root), tuple(parts))
+
+
+def assertManagedTree(root: Path) -> None:
+    """Reject symlinked managed roots/leaves before any recursive operation."""
+
+    root = Path(root)
+    if root.is_symlink():
+        raise ArborError(f"Arbor managed path cannot be a symlink: {root}")
+    if not root.exists():
+        return
+    if not root.is_dir():
+        raise ArborError(f"Arbor managed path is not a directory: {root}")
+    pending = [root]
+    while pending:
+        current = pending.pop()
+        try:
+            entries = list(os.scandir(current))
+        except OSError as exc:
+            raise ArborError(f"cannot inspect Arbor managed directory {current}: {exc}") from exc
+        for entry in entries:
+            entryPath = Path(entry.path)
+            try:
+                mode = entry.stat(follow_symlinks=False).st_mode
+            except OSError as exc:
+                raise ArborError(f"cannot inspect Arbor managed path {entryPath}: {exc}") from exc
+            if stat.S_ISLNK(mode):
+                raise ArborError(f"Arbor managed path cannot contain a symlink: {entryPath}")
+            if stat.S_ISDIR(mode):
+                pending.append(entryPath)
+
+
+def managedFiles(root: Path) -> set[Path]:
+    assertManagedTree(root)
+    if not root.exists():
+        return set()
+    return {
+        path
+        for path in root.rglob("*")
+        if path.is_file()
+    }
+
+
 def readJson(path: Path) -> dict:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -157,7 +254,7 @@ def readJson(path: Path) -> dict:
 
 
 def arborRoot(registryRoot: str | Path) -> Path:
-    return Path(registryRoot) / "registry" / "arbor"
+    return managedPath(registryRoot, "registry", "arbor")
 
 
 def canonicalSkillPath(skillId: str, registryRoot: str | Path) -> Path:
@@ -165,13 +262,15 @@ def canonicalSkillPath(skillId: str, registryRoot: str | Path) -> Path:
 
     if not isinstance(skillId, str) or not SKILL_ID_PATTERN.fullmatch(skillId):
         raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
-    registry = Path(registryRoot) / "registry"
+    registry = managedPath(registryRoot, "registry")
     if "/" in skillId:
         contributor, slug = skillId.split("/")
-        candidates = [registry / "named" / contributor / f"{slug}.md"]
+        candidates = [
+            managedChild(registry, "named", contributor, f"{slug}.md")
+        ]
     else:
         candidates = [
-            registry / "nodes" / nodeType / f"{skillId}.json"
+            managedChild(registry, "nodes", nodeType, f"{skillId}.json")
             for nodeType in ("basic", "fusion")
         ]
     existing = [path for path in candidates if path.is_file()]
@@ -210,7 +309,9 @@ def validateRecord(record: dict, registryRoot: str | Path) -> str:
     if schemaId in EDGE_SOURCE_SCHEMAS:
         rejectKeys(record, STRUCTURAL_KEYS, "structural Arbor")
 
-    schemaPath = arborRoot(registryRoot) / "contracts" / SCHEMA_FILES[schemaId]
+    schemaPath = managedChild(
+        arborRoot(registryRoot), "contracts", SCHEMA_FILES[schemaId]
+    )
     schema = readJson(schemaPath)
     validator = Draft7Validator(schema, format_checker=FORMAT_CHECKER)
     errors = sorted(validator.iter_errors(record), key=lambda item: list(item.path))
@@ -274,7 +375,8 @@ def storeLock(registryRoot: str | Path):
 
     root = arborRoot(registryRoot)
     root.mkdir(parents=True, exist_ok=True)
-    lock = root / ".store-lock"
+    assertManagedTree(root)
+    lock = managedChild(root, ".store-lock")
     try:
         lock.mkdir()
     except FileExistsError as exc:
@@ -296,7 +398,12 @@ def importSource(inputPath: str | Path, registryRoot: str | Path) -> tuple[Path,
 
         root = arborRoot(registryRoot)
         digest = contentDigest(record)
-        destination = root / "sources" / SOURCE_DIRECTORIES[schemaId] / f"{digest}.json"
+        destination = managedChild(
+            root,
+            "sources",
+            SOURCE_DIRECTORIES[schemaId],
+            f"{digest}.json",
+        )
         if not destination.is_file():
             # Moving canonical files are admission oracles only. Once stored,
             # every declaration/edge/acceptance pin is immutable history.
@@ -408,10 +515,12 @@ def sourceRecords(
 
 
 def allSourceRecords(registryRoot: str | Path) -> dict[str, dict[str, dict]]:
-    root = arborRoot(registryRoot) / "sources"
+    root = arborRoot(registryRoot)
+    sourcesRoot = managedChild(root, "sources")
+    assertManagedTree(sourcesRoot)
     return {
         schemaId: loadSources(
-            root / directory, schemaId, registryRoot
+            managedChild(sourcesRoot, directory), schemaId, registryRoot
         )
         for schemaId, directory in SOURCE_DIRECTORIES.items()
     }
@@ -425,6 +534,7 @@ def addSourceRecord(
 
 def loadSources(directory: Path, expectedSchema: str, registryRoot: str | Path) -> dict[str, dict]:
     records: dict[str, dict] = {}
+    assertManagedTree(directory)
     if not directory.exists():
         return records
     for path in sorted(directory.glob("*.json")):
@@ -445,7 +555,7 @@ def loadSources(directory: Path, expectedSchema: str, registryRoot: str | Path) 
 
 def validateReceiptTarget(receipt: dict, root: Path, registryRoot: str | Path) -> None:
     digest = receipt["target"]["declarationSha256"]
-    declarationPath = root / "sources" / "declarations" / f"{digest}.json"
+    declarationPath = sourcePath(root, DECLARATION_SCHEMA, digest)
     if not declarationPath.is_file():
         raise ArborError(f"benchmark receipt references missing declaration {digest}")
     declaration = readJson(declarationPath)
@@ -467,7 +577,7 @@ def validateInterpretationTarget(
 ) -> None:
     target = interpretation["target"]
     declarationDigest = target["declarationSha256"]
-    declarationPath = root / "sources" / "declarations" / f"{declarationDigest}.json"
+    declarationPath = sourcePath(root, DECLARATION_SCHEMA, declarationDigest)
     if not declarationPath.is_file():
         raise ArborError(
             f"Arbor interpretation references missing declaration {declarationDigest}"
@@ -484,7 +594,7 @@ def validateInterpretationTarget(
         raise ArborError("Arbor interpretation skill identity/hash differs from its declaration")
 
     for receiptDigest in interpretation["receiptSources"]:
-        receiptPath = root / "sources" / "receipts" / f"{receiptDigest}.json"
+        receiptPath = sourcePath(root, RECEIPT_SCHEMA, receiptDigest)
         if not receiptPath.is_file():
             raise ArborError(
                 f"Arbor interpretation references missing receipt {receiptDigest}"
@@ -500,7 +610,7 @@ def validateInterpretationTarget(
 
     supersedes = interpretation.get("supersedesSha256")
     if supersedes is not None:
-        priorPath = root / "sources" / "interpretations" / f"{supersedes}.json"
+        priorPath = sourcePath(root, INTERPRETATION_SCHEMA, supersedes)
         if not priorPath.is_file():
             raise ArborError(
                 f"Arbor interpretation supersedes missing interpretation {supersedes}"
@@ -531,7 +641,12 @@ def targetKey(pair: dict, target: dict) -> str:
 
 
 def sourcePath(root: Path, schemaId: str, digest: str) -> Path:
-    return root / "sources" / SOURCE_DIRECTORIES[schemaId] / f"{digest}.json"
+    return managedChild(
+        root,
+        "sources",
+        SOURCE_DIRECTORIES[schemaId],
+        f"{digest}.json",
+    )
 
 
 def validatePairAdmission(pair: dict, registryRoot: str | Path) -> None:
@@ -848,7 +963,9 @@ def buildEdgeIndex(
         "edges": entries,
     }
     schema = readJson(
-        arborRoot(registryRoot) / "contracts" / SCHEMA_FILES[EDGE_INDEX_SCHEMA]
+        managedChild(
+            arborRoot(registryRoot), "contracts", SCHEMA_FILES[EDGE_INDEX_SCHEMA]
+        )
     )
     errors = sorted(
         Draft7Validator(schema, format_checker=FORMAT_CHECKER).iter_errors(index),
@@ -862,7 +979,9 @@ def buildEdgeIndex(
 def runtimePath(root: Path, skillId: str, skillHash: str) -> Path:
     if not SKILL_ID_PATTERN.fullmatch(skillId):
         raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
-    return root / "runtime" / Path(*skillId.split("/")) / f"{skillHash}.json"
+    return managedChild(
+        root, "runtime", *Path(*skillId.split("/")).parts, f"{skillHash}.json"
+    )
 
 
 def buildRuntime(
@@ -1044,7 +1163,7 @@ def buildArborProjection(registryRoot: str | Path) -> dict[str, dict]:
 
     edgeIndex, runtimes = buildArborArtifacts(registryRoot)
     runtimeRecords = {
-        str(path.relative_to(arborRoot(registryRoot) / "runtime")): runtime
+        str(path.relative_to(managedChild(arborRoot(registryRoot), "runtime"))): runtime
         for path, runtime in runtimes.items()
     }
     subjects = [
@@ -1073,14 +1192,25 @@ def serializeRecord(record: dict) -> bytes:
 
 
 def reconcileGenerated(root: Path, staged: dict[Path, bytes]) -> None:
-    existing = set(root.glob("**/*.json")) if root.exists() else set()
+    """Reconcile one owned tree after rejecting all symlinked descendants."""
+
+    root = Path(root)
+    assertManagedTree(root)
+    existing = managedFiles(root)
+    safeStaged: dict[Path, bytes] = {}
     for path, content in staged.items():
-        writeAtomic(path, content)
-    for stale in sorted(existing - set(staged)):
+        try:
+            relative = Path(path).relative_to(root)
+        except ValueError as exc:
+            raise ArborError(f"generated Arbor path escapes its owner: {path}") from exc
+        safePath = managedChild(root, *relative.parts)
+        safeStaged[safePath] = content
+        writeAtomic(safePath, content)
+    for stale in sorted(existing - set(safeStaged)):
         stale.unlink()
     if root.exists():
         for directory in sorted(
-            (path for path in root.glob("**/*") if path.is_dir()),
+            (path for path in root.rglob("*") if path.is_dir()),
             key=lambda path: len(path.parts),
             reverse=True,
         ):
@@ -1102,16 +1232,19 @@ def replay(registryRoot: str | Path) -> list[Path]:
             registryRoot,
         )
         edgeIndex, runtimes = buildArborArtifacts(registryRoot, sources)
-        profileRoot = arborRoot(registryRoot) / "profiles"
+        profileRoot = managedChild(arborRoot(registryRoot), "profiles")
         reconcileGenerated(
             profileRoot,
             {path: serializeRecord(profile) for path, profile in profiles.items()},
         )
         reconcileGenerated(
-            arborRoot(registryRoot) / "runtime",
+            managedChild(arborRoot(registryRoot), "runtime"),
             {path: serializeRecord(runtime) for path, runtime in runtimes.items()},
         )
-        writeAtomic(arborRoot(registryRoot) / "edges.json", serializeRecord(edgeIndex))
+        writeAtomic(
+            managedChild(arborRoot(registryRoot), "edges.json"),
+            serializeRecord(edgeIndex),
+        )
         return list(profiles)
 
 
@@ -1200,7 +1333,9 @@ def interpretProfile(
 def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
     if not SKILL_ID_PATTERN.fullmatch(skillId):
         raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
-    return root / "profiles" / Path(*skillId.split("/")) / f"{skillHash}.json"
+    return managedChild(
+        root, "profiles", *Path(*skillId.split("/")).parts, f"{skillHash}.json"
+    )
 
 
 def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) -> int:
@@ -1251,8 +1386,8 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
             registryRoot,
         )
         expectedEdges, expectedRuntimes = buildArborArtifacts(registryRoot, sources)
-        profileRoot = arborRoot(registryRoot) / "profiles"
-        existing = set(profileRoot.glob("**/*.json")) if profileRoot.exists() else set()
+        profileRoot = managedChild(arborRoot(registryRoot), "profiles")
+        existing = managedFiles(profileRoot)
         if existing != set(expectedProfiles):
             raise ArborError("generated Arbor profile set is stale; run `gaia dev arbor replay`")
         for path, profile in expectedProfiles.items():
@@ -1261,13 +1396,13 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
             if stored != profile:
                 raise ArborError(f"generated Arbor profile is stale: {path}")
 
-        edgePath = arborRoot(registryRoot) / "edges.json"
-        runtimeRoot = arborRoot(registryRoot) / "runtime"
+        edgePath = managedChild(arborRoot(registryRoot), "edges.json")
+        runtimeRoot = managedChild(arborRoot(registryRoot), "runtime")
         generatedExists = edgePath.exists() or runtimeRoot.exists()
         if generatedExists or any(sources.values()):
             if not edgePath.is_file() or readJson(edgePath) != expectedEdges:
                 raise ArborError("generated Arbor edge index is stale; run `gaia dev arbor replay`")
-            runtimeExisting = set(runtimeRoot.glob("**/*.json")) if runtimeRoot.exists() else set()
+            runtimeExisting = managedFiles(runtimeRoot)
             if runtimeExisting != set(expectedRuntimes):
                 raise ArborError("generated Arbor runtime set is stale; run `gaia dev arbor replay`")
             for path, runtime in expectedRuntimes.items():

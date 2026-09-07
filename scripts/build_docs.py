@@ -1044,9 +1044,18 @@ def build_benchmark_projection(check: bool) -> bool:
 def build_arbor_projection(check: bool) -> bool:
     """Project immutable Arbor sources into the owned Class S artifact directory."""
 
-    from gaia_cli.arbor import buildArborProjection, serializeRecord
+    from gaia_cli.arbor import (
+        assertManagedTree,
+        buildArborProjection,
+        managedChild,
+        managedPath,
+        serializeRecord,
+    )
 
-    committed = ROOT / "docs" / "graph" / "arbor"
+    # --check must refuse an unsafe managed tree rather than inspect or clean
+    # through a symlink. Write mode has the same refusal boundary.
+    committed = managedPath(ROOT, "docs", "graph", "arbor")
+    assertManagedTree(committed)
     projection = buildArborProjection(ROOT)
     expected = {
         relative: serializeRecord(record)
@@ -1082,7 +1091,7 @@ def build_arbor_projection(check: bool) -> bool:
                 path.rmdir()
     committed.mkdir(parents=True, exist_ok=True)
     for relative, content in expected.items():
-        destination = committed / relative
+        destination = managedChild(committed, *Path(relative).parts)
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(content)
     return True

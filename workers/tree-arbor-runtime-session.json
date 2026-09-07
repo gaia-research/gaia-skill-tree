@@ -12,5 +12,8 @@
   "cwd": "/private/tmp/issue-116-worktrees/tree-arbor-runtime",
   "branch": "dev/issue116-arbor-runtime",
   "delegates": 0,
-  "base": "bf150f68b"
+  "base": "bf150f68b",
+  "resumedFrom": "f5ae8c731",
+  "reviewerArchived": true,
+  "resumedBoundary": "bounded PR1749 P1 managed-path confinement and P2 nonJSON cleanup"
 }

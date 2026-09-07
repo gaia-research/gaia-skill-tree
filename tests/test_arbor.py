@@ -3,7 +3,9 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
 import shutil
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -764,3 +766,74 @@ def test_endpoint_drift_drops_changed_lens_and_abstains_in_unchanged_lens(tmp_pa
     bEdges = readJson(bRuntime)["lenses"]["interactions"]["edges"]
     assert len(bEdges) == 1
     assert bEdges[0]["pairApplicable"] is False
+
+
+@pytest.mark.parametrize("shape", ["source-directory", "source-leaf", "source-nested"])
+def test_public_import_rejects_physical_source_escapes_without_touching_target(tmp_path, shape):
+    root = makeEdgeStore(tmp_path)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    marker = outside / "marker.txt"
+    marker.write_text("must survive", encoding="utf-8")
+    sourceRoot = root / "registry" / "arbor" / "sources"
+    sourceRoot.mkdir(parents=True)
+    if shape == "source-directory":
+        os.symlink(outside, sourceRoot / "edge-declarations")
+    else:
+        edgeDeclarations = sourceRoot / "edge-declarations"
+        edgeDeclarations.mkdir()
+        if shape == "source-leaf":
+            os.symlink(marker, edgeDeclarations / ("0" * 64 + ".json"))
+        else:
+            os.symlink(outside, edgeDeclarations / "nested")
+
+    with pytest.raises(ArborError, match="symlink"):
+        importArborRecord(root, tmp_path, "edge.json", edgeDeclaration(root))
+    assert marker.read_text(encoding="utf-8") == "must survive"
+    assert sorted(path.name for path in outside.iterdir()) == ["marker.txt"]
+
+
+def test_public_check_rejects_symlinked_managed_lock_without_touching_target(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    outside = tmp_path / "lock-outside"
+    outside.mkdir()
+    marker = outside / "marker.txt"
+    marker.write_text("must survive", encoding="utf-8")
+    os.symlink(outside, root / "registry" / "arbor" / ".store-lock")
+
+    with pytest.raises(ArborError, match="symlink"):
+        checkStore(root)
+    assert marker.read_text(encoding="utf-8") == "must survive"
+
+
+def test_public_paths_canonicalize_tmp_alias_and_keep_output_inside_repo():
+    realRoot = Path(tempfile.mkdtemp(prefix="arbor-alias-", dir="/tmp"))
+    try:
+        makeEdgeStore(realRoot)
+        alias = Path("/tmp") / realRoot.name
+        assert checkStore(alias) == 0
+        replay(alias)
+        assert (realRoot / "registry" / "arbor" / "edges.json").is_file()
+        assert not (realRoot / "registry" / "arbor" / "sources").exists()
+    finally:
+        shutil.rmtree(realRoot)
+
+
+def test_replay_and_check_handle_non_json_extras_without_touching_sources(tmp_path):
+    root = makeEdgeStore(tmp_path)
+    replay(root)
+    profileExtra = root / "registry" / "arbor" / "profiles" / "stale.txt"
+    runtimeExtra = root / "registry" / "arbor" / "runtime" / "stale.txt"
+    profileExtra.parent.mkdir(parents=True, exist_ok=True)
+    runtimeExtra.parent.mkdir(parents=True, exist_ok=True)
+    profileExtra.write_text("stale", encoding="utf-8")
+    runtimeExtra.write_text("stale", encoding="utf-8")
+
+    with pytest.raises(ArborError, match="stale"):
+        checkStore(root)
+    assert profileExtra.exists()
+    assert runtimeExtra.exists()
+    replay(root)
+    assert not profileExtra.exists()
+    assert not runtimeExtra.exists()
+    assert not (root / "registry" / "arbor" / "sources").exists()
