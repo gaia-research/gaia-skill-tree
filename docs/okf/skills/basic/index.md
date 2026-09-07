@@ -22,6 +22,7 @@
 * [Code Generation](/code-generation.md) - Produces syntactically correct and functionally appropriate source code from specifications or prompts.
 * [Computer Use](/computer-use.md) - Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.
 * [Context Compression](/context-compression.md) - Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).
+* [Context Safe Execution](/context-safe-execution.md) - Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.
 * [Core Platform Implementation](/core-platform-implementation.md) - Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.
 * [Cultural Localization](/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
