@@ -302,7 +302,7 @@ def npx_ref(skill: Skill) -> str:
 
 def canonical_json_bytes(value: object) -> bytes:
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-            + "\\n").encode("utf-8")
+            + "\n").encode("utf-8")
 
 
 def sha256_file(path: str) -> str | None:
@@ -1340,7 +1340,7 @@ def write_observation(path: str, payload: dict) -> str:
     if os.path.isdir(absolute):
         raise ValueError(f"observation path is a directory: {path}")
     os.makedirs(os.path.dirname(absolute), exist_ok=True)
-    encoded = json.dumps(payload, ensure_ascii=False, indent=2) + "\\n"
+    encoded = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     temporary = absolute + f".tmp.{os.getpid()}"
     with open(temporary, "w", encoding="utf-8") as handle:
         handle.write(encoded)
