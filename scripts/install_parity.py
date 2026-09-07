@@ -336,8 +336,8 @@ def source_route(skill: Skill) -> dict | None:
     parsed = urlsplit(skill.github)
     if parsed.username is not None or parsed.password is not None:
         return None
-    if parsed.scheme in {"http", "https"} and parsed.query:
-        # A query-bearing source link is not a canonical registry route. Do not
+    if parsed.scheme in {"http", "https"} and (parsed.query or parsed.fragment):
+        # A query/fragment-bearing source link is not a canonical registry route. Do not
         # risk copying a signed URL or token into a durable observation.
         return None
     if not skill.repo_url:
