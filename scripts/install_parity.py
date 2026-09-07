@@ -622,9 +622,6 @@ def classify_gaia_failure(code: int, out: str, err: str) -> tuple[str, str]:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-INTRINSIC_CAUSES = {"NOT_A_SKILL_DIR", "NO_SKILL_MD", "DANGLING_SYMLINK"}
-
-
 def _set_gaia_failure(result: Result, code: int, out: str, err: str) -> tuple[str, str]:
     result.gaia_health = "failed"
     result.gaia_exit_code = code
@@ -641,7 +638,7 @@ def _set_gaia_refusal(result: Result, code: int) -> None:
     result.gaia_exit_code = code
 
 
-def check_gaia_health(result: Result, entry: dict) -> str | None:
+def check_gaia_health(result: Result, entry: dict, observe: bool = False) -> str | None:
     """Validate what gaia actually put on disk. Returns the resolved root."""
     local_path = entry.get("localPath")
     if not local_path:
@@ -684,7 +681,8 @@ def check_gaia_health(result: Result, entry: dict) -> str | None:
         return None
     result.gaia_health = "materialized"
     result.gaia_exit_code = 0
-    result.delivered_content_sha256 = installed_content_digest(resolved)
+    if observe:
+        result.delivered_content_sha256 = installed_content_digest(resolved)
     return resolved
 
 
@@ -747,17 +745,20 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
         suite_ref=skill.suite_ref,
     )
     result.repo_url = skill.repo_url
-    result.source_route = source_route(skill)
-    canonical = canonical_skill_path(cfg.repo_root, skill.id)
-    result.skill_content_sha256 = sha256_file(canonical) if canonical else None
+    observe = bool(getattr(cfg, "emit_observation", False))
+    if observe:
+        result.source_route = source_route(skill)
+        canonical = canonical_skill_path(cfg.repo_root, skill.id)
+        result.skill_content_sha256 = sha256_file(canonical) if canonical else None
     sandbox = os.path.join(cfg.run_root, "sandboxes", skill.id.replace("/", "__"))
     os.makedirs(sandbox, exist_ok=True)
 
     try:
         code, out, err, seconds = install_gaia(cfg, skill, sandbox)
         result.gaia_seconds = seconds
-        result.gaia_stderr_tail, result.gaia_stderr_digest = sanitize_diagnostic(err)
-        result.resolved_revision = resolved_revision(cfg, skill)
+        if observe:
+            result.gaia_stderr_tail, result.gaia_stderr_digest = sanitize_diagnostic(err)
+            result.resolved_revision = resolved_revision(cfg, skill)
 
         if skill.category == NO_SOURCE:
             check_no_source(result, code, out, err)
@@ -802,7 +803,7 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
             )
             return result
 
-        gaia_root = check_gaia_health(result, entry)
+        gaia_root = check_gaia_health(result, entry, observe=observe)
         if gaia_root is None:
             # gaia's own install is already broken; running the npm CLI would
             # only add a second, derivative failure.
@@ -1438,6 +1439,7 @@ def main(argv: list[str] | None = None) -> int:
         timeout=args.timeout,
         jobs=max(1, args.jobs),
         keep=args.keep,
+        emit_observation=bool(args.observation_path),
     )
 
     try:
