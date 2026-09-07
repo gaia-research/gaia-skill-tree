@@ -107,6 +107,19 @@ comparison tool, `--gaia-bin` tests an installed `gaia` instead of this checkout
 Requires `git`, `node`, and `npm`, plus network. Everything it writes goes to
 gitignored `generated-output/parity/<runid>/` and is removed unless `--keep`.
 
+### Optional tree-scoped observation
+
+For one bounded operator probe, add `--observation /tmp/observation.json` (for
+example with `--only garrytan/health`). This emits a separate
+`gaia.installability-observation/v1` document with Gaia-side health, exact
+source/content pins, resolved revision, and bounded redacted diagnostics. It
+does not change the parity report, verdict, or exit semantics. Only a human-
+gated observation may be copied to
+`registry/installability/observations/<sha256>.json`; an agent-authored sample
+must remain scratch evidence. `docs/graph/installability/index.json` is then
+projected offline from committed observations by the docs build. No workflow,
+CI job, network call, or full sweep is part of that publisher.
+
 **Budget for a full sweep:** ~40–60 minutes at `--jobs 8`, and roughly **2 GB**
 of clone cache across the ~53 source repos. `--keep` leaves all of it on disk —
 delete `generated-output/parity/` when finished inspecting. Narrow with
