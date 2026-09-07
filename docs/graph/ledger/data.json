@@ -1,12 +1,12 @@
 {
-  "version": "8.1.0",
-  "generatedAt": "2026-09-06T10:22:21Z",
+  "version": "8.4.1",
+  "generatedAt": "2026-09-07T03:28:05Z",
   "summary": {
-    "total": 205,
+    "total": 231,
     "S": 3,
-    "A": 21,
-    "B": 65,
-    "C": 99,
+    "A": 24,
+    "B": 87,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -308,6 +308,23 @@
       "branch": "unique"
     },
     {
+      "skillId": "heygen-com/hyperframes",
+      "tm": 163.63,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "skillId": "vercel-labs/vercel-react-best-practices",
       "tm": 162.66,
       "grade": "A",
@@ -325,6 +342,39 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "skillId": "mksglu/context-mode",
+      "tm": 151.89,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 115.89
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "garrytan/gbrain",
+      "tm": 121.52,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 121.52
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "skillId": "ayghri/i-have-adhd",
@@ -643,6 +693,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "nateherkai/scroll-craft",
+      "tm": 82.22,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/retro",
@@ -1019,6 +1086,22 @@
       "branch": "standard"
     },
     {
+      "skillId": "garrytan/brain-ops",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "garrytan/canary",
       "tm": 50.0,
       "grade": "B",
@@ -1031,6 +1114,38 @@
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/capture",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/concept-synthesis",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
@@ -1354,6 +1469,312 @@
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/embedded-captions",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/faceless-explainer",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/figma",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-animation",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-audio",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-cli",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-core",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-creative",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-keyframes",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-registry",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/media-use",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/motion-graphics",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/music-to-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/pr-to-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/product-launch-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/remotion-to-hyperframes",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/slideshow",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/talking-head-recut",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -2017,6 +2438,22 @@
     },
     {
       "skillId": "balukosuri/autoresearch-universal",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "citrolabs/ego-browser",
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",

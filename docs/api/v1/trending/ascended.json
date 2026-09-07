@@ -1,6 +1,329 @@
 {
-  "generatedAt": "2026-09-06T09:55:10Z",
+  "generatedAt": "2026-09-07T03:20:14Z",
   "skills": [
+    {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T17:59:58Z",
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T17:52:54Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-creative",
+      "name": "Hyperframes Creative",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:43:22Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
+      }
+    },
+    {
+      "id": "heygen-com/figma",
+      "name": "Figma",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:43:17Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/figma.json"
+      }
+    },
+    {
+      "id": "heygen-com/faceless-explainer",
+      "name": "Faceless Explainer",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:18Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/faceless-explainer.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/slideshow",
+      "name": "Slideshow",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:17Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/slideshow.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/talking-head-recut",
+      "name": "Talking Head Recut",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:17Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/remotion-to-hyperframes",
+      "name": "Remotion To Hyperframes",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:16Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/product-launch-video",
+      "name": "Product Launch Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:15Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/pr-to-video",
+      "name": "Pr To Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:14Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "name": "Music To Video",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:13Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/music-to-video.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/media-use",
+      "name": "Media Use",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:12Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/media-use.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "name": "Motion Graphics",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:12Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-registry",
+      "name": "Hyperframes Registry",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:11Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-audio",
+      "name": "Hyperframes Audio",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:10Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-audio.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-keyframes",
+      "name": "Hyperframes Keyframes",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T17:28:09Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:59:08Z",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:29Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:27Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:55:25Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-06T16:21:50Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "heygen-com/hyperframes-core",
+      "name": "HyperFrames Core",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:21:50Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-animation",
+      "name": "HyperFrames Animation",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:21:49Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-animation.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "name": "HyperFrames CLI",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:21:48Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "heygen-com/embedded-captions",
+      "name": "Embedded Captions",
+      "level": "3★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-06T16:21:47Z",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "mattpocock/misc",
       "name": "Misc",
@@ -65,331 +388,6 @@
         "self": "/api/v1/skills/safishamsi/graphify.json"
       },
       "previousLevel": "4★"
-    },
-    {
-      "id": "pbakaus/impeccable",
-      "name": "Impeccable",
-      "level": "4★",
-      "contributor": "pbakaus",
-      "trustMagnitude": 169.34,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:43Z",
-      "_links": {
-        "self": "/api/v1/skills/pbakaus/impeccable.json"
-      },
-      "previousLevel": "4★"
-    },
-    {
-      "id": "obra/brainstorming",
-      "name": "Brainstorming",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 110.15,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:41Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/brainstorming.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 226.5,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:40Z",
-      "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
-      },
-      "previousLevel": "4★"
-    },
-    {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:40Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "mattpocock/diagnose",
-      "name": "Diagnose",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:39Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnose.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "leonxlnx/stitch-skill",
-      "name": "stitch-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:39Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:38Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/redesign-skill",
-      "name": "redesign-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:38Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/soft-skill",
-      "name": "soft-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:38Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-mobile",
-      "name": "imagegen-frontend-mobile",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:37Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-web",
-      "name": "imagegen-frontend-web",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:37Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/minimalist-skill",
-      "name": "minimalist-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:37Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/brutalist-skill",
-      "name": "brutalist-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:36Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/gpt-tasteskill",
-      "name": "gpt-tasteskill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:36Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/image-to-code-skill",
-      "name": "image-to-code-skill",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:36Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "leonxlnx/brandkit",
-      "name": "brandkit",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:35Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brandkit.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "garrytan/cso",
-      "name": "CSO",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:17Z",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/cso.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:16Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:15Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
-      "level": "4★",
-      "contributor": "anthropics",
-      "trustMagnitude": 184.32,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "ayghri/i-have-adhd",
-      "name": "I Have ADHD",
-      "level": "4★",
-      "contributor": "ayghri",
-      "trustMagnitude": 119.66,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "2★",
-      "contributor": "anthropic",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-09-02T15:11:14Z",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:13Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:11:12Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-02T15:05:20Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      },
-      "previousLevel": "3★"
     }
   ],
   "_links": {

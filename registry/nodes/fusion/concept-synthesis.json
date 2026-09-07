@@ -1,0 +1,37 @@
+{
+  "id": "concept-synthesis",
+  "name": "Concept Synthesis",
+  "type": "fusion",
+  "description": "Synthesizes and curates raw knowledge concepts into a grounded, tiered intellectual map.",
+  "prerequisites": [
+    "knowledge-management",
+    "logical-inference"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T16:53:45Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'concept-synthesis' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-09-06T16:53:45Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-management, logical-inference."
+    },
+    {
+      "timestamp": "2026-09-06T16:54:00Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-management, logical-inference."
+    }
+  ]
+}

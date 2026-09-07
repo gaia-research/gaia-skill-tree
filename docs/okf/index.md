@@ -8,12 +8,13 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (140)
+### Basic Skills (147)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
 * [Agent Reach](/skills/basic/agent-reach.md) - Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.
 * [Audience Model](/skills/basic/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
+* [Audio Mixing](/skills/basic/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
 * [Auto-Review](/skills/basic/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
 * [Autonomous Engineering Platform](/skills/basic/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/skills/basic/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
@@ -32,10 +33,13 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Code Generation](/skills/basic/code-generation.md) - Produces syntactically correct and functionally appropriate source code from specifications or prompts.
 * [Computer Use](/skills/basic/computer-use.md) - Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.
 * [Context Compression](/skills/basic/context-compression.md) - Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).
+* [Context Safe Execution](/skills/basic/context-safe-execution.md) - Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.
 * [Core Platform Implementation](/skills/basic/core-platform-implementation.md) - Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.
+* [Creative Direction](/skills/basic/creative-direction.md) - Define the visual concept, tone, structure, and design decisions that guide a coherent creative production.
 * [Cultural Localization](/skills/basic/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/skills/basic/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
 * [Decision Ticket Planning](/skills/basic/decision-ticket-planning.md) - Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.
+* [Design Source Import](/skills/basic/design-source-import.md) - Import design sources into a composition workflow as reusable visual assets and layout inputs without depending on a particular design vendor.
 * [Diff Content](/skills/basic/diff-content.md) - Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.
 * [Document Editing](/skills/basic/document-editing.md) - Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.
 * [Domain Modeling](/skills/basic/domain-modeling.md) - Build and maintain a shared domain model with ubiquitous language and architectural decision records.
@@ -65,11 +69,13 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Hypothesis Generation](/skills/basic/hypothesis-generate.md) - Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.
 * [Image Caption](/skills/basic/image-caption.md) - Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.
 * [Image Generate](/skills/basic/image-generate.md) - Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.
+* [Interactive Presentation Authoring](/skills/basic/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/skills/basic/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
 * [Literature Search](/skills/basic/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.
 * [Logical Inference](/skills/basic/logical-inference.md) - Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.
 * [MCP Integration](/skills/basic/mcp-integration.md) - Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.
 * [Math Reason](/skills/basic/math-reason.md) - Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.
+* [Media Asset Orchestration](/skills/basic/media-asset-orchestration.md) - Discover, prepare, organize, and route media assets through a repeatable composition workflow.
 * [Memory Pattern Design](/skills/basic/memory-pattern-design.md) - Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.
 * [Molecular Databases](/skills/basic/molecular-databases.md) - Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).
 * [Multi-Repo Coordination](/skills/basic/multi-repo-coordination.md) - Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.
@@ -104,6 +110,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Scientific Visualization](/skills/basic/scientific-visualization.md) - Creates publication-ready scientific figures and visualizes molecular structures.
 * [Score Relevance](/skills/basic/score-relevance.md) - Assigns a numerical relevance score to candidate items relative to a query or objective.
 * [Scroll World](/skills/basic/scroll-world.md) - Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes.
+* [Scroll-Driven Web Design](/skills/basic/scroll-driven-web-design.md) - Designs and builds scrollytelling websites where scroll position drives timeline animation, layered dimensional visual planes, video scrubbing, and structured visitor journeys with automated rendering and contrast verification.
 * [Self-Consistency](/skills/basic/self-consistency.md) - Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.
 * [Self-Critique](/skills/basic/self-critique.md) - Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.
 * [Semantic Cache](/skills/basic/semantic-cache.md) - Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.

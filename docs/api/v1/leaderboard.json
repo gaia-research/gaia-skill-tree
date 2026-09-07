@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 205,
+    "total": 231,
     "S": 3,
-    "A": 21,
-    "B": 65,
-    "C": 99,
+    "A": 24,
+    "B": 87,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -204,6 +204,18 @@
       "branch": "unique"
     },
     {
+      "id": "heygen-com/hyperframes",
+      "trustMagnitude": 163.63,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "id": "vercel-labs/vercel-react-best-practices",
       "trustMagnitude": 162.66,
       "grade": "A",
@@ -216,6 +228,29 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "id": "mksglu/context-mode",
+      "trustMagnitude": 151.89,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 115.89
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "garrytan/gbrain",
+      "trustMagnitude": 121.52,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 121.52
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -444,6 +479,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "trustMagnitude": 82.22,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/retro",
@@ -710,6 +757,17 @@
       "branch": "standard"
     },
     {
+      "id": "garrytan/brain-ops",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "garrytan/canary",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -717,6 +775,28 @@
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/capture",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
@@ -945,6 +1025,222 @@
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/embedded-captions",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/faceless-explainer",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/figma",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-animation",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-audio",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-cli",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-core",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-creative",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-keyframes",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/hyperframes-registry",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/media-use",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/pr-to-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/product-launch-video",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/remotion-to-hyperframes",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/slideshow",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/talking-head-recut",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1413,6 +1709,17 @@
     },
     {
       "id": "balukosuri/autoresearch-universal",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "citrolabs/ego-browser",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",

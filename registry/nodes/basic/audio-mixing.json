@@ -1,0 +1,22 @@
+{
+  "id": "audio-mixing",
+  "name": "Audio Mixing",
+  "type": "basic",
+  "description": "Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:22:08Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill audio-mixing"
+    }
+  ]
+}
