@@ -446,6 +446,23 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "mksglu",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      },
+      "genericSkillRef": "context-safe-execution"
+    },
+    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -1047,28 +1064,11 @@
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
       },
       "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "mattpocock/triage",
-      "name": "Triage",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/triage.json"
-      },
-      "genericSkillRef": "issue-triage"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 188,
+  "totalSkills": 189,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

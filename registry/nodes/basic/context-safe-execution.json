@@ -1,0 +1,22 @@
+{
+  "id": "context-safe-execution",
+  "name": "Context Safe Execution",
+  "type": "basic",
+  "description": "Routes agent data processing and retrieval through context-safe tools to avoid loading large raw outputs into the active context.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:49:00Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill context-safe-execution"
+    }
+  ]
+}

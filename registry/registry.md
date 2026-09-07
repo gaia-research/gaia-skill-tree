@@ -46,6 +46,7 @@
 | ○ /computer-use | Basic | — | `/computer-use` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic | 2★ | `/context-compression` |
+| ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
 | · ████████/huggingface-datasets | Fusion | — | `/data-analysis` |
@@ -263,6 +264,7 @@
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
+| ◉ [mksglu](../docs/u/mksglu/)/context-mode | Unique Skill | 4★ | `/context-safe-execution` |
 | ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
 | ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
