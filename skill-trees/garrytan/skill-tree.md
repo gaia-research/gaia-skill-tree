@@ -144,7 +144,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
-  ├─ ✓ · garrytan/setup-gbrain  [2★]
+  ├─ ✓ · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
   ├─ ✓ ○ ayghri/i-have-adhd  [4★]
@@ -225,7 +225,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
-  │  ├─ ✓ · garrytan/setup-gbrain  [2★]
+  │  ├─ ✓ · garrytan/brain-ops  [3★]
   │  │  ├─ · ○ ████████/hf-cli
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]
@@ -363,6 +363,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ✓ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
+· ◆ garrytan/gbrain  [4★]
+  ├─ ✓ · garrytan/brain-ops  [3★]
+  │  ├─ · ○ ████████/hf-cli
+  │  └─ · ○ /retrieve
+  ├─ · · garrytan/capture  [3★]
+  │  ├─ · ○ /retrieve  (↑ see above)
+  │  └─ ✓ ○ garrytan/context-restore  [2★]
+  └─ · · garrytan/concept-synthesis  [3★]
+     ├─ ✓ · garrytan/brain-ops  [3★]  (↑ see above)
+     └─ · ○ /logical-inference
+
 · ◆ firecrawl/firecrawl-skills  [3★]
   ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
@@ -377,7 +388,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
-  └─ · · ████████/obsidian-vault
+  └─ · · garrytan/capture  [3★]
      ├─ · ○ /retrieve
      └─ ✓ ○ garrytan/context-restore  [2★]
 

@@ -103,7 +103,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
-  ├─ · · garrytan/setup-gbrain  [2★]
+  ├─ · · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
   ├─ · ○ ayghri/i-have-adhd  [4★]

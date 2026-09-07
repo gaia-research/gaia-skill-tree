@@ -105,7 +105,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
-  ├─ · · garrytan/setup-gbrain  [2★]
+  ├─ · · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
   ├─ · ○ ayghri/i-have-adhd  [4★]
@@ -186,7 +186,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /tool-use  (↑ see above)
-  │  ├─ · · garrytan/setup-gbrain  [2★]
+  │  ├─ · · garrytan/brain-ops  [3★]
   │  │  ├─ · ○ ████████/hf-cli
   │  │  └─ · ○ /retrieve
   │  ├─ · ○ mattpocock/to-questionnaire  [2★]

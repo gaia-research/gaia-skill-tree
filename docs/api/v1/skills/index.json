@@ -463,6 +463,28 @@
       "genericSkillRef": "context-safe-execution"
     },
     {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "fusionScore": 200.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
+      },
+      "genericSkillRef": "gbrain",
+      "suiteComponents": [
+        "garrytan/brain-ops",
+        "garrytan/capture",
+        "garrytan/concept-synthesis"
+      ]
+    },
+    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -1047,28 +1069,11 @@
         "self": "/api/v1/skills/mattpocock/to-spec.json"
       },
       "genericSkillRef": "prd-generation"
-    },
-    {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "oso95",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
-      },
-      "genericSkillRef": "scroll-world"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 191,
+  "totalSkills": 195,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

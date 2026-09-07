@@ -2,13 +2,13 @@
   "contributors": [
     {
       "handle": "garrytan",
-      "namedSkills": 47,
+      "namedSkills": 51,
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
         "trustMagnitude": 355.66
       },
-      "prestigeScore": 2423.16,
+      "prestigeScore": 2694.68,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }

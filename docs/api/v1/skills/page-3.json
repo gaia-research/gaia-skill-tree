@@ -1,6 +1,74 @@
 {
   "skills": [
     {
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
+      "level": "2★",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "fusionScore": 200.0,
+      "contributor": "gaia-research",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/fuse.json"
+      },
+      "genericSkillRef": "skill-fusion"
+    },
+    {
+      "id": "mattpocock/prototype",
+      "name": "Prototype",
+      "level": "2★",
+      "trustMagnitude": 41.21,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/prototype.json"
+      },
+      "genericSkillRef": "prototype"
+    },
+    {
+      "id": "gaia-research/ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "gaia-research",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
+      },
+      "genericSkillRef": "ci-churn-analysis"
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "name": "Ask Matt",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ask-matt.json"
+      },
+      "genericSkillRef": "route-intent"
+    },
+    {
       "id": "mattpocock/codebase-design",
       "name": "Codebase Design",
       "level": "2★",
@@ -787,79 +855,11 @@
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
       },
       "genericSkillRef": "registry-entry-audit"
-    },
-    {
-      "id": "mbtiongson1/gaia-meta-audit",
-      "name": "Gaia Meta Audit",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 228.28,
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
-      },
-      "genericSkillRef": "registry-health-scan"
-    },
-    {
-      "id": "mbtiongson1/gaia-preview",
-      "name": "Gaia Preview",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 100.0,
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "mbtiongson1/graphify-triage",
-      "name": "Graphify Triage",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 80.0,
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
-      },
-      "genericSkillRef": "graph-driven-issue-triage"
-    },
-    {
-      "id": "nexu-io/open-design",
-      "name": "Open Design",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "nexu-io",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nexu-io/open-design.json"
-      },
-      "genericSkillRef": "design-generation"
     }
   ],
   "page": 3,
   "totalPages": 4,
-  "totalSkills": 191,
+  "totalSkills": 195,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

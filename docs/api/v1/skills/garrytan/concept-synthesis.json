@@ -1,0 +1,88 @@
+{
+  "id": "garrytan/concept-synthesis",
+  "name": "Concept Synthesis",
+  "contributor": "garrytan",
+  "level": "3★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/concept-synthesis.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 80.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 4,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "GBrain Concept Synthesis",
+  "genericSkillRef": "concept-synthesis",
+  "origin": false,
+  "description": "Synthesizes and curates raw knowledge concepts into a grounded, tiered intellectual map.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-07",
+      "type": "github-stars-own",
+      "notes": "Pinned upstream implementation at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5; live GitHub repository has 29,650 stars and 73 bundled skills; source is concrete and installable through the canonical gbrain router.",
+      "stars": 29650,
+      "skillCountInRepo": 73,
+      "sourceStartedAt": "2026-09-03",
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T16:53:45Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill garrytan/concept-synthesis"
+    },
+    {
+      "timestamp": "2026-09-06T16:54:01Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Updated via `gaia dev fuse`: suiteRef=garrytan/concept-synthesis, suiteComponents+=['garrytan/brain-operations', 'garrytan/capture', 'garrytan/concept-synthesis']."
+    },
+    {
+      "timestamp": "2026-09-06T16:54:29Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-09-06T16:55:29Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-09-06T17:04:19Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md; changed notes, stars"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md"
+  }
+}
