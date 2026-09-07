@@ -47,6 +47,10 @@ AUTO_CLEAN: bool = False
 SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS))
 from generateCssTokens import build_tokens_css, load_gaia  # noqa: E402
+from installability import (  # noqa: E402
+    build_installability_projection as _build_installability_projection,
+    write_projection,
+)
 
 
 def _read_version() -> str:
@@ -959,6 +963,22 @@ def build_trust_ledger(check: bool) -> bool:
         return True
 
 
+def build_installability_projection(check: bool) -> bool:
+    """Project committed bounded observations without running install parity."""
+    committed = ROOT / "docs" / "graph" / "installability" / "index.json"
+    document = _build_installability_projection(ROOT)
+    if check:
+        encoded = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
+        if not committed.exists():
+            print("diff docs/graph/installability/index.json (missing)")
+            return True
+        if committed.read_text(encoding="utf-8") != encoded:
+            print("diff docs/graph/installability/index.json")
+            return True
+        return False
+    return write_projection(document, committed)
+
+
 def build_api_projection(check: bool) -> bool:
     """Run buildApiProjection.py to a tempdir and diff against docs/api/v1/."""
     script = SCRIPTS / "buildApiProjection.py"
@@ -1652,6 +1672,9 @@ def main(argv: list[str] | None = None) -> int:
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
+    installability_changed = _run_step(
+        "installability-projection", build_installability_projection, args.check
+    )
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
@@ -1766,6 +1789,7 @@ def main(argv: list[str] | None = None) -> int:
         or jsonld_changed
         or css_tokens_changed
         or named_index_changed
+        or installability_changed
         or docs_named_changed
         or trust_ledger_changed
         or api_changed

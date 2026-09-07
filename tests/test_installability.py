@@ -1,0 +1,264 @@
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+
+import pytest
+
+from scripts import install_parity
+from scripts.installability import (
+    build_installability_projection,
+    observation_digest,
+    write_projection,
+)
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _route(ref="main", subpath="SKILL.md", repo="source"):
+    return {
+        "url": f"https://github.com/alice/{repo}/blob/{ref}/{subpath}",
+        "owner": "alice",
+        "repo": repo,
+        "ref": ref,
+        "subpath": subpath,
+    }
+
+
+def _fixture_repo(tmp_path, *, source=True, content="---\nname: Demo\n---\n\nbody\n"):
+    root = tmp_path / "repo"
+    skill_path = root / "registry" / "named" / "alice" / "demo.md"
+    skill_path.parent.mkdir(parents=True)
+    skill_path.write_text(content, encoding="utf-8")
+    entry = {"id": "alice/demo", "links": {}}
+    if source:
+        entry["links"] = {"github": _route()["url"]}
+    index = {
+        "generatedAt": "2026-09-06",
+        "buckets": {"2": [entry]},
+        "awaitingClassification": [],
+    }
+    index_path = root / "docs" / "graph" / "named" / "index.json"
+    index_path.parent.mkdir(parents=True)
+    index_path.write_text(json.dumps(index), encoding="utf-8")
+    return root, skill_path
+
+
+def _observation(root, skill_path, *, health="materialized", route=None,
+                 content_hash=None, cause=None, category="STANDARD",
+                 checked_at="2026-09-06T18:00:00Z", run_id="run-1"):
+    source_route = route if route is not None else (_route() if category != "NO_SOURCE" else None)
+    skill_hash = content_hash or hashlib.sha256(skill_path.read_bytes()).hexdigest()
+    document = {
+        "schema": "gaia.installability-observation/v1",
+        "checkedAt": checked_at,
+        "runId": run_id,
+        "registryCommit": None,
+        "indexPath": "docs/graph/named/index.json",
+        "scope": {
+            "ids": ["alice/demo"],
+            "only": ["alice/demo"],
+            "contributors": [],
+            "categories": [category],
+            "limit": 0,
+        },
+        "toolVersion": "1",
+        "gaiaVersion": "8.1.0",
+        "npxVersion": "1.5.21",
+        "gaiaCommand": ["python", "-m", "gaia_cli"],
+        "timeoutSeconds": 60,
+        "jobs": 1,
+        "skills": [{
+            "id": "alice/demo",
+            "category": category,
+            "sourceRoute": source_route,
+            "resolvedRevision": "a" * 40 if source_route else None,
+            "skillContentSha256": skill_hash,
+            "deliveredContentSha256": "b" * 64 if health == "materialized" else None,
+            "gaiaHealth": health,
+            "comparator": {"dirname": "diff", "content": "diff"},
+            "causeEvidence": {
+                "classifiedCause": cause,
+                "intrinsicCause": None,
+                "exitCode": 1 if health == "failed" else 0,
+                "stderrDigest": None,
+                "stderrTail": None,
+            },
+        }],
+    }
+    path = root / "registry" / "installability" / "observations"
+    path.mkdir(parents=True, exist_ok=True)
+    (path / f"{observation_digest(document)}.json").write_text(
+        json.dumps(document, indent=2) + "\n", encoding="utf-8"
+    )
+    return document
+
+
+def test_no_source_refusal_is_pass_but_refused():
+    result = install_parity.Result("alice/demo", install_parity.NO_SOURCE)
+    install_parity.check_no_source(result, 1, "", "No source repository link")
+    assert result.verdict == install_parity.PASS
+    assert result.gaia_health == "refused"
+    assert result.gaia_exit_code == 1
+
+
+def test_gaia_health_is_independent_from_comparator_failure(tmp_path):
+    gaia_root = tmp_path / "gaia-root"
+    gaia_root.mkdir()
+    (gaia_root / "SKILL.md").write_text("skill", encoding="utf-8")
+    npx_root = tmp_path / "npx-root"
+    npx_root.mkdir()
+    (npx_root / "SKILL.md").write_text("different", encoding="utf-8")
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    resolved = install_parity.check_gaia_health(
+        result, {"localPath": str(gaia_root), "id": "alice/demo"}
+    )
+    install_parity.compare_trees(result, resolved, str(npx_root))
+    assert result.gaia_health == "materialized"
+    assert result.comparator_content == "diff"
+    assert result.verdict == install_parity.FAIL
+
+
+def test_diagnostics_are_bounded_and_redacted():
+    tail, digest = install_parity.sanitize_diagnostic(
+        "fatal: https://alice:super-secret@example.com/x?token=abc "
+        "Bearer ghp_verysecret\n" + "x" * 5000
+    )
+    assert tail is not None and len(tail) <= install_parity.MAX_STDERR_TAIL
+    assert digest and len(digest) == 64
+    assert "super-secret" not in tail
+    assert "abc" not in tail
+    assert "ghp_verysecret" not in tail
+
+
+def test_materialized_dirname_mismatch_projects_materializable(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    document = _observation(root, skill_path)
+    projection = build_installability_projection(root)
+    item = projection["skills"]["alice/demo"]
+    assert item["state"] == "materializable"
+    assert item["reason"] == "gaia-materialized"
+    assert item["observationDigest"] == observation_digest(document)
+
+
+def test_no_source_projects_negative_even_when_parity_would_pass(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path, source=False)
+    _observation(root, skill_path, category="NO_SOURCE", health="refused")
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "not-materializable"
+    assert item["reason"] == "no-source"
+
+
+@pytest.mark.parametrize("cause", ["GIT_CLONE_FAILED", "GAIA_INSTALL_FAILED"])
+def test_unclassified_install_failures_remain_unknown(tmp_path, cause):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path, health="failed", cause=cause)
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "unclassified-install-failure" if cause == "GAIA_INSTALL_FAILED" else "inaccessible-at-check"
+
+
+@pytest.mark.parametrize("cause,category", [("TIMEOUT", "STANDARD"), ("SUITE_COMPONENT_FAILED", "SUITE")])
+def test_timeout_and_suite_failure_are_unknown(tmp_path, cause, category):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path, health="failed", cause=cause, category=category)
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+
+
+def test_route_and_content_changes_are_unknown(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path, route=_route(repo="old-source"))
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "route-changed"
+
+    for path in (root / "registry" / "installability" / "observations").glob("*.json"):
+        path.unlink()
+    _observation(root, skill_path, content_hash="c" * 64)
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "subject-changed"
+
+
+def test_conflicting_equally_current_observations_are_ambiguous(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path, health="materialized", run_id="a")
+    _observation(root, skill_path, health="failed", cause="GAIA_INSTALL_FAILED", run_id="b")
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "unknown"
+    assert item["reason"] == "ambiguous-observation"
+
+
+def test_intrinsic_pinned_content_evidence_is_the_only_failure_negative(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    document = _observation(root, skill_path, health="failed")
+    original_digest = observation_digest(document)
+    document["skills"][0]["causeEvidence"]["intrinsicCause"] = "NO_SKILL_MD"
+    old = root / "registry" / "installability" / "observations" / f"{original_digest}.json"
+    old.unlink()
+    new_digest = observation_digest(document)
+    (old.parent / f"{new_digest}.json").write_text(json.dumps(document), encoding="utf-8")
+    item = build_installability_projection(root)["skills"]["alice/demo"]
+    assert item["state"] == "not-materializable"
+    assert item["reason"] == "intrinsic-content-failure"
+
+
+def test_out_of_scope_observation_does_not_add_a_skill(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    document = _observation(root, skill_path)
+    document["skills"][0]["id"] = "other/not-in-tree"
+    document["scope"]["ids"] = ["other/not-in-tree"]
+    obs_dir = root / "registry" / "installability" / "observations"
+    for path in obs_dir.glob("*.json"):
+        path.unlink()
+    (obs_dir / f"{observation_digest(document)}.json").write_text(json.dumps(document), encoding="utf-8")
+    projection = build_installability_projection(root)
+    assert list(projection["skills"]) == ["alice/demo"]
+    assert projection["skills"]["alice/demo"]["reason"] == "not-observed"
+
+
+def test_malformed_filename_and_symlink_are_rejected(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    obs_dir = root / "registry" / "installability" / "observations"
+    obs_dir.mkdir(parents=True)
+    (obs_dir / "not-a-digest.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(ValueError, match="filename"):
+        build_installability_projection(root)
+    (obs_dir / "not-a-digest.json").unlink()
+    target = tmp_path / "outside.json"
+    target.write_text("{}", encoding="utf-8")
+    os.symlink(target, obs_dir / ("a" * 64 + ".json"))
+    with pytest.raises(ValueError, match="symlink"):
+        build_installability_projection(root)
+
+
+def test_projection_is_deterministic_and_validates_schema(tmp_path):
+    root, skill_path = _fixture_repo(tmp_path)
+    _observation(root, skill_path)
+    first = build_installability_projection(root)
+    second = build_installability_projection(root)
+    assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
+    output = tmp_path / "docs" / "graph" / "installability" / "index.json"
+    assert write_projection(first, output) is True
+    assert write_projection(second, output) is False
+
+
+def test_observation_payload_is_schema_valid(tmp_path):
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    result.source_route = _route()
+    result.skill_content_sha256 = "a" * 64
+    result.gaia_health = "materialized"
+    result.gaia_exit_code = 0
+    result.delivered_content_sha256 = "b" * 64
+    args = argparse.Namespace(only=["alice/demo"], contributor=[], category=[], limit=0)
+    cfg = argparse.Namespace(
+        repo_root=str(ROOT), gaia_cmd=["python", "-m", "gaia_cli"], timeout=60, jobs=1
+    )
+    payload = install_parity.observation_payload(
+        [result], cfg, args, "run", ROOT / "docs/graph/named/index.json", "1.5.21", "8.1.0",
+        checked_at="2026-09-06T18:00:00Z",
+    )
+    install_parity.validate_observation_payload(payload)
