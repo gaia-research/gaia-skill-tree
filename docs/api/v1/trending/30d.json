@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-07T00:46:04Z",
+  "generatedAt": "2026-09-07T01:01:09Z",
   "firstRun": false,
   "skills": [
     {
@@ -718,6 +718,20 @@
       }
     },
     {
+      "id": "citrolabs/ego-browser",
+      "name": "Ego Browser",
+      "level": "2★",
+      "contributor": "citrolabs",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/citrolabs/ego-browser.json"
+      }
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -844,7 +858,7 @@
       }
     }
   ],
-  "totalTrending": 60,
+  "totalTrending": 61,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
