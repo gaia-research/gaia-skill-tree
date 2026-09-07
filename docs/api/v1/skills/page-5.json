@@ -1,6 +1,125 @@
 {
   "skills": [
     {
+      "id": "ruvnet/v3-integration-deep",
+      "name": "V3 Integration Deep",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
+      },
+      "genericSkillRef": "system-integration"
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "name": "Worker Integration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/worker-integration.json"
+      },
+      "genericSkillRef": "worker-agent-dispatch"
+    },
+    {
+      "id": "santifer/career-ops",
+      "name": "Career-Ops",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "santifer",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/santifer/career-ops.json"
+      },
+      "genericSkillRef": "career-operations"
+    },
+    {
+      "id": "spring-ai/readme-generate",
+      "name": "REST API README Generator",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "spring-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/spring-ai/readme-generate.json"
+      },
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "vercel",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      },
+      "genericSkillRef": "skill-discovery"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "anthropic",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      },
+      "genericSkillRef": "tool-creation"
+    },
+    {
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
@@ -122,7 +241,7 @@
   ],
   "page": 5,
   "totalPages": 5,
-  "totalSkills": 207,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json"

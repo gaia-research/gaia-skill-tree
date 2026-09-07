@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 224,
+    "total": 231,
     "S": 3,
-    "A": 22,
-    "B": 83,
-    "C": 99,
+    "A": 24,
+    "B": 87,
+    "C": 100,
     "ungraded": 17,
     "floor": 0,
     "up": 0
@@ -228,6 +228,29 @@
       },
       "origin": false,
       "branch": "unique"
+    },
+    {
+      "id": "mksglu/context-mode",
+      "trustMagnitude": 151.89,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 115.89
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "garrytan/gbrain",
+      "trustMagnitude": 121.52,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 121.52
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -456,6 +479,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "trustMagnitude": 82.22,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/retro",
@@ -722,6 +757,17 @@
       "branch": "standard"
     },
     {
+      "id": "garrytan/brain-ops",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "garrytan/canary",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -729,6 +775,28 @@
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/capture",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
@@ -1641,6 +1709,17 @@
     },
     {
       "id": "balukosuri/autoresearch-universal",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "citrolabs/ego-browser",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",

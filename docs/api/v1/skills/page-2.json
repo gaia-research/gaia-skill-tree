@@ -1,6 +1,57 @@
 {
   "skills": [
     {
+      "id": "mattpocock/to-spec",
+      "name": "To PRD",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-spec.json"
+      },
+      "genericSkillRef": "prd-generation"
+    },
+    {
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "oso95",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/oso95/scroll-world.json"
+      },
+      "genericSkillRef": "scroll-world"
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "name": "Setup Matt Pocock Skills",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
+      },
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
       "id": "mattpocock/triage",
       "name": "Triage",
       "level": "3★",
@@ -120,6 +171,23 @@
       "genericSkillRef": "evaluate-output"
     },
     {
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
+      },
+      "genericSkillRef": "knowledge-management"
+    },
+    {
       "id": "garrytan/canary",
       "name": "Canary",
       "level": "3★",
@@ -135,6 +203,40 @@
         "self": "/api/v1/skills/garrytan/canary.json"
       },
       "genericSkillRef": "detect-anomaly"
+    },
+    {
+      "id": "garrytan/capture",
+      "name": "Capture",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/capture.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
+      },
+      "genericSkillRef": "concept-synthesis"
     },
     {
       "id": "garrytan/cso",
@@ -747,113 +849,11 @@
         "self": "/api/v1/skills/heygen-com/slideshow.json"
       },
       "genericSkillRef": "interactive-presentation-authoring"
-    },
-    {
-      "id": "heygen-com/talking-head-recut",
-      "name": "Talking Head Recut",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "leonxlnx/brandkit",
-      "name": "brandkit",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brandkit.json"
-      },
-      "genericSkillRef": "brand-guideline-application"
-    },
-    {
-      "id": "leonxlnx/brutalist-skill",
-      "name": "brutalist-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "leonxlnx/gpt-tasteskill",
-      "name": "gpt-tasteskill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "leonxlnx/image-to-code-skill",
-      "name": "image-to-code-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
-      },
-      "genericSkillRef": "vision-qa"
-    },
-    {
-      "id": "leonxlnx/imagegen-frontend-mobile",
-      "name": "imagegen-frontend-mobile",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
-      },
-      "genericSkillRef": "image-generate"
     }
   ],
   "page": 2,
   "totalPages": 5,
-  "totalSkills": 207,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

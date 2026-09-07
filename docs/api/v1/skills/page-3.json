@@ -1,6 +1,108 @@
 {
   "skills": [
     {
+      "id": "heygen-com/talking-head-recut",
+      "name": "Talking Head Recut",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
+      },
+      "genericSkillRef": "vision-qa"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      },
+      "genericSkillRef": "image-generate"
+    },
+    {
       "id": "leonxlnx/imagegen-frontend-web",
       "name": "imagegen-frontend-web",
       "level": "3★",
@@ -596,6 +698,23 @@
       "genericSkillRef": "autonomous-web-research"
     },
     {
+      "id": "citrolabs/ego-browser",
+      "name": "Ego Browser",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "citrolabs",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/citrolabs/ego-browser.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
       "id": "garrytan/benchmark-models",
       "name": "Benchmark Models",
       "level": "2★",
@@ -730,136 +849,11 @@
         "self": "/api/v1/skills/garrytan/freeze.json"
       },
       "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "garrytan/garrytan",
-      "name": "Autoplan",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 200.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/garrytan.json"
-      },
-      "genericSkillRef": "vertical-slice-planning",
-      "suiteComponents": [
-        "garrytan/browse",
-        "garrytan/cso",
-        "garrytan/design-review",
-        "garrytan/office-hours"
-      ]
-    },
-    {
-      "id": "garrytan/gstack-upgrade",
-      "name": "GStack Upgrade",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
-      },
-      "genericSkillRef": "workspace-automation"
-    },
-    {
-      "id": "garrytan/guard",
-      "name": "Guard",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/guard.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "garrytan/health",
-      "name": "Health",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/health.json"
-      },
-      "genericSkillRef": "automated-testing"
-    },
-    {
-      "id": "garrytan/landing-report",
-      "name": "Landing Report",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/landing-report.json"
-      },
-      "genericSkillRef": "project-management"
-    },
-    {
-      "id": "garrytan/learn",
-      "name": "Learn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/learn.json"
-      },
-      "genericSkillRef": "memory-manage"
-    },
-    {
-      "id": "garrytan/make-pdf",
-      "name": "Make PDF",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/make-pdf.json"
-      },
-      "genericSkillRef": "format-output"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 207,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

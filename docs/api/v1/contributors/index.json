@@ -2,13 +2,13 @@
   "contributors": [
     {
       "handle": "garrytan",
-      "namedSkills": 47,
+      "namedSkills": 51,
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
         "trustMagnitude": 355.66
       },
-      "prestigeScore": 2423.16,
+      "prestigeScore": 2694.68,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -222,6 +222,19 @@
       }
     },
     {
+      "handle": "mksglu",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "mksglu/context-mode",
+        "level": "4★",
+        "trustMagnitude": 151.89
+      },
+      "prestigeScore": 151.89,
+      "_links": {
+        "self": "/api/v1/contributors/mksglu.json"
+      }
+    },
+    {
       "handle": "ayghri",
       "namedSkills": 1,
       "topSkill": {
@@ -258,6 +271,19 @@
       "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
+      }
+    },
+    {
+      "handle": "nateherkai",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nateherkai/scroll-craft",
+        "level": "3★",
+        "trustMagnitude": 82.22
+      },
+      "prestigeScore": 82.22,
+      "_links": {
+        "self": "/api/v1/contributors/nateherkai.json"
       }
     },
     {
@@ -339,6 +365,19 @@
       }
     },
     {
+      "handle": "citrolabs",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "citrolabs/ego-browser",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/citrolabs.json"
+      }
+    },
+    {
       "handle": "nexu-io",
       "namedSkills": 1,
       "topSkill": {
@@ -417,7 +456,7 @@
       }
     }
   ],
-  "totalContributors": 32,
+  "totalContributors": 35,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

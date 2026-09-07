@@ -1,6 +1,131 @@
 {
   "skills": [
     {
+      "id": "garrytan/garrytan",
+      "name": "Autoplan",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 200.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/garrytan.json"
+      },
+      "genericSkillRef": "vertical-slice-planning",
+      "suiteComponents": [
+        "garrytan/browse",
+        "garrytan/cso",
+        "garrytan/design-review",
+        "garrytan/office-hours"
+      ]
+    },
+    {
+      "id": "garrytan/gstack-upgrade",
+      "name": "GStack Upgrade",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
+      },
+      "genericSkillRef": "workspace-automation"
+    },
+    {
+      "id": "garrytan/guard",
+      "name": "Guard",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/guard.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan/health",
+      "name": "Health",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/health.json"
+      },
+      "genericSkillRef": "automated-testing"
+    },
+    {
+      "id": "garrytan/landing-report",
+      "name": "Landing Report",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/landing-report.json"
+      },
+      "genericSkillRef": "project-management"
+    },
+    {
+      "id": "garrytan/learn",
+      "name": "Learn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/learn.json"
+      },
+      "genericSkillRef": "memory-manage"
+    },
+    {
+      "id": "garrytan/make-pdf",
+      "name": "Make PDF",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/make-pdf.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
       "id": "garrytan/open-gstack-browser",
       "name": "Open GStack Browser",
       "level": "2★",
@@ -760,130 +885,11 @@
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
       },
       "genericSkillRef": "ubiquitous-language"
-    },
-    {
-      "id": "ruvnet/v3-integration-deep",
-      "name": "V3 Integration Deep",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
-      },
-      "genericSkillRef": "system-integration"
-    },
-    {
-      "id": "ruvnet/verification-quality",
-      "name": "Verification Quality",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "ruvnet/worker-integration",
-      "name": "Worker Integration",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/worker-integration.json"
-      },
-      "genericSkillRef": "worker-agent-dispatch"
-    },
-    {
-      "id": "santifer/career-ops",
-      "name": "Career-Ops",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 240.0,
-      "contributor": "santifer",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/santifer/career-ops.json"
-      },
-      "genericSkillRef": "career-operations"
-    },
-    {
-      "id": "spring-ai/readme-generate",
-      "name": "REST API README Generator",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "spring-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/spring-ai/readme-generate.json"
-      },
-      "genericSkillRef": "write-report"
-    },
-    {
-      "id": "vercel/find-skills",
-      "name": "Find Skills",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "vercel",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/vercel/find-skills.json"
-      },
-      "genericSkillRef": "skill-discovery"
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "2★",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "anthropic",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      },
-      "genericSkillRef": "tool-creation"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 207,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

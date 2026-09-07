@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-06T23:38:02Z",
+  "generatedAt": "2026-09-07T03:00:35Z",
   "firstRun": false,
   "skills": [
     {
@@ -200,20 +200,6 @@
       }
     },
     {
-      "id": "heygen-com/hyperframes",
-      "name": "HyperFrames",
-      "level": "4★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 163.63,
-      "overallTrustGrade": "A",
-      "trendingScore": 81.81,
-      "tmDelta": 163.63,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes.json"
-      }
-    },
-    {
       "id": "mattpocock/productivity",
       "name": "Productivity",
       "level": "4★",
@@ -228,6 +214,20 @@
       }
     },
     {
+      "id": "mksglu/context-mode",
+      "name": "Context Mode",
+      "level": "4★",
+      "contributor": "mksglu",
+      "trustMagnitude": 151.89,
+      "overallTrustGrade": "A",
+      "trendingScore": 75.94,
+      "tmDelta": 151.89,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mksglu/context-mode.json"
+      }
+    },
+    {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
       "level": "4★",
@@ -239,6 +239,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 60.76,
+      "tmDelta": 121.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
       }
     },
     {
@@ -326,6 +340,20 @@
       }
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 82.22,
+      "overallTrustGrade": "B",
+      "trendingScore": 41.11,
+      "tmDelta": 82.22,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
       "id": "garrytan/cso",
       "name": "CSO",
       "level": "3★",
@@ -368,255 +396,45 @@
       }
     },
     {
-      "id": "heygen-com/embedded-captions",
-      "name": "Embedded Captions",
+      "id": "garrytan/brain-ops",
+      "name": "Brain Ops",
       "level": "3★",
-      "contributor": "heygen-com",
+      "contributor": "garrytan",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "trendingScore": 25.0,
       "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
+        "self": "/api/v1/skills/garrytan/brain-ops.json"
       }
     },
     {
-      "id": "heygen-com/faceless-explainer",
-      "name": "Faceless Explainer",
+      "id": "garrytan/capture",
+      "name": "Capture",
       "level": "3★",
-      "contributor": "heygen-com",
+      "contributor": "garrytan",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "trendingScore": 25.0,
       "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/heygen-com/faceless-explainer.json"
+        "self": "/api/v1/skills/garrytan/capture.json"
       }
     },
     {
-      "id": "heygen-com/figma",
-      "name": "Figma",
+      "id": "garrytan/concept-synthesis",
+      "name": "Concept Synthesis",
       "level": "3★",
-      "contributor": "heygen-com",
+      "contributor": "garrytan",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "trendingScore": 25.0,
       "tmDelta": 50.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/heygen-com/figma.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-animation",
-      "name": "HyperFrames Animation",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-animation.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-audio",
-      "name": "Hyperframes Audio",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-audio.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-cli",
-      "name": "HyperFrames CLI",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-core",
-      "name": "HyperFrames Core",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-creative",
-      "name": "Hyperframes Creative",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-keyframes",
-      "name": "Hyperframes Keyframes",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
-      }
-    },
-    {
-      "id": "heygen-com/hyperframes-registry",
-      "name": "Hyperframes Registry",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
-      }
-    },
-    {
-      "id": "heygen-com/media-use",
-      "name": "Media Use",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/media-use.json"
-      }
-    },
-    {
-      "id": "heygen-com/motion-graphics",
-      "name": "Motion Graphics",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
-      }
-    },
-    {
-      "id": "heygen-com/music-to-video",
-      "name": "Music To Video",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/music-to-video.json"
-      }
-    },
-    {
-      "id": "heygen-com/pr-to-video",
-      "name": "Pr To Video",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/pr-to-video.json"
-      }
-    },
-    {
-      "id": "heygen-com/product-launch-video",
-      "name": "Product Launch Video",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/product-launch-video.json"
-      }
-    },
-    {
-      "id": "heygen-com/remotion-to-hyperframes",
-      "name": "Remotion To Hyperframes",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/remotion-to-hyperframes.json"
-      }
-    },
-    {
-      "id": "heygen-com/slideshow",
-      "name": "Slideshow",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/slideshow.json"
-      }
-    },
-    {
-      "id": "heygen-com/talking-head-recut",
-      "name": "Talking Head Recut",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
+        "self": "/api/v1/skills/garrytan/concept-synthesis.json"
       }
     },
     {
@@ -970,6 +788,20 @@
       }
     },
     {
+      "id": "citrolabs/ego-browser",
+      "name": "Ego Browser",
+      "level": "2★",
+      "contributor": "citrolabs",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/citrolabs/ego-browser.json"
+      }
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -1096,7 +928,7 @@
       }
     }
   ],
-  "totalTrending": 78,
+  "totalTrending": 66,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

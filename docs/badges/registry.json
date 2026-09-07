@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-09-06",
+  "generatedAt": "2026-09-07",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
     "garrytan": {
       "repos": [
+        "garrytan/gbrain",
         "garrytan/gstack"
       ],
       "skillsByRepo": {
@@ -56,12 +57,18 @@
           "garrytan/skillify",
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
+        ],
+        "garrytan/gbrain": [
+          "garrytan/brain-ops",
+          "garrytan/capture",
+          "garrytan/concept-synthesis",
+          "garrytan/gbrain"
         ]
       },
       "topSkill": "garrytan/gstack",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 47,
+      "count": 51,
       "namedSkills": [
         {
           "id": "garrytan/gstack",
@@ -74,6 +81,16 @@
           "fileSeal": "gstack-seal.svg"
         },
         {
+          "id": "garrytan/gbrain",
+          "name": "GBrain",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/gbrain",
+          "file": "gbrain.svg",
+          "fileSeal": "gbrain-seal.svg"
+        },
+        {
           "id": "garrytan/benchmark",
           "name": "Benchmark",
           "rank": 3,
@@ -82,6 +99,16 @@
           "slash": "/benchmark",
           "file": "benchmark.svg",
           "fileSeal": "benchmark-seal.svg"
+        },
+        {
+          "id": "garrytan/brain-ops",
+          "name": "Brain Ops",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/brain-ops",
+          "file": "brain-ops.svg",
+          "fileSeal": "brain-ops-seal.svg"
         },
         {
           "id": "garrytan/browse",
@@ -104,6 +131,16 @@
           "fileSeal": "canary-seal.svg"
         },
         {
+          "id": "garrytan/capture",
+          "name": "Capture",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/capture",
+          "file": "capture.svg",
+          "fileSeal": "capture-seal.svg"
+        },
+        {
           "id": "garrytan/careful",
           "name": "Careful",
           "rank": 3,
@@ -112,6 +149,16 @@
           "slash": "/careful",
           "file": "careful.svg",
           "fileSeal": "careful-seal.svg"
+        },
+        {
+          "id": "garrytan/concept-synthesis",
+          "name": "Concept Synthesis",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/concept-synthesis",
+          "file": "concept-synthesis.svg",
+          "fileSeal": "concept-synthesis-seal.svg"
         },
         {
           "id": "garrytan/cso",
@@ -2072,6 +2119,32 @@
         }
       ]
     },
+    "citrolabs": {
+      "repos": [
+        "citrolabs/ego-lite"
+      ],
+      "skillsByRepo": {
+        "citrolabs/ego-lite": [
+          "citrolabs/ego-browser"
+        ]
+      },
+      "topSkill": "citrolabs/ego-browser",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "citrolabs/ego-browser",
+          "name": "Ego Browser",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/ego-browser",
+          "file": "ego-browser.svg",
+          "fileSeal": "ego-browser-seal.svg"
+        }
+      ]
+    },
     "dietrichgebert": {
       "repos": [
         "DietrichGebert/ponytail"
@@ -2607,6 +2680,58 @@
           "slash": "/open-design",
           "file": "open-design.svg",
           "fileSeal": "open-design-seal.svg"
+        }
+      ]
+    },
+    "mksglu": {
+      "repos": [
+        "mksglu/context-mode"
+      ],
+      "skillsByRepo": {
+        "mksglu/context-mode": [
+          "mksglu/context-mode"
+        ]
+      },
+      "topSkill": "mksglu/context-mode",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/context-mode",
+          "file": "context-mode.svg",
+          "fileSeal": "context-mode-seal.svg"
+        }
+      ]
+    },
+    "nateherkai": {
+      "repos": [
+        "nateherkai/scroll-craft"
+      ],
+      "skillsByRepo": {
+        "nateherkai/scroll-craft": [
+          "nateherkai/scroll-craft"
+        ]
+      },
+      "topSkill": "nateherkai/scroll-craft",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nateherkai/scroll-craft",
+          "name": "Scroll Craft",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scroll-craft",
+          "file": "scroll-craft.svg",
+          "fileSeal": "scroll-craft-seal.svg"
         }
       ]
     },
