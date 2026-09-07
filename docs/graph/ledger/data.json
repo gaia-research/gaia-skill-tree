@@ -1,11 +1,11 @@
 {
   "version": "8.3.0",
-  "generatedAt": "2026-09-07T03:00:32Z",
+  "generatedAt": "2026-09-07T03:04:12Z",
   "summary": {
-    "total": 212,
+    "total": 231,
     "S": 3,
-    "A": 23,
-    "B": 69,
+    "A": 24,
+    "B": 87,
     "C": 100,
     "ungraded": 17,
     "floor": 0,
@@ -306,6 +306,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "heygen-com/hyperframes",
+      "tm": 163.63,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 127.63,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "skillId": "vercel-labs/vercel-react-best-practices",
@@ -1452,6 +1469,312 @@
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/embedded-captions",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/faceless-explainer",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/figma",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-animation",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-audio",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-cli",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-core",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-creative",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-keyframes",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/hyperframes-registry",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/media-use",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/motion-graphics",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/music-to-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/pr-to-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/product-launch-video",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/remotion-to-hyperframes",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/slideshow",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "heygen-com/talking-head-recut",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"

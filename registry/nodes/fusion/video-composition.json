@@ -18,7 +18,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-08-10",
-  "updatedAt": "2026-08-10",
+  "updatedAt": "2026-09-07",
   "version": "0.1.0",
   "timeline": [
     {
@@ -35,6 +35,30 @@
     },
     {
       "timestamp": "2026-08-10T14:48:55Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."
+    },
+    {
+      "timestamp": "2026-09-06T16:21:12Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-rendering, video-captions."
+    },
+    {
+      "timestamp": "2026-09-06T16:56:50Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."
+    },
+    {
+      "timestamp": "2026-09-06T17:24:15Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."
+    },
+    {
+      "timestamp": "2026-09-06T17:44:42Z",
       "action": "fuse",
       "contributor": "mbtiongson1",
       "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."

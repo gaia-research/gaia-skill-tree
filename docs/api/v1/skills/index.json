@@ -429,6 +429,43 @@
       "genericSkillRef": "design-generation"
     },
     {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "trustMagnitude": 163.63,
+      "overallTrustGrade": "A",
+      "fusionScore": 280.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition",
+      "suiteComponents": [
+        "heygen-com/embedded-captions",
+        "heygen-com/faceless-explainer",
+        "heygen-com/figma",
+        "heygen-com/hyperframes-animation",
+        "heygen-com/hyperframes-audio",
+        "heygen-com/hyperframes-cli",
+        "heygen-com/hyperframes-core",
+        "heygen-com/hyperframes-creative",
+        "heygen-com/hyperframes-keyframes",
+        "heygen-com/hyperframes-registry",
+        "heygen-com/media-use",
+        "heygen-com/motion-graphics",
+        "heygen-com/music-to-video",
+        "heygen-com/pr-to-video",
+        "heygen-com/product-launch-video",
+        "heygen-com/remotion-to-hyperframes",
+        "heygen-com/slideshow",
+        "heygen-com/talking-head-recut"
+      ]
+    },
+    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
@@ -1052,28 +1089,11 @@
         "self": "/api/v1/skills/mattpocock/handoff.json"
       },
       "genericSkillRef": "agent-handoff"
-    },
-    {
-      "id": "mattpocock/to-spec",
-      "name": "To PRD",
-      "level": "3★",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-spec.json"
-      },
-      "genericSkillRef": "prd-generation"
     }
   ],
   "page": 1,
-  "totalPages": 4,
-  "totalSkills": 195,
+  "totalPages": 5,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

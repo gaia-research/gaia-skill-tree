@@ -1,0 +1,22 @@
+{
+  "id": "creative-direction",
+  "name": "Creative Direction",
+  "type": "basic",
+  "description": "Define the visual concept, tone, structure, and design decisions that guide a coherent creative production.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:43:12Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill creative-direction"
+    }
+  ]
+}

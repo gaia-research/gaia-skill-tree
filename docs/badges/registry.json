@@ -2381,6 +2381,256 @@
         }
       ]
     },
+    "heygen-com": {
+      "repos": [
+        "heygen-com/hyperframes"
+      ],
+      "skillsByRepo": {
+        "heygen-com/hyperframes": [
+          "heygen-com/embedded-captions",
+          "heygen-com/faceless-explainer",
+          "heygen-com/figma",
+          "heygen-com/hyperframes",
+          "heygen-com/hyperframes-animation",
+          "heygen-com/hyperframes-audio",
+          "heygen-com/hyperframes-cli",
+          "heygen-com/hyperframes-core",
+          "heygen-com/hyperframes-creative",
+          "heygen-com/hyperframes-keyframes",
+          "heygen-com/hyperframes-registry",
+          "heygen-com/media-use",
+          "heygen-com/motion-graphics",
+          "heygen-com/music-to-video",
+          "heygen-com/pr-to-video",
+          "heygen-com/product-launch-video",
+          "heygen-com/remotion-to-hyperframes",
+          "heygen-com/slideshow",
+          "heygen-com/talking-head-recut"
+        ]
+      },
+      "topSkill": "heygen-com/hyperframes",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 19,
+      "namedSkills": [
+        {
+          "id": "heygen-com/hyperframes",
+          "name": "HyperFrames",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/hyperframes",
+          "file": "hyperframes.svg",
+          "fileSeal": "hyperframes-seal.svg"
+        },
+        {
+          "id": "heygen-com/embedded-captions",
+          "name": "Embedded Captions",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/embedded-captions",
+          "file": "embedded-captions.svg",
+          "fileSeal": "embedded-captions-seal.svg"
+        },
+        {
+          "id": "heygen-com/faceless-explainer",
+          "name": "Faceless Explainer",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/faceless-explainer",
+          "file": "faceless-explainer.svg",
+          "fileSeal": "faceless-explainer-seal.svg"
+        },
+        {
+          "id": "heygen-com/figma",
+          "name": "Figma",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/figma",
+          "file": "figma.svg",
+          "fileSeal": "figma-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-animation",
+          "name": "HyperFrames Animation",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-animation",
+          "file": "hyperframes-animation.svg",
+          "fileSeal": "hyperframes-animation-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-audio",
+          "name": "Hyperframes Audio",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-audio",
+          "file": "hyperframes-audio.svg",
+          "fileSeal": "hyperframes-audio-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-cli",
+          "name": "HyperFrames CLI",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-cli",
+          "file": "hyperframes-cli.svg",
+          "fileSeal": "hyperframes-cli-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-core",
+          "name": "HyperFrames Core",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-core",
+          "file": "hyperframes-core.svg",
+          "fileSeal": "hyperframes-core-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-creative",
+          "name": "Hyperframes Creative",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-creative",
+          "file": "hyperframes-creative.svg",
+          "fileSeal": "hyperframes-creative-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-keyframes",
+          "name": "Hyperframes Keyframes",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-keyframes",
+          "file": "hyperframes-keyframes.svg",
+          "fileSeal": "hyperframes-keyframes-seal.svg"
+        },
+        {
+          "id": "heygen-com/hyperframes-registry",
+          "name": "Hyperframes Registry",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/hyperframes-registry",
+          "file": "hyperframes-registry.svg",
+          "fileSeal": "hyperframes-registry-seal.svg"
+        },
+        {
+          "id": "heygen-com/media-use",
+          "name": "Media Use",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/media-use",
+          "file": "media-use.svg",
+          "fileSeal": "media-use-seal.svg"
+        },
+        {
+          "id": "heygen-com/motion-graphics",
+          "name": "Motion Graphics",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/motion-graphics",
+          "file": "motion-graphics.svg",
+          "fileSeal": "motion-graphics-seal.svg"
+        },
+        {
+          "id": "heygen-com/music-to-video",
+          "name": "Music To Video",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/music-to-video",
+          "file": "music-to-video.svg",
+          "fileSeal": "music-to-video-seal.svg"
+        },
+        {
+          "id": "heygen-com/pr-to-video",
+          "name": "Pr To Video",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/pr-to-video",
+          "file": "pr-to-video.svg",
+          "fileSeal": "pr-to-video-seal.svg"
+        },
+        {
+          "id": "heygen-com/product-launch-video",
+          "name": "Product Launch Video",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/product-launch-video",
+          "file": "product-launch-video.svg",
+          "fileSeal": "product-launch-video-seal.svg"
+        },
+        {
+          "id": "heygen-com/remotion-to-hyperframes",
+          "name": "Remotion To Hyperframes",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-to-hyperframes",
+          "file": "remotion-to-hyperframes.svg",
+          "fileSeal": "remotion-to-hyperframes-seal.svg"
+        },
+        {
+          "id": "heygen-com/slideshow",
+          "name": "Slideshow",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/slideshow",
+          "file": "slideshow.svg",
+          "fileSeal": "slideshow-seal.svg"
+        },
+        {
+          "id": "heygen-com/talking-head-recut",
+          "name": "Talking Head Recut",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/talking-head-recut",
+          "file": "talking-head-recut.svg",
+          "fileSeal": "talking-head-recut-seal.svg"
+        }
+      ]
+    },
+    "vercel": {
+      "repos": [
+        "vercel-labs/skills"
+      ],
+      "skillsByRepo": {
+        "vercel-labs/skills": [
+          "vercel/find-skills"
+        ]
+      },
+      "topSkill": "vercel/find-skills",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "vercel/find-skills",
+          "name": "Find Skills",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/find-skills",
+          "file": "find-skills.svg",
+          "fileSeal": "find-skills-seal.svg"
+        }
+      ]
+    },
     "pbakaus": {
       "repos": [
         "pbakaus/impeccable"
@@ -2626,32 +2876,6 @@
           "slash": "/vercel-react-best-practices",
           "file": "vercel-react-best-practices.svg",
           "fileSeal": "vercel-react-best-practices-seal.svg"
-        }
-      ]
-    },
-    "vercel": {
-      "repos": [
-        "vercel-labs/skills"
-      ],
-      "skillsByRepo": {
-        "vercel-labs/skills": [
-          "vercel/find-skills"
-        ]
-      },
-      "topSkill": "vercel/find-skills",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "vercel/find-skills",
-          "name": "Find Skills",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/find-skills",
-          "file": "find-skills.svg",
-          "fileSeal": "find-skills-seal.svg"
         }
       ]
     }

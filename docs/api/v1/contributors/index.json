@@ -53,6 +53,19 @@
       }
     },
     {
+      "handle": "heygen-com",
+      "namedSkills": 19,
+      "topSkill": {
+        "id": "heygen-com/hyperframes",
+        "level": "4★",
+        "trustMagnitude": 163.63
+      },
+      "prestigeScore": 1063.63,
+      "_links": {
+        "self": "/api/v1/contributors/heygen-com.json"
+      }
+    },
+    {
       "handle": "addy-osmani",
       "namedSkills": 9,
       "topSkill": {
@@ -443,7 +456,7 @@
       }
     }
   ],
-  "totalContributors": 34,
+  "totalContributors": 35,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

@@ -1,0 +1,22 @@
+{
+  "id": "design-source-import",
+  "name": "Design Source Import",
+  "type": "basic",
+  "description": "Import design sources into a composition workflow as reusable visual assets and layout inputs without depending on a particular design vendor.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-07",
+  "updatedAt": "2026-09-07",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-06T17:43:12Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill design-source-import"
+    }
+  ]
+}
