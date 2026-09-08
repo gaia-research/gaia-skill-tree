@@ -152,7 +152,8 @@ def evidence_class(level: str) -> str:
     return "AWAITED"
 
 
-def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label: str | None = None) -> str:
+def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label: str | None = None,
+                     branch: str | None = None) -> str:
     """Stage 2 — Python sibling of window.rankBadge(level, opts).
 
     Emits the same .rank-badge DOM the JS component produces so that the
@@ -165,6 +166,8 @@ def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label:
         variant: 'chip' | 'stars' | 'full'. Default 'stars'.
         size: 'sm' | 'md' | 'lg'. Default 'md'.
         label: chip label override. Defaults to '<N>★'.
+        branch: derived branch — standard | suite | unique. Omitted entirely
+            from the markup when unknown — never emitted empty.
     """
     n = level_num(level)
     if variant not in ("chip", "stars", "full"):
@@ -192,9 +195,10 @@ def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label:
     else:  # full
         inner = _chip() + _stars()
 
+    branch_attr = f' data-branch="{html.escape(branch)}"' if branch else ""
     return (
         f'<span class="rank-badge" data-level="{n}" data-variant="{variant}" '
-        f'data-size="{size}" role="img" aria-label="{html.escape(aria)}">'
+        f'data-size="{size}"{branch_attr} role="img" aria-label="{html.escape(aria)}">'
         f"{inner}</span>"
     )
 
@@ -412,7 +416,11 @@ def _field_tags(ns: dict, limit: int | None = None) -> str:
 
 
 def _field_rank(ns: dict, variant: str = "stars") -> str:
-    rb = rank_badge_html(ns.get("level", ""), variant=variant, label=ns.get("level"))
+    # Rubric E1/E2: pass the DERIVED branch (not ns.type) so rank-badge.js's
+    # Python sibling colours the chip by branch register. Mirrors
+    # docs/js/plaque.js _fieldRank.
+    branch = skill_branch(ns)
+    rb = rank_badge_html(ns.get("level", ""), variant=variant, label=ns.get("level"), branch=branch)
     return f'<div class="plaque__rank">{rb}</div>'
 
 

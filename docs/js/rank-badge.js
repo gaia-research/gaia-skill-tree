@@ -14,11 +14,15 @@
  *   - opts.size     'sm' | 'md' | 'lg'          (default 'md')
  *   - opts.label    string                       (default '<N>★', shown in chip)
  *   - opts.ariaLabel string                      (default 'Rank <N> of 6')
+ *   - opts.branch   string                       (derived branch — standard |
+ *                                                  suite | unique. Omitted
+ *                                                  entirely when unknown —
+ *                                                  never emitted empty.)
  *
  * Returns: HTML string.
  *
  * DOM shape:
- *   <span class="rank-badge" data-level="N" data-variant="<variant>" data-size="<size>">
+ *   <span class="rank-badge" data-level="N" data-variant="<variant>" data-size="<size>" data-branch="<branch>">
  *     <span class="rank-badge__chip">N★</span>          (chip / full)
  *     <span class="rank-badge__stars">                   (stars / full)
  *       <span class="rank-badge__star" data-on>★</span>
@@ -73,9 +77,10 @@
     }
 
     var tierAttr = opts.tier ? ' data-tier="' + esc(opts.tier) + '"' : '';
+    var branchAttr = opts.branch ? ' data-branch="' + esc(opts.branch) + '"' : '';
 
     return '<span class="rank-badge" data-level="' + n + '" data-variant="' + variant +
-      '" data-size="' + size + '"' + tierAttr + ' role="img" aria-label="' + esc(aria) + '">' +
+      '" data-size="' + size + '"' + tierAttr + branchAttr + ' role="img" aria-label="' + esc(aria) + '">' +
       inner + '</span>';
   }
 

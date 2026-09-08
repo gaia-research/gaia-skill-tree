@@ -283,7 +283,7 @@
     // Rubric E1/E2: pass the DERIVED branch (not ns.type) so rank-badge.js
     // colours the stars by branch register (unique = violet, suite = gold).
     var branch = branchOf(ns);
-    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: branch });
+    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: branch, branch: branch });
     if (!html) return '';
     return '<div class="plaque__rank">' + html + '</div>';
   }
