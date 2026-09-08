@@ -49,9 +49,18 @@
     extra: '◇',
     basic: '○',
   };
+  // unique is forked by rank exactly like the Suite branch's own ladder
+  // (4★ violet -> 5★ Unique Ultimate burnished copper -> 6★ Unique
+  // Impossible ember copper) rather than a single flat --rank-4-unique —
+  // latent today (no current route renders a 5★+ Unique through this map)
+  // but kept in lockstep with every other Unique-ladder surface.
   var TYPE_COLOR_VAR = {
     ultimate: 'var(--apex-gold)',
-    unique: 'var(--rank-4-unique)',
+    unique: {
+      4: 'var(--rank-4-unique)',
+      5: 'var(--rank-5-unique)',
+      6: 'var(--rank-6-unique)',
+    },
     extra: 'var(--rank-4)',
     basic: 'var(--tier-basic)',
   };
