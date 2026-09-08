@@ -1530,7 +1530,20 @@ def build_directory_page(by_contributor: dict) -> str:
 </body>
 </html>
 """
-    return _apply_cache_busting(html_content, _read_version())
+    html_content = _apply_cache_busting(html_content, _read_version())
+    # The contributors directory intentionally opts BACK IN to the no-cache
+    # directives _apply_cache_busting strips from every other generated page
+    # (it treats them as legacy bfcache-breaking cruft) — this listing changes
+    # whenever a contributor's rank/skill count changes and must never be
+    # served stale from a shared/browser cache. Re-added post-cache-busting so
+    # regenerating this page is idempotent instead of silently dropping them.
+    no_cache_metas = (
+        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">'
+        '\n  <meta http-equiv="Pragma" content="no-cache">'
+        '\n  <meta http-equiv="Expires" content="0">'
+    )
+    html_content = html_content.replace("<head>", f"<head>{no_cache_metas}", 1)
+    return html_content
 
 
 def generate_pages(named_path: Path, out_dir: Path) -> int:
