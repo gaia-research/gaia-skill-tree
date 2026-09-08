@@ -1331,10 +1331,26 @@ def build_directory_page(by_contributor: dict) -> str:
                 f'</span>'
             )
 
-        # Rank badge for highest rank reached
+        # Rank badge for highest rank reached. Derive the branch off the
+        # contributor's top-ranked skill the same way _field_rank does, so the
+        # directory card chip forks the same way the per-skill plaque does
+        # (rubric E1/E2). skill_branch() raises on a missing/invalid emitted
+        # branch (stale/unbuilt input) — one bad record must not break the
+        # whole directory page, so degrade to no branch (rank_badge_html
+        # already omits data-branch entirely when branch is falsy) rather
+        # than aborting the build.
         rank_badge_dir_html = ""
         if max_level > 0:
-            rank_badge_dir_html = rank_badge_html(f"{max_level}★", variant="chip", size="sm")
+            top_skill = max(skills, key=lambda s: level_num(s.get("level", "")), default=None)
+            top_branch = None
+            if top_skill is not None:
+                try:
+                    top_branch = skill_branch(top_skill)
+                except ValueError:
+                    top_branch = None
+            rank_badge_dir_html = rank_badge_html(
+                f"{max_level}★", variant="chip", size="sm", branch=top_branch
+            )
 
         # Top 3 skills preview
         sorted_skills = sorted(skills, key=lambda s: level_num(s.get("level")), reverse=True)[:3]
