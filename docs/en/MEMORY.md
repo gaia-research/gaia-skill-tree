@@ -2,6 +2,109 @@
 
 ---
 
+## 2026-09-08 — Routine 048
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE — routine 047's "Planned next" asked whether
+`fusion.html` needed the same Yggdrasil III pass as `evidence-classes.html`
+(checking if it implies `fusion-recipe`/suite structure feeds Trust
+Magnitude directly, or should introduce Fusion Score). Grepped the page for
+`Trust Magnitude`, `fusion-recipe`, `Fusion Score`, `suiteComponents`: the
+page never mentions TM or fusion-recipe at all, and its "Ranks come later,
+not from fusion" section already correctly keeps structural fusion (Type
+axis) separate from stars/evidence (see `docs/en/fusion.html:705-715`). No
+false TM claim to fix — the hypothesis from routine 047 didn't hold, so no
+Fusion Score addition here (that stays a real gap, but a bigger, deliberate
+addition, not a same-page correction — see Planned next).
+
+While reading the same page for that check, found a genuine, unrelated
+correctness bug in the "Proposing a New Fusion" section's copy-pasteable
+`gaia push` batch example: the evidence entry used the deprecated `class: C`
+field with no `type:` field at all. Cross-checked against
+`src/gaia_cli/commands/pushFromFile.py` (the real `--from-file` batch
+schema, docstring lines 8-30, and `_validate_entry`'s evidence loop at
+lines 156-173): `grade` is a required field validated against
+A/B/C — a missing `grade` (which `class` does not satisfy) fails
+validation outright — and `type` is optional but checked against the real
+evidence-type list when present. `evidence-classes.html` already documents
+`class` as deprecated/retired (its own migration table warns "Converting
+`class: A` to `grade: A` is always wrong"), so this page was teaching
+readers a field that both fails the real CLI and contradicts another page
+in the same site.
+
+### What I did
+
+- `docs/en/fusion.html` — "Batch format for a Fusion-type skill" YAML
+  example: replaced `class: C` with `grade: C` plus an added `type:
+  repo-own` line, matching the real `pushFromFile.py` schema
+  (`grade`/`type`/`url`, in that order per the module docstring).
+- `docs/en/DOCS.md` — page map row 8 updated with the fix and `048` history
+  tag.
+
+### Design decisions
+
+- Picked `repo-own` for the example's `type` (self-producible provenance
+  for a contributor's own demo repo, matching the example's
+  `https://github.com/you/agent-demo` URL) rather than leaving `type`
+  unset — `type` is optional in the schema, but every real evidence entry
+  found in `registry/named/**/*.md` sets it, and showing it makes the
+  example a better template to copy.
+- Did not add a Fusion Score explainer to this page this run — routine
+  047 already flagged that as a bigger, deliberate addition (its own
+  "Planned next"), and this routine's read confirmed there's no incorrect
+  claim on the page forcing it now. Left as future work below rather than
+  rushed in alongside an unrelated bug fix.
+
+### Issues informed
+
+None filed — this is a same-page correctness fix for an example that
+would fail real CLI validation; no open question to escalate.
+
+### Verification
+
+- `git status --short` — only `docs/en/fusion.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` touched.
+- Banned-synonym grep (`merge|combine|compose|rarity`) on `fusion.html` —
+  all hits are pre-existing `gaia dev merge` CLI-verb references and
+  "capabilities combine" prose, unrelated to this edit, not new.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- `html.parser` parse-check clean on the edited page.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Verified the fix against source, not memory: read
+  `src/gaia_cli/commands/pushFromFile.py`'s schema docstring and
+  `_validate_entry` evidence-loop validation directly, and cross-checked
+  `registry/named/heygen-com/figma.md`'s real evidence block for the field
+  names/order actually used in the wild.
+
+### Files modified
+
+- `docs/en/fusion.html` — batch YAML example's evidence fields fixed.
+- `docs/en/DOCS.md` — page map row 8 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 049)
+
+- `docs/en/fusion.html` could still gain a short Fusion Score paragraph
+  (informational-only structural scalar, `FS = 20×N` for `N ≤ 10` else
+  `200 + 20×sqrt(N-10)`, per `META.md` §2.1e) alongside the existing
+  "Ranks come later, not from fusion" section, explaining that fusion
+  depth is now also reported as a second, TM-independent number. Confirmed
+  not urgent (no false claim currently on the page) — scope deliberately
+  rather than bolting it onto an unrelated routine.
+- `docs/en/evidence-classes.html`'s deeper TM-formula documentation
+  (logarithmic `github-stars-own` curve, mothership discount) flagged by
+  routine 047 is still open and still bigger than one routine.
+
+### Token spend
+
+2026-09-08 Sonnet 5 Low: ~60k in, ~4k out. ~$0.20
+
+---
+
 ## 2026-09-07 — Routine 047
 
 **Branch:** `docs/routines/047` (new — routine 044's PR #1687 was squash-merged by
