@@ -153,13 +153,32 @@
   text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
 }
 
-/* Unique tier rank badge — black background with bright purple glow. */
-.rank-badge[data-tier="unique"] .rank-badge__chip {
-  color: var(--rank-4-unique);
+/* Unique branch rank chip — black background with a bright accent glow.
+   The Unique branch forks its own three-rung ladder exactly like Suite:
+   4★ Unique (violet) → 5★ Unique Ultimate (burnished copper) → 6★ Unique
+   Impossible (ember copper). Resolve the rung once into --unique-accent /
+   --unique-accent-rgb (mirrors the docs/css/plaque.css idiom) so the chip's
+   color/border/glow all read one pair instead of hard-coding the 4★ stem.
+   Keyed on the derived data-branch (rubric E1/E3), never data-tier — the
+   type axis is basic|fusion only and the site never emitted data-tier here. */
+.rank-badge[data-branch="unique"] {
+  --unique-accent: var(--rank-4-unique);
+  --unique-accent-rgb: var(--rank-4-unique-rgb);
+}
+.rank-badge[data-branch="unique"][data-level="5"] {
+  --unique-accent: var(--rank-5-unique);
+  --unique-accent-rgb: var(--rank-5-unique-rgb);
+}
+.rank-badge[data-branch="unique"][data-level="6"] {
+  --unique-accent: var(--rank-6-unique);
+  --unique-accent-rgb: var(--rank-6-unique-rgb);
+}
+.rank-badge[data-branch="unique"] .rank-badge__chip {
+  color: var(--unique-accent);
   background: #000000;
-  border: 1.5px solid var(--rank-4-unique);
-  box-shadow: 0 0 12px var(--rank-4-unique), 0 0 4px rgba(var(--rank-4-unique-rgb), 0.5);
-  text-shadow: 0 0 8px rgba(var(--rank-4-unique-rgb), 0.4);
+  border: 1.5px solid var(--unique-accent);
+  box-shadow: 0 0 12px var(--unique-accent), 0 0 4px rgba(var(--unique-accent-rgb), 0.5);
+  text-shadow: 0 0 8px rgba(var(--unique-accent-rgb), 0.4);
 }
 
 /* Size modifiers — sampler density only. Default is md. */
