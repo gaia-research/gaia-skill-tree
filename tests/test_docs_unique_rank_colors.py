@@ -248,3 +248,21 @@ def test_write_user_badges_is_unique_reflects_the_top_skill_branch():
     mod = _load_generate_badges()
     unique_skill = {"level": "5★", "type": "fusion", "branch": "unique", "suiteComponents": []}
     assert mod.skill_branch(unique_skill) == "unique"
+
+
+# ── Issue #1763 gap A: the contributor DIRECTORY page card chip ────────────
+
+def test_directory_page_rank_badge_call_passes_a_branch():
+    """build_directory_page()'s card-chip call site was a fourth instance of
+    the missing-branch defect: no `branch=` argument, so a Unique
+    contributor's card on /u/ carried no data-branch and fell through to
+    apex gold. Pin that the call site derives and passes one, and that it
+    guards against skill_branch()'s ValueError on a missing/invalid emitted
+    branch rather than letting one bad record break the whole directory build."""
+    src = _generate_profile_pages_source()
+    fn = src.split("def build_directory_page(", 1)[1].split("\ndef ", 1)[0]
+    assert "rank_badge_dir_html = rank_badge_html(" in fn
+    call_site = fn.split("rank_badge_dir_html = rank_badge_html(", 1)[1].split(")", 1)[0]
+    assert "branch=" in call_site, "directory card chip call site is missing branch="
+    assert "skill_branch(" in fn
+    assert "except ValueError" in fn, "one bad record must not abort the whole directory build"
