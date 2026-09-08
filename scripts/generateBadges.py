@@ -478,7 +478,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
     # Dark panel always (gold_fill=False) so the honor-red handle reads.
     defs, layers = _data_panel(left_w, panel_w, rank, "h",
                                is_unique=is_unique, gold_fill=False)
-    accent = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+    accent = unique_hex(rank) if is_unique else rank_hex(rank)
     frame = _frame(width, rank, is_unique)
     seal_color = GOLD if apex else WHITE
 
