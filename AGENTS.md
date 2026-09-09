@@ -77,3 +77,7 @@ Registry/Bond package surface: `gaia_search`, `gaia_inspect`, `summon`, and
 leave a scoped package invocation without a binary selector. `summon` is the
 current name, not `gaia_summon`; D4's thin `search_skills` + `summon` profile is
 separate from this four-tool package.
+
+## Organization dogfooding and feedback
+
+This discovery file routes agents to `CLAUDE.md`; before real work, load and follow its **Organization dogfooding and feedback** section. In particular: use only genuinely relevant capabilities already available to the current harness, never silently install or mutate global configuration, record observed friction rather than speculation, and keep any public feedback synthetic/redacted. The `CLAUDE.md` section is the local policy and does not require network access.

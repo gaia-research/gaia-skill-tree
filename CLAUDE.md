@@ -415,3 +415,13 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for s
 - Design at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.
 - The watcher opens **issues** for existing-skill version tracking; it does NOT create `bot/*` branches (that flow belongs to `scripts/crawlers/`, new-skill discovery).
 - Every registry mutation still goes through `gaia dev` verbs (`sync-upstream`, `freeze`, `relink`) on `review/meta/` branches. No hand-edits to `upstream:` frontmatter blocks; no direct workflow writes to `main`.
+
+## Organization dogfooding and feedback
+
+While doing real work in this shared repo, use an existing Skill Heaven plugin or native skill only for a genuine task need. There is no skill quota: do not summon gratuitously, pretend an unsupported harness has a plugin, silently install anything, or edit user-global configuration. `/summon` is one-session context, not a permanent installation; preserve zero posture and human intent.
+
+At task end, record only new actionable friction actually observed during relevant work or from human feedback. Keep expected versus observed behavior, repo/commit, harness/version, route/source when known, safe reproduction, impact, and evidence versus inference. Retrieval score, materialization, and exit code are not behavioral success or task outcome. Do not alter existing selection policy, labels, evidence semantics, or curator gates.
+
+If the current harness safely supports a light agent, use the smallest such capability to deduplicate/search and file one issue in `gaia-research/gaia-skill-heaven`; avoid recursive issue writers and duplicate one underlying problem. Public reports must use a synthetic/redacted reproduction and exclude raw prompts/transcripts/session logs/tokens/credentials/personal data/private code/URLs/paths/customer identifiers/confidential details. If safe filing is unavailable or privacy/auth/tooling blocks it, save a local draft and report that honestly. Use only labels known to exist.
+
+Use existing optional caller-controlled local telemetry only when the current surface supports it; no upload, full-transcript capture, daemon, autonomous issue flood, or automatic policy tuning. Standalone `skill-*` repos, archived/forks, Milim/apps/pets, `marketing-tasks`, and private `.github` repos are exempt. The owner/orchestrator reviews and merges policy PRs; do not merge your own.
