@@ -626,7 +626,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -764,6 +764,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 174.62, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -1615,7 +1621,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:19Z",
@@ -1729,6 +1735,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2069,196 +2081,6 @@
     ],
     "executing-plans": [
       {
-        "id": "addy-osmani/incremental-implementation",
-        "name": "Incremental Implementation",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "executing-plans",
-        "status": "named",
-        "level": "3★",
-        "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
-        "title": "Incremental Implementation",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-04-16",
-            "grade": "C"
-          },
-          {
-            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-06-19",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/incremental-implementation"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:24Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:14Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:14Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:04Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:07:11Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:51Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:06Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-07-31T13:06:53Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-07-31T13:21:09Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:42Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:05:20Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 95.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "4963fc374b377f729f80d88baeb4c1475a0a65c0fbdb27b6d0274f719d5a78e9",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 80.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 4,
-          "maxDepth": 2,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "obra/executing-plans",
         "name": "Executing Plans",
         "contributor": "obra",
@@ -2420,6 +2242,202 @@
         },
         "type": "fusion",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "addy-osmani/incremental-implementation",
+        "name": "Incremental Implementation",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "executing-plans",
+        "status": "named",
+        "level": "3★",
+        "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
+        "title": "Incremental Implementation",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/incremental-implementation"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:14Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:14Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:07:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:51Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:06Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:42Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:05:20Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 95.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "4963fc374b377f729f80d88baeb4c1475a0a65c0fbdb27b6d0274f719d5a78e9",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -2964,202 +2982,6 @@
     ],
     "vertical-slice-planning": [
       {
-        "id": "addy-osmani/planning-and-task-breakdown",
-        "name": "Planning and Task Breakdown",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "vertical-slice-planning",
-        "status": "named",
-        "level": "3★",
-        "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
-        "title": "Planning and Task Breakdown",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-04-16",
-            "grade": "C"
-          },
-          {
-            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-06-19",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/planning-and-task-breakdown"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:24Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:14Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:15Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:04Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:07:12Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:50Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:05Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-07-31T13:06:52Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-07-31T13:21:09Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:42Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:04:50Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-02T15:05:20Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 5★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 95.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "1857e286475bbd8d846f0aae13116a98e9b845ef7cb4cf057505f364dc24226a",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "mattpocock/to-tickets",
         "name": "To Tickets",
         "contributor": "mattpocock",
@@ -3337,6 +3159,208 @@
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "addy-osmani/planning-and-task-breakdown",
+        "name": "Planning and Task Breakdown",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "vertical-slice-planning",
+        "status": "named",
+        "level": "3★",
+        "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
+        "title": "Planning and Task Breakdown",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/planning-and-task-breakdown"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:14Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:15Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:07:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:50Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:05Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:42Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:04:50Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-02T15:05:20Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 5★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:41Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 95.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "1857e286475bbd8d846f0aae13116a98e9b845ef7cb4cf057505f364dc24226a",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -4114,180 +4138,6 @@
     ],
     "prd-generation": [
       {
-        "id": "addy-osmani/spec-driven-development",
-        "name": "Spec-Driven Development",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "prd-generation",
-        "status": "named",
-        "level": "3★",
-        "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
-        "title": "Spec-Driven Development",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-06-19",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:16Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/spec-driven-development"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:22Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:36Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:15Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:16Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:04Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:06:55Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:50Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:05Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-07-31T13:21:08Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:13Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 80.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "mattpocock/to-spec",
         "name": "To PRD",
         "contributor": "mattpocock",
@@ -4468,6 +4318,186 @@
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "addy-osmani/spec-driven-development",
+        "name": "Spec-Driven Development",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "prd-generation",
+        "status": "named",
+        "level": "3★",
+        "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
+        "title": "Spec-Driven Development",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:16Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/spec-driven-development"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:22Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:36Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:15Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:06:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:50Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:05Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:41Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 80.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -14818,7 +14848,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:22Z",
@@ -14891,6 +14921,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 333.26 -> 226.5, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:11:13Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "trustMagnitude": 226.5,
@@ -26455,7 +26491,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -26566,6 +26602,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "trustMagnitude": 169.34,
@@ -33482,7 +33524,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -33606,6 +33648,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:42Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -37559,7 +37607,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -37679,6 +37727,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 290.0 -> 174.59, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [

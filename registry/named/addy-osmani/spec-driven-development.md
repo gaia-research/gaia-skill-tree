@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: prd-generation
 status: named
-level: 5★
+level: 3★
 description: Spec-driven development workflow enforcing specification generation before
   any coding starts.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 timeline:
 - timestamp: '2026-07-02T18:42:16Z'
   action: add
@@ -79,6 +79,10 @@ timeline:
   contributor: unknown
   details: 'TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:14:41Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 3★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
   updatedAt: '2026-09-01'

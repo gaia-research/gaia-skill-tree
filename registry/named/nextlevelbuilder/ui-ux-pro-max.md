@@ -5,12 +5,12 @@ contributor: nextlevelbuilder
 origin: true
 genericSkillRef: ux-audit
 status: named
-level: 5★
+level: 4★
 description: Systematically evaluates a user interface against established usability
   heuristics, accessibility standards, visual style rules, color palettes, typography,
   and motion guidelines.
 createdAt: '2026-07-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: UI/UX Pro Max
 links:
   github: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md
@@ -69,6 +69,10 @@ timeline:
   contributor: unknown
   details: 'TM 333.26 -> 226.5, grade S -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:11:13Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★
 evidence:
 - source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
   updatedAt: '2026-09-01'

@@ -7,7 +7,7 @@ genericSkillRef: multi-topology-orchestration
 status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo
-level: 5★
+level: 4★
 provisionalUntil: '2026-12-17'
 description: 'The complete Ruflo orchestration platform: flow nexus, AgentDB memory
   sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization
@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -203,6 +203,10 @@ timeline:
   contributor: unknown
   details: 'TM 290.0 -> 174.59, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:14:43Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★
 trustMagnitude: 174.59
 overallTrustGrade: A
 apexGateStatus:
