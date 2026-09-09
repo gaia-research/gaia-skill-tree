@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: superpowers
 status: named
 title: The Complete Agentic Discipline
-level: 5★
+level: 4★
 description: A complete software development methodology for coding agents — brainstorming,
   planning, parallel execution, systematic debugging, code review loops, and branch
   discipline unified into a single agentic workflow.
@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -160,6 +160,10 @@ timeline:
   contributor: unknown
   details: 'TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:14:42Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★
 trustMagnitude: 220.81
 overallTrustGrade: A
 apexGateStatus:
