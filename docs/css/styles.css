@@ -160,7 +160,11 @@
    --unique-accent-rgb (mirrors the docs/css/plaque.css idiom) so the chip's
    color/border/glow all read one pair instead of hard-coding the 4★ stem.
    Keyed on the derived data-branch (rubric E1/E3), never data-tier — the
-   type axis is basic|fusion only and the site never emitted data-tier here. */
+   type axis is basic|fusion only, so a BRANCH must never be read off it.
+   Note the history: data-tier WAS emitted on this element until #1764,
+   because plaque.js passed the derived branch through as `tier`. That
+   conflation is exactly what this rule replaces. rank-badge.js now emits
+   only data-branch, and no selector anywhere reads .rank-badge[data-tier]. */
 .rank-badge[data-branch="unique"] {
   --unique-accent: var(--rank-4-unique);
   --unique-accent-rgb: var(--rank-4-unique-rgb);

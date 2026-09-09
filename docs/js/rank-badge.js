@@ -76,11 +76,15 @@
       inner = chipHtml(n, opts.label) + starsHtml(n);
     }
 
-    var tierAttr = opts.tier ? ' data-tier="' + esc(opts.tier) + '"' : '';
+    // No data-tier. The TYPE axis is basic|fusion and never carries a
+    // BRANCH; passing the branch through as `tier` is the conflation #1764
+    // removed, and the Python sibling in scripts/generateProfilePages.py has
+    // no tier parameter at all. Keeping an unused one here is how the two
+    // emitters drift apart again.
     var branchAttr = opts.branch ? ' data-branch="' + esc(opts.branch) + '"' : '';
 
     return '<span class="rank-badge" data-level="' + n + '" data-variant="' + variant +
-      '" data-size="' + size + '"' + tierAttr + branchAttr + ' role="img" aria-label="' + esc(aria) + '">' +
+      '" data-size="' + size + '"' + branchAttr + ' role="img" aria-label="' + esc(aria) + '">' +
       inner + '</span>';
   }
 
