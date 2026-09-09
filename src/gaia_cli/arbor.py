@@ -13,6 +13,7 @@ import json
 import math
 import os
 import re
+import stat
 import tempfile
 from contextlib import contextmanager
 from datetime import datetime
@@ -25,6 +26,15 @@ DECLARATION_SCHEMA = "gaia.arbor-expert-declaration/v1"
 RECEIPT_SCHEMA = "gaia.arbor-benchmark-receipt/v1"
 INTERPRETATION_SCHEMA = "gaia.arbor-interpretation/v1"
 PROFILE_SCHEMA = "gaia.arbor-profile/v1"
+EDGE_DECLARATION_SCHEMA = "gaia.arbor-edge-declaration/v1"
+EDGE_OBSERVATION_SCHEMA = "gaia.arbor-edge-observation/v1"
+EDGE_INTERPRETATION_SCHEMA = "gaia.arbor-edge-interpretation/v1"
+EDGE_SCHEMA = "gaia.arbor-edge/v1"
+EDGE_INDEX_SCHEMA = "gaia.arbor-edge-index/v1"
+HH_OBSERVATION_REF_SCHEMA = "gaia.hh-observation-ref/v1"
+HH_ACCEPTANCE_SCHEMA = "gaia.hh-acceptance/v1"
+RUNTIME_SCHEMA = "gaia.arbor-runtime/v1"
+RUNTIME_INDEX_SCHEMA = "gaia.arbor-runtime-index/v1"
 
 PRESTIGE_KEYS = {
     "grade",
@@ -63,6 +73,14 @@ SOURCE_INTERPRETATION_KEYS = {
     "verdict",
     "verdicts",
 }
+# Structural Yggdrasil relations are never an Arbor observation or claim.
+STRUCTURAL_KEYS = {
+    "prerequisite",
+    "prerequisites",
+    "prereqs",
+    "fusion",
+    "suitecomponents",
+}
 SKILL_ID_PART = r"[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?"
 SKILL_ID_PATTERN = re.compile(rf"^{SKILL_ID_PART}(?:/{SKILL_ID_PART})?$")
 DATE_TIME_PATTERN = re.compile(
@@ -85,12 +103,32 @@ SCHEMA_FILES = {
     RECEIPT_SCHEMA: "benchmark-receipt.schema.json",
     INTERPRETATION_SCHEMA: "interpretation.schema.json",
     PROFILE_SCHEMA: "profile.schema.json",
+    EDGE_DECLARATION_SCHEMA: "edge-declaration.schema.json",
+    EDGE_OBSERVATION_SCHEMA: "edge-observation.schema.json",
+    EDGE_INTERPRETATION_SCHEMA: "edge-interpretation.schema.json",
+    EDGE_SCHEMA: "edge.schema.json",
+    EDGE_INDEX_SCHEMA: "edge-index.schema.json",
+    HH_OBSERVATION_REF_SCHEMA: "hh-observation-ref.schema.json",
+    HH_ACCEPTANCE_SCHEMA: "hh-acceptance.schema.json",
+    RUNTIME_SCHEMA: "runtime.schema.json",
 }
 SOURCE_DIRECTORIES = {
     DECLARATION_SCHEMA: "declarations",
     RECEIPT_SCHEMA: "receipts",
     INTERPRETATION_SCHEMA: "interpretations",
+    EDGE_DECLARATION_SCHEMA: "edge-declarations",
+    EDGE_OBSERVATION_SCHEMA: "edge-observations",
+    EDGE_INTERPRETATION_SCHEMA: "edge-interpretations",
+    HH_OBSERVATION_REF_SCHEMA: "hh-observation-refs",
+    HH_ACCEPTANCE_SCHEMA: "hh-acceptances",
 }
+EDGE_SOURCE_SCHEMAS = {
+    EDGE_DECLARATION_SCHEMA,
+    EDGE_OBSERVATION_SCHEMA,
+    EDGE_INTERPRETATION_SCHEMA,
+}
+HH_SOURCE_SCHEMAS = {HH_OBSERVATION_REF_SCHEMA, HH_ACCEPTANCE_SCHEMA}
+SOURCE_RECORD_SCHEMAS = set(SOURCE_DIRECTORIES)
 
 
 class ArborError(RuntimeError):
@@ -109,6 +147,102 @@ def contentDigest(value: object) -> str:
     return hashlib.sha256(canonicalBytes(value)).hexdigest()
 
 
+def repositoryRoot(registryRoot: str | Path) -> Path:
+    """Anchor all managed Arbor paths at the caller's physical repository root."""
+
+    try:
+        return Path(registryRoot).expanduser().resolve(strict=False)
+    except OSError as exc:
+        raise ArborError(f"cannot resolve Arbor repository root {registryRoot}: {exc}") from exc
+
+
+def _checkedPath(anchor: Path, parts: tuple[str | Path, ...]) -> Path:
+    anchor = Path(anchor)
+    candidate = anchor.joinpath(*parts)
+    try:
+        candidate.relative_to(anchor)
+    except ValueError as exc:
+        raise ArborError(f"Arbor managed path escapes repository root: {candidate}") from exc
+
+    current = anchor
+    for part in candidate.relative_to(anchor).parts:
+        current = current / part
+        try:
+            mode = current.lstat().st_mode
+        except FileNotFoundError:
+            break
+        except OSError as exc:
+            raise ArborError(f"cannot inspect Arbor managed path {current}: {exc}") from exc
+        if stat.S_ISLNK(mode):
+            raise ArborError(f"Arbor managed path cannot contain a symlink: {current}")
+        if current != candidate and not stat.S_ISDIR(mode):
+            raise ArborError(f"Arbor managed parent is not a directory: {current}")
+
+    try:
+        physical = candidate.resolve(strict=False)
+        physical.relative_to(anchor)
+    except (OSError, ValueError) as exc:
+        raise ArborError(f"Arbor managed path escapes repository root: {candidate}") from exc
+    return candidate
+
+
+def managedPath(registryRoot: str | Path, *parts: str | Path) -> Path:
+    """Return a path confined to the canonical repository root.
+
+    The input record path is intentionally not passed through this helper: users
+    may import a JSON file from outside the repository. Only Arbor-owned
+    destinations and readers are confined.
+    """
+
+    return _checkedPath(repositoryRoot(registryRoot), tuple(parts))
+
+
+def managedChild(root: Path, *parts: str | Path) -> Path:
+    """Validate a child of an already anchored managed directory."""
+
+    return _checkedPath(Path(root), tuple(parts))
+
+
+def assertManagedTree(root: Path) -> None:
+    """Reject symlinked managed roots/leaves before any recursive operation."""
+
+    root = Path(root)
+    if root.is_symlink():
+        raise ArborError(f"Arbor managed path cannot be a symlink: {root}")
+    if not root.exists():
+        return
+    if not root.is_dir():
+        raise ArborError(f"Arbor managed path is not a directory: {root}")
+    pending = [root]
+    while pending:
+        current = pending.pop()
+        try:
+            entries = list(os.scandir(current))
+        except OSError as exc:
+            raise ArborError(f"cannot inspect Arbor managed directory {current}: {exc}") from exc
+        for entry in entries:
+            entryPath = Path(entry.path)
+            try:
+                mode = entry.stat(follow_symlinks=False).st_mode
+            except OSError as exc:
+                raise ArborError(f"cannot inspect Arbor managed path {entryPath}: {exc}") from exc
+            if stat.S_ISLNK(mode):
+                raise ArborError(f"Arbor managed path cannot contain a symlink: {entryPath}")
+            if stat.S_ISDIR(mode):
+                pending.append(entryPath)
+
+
+def managedFiles(root: Path) -> set[Path]:
+    assertManagedTree(root)
+    if not root.exists():
+        return set()
+    return {
+        path
+        for path in root.rglob("*")
+        if path.is_file()
+    }
+
+
 def readJson(path: Path) -> dict:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -120,7 +254,7 @@ def readJson(path: Path) -> dict:
 
 
 def arborRoot(registryRoot: str | Path) -> Path:
-    return Path(registryRoot) / "registry" / "arbor"
+    return managedPath(registryRoot, "registry", "arbor")
 
 
 def canonicalSkillPath(skillId: str, registryRoot: str | Path) -> Path:
@@ -128,13 +262,15 @@ def canonicalSkillPath(skillId: str, registryRoot: str | Path) -> Path:
 
     if not isinstance(skillId, str) or not SKILL_ID_PATTERN.fullmatch(skillId):
         raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
-    registry = Path(registryRoot) / "registry"
+    registry = managedPath(registryRoot, "registry")
     if "/" in skillId:
         contributor, slug = skillId.split("/")
-        candidates = [registry / "named" / contributor / f"{slug}.md"]
+        candidates = [
+            managedChild(registry, "named", contributor, f"{slug}.md")
+        ]
     else:
         candidates = [
-            registry / "nodes" / nodeType / f"{skillId}.json"
+            managedChild(registry, "nodes", nodeType, f"{skillId}.json")
             for nodeType in ("basic", "fusion")
         ]
     existing = [path for path in candidates if path.is_file()]
@@ -164,8 +300,18 @@ def validateRecord(record: dict, registryRoot: str | Path) -> str:
         rejectKeys(record, PRESTIGE_KEYS, "prestige")
     if schemaId in {DECLARATION_SCHEMA, RECEIPT_SCHEMA}:
         rejectKeys(record, SOURCE_INTERPRETATION_KEYS, "source interpretation")
+    # HH observation refs are deliberately conclusion-free. HH acceptance is a
+    # governed envelope, so its resultDigest is legitimate and only prestige is
+    # rejected. Edge observations receive the same two rejection sets; edge
+    # declarations and interpretations carry their governed relation/support.
+    if schemaId in {EDGE_OBSERVATION_SCHEMA, HH_OBSERVATION_REF_SCHEMA}:
+        rejectKeys(record, SOURCE_INTERPRETATION_KEYS, "source interpretation")
+    if schemaId in EDGE_SOURCE_SCHEMAS:
+        rejectKeys(record, STRUCTURAL_KEYS, "structural Arbor")
 
-    schemaPath = arborRoot(registryRoot) / "contracts" / SCHEMA_FILES[schemaId]
+    schemaPath = managedChild(
+        arborRoot(registryRoot), "contracts", SCHEMA_FILES[schemaId]
+    )
     schema = readJson(schemaPath)
     validator = Draft7Validator(schema, format_checker=FORMAT_CHECKER)
     errors = sorted(validator.iter_errors(record), key=lambda item: list(item.path))
@@ -186,6 +332,17 @@ def validateRecord(record: dict, registryRoot: str | Path) -> str:
             raise ArborError("benchmark receipt measurement metrics must be unique")
         if record["control"]["environment"] != record["treatment"]["environment"]:
             raise ArborError("benchmark receipt control and treatment environments must be equivalent")
+    if schemaId == EDGE_OBSERVATION_SCHEMA:
+        metrics = [measurement["metric"] for measurement in record["measurements"]]
+        if len(metrics) != len(set(metrics)):
+            raise ArborError("edge observation measurement metrics must be unique")
+        if record["control"]["environment"] != record["treatment"]["environment"]:
+            raise ArborError("edge observation control and treatment environments must be equivalent")
+    if schemaId == EDGE_DECLARATION_SCHEMA:
+        claimIds = [claim["id"] for claim in record["claims"]]
+        if len(claimIds) != len(set(claimIds)):
+            raise ArborError("edge declaration claim ids must be unique")
+        validatePair(record["pair"])
     return schemaId
 
 
@@ -218,7 +375,8 @@ def storeLock(registryRoot: str | Path):
 
     root = arborRoot(registryRoot)
     root.mkdir(parents=True, exist_ok=True)
-    lock = root / ".store-lock"
+    assertManagedTree(root)
+    lock = managedChild(root, ".store-lock")
     try:
         lock.mkdir()
     except FileExistsError as exc:
@@ -240,24 +398,33 @@ def importSource(inputPath: str | Path, registryRoot: str | Path) -> tuple[Path,
 
         root = arborRoot(registryRoot)
         digest = contentDigest(record)
-        destination = root / "sources" / SOURCE_DIRECTORIES[schemaId] / f"{digest}.json"
-        if schemaId == DECLARATION_SCHEMA and not destination.is_file():
-            # The moving canonical file is an admission oracle only. Once stored,
-            # the declaration digest and pinned hash are immutable history.
-            validateSkillIdentity(record["skill"], registryRoot)
-        if schemaId == RECEIPT_SCHEMA:
-            validateReceiptTarget(record, root, registryRoot)
-        if schemaId == INTERPRETATION_SCHEMA:
-            validateInterpretationTarget(record, root, registryRoot)
+        destination = managedChild(
+            root,
+            "sources",
+            SOURCE_DIRECTORIES[schemaId],
+            f"{digest}.json",
+        )
+        if not destination.is_file():
+            # Moving canonical files are admission oracles only. Once stored,
+            # every declaration/edge/acceptance pin is immutable history.
+            if schemaId == DECLARATION_SCHEMA:
+                validateSkillIdentity(record["skill"], registryRoot)
+            elif schemaId == EDGE_DECLARATION_SCHEMA:
+                validatePairAdmission(record["pair"], registryRoot)
+            elif schemaId == HH_ACCEPTANCE_SCHEMA:
+                validateSkillIdentity(record["subject"], registryRoot)
 
-        declarations, receipts, interpretations = sourceRecords(registryRoot)
-        if schemaId == DECLARATION_SCHEMA:
-            declarations[digest] = record
-        elif schemaId == RECEIPT_SCHEMA:
-            receipts[digest] = record
-        else:
-            interpretations[digest] = record
-        buildProfiles(declarations, receipts, interpretations, registryRoot)
+        sources = allSourceRecords(registryRoot)
+        addSourceRecord(sources, schemaId, digest, record)
+        validateSourceSet(sources, registryRoot)
+        buildProfiles(
+            sources[DECLARATION_SCHEMA],
+            sources[RECEIPT_SCHEMA],
+            sources[INTERPRETATION_SCHEMA],
+            registryRoot,
+        )
+        buildEdgeEntries(sources, registryRoot)
+        buildRuntime(registryRoot, sources)
 
         created = publishImmutable(destination, canonicalBytes(record) + b"\n")
         return destination, digest, created
@@ -337,20 +504,42 @@ def writeAtomic(path: Path, content: bytes) -> bool:
 def sourceRecords(
     registryRoot: str | Path,
 ) -> tuple[dict[str, dict], dict[str, dict], dict[str, dict]]:
-    root = arborRoot(registryRoot) / "sources"
-    declarations = loadSources(root / "declarations", DECLARATION_SCHEMA, registryRoot)
-    receipts = loadSources(root / "receipts", RECEIPT_SCHEMA, registryRoot)
-    interpretations = loadSources(
-        root / "interpretations", INTERPRETATION_SCHEMA, registryRoot
+    """Return the original three source classes for compatibility."""
+
+    sources = allSourceRecords(registryRoot)
+    return (
+        sources[DECLARATION_SCHEMA],
+        sources[RECEIPT_SCHEMA],
+        sources[INTERPRETATION_SCHEMA],
     )
-    return declarations, receipts, interpretations
+
+
+def allSourceRecords(registryRoot: str | Path) -> dict[str, dict[str, dict]]:
+    root = arborRoot(registryRoot)
+    sourcesRoot = managedChild(root, "sources")
+    assertManagedTree(sourcesRoot)
+    return {
+        schemaId: loadSources(
+            managedChild(sourcesRoot, directory), schemaId, registryRoot
+        )
+        for schemaId, directory in SOURCE_DIRECTORIES.items()
+    }
+
+
+def addSourceRecord(
+    sources: dict[str, dict[str, dict]], schemaId: str, digest: str, record: dict
+) -> None:
+    sources.setdefault(schemaId, {})[digest] = record
 
 
 def loadSources(directory: Path, expectedSchema: str, registryRoot: str | Path) -> dict[str, dict]:
     records: dict[str, dict] = {}
+    assertManagedTree(directory)
     if not directory.exists():
         return records
     for path in sorted(directory.glob("*.json")):
+        if path.is_symlink():
+            raise ArborError(f"Arbor source must not be a symlink: {path}")
         record = readJson(path)
         schemaId = validateRecord(record, registryRoot)
         if schemaId != expectedSchema:
@@ -366,7 +555,7 @@ def loadSources(directory: Path, expectedSchema: str, registryRoot: str | Path) 
 
 def validateReceiptTarget(receipt: dict, root: Path, registryRoot: str | Path) -> None:
     digest = receipt["target"]["declarationSha256"]
-    declarationPath = root / "sources" / "declarations" / f"{digest}.json"
+    declarationPath = sourcePath(root, DECLARATION_SCHEMA, digest)
     if not declarationPath.is_file():
         raise ArborError(f"benchmark receipt references missing declaration {digest}")
     declaration = readJson(declarationPath)
@@ -388,7 +577,7 @@ def validateInterpretationTarget(
 ) -> None:
     target = interpretation["target"]
     declarationDigest = target["declarationSha256"]
-    declarationPath = root / "sources" / "declarations" / f"{declarationDigest}.json"
+    declarationPath = sourcePath(root, DECLARATION_SCHEMA, declarationDigest)
     if not declarationPath.is_file():
         raise ArborError(
             f"Arbor interpretation references missing declaration {declarationDigest}"
@@ -405,7 +594,7 @@ def validateInterpretationTarget(
         raise ArborError("Arbor interpretation skill identity/hash differs from its declaration")
 
     for receiptDigest in interpretation["receiptSources"]:
-        receiptPath = root / "sources" / "receipts" / f"{receiptDigest}.json"
+        receiptPath = sourcePath(root, RECEIPT_SCHEMA, receiptDigest)
         if not receiptPath.is_file():
             raise ArborError(
                 f"Arbor interpretation references missing receipt {receiptDigest}"
@@ -421,7 +610,7 @@ def validateInterpretationTarget(
 
     supersedes = interpretation.get("supersedesSha256")
     if supersedes is not None:
-        priorPath = root / "sources" / "interpretations" / f"{supersedes}.json"
+        priorPath = sourcePath(root, INTERPRETATION_SCHEMA, supersedes)
         if not priorPath.is_file():
             raise ArborError(
                 f"Arbor interpretation supersedes missing interpretation {supersedes}"
@@ -434,6 +623,229 @@ def validateInterpretationTarget(
             )
         if prior["target"] != target or prior["skill"] != interpretation["skill"]:
             raise ArborError("Arbor interpretation may only supersede the same claim")
+
+
+def validatePair(pair: dict) -> None:
+    """Validate ordered pair identity without normalizing its direction."""
+
+    if pair["from"] == pair["to"]:
+        raise ArborError("Arbor edge pair cannot be a self-edge")
+
+
+def pairKey(pair: dict) -> str:
+    return canonicalBytes(pair).decode("utf-8")
+
+
+def targetKey(pair: dict, target: dict) -> str:
+    return canonicalBytes([pair, target]).decode("utf-8")
+
+
+def sourcePath(root: Path, schemaId: str, digest: str) -> Path:
+    return managedChild(
+        root,
+        "sources",
+        SOURCE_DIRECTORIES[schemaId],
+        f"{digest}.json",
+    )
+
+
+def validatePairAdmission(pair: dict, registryRoot: str | Path) -> None:
+    """Admit both pinned endpoints against current canonical bytes exactly once."""
+
+    validatePair(pair)
+    validateSkillIdentity(pair["from"], registryRoot)
+    validateSkillIdentity(pair["to"], registryRoot)
+
+
+def activeTips(
+    records: dict[str, dict], keyFunction, supersedesField: str
+) -> dict[object, tuple[str, dict]]:
+    """Return one active source per target, rejecting forks and bad chains."""
+
+    grouped: dict[object, list[tuple[str, dict]]] = {}
+    for digest, record in records.items():
+        grouped.setdefault(keyFunction(record), []).append((digest, record))
+    active: dict[object, tuple[str, dict]] = {}
+    for key, items in grouped.items():
+        digests = {digest for digest, _ in items}
+        superseded: set[str] = set()
+        for digest, record in items:
+            prior = record.get(supersedesField)
+            if prior is None:
+                continue
+            seen: set[str] = {digest}
+            while prior is not None:
+                if prior in seen:
+                    raise ArborError("Arbor supersession cycle is forbidden")
+                seen.add(prior)
+                if prior not in digests:
+                    raise ArborError(
+                        f"{record['schema']} supersedes missing source {prior}"
+                    )
+                superseded.add(prior)
+                priorRecord = records[prior]
+                if keyFunction(priorRecord) != key:
+                    raise ArborError("supersession may only target the same Arbor record")
+                prior = priorRecord.get(supersedesField)
+        tips = sorted(digests - superseded)
+        if len(tips) > 1:
+            raise ArborError("multiple active Arbor interpretations for one target")
+        if tips:
+            active[key] = (tips[0], records[tips[0]])
+    return active
+
+
+def validateSourceSet(
+    sources: dict[str, dict[str, dict]], registryRoot: str | Path
+) -> None:
+    """Validate cross-record links from immutable in-memory source maps."""
+
+    edgeDeclarations = sources[EDGE_DECLARATION_SCHEMA]
+    edgeObservations = sources[EDGE_OBSERVATION_SCHEMA]
+    edgeInterpretations = sources[EDGE_INTERPRETATION_SCHEMA]
+    hhRefs = sources[HH_OBSERVATION_REF_SCHEMA]
+    hhAcceptances = sources[HH_ACCEPTANCE_SCHEMA]
+
+    declarationKeys: dict[str, set[str]] = {}
+    for digest, declaration in edgeDeclarations.items():
+        validatePair(declaration["pair"])
+        key = pairKey(declaration["pair"])
+        declarationIds = declarationKeys.setdefault(key, set())
+        if declaration["declarationId"] in declarationIds:
+            raise ArborError(
+                f"duplicate Arbor edge declaration id: {declaration['declarationId']}"
+            )
+        declarationIds.add(declaration["declarationId"])
+        if contentDigest(declaration) != digest:
+            raise ArborError("Arbor edge declaration digest does not match its content")
+
+    for digest, observation in edgeObservations.items():
+        target = observation["target"]
+        declaration = edgeDeclarations.get(target["declarationSha256"])
+        if declaration is None:
+            raise ArborError(
+                f"edge observation references missing declaration {target['declarationSha256']}"
+            )
+        if observation["pair"] != declaration["pair"]:
+            raise ArborError("edge observation pair differs from its declaration")
+        if not any(claim["id"] == target["claimId"] for claim in declaration["claims"]):
+            raise ArborError("edge observation target claim does not exist")
+        if contentDigest(observation) != digest:
+            raise ArborError("Arbor edge observation digest does not match its content")
+
+    for digest, interpretation in edgeInterpretations.items():
+        target = interpretation["target"]
+        declaration = edgeDeclarations.get(target["declarationSha256"])
+        if declaration is None:
+            raise ArborError(
+                f"edge interpretation references missing declaration {target['declarationSha256']}"
+            )
+        if interpretation["pair"] != declaration["pair"]:
+            raise ArborError("edge interpretation pair differs from its declaration")
+        if not any(claim["id"] == target["claimId"] for claim in declaration["claims"]):
+            raise ArborError("edge interpretation target claim does not exist")
+        for observationDigest in interpretation["observationSources"]:
+            observation = edgeObservations.get(observationDigest)
+            if observation is None:
+                raise ArborError(
+                    f"edge interpretation references missing observation {observationDigest}"
+                )
+            if (
+                observation["pair"] != interpretation["pair"]
+                or observation["target"] != target
+            ):
+                raise ArborError(
+                    "edge interpretation observation has a different pair or target"
+                )
+        supersedes = interpretation.get("supersedesSha256")
+        if supersedes is not None:
+            prior = edgeInterpretations.get(supersedes)
+            if prior is None:
+                raise ArborError(
+                    f"edge interpretation supersedes missing interpretation {supersedes}"
+                )
+            if prior["pair"] != interpretation["pair"] or prior["target"] != target:
+                raise ArborError(
+                    "edge interpretation may only supersede the same pair and target"
+                )
+        if contentDigest(interpretation) != digest:
+            raise ArborError("Arbor edge interpretation digest does not match its content")
+
+    activeTips(
+        edgeInterpretations,
+        lambda record: targetKey(record["pair"], record["target"]),
+        "supersedesSha256",
+    )
+
+    for digest, reference in hhRefs.items():
+        if contentDigest(reference) != digest:
+            raise ArborError("HH observation reference digest does not match its content")
+
+    for digest, acceptance in hhAcceptances.items():
+        for referenceDigest in acceptance["observationRefs"]:
+            if referenceDigest not in hhRefs:
+                raise ArborError(
+                    f"HH acceptance references missing observation {referenceDigest}"
+                )
+        supersedes = acceptance.get("supersedes")
+        if supersedes is not None:
+            prior = hhAcceptances.get(supersedes)
+            if prior is None:
+                raise ArborError(f"HH acceptance supersedes missing acceptance {supersedes}")
+            if (
+                prior["subject"] != acceptance["subject"]
+                or prior["indexId"] != acceptance["indexId"]
+            ):
+                raise ArborError(
+                    "HH acceptance may only supersede the same subject and index"
+                )
+        if contentDigest(acceptance) != digest:
+            raise ArborError("HH acceptance digest does not match its content")
+
+    activeTips(
+        hhAcceptances,
+        lambda record: (
+            record["subject"]["id"],
+            record["subject"]["contentSha256"],
+            record["indexId"],
+        ),
+        "supersedes",
+    )
+
+
+def digestSourceSet(digests: Iterable[str]) -> str:
+    """Digest a sorted source set, not a presentation-order concatenation."""
+
+    return contentDigest(sorted(set(digests)))
+
+
+def edgeKey(pair: dict, target: dict, relation: str) -> str:
+    """Derive a collision-safe ordered key, including declaration identity.
+
+    The reviewed packet's abbreviated formula omitted declarationSha256. The
+    target is part of the identity, so retaining it here prevents two
+    declarations with the same claim id from overwriting one another.
+    """
+
+    return contentDigest(
+        [
+            pair["from"]["id"],
+            pair["from"]["contentSha256"],
+            pair["to"]["id"],
+            pair["to"]["contentSha256"],
+            relation,
+            target["declarationSha256"],
+            target["claimId"],
+        ]
+    )
+
+
+def currentEndpointMatches(endpoint: dict, registryRoot: str | Path) -> bool:
+    try:
+        path = canonicalSkillPath(endpoint["id"], registryRoot)
+    except ArborError:
+        return False
+    return hashlib.sha256(path.read_bytes()).hexdigest() == endpoint["contentSha256"]
 
 
 def buildProfiles(
@@ -470,34 +882,370 @@ def buildProfiles(
     return profiles
 
 
+def buildEdgeEntries(
+    sources: dict[str, dict[str, dict]], registryRoot: str | Path
+) -> list[dict]:
+    """Project governed edge claims without reading structural registry relations."""
+
+    validateSourceSet(sources, registryRoot)
+    declarations = sources[EDGE_DECLARATION_SCHEMA]
+    observations = sources[EDGE_OBSERVATION_SCHEMA]
+    interpretations = sources[EDGE_INTERPRETATION_SCHEMA]
+    active = activeTips(
+        interpretations,
+        lambda record: targetKey(record["pair"], record["target"]),
+        "supersedesSha256",
+    )
+    entries: list[dict] = []
+    for declarationDigest, declaration in sorted(declarations.items()):
+        for claim in declaration["claims"]:
+            target = {"declarationSha256": declarationDigest, "claimId": claim["id"]}
+            observationSources = sorted(
+                digest
+                for digest, observation in observations.items()
+                if observation["target"] == target
+            )
+            interpretationDigest, interpretation = active.get(
+                targetKey(declaration["pair"], target), (None, None)
+            )
+            if interpretation is None:
+                support = "expert-declared"
+                authority = claim["authority"]
+                interpretationDigest = None
+            else:
+                support = interpretation["support"]
+                authority = interpretation["authority"]
+                observationSources = sorted(interpretation["observationSources"])
+            entry = {
+                "schema": EDGE_SCHEMA,
+                "edgeKey": edgeKey(declaration["pair"], target, claim["relation"]),
+                "pair": declaration["pair"],
+                "target": target,
+                "relation": claim["relation"],
+                "conditions": claim["conditions"],
+                "authority": authority,
+                "support": support,
+                "declarationSource": declarationDigest,
+                "observationSources": observationSources,
+                "interpretationSource": interpretationDigest,
+                "structuralOverlap": "not-evaluated",
+                "pairApplicable": all(
+                    currentEndpointMatches(endpoint, registryRoot)
+                    for endpoint in (
+                        declaration["pair"]["from"],
+                        declaration["pair"]["to"],
+                    )
+                ),
+            }
+            validateRecord(entry, registryRoot)
+            entries.append(entry)
+    return sorted(entries, key=lambda entry: entry["edgeKey"])
+
+
+def buildEdgeIndex(
+    registryRoot: str | Path,
+    sources: dict[str, dict[str, dict]] | None = None,
+) -> dict:
+    sources = sources or allSourceRecords(registryRoot)
+    entries = buildEdgeEntries(sources, registryRoot)
+    # Coverage describes observed pairs, not the number of authored claims.
+    pairs = {
+        pairKey(observation["pair"])
+        for observation in sources[EDGE_OBSERVATION_SCHEMA].values()
+    }
+    index = {
+        "schema": EDGE_INDEX_SCHEMA,
+        "edgeSetVersion": EDGE_SCHEMA,
+        "coverage": {
+            "pairsEvaluated": len(pairs),
+            "absenceMeaning": "not-evaluated",
+        },
+        "edges": entries,
+    }
+    schema = readJson(
+        managedChild(
+            arborRoot(registryRoot), "contracts", SCHEMA_FILES[EDGE_INDEX_SCHEMA]
+        )
+    )
+    errors = sorted(
+        Draft7Validator(schema, format_checker=FORMAT_CHECKER).iter_errors(index),
+        key=lambda item: list(item.path),
+    )
+    if errors:
+        raise ArborError(f"invalid Arbor edge index: {errors[0].message}")
+    return index
+
+
+def runtimePath(root: Path, skillId: str, skillHash: str) -> Path:
+    if not SKILL_ID_PATTERN.fullmatch(skillId):
+        raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
+    return managedChild(
+        root, "runtime", *Path(*skillId.split("/")).parts, f"{skillHash}.json"
+    )
+
+
+def buildRuntime(
+    registryRoot: str | Path,
+    sources: dict[str, dict[str, dict]] | None = None,
+) -> dict[Path, dict]:
+    """Build one aggregate per pinned subject, with HH deliberately absent."""
+
+    sources = sources or allSourceRecords(registryRoot)
+    validateSourceSet(sources, registryRoot)
+    profiles = buildProfiles(
+        sources[DECLARATION_SCHEMA],
+        sources[RECEIPT_SCHEMA],
+        sources[INTERPRETATION_SCHEMA],
+        registryRoot,
+    )
+    profileBySubject = {
+        (profile["skill"]["id"], profile["skill"]["contentSha256"]): profile
+        for profile in profiles.values()
+    }
+    edgeEntries = buildEdgeEntries(sources, registryRoot)
+    activeAcceptances = activeTips(
+        sources[HH_ACCEPTANCE_SCHEMA],
+        lambda record: (
+            record["subject"]["id"],
+            record["subject"]["contentSha256"],
+            record["indexId"],
+        ),
+        "supersedes",
+    )
+
+    subjects = set(profileBySubject)
+    for entry in edgeEntries:
+        subjects.add((entry["pair"]["from"]["id"], entry["pair"]["from"]["contentSha256"]))
+        subjects.add((entry["pair"]["to"]["id"], entry["pair"]["to"]["contentSha256"]))
+    for acceptance in sources[HH_ACCEPTANCE_SCHEMA].values():
+        subject = acceptance["subject"]
+        subjects.add((subject["id"], subject["contentSha256"]))
+
+    root = arborRoot(registryRoot)
+    runtimes: dict[Path, dict] = {}
+    for subjectId, subjectHash in sorted(subjects):
+        subject = {"id": subjectId, "contentSha256": subjectHash}
+        subjectMatches = currentEndpointMatches(subject, registryRoot)
+        profile = profileBySubject.get((subjectId, subjectHash))
+        if profile is None:
+            claimsLens = {
+                "status": "absent-no-accepted-record",
+                "sourceDigest": None,
+                "profile": None,
+            }
+        else:
+            profileSources = [
+                digest
+                for digestList in profile["sources"].values()
+                for digest in digestList
+            ]
+            claimsLens = {
+                "status": "present",
+                "sourceDigest": digestSourceSet(profileSources),
+                # The closed profile document is embedded byte-for-byte. A
+                # reader still checks the subject pin before using this lens.
+                "profile": profile,
+            }
+
+        subjectSourceDigests: set[str] = set()
+        if profile is not None:
+            subjectSourceDigests.update(
+                digest
+                for digestList in profile["sources"].values()
+                for digest in digestList
+            )
+
+        acceptanceKey = (subjectId, subjectHash, "hell-heaven")
+        acceptanceItem = activeAcceptances.get(acceptanceKey)
+        if acceptanceItem is None:
+            hhLens = {
+                "status": "absent-no-accepted-record",
+                "sourceDigest": None,
+                "result": None,
+            }
+        else:
+            acceptanceDigest, acceptance = acceptanceItem
+            subjectSourceDigests.update(
+                [acceptanceDigest, *acceptance["observationRefs"]]
+            )
+            acceptanceSources = digestSourceSet(
+                [acceptanceDigest, *acceptance["observationRefs"]]
+            )
+            if not subjectMatches:
+                hhLens = {
+                    "status": "absent-subject-version-mismatch",
+                    "sourceDigest": acceptanceSources,
+                    "result": None,
+                }
+            else:
+                # The accepted HH result contract is still research-owned. Do
+                # not pass through a resultDigest as if it were a known payload.
+                hhLens = {
+                    "status": "unavailable-unsupported-payload",
+                    "sourceDigest": acceptanceSources,
+                    "result": None,
+                }
+
+        relatedEdges = [
+            entry
+            for entry in edgeEntries
+            if entry["pair"]["from"] == subject or entry["pair"]["to"] == subject
+        ]
+        ownMatches = subjectMatches
+        for edge in relatedEdges:
+            subjectSourceDigests.add(edge["declarationSource"])
+            subjectSourceDigests.update(edge["observationSources"])
+            if edge["interpretationSource"]:
+                subjectSourceDigests.add(edge["interpretationSource"])
+        if relatedEdges and not ownMatches:
+            interactionsLens = {
+                "status": "absent-subject-version-mismatch",
+                "sourceDigest": digestSourceSet(
+                    digest
+                    for edge in relatedEdges
+                    for digest in (
+                        [edge["declarationSource"]]
+                        + edge["observationSources"]
+                        + ([edge["interpretationSource"]] if edge["interpretationSource"] else [])
+                    )
+                ),
+                "edges": [],
+            }
+        else:
+            interactionEdges = [
+                dict(edge)
+                for edge in relatedEdges
+                if ownMatches
+            ]
+            interactionsLens = {
+                "status": "present" if interactionEdges else "absent-no-accepted-record",
+                "sourceDigest": (
+                    digestSourceSet(
+                        digest
+                        for edge in interactionEdges
+                        for digest in (
+                            [edge["declarationSource"]]
+                            + edge["observationSources"]
+                            + ([edge["interpretationSource"]] if edge["interpretationSource"] else [])
+                        )
+                    )
+                    if interactionEdges
+                    else None
+                ),
+                "edges": interactionEdges,
+            }
+
+        runtime = {
+            "schema": RUNTIME_SCHEMA,
+            "subject": subject,
+            "inputDigest": digestSourceSet(subjectSourceDigests),
+            "lenses": {
+                "claims": claimsLens,
+                "hellHeaven": hhLens,
+                "interactions": interactionsLens,
+            },
+        }
+        validateRecord(runtime, registryRoot)
+        runtimes[runtimePath(root, subjectId, subjectHash)] = runtime
+    return runtimes
+
+
+def buildArborArtifacts(
+    registryRoot: str | Path,
+    sources: dict[str, dict[str, dict]] | None = None,
+) -> tuple[dict, dict[Path, dict]]:
+    sources = sources or allSourceRecords(registryRoot)
+    return buildEdgeIndex(registryRoot, sources), buildRuntime(registryRoot, sources)
+
+
+def buildArborProjection(registryRoot: str | Path) -> dict[str, dict]:
+    """Return the deterministic Class S files owned by the Arbor publisher."""
+
+    edgeIndex, runtimes = buildArborArtifacts(registryRoot)
+    runtimeRecords = {
+        str(path.relative_to(managedChild(arborRoot(registryRoot), "runtime"))): runtime
+        for path, runtime in runtimes.items()
+    }
+    subjects = [
+        runtime["subject"]
+        for _path, runtime in sorted(runtimeRecords.items())
+    ]
+    projection = {
+        "edges.json": edgeIndex,
+        "runtime/index.json": {
+            "schema": RUNTIME_INDEX_SCHEMA,
+            "runtimeVersion": RUNTIME_SCHEMA,
+            "subjects": subjects,
+        },
+    }
+    projection.update(
+        {
+            f"runtime/{relativePath}": runtime
+            for relativePath, runtime in runtimeRecords.items()
+        }
+    )
+    return projection
+
+
+def serializeRecord(record: dict) -> bytes:
+    return json.dumps(record, indent=2, sort_keys=True, ensure_ascii=False).encode("utf-8") + b"\n"
+
+
+def reconcileGenerated(root: Path, staged: dict[Path, bytes]) -> None:
+    """Reconcile one owned tree after rejecting all symlinked descendants."""
+
+    root = Path(root)
+    assertManagedTree(root)
+    existing = managedFiles(root)
+    safeStaged: dict[Path, bytes] = {}
+    for path, content in staged.items():
+        try:
+            relative = Path(path).relative_to(root)
+        except ValueError as exc:
+            raise ArborError(f"generated Arbor path escapes its owner: {path}") from exc
+        safePath = managedChild(root, *relative.parts)
+        safeStaged[safePath] = content
+        writeAtomic(safePath, content)
+    for stale in sorted(existing - set(safeStaged)):
+        stale.unlink()
+    if root.exists():
+        for directory in sorted(
+            (path for path in root.rglob("*") if path.is_dir()),
+            key=lambda path: len(path.parts),
+            reverse=True,
+        ):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+
+
 def replay(registryRoot: str | Path) -> list[Path]:
-    """Stage, validate, then reconcile every generated profile under one lock."""
+    """Stage, validate, then reconcile profiles and runtime projections."""
 
     with storeLock(registryRoot):
-        declarations, receipts, interpretations = sourceRecords(registryRoot)
-        profiles = buildProfiles(declarations, receipts, interpretations, registryRoot)
-        staged = {
-            path: json.dumps(profile, indent=2, sort_keys=True, ensure_ascii=False).encode("utf-8")
-            + b"\n"
-            for path, profile in profiles.items()
-        }
-        profileRoot = arborRoot(registryRoot) / "profiles"
-        existing = set(profileRoot.glob("**/*.json")) if profileRoot.exists() else set()
-        for path, content in staged.items():
-            writeAtomic(path, content)
-        for stale in sorted(existing - set(staged)):
-            stale.unlink()
-        if profileRoot.exists():
-            for directory in sorted(
-                (path for path in profileRoot.glob("**/*") if path.is_dir()),
-                key=lambda path: len(path.parts),
-                reverse=True,
-            ):
-                try:
-                    directory.rmdir()
-                except OSError:
-                    pass
-        return list(staged)
+        sources = allSourceRecords(registryRoot)
+        profiles = buildProfiles(
+            sources[DECLARATION_SCHEMA],
+            sources[RECEIPT_SCHEMA],
+            sources[INTERPRETATION_SCHEMA],
+            registryRoot,
+        )
+        edgeIndex, runtimes = buildArborArtifacts(registryRoot, sources)
+        profileRoot = managedChild(arborRoot(registryRoot), "profiles")
+        reconcileGenerated(
+            profileRoot,
+            {path: serializeRecord(profile) for path, profile in profiles.items()},
+        )
+        reconcileGenerated(
+            managedChild(arborRoot(registryRoot), "runtime"),
+            {path: serializeRecord(runtime) for path, runtime in runtimes.items()},
+        )
+        writeAtomic(
+            managedChild(arborRoot(registryRoot), "edges.json"),
+            serializeRecord(edgeIndex),
+        )
+        return list(profiles)
 
 
 def interpretProfile(
@@ -585,7 +1333,9 @@ def interpretProfile(
 def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
     if not SKILL_ID_PATTERN.fullmatch(skillId):
         raise ArborError(f"unsafe Arbor skill id: {skillId!r}")
-    return root / "profiles" / Path(*skillId.split("/")) / f"{skillHash}.json"
+    return managedChild(
+        root, "profiles", *Path(*skillId.split("/")).parts, f"{skillHash}.json"
+    )
 
 
 def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) -> int:
@@ -601,30 +1351,66 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
             record = readJson(Path(inputPath))
             schemaId = validateRecord(record, registryRoot)
             root = arborRoot(registryRoot)
-            if schemaId == DECLARATION_SCHEMA:
-                digest = contentDigest(record)
-                stored = root / "sources" / "declarations" / f"{digest}.json"
-                expectedBytes = canonicalBytes(record) + b"\n"
-                if stored.is_file():
-                    if stored.read_bytes() != expectedBytes:
-                        raise ArborError(f"immutable Arbor source collision at {stored}")
-                else:
-                    validateSkillIdentity(record["skill"], registryRoot)
-            elif schemaId == RECEIPT_SCHEMA:
-                validateReceiptTarget(record, root, registryRoot)
-            elif schemaId == INTERPRETATION_SCHEMA:
-                validateInterpretationTarget(record, root, registryRoot)
+            digest = contentDigest(record)
+            stored = sourcePath(root, schemaId, digest) if schemaId in SOURCE_DIRECTORIES else None
+            expectedBytes = canonicalBytes(record) + b"\n"
+            if stored is not None and stored.is_file():
+                if stored.read_bytes() != expectedBytes:
+                    raise ArborError(f"immutable Arbor source collision at {stored}")
+            elif schemaId == DECLARATION_SCHEMA:
+                validateSkillIdentity(record["skill"], registryRoot)
+            elif schemaId == EDGE_DECLARATION_SCHEMA:
+                validatePairAdmission(record["pair"], registryRoot)
+            elif schemaId == HH_ACCEPTANCE_SCHEMA:
+                validateSkillIdentity(record["subject"], registryRoot)
+
+            sources = allSourceRecords(registryRoot)
+            if schemaId in SOURCE_DIRECTORIES:
+                addSourceRecord(sources, schemaId, digest, record)
+                validateSourceSet(sources, registryRoot)
+                buildProfiles(
+                    sources[DECLARATION_SCHEMA],
+                    sources[RECEIPT_SCHEMA],
+                    sources[INTERPRETATION_SCHEMA],
+                    registryRoot,
+                )
+                buildArborArtifacts(registryRoot, sources)
             return 1
 
-        declarations, receipts, interpretations = sourceRecords(registryRoot)
-        expected = buildProfiles(declarations, receipts, interpretations, registryRoot)
-        profileRoot = arborRoot(registryRoot) / "profiles"
-        existing = set(profileRoot.glob("**/*.json")) if profileRoot.exists() else set()
-        if existing != set(expected):
+        sources = allSourceRecords(registryRoot)
+        validateSourceSet(sources, registryRoot)
+        expectedProfiles = buildProfiles(
+            sources[DECLARATION_SCHEMA],
+            sources[RECEIPT_SCHEMA],
+            sources[INTERPRETATION_SCHEMA],
+            registryRoot,
+        )
+        expectedEdges, expectedRuntimes = buildArborArtifacts(registryRoot, sources)
+        profileRoot = managedChild(arborRoot(registryRoot), "profiles")
+        existing = managedFiles(profileRoot)
+        if existing != set(expectedProfiles):
             raise ArborError("generated Arbor profile set is stale; run `gaia dev arbor replay`")
-        for path, profile in expected.items():
+        for path, profile in expectedProfiles.items():
             stored = readJson(path)
             validateRecord(stored, registryRoot)
             if stored != profile:
                 raise ArborError(f"generated Arbor profile is stale: {path}")
-        return len(declarations) + len(receipts) + len(interpretations) + len(expected)
+
+        edgePath = managedChild(arborRoot(registryRoot), "edges.json")
+        runtimeRoot = managedChild(arborRoot(registryRoot), "runtime")
+        generatedExists = edgePath.exists() or runtimeRoot.exists()
+        if generatedExists or any(sources.values()):
+            if not edgePath.is_file() or readJson(edgePath) != expectedEdges:
+                raise ArborError("generated Arbor edge index is stale; run `gaia dev arbor replay`")
+            runtimeExisting = managedFiles(runtimeRoot)
+            if runtimeExisting != set(expectedRuntimes):
+                raise ArborError("generated Arbor runtime set is stale; run `gaia dev arbor replay`")
+            for path, runtime in expectedRuntimes.items():
+                stored = readJson(path)
+                validateRecord(stored, registryRoot)
+                if stored != runtime:
+                    raise ArborError(f"generated Arbor runtime is stale: {path}")
+        return (
+            sum(len(records) for records in sources.values())
+            + len(expectedProfiles)
+        )

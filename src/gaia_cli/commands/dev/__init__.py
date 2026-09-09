@@ -287,7 +287,11 @@ class DevCommand(Command):
         )
         arbor_sub = dev_arbor.add_subparsers(dest="arbor_command")
         arbor_import = arbor_sub.add_parser(
-            "import", help="Validate and immutably import a declaration or benchmark receipt"
+            "import",
+            help=(
+                "Validate and immutably import an Arbor declaration, observation, "
+                "interpretation, or HH provenance record"
+            ),
         )
         arbor_import.add_argument("input", help="Path to a declaration or receipt JSON file")
         arbor_check = arbor_sub.add_parser(

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schemas/gaia.installability.v1.json",
+  "title": "Gaia tree-scoped installability projection",
+  "description": "An offline, current-tree projection of observed installability. Unknown is never an admission whitelist.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "indexPath", "observations", "skills"],
+  "properties": {
+    "schema": {"const": "gaia.installability/v1"},
+    "indexPath": {"type": "string", "minLength": 1, "maxLength": 256},
+    "observations": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/observationRef"},
+      "uniqueItems": true
+    },
+    "skills": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/definitions/skillProjection"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"},
+    "revision": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$"},
+    "sourceRoute": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["url", "owner", "repo", "ref", "subpath", "entrypoint", "installSubpath"],
+      "properties": {
+        "url": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 128},
+        "repo": {"type": "string", "minLength": 1, "maxLength": 128},
+        "ref": {"type": ["string", "null"], "maxLength": 256},
+        "subpath": {"type": "string", "maxLength": 512},
+        "entrypoint": {"type": "string", "maxLength": 512},
+        "installSubpath": {"type": "string", "maxLength": 512}
+      }
+    },
+    "observationRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["digest", "checkedAt", "runId"],
+      "properties": {
+        "digest": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "runId": {"type": "string", "minLength": 1, "maxLength": 128}
+      }
+    },
+    "skillProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason",
+        "observationDigest",
+        "observedAt",
+        "currentSourceRoute",
+        "currentSkillContentSha256",
+        "observedSourceRoute",
+        "observedSkillContentSha256",
+        "resolvedRevision",
+        "deliveredContentSha256"
+      ],
+      "properties": {
+        "state": {"enum": ["materializable", "not-materializable", "unknown"]},
+        "reason": {
+          "enum": [
+            "gaia-materialized",
+            "no-source",
+            "intrinsic-content-failure",
+            "subject-changed",
+            "route-changed",
+            "not-observed",
+            "inaccessible-at-check",
+            "unclassified-install-failure",
+            "timeout",
+            "unexpected-refusal",
+            "contradictory-observation",
+            "suite-component-failed",
+            "ambiguous-observation"
+          ]
+        },
+        "observationDigest": {"$ref": "#/definitions/sha256"},
+        "observedAt": {"type": ["string", "null"], "format": "date-time"},
+        "currentSourceRoute": {"$ref": "#/definitions/sourceRoute"},
+        "currentSkillContentSha256": {"$ref": "#/definitions/sha256"},
+        "observedSourceRoute": {"$ref": "#/definitions/sourceRoute"},
+        "observedSkillContentSha256": {"$ref": "#/definitions/sha256"},
+        "resolvedRevision": {"$ref": "#/definitions/revision"},
+        "deliveredContentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    }
+  }
+}

@@ -17,10 +17,26 @@
     }
     return 'standard';
   }
+  // Rank number off a level like "5★" / 5 / "5" → 0..6.
+  function _seRankNum(level) {
+    var n = parseInt(String(level == null ? '' : level).replace(/\D+/g, ''), 10);
+    return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
+  }
+  // Unique-branch color token STEM for a rank. The Unique branch forks the same
+  // way the Suite branch does — 4★ Unique (violet) → 5★ Unique Ultimate
+  // (burnished copper) → 6★ Unique Impossible (ember copper) — so a 5★ skill
+  // must NOT render in the 4★ violet. Ranks below 4 fall back to the entry rung.
+  function _seUniqueStem(rank) {
+    var n = _seRankNum(rank);
+    if (n >= 6) return '--rank-6-unique';
+    if (n === 5) return '--rank-5-unique';
+    return '--rank-4-unique';
+  }
   // Branch → dot/slug color token. Apex (6★) is white regardless of branch.
-  function _seBranchColor(branch, isApex) {
+  // `level` is the skill's rank; the Unique branch reads its own ladder rung.
+  function _seBranchColor(branch, isApex, level) {
     if (isApex) return '#ffffff';
-    if (branch === SE_UNIQUE) return 'var(--rank-4-unique)';
+    if (branch === SE_UNIQUE) return 'var(' + _seUniqueStem(level) + ')';
     if (branch === SE_SUITE) return 'var(--apex-gold)';
     return 'var(--tier-basic)';
   }
@@ -1818,7 +1834,7 @@
         var dotColor;
         if (hasNamed) {
           if (nodeBranch === 'unique' && _nodeRank >= 4) {
-            dotColor = _nodeRank >= 6 ? 'var(--rank-6-unique)' : (_nodeRank === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
+            dotColor = 'var(' + _seUniqueStem(_nodeRank) + ')';
           } else if (nodeBranch === 'suite' && _nodeRank >= 5) {
             dotColor = 'var(--apex-gold)';
           } else {
@@ -2657,9 +2673,10 @@
     var glyph = skillGlyph(skill);
     // Glyph colour from the emitted/derived branch via the shared branch→token
     // map (_seBranchColor). Standard→--tier-basic, suite→--apex-gold,
-    // unique→--rank-4-unique — never --tier-<type> (type is basic|fusion only).
+    // unique→its own rank rung (--rank-{4,5,6}-unique) — never --tier-<type>
+    // (type is basic|fusion only).
     var _uspBranch = _seBranchOf(skill);
-    var glyphColor = _seBranchColor(_uspBranch, false);
+    var glyphColor = _seBranchColor(_uspBranch, false, skill && skill.level);
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
@@ -2927,7 +2944,7 @@
       if (handleRedacted) {
         color = 'var(--rank-' + _effRank + ', var(--tier-basic))';
       } else {
-        if (_branch === SE_UNIQUE) { color = 'var(--rank-4-unique)'; }
+        if (_branch === SE_UNIQUE) { color = 'var(' + _seUniqueStem(_effRank) + ')'; }
         else if (_branch === SE_SUITE) { color = 'var(--apex-gold)'; }
       }
 
@@ -2950,7 +2967,8 @@
         if (_branch === SE_SUITE) {
           slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
         } else if (_branch === SE_UNIQUE) {
-          slugStyle += ' text-shadow: 0 0 12px rgba(var(--rank-4-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--rank-4-unique-rgb,124,58,237),0.3);';
+          var _uRgb = 'var(' + _seUniqueStem(_effRank) + '-rgb, 124,58,237)';
+          slugStyle += ' text-shadow: 0 0 12px rgba(' + _uRgb + ',0.6), 0 0 4px rgba(' + _uRgb + ',0.3);';
         }
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
