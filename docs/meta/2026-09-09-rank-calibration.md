@@ -11,7 +11,7 @@ label: Registry Update
 
 A Trust Magnitude calibration pass updated 48 named skills:
 
-| Rank change | Skills |
+| Rank&nbsp;Change | Skills |
 |---|---|
 | 5★ → 4★ | nextlevelbuilder/ui-ux-pro-max; addy-osmani/agent-skills; addy-osmani/code-simplification; obra/superpowers; pbakaus/impeccable; ruvnet/ruflo |
 | 5★ → 3★ | addy-osmani/incremental-implementation; addy-osmani/planning-and-task-breakdown; addy-osmani/spec-driven-development |
