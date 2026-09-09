@@ -7,7 +7,7 @@ genericSkillRef: vertical-slice-planning
 status: named
 title: The Vertical Slicer
 catalogRef: mattpocock-to-issues
-level: 4★
+level: 3★
 description: Breaks a plan, spec, or PRD into independently-grabbable GitHub issues
   as tracer-bullet vertical slices that each cut through all integration layers end-to-end.
   Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity,
@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
@@ -127,6 +127,10 @@ timeline:
   contributor: unknown
   details: 'TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:08Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
@@ -141,7 +145,7 @@ apexGateStatus:
 trustMagnitudeInputHash: f60ba86f4827a9866a6f332f4250bb2650c817fcc63b6cef5ce4854da59f5e22
 verification:
   firstEvidenceAt: '2026-06-19T17:07:36Z'
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview

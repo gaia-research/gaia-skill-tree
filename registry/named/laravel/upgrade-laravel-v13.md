@@ -7,7 +7,7 @@ genericSkillRef: framework-upgrade
 status: named
 title: The Versionist's Trial
 catalogRef: laravel-upgrade-laravel-v13
-level: 2★
+level: 1★
 description: Guides an AI agent through upgrading a Laravel 12 application to Laravel
   13 safely, covering breaking changes, dependency updates, config migrations, and
   post-upgrade test validation.
@@ -17,7 +17,7 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 evidence: []
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
@@ -46,6 +46,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:07Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

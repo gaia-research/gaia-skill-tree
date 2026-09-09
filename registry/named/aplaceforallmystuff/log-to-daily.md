@@ -5,11 +5,11 @@ contributor: aplaceforallmystuff
 origin: false
 genericSkillRef: session-journaling
 status: named
-level: 1★
+level: 2★
 description: Logs conversation activity to today's daily note on demand, capturing
   decisions, outcomes, and next steps in a structured dated entry.
 createdAt: '2026-07-31'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Log To Daily
 links:
   github: https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md
@@ -42,6 +42,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 1.37 -> 21.51, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:01Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/aplaceforallmystuff/daily-patterns-pack
   evaluator: unknown

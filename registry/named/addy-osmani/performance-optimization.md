@@ -5,13 +5,13 @@ contributor: addy-osmani
 origin: true
 genericSkillRef: performance-tuning
 status: named
-level: 4★
+level: 3★
 description: 'Measurement-driven performance workflow: baseline with Lighthouse and
   RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -90,6 +90,10 @@ timeline:
   contributor: unknown
   details: 'TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:00Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 3★
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
