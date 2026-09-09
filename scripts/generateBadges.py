@@ -478,7 +478,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
     # Dark panel always (gold_fill=False) so the honor-red handle reads.
     defs, layers = _data_panel(left_w, panel_w, rank, "h",
                                is_unique=is_unique, gold_fill=False)
-    accent = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+    accent = unique_hex(rank) if is_unique else rank_hex(rank)
     frame = _frame(width, rank, is_unique)
     seal_color = GOLD if apex else WHITE
 
@@ -694,28 +694,31 @@ def write_user_badges(handle: str, info: dict,
     user_dir = out_dir / "_assets" / handle
     user_dir.mkdir(parents=True, exist_ok=True)
 
+    # Branch-forked rank word AND accent (Ygg-II E1/E2): the highest-ranked
+    # named skill determines the branch for every badge below, not just
+    # handle.svg — computeBranch reads level+suiteComponents, NEVER a stored
+    # type/tier field.
+    top_skill = info.get("top_skill") if info else None
+    is_unique = skill_branch(top_skill) == "unique" if top_skill else False
+
     if top_rank > 0:
-        # Branch-forked rank word (Ygg-II E1/E2): the highest-ranked named
-        # skill determines the branch. computeBranch reads level+suiteComponents,
-        # NEVER a stored type/tier field.
-        top_skill = info.get("top_skill") if info else None
         rank_name = emitted_rank_word(top_skill) if top_skill else "Awakened"
         # "Extra · 4★" / "Unique · 4★" — rank word anchors meaning, star count numeric
         value = f"{rank_name} · {top_rank}★"
         label = f"Gaia rank: {rank_name} ({top_rank} stars)"
         (user_dir / "rank.svg").write_text(
-            badge_simple(value, top_rank, label), encoding="utf-8")
+            badge_simple(value, top_rank, label, is_unique=is_unique), encoding="utf-8")
         (user_dir / "rank-seal.svg").write_text(
-            badge_simple(value, top_rank, label, seal_only=True),
+            badge_simple(value, top_rank, label, seal_only=True, is_unique=is_unique),
             encoding="utf-8")
 
     if count > 0:
         value = f"{count} named skills" if count != 1 else "1 named skill"
         label = f"Gaia: {value}"
         (user_dir / "skills.svg").write_text(
-            badge_simple(value, top_rank, label), encoding="utf-8")
+            badge_simple(value, top_rank, label, is_unique=is_unique), encoding="utf-8")
         (user_dir / "skills-seal.svg").write_text(
-            badge_simple(value, top_rank, label, seal_only=True),
+            badge_simple(value, top_rank, label, seal_only=True, is_unique=is_unique),
             encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
@@ -723,7 +726,6 @@ def write_user_badges(handle: str, info: dict,
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-        is_unique = skill_branch(top) == "unique"
 
         badge_handle_text = REDACTED_HANDLE if is_redacted(rank) else handle
         label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"

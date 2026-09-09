@@ -49,12 +49,6 @@
     extra: '◇',
     basic: '○',
   };
-  var TYPE_COLOR_VAR = {
-    ultimate: 'var(--apex-gold)',
-    unique: 'var(--rank-4-unique)',
-    extra: 'var(--rank-4)',
-    basic: 'var(--tier-basic)',
-  };
 
   function esc(str) {
     return String(str == null ? '' : str)
@@ -90,9 +84,21 @@
       ? window.rankBadge(level, { variant: 'stars' })
       : '';
   }
-  function chipBadge(level) {
+  // Rubric E1/E2: the chip colours by BRANCH, so the caller must hand one
+  // over — .rank-badge[data-branch="unique"] cannot match otherwise.
+  //
+  // Be precise about how live this is: the only caller renders into
+  // #ultimatesList, and that id appears in NO html file in the repo, so the
+  // block is currently unmounted. The PR #1764 sandbox review called this
+  // "the actual page-ia surface the ladder misses" — that overstated it the
+  // same way the comment on the deleted TYPE_COLOR_VAR map did. It is fixed
+  // here so that whenever the list is mounted it is correct by construction,
+  // not because anything renders wrong today. (The list is also suite-only
+  // by construction — see the `ultimates` filter — so an omitted branch
+  // would have been correct by coincidence of that filter anyway.)
+  function chipBadge(level, branch) {
     return (typeof window.rankBadge === 'function')
-      ? window.rankBadge(level, { variant: 'chip' })
+      ? window.rankBadge(level, { variant: 'chip', branch: branch || undefined })
       : '';
   }
 
@@ -244,7 +250,7 @@
       list.innerHTML = sorted.map(function (u) {
         var claim = claimedBy[u.id];
         var uLevel = levelFor[u.id];
-        var levelChip = chipBadge(uLevel);
+        var levelChip = chipBadge(uLevel, u.branch);
         if (claim) {
           // Phase 8c — claimed Ultimates lead with the named slug in honor red
           // (the second segment of the named id, e.g. /autoresearch). The

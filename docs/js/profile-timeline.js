@@ -150,14 +150,22 @@
       '  flex-shrink: 0;',
       '}',
       /* PR3b: dot classes key on the resolved BRANCH (standard/suite/unique),
-         not the dead type enum. Tier color via tokens; unique reads its rgb. */
+         not the dead type enum. Tier color via tokens; unique reads its rgb.
+         The Unique branch forks its own three-rung ladder by rank exactly
+         like Suite: 4★ Unique (violet) → 5★ Unique Ultimate (burnished
+         copper) → 6★ Unique Impossible (ember copper) — see the
+         ptl2__dot--unique-5/-6 modifiers appended for events at that rank. */
       '.ptl2__dot--standard { border-color: var(--tier-basic);  background: rgba(56,189,248,.15); }',
       '.ptl2__dot--suite    { border-color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.15); }',
       '.ptl2__dot--unique   { border-color: var(--rank-4-unique); background: #000; }',
+      '.ptl2__dot--unique-5 { border-color: var(--rank-5-unique); background: #000; }',
+      '.ptl2__dot--unique-6 { border-color: var(--rank-6-unique); background: #000; }',
       '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
       '.ptl2__event--rank-up .ptl2__dot--standard { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
       '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb),.6); }',
       '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--rank-4-unique-rgb,124,58,237),.7); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique-5 { box-shadow: 0 0 8px rgba(var(--rank-5-unique-rgb,178,106,58),.7); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique-6 { box-shadow: 0 0 8px rgba(var(--rank-6-unique-rgb,224,137,74),.7); }',
 
       /* Card */
       '.ptl2__card {',
@@ -272,24 +280,17 @@
   // Resolve a skill's branch from the EMITTED field (skill.branch, supplied by
   // generateProfilePages.py) via the shared GaiaSemantics.branchOf seam. When
   // the field is absent (plain node / pre-emit payload) the seam returns the
-  // neutral 'standard' default — it never guesses from type. Falls back to
-  // 'standard' directly if the seam script failed to load.
+  // neutral 'standard' default — it never guesses from type. The profile page
+  // does not currently load skill-semantics.js, so the seam is routinely
+  // absent there — read the emitted field directly in that case (same rule
+  // the seam itself applies) rather than degrading every skill to 'standard'.
   function _branchOf(skill) {
     if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
       return window.GaiaSemantics.branchOf(skill);
     }
-    return 'standard';
+    return (skill && typeof skill.branch === 'string' && skill.branch) || 'standard';
   }
 
-  // Branch → tier color token. Keyed on the resolved BRANCH (standard/suite/
-  // unique), never the dead skill.type enum. Design tokens only — no raw hex.
-  // Concrete resolved values live in TIER_HEX below; these var() forms are the
-  // token-first source the docs-cohesion guard checks.
-  var TIER_COLOR = {
-    standard: 'var(--tier-basic)',
-    suite:    'var(--tier-fusion)',
-    unique:   'var(--rank-4-unique)',
-  };
   // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
   // prefer the live CSS custom property, fall back to the (optional) inline
   // fallback. Token-first so the docs-cohesion token guard is satisfied; a
@@ -300,20 +301,6 @@
     var prop = m[1], fb = m[2] || '';
     return s ? (s.getPropertyValue(prop).trim() || fb) : fb;
   }
-
-  // Branch → resolved tier color. Keyed on the resolved BRANCH, reading the
-  // same tokens as TIER_COLOR (no raw hex). Used where a concrete color string
-  // is needed (canvas/inline style); missing tokens degrade to the var() form
-  // via TIER_COLOR at the call site.
-  var TIER_HEX = (function () {
-    var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    function cv(expr) { return resolveVar(s, expr); }
-    return {
-      standard: cv('var(--tier-basic)'),
-      suite:    cv('var(--tier-fusion)'),
-      unique:   cv('var(--rank-4-unique)'),
-    };
-  }());
 
   // Rank → color map (1–6, matching DESIGN.md rank palette; 6★ uses rainbow gradient via CSS)
   var RANK_HEX = (function () {
@@ -734,7 +721,16 @@
         var chipCls = 'ptl2__chip ptl2__chip--' + (ACTION_CHIP[action] || 'default');
         var chipLabel = ACTION_LABEL[action] || action.replace(/_/g, ' ');
         var isRank = isRankAction(action);
-        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.branch || 'standard') + (isRank ? ' ptl2__dot--rank' : '');
+        var branch = ev.branch || 'standard';
+        // Unique branch forks by rank (see the injected CSS above) — an event
+        // landing at 5★/6★ reads its own rung rather than the flat 4★ violet.
+        var branchCls = branch;
+        if (branch === 'unique') {
+          var evRank = parseRank(ev.newValue);
+          if (evRank >= 6) branchCls = 'unique-6';
+          else if (evRank === 5) branchCls = 'unique-5';
+        }
+        var dotCls = 'ptl2__dot ptl2__dot--' + branchCls + (isRank ? ' ptl2__dot--rank' : '');
         
         var rowCls = 'ptl2__event';
         if (isRank) {

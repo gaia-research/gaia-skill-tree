@@ -152,7 +152,8 @@ def evidence_class(level: str) -> str:
     return "AWAITED"
 
 
-def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label: str | None = None) -> str:
+def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label: str | None = None,
+                     branch: str | None = None) -> str:
     """Stage 2 — Python sibling of window.rankBadge(level, opts).
 
     Emits the same .rank-badge DOM the JS component produces so that the
@@ -165,6 +166,8 @@ def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label:
         variant: 'chip' | 'stars' | 'full'. Default 'stars'.
         size: 'sm' | 'md' | 'lg'. Default 'md'.
         label: chip label override. Defaults to '<N>★'.
+        branch: derived branch — standard | suite | unique. Omitted entirely
+            from the markup when unknown — never emitted empty.
     """
     n = level_num(level)
     if variant not in ("chip", "stars", "full"):
@@ -192,9 +195,10 @@ def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label:
     else:  # full
         inner = _chip() + _stars()
 
+    branch_attr = f' data-branch="{html.escape(branch)}"' if branch else ""
     return (
         f'<span class="rank-badge" data-level="{n}" data-variant="{variant}" '
-        f'data-size="{size}" role="img" aria-label="{html.escape(aria)}">'
+        f'data-size="{size}"{branch_attr} role="img" aria-label="{html.escape(aria)}">'
         f"{inner}</span>"
     )
 
@@ -412,7 +416,11 @@ def _field_tags(ns: dict, limit: int | None = None) -> str:
 
 
 def _field_rank(ns: dict, variant: str = "stars") -> str:
-    rb = rank_badge_html(ns.get("level", ""), variant=variant, label=ns.get("level"))
+    # Rubric E1/E2: pass the DERIVED branch (not ns.type) so rank-badge.js's
+    # Python sibling colours the chip by branch register. Mirrors
+    # docs/js/plaque.js _fieldRank.
+    branch = skill_branch(ns)
+    rb = rank_badge_html(ns.get("level", ""), variant=variant, label=ns.get("level"), branch=branch)
     return f'<div class="plaque__rank">{rb}</div>'
 
 
@@ -1323,10 +1331,25 @@ def build_directory_page(by_contributor: dict) -> str:
                 f'</span>'
             )
 
-        # Rank badge for highest rank reached
+        # Rank badge for highest rank reached. Derive the branch off the
+        # contributor's top-ranked skill the same way _field_rank does, so the
+        # directory card chip forks the same way the per-skill plaque does
+        # (rubric E1/E2). skill_branch() raises on a missing/invalid emitted
+        # branch, and that is deliberate here: this module fails fast on stale
+        # or unbuilt input at every other call site (_field_orb, _field_rank,
+        # _shell), and generate_pages() reaches all three before it ever gets
+        # to the directory. Swallowing the error here would only buy an
+        # uncoloured chip on a page the per-user pass has already refused to
+        # build — it would not make the build survivable, just quieter. A
+        # miscoloured rank is the exact class of defect this PR exists to fix,
+        # so surface the bad record instead of papering over it.
         rank_badge_dir_html = ""
         if max_level > 0:
-            rank_badge_dir_html = rank_badge_html(f"{max_level}★", variant="chip", size="sm")
+            top_skill = max(skills, key=lambda s: level_num(s.get("level", "")), default=None)
+            top_branch = skill_branch(top_skill) if top_skill is not None else None
+            rank_badge_dir_html = rank_badge_html(
+                f"{max_level}★", variant="chip", size="sm", branch=top_branch
+            )
 
         # Top 3 skills preview
         sorted_skills = sorted(skills, key=lambda s: level_num(s.get("level")), reverse=True)[:3]
@@ -1506,7 +1529,20 @@ def build_directory_page(by_contributor: dict) -> str:
 </body>
 </html>
 """
-    return _apply_cache_busting(html_content, _read_version())
+    html_content = _apply_cache_busting(html_content, _read_version())
+    # The contributors directory intentionally opts BACK IN to the no-cache
+    # directives _apply_cache_busting strips from every other generated page
+    # (it treats them as legacy bfcache-breaking cruft) — this listing changes
+    # whenever a contributor's rank/skill count changes and must never be
+    # served stale from a shared/browser cache. Re-added post-cache-busting so
+    # regenerating this page is idempotent instead of silently dropping them.
+    no_cache_metas = (
+        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">'
+        '\n  <meta http-equiv="Pragma" content="no-cache">'
+        '\n  <meta http-equiv="Expires" content="0">'
+    )
+    html_content = html_content.replace("<head>", f"<head>{no_cache_metas}", 1)
+    return html_content
 
 
 def generate_pages(named_path: Path, out_dir: Path) -> int:

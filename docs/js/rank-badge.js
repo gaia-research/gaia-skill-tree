@@ -14,11 +14,15 @@
  *   - opts.size     'sm' | 'md' | 'lg'          (default 'md')
  *   - opts.label    string                       (default '<N>★', shown in chip)
  *   - opts.ariaLabel string                      (default 'Rank <N> of 6')
+ *   - opts.branch   string                       (derived branch — standard |
+ *                                                  suite | unique. Omitted
+ *                                                  entirely when unknown —
+ *                                                  never emitted empty.)
  *
  * Returns: HTML string.
  *
  * DOM shape:
- *   <span class="rank-badge" data-level="N" data-variant="<variant>" data-size="<size>">
+ *   <span class="rank-badge" data-level="N" data-variant="<variant>" data-size="<size>" data-branch="<branch>">
  *     <span class="rank-badge__chip">N★</span>          (chip / full)
  *     <span class="rank-badge__stars">                   (stars / full)
  *       <span class="rank-badge__star" data-on>★</span>
@@ -72,10 +76,15 @@
       inner = chipHtml(n, opts.label) + starsHtml(n);
     }
 
-    var tierAttr = opts.tier ? ' data-tier="' + esc(opts.tier) + '"' : '';
+    // No data-tier. The TYPE axis is basic|fusion and never carries a
+    // BRANCH; passing the branch through as `tier` is the conflation #1764
+    // removed, and the Python sibling in scripts/generateProfilePages.py has
+    // no tier parameter at all. Keeping an unused one here is how the two
+    // emitters drift apart again.
+    var branchAttr = opts.branch ? ' data-branch="' + esc(opts.branch) + '"' : '';
 
     return '<span class="rank-badge" data-level="' + n + '" data-variant="' + variant +
-      '" data-size="' + size + '"' + tierAttr + ' role="img" aria-label="' + esc(aria) + '">' +
+      '" data-size="' + size + '"' + branchAttr + ' role="img" aria-label="' + esc(aria) + '">' +
       inner + '</span>';
   }
 
