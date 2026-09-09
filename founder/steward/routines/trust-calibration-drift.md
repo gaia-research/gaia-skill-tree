@@ -15,8 +15,9 @@ silent until a manual leaderboard review.
 
 The sensor is read-only. It reports the skill ID, current level, computed TM and
 grade, target level, and the exact `gaia dev calibrate` command. Steward must not
-execute that command or edit `registry/named/`. Skills frozen with
-`installable: false` are exempt: their historical rank is not actionable debt.
+execute that command or edit `registry/named/`. Skills with an explicit `timeline.action:
+upstream_deprecated` event are frozen and exempt: their historical rank is not
+actionable debt. `installable: false` alone is not a freeze marker.
 
 A human Verifier reviews the packet, confirms any evidence or Star Bar gates, and
 runs the proposed command. After calibration, rerun the Steward scan; the debt

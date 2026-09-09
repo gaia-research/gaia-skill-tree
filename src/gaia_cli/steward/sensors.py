@@ -1638,9 +1638,15 @@ class TrustCalibrationDriftSensor:
                 skill = yaml.safe_load(parts[1]) or {}
                 skill_id = skill.get("id")
                 current_level = skill.get("level")
-                # Frozen/upstream-deprecated skills are intentionally exempt;
-                # their rank is historical and not actionable calibration debt.
-                if skill.get("installable") is False:
+                # Only an explicit upstream_deprecated lifecycle event freezes
+                # the historical rank. installable: false also covers skills
+                # that remain reviewable, so it is not an exemption by itself.
+                timeline = skill.get("timeline", [])
+                is_frozen = any(
+                    isinstance(event, dict) and event.get("action") == "upstream_deprecated"
+                    for event in timeline
+                ) if isinstance(timeline, list) else False
+                if is_frozen:
                     continue
                 if not skill_id or current_level not in self._TARGET_LEVEL.values():
                     continue

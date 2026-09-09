@@ -811,11 +811,19 @@ def test_trust_calibration_drift_sensor_reports_stale_levels(tmp_path: Path) -> 
     assert observation.observed_state["targetLevel"] == "4★"
 
 
-def test_trust_calibration_drift_sensor_ignores_frozen_skills(tmp_path: Path) -> None:
+def test_trust_calibration_drift_sensor_ignores_explicitly_frozen_skills(tmp_path: Path) -> None:
     _write(tmp_path / "registry/named/owner/frozen.md", "---\n" +
            "id: owner/frozen\nname: Frozen\nstatus: named\nlevel: 5★\n" +
-           "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+           "installable: false\ntimeline:\n  - action: upstream_deprecated\n" +
+           "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
     assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
+
+
+def test_trust_calibration_drift_sensor_does_not_treat_noninstallable_as_frozen(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/reviewable.md", "---\n" +
+           "id: owner/reviewable\nname: Reviewable\nstatus: named\nlevel: 5★\n" +
+           "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    assert [o.subject.id for o in TrustCalibrationDriftSensor().scan(tmp_path, NOW)] == ["owner/reviewable"]
 
 
 def test_trust_calibration_drift_sensor_ignores_aligned_levels(tmp_path: Path) -> None:
