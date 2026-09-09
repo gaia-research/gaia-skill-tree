@@ -811,6 +811,13 @@ def test_trust_calibration_drift_sensor_reports_stale_levels(tmp_path: Path) -> 
     assert observation.observed_state["targetLevel"] == "4★"
 
 
+def test_trust_calibration_drift_sensor_ignores_frozen_skills(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/frozen.md", "---\n" +
+           "id: owner/frozen\nname: Frozen\nstatus: named\nlevel: 5★\n" +
+           "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
+
+
 def test_trust_calibration_drift_sensor_ignores_aligned_levels(tmp_path: Path) -> None:
     _write(tmp_path / "registry/named/owner/aligned.md", "---\n" +
            "id: owner/aligned\nname: Aligned\nstatus: named\nlevel: 5★\n" +

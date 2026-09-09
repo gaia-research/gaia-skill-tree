@@ -1638,6 +1638,10 @@ class TrustCalibrationDriftSensor:
                 skill = yaml.safe_load(parts[1]) or {}
                 skill_id = skill.get("id")
                 current_level = skill.get("level")
+                # Frozen/upstream-deprecated skills are intentionally exempt;
+                # their rank is historical and not actionable calibration debt.
+                if skill.get("installable") is False:
+                    continue
                 if not skill_id or current_level not in self._TARGET_LEVEL.values():
                     continue
                 tm = computeTrustMagnitude(skill, {})
