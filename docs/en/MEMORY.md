@@ -2,6 +2,104 @@
 
 ---
 
+## 2026-09-09 — Routine 049
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE — routine 048's "Planned next" named a small,
+concrete gap: `docs/en/fusion.html` still had no mention of Fusion Score
+even though its sibling page `evidence-classes.html` already documents
+`fusion-recipe`'s 0-TM ruling (routine 047) and `fusion.html`'s own "Ranks
+come later, not from fusion" section explains structural fusion without
+naming the second scalar that now reports it. Routine 048 explicitly
+scoped this out as "not urgent" but left it queued with the formula
+already worked out, so it qualified as small and concrete rather than a
+fresh audit.
+
+### Trigger
+
+Verified the ground truth directly against `META.md` §2.1e (Fusion Score)
+rather than trusting the routine-048 note's transcription: confirmed the
+formula, the `N` definition (distinct non-variant nodes in the resolved
+prerequisite/suite-component closure), and the "no promotion authority in
+V1" / TM-independence framing. Routine 048's queued formula omitted the
+`N = 0` case (`FS = 0`) — added it for completeness since `META.md` states
+it explicitly.
+
+### What I did
+
+- `docs/en/fusion.html` — added a new `<h3>` subsection, "Fusion Score: a
+  second, informational number", directly after "Ranks come later, not
+  from fusion" (same `#paths` section, no sidebar entry needed — matches
+  how its sibling h3s are structured). Covers: what `N` counts, the three-
+  branch formula in a `.code-block`, and a `.callout-info` box stating
+  Fusion Score carries no promotion authority and is independent of Trust
+  Magnitude/Trust Grade/stars, with `fusion-recipe` still 0 TM.
+- `docs/en/DOCS.md` — page map row 8 updated with the addition and `049`
+  history tag.
+
+### Design decisions
+
+- Reused the page's existing `.code-block` and `.callout-info` /
+  `.callout-purple` pattern (`class="callout callout-info"`, matching the
+  existing `class="callout callout-purple"` usage a few lines above)
+  rather than inventing new markup.
+- Used HTML entities (`&times;`, `&le;`, `&gt;`) inside the formula `<pre>`
+  block, matching existing entity usage elsewhere on the page
+  (`&lt;username&gt;`, `&amp;`) rather than raw `<`/`>` characters.
+- Kept "composes"/"composition" in the new prose describing structural
+  depth — this is `META.md` §2.1e's own phrasing ("how much distinct
+  structure does this capability compose?") and the page already uses
+  "compositionally richer" in the adjacent Path 2 section (line 698,
+  unchanged). This is not the banned Fusion-verb synonym ("compose" as a
+  stand-in for the act of fusing) — the vocabulary grep (`\bcompose\b`)
+  doesn't match either form, and the usage tracks the ratified source
+  text, not the skill-combining action.
+- Did not add a sidebar/TOC anchor — the existing "Ranks come later, not
+  from fusion" sibling `<h3>` has none either, so a solo anchor for this
+  one new subsection would be inconsistent with the section's own pattern.
+
+### Issues informed
+
+None filed — this closes an explicitly-queued documentation gap with a
+verified-accurate formula; no open question to escalate.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/fusion.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `html.parser` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-
+  insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Formula and inputs verified directly against `META.md` §2.1e, not
+  against the routine-048 note alone (caught and fixed the missing `N = 0`
+  case).
+
+### Files modified
+
+- `docs/en/fusion.html` — new Fusion Score subsection.
+- `docs/en/DOCS.md` — page map row 8 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 050)
+
+- `docs/en/evidence-classes.html`'s deeper TM-formula documentation
+  (logarithmic `github-stars-own` curve, mothership discount) — flagged by
+  routine 047, reconfirmed still open by routine 048. Still bigger than one
+  routine; scope it deliberately rather than folding it into an unrelated
+  page edit.
+
+### Token spend
+
+2026-09-09 Sonnet 5 Low: ~55k in, ~4k out. ~$0.19
+
+---
+
 ## 2026-09-08 — Routine 048
 
 **Branch:** `docs/routines/047` (PR #1750 open — continued on it per the

@@ -713,6 +713,37 @@
             carries <code>suiteComponents</code>, not on how many times it was fused.
           </p>
         </div>
+
+        <h3>Fusion Score: a second, informational number</h3>
+        <div class="section-body">
+          <p>
+            Yggdrasil III also reports how much structure a skill composes, separately
+            from how much evidence supports it. <strong>Fusion Score</strong> counts
+            <code>N</code>, the distinct non-variant nodes in the resolved
+            prerequisite/suite-component closure, and turns that into one number.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">fusion score formula</span>
+          </div>
+          <pre><span class="c">FS = 0                          </span><span class="c">-- N = 0</span>
+<span class="c">FS = 20 &times; N                     </span><span class="c">-- 1 &le; N &le; 10</span>
+<span class="c">FS = 200 + 20 &times; sqrt(N - 10)    </span><span class="c">-- N &gt; 10</span></pre>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-label">💡 Informational only</span>
+          <p>
+            Fusion Score carries <strong>no promotion authority</strong>. It doesn't touch
+            Trust Magnitude, Trust Grade, or star level, and TM never moves when Fusion
+            Score moves (or the reverse) while the underlying structure stays the same.
+            <code>fusion-recipe</code> still contributes <strong>0 TM</strong> — Fusion
+            Score is a separate reading of how deep a skill's composition goes, not a
+            second way to earn stars.
+          </p>
+        </div>
       </section>
 
       <!-- Prerequisites -->
