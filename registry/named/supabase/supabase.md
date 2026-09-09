@@ -5,10 +5,10 @@ contributor: supabase
 origin: false
 genericSkillRef: supabase
 status: named
-level: 2★
+level: 1★
 description: supabase named skill for supabase core integration
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-10'
 title: Supabase
 timeline:
 - timestamp: '2026-08-10T15:02:59Z'
@@ -20,6 +20,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 trustMagnitude: 5.0
 overallTrustGrade: ungraded
 trustMagnitudeInputHash: 5bb46832b99086c5d99d016ff7427553cb21696b4320729f5ae2023b09978e83

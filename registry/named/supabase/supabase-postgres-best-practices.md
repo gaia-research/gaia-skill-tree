@@ -5,10 +5,10 @@ contributor: supabase
 origin: false
 genericSkillRef: postgres-best-practices
 status: named
-level: 2★
+level: 1★
 description: supabase named skill for supabase-postgres-best-practices
 createdAt: '2026-08-10'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-10'
 title: Supabase Postgres Best Practices
 timeline:
 - timestamp: '2026-08-10T15:02:55Z'
@@ -20,6 +20,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 trustMagnitude: 5.0
 overallTrustGrade: ungraded
 trustMagnitudeInputHash: c5249e2db68d519cf05da938b57fd7f9d0516fd848775e4ef09d8669e18783ed

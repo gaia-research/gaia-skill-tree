@@ -7,7 +7,7 @@ genericSkillRef: git-integration
 status: named
 title: The GitHub Maestro
 catalogRef: ruvnet-github-suite
-level: 3★
+level: 2★
 description: Full GitHub platform automation fused from 5 skills — code review, multi-repo
   coordination, project management, release management, and workflow automation.
 links:
@@ -19,7 +19,7 @@ tags:
 - releases
 - automation
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-09-10'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/github-code-review
@@ -72,6 +72,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:20Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

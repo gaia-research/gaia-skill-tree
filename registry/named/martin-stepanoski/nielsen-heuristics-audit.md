@@ -7,7 +7,7 @@ genericSkillRef: ux-audit
 status: named
 title: The Ten Laws of Sight
 catalogRef: martin-stepanoski-nielsen-heuristics-audit
-level: 3★
+level: 1★
 description: Audits a UI interface against Jakob Nielsen's 10 usability heuristics
   step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized
   remediation report.
@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -78,6 +78,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 94.9 -> 94.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:08Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 1★
 trustMagnitude: 4.9
 overallTrustGrade: ungraded
 apexGateStatus:

@@ -7,7 +7,7 @@ genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: 4★
+level: 3★
 description: 'Suite of Firecrawl skills for web scraping, search, browser interaction,
   environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest
   init --all --browser`'
@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -92,6 +92,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 223.52 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:03Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 3★
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
