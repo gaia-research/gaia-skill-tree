@@ -283,7 +283,7 @@
     // Rubric E1/E2: pass the DERIVED branch (not ns.type) so rank-badge.js
     // colours the stars by branch register (unique = violet, suite = gold).
     var branch = branchOf(ns);
-    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: branch, branch: branch });
+    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, branch: branch });
     if (!html) return '';
     return '<div class="plaque__rank">' + html + '</div>';
   }
@@ -827,7 +827,7 @@
       var clickAttr = s.onclick
         ? 'event.stopPropagation(); ' + s.onclick
         : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
-      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: branch });
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, branch: branch });
       return '<div class="plaque__stack-row" data-branch="' + esc(branch) +
         '" data-level="' + esc(n) + '">' +
           '<span class="plaque__stack-glyph tier-glyph" data-branch="' + esc(branch) +
@@ -1057,7 +1057,7 @@
       var clickAttr = s.onclick
         ? 'event.stopPropagation(); ' + s.onclick
         : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
-      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: branch });
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, branch: branch });
       return '<div class="plaque__stack-row" data-branch="' + esc(branch) +
         '" data-level="' + esc(n) + '" style="--row-index:' + idx + '">' +
           '<span class="plaque__stack-glyph tier-glyph" data-branch="' + esc(branch) +

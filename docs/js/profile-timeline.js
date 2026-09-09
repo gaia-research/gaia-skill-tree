@@ -291,25 +291,6 @@
     return (skill && typeof skill.branch === 'string' && skill.branch) || 'standard';
   }
 
-  // Branch → color token. Keyed on the resolved BRANCH (standard/suite/
-  // unique), never the dead skill.type enum. --tier-basic/--tier-fusion are
-  // TYPE tokens (basic|fusion) — NEVER branch tokens — so suite reads
-  // --apex-gold (its true branch-native register), not the fusion tier
-  // token. Unique owns its own three-rung ladder exactly like Suite: 4★
-  // Unique (violet) → 5★ Unique Ultimate (burnished copper) → 6★ Unique
-  // Impossible (ember copper), so its entry is forked by rank rather than a
-  // single flat token. Design tokens only — no raw hex. Concrete resolved
-  // values live in TIER_HEX below; these var() forms are the token-first
-  // source the docs-cohesion guard checks.
-  var TIER_COLOR = {
-    standard: 'var(--tier-basic)',
-    suite:    'var(--apex-gold)',
-    unique: {
-      4: 'var(--rank-4-unique)',
-      5: 'var(--rank-5-unique)',
-      6: 'var(--rank-6-unique)',
-    },
-  };
   // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
   // prefer the live CSS custom property, fall back to the (optional) inline
   // fallback. Token-first so the docs-cohesion token guard is satisfied; a
@@ -320,25 +301,6 @@
     var prop = m[1], fb = m[2] || '';
     return s ? (s.getPropertyValue(prop).trim() || fb) : fb;
   }
-
-  // Branch → resolved color. Keyed on the resolved BRANCH, reading the same
-  // tokens as TIER_COLOR (no raw hex). Used where a concrete color string is
-  // needed (canvas/inline style); missing tokens degrade to the var() form
-  // via TIER_COLOR at the call site. unique is forked by rank, mirroring
-  // TIER_COLOR.unique above.
-  var TIER_HEX = (function () {
-    var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    function cv(expr) { return resolveVar(s, expr); }
-    return {
-      standard: cv('var(--tier-basic)'),
-      suite:    cv('var(--apex-gold)'),
-      unique: {
-        4: cv('var(--rank-4-unique)'),
-        5: cv('var(--rank-5-unique)'),
-        6: cv('var(--rank-6-unique)'),
-      },
-    };
-  }());
 
   // Rank → color map (1–6, matching DESIGN.md rank palette; 6★ uses rainbow gradient via CSS)
   var RANK_HEX = (function () {
