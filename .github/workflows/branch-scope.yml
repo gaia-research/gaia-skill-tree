@@ -193,8 +193,14 @@ jobs:
                 ;;
               infra)
                 case "$file" in
-                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, .agents/skills/, *.md, or docs/*.html files)" ;;
+                  # docs/badges/ is in scope by ratified convention: CLAUDE.md
+                  # § Branch Scope lists it under infra/, and § Known Frontend
+                  # Issues requires badges to land ONLY via human-reviewed
+                  # infra/badge-* PRs. Without this arm that convention is
+                  # unsatisfiable — every badge PR fails the guard that is
+                  # supposed to permit it. Added on the first badge PR to hit it.
+                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html|docs/badges/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, .agents/skills/, *.md, docs/*.html, or docs/badges/ files)" ;;
                 esac
                 ;;
               other)
