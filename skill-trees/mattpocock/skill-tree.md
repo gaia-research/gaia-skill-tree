@@ -365,7 +365,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ ████████/firecrawl-research-index
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
 ✓ ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
@@ -397,7 +397,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 ══════════════════════════════════════════════════════════════════════
 
   ✓ ○ mattpocock/codebase-design  [2★]
-  ✓ ○ mattpocock/tdd  [3★]
+  ✓ ○ mattpocock/tdd  [2★]
 ```
 
 ## Pending Combinations

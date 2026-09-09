@@ -265,14 +265,14 @@
     {
       "id": "mattpocock/tdd",
       "name": "TDD",
-      "level": "3★",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "mattpocock",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/tdd.json"

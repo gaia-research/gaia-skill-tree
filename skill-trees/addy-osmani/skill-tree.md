@@ -343,7 +343,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ mattpocock/tdd  [3★]
+  ✓ ○ mattpocock/tdd  [2★]
 ```
 
 ## Pending Combinations

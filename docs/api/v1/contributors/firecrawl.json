@@ -92,18 +92,35 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
       "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "genericSkillRef": "literature-search"
     }
   ],
-  "namedSkillsCount": 5,
+  "namedSkillsCount": 6,
   "topSkill": {
     "id": "firecrawl/firecrawl-build-scrape",
     "level": "4★",
     "trustMagnitude": 110.02
   },
-  "prestigeScore": 364.33,
+  "prestigeScore": 414.33,
   "gradeDistribution": {
     "A": 1,
-    "B": 4
+    "B": 5
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",

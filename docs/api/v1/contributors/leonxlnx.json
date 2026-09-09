@@ -32,6 +32,23 @@
       ]
     },
     {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "trustMagnitude": 65.81,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      },
+      "genericSkillRef": "task-depth-enforcement"
+    },
+    {
       "id": "leonxlnx/brandkit",
       "name": "brandkit",
       "level": "3★",
@@ -219,16 +236,16 @@
       "genericSkillRef": "design-system-extraction"
     }
   ],
-  "namedSkillsCount": 12,
+  "namedSkillsCount": 13,
   "topSkill": {
     "id": "leonxlnx/taste-skill",
     "level": "4★",
     "trustMagnitude": 172.43
   },
-  "prestigeScore": 722.43,
+  "prestigeScore": 788.24,
   "gradeDistribution": {
     "A": 1,
-    "B": 11
+    "B": 12
   },
   "_links": {
     "self": "/api/v1/contributors/leonxlnx.json",

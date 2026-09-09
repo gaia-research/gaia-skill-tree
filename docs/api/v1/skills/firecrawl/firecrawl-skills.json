@@ -173,6 +173,12 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 223.52 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-09-09T20:31:03Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 3★"
     }
   ],
   "links": {

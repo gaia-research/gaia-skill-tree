@@ -1443,6 +1443,40 @@
     ]
   },
   {
+    "id": "leonxlnx/unlazy",
+    "name": "unlazy",
+    "contributor": "leonxlnx",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 65.81,
+    "branch": "standard",
+    "tokens": [
+      "anti",
+      "checks",
+      "completion",
+      "criteria",
+      "decomposes",
+      "depth",
+      "discipline",
+      "enforcement",
+      "enforces",
+      "execution",
+      "files",
+      "gate",
+      "into",
+      "laziness",
+      "recursive",
+      "runnable",
+      "substantial",
+      "task",
+      "tasks",
+      "through",
+      "trees",
+      "unlazy",
+      "work"
+    ]
+  },
+  {
     "id": "obra/systematic-debugging",
     "name": "Systematic Debugging",
     "contributor": "obra",
@@ -1714,6 +1748,34 @@
     ]
   },
   {
+    "id": "panniantong/agent-reach",
+    "name": "Agent Reach",
+    "contributor": "panniantong",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 53.86,
+    "branch": "standard",
+    "tokens": [
+      "16+",
+      "access",
+      "across",
+      "agent",
+      "agnostic",
+      "ai",
+      "gives",
+      "harness",
+      "integration",
+      "internet",
+      "mcp",
+      "platforms",
+      "reach",
+      "requests",
+      "routing",
+      "support",
+      "web"
+    ]
+  },
+  {
     "id": "addy-osmani/code-review-and-quality",
     "name": "Code Review and Quality",
     "contributor": "addy-osmani",
@@ -1831,6 +1893,26 @@
       "onboarding",
       "setup",
       "tools"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-research-index",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.0,
+    "branch": "standard",
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
     ]
   },
   {
@@ -3586,7 +3668,7 @@
     "id": "mattpocock/tdd",
     "name": "TDD",
     "contributor": "mattpocock",
-    "level": "3★",
+    "level": "2★",
     "grade": "B",
     "trustMagnitude": 50.0,
     "branch": "standard",
@@ -4187,6 +4269,40 @@
       "vocabulary",
       "writing",
       "—"
+    ]
+  },
+  {
+    "id": "disler/agent-fusion",
+    "name": "Agent Fusion",
+    "contributor": "disler",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 37.54,
+    "branch": "suite",
+    "tokens": [
+      "achieve",
+      "agent",
+      "agentic",
+      "ai",
+      "auto",
+      "cost",
+      "form",
+      "frontier",
+      "fused",
+      "fusion",
+      "merge",
+      "models",
+      "multiple",
+      "opinions",
+      "orchestrate",
+      "outputs",
+      "parallel",
+      "performance",
+      "plans",
+      "reduced",
+      "specialized",
+      "team",
+      "validate"
     ]
   },
   {
@@ -6535,6 +6651,35 @@
       "under",
       "unit",
       "unittest"
+    ]
+  },
+  {
+    "id": "aplaceforallmystuff/log-to-daily",
+    "name": "Log To Daily",
+    "contributor": "aplaceforallmystuff",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 21.51,
+    "branch": "standard",
+    "tokens": [
+      "activity",
+      "capturing",
+      "conversation",
+      "daily",
+      "dated",
+      "decisions",
+      "demand",
+      "entry",
+      "journaling",
+      "log",
+      "logs",
+      "next",
+      "note",
+      "outcomes",
+      "session",
+      "steps",
+      "structured",
+      "today's"
     ]
   },
   {

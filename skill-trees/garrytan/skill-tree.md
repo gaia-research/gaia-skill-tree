@@ -384,7 +384,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ ████████/firecrawl-research-index
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
 · ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]

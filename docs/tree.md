@@ -342,9 +342,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ○ garrytan/document-generate  [3★]
   │  └─ ○ /tool-use
-  └─ ○ ████████/firecrawl-research-index
+  └─ ○ firecrawl/firecrawl-research-index  [3★]
 
-◆ ████████/agent-fusion
+◆ disler/agent-fusion  [2★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ disler/opinion  [2★]
   ├─ ○ disler/plan-synthesis  [2★]
@@ -413,7 +413,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ ████████/agent-reach
+  ○ panniantong/agent-reach  [3★]
   ○ heygen-com/hyperframes-audio  [3★]
   ○ /autonomous-engineering-platform
   ○ gaia-research/ci-churn  [2★]
@@ -444,13 +444,13 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /self-consistency
   ○ /semantic-cache
   ○ ruvnet/stream-chain  [2★]
-  ○ ████████/log-to-daily
+  ○ aplaceforallmystuff/log-to-daily  [2★]
   ○ ████████/scanpy
   ○ mattpocock/codebase-design  [2★]
   ○ anthropics/canvas-design  [2★]
   ○ ████████/supabase
   ○ /synthetic-data-generation
-  ○ mattpocock/tdd  [3★]
+  ○ mattpocock/tdd  [2★]
   ○ /time-series-forecasting
   ○ ████████/cost
   ○ ████████/resend-conference-emails-carefully-with-smtp

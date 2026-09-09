@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-09T20:18:35Z",
+  "generatedAt": "2026-09-09T20:34:20Z",
   "firstRun": false,
   "skills": [
     {
@@ -298,6 +298,20 @@
       }
     },
     {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
+    {
       "id": "nexu-io/open-design",
       "name": "Open Design",
       "level": "2★",
@@ -365,6 +379,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 65.81,
+      "overallTrustGrade": "B",
+      "trendingScore": 32.91,
+      "tmDelta": 65.81,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
       }
     },
     {
@@ -860,7 +888,7 @@
     {
       "id": "mattpocock/tdd",
       "name": "TDD",
-      "level": "3★",
+      "level": "2★",
       "contributor": "mattpocock",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
@@ -1040,6 +1068,20 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 83.62,
+      "overallTrustGrade": "B",
+      "trendingScore": 19.6,
+      "tmDelta": -25.7,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
       "id": "balukosuri/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
@@ -1096,6 +1138,20 @@
       }
     },
     {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 88.5,
+      "overallTrustGrade": "B",
+      "trendingScore": 14.94,
+      "tmDelta": -30.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      }
+    },
+    {
       "id": "addy-osmani/test-driven-development",
       "name": "Test-Driven Development",
       "level": "2★",
@@ -1107,6 +1163,34 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
+      }
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 10.91,
+      "tmDelta": -30.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      }
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "contributor": "aplaceforallmystuff",
+      "trustMagnitude": 21.51,
+      "overallTrustGrade": "C",
+      "trendingScore": 10.76,
+      "tmDelta": 21.51,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       }
     },
     {
@@ -1192,9 +1276,23 @@
       "_links": {
         "self": "/api/v1/skills/mattpocock/wizard.json"
       }
+    },
+    {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 8.82,
+      "tmDelta": -33.2,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      }
     }
   ],
-  "totalTrending": 85,
+  "totalTrending": 92,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

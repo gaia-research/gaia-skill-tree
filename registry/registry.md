@@ -9,7 +9,7 @@
 | · /adversarial-robustness-testing | Fusion | — | `/adversarial-robustness-testing` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 3★ | `/agent-environment-setup` |
 | · /agent-eval | Fusion | — | `/agent-eval` |
-| · ████████/agent-fusion | Fusion | — | `/agent-fusion` |
+| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 2★ | `/agent-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 3★ | `/agent-memory-platform` |
@@ -113,7 +113,7 @@
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
-| ○ ████████/firecrawl-research-index | Basic | — | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
 | ○ ████████/remotion-maps | Basic | — | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
@@ -212,7 +212,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic | 2★ | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic | 2★ | `/system-integration` |
 | · [garrytan](../docs/u/garrytan/)/investigate | Fusion | 3★ | `/systematic-debugging` |
-| · ████████/unlazy | Fusion | — | `/task-depth-enforcement` |
+| · [leonxlnx](../docs/u/leonxlnx/)/unlazy | Fusion | 3★ | `/task-depth-enforcement` |
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
@@ -284,7 +284,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
-| ○ Agent Reach | Intrinsic Skill | — | `/agent-reach` |
+| ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Audio Mixing | Intrinsic Skill | 3★ | `/audio-mixing` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
@@ -315,13 +315,13 @@
 | ○ Self-Consistency | Intrinsic Skill | — | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
-| ○ Session Journaling | Intrinsic Skill | — | `/session-journaling` |
+| ○ Session Journaling | Intrinsic Skill | 2★ | `/session-journaling` |
 | ○ Single-Cell Analysis | Intrinsic Skill | — | `/single-cell-analysis` |
 | ○ Software Design | Intrinsic Skill | 2★ | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ supabase | Intrinsic Skill | — | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
-| ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
+| ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | — | `/token-observability` |
 | ○ Transactional Email Resend | Intrinsic Skill | — | `/transactional-email-resend` |
