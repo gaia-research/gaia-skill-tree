@@ -21,6 +21,7 @@ from gaia_cli.steward.mirrors import (
     is_ignored as _is_ignored,
 )
 from gaia_cli.steward.models import Observation, Subject, stable_json
+from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 
 
 class Sensor(Protocol):
@@ -1136,6 +1137,7 @@ class KnowledgeContradictionSensor:
         "evidence_link_drift",
         "generated_projection_drift",
         "benchmark_source_drift",
+        "trust_calibration_drift",
     })
     _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
 
@@ -1613,6 +1615,56 @@ class EvidenceLinkHealthSensor:
         if not (rel_root.exists() or rel_file.exists()):
             return f"relative artifact does not exist: {target_str}"
         return None
+
+
+class TrustCalibrationDriftSensor:
+    """Report named skills whose stored level disagrees with computed TM grade."""
+
+    id = "trust-calibration-drift"
+    _NAMED_ROOT = "registry/named"
+    _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        observations: list[Observation] = []
+        named_root = repo_root / self._NAMED_ROOT
+        if not named_root.is_dir():
+            return observations
+        for path in sorted(named_root.rglob("*.md")):
+            try:
+                parts = path.read_text(encoding="utf-8").split("---", 2)
+                if len(parts) < 3:
+                    continue
+                import yaml
+                skill = yaml.safe_load(parts[1]) or {}
+                skill_id = skill.get("id")
+                current_level = skill.get("level")
+                if not skill_id or current_level not in self._TARGET_LEVEL.values():
+                    continue
+                tm = computeTrustMagnitude(skill, {})
+                grade = computeOverallTrustGradeFromSkill(skill, {})
+                target_level = self._TARGET_LEVEL[grade]
+                if current_level == target_level:
+                    continue
+                observations.append(Observation(
+                    kind="trust_calibration_drift",
+                    subject=Subject(type="named-skill", id=skill_id),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"level": current_level},
+                    observed_state={
+                        "trustMagnitude": round(tm, 2),
+                        "trustGrade": grade,
+                        "targetLevel": target_level,
+                        "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+                    },
+                    confidence=1.0,
+                    provenance={"path": str(path.relative_to(repo_root))},
+                ))
+            except (OSError, ValueError, TypeError, yaml.YAMLError):
+                # Malformed records belong to registry-integrity, not this sensor.
+                continue
+        return observations
 
 
 class GeneratedProjectionsSensor:
@@ -2142,4 +2194,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         EvidenceLinkHealthSensor(),
         GeneratedProjectionsSensor(),
         BenchmarkFreshnessSensor(),
+        TrustCalibrationDriftSensor(),
     )

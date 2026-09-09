@@ -22,6 +22,7 @@ authority:
   evidence_link_drift: B
   generated_projection_drift: B
   benchmark_source_drift: B
+  trust_calibration_drift: B
   generic_mapping: C
 
 priority:
@@ -91,6 +92,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.7
     expectedCost: 0.4
+  trust_calibration_drift:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.9
+    freshnessNeed: 0.8
+    expectedCost: 0.2
   generic_mapping:
     importance: 0.9
     decisionImpact: 1.0
@@ -195,6 +202,42 @@ routing:
         - show a diff confined to allowedPaths
         - state the exact gaia dev verb sequence a Verifier should run
         - run the packet validation commands that apply to the correction
+        - obtain independent review before integration
+    trust-calibration-drift:
+      debtKind: trust_calibration_drift
+      authority: B
+      routine: gaia-trust-calibration-steward
+      promptGuide: founder/steward/routines/trust-calibration-drift.md
+      capability: >-
+        Compare computed Trust Magnitude grades with stored named-skill levels
+        and express approved corrections as gaia dev calibrate commands without
+        mutating registry data automatically.
+      objective: >-
+        Reproduce each stale rank, verify the G7 target, and return a bounded
+        calibration command sequence for human approval.
+      allowedPaths:
+        - src/gaia_cli/steward/**
+        - tests/steward/**
+      allowedCommands:
+        - python -m pytest tests/steward/test_sensors.py
+        - gaia steward scan
+        - python scripts/inspectTrustMagnitude.py --skill <skill_id>
+      forbiddenPaths:
+        - .agents/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+        - docs/**
+      stopConditions:
+        - computed grade or target level cannot be reproduced locally
+        - correction requires automatic registry mutation
+        - validation or focused coverage is incomplete
+      proof:
+        - reproduce every reported stale level from local registry state
+        - show the exact gaia dev calibrate command for each approved correction
+        - run focused sensor tests and Steward validation
         - obtain independent review before integration
     cli-contract-drift:
       debtKind: cli_contract_drift
