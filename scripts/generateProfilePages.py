@@ -1335,19 +1335,18 @@ def build_directory_page(by_contributor: dict) -> str:
         # contributor's top-ranked skill the same way _field_rank does, so the
         # directory card chip forks the same way the per-skill plaque does
         # (rubric E1/E2). skill_branch() raises on a missing/invalid emitted
-        # branch (stale/unbuilt input) — one bad record must not break the
-        # whole directory page, so degrade to no branch (rank_badge_html
-        # already omits data-branch entirely when branch is falsy) rather
-        # than aborting the build.
+        # branch, and that is deliberate here: this module fails fast on stale
+        # or unbuilt input at every other call site (_field_orb, _field_rank,
+        # _shell), and generate_pages() reaches all three before it ever gets
+        # to the directory. Swallowing the error here would only buy an
+        # uncoloured chip on a page the per-user pass has already refused to
+        # build — it would not make the build survivable, just quieter. A
+        # miscoloured rank is the exact class of defect this PR exists to fix,
+        # so surface the bad record instead of papering over it.
         rank_badge_dir_html = ""
         if max_level > 0:
             top_skill = max(skills, key=lambda s: level_num(s.get("level", "")), default=None)
-            top_branch = None
-            if top_skill is not None:
-                try:
-                    top_branch = skill_branch(top_skill)
-                except ValueError:
-                    top_branch = None
+            top_branch = skill_branch(top_skill) if top_skill is not None else None
             rank_badge_dir_html = rank_badge_html(
                 f"{max_level}★", variant="chip", size="sm", branch=top_branch
             )
