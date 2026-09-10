@@ -10,6 +10,26 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from gaia_cli.commands.dev.ratify import ratifyCommand
 from gaia_cli.intakeAdapter import REASON_CODES, _canonicalDigest
 
+# Matches the generics frozen into _makeDeferredMappedPacket()'s genericSnapshot.
+# Ratify validates the packet against the LIVE registry (not the packet's own
+# self-reported snapshot — see ratify.py), so tests must provide a registry dir
+# whose gaia.json actually contains these skill ids, or every ratification
+# would fail with UNTRUSTED_GENERIC_SNAPSHOT regardless of the scenario under test.
+_LIVE_REGISTRY_SKILLS = [
+    {"id": "test-skill", "name": "Test Skill", "type": "basic"},
+    {"id": "other-skill", "name": "Other Skill", "type": "basic"},
+]
+
+
+def _makeRegistryDir(tmp_path):
+    """Write a minimal registry/gaia.json under tmp_path and return its path."""
+    registryRoot = tmp_path / "reg"
+    registryDir = registryRoot / "registry"
+    registryDir.mkdir(parents=True)
+    with open(registryDir / "gaia.json", "w", encoding="utf-8") as f:
+        json.dump({"skills": _LIVE_REGISTRY_SKILLS}, f)
+    return str(registryRoot)
+
 
 def _makeDeferredMappedPacket():
     """Factory for a valid deferred+mapped test packet."""
@@ -79,6 +99,7 @@ class TestRatifyMapDecision:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -103,8 +124,8 @@ class TestRatifyMapDecision:
         assert "l4Resolution" in updated
         assert updated["l4Resolution"]["status"] == "approved"
 
-    def test_map_ratification_with_fusion_prereqs_rejected(self, tmp_path):
-        """MAP decision should reject fusion-type generic with prerequisites."""
+    def test_map_ratification_strips_prereq_whitespace(self, tmp_path):
+        """--prereqs "foo, bar" (comma-space) must not fail kebab-case validation."""
         packet = _makeDeferredMappedPacket()
         packet_path = tmp_path / "test.json"
         with open(packet_path, "w") as f:
@@ -112,25 +133,56 @@ class TestRatifyMapDecision:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
+            "decision": "NEW_GENERIC",
+            "generic_id": "fused-skill",
+            "generic_name": "Fused Skill",
+            "generic_description": "A fused skill combining multiple generics.",
+            "generic_type": "fusion",
+            "prereqs": "test-skill, other-skill",  # comma-space, not comma-only
+            "contributor": "test-contributor",
+            "skill_name": "fused-skill-impl",
+            "skill_file_url": "https://github.com/test/candidate/blob/main/SKILL.md",
+        })()
+
+        rc = ratifyCommand(args)
+        assert rc == 0
+        with open(packet_path) as f:
+            updated = json.load(f)
+        assert updated["l4Resolution"]["generic"]["prerequisites"] == [
+            "test-skill", "other-skill"
+        ]
+
+    def test_map_rejects_generic_id_absent_from_live_registry(self, tmp_path):
+        """MAP must fail if the ratified generic id doesn't exist in the LIVE registry,
+        even if it matches the packet's own (potentially stale) frozen snapshot."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        # registry dir intentionally does NOT contain "test-skill"
+        registryRoot = tmp_path / "empty-reg"
+        (registryRoot / "registry").mkdir(parents=True)
+        with open(registryRoot / "registry" / "gaia.json", "w") as f:
+            json.dump({"skills": [{"id": "unrelated-skill", "name": "Unrelated"}]}, f)
+
+        args = type("Args", (), {
+            "packet_path": str(packet_path),
+            "registry": str(registryRoot),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
             "generic_description": "A test skill for mapping.",
-            "generic_type": "fusion",  # Not allowed with MAP
-            "prereqs": "skill-a,skill-b",
+            "generic_type": "basic",
+            "prereqs": None,
             "contributor": "test-contributor",
             "skill_name": "test-skill-impl",
             "skill_file_url": "https://github.com/test/candidate/blob/main/SKILL.md",
         })()
 
         rc = ratifyCommand(args)
-        # Should fail validation or succeed with a fusion type (depends on interpretation)
-        # For now, allow it and verify the prereqs are set
-        if rc == 0:
-            with open(packet_path) as f:
-                updated = json.load(f)
-            assert updated["l4Resolution"]["generic"]["type"] == "fusion"
-            assert updated["l4Resolution"]["generic"]["prerequisites"] == ["skill-a", "skill-b"]
+        assert rc == 1  # test-skill is not in the live registry snapshot
 
 
 class TestRatifyNewGenericDecision:
@@ -144,6 +196,7 @@ class TestRatifyNewGenericDecision:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "NEW_GENERIC",
             "generic_id": "new-skill",
             "generic_name": "New Skill",
@@ -173,6 +226,7 @@ class TestRatifyNewGenericDecision:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "NEW_GENERIC",
             "generic_id": "fused-skill",
             "generic_name": "Fused Skill",
@@ -208,6 +262,7 @@ class TestRatifyValidationFailures:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -232,6 +287,7 @@ class TestRatifyValidationFailures:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -255,6 +311,7 @@ class TestRatifyValidationFailures:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -278,6 +335,7 @@ class TestRatifyValidationFailures:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -299,6 +357,7 @@ class TestRatifyFileHandling:
     def test_ratify_rejects_missing_packet_file(self, tmp_path):
         args = type("Args", (), {
             "packet_path": str(tmp_path / "nonexistent.json"),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",
@@ -320,6 +379,7 @@ class TestRatifyFileHandling:
 
         args = type("Args", (), {
             "packet_path": str(packet_path),
+            "registry": _makeRegistryDir(tmp_path),
             "decision": "MAP",
             "generic_id": "test-skill",
             "generic_name": "Test Skill",

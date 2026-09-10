@@ -131,17 +131,24 @@ def parseFrontmatter(text):
 
 
 def buildGenericSnapshot(registryPath):
-    """Build a frozen genericSnapshot from registry/gaia.json.
+    """Build a frozen genericSnapshot matching `gaia dev list --generic --json`.
+
+    registry/gaia.json's top-level "skills" array holds only generic (canonical)
+    nodes — raw entries carry no "kind" field (that field is synthesized by
+    meta_list_command / commands/dev/list.py at output time, not present on
+    disk). This mirrors that synthesis exactly: {id, name, kind: "generic"} per
+    entry, matching the shape validate_discovery_packet.py's mapped-block subset
+    check expects (it filters snapshot rows on kind == "generic").
 
     Returns a dict with:
         {
             "capturedAt": ISO8601 timestamp,
             "command": "gaia dev list --generic --json",
-            "generics": [...],  # from gaia.json skills with kind="generic"
+            "generics": [{"id", "name", "kind": "generic"}, ...],
             "contentSha256": canonical digest of generics array,
             "mappingOptionsSha256": will be set separately per packet
         }
-    Returns None if the registry/gaia.json is not found.
+    Returns None if the registry/gaia.json is not found or has no skills.
     """
     gaia_json_path = os.path.join(registry_dir(registryPath), "gaia.json")
     if not os.path.exists(gaia_json_path):
@@ -153,11 +160,11 @@ def buildGenericSnapshot(registryPath):
     except (OSError, json.JSONDecodeError):
         return None
 
-    # Extract entries with kind="generic"
-    generics = []
-    for skill in graph_data.get("skills", []):
-        if skill.get("kind") == "generic":
-            generics.append(skill)
+    generics = [
+        {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
+        for skill in graph_data.get("skills", [])
+        if isinstance(skill, dict) and "id" in skill
+    ]
 
     if not generics:
         return None
@@ -358,9 +365,21 @@ def buildPrefillPacket(
             contentSha256 = sourceContentSha256
             frontmatter = parseFrontmatter(content)
 
-            # Stamp artifactGate from frontmatter or default to "valid-skill"
-            # (In a real implementation, this would be validated more thoroughly)
-            artifactGate = frontmatter.get("artifactGate", "valid-skill")
+            # Stamp artifactGate: an explicit frontmatter value wins; otherwise
+            # gate on the minimal real signal a SKILL.md must carry (name +
+            # description), rather than rubber-stamping every fetched blob —
+            # a README/LICENSE/config file with no frontmatter must NOT pass.
+            if "artifactGate" in frontmatter:
+                artifactGate = frontmatter["artifactGate"]
+            elif (
+                isinstance(frontmatter.get("name"), str)
+                and frontmatter["name"].strip()
+                and isinstance(frontmatter.get("description"), str)
+                and frontmatter["description"].strip()
+            ):
+                artifactGate = "valid-skill"
+            else:
+                artifactGate = "rejected-missing-frontmatter"
 
             # Build genericSnapshot
             snapshot = buildGenericSnapshot(registryPath)

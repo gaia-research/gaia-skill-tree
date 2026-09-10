@@ -14,7 +14,14 @@ import os
 import sys
 
 from gaia_cli.intakeAdapter import REASON_CODES, validateL4Resolution, _canonicalDigest
-from gaia_cli.prefill import selfValidatePacket
+from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket
+
+
+def _splitPrereqs(prereqs):
+    """Split a comma-separated prereqs string, stripping whitespace per item."""
+    if not prereqs:
+        return []
+    return [item.strip() for item in prereqs.split(",") if item.strip()]
 
 
 def ratifyCommand(args):
@@ -77,24 +84,24 @@ def ratifyCommand(args):
         }
     }
 
-    if genericType == "fusion" and prereqs:
-        ratified["l4Resolution"]["generic"]["prerequisites"] = prereqs.split(",")
+    if genericType == "fusion":
+        ratified["l4Resolution"]["generic"]["prerequisites"] = _splitPrereqs(prereqs)
     elif genericType == "basic":
         ratified["l4Resolution"]["generic"]["prerequisites"] = []
 
     # Merge into packet
-    test_packet = packet.copy()
-    test_packet.update(ratified)
+    testPacket = packet.copy()
+    testPacket.update(ratified)
     # Replace 'deferred' with 'review-ready' in lifecycle
     lifecycle = list(packet.get("lifecycle", []))
     if "deferred" in lifecycle:
         lifecycle[lifecycle.index("deferred")] = "review-ready"
     elif "review-ready" not in lifecycle:
         lifecycle.append("review-ready")
-    test_packet["lifecycle"] = lifecycle
+    testPacket["lifecycle"] = lifecycle
 
     # Set the decision reasonCode to L4-ratified
-    test_packet["decision"] = {
+    testPacket["decision"] = {
         "value": decision,
         "reasonCode": (
             REASON_CODES.L4_RATIFIED_MAP
@@ -103,30 +110,35 @@ def ratifyCommand(args):
         ),
     }
     if decision == "MAP":
-        test_packet["decision"]["genericId"] = genericId
+        testPacket["decision"]["genericId"] = genericId
     else:  # NEW_GENERIC
         # For NEW_GENERIC, include the proposal in the decision
         proposal = {
             "name": genericName,
             "description": genericDesc,
             "type": genericType,
+            "prerequisites": _splitPrereqs(prereqs) if genericType == "fusion" else [],
         }
-        if genericType == "fusion" and prereqs:
-            proposal["prerequisites"] = prereqs.split(",")
-        elif genericType == "basic":
-            proposal["prerequisites"] = []
-        test_packet["decision"]["proposal"] = proposal
+        testPacket["decision"]["proposal"] = proposal
 
     # Pre-flight validation
-    resolutionErrors = validateL4Resolution(test_packet)
+    resolutionErrors = validateL4Resolution(testPacket)
     if resolutionErrors:
         print("Ratification validation failed:", file=sys.stderr)
         for err in resolutionErrors:
             print(f"  - {err}", file=sys.stderr)
         return 1
 
-    # Self-validate the packet
-    selfValidateErrors = selfValidatePacket(test_packet)
+    # Self-validate the packet against the LIVE registry's generic snapshot —
+    # not the packet's own frozen genericSnapshot. Comparing a snapshot to
+    # itself is tautological; ratify is the final gate before intake, so it
+    # must confirm the MAP target (or NEW_GENERIC collision-freedom) still
+    # holds against the registry as it stands right now. A registry that has
+    # drifted since prefill correctly fails here with UNTRUSTED/INVALID
+    # GENERIC_SNAPSHOT, telling the operator to re-run prefill.
+    liveSnapshot = buildGenericSnapshot(args.registry)
+    liveGenerics = liveSnapshot["generics"] if liveSnapshot else []
+    selfValidateErrors = selfValidatePacket(testPacket, trustedGenerics=liveGenerics)
     if selfValidateErrors:
         print("Packet self-validation failed:", file=sys.stderr)
         for err in selfValidateErrors:
@@ -137,16 +149,9 @@ def ratifyCommand(args):
     try:
         # Apply the ratification to the original packet
         packet.update(ratified)
-        # Replace 'deferred' with 'review-ready' in lifecycle
-        lifecycle = list(packet.get("lifecycle", []))
-        if "deferred" in lifecycle:
-            lifecycle[lifecycle.index("deferred")] = "review-ready"
-        elif "review-ready" not in lifecycle:
-            # Fallback: append review-ready if neither deferred nor review-ready is present
-            lifecycle.append("review-ready")
-        packet["lifecycle"] = lifecycle
-        # Copy the final decision from test_packet (which was validated)
-        packet["decision"] = test_packet["decision"]
+        packet["lifecycle"] = testPacket["lifecycle"]
+        # Copy the final decision from testPacket (which was validated)
+        packet["decision"] = testPacket["decision"]
 
         with open(packetPath, "w", encoding="utf-8") as f:
             json.dump(packet, f, indent=2)
@@ -155,7 +160,7 @@ def ratifyCommand(args):
         return 1
 
     print(f"Ratified {packetPath}")
-    print(f"  Decision: {decision} (reasonCode: {test_packet['decision']['reasonCode']})")
+    print(f"  Decision: {decision} (reasonCode: {testPacket['decision']['reasonCode']})")
     print(f"  Generic: {genericId} ({genericName})")
     print(f"  Named: {contributor}/{skillName}")
     return 0
