@@ -1,0 +1,74 @@
+{
+  "batchId": "20260910121121-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-09-10T12:11:21Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "codebase-graph-retrieval",
+      "candidateId": "trailhq/graft",
+      "name": "Codebase Graph Retrieval",
+      "description": "Indexes a source repository into a graph of prose code nodes and call/reference edges, then retrieves the relevant nodes with exact file:line spans into an agent's context so it can locate code, trace callers, and scope an edit's blast radius without reading raw source.",
+      "attribution": {
+        "skill_file_url": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "fusion",
+      "prerequisites": [
+        "knowledge-graph-build",
+        "retrieve",
+        "context-compression"
+      ],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "trailhq",
+        "skill_name": "graft",
+        "links_github": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "codebase-graph-retrieval",
+      "targetSkillId": "genomic-data-retrieval",
+      "score": 0.609,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "codebase-graph-retrieval",
+      "targetSkillId": "clinical-data-retrieval",
+      "score": 0.596,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "codebase-graph-retrieval",
+      "targetSkillId": "proteomic-data-retrieval",
+      "score": 0.583,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "trailhq/graft",
+        "packetContentSha256": "730a2ee6a2de05b380d4d4f933249c3caab669195f7221722b581ebe04e7f4bb",
+        "sourceContentSha256": "144077cd9f7a7bc25f2a04279f02e159ae40d6a9c5d8f7fb1d82d5ebd99ad3d7",
+        "packetPath": "registry-for-review/discovery-packets/trailhq-graft.packet.json"
+      }
+    ]
+  }
+}
