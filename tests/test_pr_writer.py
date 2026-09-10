@@ -101,6 +101,21 @@ class TestPrWriterBatchRender(unittest.TestCase):
         result = _render_named_block(named, "my-target-skill")
         self.assertIn("foo/my-target-skill", result)
 
+    def test_issue_body_includes_batch_branch_explicit_override(self):
+        """A batch-supplied batchBranch wins over git resolution (#1785)."""
+        batch = self._base_batch(batchBranch="review/meta/tester--skill")
+        body = build_intake_issue_body(batch)
+        self.assertIn("| Batch Branch | `review/meta/tester--skill` |", body)
+
+    def test_issue_body_resolves_batch_branch_from_git_when_unset(self):
+        """With no explicit batchBranch, fall back to the current git branch
+        so intake-approval.yml can check out where the batch actually lives
+        instead of assuming main (#1785)."""
+        batch = self._base_batch()
+        body = build_intake_issue_body(batch, repo_root=REPO_ROOT)
+        self.assertIn("| Batch Branch | `", body)
+        self.assertNotIn("| Batch Branch | `unknown` |", body)
+
 
 class TestPrWriterLegacy(unittest.TestCase):
     def test_build_intake_issue_body_contains_summary_table_and_checklists(self):
