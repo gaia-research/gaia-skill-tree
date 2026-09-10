@@ -248,6 +248,19 @@
       }
     },
     {
+      "handle": "trailhq",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "trailhq/graft",
+        "level": "4★",
+        "trustMagnitude": 140.42
+      },
+      "prestigeScore": 140.42,
+      "_links": {
+        "self": "/api/v1/contributors/trailhq.json"
+      }
+    },
+    {
       "handle": "ayghri",
       "namedSkills": 1,
       "topSkill": {
@@ -482,7 +495,7 @@
       }
     }
   ],
-  "totalContributors": 37,
+  "totalContributors": 38,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

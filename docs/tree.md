@@ -383,12 +383,15 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ ████████/requirements-engineer
     └─ ○ garrytan/office-hours  [3★]
   ◉ anthropics/brand-guidelines  [4★]
+  ◉ trailhq/graft  [4★]
+    ├─ · safishamsi/graphify  [5★]
+    │  ├─ ○ /extract-entities
+    │  └─ ○ /logical-inference
+    ├─ ○ /retrieve
+    └─ ○ garrytan/context-restore  [2★]
   ◉ mksglu/context-mode  [4★]
   ◉ ayghri/i-have-adhd  [4★]
   ◉ dietrichgebert/ponytail  [4★]
-  ◉ safishamsi/graphify  [5★]
-    ├─ ○ /extract-entities
-    └─ ○ /logical-inference
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [4★]
   ◉ obra/subagent-driven-development  [4★]
