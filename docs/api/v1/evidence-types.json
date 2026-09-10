@@ -179,6 +179,42 @@
       "viewFloor": 1000,
       "publishCooldownDays": 30,
       "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80. Same-creator dedup: 2nd entry at 0.5×, 3rd at 0.25× regardless of slot. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
+    },
+    {
+      "id": "npm-downloads",
+      "description": "Weekly download count for the skill's published npm package, calibrated as adoption evidence under logarithmic diminishing returns (#1787).",
+      "magnitude": "min(150.0, 30.0 * log10(max(1.0, downloads / 100.0)))",
+      "weight": 0.9,
+      "cap": 150.0,
+      "gradeCeiling": "A",
+      "freshness": "re-fetch quarterly; no time decay",
+      "selfProducible": false,
+      "allowedLayers": [
+        "named"
+      ],
+      "notes": "downloads is the weekly download count from the npm registry API (https://api.npmjs.org/downloads/point/last-week/<package>). Same-source dedup collapses multiple entries at the same package URL to one. Cannot satisfy Grade S without independent corroboration."
+    },
+    {
+      "id": "engagement",
+      "description": "View-less social engagement evidence (likes + comments/replies) for platforms that don't expose view counts, distinct from social-signal which requires views.",
+      "magnitude": "min(60.0, 15.0 * log10(max(1.0, likes + comments * 3)))",
+      "weight": 0.7,
+      "cap": 60.0,
+      "gradeCeiling": "B",
+      "freshness": "50%/year decay (half-life ≈ 1 year)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.25,
+      "maxEntriesPerSkill": 3,
+      "plateau": [
+        1.0,
+        0.5,
+        0.25
+      ],
+      "notes": "For platforms with no visible view count (e.g. a reply-only thread). Lower cap/weight/gradeCeiling than social-signal since engagement-only signal is a weaker adoption proxy without view-count context. Same-creator dedup follows the social-signal plateau pattern."
     }
   ],
   "gradeThresholds": {
