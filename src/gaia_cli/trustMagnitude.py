@@ -638,10 +638,19 @@ def _rawMagnitudeForType(
         # requires views. Comments weighted 3x likes (a reply signals stronger
         # engagement than a passive like), same shape as social-signal's
         # engagement_ratio weighting but standalone rather than a multiplier.
-        likes = float(row.get("likes", 0) or 0)
-        comments = float(row.get("comments", 0) or 0)
+        # max(0.0, ...) on each term: the CLI pre-flight blocks negative
+        # --likes/--comments, but hand-authored or ingested registry rows
+        # bypass the CLI, and a negative term would otherwise let a large
+        # negative `likes` cancel out `comments` into a small positive
+        # `combined` that reads as legitimate engagement.
+        likes = max(0.0, float(row.get("likes", 0) or 0))
+        comments = max(0.0, float(row.get("comments", 0) or 0))
         combined = likes + comments * 3.0
-        if combined < 1.0:
+        # `<= 1.0` (not `< 1.0`): log10(1.0) == 0.0, so a combined score of
+        # exactly 1.0 (e.g. a single like) would otherwise fall through the
+        # guard and silently compute a "valid" row worth exactly 0.0 instead
+        # of being excluded outright.
+        if combined <= 1.0:
             return 0.0
         return min(60.0, 15.0 * math.log10(combined))
 
