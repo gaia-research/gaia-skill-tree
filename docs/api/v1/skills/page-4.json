@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/context-save",
+      "name": "Context Save",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-save.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
       "id": "garrytan/design-review",
       "name": "Design Review",
       "level": "2★",
@@ -868,28 +885,11 @@
         "self": "/api/v1/skills/ruvnet/stream-chain.json"
       },
       "genericSkillRef": "sequential-agent-pipeline"
-    },
-    {
-      "id": "ruvnet/swarm-advanced",
-      "name": "Swarm Advanced",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 100.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
-      },
-      "genericSkillRef": "advanced-swarm-coordination"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 219,
+  "totalSkills": 220,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

@@ -1,0 +1,32 @@
+{
+  "id": "codebase-graph-retrieval",
+  "name": "Codebase Graph Retrieval",
+  "type": "fusion",
+  "description": "Indexes a source repository into a graph of prose code nodes and call/reference edges, then retrieves the relevant nodes with exact file:line spans into an agent's context so it can locate code, trace callers, and scope an edit's blast radius without reading raw source.",
+  "prerequisites": [
+    "knowledge-graph-build",
+    "retrieve",
+    "context-compression"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-10",
+  "updatedAt": "2026-09-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-10T15:52:54Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'codebase-graph-retrieval' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-09-10T15:52:54Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-graph-build, retrieve, context-compression."
+    }
+  ]
+}
