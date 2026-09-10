@@ -196,6 +196,55 @@ def test_generate_source_dump_merges_candidate_manifest(tmp_path):
     assert any(s["id"] == "bob-candidate-skill" for s in result["tierGroups"]["2★"])
 
 
+def test_generate_source_dump_rejects_candidate_id_already_in_registry(tmp_path):
+    """Sandbox review (PR #1792): a candidate manifest entry whose `id`
+    already exists in `registry/named/` (i.e. it has since been promoted)
+    must not be appended unconditionally -- that would silently double-count
+    the skill across the type/tier groupings. Fail fast with a clear error
+    instead."""
+    from generate_source_dump import buildSourceDump  # noqa: E402
+
+    registry, named_dir = _write_minimal_registry(tmp_path)
+    evidence = tmp_path / "evidence"
+    report = evidence / "source_report_test.md"
+
+    manifest = tmp_path / "candidates.json"
+    manifest.write_text(
+        json.dumps({
+            "candidates": [
+                {
+                    "id": "alice-skill",
+                    "name": "Alice Skill (stale candidate copy)",
+                    "contributor": "alice",
+                    "evidence": [
+                        {
+                            "type": "repo",
+                            "source": "https://github.com/alice/tool",
+                            "date": "2026-02-01",
+                            "notes": "stale pre-promotion candidate row",
+                        }
+                    ],
+                }
+            ]
+        }),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="alice-skill"):
+        buildSourceDump(
+            namedSkillsJson=str(registry / "named-skills.json"),
+            gaiaJson=str(registry / "gaia.json"),
+            namedDir=str(named_dir),
+            outputDir=str(evidence),
+            byTypeDirectory=str(evidence / "by-type"),
+            reportPath=str(report),
+            skipLiveStars=True,
+            noLegacyTiers=True,
+            reportDate="2026-07-31",
+            candidateManifest=str(manifest),
+        )
+
+
 def test_compile_data_lake_ingests_by_type_and_ignores_stale_tiers_by_default(tmp_path):
     from compile_data_lake import compileDataLake  # noqa: E402
 

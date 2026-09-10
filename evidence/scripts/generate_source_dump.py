@@ -236,6 +236,32 @@ def compileCandidateSkills(
     ]
 
 
+def reconcileCandidateSkills(
+    registrySkills: list[dict[str, Any]], candidateSkills: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Reject candidate manifest rows whose `id` already exists in the
+    registry-compiled skill set instead of appending them unconditionally.
+
+    A candidate manifest exists to seed *pre-registry* rows (#1786) for a
+    skill not yet promoted into `registry/named/`. If a candidate's `id`
+    collides with an already-registered skill, appending it unconditionally
+    would yield two entries for one skill in the type/tier groupings — the
+    already-promoted skill silently double-counted rather than merged or
+    flagged. Fail fast with the offending ids so the caller can fix the
+    manifest (drop the now-promoted entry) instead of shipping duplicate rows.
+    """
+    registryIds = {skill.get("id") for skill in registrySkills}
+    conflicts = sorted({skill.get("id") for skill in candidateSkills if skill.get("id") in registryIds})
+    if conflicts:
+        raise ValueError(
+            "candidate manifest id(s) already exist in the registry (already "
+            f"promoted to registry/named/): {', '.join(conflicts)}. Remove "
+            "these entries from the candidate manifest -- they are no longer "
+            "pre-registry."
+        )
+    return candidateSkills
+
+
 def groupSkillsByTier(skills: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     tierGroups = {
         "6★": [],
@@ -433,6 +459,7 @@ def buildSourceDump(
             candidateManifest, genericEvidence, skipLiveStars=skipLiveStars
         )
         print(f"  {len(candidateSkills)} candidate skill(s) loaded.")
+        candidateSkills = reconcileCandidateSkills(skills, candidateSkills)
         skills = skills + candidateSkills
 
     typeGroups = groupSkillsByEvidenceType(skills)
