@@ -671,6 +671,24 @@ class DevCommand(Command):
             help="View count",
         )
         dev_evidence.add_argument(
+            "--downloads",
+            type=int,
+            metavar="N",
+            help="Weekly npm download count. Only valid with --type npm-downloads.",
+        )
+        dev_evidence.add_argument(
+            "--likes",
+            type=int,
+            metavar="N",
+            help="Like count. Valid with --type social-signal or --type engagement.",
+        )
+        dev_evidence.add_argument(
+            "--comments",
+            type=int,
+            metavar="N",
+            help="Comment/reply count. Valid with --type social-signal or --type engagement.",
+        )
+        dev_evidence.add_argument(
             "--citations",
             type=int,
             metavar="N",

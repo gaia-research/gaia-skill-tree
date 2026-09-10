@@ -23,11 +23,31 @@ For non-suite skills at 2★ or below with no known public repo: mark `installab
 ## 4. Suite component links need subpaths
 A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
 
-## 5. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20)
+## 5. Canonical source URL by evidence type
+
+Each Stage-1 evidence type has one canonical URL shape. Using the wrong shape
+either breaks the type's own scoring inputs or collides with same-source
+dedup (`(type, url)`-keyed — see §6 below) in unintended ways.
+
+| Type | Canonical URL | Notes |
+|---|---|---|
+| `repo-own` | `https://github.com/owner/repo` | Repo root — commits/contributors counted from the repo API. |
+| `github-stars-own` | `https://github.com/owner/repo/blob/branch/subpath/SKILL.md` | Use the specific blob URL, not the repo root, in a multi-skill (suite) repo — one `github-stars-own` row per skill at its own blob URL avoids every skill in the suite colliding on the same `(type, url)` dedup key. |
+| `proxy-containment` | URL of the external project bundling the skill | Not the skill's own repo — the *container* project's URL. |
+| `verifier-attestation` | URL to the attestation record (PR review, issue comment, signed statement) | |
+| `benchmark-result` | URL to the published benchmark leaderboard/results page | Requires a `percentile` field alongside the URL — see §6 below. |
+| `arxiv` | `https://arxiv.org/abs/XXXX.XXXXX` | Abstract page, not the PDF. |
+| `peer-review` | URL to the written critique/review record | See #1418 multi-target peer-review partitioning for one URL covering several skills. |
+| `self-attestation` | Skill's own repo or a contributor declaration URL | Max 1 entry per skill; flat 10 magnitude regardless of URL content. |
+| `social-signal` | URL to the specific video/post | Not a channel/profile URL — the individual piece of content. |
+| `npm-downloads` | `https://www.npmjs.com/package/<name>` | Package page; download counts fetched via the npm registry API, not scraped from this URL. |
+| `fusion-recipe` | N/A (structural) | Auto-derived for fused/Ultimate skills; never hand-added. |
+
+## 6. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20)
 
 Key facts for evidence curation that affect computed TM scores:
 
-**Same-source dedup**: When a skill already has `repo-own` evidence at URL `https://github.com/owner/repo`, adding a new `github-stars-own` entry at the SAME URL will be deduped — only the higher-scoring entry counts. Use the specific `SKILL.md` blob URL for `github-stars-own` to avoid dedup (e.g. `https://github.com/owner/repo/blob/main/skills/foo/SKILL.md`).
+**Same-source dedup is `(type, url)`-keyed — cross-type never collapses** (`_dedupeSameSource` in `trustMagnitude.py`): two rows only collapse into one when they share BOTH the same evidence `type` AND the same canonical URL; the highest-magnitude entry wins and the rest are recorded in `_collapsedSources`. A `repo-own` row and a `github-stars-own` row at the identical URL are DIFFERENT keys (different type) and both count independently — they do NOT dedupe against each other. Dedup only bites when you add a *second row of the same type* at a URL already carrying one (e.g. two `repo-own` entries at the same repo, or two `github-stars-own` entries at the same URL after a rename) — in that case only the higher-scoring one counts.
 
 **github-stars-own mothership discount formula**: `artifact_score = (stars/1000) / skill_count_in_repo * weight`. For large suites (34+ skills), per-skill contribution is tiny. Prefer `social-signal` or `peer-review` for high-impact additions.
 

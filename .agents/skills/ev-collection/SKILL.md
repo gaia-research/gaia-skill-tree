@@ -80,6 +80,10 @@ Each entry is a skill-shaped dict, the same shape a named skill's own frontmatte
 
 To validate a candidate's URLs before or without a full Phase 1 run, `evidence/scripts/validate_sources.py --manifest <path>` accepts the identical manifest shape — see [`/ev-link-validation`](../ev-link-validation/SKILL.md).
 
+## Canonical source URL by evidence type (#1787)
+
+Each evidence type has one canonical URL shape; using the wrong shape breaks that type's scoring inputs or collides with same-source dedup unexpectedly. See `docs/agents/curation-guidelines.md` §5 for the full table (repo-own, github-stars-own, proxy-containment, verifier-attestation, benchmark-result, arxiv, peer-review, self-attestation, social-signal, npm-downloads, fusion-recipe). Note: same-source dedup is `(type, url)`-keyed — two rows collapse only when they share BOTH the same `type` AND the same canonical URL; a `repo-own` row and a `github-stars-own` row at the identical URL are different keys and both count independently.
+
 ## Completion Criteria
 
 - `evidence/by-type/<type>.md` is current and is the primary downstream input.
