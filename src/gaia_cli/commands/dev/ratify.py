@@ -85,11 +85,13 @@ def ratifyCommand(args):
     # Merge into packet
     test_packet = packet.copy()
     test_packet.update(ratified)
-    test_packet["lifecycle"] = list(packet.get("lifecycle", [])) + (
-        ["review-ready"]
-        if "review-ready" not in packet.get("lifecycle", [])
-        else []
-    )
+    # Replace 'deferred' with 'review-ready' in lifecycle
+    lifecycle = list(packet.get("lifecycle", []))
+    if "deferred" in lifecycle:
+        lifecycle[lifecycle.index("deferred")] = "review-ready"
+    elif "review-ready" not in lifecycle:
+        lifecycle.append("review-ready")
+    test_packet["lifecycle"] = lifecycle
 
     # Set the decision reasonCode to L4-ratified
     test_packet["decision"] = {
@@ -102,6 +104,18 @@ def ratifyCommand(args):
     }
     if decision == "MAP":
         test_packet["decision"]["genericId"] = genericId
+    else:  # NEW_GENERIC
+        # For NEW_GENERIC, include the proposal in the decision
+        proposal = {
+            "name": genericName,
+            "description": genericDesc,
+            "type": genericType,
+        }
+        if genericType == "fusion" and prereqs:
+            proposal["prerequisites"] = prereqs.split(",")
+        elif genericType == "basic":
+            proposal["prerequisites"] = []
+        test_packet["decision"]["proposal"] = proposal
 
     # Pre-flight validation
     resolutionErrors = validateL4Resolution(test_packet)
@@ -123,8 +137,15 @@ def ratifyCommand(args):
     try:
         # Apply the ratification to the original packet
         packet.update(ratified)
-        if "review-ready" not in packet.get("lifecycle", []):
-            packet["lifecycle"] = list(packet.get("lifecycle", [])) + ["review-ready"]
+        # Replace 'deferred' with 'review-ready' in lifecycle
+        lifecycle = list(packet.get("lifecycle", []))
+        if "deferred" in lifecycle:
+            lifecycle[lifecycle.index("deferred")] = "review-ready"
+        elif "review-ready" not in lifecycle:
+            # Fallback: append review-ready if neither deferred nor review-ready is present
+            lifecycle.append("review-ready")
+        packet["lifecycle"] = lifecycle
+        # Copy the final decision from test_packet (which was validated)
         packet["decision"] = test_packet["decision"]
 
         with open(packetPath, "w", encoding="utf-8") as f:
