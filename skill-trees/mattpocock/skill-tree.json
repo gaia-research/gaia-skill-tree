@@ -705,7 +705,7 @@
     },
     {
       "skillId": "mattpocock/tdd",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -724,6 +724,11 @@
           "level": "3★",
           "achievedAt": "2026-08-20T05:15:21Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-09-09T20:31:08Z",
+          "source": "demote"
         }
       ]
     },
@@ -1562,6 +1567,14 @@
       "action": "rank_up",
       "skillId": "mattpocock/productivity",
       "details": "Evidence ingestion: github-stars-own (A) + 3×peer-review (C) → TM 102.5 grade A; calibrated 1★→4★ on review/meta/mattpocock-suite-evidence-2026-09"
+    },
+    {
+      "timestamp": "2026-09-09T20:31:08Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "mattpocock/tdd"
     }
   ],
   "stats": {

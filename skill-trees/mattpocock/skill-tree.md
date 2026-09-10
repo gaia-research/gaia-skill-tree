@@ -40,7 +40,7 @@
 | ○ mattpocock/resolving-merge-conflicts | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/scaffold-exercises | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/setup-pre-commit | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/tdd | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/tdd | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/teach | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/writing-for-agents | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
