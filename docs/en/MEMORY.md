@@ -2,6 +2,119 @@
 
 ---
 
+## 2026-09-10 — Routine 051
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** ROTATE. Routine 050's "Planned next" named two items
+(the dead `--skill-count-in-repo` CLI code path, and a stale note in
+`docs/agents/curation-guidelines.md`) — both outside `docs/en/**` write
+scope, so not a valid CONTINUE. No merged PR landed on `main` since
+routine 050 (branch already contains `origin/main` at v8.7.2, no new
+commits to sync against). Fell through to ROTATE: `index.html` (Docs Home)
+was the least-recently-touched page in the Page Map, last touched at
+routine 027 (2026-08-12) — over four weeks stale, older than every other
+row.
+
+### Trigger
+
+Read `docs/en/index.html` end to end looking for drift against pages
+routines have since corrected. Found the MCP Server card (line ~493)
+still read: "Use `@gaia-research/mcp` to give any MCP-compatible agent
+read-only access to the skill graph at runtime — search, inspect, status.
+Installing still happens through the CLI." That's the exact narrative
+routine 045 replaced on `mcp-server.html` itself: standalone
+`@gaia-research/mcp` was decommissioned and deprecated on npm as of
+2026-08-19, and the supported path is now the `skill-heaven` Agent Plugin
+bundling its own `summon` MCP server. `index.html`'s card was never
+updated to match its own linked page — confirmed via
+`grep -RniE '@gaia-research/mcp' docs/en/` finding it stale only here (the
+other two hits, `mcp-server.html` and `cli-reference.html`, both use it
+correctly inside their own decommission-notice callouts).
+
+Also ran the routine's own banned-synonym grep
+(`\b(merge|combine|compose)\b|rarity`) against the page ahead of editing
+and caught a second, unrelated drift: the Skill Fusion card read "Combine
+two or more skills into one Fusion" — using the banned verb "Combine" as
+the action name for Fusion itself, not just as an English word inside an
+explanatory sentence (contrast `fusion.html`'s own lead, "Fusion is the
+act of combining two or more skills...", which uses the -ing form inside
+a definition and matches `DOCS.md`'s own Vocabulary Rules wording —
+different from naming the action "Combine" the way this card did).
+
+### What I did
+
+- `docs/en/index.html` — MCP Server card: rewrote to state
+  `@gaia-research/mcp` is decommissioned and point to the `skill-heaven`
+  Agent Plugin / `summon`, matching `mcp-server.html`.
+- `docs/en/index.html` — Skill Fusion card: replaced "Combine two or more
+  skills into one Fusion" with "Fuse two or more skills into one" —  drops
+  the banned verb, keeps the `gaia fuse` CLI callout unchanged.
+- `docs/en/DOCS.md` — page map row 1 updated with both fixes and the `051`
+  history tag.
+
+### Design decisions
+
+- Kept both card fixes to one sentence each, matching the terse card-desc
+  voice used by every other card on the page — no reflow of the card
+  layout or badge state needed.
+- Did not touch the `docs-card-badge new` badges on either card; both
+  pages they link to are still current, this was a copy-accuracy fix on
+  the landing page only.
+- Left the top-level `docs/index.html` (outside `docs/en/**`) alone even
+  though it has the same `@gaia-research/mcp` staleness per editor-047wk's
+  note — that's flagged there for the founder already and is out of this
+  routine's write scope.
+
+### Issues informed
+
+None filed or closed. Both fixes are docs-accuracy corrections following
+decisions already ratified and shipped in prior routines (045's MCP
+reconciliation, the site-wide Fusion vocabulary rule) — nothing new to
+track.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/index.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on `docs/en/index.html` — zero hits after the fix
+  (previously one, the "Combine" card copy above).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked with the current `?v=8.7.2` cache-bust already in place
+  from a prior routine — untouched.
+- Cross-checked the MCP replacement language directly against
+  `docs/en/mcp-server.html`'s own decommission-notice text rather than
+  paraphrasing from memory.
+
+### Files modified
+
+- `docs/en/index.html` — MCP Server card and Skill Fusion card copy fixed.
+- `docs/en/DOCS.md` — page map row 1 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 052)
+
+- Routine 050's two flagged items are still open and still out of
+  `docs/en/**` scope: the dead `--skill-count-in-repo` mothership-discount
+  CLI code path, and the stale I11-era formula note in
+  `docs/agents/curation-guidelines.md`. Neither is a `docs/en/` task —
+  don't let a future routine silently reintroduce either stale claim.
+- `skill-hierarchy.html` is now the least-recently-touched page in the Page
+  Map (routine 028 / editor-026wk, 2026-08-13) — good ROTATE candidate if
+  no CONTINUE/SYNC task applies next.
+
+### Token spend
+
+2026-09-10 Sonnet 5 Low: ~35k in, ~3k out. ~$0.13
+
+---
+
 ## 2026-09-10 — Routine 050
 
 **Branch:** `docs/routines/047` (PR #1750 open — continued on it per the

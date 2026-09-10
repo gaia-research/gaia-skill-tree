@@ -18,7 +18,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
+| 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027; MCP Server card synced off decommissioned `@gaia-research/mcp` to `skill-heaven`/`summon`, Skill Fusion card's banned "Combine" verb fixed to "Fuse" 051) | 001, 017, 018, 025, 027, 051 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done — aligned core concepts to Yggdrasil II Type and Branch taxonomy, removed stale (coming soon) markers from next steps 042 | 001, 017, 018, 025, 042 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done — documented missing mutating dev verbs (`dev rm-evidence`, `dev rm`, `dev link`, `dev reclassify`, `dev update-named`, `dev build`) 039; documented `gaia steward` suite (`scan`, `run`, `dispatch`, `lane`, `verify`, `founder`) 040; documented `gaia dev verify`, `gaia dev diff`, `gaia dev fuse`, `gaia dev arbor` 041; `gaia dev mcp`'s output transcript flagged as literal-not-recommended with a pointer to the `skill-heaven` plugin, matching #1549's reconciliation on `mcp-server.html`/README (editor pass) | 002, 017, 018, 025, 034, 039, 040, 041, editor-047wk |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
