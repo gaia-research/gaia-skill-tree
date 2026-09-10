@@ -345,3 +345,51 @@ def loadPacketsFromPath(path):
             f"(missing contractVersion=={PACKET_CONTRACT_VERSION!r})"
         )
     return [data]
+
+
+class REASON_CODES:
+    """Discovery packet decision reason codes.
+
+    Worker-side codes (curation-core decision logic):
+    - NOT_A_SKILL: candidate source is not a skill artifact
+    - DUPLICATE_EXACT: exact match found in registry
+    - DEFER_AMBIGUOUS_BUNDLE: candidate covers multiple skills
+    - NEW_GENERIC_NO_MATCH: no mappingOptions above weakMap
+    - MAP_EXISTING_GENERIC: candidate maps to an existing generic
+    - DEFER_WEAK_ADJUDICATION: weak match requires manual review
+    - DEFER_INVALID_PACKET: packet fails schema validation
+    - PREFILL_AWAITING_WORKER: prefill initial DEFER state
+
+    L4 ratification codes:
+    - L4_RATIFIED_MAP: human approved the MAP decision
+    - L4_RATIFIED_NEW_GENERIC: human approved a NEW_GENERIC decision
+    """
+
+    NOT_A_SKILL = "NOT_A_SKILL"
+    DUPLICATE_EXACT = "DUPLICATE_EXACT"
+    DEFER_AMBIGUOUS_BUNDLE = "DEFER_AMBIGUOUS_BUNDLE"
+    NEW_GENERIC_NO_MATCH = "NEW_GENERIC_NO_MATCH"
+    MAP_EXISTING_GENERIC = "MAP_EXISTING_GENERIC"
+    DEFER_WEAK_ADJUDICATION = "DEFER_WEAK_ADJUDICATION"
+    DEFER_INVALID_PACKET = "DEFER_INVALID_PACKET"
+    PREFILL_AWAITING_WORKER = "PREFILL_AWAITING_WORKER"
+    L4_RATIFIED_MAP = "L4_RATIFIED_MAP"
+    L4_RATIFIED_NEW_GENERIC = "L4_RATIFIED_NEW_GENERIC"
+
+    @classmethod
+    def all_values(cls):
+        """Return all valid reason codes as a frozenset."""
+        return frozenset(
+            [
+                cls.NOT_A_SKILL,
+                cls.DUPLICATE_EXACT,
+                cls.DEFER_AMBIGUOUS_BUNDLE,
+                cls.NEW_GENERIC_NO_MATCH,
+                cls.MAP_EXISTING_GENERIC,
+                cls.DEFER_WEAK_ADJUDICATION,
+                cls.DEFER_INVALID_PACKET,
+                cls.PREFILL_AWAITING_WORKER,
+                cls.L4_RATIFIED_MAP,
+                cls.L4_RATIFIED_NEW_GENERIC,
+            ]
+        )

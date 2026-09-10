@@ -179,16 +179,49 @@ For strategies A–D and F, L4 means:
 
 ---
 
-## Phase 3 — Branch + Push + PR
+## Checkpointing — Phases 3–6 (#1790)
+
+Phase 1's discovery strategies already checkpoint to `generated-output/curate-discovery/<run-id>/run.json`
+(strategies B/C above), but that convention stopped at L4 — a background agent restarting mid-Phase-4
+or mid-Phase-5 had nothing to resume from and the orchestrator had to inspect partial output by hand.
+Extend the same convention through the rest of the pipeline: write
+`generated-output/curate-discovery/<run-id>/status.json` after each Phase 3–6 step completes, shaped as:
+
+```json
+{
+  "phase": 4,
+  "state": "evidence-verified",
+  "artifacts": ["evidence/by-type/repo-own.md"],
+  "nextCommand": "gaia dev evidence contributor/skill \"<url>\" --type repo-own ..."
+}
+```
+
+- `phase` — the pipeline phase number (3–6) just completed.
+- `state` — a short label for what that phase produced (e.g. `packet-pushed`, `evidence-verified`, `ingested`, `closed`).
+- `artifacts` — paths touched or produced by that step, for a resuming agent to inspect before re-running anything.
+- `nextCommand` — the exact next command to run, so resume never requires re-deriving pipeline state from prose.
+
+Update `status.json` in place (not append) — it always reflects the latest completed step, not a history log.
+
+---
+
+## Phase 3 — Branch + Push (packet only — no PR here)
 
 **Skills:** [`/pr`](../pr/SKILL.md)
+
+There is exactly **one** canonical PR route for an intake: the workflow-generated
+`review/meta/intake-<N>` opened when the maintainer applies `intake:evidence-approved`
+(Phase 3's label table below). Do **not** also open a hand-cut PR from this branch —
+running both routes produces duplicate PRs for the same intake. `review/meta/<handle>--<skill>`
+exists only to carry the intake packet/batch itself so `gaia push --from-file` has
+something to commit; it is never the PR that lands the skill.
 
 ```bash
 git checkout -b review/meta/<handle>--<skill>
 gaia push --from-file <packet>.json --dry-run   # preview
 gaia push --from-file <packet>.json             # opens intake issue (auto-labels: intake + needs-triage)
 git add . && git commit -m "feat(intake): ..." && git push -u origin <branch>
-gh pr create --draft --title "..." --body-file /tmp/pr-body.md
+# No `gh pr create` here — wait for intake:evidence-approved to open the canonical PR (see below).
 ```
 
 ### `intake:*` label lifecycle — machine gates, applied in order
@@ -248,19 +281,19 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev evidence contributor/skill "<url>" \
 GAIA_OPERATOR_OVERRIDE=1 gaia dev build
 PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill
 # → Human approves calibration
-GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill --stars N
+GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill 4★
 GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
 ```
 
-Trust Magnitude → star grade:
+Trust Magnitude → star grade (per `registry/schema/meta.json` `evidence.gradeThresholds`; see `src/gaia_cli/grading.py`):
 
 | Grade | TM | Max stars |
 |---|---|---|
-| D | 1.0–1.9 | 1★ |
-| C | 2.0–3.9 | 2★ (badge floor) |
-| B | 4.0–6.9 | 3★ |
-| A | 7.0–9.9 | 4★ |
-| S | 10.0+ | 5★–6★ |
+| — | 0–19 | 1★ (ungraded) |
+| C | ≥20 | 2★ (badge floor) |
+| B | ≥50 | 3★ |
+| A | ≥100 | 4★ |
+| S | ≥250 | 5★–6★ |
 
 → Methodology: [`/trust-methodology-consult`](../trust-methodology-consult/SKILL.md)
 

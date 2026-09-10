@@ -162,7 +162,55 @@ def _render_skill_section(skill, similarityIndex):
     return "\n".join(block)
 
 
-def build_intake_issue_body(batch_data):
+def _current_git_branch(repo_root="."):
+    """Best-effort current branch name, or None if unresolvable.
+
+    Used to stamp a `Batch Branch` row on the intake issue (#1785) so
+    intake-approval.yml can check out the batch's actual source branch
+    instead of assuming `main` — `gaia push --from-file` only writes the
+    batch locally and opens the issue; it never lands the batch on main
+    itself, so the workflow needs to know where to look.
+
+    `git rev-parse --abbrev-ref HEAD` prints the literal string `HEAD` in a
+    detached-HEAD checkout — the common case in CI (Actions checks out a
+    specific SHA/ref, not a branch tip). Falling through to None there would
+    have the caller stamp `unknown`, which the workflow parser then maps
+    back to `main` — silently reinstating the exact bug #1785 fixed. So this
+    tries `git branch --show-current` (blank, not `HEAD`, when detached)
+    first, then falls back to the CI-provided branch-name env vars GitHub
+    Actions sets even in a detached checkout.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "branch", "--show-current"],
+            cwd=repo_root, capture_output=True, text=True, timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError):
+        result = None
+    if result is not None and result.returncode == 0:
+        branch = result.stdout.strip()
+        if branch:
+            return branch
+
+    for envVar in ("GITHUB_HEAD_REF", "GITHUB_REF_NAME"):
+        branch = os.environ.get(envVar, "").strip()
+        if branch:
+            return branch
+
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=repo_root, capture_output=True, text=True, timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0:
+        return None
+    branch = result.stdout.strip()
+    return branch if branch and branch != "HEAD" else None
+
+
+def build_intake_issue_body(batch_data, repo_root="."):
     """Build the GitHub issue body for a skill intake batch.
 
     Handles both the legacy scan-based batch format (flat proposed_skills list with
@@ -186,6 +234,7 @@ def build_intake_issue_body(batch_data):
         else f"`{sourceRepo}`"
     )
     via = "`gaia push --from-file`" if fromFile else "`gaia push`"
+    batchBranch = batch_data.get("batchBranch") or _current_git_branch(repo_root)
     lines = [
         "## Gaia Skill Batch Intake",
         "",
@@ -199,6 +248,7 @@ def build_intake_issue_body(batch_data):
         f"| Source repo | {repoLink} |",
         f"| Generated at | `{generatedAt}` |",
         f"| Batch ID | `{batchId}` |",
+        f"| Batch Branch | `{batchBranch or 'unknown'}` |",
         f"| Known canonical skills | `{len(knownSkills)}` |",
         f"| Proposed new skills | `{len(proposedSkills)}` |",
     ]
@@ -391,7 +441,7 @@ def _build_intake_issue_title(batch_data):
 def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
     """Create a GitHub issue for this skill intake batch."""
     title = _build_intake_issue_title(batch_data)
-    body = build_intake_issue_body(batch_data)
+    body = build_intake_issue_body(batch_data, repo_root=repo_root)
     bodyPath = os.path.join(repo_root, ".gaia-intake-issue-body.md")
     with open(bodyPath, "w", encoding="utf-8") as f:
         f.write(body)

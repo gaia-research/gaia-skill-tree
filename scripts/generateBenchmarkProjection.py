@@ -42,7 +42,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from gaia_cli.benchmarkCatalog import (
+_SRC = Path(__file__).resolve().parents[1] / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
+
+from gaia_cli.benchmarkCatalog import (  # noqa: E402
     BenchmarkCatalogError,
     benchmarkEntriesById,
     loadBenchmarkCatalog,

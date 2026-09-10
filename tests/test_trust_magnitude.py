@@ -166,6 +166,95 @@ def test_social_signal_magnitude_log_views():
     assert computeArtifactScore(row) == pytest.approx(32.0)
 
 
+def test_npm_downloads_below_floor_returns_zero():
+    """#1787: downloads <= 100 contributes 0 (no adoption signal below floor)."""
+    row = {"type": "npm-downloads", "downloads": 100}
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_npm_downloads_magnitude_scales_logarithmically():
+    """#1787: m = min(150, 30*log10(downloads/100)). weight=0.9."""
+    row = {"type": "npm-downloads", "downloads": 10000}
+    # 30 * log10(100) = 30*2 = 60; weight 0.9 => 54
+    assert computeArtifactScore(row) == pytest.approx(60.0 * 0.9)
+
+
+def test_npm_downloads_magnitude_caps_at_150_raw():
+    """#1787: raw magnitude caps at 150 before the 0.9 type weight is applied."""
+    row = {"type": "npm-downloads", "downloads": 10_000_000_000}
+    assert computeArtifactScore(row) == pytest.approx(150.0 * 0.9)
+
+
+def test_engagement_below_floor_returns_zero():
+    """#1787: likes + comments*3 < 1 contributes 0."""
+    row = {"type": "engagement", "likes": 0, "comments": 0}
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_engagement_magnitude_weights_comments_triple_likes():
+    """#1787: m = min(60, 15*log10(likes + comments*3)). weight=0.7."""
+    row = {"type": "engagement", "likes": 70, "comments": 10}
+    # combined = 70 + 30 = 100; 15*log10(100) = 30; weight 0.7 => 21
+    assert computeArtifactScore(row) == pytest.approx(30.0 * 0.7)
+
+
+def test_engagement_magnitude_caps_at_60_raw():
+    """#1787: raw magnitude caps at 60 before the 0.7 type weight is applied."""
+    row = {"type": "engagement", "likes": 10_000_000, "comments": 10_000_000}
+    assert computeArtifactScore(row) == pytest.approx(60.0 * 0.7)
+
+
+def test_engagement_combined_exactly_one_returns_zero_not_dead_zone():
+    """Sandbox review (PR #1792): combined == 1.0 (e.g. a single like) used to
+    slip past the `< 1.0` guard and then compute 15*log10(1.0) == 0.0 -- a
+    row that "passed" but was worth nothing. The guard is now `<= 1.0` so
+    this case is excluded outright, same numeric result but no dead zone."""
+    row = {"type": "engagement", "likes": 1, "comments": 0}
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_engagement_negative_likes_does_not_offset_comments():
+    """Sandbox review (PR #1792): a hand-authored/ingested row (bypassing the
+    CLI pre-flight, which does reject negative --likes/--comments) with a
+    large negative `likes` must not cancel out `comments` into a small
+    positive `combined` that reads as legitimate engagement."""
+    row = {"type": "engagement", "likes": -100, "comments": 50}
+    # Without clamping: combined = -100 + 150 = 50 -> nonzero magnitude.
+    # With clamping: likes clamps to 0, combined = 0 + 150 = 150.
+    assert computeArtifactScore(row) == pytest.approx(min(60.0, 15.0 * math.log10(150.0)) * 0.7)
+
+
+def test_engagement_negative_comments_alone_clamped_to_zero():
+    row = {"type": "engagement", "likes": 0, "comments": -50}
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_npm_downloads_same_source_dedup_is_type_and_url_keyed():
+    """#1787/§5.2: dedup key is (type, url) — two npm-downloads rows at the
+    same source collapse to the higher-scoring entry, same as every other type."""
+    skill = {
+        "evidence": [
+            {"type": "npm-downloads", "downloads": 1000, "source": "https://npmjs.com/package/x"},
+            {"type": "npm-downloads", "downloads": 10000, "source": "https://npmjs.com/package/x"},
+        ]
+    }
+    tm = computeTrustMagnitude(skill)
+    assert tm == pytest.approx(60.0 * 0.9)
+
+
+def test_npm_downloads_and_engagement_at_same_url_do_not_collapse():
+    """#1787/§5.2: same-source dedup never collapses across types — a
+    npm-downloads row and an engagement row sharing a URL both count."""
+    skill = {
+        "evidence": [
+            {"type": "npm-downloads", "downloads": 10000, "source": "https://example.com/pkg"},
+            {"type": "engagement", "likes": 70, "comments": 10, "source": "https://example.com/pkg"},
+        ]
+    }
+    tm = computeTrustMagnitude(skill)
+    assert tm == pytest.approx(60.0 * 0.9 + 30.0 * 0.7)
+
+
 # ---------------------------------------------------------------------------
 # Batch B: Repository adoption calibration (3) + same-source dedup (2)
 # ---------------------------------------------------------------------------

@@ -7,6 +7,7 @@ import re
 import argparse
 import filecmp
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -17,6 +18,24 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
+
+
+def _child_env() -> dict:
+    """Environment for subprocess.run calls that invoke another repo script.
+
+    build_docs.py bootstraps SRC onto its own sys.path above, but that
+    in-process mutation is invisible to a spawned child — it never touches
+    the actual PYTHONPATH environment variable. A child script with no
+    bootstrap of its own (see #1789) then fails to import gaia_cli unless the
+    *caller's shell* happened to export PYTHONPATH=src, which --check never
+    required. Explicitly threading PYTHONPATH here makes every child see the
+    same resolved src/ regardless of how build_docs.py itself was invoked.
+    """
+    env = dict(os.environ)
+    existing = env.get("PYTHONPATH", "")
+    parts = [str(SRC)] + ([existing] if existing else [])
+    env["PYTHONPATH"] = os.pathsep.join(parts)
+    return env
 
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser  # noqa: E402
 from gaia_cli.taxonomy import branchFor, levelNum  # noqa: E402
@@ -414,7 +433,9 @@ def build_okf_bundle(check: bool) -> bool:
         return False
 
     if not check:
-        res = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True)
+        res = subprocess.run(
+            [sys.executable, str(script_path)], capture_output=True, text=True, env=_child_env(),
+        )
         return res.returncode == 0
 
     # In --check mode, regenerate into a tempdir and diff only the `.md`
@@ -444,6 +465,7 @@ def build_okf_bundle(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path), str(out_dir)],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         if res.returncode != 0:
             print(f"diff docs/okf/ (regen failed: rc={res.returncode})")
@@ -502,6 +524,7 @@ def build_skills_index(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path), "--check"],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         if res.returncode != 0:
             print("diff docs/okf/index.json (skills index stale -- run buildSkillsIndex.py)")
@@ -511,6 +534,7 @@ def build_skills_index(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         return res.returncode == 0
 
@@ -566,6 +590,7 @@ def build_sitemap(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path), "--check"],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         if res.returncode != 0:
             print("diff docs/sitemap.xml (sitemap stale — run generateSitemap.py)")
@@ -575,6 +600,7 @@ def build_sitemap(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         return res.returncode == 0
 
@@ -640,6 +666,7 @@ def build_jsonld(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path), "--check"],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         if res.returncode != 0:
             print("diff docs/**/*.html (JSON-LD blocks stale -- run injectJsonLd.py)")
@@ -649,6 +676,7 @@ def build_jsonld(check: bool) -> bool:
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
+            env=_child_env(),
         )
         return res.returncode == 0
 
@@ -809,6 +837,7 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         text=True,
         encoding="utf-8",
         errors="replace",
+        env=_child_env(),
     )
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
@@ -1865,10 +1894,44 @@ def main(argv: list[str] | None = None) -> int:
         or sync_assets_changed
         # okf_bundle_changed: intentionally omitted — see warn-only block above.
     )
+    # Name which hard-fail step(s) actually drifted (#1789) — `changed` above is
+    # a flat `or` of every step's boolean, so a bare "stale" message previously
+    # gave the operator no way to tell which step to re-run without bisecting
+    # by hand. Warn-only steps (badges/og/okf/trending) are intentionally
+    # excluded from `changed` above and stay excluded here.
+    _drift_steps = [
+        name
+        for name, is_stale in (
+            ("assembly", assembly_changed),
+            ("readme", readme_changed),
+            ("docs-index", docs_index_changed),
+            ("about-stats", about_stats_changed),
+            ("sitemap", sitemap_changed),
+            ("skills-index", skills_index_changed),
+            ("html-cache-busting", html_cache_busted),
+            ("json-ld", jsonld_changed),
+            ("css-tokens", css_tokens_changed),
+            ("named-index", named_index_changed),
+            ("installability", installability_changed),
+            ("docs-named-index", docs_named_changed),
+            ("arbor-projection", arbor_changed),
+            ("trust-ledger", trust_ledger_changed),
+            ("api-projection", api_changed),
+            ("benchmark-projection", benchmark_proj_changed),
+            ("content-engine", content_engine_changed),
+            ("profiles", profiles_changed),
+            ("tree-md", tree_changed),
+            ("gexf", gexf_changed),
+            ("docs-graph-assets", sync_assets_changed),
+        )
+        if is_stale
+    ]
     if args.check:
         if changed or warnings:
             if warnings:
                 print("\nError: Documentation build encountered errors in --check mode.", file=sys.stderr)
+            if _drift_steps:
+                print(f"Drifting steps: {', '.join(_drift_steps)}", file=sys.stderr)
             print("Generated documentation is stale (source changed but committed docs/graph/* did not).")
             print("Note: --check is NOT read-only — it already regenerated the Class S artifacts locally.")
             print("Run `gaia dev docs` and commit the updated docs/graph/* files (see CLAUDE.md § Class P vs Class S).")

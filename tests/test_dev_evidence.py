@@ -36,6 +36,8 @@ def _make_registry(tmp_path: Path, evidence: list | None = None) -> str:
                     {"id": "benchmark-result", "gradeCeiling": "A"},
                     {"id": "github-stars-own", "gradeCeiling": "B"},
                     {"id": "social-signal", "gradeCeiling": "A"},
+                    {"id": "npm-downloads", "gradeCeiling": "B"},
+                    {"id": "engagement", "gradeCeiling": "A"},
                 ],
                 "perRowGradeThresholds": {},
             }
@@ -107,6 +109,9 @@ def _args(root: str, *, skill_id: str = "demo-skill", source: str = "https://exa
         skill_count_in_repo=None,
         percentile=None,
         source_started_at=None,
+        downloads=None,
+        likes=None,
+        comments=None,
         no_build=True,
     )
     base.update(overrides)
@@ -355,6 +360,92 @@ def test_invalid_source_url_rejected_before_write(tmp_path, capsys):
     assert exc.value.code != 0
     assert _load_node(root) == before
     assert "absolute http(s) URL" in capsys.readouterr().err
+
+
+# ---------------------------------------------------------------------------
+# npm-downloads / engagement CLI flags (#1787)
+# ---------------------------------------------------------------------------
+
+
+def test_downloads_written_for_npm_downloads_type(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(_args(root, evidence_type="npm-downloads", trust=50.0, downloads=5000))
+    ev = _load_node(root)["evidence"]
+    assert ev[0]["downloads"] == 5000
+
+
+def test_likes_and_comments_written_for_engagement_type(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(
+        _args(root, evidence_type="engagement", trust=20.0, likes=70, comments=10)
+    )
+    ev = _load_node(root)["evidence"]
+    assert ev[0]["likes"] == 70
+    assert ev[0]["comments"] == 10
+
+
+def test_likes_and_comments_written_for_social_signal_type(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(
+        _args(root, evidence_type="social-signal", trust=20.0, views=5000, likes=30, comments=5)
+    )
+    ev = _load_node(root)["evidence"]
+    assert ev[0]["likes"] == 30
+    assert ev[0]["comments"] == 5
+
+
+def test_downloads_rejected_for_wrong_type_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="social-signal", views=5000, downloads=5000))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--downloads" in err
+    assert "npm-downloads" in err
+
+
+def test_likes_rejected_for_wrong_type_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="repo-own", commits=10, contributors=1, likes=30))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--likes" in err
+    assert "engagement" in err
+
+
+def test_comments_rejected_for_wrong_type_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="repo-own", commits=10, contributors=1, comments=5))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--comments" in err
+    assert "engagement" in err
+
+
+def test_negative_downloads_rejected_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="npm-downloads", downloads=-1))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--downloads must be >= 0" in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------------------

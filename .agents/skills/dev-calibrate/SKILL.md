@@ -27,9 +27,10 @@ preconditions:
   - the target skill_id exists as a named skill under registry/named/<contributor>/<name>.md
   - gaia whoami resolves to verifier, override, or bootstrap, not denied
   - the working tree is on a review/meta/* or dev/* branch, never main
+  - the active gaia is this repo's source, not a stale pipx install (compare `python3 -m gaia_cli.main --version` to the version in pyproject.toml)
 steps:
   - id: snapshot-target
-    run: python scripts/inspectTrustMagnitude.py --skill {skill_id}
+    run: python3 scripts/inspectTrustMagnitude.py --skill {skill_id}
     proves: current stored level, computed trustMagnitude, and overallTrustGrade are captured for skill_id
   - id: decide
     judgment: PROMOTE | DEMOTE | NO_CHANGE | BLOCKED_MISSING_EVIDENCE
@@ -44,7 +45,7 @@ steps:
     run: gaia dev calibrate {skill_id} {target_level} --no-build
     proves: level frontmatter updated and a rank_up or demote timeline event appended automatically by the CLI — never hand-write this event
   - id: verify-landed
-    run: python scripts/inspectTrustMagnitude.py --skill {skill_id}
+    run: python3 scripts/inspectTrustMagnitude.py --skill {skill_id}
     proves: re-inspected stored level equals decide's target_level — confirmed against live state, not trusted from calibrate's own stdout
   - id: relabel-dependent-origins
     judgment: RELABEL_APEX_ORIGINS | NO_DEPENDENT_ORIGINS
@@ -58,7 +59,7 @@ steps:
     run: gaia dev docs
     proves: Class S artifacts (docs/graph/*, docs/api/v1/*) regenerated to reflect the new level
   - id: verify-docs-clean
-    run: python scripts/build_docs.py --check
+    run: python3 scripts/build_docs.py --check
     proves: exit 0 — the committed artifact set has no undeclared drift beyond the documented warn-only categories
 stopConditions:
   - decide resolves BLOCKED_MISSING_EVIDENCE — land in the review packet for sourced-evidence follow-up, do not force a level change
@@ -97,5 +98,5 @@ its proof obligations.
 ## Reference
 
 - `founder/steward/PLAYBOOKS.md` — the playbook contract this file opts into.
-- `python scripts/inspectTrustMagnitude.py --leaderboard` — finds calibration
+- `python3 scripts/inspectTrustMagnitude.py --leaderboard` — finds calibration
   candidates in bulk by ranking all named skills by Trust Magnitude.
