@@ -486,8 +486,8 @@
             </tr>
             <tr>
               <td><span class="type-pill">github-stars-own</span></td>
-              <td>Stars on the skill's own repository. Discounted when the repo bundles multiple skills (mothership discount).</td>
-              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code> and, if applicable, <code>--skill-count-in-repo</code>.</td>
+              <td>Stars on the skill's own repository, scored on a logarithmic diminishing-returns curve. Capped well below the Grade S floor.</td>
+              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code>.</td>
             </tr>
             <tr>
               <td><span class="type-pill">arxiv</span></td>
@@ -748,6 +748,24 @@
 
       <h3>Using <code>github-stars-own</code> as sole evidence</h3>
       <p>Star counts are volatile and subject to farming. Never use <code>github-stars-own</code> as the sole evidence for a skill — always pair it with at least one <code>repo-own</code> entry pointing to a SKILL.md.</p>
+      <p>
+        Star magnitude is not linear with star count. It follows a logarithmic diminishing-returns
+        curve, capped at 175 TM — strictly below the 250 TM Grade S floor:
+      </p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-label">github-stars-own magnitude</span>
+        </div>
+        <pre><span class="c">magnitude = 0                              </span><span class="c">-- stars &le; 10</span>
+<span class="c">magnitude = min(175, 35 &times; log10(stars &divide; 10))  </span><span class="c">-- stars &gt; 10</span></pre>
+      </div>
+      <div class="callout info">
+        <p>
+          A 10k-star repo and a 10M-star repo land close together under this curve — massive
+          adoption alone reaches a strong Grade A, but stars can never satisfy Grade S without
+          independent corroboration (a paper, a benchmark, a peer review).
+        </p>
+      </div>
 
       <h3>Passing <code>--grade</code> instead of <code>--trust</code></h3>
       <p><code>gaia dev evidence</code> has no <code>--grade</code> flag — Grade is always auto-derived from the <code>--trust</code> number you supply (see thresholds above). There is also no <code>--dry-run</code> mode for this subcommand; it writes directly to the registry node under Verifier authorization, so confirm the skill ID and URL before running it. Doc/graph rebuild is skipped by default — pass <code>--build</code> only when you need the rebuild in the same step.</p>

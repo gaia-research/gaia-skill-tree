@@ -2,6 +2,133 @@
 
 ---
 
+## 2026-09-10 — Routine 050
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE, scoped down — routine 049's "Planned next" named
+`evidence-classes.html`'s deeper TM-formula documentation (logarithmic
+`github-stars-own` curve, mothership discount) but flagged it as "still
+bigger than one routine; scope it deliberately." Scoped it to the single
+concrete, self-contained piece: the `github-stars-own` row and pitfall
+section, rather than attempting the whole TM-formula page in one pass.
+
+### Trigger
+
+Verified ground truth directly against `src/gaia_cli/trustMagnitude.py`
+before writing anything (per CLAUDE.md's Stale Tooling directive) rather
+than trusting the routine-047/048/049 notes' "mothership discount"
+phrasing, which traces back to `docs/agents/curation-guidelines.md`'s I11
+(2026-06-20) formula (`(stars/1000) / skill_count_in_repo * weight`) — that
+predates the Yggdrasil III #1705 recalibration.
+
+Found the live page (`docs/en/evidence-classes.html` lines 488-491) was
+teaching the pre-#1705 behavior as current: "Discounted when the repo
+bundles multiple skills (mothership discount)" and instructing readers to
+pass `--skill-count-in-repo`. Cross-checked `_rawMagnitudeForType()` in
+`trustMagnitude.py` (lines 571-578): the live `github-stars-own` magnitude
+is `0` at ≤10 stars, else `min(175, 35 × log10(stars/10))` — a logarithmic
+curve with **no reference to `skillCountInRepo`** anywhere in the
+computation. The `--skill-count-in-repo` CLI flag and `skillCountInRepo`
+schema field still exist and are still accepted/stored (confirmed in
+`impl.py`, `commands/dev/evidence.py`, `commands/dev/helpers.py`, and both
+`namedSkill.schema.json` / `skill.schema.json`, which still describe it as
+"the mothership discount divisor") — but `trustMagnitude.py` only reads it
+for the cache-invalidation hash (`computeTrustMagnitudeInputHash`, line
+880), never for the actual magnitude. The discount is dead code as of the
+log-curve recalibration; the docs page was describing CLI/schema help text
+that no longer matches computed behavior.
+
+### What I did
+
+- `docs/en/evidence-classes.html` — Evidence Type table: rewrote the
+  `github-stars-own` row to describe the live logarithmic curve instead of
+  the dead mothership discount, and dropped the `--skill-count-in-repo`
+  flag mention since passing it has no effect on the score.
+- `docs/en/evidence-classes.html` — "Using `github-stars-own` as sole
+  evidence" pitfall section: added the exact formula in a `.code-block`
+  (matching the pattern `fusion.html` uses for its Fusion Score formula)
+  plus a `.callout.info` explaining the practical consequence — massive
+  adoption reaches Grade A, never Grade S without independent
+  corroboration.
+- `docs/en/DOCS.md` — page map row 7 updated with the fix and `050` history
+  tag.
+
+### Design decisions
+
+- Did not touch `docs/agents/curation-guidelines.md` or any
+  `src/gaia_cli/**` file — both are outside `docs/en/**`, and the CLI/schema
+  side of this (a flag that is accepted, stored, and hashed but never
+  applied) is a real code-level tech-debt item, not a docs fix. Flagging it
+  below rather than silently fixing it or silently leaving it unmentioned.
+- Reused the exact `.code-block` / `.code-block-header` / `.code-block-label`
+  markup already defined in this page's own `<style>` block (`c` span class
+  for comments) rather than inventing new CSS, and mirrored
+  `fusion.html`'s Fusion Score formula block structure for a consistent
+  cross-page pattern.
+- Used `class="callout info"` (this page's existing space-separated
+  convention, e.g. lines 535/640) rather than `fusion.html`'s
+  `callout callout-info` — each page already picked one, and mixing them
+  within a single file would be the actual inconsistency.
+- Kept the row description short (Grade 7 voice) — the full formula and its
+  practical implication live in the pitfall section below, where a reader
+  who's already using `github-stars-own` is looking for exactly this.
+
+### Issues informed
+
+None filed. The dead `--skill-count-in-repo` flag / `skillCountInRepo`
+schema field (accepted, stored, hashed, but never read by the live
+`github-stars-own` magnitude formula) is a `src/gaia_cli` + schema-level
+tech-debt item, out of this routine's `docs/en/**` write scope — flagging
+it here for the founder or a future CLI-scoped routine rather than filing
+an issue myself or silently fixing/ignoring it. Whoever picks this up
+should decide between reviving the discount in
+`_rawMagnitudeForType()` or retiring the flag/schema field/help text
+site-wide (`impl.py`, `commands/dev/evidence.py`, `commands/dev/helpers.py`,
+`namedSkill.schema.json`, `skill.schema.json`).
+
+### Verification
+
+- `git status --short` scoped to `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `html.parser` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-
+  insensitive) on the page — one hit, pre-existing (`gaia dev merge` CLI
+  verb reference), not new.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Formula verified directly against `_rawMagnitudeForType()` in
+  `src/gaia_cli/trustMagnitude.py`, not against any prior routine's note or
+  `docs/agents/curation-guidelines.md`.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — `github-stars-own` row + pitfall
+  section corrected to the live logarithmic formula.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 051)
+
+- The dead `--skill-count-in-repo` mothership-discount code path (see
+  "Issues informed" above) still needs a founder/CLI-scoped decision. Not a
+  `docs/en/` task, but don't let a future routine re-introduce the discount
+  into a page without first checking whether the CLI side was revived or
+  retired.
+- `docs/agents/curation-guidelines.md`'s I11-era "mothership discount"
+  formula note (also citing the retired `stars/1000` linear scaling) is
+  itself stale against the current log-curve code — out of `docs/en/**`
+  scope, flagging for whoever maintains that file.
+
+### Token spend
+
+2026-09-10 Sonnet 5 Low: ~60k in, ~5k out. ~$0.20
+
+---
+
 ## 2026-09-09 — Routine 049
 
 **Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
