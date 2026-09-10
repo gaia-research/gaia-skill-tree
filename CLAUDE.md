@@ -381,6 +381,10 @@ The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **depreca
 
 Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; keep mirrored copies synchronized. Shared curation contracts live beside the canonical skill in both trees.
 
+## Graft — codebase context graph
+
+`graft/` (gitignored, rebuilt locally) is a linked-markdown map of the hand-authored code, built by [Graft](https://github.com/trailhq/Graft) (`npm i -g @nanonets/graft`; `graft build`). It is scoped to `src/gaia_cli/`, `scripts/`, `tests/`, `packages/`, `.github/workflows/`, `docs/js/`, `docs/css/`, and `registry/schema/` (see `--only-dir` flags in the install PR) — it deliberately excludes everything `gaia dev docs` / `scripts/build_docs.py` regenerates (`docs/graph/`, `docs/api/`, registry data files, `skill-trees/`, etc.) and curated data (`registry/nodes/`, `registry/named/`). Before grepping or re-reading source to understand a flow, prefer `graft ask "<question>" --source`, `graft grep "<pattern>"`, `graft callers <symbol>`, or `graft map`. If `graft/` is missing or stale, run `graft build` to regenerate it (structural build, `$0`, no API key). Telemetry is disabled repo-wide (`graft telemetry disable`); see `TELEMETRY.md` in the upstream repo for what it would otherwise send.
+
 ## Known Frontend Issues — Badges, Graph, Skill Explorer, Nav/Footer
 
 **Invariants (full detail in `docs/agents/frontend-known-issues.md`):**
