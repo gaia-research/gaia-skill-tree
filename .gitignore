@@ -113,3 +113,6 @@ docs/assets/Asset*/*.png
 docs/assets/Asset*/**/*.png
 founder/handovers/design-v6.1.1-assets/**/*.png
 founder/handovers/design-v6.1.1-assets/**/*.mp4
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
