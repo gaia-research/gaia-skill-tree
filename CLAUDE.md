@@ -43,6 +43,8 @@ Work that spans more than one PR does **not** aim its PRs at `main` one at a tim
 - **All proof-of-work lives on the integration branch** — evidence, screenshots, probe records, partial slices. Do not stash it elsewhere and do not squash it away before the founder has seen it.
 - **Branch scopes** are for naming purposes only. Leniency is expected. The only CI that matters is the **one on main** at the end of the sprint.
 
+**`dev/*` branches do not survive their first merge into `main`.** The repo has `delete_branch_on_merge: true` set repo-wide, and GitHub gives no per-branch or ruleset-based exemption from it — it's an all-or-nothing setting, so excluding just `dev/*` isn't achievable in code. If a second feature PR still needs the same integration branch as its base after the first integration→main merge deleted it: recreate `dev/<name>` from the current `main` tip (`git checkout -b dev/<name> main && git push -u origin dev/<name>`) and retarget the pending PR's base to the recreated branch. Plan multi-PR work with this in mind — land everything you need against an integration branch before its first merge to main, or budget for the recreate step after.
+
 #### PR Stacking
 
 - Utilize `gh stack` when creating stacked PRs.
@@ -50,8 +52,10 @@ Work that spans more than one PR does **not** aim its PRs at `main` one at a tim
 
 ## Squash Merges
 
-- NOT allowed when merging PRs against **main**
-- ALLOWED when merging stacked PRs or PRs to integration branches (not landing on main)
+**Squash merging is disabled repo-wide** (`allow_squash_merge: false`) — GitHub has no per-base-branch merge-method control, so this applies to every PR regardless of target branch. `gh pr merge --squash` will always error with "Squash merges are not allowed on this repository."
+
+- Use a **merge commit** everywhere: main, integration branches, and stacked PRs alike.
+- If a future sprint genuinely needs squash for stacked/integration PRs, that requires a founder-approved repo settings change first (Settings → General → Pull Requests → "Allow squash merging") — do not attempt it as a code change, and do not treat this section as already granting it.
 
 ### PR description safety
 
