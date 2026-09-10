@@ -46,6 +46,40 @@ python evidence/scripts/compile_data_lake.py \
 
 For deterministic temp-dir validation or tests, add `--skip-live-stars` and `--no-legacy-tiers` to `generate_source_dump.py`. Do not commit generated lake artifacts unless a human gate explicitly approves them.
 
+## Pre-registry intake candidates (#1786)
+
+A skill proposed by an intake isn't in `registry/named/` yet, so the default Phase 1 read (registry markdown + `gaia.json`) never sees its rows — there was previously no way to run Phases 1-4 on exactly the rows an L4-approved intake is meant to gate. Feed a candidate manifest in alongside the registry:
+
+```bash
+python evidence/scripts/generate_source_dump.py \
+  --output-dir evidence \
+  --by-type-dir evidence/by-type \
+  --candidate-manifest /tmp/intake-candidates.json
+```
+
+**Manifest shape** — a JSON (or `.jsonl`) file, one of:
+- an object with a `candidates` / `entries` / `rows` list,
+- a bare JSON array,
+- JSONL records (one JSON object per line, `.jsonl` extension).
+
+Each entry is a skill-shaped dict, the same shape a named skill's own frontmatter carries:
+
+```json
+{
+  "id": "contributor/candidate-skill",
+  "name": "Candidate Skill",
+  "contributor": "contributor",
+  "genericSkillRef": "generic-skill-id",
+  "evidence": [
+    {"type": "repo-own", "source": "https://github.com/contributor/tool", "date": "2026-09-01", "notes": "..."}
+  ]
+}
+```
+
+`id` is required; `genericSkillRef` is optional (only needed to inherit generic-level evidence rows). Candidate rows merge into the same by-type partitions, deduped and normalized identically to a registered skill's own evidence — they are visually indistinguishable in the output except by `id`. A candidate with no `level` field lands in the default tier bucket; that is cosmetic bucketing only and confers no rank.
+
+To validate a candidate's URLs before or without a full Phase 1 run, `evidence/scripts/validate_sources.py --manifest <path>` accepts the identical manifest shape — see [`/ev-link-validation`](../ev-link-validation/SKILL.md).
+
 ## Completion Criteria
 
 - `evidence/by-type/<type>.md` is current and is the primary downstream input.
