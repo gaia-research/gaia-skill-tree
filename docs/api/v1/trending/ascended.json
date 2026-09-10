@@ -1,6 +1,19 @@
 {
-  "generatedAt": "2026-09-10T12:24:52Z",
+  "generatedAt": "2026-09-10T16:08:32Z",
   "skills": [
+    {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "contributor": "trailhq",
+      "trustMagnitude": 140.42,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-10T15:54:27Z",
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "panniantong/agent-reach",
       "name": "Agent Reach",
@@ -373,19 +386,6 @@
       "ascendedAt": "2026-09-06T16:21:48Z",
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "heygen-com/embedded-captions",
-      "name": "Embedded Captions",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-06T16:21:47Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
       },
       "previousLevel": "2★"
     }

@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-10T12:24:52Z",
+  "generatedAt": "2026-09-10T16:08:32Z",
   "firstRun": false,
   "skills": [
     {
@@ -239,6 +239,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mksglu/context-mode.json"
+      }
+    },
+    {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "contributor": "trailhq",
+      "trustMagnitude": 140.42,
+      "overallTrustGrade": "A",
+      "trendingScore": 70.21,
+      "tmDelta": 140.42,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
       }
     },
     {
@@ -1292,7 +1306,7 @@
       }
     }
   ],
-  "totalTrending": 92,
+  "totalTrending": 93,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
