@@ -35,7 +35,7 @@ def run_validate_intake(intake_dir, *extra_args):
     return result.returncode, result.stdout
 
 
-def write_batch(root, batch_id, proposed_id="semantic-search", similarity_target="web-search"):
+def write_batch(root, batch_id, proposed_id="semantic-search", similarity_target="web-search", skilltype="basic"):
     os.makedirs(os.path.join(root, "skill-batches"), exist_ok=True)
     batch = {
         "batchId": batch_id,
@@ -47,7 +47,7 @@ def write_batch(root, batch_id, proposed_id="semantic-search", similarity_target
             {
                 "id": proposed_id,
                 "name": "Semantic Search",
-                "type": "basic",
+                "type": skilltype,
                 "description": "Finds conceptually related content using meaning rather than exact keyword overlap.",
                 "sourceRepo": "tester/example",
             }
@@ -72,6 +72,22 @@ class TestIntakeValidation(unittest.TestCase):
             code, out = run_validate_intake(tmp)
             self.assertEqual(code, 0, out)
             self.assertIn("All intake checks passed.", out)
+
+    def test_fusion_type_passes(self):
+        # Yggdrasil II node types are basic|fusion (skillBatch.schema.json).
+        with tempfile.TemporaryDirectory() as tmp:
+            write_batch(tmp, "batch-one", skilltype="fusion")
+            code, out = run_validate_intake(tmp)
+            self.assertEqual(code, 0, out)
+            self.assertIn("All intake checks passed.", out)
+
+    def test_legacy_rank_branch_type_fails(self):
+        # extra/ultimate are rank-branch names, not node types.
+        with tempfile.TemporaryDirectory() as tmp:
+            write_batch(tmp, "batch-one", skilltype="extra")
+            code, out = run_validate_intake(tmp)
+            self.assertEqual(code, 1)
+            self.assertIn("has invalid type", out)
 
     def test_duplicate_proposed_id_against_canonical_warns(self):
         with tempfile.TemporaryDirectory() as tmp:
