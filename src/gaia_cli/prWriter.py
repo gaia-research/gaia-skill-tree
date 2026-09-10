@@ -170,7 +170,33 @@ def _current_git_branch(repo_root="."):
     instead of assuming `main` — `gaia push --from-file` only writes the
     batch locally and opens the issue; it never lands the batch on main
     itself, so the workflow needs to know where to look.
+
+    `git rev-parse --abbrev-ref HEAD` prints the literal string `HEAD` in a
+    detached-HEAD checkout — the common case in CI (Actions checks out a
+    specific SHA/ref, not a branch tip). Falling through to None there would
+    have the caller stamp `unknown`, which the workflow parser then maps
+    back to `main` — silently reinstating the exact bug #1785 fixed. So this
+    tries `git branch --show-current` (blank, not `HEAD`, when detached)
+    first, then falls back to the CI-provided branch-name env vars GitHub
+    Actions sets even in a detached checkout.
     """
+    try:
+        result = subprocess.run(
+            ["git", "branch", "--show-current"],
+            cwd=repo_root, capture_output=True, text=True, timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError):
+        result = None
+    if result is not None and result.returncode == 0:
+        branch = result.stdout.strip()
+        if branch:
+            return branch
+
+    for envVar in ("GITHUB_HEAD_REF", "GITHUB_REF_NAME"):
+        branch = os.environ.get(envVar, "").strip()
+        if branch:
+            return branch
+
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
