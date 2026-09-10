@@ -16,7 +16,7 @@ except ImportError:
 
 
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
-VALID_TYPES = {"basic", "extra", "ultimate"}
+VALID_TYPES = {"basic", "fusion"}  # matches registry/schema/skillBatch.schema.json proposedSkills[].type
 
 
 def load_json(path):
