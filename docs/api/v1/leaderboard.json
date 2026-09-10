@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 220,
+    "total": 221,
     "S": 3,
-    "A": 24,
+    "A": 25,
     "B": 90,
     "C": 102,
     "ungraded": 1,
@@ -237,6 +237,19 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 115.89
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "trailhq/graft",
+      "trustMagnitude": 140.42,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 99.42,
+        "self-attestation": 5.0
       },
       "origin": true,
       "branch": "unique"

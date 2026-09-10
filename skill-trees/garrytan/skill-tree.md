@@ -417,6 +417,12 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
   · ◉ obra/brainstorming  [4★]
     ├─ · ○ ████████/requirements-engineer
     └─ ✓ ○ garrytan/office-hours  [3★]
+  · ◉ trailhq/graft  [4★]
+    ├─ · · safishamsi/graphify  [5★]
+    │  ├─ · ○ /extract-entities
+    │  └─ · ○ /logical-inference
+    ├─ · ○ /retrieve
+    └─ ✓ ○ garrytan/context-restore  [2★]
   ✓ ◉ ayghri/i-have-adhd  [4★]
   · ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
