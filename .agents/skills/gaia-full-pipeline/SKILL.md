@@ -248,19 +248,19 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev evidence contributor/skill "<url>" \
 GAIA_OPERATOR_OVERRIDE=1 gaia dev build
 PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill
 # → Human approves calibration
-GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill --stars N
+GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill 4★
 GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
 ```
 
-Trust Magnitude → star grade:
+Trust Magnitude → star grade (per `registry/schema/meta.json` `evidence.gradeThresholds`; see `src/gaia_cli/grading.py`):
 
 | Grade | TM | Max stars |
 |---|---|---|
-| D | 1.0–1.9 | 1★ |
-| C | 2.0–3.9 | 2★ (badge floor) |
-| B | 4.0–6.9 | 3★ |
-| A | 7.0–9.9 | 4★ |
-| S | 10.0+ | 5★–6★ |
+| — | 0–19 | 1★ (ungraded) |
+| C | ≥20 | 2★ (badge floor) |
+| B | ≥50 | 3★ |
+| A | ≥100 | 4★ |
+| S | ≥250 | 5★–6★ |
 
 → Methodology: [`/trust-methodology-consult`](../trust-methodology-consult/SKILL.md)
 
