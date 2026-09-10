@@ -61,6 +61,10 @@ Registry development commands (requires Verifier authorization):
   gaia dev list [--generic] [--named] [--description] [--json]
   gaia dev audit <skill_id>
   gaia dev diff [ref] [--base <ref>]
+  gaia dev prefill <candidate_id> --name ... --description ... --url ...
+  gaia dev ratify <packet_path> --decision {MAP,NEW_GENERIC} --generic-id ... \\
+           --generic-name ... --generic-description ... --generic-type {basic,fusion} \\
+           [--prereqs a,b,c] --contributor ... --skill-name ... --skill-file-url ...
   gaia dev add <name> [--type <type>] [--description <desc>] [--named]
   gaia dev merge <target> <source1> [source2...] [--named] [--yes]
   gaia dev split <source> <target1> <target2>... [--yes]
@@ -160,6 +164,60 @@ class DevCommand(Command):
         dev_prefill.add_argument(
             "--json", "--stdout", dest="json", action="store_true",
             help="Print the packet to stdout instead of writing to disk",
+        )
+
+        dev_ratify = dev_sub.add_parser(
+            "ratify",
+            help="L4 ratification — append l4Resolution to a deferred+mapped packet",
+        )
+        dev_ratify.add_argument(
+            "packet_path", help="Path to the discovery packet JSON file"
+        )
+        dev_ratify.add_argument(
+            "--decision",
+            choices=("MAP", "NEW_GENERIC"),
+            required=True,
+            help="Ratification decision: MAP to existing generic or NEW_GENERIC",
+        )
+        dev_ratify.add_argument(
+            "--generic-id",
+            required=True,
+            help="Vendor-neutral generic skill id (kebab-case)",
+        )
+        dev_ratify.add_argument(
+            "--generic-name",
+            required=True,
+            help="Generic skill name",
+        )
+        dev_ratify.add_argument(
+            "--generic-description",
+            required=True,
+            help="Generic skill description (at least 10 characters)",
+        )
+        dev_ratify.add_argument(
+            "--generic-type",
+            choices=("basic", "fusion"),
+            required=True,
+            help="Generic skill type",
+        )
+        dev_ratify.add_argument(
+            "--prereqs",
+            help="Comma-separated prerequisites (fusion skills only)",
+        )
+        dev_ratify.add_argument(
+            "--contributor",
+            required=True,
+            help="Named skill contributor handle",
+        )
+        dev_ratify.add_argument(
+            "--skill-name",
+            required=True,
+            help="Named skill name (kebab-case)",
+        )
+        dev_ratify.add_argument(
+            "--skill-file-url",
+            required=True,
+            help="GitHub blob URL to the upstream SKILL.md",
         )
 
         dev_evidence_seed = dev_sub.add_parser(
@@ -944,6 +1002,7 @@ class DevCommand(Command):
             "fuse",
             "sync-upstream",
             "freeze",
+            "ratify",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS or (
             dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
@@ -1053,6 +1112,9 @@ class DevCommand(Command):
         elif dev_cmd == "freeze":
             from gaia_cli.commands.dev.freeze import freeze_command
             freeze_command(args)
+        elif dev_cmd == "ratify":
+            from gaia_cli.commands.dev.ratify import ratifyCommand
+            return ratifyCommand(args)
         else:
             from gaia_cli.main import get_parser
             parser, subparsers = get_parser()

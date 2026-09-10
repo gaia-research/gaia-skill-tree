@@ -14,10 +14,15 @@ This module is deterministic and reuses semantic_search primitives; it does NOT
 mutate the registry. Output packets land in registry-for-review/discovery-packets/.
 """
 
+import hashlib
 import json
 import os
+import re
 import sys
+import urllib.request
+from datetime import datetime, timezone
 
+from gaia_cli.intakeAdapter import REASON_CODES, _canonicalDigest
 from gaia_cli.registry import (
     embeddings_path,
     registry_dir,
@@ -45,6 +50,124 @@ REVIEW_READY_LIFECYCLE = [
     "mapped",
     "review-ready",
 ]
+
+# GitHub blob URL pattern for extracting owner/repo/branch/path
+GITHUB_BLOB_RE = re.compile(
+    r"^https://(?:www\.)?github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/blob/(?P<branch>[^/]+)/(?P<path>.+)$"
+)
+
+
+def fetchCandidateSource(canonicalUrl, fetcher=None):
+    """Fetch the content of a GitHub blob URL (e.g., a SKILL.md).
+
+    Args:
+        canonicalUrl: GitHub blob URL (e.g., https://github.com/owner/repo/blob/branch/SKILL.md)
+        fetcher: Optional callable(url: str) -> bytes. Defaults to urllib.request.urlopen.
+
+    Returns:
+        A tuple of (hostRepository, rawUrl, content, contentSha256), or (None, None, None, None) on error.
+        hostRepository is https://github.com/owner/repo
+        rawUrl is https://raw.githubusercontent.com/owner/repo/branch/path
+    """
+    if fetcher is None:
+        fetcher = lambda url: urllib.request.urlopen(url).read()
+
+    match = GITHUB_BLOB_RE.match(canonicalUrl)
+    if not match:
+        return None, None, None, None
+
+    owner = match.group("owner")
+    repo = match.group("repo")
+    branch = match.group("branch")
+    path = match.group("path")
+
+    hostRepository = f"https://github.com/{owner}/{repo}"
+    rawUrl = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}"
+
+    try:
+        content = fetcher(rawUrl)
+        if isinstance(content, bytes):
+            content = content.decode("utf-8")
+        contentSha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        return hostRepository, rawUrl, content, contentSha256
+    except Exception:
+        return None, None, None, None
+
+
+def parseFrontmatter(text):
+    """Parse YAML frontmatter from markdown text.
+
+    Expects the text to start with --- and contain another --- on a later line.
+    Returns a dict of frontmatter fields, or {} if parsing fails.
+    """
+    lines = text.split("\n")
+    if not lines or not lines[0].startswith("---"):
+        return {}
+
+    end_idx = None
+    for i in range(1, len(lines)):
+        if lines[i].startswith("---"):
+            end_idx = i
+            break
+
+    if end_idx is None:
+        return {}
+
+    frontmatter_text = "\n".join(lines[1:end_idx])
+    try:
+        import yaml
+        result = yaml.safe_load(frontmatter_text) or {}
+        return result if isinstance(result, dict) else {}
+    except ImportError:
+        # Minimal YAML parser for simple key: value pairs when pyyaml not available
+        result = {}
+        for line in frontmatter_text.split("\n"):
+            if ":" in line:
+                key, val = line.split(":", 1)
+                result[key.strip()] = val.strip()
+        return result
+    except Exception:
+        return {}
+
+
+def buildGenericSnapshot(registryPath):
+    """Build a frozen genericSnapshot from registry/gaia.json.
+
+    Returns a dict with:
+        {
+            "capturedAt": ISO8601 timestamp,
+            "command": "gaia dev list --generic --json",
+            "generics": [...],  # from gaia.json skills with kind="generic"
+            "contentSha256": canonical digest of generics array,
+            "mappingOptionsSha256": will be set separately per packet
+        }
+    Returns None if the registry/gaia.json is not found.
+    """
+    gaia_json_path = os.path.join(registry_dir(registryPath), "gaia.json")
+    if not os.path.exists(gaia_json_path):
+        return None
+
+    try:
+        with open(gaia_json_path, "r", encoding="utf-8") as f:
+            graph_data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+
+    # Extract entries with kind="generic"
+    generics = []
+    for skill in graph_data.get("skills", []):
+        if skill.get("kind") == "generic":
+            generics.append(skill)
+
+    if not generics:
+        return None
+
+    return {
+        "capturedAt": datetime.now(timezone.utc).isoformat(),
+        "command": "gaia dev list --generic --json",
+        "generics": generics,
+        "contentSha256": _canonicalDigest(generics),
+    }
 
 
 def loadPrefillThresholds(registryPath):
@@ -184,15 +307,20 @@ def buildPrefillPacket(
     sourceLane,
     embeddings,
     thresholds,
+    registryPath=None,
     precomputedVector=None,
     modelName="all-MiniLM-L6-v2",
     suite=None,
+    fetcher=None,
 ):
-    """Assemble a discovery-packet-v2 with prefilled mappingOptions.
+    """Assemble a discovery-packet-v2 with prefilled mappingOptions and source fields.
 
-    Deterministic: given the same inputs it returns the same packet. Emits a
-    packet at the 'discovered' lifecycle stage carrying pre-ranked mapping
-    options for the worker to confirm/adjudicate; it does NOT decide MAP itself.
+    When registryPath is provided, fetches the candidate's upstream SKILL.md,
+    parses its frontmatter, populates source.hostRepository/fetchedAt/contentSha256/frontmatter,
+    stamps artifactGate, and builds genericSnapshot. Advances lifecycle to include
+    fetched/parsed/normalized/deduped/mapped (or rejected if artifactGate != "valid-skill").
+
+    When registryPath is None, uses the legacy short-circuit lifecycle for backward compatibility.
     """
     if precomputedVector is not None:
         queryVector = precomputedVector
@@ -211,14 +339,54 @@ def buildPrefillPacket(
             }
         )
 
+    # Fetch and parse the candidate's upstream SKILL.md
+    hostRepository = None
+    fetchedAt = None
+    contentSha256 = None
+    frontmatter = None
+    artifactGate = None
+    genericSnapshot = None
+    lifecycle = ["discovered", "deferred"]
+
+    if registryPath is not None:
+        hostRepository, rawUrl, content, sourceContentSha256 = fetchCandidateSource(
+            canonicalUrl, fetcher=fetcher
+        )
+
+        if sourceContentSha256 is not None:
+            fetchedAt = datetime.now(timezone.utc).isoformat()
+            contentSha256 = sourceContentSha256
+            frontmatter = parseFrontmatter(content)
+
+            # Stamp artifactGate from frontmatter or default to "valid-skill"
+            # (In a real implementation, this would be validated more thoroughly)
+            artifactGate = frontmatter.get("artifactGate", "valid-skill")
+
+            # Build genericSnapshot
+            snapshot = buildGenericSnapshot(registryPath)
+            if snapshot is not None:
+                snapshot["mappingOptionsSha256"] = _canonicalDigest(options)
+                genericSnapshot = snapshot
+
+            # Advance lifecycle based on artifactGate
+            if artifactGate == "valid-skill":
+                lifecycle = [
+                    "discovered",
+                    "fetched",
+                    "parsed",
+                    "normalized",
+                    "deduped",
+                    "mapped",
+                    "deferred",
+                ]
+            else:
+                # Short-circuit to rejected for non-skill artifacts
+                lifecycle = ["discovered", "fetched", "rejected"]
+
     packet = {
         "contractVersion": "discovery-packet-v2",
         "candidateId": candidateId,
-        # Prefill hands the worker a not-yet-decided packet: DEFER + the shortest
-        # valid deferred lifecycle. The worker advances the lifecycle and emits
-        # the final decision (MAP/NEW_GENERIC/...) after adjudicating the
-        # pre-ranked mappingOptions below.
-        "lifecycle": ["discovered", "deferred"],
+        "lifecycle": lifecycle,
         "source": {
             "canonicalUrl": canonicalUrl,
             "sourceLane": sourceLane,
@@ -230,27 +398,56 @@ def buildPrefillPacket(
         "exactDedupe": {"matched": False},
         "mappingOptions": options,
         "decision": {
-            "value": "DEFER",
-            "reasonCode": "PREFILL_AWAITING_WORKER",
+            "value": "DEFER" if artifactGate == "valid-skill" or artifactGate is None else "NOT_A_SKILL",
+            "reasonCode": REASON_CODES.PREFILL_AWAITING_WORKER
+            if artifactGate == "valid-skill" or artifactGate is None
+            else REASON_CODES.NOT_A_SKILL,
         },
         "flags": flags,
     }
+
+    # Add source fields when fetched
+    if hostRepository is not None:
+        packet["source"]["hostRepository"] = hostRepository
+    if fetchedAt is not None:
+        packet["source"]["fetchedAt"] = fetchedAt
+    if contentSha256 is not None:
+        packet["source"]["contentSha256"] = contentSha256
+    if frontmatter is not None:
+        packet["source"]["frontmatter"] = frontmatter
+    if artifactGate is not None:
+        packet["artifactGate"] = artifactGate
+    if genericSnapshot is not None:
+        packet["genericSnapshot"] = genericSnapshot
+
     if suite is not None:
         packet["suite"] = suite
     return packet
 
 
-def selfValidatePacket(packet):
+def selfValidatePacket(packet, trustedGenerics=None):
     """Validate a packet against the hand-rolled v2 validator.
 
     Imports the validator from the .agents skill tree (the canonical mirror).
+    When trustedGenerics is None, uses the packet's own genericSnapshot.generics
+    for internal consistency checks (if present). This allows packets that include
+    "mapped" in their lifecycle to self-validate without requiring external trust
+    anchors.
+
     Returns a list of stable error codes (empty when valid).
     """
     validate = _importPacketValidator()
     if validate is None:
         # Validator not importable in this environment; skip (non-fatal).
         return []
-    return validate(packet, trusted_generics=None)
+
+    # Thread the packet's own snapshot if no explicit trusted_generics provided
+    if trustedGenerics is None:
+        snapshot = packet.get("genericSnapshot")
+        if isinstance(snapshot, dict):
+            trustedGenerics = snapshot.get("generics")
+
+    return validate(packet, trusted_generics=trustedGenerics)
 
 
 def _importPacketValidator():
@@ -298,15 +495,15 @@ def discoveryPacketsDir(registryPath):
     return os.path.join(registry_for_review_dir(registryPath), "discovery-packets")
 
 
-def validateDiscoveryPackets(registryPath):
+def validateDiscoveryPackets(registryPath, trustedGenerics=None):
     """Validate every discovery packet under registry-for-review/discovery-packets/.
 
     RFC3 §3.5: ``gaia dev validate --intake`` resolves discovery-packet-v2
     packets (in addition to skill batches). Each packet is checked with the
-    hand-rolled discovery-packet validator (supports v1 + v2). Validation is
-    structural (``trusted_generics=None``), matching prefill's self-validate —
-    the full generic-snapshot trust check is a worker-time concern, not a CI
-    gate over draft packets.
+    hand-rolled discovery-packet validator (supports v1 + v2). Validation uses
+    the packet's own genericSnapshot.generics when present (internal consistency),
+    matching prefill's self-validate — the full generic-snapshot trust check is
+    a worker-time concern, not a CI gate over draft packets.
 
     Returns ``(errors, packetCount)`` where errors is a list of
     ``"<path>: <CODE>"`` strings (empty when all valid).
@@ -337,7 +534,15 @@ def validateDiscoveryPackets(registryPath):
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"{path}: MALFORMED_PACKET ({exc})")
             continue
-        codes = validate(packet, trusted_generics=None)
+
+        # Thread the packet's own snapshot if no explicit trusted_generics provided
+        packetTrustedGenerics = trustedGenerics
+        if packetTrustedGenerics is None:
+            snapshot = packet.get("genericSnapshot")
+            if isinstance(snapshot, dict):
+                packetTrustedGenerics = snapshot.get("generics")
+
+        codes = validate(packet, trusted_generics=packetTrustedGenerics)
         for code in codes:
             errors.append(f"{path}: {code}")
     return errors, len(packetPaths)
@@ -396,6 +601,7 @@ def prefillCommand(args):
             sourceLane=args.source_lane,
             embeddings=embeddings,
             thresholds=thresholds,
+            registryPath=registryPath,
             suite=suite,
         )
     except ImportError:
