@@ -1,0 +1,36 @@
+{
+  "handle": "trailhq",
+  "namedSkills": [
+    {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "trustMagnitude": 104.33,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "trailhq",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
+      },
+      "genericSkillRef": "codebase-graph-retrieval"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "trailhq/graft",
+    "level": "4★",
+    "trustMagnitude": 104.33
+  },
+  "prestigeScore": 104.33,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/trailhq.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

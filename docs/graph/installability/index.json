@@ -6783,6 +6783,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "trailhq/graft": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+        "owner": "trailhq",
+        "repo": "Graft",
+        "ref": "main",
+        "subpath": ".claude/skills/graft",
+        "entrypoint": ".claude/skills/graft/SKILL.md",
+        "installSubpath": ".claude/skills/graft"
+      },
+      "currentSkillContentSha256": "5c6592db5656c05fb9653b09ee83af6e653af0a8fd233aee2026d02ab2472da0",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "upsonic/unittest-generator": {
       "state": "unknown",
       "reason": "not-observed",

@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 220,
+    "total": 221,
     "S": 3,
-    "A": 24,
+    "A": 25,
     "B": 90,
     "C": 102,
     "ungraded": 1,
@@ -324,6 +324,18 @@
         "social-signal": 60.02,
         "repo-own": 25.46,
         "github-stars-own": 24.54
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "trailhq/graft",
+      "trustMagnitude": 104.33,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 99.33,
+        "self-attestation": 5.0
       },
       "origin": true,
       "branch": "unique"

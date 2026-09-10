@@ -1,0 +1,118 @@
+{
+  "id": "trailhq/graft",
+  "name": "graft",
+  "contributor": "trailhq",
+  "level": "4★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 104.33,
+  "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
+  "_links": {
+    "self": "/api/v1/skills/trailhq/graft.json",
+    "contributor": "/api/v1/contributors/trailhq.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 100.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 5,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "Graft",
+  "genericSkillRef": "codebase-graph-retrieval",
+  "origin": true,
+  "description": "This repo is indexed by graft/. For ANY task here, whether understanding how something works, finding where code lives, tracing what calls a symbol or what a change breaks, or scoping an edit, get your context from graft before grepping or reading source files.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/trailhq/Graft",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-10",
+      "type": "github-stars-own",
+      "notes": "6,886 GitHub stars as of 2026-09-10 (GitHub API; standalone skill)",
+      "stars": 6886,
+      "sourceStartedAt": "2026-07-03"
+    },
+    {
+      "source": "https://github.com/trailhq/Graft",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-10",
+      "type": "repo-own",
+      "notes": "469 commits, 30 contributors as of 2026-09-10 (GitHub API)",
+      "commits": 469,
+      "contributors": 30,
+      "sourceStartedAt": "2026-07-03",
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-09-10",
+      "type": "self-attestation",
+      "notes": "Upstream SKILL.md, pinned cf954d0a",
+      "sourceStartedAt": "2026-07-03",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-10T12:12:49Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill trailhq/graft"
+    },
+    {
+      "timestamp": "2026-09-10T12:12:53Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-09-10T12:12:53Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Updated GitHub link to https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md"
+    },
+    {
+      "timestamp": "2026-09-10T12:14:40Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/trailhq/Graft (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-09-10T12:14:41Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/trailhq/Graft (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-09-10T12:14:42Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-09-10T12:18:33Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 4★"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md"
+  }
+}

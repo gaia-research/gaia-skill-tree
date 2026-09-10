@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-09-09
+GAIA SKILL TREE  ·  generated 2026-09-10
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -383,12 +383,15 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ ████████/requirements-engineer
     └─ ○ garrytan/office-hours  [3★]
   ◉ anthropics/brand-guidelines  [4★]
+  ◉ trailhq/graft  [4★]
+    ├─ · safishamsi/graphify  [5★]
+    │  ├─ ○ /extract-entities
+    │  └─ ○ /logical-inference
+    ├─ ○ /retrieve
+    └─ ○ garrytan/context-restore  [2★]
   ◉ mksglu/context-mode  [4★]
   ◉ ayghri/i-have-adhd  [4★]
   ◉ dietrichgebert/ponytail  [4★]
-  ◉ safishamsi/graphify  [5★]
-    ├─ ○ /extract-entities
-    └─ ○ /logical-inference
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [4★]
   ◉ obra/subagent-driven-development  [4★]
@@ -456,4 +459,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-09-09. Do not edit directly.*
+*Generated from gaia.json on 2026-09-10. Do not edit directly.*

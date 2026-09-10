@@ -1,10 +1,10 @@
 {
-  "version": "8.7.1",
-  "generatedAt": "2026-09-09T20:34:18Z",
+  "version": "7.13.2",
+  "generatedAt": "2026-09-10T12:18:42Z",
   "summary": {
-    "total": 220,
+    "total": 221,
     "S": 3,
-    "A": 24,
+    "A": 25,
     "B": 90,
     "C": 102,
     "ungraded": 1,
@@ -478,6 +478,23 @@
         "social-signal": 60.02,
         "repo-own": 25.46,
         "github-stars-own": 24.54
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "trailhq/graft",
+      "tm": 104.33,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 99.33,
+        "self-attestation": 5.0
       },
       "origin": true,
       "branch": "unique"

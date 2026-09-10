@@ -624,6 +624,23 @@
       "genericSkillRef": "web-scrape"
     },
     {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "trustMagnitude": 104.33,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "trailhq",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
+      },
+      "genericSkillRef": "codebase-graph-retrieval"
+    },
+    {
       "id": "mattpocock/engineering",
       "name": "Engineering",
       "level": "4★",
@@ -1072,28 +1089,11 @@
         "self": "/api/v1/skills/mattpocock/grill-me.json"
       },
       "genericSkillRef": "grill-me"
-    },
-    {
-      "id": "mattpocock/grill-with-docs",
-      "name": "Grill With Docs",
-      "level": "3★",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "fusionScore": 180.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
-      },
-      "genericSkillRef": "grill-with-docs"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 219,
+  "totalSkills": 220,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

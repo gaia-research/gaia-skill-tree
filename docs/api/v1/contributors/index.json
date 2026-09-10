@@ -261,6 +261,19 @@
       }
     },
     {
+      "handle": "trailhq",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "trailhq/graft",
+        "level": "4★",
+        "trustMagnitude": 104.33
+      },
+      "prestigeScore": 104.33,
+      "_links": {
+        "self": "/api/v1/contributors/trailhq.json"
+      }
+    },
+    {
       "handle": "gaia-research",
       "namedSkills": 2,
       "topSkill": {
@@ -482,7 +495,7 @@
       }
     }
   ],
-  "totalContributors": 37,
+  "totalContributors": 38,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }
