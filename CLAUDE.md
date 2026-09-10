@@ -66,7 +66,7 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 
 | Scope | Allowed Directories | Reasoning |
 |-------|---------------------|-----------|
-| **infra/** | `.github/`, `scripts/`, `*.md`, `docs/*.html`, `docs/badges/` | Already codified in `.github/workflows/branch-scope.yml` and exempt from re-litigation. |
+| **infra/** | `.github/`, `scripts/`, `tests/`, `.claude/skills/`, `.agents/skills/`, `*.md`, `docs/*.html`, `docs/badges/` | Already codified in `.github/workflows/branch-scope.yml` and exempt from re-litigation. `tests/` travels with `scripts/` so a one-line script fix and its regression test can land together (#1790). |
 | **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` | The two schema directories must move in lockstep; schema PRs touching only one side always trip CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check`. |
 | **review/meta/** | `docs/` (excl. `registry/schema/`), `registry/` (excl. `registry/schema/`) | Required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (per-user profile pages, badges, graph, API docs). Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR. |
 
