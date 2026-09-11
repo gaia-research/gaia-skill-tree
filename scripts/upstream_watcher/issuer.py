@@ -626,7 +626,7 @@ def create_issues(
 
                 # Existing issue was for an older version -> update it in place!
                 body = render_bootstrap_body(finding)
-                prev_v = existing_title.replace(suite_prefix, "")
+                prev_v = existing_title.removeprefix(suite_prefix)
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
                 _update_issue(
                     existing_num,
@@ -703,7 +703,7 @@ def create_issues(
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
-            prev_v = existing_title.replace(suite_prefix, "")
+            prev_v = existing_title.removeprefix(suite_prefix)
             comment = (
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
                 "Payload, component diff, and link-liveness refreshed."
