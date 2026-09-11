@@ -2,7 +2,7 @@ name: Upstream Approve
 
 on:
   issues:
-    types: [labeled]
+    types: [labeled, opened]
   workflow_dispatch:
     inputs:
       issue_number:
@@ -20,9 +20,13 @@ jobs:
     name: Process upstream:approved label
     runs-on: ubuntu-latest
     # Only fire when the applied label is upstream:approved (issues path)
+    # OR when an issue is opened with upstream:approved
     # OR when manually dispatched (retry path)
     if: >-
-      (github.event_name == 'issues' && github.event.label.name == 'upstream:approved')
+      (github.event_name == 'issues' && (
+        github.event.label.name == 'upstream:approved'
+        || contains(github.event.issue.labels.*.name, 'upstream:approved')
+      ))
       || github.event_name == 'workflow_dispatch'
 
     steps:
