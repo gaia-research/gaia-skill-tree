@@ -40,8 +40,11 @@ def test_meta_guard_uses_authz_and_fails_closed_without_index():
     assert '"$MERGE_BASE..$HEAD_SHA"' in run
 
 
-def test_apex_gate_builds_index_before_verifier_signoffs():
+def test_apex_gate_builds_base_index_before_verifier_signoffs():
     steps = job("apex-gate")["steps"]
     build = index(steps, lambda s: "generateNamedIndex.py" in s.get("run", ""))
     signoffs = index(steps, lambda s: "check_verifier_signoffs.py" in s.get("run", ""))
     assert build < signoffs
+    # Verifiers come from the base registry, not the PR's own.
+    assert steps[build]["env"]["BASE_SHA"] == "${{ github.event.pull_request.base.sha }}"
+    assert 'git worktree add --no-checkout --detach "$BASE_TREE" "$BASE_SHA"' in steps[build]["run"]

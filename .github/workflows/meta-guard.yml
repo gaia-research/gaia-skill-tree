@@ -208,11 +208,20 @@ jobs:
         run: uv pip install --system -e ".[dev]"
 
       # check_verifier_signoffs.py reads registry/named-skills.json, a gitignored
-      # Class P artifact; without it no sign-off can ever count (#1815).
-      - name: Build intermediate registry artifacts (Class P)
+      # Class P artifact; without it no sign-off can ever count (#1815). Build it
+      # from the BASE commit, with the base's own scripts, so a PR cannot promote
+      # its own sign-off authors into Verifiers.
+      - name: Build the base named-skills index
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          python scripts/assemble_gaia.py
-          python scripts/generateNamedIndex.py
+          set -euo pipefail
+          BASE_TREE="$RUNNER_TEMP/base"
+          git worktree add --no-checkout --detach "$BASE_TREE" "$BASE_SHA"
+          git -C "$BASE_TREE" sparse-checkout set registry scripts src
+          git -C "$BASE_TREE" checkout -q
+          (cd "$BASE_TREE" && python scripts/assemble_gaia.py && python scripts/generateNamedIndex.py)
+          cp "$BASE_TREE/registry/named-skills.json" registry/named-skills.json
 
       - name: Require apex-promotion label
         env:
