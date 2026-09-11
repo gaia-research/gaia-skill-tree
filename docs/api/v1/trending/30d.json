@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-10T16:08:32Z",
+  "generatedAt": "2026-09-11T14:25:11Z",
   "firstRun": false,
   "skills": [
     {
@@ -1096,6 +1096,20 @@
       }
     },
     {
+      "id": "yylo-dev/ledger-tasks-yylo",
+      "name": "Ledger Tasks (yylo)",
+      "level": "2★",
+      "contributor": "yylo-dev",
+      "trustMagnitude": 36.6,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.3,
+      "tmDelta": 36.6,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/yylo-dev/ledger-tasks-yylo.json"
+      }
+    },
+    {
       "id": "balukosuri/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
@@ -1306,7 +1320,7 @@
       }
     }
   ],
-  "totalTrending": 93,
+  "totalTrending": 94,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

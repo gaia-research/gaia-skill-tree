@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-10T16:08:32Z",
+  "generatedAt": "2026-09-11T14:25:11Z",
   "firstRun": false,
   "skills": [
     {
@@ -466,20 +466,6 @@
       }
     },
     {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "2★",
-      "contributor": "anthropic",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      }
-    },
-    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
@@ -841,6 +827,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
+    {
+      "id": "yylo-dev/ledger-tasks-yylo",
+      "name": "Ledger Tasks (yylo)",
+      "level": "2★",
+      "contributor": "yylo-dev",
+      "trustMagnitude": 36.6,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.3,
+      "tmDelta": 36.6,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/yylo-dev/ledger-tasks-yylo.json"
       }
     },
     {
