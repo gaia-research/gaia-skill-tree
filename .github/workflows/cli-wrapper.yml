@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels the run it supersedes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   test:
     name: Build, Test, and Package
@@ -34,8 +39,14 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install Python dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Install npm dependencies
         working-directory: packages/cli-npm

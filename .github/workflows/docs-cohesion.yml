@@ -12,6 +12,11 @@ on:
       - 'docs/**'
       - 'dev/**'
 
+# A new push to a PR cancels the run it supersedes; branch pushes never cancel.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   cohesion:
     name: Design-system lint guards
@@ -23,10 +28,13 @@ jobs:
       github.event_name == 'push' ||
       github.event.pull_request.changed_files >= 10
     steps:
+      # Guard E only needs `git diff --name-only` across history, so skip
+      # historical blobs; the working tree is still full for the scans.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
 
       # ── Guard A — Binary-source detector (runs BEFORE the hex scan) ──────
       # A NUL byte in a .js/.css source makes GNU grep treat the file as binary
@@ -116,7 +124,7 @@ jobs:
       # has to be able to name the word it retired, and a linter has to be able
       # to test itself. Excluding the directory is not a loophole — everything
       # in it is checked, harder, by scripts/lexicon/check-lexicon.ts, which
-      # runs in .github/workflows/lexicon-ci.yml on every PR that touches it.
+      # runs in .github/workflows/pr-guards.yml on every PR that touches it.
       - name: Guard B — Scan for banned synonyms
         id: banned-synonyms
         run: |

@@ -6,6 +6,11 @@ on:
     # applies bot labels, avoiding a false failure on the initial 'opened' run.
     types: [opened, synchronize, reopened, labeled]
 
+# A new push or label event cancels the run it supersedes (same PR head).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   scope-check:
     name: Verify branch scope matches changed files
@@ -21,10 +26,15 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # The check reads commit metadata and tree paths (git log, merge-base,
+      # diff-tree --name-only), never file contents: full history without
+      # blobs, and a sparse working tree.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
 
       - name: Check branch scope
         env:

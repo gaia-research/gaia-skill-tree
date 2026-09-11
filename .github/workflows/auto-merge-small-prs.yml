@@ -19,10 +19,13 @@ jobs:
     name: Auto-merge if eligible
     runs-on: ubuntu-latest
     steps:
+      # Only `git diff --name-only` is used: full history, no blobs, sparse tree.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
 
       - name: Check PR size and eligibility
         id: check

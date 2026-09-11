@@ -48,6 +48,11 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels the run it supersedes; pushes to main never cancel.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     name: Schema + DAG + Integrity Checks
@@ -60,10 +65,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
 
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Build intermediate registry artifacts
         run: |
@@ -124,8 +134,14 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install dependencies
-        run: pip install -e .
+        run: uv pip install --system -e .
 
       - name: Run skill validation
         run: python scripts/validate_skills.py

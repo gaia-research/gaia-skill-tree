@@ -9,6 +9,11 @@ on:
       - 'registry/named-skills.json'
       - 'skill-trees/**'
 
+# A new push or label event cancels the run it supersedes (same PR head).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   meta-guard:
     name: Verify registry/timeline mutations come from an authorized actor
@@ -26,10 +31,14 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # History for merge-base and diff-tree; blobs are fetched lazily only if
+      # the failure path diffs file contents. Working tree limited to registry/.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: registry
 
       - name: Check authorized meta mutation
         env:
@@ -173,18 +182,26 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # History for merge-base; the 6★ diff lazily fetches only the blobs it reads.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Require apex-promotion label
         env:
@@ -245,18 +262,23 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # Counts the checked-out registry only; no history needed.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Count apex skills and enforce system-wide cap
         run: |

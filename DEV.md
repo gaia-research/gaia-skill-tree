@@ -193,6 +193,17 @@ cd packages/cli-npm && npm test
 cd ../mcp && npm run build && npm test
 ```
 
+### Run the PR guards before pushing
+The vocabulary, lexicon, taxonomy-authority, version-stamp, HTML-sink, and license guards run in
+CI as one job (`.github/workflows/pr-guards.yml`). The same runner works locally and picks the
+guards your branch touches, so a failure costs seconds instead of a push round:
+```bash
+python scripts/pr_guards.py              # guards touched since origin/main (incl. uncommitted edits)
+python scripts/pr_guards.py --all        # every guard
+python scripts/pr_guards.py --dry-run    # list what would run
+```
+The lexicon and license guards need Node (`npx`); without it they are skipped locally and still run in CI.
+
 ### Test-suite conventions
 
 **a. Default timeouts (never use `--timeout-method=thread`)**
