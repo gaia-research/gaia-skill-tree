@@ -115,6 +115,17 @@ def test_failure_comment_path_does_not_rely_on_bare_process_substitution():
             )
 
 
+def test_gh_calls_before_checkout_know_the_repository():
+    """Issue #1799: `gh issue view` runs before `actions/checkout`, where there
+    is no .git for gh to infer the repo from. Every job must set GH_REPO."""
+    doc = _load()
+    for job_name in ("topology-approved", "evidence-approved"):
+        env = doc["jobs"][job_name].get("env", {})
+        assert env.get("GH_REPO") == "${{ github.repository }}", (
+            f"{job_name}: GH_REPO must be set at job level for pre-checkout gh calls"
+        )
+
+
 def test_pr_create_base_has_a_fallback_for_deleted_branches():
     doc = _load()
     step = next(

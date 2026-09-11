@@ -6,7 +6,8 @@ read-write GITHUB_TOKEN scopes (principle of least privilege).
 
 Scoped intentionally to the two workflows named in #1144: other workflows
 (labels-sync, meta-guard, pr-author-identity, ...) legitimately require write
-scopes and are out of scope for this fix.
+scopes and are out of scope for this fix. The license check now runs inside
+pr-guards.yml, which carries the same read-only requirement.
 """
 
 import pathlib
@@ -16,7 +17,7 @@ import yaml
 WORKFLOWS_DIR = pathlib.Path(__file__).resolve().parents[1] / ".github" / "workflows"
 
 # Workflows named in issue #1144 that run read-only jobs (tests / license check).
-READ_ONLY_WORKFLOWS = ["sdk-tests.yml", "license-check.yml"]
+READ_ONLY_WORKFLOWS = ["sdk-tests.yml", "pr-guards.yml"]
 
 
 def _load(name):

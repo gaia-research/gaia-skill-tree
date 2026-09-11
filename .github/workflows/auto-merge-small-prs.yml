@@ -19,38 +19,52 @@ jobs:
     name: Auto-merge if eligible
     runs-on: ubuntu-latest
     steps:
+      # Only `git diff --name-only` is used: full history, no blobs, sparse tree.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
 
       - name: Check PR size and eligibility
         id: check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
         run: |
+          # Fork PRs get a read-only token and can never be merged from here.
+          if [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            echo "eligible=false" >> $GITHUB_OUTPUT
+            echo "Skipping auto-merge: PR comes from a fork ($HEAD_REPO)"
+            exit 0
+          fi
+
           # Count changed files against base branch
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
+          CHANGED_FILES=$(git diff --name-only "origin/$BASE_REF...HEAD" | wc -l)
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
- 
+
           # Auto-merge is safe if:
           # 1. PR has 'auto-merge' label OR is a bot PR (Jules/Codex)
           # 2. Fewer than 20 files changed
           # 3. Doesn't modify critical files (.github, pyproject.toml, package.json)
- 
+
           # Fetch labels and body to check for eligibility
-          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json labels,body)
-          HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels[].name' | grep -q "auto-merge" && echo "true" || echo "false")
+          PR_DATA=$(gh pr view "$PR_NUMBER" --json labels,body)
+          HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels[].name' | grep -qx "auto-merge" && echo "true" || echo "false")
           IS_BOT=$(echo "$PR_DATA" | jq -r '.body' | grep -E '(jules\.google\.com/task|chatgpt\.com/codex)' > /dev/null && echo "true" || echo "false")
- 
+
           if [ "$HAS_LABEL" != "true" ] && [ "$IS_BOT" != "true" ]; then
             echo "eligible=false" >> $GITHUB_OUTPUT
             echo "Skipping auto-merge: PR lacks 'auto-merge' label and bot signature"
             exit 0
           fi
- 
+
           if [ "$CHANGED_FILES" -lt 20 ]; then
-            CRITICAL_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
+            CRITICAL_FILES=$(git diff --name-only "origin/$BASE_REF...HEAD" | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
             if [ -z "$CRITICAL_FILES" ]; then
               echo "eligible=true" >> $GITHUB_OUTPUT
             else
@@ -61,37 +75,54 @@ jobs:
             echo "eligible=false" >> $GITHUB_OUTPUT
             echo "Skipping auto-merge: PR changes $CHANGED_FILES files (limit: 20)"
           fi
- 
+
       - name: Wait for checks and update body
         if: steps.check.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          # This job's own check stays pending while it waits; never count it.
+          SELF_CHECK: Auto-merge if eligible
         run: |
-          # Poll for checks to complete (max 10 min: 60 rounds * 10 seconds)
+          # Poll for checks to complete (max 15 min: 90 rounds * 10 seconds).
+          # Keep only the newest run of each check: a label event re-runs some
+          # workflows on the same commit, and concurrency cancels the older run.
+          # Cancelled and skipped checks are neutral; required checks are still
+          # enforced by the branch ruleset at merge time.
           SUCCESS=false
-          for i in {1..60}; do
-            CHECKS_JSON=$(gh pr checks ${{ github.event.pull_request.number }} --json state || echo "[]")
-            TOTAL_COUNT=$(echo "$CHECKS_JSON" | jq '. | length')
-            
+          for i in {1..90}; do
+            # gh exits non-zero while checks are pending or failing but still
+            # prints the JSON, so keep stdout and ignore the exit code.
+            CHECKS_JSON=$(gh pr checks "$PR_NUMBER" --json name,workflow,bucket,startedAt 2>/dev/null || true)
+            [ -n "$CHECKS_JSON" ] || CHECKS_JSON='[]'
+            COUNTS=$(echo "$CHECKS_JSON" | jq -c --arg self "$SELF_CHECK" '
+              map(select(.name != $self))
+              | group_by([.workflow, .name]) | map(sort_by(.startedAt // "") | last)
+              | {total: length,
+                 pending: (map(select(.bucket == "pending")) | length),
+                 failed: (map(select(.bucket == "fail")) | map(.name))}')
+            TOTAL_COUNT=$(echo "$COUNTS" | jq '.total')
+            PENDING_COUNT=$(echo "$COUNTS" | jq '.pending')
+            FAILED=$(echo "$COUNTS" | jq -r '.failed | join(", ")')
+
             if [ "$TOTAL_COUNT" -eq 0 ]; then
-              echo "Waiting for checks to be registered... ($i/60)"
+              echo "Waiting for checks to be registered... ($i/90)"
               sleep 10
               continue
             fi
-            
-            PENDING_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "PENDING")] | length')
-            FAILED_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "FAILING" or .state == "CANCELLED")] | length')
-            
-            echo "Checks check: total=$TOTAL_COUNT, pending=$PENDING_COUNT, failed=$FAILED_COUNT ($i/60)"
-            
-            if [ "$PENDING_COUNT" -eq 0 ]; then
-              if [ "$FAILED_COUNT" -eq 0 ]; then
-                SUCCESS=true
-                echo "All checks completed successfully!"
-              else
-                echo "Some checks failed ($FAILED_COUNT failed). Aborting auto-merge."
-              fi
+
+            echo "Checks: total=$TOTAL_COUNT, pending=$PENDING_COUNT, failed=[$FAILED] ($i/90)"
+
+            if [ -n "$FAILED" ]; then
+              echo "Some checks failed ($FAILED). Aborting auto-merge."
               break
             fi
-            
+            if [ "$PENDING_COUNT" -eq 0 ]; then
+              SUCCESS=true
+              echo "All checks completed successfully!"
+              break
+            fi
+
             sleep 10
           done
 
@@ -99,27 +130,31 @@ jobs:
             echo "Checks failed or timed out. Aborting."
             exit 1
           fi
- 
+
           # Update PR body with [skip-gen] marker
-          BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body -q .body)
+          BODY=$(gh pr view "$PR_NUMBER" --json body -q .body)
           if ! echo "$BODY" | grep -q "\[skip-gen\]"; then
             NEW_BODY="$(printf '%s\n\n[skip-gen]' "$BODY")"
-            gh pr edit ${{ github.event.pull_request.number }} --body "$NEW_BODY"
+            gh pr edit "$PR_NUMBER" --body "$NEW_BODY"
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- 
+
       - name: Merge PR
         if: steps.check.outputs.eligible == 'true'
-        run: |
-          # If it's a draft, mark as ready first
-          IS_DRAFT=$(gh pr view ${{ github.event.pull_request.number }} --json isDraft -q .isDraft)
-          if [ "$IS_DRAFT" = "true" ]; then
-            gh pr ready ${{ github.event.pull_request.number }}
-          fi
- 
-          gh pr merge ${{ github.event.pull_request.number }} \
-            --squash \
-            --delete-branch || echo "PR already merged or merge blocked by checks"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # If it's a draft, mark as ready first
+          IS_DRAFT=$(gh pr view "$PR_NUMBER" --json isDraft -q .isDraft)
+          if [ "$IS_DRAFT" = "true" ]; then
+            gh pr ready "$PR_NUMBER"
+          fi
+
+          # Squash merges are disabled repo-wide (CLAUDE.md § Squash Merges), so
+          # this must be a merge commit. The repo deletes head branches on merge.
+          # A failure here (e.g. branch behind main under the strict ruleset) is
+          # reported, not swallowed.
+          if ! gh pr merge "$PR_NUMBER" --merge; then
+            echo "::error::Merge blocked for PR #$PR_NUMBER — check that it is up to date with its base and that required checks passed."
+            exit 1
+          fi

@@ -1,0 +1,142 @@
+name: PR Guards
+
+# One job for the single-script guards that used to be six workflows:
+# html-sink-guard, rank-vocabulary-guard, taxonomy-authority-guard,
+# version-stamp-guard, lexicon-ci, and license-check. Each paid ~30s of
+# checkout and setup for 0-2s of work.
+#
+# scripts/pr_guards.py keeps every guard's original path globs and runs only
+# the guards this PR touches; every selected guard runs even if an earlier one
+# fails. tests/test_pr_guards.py keeps the `paths:` lists below equal to the
+# union of those globs. Run the same thing locally before pushing:
+#
+#   python scripts/pr_guards.py
+#
+# Lexicon gate (ratified V5-8, issue #1337): scripts/lexicon/check-lexicon.ts is
+# vendored byte-identical from gaia-research and its self-tests pin the sha256
+# in scripts/lexicon/vendor.json. See docs/guard-topology.md § Lexicon gate.
+
+on:
+  pull_request:
+    paths:
+      # runner
+      - 'scripts/pr_guards.py'
+      - '.github/workflows/pr-guards.yml'
+      # html-sink + taxonomy-authority
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'scripts/check_html_sinks.py'
+      - 'src/**/*.py'
+      - 'scripts/**/*.py'
+      - 'scripts/check_taxonomy_authority.py'
+      # rank-vocabulary
+      - 'registry/**'
+      - '*.md'
+      - 'docs/**/*.md'
+      - 'founder/handovers/**/*.md'
+      - 'scripts/check_rank_vocabulary.py'
+      # version-stamp
+      - 'src/**'
+      - 'registry/render/**'
+      - 'scripts/check_version_stamps.py'
+      # lexicon
+      - 'founder/**'
+      - 'docs/agents/**'
+      - 'docs/*.md'
+      - 'packages/*/README.md'
+      - 'scripts/lexicon/**'
+      - 'CLAUDE.md'
+      - 'CONTEXT.md'
+      - 'CONTRIBUTING.md'
+      - 'DEV.md'
+      - 'README.md'
+      # license
+      - 'registry/gaia.json'
+      - 'docs/graph/gaia.json'
+      - 'scripts/validate-licenses.ts'
+      - 'scripts/license-matrix.json'
+  push:
+    branches:
+      - 'main'
+      - 'dev/**'
+      - 'infra/**'
+    paths:
+      # runner
+      - 'scripts/pr_guards.py'
+      - '.github/workflows/pr-guards.yml'
+      # html-sink + taxonomy-authority
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'scripts/check_html_sinks.py'
+      - 'src/**/*.py'
+      - 'scripts/**/*.py'
+      - 'scripts/check_taxonomy_authority.py'
+      # rank-vocabulary
+      - 'registry/**'
+      - '*.md'
+      - 'docs/**/*.md'
+      - 'founder/handovers/**/*.md'
+      - 'scripts/check_rank_vocabulary.py'
+      # version-stamp
+      - 'src/**'
+      - 'registry/render/**'
+      - 'scripts/check_version_stamps.py'
+      # lexicon
+      - 'founder/**'
+      - 'docs/agents/**'
+      - 'docs/*.md'
+      - 'packages/*/README.md'
+      - 'scripts/lexicon/**'
+      - 'CLAUDE.md'
+      - 'CONTEXT.md'
+      - 'CONTRIBUTING.md'
+      - 'DEV.md'
+      - 'README.md'
+      # license
+      - 'registry/gaia.json'
+      - 'docs/graph/gaia.json'
+      - 'scripts/validate-licenses.ts'
+      - 'scripts/license-matrix.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  guards:
+    name: PR guards (vocabulary, taxonomy, version stamp, HTML sinks, licenses)
+    runs-on: ubuntu-latest
+    steps:
+      # Depth 2 is enough: a pull_request checkout is the PR merge commit, and
+      # its first parent is the base tip, so HEAD^1..HEAD is the PR's diff.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The lexicon and license guards import only Node built-ins and local
+      # files, so no `npm ci`; tsx is fetched on demand. Node 22 matches the
+      # upstream lexicon HQ.
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run guards
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && git rev-parse -q --verify HEAD^2 >/dev/null; then
+            git diff --name-only HEAD^1 HEAD > "$RUNNER_TEMP/changed-files.txt"
+            python scripts/pr_guards.py --files-from "$RUNNER_TEMP/changed-files.txt"
+          else
+            python scripts/pr_guards.py --all
+          fi

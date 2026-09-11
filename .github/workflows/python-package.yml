@@ -30,6 +30,11 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels the run it supersedes; pushes to main never cancel.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   package:
     name: Test, Build, and Smoke Test
@@ -45,10 +50,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
 
       - name: Install development dependencies
-        run: python -m pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       # Class P artifacts (registry/gaia.json, registry/named-skills.json) are
       # gitignored — they never exist in a fresh CI checkout. The integration /

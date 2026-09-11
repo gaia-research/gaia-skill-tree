@@ -28,6 +28,10 @@ jobs:
   topology-approved:
     name: Queue evidence review after topology approval
     runs-on: ubuntu-latest
+    # The resolve step calls `gh issue view` before actions/checkout, where gh
+    # has no .git to infer the repository from (#1799).
+    env:
+      GH_REPO: ${{ github.repository }}
     if: >-
       (github.event_name == 'issues' && github.event.label.name == 'intake:topology-approved')
       || (github.event_name == 'workflow_dispatch' && inputs.transition == 'topology')
@@ -196,6 +200,10 @@ jobs:
   evidence-approved:
     name: Open the single promotion PR after evidence approval
     runs-on: ubuntu-latest
+    # The resolve step calls `gh issue view` before actions/checkout, where gh
+    # has no .git to infer the repository from (#1799).
+    env:
+      GH_REPO: ${{ github.repository }}
     if: >-
       (github.event_name == 'issues' && github.event.label.name == 'intake:evidence-approved')
       || (github.event_name == 'workflow_dispatch' && inputs.transition == 'evidence')

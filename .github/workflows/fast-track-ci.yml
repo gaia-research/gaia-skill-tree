@@ -8,6 +8,11 @@ permissions:
   contents: read
   pull-requests: read
 
+# A new push to a PR cancels the run it supersedes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   fast-track:
     name: Quick checks for small PRs
@@ -16,10 +21,12 @@ jobs:
       github.event.pull_request.changed_files < 10 &&
       !contains(github.event.pull_request.labels.*.name, 'skip-fast-track')
     steps:
+      # History is needed for the merge-base diff, historical blobs are not.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Quick branch scope check
         env:
@@ -85,8 +92,10 @@ jobs:
           done
 
       - name: Report fast-track pass
+        env:
+          BRANCH: ${{ github.head_ref }}
         run: |
           echo "## ✅ Fast-Track CI Passed"
           echo "- Changed files: ${{ github.event.pull_request.changed_files }}"
-          echo "- Branch: ${{ github.head_ref }}"
+          echo "- Branch: $BRANCH"
           echo "- Deferred full validation to merge"

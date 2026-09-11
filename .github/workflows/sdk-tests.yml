@@ -13,6 +13,11 @@ on:
       - 'packages/api-client-ts/**'
       - 'packages/api-client-py/**'
 
+# A new push to a PR cancels the run it supersedes; branch pushes never cancel.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   typescript:
     name: TypeScript SDK (Node ${{ matrix.node-version }})
@@ -62,11 +67,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: packages/api-client-py/pyproject.toml
+
       - name: Install dependencies
         working-directory: packages/api-client-py
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Lint
         working-directory: packages/api-client-py
