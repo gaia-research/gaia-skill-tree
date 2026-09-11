@@ -325,7 +325,7 @@ jobs:
             exit 0
           fi
           git commit -m "feat(upstream-sync): ${SKILL_ID} → ${NEW_VERSION} [skip-gen]"
-          git push origin "$BRANCH"
+          git push -f origin "$BRANCH"
 
       - name: Open draft PR
         if: steps.change_check.outputs.no_changes != 'true'
