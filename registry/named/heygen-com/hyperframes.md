@@ -77,6 +77,12 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes.md'
+- timestamp: '2026-09-11T13:31:17Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v0.8.34
+  details: first-run baseline
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
   evaluator: mbtiongson1
@@ -126,6 +132,13 @@ suiteComponents:
 trustMagnitude: 163.63
 overallTrustGrade: A
 trustMagnitudeInputHash: 121fc2097a60cc4a77facdf6a9cca5474518053ba003a0930980deade4d443f0
+upstream:
+  mode: components
+  releasedAt: '2026-09-10T18:49:39Z'
+  repo: heygen-com/hyperframes
+  sourceUrl: https://github.com/heygen-com/hyperframes/releases/tag/v0.8.34
+  syncedAt: '2026-09-11T13:31:17Z'
+  version: v0.8.34
 ---
 
 ## Installation

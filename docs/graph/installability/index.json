@@ -677,7 +677,7 @@
         "entrypoint": "speak-like-favor/SKILL.md",
         "installSubpath": "speak-like-favor"
       },
-      "currentSkillContentSha256": "f9d079b173c1533ec7a936df36e87e08d0d24860a8f1c0405562ecf4441d0fc9",
+      "currentSkillContentSha256": "eae911b37e38294617626e336ee3cd5a7796f2598dc9ad86ffdb4f017bf51448",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -857,7 +857,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "921cf6574d43891046b741992ce9f82bb64fddb91e99aff9e5c877135c9a8077",
+      "currentSkillContentSha256": "506fc3347e7bd2bb1e9089244792408c52d9f7a54ab4429bc121b8a404b3da1a",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1389,7 +1389,7 @@
         "entrypoint": "README.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "86ca0565f7f6e45c696b069b1105398afa255d9bade10b10d4d9fcb4b2a42cca",
+      "currentSkillContentSha256": "c670595e60fba71a4b8085c3db222c6691277c2d17c5bd7e9410ebb06886bc74",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2929,7 +2929,7 @@
         "entrypoint": "skills/hyperframes/SKILL.md",
         "installSubpath": "skills/hyperframes"
       },
-      "currentSkillContentSha256": "282a6ac10bf0cfa5c6974657712a4593482eee84433773b0cf862c329b8c2333",
+      "currentSkillContentSha256": "4c0f02ce0ed867bf28e955b918200de0b78f67b20c3e7a8a8ae8d5a2d4cd559d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5698,6 +5698,18 @@
       "observedAt": null,
       "currentSourceRoute": null,
       "currentSkillContentSha256": "9e202aabfe6e4e08def69bd2d3178f016e5ca074aecf5919a9a6f806c6a1f0b2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "rico-favor/implement-with-discernment": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": null,
+      "currentSkillContentSha256": "ca3ced2ace9e49213b06eb44a3c01e9164ec381ea954e14a5a0e1f23a84b6763",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

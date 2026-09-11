@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07",
+  "generatedAt": "2026-09-11",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -584,7 +584,8 @@
     },
     "leonxlnx": {
       "repos": [
-        "leonxlnx/taste-skill"
+        "leonxlnx/taste-skill",
+        "leonxlnx/unlazy"
       ],
       "skillsByRepo": {
         "leonxlnx/taste-skill": [
@@ -600,6 +601,9 @@
           "leonxlnx/soft-skill",
           "leonxlnx/stitch-skill",
           "leonxlnx/taste-skill"
+        ],
+        "leonxlnx/unlazy": [
+          "leonxlnx/unlazy"
         ]
       },
       "topSkill": "leonxlnx/taste-skill",
@@ -726,6 +730,16 @@
           "slash": "/stitch-skill",
           "file": "stitch-skill.svg",
           "fileSeal": "stitch-skill-seal.svg"
+        },
+        {
+          "id": "leonxlnx/unlazy",
+          "name": "unlazy",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/unlazy",
+          "file": "unlazy.svg",
+          "fileSeal": "unlazy-seal.svg"
         }
       ]
     },
@@ -1434,16 +1448,6 @@
           "fileSeal": "setup-matt-pocock-skills-seal.svg"
         },
         {
-          "id": "mattpocock/tdd",
-          "name": "TDD",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/tdd",
-          "file": "tdd.svg",
-          "fileSeal": "tdd-seal.svg"
-        },
-        {
           "id": "mattpocock/to-spec",
           "name": "To PRD",
           "rank": 3,
@@ -1622,6 +1626,16 @@
           "slash": "/setup-pre-commit",
           "file": "setup-pre-commit.svg",
           "fileSeal": "setup-pre-commit-seal.svg"
+        },
+        {
+          "id": "mattpocock/tdd",
+          "name": "TDD",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/tdd",
+          "file": "tdd.svg",
+          "fileSeal": "tdd-seal.svg"
         },
         {
           "id": "mattpocock/teach",
@@ -1916,6 +1930,32 @@
         }
       ]
     },
+    "aplaceforallmystuff": {
+      "repos": [
+        "aplaceforallmystuff/daily-patterns-pack"
+      ],
+      "skillsByRepo": {
+        "aplaceforallmystuff/daily-patterns-pack": [
+          "aplaceforallmystuff/log-to-daily"
+        ]
+      },
+      "topSkill": "aplaceforallmystuff/log-to-daily",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "aplaceforallmystuff/log-to-daily",
+          "name": "Log To Daily",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/log-to-daily",
+          "file": "log-to-daily.svg",
+          "fileSeal": "log-to-daily-seal.svg"
+        }
+      ]
+    },
     "ayghri": {
       "repos": [
         "ayghri/i-have-adhd"
@@ -2020,6 +2060,32 @@
         }
       ]
     },
+    "browser-use": {
+      "repos": [
+        "browser-use/browser-harness"
+      ],
+      "skillsByRepo": {
+        "browser-use/browser-harness": [
+          "browser-use/browser-harness"
+        ]
+      },
+      "topSkill": "browser-use/browser-harness",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "browser-use/browser-harness",
+          "name": "Browser Harness",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/browser-harness",
+          "file": "browser-harness.svg",
+          "fileSeal": "browser-harness-seal.svg"
+        }
+      ]
+    },
     "firecrawl": {
       "repos": [
         "firecrawl/firecrawl",
@@ -2030,7 +2096,8 @@
           "firecrawl/firecrawl-build-interact",
           "firecrawl/firecrawl-build-onboarding",
           "firecrawl/firecrawl-build-scrape",
-          "firecrawl/firecrawl-build-search"
+          "firecrawl/firecrawl-build-search",
+          "firecrawl/firecrawl-research-index"
         ],
         "firecrawl/firecrawl": [
           "firecrawl/firecrawl-skills"
@@ -2082,6 +2149,16 @@
           "fileSeal": "firecrawl-build-search-seal.svg"
         },
         {
+          "id": "firecrawl/firecrawl-research-index",
+          "name": "Firecrawl Research Index",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/firecrawl-research-index",
+          "file": "firecrawl-research-index.svg",
+          "fileSeal": "firecrawl-research-index-seal.svg"
+        },
+        {
           "id": "firecrawl/firecrawl-skills",
           "name": "Firecrawl Skills",
           "rank": 3,
@@ -2090,32 +2167,6 @@
           "slash": "/firecrawl-skills",
           "file": "firecrawl-skills.svg",
           "fileSeal": "firecrawl-skills-seal.svg"
-        }
-      ]
-    },
-    "browser-use": {
-      "repos": [
-        "browser-use/browser-harness"
-      ],
-      "skillsByRepo": {
-        "browser-use/browser-harness": [
-          "browser-use/browser-harness"
-        ]
-      },
-      "topSkill": "browser-use/browser-harness",
-      "topRank": 3,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "browser-use/browser-harness",
-          "name": "Browser Harness",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/browser-harness",
-          "file": "browser-harness.svg",
-          "fileSeal": "browser-harness-seal.svg"
         }
       ]
     },
@@ -2177,6 +2228,7 @@
       ],
       "skillsByRepo": {
         "disler/fusion-harness": [
+          "disler/agent-fusion",
           "disler/auto-review",
           "disler/opinion",
           "disler/plan-synthesis"
@@ -2187,6 +2239,16 @@
       "topIsUnique": false,
       "count": 4,
       "namedSkills": [
+        {
+          "id": "disler/agent-fusion",
+          "name": "Agent Fusion",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/agent-fusion",
+          "file": "agent-fusion.svg",
+          "fileSeal": "agent-fusion-seal.svg"
+        },
         {
           "id": "disler/auto-review",
           "name": "Auto-Review",
@@ -2352,6 +2414,32 @@
           "slash": "/graphify-triage",
           "file": "graphify-triage.svg",
           "fileSeal": "graphify-triage-seal.svg"
+        }
+      ]
+    },
+    "yylo-dev": {
+      "repos": [
+        "yylo-dev/yylo-skills"
+      ],
+      "skillsByRepo": {
+        "yylo-dev/yylo-skills": [
+          "yylo-dev/ledger-tasks-yylo"
+        ]
+      },
+      "topSkill": "yylo-dev/ledger-tasks-yylo",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "yylo-dev/ledger-tasks-yylo",
+          "name": "Ledger Tasks (yylo)",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/ledger-tasks-yylo",
+          "file": "ledger-tasks-yylo.svg",
+          "fileSeal": "ledger-tasks-yylo-seal.svg"
         }
       ]
     },
@@ -2781,6 +2869,32 @@
         }
       ]
     },
+    "panniantong": {
+      "repos": [
+        "Panniantong/Agent-Reach"
+      ],
+      "skillsByRepo": {
+        "Panniantong/Agent-Reach": [
+          "panniantong/agent-reach"
+        ]
+      },
+      "topSkill": "panniantong/agent-reach",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "panniantong/agent-reach",
+          "name": "Agent Reach",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/agent-reach",
+          "file": "agent-reach.svg",
+          "fileSeal": "agent-reach-seal.svg"
+        }
+      ]
+    },
     "safishamsi": {
       "repos": [
         "safishamsi/graphify"
@@ -2833,6 +2947,32 @@
         }
       ]
     },
+    "trailhq": {
+      "repos": [
+        "trailhq/Graft"
+      ],
+      "skillsByRepo": {
+        "trailhq/Graft": [
+          "trailhq/graft"
+        ]
+      },
+      "topSkill": "trailhq/graft",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "trailhq/graft",
+          "name": "graft",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/graft",
+          "file": "graft.svg",
+          "fileSeal": "graft-seal.svg"
+        }
+      ]
+    },
     "upsonic": {
       "repos": [],
       "skillsByRepo": {},
@@ -2876,6 +3016,32 @@
           "slash": "/vercel-react-best-practices",
           "file": "vercel-react-best-practices.svg",
           "fileSeal": "vercel-react-best-practices-seal.svg"
+        }
+      ]
+    },
+    "google-deepmind": {
+      "repos": [
+        "google-deepmind/science-skills"
+      ],
+      "skillsByRepo": {
+        "google-deepmind/science-skills": [
+          "google-deepmind/workflow-skill-creator"
+        ]
+      },
+      "topSkill": "google-deepmind/workflow-skill-creator",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 36,
+      "namedSkills": [
+        {
+          "id": "google-deepmind/workflow-skill-creator",
+          "name": "Workflow-Skill-Creator",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/workflow-skill-creator",
+          "file": "workflow-skill-creator.svg",
+          "fileSeal": "workflow-skill-creator-seal.svg"
         }
       ]
     }

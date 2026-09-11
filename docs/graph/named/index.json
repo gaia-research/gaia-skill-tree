@@ -8290,6 +8290,82 @@
           "maxDepth": 0,
           "nestedSuiteCount": 0
         }
+      },
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code, evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.",
+        "title": "Implement With Discernment",
+        "installable": false,
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "rico-favor",
+            "date": "2026-07-09",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Co-founder self-attestation of deliberate minimal implementation and anti-complexity workflows across Gaia engineering"
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-09-11",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-09-11T16:00:00Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Restored from git history and recalibrated at 1★ baseline with substantive skill guidance"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 5.7,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-fusion": [
@@ -9136,10 +9212,21 @@
             "trustNumber": 10.0,
             "notes": "Self-attestation of speak-like-favor skill implementation",
             "grade": "C"
+          },
+          {
+            "source": "https://github.com/favorchurch/favor-skills",
+            "evaluator": "favorchurch",
+            "date": "2026-09-11",
+            "type": "repo-own",
+            "trustNumber": 50.0,
+            "notes": "Production Favor Church AI Skills repository hosting speak-like-favor, active since June 2026",
+            "commits": 26,
+            "contributors": 1,
+            "source_started_at": "2026-06-22"
           }
         ],
         "createdAt": "2026-07-14",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-11",
         "timeline": [
           {
             "timestamp": "2026-07-13T16:26:04Z",
@@ -9164,9 +9251,15 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-11T16:00:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added backing repo-own evidence from https://github.com/favorchurch/favor-skills"
           }
         ],
-        "trustMagnitude": 5.0,
+        "trustMagnitude": 6.28,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "cdab2aac618974346bca85126ed6215981a5ae210988add84e6b64a3d101c5a8",
         "type": "fusion",
@@ -10469,6 +10562,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-11T16:35:18Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v2.11.0",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -15666,6 +15767,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-11T13:31:44Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v0.50.0.0",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -21641,6 +21750,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes.md"
+          },
+          {
+            "timestamp": "2026-09-11T13:31:17Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v0.8.34",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -46247,6 +46364,9 @@
       "remotion-dev/remotion-saas",
       "remotion-dev/remotion-studio",
       "remotion-dev/remotion-upgrade"
+    ],
+    "rico-favor": [
+      "rico-favor/implement-with-discernment"
     ],
     "ruvnet": [
       "ruvnet/agentdb-advanced",
