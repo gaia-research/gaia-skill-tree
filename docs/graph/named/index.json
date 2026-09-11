@@ -28811,7 +28811,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-12",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -28911,6 +28911,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-11T17:46:26Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "mattpocock/skills",

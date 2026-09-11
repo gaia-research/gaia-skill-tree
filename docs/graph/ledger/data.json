@@ -1,6 +1,6 @@
 {
   "version": "8.8.2",
-  "generatedAt": "2026-09-11T17:26:01Z",
+  "generatedAt": "2026-09-11T17:46:59Z",
   "summary": {
     "total": 225,
     "S": 3,
@@ -628,9 +628,9 @@
       "skillId": "mattpocock/diagnose",
       "tm": 94.92,
       "grade": "B",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -640,7 +640,7 @@
         "social-signal": 44.92
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "mattpocock/edit-article",

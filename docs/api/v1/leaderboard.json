@@ -434,14 +434,14 @@
       "id": "mattpocock/diagnose",
       "trustMagnitude": 94.92,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 3.4,
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "mattpocock/edit-article",
