@@ -2,6 +2,118 @@
 
 ---
 
+## 2026-09-11 — Routine 052
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** SYNC. Rebased onto current `origin/main` (v8.7.2 → v8.7.7)
+before picking a task, per the Branch instructions — this surfaced that the
+prior routine's local checkout had never actually rebased past v8.7.2 (an
+earlier `git rebase origin/docs/routines/047` was a no-op against the same
+branch, not `origin/main`). A real rebase against `origin/main` pulled in
+several merged PRs, including #1787 (`feat(evidence): add npm-downloads/
+engagement types`), which is a documented-behavior change squarely in
+`evidence-classes.html`'s scope — took SYNC over ROTATE (routine 051's
+`skill-hierarchy.html` suggestion) since a real registry-visible gap beats a
+staleness-only pick.
+
+### Trigger
+
+`docs/en/evidence-classes.html`'s Evidence Type table (the page's own
+canonical list of `meta.json` → `evidence.types` values) was missing two
+types that shipped to `main` in #1787: `npm-downloads` and `engagement`.
+Verified directly against live code rather than the PR description alone
+(per CLAUDE.md's Stale Tooling directive):
+
+- `TYPE_WEIGHTS`/`TYPE_CAPS` in `src/gaia_cli/trustMagnitude.py` (lines
+  59-60, 74-75): `npm-downloads` weight 0.9 / cap 150.0; `engagement`
+  weight 0.7 / cap 60.0.
+- `_rawMagnitudeForType()` (lines 627-655): `npm-downloads` is
+  `downloads <= 100 → 0`, else `min(150, 30 × log10(downloads/100))` — same
+  log-curve shape as `github-stars-own`. `engagement` is
+  `likes + comments×3 <= 1 → 0`, else `min(60, 15 × log10(likes+comments×3))`
+  — a view-less counterpart to `social-signal`.
+- `EVIDENCE_TYPE_LAYER_CONTRACT` (lines 116-131): `npm-downloads` is
+  pinned-named (no inheritance, matching `github-stars-own`/`repo-own`);
+  `engagement` is flexible with a 0.25 inherit multiplier.
+- `_PLATEAU_CONFIG` (lines 742-743): `npm-downloads` is a 1-entry plateau;
+  `engagement` plateaus at 3 entries.
+- `commands/dev/__init__.py`/`helpers.py`: new `--downloads`, `--likes`,
+  `--comments` flags with pre-flight type-mismatch rejection (`--downloads`
+  requires `--type npm-downloads`; `--likes`/`--comments` require
+  `--type social-signal` or `--type engagement`).
+
+### What I did
+
+- `docs/en/evidence-classes.html` — Evidence Type table: added an
+  `npm-downloads` row directly after `github-stars-own` (same adoption-curve
+  family) and an `engagement` row directly after `social-signal` (its
+  view-less counterpart), each with the CLI flag and the type-mismatch
+  constraint from the pre-flight check.
+- `docs/en/DOCS.md` — page map row 7 updated with the fix and `052` history
+  tag.
+
+### Design decisions
+
+- Placed the two new rows next to their closest existing sibling type
+  (adoption-curve, social-metric) rather than appending both at the table's
+  end — keeps related types visually grouped for a reader scanning the
+  column.
+- Kept each new row to the same three-cell shape (type pill / what it
+  represents / URL format + flags) as every existing row — no new table
+  columns or markup patterns introduced.
+- Did not touch the `meta.json` → `evidence.types` callout below the table;
+  it already describes the list as authoritative-and-extensible without
+  naming individual types, so no edit needed there.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy sync against an already-merged
+PR (#1787) — no new tech debt or gap to flag.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the page — one hit, pre-existing (`gaia dev merge`
+  CLI verb reference), not new.
+- `git diff -- docs/en/evidence-classes.html | grep -nE '#[0-9a-fA-F]{3,6}'`
+  — zero hits in the HTML file (the `#1787` hit in the raw `docs/en` diff is
+  an issue-number reference inside `DOCS.md`'s prose, same pattern as the
+  pre-existing `#1479`/`#1549` references in that same table — not a color).
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, cache-bust `?v=8.7.7` already current from the rebase.
+- Formula and flag behavior verified directly against
+  `src/gaia_cli/trustMagnitude.py` and `src/gaia_cli/commands/dev/` source,
+  not against the PR description's prose summary.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — two new Evidence Type rows.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 053)
+
+- `skill-hierarchy.html` is still the least-recently-touched page (routine
+  028 / editor-026wk, 2026-08-13) — good ROTATE candidate if no CONTINUE/SYNC
+  task applies next.
+- The dead `--skill-count-in-repo` mothership-discount code path and the
+  stale I11-era formula note in `docs/agents/curation-guidelines.md`
+  (flagged by routines 050/051) are still open and still out of `docs/en/**`
+  scope — not a task for this routine to pick up, just don't let a future
+  routine reintroduce the discount into a page.
+
+### Token spend
+
+2026-09-11 Sonnet 5 Low: ~70k in, ~4k out. ~$0.22
+
+---
+
 ## 2026-09-10 — Routine 051
 
 **Branch:** `docs/routines/047` (PR #1750 open — continued on it per the

@@ -490,6 +490,11 @@
               <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code>.</td>
             </tr>
             <tr>
+              <td><span class="type-pill">npm-downloads</span></td>
+              <td>Weekly download count from the npm registry, on the same logarithmic diminishing-returns shape as <code>github-stars-own</code>. One entry per skill — repeat submissions don't stack.</td>
+              <td>Package URL on npmjs.com. Pass <code>--downloads</code> (only valid with this type).</td>
+            </tr>
+            <tr>
               <td><span class="type-pill">arxiv</span></td>
               <td>Academic citation count for a published paper demonstrating the capability.</td>
               <td>Abstract URL: <code>https://arxiv.org/abs/&lt;id&gt;</code> — not the PDF link. Pass <code>--citations</code>.</td>
@@ -523,6 +528,11 @@
               <td><span class="type-pill">social-signal</span></td>
               <td>Creator/audience evidence — video views, engagement, topical authority from external creators.</td>
               <td>URL to the video/post. Pass <code>--views</code>; a view-count floor applies before this counts toward any magnitude.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">engagement</span></td>
+              <td>Likes and comments on a platform that doesn't expose a view count — the view-less counterpart to <code>social-signal</code>. Comments count 3x a like. Plateaus after 3 entries.</td>
+              <td>URL to the post/thread. Pass <code>--likes</code> / <code>--comments</code> (also valid with <code>--type social-signal</code>).</td>
             </tr>
             <tr>
               <td><span class="type-pill">self-attestation</span></td>
