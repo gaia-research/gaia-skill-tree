@@ -34,6 +34,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import sys
 from dataclasses import asdict, dataclass
 from enum import Enum
@@ -61,6 +62,8 @@ KNOWN_CORE_CONTRIBUTORS: Set[str] = {
 
 
 class AuditTier(str, Enum):
+    # Note: TIER_1_MALICIOUS (malicious aggregator / squatter) represents bad-faith actors
+    # marked for permanent expungement in audit triage dispositions and intake rejections.
     TIER_1_MALICIOUS = "Tier 1: Malicious / Imposter Squatter"
     TIER_2_PACKAGING_GAP = "Tier 2: Packaging / Install Shape Gap"
     TIER_3_UNDER_EVIDENCED = "Tier 3: Early-Stage / Under-Evidenced Stub"
@@ -93,24 +96,29 @@ def parse_star(level_str: str) -> int:
         return 0
 
 
-def load_named_skills() -> Dict[str, dict]:
+def load_named_skills(named_dir: Optional[str] = None) -> Dict[str, dict]:
+    target_dir = named_dir or NAMED_DIR
     named = {}
-    for path in glob.glob(os.path.join(NAMED_DIR, "**", "*.md"), recursive=True):
-        with open(path, "r", encoding="utf-8") as f:
+    for path in glob.glob(os.path.join(target_dir, "**", "*.md"), recursive=True):
+        with open(path, "r", encoding="utf-8-sig") as f:
             content = f.read()
         if not content.startswith("---"):
             continue
-        parts = content.split("---", 2)
+        parts = re.split(r"^---\s*$", content, maxsplit=2, flags=re.MULTILINE)
         if len(parts) < 3:
             continue
         data = yaml.safe_load(parts[1])
         if not isinstance(data, dict) or "id" not in data:
             continue
         body = parts[2].strip()
+        try:
+            rel_path = os.path.relpath(path, REPO_ROOT)
+        except ValueError:
+            rel_path = path
         named[data["id"]] = {
             "meta": data,
             "body": body,
-            "path": os.path.relpath(path, REPO_ROOT),
+            "path": rel_path,
         }
     return named
 
@@ -122,11 +130,10 @@ def classify_audit_tier(
     tool_maker_map: Optional[dict] = None,
 ) -> AuditTier:
     """Classify a skill into the Four-Tier Audit Taxonomy."""
-    contributor = meta.get("contributor") or (skill_id.split("/")[0] if "/" in skill_id else "")
     stars = parse_star(meta.get("level", "0"))
     installable = meta.get("installable")
     links = meta.get("links", {}) or {}
-    github_link = links.get("github", "") if isinstance(links, dict) else ""
+    github_link = str(links.get("github") or "").strip() if isinstance(links, dict) else ""
     is_suite = bool(meta.get("suiteComponents"))
     suite_ref = meta.get("suiteRef")
 
@@ -140,12 +147,14 @@ def classify_audit_tier(
         return AuditTier.TIER_2_PACKAGING_GAP
 
     # Tier 3: Early-Stage / Under-Evidenced Stub
-    # Baseline 1★ Awakened or thin placeholder body by authentic author
-    if stars <= 1 or body in [
-        "## Installation\nAdd installation instructions here.",
-        "## Installation\n\nAdd installation instructions here.",
+    # Governs early prototypes/stubs (<= 2★). High-rank skills (>= 3★) with established
+    # evidence are not Tier 3 stubs even if their catalog body retains boilerplate notes.
+    norm_body = " ".join(body.split())
+    is_placeholder = norm_body in [
+        "## Installation Add installation instructions here.",
         "",
-    ]:
+    ]
+    if stars <= 1 or (stars <= 2 and is_placeholder):
         return AuditTier.TIER_3_UNDER_EVIDENCED
 
     return AuditTier.BENCHMARK_AUTHENTIC
@@ -165,9 +174,11 @@ def evaluate_skill(skill_id: str, item: dict, tool_maker_map: Optional[dict] = N
     contributor_check_required = contributor in KNOWN_CORE_CONTRIBUTORS
 
     violations = []
-    # Invariant: installable: false non-suite skills must be <= 2★ per CONTRIBUTING §12
-    if installable is False and stars > 2 and not is_suite and not suite_ref:
-        violations.append(f"Declared installable: false at {stars}★ (Star Bar requires <= 2★ for registry-only)")
+    # Invariant: non-suite skills at > 2★ must have verified GitHub links and cannot be installable: false
+    links = meta.get("links", {}) or {}
+    github_link = str(links.get("github") or "").strip() if isinstance(links, dict) else ""
+    if (installable is False or not github_link) and stars > 2 and not is_suite and not suite_ref:
+        violations.append(f"Unlinked or installable: false at {stars}★ (Star Bar requires verified repo blob link for > 2★)")
 
     status = "VIOLATION" if violations else "PASS"
     notes = "; ".join(violations) if violations else "Compliant with audit taxonomy"
@@ -183,21 +194,23 @@ def evaluate_skill(skill_id: str, item: dict, tool_maker_map: Optional[dict] = N
         contributor_check_required=contributor_check_required,
         status=status,
         notes=notes,
-        path=item["path"],
+        path=item.get("path", ""),
     )
 
 
-def run_audit() -> List[DisentanglementResult]:
-    named = load_named_skills()
+def run_audit(named_dir: Optional[str] = None) -> List[DisentanglementResult]:
+    named = load_named_skills(named_dir)
 
     # Attempt to import tool maker map for Tier 4 identification
     tool_maker_map = None
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    if script_dir not in sys.path:
+        sys.path.insert(0, script_dir)
     try:
-        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         from check_product_attribution import TOOL_MAKER_MAP
         tool_maker_map = TOOL_MAKER_MAP
-    except Exception:
-        pass
+    except ImportError:
+        tool_maker_map = None
 
     results = []
     for skill_id, item in sorted(named.items()):
@@ -206,8 +219,10 @@ def run_audit() -> List[DisentanglementResult]:
     return results
 
 
-def verify_exempt_skills_exist(results: List[DisentanglementResult]) -> List[str]:
-    """Verify that all KNOWN_EXEMPT_SKILLS are present in the registry."""
+def verify_exempt_skills_exist(results: List[DisentanglementResult], named_dir: Optional[str] = None) -> List[str]:
+    """Verify that all KNOWN_EXEMPT_SKILLS are present in the registry (canonical registry only)."""
+    if named_dir is not None and os.path.realpath(named_dir) != os.path.realpath(NAMED_DIR):
+        return []
     found_ids = {r.skill_id for r in results}
     missing = []
     for exempt_id in KNOWN_EXEMPT_SKILLS:
@@ -236,15 +251,19 @@ def generate_report(results: List[DisentanglementResult], missing_exempt: List[s
         out_path = os.path.join(output_dir, "audit-disentanglement.json")
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
-        print(f"Wrote audit disentanglement report to {os.path.relpath(out_path, REPO_ROOT)}")
+        try:
+            rel_out = os.path.relpath(out_path, REPO_ROOT)
+        except ValueError:
+            rel_out = out_path
+        print(f"Wrote audit disentanglement report to {rel_out}")
 
     print(f"Audit Disentanglement: Checked {report['checked']} named skill(s).")
-    print(f"  Tier Breakdown:")
+    print("  Tier Breakdown:")
     for tier_name, count in sorted(tier_counts.items()):
         print(f"    - {tier_name}: {count}")
 
     if missing_exempt:
-        print(f"❌ Missing protected exempt skills:")
+        print("❌ Missing protected exempt skills:")
         for m in missing_exempt:
             print(f"    - {m}")
 
@@ -262,11 +281,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strict", action="store_true", help="Exit 1 if any disentanglement violations found")
     parser.add_argument("--output", default=None, help="Directory to write audit-disentanglement.json report")
+    parser.add_argument("--named-dir", default=None, help="Directory containing named skills to audit")
     parser.add_argument("--check-skill", default=None, help="Inspect audit classification for a single skill ID")
     args = parser.parse_args()
 
-    results = run_audit()
-    missing_exempt = verify_exempt_skills_exist(results)
+    results = run_audit(args.named_dir)
+    missing_exempt = verify_exempt_skills_exist(results, args.named_dir)
 
     if args.check_skill:
         match = [r for r in results if r.skill_id == args.check_skill]
@@ -275,6 +295,8 @@ def main():
             sys.exit(1)
         res = match[0]
         print(json.dumps(asdict(res), indent=2))
+        if args.strict and res.status == "VIOLATION":
+            sys.exit(1)
         sys.exit(0)
 
     report = generate_report(results, missing_exempt, args.output)
