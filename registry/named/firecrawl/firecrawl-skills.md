@@ -96,6 +96,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-09-11T16:32:07Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v2.11.0
+  details: first-run baseline
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -144,6 +150,13 @@ suiteComponents:
 - firecrawl/firecrawl-build-scrape
 - firecrawl/firecrawl-build-search
 - firecrawl/firecrawl-research-index
+upstream:
+  mode: components
+  releasedAt: '2026-06-19T15:09:30Z'
+  repo: firecrawl/firecrawl
+  sourceUrl: https://github.com/firecrawl/firecrawl/releases/tag/v2.11.0
+  syncedAt: '2026-09-11T16:32:07Z'
+  version: v2.11.0
 ---
 ## Overview
 
