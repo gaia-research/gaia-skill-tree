@@ -677,7 +677,7 @@
         "entrypoint": "speak-like-favor/SKILL.md",
         "installSubpath": "speak-like-favor"
       },
-      "currentSkillContentSha256": "f9d079b173c1533ec7a936df36e87e08d0d24860a8f1c0405562ecf4441d0fc9",
+      "currentSkillContentSha256": "eae911b37e38294617626e336ee3cd5a7796f2598dc9ad86ffdb4f017bf51448",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5698,6 +5698,18 @@
       "observedAt": null,
       "currentSourceRoute": null,
       "currentSkillContentSha256": "9e202aabfe6e4e08def69bd2d3178f016e5ca074aecf5919a9a6f806c6a1f0b2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "rico-favor/implement-with-discernment": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": null,
+      "currentSkillContentSha256": "ca3ced2ace9e49213b06eb44a3c01e9164ec381ea954e14a5a0e1f23a84b6763",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
