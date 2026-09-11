@@ -25,7 +25,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — addy-osmani  ·  generated 2026-09-10
+GAIA SKILL TREE — addy-osmani  ·  generated 2026-09-11
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -113,7 +113,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ · · garrytan/landing-report  [2★]
+  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
   └─ · · garrytan/plan-tune  [2★]
@@ -233,7 +233,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ · · garrytan/landing-report  [2★]
+  │  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
   │  └─ · · ████████/github-workflow-automation  (↑ see above)

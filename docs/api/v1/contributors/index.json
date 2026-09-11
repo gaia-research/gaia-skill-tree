@@ -365,6 +365,19 @@
       }
     },
     {
+      "handle": "yylo-dev",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "yylo-dev/ledger-tasks-yylo",
+        "level": "2★",
+        "trustMagnitude": 36.6
+      },
+      "prestigeScore": 36.6,
+      "_links": {
+        "self": "/api/v1/contributors/yylo-dev.json"
+      }
+    },
+    {
       "handle": "Manavarya09",
       "namedSkills": 1,
       "topSkill": {
@@ -495,7 +508,7 @@
       }
     }
   ],
-  "totalContributors": 38,
+  "totalContributors": 39,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

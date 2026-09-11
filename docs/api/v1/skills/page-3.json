@@ -686,6 +686,23 @@
       "genericSkillRef": "video-intelligence"
     },
     {
+      "id": "yylo-dev/ledger-tasks-yylo",
+      "name": "Ledger Tasks (yylo)",
+      "level": "2★",
+      "trustMagnitude": 36.6,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "yylo-dev",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/yylo-dev/ledger-tasks-yylo.json"
+      },
+      "genericSkillRef": "project-management"
+    },
+    {
       "id": "disler/auto-review",
       "name": "Auto-Review",
       "level": "2★",
@@ -837,28 +854,11 @@
         "self": "/api/v1/skills/garrytan/codex.json"
       },
       "genericSkillRef": "multi-agent-debate"
-    },
-    {
-      "id": "garrytan/context-restore",
-      "name": "Context Restore",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-restore.json"
-      },
-      "genericSkillRef": "context-compression"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 220,
+  "totalSkills": 221,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

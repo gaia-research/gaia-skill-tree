@@ -6894,6 +6894,26 @@
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
       "deliveredContentSha256": null
+    },
+    "yylo-dev/ledger-tasks-yylo": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+        "owner": "yylo-dev",
+        "repo": "yylo-skills",
+        "ref": "main",
+        "subpath": "skills/ledger-tasks-yylo",
+        "entrypoint": "skills/ledger-tasks-yylo/SKILL.md",
+        "installSubpath": "skills/ledger-tasks-yylo"
+      },
+      "currentSkillContentSha256": "9d5d4313916775b287ad5d09642ee2e62e01b55ef6e05fe1c953974d14a0cd4e",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
     }
   }
 }

@@ -1,12 +1,12 @@
 {
   "version": "8.7.7",
-  "generatedAt": "2026-09-10T19:35:27Z",
+  "generatedAt": "2026-09-11T14:11:19Z",
   "summary": {
-    "total": 221,
+    "total": 222,
     "S": 3,
     "A": 25,
     "B": 90,
-    "C": 102,
+    "C": 103,
     "ungraded": 1,
     "floor": 0,
     "up": 1
@@ -2438,6 +2438,22 @@
       "typeBreakdown": {
         "repo-own": 1.22,
         "social-signal": 36.25
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "yylo-dev/ledger-tasks-yylo",
+      "tm": 36.6,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.6
       },
       "origin": true,
       "branch": "standard"

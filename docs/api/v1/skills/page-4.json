@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/context-restore",
+      "name": "Context Restore",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-restore.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
       "id": "garrytan/context-save",
       "name": "Context Save",
       "level": "2★",
@@ -868,28 +885,11 @@
         "ruvnet/v3-security-overhaul",
         "ruvnet/v3-swarm-coordination"
       ]
-    },
-    {
-      "id": "ruvnet/stream-chain",
-      "name": "Stream Chain",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/stream-chain.json"
-      },
-      "genericSkillRef": "sequential-agent-pipeline"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 220,
+  "totalSkills": 221,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",
