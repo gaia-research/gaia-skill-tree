@@ -141,7 +141,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ · · garrytan/landing-report  [2★]
+  │  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
   │  └─ · · ████████/github-workflow-automation  (↑ see above)

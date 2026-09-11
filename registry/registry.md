@@ -156,7 +156,7 @@
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
-| · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
+| · [yylo-dev](../docs/u/yylo-dev/)/ledger-tasks-yylo | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [garrytan](../docs/u/garrytan/)/plan-tune | Fusion | 2★ | `/prompt-optimization` |
 | ○ /protein-structure-analysis | Basic | — | `/protein-structure-analysis` |

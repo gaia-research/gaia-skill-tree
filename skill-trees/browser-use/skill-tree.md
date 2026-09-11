@@ -105,7 +105,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ · · garrytan/landing-report  [2★]
+  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
   └─ · · garrytan/plan-tune  [2★]

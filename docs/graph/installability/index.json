@@ -6909,7 +6909,7 @@
         "entrypoint": "skills/ledger-tasks-yylo/SKILL.md",
         "installSubpath": "skills/ledger-tasks-yylo"
       },
-      "currentSkillContentSha256": "cd0ebfc1c8d652f69be08cc0fed2fd803246a1b4119b60a383dbc036170f138e",
+      "currentSkillContentSha256": "9d5d4313916775b287ad5d09642ee2e62e01b55ef6e05fe1c953974d14a0cd4e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

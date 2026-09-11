@@ -1,6 +1,6 @@
 {
   "$schema": "registry/schema/skill.schema.json",
-  "generatedAt": "2026-09-11T13:59:43Z",
+  "generatedAt": "2026-09-11T14:11:33Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -13767,7 +13767,12 @@
           -0.2475863523230786,
           0.19566120716412977
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "prompt-caching",

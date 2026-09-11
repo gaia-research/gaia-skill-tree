@@ -4,7 +4,7 @@ name: Ledger Tasks (yylo)
 contributor: yylo-dev
 origin: true
 genericSkillRef: project-management
-status: awakened
+status: named
 level: 2★
 description: Comprehensive guide for using YYLO Ledger task management — a Kanban
   board and task state stored as hash-chained Markdown inside the repository (no hosted
@@ -74,6 +74,15 @@ timeline:
   contributor: unknown
   details: 'Updated evidence #1 metadata from https://github.com/yylo-dev/yylo; changed
     commits, contributors, notes'
+- timestamp: '2026-09-11T14:10:20Z'
+  action: name
+  contributor: unknown
+  details: Promoted from awakened to named.
+- timestamp: '2026-09-11T14:10:27Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 2★
+title: Ledger Tasks (yylo)
 ---
 
 ## Implementation
