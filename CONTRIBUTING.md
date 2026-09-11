@@ -610,20 +610,6 @@ These **non-suite** skills are intentionally kept in the registry without a sour
 | `gaiabot/repo-docs-before-pr` | Self-hosted in this repo; `registry/named/` is a markdown catalog, not an installable skill tree |
 | `rico-favor/implement-with-discernment` | Self-hosted; prior link pointed into an unrelated fork of this repo |
 
-### Audit Disentanglement & Anti-Purge Safeguards
-
-Per [GOVERNANCE.md §4.2](GOVERNANCE.md#42-audit-disentanglement--imposter-taxonomy) and RFC #1809, audit sweeps and PRs must strictly distinguish between bad-faith squatters and legitimate early-stage skills:
-
-1. **Four-Tier Classification**:
-   - **Tier 1 (Malicious / Imposter Squatter)**: Hijacking stars, false attribution, malicious empty wrappers → Expungement.
-   - **Tier 2 (Packaging Gap)**: Real concept/author lacking standard packaging or repo links → Tag `installable: false` at ≤2★. **Never purge.**
-   - **Tier 3 (Under-Evidenced Stub)**: Real author, thin docs/early prototype → Retain at baseline 1★ Awakened / `needs-info`. **Never purge.**
-   - **Tier 4 (Product-Coupled)**: Lacks generalization or maker credit → Attribute maker and generalize via `check_product_attribution.py`.
-2. **Protection of `installable: false` Entries**:
-   Skills tagged `installable: false` at ≤2★ are valid registry-only nodes. They must **never** be swept under blanket "imposter" or "non-skill" headings.
-3. **Mandatory Contributor Check**:
-   Before removing any skill from the registry, reviewers must verify whether the author is an active contributor, team member, or co-founder. Outreach and audit review are mandatory before deletion.
-
 ---
 
 ## Consuming the registry without a clone
