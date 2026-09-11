@@ -41,9 +41,5 @@
       "lifecycle": "pending"
     }
   ],
-  "similarity": [],
-  "curationHandoff": {
-    "contractVersion": "curation-handoff-v1",
-    "notes": "Reconstructed from intake issue #1793 body (hand-authored by external contributor InsightFactoryAPP, not generated via `gaia push --from-file`; no Batch ID/Batch Branch rows or on-repo batch file existed at intake time). Transcribed verbatim from the issue's own YAML — see gaia-triage comment on #1793 (2026-09-11) for the type/prerequisites discrepancy against the live `project-management` node (registry/nodes/fusion/project-management.json: type=fusion, prerequisites=[api-call, issue-triage]), which this batch intentionally reproduces as originally submitted rather than silently correcting."
-  }
+  "similarity": []
 }
