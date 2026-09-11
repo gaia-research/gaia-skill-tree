@@ -1,0 +1,49 @@
+{
+  "batchId": "20260911153000-InsightFactoryAPP-from-file",
+  "userId": "InsightFactoryAPP",
+  "sourceRepo": "yylo-dev/yylo-skills",
+  "generatedAt": "2026-09-11T15:30:00Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "project-management",
+      "name": "Project Management",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Manages issues, tasks, projects, and team workflows through structured project management — hosted issue trackers or git-native ledgers stored inside the repository — handling state transitions, dependencies, and priority levels across human and agent collaborators.",
+      "attribution": {
+        "upstream_author": "yylo-dev",
+        "skill_file_url": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+        "type": "self-made"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+          "notes": "MIT-licensed skill from the yylo-skills pack (7 SKILL.md skills, active since Sep 2026). Documents the complete Ledger 0.2.0 task CLI: create/list/search/get/mark/update/archive, dependency management (deps/ready/order), history and receipts, cold archive, cross-project routing, and typed merge orchestration across agent worktrees."
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/yylo-dev/yylo",
+          "notes": "The YYLO CLI that powers the ledger — 59 stars, MIT, pushed daily since Jan 2026, published on npm as @yylo/cli. Orchestrates coding agents (Claude Code, Codex, Gemini CLI, Pi) over the same Kanban/task state the skill drives."
+        }
+      ],
+      "named": {
+        "contributor": "yylo-dev",
+        "skill_name": "ledger-tasks-yylo",
+        "links_github": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+        "level": "2★"
+      },
+      "sourceRepo": "yylo-dev/yylo-skills",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "notes": "Reconstructed from intake issue #1793 body (hand-authored by external contributor InsightFactoryAPP, not generated via `gaia push --from-file`; no Batch ID/Batch Branch rows or on-repo batch file existed at intake time). Transcribed verbatim from the issue's own YAML — see gaia-triage comment on #1793 (2026-09-11) for the type/prerequisites discrepancy against the live `project-management` node (registry/nodes/fusion/project-management.json: type=fusion, prerequisites=[api-call, issue-triage]), which this batch intentionally reproduces as originally submitted rather than silently correcting."
+  }
+}
