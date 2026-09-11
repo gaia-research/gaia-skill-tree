@@ -60,6 +60,32 @@ TOOL_MAKER_MAP = {
         "tool": "DeepChem",
         "makers": ["DeepChem project", "DeepChem contributors", "DeepChem developers"],
     },
+    # Added by the #1801 audit sweep — same contributor, same "X Prompt Wrapper"
+    # placeholder-body shape, same zero-attribution pattern as rdkit/deepchem above.
+    "k-dense-ai/pymc": {
+        "tool": "PyMC",
+        "makers": ["PyMC Labs", "PyMC Developers", "PyMC contributors"],
+    },
+    "k-dense-ai/pytorch-lightning": {
+        "tool": "PyTorch Lightning",
+        "makers": ["Lightning AI"],
+    },
+    "k-dense-ai/scanpy": {
+        "tool": "Scanpy",
+        "makers": ["Theis Lab", "scverse", "Scanpy contributors"],
+    },
+    "k-dense-ai/scvi-tools": {
+        "tool": "scvi-tools",
+        "makers": ["YosefLab", "scverse", "scvi-tools contributors"],
+    },
+    "k-dense-ai/stable-baselines3": {
+        "tool": "Stable-Baselines3",
+        "makers": ["DLR-RM", "Stable-Baselines3 contributors"],
+    },
+    "k-dense-ai/torch-geometric": {
+        "tool": "PyTorch Geometric",
+        "makers": ["PyG Team", "PyG contributors"],
+    },
 }
 
 
