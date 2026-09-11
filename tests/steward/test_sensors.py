@@ -13,6 +13,7 @@ from gaia_cli.steward.sensors import (
     CliContractSensor,
     DiscoveryGenericMappingSensor,
     EvidenceLinkHealthSensor,
+    FrozenSkillIntegritySensor,
     GeneratedProjectionsSensor,
     KnowledgeContradictionSensor,
     RegistryIntegritySensor,
@@ -2228,4 +2229,103 @@ def test_benchmark_freshness_sensor_is_deterministic(tmp_path: Path) -> None:
     assert obs1.debt_id == obs2.debt_id
     assert obs1.current_state == obs2.current_state
     assert obs1.observed_state == obs2.observed_state
+
+
+def test_frozen_skill_integrity_sensor_clean_frozen_skill_healthy(tmp_path: Path) -> None:
+    content = (
+        "---\n"
+        "id: owner/clean-frozen\n"
+        "name: Clean Frozen Skill\n"
+        "status: named\n"
+        "level: 3★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-19T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: superseded upstream\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/clean-frozen.md", content)
+
+    observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert len(observations) == 1
+    obs = observations[0]
+    assert obs.kind == "frozen_skill_drift"
+    assert obs.subject.id == "owner/clean-frozen"
+    assert obs.status == "healthy"
+    assert obs.observed_state["postFreezeEvents"] == []
+    assert obs.observed_state["frozenLevel"] == "3★"
+    assert obs.observed_state["currentLevel"] == "3★"
+    assert obs.observed_state["freezeTimestamp"] == "2026-08-19T00:00:00Z"
+    assert "remediationCommand" not in obs.observed_state
+
+
+def test_frozen_skill_integrity_sensor_detects_post_freeze_demote_rank_up(tmp_path: Path) -> None:
+    content = (
+        "---\n"
+        "id: owner/corrupted-events\n"
+        "name: Corrupted Events Skill\n"
+        "status: named\n"
+        "level: 3★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-19T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: deprecated\n"
+        "  - timestamp: '2026-09-02T00:00:00Z'\n"
+        "    action: rank_up\n"
+        "    previousValue: 3★\n"
+        "    newValue: 4★\n"
+        "    details: Calibrated level from 3★ to 4★\n"
+        "  - timestamp: '2026-09-04T00:00:00Z'\n"
+        "    action: demote\n"
+        "    previousValue: 4★\n"
+        "    newValue: 1★\n"
+        "    details: Demoted to 1★\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/corrupted-events.md", content)
+
+    observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert len(observations) == 1
+    obs = observations[0]
+    assert obs.kind == "frozen_skill_drift"
+    assert obs.subject.id == "owner/corrupted-events"
+    assert obs.status == "drift"
+    assert obs.observed_state["postFreezeEvents"] == ["rank_up", "demote"]
+    assert obs.observed_state["frozenLevel"] == "3★"
+
+
+def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remediation(tmp_path: Path) -> None:
+    content = (
+        "---\n"
+        "id: owner/mismatched-level\n"
+        "name: Mismatched Level Skill\n"
+        "status: named\n"
+        "level: 1★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-06-20T00:00:00Z'\n"
+        "    action: rank_up\n"
+        "    details: Level updated to 3★\n"
+        "  - timestamp: '2026-08-19T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: deprecated\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/mismatched-level.md", content)
+
+    observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert len(observations) == 1
+    obs = observations[0]
+    assert obs.kind == "frozen_skill_drift"
+    assert obs.subject.id == "owner/mismatched-level"
+    assert obs.status == "drift"
+    assert obs.observed_state["frozenLevel"] == "3★"
+    assert obs.observed_state["currentLevel"] == "1★"
+    assert obs.observed_state["remediationCommand"] == "gaia dev calibrate owner/mismatched-level 3★"
+
+
+def test_default_sensors_contains_frozen_skill_integrity_sensor() -> None:
+    assert any(isinstance(s, FrozenSkillIntegritySensor) for s in default_sensors())
 
