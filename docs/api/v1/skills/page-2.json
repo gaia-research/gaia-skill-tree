@@ -1,6 +1,57 @@
 {
   "skills": [
     {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "trustMagnitude": 65.81,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      },
+      "genericSkillRef": "task-depth-enforcement"
+    },
+    {
+      "id": "obra/systematic-debugging",
+      "name": "Systematic Debugging",
+      "level": "3★",
+      "trustMagnitude": 65.15,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/systematic-debugging.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "name": "Grill Me",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grill-me.json"
+      },
+      "genericSkillRef": "grill-me"
+    },
+    {
       "id": "mattpocock/grill-with-docs",
       "name": "Grill With Docs",
       "level": "3★",
@@ -798,62 +849,11 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-registry.json"
       },
       "genericSkillRef": "skill-discovery"
-    },
-    {
-      "id": "heygen-com/media-use",
-      "name": "Media Use",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/media-use.json"
-      },
-      "genericSkillRef": "media-asset-orchestration"
-    },
-    {
-      "id": "heygen-com/motion-graphics",
-      "name": "Motion Graphics",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/music-to-video",
-      "name": "Music To Video",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/music-to-video.json"
-      },
-      "genericSkillRef": "video-composition"
     }
   ],
   "page": 2,
   "totalPages": 5,
-  "totalSkills": 221,
+  "totalSkills": 224,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

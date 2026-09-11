@@ -1,6 +1,57 @@
 {
   "skills": [
     {
+      "id": "heygen-com/media-use",
+      "name": "Media Use",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/media-use.json"
+      },
+      "genericSkillRef": "media-asset-orchestration"
+    },
+    {
+      "id": "heygen-com/motion-graphics",
+      "name": "Motion Graphics",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/motion-graphics.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "heygen-com/music-to-video",
+      "name": "Music To Video",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/music-to-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
       "id": "heygen-com/pr-to-video",
       "name": "Pr To Video",
       "level": "3★",
@@ -803,62 +854,11 @@
         "self": "/api/v1/skills/balukosuri/autoresearch-universal.json"
       },
       "genericSkillRef": "autonomous-web-research"
-    },
-    {
-      "id": "citrolabs/ego-browser",
-      "name": "Ego Browser",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "citrolabs",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/citrolabs/ego-browser.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "garrytan/benchmark-models",
-      "name": "Benchmark Models",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 100.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark-models.json"
-      },
-      "genericSkillRef": "skill-performance-benchmarking"
-    },
-    {
-      "id": "garrytan/codex",
-      "name": "Codex",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/codex.json"
-      },
-      "genericSkillRef": "multi-agent-debate"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 221,
+  "totalSkills": 224,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

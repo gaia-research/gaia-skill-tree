@@ -227,7 +227,7 @@
 | ○ /translate | Basic | — | `/translate` |
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
-| · [ruvnet](../docs/u/ruvnet/)/v3-ddd-architecture | Fusion | 2★ | `/ubiquitous-language` |
+| · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
 | ○ [leonxlnx](../docs/u/leonxlnx/)/redesign-skill | Basic | 3★ | `/ui-audit` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |

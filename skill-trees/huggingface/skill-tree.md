@@ -135,7 +135,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
-  │  │  ├─ · · ruvnet/v3-ddd-architecture  [2★]
+  │  │  ├─ · · mattpocock/ubiquitous-language  [3★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
   │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)

@@ -1,9 +1,9 @@
 {
   "distribution": {
-    "total": 222,
+    "total": 225,
     "S": 3,
     "A": 25,
-    "B": 90,
+    "B": 93,
     "C": 103,
     "ungraded": 1,
     "floor": 0,
@@ -444,6 +444,32 @@
       "branch": "unique"
     },
     {
+      "id": "mattpocock/edit-article",
+      "trustMagnitude": 94.92,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "trustMagnitude": 94.92,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/to-tickets",
       "trustMagnitude": 94.92,
       "grade": "B",
@@ -454,6 +480,19 @@
         "social-signal": 44.92
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "trustMagnitude": 94.92,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

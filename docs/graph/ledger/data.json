@@ -1,11 +1,11 @@
 {
-  "version": "8.11.4",
-  "generatedAt": "2026-09-12T12:31:11Z",
+  "version": "8.8.2",
+  "generatedAt": "2026-09-11T17:26:01Z",
   "summary": {
-    "total": 222,
+    "total": 225,
     "S": 3,
     "A": 25,
-    "B": 90,
+    "B": 93,
     "C": 103,
     "ungraded": 1,
     "floor": 0,
@@ -643,6 +643,42 @@
       "branch": "unique"
     },
     {
+      "skillId": "mattpocock/edit-article",
+      "tm": 94.92,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/obsidian-vault",
+      "tm": 94.92,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/to-tickets",
       "tm": 94.92,
       "grade": "B",
@@ -658,6 +694,24 @@
         "social-signal": 44.92
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "tm": 94.92,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
+        "social-signal": 44.92
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

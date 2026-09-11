@@ -7,7 +7,7 @@ genericSkillRef: ubiquitous-language
 status: named
 title: The Domain Linguist
 catalogRef: mattpocock-ubiquitous-language
-level: 1★
+level: 3★
 description: Extracts and formalises a project's domain terminology into a shared
   glossary, enforcing consistent naming across code and conversations to eliminate
   ambiguity. Removed from mattpocock/skills suite in v1.0.1.
@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-12'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -131,6 +131,10 @@ timeline:
   contributor: unknown
   details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-11T17:24:57Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 3★
 trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
@@ -146,7 +150,7 @@ trustMagnitudeInputHash: b07d195722f1666c41a3fe7b12fc71f87b1ec951727c7f5d6c4fdb3
 verification:
   firstEvidenceAt: '2026-06-19T16:57:17Z'
 installable: false
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview
