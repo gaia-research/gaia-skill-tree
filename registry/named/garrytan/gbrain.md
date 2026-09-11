@@ -32,6 +32,12 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-09-11T13:31:44Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v0.50.0.0
+  details: first-run baseline
 suiteComponents:
 - garrytan/brain-ops
 - garrytan/capture
@@ -51,6 +57,13 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T17:52:41Z'
+upstream:
+  mode: components
+  releasedAt: '2026-09-11T00:27:21Z'
+  repo: garrytan/gbrain
+  sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.50.0.0
+  syncedAt: '2026-09-11T13:31:44Z'
+  version: v0.50.0.0
 ---
 
 ## Installation
