@@ -42,6 +42,12 @@ Work through these in order. Stop when you find a violation — that's the corre
 - Is it outdated, superseded, or a duplicate of something already in the registry?
 - For named skills at 3★+: is there a working `blob/branch/subpath` GitHub link? A dead or missing link is grounds for demotion.
 - For fusion/upgrade opportunities: note if related basic skills could cleanly consolidate, but do not act on it in this pass unless the target is explicitly the consolidation candidate.
+- Does the skill have structural, documentation, or packaging issues? **Classify against the Four-Tier Audit Taxonomy (GOVERNANCE.md §4.2 / RFC #1809):**
+  - **Tier 1 (Malicious / Imposter Squatter)**: Bad-faith aggregation, hijacking other maintainers' repos/stars, or falsified attribution → Expungement from registry.
+  - **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author, but missing standard packaging or broken links → For ≤2★, tag `installable: false` per CONTRIBUTING.md §12. For 3★+, demote to 2★ (or 1★ per Star Bar) and request repackaging. **Never purge or label as an imposter.**
+  - **Tier 3 (Early-Stage / Under-Evidenced Stub)**: Authentic author, thin docs or preliminary evidence → Keep at baseline 1★ (Awakened), request doc enrichment, or tag `needs-info`. **Never purge.**
+  - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801) → Enforce maker attribution via `check_product_attribution.py` and route to generalization.
+- **Mandatory Contributor Check**: If the author is a known contributor, co-founder, or team member, deletion is strictly prohibited without direct maintainer outreach and documented review.
 
 Skip the `rarity` field entirely — it is deprecated and carries no review signal (see `CONTEXT.md` § Rarity).
 

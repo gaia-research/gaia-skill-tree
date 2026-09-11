@@ -208,8 +208,10 @@ Twelve non-skill entities were permanently expunged from the registry following 
 | `changkun/plan-decompose-gh-wallfacer` | Monolithic Application | 3★ | Standalone compiled Go background service. |
 | `Taoidle/plan-decompose-gh-plan-cascade` | Monolithic Application | 3★ | Standalone TypeScript multi-process application. |
 | `yundu-ai/mcp-tool-developer` | Phantom GitHub Handle | 3★ | Author handle was completely deleted; returned HTTP 404. |
-| `rico-favor/implement-with-discernment` | Circular Fork | 3★ | Pointed directly to a personal fork of `gaia-skill-tree` itself. |
+| `rico-favor/implement-with-discernment` | Circular Fork / Self-Hosted Prototype | 3★ | Pointed to a personal fork. Disentangled from imposters per RFC #1809 and restored in PR #1812 at 1★ Awakened (`installable: false`). |
 | `karpathy/autoresearch-universal` | Misattributed Entity | 3★ | Reattributed to authentic creator `balukosuri/autoresearch-universal`. |
+
+> **Audit Disentanglement Erratum (RFC #1809 / PR #1812)**: The initial September 4 sweep conflated early-stage and self-hosted prototypes with bad-faith imposters. `rico-favor/implement-with-discernment` represents an authentic engineering restraint capability authored by co-founder Rico Tiongson that had a maturing packaging shape (Tier 2/3). In accordance with RFC #1809, it was formally disentangled from bad-faith actors and restored in PR #1812 with rich author documentation, 1★ Awakened rank, and `installable: false` status per CONTRIBUTING.md §12.
 
 ---
 

@@ -30,5 +30,6 @@ Split reviewer work across `evidence/by-type/<type>.md` files, not tier files. S
 - Benchmark catalog misuse after Phase 2B: `benchmark-result` rows citing unknown, candidate, registered, rejected, or retired sources as if they score; vendor claims presented as reproducible benchmarks; scoring provenance on non-verified catalog entries; missing reproducibility fields or missing/dubious percentile values.
 - Stale migration notes that still treat `tier_*.md` as the semantic working set.
 - Multi-target peer-review packet misuse: wrong `evidenceType`, empty `targets`, invalid `skillId`, duplicate `(source.url, skillId, evidenceType)` rows, or forbidden strength/scoring fields (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`).
+- Imposter over-purging & audit taxonomy conflation (RFC #1809): ensure legitimate early-stage, self-hosted, or `installable: false` skills (Tier 2 Packaging Gap, Tier 3 Under-Evidenced Stub) are not mislabeled as Tier 1 Malicious Imposters or flagged for deletion.
 
 Append concise findings to the source report. Do not mutate registry files.
