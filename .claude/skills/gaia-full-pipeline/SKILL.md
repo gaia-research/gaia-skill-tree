@@ -339,7 +339,7 @@ gh issue comment <ISSUE> --body-file /tmp/issue-close-comment.md
 gh issue close <ISSUE>
 GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifacts
 ```
-Posts full evidence audit findings, `/trust-appraise` scores, and live badge image embeddings (`![alt](url)`).
+Posts full evidence audit findings, `/trust-appraise` scores, live badge image embeddings (`![alt](url)`), and the universal **Powered by Gaia** badge snippet.
 
 ### Path B: Rejected or Early-Exit Intake (Triage or Review Rejection)
 
@@ -361,7 +361,7 @@ git push origin --delete review/meta/<handle>--<skill> 2>/dev/null || true
 The closing comment must include:
 - Rejection findings table with falsifiable rationale per skill (unattributed, product-coupled, unfalsifiable)
 - Actionable path to acceptance (generalization advice, proper attribution, required evidence)
-- **Mandatory badge status note** explaining the 2★ badge floor and linking to `https://gaiaskilltree.com/badges/`
+- **Mandatory badge status note** providing the universal **Powered by Gaia** badge, explaining the 2★ badge floor for named skill badges, and linking to `https://gaiaskilltree.com/badges/`
 - Gracious acknowledgment to the contributor
 
 ---
