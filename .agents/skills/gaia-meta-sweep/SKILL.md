@@ -1,16 +1,16 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry sweep of Gaia — fan out 12 parallel audit agents across every skill, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready HTML report under docs/meta/reports/.
+  Orchestrate a whole-registry sweep of Gaia — fan out 13 parallel audit agents across every skill, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready HTML report under docs/meta/reports/.
 
-  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", or explicitly types /gaia-meta-sweep.
+  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", "find skills that document a third-party tool with no attribution", or explicitly types /gaia-meta-sweep.
 
-  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 12 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
+  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 13 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
 ---
 
 # gaia-meta-sweep
 
-Orchestrate a registry-wide meta audit using a multi-phase Workflow. The skill fans out 12 parallel audit agents, one per audit dimension from META.md, then runs adversarial verification on every finding before synthesizing a journal-style HTML report, a Chart.js timeline JSON, and a machine-readable findings index.
+Orchestrate a registry-wide meta audit using a multi-phase Workflow. The skill fans out 13 parallel audit agents, one per audit dimension from META.md, then runs adversarial verification on every finding before synthesizing a journal-style HTML report, a Chart.js timeline JSON, and a machine-readable findings index.
 
 ## Inputs
 
@@ -73,7 +73,7 @@ export const meta = {
 
 ### Phase 1 — Survey (parallel, one agent per dimension)
 
-Spawn one agent per audit dimension. Parallelism matters here: 12 dimensions × full registry is the bottleneck; running them concurrently cuts wall-clock time by ~10×. Each agent scopes to the whole registry but only looks at its one dimension, keeping prompts focused and outputs structured.
+Spawn one agent per audit dimension. Parallelism matters here: 13 dimensions × full registry is the bottleneck; running them concurrently cuts wall-clock time by ~10×. Each agent scopes to the whole registry but only looks at its one dimension, keeping prompts focused and outputs structured.
 
 Dimensions:
 
@@ -89,6 +89,7 @@ Dimensions:
 10. `champion-cluster` — generics where multi-implementation clusters exist but no Champion is set (META §6.1)
 11. `unique-isolation` — named skills on the Unique branch (no `suiteComponents`, rank ≥ 4★) that fail a Unique-branch gate — e.g. top named star below 4★ despite Unique labeling, or a Unique skill carrying `suiteComponents` (which would make it Suite branch) (META §1.2 — Unique branch = no suiteComponents AND rank ≥ 4; NOT a prerequisite-count rule)
 12. `grade-mismatch` — evidence whose declared Evidence Grade (S/A/B/C, §2.1b) is unsupported by its Evidence Type/trustNumber, or Trust Magnitude that does not clear the claimed star's TM gate (§2.1c)
+13. `product-attribution` — named skill body documents a specific third-party tool's own commands/API with no credit to that tool's actual maker anywhere in body or evidence notes. Driven by the curated `TOOL_MAKER_MAP` in `scripts/check_product_attribution.py` — a skill id not in that map is never flagged (no blind NLP heuristic; extend the map as new instances surface, e.g. from a `/gaia-triage` audit like #1801) (META §2.4)
 
 Each agent returns structured findings so Phase 4 can process them programmatically without re-parsing prose:
 
