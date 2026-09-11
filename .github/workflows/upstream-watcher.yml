@@ -19,7 +19,9 @@ concurrency: upstream-watcher
 
 permissions:
   issues: write
-  contents: read
+  contents: write
+  pull-requests: write
+  actions: write
 
 jobs:
   watcher:
