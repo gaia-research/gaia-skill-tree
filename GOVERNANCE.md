@@ -89,6 +89,28 @@ Every 90 days, the maintainers will conduct a full re-audit of the registry to:
 - Verify 5★ Ultimate / 6★ Apex rank requirements.
 - Identify stale skills (not updated or referenced in 180 days).
 
+### 4.2 Audit Disentanglement & Imposter Taxonomy
+To protect legitimate early-stage, self-hosted, and prototype skills from being conflated with bad-faith actors during registry sweeps, all audits and curation workflows must evaluate candidates against four distinct classifications. Curators and AI agents must **never** lump non-malicious defects into an "imposter" label.
+
+1. **Tier 1 — Malicious / Imposter Squatter**:
+   - *Definition*: Bad-faith aggregation, monorepo star hijacking (claiming unrelated repository stars for empty stubs), falsified upstream attribution, or squatting on namespaces.
+   - *Action*: Immediate expungement from the registry, blacklist of offending repository/domain/author pattern from intake.
+2. **Tier 2 — Packaging / Install Shape Gap**:
+   - *Definition*: Legitimate skill concept and authentic author, but missing standard `SKILL.md` packaging upstream, circular forks, or broken/stale repository links.
+   - *Action*: For skills at ≤ 2★, tag `installable: false` per [CONTRIBUTING.md §12](CONTRIBUTING.md#12-named-skill-installability-policy) and retain in the registry as registry-only implementations. If > 2★, demote to 2★ (or 1★ Awakened if lacking a verified blob link per Star Bar) and request upstream repackaging. **Never purge or brand as an imposter.**
+3. **Tier 3 — Early-Stage / Under-Evidenced Stub**:
+   - *Definition*: Legitimate author and valid conceptual primitive, but carrying thin documentation, exploratory notes, or preliminary evidence.
+   - *Action*: Retain at baseline 1★ (Awakened), request documentation enrichment, or tag with `needs-info`. **Do not purge.**
+4. **Tier 4 — Product-Coupled / Non-Generalized**:
+   - *Definition*: Real tool documentation that describes a proprietary tool's CLI or specific commands without sufficient generalization or proper maker credit (e.g. #1766 `herdr`, #1801 `k-dense-ai` prompt wrappers).
+   - *Action*: Route to generalization guidance and enforce maker attribution via `scripts/check_product_attribution.py`. Retain at baseline rank; do not brand as malicious.
+
+### 4.3 Mandatory Safeguards Before Purge
+Before any named skill is removed from the registry, the following safeguards are mandatory:
+- **Mandatory Disentanglement**: PRs performing forensic evidence scrubs, audits, or cleanup sweeps must explicitly classify every candidate into one of the four tiers above. PR descriptions and commit messages must itemize each target by tier. Blanket batches labeled generically as "imposter purges" or "non-skill purges" are strictly prohibited.
+- **Contributor Check**: If the author is a known community contributor, co-founder, or team member, maintainers must conduct direct outreach and complete a documented audit review before any permanent deletion.
+- **Restoration Protocol**: If a legitimate self-hosted or prototype skill is identified as having been mistakenly purged in a past sweep, it must be restored with author documentation and proper Trust Magnitude calibration (exemplified by `rico-favor/implement-with-discernment` restored in PR #1812 per RFC #1809).
+
 ## 5. Release Cadence
 
 ### 5.1 Registry Snapshots

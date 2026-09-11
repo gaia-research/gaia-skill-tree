@@ -187,6 +187,14 @@ To reach 4★ or higher as a Specialist (vendor-locked) skill, the implementatio
   - **0★–2★**: Allowed to be registry-only (`installable: false`).
   - **3★+**: MUST have a verified GitHub **blob** link pointing to a concrete file (e.g. `.../blob/<branch>/.../SKILL.md`), not a bare repo root. Any 3★+ skill lacking a verified blob link is **hard-demoted to 1★ (Awakened)** and must re-earn its rank with a valid link. *(Updated 2026-06-02: hardened from 2★ to 1★ — a missing verified blob link is a hard reset, not a soft step-down.)*
   - **Suites**: Exempt from individual link requirements if components are linked.
+- **Audit Disentanglement & Anti-Purge Standards (Four-Tier Audit Classification)**:
+  Registry audits, evidence scrubs, and curation PRs must classify candidates into four distinct tiers rather than applying blanket purge or "imposter" labels:
+  - **Tier 1 (Malicious / Imposter Squatter)**: Bad-faith aggregation, star hijacking, or falsified attribution. *Action*: Immediate expungement, blacklist.
+  - **Tier 2 (Packaging / Install Shape Gap)**: Legitimate skill concept and author, but missing `SKILL.md` packaging upstream or circular/stale links. *Action*: Tag `installable: false` per CONTRIBUTING §12 (if ≤2★) or request repackaging. Retain in registry; never purge or brand as an imposter.
+  - **Tier 3 (Early-Stage / Under-Evidenced Stub)**: Legitimate author, thin documentation or preliminary evidence. *Action*: Keep at baseline 1★ (Awakened), request doc enrichment, or tag `needs-info`. Do not purge.
+  - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801). *Action*: Route to generalization guidance per `check_product_attribution.py`.
+- **Mandatory Disentanglement & Contributor Check**:
+  No blanket "imposter purges" or "non-skill purges" are permitted. PRs performing forensic evidence scrubs or purges must categorize each target into one of the distinct tiers above. If a contributor is a known contributor, co-founder, or team member, require maintainer outreach and an audit review period before deletion.
 
 ---
 
