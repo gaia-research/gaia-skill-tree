@@ -384,7 +384,7 @@
     },
     {
       "skillId": "mattpocock/ubiquitous-language",
-      "level": "1\u2605",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -408,6 +408,11 @@
           "level": "1\u2605",
           "achievedAt": "2026-09-04T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "3\u2605",
+          "achievedAt": "2026-09-12T12:45:00Z",
+          "source": "promotion"
         }
       ]
     },
@@ -1598,6 +1603,14 @@
       "timestamp": "2026-09-12T12:45:00Z",
       "action": "rank_up",
       "skillId": "mattpocock/obsidian-vault",
+      "previousValue": "1\u2605",
+      "newValue": "3\u2605",
+      "details": "Restore to frozen 3-star (upstream_deprecated freeze; corrected post-freeze demote per #1820)"
+    },
+    {
+      "timestamp": "2026-09-12T12:45:00Z",
+      "action": "rank_up",
+      "skillId": "mattpocock/ubiquitous-language",
       "previousValue": "1\u2605",
       "newValue": "3\u2605",
       "details": "Restore to frozen 3-star (upstream_deprecated freeze; corrected post-freeze demote per #1820)"

@@ -1,6 +1,45 @@
 {
-  "generatedAt": "2026-09-12T12:31:13Z",
+  "generatedAt": "2026-09-12T12:57:31Z",
   "skills": [
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-11T17:25:05Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-11T17:25:03Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-11T17:24:57Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      },
+      "previousLevel": "1★"
+    },
     {
       "id": "trailhq/graft",
       "name": "graft",
@@ -349,45 +388,6 @@
         "self": "/api/v1/skills/heygen-com/hyperframes.json"
       },
       "previousLevel": "3★"
-    },
-    {
-      "id": "heygen-com/hyperframes-core",
-      "name": "HyperFrames Core",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-06T16:21:50Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "heygen-com/hyperframes-animation",
-      "name": "HyperFrames Animation",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-06T16:21:49Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-animation.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "heygen-com/hyperframes-cli",
-      "name": "HyperFrames CLI",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-06T16:21:48Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
-      },
-      "previousLevel": "2★"
     }
   ],
   "_links": {

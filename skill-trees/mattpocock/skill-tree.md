@@ -26,7 +26,7 @@
 | ○ mattpocock/to-tickets | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/to-spec | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/triage | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/ubiquitous-language | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ mattpocock/ubiquitous-language | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ mattpocock/write-a-skill | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/zoom-out | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/ask-matt | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
