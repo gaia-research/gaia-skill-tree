@@ -113,6 +113,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-09-12T09:51:56Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v3.25.5
+  newValue: v3.41.2
+  details: synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2
 trustMagnitude: 81.0
 overallTrustGrade: B
 apexGateStatus:
@@ -129,11 +135,11 @@ verification:
 trustMagnitudeInputHash: 46412b8a3f01d7d334b488720b26fd15c190b8655e54e4f1ce2d8c413f846d9f
 upstream:
   mode: components
-  releasedAt: '2026-07-08T17:27:46Z'
+  releasedAt: '2026-09-10T20:02:34Z'
   repo: ruvnet/ruflo
-  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.25.5
-  syncedAt: '2026-07-08T19:56:40Z'
-  version: v3.25.5
+  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.41.2
+  syncedAt: '2026-09-12T09:51:56Z'
+  version: v3.41.2
 ---
 ## Overview
 
