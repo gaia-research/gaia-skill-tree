@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-11T14:25:11Z",
+  "generatedAt": "2026-09-12T01:23:06Z",
   "firstRun": false,
   "skills": [
     {
@@ -870,51 +870,9 @@
       "_links": {
         "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       }
-    },
-    {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 373.22,
-      "overallTrustGrade": "S",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      }
-    },
-    {
-      "id": "garrytan/gstack",
-      "name": "Founder Mode",
-      "level": "5★",
-      "contributor": "garrytan",
-      "trustMagnitude": 355.66,
-      "overallTrustGrade": "S",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gstack.json"
-      }
-    },
-    {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "5★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 316.88,
-      "overallTrustGrade": "S",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
     }
   ],
-  "totalTrending": 65,
+  "totalTrending": 62,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
