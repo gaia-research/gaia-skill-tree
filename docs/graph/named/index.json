@@ -34049,6 +34049,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 5★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-12T10:08:22Z",
+            "action": "upstream_synced",
+            "contributor": "mbtiongson1",
+            "previousValue": "v6.1.1",
+            "newValue": "v6.3.0",
+            "details": "synced from https://github.com/obra/superpowers/releases/tag/v6.3.0"
           }
         ],
         "suiteComponents": [
