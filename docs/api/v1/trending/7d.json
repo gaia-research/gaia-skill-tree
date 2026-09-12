@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-12T12:31:13Z",
+  "generatedAt": "2026-09-12T12:57:31Z",
   "firstRun": false,
   "skills": [
     {
@@ -466,6 +466,20 @@
       }
     },
     {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      }
+    },
+    {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "3★",
@@ -718,6 +732,48 @@
       }
     },
     {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 47.46,
+      "tmDelta": 94.92,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      }
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 47.46,
+      "tmDelta": 94.92,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      }
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "trendingScore": 47.46,
+      "tmDelta": 94.92,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      }
+    },
+    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
@@ -872,7 +928,7 @@
       }
     }
   ],
-  "totalTrending": 62,
+  "totalTrending": 66,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

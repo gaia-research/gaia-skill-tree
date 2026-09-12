@@ -6,11 +6,11 @@ origin: false
 genericSkillRef: personal-knowledge-management
 status: named
 title: The Obsidian Vault Mapper
-level: 1★
+level: 3★
 description: Manage notes and organization in a specific Obsidian vault using Title
   Case and wikilinks.
 createdAt: '2026-05-21'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-12'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault
 evidence:
@@ -113,6 +113,10 @@ timeline:
   contributor: unknown
   details: 'TM 209.65 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-11T17:25:05Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 3★
 trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
@@ -128,7 +132,7 @@ trustMagnitudeInputHash: 3b0168a25c73ef667766bdced806a474b5d28ed21fa997b3be4854e
 verification:
   firstEvidenceAt: '2026-06-19T17:07:33Z'
 installable: false
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Installation

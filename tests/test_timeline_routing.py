@@ -150,6 +150,8 @@ class TestMetaTimelineCommandRouting:
         args.registry = registry
         args.timestamp = timestamp
         args.no_build = no_build
+        args.previous_value = None
+        args.new_value = None
         return args
 
     def test_timeline_with_user_routes_to_user_tree_when_skill_is_named(self, tmp_path):
@@ -218,3 +220,55 @@ class TestMetaTimelineCommandRouting:
         tree_data = json.loads(user_tree_file.read_text(encoding="utf-8"))
         timeline = tree_data.get("timeline", [])
         assert any(ev.get("action") == "note" and ev.get("skillId") == "generic-skill" for ev in timeline)
+
+    def test_timeline_rank_up_with_new_value_updates_unlocked_skill_level(self, tmp_path):
+        """--new-value on a rank_up/demote --user event must update unlockedSkills level
+        and levelHistory so the Transparency Gate sees the rank change, not just the
+        timeline entry."""
+        from gaia_cli.commands.dev import meta_timeline_command
+
+        root = _make_registry(tmp_path)
+
+        user_tree_dir = root / "skill-trees" / "mbtiongson1"
+        user_tree_dir.mkdir(parents=True)
+        user_tree_file = user_tree_dir / "skill-tree.json"
+        user_tree_file.write_text(
+            json.dumps({
+                "username": "mbtiongson1",
+                "unlockedSkills": [
+                    {"skillId": "testuser/myskill", "level": "1★", "levelHistory": []},
+                ],
+                "timeline": [],
+            }),
+            encoding="utf-8",
+        )
+
+        args = self._make_args(
+            skill_id="testuser/myskill",
+            action="rank_up",
+            notes="Restore to frozen 3★",
+            user="mbtiongson1",
+            registry=str(root),
+            no_build=True,
+        )
+        args.previous_value = "1★"
+        args.new_value = "3★"
+
+        meta_timeline_command(args)
+
+        tree_data = json.loads(user_tree_file.read_text(encoding="utf-8"))
+        timeline = tree_data.get("timeline", [])
+        assert any(
+            ev.get("action") == "rank_up"
+            and ev.get("skillId") == "testuser/myskill"
+            and ev.get("newValue") == "3★"
+            and ev.get("previousValue") == "1★"
+            for ev in timeline
+        )
+
+        unlocked = next(
+            s for s in tree_data["unlockedSkills"] if s["skillId"] == "testuser/myskill"
+        )
+        assert unlocked["level"] == "3★"
+        assert unlocked["levelHistory"][-1]["level"] == "3★"
+        assert unlocked["levelHistory"][-1]["source"] == "promotion"

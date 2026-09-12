@@ -801,6 +801,40 @@
       "genericSkillRef": "autonomous-debug"
     },
     {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      },
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
+    },
+    {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "3★",
@@ -816,6 +850,23 @@
         "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
       "genericSkillRef": "vertical-slice-planning"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      },
+      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "garrytan/browse",
@@ -1038,62 +1089,11 @@
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
       },
       "genericSkillRef": "code-review-pipeline"
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "trustMagnitude": 65.81,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      },
-      "genericSkillRef": "task-depth-enforcement"
-    },
-    {
-      "id": "obra/systematic-debugging",
-      "name": "Systematic Debugging",
-      "level": "3★",
-      "trustMagnitude": 65.15,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/systematic-debugging.json"
-      },
-      "genericSkillRef": "systematic-debugging"
-    },
-    {
-      "id": "mattpocock/grill-me",
-      "name": "Grill Me",
-      "level": "3★",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grill-me.json"
-      },
-      "genericSkillRef": "grill-me"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 221,
+  "totalSkills": 224,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

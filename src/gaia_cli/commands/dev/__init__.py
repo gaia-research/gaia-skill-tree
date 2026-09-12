@@ -623,6 +623,15 @@ class DevCommand(Command):
             "--timestamp",
             help="ISO 8601 timestamp for the event; defaults to now. Use for historical backfills.",
         )
+        dev_timeline.add_argument(
+            "--previous-value",
+            help="Previous level (e.g. 1★). Only meaningful with --user and action rank_up/demote.",
+        )
+        dev_timeline.add_argument(
+            "--new-value",
+            help="New level (e.g. 3★). With --user and action rank_up/demote, also updates the "
+                 "user tree's unlockedSkills level/levelHistory so the Transparency Gate sees the change.",
+        )
         _add_build_flags(dev_timeline, "appending event")
 
         dev_evidence = dev_sub.add_parser("evidence", help="Add evidence to a skill")

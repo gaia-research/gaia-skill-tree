@@ -1138,6 +1138,7 @@ class KnowledgeContradictionSensor:
         "generated_projection_drift",
         "benchmark_source_drift",
         "trust_calibration_drift",
+        "frozen_skill_drift",
     })
     _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
 
@@ -1677,6 +1678,153 @@ class TrustCalibrationDriftSensor:
         return observations
 
 
+class FrozenSkillIntegritySensor:
+    """Report frozen named skills that suffered post-freeze rank mutations or recalibrations."""
+
+    id = "frozen-skill-integrity"
+    _NAMED_ROOT = "registry/named"
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        observations: list[Observation] = []
+        named_root = repo_root / self._NAMED_ROOT
+        if not named_root.is_dir():
+            return observations
+
+        for path in sorted(named_root.rglob("*.md")):
+            try:
+                parts = path.read_text(encoding="utf-8").split("---", 2)
+                if len(parts) < 3:
+                    continue
+                import yaml
+                skill = yaml.safe_load(parts[1]) or {}
+                if not isinstance(skill, dict):
+                    continue
+                skill_id = skill.get("id")
+                if not skill_id:
+                    continue
+
+                timeline = skill.get("timeline", [])
+                if not isinstance(timeline, list):
+                    timeline = []
+
+                # Identification of frozen state:
+                # 1. Explicit frontmatter: frozen: true or frozenAt
+                # 2. Timeline event: action: "upstream_deprecated"
+                # (Active suite capstones with suiteComponents that merely removed a component are not frozen unless installable: false or explicitly frozen)
+                is_suite_capstone = bool(skill.get("suiteComponents")) and skill.get("installable") is not False
+                is_explicit_frozen = bool(skill.get("frozen") is True or skill.get("frozenAt"))
+                has_upstream_deprecated = any(
+                    isinstance(ev, dict) and ev.get("action") == "upstream_deprecated"
+                    for ev in timeline
+                )
+
+                if not is_explicit_frozen and (not has_upstream_deprecated or is_suite_capstone):
+                    continue
+
+                # Determine freeze timestamp (T_freeze) and freeze index
+                freeze_ts = None
+                freeze_idx = -1
+                if skill.get("frozenAt"):
+                    freeze_ts = str(skill.get("frozenAt"))
+
+                for idx, ev in enumerate(timeline):
+                    if isinstance(ev, dict) and ev.get("action") == "upstream_deprecated":
+                        if freeze_ts is None:
+                            freeze_ts = ev.get("timestamp")
+                        freeze_idx = idx
+                        break
+
+                # Determine frozen level (L_freeze)
+                current_level = skill.get("level")
+                frozen_level = None
+                if skill.get("frozenLevel"):
+                    frozen_level = str(skill.get("frozenLevel"))
+                elif freeze_idx >= 0:
+                    last_known_level = None
+                    for ev in timeline[:freeze_idx + 1]:
+                        if not isinstance(ev, dict):
+                            continue
+                        new_val = ev.get("newValue")
+                        if new_val and re.match(r"^[1-6]★$", str(new_val)):
+                            last_known_level = str(new_val)
+                        else:
+                            details = str(ev.get("details") or "")
+                            m = re.search(r"(?:updated.*to|Calibrated.*to|to)\s+([1-6]★)", details)
+                            if m:
+                                last_known_level = m.group(1)
+                    if last_known_level:
+                        frozen_level = last_known_level
+                    else:
+                        for ev in timeline[freeze_idx + 1:]:
+                            if not isinstance(ev, dict):
+                                continue
+                            prev_val = ev.get("previousValue")
+                            if prev_val and re.match(r"^[1-6]★$", str(prev_val)):
+                                frozen_level = str(prev_val)
+                                break
+                            details = str(ev.get("details") or "")
+                            m = re.search(r"from\s+([1-6]★)", details)
+                            if m:
+                                frozen_level = m.group(1)
+                                break
+
+                if not frozen_level:
+                    frozen_level = current_level
+
+                # Detect post-freeze events
+                if freeze_idx >= 0:
+                    candidate_events = timeline[freeze_idx + 1:]
+                elif freeze_ts:
+                    candidate_events = [
+                        ev for ev in timeline
+                        if isinstance(ev, dict) and ev.get("timestamp") and str(ev.get("timestamp")) > str(freeze_ts)
+                    ]
+                else:
+                    candidate_events = []
+
+                post_freeze_events: list[str] = []
+                for ev in candidate_events:
+                    if not isinstance(ev, dict):
+                        continue
+                    action = ev.get("action")
+                    details = str(ev.get("details") or "").lower()
+                    if "founder override" in details:
+                        continue
+                    if action in ("demote", "rank_up", "recalibrate_trust_magnitude"):
+                        post_freeze_events.append(str(action))
+
+                has_level_mismatch = bool(frozen_level and current_level != frozen_level)
+                has_post_freeze_actions = bool(post_freeze_events)
+                drift = has_level_mismatch or has_post_freeze_actions
+
+                observed_state: dict[str, Any] = {
+                    "freezeTimestamp": freeze_ts,
+                    "frozenLevel": frozen_level,
+                    "currentLevel": current_level,
+                    "postFreezeEvents": post_freeze_events,
+                }
+                if drift and frozen_level:
+                    observed_state["remediationCommand"] = f"gaia dev calibrate {skill_id} {frozen_level}"
+
+                observations.append(Observation(
+                    kind="frozen_skill_drift",
+                    subject=Subject(type="named-skill", id=skill_id),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift" if drift else "healthy",
+                    current_state={
+                        "level": current_level,
+                        "frozenLevel": frozen_level,
+                    },
+                    observed_state=observed_state,
+                    confidence=1.0,
+                    provenance={"path": str(path.relative_to(repo_root))},
+                ))
+            except (OSError, ValueError, TypeError, yaml.YAMLError):
+                continue
+        return observations
+
+
 class GeneratedProjectionsSensor:
     """Verify Class S generated artifacts exist, are non-empty, and match canonical named skills."""
 
@@ -2205,4 +2353,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         GeneratedProjectionsSensor(),
         BenchmarkFreshnessSensor(),
         TrustCalibrationDriftSensor(),
+        FrozenSkillIntegritySensor(),
     )

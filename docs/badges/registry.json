@@ -1324,6 +1324,7 @@
           "mattpocock/diagnose",
           "mattpocock/diagnosing-bugs",
           "mattpocock/domain-modeling",
+          "mattpocock/edit-article",
           "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
@@ -1332,6 +1333,7 @@
           "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
           "mattpocock/migrate-to-shoehorn",
+          "mattpocock/obsidian-vault",
           "mattpocock/prototype",
           "mattpocock/research",
           "mattpocock/resolving-merge-conflicts",
@@ -1345,6 +1347,7 @@
           "mattpocock/to-spec",
           "mattpocock/to-tickets",
           "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
           "mattpocock/wait-what",
           "mattpocock/wayfinder",
           "mattpocock/wizard",
@@ -1408,6 +1411,16 @@
           "fileSeal": "diagnose-seal.svg"
         },
         {
+          "id": "mattpocock/edit-article",
+          "name": "Edit Article",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/edit-article",
+          "file": "edit-article.svg",
+          "fileSeal": "edit-article-seal.svg"
+        },
+        {
           "id": "mattpocock/grill-me",
           "name": "Grill Me",
           "rank": 3,
@@ -1436,6 +1449,16 @@
           "slash": "/handoff",
           "file": "handoff.svg",
           "fileSeal": "handoff-seal.svg"
+        },
+        {
+          "id": "mattpocock/obsidian-vault",
+          "name": "Obsidian Vault Manager",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/obsidian-vault",
+          "file": "obsidian-vault.svg",
+          "fileSeal": "obsidian-vault-seal.svg"
         },
         {
           "id": "mattpocock/setup-matt-pocock-skills",
@@ -1476,6 +1499,16 @@
           "slash": "/triage",
           "file": "triage.svg",
           "fileSeal": "triage-seal.svg"
+        },
+        {
+          "id": "mattpocock/ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/ubiquitous-language",
+          "file": "ubiquitous-language.svg",
+          "fileSeal": "ubiquitous-language-seal.svg"
         },
         {
           "id": "mattpocock/ask-matt",

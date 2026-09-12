@@ -144,6 +144,40 @@
       "genericSkillRef": "autonomous-debug"
     },
     {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      },
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
+    },
+    {
       "id": "mattpocock/to-tickets",
       "name": "To Tickets",
       "level": "3★",
@@ -159,6 +193,23 @@
         "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
       "genericSkillRef": "vertical-slice-planning"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "trustMagnitude": 94.92,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      },
+      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "mattpocock/grill-me",
@@ -654,17 +705,17 @@
       "genericSkillRef": "guided-setup-scripting"
     }
   ],
-  "namedSkillsCount": 35,
+  "namedSkillsCount": 38,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
     "trustMagnitude": 373.22
   },
-  "prestigeScore": 2176.76,
+  "prestigeScore": 2461.52,
   "gradeDistribution": {
     "S": 1,
     "A": 3,
-    "B": 9,
+    "B": 12,
     "C": 22
   },
   "_links": {

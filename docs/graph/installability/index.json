@@ -4201,7 +4201,7 @@
         "entrypoint": "skills/engineering/diagnosing-bugs/SKILL.md",
         "installSubpath": "skills/engineering/diagnosing-bugs"
       },
-      "currentSkillContentSha256": "17575f062d35f20ae48aad5056d188da47d8bf538f693b51a613e94ac9b47a72",
+      "currentSkillContentSha256": "909edff97d89b38c15d1179fd04be330243e48c8ac0fbee759b3c0560b9bf6b1",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4261,7 +4261,7 @@
         "entrypoint": "skills/personal/edit-article/SKILL.md",
         "installSubpath": "skills/personal/edit-article"
       },
-      "currentSkillContentSha256": "daf70a083060e14fcc9b8fbb98f958aed55fedb59d40fd5ac3adad6fe353b71f",
+      "currentSkillContentSha256": "fbb3080ad6d397e9b237cf94db0dabad9145bc0ac18189b58eb0a3c0932f834c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4465,7 +4465,7 @@
         "entrypoint": "skills/personal/obsidian-vault",
         "installSubpath": "skills/personal/obsidian-vault"
       },
-      "currentSkillContentSha256": "d5a8743b06f31d504cbe3937d34f464d0624bc1c1de357fa25249fb78715b712",
+      "currentSkillContentSha256": "805877743984f01520541574f6b0b9c8b79f8f05e8b452100cc2d31ea0c9b353",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4769,7 +4769,7 @@
         "entrypoint": "skills/deprecated/ubiquitous-language/SKILL.md",
         "installSubpath": "skills/deprecated/ubiquitous-language"
       },
-      "currentSkillContentSha256": "6894c00c729a374fe5981243ceea3198bbc629272f8ce114ca25510e262e8084",
+      "currentSkillContentSha256": "86a7ac3d7d3693a6095fdc59a657f0e5b987eebf8eb4715bef730593db20b999",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

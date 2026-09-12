@@ -23,6 +23,7 @@ authority:
   generated_projection_drift: B
   benchmark_source_drift: B
   trust_calibration_drift: B
+  frozen_skill_drift: B
   generic_mapping: C
 
 priority:
@@ -93,6 +94,12 @@ priority:
     freshnessNeed: 0.7
     expectedCost: 0.4
   trust_calibration_drift:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.9
+    freshnessNeed: 0.8
+    expectedCost: 0.2
+  frozen_skill_drift:
     importance: 0.9
     decisionImpact: 0.9
     exposure: 0.9

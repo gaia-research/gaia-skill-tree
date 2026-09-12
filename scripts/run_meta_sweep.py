@@ -120,6 +120,20 @@ def check_liveness(urls_to_check, max_workers=20, timeout=6):
         results = list(executor.map(probe, urls_to_check))
     return results
 
+def is_skill_frozen(data: dict) -> bool:
+    """Return True if the skill was frozen via upstream_deprecated or frontmatter."""
+    if data.get("frozen") is True or bool(data.get("frozenAt")):
+        return True
+    if data.get("suiteComponents") and data.get("installable") is not False:
+        return False
+    timeline = data.get("timeline", [])
+    if isinstance(timeline, list):
+        return any(
+            isinstance(e, dict) and e.get("action") == "upstream_deprecated"
+            for e in timeline
+        )
+    return False
+
 def run_meta_sweep():
     print("=== Gaia Meta Sweep Audit ===")
     nodes, named = load_registry()
@@ -131,6 +145,8 @@ def run_meta_sweep():
     print("Dimension 1: Star Bar...")
     for skill_id, item in named.items():
         data = item["meta"]
+        if is_skill_frozen(data):
+            continue
         stars = parse_star(data.get("level", ""))
         if stars >= 3:
             links = data.get("links", {})
@@ -283,6 +299,8 @@ def run_meta_sweep():
     print("Dimension 7: Installability...")
     for skill_id, item in named.items():
         data = item["meta"]
+        if is_skill_frozen(data):
+            continue
         stars = parse_star(data.get("level", ""))
         is_suite = bool(data.get("suiteComponents"))
         if stars >= 3 and not is_suite:

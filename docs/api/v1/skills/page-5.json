@@ -1,6 +1,70 @@
 {
   "skills": [
     {
+      "id": "ruvnet/pair-programming",
+      "name": "Pair Programming",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 220.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/pair-programming.json"
+      },
+      "genericSkillRef": "subagent-driven-development"
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      },
+      "genericSkillRef": "adaptive-pattern-learning"
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 274.83,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      },
+      "genericSkillRef": "platform-modernization-sprint",
+      "suiteComponents": [
+        "ruvnet/swarm-advanced",
+        "ruvnet/swarm-orchestration",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination"
+      ]
+    },
+    {
       "id": "ruvnet/stream-chain",
       "name": "Stream Chain",
       "level": "2★",
@@ -360,7 +424,7 @@
   ],
   "page": 5,
   "totalPages": 5,
-  "totalSkills": 221,
+  "totalSkills": 224,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json"
