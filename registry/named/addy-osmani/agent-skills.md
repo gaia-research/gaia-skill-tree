@@ -119,6 +119,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 5★ to 4★
+- timestamp: '2026-09-12T10:08:15Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: 0.6.3
+  newValue: 0.6.9
+  details: synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.9
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-09-01'
@@ -163,11 +169,11 @@ links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
 upstream:
   mode: components
-  releasedAt: '2026-07-03T05:42:25Z'
+  releasedAt: '2026-09-05T03:25:18Z'
   repo: addyosmani/agent-skills
-  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.3
-  syncedAt: '2026-07-08T19:56:05Z'
-  version: 0.6.3
+  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.9
+  syncedAt: '2026-09-12T10:08:15Z'
+  version: 0.6.9
 ---
 
 ## Installation
