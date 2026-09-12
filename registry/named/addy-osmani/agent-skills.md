@@ -5,12 +5,12 @@ contributor: addy-osmani
 origin: true
 genericSkillRef: git-ship-done-pipeline
 status: named
-level: 5★
+level: 4★
 description: Production-grade engineering command suite for AI coding agents spanning
   the full development lifecycle — spec, plan, build, test, review, web performance,
   ship, and simplify.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 timeline:
 - timestamp: '2026-07-02T18:42:20Z'
   action: add
@@ -115,6 +115,10 @@ timeline:
   contributor: unknown
   details: 'TM 286.0 -> 174.62, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:14:40Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-09-01'

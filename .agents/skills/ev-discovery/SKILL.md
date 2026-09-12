@@ -1,7 +1,7 @@
 ---
 name: ev-discovery
 description: >
-  Skippable Phase 0 of the Gaia evidence verification pipeline. Use only on declared need for higher-quality Stage-2 evidence: a promotion candidate, or a skill that gaia-meta-sweep flagged as under-evidenced. Given a skill id, source repo/context, and needed evidence types (benchmark-result, arxiv, peer-review, social-signal), it runs Firecrawl searches, scrapes top hits to markdown, and appends discovered sources into Phase 1 inputs. Missing benchmark evidence is recorded as benchmark-source candidates first, not direct scoring rows. Trigger phrases: "discover evidence", "find new evidence", "Phase 0", "run ev-discovery", "search for benchmarks/papers", "under-evidenced", "promotion candidate needs stronger proof". This is the ONLY ev-* skill that searches the web for NEW evidence; other ev-* skills aggregate or verify known sources. Requires FIRECRAWL_API_KEY; skips gracefully when absent.
+  Skippable Phase 0 of the Gaia evidence verification pipeline. Use only on declared need for higher-quality Stage-2 evidence: a promotion candidate, or a skill that gaia-meta-sweep flagged as under-evidenced. Given a skill id, source repo/context, and needed evidence types (benchmark-result, arxiv, peer-review, social-signal), it runs Firecrawl searches, scrapes top hits to markdown, and appends discovered sources into Phase 1 inputs. Missing benchmark evidence is recorded as benchmark-source candidates first, not direct scoring rows. Trigger phrases: "discover evidence", "find new evidence", "Phase 0", "run ev-discovery", "search for benchmarks/papers", "under-evidenced", "promotion candidate needs stronger proof". This is the ONLY ev-* skill that searches the web for NEW evidence; other ev-* skills aggregate or verify known sources. Requires Firecrawl to be usable (`firecrawl --status` authenticated OR FIRECRAWL_API_KEY set); skips gracefully when neither holds.
 ---
 
 # Evidence Discovery (ev-discovery)
@@ -33,9 +33,51 @@ Append discovered raw rows to the appropriate source inputs with a canonical or 
 
 If one discovered peer-review source legitimately covers multiple named skills, hand Phase 1 a scratch multi-target packet manifest for `evidence/scripts/peer_review_source_packets.py` rather than cloning the same review into multiple intake mutations. The helper is `peer-review`-only, allows the same URL once per reviewed skill, rejects strength/scoring fields (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`), and should write only temporary by-type output.
 
+## Preflight (#1788)
+
+Firecrawl usability is **not** gated on the `FIRECRAWL_API_KEY` env var alone — the
+CLI can be authenticated via stored browser/CLI credentials independent of it.
+Check both before deciding to skip Phase 0:
+
+```bash
+firecrawl --status                 # Authenticated? credits remaining?
+echo "${FIRECRAWL_API_KEY:+set}"   # non-empty output if the env var is set
+```
+
+Proceed with discovery if **either** check succeeds. Skip Phase 0 gracefully
+only when `firecrawl --status` reports unauthenticated **and** the env var is
+unset/empty.
+
+## Commands
+
+Quote every URL and query — unquoted `?`/`&`/glob characters expand under zsh,
+this repo's shell, and silently turn a single request into a file-glob error.
+
+```bash
+mkdir -p .firecrawl
+firecrawl search "<query>" -o .firecrawl/result.json --json
+firecrawl scrape '<url>' --json -o .firecrawl/scrape.json
+gh api -X GET 'repos/<owner>/<repo>/git/trees/main' -f recursive=1
+```
+
+The `gh api` form above (path + `-f recursive=1` instead of a literal
+`?recursive=1` in the URL) avoids the same zsh glob-expansion problem for
+GitHub tree listings.
+
+## Retry rule
+
+Retry is a **status-code rule**, not a named-host list — a source is not
+"unresolved" just because it wasn't on someone's retry shortlist:
+
+- On any `401`, `402`, `403`, `429`, or SSL/TLS failure from a direct fetch,
+  retry **once** via `firecrawl scrape` before marking the source dead.
+- Do not maintain or consult a list of specific domains to retry — apply the
+  rule to every failing URL, every time.
+
 ## Guardrails
 
-- Requires `FIRECRAWL_API_KEY`; skip gracefully if absent.
+- Requires Firecrawl usability per the Preflight above (`firecrawl --status`
+  OR `FIRECRAWL_API_KEY`); skip gracefully only when both fail.
 - Do not run as a broad web crawl without declared need.
 - Do not mutate registry files.
 - Do not append direct scoring `benchmark-result` rows from discovered vendor pages; route them through benchmark-source candidates and Phase 2B first.

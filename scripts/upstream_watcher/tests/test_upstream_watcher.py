@@ -37,6 +37,9 @@ from scripts.upstream_watcher.finder import (
 )
 from scripts.upstream_watcher.issuer import (
     _find_existing_issue,
+    _find_existing_suite_issue,
+    _update_issue,
+    _dispatch_upstream_approve,
     create_issues,
     _payload_block,
     render_bootstrap_body,
@@ -425,6 +428,140 @@ class TestIdempotency:
 
         assert created == ["[upstream] ruvnet/ruflo → v3.38.9"]
         assert sum(1 for s in summaries if s.get("skipped")) == 4
+
+    def test_update_finding_updates_existing_umbrella_in_place(self):
+        """When an open umbrella issue already exists for the suite (older release),
+        update it in place instead of opening a duplicate issue.
+        """
+        findings = [
+            {
+                "finding_type": "update",
+                "skillId": "ruvnet/ruflo",
+                "newVersion": "v3.41.2",
+                "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.41.2",
+                "componentAdds": [],
+                "componentRemoves": [],
+                "linkLiveness": [],
+                "mode": "version-only",
+            }
+        ]
+
+        # gh returns an existing open issue for ruvnet/ruflo at v3.40.0
+        existing_issues = [
+            {"number": 1775, "title": "[upstream] ruvnet/ruflo → v3.40.0"}
+        ]
+        gh_mock = MagicMock()
+        gh_mock.returncode = 0
+        gh_mock.stdout = json.dumps(existing_issues)
+
+        created: list[str] = []
+        updated: list[tuple[int, str]] = []
+
+        def fake_create(title, labels, body, dry_run, verbose=False):
+            created.append(title)
+            return 9999
+
+        def fake_update(issue_num, title, body, comment=None, dry_run=False, verbose=False):
+            updated.append((issue_num, title))
+            return True
+
+        with patch("subprocess.run", return_value=gh_mock), patch(
+            "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
+        ), patch(
+            "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
+        ), patch("scripts.upstream_watcher.issuer._edit_umbrella_body"):
+            summaries = create_issues(findings, apply=True)
+
+        assert created == []  # No new issue created!
+        assert updated == [(1775, "[upstream] ruvnet/ruflo → v3.41.2")]
+        assert summaries[0]["umbrella"] == 1775
+        assert summaries[0].get("updated") is True
+
+    def test_bootstrap_finding_auto_approved_and_dispatched(self):
+        """New bootstrap issues are created with upstream:approved and dispatched."""
+        findings = [
+            {
+                "finding_type": "bootstrap",
+                "skillId": "firecrawl/firecrawl-skills",
+                "newVersion": "v2.11.0",
+                "sourceUrl": "https://github.com/firecrawl/firecrawl/releases/tag/v2.11.0",
+            }
+        ]
+
+        gh_mock = MagicMock()
+        gh_mock.returncode = 0
+        gh_mock.stdout = json.dumps([])
+
+        created_labels: list[list[str]] = []
+        dispatched: list[int] = []
+
+        def fake_create(title, labels, body, dry_run, verbose=False):
+            created_labels.append(labels)
+            return 1568
+
+        def fake_dispatch(issue_num, dry_run=False, verbose=False):
+            dispatched.append(issue_num)
+            return True
+
+        with patch("subprocess.run", return_value=gh_mock), patch(
+            "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
+        ), patch(
+            "scripts.upstream_watcher.issuer._dispatch_upstream_approve", side_effect=fake_dispatch
+        ):
+            summaries = create_issues(findings, apply=True)
+
+        assert created_labels == [["upstream:bootstrap", "upstream:approved"]]
+        assert dispatched == [1568]
+        assert summaries[0]["issue"] == 1568
+
+    def test_bootstrap_finding_updates_existing_bootstrap_issue(self):
+        """When an older bootstrap issue exists for the suite, update it in place."""
+        findings = [
+            {
+                "finding_type": "bootstrap",
+                "skillId": "heygen-com/hyperframes",
+                "newVersion": "v0.8.34",
+                "sourceUrl": "https://github.com/heygen-com/hyperframes/releases/tag/v0.8.34",
+            }
+        ]
+
+        existing = [
+            {"number": 1755, "title": "[upstream:bootstrap] heygen-com/hyperframes → baseline at v0.8.30"}
+        ]
+        gh_mock = MagicMock()
+        gh_mock.returncode = 0
+        gh_mock.stdout = json.dumps(existing)
+
+        created: list[str] = []
+        updated: list[tuple[int, str]] = []
+        dispatched: list[int] = []
+
+        def fake_create(title, labels, body, dry_run, verbose=False):
+            created.append(title)
+            return 9999
+
+        def fake_update(issue_num, title, body, comment=None, dry_run=False, verbose=False):
+            updated.append((issue_num, title))
+            return True
+
+        def fake_dispatch(issue_num, dry_run=False, verbose=False):
+            dispatched.append(issue_num)
+            return True
+
+        with patch("subprocess.run", return_value=gh_mock), patch(
+            "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
+        ), patch(
+            "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
+        ), patch(
+            "scripts.upstream_watcher.issuer._dispatch_upstream_approve", side_effect=fake_dispatch
+        ):
+            summaries = create_issues(findings, apply=True)
+
+        assert created == []  # No duplicate created!
+        assert updated == [(1755, "[upstream:bootstrap] heygen-com/hyperframes → baseline at v0.8.34")]
+        assert dispatched == [1755]
+        assert summaries[0]["issue"] == 1755
+        assert summaries[0].get("updated") is True
 
 
 # ---------------------------------------------------------------------------

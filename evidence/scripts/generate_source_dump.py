@@ -137,34 +137,129 @@ def normalizeEvidenceRow(
     return row
 
 
+def compileSkillEvidence(
+    skillMeta: dict[str, Any],
+    genericEvidence: dict[str, list[dict[str, Any]]],
+    *,
+    skipLiveStars: bool = False,
+) -> dict[str, Any]:
+    """Merge a skill's own + inherited-generic evidence rows, deduped and normalized.
+
+    Shared by both `compileNamedSkills` (registry markdown) and
+    `compileCandidateSkills` (pre-registry intake manifest, #1786) so a
+    candidate not yet in `registry/named/` runs through the exact same
+    dedup/normalize path as an already-registered skill.
+    """
+    skillMeta = dict(skillMeta)
+    ownEvidence = skillMeta.get("evidence") or []
+    inherited = genericEvidence.get(skillMeta.get("genericSkillRef")) or []
+
+    seen: set[tuple[str | None, str, str]] = set()
+    mergedEvidence: list[dict[str, Any]] = []
+    for entry in [*ownEvidence, *inherited]:
+        try:
+            key = dedupeKey(entry)
+        except ValueError as e:
+            print(f"Warning: skipping {skillMeta.get('id')} evidence row: {e}")
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        mergedEvidence.append(normalizeEvidenceRow(entry, skipLiveStars=skipLiveStars))
+
+    skillMeta["compiled_evidence"] = mergedEvidence
+    return skillMeta
+
+
 def compileNamedSkills(
     namedDir: str,
     genericEvidence: dict[str, list[dict[str, Any]]],
     *,
     skipLiveStars: bool = False,
 ) -> list[dict[str, Any]]:
-    skills: list[dict[str, Any]] = []
-    for _, meta in iterNamedSkillMeta(namedDir):
-        skillMeta = dict(meta)
-        ownEvidence = skillMeta.get("evidence") or []
-        inherited = genericEvidence.get(skillMeta.get("genericSkillRef")) or []
+    return [
+        compileSkillEvidence(meta, genericEvidence, skipLiveStars=skipLiveStars)
+        for _, meta in iterNamedSkillMeta(namedDir)
+    ]
 
-        seen: set[tuple[str | None, str, str]] = set()
-        mergedEvidence: list[dict[str, Any]] = []
-        for entry in [*ownEvidence, *inherited]:
-            try:
-                key = dedupeKey(entry)
-            except ValueError as e:
-                print(f"Warning: skipping {skillMeta.get('id')} evidence row: {e}")
-                continue
-            if key in seen:
-                continue
-            seen.add(key)
-            mergedEvidence.append(normalizeEvidenceRow(entry, skipLiveStars=skipLiveStars))
 
-        skillMeta["compiled_evidence"] = mergedEvidence
-        skills.append(skillMeta)
-    return skills
+def loadCandidateManifest(path: str | None) -> list[dict[str, Any]]:
+    """Load pre-registry intake candidate rows for Phase 1 (#1786).
+
+    Accepts the same shapes as `evidence/scripts/verify_benchmark_sources.py`'s
+    `load_candidate_manifest`: a JSON object with a `candidates`/`entries`/`rows`
+    list, a bare JSON array, a single JSON object, or JSONL records. Each entry
+    is a skill-shaped dict (id, name, contributor, genericSkillRef, evidence,
+    optionally level) — the same shape `iterNamedSkillMeta` yields from a named
+    skill's frontmatter, so it flows through `compileSkillEvidence` unchanged.
+    """
+    if not path:
+        return []
+    with open(path, encoding="utf-8") as f:
+        text = f.read().strip()
+    if not text:
+        return []
+    if path.lower().endswith(".jsonl"):
+        entries: list[Any] = [json.loads(line) for line in text.splitlines() if line.strip()]
+    else:
+        loaded = json.loads(text)
+        if isinstance(loaded, dict):
+            for key in ("candidates", "entries", "rows"):
+                if isinstance(loaded.get(key), list):
+                    entries = loaded[key]
+                    break
+            else:
+                entries = [loaded]
+        elif isinstance(loaded, list):
+            entries = loaded
+        else:
+            raise ValueError("candidate manifest must be a JSON object, array, or JSONL records")
+    out: list[dict[str, Any]] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("candidate manifest entries must be JSON objects")
+        if "id" not in entry:
+            raise ValueError("candidate manifest entry missing required 'id' field")
+        out.append(entry)
+    return out
+
+
+def compileCandidateSkills(
+    manifestPath: str | None,
+    genericEvidence: dict[str, list[dict[str, Any]]],
+    *,
+    skipLiveStars: bool = False,
+) -> list[dict[str, Any]]:
+    return [
+        compileSkillEvidence(entry, genericEvidence, skipLiveStars=skipLiveStars)
+        for entry in loadCandidateManifest(manifestPath)
+    ]
+
+
+def reconcileCandidateSkills(
+    registrySkills: list[dict[str, Any]], candidateSkills: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Reject candidate manifest rows whose `id` already exists in the
+    registry-compiled skill set instead of appending them unconditionally.
+
+    A candidate manifest exists to seed *pre-registry* rows (#1786) for a
+    skill not yet promoted into `registry/named/`. If a candidate's `id`
+    collides with an already-registered skill, appending it unconditionally
+    would yield two entries for one skill in the type/tier groupings — the
+    already-promoted skill silently double-counted rather than merged or
+    flagged. Fail fast with the offending ids so the caller can fix the
+    manifest (drop the now-promoted entry) instead of shipping duplicate rows.
+    """
+    registryIds = {skill.get("id") for skill in registrySkills}
+    conflicts = sorted({skill.get("id") for skill in candidateSkills if skill.get("id") in registryIds})
+    if conflicts:
+        raise ValueError(
+            "candidate manifest id(s) already exist in the registry (already "
+            f"promoted to registry/named/): {', '.join(conflicts)}. Remove "
+            "these entries from the candidate manifest -- they are no longer "
+            "pre-registry."
+        )
+    return candidateSkills
 
 
 def groupSkillsByTier(skills: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
@@ -338,6 +433,7 @@ def buildSourceDump(
     skipLiveStars: bool = False,
     noLegacyTiers: bool = False,
     reportDate: str | None = None,
+    candidateManifest: str | None = None,
 ) -> dict[str, Any] | None:
     gaiaJson = resolveGaiaJson(gaiaJson)
     namedSkillsJson = resolveNamedSkillsJson(namedSkillsJson)
@@ -354,11 +450,18 @@ def buildSourceDump(
         return None
 
     print(f"Parsing named skills in {namedDir} and compiling evidence...")
-    skills = compileNamedSkills(
-        namedDir,
-        loadGenericEvidence(gaiaData),
-        skipLiveStars=skipLiveStars,
-    )
+    genericEvidence = loadGenericEvidence(gaiaData)
+    skills = compileNamedSkills(namedDir, genericEvidence, skipLiveStars=skipLiveStars)
+
+    if candidateManifest:
+        print(f"Merging pre-registry candidate rows from {candidateManifest}...")
+        candidateSkills = compileCandidateSkills(
+            candidateManifest, genericEvidence, skipLiveStars=skipLiveStars
+        )
+        print(f"  {len(candidateSkills)} candidate skill(s) loaded.")
+        candidateSkills = reconcileCandidateSkills(skills, candidateSkills)
+        skills = skills + candidateSkills
+
     typeGroups = groupSkillsByEvidenceType(skills)
     tierGroups = groupSkillsByTier(skills)
 
@@ -388,6 +491,18 @@ def main() -> None:
     parser.add_argument("--no-legacy-tiers", action="store_true", help="Do not emit coexistence tier_*.md dumps")
     parser.add_argument("--skip-live-stars", action="store_true", help="Skip GitHub live star lookups for deterministic runs")
     parser.add_argument("--report-date", default=None, help="Date string to write into the source report")
+    parser.add_argument(
+        "--candidate-manifest",
+        dest="candidateManifest",
+        default=None,
+        help=(
+            "Path to a pre-registry intake candidate manifest (JSON object with "
+            "candidates/entries/rows, a bare JSON array, or JSONL) to merge into "
+            "Phase 1 alongside registry/named/ (#1786). Each entry is a "
+            "skill-shaped dict: id, name, contributor, genericSkillRef, evidence, "
+            "optional level."
+        ),
+    )
 
     args = parser.parse_args()
     outputDir = args.outputDir
@@ -404,6 +519,7 @@ def main() -> None:
         skipLiveStars=args.skip_live_stars,
         noLegacyTiers=args.no_legacy_tiers,
         reportDate=args.report_date,
+        candidateManifest=args.candidateManifest,
     )
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "8.6.2";</script>
+  <script>window.GAIA_VERSION = "8.11.2";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/tokens.css?v=8.6.2">
-  <link rel="stylesheet" href="../css/styles.css?v=8.6.2">
-  <link rel="stylesheet" href="docs-en-shell.css?v=8.6.2">
+  <link rel="stylesheet" href="../css/tokens.css?v=8.11.2">
+  <link rel="stylesheet" href="../css/styles.css?v=8.11.2">
+  <link rel="stylesheet" href="docs-en-shell.css?v=8.11.2">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -381,9 +381,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=8.6.2"></script>
-  <script src="../js/site-nav.js?v=8.6.2"></script>
-  <script src="../js/ui.js?v=8.6.2"></script>
+  <script src="../js/mounts.js?v=8.11.2"></script>
+  <script src="../js/site-nav.js?v=8.11.2"></script>
+  <script src="../js/ui.js?v=8.11.2"></script>
 
 
 
@@ -395,7 +395,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Evidence Classes</span>
     <span class="nav-spacer"></span>
-    <span class="docs-nav-version" id="ver">v7.11.3</span>
+    <span class="docs-nav-version" id="ver">v8.11.1</span>
   </nav>
 
   <div class="docs-layout">
@@ -486,8 +486,13 @@
             </tr>
             <tr>
               <td><span class="type-pill">github-stars-own</span></td>
-              <td>Stars on the skill's own repository. Discounted when the repo bundles multiple skills (mothership discount).</td>
-              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code> and, if applicable, <code>--skill-count-in-repo</code>.</td>
+              <td>Stars on the skill's own repository, scored on a logarithmic diminishing-returns curve. Capped well below the Grade S floor.</td>
+              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code>.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">npm-downloads</span></td>
+              <td>Weekly download count from the npm registry, on the same logarithmic diminishing-returns shape as <code>github-stars-own</code>. One entry per skill — repeat submissions don't stack.</td>
+              <td>Package URL on npmjs.com. Pass <code>--downloads</code> (only valid with this type).</td>
             </tr>
             <tr>
               <td><span class="type-pill">arxiv</span></td>
@@ -511,7 +516,7 @@
             </tr>
             <tr>
               <td><span class="type-pill">fusion-recipe</span></td>
-              <td>Auto-derived for every fused/Ultimate skill from its <code>suiteComponents</code>. Only origins graded ≥C count toward the tally.</td>
+              <td>Auto-derived for every fused/Ultimate skill from its <code>suiteComponents</code>. Structural/provenance metadata only — contributes <strong>0 TM</strong> under Yggdrasil III. The composed structure it represents is reported separately as <strong>Fusion Score</strong>, never folded back into Trust Magnitude.</td>
               <td>Not hand-submitted — written by <code>gaia dev fuse</code> / <code>merge</code> when a suite skill is built.</td>
             </tr>
             <tr>
@@ -523,6 +528,11 @@
               <td><span class="type-pill">social-signal</span></td>
               <td>Creator/audience evidence — video views, engagement, topical authority from external creators.</td>
               <td>URL to the video/post. Pass <code>--views</code>; a view-count floor applies before this counts toward any magnitude.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">engagement</span></td>
+              <td>Likes and comments on a platform that doesn't expose a view count — the view-less counterpart to <code>social-signal</code>. Comments count 3x a like. Plateaus after 3 entries.</td>
+              <td>URL to the post/thread. Pass <code>--likes</code> / <code>--comments</code> (also valid with <code>--type social-signal</code>).</td>
             </tr>
             <tr>
               <td><span class="type-pill">self-attestation</span></td>
@@ -606,6 +616,13 @@
         <li><strong>Distinct from a single entry's grade</strong> — three Bronze entries can yield a Gold Overall Trust Grade in aggregate.</li>
         <li><strong>Never hand-assigned</strong> — writing this field to a node directly violates Programmatic-First and CI will reject the PR.</li>
       </ul>
+      <p>
+        The number underneath the letter grade is <strong>Trust Magnitude</strong> (TM) — the sole
+        promotion gate (4★ requires TM ≥ 100, 5★ requires TM ≥ 250). TM sums positive-scoring evidence
+        rows only; structural metadata like <code>fusion-recipe</code> contributes none of it. Do not
+        confuse TM with <strong>Fusion Score</strong>, a separate, independent scalar that reports
+        composed structure and has no bearing on grade or promotion.
+      </p>
 
       <h2 id="verification">Verification States</h2>
       <p>
@@ -741,6 +758,24 @@
 
       <h3>Using <code>github-stars-own</code> as sole evidence</h3>
       <p>Star counts are volatile and subject to farming. Never use <code>github-stars-own</code> as the sole evidence for a skill — always pair it with at least one <code>repo-own</code> entry pointing to a SKILL.md.</p>
+      <p>
+        Star magnitude is not linear with star count. It follows a logarithmic diminishing-returns
+        curve, capped at 175 TM — strictly below the 250 TM Grade S floor:
+      </p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-label">github-stars-own magnitude</span>
+        </div>
+        <pre><span class="c">magnitude = 0                              </span><span class="c">-- stars &le; 10</span>
+<span class="c">magnitude = min(175, 35 &times; log10(stars &divide; 10))  </span><span class="c">-- stars &gt; 10</span></pre>
+      </div>
+      <div class="callout info">
+        <p>
+          A 10k-star repo and a 10M-star repo land close together under this curve — massive
+          adoption alone reaches a strong Grade A, but stars can never satisfy Grade S without
+          independent corroboration (a paper, a benchmark, a peer review).
+        </p>
+      </div>
 
       <h3>Passing <code>--grade</code> instead of <code>--trust</code></h3>
       <p><code>gaia dev evidence</code> has no <code>--grade</code> flag — Grade is always auto-derived from the <code>--trust</code> number you supply (see thresholds above). There is also no <code>--dry-run</code> mode for this subcommand; it writes directly to the registry node under Verifier authorization, so confirm the skill ID and URL before running it. Doc/graph rebuild is skipped by default — pass <code>--build</code> only when you need the rebuild in the same step.</p>
@@ -749,7 +784,7 @@
   </div>
 
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=8.6.2"></script>
+  <script src="../js/site-footer.js?v=8.11.2"></script>
 
   <script>
     (function () {

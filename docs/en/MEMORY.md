@@ -2,6 +2,814 @@
 
 ---
 
+## 2026-09-12 — Weekly Editor Pass (editor-053wk)
+
+**Branch:** `docs/routines/047` (PR #1750 — shipped this pass via merge commit)
+
+**Role:** Weekly editor. Reviewed the week's accreted PR (routines 047–052),
+audited `docs/en/` for staleness and accuracy beyond what the dailies
+caught, fixed what was found, and shipped.
+
+### Branch state at start
+
+One `docs/routines/*` PR was open (`docs/routines/047`, PR #1750, draft,
+6 commits: 047–052, still titled "routine 047" only). A second open PR,
+`docs/org-dogfood-policy` (#1769), touches `AGENTS.md`/`CLAUDE.md` only —
+zero overlap with `docs/en/**`, explicitly marked "Draft for independent
+central review. The preparer will not merge this PR" in its own body. This
+is not a daily-drift duplicate of the docs routine; left untouched, no
+consolidation needed. Rebased `docs/routines/047` onto `origin/main`
+(v8.7.7 → v8.11.1) — clean, no conflicts. Skimmed the 46 commits `main`
+picked up in between: all registry curation / CI-infra / upstream-sync,
+nothing touching any CLI surface, schema, or evidence behavior the
+touched pages describe — no additional SYNC needed beyond what routine 052
+already caught (#1787's `npm-downloads`/`engagement` types).
+
+### Audit
+
+The week's six daily commits (fusion-recipe/TM 0-TM ruling, Fusion Score
+explainer, `github-stars-own` curve correction, Docs Home MCP/Fusion card
+sync, `npm-downloads`/`engagement` rows) were all independently re-verified
+against `META.md` §2.1e, `registry/schema/meta.json`, and
+`src/gaia_cli/trustMagnitude.py` — every formula, cap, and claim checked
+out exactly. No corrections needed to the dailies' own work. Widened the
+sweep beyond the diff itself, per the editor's full-site remit:
+
+1. **Site-wide link/anchor check** (self-anchors + cross-page anchors,
+   all 13 pages) — zero broken links or anchors.
+2. **Banned-synonym sweep** (`CONTEXT.md` § Banned synonyms, full list —
+   not just `merge|combine|compose|rarity`) across all `docs/en/*.html` —
+   found two real violations on `cli-reference.html`'s `gaia fuse` card,
+   pre-existing and untouched by any routine this week (see below).
+3. **Found a factual/policy bug on `cli-reference.html`'s `gaia fuse`
+   card** (pre-existing, not this week's regression): "Inherits the star
+   rank of the highest component skill" is false under Yggdrasil II's
+   "No self-promote" rule — verified directly against `fuse_command()` in
+   `src/gaia_cli/impl.py`, which only ever writes to
+   `.gaia/custom_state.json` locally; no rank/level field is touched.
+   Local fuse is levelless by design; canon curation assigns rank only
+   after `gaia push`. The same card's first bullet, "Combines two or more
+   skills into a higher tier," used the banned verb for Fusion.
+4. **Found an invalid CLI example on `cli-reference.html`'s `dev add`
+   card**: `--type extra --build`. Verified against the `--type`
+   `add_argument` call in `src/gaia_cli/commands/dev/__init__.py` —
+   choices are `("basic", "fusion")` only; `extra` is a retired
+   Yggdrasil I type value (the flag table two paragraphs above the
+   example already states this correctly — only the example itself
+   drifted). The same example also omitted the required `--description`
+   flag (`meta_add_command` in `build.py` rejects descriptions under 10
+   chars), so as written it would fail outright if copy-pasted.
+5. **Version-chip staleness**: `index.html` and `evidence-classes.html`
+   carry a static `<span id="ver">v7.11.3</span>` fallback that
+   `window.GAIA_VERSION`'s onload script overwrites — invisible in
+   practice (JS fires immediately, and the fixed site-nav mount hides the
+   legacy in-page nav entirely on the live site) but still stale raw
+   markup at `v7.11.3` against the current `v8.11.1`. Bumped both.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia fuse` card: rewrote all three
+  `cmd-desc` bullets off the false rank-inheritance claim and the banned
+  "Combines" verb, to "Fuses... declared locally as `type: fusion`" /
+  "levelless — canon curation assigns rank after `gaia push`". `dev add`
+  example: replaced the invalid `--type extra` example with a valid
+  `--type fusion` + required `--description` + `--extra-fields
+  '{"prerequisites": [...]}'` example (fusion requires ≥1 prerequisite,
+  which `dev add` only accepts via `--extra-fields`).
+- `docs/en/evidence-classes.html`, `docs/en/index.html` — bumped the
+  static nav version-chip fallback `v7.11.3` → `v8.11.1`.
+- `docs/en/DOCS.md` — Page Map row 3 updated with this pass's fixes and
+  `editor-053wk` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### What users must adapt
+
+Anyone who copy-pasted `cli-reference.html`'s old `dev add --type extra`
+example got a CLI error (invalid choice + missing `--description`); the
+new example runs as written. Anyone who read `gaia fuse` as rank-granting
+was misinformed — local fuse has never assigned rank; only `gaia push` →
+canon curation does.
+
+### What I cut, merged, or deleted
+
+Nothing cut this week. All three `gaia fuse` bullets were rewritten in
+place (false/banned content replaced, not trimmed), and the `dev add`
+example was corrected, not shortened.
+
+### Stale entries cleared
+
+- `cli-reference.html`'s `gaia fuse` card: false rank-inheritance claim,
+  banned "Combines" verb.
+- `cli-reference.html`'s `dev add` example: invalid `--type extra` +
+  missing required `--description`.
+- `index.html` / `evidence-classes.html` static version-chip fallback
+  (`v7.11.3` → `v8.11.1`).
+
+### How I worked
+
+Solo, no subagents fanned out. Read every file the week's diff touched in
+full, verified each daily's claims directly against `META.md` and
+`registry/schema/meta.json` rather than trusting the commit prose, then
+ran a full-site (not diff-scoped) link/anchor check and banned-synonym
+sweep against `CONTEXT.md`'s complete list to catch pre-existing drift the
+per-day scope wouldn't surface. Rendered the four touched pages via a
+headless Chromium script (desktop + mobile viewports) to confirm no
+layout regression and that the fixed CLI cards render as intended.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/**` only.
+- `html.parser` parse-check clean on all touched files.
+- Full-site self-anchor and cross-page-anchor check (all 13 pages) — zero
+  broken links, before and after edits.
+- Banned-synonym sweep against `CONTEXT.md`'s full list (not just the
+  `merge|combine|compose|rarity` subset) — the two `gaia fuse` violations
+  above were the only real hits; everything else was a real CLI verb
+  (`gaia dev merge`/`gh pr merge`) or non-Fusion usage ("combines flags").
+- No new hex colors in the diff (`git diff | grep -nE '#[0-9a-fA-F]{3,8}'`
+  — zero hits).
+- Rendered `cli-reference.html`, `evidence-classes.html`, `fusion.html`,
+  `index.html` via headless Chromium at 1280px and 390px — nav clearance
+  and callout/table rendering all correct; the only console errors are
+  expected `file://` sandboxing noise (blocked SVG-sprite fragment loads,
+  blocked font/analytics fetches) unrelated to content.
+- Rebased onto `origin/main` — clean, no conflicts.
+- Cross-checked `gaia fuse`'s actual behavior against `fuse_command()` in
+  `src/gaia_cli/impl.py` and `dev add`'s `--type` choices against
+  `src/gaia_cli/commands/dev/__init__.py` before writing anything about
+  either.
+
+### Ship
+
+CLAUDE.md's Squash Merges section (current as of this pass) states squash
+merging is disabled repo-wide — the routine prompt's "squash-merge" step
+is superseded by that repo policy. Shipped via ordinary merge commit
+instead once CI was green.
+
+### Planned next (Routine 053)
+
+- `skill-hierarchy.html` remains the least-recently-touched page (routine
+  028 / editor-026wk, 2026-08-13) — still the standing ROTATE candidate.
+- Routine 052's carried-forward item stands: the dead
+  `--skill-count-in-repo` mothership-discount code path and the stale
+  I11-era formula note in `docs/agents/curation-guidelines.md` are real
+  but out of `docs/en/**` scope — not a docs-routine task, just don't let
+  a future routine reintroduce the discount into a page.
+- `cli-reference.html`'s `gaia fuse` flag table only documents `<skillId>`
+  and `--name`; the implementation also has `--skills` and `--delete`
+  (confirmed in `impl.py` this pass). Not fixed now — no false claim, just
+  incomplete — but worth a future SYNC/ROTATE pass on that page.
+
+### Token spend
+
+2026-09-12 Sonnet 5 High: ~95k in, ~9k out. ~$0.55
+
+---
+
+## 2026-09-11 — Routine 052
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** SYNC. Rebased onto current `origin/main` (v8.7.2 → v8.7.7)
+before picking a task, per the Branch instructions — this surfaced that the
+prior routine's local checkout had never actually rebased past v8.7.2 (an
+earlier `git rebase origin/docs/routines/047` was a no-op against the same
+branch, not `origin/main`). A real rebase against `origin/main` pulled in
+several merged PRs, including #1787 (`feat(evidence): add npm-downloads/
+engagement types`), which is a documented-behavior change squarely in
+`evidence-classes.html`'s scope — took SYNC over ROTATE (routine 051's
+`skill-hierarchy.html` suggestion) since a real registry-visible gap beats a
+staleness-only pick.
+
+### Trigger
+
+`docs/en/evidence-classes.html`'s Evidence Type table (the page's own
+canonical list of `meta.json` → `evidence.types` values) was missing two
+types that shipped to `main` in #1787: `npm-downloads` and `engagement`.
+Verified directly against live code rather than the PR description alone
+(per CLAUDE.md's Stale Tooling directive):
+
+- `TYPE_WEIGHTS`/`TYPE_CAPS` in `src/gaia_cli/trustMagnitude.py` (lines
+  59-60, 74-75): `npm-downloads` weight 0.9 / cap 150.0; `engagement`
+  weight 0.7 / cap 60.0.
+- `_rawMagnitudeForType()` (lines 627-655): `npm-downloads` is
+  `downloads <= 100 → 0`, else `min(150, 30 × log10(downloads/100))` — same
+  log-curve shape as `github-stars-own`. `engagement` is
+  `likes + comments×3 <= 1 → 0`, else `min(60, 15 × log10(likes+comments×3))`
+  — a view-less counterpart to `social-signal`.
+- `EVIDENCE_TYPE_LAYER_CONTRACT` (lines 116-131): `npm-downloads` is
+  pinned-named (no inheritance, matching `github-stars-own`/`repo-own`);
+  `engagement` is flexible with a 0.25 inherit multiplier.
+- `_PLATEAU_CONFIG` (lines 742-743): `npm-downloads` is a 1-entry plateau;
+  `engagement` plateaus at 3 entries.
+- `commands/dev/__init__.py`/`helpers.py`: new `--downloads`, `--likes`,
+  `--comments` flags with pre-flight type-mismatch rejection (`--downloads`
+  requires `--type npm-downloads`; `--likes`/`--comments` require
+  `--type social-signal` or `--type engagement`).
+
+### What I did
+
+- `docs/en/evidence-classes.html` — Evidence Type table: added an
+  `npm-downloads` row directly after `github-stars-own` (same adoption-curve
+  family) and an `engagement` row directly after `social-signal` (its
+  view-less counterpart), each with the CLI flag and the type-mismatch
+  constraint from the pre-flight check.
+- `docs/en/DOCS.md` — page map row 7 updated with the fix and `052` history
+  tag.
+
+### Design decisions
+
+- Placed the two new rows next to their closest existing sibling type
+  (adoption-curve, social-metric) rather than appending both at the table's
+  end — keeps related types visually grouped for a reader scanning the
+  column.
+- Kept each new row to the same three-cell shape (type pill / what it
+  represents / URL format + flags) as every existing row — no new table
+  columns or markup patterns introduced.
+- Did not touch the `meta.json` → `evidence.types` callout below the table;
+  it already describes the list as authoritative-and-extensible without
+  naming individual types, so no edit needed there.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy sync against an already-merged
+PR (#1787) — no new tech debt or gap to flag.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the page — one hit, pre-existing (`gaia dev merge`
+  CLI verb reference), not new.
+- `git diff -- docs/en/evidence-classes.html | grep -nE '#[0-9a-fA-F]{3,6}'`
+  — zero hits in the HTML file (the `#1787` hit in the raw `docs/en` diff is
+  an issue-number reference inside `DOCS.md`'s prose, same pattern as the
+  pre-existing `#1479`/`#1549` references in that same table — not a color).
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, cache-bust `?v=8.7.7` already current from the rebase.
+- Formula and flag behavior verified directly against
+  `src/gaia_cli/trustMagnitude.py` and `src/gaia_cli/commands/dev/` source,
+  not against the PR description's prose summary.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — two new Evidence Type rows.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 053)
+
+- `skill-hierarchy.html` is still the least-recently-touched page (routine
+  028 / editor-026wk, 2026-08-13) — good ROTATE candidate if no CONTINUE/SYNC
+  task applies next.
+- The dead `--skill-count-in-repo` mothership-discount code path and the
+  stale I11-era formula note in `docs/agents/curation-guidelines.md`
+  (flagged by routines 050/051) are still open and still out of `docs/en/**`
+  scope — not a task for this routine to pick up, just don't let a future
+  routine reintroduce the discount into a page.
+
+### Token spend
+
+2026-09-11 Sonnet 5 Low: ~70k in, ~4k out. ~$0.22
+
+---
+
+## 2026-09-10 — Routine 051
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** ROTATE. Routine 050's "Planned next" named two items
+(the dead `--skill-count-in-repo` CLI code path, and a stale note in
+`docs/agents/curation-guidelines.md`) — both outside `docs/en/**` write
+scope, so not a valid CONTINUE. No merged PR landed on `main` since
+routine 050 (branch already contains `origin/main` at v8.7.2, no new
+commits to sync against). Fell through to ROTATE: `index.html` (Docs Home)
+was the least-recently-touched page in the Page Map, last touched at
+routine 027 (2026-08-12) — over four weeks stale, older than every other
+row.
+
+### Trigger
+
+Read `docs/en/index.html` end to end looking for drift against pages
+routines have since corrected. Found the MCP Server card (line ~493)
+still read: "Use `@gaia-research/mcp` to give any MCP-compatible agent
+read-only access to the skill graph at runtime — search, inspect, status.
+Installing still happens through the CLI." That's the exact narrative
+routine 045 replaced on `mcp-server.html` itself: standalone
+`@gaia-research/mcp` was decommissioned and deprecated on npm as of
+2026-08-19, and the supported path is now the `skill-heaven` Agent Plugin
+bundling its own `summon` MCP server. `index.html`'s card was never
+updated to match its own linked page — confirmed via
+`grep -RniE '@gaia-research/mcp' docs/en/` finding it stale only here (the
+other two hits, `mcp-server.html` and `cli-reference.html`, both use it
+correctly inside their own decommission-notice callouts).
+
+Also ran the routine's own banned-synonym grep
+(`\b(merge|combine|compose)\b|rarity`) against the page ahead of editing
+and caught a second, unrelated drift: the Skill Fusion card read "Combine
+two or more skills into one Fusion" — using the banned verb "Combine" as
+the action name for Fusion itself, not just as an English word inside an
+explanatory sentence (contrast `fusion.html`'s own lead, "Fusion is the
+act of combining two or more skills...", which uses the -ing form inside
+a definition and matches `DOCS.md`'s own Vocabulary Rules wording —
+different from naming the action "Combine" the way this card did).
+
+### What I did
+
+- `docs/en/index.html` — MCP Server card: rewrote to state
+  `@gaia-research/mcp` is decommissioned and point to the `skill-heaven`
+  Agent Plugin / `summon`, matching `mcp-server.html`.
+- `docs/en/index.html` — Skill Fusion card: replaced "Combine two or more
+  skills into one Fusion" with "Fuse two or more skills into one" —  drops
+  the banned verb, keeps the `gaia fuse` CLI callout unchanged.
+- `docs/en/DOCS.md` — page map row 1 updated with both fixes and the `051`
+  history tag.
+
+### Design decisions
+
+- Kept both card fixes to one sentence each, matching the terse card-desc
+  voice used by every other card on the page — no reflow of the card
+  layout or badge state needed.
+- Did not touch the `docs-card-badge new` badges on either card; both
+  pages they link to are still current, this was a copy-accuracy fix on
+  the landing page only.
+- Left the top-level `docs/index.html` (outside `docs/en/**`) alone even
+  though it has the same `@gaia-research/mcp` staleness per editor-047wk's
+  note — that's flagged there for the founder already and is out of this
+  routine's write scope.
+
+### Issues informed
+
+None filed or closed. Both fixes are docs-accuracy corrections following
+decisions already ratified and shipped in prior routines (045's MCP
+reconciliation, the site-wide Fusion vocabulary rule) — nothing new to
+track.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/index.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on `docs/en/index.html` — zero hits after the fix
+  (previously one, the "Combine" card copy above).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked with the current `?v=8.7.2` cache-bust already in place
+  from a prior routine — untouched.
+- Cross-checked the MCP replacement language directly against
+  `docs/en/mcp-server.html`'s own decommission-notice text rather than
+  paraphrasing from memory.
+
+### Files modified
+
+- `docs/en/index.html` — MCP Server card and Skill Fusion card copy fixed.
+- `docs/en/DOCS.md` — page map row 1 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 052)
+
+- Routine 050's two flagged items are still open and still out of
+  `docs/en/**` scope: the dead `--skill-count-in-repo` mothership-discount
+  CLI code path, and the stale I11-era formula note in
+  `docs/agents/curation-guidelines.md`. Neither is a `docs/en/` task —
+  don't let a future routine silently reintroduce either stale claim.
+- `skill-hierarchy.html` is now the least-recently-touched page in the Page
+  Map (routine 028 / editor-026wk, 2026-08-13) — good ROTATE candidate if
+  no CONTINUE/SYNC task applies next.
+
+### Token spend
+
+2026-09-10 Sonnet 5 Low: ~35k in, ~3k out. ~$0.13
+
+---
+
+## 2026-09-10 — Routine 050
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE, scoped down — routine 049's "Planned next" named
+`evidence-classes.html`'s deeper TM-formula documentation (logarithmic
+`github-stars-own` curve, mothership discount) but flagged it as "still
+bigger than one routine; scope it deliberately." Scoped it to the single
+concrete, self-contained piece: the `github-stars-own` row and pitfall
+section, rather than attempting the whole TM-formula page in one pass.
+
+### Trigger
+
+Verified ground truth directly against `src/gaia_cli/trustMagnitude.py`
+before writing anything (per CLAUDE.md's Stale Tooling directive) rather
+than trusting the routine-047/048/049 notes' "mothership discount"
+phrasing, which traces back to `docs/agents/curation-guidelines.md`'s I11
+(2026-06-20) formula (`(stars/1000) / skill_count_in_repo * weight`) — that
+predates the Yggdrasil III #1705 recalibration.
+
+Found the live page (`docs/en/evidence-classes.html` lines 488-491) was
+teaching the pre-#1705 behavior as current: "Discounted when the repo
+bundles multiple skills (mothership discount)" and instructing readers to
+pass `--skill-count-in-repo`. Cross-checked `_rawMagnitudeForType()` in
+`trustMagnitude.py` (lines 571-578): the live `github-stars-own` magnitude
+is `0` at ≤10 stars, else `min(175, 35 × log10(stars/10))` — a logarithmic
+curve with **no reference to `skillCountInRepo`** anywhere in the
+computation. The `--skill-count-in-repo` CLI flag and `skillCountInRepo`
+schema field still exist and are still accepted/stored (confirmed in
+`impl.py`, `commands/dev/evidence.py`, `commands/dev/helpers.py`, and both
+`namedSkill.schema.json` / `skill.schema.json`, which still describe it as
+"the mothership discount divisor") — but `trustMagnitude.py` only reads it
+for the cache-invalidation hash (`computeTrustMagnitudeInputHash`, line
+880), never for the actual magnitude. The discount is dead code as of the
+log-curve recalibration; the docs page was describing CLI/schema help text
+that no longer matches computed behavior.
+
+### What I did
+
+- `docs/en/evidence-classes.html` — Evidence Type table: rewrote the
+  `github-stars-own` row to describe the live logarithmic curve instead of
+  the dead mothership discount, and dropped the `--skill-count-in-repo`
+  flag mention since passing it has no effect on the score.
+- `docs/en/evidence-classes.html` — "Using `github-stars-own` as sole
+  evidence" pitfall section: added the exact formula in a `.code-block`
+  (matching the pattern `fusion.html` uses for its Fusion Score formula)
+  plus a `.callout.info` explaining the practical consequence — massive
+  adoption reaches Grade A, never Grade S without independent
+  corroboration.
+- `docs/en/DOCS.md` — page map row 7 updated with the fix and `050` history
+  tag.
+
+### Design decisions
+
+- Did not touch `docs/agents/curation-guidelines.md` or any
+  `src/gaia_cli/**` file — both are outside `docs/en/**`, and the CLI/schema
+  side of this (a flag that is accepted, stored, and hashed but never
+  applied) is a real code-level tech-debt item, not a docs fix. Flagging it
+  below rather than silently fixing it or silently leaving it unmentioned.
+- Reused the exact `.code-block` / `.code-block-header` / `.code-block-label`
+  markup already defined in this page's own `<style>` block (`c` span class
+  for comments) rather than inventing new CSS, and mirrored
+  `fusion.html`'s Fusion Score formula block structure for a consistent
+  cross-page pattern.
+- Used `class="callout info"` (this page's existing space-separated
+  convention, e.g. lines 535/640) rather than `fusion.html`'s
+  `callout callout-info` — each page already picked one, and mixing them
+  within a single file would be the actual inconsistency.
+- Kept the row description short (Grade 7 voice) — the full formula and its
+  practical implication live in the pitfall section below, where a reader
+  who's already using `github-stars-own` is looking for exactly this.
+
+### Issues informed
+
+None filed. The dead `--skill-count-in-repo` flag / `skillCountInRepo`
+schema field (accepted, stored, hashed, but never read by the live
+`github-stars-own` magnitude formula) is a `src/gaia_cli` + schema-level
+tech-debt item, out of this routine's `docs/en/**` write scope — flagging
+it here for the founder or a future CLI-scoped routine rather than filing
+an issue myself or silently fixing/ignoring it. Whoever picks this up
+should decide between reviving the discount in
+`_rawMagnitudeForType()` or retiring the flag/schema field/help text
+site-wide (`impl.py`, `commands/dev/evidence.py`, `commands/dev/helpers.py`,
+`namedSkill.schema.json`, `skill.schema.json`).
+
+### Verification
+
+- `git status --short` scoped to `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `html.parser` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-
+  insensitive) on the page — one hit, pre-existing (`gaia dev merge` CLI
+  verb reference), not new.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Formula verified directly against `_rawMagnitudeForType()` in
+  `src/gaia_cli/trustMagnitude.py`, not against any prior routine's note or
+  `docs/agents/curation-guidelines.md`.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — `github-stars-own` row + pitfall
+  section corrected to the live logarithmic formula.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 051)
+
+- The dead `--skill-count-in-repo` mothership-discount code path (see
+  "Issues informed" above) still needs a founder/CLI-scoped decision. Not a
+  `docs/en/` task, but don't let a future routine re-introduce the discount
+  into a page without first checking whether the CLI side was revived or
+  retired.
+- `docs/agents/curation-guidelines.md`'s I11-era "mothership discount"
+  formula note (also citing the retired `stars/1000` linear scaling) is
+  itself stale against the current log-curve code — out of `docs/en/**`
+  scope, flagging for whoever maintains that file.
+
+### Token spend
+
+2026-09-10 Sonnet 5 Low: ~60k in, ~5k out. ~$0.20
+
+---
+
+## 2026-09-09 — Routine 049
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE — routine 048's "Planned next" named a small,
+concrete gap: `docs/en/fusion.html` still had no mention of Fusion Score
+even though its sibling page `evidence-classes.html` already documents
+`fusion-recipe`'s 0-TM ruling (routine 047) and `fusion.html`'s own "Ranks
+come later, not from fusion" section explains structural fusion without
+naming the second scalar that now reports it. Routine 048 explicitly
+scoped this out as "not urgent" but left it queued with the formula
+already worked out, so it qualified as small and concrete rather than a
+fresh audit.
+
+### Trigger
+
+Verified the ground truth directly against `META.md` §2.1e (Fusion Score)
+rather than trusting the routine-048 note's transcription: confirmed the
+formula, the `N` definition (distinct non-variant nodes in the resolved
+prerequisite/suite-component closure), and the "no promotion authority in
+V1" / TM-independence framing. Routine 048's queued formula omitted the
+`N = 0` case (`FS = 0`) — added it for completeness since `META.md` states
+it explicitly.
+
+### What I did
+
+- `docs/en/fusion.html` — added a new `<h3>` subsection, "Fusion Score: a
+  second, informational number", directly after "Ranks come later, not
+  from fusion" (same `#paths` section, no sidebar entry needed — matches
+  how its sibling h3s are structured). Covers: what `N` counts, the three-
+  branch formula in a `.code-block`, and a `.callout-info` box stating
+  Fusion Score carries no promotion authority and is independent of Trust
+  Magnitude/Trust Grade/stars, with `fusion-recipe` still 0 TM.
+- `docs/en/DOCS.md` — page map row 8 updated with the addition and `049`
+  history tag.
+
+### Design decisions
+
+- Reused the page's existing `.code-block` and `.callout-info` /
+  `.callout-purple` pattern (`class="callout callout-info"`, matching the
+  existing `class="callout callout-purple"` usage a few lines above)
+  rather than inventing new markup.
+- Used HTML entities (`&times;`, `&le;`, `&gt;`) inside the formula `<pre>`
+  block, matching existing entity usage elsewhere on the page
+  (`&lt;username&gt;`, `&amp;`) rather than raw `<`/`>` characters.
+- Kept "composes"/"composition" in the new prose describing structural
+  depth — this is `META.md` §2.1e's own phrasing ("how much distinct
+  structure does this capability compose?") and the page already uses
+  "compositionally richer" in the adjacent Path 2 section (line 698,
+  unchanged). This is not the banned Fusion-verb synonym ("compose" as a
+  stand-in for the act of fusing) — the vocabulary grep (`\bcompose\b`)
+  doesn't match either form, and the usage tracks the ratified source
+  text, not the skill-combining action.
+- Did not add a sidebar/TOC anchor — the existing "Ranks come later, not
+  from fusion" sibling `<h3>` has none either, so a solo anchor for this
+  one new subsection would be inconsistent with the section's own pattern.
+
+### Issues informed
+
+None filed — this closes an explicitly-queued documentation gap with a
+verified-accurate formula; no open question to escalate.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/fusion.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `html.parser` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-
+  insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Formula and inputs verified directly against `META.md` §2.1e, not
+  against the routine-048 note alone (caught and fixed the missing `N = 0`
+  case).
+
+### Files modified
+
+- `docs/en/fusion.html` — new Fusion Score subsection.
+- `docs/en/DOCS.md` — page map row 8 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 050)
+
+- `docs/en/evidence-classes.html`'s deeper TM-formula documentation
+  (logarithmic `github-stars-own` curve, mothership discount) — flagged by
+  routine 047, reconfirmed still open by routine 048. Still bigger than one
+  routine; scope it deliberately rather than folding it into an unrelated
+  page edit.
+
+### Token spend
+
+2026-09-09 Sonnet 5 Low: ~55k in, ~4k out. ~$0.19
+
+---
+
+## 2026-09-08 — Routine 048
+
+**Branch:** `docs/routines/047` (PR #1750 open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE — routine 047's "Planned next" asked whether
+`fusion.html` needed the same Yggdrasil III pass as `evidence-classes.html`
+(checking if it implies `fusion-recipe`/suite structure feeds Trust
+Magnitude directly, or should introduce Fusion Score). Grepped the page for
+`Trust Magnitude`, `fusion-recipe`, `Fusion Score`, `suiteComponents`: the
+page never mentions TM or fusion-recipe at all, and its "Ranks come later,
+not from fusion" section already correctly keeps structural fusion (Type
+axis) separate from stars/evidence (see `docs/en/fusion.html:705-715`). No
+false TM claim to fix — the hypothesis from routine 047 didn't hold, so no
+Fusion Score addition here (that stays a real gap, but a bigger, deliberate
+addition, not a same-page correction — see Planned next).
+
+While reading the same page for that check, found a genuine, unrelated
+correctness bug in the "Proposing a New Fusion" section's copy-pasteable
+`gaia push` batch example: the evidence entry used the deprecated `class: C`
+field with no `type:` field at all. Cross-checked against
+`src/gaia_cli/commands/pushFromFile.py` (the real `--from-file` batch
+schema, docstring lines 8-30, and `_validate_entry`'s evidence loop at
+lines 156-173): `grade` is a required field validated against
+A/B/C — a missing `grade` (which `class` does not satisfy) fails
+validation outright — and `type` is optional but checked against the real
+evidence-type list when present. `evidence-classes.html` already documents
+`class` as deprecated/retired (its own migration table warns "Converting
+`class: A` to `grade: A` is always wrong"), so this page was teaching
+readers a field that both fails the real CLI and contradicts another page
+in the same site.
+
+### What I did
+
+- `docs/en/fusion.html` — "Batch format for a Fusion-type skill" YAML
+  example: replaced `class: C` with `grade: C` plus an added `type:
+  repo-own` line, matching the real `pushFromFile.py` schema
+  (`grade`/`type`/`url`, in that order per the module docstring).
+- `docs/en/DOCS.md` — page map row 8 updated with the fix and `048` history
+  tag.
+
+### Design decisions
+
+- Picked `repo-own` for the example's `type` (self-producible provenance
+  for a contributor's own demo repo, matching the example's
+  `https://github.com/you/agent-demo` URL) rather than leaving `type`
+  unset — `type` is optional in the schema, but every real evidence entry
+  found in `registry/named/**/*.md` sets it, and showing it makes the
+  example a better template to copy.
+- Did not add a Fusion Score explainer to this page this run — routine
+  047 already flagged that as a bigger, deliberate addition (its own
+  "Planned next"), and this routine's read confirmed there's no incorrect
+  claim on the page forcing it now. Left as future work below rather than
+  rushed in alongside an unrelated bug fix.
+
+### Issues informed
+
+None filed — this is a same-page correctness fix for an example that
+would fail real CLI validation; no open question to escalate.
+
+### Verification
+
+- `git status --short` — only `docs/en/fusion.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` touched.
+- Banned-synonym grep (`merge|combine|compose|rarity`) on `fusion.html` —
+  all hits are pre-existing `gaia dev merge` CLI-verb references and
+  "capabilities combine" prose, unrelated to this edit, not new.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- `html.parser` parse-check clean on the edited page.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked.
+- Verified the fix against source, not memory: read
+  `src/gaia_cli/commands/pushFromFile.py`'s schema docstring and
+  `_validate_entry` evidence-loop validation directly, and cross-checked
+  `registry/named/heygen-com/figma.md`'s real evidence block for the field
+  names/order actually used in the wild.
+
+### Files modified
+
+- `docs/en/fusion.html` — batch YAML example's evidence fields fixed.
+- `docs/en/DOCS.md` — page map row 8 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 049)
+
+- `docs/en/fusion.html` could still gain a short Fusion Score paragraph
+  (informational-only structural scalar, `FS = 20×N` for `N ≤ 10` else
+  `200 + 20×sqrt(N-10)`, per `META.md` §2.1e) alongside the existing
+  "Ranks come later, not from fusion" section, explaining that fusion
+  depth is now also reported as a second, TM-independent number. Confirmed
+  not urgent (no false claim currently on the page) — scope deliberately
+  rather than bolting it onto an unrelated routine.
+- `docs/en/evidence-classes.html`'s deeper TM-formula documentation
+  (logarithmic `github-stars-own` curve, mothership discount) flagged by
+  routine 047 is still open and still bigger than one routine.
+
+### Token spend
+
+2026-09-08 Sonnet 5 Low: ~60k in, ~4k out. ~$0.20
+
+---
+
+## 2026-09-07 — Routine 047
+
+**Branch:** `docs/routines/047` (new — routine 044's PR #1687 was squash-merged by
+the weekly editor on 2026-09-05, so per the one-open-PR rule this starts the next
+branch from `origin/main` rather than continuing a closed PR)
+
+**Task chosen:** SYNC — the editor pass's own "Planned next" items (issue #1549
+surfaces outside `docs/en/`, and a `src/gaia_cli` code defect) are both explicitly
+out of this routine's write scope. Checked `git log origin/main` since the last
+routine instead: a real meta shift landed between v7.14.0 and the current v8.2.0
+— "Yggdrasil III" ratified `fusion-recipe` at a fixed **0 TM** (previously it
+scored into Trust Magnitude via a tally of qualifying origins) and introduced a
+separate, independent **Fusion Score** scalar to report composed structure
+instead. Confirmed against `META.md` §2.1e and §2.1 ("Scoring: TM sums
+positive-scoring evidence rows only. `fusion-recipe` is retained as
+structural/provenance/rank metadata and contributes 0 TM").
+
+### What I did
+
+`docs/en/evidence-classes.html` was the one page in `docs/en/` that documents
+evidence scoring behavior, and its Evidence Type table's `fusion-recipe` row
+still said "Only origins graded ≥C count toward the tally" — describing the
+retired Yggdrasil II behavior where fusion structure scored directly into TM.
+Also found the page never named "Trust Magnitude" anywhere, despite being the
+Evidence & Trust reference page and TM being the actual numeric promotion gate
+behind the "Overall Trust Grade" section it does document.
+
+- Rewrote the `fusion-recipe` row: now states it is structural/provenance
+  metadata contributing **0 TM** under Yggdrasil III, with the composed
+  structure reported separately as Fusion Score.
+- Added one paragraph under "Overall Trust Grade" naming Trust Magnitude (TM)
+  as the sole numeric promotion gate (4★ ≥ 100, 5★ ≥ 250), stating it sums only
+  positive-scoring evidence rows, and explicitly distinguishing it from Fusion
+  Score so a reader doesn't conflate the two after seeing both terms in the
+  wild.
+
+### Design decisions
+
+- Kept the addition to one short paragraph rather than documenting the full
+  TM formula (logarithmic star curve, mothership discount, etc.) — that
+  belongs to a fuller Trust Magnitude treatment this page doesn't yet attempt,
+  and is bigger than a one-page daily slice.
+- Did not touch `fusion.html` even though it also covers fusion mechanics —
+  scope stayed to the page that actually documents evidence *scoring*
+  (fusion-recipe's TM contribution), not fusion's structural/prerequisite
+  mechanics. Flagged below for a future routine.
+
+### Issues informed
+
+None filed — this is a documentation-accuracy fix for behavior that already
+shipped and is ratified in `META.md`; no open question to escalate.
+
+### Verification
+
+- `git status --short` — only `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` touched.
+- Banned-synonym grep (`merge|combine|compose|rarity`) on the changed file —
+  the only hit is the pre-existing, permitted `gaia dev fuse` / `merge` CLI
+  verb reference (unchanged by this edit), not the Fusion concept.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new hex.
+- `html.parser` parse-check clean on the edited page.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked; version chip already at `v8.2.0` (auto-synced, untouched).
+- Cross-checked the new claim directly against `META.md` §2.1/§2.1e rather
+  than trusting commit-message summaries.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — `fusion-recipe` row fixed; Trust
+  Magnitude / Fusion Score distinction added under Overall Trust Grade.
+- `docs/en/DOCS.md` — page map row 7 updated.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 048)
+
+- `docs/en/fusion.html` likely needs the same Yggdrasil III pass: check
+  whether it still implies `fusion-recipe`/suite structure feeds Trust
+  Magnitude directly, and whether it should introduce Fusion Score as the
+  concept that now reports that structure.
+- Consider whether `docs/en/evidence-classes.html` should eventually document
+  the actual TM formula pieces (logarithmic `github-stars-own` curve capped
+  at 175 TM, mothership discount) rather than only qualitative descriptions —
+  bigger than one routine, worth scoping deliberately rather than doing
+  piecemeal.
+
+### Token spend
+
+2026-09-07 Sonnet 5 Low: ~55k in, ~4k out. ~$0.20
+
+---
+
 ## 2026-09-05 — Weekly Editor Pass (editor-047wk)
 
 **Branch:** `docs/routines/044` (PR #1687 — shipped this pass via squash merge)

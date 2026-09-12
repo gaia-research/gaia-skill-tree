@@ -147,6 +147,14 @@
       "action": "installation_updated",
       "contributor": "mbtiongson1",
       "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes.md"
+    },
+    {
+      "timestamp": "2026-09-11T13:31:17Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": null,
+      "newValue": "v0.8.34",
+      "details": "first-run baseline"
     }
   ],
   "links": {

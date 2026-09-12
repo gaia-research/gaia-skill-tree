@@ -21,6 +21,11 @@ on:
     # the label has no effect (re-runs reuse the original label-less payload).
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
+# A new push or label event cancels the run it supersedes (same PR head).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify-author-identity:
     name: Verify commit authors are attributed

@@ -5,12 +5,12 @@ contributor: leonxlnx
 origin: false
 genericSkillRef: task-depth-enforcement
 status: named
-level: 1★
+level: 3★
 description: Anti-laziness execution discipline for substantial tasks. Decomposes
   work into recursive depth trees and enforces completion criteria through gate files
   and runnable checks.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Unlazy
 links:
   github: https://github.com/leonxlnx/unlazy/blob/main/SKILL.md
@@ -46,6 +46,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 4.03 -> 65.81, grade ungraded -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:07Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 3★
 evidence:
 - source: https://github.com/leonxlnx/unlazy/blob/main/SKILL.md
   evaluator: mbtiongson1

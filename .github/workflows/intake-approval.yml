@@ -14,6 +14,10 @@ on:
         required: true
         type: choice
         options: [topology, evidence]
+      base_ref:
+        description: "Override the branch to check out / base the promotion PR on (defaults to the issue's Batch Branch row, then main)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -24,28 +28,73 @@ jobs:
   topology-approved:
     name: Queue evidence review after topology approval
     runs-on: ubuntu-latest
+    # The resolve step calls `gh issue view` before actions/checkout, where gh
+    # has no .git to infer the repository from (#1799).
+    env:
+      GH_REPO: ${{ github.repository }}
     if: >-
       (github.event_name == 'issues' && github.event.label.name == 'intake:topology-approved')
       || (github.event_name == 'workflow_dispatch' && inputs.transition == 'topology')
     steps:
-      - name: Resolve issue and approver
+      - name: Resolve and validate issue, approver, and batch branch
         id: issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_REF_INPUT: ${{ inputs.base_ref }}
         run: |
+          set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+            number="${{ inputs.issue_number }}"
+            actor="${{ github.actor }}"
           else
-            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+            number="${{ github.event.issue.number }}"
+            actor="${{ github.event.sender.login }}"
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "actor=$actor" >> "$GITHUB_OUTPUT"
+
+          # Resolution order (#1785): explicit workflow_dispatch override, then
+          # the issue's own `| Batch Branch | \`...\` |` row (stamped by
+          # gaia push --from-file — see src/gaia_cli/prWriter.py), then main.
+          # `gaia push --from-file` only writes the batch locally and opens
+          # the issue; it never lands the batch on main itself, so a
+          # hardcoded `ref: main` checkout silently found nothing whenever
+          # the batch actually lived on a review/meta/* or dev/* branch.
+          #
+          # Read the override through env (BASE_REF_INPUT) rather than
+          # interpolating `${{ inputs.base_ref }}` into the script body — a
+          # free-form workflow_dispatch string interpolated directly is a
+          # shell-injection vector.
+          if [ -n "${BASE_REF_INPUT:-}" ]; then
+            ref="$BASE_REF_INPUT"
+          else
+            body=$(gh issue view "$number" --json body --jq .body)
+            ref=$(printf '%s' "$body" | python3 -c '
+          import re, sys
+          match = re.search(r"\| Batch Branch \| `([^`]+)` \|", sys.stdin.read())
+          print(match.group(1) if match and match.group(1) != "unknown" else "main")
+          ')
           fi
 
-      - uses: actions/checkout@v4
-        with:
-          ref: main
+          # `ref` up to this point is an issue-author-editable value (the
+          # issue body) with no allowlist. Pin it to the batch-branch
+          # prefixes this repo actually uses (CLAUDE.md branch-naming table)
+          # and confirm the branch exists, before it ever reaches
+          # `actions/checkout` or the maintainer gate below.
+          case "$ref" in
+            main|review/meta/*|dev/*) ;;
+            *)
+              echo "::error::Resolved batch branch '$ref' is not main, review/meta/*, or dev/* — refusing to check it out."
+              exit 1
+              ;;
+          esac
+          encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
+          if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
+            echo "::error::Resolved batch branch '$ref' does not exist."
+            exit 1
+          fi
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
 
       - name: Require a repository maintainer
         env:
@@ -58,27 +107,53 @@ jobs:
             *) echo "::error::$APPROVER cannot approve intake transitions (permission: $permission)."; exit 1 ;;
           esac
 
+      # Checkout — and everything that follows — only runs once both the ref
+      # has been validated against the allowlist above and the actor has
+      # been confirmed as a maintainer. Neither gate is satisfied by label
+      # presence alone.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.issue.outputs.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Validate the intake batch and record the immutable handoff
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           APPROVER: ${{ steps.issue.outputs.actor }}
         run: |
-          set -euo pipefail
-          body=$(gh issue view "$ISSUE_NUMBER" --json body --jq .body)
-          batch_id=$(printf '%s' "$body" | python3 -c '
+          # GitHub Actions' default `run:` shell is `bash -e {0}` (no
+          # `shell:` override in this workflow). Under that, a standalone
+          # `( … ) 2> >(tee …)` compound is NOT errexit-exempt — a non-zero
+          # subshell aborts the step immediately, before `rc=$?` below it
+          # ever runs, so the failure-comment branch was dead code. Wrapping
+          # the invocation in `set +e` / `set -e` (rather than relying on the
+          # exit status of a bare compound statement) keeps the script alive
+          # long enough to read `rc` and act on it. Redirecting the
+          # subshell's own output straight to a file (instead of piping
+          # through `tee` via process substitution) also removes the flush
+          # race where `tail` could read the log before `tee` finished
+          # writing it.
+          set +e
+          (
+            set -euo pipefail
+            body=$(gh issue view "$ISSUE_NUMBER" --json body --jq .body)
+            batch_id=$(printf '%s' "$body" | python3 -c '
           import re, sys
           match = re.search(r"\| Batch ID \| `([^`]+)` \|", sys.stdin.read())
           if not match:
               raise SystemExit("Intake issue has no canonical Batch ID row.")
           print(match.group(1))
           ')
-          batch="registry-for-review/skill-batches/${batch_id}.json"
-          test -f "$batch"
-          python3 scripts/assemble_gaia.py
-          python3 scripts/validate_intake.py
+            batch="registry-for-review/skill-batches/${batch_id}.json"
+            test -f "$batch"
+            python3 scripts/assemble_gaia.py
+            python3 scripts/validate_intake.py
 
-          payload=$(python3 - "$batch" "$ISSUE_NUMBER" "$APPROVER" <<'PY'
+            payload=$(python3 - "$batch" "$ISSUE_NUMBER" "$APPROVER" <<'PY'
           import json, sys
           batch_path, issue_number, approver = sys.argv[1:]
           with open(batch_path, encoding="utf-8") as handle:
@@ -92,8 +167,8 @@ jobs:
               "evidenceReviewStatus": "pending",
           }, separators=(",", ":")))
           PY
-          )
-          cat > /tmp/comment.md <<EOF
+            )
+            cat > /tmp/comment.md <<EOF
           ## Intake topology approved — evidence review queued
 
           The batch topology is accepted. This does **not** authorize evidence seeding or registry promotion.
@@ -102,30 +177,79 @@ jobs:
 
           <!-- gaia-intake-approval $payload -->
           EOF
-          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
-          gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
+            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
+            gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
+          ) > /tmp/intake-output.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/intake-output.log
+          if [ "$rc" -ne 0 ]; then
+            {
+              echo "## Intake topology approval failed"
+              echo ""
+              echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              echo ""
+              echo '```'
+              tail -c 4000 /tmp/intake-output.log
+              echo '```'
+            } > /tmp/intake-fail-comment.md
+            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true
+            exit "$rc"
+          fi
 
   evidence-approved:
     name: Open the single promotion PR after evidence approval
     runs-on: ubuntu-latest
+    # The resolve step calls `gh issue view` before actions/checkout, where gh
+    # has no .git to infer the repository from (#1799).
+    env:
+      GH_REPO: ${{ github.repository }}
     if: >-
       (github.event_name == 'issues' && github.event.label.name == 'intake:evidence-approved')
       || (github.event_name == 'workflow_dispatch' && inputs.transition == 'evidence')
     steps:
-      - name: Resolve issue and approver
+      - name: Resolve and validate issue, approver, and batch branch
         id: issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_REF_INPUT: ${{ inputs.base_ref }}
         run: |
+          set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+            number="${{ inputs.issue_number }}"
+            actor="${{ github.actor }}"
           else
-            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+            number="${{ github.event.issue.number }}"
+            actor="${{ github.event.sender.login }}"
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "actor=$actor" >> "$GITHUB_OUTPUT"
+
+          if [ -n "${BASE_REF_INPUT:-}" ]; then
+            ref="$BASE_REF_INPUT"
+          else
+            body=$(gh issue view "$number" --json body --jq .body)
+            ref=$(printf '%s' "$body" | python3 -c '
+          import re, sys
+          match = re.search(r"\| Batch Branch \| `([^`]+)` \|", sys.stdin.read())
+          print(match.group(1) if match and match.group(1) != "unknown" else "main")
+          ')
           fi
 
-      - uses: actions/checkout@v4
-        with:
-          ref: main
+          case "$ref" in
+            main|review/meta/*|dev/*) ;;
+            *)
+              echo "::error::Resolved batch branch '$ref' is not main, review/meta/*, or dev/* — refusing to check it out."
+              exit 1
+              ;;
+          esac
+          encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
+          if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
+            echo "::error::Resolved batch branch '$ref' does not exist."
+            exit 1
+          fi
+
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
 
       - name: Require a repository maintainer
         env:
@@ -138,41 +262,80 @@ jobs:
             *) echo "::error::$APPROVER cannot approve intake transitions (permission: $permission)."; exit 1 ;;
           esac
 
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.issue.outputs.ref }}
+
       - name: Create or reuse the batch promotion PR
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          BASE_REF: ${{ steps.issue.outputs.ref }}
         run: |
-          set -euo pipefail
-          has_ready=$(gh issue view "$ISSUE_NUMBER" --json labels --jq '[.labels[].name] | contains(["intake:evidence-review", "intake:evidence-ready"])')
-          if [ "$has_ready" != true ]; then
-            echo "::error::Evidence approval requires both intake:evidence-review and intake:evidence-ready."
-            exit 1
-          fi
-          existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
-          if [ -n "$existing" ]; then
-            gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          branch="review/meta/intake-${ISSUE_NUMBER}"
-          git checkout -b "$branch"
-          mkdir -p registry-for-review/evidence-manifests
-          cat > "registry-for-review/evidence-manifests/intake-${ISSUE_NUMBER}.md" <<EOF
+          set +e
+          (
+            set -euo pipefail
+            has_ready=$(gh issue view "$ISSUE_NUMBER" --json labels --jq '[.labels[].name] | contains(["intake:evidence-review", "intake:evidence-ready"])')
+            if [ "$has_ready" != true ]; then
+              echo "::error::Evidence approval requires both intake:evidence-review and intake:evidence-ready."
+              exit 1
+            fi
+            existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
+            if [ -n "$existing" ]; then
+              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
+              exit 0
+            fi
+
+            # The resolved batch branch may be a `dev/*` integration branch
+            # that this repo's repo-wide `delete_branch_on_merge` has since
+            # removed (it does not survive its first merge to main — see
+            # CLAUDE.md § Multi-PR work). `gh pr create --base` fails outright
+            # with no degrade path in that case, so confirm the base still
+            # exists and fall back to `main` rather than failing the run.
+            pr_base="$BASE_REF"
+            if [ "$pr_base" != "main" ] && ! git ls-remote --exit-code --heads origin "$pr_base" >/dev/null 2>&1; then
+              echo "::warning::Base branch '$pr_base' no longer exists (likely deleted after merge to main); falling back to main."
+              pr_base="main"
+            fi
+
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            branch="review/meta/intake-${ISSUE_NUMBER}"
+            git checkout -b "$branch"
+            mkdir -p registry-for-review/evidence-manifests
+            cat > "registry-for-review/evidence-manifests/intake-${ISSUE_NUMBER}.md" <<EOF
           # Evidence Manifest — Intake #${ISSUE_NUMBER}
 
           Status: human evidence-approved. This manifest is the single-PR handoff for the batch. Add only verified Stage-1 and Phase-0 sources here before CLI ingestion.
           EOF
-          git add registry-for-review/evidence-manifests
-          git commit -m "chore(intake): queue evidence-approved batch #${ISSUE_NUMBER} [skip-gen]"
-          git push origin "$branch"
-          cat > /tmp/pr.md <<EOF
+            git add registry-for-review/evidence-manifests
+            git commit -m "chore(intake): queue evidence-approved batch #${ISSUE_NUMBER} [skip-gen]"
+            git push origin "$branch"
+            cat > /tmp/pr.md <<EOF
           ## Intake #${ISSUE_NUMBER} — evidence-approved promotion queue
 
           This is the single PR for the approved intake batch. It begins as an evidence manifest and is updated with verified sources, CLI-only ingestion, provenance, and generated artifacts.
 
+          Base branch: \`${pr_base}\`
+
           Fixes #${ISSUE_NUMBER}
           EOF
-          url=$(gh pr create --draft --base main --head "$branch" --title "[intake] evidence-approved batch #${ISSUE_NUMBER}" --body-file /tmp/pr.md)
-          gh issue comment "$ISSUE_NUMBER" --body "Evidence approval opened the single draft promotion PR: $url"
+            url=$(gh pr create --draft --base "$pr_base" --head "$branch" --title "[intake] evidence-approved batch #${ISSUE_NUMBER}" --body-file /tmp/pr.md)
+            gh issue comment "$ISSUE_NUMBER" --body "Evidence approval opened the single draft promotion PR: $url"
+          ) > /tmp/intake-output.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/intake-output.log
+          if [ "$rc" -ne 0 ]; then
+            {
+              echo "## Intake evidence approval failed"
+              echo ""
+              echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              echo ""
+              echo '```'
+              tail -c 4000 /tmp/intake-output.log
+              echo '```'
+            } > /tmp/intake-fail-comment.md
+            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true
+            exit "$rc"
+          fi

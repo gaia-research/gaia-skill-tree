@@ -5,10 +5,10 @@ contributor: firecrawl
 origin: true
 genericSkillRef: agent-environment-setup
 status: named
-level: 4★
+level: 3★
 description: Configure Firecrawl credentials and client setup for agent tools.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Firecrawl Onboarding
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md
@@ -53,6 +53,10 @@ timeline:
   contributor: unknown
   details: 'TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:02Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 3★
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl

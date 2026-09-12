@@ -186,6 +186,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 4★ to 5★"
+    },
+    {
+      "timestamp": "2026-09-09T20:14:43Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 5★ to 4★"
     }
   ],
   "links": {

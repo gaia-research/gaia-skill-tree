@@ -94,5 +94,5 @@ el.innerHTML = `<use href="#${ICON}"/>`;  // gaia-html-sink-ok: ICON is a build-
 ```
 A bare marker with no reason is rejected.
 
-**CI:** `.github/workflows/html-sink-guard.yml` runs the guard plus its classifier self-tests (`python scripts/check_html_sinks.py --selftest`). Run locally: `python scripts/check_html_sinks.py`.
+**CI:** `.github/workflows/pr-guards.yml` (via `scripts/pr_guards.py`) runs the guard plus its classifier self-tests (`python scripts/check_html_sinks.py --selftest`). Run locally: `python scripts/check_html_sinks.py`.
 

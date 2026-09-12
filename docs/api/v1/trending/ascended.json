@@ -1,6 +1,84 @@
 {
-  "generatedAt": "2026-09-09T05:11:50Z",
+  "generatedAt": "2026-09-12T01:23:06Z",
   "skills": [
+    {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "contributor": "trailhq",
+      "trustMagnitude": 140.42,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-10T15:54:27Z",
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-09T20:31:09Z",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 65.81,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-09T20:31:07Z",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-09-09T20:31:03Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-09-09T20:31:02Z",
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "contributor": "aplaceforallmystuff",
+      "trustMagnitude": 21.51,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-09-09T20:31:01Z",
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
+      },
+      "previousLevel": "1★"
+    },
     {
       "id": "mksglu/context-mode",
       "name": "Context Mode",
@@ -310,84 +388,6 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "heygen-com/embedded-captions",
-      "name": "Embedded Captions",
-      "level": "3★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-06T16:21:47Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 199.13,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-06T09:54:41Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 102.5,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-06T09:54:39Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 102.5,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-06T09:54:37Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "vercel-labs/vercel-react-best-practices",
-      "name": "Vercel React Best Practices",
-      "level": "4★",
-      "contributor": "vercel-labs",
-      "trustMagnitude": 162.66,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-02T15:11:46Z",
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "5★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 316.88,
-      "overallTrustGrade": "S",
-      "ascendedAt": "2026-09-02T15:11:45Z",
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      },
-      "previousLevel": "4★"
     }
   ],
   "_links": {

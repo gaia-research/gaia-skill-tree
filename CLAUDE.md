@@ -43,6 +43,8 @@ Work that spans more than one PR does **not** aim its PRs at `main` one at a tim
 - **All proof-of-work lives on the integration branch** — evidence, screenshots, probe records, partial slices. Do not stash it elsewhere and do not squash it away before the founder has seen it.
 - **Branch scopes** are for naming purposes only. Leniency is expected. The only CI that matters is the **one on main** at the end of the sprint.
 
+**`dev/*` branches do not survive their first merge into `main`.** The repo has `delete_branch_on_merge: true` set repo-wide, and GitHub gives no per-branch or ruleset-based exemption from it — it's an all-or-nothing setting, so excluding just `dev/*` isn't achievable in code. If a second feature PR still needs the same integration branch as its base after the first integration→main merge deleted it: recreate `dev/<name>` from the current `main` tip (`git checkout -b dev/<name> main && git push -u origin dev/<name>`) and retarget the pending PR's base to the recreated branch. Plan multi-PR work with this in mind — land everything you need against an integration branch before its first merge to main, or budget for the recreate step after.
+
 #### PR Stacking
 
 - Utilize `gh stack` when creating stacked PRs.
@@ -50,8 +52,10 @@ Work that spans more than one PR does **not** aim its PRs at `main` one at a tim
 
 ## Squash Merges
 
-- NOT allowed when merging PRs against **main**
-- ALLOWED when merging stacked PRs or PRs to integration branches (not landing on main)
+**Squash merging is disabled repo-wide** (`allow_squash_merge: false`) — GitHub has no per-base-branch merge-method control, so this applies to every PR regardless of target branch. `gh pr merge --squash` will always error with "Squash merges are not allowed on this repository."
+
+- Use a **merge commit** everywhere: main, integration branches, and stacked PRs alike.
+- If a future sprint genuinely needs squash for stacked/integration PRs, that requires a founder-approved repo settings change first (Settings → General → Pull Requests → "Allow squash merging") — do not attempt it as a code change, and do not treat this section as already granting it.
 
 ### PR description safety
 
@@ -66,7 +70,7 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 
 | Scope | Allowed Directories | Reasoning |
 |-------|---------------------|-----------|
-| **infra/** | `.github/`, `scripts/`, `*.md`, `docs/*.html`, `docs/badges/` | Already codified in `.github/workflows/branch-scope.yml` and exempt from re-litigation. |
+| **infra/** | `.github/`, `scripts/`, `tests/`, `.claude/skills/`, `.agents/skills/`, `*.md`, `docs/*.html`, `docs/badges/` | Already codified in `.github/workflows/branch-scope.yml` and exempt from re-litigation. `tests/` travels with `scripts/` so a one-line script fix and its regression test can land together (#1790). |
 | **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` | The two schema directories must move in lockstep; schema PRs touching only one side always trip CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check`. |
 | **review/meta/** | `docs/` (excl. `registry/schema/`), `registry/` (excl. `registry/schema/`) | Required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (per-user profile pages, badges, graph, API docs). Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR. |
 
@@ -380,6 +384,10 @@ The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **depreca
 ## Agent Skills
 
 Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; keep mirrored copies synchronized. Shared curation contracts live beside the canonical skill in both trees.
+
+## Graft — codebase context graph
+
+`graft/` (gitignored, rebuilt locally) is a linked-markdown map of the hand-authored code, built by [Graft](https://github.com/trailhq/Graft) (`npm i -g @nanonets/graft`; `graft build`). It is scoped to `src/gaia_cli/`, `scripts/`, `tests/`, `packages/`, `.github/workflows/`, `docs/js/`, `docs/css/`, and `registry/schema/` (see `--only-dir` flags in the install PR) — it deliberately excludes everything `gaia dev docs` / `scripts/build_docs.py` regenerates (`docs/graph/`, `docs/api/`, registry data files, `skill-trees/`, etc.) and curated data (`registry/nodes/`, `registry/named/`). Before grepping or re-reading source to understand a flow, prefer `graft ask "<question>" --source`, `graft grep "<pattern>"`, `graft callers <symbol>`, or `graft map`. If `graft/` is missing or stale, run `graft build` to regenerate it (structural build, `$0`, no API key). Telemetry is disabled repo-wide (`graft telemetry disable`); see `TELEMETRY.md` in the upstream repo for what it would otherwise send.
 
 ## Known Frontend Issues — Badges, Graph, Skill Explorer, Nav/Footer
 

@@ -6,6 +6,11 @@ on:
     # applies bot labels, avoiding a false failure on the initial 'opened' run.
     types: [opened, synchronize, reopened, labeled]
 
+# A new push or label event cancels the run it supersedes (same PR head).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   scope-check:
     name: Verify branch scope matches changed files
@@ -21,10 +26,15 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # The check reads commit metadata and tree paths (git log, merge-base,
+      # diff-tree --name-only), never file contents: full history without
+      # blobs, and a sparse working tree.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
 
       - name: Check branch scope
         env:
@@ -199,8 +209,12 @@ jobs:
                   # infra/badge-* PRs. Without this arm that convention is
                   # unsatisfiable — every badge PR fails the guard that is
                   # supposed to permit it. Added on the first badge PR to hit it.
-                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html|docs/badges/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, .agents/skills/, *.md, docs/*.html, or docs/badges/ files)" ;;
+                  # tests/ travels with scripts/ (#1790): a one-line scripts/*.py
+                  # fix plus its regression test fit neither cli/ (tests/ but no
+                  # scripts/) nor infra/ alone (scripts/ but no tests/) without
+                  # this arm — the pairing is deliberate, not scope creep.
+                  .github/*|scripts/*|tests/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html|docs/badges/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, tests/, .claude/skills/, .agents/skills/, *.md, docs/*.html, or docs/badges/ files)" ;;
                 esac
                 ;;
               other)

@@ -67,6 +67,15 @@ Work through these checks in order. Stop when you have enough candidates to fill
 
 Do not flag anything on rarity grounds — the rarity axis is deprecated (see `CONTEXT.md` § Rarity).
 
+### Audit Disentanglement & Taxonomy Standards (RFC #1809)
+When queuing skills for review, categorize any candidate target against the Four-Tier Taxonomy:
+- **Tier 1 (Malicious / Imposter Squatter)**: Bad-faith aggregation, hijacking other maintainers' repos/stars, or falsified attribution. Action: Immediate expungement, blacklist.
+- **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author lacking standard packaging or repo links. Action: Tag `installable: false` if ≤2★ per CONTRIBUTING §12; demote if >2★. **Never purge.**
+- **Tier 3 (Early-Stage / Under-Evidenced Stub)**: Authentic author, thin documentation or preliminary evidence. Action: Keep at baseline 1★ (Awakened), request doc enrichment, or tag `needs-info`. **Never purge.**
+- **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801). Action: Route to generalization guidance per `check_product_attribution.py`.
+
+**Contributor Check**: If the contributor is a known contributor, co-founder, or team member, maintainer outreach and documented audit review are required before recommending deletion. Blanket sweeps labeled under generic "imposter" headings are prohibited.
+
 ## Output format
 
 Present the queue as a table. Stop here unless the user explicitly asks to start running audits.

@@ -63,7 +63,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — garrytan  ·  generated 2026-09-09
+GAIA SKILL TREE — garrytan  ·  generated 2026-09-12
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -151,7 +151,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ ✓ · garrytan/landing-report  [2★]
+  ├─ ✓ · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
   └─ ✓ · garrytan/plan-tune  [2★]
@@ -271,7 +271,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ ✓ · garrytan/landing-report  [2★]
+  │  ├─ ✓ · yylo-dev/ledger-tasks-yylo  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
   │  └─ · · ████████/github-workflow-automation  (↑ see above)
@@ -384,7 +384,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ ████████/firecrawl-research-index
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
 · ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
@@ -417,6 +417,12 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
   · ◉ obra/brainstorming  [4★]
     ├─ · ○ ████████/requirements-engineer
     └─ ✓ ○ garrytan/office-hours  [3★]
+  · ◉ trailhq/graft  [4★]
+    ├─ · · safishamsi/graphify  [5★]
+    │  ├─ · ○ /extract-entities
+    │  └─ · ○ /logical-inference
+    ├─ · ○ /retrieve
+    └─ ✓ ○ garrytan/context-restore  [2★]
   ✓ ◉ ayghri/i-have-adhd  [4★]
   · ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]

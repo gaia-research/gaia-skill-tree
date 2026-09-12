@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -11,7 +12,7 @@ pytestmark = [pytest.mark.integration]
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO_ROOT)
 
-from gaia_cli.prWriter import _run, _render_named_block, build_intake_issue_body
+from gaia_cli.prWriter import _run, _render_named_block, _current_git_branch, build_intake_issue_body
 
 
 class TestPrWriterBatchRender(unittest.TestCase):
@@ -101,6 +102,21 @@ class TestPrWriterBatchRender(unittest.TestCase):
         result = _render_named_block(named, "my-target-skill")
         self.assertIn("foo/my-target-skill", result)
 
+    def test_issue_body_includes_batch_branch_explicit_override(self):
+        """A batch-supplied batchBranch wins over git resolution (#1785)."""
+        batch = self._base_batch(batchBranch="review/meta/tester--skill")
+        body = build_intake_issue_body(batch)
+        self.assertIn("| Batch Branch | `review/meta/tester--skill` |", body)
+
+    def test_issue_body_resolves_batch_branch_from_git_when_unset(self):
+        """With no explicit batchBranch, fall back to the current git branch
+        so intake-approval.yml can check out where the batch actually lives
+        instead of assuming main (#1785)."""
+        batch = self._base_batch()
+        body = build_intake_issue_body(batch, repo_root=REPO_ROOT)
+        self.assertIn("| Batch Branch | `", body)
+        self.assertNotIn("| Batch Branch | `unknown` |", body)
+
 
 class TestPrWriterLegacy(unittest.TestCase):
     def test_build_intake_issue_body_contains_summary_table_and_checklists(self):
@@ -149,6 +165,68 @@ class TestPrWriterLegacy(unittest.TestCase):
 
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("gaia_cli", result.stdout)
+
+
+class TestCurrentGitBranchDetachedHead(unittest.TestCase):
+    """Regression coverage for the sandbox-review finding: a detached-HEAD
+    checkout (the common case in CI) must not silently fall through to
+    `unknown` -> `main` in the workflow parser (that reinstates #1785)."""
+
+    def _init_repo(self, tmp):
+        env = dict(os.environ)
+        env.pop("GITHUB_HEAD_REF", None)
+        env.pop("GITHUB_REF_NAME", None)
+        subprocess.run(["git", "init", "-q"], cwd=tmp, check=True, env=env)
+        subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=tmp, check=True, env=env)
+        subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp, check=True, env=env)
+        with open(os.path.join(tmp, "f.txt"), "w") as fh:
+            fh.write("x")
+        subprocess.run(["git", "add", "f.txt"], cwd=tmp, check=True, env=env)
+        subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=tmp, check=True, env=env)
+        return env
+
+    def test_detached_head_falls_back_to_github_head_ref_env(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = self._init_repo(tmp)
+            subprocess.run(["git", "checkout", "-q", "--detach", "HEAD"], cwd=tmp, check=True, env=env)
+
+            with patch.dict(os.environ, {"GITHUB_HEAD_REF": "review/meta/intake-42"}, clear=False):
+                os.environ.pop("GITHUB_REF_NAME", None)
+                branch = _current_git_branch(repo_root=tmp)
+
+        self.assertEqual(branch, "review/meta/intake-42")
+
+    def test_detached_head_falls_back_to_github_ref_name_env(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = self._init_repo(tmp)
+            subprocess.run(["git", "checkout", "-q", "--detach", "HEAD"], cwd=tmp, check=True, env=env)
+
+            with patch.dict(os.environ, {"GITHUB_REF_NAME": "dev/intake-batch"}, clear=False):
+                os.environ.pop("GITHUB_HEAD_REF", None)
+                branch = _current_git_branch(repo_root=tmp)
+
+        self.assertEqual(branch, "dev/intake-batch")
+
+    def test_detached_head_with_no_env_hints_returns_none_not_unknown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = self._init_repo(tmp)
+            subprocess.run(["git", "checkout", "-q", "--detach", "HEAD"], cwd=tmp, check=True, env=env)
+
+            with patch.dict(os.environ, {}, clear=False):
+                os.environ.pop("GITHUB_HEAD_REF", None)
+                os.environ.pop("GITHUB_REF_NAME", None)
+                branch = _current_git_branch(repo_root=tmp)
+
+        self.assertIsNone(branch)
+
+    def test_normal_branch_checkout_resolves_via_git_branch_show_current(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = self._init_repo(tmp)
+            subprocess.run(["git", "checkout", "-q", "-b", "feature/x"], cwd=tmp, check=True, env=env)
+
+            branch = _current_git_branch(repo_root=tmp)
+
+        self.assertEqual(branch, "feature/x")
 
 
 if __name__ == "__main__":

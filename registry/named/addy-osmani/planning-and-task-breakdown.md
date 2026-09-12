@@ -5,11 +5,11 @@ contributor: addy-osmani
 origin: false
 genericSkillRef: vertical-slice-planning
 status: named
-level: 5★
+level: 3★
 description: Planning and task breakdown workflow decomposing features into manageable
   vertical slices.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -88,6 +88,10 @@ timeline:
   contributor: unknown
   details: 'TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:14:41Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 3★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
   updatedAt: '2026-09-01'

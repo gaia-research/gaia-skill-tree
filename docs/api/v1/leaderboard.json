@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 231,
+    "total": 222,
     "S": 3,
-    "A": 24,
-    "B": 87,
-    "C": 100,
-    "ungraded": 17,
+    "A": 25,
+    "B": 90,
+    "C": 103,
+    "ungraded": 1,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
@@ -56,7 +56,7 @@
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "trustMagnitude": 226.5,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "github-stars-own": 143.23,
         "peer-review": 30.0,
@@ -83,7 +83,7 @@
       "id": "obra/superpowers",
       "trustMagnitude": 220.81,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 155.66,
@@ -121,7 +121,7 @@
       "id": "addy-osmani/code-simplification",
       "trustMagnitude": 190.0,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31,
@@ -146,7 +146,7 @@
       "id": "addy-osmani/agent-skills",
       "trustMagnitude": 174.62,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "github-stars-own": 138.62,
         "repo-own": 36.0
@@ -158,7 +158,7 @@
       "id": "ruvnet/ruflo",
       "trustMagnitude": 174.59,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 134.59,
@@ -195,7 +195,7 @@
       "id": "pbakaus/impeccable",
       "trustMagnitude": 169.34,
       "grade": "A",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 133.34
@@ -237,6 +237,19 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 115.89
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "trailhq/graft",
+      "trustMagnitude": 140.42,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 99.42,
+        "self-attestation": 5.0
       },
       "origin": true,
       "branch": "unique"
@@ -395,27 +408,27 @@
       "id": "addy-osmani/incremental-implementation",
       "trustMagnitude": 95.0,
       "grade": "B",
-      "level": "5★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31,
         "peer-review": 45.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/planning-and-task-breakdown",
       "trustMagnitude": 95.0,
       "grade": "B",
-      "level": "5★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31,
         "peer-review": 45.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "mattpocock/diagnose",
@@ -434,14 +447,14 @@
       "id": "mattpocock/to-tickets",
       "trustMagnitude": 94.92,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 3.4,
         "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "garrytan/browse",
@@ -459,7 +472,7 @@
       "id": "ruvnet/reasoningbank",
       "trustMagnitude": 88.5,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5
@@ -471,14 +484,14 @@
       "id": "firecrawl/firecrawl-build-search",
       "trustMagnitude": 83.62,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "social-signal": 33.62,
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "nateherkai/scroll-craft",
@@ -508,7 +521,7 @@
       "id": "ruvnet/agentdb",
       "trustMagnitude": 81.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0
@@ -520,14 +533,14 @@
       "id": "addy-osmani/spec-driven-development",
       "trustMagnitude": 80.0,
       "grade": "B",
-      "level": "5★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31,
         "peer-review": 30.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "browser-use/browser-harness",
@@ -545,7 +558,7 @@
       "id": "firecrawl/firecrawl-skills",
       "trustMagnitude": 70.69,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 34.69
@@ -585,6 +598,18 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "leonxlnx/unlazy",
+      "trustMagnitude": 65.81,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 64.58,
+        "repo-own": 1.23
       },
       "origin": false,
       "branch": "standard"
@@ -685,64 +710,88 @@
       "branch": "standard"
     },
     {
+      "id": "panniantong/agent-reach",
+      "trustMagnitude": 53.86,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "social-signal": 48.86,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/performance-optimization",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.31,
         "github-stars-own": 39.69
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/shipping-and-launch",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.69,
         "repo-own": 10.31
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-build-interact",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 25.46,
         "github-stars-own": 24.54
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/benchmark",
@@ -805,13 +854,13 @@
       "id": "garrytan/cso",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.0,
         "github-stars-own": 40.0
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "garrytan/design-consultation",
@@ -1381,7 +1430,7 @@
       "id": "mattpocock/tdd",
       "trustMagnitude": 50.0,
       "grade": "B",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0,
@@ -1641,6 +1690,18 @@
       "branch": "standard"
     },
     {
+      "id": "disler/agent-fusion",
+      "trustMagnitude": 37.54,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 1.2,
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "id": "bradautomates/watch",
       "trustMagnitude": 37.47,
       "grade": "C",
@@ -1648,6 +1709,17 @@
       "typeBreakdown": {
         "repo-own": 1.22,
         "social-signal": 36.25
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "yylo-dev/ledger-tasks-yylo",
+      "trustMagnitude": 36.6,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.6
       },
       "origin": true,
       "branch": "standard"
@@ -1821,7 +1893,7 @@
       "id": "garrytan/garrytan",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2195,7 +2267,7 @@
       "id": "ruvnet/dual-mode",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2217,7 +2289,7 @@
       "id": "ruvnet/flow-nexus",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2261,7 +2333,7 @@
       "id": "ruvnet/github-suite",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2294,7 +2366,7 @@
       "id": "ruvnet/ruflo-v3",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "3★",
+      "level": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2456,6 +2528,18 @@
       "branch": "standard"
     },
     {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "trustMagnitude": 21.51,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "github-stars-own": 20.29
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/code-review",
       "trustMagnitude": 20.77,
       "grade": "C",
@@ -2522,48 +2606,6 @@
       "branch": "standard"
     },
     {
-      "id": "supabase/supabase",
-      "trustMagnitude": 5.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "supabase/supabase-postgres-best-practices",
-      "trustMagnitude": 5.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "martin-stepanoski/nielsen-heuristics-audit",
-      "trustMagnitude": 4.9,
-      "grade": "ungraded",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 4.9
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "laravel/upgrade-laravel-v13",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "mattpocock/personal",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
@@ -2571,114 +2613,6 @@
       "typeBreakdown": {},
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "id": "remotion-dev/remotion-best-practices",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "suite"
-    },
-    {
-      "id": "remotion-dev/remotion-captions",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-create",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-docs",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-interactivity",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-maps",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-markup",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-multimedia",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-render",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-saas",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-studio",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "remotion-dev/remotion-upgrade",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
     }
   ],
   "_links": {

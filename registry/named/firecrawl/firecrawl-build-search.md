@@ -5,10 +5,10 @@ contributor: firecrawl
 origin: true
 genericSkillRef: web-search
 status: named
-level: 4★
+level: 3★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md
@@ -64,6 +64,10 @@ timeline:
   contributor: unknown
   details: 'TM 104.31 -> 83.62, grade A -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:03Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 3★
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown

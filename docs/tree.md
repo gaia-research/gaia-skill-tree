@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-09-09
+GAIA SKILL TREE  ·  generated 2026-09-12
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -91,7 +91,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · garrytan/gstack-upgrade  [2★]
   │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ · garrytan/landing-report  [2★]
+  ├─ · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  └─ ○ mattpocock/triage  [3★]
   └─ · garrytan/plan-tune  [2★]
@@ -213,7 +213,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ ○ /tool-use  (↑ see above)
   │  │  │  └─ ○ ████████/hf-cli  (↑ see above)
   │  │  └─ ○ /code-execution
-  │  ├─ · garrytan/landing-report  [2★]
+  │  ├─ · yylo-dev/ledger-tasks-yylo  [2★]
   │  │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  │  └─ ○ mattpocock/triage  [3★]
   │  └─ · ████████/github-workflow-automation  (↑ see above)
@@ -342,9 +342,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ○ garrytan/document-generate  [3★]
   │  └─ ○ /tool-use
-  └─ ○ ████████/firecrawl-research-index
+  └─ ○ firecrawl/firecrawl-research-index  [3★]
 
-◆ ████████/agent-fusion
+◆ disler/agent-fusion  [2★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ disler/opinion  [2★]
   ├─ ○ disler/plan-synthesis  [2★]
@@ -383,12 +383,15 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ ████████/requirements-engineer
     └─ ○ garrytan/office-hours  [3★]
   ◉ anthropics/brand-guidelines  [4★]
+  ◉ trailhq/graft  [4★]
+    ├─ · safishamsi/graphify  [5★]
+    │  ├─ ○ /extract-entities
+    │  └─ ○ /logical-inference
+    ├─ ○ /retrieve
+    └─ ○ garrytan/context-restore  [2★]
   ◉ mksglu/context-mode  [4★]
   ◉ ayghri/i-have-adhd  [4★]
   ◉ dietrichgebert/ponytail  [4★]
-  ◉ safishamsi/graphify  [5★]
-    ├─ ○ /extract-entities
-    └─ ○ /logical-inference
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [4★]
   ◉ obra/subagent-driven-development  [4★]
@@ -413,7 +416,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ ████████/agent-reach
+  ○ panniantong/agent-reach  [3★]
   ○ heygen-com/hyperframes-audio  [3★]
   ○ /autonomous-engineering-platform
   ○ gaia-research/ci-churn  [2★]
@@ -444,16 +447,16 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /self-consistency
   ○ /semantic-cache
   ○ ruvnet/stream-chain  [2★]
-  ○ ████████/log-to-daily
+  ○ aplaceforallmystuff/log-to-daily  [2★]
   ○ ████████/scanpy
   ○ mattpocock/codebase-design  [2★]
   ○ anthropics/canvas-design  [2★]
   ○ ████████/supabase
   ○ /synthetic-data-generation
-  ○ mattpocock/tdd  [3★]
+  ○ mattpocock/tdd  [2★]
   ○ /time-series-forecasting
   ○ ████████/cost
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-09-09. Do not edit directly.*
+*Generated from gaia.json on 2026-09-12. Do not edit directly.*

@@ -150,7 +150,7 @@ gh pr create ...
 
 **When:** Someone has already run `gaia push` and proposals are sitting in `registry-for-review/skill-batches/`. You are the intake gate deciding which proposals move forward.
 
-**Depth:** Read-only triage — accept, rename, duplicate, needs-evidence, or reject. No registry mutation. Hands off to `/gaia-curate-chain` or `/gaia-curate` for accepted proposals.
+**Depth:** Read-only triage — accept, rename, duplicate, needs-evidence, or reject. No registry mutation. Hands off to `/gaia-curate-chain` or `/gaia-curate` for accepted proposals, or directly to `/gaia-intake-close` (Phase 6 Path B) for rejected proposals.
 
 **Breadth:** All pending batches in `registry-for-review/skill-batches/*.json`.
 
@@ -179,16 +179,49 @@ For strategies A–D and F, L4 means:
 
 ---
 
-## Phase 3 — Branch + Push + PR
+## Checkpointing — Phases 3–6 (#1790)
+
+Phase 1's discovery strategies already checkpoint to `generated-output/curate-discovery/<run-id>/run.json`
+(strategies B/C above), but that convention stopped at L4 — a background agent restarting mid-Phase-4
+or mid-Phase-5 had nothing to resume from and the orchestrator had to inspect partial output by hand.
+Extend the same convention through the rest of the pipeline: write
+`generated-output/curate-discovery/<run-id>/status.json` after each Phase 3–6 step completes, shaped as:
+
+```json
+{
+  "phase": 4,
+  "state": "evidence-verified",
+  "artifacts": ["evidence/by-type/repo-own.md"],
+  "nextCommand": "gaia dev evidence contributor/skill \"<url>\" --type repo-own ..."
+}
+```
+
+- `phase` — the pipeline phase number (3–6) just completed.
+- `state` — a short label for what that phase produced (e.g. `packet-pushed`, `evidence-verified`, `ingested`, `closed`).
+- `artifacts` — paths touched or produced by that step, for a resuming agent to inspect before re-running anything.
+- `nextCommand` — the exact next command to run, so resume never requires re-deriving pipeline state from prose.
+
+Update `status.json` in place (not append) — it always reflects the latest completed step, not a history log.
+
+---
+
+## Phase 3 — Branch + Push (packet only — no PR here)
 
 **Skills:** [`/pr`](../pr/SKILL.md)
+
+There is exactly **one** canonical PR route for an intake: the workflow-generated
+`review/meta/intake-<N>` opened when the maintainer applies `intake:evidence-approved`
+(Phase 3's label table below). Do **not** also open a hand-cut PR from this branch —
+running both routes produces duplicate PRs for the same intake. `review/meta/<handle>--<skill>`
+exists only to carry the intake packet/batch itself so `gaia push --from-file` has
+something to commit; it is never the PR that lands the skill.
 
 ```bash
 git checkout -b review/meta/<handle>--<skill>
 gaia push --from-file <packet>.json --dry-run   # preview
 gaia push --from-file <packet>.json             # opens intake issue (auto-labels: intake + needs-triage)
 git add . && git commit -m "feat(intake): ..." && git push -u origin <branch>
-gh pr create --draft --title "..." --body-file /tmp/pr-body.md
+# No `gh pr create` here — wait for intake:evidence-approved to open the canonical PR (see below).
 ```
 
 ### `intake:*` label lifecycle — machine gates, applied in order
@@ -201,7 +234,7 @@ gh pr create --draft --title "..." --body-file /tmp/pr-body.md
 | `intake:evidence-review` | Issue | Auto (workflow) | Signals agent to prepare Stage-1 seed + Phase-0 plan |
 | `intake:evidence-ready` | Issue | Agent / you | Signals evidence plan is ready for human approval |
 | `intake:evidence-approved` | Issue | **Maintainer only** | Workflow fires: opens single draft `review/meta/intake-<N>` PR |
-| `intake:rejected` | Issue | **Maintainer only** | Closes intake; no automation fires |
+| `intake:rejected` | Issue | **Maintainer only** | Closes intake via `/gaia-intake-close` (Phase 6 Path B); posts rejection findings, path to acceptance, and badge status note |
 | `human-proposal` | PR | Auto (triage workflow) | Routes non-bot PR for human review |
 | `needs-review` | PR | Auto (triage workflow) | Signals PR needs a reviewer |
 
@@ -248,19 +281,19 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev evidence contributor/skill "<url>" \
 GAIA_OPERATOR_OVERRIDE=1 gaia dev build
 PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill
 # → Human approves calibration
-GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill --stars N
+GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill 4★
 GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
 ```
 
-Trust Magnitude → star grade:
+Trust Magnitude → star grade (per `registry/schema/meta.json` `evidence.gradeThresholds`; see `src/gaia_cli/grading.py`):
 
 | Grade | TM | Max stars |
 |---|---|---|
-| D | 1.0–1.9 | 1★ |
-| C | 2.0–3.9 | 2★ (badge floor) |
-| B | 4.0–6.9 | 3★ |
-| A | 7.0–9.9 | 4★ |
-| S | 10.0+ | 5★–6★ |
+| — | 0–19 | 1★ (ungraded) |
+| C | ≥20 | 2★ (badge floor) |
+| B | ≥50 | 3★ |
+| A | ≥100 | 4★ |
+| S | ≥250 | 5★–6★ |
 
 → Methodology: [`/trust-methodology-consult`](../trust-methodology-consult/SKILL.md)
 
@@ -294,6 +327,9 @@ Suite rank gates (TM is sole gate):
 
 **Skill:** [`/gaia-intake-close`](../gaia-intake-close/SKILL.md)
 
+### Path A: Accepted Intake (PR Merged)
+
+When the promotion PR passes CI and is approved:
 ```bash
 gh pr ready <PR>
 gh pr checks <PR>                                   # wait for green
@@ -303,6 +339,30 @@ gh issue comment <ISSUE> --body-file /tmp/issue-close-comment.md
 gh issue close <ISSUE>
 GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifacts
 ```
+Posts full evidence audit findings, `/trust-appraise` scores, live badge image embeddings (`![alt](url)`), and the universal **Powered by Gaia** badge snippet.
+
+### Path B: Rejected or Early-Exit Intake (Triage or Review Rejection)
+
+When an intake is rejected at triage (Phase 1 Strategy F / `/gaia-draft-curate`), L4 review (Phase 2), batch staging (Phase 3), or evidence audit (Phase 4):
+Do **not** leave the intake issue hanging without a structured closing record. Route directly to [`/gaia-intake-close`](../gaia-intake-close/SKILL.md) to close the intake cleanly:
+```bash
+# 1. Apply intake:rejected label
+gh issue edit <ISSUE> --add-label "intake:rejected"
+
+# 2. Post structured closing comment (findings table, path to acceptance, mandatory badge status note)
+gh issue comment <ISSUE> --body-file /tmp/issue-close-comment.md
+
+# 3. Close the intake issue
+gh issue close <ISSUE>
+
+# 4. Clean up any staged batch branch if pushed
+git push origin --delete review/meta/<handle>--<skill> 2>/dev/null || true
+```
+The closing comment must include:
+- Rejection findings table with falsifiable rationale per skill (unattributed, product-coupled, unfalsifiable)
+- Actionable path to acceptance (generalization advice, proper attribution, required evidence)
+- **Mandatory badge status note** providing the universal **Powered by Gaia** badge, explaining the 2★ badge floor for named skill badges, and linking to `https://gaiaskilltree.com/badges/`
+- Gracious acknowledgment to the contributor
 
 ---
 
@@ -324,6 +384,6 @@ GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifact
 | Single evidence row | `/gaia-ingest` |
 | Batch evidence rows | `/gaia-ingest-batch` |
 | Suite fusion only | `/gaia-fuse-full-suite` |
-| Closing comments only | `/gaia-intake-close` |
+| Closing comments (accepted or rejected) | `/gaia-intake-close` |
 | Regenerate artifacts only | `/regen` or `/gaia-docs-sync` |
 | Lost / unsure of command | `/gaia-consult` |

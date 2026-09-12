@@ -45,14 +45,14 @@
 | ○ google-deepmind/unibind-database | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/uniprot-database | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/uv | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/workflow-skill-creator | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/workflow-skill-creator | Basic | 4★ | Extra | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — google-deepmind  ·  generated 2026-09-09
+GAIA SKILL TREE — google-deepmind  ·  generated 2026-09-12
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

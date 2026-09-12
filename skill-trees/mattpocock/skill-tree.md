@@ -40,7 +40,7 @@
 | ○ mattpocock/resolving-merge-conflicts | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/scaffold-exercises | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/setup-pre-commit | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/tdd | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/tdd | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/teach | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/writing-for-agents | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
@@ -49,7 +49,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-09-09
+GAIA SKILL TREE — mattpocock  ·  generated 2026-09-12
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -137,7 +137,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ · · garrytan/landing-report  [2★]
+  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ ✓ ○ mattpocock/triage  [3★]
   └─ · · garrytan/plan-tune  [2★]
@@ -257,7 +257,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ · · garrytan/landing-report  [2★]
+  │  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ ✓ ○ mattpocock/triage  [3★]
   │  └─ · · ████████/github-workflow-automation  (↑ see above)
@@ -365,7 +365,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ ✓ ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ ████████/firecrawl-research-index
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
 ✓ ◆ ████████/personal
   ├─ ✓ ○ garrytan/document-generate  [3★]
@@ -397,7 +397,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 ══════════════════════════════════════════════════════════════════════
 
   ✓ ○ mattpocock/codebase-design  [2★]
-  ✓ ○ mattpocock/tdd  [3★]
+  ✓ ○ mattpocock/tdd  [2★]
 ```
 
 ## Pending Combinations

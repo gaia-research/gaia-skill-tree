@@ -5,10 +5,10 @@ contributor: remotion-dev
 origin: false
 genericSkillRef: video-composition
 status: named
-level: 2★
+level: 1★
 description: remotion-dev named skill for remotion-best-practices
 createdAt: '2026-08-10'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Remotion Best Practices
 timeline:
 - timestamp: '2026-08-10T14:48:24Z'
@@ -29,6 +29,10 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-09-09T20:31:10Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 suiteComponents:
 - remotion-dev/remotion-captions
 - remotion-dev/remotion-create

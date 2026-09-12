@@ -1,6 +1,6 @@
 # Yggdrasil II Rank Vocabulary — Banned Synonym List
 
-> **Canonical reference for the CI guard at `.github/workflows/rank-vocabulary-guard.yml`.**
+> **Canonical reference for the rank-vocabulary CI guard, run by `.github/workflows/pr-guards.yml` (`python scripts/pr_guards.py`).**
 > Guard script: `scripts/check_rank_vocabulary.py` · Refs #999 (EPIC sub-issue, banned-synonym portion)
 > See also [`docs/guard-topology.md`](guard-topology.md) for the full guard inventory and topology.
 

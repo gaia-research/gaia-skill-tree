@@ -56,6 +56,8 @@ TYPE_WEIGHTS = {
     "repo-own": 0.6,
     "self-attestation": 0.5,
     "social-signal": 1.0,
+    "npm-downloads": 0.9,
+    "engagement": 0.7,
 }
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
@@ -69,6 +71,8 @@ TYPE_CAPS = {
     "repo-own": 60.0,
     "self-attestation": 10.0,
     "social-signal": 80.0,
+    "npm-downloads": 150.0,
+    "engagement": 60.0,
 }
 
 # Self-producible types that cannot anchor S alone (RFC §4 diversity gate).
@@ -116,12 +120,14 @@ EVIDENCE_TYPE_LAYER_CONTRACT: dict = {
     'repo-own':              {'allowedLayers': ['named'], 'inheritMultiplier': None},
     'self-attestation':      {'allowedLayers': ['named'], 'inheritMultiplier': None},
     'verifier-attestation':  {'allowedLayers': ['named'], 'inheritMultiplier': None},
+    'npm-downloads':         {'allowedLayers': ['named'], 'inheritMultiplier': None},
     # Flexible (inheritable from generic with discount)
     'arxiv':                 {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.70},
     'peer-review':           {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.30},
     'social-signal':         {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.35},
     'proxy-containment':     {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.25},
     'benchmark-result':      {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.15},
+    'engagement':            {'allowedLayers': ['generic', 'named'], 'inheritMultiplier': 0.25},
 }
 
 
@@ -618,6 +624,36 @@ def _rawMagnitudeForType(
             return 0.0
         return math.log10(views) * 8.0
 
+    if evidenceType == "npm-downloads":
+        # #1787: weekly download count from the npm registry API, logarithmic
+        # diminishing returns matching the github-stars-own adoption curve.
+        downloads = float(row.get("downloads", 0) or 0)
+        if downloads <= 100.0:
+            return 0.0
+        return min(150.0, 30.0 * math.log10(downloads / 100.0))
+
+    if evidenceType == "engagement":
+        # #1787: view-less social engagement (likes + comments) for platforms
+        # that don't expose a view count — distinct from social-signal, which
+        # requires views. Comments weighted 3x likes (a reply signals stronger
+        # engagement than a passive like), same shape as social-signal's
+        # engagement_ratio weighting but standalone rather than a multiplier.
+        # max(0.0, ...) on each term: the CLI pre-flight blocks negative
+        # --likes/--comments, but hand-authored or ingested registry rows
+        # bypass the CLI, and a negative term would otherwise let a large
+        # negative `likes` cancel out `comments` into a small positive
+        # `combined` that reads as legitimate engagement.
+        likes = max(0.0, float(row.get("likes", 0) or 0))
+        comments = max(0.0, float(row.get("comments", 0) or 0))
+        combined = likes + comments * 3.0
+        # `<= 1.0` (not `< 1.0`): log10(1.0) == 0.0, so a combined score of
+        # exactly 1.0 (e.g. a single like) would otherwise fall through the
+        # guard and silently compute a "valid" row worth exactly 0.0 instead
+        # of being excluded outright.
+        if combined <= 1.0:
+            return 0.0
+        return min(60.0, 15.0 * math.log10(combined))
+
     return 0.0
 
 
@@ -682,6 +718,10 @@ def _rowComparableMagnitude(row: dict) -> float:
         return float(row.get("commits", 0) or 0) + float(row.get("contributors", 0) or 0) * 100
     if t == "social-signal":
         return float(row.get("views", 0) or 0)
+    if t == "npm-downloads":
+        return float(row.get("downloads", 0) or 0)
+    if t == "engagement":
+        return float(row.get("likes", 0) or 0) + float(row.get("comments", 0) or 0) * 3.0
     return 0.0
 
 
@@ -699,6 +739,8 @@ _PLATEAU_CONFIG: dict = {
     "self-attestation":     ([1.0],                       1),
     "benchmark-result":     ([1.0],                       1),
     "fusion-recipe":        ([1.0],                       1),
+    "npm-downloads":        ([1.0],                       1),
+    "engagement":           ([1.0, 0.5, 0.25],            3),
 }
 
 

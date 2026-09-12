@@ -17,6 +17,7 @@ from gaia_cli.steward.sensors import (
     KnowledgeContradictionSensor,
     RegistryIntegritySensor,
     TaxonomyScriptDriftSensor,
+    TrustCalibrationDriftSensor,
     UpstreamWatcherSensor,
     default_sensors,
 )
@@ -795,6 +796,46 @@ def test_taxonomy_script_drift_sensor_on_real_repo() -> None:
     assert obs.observed_state["consistent"] is True
     assert obs.observed_state["violationCount"] == 0
 
+
+
+def test_trust_calibration_drift_sensor_reports_stale_levels(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/stale.md", "---\n" +
+           "id: owner/stale\nname: Stale\nstatus: named\nlevel: 5★\n" +
+           "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    observations = TrustCalibrationDriftSensor().scan(tmp_path, NOW)
+    assert len(observations) == 1
+    observation = observations[0]
+    assert observation.kind == "trust_calibration_drift"
+    assert observation.subject.id == "owner/stale"
+    assert observation.observed_state["trustGrade"] == "A"
+    assert observation.observed_state["targetLevel"] == "4★"
+
+
+def test_trust_calibration_drift_sensor_ignores_explicitly_frozen_skills(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/frozen.md", "---\n" +
+           "id: owner/frozen\nname: Frozen\nstatus: named\nlevel: 5★\n" +
+           "installable: false\ntimeline:\n  - action: upstream_deprecated\n" +
+           "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
+
+
+def test_trust_calibration_drift_sensor_does_not_treat_noninstallable_as_frozen(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/reviewable.md", "---\n" +
+           "id: owner/reviewable\nname: Reviewable\nstatus: named\nlevel: 5★\n" +
+           "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    assert [o.subject.id for o in TrustCalibrationDriftSensor().scan(tmp_path, NOW)] == ["owner/reviewable"]
+
+
+def test_trust_calibration_drift_sensor_ignores_aligned_levels(tmp_path: Path) -> None:
+    _write(tmp_path / "registry/named/owner/aligned.md", "---\n" +
+           "id: owner/aligned\nname: Aligned\nstatus: named\nlevel: 5★\n" +
+           "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 1000000\n" +
+           "  - type: peer-review\n    source: https://example.com/review\n    reviewers: 2\n    grade: A\n  - type: social-signal\n    source: https://youtube.com/watch?v=x\n    views: 100000\n---\n")
+    assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
+
+
+def test_default_sensors_contains_trust_calibration_drift_sensor() -> None:
+    assert any(isinstance(s, TrustCalibrationDriftSensor) for s in default_sensors())
 
 
 def test_default_sensors_contains_upstream_watcher_sensor() -> None:

@@ -7,11 +7,11 @@ genericSkillRef: test-driven-development
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
-level: 3★
+level: 2★
 description: Test-driven development with red-green-refactor, verifying behavior through
   public interfaces.
 createdAt: '2026-06-19'
-updatedAt: '2026-09-05'
+updatedAt: '2026-09-10'
 timeline:
 - timestamp: '2026-06-19T13:02:23Z'
   action: add
@@ -79,6 +79,10 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-09-09T20:31:08Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 2★
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
   evaluator: unknown

@@ -9,6 +9,11 @@ on:
       - 'registry/named-skills.json'
       - 'skill-trees/**'
 
+# A new push or label event cancels the run it supersedes (same PR head).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   meta-guard:
     name: Verify registry/timeline mutations come from an authorized actor
@@ -26,15 +31,46 @@ jobs:
       pull-requests: read
       contents: read
     steps:
-      - name: Checkout
+      # Check out the BASE commit: the Verifier set must come from the registry
+      # the PR targets, never from the PR itself, or a PR could promote its own
+      # author. The PR's commits are fetched separately below. Full history
+      # without blobs; working tree limited to what the index build needs.
+      - name: Checkout base
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.base.sha }}
           fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            registry
+            scripts
+            src
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
+      # registry/named-skills.json is a gitignored Class P artifact, so it never
+      # exists in a fresh checkout. Without this step the check below fell back
+      # to bootstrap and authorized every actor (#1815).
+      - name: Build the base named-skills index
+        run: |
+          uv pip install --system -e .
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
 
       - name: Check authorized meta mutation
         env:
-          BASE_REF: ${{ github.base_ref }}
           PR_ACTOR: ${{ github.event.pull_request.user.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
 
@@ -47,8 +83,9 @@ jobs:
               ;;
           esac
 
-          git fetch origin "$BASE_REF" --quiet
-          MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
+          # HEAD is the base commit. Fetch the PR head (works for forks too).
+          git fetch --quiet origin "+refs/pull/$PR_NUMBER/head:refs/remotes/pr/head"
+          MERGE_BASE=$(git merge-base HEAD "$HEAD_SHA")
           echo "PR actor:   $PR_ACTOR"
           echo "Merge base: $MERGE_BASE"
           echo ""
@@ -57,8 +94,8 @@ jobs:
           # Merge commits and github-actions[bot] commits are excluded so
           # automated maintenance does not cause false failures.
           HUMAN_COMMITS=$(
-            git log --no-merges --format="%H %ae" "$MERGE_BASE..HEAD" \
-              | grep -v 'github-actions\[bot\]' \
+            git log --no-merges --format="%H %ae" "$MERGE_BASE..$HEAD_SHA" \
+              | { grep -v 'github-actions\[bot\]' || true; } \
               | awk '{print $1}'
           )
 
@@ -86,57 +123,33 @@ jobs:
           echo "$FILES" | sed 's/^/  - /'
           echo ""
 
-          # ── Map PR actor → Verifier status via registry/named-skills.json ───
-          # Identical logic to _is_verifier() in src/gaia_cli/authz.py:
-          #   contributor field matches PR actor login AND level ≥ 4★.
-          # Bootstrap auto-allow: if no 4★ verifier exists yet, allow all.
-          AUTHORIZED=$(python3 - "$PR_ACTOR" <<'PY'
-          import json, sys, os
-
-          actor = sys.argv[1]
-          index_path = "registry/named-skills.json"
-
-          if not os.path.exists(index_path):
-              # No index yet — bootstrap state
-              print("bootstrap")
-              sys.exit(0)
-
-          try:
-              with open(index_path, "r", encoding="utf-8") as f:
-                  idx = json.load(f)
-          except Exception:
-              print("bootstrap")
-              sys.exit(0)
-
-          has_any_verifier = False
-          for entries in idx.get("buckets", {}).values():
-              for e in entries:
-                  lvl = e.get("level", "")
-                  if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
-                      has_any_verifier = True
-                      if e.get("contributor") == actor:
-                          print("yes")
-                          sys.exit(0)
-
-          # Bootstrap: no verifiers exist anywhere yet
-          if not has_any_verifier:
-              print("bootstrap")
-          else:
-              print("no")
+          # ── Map PR actor → Verifier status via the base registry ─────────────
+          # Same code path as `gaia whoami` (src/gaia_cli/authz.py): the actor
+          # holds a 4★+ named skill, or the registry has no Verifiers yet
+          # (bootstrap). authz reads a missing index as bootstrap, so refuse to
+          # run without it rather than authorize everyone.
+          if [ ! -f registry/named-skills.json ]; then
+            echo "::error::registry/named-skills.json was not built; refusing to fall back to bootstrap."
+            exit 1
+          fi
+          AUTHORIZED=$(env -u GAIA_OPERATOR_OVERRIDE python - "$PR_ACTOR" <<'PY'
+          import sys
+          from gaia_cli.authz import authorization_status
+          print(authorization_status(sys.argv[1], ".")["via"])
           PY
           )
 
           echo "Actor authorization: $AUTHORIZED"
           echo ""
 
-          if [ "$AUTHORIZED" = "yes" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
+          if [ "$AUTHORIZED" = "verifier" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
             echo "✓ $PR_ACTOR is authorized ($AUTHORIZED)."
             exit 0
           fi
 
           # ── Detect timeline-array additions as additional context ────────────
           TIMELINE_ADDS=$(
-            git diff "$MERGE_BASE...HEAD" -- registry/nodes/ skill-trees/ \
+            git diff "$MERGE_BASE...$HEAD_SHA" -- registry/nodes/ skill-trees/ \
               | grep -E '^\+' \
               | grep -E '"(timeline|action|skillId)"' || true
           )
@@ -173,18 +186,42 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # History for merge-base; the 6★ diff lazily fetches only the blobs it reads.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
+
+      # check_verifier_signoffs.py reads registry/named-skills.json, a gitignored
+      # Class P artifact; without it no sign-off can ever count (#1815). Build it
+      # from the BASE commit, with the base's own scripts, so a PR cannot promote
+      # its own sign-off authors into Verifiers.
+      - name: Build the base named-skills index
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          BASE_TREE="$RUNNER_TEMP/base"
+          git worktree add --no-checkout --detach "$BASE_TREE" "$BASE_SHA"
+          git -C "$BASE_TREE" sparse-checkout set registry scripts src
+          git -C "$BASE_TREE" checkout -q
+          (cd "$BASE_TREE" && python scripts/assemble_gaia.py && python scripts/generateNamedIndex.py)
+          cp "$BASE_TREE/registry/named-skills.json" registry/named-skills.json
 
       - name: Require apex-promotion label
         env:
@@ -245,18 +282,23 @@ jobs:
       pull-requests: read
       contents: read
     steps:
+      # Counts the checked-out registry only; no history needed.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
+
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
       - name: Count apex skills and enforce system-wide cap
         run: |

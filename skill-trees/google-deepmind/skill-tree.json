@@ -1304,7 +1304,7 @@
     },
     {
       "skillId": "google-deepmind/workflow-skill-creator",
-      "level": "1★",
+      "level": "4★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -1343,6 +1343,16 @@
           "level": "1★",
           "achievedAt": "2026-08-05T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-09-05T03:50:03Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-09-09T20:31:06Z",
+          "source": "promotion"
         }
       ]
     }
@@ -2979,6 +2989,22 @@
       "newValue": "1★",
       "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/uv"
+    },
+    {
+      "timestamp": "2026-09-05T03:50:03Z",
+      "action": "demote",
+      "previousValue": "1★",
+      "newValue": "1★",
+      "details": "Calibrated level from 1★ to 1★",
+      "skillId": "google-deepmind/workflow-skill-creator"
+    },
+    {
+      "timestamp": "2026-09-09T20:31:06Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "4★",
+      "details": "Calibrated level from 1★ to 4★",
+      "skillId": "google-deepmind/workflow-skill-creator"
     }
   ],
   "stats": {

@@ -195,9 +195,28 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         ("commits", "--commits", True),
         ("contributors", "--contributors", True),
         ("skill_count_in_repo", "--skill-count-in-repo", False),
+        ("downloads", "--downloads", True),
+        ("likes", "--likes", True),
+        ("comments", "--comments", True),
     )
     for attr, flag, allow_zero in numeric_fields:
         _preflight_non_negative(getattr(args, attr, None), flag, allow_zero=allow_zero)
+
+    # #1787: --downloads only makes sense for npm-downloads rows (its magnitude
+    # driver); --likes/--comments only for social-signal or engagement rows.
+    # Passing them against an unrelated type silently writes a dead field the
+    # scoring formula never reads — surface that at write time, not later.
+    if getattr(args, "downloads", None) is not None and evidence_type not in (None, "npm-downloads"):
+        _fail_dev_preflight(
+            f"`--downloads` is only valid with `--type npm-downloads`; got `--type {evidence_type}`.",
+            fix="Use `--type npm-downloads`, or drop `--downloads` if this row is a different evidence type.",
+        )
+    for attr, flag in (("likes", "--likes"), ("comments", "--comments")):
+        if getattr(args, attr, None) is not None and evidence_type not in (None, "social-signal", "engagement"):
+            _fail_dev_preflight(
+                f"`{flag}` is only valid with `--type social-signal` or `--type engagement`; got `--type {evidence_type}`.",
+                fix=f"Use `--type social-signal` or `--type engagement`, or drop `{flag}` if this row is a different evidence type.",
+            )
 
     percentile = getattr(args, "percentile", None)
     if percentile is not None and not (0 <= int(percentile) <= 100):
@@ -466,15 +485,31 @@ def _preflight_evidence_index_bounds(skill_id: str, ev_list: list, index: int | 
         )
 
 
-def _preflight_duplicate_evidence_source(skill_id: str, ev_list: list, source: str | None) -> None:
+def _preflight_duplicate_evidence_source(
+    skill_id: str, ev_list: list, source: str | None, evidence_type: str | None = None
+) -> None:
+    """Warn when the new entry's (type, url) key already exists.
+
+    Same-source dedup (trustMagnitude.py::_dedupeSameSource) is (type, url)-keyed —
+    cross-type rows at the same URL never collapse into each other, only two rows
+    of the SAME type at the SAME url do. Only warn when both match; a same-URL
+    different-type entry (e.g. repo-own + github-stars-own at one repo) is normal
+    and does not risk dedup collapse.
+    """
     if not source:
         return
-    duplicates = [entry for entry in (ev_list or []) if entry.get("source") == source]
+    sameUrl = [entry for entry in (ev_list or []) if entry.get("source") == source]
+    if evidence_type is not None:
+        duplicates = [entry for entry in sameUrl if entry.get("type") == evidence_type]
+    else:
+        # Type unknown at call site — fall back to same-URL as a conservative signal.
+        duplicates = sameUrl
     if duplicates:
         plural = "entry" if len(duplicates) == 1 else "entries"
         print(
-            f"Warning: {skill_id} already has {len(duplicates)} evidence {plural} at {source}; "
-            "same-source dedup may collapse Trust Magnitude contribution.",
+            f"Warning: {skill_id} already has {len(duplicates)} evidence {plural} at {source} "
+            f"of the same type{f' ({evidence_type})' if evidence_type else ''}; "
+            "same-source dedup ((type, url)-keyed) will collapse to the higher-scoring entry.",
             file=sys.stderr,
         )
 

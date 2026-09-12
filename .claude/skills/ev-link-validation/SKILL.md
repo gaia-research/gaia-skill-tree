@@ -14,10 +14,10 @@ The evidence lake is **type-first**. The primary working set is `evidence/by-typ
 
 ## Coexistence Shim
 
-`evidence/scripts/validate_sources.py` intentionally remains a temporary coexistence URL-health shim. Until it is replaced, use it for URL liveness checks but interpret/report results against the type-first lake: `evidence/by-type/` is primary, and `tier_*.md` is compatibility-only.
+`evidence/scripts/validate_sources.py` intentionally remains a temporary coexistence URL-health shim. It reads `evidence/by-type/*.md` (primary, type-first) and `evidence/tier_*.md` (compatibility-only) by default (#1786).
 
 ```bash
-python evidence/scripts/validate_sources.py
+python3 evidence/scripts/validate_sources.py
 ```
 
 For benchmark rows, include every row/source URL plus catalog-level `sourceUrl`, `methodologyUrl`, `harnessUrl`, attestor URLs, and any candidate manifest methodology/attestor links in the URL-health pass.
@@ -25,8 +25,25 @@ For benchmark rows, include every row/source URL plus catalog-level `sourceUrl`,
 For a small sample:
 
 ```bash
-python evidence/scripts/validate_sources.py 10
+python3 evidence/scripts/validate_sources.py --limit 10
 ```
+
+### Targeting an intake's candidate rows (not yet in the lake)
+
+A pre-registry intake's candidate rows aren't in `evidence/by-type/` yet, so the default lake scan won't see them. Point the validator at them directly instead:
+
+```bash
+# Plain URL list, one per line
+python3 evidence/scripts/validate_sources.py --urls /tmp/intake-urls.txt
+
+# JSON/YAML candidate manifest — bare URL list, {"url": ...} objects, or an
+# object with a urls/candidates/entries/rows list of either shape (same
+# shape generate_source_dump.py's --candidate-manifest accepts, see
+# ev-pipeline)
+python3 evidence/scripts/validate_sources.py --manifest /tmp/intake-candidates.json
+```
+
+`--urls` and `--manifest` are mutually exclusive; `--limit N` and `--report <path>` apply in every mode.
 
 ## Output
 

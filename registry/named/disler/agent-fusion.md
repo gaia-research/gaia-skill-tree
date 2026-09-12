@@ -5,12 +5,12 @@ contributor: disler
 origin: false
 genericSkillRef: agent-fusion
 status: named
-level: 1★
+level: 2★
 description: 'Orchestrate multiple specialized AI models as a fused agentic team:
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
 createdAt: '2026-07-30'
-updatedAt: '2026-09-04'
+updatedAt: '2026-09-10'
 title: Agent Fusion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/README.md
@@ -56,6 +56,10 @@ timeline:
   previousValue: 3★
   newValue: 1★
   details: Demoted to 1★ and stripped unearned origin flag
+- timestamp: '2026-09-09T20:31:02Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown

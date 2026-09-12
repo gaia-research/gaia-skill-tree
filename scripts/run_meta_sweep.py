@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gaia Meta Sweep Runner — Whole-registry audit against META.md.
 
-Runs 12 parallel/concurrent audit dimensions:
+Runs 13 parallel/concurrent audit dimensions:
   1. star-bar           — 3★+ named skills missing/dead links.github or non-blob
   2. liveness           — concurrent URL checking for dead links (404/error)
   3. origin-attribution — META §4.1 origin standing rules (renowned, <=1★ forbidden, single origin)
@@ -14,6 +14,9 @@ Runs 12 parallel/concurrent audit dimensions:
  10. champion-cluster   — generics with >= 2 implementations and no Champion
  11. unique-isolation   — unique branch validation
  12. grade-mismatch     — evidence row declared grade vs calculated score
+ 13. product-attribution — named skill body documents a specific third-party
+                           tool with no credit to that tool's actual maker
+                           (curated map, see scripts/check_product_attribution.py)
 
 Produces:
   - docs/meta/reports/2026-09-04-registry-integrity-sweep.findings.json
@@ -41,6 +44,9 @@ try:
 except ImportError:
     calculateTrustMagnitude = None
     deriveTrustGrade = None
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from check_product_attribution import TOOL_MAKER_MAP, evidence_text, is_attributed
 
 GRADE_MAX_STARS = {
     "S": 6,
@@ -373,6 +379,22 @@ def run_meta_sweep():
                     "sources": [item["path"]],
                 })
 
+    # 13. Product Attribution (Issue #1803)
+    print("Dimension 13: Product Attribution...")
+    for skill_id, spec in TOOL_MAKER_MAP.items():
+        item = named.get(skill_id)
+        if item is None:
+            continue
+        searchable = "\n".join([item["body"], evidence_text(item["meta"])])
+        if not is_attributed(searchable, spec["makers"]):
+            findings["product-attribution"].append({
+                "target": skill_id,
+                "priority": "P1",
+                "reason": f"Body documents '{spec['tool']}' with no credit to its actual maker ({'/'.join(spec['makers'])}) anywhere in body or evidence",
+                "suggestedAction": "Add attribution to the tool's actual maker in the skill body, or reclassify/demote per the intake bar applied in #1766",
+                "sources": [item["path"]],
+            })
+
     # Phase 2: Semantic Fusion Candidates
     print("Phase 2: Semantic Fusion Discovery...")
     semantic_fusion_candidates = [
@@ -509,6 +531,7 @@ def get_meta_ref(dim):
         "champion-cluster": "§6.1",
         "unique-isolation": "§1.2",
         "grade-mismatch": "§2.1b/§2.1c",
+        "product-attribution": "§2.4",
     }
     return refs.get(dim, "§2")
 

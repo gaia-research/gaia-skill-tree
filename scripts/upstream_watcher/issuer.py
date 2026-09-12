@@ -56,6 +56,13 @@ _REVIEWER_ACTIONS = """
 | Force-approve (skip child gate) | Apply `skip-child-gate` + `upstream:approved` |
 """.strip()
 
+_BOOTSTRAP_REVIEWER_ACTIONS = """
+| Action | How |
+|---|---|
+| Reject | Apply `upstream:rejected` label |
+| Hold | Apply `upstream:needs-info` label |
+""".strip()
+
 
 # ---------------------------------------------------------------------------
 # Body renderers
@@ -229,10 +236,9 @@ def render_bootstrap_body(finding: dict) -> str:
 > The Gaia upstream watcher has encountered **`{skill_id}`** for the first time.
 > No `upstream:` block exists in its frontmatter yet.
 >
-> Approving this issue will write the initial `upstream:` block, baselining
-> at the current upstream release `{new_version}`. No component diff or
-> description changes are proposed — this is purely a one-time confirmation
-> that the watcher has derived the correct `owner/repo` from `links.github`.
+> This baseline proposal is **automatically approved** (`upstream:approved`) to baseline
+> at the current upstream release `{new_version}`. The sync workflow opens a draft PR
+> to write the initial `upstream:` block.
 
 {_payload_block(payload)}
 
@@ -255,7 +261,7 @@ def render_bootstrap_body(finding: dict) -> str:
 
 ### Reviewer actions
 
-{_REVIEWER_ACTIONS}
+{_BOOTSTRAP_REVIEWER_ACTIONS}
 """
 
 
@@ -325,6 +331,117 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 # ---------------------------------------------------------------------------
 # Idempotency check
 # ---------------------------------------------------------------------------
+
+
+def _find_existing_suite_issue(
+    prefix: str,
+    label: str,
+    run_cache: dict[tuple[str, str], Any] | None = None,
+) -> tuple[int, str] | None:
+    """Return (issue_number, current_title) of an open issue matching *prefix* under *label*, or None.
+
+    Consults *run_cache* first, then queries GitHub for open issues carrying *label*.
+    """
+    if run_cache is not None:
+        cached = run_cache.get((label, prefix))
+        if cached is not None:
+            if isinstance(cached, tuple):
+                return cached
+            return (cached, f"{prefix}...")
+    try:
+        result = subprocess.run(
+            [
+                "gh", "issue", "list",
+                "--label", label,
+                "--state", "open",
+                "--limit", "100",
+                "--json", "number,title",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if result.returncode != 0:
+            return None
+        issues = json.loads(result.stdout or "[]")
+        for issue in issues:
+            title = issue.get("title", "")
+            if prefix in title:
+                return issue["number"], title
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [warn] suite issue lookup failed: {exc}", file=sys.stderr)
+    return None
+
+
+def _update_issue(
+    issue_number: int,
+    new_title: str,
+    new_body: str,
+    comment: str | None = None,
+    dry_run: bool = False,
+    verbose: bool = False,
+) -> bool:
+    """Update an existing issue's title, body, and optionally post an update comment."""
+    if dry_run:
+        if verbose:
+            print(f"  [dry-run] Would update issue #{issue_number}: {new_title!r}", file=sys.stderr)
+        return True
+
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".md", delete=False, encoding="utf-8"
+    ) as f:
+        f.write(new_body)
+        body_file = f.name
+
+    try:
+        cmd = [
+            "gh", "issue", "edit", str(issue_number),
+            "--title", new_title,
+            "--body-file", body_file,
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+        if res.returncode != 0:
+            print(f"  [error] gh issue edit failed for #{issue_number}: {res.stderr}", file=sys.stderr)
+            return False
+        if comment:
+            subprocess.run(
+                ["gh", "issue", "comment", str(issue_number), "--body", comment],
+                capture_output=True, text=True, timeout=30
+            )
+        print(f"  Updated existing issue #{issue_number}: {new_title}", file=sys.stderr)
+        return True
+    finally:
+        Path(body_file).unlink(missing_ok=True)
+
+
+def _dispatch_upstream_approve(
+    issue_number: int,
+    dry_run: bool = False,
+    verbose: bool = False,
+) -> bool:
+    """Dispatch the upstream-approve workflow for an auto-approved bootstrap issue."""
+    if dry_run:
+        if verbose:
+            print(f"  [dry-run] Would dispatch upstream-approve for #{issue_number}", file=sys.stderr)
+        return True
+
+    try:
+        cmd = [
+            "gh", "workflow", "run", "upstream-approve.yml",
+            "-f", f"issue_number={issue_number}",
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if res.returncode == 0:
+            if verbose:
+                print(f"  [auto-bootstrap] Dispatched upstream-approve for #{issue_number}", file=sys.stderr)
+            return True
+        if verbose:
+            print(f"  [auto-bootstrap] Note: gh workflow run returned {res.returncode}: {res.stderr.strip()}", file=sys.stderr)
+        return False
+    except Exception as exc:  # noqa: BLE001
+        if verbose:
+            print(f"  [auto-bootstrap] Could not dispatch upstream-approve for #{issue_number}: {exc}", file=sys.stderr)
+        return False
 
 
 def _find_existing_issue(
@@ -490,30 +607,55 @@ def create_issues(
         # ── Bootstrap ──────────────────────────────────────────────────────
         if finding_type == "bootstrap":
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
-            bootstrap_key = f"{skill_id} → baseline at {new_version}"
-            existing = _find_existing_issue(
-                bootstrap_key, "upstream:bootstrap", run_cache
+            suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
+            existing_suite = _find_existing_suite_issue(
+                suite_prefix, "upstream:bootstrap", run_cache
             )
-            if existing:
-                print(
-                    f"  Bootstrap for {skill_id}@{new_version} already exists as #{existing}; skipping.",
-                    file=sys.stderr,
+            if existing_suite:
+                existing_num, existing_title = existing_suite
+                if existing_title == title:
+                    print(
+                        f"  Bootstrap for {skill_id}@{new_version} already exists as #{existing_num}; skipping.",
+                        file=sys.stderr,
+                    )
+                    summaries.append(
+                        {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": existing_num}
+                    )
+                    run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                    continue
+
+                # Existing issue was for an older version -> update it in place!
+                body = render_bootstrap_body(finding)
+                prev_v = existing_title.removeprefix(suite_prefix)
+                comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
+                _update_issue(
+                    existing_num,
+                    title,
+                    body,
+                    comment=comment,
+                    dry_run=not apply,
+                    verbose=verbose,
                 )
+                run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                if apply:
+                    _dispatch_upstream_approve(existing_num, dry_run=False, verbose=verbose)
                 summaries.append(
-                    {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": existing}
+                    {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}
                 )
                 continue
 
             body = render_bootstrap_body(finding)
             issue_num = _create_issue(
                 title,
-                ["upstream:bootstrap", "needs-triage"],
+                ["upstream:bootstrap", "upstream:approved"],
                 body,
                 dry_run=not apply,
                 verbose=verbose,
             )
             if issue_num:
-                run_cache[("upstream:bootstrap", bootstrap_key)] = issue_num
+                run_cache[("upstream:bootstrap", suite_prefix)] = (issue_num, title)
+                if apply:
+                    _dispatch_upstream_approve(issue_num, dry_run=False, verbose=verbose)
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -528,24 +670,10 @@ def create_issues(
             owner_repo_str = f"{parsed[0]}/{parsed[1]}"
 
         umbrella_title = f"[upstream] {owner_repo_str} → {new_version}"
-        umbrella_key = f"{owner_repo_str} → {new_version}"
-        existing_umbrella = _find_existing_issue(
-            umbrella_key, "upstream:release", run_cache
+        suite_prefix = f"[upstream] {owner_repo_str} → "
+        existing_suite = _find_existing_suite_issue(
+            suite_prefix, "upstream:release", run_cache
         )
-        if existing_umbrella:
-            print(
-                f"  Umbrella for {owner_repo_str}@{new_version} already exists as #{existing_umbrella}; skipping.",
-                file=sys.stderr,
-            )
-            summaries.append(
-                {
-                    "type": "update",
-                    "skillId": skill_id,
-                    "skipped": True,
-                    "issue": existing_umbrella,
-                }
-            )
-            continue
 
         component_adds = finding.get("componentAdds", [])
         component_removes = finding.get("componentRemoves", [])
@@ -553,18 +681,58 @@ def create_issues(
         name_drift = finding.get("nameDrift", [])
         mode = finding.get("mode", "version-only")
 
-        umbrella_body = render_umbrella_body(
-            finding, mode, component_adds, component_removes, link_liveness, name_drift
-        )
-        umbrella_num = _create_issue(
-            umbrella_title,
-            ["upstream:release", "needs-triage"],
-            umbrella_body,
-            dry_run=not apply,
-            verbose=verbose,
-        )
-        if umbrella_num:
-            run_cache[("upstream:release", umbrella_key)] = umbrella_num
+        if existing_suite:
+            existing_num, existing_title = existing_suite
+            if existing_title == umbrella_title:
+                print(
+                    f"  Umbrella for {owner_repo_str}@{new_version} already exists as #{existing_num}; skipping.",
+                    file=sys.stderr,
+                )
+                summaries.append(
+                    {
+                        "type": "update",
+                        "skillId": skill_id,
+                        "skipped": True,
+                        "issue": existing_num,
+                    }
+                )
+                run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+                continue
+
+            # Older release umbrella exists for the same suite -> update in place!
+            umbrella_body = render_umbrella_body(
+                finding, mode, component_adds, component_removes, link_liveness, name_drift
+            )
+            prev_v = existing_title.removeprefix(suite_prefix)
+            comment = (
+                f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
+                "Payload, component diff, and link-liveness refreshed."
+            )
+            _update_issue(
+                existing_num,
+                umbrella_title,
+                umbrella_body,
+                comment=comment,
+                dry_run=not apply,
+                verbose=verbose,
+            )
+            umbrella_num = existing_num
+            run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+            is_update = True
+        else:
+            umbrella_body = render_umbrella_body(
+                finding, mode, component_adds, component_removes, link_liveness, name_drift
+            )
+            umbrella_num = _create_issue(
+                umbrella_title,
+                ["upstream:release", "needs-triage"],
+                umbrella_body,
+                dry_run=not apply,
+                verbose=verbose,
+            )
+            if umbrella_num:
+                run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
+            is_update = False
 
         # ── Child intakes for added components ────────────────────────────
         child_numbers: list[int] = []
@@ -610,6 +778,7 @@ def create_issues(
                 "umbrella": umbrella_num,
                 "children": child_numbers,
                 "skipped": False,
+                "updated": is_update,
             }
         )
 

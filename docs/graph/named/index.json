@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09",
+  "generatedAt": "2026-09-12",
   "buckets": {
     "automated-testing": [
       {
@@ -626,7 +626,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -764,6 +764,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 174.62, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -1067,7 +1073,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -1157,6 +1163,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:30:59Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -1615,7 +1627,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:19Z",
@@ -1729,6 +1741,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 190.0, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2069,196 +2087,6 @@
     ],
     "executing-plans": [
       {
-        "id": "addy-osmani/incremental-implementation",
-        "name": "Incremental Implementation",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "executing-plans",
-        "status": "named",
-        "level": "3★",
-        "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
-        "title": "Incremental Implementation",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-04-16",
-            "grade": "C"
-          },
-          {
-            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-06-19",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/incremental-implementation"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:24Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:37Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:14Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:14Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:04Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:07:11Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:51Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:06Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-07-31T13:06:53Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-07-31T13:21:09Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:42Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:05:20Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 95.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "4963fc374b377f729f80d88baeb4c1475a0a65c0fbdb27b6d0274f719d5a78e9",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 80.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 4,
-          "maxDepth": 2,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "obra/executing-plans",
         "name": "Executing Plans",
         "contributor": "obra",
@@ -2420,6 +2248,202 @@
         },
         "type": "fusion",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "addy-osmani/incremental-implementation",
+        "name": "Incremental Implementation",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "executing-plans",
+        "status": "named",
+        "level": "3★",
+        "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
+        "title": "Incremental Implementation",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/incremental-implementation"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:37Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:14Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:14Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:07:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:51Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:06Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:42Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 331.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:05:20Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:40Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 95.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "4963fc374b377f729f80d88baeb4c1475a0a65c0fbdb27b6d0274f719d5a78e9",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -2654,7 +2678,7 @@
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -2749,6 +2773,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2964,6 +2994,204 @@
     ],
     "vertical-slice-planning": [
       {
+        "id": "mattpocock/to-tickets",
+        "name": "To Tickets",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "vertical-slice-planning",
+        "status": "named",
+        "level": "3★",
+        "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
+        "title": "The Vertical Slicer",
+        "catalogRef": "mattpocock-to-issues",
+        "tags": [
+          "vertical-slicing",
+          "issue-decomposition",
+          "tracer-bullet",
+          "hitl",
+          "afk",
+          "acceptance-criteria"
+        ],
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK\" classification and issue-tracker publication. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 137,
+            "contributors": 3,
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "updatedAt": "2026-09-01",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "C",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
+            "stars": 243413,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "B",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
+          }
+        ],
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/garrytan."
+          },
+          {
+            "timestamp": "2026-06-14T12:32:44Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:37Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:38Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-05T06:27:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:27Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from mattpocock/to-issues to mattpocock/to-tickets"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:27Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:54Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:40Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:45Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:08Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "mattpocock/skills",
+        "trustMagnitude": 94.92,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "f60ba86f4827a9866a6f332f4250bb2650c817fcc63b6cef5ce4854da59f5e22",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "addy-osmani/planning-and-task-breakdown",
         "name": "Planning and Task Breakdown",
         "contributor": "addy-osmani",
@@ -3018,7 +3246,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -3126,6 +3354,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 331.0 -> 95.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:41Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3145,198 +3379,6 @@
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
-        "id": "mattpocock/to-tickets",
-        "name": "To Tickets",
-        "contributor": "mattpocock",
-        "origin": true,
-        "genericSkillRef": "vertical-slice-planning",
-        "status": "named",
-        "level": "3★",
-        "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
-        "title": "The Vertical Slicer",
-        "catalogRef": "mattpocock-to-issues",
-        "tags": [
-          "vertical-slicing",
-          "issue-decomposition",
-          "tracer-bullet",
-          "hitl",
-          "afk",
-          "acceptance-criteria"
-        ],
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-04-30",
-            "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK\" classification and issue-tracker publication. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 137,
-            "contributors": 3,
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills",
-            "evaluator": "unknown",
-            "updatedAt": "2026-09-01",
-            "date": "2026-06-20",
-            "type": "github-stars-own",
-            "trustNumber": 88.0,
-            "grade": "C",
-            "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
-            "stars": 243413,
-            "skillCountInRepo": 21,
-            "sourceStartedAt": "2025-01-01"
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
-            "evaluator": "unknown",
-            "date": "2026-06-20",
-            "type": "social-signal",
-            "trustNumber": 82.0,
-            "grade": "B",
-            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
-            "views": 412000,
-            "sourceStartedAt": "2025-01-01"
-          }
-        ],
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:33:00Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to garrytan/garrytan."
-          },
-          {
-            "timestamp": "2026-06-14T12:32:44Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:36Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:37Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:38Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
-          },
-          {
-            "timestamp": "2026-06-19T17:07:38Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T17:13:03Z",
-            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-08-05T06:27:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
-          },
-          {
-            "timestamp": "2026-08-19T11:49:27Z",
-            "action": "rename",
-            "contributor": "unknown",
-            "details": "Renamed named skill from mattpocock/to-issues to mattpocock/to-tickets"
-          },
-          {
-            "timestamp": "2026-08-19T11:49:27Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:54Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 90.38 -> 306.13, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:40Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:45Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 306.13 -> 94.92, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "mattpocock/skills",
-        "trustMagnitude": 94.92,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "f60ba86f4827a9866a6f332f4250bb2650c817fcc63b6cef5ce4854da59f5e22",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -3387,7 +3429,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-09-02",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -3452,6 +3494,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:05Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3531,7 +3579,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -3621,6 +3669,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -4114,180 +4168,6 @@
     ],
     "prd-generation": [
       {
-        "id": "addy-osmani/spec-driven-development",
-        "name": "Spec-Driven Development",
-        "contributor": "addy-osmani",
-        "origin": false,
-        "genericSkillRef": "prd-generation",
-        "status": "named",
-        "level": "3★",
-        "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
-        "title": "Spec-Driven Development",
-        "installable": true,
-        "links": {
-          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
-            "updatedAt": "2026-09-01",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "github-stars-own",
-            "stars": 91329,
-            "skillCountInRepo": 7
-          },
-          {
-            "source": "https://github.com/addyosmani/agent-skills",
-            "evaluator": "unknown",
-            "date": "2026-07-03",
-            "type": "repo-own",
-            "commits": 260,
-            "contributors": 36,
-            "grade": "B"
-          },
-          {
-            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
-            "evaluator": "unknown",
-            "date": "2026-07-31",
-            "type": "peer-review",
-            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
-            "reviewers": 1,
-            "sourceStartedAt": "2026-06-19",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-02T18:42:16Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill addy-osmani/spec-driven-development"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:22Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to addy-osmani/agent-skills"
-          },
-          {
-            "timestamp": "2026-07-02T18:42:36Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T20:53:15Z",
-            "action": "name",
-            "contributor": "unknown",
-            "details": "Promoted from awakened to named."
-          },
-          {
-            "timestamp": "2026-07-02T20:53:16Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 1★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-02T20:59:04Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to false"
-          },
-          {
-            "timestamp": "2026-07-02T21:04:10Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Set installable to true"
-          },
-          {
-            "timestamp": "2026-07-02T21:06:55Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-07-02T21:30:15Z",
-            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-02T21:33:50Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-02T21:34:05Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-07-31T13:21:08Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:13Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 5★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:43Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 80.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 40.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 2,
-          "transitiveCount": 2,
-          "maxDepth": 1,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "mattpocock/to-spec",
         "name": "To PRD",
         "contributor": "mattpocock",
@@ -4481,6 +4361,186 @@
           "maxDepth": 1,
           "nestedSuiteCount": 0
         }
+      },
+      {
+        "id": "addy-osmani/spec-driven-development",
+        "name": "Spec-Driven Development",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "prd-generation",
+        "status": "named",
+        "level": "3★",
+        "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
+        "title": "Spec-Driven Development",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
+            "updatedAt": "2026-09-01",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "github-stars-own",
+            "stars": 91329,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-03",
+            "type": "repo-own",
+            "commits": 260,
+            "contributors": 36,
+            "grade": "B"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-03",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-02T18:42:16Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/spec-driven-development"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:22Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-07-02T18:42:36Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T20:53:15Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-02T20:53:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-02T20:59:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-07-02T21:04:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-02T21:06:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-07-02T21:30:15Z",
+            "details": "TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-02T21:33:50Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-02T21:34:05Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 53.14 -> 316.0, grade B -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:43Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 316.0 -> 80.0, grade S -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:41Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 3★"
+          }
+        ],
+        "suiteRef": "addy-osmani/agent-skills",
+        "trustMagnitude": 80.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "test-driven-development": [
@@ -4491,7 +4551,7 @@
         "origin": true,
         "genericSkillRef": "test-driven-development",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
         "title": "Test-Driven Development",
         "links": {
@@ -4535,7 +4595,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:23Z",
@@ -4624,6 +4684,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:08Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "trustMagnitude": 50.0,
@@ -4643,8 +4709,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -6016,7 +6082,7 @@
         "origin": false,
         "genericSkillRef": "session-journaling",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
         "title": "Log To Daily",
         "links": {
@@ -6045,7 +6111,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:33Z",
@@ -6082,6 +6148,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 1.37 -> 21.51, grade ungraded -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:01Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "trustMagnitude": 21.51,
@@ -6101,8 +6173,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -6917,131 +6989,6 @@
     ],
     "browser-control": [
       {
-        "id": "firecrawl/firecrawl-build-interact",
-        "name": "Firecrawl Interact",
-        "contributor": "firecrawl",
-        "origin": false,
-        "genericSkillRef": "browser-control",
-        "status": "named",
-        "level": "3★",
-        "description": "Integrate Firecrawl browser interaction into product code.",
-        "title": "Firecrawl Interact",
-        "catalogRef": "firecrawl-firecrawl-build-interact",
-        "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
-        },
-        "evidence": [
-          {
-            "type": "repo-own",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "commits": 5714,
-            "contributors": 155,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13",
-            "sourceStartedAt": "2023-08-01"
-          },
-          {
-            "source": "https://github.com/firecrawl/skills/stargazers",
-            "updatedAt": "2026-09-01",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-31",
-            "type": "github-stars-own",
-            "stars": 98,
-            "skillCountInRepo": 6,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-07-13T06:22:17Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill firecrawl/browser-interaction-integration"
-          },
-          {
-            "timestamp": "2026-07-13T06:22:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to firecrawl/firecrawl"
-          },
-          {
-            "timestamp": "2026-07-13T09:08:45Z",
-            "action": "note",
-            "contributor": "mbtiongson1",
-            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:49Z",
-            "action": "evidence_removed",
-            "contributor": "marcotiongson",
-            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
-          },
-          {
-            "timestamp": "2026-07-30T22:15:50Z",
-            "action": "evidence_added",
-            "contributor": "marcotiongson",
-            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-07-30T22:36:54Z",
-            "action": "rank_up",
-            "contributor": "marcotiongson",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-08-29T17:15:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          },
-          {
-            "timestamp": "2026-09-02T15:11:15Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 4★"
-          },
-          {
-            "timestamp": "2026-09-04T10:58:44Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "unknown",
-            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "suiteRef": "firecrawl/firecrawl-skills",
-        "trustMagnitude": 50.0,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "d1cdb3e2facbe85c6581c80c505424b287cfb391dac6861d95d250102b462033",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "browser-use/browser-harness",
         "name": "Browser Harness",
         "contributor": "browser-use",
@@ -7223,6 +7170,137 @@
         },
         "type": "basic",
         "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "firecrawl/firecrawl-build-interact",
+        "name": "Firecrawl Interact",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "3★",
+        "description": "Integrate Firecrawl browser interaction into product code.",
+        "title": "Firecrawl Interact",
+        "catalogRef": "firecrawl-firecrawl-build-interact",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "repo-own",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "commits": 5714,
+            "contributors": 155,
+            "grade": "B",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-13",
+            "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/skills/stargazers",
+            "updatedAt": "2026-09-01",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 98,
+            "skillCountInRepo": 6,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/browser-interaction-integration"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T09:08:45Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:49Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-29T17:15:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 286.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-02T15:11:15Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-04T10:58:44Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:02Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl-skills",
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "d1cdb3e2facbe85c6581c80c505424b287cfb391dac6861d95d250102b462033",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
@@ -8212,6 +8290,82 @@
           "maxDepth": 0,
           "nestedSuiteCount": 0
         }
+      },
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code, evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.",
+        "title": "Implement With Discernment",
+        "installable": false,
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "rico-favor",
+            "date": "2026-07-09",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Co-founder self-attestation of deliberate minimal implementation and anti-complexity workflows across Gaia engineering"
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-09-11",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-09-11T16:00:00Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Restored from git history and recalibrated at 1★ baseline with substantive skill guidance"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 5.7,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "agent-fusion": [
@@ -8222,7 +8376,7 @@
         "origin": false,
         "genericSkillRef": "agent-fusion",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
         "title": "Agent Fusion",
         "links": {
@@ -8253,7 +8407,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:46Z",
@@ -8310,6 +8464,12 @@
             "previousValue": "3★",
             "newValue": "1★",
             "details": "Demoted to 1★ and stripped unearned origin flag"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:02Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "suiteComponents": [
@@ -8334,8 +8494,8 @@
           "systemWideCap": null
         },
         "branch": "suite",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -9052,10 +9212,21 @@
             "trustNumber": 10.0,
             "notes": "Self-attestation of speak-like-favor skill implementation",
             "grade": "C"
+          },
+          {
+            "source": "https://github.com/favorchurch/favor-skills",
+            "evaluator": "favorchurch",
+            "date": "2026-09-11",
+            "type": "repo-own",
+            "trustNumber": 50.0,
+            "notes": "Production Favor Church AI Skills repository hosting speak-like-favor, active since June 2026",
+            "commits": 26,
+            "contributors": 1,
+            "source_started_at": "2026-06-22"
           }
         ],
         "createdAt": "2026-07-14",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-11",
         "timeline": [
           {
             "timestamp": "2026-07-13T16:26:04Z",
@@ -9080,9 +9251,15 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-11T16:00:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added backing repo-own evidence from https://github.com/favorchurch/favor-skills"
           }
         ],
-        "trustMagnitude": 5.0,
+        "trustMagnitude": 6.28,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "cdab2aac618974346bca85126ed6215981a5ae210988add84e6b64a3d101c5a8",
         "type": "fusion",
@@ -9399,7 +9576,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -9454,6 +9631,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:02Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -9967,7 +10150,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -10032,6 +10215,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 104.31 -> 83.62, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:03Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -10074,7 +10263,7 @@
         "origin": false,
         "genericSkillRef": "literature-search",
         "status": "named",
-        "level": "1★",
+        "level": "3★",
         "description": "Retrieve and query academic literature through Firecrawl Research.",
         "title": "Firecrawl Research Index",
         "catalogRef": "firecrawl-firecrawl-research-index",
@@ -10104,7 +10293,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -10173,6 +10362,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 70.69 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:03Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 3★"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -10193,8 +10388,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -10262,7 +10457,7 @@
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -10361,6 +10556,20 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 223.52 -> 286.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:03Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-11T16:35:18Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v2.11.0",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -13677,7 +13886,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -13757,6 +13966,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:04Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -14818,7 +15033,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:22Z",
@@ -14891,6 +15106,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 333.26 -> 226.5, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:11:13Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "trustMagnitude": 226.5,
@@ -15236,134 +15457,6 @@
         }
       },
       {
-        "id": "martin-stepanoski/nielsen-heuristics-audit",
-        "name": "Nielsen Heuristics Audit",
-        "contributor": "martin-stepanoski",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "1★",
-        "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
-        "title": "The Ten Laws of Sight",
-        "catalogRef": "martin-stepanoski-nielsen-heuristics-audit",
-        "tags": [
-          "ux",
-          "usability",
-          "nielsen",
-          "heuristics",
-          "accessibility"
-        ],
-        "links": {
-          "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-04-30",
-            "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit\" audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 32,
-            "contributors": 2
-          }
-        ],
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T01:42:59Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to pbakaus/impeccable."
-          },
-          {
-            "timestamp": "2026-06-14T12:32:42Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:40Z",
-            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T17:09:30Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T17:09:31Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ as A (trustNumber: 80.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T17:13:03Z",
-            "details": "TM 4.9 -> 94.9, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:30Z",
-            "action": "rank_up",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
-          },
-          {
-            "timestamp": "2026-08-29T17:15:51Z",
-            "action": "recalibrate_trust_magnitude",
-            "contributor": "mbtiongson1",
-            "details": "TM 94.9 -> 94.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
-          }
-        ],
-        "trustMagnitude": 4.9,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "0db6ef3e729f795d19b09306634e9888229eaf3c843202b8e70a0557d8915685",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1",
-        "fusionScore": 0.0,
-        "fusionScoreVersion": "yggdrasil-iii-v1",
-        "fusionBreakdown": {
-          "directCount": 0,
-          "transitiveCount": 0,
-          "maxDepth": 0,
-          "nestedSuiteCount": 0
-        }
-      },
-      {
         "id": "garrytan/devex-review",
         "name": "DevEx Review",
         "contributor": "garrytan",
@@ -15485,6 +15578,140 @@
           "maxDepth": 0,
           "nestedSuiteCount": 0
         }
+      },
+      {
+        "id": "martin-stepanoski/nielsen-heuristics-audit",
+        "name": "Nielsen Heuristics Audit",
+        "contributor": "martin-stepanoski",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "1★",
+        "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
+        "title": "The Ten Laws of Sight",
+        "catalogRef": "martin-stepanoski-nielsen-heuristics-audit",
+        "tags": [
+          "ux",
+          "usability",
+          "nielsen",
+          "heuristics",
+          "accessibility"
+        ],
+        "links": {
+          "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit\" audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 32,
+            "contributors": 2
+          }
+        ],
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to pbakaus/impeccable."
+          },
+          {
+            "timestamp": "2026-06-14T12:32:42Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:09:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T17:09:31Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ as A (trustNumber: 80.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 4.9 -> 94.9, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:30Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-29T17:15:51Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 94.9 -> 94.9, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:08Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 1★"
+          }
+        ],
+        "trustMagnitude": 4.9,
+        "overallTrustGrade": "ungraded",
+        "trustMagnitudeInputHash": "0db6ef3e729f795d19b09306634e9888229eaf3c843202b8e70a0557d8915685",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 0.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 0,
+          "transitiveCount": 0,
+          "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
       }
     ],
     "gbrain": [
@@ -15540,6 +15767,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-09-11T13:31:44Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v0.50.0.0",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -16964,6 +17199,124 @@
       }
     ],
     "project-management": [
+      {
+        "id": "yylo-dev/ledger-tasks-yylo",
+        "name": "Ledger Tasks (yylo)",
+        "contributor": "yylo-dev",
+        "origin": true,
+        "genericSkillRef": "project-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Comprehensive guide for using YYLO Ledger task management — a Kanban board and task state stored as hash-chained Markdown inside the repository (no hosted tracker). Covers create/list/search/get/mark/update/archive, dependency management (deps/ready/order), history/receipts, cold archive, cross-project routing, and typed merge orchestration across agent worktrees. The underlying YYLO CLI orchestrates multiple coding-agent harnesses (Claude Code, Codex, Gemini CLI, Pi) over that same shared task state.",
+        "title": "Ledger Tasks (yylo)",
+        "installable": true,
+        "links": {
+          "github": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+            "evaluator": "claude",
+            "date": "2026-09-11",
+            "type": "repo-own",
+            "trustNumber": 50.0,
+            "notes": "MIT-licensed skill from the yylo-skills pack (7 SKILL.md skills, active since Sep 2026). Verified by direct clone 2026-09-11 (full history): 3 commits, 1 contributor. File exists, content matches intake description.",
+            "commits": 3,
+            "contributors": 1,
+            "skillCountInRepo": 7
+          },
+          {
+            "source": "https://github.com/yylo-dev/yylo",
+            "evaluator": "claude",
+            "date": "2026-09-11",
+            "type": "repo-own",
+            "trustNumber": 50.0,
+            "grade": "B",
+            "notes": "The YYLO CLI (@yylo/cli on npm) that powers the ledger, MIT licensed (Copyright JUNO AI INC.). Verified by direct clone 2026-09-11 (full history): 1291 commits, 7 contributors. Orchestrates coding agents (Claude Code, Codex, Gemini CLI, Pi) over the shared Kanban/task state the skill drives.",
+            "commits": 1291,
+            "contributors": 7
+          }
+        ],
+        "createdAt": "2026-09-11",
+        "updatedAt": "2026-09-11",
+        "timeline": [
+          {
+            "timestamp": "2026-09-11T13:52:43Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-11T13:52:43Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md as B (trustNumber: 50.0)"
+          },
+          {
+            "timestamp": "2026-09-11T13:52:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/yylo-dev/yylo (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-11T13:52:50Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/yylo-dev/yylo as B (trustNumber: 50.0)"
+          },
+          {
+            "timestamp": "2026-09-11T13:54:46Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #0 from https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md; changed commits, contributors, grade, notes, skillCountInRepo (grade: B → ungraded)"
+          },
+          {
+            "timestamp": "2026-09-11T13:54:55Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #1 metadata from https://github.com/yylo-dev/yylo; changed commits, contributors, notes"
+          },
+          {
+            "timestamp": "2026-09-11T14:10:20Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-09-11T14:10:27Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          }
+        ],
+        "type": "fusion",
+        "role": "origin",
+        "trustMagnitude": 36.6,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
       {
         "id": "garrytan/landing-report",
         "name": "Landing Report",
@@ -21212,7 +21565,7 @@
         "description": "remotion-dev named skill for remotion-captions",
         "title": "Remotion Captions",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:06Z",
@@ -21231,6 +21584,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:11Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -21391,6 +21750,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes.md"
+          },
+          {
+            "timestamp": "2026-09-11T13:31:17Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v0.8.34",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -22123,7 +22490,7 @@
         "description": "remotion-dev named skill for remotion-best-practices",
         "title": "Remotion Best Practices",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:24Z",
@@ -22148,6 +22515,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:10Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteComponents": [
@@ -22712,7 +23085,7 @@
         "description": "remotion-dev named skill for remotion-markup",
         "title": "Remotion Markup",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:02Z",
@@ -22731,6 +23104,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:15Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -23025,7 +23404,7 @@
         "description": "remotion-dev named skill for remotion-create",
         "title": "Remotion Create",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:01Z",
@@ -23044,6 +23423,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:11Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -23209,7 +23594,7 @@
         "description": "remotion-dev named skill for remotion-render",
         "title": "Remotion Render",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:03Z",
@@ -23228,6 +23613,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:16Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -23896,7 +24287,7 @@
         ],
         "evidence": [],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -23935,6 +24326,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:07Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "trustMagnitude": 0.0,
@@ -23977,7 +24374,7 @@
         "description": "remotion-dev named skill for remotion-upgrade",
         "title": "Remotion Upgrade",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:07Z",
@@ -23990,6 +24387,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:19Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -26455,7 +26858,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -26566,6 +26969,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 5★"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "trustMagnitude": 169.34,
@@ -27614,7 +28023,7 @@
         "origin": false,
         "genericSkillRef": "task-depth-enforcement",
         "status": "named",
-        "level": "1★",
+        "level": "3★",
         "description": "Anti-laziness execution discipline for substantial tasks. Decomposes work into recursive depth trees and enforces completion criteria through gate files and runnable checks.",
         "title": "Unlazy",
         "links": {
@@ -27642,7 +28051,7 @@
           }
         ],
         "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-22T07:11:04Z",
@@ -27685,6 +28094,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 4.03 -> 65.81, grade ungraded -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:07Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 3★"
           }
         ],
         "trustMagnitude": 65.81,
@@ -27704,8 +28119,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 80.0,
@@ -30232,7 +30647,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:56Z",
@@ -30279,6 +30694,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 66.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:20Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -33482,7 +33903,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -33606,6 +34027,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 315.15 -> 220.81, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:42Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -34041,7 +34468,7 @@
         "origin": false,
         "genericSkillRef": "agent-reach",
         "status": "named",
-        "level": "1★",
+        "level": "3★",
         "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
         "title": "Agent Reach",
         "links": {
@@ -34096,7 +34523,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:41Z",
@@ -34153,6 +34580,12 @@
             "previousValue": "3★",
             "newValue": "1★",
             "details": "Demoted to 1★ due to Star Bar violation (upstream repo lacks SKILL.md capability definition)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:09Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 3★"
           }
         ],
         "trustMagnitude": 53.86,
@@ -34172,8 +34605,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 0.0,
@@ -34198,7 +34631,7 @@
         "description": "remotion-dev named skill for remotion-docs",
         "title": "Remotion Docs",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:07Z",
@@ -34211,6 +34644,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:12Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -34257,7 +34696,7 @@
         "description": "remotion-dev named skill for remotion-interactivity",
         "title": "Remotion Interactivity",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:05Z",
@@ -34276,6 +34715,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:13Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -34322,7 +34767,7 @@
         "description": "remotion-dev named skill for remotion-maps",
         "title": "Remotion Maps",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:04Z",
@@ -34341,6 +34786,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:14Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -34387,7 +34838,7 @@
         "description": "remotion-dev named skill for remotion-multimedia",
         "title": "Remotion Multimedia",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:08Z",
@@ -34400,6 +34851,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:15Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -34446,7 +34903,7 @@
         "description": "remotion-dev named skill for remotion-saas",
         "title": "Remotion SaaS",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:04Z",
@@ -34465,6 +34922,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:17Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -34511,7 +34974,7 @@
         "description": "remotion-dev named skill for remotion-studio",
         "title": "Remotion Studio",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T14:48:02Z",
@@ -34530,6 +34993,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 0.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:18Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "suiteRef": "remotion-dev/remotion-best-practices",
@@ -35241,7 +35710,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -35313,6 +35782,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 201.0 -> 81.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:19Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -35717,7 +36192,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-02",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -35778,6 +36253,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:19Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -36389,7 +36870,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:55Z",
@@ -36436,6 +36917,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 96.0 -> 36.0, grade B -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:20Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -37197,7 +37684,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -37287,6 +37774,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 118.5 -> 88.5, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:21Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -37367,7 +37860,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-02",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -37434,6 +37927,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:21Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -37559,7 +38058,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -37679,6 +38178,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 290.0 -> 174.59, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:14:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -38982,7 +39487,7 @@
         "description": "supabase named skill for supabase-postgres-best-practices",
         "title": "Supabase Postgres Best Practices",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T15:02:55Z",
@@ -38995,6 +39500,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:22Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "trustMagnitude": 5.0,
@@ -39040,7 +39551,7 @@
         "description": "supabase named skill for supabase core integration",
         "title": "Supabase",
         "createdAt": "2026-08-10",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-09-10",
         "timeline": [
           {
             "timestamp": "2026-08-10T15:02:59Z",
@@ -39053,6 +39564,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM (none) -> 5.0, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:23Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "trustMagnitude": 5.0,
@@ -39082,6 +39599,148 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "codebase-graph-retrieval": [
+      {
+        "id": "trailhq/graft",
+        "name": "graft",
+        "contributor": "trailhq",
+        "origin": true,
+        "genericSkillRef": "codebase-graph-retrieval",
+        "status": "named",
+        "level": "4★",
+        "description": "This repo is indexed by graft/. For ANY task here, whether understanding how something works, finding where code lives, tracing what calls a symbol or what a change breaks, or scoping an edit, get your context from graft before grepping or reading source files.",
+        "title": "Graft",
+        "links": {
+          "github": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/trailhq/Graft",
+            "evaluator": "unknown",
+            "date": "2026-09-10",
+            "type": "repo-own",
+            "notes": "Repo-own: 471 commits, 33 contributors, 1 skill in repo. Verified via Phase 2/Phase 3 pipeline (2026-09-10).",
+            "commits": 471,
+            "contributors": 33,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-03",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-09-10",
+            "type": "github-stars-own",
+            "notes": "GitHub stars: 6927 (live re-verified Phase 2/Phase 3, 2026-09-10, supersedes Phase-0 snapshot of 6892).",
+            "stars": 6927,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-03",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/trailhq/Graft/blob/main/README.md",
+            "evaluator": "unknown",
+            "date": "2026-09-10",
+            "type": "self-attestation",
+            "notes": "Upstream README self-description; no scoring fields taken. SWE-bench claims routed separately to benchmark-source candidate track, not scored here.",
+            "sourceStartedAt": "2026-07-03",
+            "grade": "C"
+          },
+          {
+            "source": "https://x.com/thisdudelikesAI/status/2096894022963073207",
+            "evaluator": "unknown",
+            "date": "2026-09-10",
+            "type": "social-signal",
+            "notes": "460 likes / 71 reposts visible; X exposes no view count",
+            "sourceStartedAt": "2026-09-07"
+          }
+        ],
+        "createdAt": "2026-09-10",
+        "updatedAt": "2026-09-10",
+        "timeline": [
+          {
+            "timestamp": "2026-09-10T15:53:00Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill trailhq/graft"
+          },
+          {
+            "timestamp": "2026-09-10T15:53:04Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-09-10T15:53:04Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md"
+          },
+          {
+            "timestamp": "2026-09-10T15:53:10Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/trailhq/Graft (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-09-10T15:53:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-09-10T15:53:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/trailhq/Graft/blob/main/README.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-09-10T15:53:20Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://x.com/thisdudelikesAI/status/2096894022963073207 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-09-10T15:54:27Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 140.42,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        },
+        "fusionScore": 100.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 5,
+          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -44388,7 +45047,7 @@
       "origin": true,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "1★",
+      "level": "4★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -44419,7 +45078,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-09-05",
+      "updatedAt": "2026-09-10",
       "timeline": [
         {
           "timestamp": "2026-09-05T00:00:00Z",
@@ -44519,6 +45178,12 @@
           "action": "demote",
           "contributor": "unknown",
           "details": "Calibrated level from 1★ to 1★"
+        },
+        {
+          "timestamp": "2026-09-09T20:31:06Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -44535,10 +45200,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -45700,6 +46365,9 @@
       "remotion-dev/remotion-studio",
       "remotion-dev/remotion-upgrade"
     ],
+    "rico-favor": [
+      "rico-favor/implement-with-discernment"
+    ],
     "ruvnet": [
       "ruvnet/agentdb-advanced",
       "ruvnet/agentdb-learning",
@@ -45768,6 +46436,9 @@
       "supabase/supabase-postgres-best-practices",
       "supabase/supabase"
     ],
+    "trailhq": [
+      "trailhq/graft"
+    ],
     "upsonic": [
       "upsonic/unittest-generator"
     ],
@@ -45782,6 +46453,9 @@
     ],
     "yonatangross": [
       "yonatangross/orchestkit-rag"
+    ],
+    "yylo-dev": [
+      "yylo-dev/ledger-tasks-yylo"
     ]
   }
 }

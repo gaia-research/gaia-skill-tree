@@ -80,6 +80,12 @@ def meta_evidence_command(args):
         evidence["stars"] = args.stars
     if getattr(args, "views", None) is not None:
         evidence["views"] = args.views
+    if getattr(args, "downloads", None) is not None:
+        evidence["downloads"] = args.downloads
+    if getattr(args, "likes", None) is not None:
+        evidence["likes"] = args.likes
+    if getattr(args, "comments", None) is not None:
+        evidence["comments"] = args.comments
     if getattr(args, "citations", None) is not None:
         evidence["citations"] = args.citations
     if getattr(args, "reviewers", None) is not None:
@@ -197,6 +203,12 @@ def meta_evidence_command(args):
             entry["stars"] = args.stars
         if getattr(args, "views", None) is not None:
             entry["views"] = args.views
+        if getattr(args, "downloads", None) is not None:
+            entry["downloads"] = args.downloads
+        if getattr(args, "likes", None) is not None:
+            entry["likes"] = args.likes
+        if getattr(args, "comments", None) is not None:
+            entry["comments"] = args.comments
         if getattr(args, "citations", None) is not None:
             entry["citations"] = args.citations
         if getattr(args, "reviewers", None) is not None:
@@ -265,7 +277,7 @@ def meta_evidence_command(args):
         meta, body = _parse_md(named_file)
         _run_dev_preflights([
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
-            lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source),
+            lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source, evidence_type),
         ])
         result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
         if not evidence_changed:
@@ -299,7 +311,7 @@ def meta_evidence_command(args):
             data = json.load(f)
         _run_dev_preflights([
             lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
-            lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source),
+            lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source, evidence_type),
         ])
         result_entry, before_entry, evidence_changed, changed_fields = _apply(data.setdefault("evidence", []))
         if not evidence_changed:

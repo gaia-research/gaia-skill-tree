@@ -1,0 +1,36 @@
+{
+  "handle": "yylo-dev",
+  "namedSkills": [
+    {
+      "id": "yylo-dev/ledger-tasks-yylo",
+      "name": "Ledger Tasks (yylo)",
+      "level": "2★",
+      "trustMagnitude": 36.6,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "yylo-dev",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/yylo-dev/ledger-tasks-yylo.json"
+      },
+      "genericSkillRef": "project-management"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "yylo-dev/ledger-tasks-yylo",
+    "level": "2★",
+    "trustMagnitude": 36.6
+  },
+  "prestigeScore": 36.6,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/yylo-dev.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

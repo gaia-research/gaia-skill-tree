@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -134,6 +135,114 @@ def test_generate_source_dump_writes_by_type_and_report_without_legacy_tiers(tmp
     assert "evidence/by-type/<canonical-evidence-type>.md" in report_text
     assert "repo-own Source Dump" in report_text
     assert "Legacy `tier_*.md` emission was disabled" in report_text
+
+
+def test_generate_source_dump_merges_candidate_manifest(tmp_path):
+    """A pre-registry intake candidate (not yet in registry/named/) must flow
+    through Phase 1 via --candidate-manifest, deduped/normalized the same way
+    as a registered skill (#1786)."""
+    from generate_source_dump import buildSourceDump  # noqa: E402
+
+    registry, named_dir = _write_minimal_registry(tmp_path)
+    evidence = tmp_path / "evidence"
+    report = evidence / "source_report_test.md"
+
+    manifest = tmp_path / "candidates.json"
+    manifest.write_text(
+        json.dumps({
+            "candidates": [
+                {
+                    "id": "bob-candidate-skill",
+                    "name": "Bob Candidate Skill",
+                    "contributor": "bob",
+                    "evidence": [
+                        {
+                            "type": "repo",
+                            "source": "https://github.com/bob/tool",
+                            "date": "2026-02-01",
+                            "notes": "candidate repo row",
+                        }
+                    ],
+                }
+            ]
+        }),
+        encoding="utf-8",
+    )
+
+    result = buildSourceDump(
+        namedSkillsJson=str(registry / "named-skills.json"),
+        gaiaJson=str(registry / "gaia.json"),
+        namedDir=str(named_dir),
+        outputDir=str(evidence),
+        byTypeDirectory=str(evidence / "by-type"),
+        reportPath=str(report),
+        skipLiveStars=True,
+        noLegacyTiers=True,
+        reportDate="2026-07-31",
+        candidateManifest=str(manifest),
+    )
+
+    assert result is not None
+    skill_ids = {s["id"] for s in result["skills"]}
+    assert {"alice-skill", "bob-candidate-skill"} <= skill_ids
+
+    repo_partition = (evidence / "by-type" / "repo-own.md").read_text(encoding="utf-8")
+    assert "## Skill: `bob-candidate-skill`" in repo_partition
+    assert "candidate repo row" in repo_partition
+
+    # A candidate with no `level` field falls back to groupSkillsByTier's
+    # existing "2★" default (same as any other skill missing `level`) rather
+    # than requiring a schema or grouping change.
+    assert any(s["id"] == "bob-candidate-skill" for s in result["tierGroups"]["2★"])
+
+
+def test_generate_source_dump_rejects_candidate_id_already_in_registry(tmp_path):
+    """Sandbox review (PR #1792): a candidate manifest entry whose `id`
+    already exists in `registry/named/` (i.e. it has since been promoted)
+    must not be appended unconditionally -- that would silently double-count
+    the skill across the type/tier groupings. Fail fast with a clear error
+    instead."""
+    from generate_source_dump import buildSourceDump  # noqa: E402
+
+    registry, named_dir = _write_minimal_registry(tmp_path)
+    evidence = tmp_path / "evidence"
+    report = evidence / "source_report_test.md"
+
+    manifest = tmp_path / "candidates.json"
+    manifest.write_text(
+        json.dumps({
+            "candidates": [
+                {
+                    "id": "alice-skill",
+                    "name": "Alice Skill (stale candidate copy)",
+                    "contributor": "alice",
+                    "evidence": [
+                        {
+                            "type": "repo",
+                            "source": "https://github.com/alice/tool",
+                            "date": "2026-02-01",
+                            "notes": "stale pre-promotion candidate row",
+                        }
+                    ],
+                }
+            ]
+        }),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="alice-skill"):
+        buildSourceDump(
+            namedSkillsJson=str(registry / "named-skills.json"),
+            gaiaJson=str(registry / "gaia.json"),
+            namedDir=str(named_dir),
+            outputDir=str(evidence),
+            byTypeDirectory=str(evidence / "by-type"),
+            reportPath=str(report),
+            skipLiveStars=True,
+            noLegacyTiers=True,
+            reportDate="2026-07-31",
+            candidateManifest=str(manifest),
+        )
 
 
 def test_compile_data_lake_ingests_by_type_and_ignores_stale_tiers_by_default(tmp_path):
