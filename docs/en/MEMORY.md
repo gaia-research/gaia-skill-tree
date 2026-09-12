@@ -2,6 +2,170 @@
 
 ---
 
+## 2026-09-12 — Weekly Editor Pass (editor-053wk)
+
+**Branch:** `docs/routines/047` (PR #1750 — shipped this pass via merge commit)
+
+**Role:** Weekly editor. Reviewed the week's accreted PR (routines 047–052),
+audited `docs/en/` for staleness and accuracy beyond what the dailies
+caught, fixed what was found, and shipped.
+
+### Branch state at start
+
+One `docs/routines/*` PR was open (`docs/routines/047`, PR #1750, draft,
+6 commits: 047–052, still titled "routine 047" only). A second open PR,
+`docs/org-dogfood-policy` (#1769), touches `AGENTS.md`/`CLAUDE.md` only —
+zero overlap with `docs/en/**`, explicitly marked "Draft for independent
+central review. The preparer will not merge this PR" in its own body. This
+is not a daily-drift duplicate of the docs routine; left untouched, no
+consolidation needed. Rebased `docs/routines/047` onto `origin/main`
+(v8.7.7 → v8.11.1) — clean, no conflicts. Skimmed the 46 commits `main`
+picked up in between: all registry curation / CI-infra / upstream-sync,
+nothing touching any CLI surface, schema, or evidence behavior the
+touched pages describe — no additional SYNC needed beyond what routine 052
+already caught (#1787's `npm-downloads`/`engagement` types).
+
+### Audit
+
+The week's six daily commits (fusion-recipe/TM 0-TM ruling, Fusion Score
+explainer, `github-stars-own` curve correction, Docs Home MCP/Fusion card
+sync, `npm-downloads`/`engagement` rows) were all independently re-verified
+against `META.md` §2.1e, `registry/schema/meta.json`, and
+`src/gaia_cli/trustMagnitude.py` — every formula, cap, and claim checked
+out exactly. No corrections needed to the dailies' own work. Widened the
+sweep beyond the diff itself, per the editor's full-site remit:
+
+1. **Site-wide link/anchor check** (self-anchors + cross-page anchors,
+   all 13 pages) — zero broken links or anchors.
+2. **Banned-synonym sweep** (`CONTEXT.md` § Banned synonyms, full list —
+   not just `merge|combine|compose|rarity`) across all `docs/en/*.html` —
+   found two real violations on `cli-reference.html`'s `gaia fuse` card,
+   pre-existing and untouched by any routine this week (see below).
+3. **Found a factual/policy bug on `cli-reference.html`'s `gaia fuse`
+   card** (pre-existing, not this week's regression): "Inherits the star
+   rank of the highest component skill" is false under Yggdrasil II's
+   "No self-promote" rule — verified directly against `fuse_command()` in
+   `src/gaia_cli/impl.py`, which only ever writes to
+   `.gaia/custom_state.json` locally; no rank/level field is touched.
+   Local fuse is levelless by design; canon curation assigns rank only
+   after `gaia push`. The same card's first bullet, "Combines two or more
+   skills into a higher tier," used the banned verb for Fusion.
+4. **Found an invalid CLI example on `cli-reference.html`'s `dev add`
+   card**: `--type extra --build`. Verified against the `--type`
+   `add_argument` call in `src/gaia_cli/commands/dev/__init__.py` —
+   choices are `("basic", "fusion")` only; `extra` is a retired
+   Yggdrasil I type value (the flag table two paragraphs above the
+   example already states this correctly — only the example itself
+   drifted). The same example also omitted the required `--description`
+   flag (`meta_add_command` in `build.py` rejects descriptions under 10
+   chars), so as written it would fail outright if copy-pasted.
+5. **Version-chip staleness**: `index.html` and `evidence-classes.html`
+   carry a static `<span id="ver">v7.11.3</span>` fallback that
+   `window.GAIA_VERSION`'s onload script overwrites — invisible in
+   practice (JS fires immediately, and the fixed site-nav mount hides the
+   legacy in-page nav entirely on the live site) but still stale raw
+   markup at `v7.11.3` against the current `v8.11.1`. Bumped both.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia fuse` card: rewrote all three
+  `cmd-desc` bullets off the false rank-inheritance claim and the banned
+  "Combines" verb, to "Fuses... declared locally as `type: fusion`" /
+  "levelless — canon curation assigns rank after `gaia push`". `dev add`
+  example: replaced the invalid `--type extra` example with a valid
+  `--type fusion` + required `--description` + `--extra-fields
+  '{"prerequisites": [...]}'` example (fusion requires ≥1 prerequisite,
+  which `dev add` only accepts via `--extra-fields`).
+- `docs/en/evidence-classes.html`, `docs/en/index.html` — bumped the
+  static nav version-chip fallback `v7.11.3` → `v8.11.1`.
+- `docs/en/DOCS.md` — Page Map row 3 updated with this pass's fixes and
+  `editor-053wk` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### What users must adapt
+
+Anyone who copy-pasted `cli-reference.html`'s old `dev add --type extra`
+example got a CLI error (invalid choice + missing `--description`); the
+new example runs as written. Anyone who read `gaia fuse` as rank-granting
+was misinformed — local fuse has never assigned rank; only `gaia push` →
+canon curation does.
+
+### What I cut, merged, or deleted
+
+Nothing cut this week. All three `gaia fuse` bullets were rewritten in
+place (false/banned content replaced, not trimmed), and the `dev add`
+example was corrected, not shortened.
+
+### Stale entries cleared
+
+- `cli-reference.html`'s `gaia fuse` card: false rank-inheritance claim,
+  banned "Combines" verb.
+- `cli-reference.html`'s `dev add` example: invalid `--type extra` +
+  missing required `--description`.
+- `index.html` / `evidence-classes.html` static version-chip fallback
+  (`v7.11.3` → `v8.11.1`).
+
+### How I worked
+
+Solo, no subagents fanned out. Read every file the week's diff touched in
+full, verified each daily's claims directly against `META.md` and
+`registry/schema/meta.json` rather than trusting the commit prose, then
+ran a full-site (not diff-scoped) link/anchor check and banned-synonym
+sweep against `CONTEXT.md`'s complete list to catch pre-existing drift the
+per-day scope wouldn't surface. Rendered the four touched pages via a
+headless Chromium script (desktop + mobile viewports) to confirm no
+layout regression and that the fixed CLI cards render as intended.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/**` only.
+- `html.parser` parse-check clean on all touched files.
+- Full-site self-anchor and cross-page-anchor check (all 13 pages) — zero
+  broken links, before and after edits.
+- Banned-synonym sweep against `CONTEXT.md`'s full list (not just the
+  `merge|combine|compose|rarity` subset) — the two `gaia fuse` violations
+  above were the only real hits; everything else was a real CLI verb
+  (`gaia dev merge`/`gh pr merge`) or non-Fusion usage ("combines flags").
+- No new hex colors in the diff (`git diff | grep -nE '#[0-9a-fA-F]{3,8}'`
+  — zero hits).
+- Rendered `cli-reference.html`, `evidence-classes.html`, `fusion.html`,
+  `index.html` via headless Chromium at 1280px and 390px — nav clearance
+  and callout/table rendering all correct; the only console errors are
+  expected `file://` sandboxing noise (blocked SVG-sprite fragment loads,
+  blocked font/analytics fetches) unrelated to content.
+- Rebased onto `origin/main` — clean, no conflicts.
+- Cross-checked `gaia fuse`'s actual behavior against `fuse_command()` in
+  `src/gaia_cli/impl.py` and `dev add`'s `--type` choices against
+  `src/gaia_cli/commands/dev/__init__.py` before writing anything about
+  either.
+
+### Ship
+
+CLAUDE.md's Squash Merges section (current as of this pass) states squash
+merging is disabled repo-wide — the routine prompt's "squash-merge" step
+is superseded by that repo policy. Shipped via ordinary merge commit
+instead once CI was green.
+
+### Planned next (Routine 053)
+
+- `skill-hierarchy.html` remains the least-recently-touched page (routine
+  028 / editor-026wk, 2026-08-13) — still the standing ROTATE candidate.
+- Routine 052's carried-forward item stands: the dead
+  `--skill-count-in-repo` mothership-discount code path and the stale
+  I11-era formula note in `docs/agents/curation-guidelines.md` are real
+  but out of `docs/en/**` scope — not a docs-routine task, just don't let
+  a future routine reintroduce the discount into a page.
+- `cli-reference.html`'s `gaia fuse` flag table only documents `<skillId>`
+  and `--name`; the implementation also has `--skills` and `--delete`
+  (confirmed in `impl.py` this pass). Not fixed now — no false claim, just
+  incomplete — but worth a future SYNC/ROTATE pass on that page.
+
+### Token spend
+
+2026-09-12 Sonnet 5 High: ~95k in, ~9k out. ~$0.55
+
+---
+
 ## 2026-09-11 — Routine 052
 
 **Branch:** `docs/routines/047` (PR #1750 open — continued on it per the

@@ -1170,9 +1170,9 @@
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
-              <li>Combines two or more skills into a higher tier.</li>
-              <li>Prompts you to confirm eligible skill combinations.</li>
-              <li>Inherits the star rank of the highest component skill.</li>
+              <li>Fuses two or more skills into one, declared locally as <code>type: fusion</code>.</li>
+              <li>Prompts you to confirm a scan-detected combination, or declares a new custom fusion path.</li>
+              <li>Levelless — no rank is inherited or assigned locally. Canon curation assigns rank after <code>gaia push</code>.</li>
             </ul>
             <table class="flag-table">
               <thead>
@@ -2097,9 +2097,10 @@
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
   <span class="arg">--type basic --description "Reliably emits JSON/XML/YAML matching a given schema."</span>
 
-<span class="c"># Add an Extra skill and rebuild docs/graph assets in the same step</span>
+<span class="c"># Add a Fusion skill with its prerequisites, and rebuild docs/graph assets in the same step</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Chain-of-Thought Reasoning"</span> \
-  <span class="arg">--type extra --build</span></pre>
+  <span class="arg">--type fusion --description "Reasons through multi-step problems using structured chains of thought." \
+  --extra-fields '{"prerequisites": ["structured-output"]}' --build</span></pre>
             </div>
           </div>
         </div>
