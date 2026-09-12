@@ -113,6 +113,8 @@ def meta_timeline_command(args):
             notes,
             registry_path=registry_path,
             timestamp=timestamp,
+            previous_value=getattr(args, "previous_value", None),
+            new_value=getattr(args, "new_value", None),
         )
         marker = f" (at {timestamp})" if timestamp else ""
         print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")

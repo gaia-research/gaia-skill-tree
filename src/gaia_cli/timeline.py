@@ -7,7 +7,10 @@ from gaia_cli.treeManager import load_tree, save_tree
 def get_utc_now_iso():
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-def append_skill_tree_event(username, skill_id, action, details, registry_path=".", timestamp=None):
+def append_skill_tree_event(
+    username, skill_id, action, details, registry_path=".", timestamp=None,
+    previous_value=None, new_value=None,
+):
     tree_data = load_tree(username, registry_path)
     if not tree_data:
         return
@@ -21,12 +24,29 @@ def append_skill_tree_event(username, skill_id, action, details, registry_path="
         "action": action,
         "skillId": skill_id,
     }
+    if previous_value:
+        event["previousValue"] = previous_value
+    if new_value:
+        event["newValue"] = new_value
     if details:
         event["details"] = details
 
     tree_data["timeline"].append(event)
     # Keep timeline in chronological order when backfilling
     tree_data["timeline"].sort(key=lambda e: e.get("timestamp", ""))
+
+    if new_value and action in ("rank_up", "demote"):
+        for unlocked in tree_data.get("unlockedSkills", []):
+            if unlocked.get("skillId") == skill_id:
+                unlocked["level"] = new_value
+                history = unlocked.setdefault("levelHistory", [])
+                history.append({
+                    "level": new_value,
+                    "achievedAt": ts,
+                    "source": "promotion" if action == "rank_up" else "demote",
+                })
+                break
+
     save_tree(username, tree_data, registry_path)
 
 def _parse_md(path):
