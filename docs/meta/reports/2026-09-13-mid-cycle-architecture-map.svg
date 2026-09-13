@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 580" role="img" aria-labelledby="title desc">
+  <title id="title">September Mid-Cycle Update: Four Pillars</title>
+  <desc id="desc">Four pillars of the v8.7–v8.12 update cycle: Upstream Sync, Frozen Rank Protection, New Admissions, and the Four-Tier Audit Taxonomy.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .header-title { font: 700 22px system-ui, -apple-system, sans-serif; fill: #0f172a; }
+      .header-subtitle { font: 500 12px system-ui, -apple-system, sans-serif; fill: #64748b; }
+      .pillar-card { rx: 12px; stroke-width: 1.5px; }
+      .p1-card { fill: #f8fafc; stroke: #cbd5e1; }
+      .p2-card { fill: #f0fdf4; stroke: #bbf7d0; }
+      .p3-card { fill: #faf5ff; stroke: #e9d5ff; }
+      .p4-card { fill: #fffbeb; stroke: #fde68a; }
+      .pillar-badge { font: 700 10px system-ui, -apple-system, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+      .p1-text { fill: #1e40af; }
+      .p2-text { fill: #166534; }
+      .p3-text { fill: #6b21a8; }
+      .p4-text { fill: #92400e; }
+      .pillar-heading { font: 700 15px system-ui, -apple-system, sans-serif; fill: #0f172a; }
+      .item-bullet { font: 400 11.5px system-ui, -apple-system, sans-serif; fill: #334155; }
+      .item-bold { font: 600 11.5px system-ui, -apple-system, sans-serif; fill: #0f172a; }
+      .inner-box { rx: 6px; stroke-width: 1px; }
+      .p1-box { fill: #ffffff; stroke: #bfdbfe; }
+      .p2-box { fill: #ffffff; stroke: #86efac; }
+      .p3-box { fill: #ffffff; stroke: #d8b4fe; }
+      .p4-box { fill: #ffffff; stroke: #fcd34d; }
+      .metric-num { font: 700 18px system-ui, -apple-system, sans-serif; }
+      .metric-lbl { font: 500 10.5px system-ui, -apple-system, sans-serif; fill: #64748b; }
+      .footer-pill { rx: 16px; }
+      .footer-text { font: 600 11px system-ui, -apple-system, sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1040" height="580" rx="16"/>
+
+  <!-- Title -->
+  <text class="header-title" x="520" y="34" text-anchor="middle">September Mid-Cycle Update: What Changed in the Registry</text>
+  <text class="header-subtitle" x="520" y="52" text-anchor="middle">v8.7 → v8.12 · Skill Ranks, New Admissions, Upstream Versions, and Audit Rules</text>
+
+  <!-- Pillar 1: Upstream Sync -->
+  <rect class="pillar-card p1-card" x="30" y="74" width="225" height="420"/>
+  <text class="pillar-badge p1-text" x="46" y="98">UPSTREAM SYNC</text>
+  <text class="pillar-heading" x="46" y="118">6 Suites Updated</text>
+  <text class="item-bullet" x="46" y="136">Authors' latest releases</text>
+
+  <rect class="inner-box p1-box" x="44" y="150" width="197" height="140"/>
+  <text class="item-bold" x="54" y="170">Version Changes</text>
+  <text class="item-bullet" x="54" y="190">• ruvnet/ruflo → v3.41.2</text>
+  <text class="item-bullet" x="54" y="208">   (7 suite skills updated)</text>
+  <text class="item-bullet" x="54" y="228">• addy-osmani → 0.6.9</text>
+  <text class="item-bullet" x="54" y="246">• obra/superpowers → v6.3.0</text>
+  <text class="item-bullet" x="54" y="264">• firecrawl → v2.11.0</text>
+  <text class="item-bullet" x="54" y="282">• gbrain → v0.50.0.0</text>
+
+  <rect class="inner-box p1-box" x="44" y="300" width="197" height="100"/>
+  <text class="item-bold" x="54" y="320">What This Means</text>
+  <text class="item-bullet" x="54" y="340">Install instructions and</text>
+  <text class="item-bullet" x="54" y="358">version pins now match</text>
+  <text class="item-bullet" x="54" y="376">the upstream author's</text>
+  <text class="item-bullet" x="54" y="394">current published release.</text>
+
+  <text class="metric-num p1-text" x="142" y="442" text-anchor="middle">14 Skills</text>
+  <text class="metric-lbl" x="142" y="458" text-anchor="middle">synchronized to upstream</text>
+
+  <!-- Pillar 2: Frozen Ranks -->
+  <rect class="pillar-card p2-card" x="275" y="74" width="225" height="420"/>
+  <text class="pillar-badge p2-text" x="291" y="98">FROZEN RANKS</text>
+  <text class="pillar-heading" x="291" y="118">Author Work Protected</text>
+  <text class="item-bullet" x="291" y="136">Deprecated skills keep rank</text>
+
+  <rect class="inner-box p2-box" x="289" y="150" width="197" height="140"/>
+  <text class="item-bold" x="299" y="170">Matt Pocock Restored</text>
+  <text class="item-bullet" x="299" y="190">• edit-article → 3★ Evolved</text>
+  <text class="item-bullet" x="299" y="208">• obsidian-vault → 3★ Evolved</text>
+  <text class="item-bullet" x="299" y="226">• ubiquitous-language → 3★</text>
+  <text class="item-bullet" x="299" y="244">• diagnose → 3★ calibrated</text>
+  <text class="item-bullet" x="299" y="264">Incorrectly demoted during</text>
+  <text class="item-bullet" x="299" y="282">Sep 9 sweep; now restored.</text>
+
+  <rect class="inner-box p2-box" x="289" y="300" width="197" height="100"/>
+  <text class="item-bold" x="299" y="320">The New Rule</text>
+  <text class="item-bullet" x="299" y="340">Skills frozen by upstream</text>
+  <text class="item-bullet" x="299" y="358">deprecation retain their</text>
+  <text class="item-bullet" x="299" y="376">earned rank permanently.</text>
+  <text class="item-bullet" x="299" y="394">Sweeps skip them entirely.</text>
+
+  <text class="metric-num p2-text" x="387" y="442" text-anchor="middle">4 Skills</text>
+  <text class="metric-lbl" x="387" y="458" text-anchor="middle">restored to honest 3★</text>
+
+  <!-- Pillar 3: New Admissions -->
+  <rect class="pillar-card p3-card" x="520" y="74" width="225" height="420"/>
+  <text class="pillar-badge p3-text" x="536" y="98">NEW ADMISSIONS</text>
+  <text class="pillar-heading" x="536" y="118">2 Skills Catalogued</text>
+  <text class="item-bullet" x="536" y="136">Including a new 4★ skill</text>
+
+  <rect class="inner-box p3-box" x="534" y="150" width="197" height="140"/>
+  <text class="item-bold" x="544" y="170">trailhq/graft — 4★ Extra</text>
+  <text class="item-bullet" x="544" y="190">Builds a context graph of</text>
+  <text class="item-bullet" x="544" y="208">symbol definitions, call</text>
+  <text class="item-bullet" x="544" y="226">sites, and dependencies.</text>
+  <text class="item-bullet" x="544" y="246">New capability created:</text>
+  <text class="item-bold" x="544" y="264">codebase-graph-retrieval</text>
+  <text class="item-bullet" x="544" y="282">First skill in this category.</text>
+
+  <rect class="inner-box p3-box" x="534" y="300" width="197" height="100"/>
+  <text class="item-bold" x="544" y="320">yylo-dev/ledger-tasks</text>
+  <text class="item-bullet" x="544" y="340">2★ Named — structured</text>
+  <text class="item-bullet" x="544" y="358">task accounting and</text>
+  <text class="item-bullet" x="544" y="376">ledger-based project</text>
+  <text class="item-bullet" x="544" y="394">tracking for agents.</text>
+
+  <text class="metric-num p3-text" x="632" y="442" text-anchor="middle">1 New Capability</text>
+  <text class="metric-lbl" x="632" y="458" text-anchor="middle">codebase-graph-retrieval</text>
+
+  <!-- Pillar 4: Audit Taxonomy -->
+  <rect class="pillar-card p4-card" x="765" y="74" width="245" height="420"/>
+  <text class="pillar-badge p4-text" x="781" y="98">AUDIT RULES</text>
+  <text class="pillar-heading" x="781" y="118">Four-Tier Taxonomy</text>
+  <text class="item-bullet" x="781" y="136">How skills are evaluated now</text>
+
+  <rect class="inner-box p4-box" x="779" y="150" width="217" height="140"/>
+  <text class="item-bold" x="789" y="170">The Four Tiers</text>
+  <text class="item-bullet" x="789" y="190">1. Imposter → Expunged</text>
+  <text class="item-bullet" x="789" y="208">2. Packaging gap → ≤2★</text>
+  <text class="item-bullet" x="789" y="226">   (retained, not removed)</text>
+  <text class="item-bullet" x="789" y="244">3. Early-stage → 1★</text>
+  <text class="item-bullet" x="789" y="262">   (waits for evidence)</text>
+  <text class="item-bullet" x="789" y="280">4. Product-coupled →</text>
+  <text class="item-bullet" x="789" y="298">   attribution required</text>
+
+  <rect class="inner-box p4-box" x="779" y="300" width="217" height="100"/>
+  <text class="item-bold" x="789" y="320">Safeguard</text>
+  <text class="item-bullet" x="789" y="340">Every demotion or removal</text>
+  <text class="item-bullet" x="789" y="358">requires an independent</text>
+  <text class="item-bullet" x="789" y="376">disentanglement check to</text>
+  <text class="item-bullet" x="789" y="394">prevent collateral damage.</text>
+
+  <text class="metric-num p4-text" x="887" y="442" text-anchor="middle">Permanent Policy</text>
+  <text class="metric-lbl" x="887" y="458" text-anchor="middle">ratified in GOVERNANCE.md</text>
+
+  <!-- Bottom Badges Strip -->
+  <rect class="footer-pill" x="100" y="514" width="220" height="34" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text class="footer-text" x="210" y="536" text-anchor="middle" fill="#1d4ed8">339 Named Skills Catalogued</text>
+
+  <rect class="footer-pill" x="340" y="514" width="220" height="34" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1"/>
+  <text class="footer-text" x="450" y="536" text-anchor="middle" fill="#047857">48 Ranks Recalibrated (Sep 9)</text>
+
+  <rect class="footer-pill" x="580" y="514" width="190" height="34" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1"/>
+  <text class="footer-text" x="675" y="536" text-anchor="middle" fill="#6b21a8">2 New Evidence Types</text>
+
+  <rect class="footer-pill" x="790" y="514" width="150" height="34" fill="#fffbeb" stroke="#fcd34d" stroke-width="1"/>
+  <text class="footer-text" x="865" y="536" text-anchor="middle" fill="#b45309">Current: v8.12</text>
+</svg>

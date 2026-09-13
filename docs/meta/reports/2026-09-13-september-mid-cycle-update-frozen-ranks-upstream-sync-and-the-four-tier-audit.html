@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>September Mid-Cycle Update: Frozen Ranks, Upstream Sync, and the Four-Tier Audit — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444;
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-sans: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: #f4f4f2;
+      color: var(--paper-text);
+      font-family: var(--font-serif);
+      font-variant-numeric: oldstyle-nums;
+      line-height: 1.6;
+      margin: 0;
+      padding: 6rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .paper {
+      background: var(--paper-bg);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 6rem 7rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
+      position: relative;
+      counter-reset: section;
+    }
+    header { text-align: center; margin-bottom: 5rem; }
+    .paper-journal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #e0e0dc;
+    }
+    .paper-journal-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #c8a84b;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }
+    .paper-journal-logo img {
+      filter: invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);
+    }
+    .paper-journal-series {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .authors {
+      font-family: var(--font-serif);
+      font-variant-caps: small-caps;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .date { font-family: var(--font-serif); font-size: 1.1rem; color: var(--paper-text); }
+    .abstract { margin: 4rem 0; padding: 0 3rem; }
+    .abstract-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      color: var(--paper-muted);
+    }
+    .abstract-content { font-style: italic; text-align: justify; hyphens: auto; font-size: 1.05rem; line-height: 1.5; }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4rem;
+      margin-bottom: 1.5rem;
+      counter-increment: section;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    h2::before { content: counter(section) ". "; }
+    h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
+    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+    ul { padding-left: 1.2rem; list-style-type: square; }
+    li { margin-bottom: 0.6rem; }
+    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
+    pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
+    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
+    th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
+    td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
+    tbody tr:last-child { border-bottom: 2px solid var(--paper-text); }
+    .chart-container { margin: 4.5rem -2rem; padding: 2.5rem; background: #ffffff; border: 1px solid #eee; }
+    .chart-caption { text-align: center; font-size: 0.85rem; color: var(--paper-muted); margin-top: 1.5rem; line-height: 1.4; }
+    .references { margin-top: 6rem; padding-top: 3rem; border-top: 1px solid #eee; }
+    .ref-item { font-size: 0.9rem; margin-bottom: 1.2rem; text-indent: -1.8rem; padding-left: 1.8rem; text-align: left; }
+    .footer-nav { margin-top: 5rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .footer-nav a { color: var(--paper-text); text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; transition: border-color 0.2s; }
+    .footer-nav a:hover { border-color: var(--accent); }
+    .floating-cluster {
+      position: fixed; top: 2rem; right: 2rem; z-index: 1000;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pja-btn {
+      background: #fff; border: 1px solid #d0d0cc; border-radius: 0; color: #888;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; padding: 0; text-decoration: none;
+      transition: color 0.15s, border-color 0.15s; flex-shrink: 0;
+    }
+    .pja-btn:hover { color: #111; border-color: #111; }
+    .pja-btn.copied { color: #16a34a; border-color: #16a34a; }
+    .pja-btn svg { width: 15px; height: 15px; display: block; }
+    .floating-changelog-btn {
+      background: #000; color: #fff; border: none;
+      padding: 0.8rem 1.4rem;
+      font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
+    .meta-sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+      background: #000; color: #fff; z-index: 2000;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; border-left: 1px solid #222;
+    }
+    .meta-sidebar.open { transform: translateX(0); }
+    .ms-header { padding: 1.5rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    .ms-header h2 { margin: 0 !important; border: none !important; font-size: 1.2rem !important; font-family: 'EB Garamond', serif !important; counter-reset: none !important; }
+    .ms-header h2::before { content: none !important; }
+    .ms-body { flex: 1; overflow-y: auto; padding: 1.5rem; font-family: 'Bricolage Grotesque', sans-serif; }
+    .ms-close { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .paper { padding: 3rem 2rem; }
+      body { padding: 1rem 0; }
+      .floating-cluster { top: 0.75rem; right: 0.75rem; }
+      .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .meta-sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-cluster">
+    <button type="button" class="pja-btn" id="reportShareBtn" aria-label="Share report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="15" cy="5" r="2"/><circle cx="5" cy="10" r="2"/><circle cx="15" cy="15" r="2"/>
+        <line x1="7" y1="9" x2="13" y2="6"/><line x1="7" y1="11" x2="13" y2="14"/>
+      </svg>
+    </button>
+    <a href="2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit.html" download="2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit.html" class="pja-btn" aria-label="Download report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/><path d="M4 15h12"/>
+      </svg>
+    </a>
+    <button type="button" class="pja-btn" id="reportCopyLinkBtn" aria-label="Copy link">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8.5 11.5a4.5 4.5 0 006.364 0l2-2a4.5 4.5 0 00-6.364-6.364L9 4.636"/>
+        <path d="M11.5 8.5a4.5 4.5 0 00-6.364 0l-2 2a4.5 4.5 0 006.364 6.364L11 15.364"/>
+      </svg>
+    </button>
+    <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+  </div>
+
+  <aside id="metaSidebar" class="meta-sidebar">
+    <div class="ms-header">
+      <h2>Meta Changelog</h2>
+      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+    </div>
+    <div class="ms-body" id="changelogBody">
+      <div style="color:#666;font-size:0.9rem">Loading Skill Tree history…</div>
+    </div>
+  </aside>
+
+  <article class="paper">
+    <div class="paper-journal-header">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Skill Tree">
+        <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
+        <span>Gaia Skill Tree</span>
+      </a>
+      <span class="paper-journal-series">Meta Audit Series</span>
+    </div>
+    <header>
+      <h1>September Mid-Cycle Update: Frozen Ranks, Upstream Sync, and the Four-Tier Audit</h1>
+      <div class="authors">Gaia Research</div>
+      <div class="date">September 13, 2026</div>
+    </header>
+
+    <section class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <div class="abstract-content">Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with five user-visible changes: two new named skills were admitted (including a 4★ promotion), four skills incorrectly caught in an unrelated purge sweep were disentangled and restored under new anti-purge safeguards, six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, every restoration, and every upstream version change that landed.
+</div>
+    </section>
+<div class="chart-container"><canvas id="timelineChart"></canvas><div class="chart-caption" id="chartCaption">Figure 1</div></div>
+    <p>Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with five user-visible changes: two new named skills were admitted (including a 4★ promotion), four skills incorrectly caught in an unrelated purge sweep were disentangled and restored under new anti-purge safeguards, six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, every restoration, and every upstream version change that landed.</p>
+<h2>What Users Should Know</h2>
+<p>Five things changed since the <a href="2026-09-10-september-9-rank-calibration.html">September 9 Rank Calibration</a>:</p>
+<p>1. <strong>Two new skills were admitted.</strong> <code>trailhq/graft</code> entered at 4★ and <code>yylo-dev/ledger-tasks-yylo</code> entered at 2★. 2. <strong>Four wrongly purged skills were restored.</strong> <code>rico-favor/implement-with-discernment</code> and Matt Pocock's <code>edit-article</code>, <code>obsidian-vault</code>, and <code>ubiquitous-language</code> were disentangled from an unrelated imposter sweep and reinstated at their earned ranks. 3. <strong>Frozen ranks are now protected.</strong> Skills whose upstream authors have deprecated or archived them retain their earned rank permanently and cannot be demoted by automated recalibration sweeps. 4. <strong>Upstream skill suites are current again.</strong> Six suites — spanning 14 named skills — were synchronized to their authors' latest published releases. 5. <strong>The Four-Tier Audit Taxonomy is now permanent policy.</strong> Every future skill evaluation, demotion, or removal follows a clear, published four-tier framework with mandatory safeguards against collateral damage.</p>
+<p><img src="2026-09-13-mid-cycle-architecture-map.svg" alt="Four pillars of the September mid-cycle update: Upstream Sync, Frozen Rank Protection, New Admissions, and the Four-Tier Audit." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy"></p>
+<h2>New Skills Admitted</h2>
+<h3>trailhq/graft — 4★ Extra Skill</h3>
+<p><code>trailhq/graft</code> was admitted at <strong>4★</strong> under the new generic capability <strong>codebase-graph-retrieval</strong>. Graft builds a deterministic context graph of symbol definitions, call sites, and architectural dependencies across a codebase, giving agents immediate structural awareness of any repository they enter.</p>
+<p>This is the first skill catalogued under the <code>codebase-graph-retrieval</code> capability — a recognition that agents need structured graph-based code understanding, not just keyword search or file-by-file reading.</p>
+<h3>yylo-dev/ledger-tasks-yylo — 2★ Named</h3>
+<p><code>yylo-dev/ledger-tasks-yylo</code> was admitted at <strong>2★</strong> under the existing <strong>project-management</strong> capability. It provides structured task accounting and ledger-based project tracking for agent workflows.</p>
+<h2>Skills Restored Under the Anti-Purge Safeguards</h2>
+<p>PR #1721's registry-wide "imposter purge" removed 12 entities in one sweep. Contributor <a href="https://github.com/mbtiongson1">mbtiongson1</a> flagged in <a href="https://github.com/gaia-research/gaia-skill-tree/issues/1809">Issue #1809</a> that the sweep had also caught legitimate skills — a self-hosted co-founder prototype and three skills that failed a Star Bar check because their upstream repository had gone dark, not because their evidence was bad. Both were disentangled from the bad-faith squatters they'd been bundled with and restored at their earned ranks.</p>
+<h3>rico-favor/implement-with-discernment — restored to 1★ Awakened</h3>
+<p>Authored by co-founder <strong>Rico Tiongson</strong> (<code>rico-favor</code>), this skill was swept up in the imposter purge as part of a blanket <code>rico-favor/*</code> removal, despite being a legitimate self-hosted engineering practice rather than bad-faith aggregation. Per the Four-Tier Audit Taxonomy this is a <strong>Tier 3 (Early-Stage / Under-Evidenced)</strong> case, not a Tier 1 imposter. It was restored in <a href="https://github.com/gaia-research/gaia-skill-tree/pull/1812">PR #1812</a> with a substantive, non-placeholder skill guide and co-founder self-attestation evidence (Trust Magnitude 5.7), and re-tagged <code>installable: false</code> per <code>CONTRIBUTING.md</code> §12 rather than expunged.</p>
+<h3>Matt Pocock's frozen trio — restored to 3★ Evolved</h3>
+<p>The same PR #1721 sweep also enforced a Star Bar check that demoted three of Matt Pocock's skills to 1★ after their upstream repository went dark — evidence that had been verified was discarded because the live blob could no longer be re-checked. Under the new Frozen Rank policy (below), all three were restored to their verified 3★ Evolved rank in <a href="https://github.com/gaia-research/gaia-skill-tree/pull/1820">PR #1820</a>:</p>
+<table><thead><tr><th>Skill</th><th>Restored To</th><th>Status</th></tr></thead><tbody><tr><td><code>mattpocock/edit-article</code></td><td>3★ Evolved</td><td>Frozen — upstream deprecated</td></tr><tr><td><code>mattpocock/obsidian-vault</code></td><td>3★ Evolved</td><td>Frozen — upstream deprecated</td></tr><tr><td><code>mattpocock/ubiquitous-language</code></td><td>3★ Evolved</td><td>Frozen — rank backfilled</td></tr></tbody></table>
+<p>These skills earned their 3★ rank through verified evidence before their upstream repository was archived. The frozen rank policy ensures that historical achievement is preserved honestly.</p>
+<h2>Frozen Ranks: Protecting Author-Pinned Skills</h2>
+<p>A problem surfaced during the September 9 recalibration: skills intentionally frozen at a specific rank (because their upstream author deprecated or archived the repository) were being caught in automated recalibration sweeps and incorrectly demoted.</p>
+<h3>The New Rule</h3>
+<p><strong>Skills with a documented <code>upstream_deprecated</code> lifecycle event now retain their earned rank permanently.</strong> Automated sweeps skip them entirely. If a frozen skill's rank is accidentally altered, the system detects the discrepancy and proposes a restoration command.</p>
+<h2>Upstream Suites Synchronized</h2>
+<p>When upstream authors release new versions of their skill repositories, the registry must reflect those changes. The following six suites were updated to match their authors' latest releases:</p>
+<table><thead><tr><th>Suite</th><th>Author</th><th>Previous Version</th><th>Current Version</th><th>Skills Updated</th></tr></thead><tbody><tr><td><code>ruflo</code></td><td>ruvnet</td><td>v3.25.5</td><td>v3.41.2</td><td>7 skills: <code>agentdb</code>, <code>dual-mode</code>, <code>flow-nexus</code>, <code>github-suite</code>, <code>reasoningbank</code>, <code>ruflo-v3</code>, <code>ruflo</code></td></tr><tr><td><code>agent-skills</code></td><td>addy-osmani</td><td>0.6.3</td><td>0.6.9</td><td>1 skill</td></tr><tr><td><code>superpowers</code></td><td>obra</td><td>v6.1.1</td><td>v6.3.0</td><td>1 skill</td></tr><tr><td><code>firecrawl-skills</code></td><td>firecrawl</td><td>v2.8.0</td><td>v2.11.0</td><td>1 skill</td></tr><tr><td><code>gbrain</code></td><td>garrytan</td><td>v0.49.0</td><td>v0.50.0.0</td><td>1 skill</td></tr><tr><td><code>hyperframes</code></td><td>heygen-com</td><td>v0.8.31</td><td>v0.8.34</td><td>1 skill</td></tr></tbody></table>
+<p>All version pins and installation instructions across these 14 named skills now reference the upstream author's current release. No star levels changed as a result of synchronization — version tracking is independent of trust evaluation.</p>
+<h2>The 48-Skill Rank Calibration (September 9)</h2>
+<p>Immediately before this cycle, a registry-wide Trust Magnitude recalibration adjusted 48 named skills to match their computed evidence grades. The full table was published in the <a href="2026-09-10-september-9-rank-calibration.html">September 9 report</a>; the headline shifts were:</p>
+<table><thead><tr><th>Direction</th><th>Count</th><th>Examples</th></tr></thead><tbody><tr><td><strong>Demoted</strong> 5★ → 4★</td><td>6</td><td><code>addy-osmani/agent-skills</code>, <code>obra/superpowers</code>, <code>ruvnet/ruflo</code>, <code>pbakaus/impeccable</code></td></tr><tr><td><strong>Demoted</strong> 4★ → 3★</td><td>12</td><td><code>firecrawl/firecrawl-skills</code>, <code>garrytan/cso</code>, <code>mattpocock/diagnose</code>, <code>ruvnet/agentdb</code></td></tr><tr><td><strong>Demoted</strong> 3★ → 2★</td><td>6</td><td><code>garrytan/garrytan</code>, <code>mattpocock/tdd</code>, <code>ruvnet/dual-mode</code></td></tr><tr><td><strong>Demoted</strong> to 1★</td><td>16</td><td><code>remotion-dev/<em></code> (12 skills), <code>supabase/</em></code> (2 skills), <code>laravel/upgrade-laravel-v13</code></td></tr><tr><td><strong>Promoted</strong> 1★ → 4★</td><td>1</td><td><code>google-deepmind/workflow-skill-creator</code></td></tr><tr><td><strong>Promoted</strong> 1★ → 3★</td><td>3</td><td><code>firecrawl/firecrawl-research-index</code>, <code>leonxlnx/unlazy</code>, <code>panniantong/agent-reach</code></td></tr><tr><td><strong>Promoted</strong> 1★ → 2★</td><td>2</td><td><code>aplaceforallmystuff/log-to-daily</code>, <code>disler/agent-fusion</code></td></tr></tbody></table>
+<p>These demotions followed the evidence — skills with thin or stale evidence lakes dropped to their computed grade floor, while skills with verified independent witnesses climbed.</p>
+<h2>The Four-Tier Audit Taxonomy</h2>
+<p>Every skill in the registry will eventually be evaluated. Until now, the rules governing evaluation, demotion, and removal were scattered across internal playbooks. Starting with this release, a single, permanent framework governs all audit outcomes.</p>
+<p><img src="2026-09-13-four-tier-governance-flow.svg" alt="The Four-Tier Audit Taxonomy: Tier 1 Expungement, Tier 2 Packaging Gap, Tier 3 Early-Stage, Tier 4 Attribution." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy"></p>
+<h3>The Four Tiers</h3>
+<p><strong>Tier 1 — Imposter / Squatter → Expungement.</strong> Skills that exist through bad-faith aggregation (hijacked star counts, falsified attribution, no real skill artifact) are permanently removed from the registry. This is the harshest outcome and is reserved for deliberate fraud, not honest packaging mistakes.</p>
+<p><strong>Tier 2 — Packaging Gap → Retained at ≤2★.</strong> The author and concept are legitimate, but the repository lacks an installable <code>SKILL.md</code> or runnable entry point. The skill stays in the registry for discovery purposes but is honestly flagged as non-installable. It is never purged — the path forward is for the author to add proper packaging.</p>
+<p><strong>Tier 3 — Early-Stage / Under-Evidenced → 1★ Awakened.</strong> The author is verified and the capability is real, but the evidence lake is thin — perhaps only a self-attestation or a preliminary repository. The skill holds the floor rank until real evidence (benchmarks, peer reviews, independent adoption) arrives.</p>
+<p><strong>Tier 4 — Product-Coupled / Non-Generalized → Attribution Required.</strong> The skill documents a specific third-party tool (like PyMOL or RDKit) without crediting the tool's actual maker. The fix is not removal but proper attribution: credit the upstream maintainer and map the skill to a generic capability rather than a vendor name.</p>
+<h3>The Mandatory Safeguard</h3>
+<p>All four tiers carry a <strong>mandatory disentanglement check</strong>: before any demotion or removal, a PR performing an evidence scrub or purge must itemize and categorize each target into one of the four tiers rather than blanket-labeling the batch, and outreach plus documented review are required before permanently deleting a skill authored by a known contributor or team member. This safeguard was formalized in <a href="https://github.com/gaia-research/gaia-skill-tree/pull/1814">PR #1814</a> and immediately applied retroactively to restore the skills described above.</p>
+<h3>Product-Attribution Detector</h3>
+<p>A new automated detector now flags skills that document a commercial or open-source library without acknowledging its actual maintainer. Six <code>k-dense-ai</code> library wrapper stubs (PyMC, PyTorch Lightning, Scanpy, scvi-tools, Stable-Baselines3, PyTorch Geometric) were identified as having zero attribution to their upstream authors. These remain in the registry at 1★ with <code>needs-info</code> status — the fix is for the contributor to add proper attribution and documentation, not for the registry to silently remove them.</p>
+<h2>New Evidence Types</h2>
+<p>Two new evidence types are now recognized across the registry:</p>
+<ul>
+  <li><strong><code>npm-downloads</code></strong>: Measures verified download volume from the npm package registry, providing an adoption signal independent of GitHub stars.</li>
+  <li><strong><code>engagement</code></strong>: Captures community interaction metrics (discussions, issue activity, conference mentions) that demonstrate active use beyond passive star-clicking.</li>
+</ul>
+<p>These types expand the range of evidence that can contribute to a skill's Trust Magnitude score, giving skills with strong real-world adoption but modest GitHub visibility a fair path to higher ranks.</p>
+<h2>Version Timeline</h2>
+<table><thead><tr><th>Release</th><th>Key User-Visible Change</th></tr></thead><tbody><tr><td>v8.7</td><td><code>trailhq/graft</code> admitted at 4★; <code>yylo-dev/ledger-tasks-yylo</code> at 2★; new <code>npm-downloads</code> and <code>engagement</code> evidence types</td></tr><tr><td>v8.8</td><td>Product-Attribution Detector deployed; six <code>k-dense-ai</code> stubs flagged</td></tr><tr><td>v8.9</td><td><code>rico-favor/implement-with-discernment</code> disentangled and restored to 1★ Awakened (PR #1812); Firecrawl, GBrain, and HyperFrames synchronized to upstream releases</td></tr><tr><td>v8.10–v8.11</td><td>Four-Tier Audit Taxonomy ratified as permanent governance policy (PR #1814); Ruflo, Agent-Skills, and Superpowers synchronized; documentation refresh</td></tr><tr><td>v8.12</td><td>Frozen Rank policy deployed; Matt Pocock suite restored to 3★ (PR #1820)</td></tr></tbody></table>
+<p>As of v8.12, the registry contains <strong>339 named skills</strong> across <strong>294 catalogued capabilities</strong>, with all ranks aligned to their computed Trust Magnitude grades.</p>
+<div class="references">
+  <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
+  <div class="ref-item">[1] Trail HQ. <em>Graft — codebase context graph</em>. https://github.com/TrailHQ/graft</div>
+  <div class="ref-item">[2] Matt Pocock. <em>Skills repository</em>. https://github.com/mattpocock/skills</div>
+  <div class="ref-item">[3] Addy Osmani. <em>Agent Skills v0.6.9 release</em>. https://github.com/nicepkg/agent-skills/releases/tag/0.6.9</div>
+  <div class="ref-item">[4] obra. <em>Superpowers v6.3.0 release</em>. https://github.com/obra/superpowers/releases/tag/v6.3.0</div>
+  <div class="ref-item">[5] ruvnet. <em>Ruflo v3.41.2 release</em>. https://github.com/ruvnet/ruflo/releases/tag/v3.41.2</div>
+  <div class="ref-item">[6] Mendable / Firecrawl. <em>Firecrawl Skills v2.11.0</em>. https://github.com/mendableai/firecrawl-skills</div>
+  <div class="ref-item">[7] Garry Tan. <em>GBrain v0.50.0.0</em>. https://github.com/nicepkg/gbrain/releases/tag/v0.50.0.0</div>
+  <div class="ref-item">[8] mbtiongson1. <em>[audit] Over-purging in "imposter" sweeps</em>. Issue #1809. https://github.com/gaia-research/gaia-skill-tree/issues/1809</div>
+  <div class="ref-item">[9] mbtiongson1. <em>feat(registry): restore rico-favor/implement-with-discernment and recalibrate favorchurch/speak-like-favor</em>. PR #1812. https://github.com/gaia-research/gaia-skill-tree/pull/1812</div>
+  <div class="ref-item">[10] mbtiongson1. <em>feat(governance): formalize four-tier audit taxonomy and anti-purge safeguards</em>. PR #1814. https://github.com/gaia-research/gaia-skill-tree/pull/1814</div>
+  <div class="ref-item">[11] mbtiongson1. <em>chore: restore frozen Matt Pocock skills to 3★ and sync Class S docs</em>. PR #1820. https://github.com/gaia-research/gaia-skill-tree/pull/1820</div>
+</div>
+
+    <div class="footer-nav">
+      <a href="../../index.html">← Back to Gaia</a>
+    </div>
+  </article>
+
+  <script>
+    const sidebar = document.getElementById('metaSidebar');
+    const openBtn = document.getElementById('viewChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+    if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+    async function loadChangelog() {
+      try {
+        const res = await fetch('../../graph/gaia.json');
+        const gaia = await res.json();
+        const body = document.getElementById('changelogBody');
+        body.innerHTML = '';
+        let events = [];
+        gaia.skills.forEach(s => {
+          if (s.timeline) s.timeline.forEach(e => events.push({ ...e, skillName: s.name }));
+        });
+        events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        events.slice(0, 50).forEach(ev => {
+          const item = document.createElement('div');
+          item.style.cssText = 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #111';
+          item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
+          body.appendChild(item);
+        });
+      } catch (e) { console.error('Failed to load changelog', e); }
+    }
+    loadChangelog();
+
+    (function() {
+      var shareBtn = document.getElementById('reportShareBtn');
+      var copyBtn = document.getElementById('reportCopyLinkBtn');
+      function flashBtn(b) { b.classList.add('copied'); setTimeout(function() { b.classList.remove('copied'); }, 1500); }
+      if (shareBtn) shareBtn.addEventListener('click', function() {
+        var url = location.href, title = document.title;
+        if (navigator.share) { navigator.share({ title: title, url: url }).catch(function() {}); }
+        else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { flashBtn(shareBtn); }); }
+      });
+      if (copyBtn) copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function() { flashBtn(copyBtn); });
+      });
+    })();
+    async function initChart() {
+      try {
+        const res = await fetch('2026-09-13-architecture-chart.json');
+        const data = await res.json();
+        const ctx = document.getElementById('timelineChart').getContext('2d');
+        if (data.caption) {
+          const cap = document.getElementById('chartCaption');
+          if (cap) cap.textContent = data.caption;
+        }
+        new Chart(ctx, {
+          type: data.type || 'line',
+          data: {
+            labels: data.labels,
+            datasets: data.datasets.map(ds => {
+              const isDoughnut = (data.type === 'doughnut');
+              return {
+                label: ds.label,
+                data: ds.data,
+                borderColor: isDoughnut ? '#ffffff' : ds.color,
+                backgroundColor: isDoughnut ? ds.color : (ds.color + '22'),
+                borderWidth: 2,
+                fill: !isDoughnut,
+                tension: 0.3,
+                pointRadius: isDoughnut ? undefined : 0,
+                pointHoverRadius: isDoughnut ? undefined : 5
+              };
+            })
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: (data.type === 'doughnut') ? 'right' : 'bottom',
+                labels: { font: { family: 'JetBrains Mono', size: 10 } }
+              },
+              tooltip: {
+                mode: (data.type === 'doughnut') ? 'average' : 'index',
+                intersect: (data.type === 'doughnut')
+              }
+            },
+            scales: (data.type === 'doughnut') ? {} : {
+              x: { grid: { display: false }, ticks: { font: { family: 'JetBrains Mono', size: 9 } } },
+              y: { beginAtZero: true, grid: { color: '#eee' }, ticks: { font: { family: 'JetBrains Mono', size: 9 } } }
+            }
+          }
+        });
+      } catch (e) { console.error('Chart failed', e); }
+    }
+    initChart();
+  </script>
+</body>
+</html>

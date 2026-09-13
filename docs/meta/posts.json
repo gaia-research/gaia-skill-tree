@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit",
+      "type": "report",
+      "date": "2026-09-13",
+      "title": "September Mid-Cycle Update: Frozen Ranks, Upstream Sync, and the Four-Tier Audit",
+      "summary": "What changed in the registry between v8.7 and v8.12: two new skills admitted (trailhq/graft at 4★), four skills disentangled from an unrelated purge and restored — Matt Pocock's trio to 3★ and rico-favor/implement-with-discernment to 1★ — six suites synchronized to upstream releases, 48 rank recalibrations, and the Four-Tier Audit Taxonomy that now governs how skills are evaluated.",
+      "label": "Registry Update",
+      "url": "meta/reports/2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-09-13-autonomous-sync-and-guard-architecture.md"
+    },
+    {
       "id": "2026-09-10-september-9-rank-calibration",
       "type": "report",
       "date": "2026-09-10",

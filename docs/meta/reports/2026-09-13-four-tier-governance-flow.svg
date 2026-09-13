@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 540" role="img" aria-labelledby="title desc">
+  <title id="title">The Four-Tier Audit Taxonomy</title>
+  <desc id="desc">How the Gaia registry evaluates, demotes, or removes skills — four tiers from fraud expungement to attribution guidance, with mandatory safeguards.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .title { font: 700 22px system-ui, -apple-system, sans-serif; fill: #0f172a; }
+      .sub { font: 500 12px system-ui, -apple-system, sans-serif; fill: #64748b; }
+      .card { rx: 10px; stroke-width: 1.5px; }
+      .t1-card { fill: #fff1f2; stroke: #fca5a5; }
+      .t2-card { fill: #fffbeb; stroke: #fcd34d; }
+      .t3-card { fill: #eff6ff; stroke: #93c5fd; }
+      .t4-card { fill: #faf5ff; stroke: #d8b4fe; }
+      .tier-tag { font: 800 11px system-ui, -apple-system, sans-serif; letter-spacing: 0.08em; }
+      .t1-tag { fill: #b91c1c; }
+      .t2-tag { fill: #b45309; }
+      .t3-tag { fill: #1d4ed8; }
+      .t4-tag { fill: #6b21a8; }
+      .tier-title { font: 700 14px system-ui, -apple-system, sans-serif; fill: #0f172a; }
+      .box-hdr { font: 600 10.5px system-ui, -apple-system, sans-serif; fill: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
+      .body-txt { font: 400 11.5px system-ui, -apple-system, sans-serif; fill: #334155; }
+      .disp-badge { rx: 6px; }
+      .t1-disp { fill: #fee2e2; stroke: #ef4444; stroke-width: 1px; }
+      .t2-disp { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1px; }
+      .t3-disp { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1px; }
+      .t4-disp { fill: #ede9fe; stroke: #8b5cf6; stroke-width: 1px; }
+      .disp-txt { font: 700 11px system-ui, -apple-system, sans-serif; text-anchor: middle; }
+      .safeguard-card { rx: 12px; fill: #f8fafc; stroke: #0284c7; stroke-width: 1.5px; }
+      .safe-title { font: 700 13px system-ui, -apple-system, sans-serif; fill: #0369a1; }
+      .safe-txt { font: 400 11px system-ui, -apple-system, sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="980" height="540" rx="16"/>
+
+  <text class="title" x="490" y="34" text-anchor="middle">How Skills Are Evaluated: The Four-Tier Audit Taxonomy</text>
+  <text class="sub" x="490" y="52" text-anchor="middle">Every future skill evaluation, demotion, or removal follows this framework — no exceptions.</text>
+
+  <!-- Tier 1 -->
+  <rect class="card t1-card" x="30" y="76" width="215" height="310"/>
+  <text class="tier-tag t1-tag" x="45" y="100">TIER 1</text>
+  <text class="tier-title" x="45" y="120">Imposter / Squatter</text>
+
+  <text class="box-hdr" x="45" y="148">WHAT TRIGGERS THIS</text>
+  <text class="body-txt" x="45" y="166">• Hijacked star counts</text>
+  <text class="body-txt" x="45" y="184">• Falsified attribution</text>
+  <text class="body-txt" x="45" y="202">• No real skill artifact</text>
+  <text class="body-txt" x="45" y="220">• Bad-faith aggregation</text>
+
+  <text class="box-hdr" x="45" y="254">OUTCOME</text>
+  <rect class="disp-badge t1-disp" x="45" y="264" width="185" height="28"/>
+  <text class="disp-txt t1-tag" x="137" y="283">Permanent Removal</text>
+  <text class="body-txt" x="45" y="314">The skill is expunged.</text>
+  <text class="body-txt" x="45" y="332">Reserved for deliberate fraud.</text>
+
+  <!-- Tier 2 -->
+  <rect class="card t2-card" x="265" y="76" width="215" height="310"/>
+  <text class="tier-tag t2-tag" x="280" y="100">TIER 2</text>
+  <text class="tier-title" x="280" y="120">Packaging Gap</text>
+
+  <text class="box-hdr" x="280" y="148">WHAT TRIGGERS THIS</text>
+  <text class="body-txt" x="280" y="166">• Legitimate author/tool</text>
+  <text class="body-txt" x="280" y="184">• Missing SKILL.md file</text>
+  <text class="body-txt" x="280" y="202">• Can't be installed yet</text>
+  <text class="body-txt" x="280" y="220">• Upstream restructuring</text>
+
+  <text class="box-hdr" x="280" y="254">OUTCOME</text>
+  <rect class="disp-badge t2-disp" x="280" y="264" width="185" height="28"/>
+  <text class="disp-txt t2-tag" x="372" y="283">Kept at ≤2★, flagged</text>
+  <text class="body-txt" x="280" y="314">Stays in registry for discovery.</text>
+  <text class="body-txt" x="280" y="332">Never purged — add packaging.</text>
+
+  <!-- Tier 3 -->
+  <rect class="card t3-card" x="500" y="76" width="215" height="310"/>
+  <text class="tier-tag t3-tag" x="515" y="100">TIER 3</text>
+  <text class="tier-title" x="515" y="120">Early-Stage / Thin</text>
+
+  <text class="box-hdr" x="515" y="148">WHAT TRIGGERS THIS</text>
+  <text class="body-txt" x="515" y="166">• Verified author identity</text>
+  <text class="body-txt" x="515" y="184">• Real capability exists</text>
+  <text class="body-txt" x="515" y="202">• Not enough evidence yet</text>
+  <text class="body-txt" x="515" y="220">• Docs need work</text>
+
+  <text class="box-hdr" x="515" y="254">OUTCOME</text>
+  <rect class="disp-badge t3-disp" x="515" y="264" width="185" height="28"/>
+  <text class="disp-txt t3-tag" x="607" y="283">Holds at 1★ Awakened</text>
+  <text class="body-txt" x="515" y="314">Floor rank until evidence</text>
+  <text class="body-txt" x="515" y="332">arrives — benchmarks, reviews.</text>
+
+  <!-- Tier 4 -->
+  <rect class="card t4-card" x="735" y="76" width="215" height="310"/>
+  <text class="tier-tag t4-tag" x="750" y="100">TIER 4</text>
+  <text class="tier-title" x="750" y="120">Missing Attribution</text>
+
+  <text class="box-hdr" x="750" y="148">WHAT TRIGGERS THIS</text>
+  <text class="body-txt" x="750" y="166">• Documents someone</text>
+  <text class="body-txt" x="750" y="184">   else's tool or library</text>
+  <text class="body-txt" x="750" y="202">• Doesn't credit the maker</text>
+  <text class="body-txt" x="750" y="220">• Vendor-branded name</text>
+
+  <text class="box-hdr" x="750" y="254">OUTCOME</text>
+  <rect class="disp-badge t4-disp" x="750" y="264" width="185" height="28"/>
+  <text class="disp-txt t4-tag" x="842" y="283">Credit the maker</text>
+  <text class="body-txt" x="750" y="314">Add attribution, map to a</text>
+  <text class="body-txt" x="750" y="332">generic capability name.</text>
+
+  <!-- Bottom Safeguard Strip -->
+  <rect class="safeguard-card" x="30" y="416" width="920" height="96"/>
+  <text class="safe-title" x="50" y="442">Mandatory Safeguard: Disentanglement Check</text>
+  <text class="safe-txt" x="50" y="462">Before any demotion or removal, the system independently verifies that the targeted skill is genuinely the type claimed</text>
+  <text class="safe-txt" x="50" y="480">by the audit — not a legitimate community contribution caught in collateral damage. This check is not optional.</text>
+  <text class="safe-txt" x="50" y="498">Already exercised: rico-favor/implement-with-discernment was verified and restored after being incorrectly swept.</text>
+</svg>

@@ -1,0 +1,34 @@
+{
+  "type": "bar",
+  "caption": "Figure 1. Architectural velocity and registry guard metrics across releases v8.7.2 through v8.12.0. Blue shows the surge in autonomous upstream suite synchronizations and baselines; green charts new skill promotions and frozen author restorations; amber tracks governance disentanglement invariants and consolidated guard runs; purple illustrates continuous Steward sensor expansion up to 13 active sensors.",
+  "labels": [
+    "v8.7.2-7 (Graft & Pipeline)",
+    "v8.8.0-2 (Ledger & Attribution)",
+    "v8.9.0 (Upstream Baselines)",
+    "v8.10.0-1 (Audit Taxonomy)",
+    "v8.11.0-4 (CI Speedup & Watcher)",
+    "v8.12.0 (Frozen Integrity)"
+  ],
+  "datasets": [
+    {
+      "label": "Upstream Suite Syncs",
+      "color": "#3b82f6",
+      "data": [0, 2, 3, 0, 9, 0]
+    },
+    {
+      "label": "Skills Promoted & Restored",
+      "color": "#10b981",
+      "data": [1, 1, 2, 0, 0, 4]
+    },
+    {
+      "label": "Governance & Guard Checks",
+      "color": "#f59e0b",
+      "data": [2, 3, 1, 6, 7, 3]
+    },
+    {
+      "label": "Steward Sensors Active",
+      "color": "#8b5cf6",
+      "data": [11, 12, 12, 12, 12, 13]
+    }
+  ]
+}
