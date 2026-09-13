@@ -1,9 +1,9 @@
 ---
 title: "September Mid-Cycle Update: Frozen Ranks, Upstream Sync, and the Four-Tier Audit"
 author: "Gaia Research"
-summary: "What changed in the registry between v8.7 and v8.12: six suites synchronized to upstream releases, Matt Pocock's skills restored to 3★, a new 4★ admission, 48 rank recalibrations, and the Four-Tier Audit Taxonomy that governs how skills are evaluated going forward."
+summary: "What changed in the registry between v8.7 and v8.12: two new skills admitted (trailhq/graft at 4★), four skills disentangled from an unrelated purge and restored — Matt Pocock's trio to 3★ and rico-favor/implement-with-discernment to 1★ — six suites synchronized to upstream releases, 48 rank recalibrations, and the Four-Tier Audit Taxonomy that now governs how skills are evaluated."
 abstract: |
-  Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with four user-visible changes: six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, the registry admitted two new named skills including a 4★ promotion, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, and every upstream version change that landed.
+  Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with five user-visible changes: two new named skills were admitted (including a 4★ promotion), four skills incorrectly caught in an unrelated purge sweep were disentangled and restored under new anti-purge safeguards, six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, every restoration, and every upstream version change that landed.
 label: Registry Update
 date: 2026-09-13
 chart: 2026-09-13-architecture-chart.json
@@ -11,18 +11,59 @@ chart: 2026-09-13-architecture-chart.json
 
 ## Abstract
 
-Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with four user-visible changes: six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, the registry admitted two new named skills including a 4★ promotion, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, and every upstream version change that landed.
+Between early and mid-September 2026, the Gaia Skill Tree shipped releases v8.7 through v8.12 with five user-visible changes: two new named skills were admitted (including a 4★ promotion), four skills incorrectly caught in an unrelated purge sweep were disentangled and restored under new anti-purge safeguards, six flagship skill suites were synchronized to their upstream authors' latest releases, a new Frozen Rank policy now protects author-pinned skills from automated sweep demotions, and the Four-Tier Audit Taxonomy was ratified as the permanent framework governing how skills are evaluated, demoted, or removed. This report covers every rank shift, every new rule, every restoration, and every upstream version change that landed.
 
 ## What Users Should Know
 
-Four things changed since the [September 9 Rank Calibration](2026-09-10-september-9-rank-calibration.html):
+Five things changed since the [September 9 Rank Calibration](2026-09-10-september-9-rank-calibration.html):
 
-1. **Upstream skill suites are current again.** Six suites — spanning 14 named skills — were synchronized to their authors' latest published releases.
-2. **Frozen ranks are now protected.** Skills whose upstream authors have deprecated or archived them retain their earned rank permanently and cannot be demoted by automated recalibration sweeps.
-3. **Two new skills were admitted.** `trailhq/graft` entered at 4★ and `yylo-dev/ledger-tasks-yylo` entered at 2★.
-4. **The Four-Tier Audit Taxonomy is now permanent policy.** Every future skill evaluation, demotion, or removal follows a clear, published four-tier framework with mandatory safeguards against collateral damage.
+1. **Two new skills were admitted.** `trailhq/graft` entered at 4★ and `yylo-dev/ledger-tasks-yylo` entered at 2★.
+2. **Four wrongly purged skills were restored.** `rico-favor/implement-with-discernment` and Matt Pocock's `edit-article`, `obsidian-vault`, and `ubiquitous-language` were disentangled from an unrelated imposter sweep and reinstated at their earned ranks.
+3. **Frozen ranks are now protected.** Skills whose upstream authors have deprecated or archived them retain their earned rank permanently and cannot be demoted by automated recalibration sweeps.
+4. **Upstream skill suites are current again.** Six suites — spanning 14 named skills — were synchronized to their authors' latest published releases.
+5. **The Four-Tier Audit Taxonomy is now permanent policy.** Every future skill evaluation, demotion, or removal follows a clear, published four-tier framework with mandatory safeguards against collateral damage.
 
 <img src="2026-09-13-mid-cycle-architecture-map.svg" alt="Four pillars of the September mid-cycle update: Upstream Sync, Frozen Rank Protection, New Admissions, and the Four-Tier Audit." role="img" style="display:block;width:100%;height:auto;margin:2rem auto 1rem;" loading="lazy">
+
+## New Skills Admitted
+
+### trailhq/graft — 4★ Extra Skill
+
+`trailhq/graft` was admitted at **4★** under the new generic capability **codebase-graph-retrieval**. Graft builds a deterministic context graph of symbol definitions, call sites, and architectural dependencies across a codebase, giving agents immediate structural awareness of any repository they enter.
+
+This is the first skill catalogued under the `codebase-graph-retrieval` capability — a recognition that agents need structured graph-based code understanding, not just keyword search or file-by-file reading.
+
+### yylo-dev/ledger-tasks-yylo — 2★ Named
+
+`yylo-dev/ledger-tasks-yylo` was admitted at **2★** under the existing **project-management** capability. It provides structured task accounting and ledger-based project tracking for agent workflows.
+
+## Skills Restored Under the Anti-Purge Safeguards
+
+PR #1721's registry-wide "imposter purge" removed 12 entities in one sweep. Contributor [mbtiongson1](https://github.com/mbtiongson1) flagged in [Issue #1809](https://github.com/gaia-research/gaia-skill-tree/issues/1809) that the sweep had also caught legitimate skills — a self-hosted co-founder prototype and three skills that failed a Star Bar check because their upstream repository had gone dark, not because their evidence was bad. Both were disentangled from the bad-faith squatters they'd been bundled with and restored at their earned ranks.
+
+### rico-favor/implement-with-discernment — restored to 1★ Awakened
+
+Authored by co-founder **Rico Tiongson** (`rico-favor`), this skill was swept up in the imposter purge as part of a blanket `rico-favor/*` removal, despite being a legitimate self-hosted engineering practice rather than bad-faith aggregation. Per the Four-Tier Audit Taxonomy this is a **Tier 3 (Early-Stage / Under-Evidenced)** case, not a Tier 1 imposter. It was restored in [PR #1812](https://github.com/gaia-research/gaia-skill-tree/pull/1812) with a substantive, non-placeholder skill guide and co-founder self-attestation evidence (Trust Magnitude 5.7), and re-tagged `installable: false` per `CONTRIBUTING.md` §12 rather than expunged.
+
+### Matt Pocock's frozen trio — restored to 3★ Evolved
+
+The same PR #1721 sweep also enforced a Star Bar check that demoted three of Matt Pocock's skills to 1★ after their upstream repository went dark — evidence that had been verified was discarded because the live blob could no longer be re-checked. Under the new Frozen Rank policy (below), all three were restored to their verified 3★ Evolved rank in [PR #1820](https://github.com/gaia-research/gaia-skill-tree/pull/1820):
+
+| Skill | Restored To | Status |
+|---|---|---|
+| `mattpocock/edit-article` | 3★ Evolved | Frozen — upstream deprecated |
+| `mattpocock/obsidian-vault` | 3★ Evolved | Frozen — upstream deprecated |
+| `mattpocock/ubiquitous-language` | 3★ Evolved | Frozen — rank backfilled |
+
+These skills earned their 3★ rank through verified evidence before their upstream repository was archived. The frozen rank policy ensures that historical achievement is preserved honestly.
+
+## Frozen Ranks: Protecting Author-Pinned Skills
+
+A problem surfaced during the September 9 recalibration: skills intentionally frozen at a specific rank (because their upstream author deprecated or archived the repository) were being caught in automated recalibration sweeps and incorrectly demoted.
+
+### The New Rule
+
+**Skills with a documented `upstream_deprecated` lifecycle event now retain their earned rank permanently.** Automated sweeps skip them entirely. If a frozen skill's rank is accidentally altered, the system detects the discrepancy and proposes a restoration command.
 
 ## Upstream Suites Synchronized
 
@@ -55,39 +96,6 @@ Immediately before this cycle, a registry-wide Trust Magnitude recalibration adj
 
 These demotions followed the evidence — skills with thin or stale evidence lakes dropped to their computed grade floor, while skills with verified independent witnesses climbed.
 
-## Frozen Ranks: Protecting Author-Pinned Skills
-
-A problem surfaced during the September 9 recalibration: skills intentionally frozen at a specific rank (because their upstream author deprecated or archived the repository) were being caught in automated recalibration sweeps and incorrectly demoted.
-
-### The New Rule
-
-**Skills with a documented `upstream_deprecated` lifecycle event now retain their earned rank permanently.** Automated sweeps skip them entirely. If a frozen skill's rank is accidentally altered, the system detects the discrepancy and proposes a restoration command.
-
-### The Matt Pocock Restoration
-
-Matt Pocock's core engineering skills were among the first frozen skills protected under this rule. Three skills that had been incorrectly demoted during the September 9 sweep were restored to their verified 3★ Evolved rank:
-
-| Skill | Restored To | Status |
-|---|---|---|
-| `mattpocock/edit-article` | 3★ Evolved | Frozen — upstream deprecated |
-| `mattpocock/obsidian-vault` | 3★ Evolved | Frozen — upstream deprecated |
-| `mattpocock/ubiquitous-language` | 3★ Evolved | Frozen — rank backfilled |
-| `mattpocock/diagnose` | 3★ Evolved | Calibrated to Trust Magnitude Grade B |
-
-These skills earned their 3★ rank through verified evidence before their upstream repository was archived. The frozen rank policy ensures that historical achievement is preserved honestly.
-
-## New Skills Admitted
-
-### trailhq/graft — 4★ Extra Skill
-
-`trailhq/graft` was admitted at **4★** under the new generic capability **codebase-graph-retrieval**. Graft builds a deterministic context graph of symbol definitions, call sites, and architectural dependencies across a codebase, giving agents immediate structural awareness of any repository they enter.
-
-This is the first skill catalogued under the `codebase-graph-retrieval` capability — a recognition that agents need structured graph-based code understanding, not just keyword search or file-by-file reading.
-
-### yylo-dev/ledger-tasks-yylo — 2★ Named
-
-`yylo-dev/ledger-tasks-yylo` was admitted at **2★** under the existing **project-management** capability. It provides structured task accounting and ledger-based project tracking for agent workflows.
-
 ## The Four-Tier Audit Taxonomy
 
 Every skill in the registry will eventually be evaluated. Until now, the rules governing evaluation, demotion, and removal were scattered across internal playbooks. Starting with this release, a single, permanent framework governs all audit outcomes.
@@ -106,7 +114,7 @@ Every skill in the registry will eventually be evaluated. Until now, the rules g
 
 ### The Mandatory Safeguard
 
-All four tiers carry a **mandatory disentanglement check**: before any demotion or removal, the system verifies that the targeted skill is genuinely the type claimed by the audit, not a legitimate community contribution caught in collateral damage. This safeguard was exercised immediately — `rico-favor/implement-with-discernment` was verified and restored after being incorrectly swept up in an unrelated audit pass.
+All four tiers carry a **mandatory disentanglement check**: before any demotion or removal, a PR performing an evidence scrub or purge must itemize and categorize each target into one of the four tiers rather than blanket-labeling the batch, and outreach plus documented review are required before permanently deleting a skill authored by a known contributor or team member. This safeguard was formalized in [PR #1814](https://github.com/gaia-research/gaia-skill-tree/pull/1814) and immediately applied retroactively to restore the skills described above.
 
 ### Product-Attribution Detector
 
@@ -127,10 +135,9 @@ These types expand the range of evidence that can contribute to a skill's Trust 
 |---|---|
 | v8.7 | `trailhq/graft` admitted at 4★; `yylo-dev/ledger-tasks-yylo` at 2★; new `npm-downloads` and `engagement` evidence types |
 | v8.8 | Product-Attribution Detector deployed; six `k-dense-ai` stubs flagged |
-| v8.9 | Firecrawl, GBrain, and HyperFrames synchronized to upstream releases |
-| v8.10 | Four-Tier Audit Taxonomy ratified as permanent governance policy |
-| v8.11 | Ruflo, Agent-Skills, and Superpowers synchronized; documentation refresh |
-| v8.12 | Frozen Rank policy deployed; Matt Pocock suite restored to 3★ |
+| v8.9 | `rico-favor/implement-with-discernment` disentangled and restored to 1★ Awakened (PR #1812); Firecrawl, GBrain, and HyperFrames synchronized to upstream releases |
+| v8.10–v8.11 | Four-Tier Audit Taxonomy ratified as permanent governance policy (PR #1814); Ruflo, Agent-Skills, and Superpowers synchronized; documentation refresh |
+| v8.12 | Frozen Rank policy deployed; Matt Pocock suite restored to 3★ (PR #1820) |
 
 As of v8.12, the registry contains **339 named skills** across **294 catalogued capabilities**, with all ranks aligned to their computed Trust Magnitude grades.
 
@@ -149,3 +156,11 @@ As of v8.12, the registry contains **339 named skills** across **294 catalogued 
 [6] Mendable / Firecrawl. *Firecrawl Skills v2.11.0*. https://github.com/mendableai/firecrawl-skills
 
 [7] Garry Tan. *GBrain v0.50.0.0*. https://github.com/nicepkg/gbrain/releases/tag/v0.50.0.0
+
+[8] mbtiongson1. *[audit] Over-purging in "imposter" sweeps*. Issue #1809. https://github.com/gaia-research/gaia-skill-tree/issues/1809
+
+[9] mbtiongson1. *feat(registry): restore rico-favor/implement-with-discernment and recalibrate favorchurch/speak-like-favor*. PR #1812. https://github.com/gaia-research/gaia-skill-tree/pull/1812
+
+[10] mbtiongson1. *feat(governance): formalize four-tier audit taxonomy and anti-purge safeguards*. PR #1814. https://github.com/gaia-research/gaia-skill-tree/pull/1814
+
+[11] mbtiongson1. *chore: restore frozen Matt Pocock skills to 3★ and sync Class S docs*. PR #1820. https://github.com/gaia-research/gaia-skill-tree/pull/1820
