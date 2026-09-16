@@ -2,6 +2,91 @@
 
 ---
 
+## 2026-09-16 — Routine 053
+
+**Branch:** `docs/routines/053` (new — the prior integration PR, `docs/routines/047`
+/ PR #1750, was shipped by the editor-053wk pass and its branch is gone; created
+this branch fresh from `origin/main` per the Branch instructions).
+
+**Task chosen:** CONTINUE. Routine 053wk's "Planned next" named a small, concrete
+gap: `cli-reference.html`'s `gaia fuse` flag table only documented `<skillId>` and
+`--name`, while the implementation also has `--skills` and `--delete` — confirmed
+by the editor pass reading `impl.py` directly, not yet fixed.
+
+### Trigger
+
+Verified the gap against live code before touching the page (per CLAUDE.md's
+Stale Tooling directive): `fuse_parser` in `src/gaia_cli/impl.py` (~L3546-3558)
+defines `skillId` (positional), `--name`, `--skills`, and `--delete` on the `fuse`
+subcommand. `fuse_command()` (~L1658-1722) confirmed the exact semantics: `--delete`
+removes an existing custom fusion for `<skillId>` (or prompts interactively if
+omitted in a TTY); `--skills <ids>` declares a new custom fusion with `<skillId>`
+as the target and a comma-separated source list. Neither flag appeared in
+`cli-reference.html`'s `#fuse` card signature or flag table — only `--name` was
+documented, leaving two real, working flags undiscoverable.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia fuse` card: added `[--skills <ids>]
+  [--delete]` to the `cmd-signature` line; added two flag-table rows (`--skills
+  <ids>`, `--delete`) with descriptions matching the verified CLI behavior;
+  widened the `<skillId>` row's description to cover its dual role as delete
+  target; added two new examples (declaring a custom fusion, deleting one).
+
+### Design decisions
+
+- Matched the existing flag-table row shape used elsewhere on the page (e.g. the
+  `dev fuse` card) — plain `<td>` cells with `max-width: 420px` on the longer
+  description cells, no new markup patterns.
+- Kept the `<skillId>` row's original "prompted" default and only extended its
+  description text, since the flag's default behavior didn't change — just its
+  documented scope.
+- Added one example per new flag rather than combining them into a single
+  example, matching the page's existing one-concept-per-example convention.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy completion of an already-verified,
+already-real CLI surface — no new tech debt to track.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/cli-reference.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-insensitive) on
+  the diff region — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still
+  linked, unchanged.
+- `--skills`/`--delete` flag existence and exact semantics cross-checked directly
+  against `fuse_parser` and `fuse_command()` in `src/gaia_cli/impl.py`, not
+  against the editor pass's summary alone.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — `gaia fuse` card signature, flag table, examples.
+- `docs/en/DOCS.md` — page map row 3 updated with this fix and the `053` history
+  tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 054)
+
+- `skill-hierarchy.html` is still the least-recently-touched page in the Page Map
+  (routine 028 / editor-026wk, 2026-08-13) — good ROTATE candidate if no
+  CONTINUE/SYNC task applies next.
+- The dead `--skill-count-in-repo` mothership-discount CLI code path and the stale
+  I11-era formula note in `docs/agents/curation-guidelines.md` (flagged by
+  routines 050/051) are still open and still out of `docs/en/**` scope — not a
+  task for a docs routine, just don't let a future routine reintroduce either
+  stale claim into a page.
+
+### Token spend
+
+2026-09-16 Sonnet 5 Low: ~55k in, ~3k out. ~$0.18
+
+---
+
 ## 2026-09-12 — Weekly Editor Pass (editor-053wk)
 
 **Branch:** `docs/routines/047` (PR #1750 — shipped this pass via merge commit)

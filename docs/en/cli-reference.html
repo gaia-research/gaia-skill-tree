@@ -1165,7 +1165,7 @@
         <div class="cmd-card" id="fuse">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia fuse</span>
-            <span class="cmd-signature">[&lt;skillId&gt;] [--name &lt;label&gt;]</span>
+            <span class="cmd-signature">[&lt;skillId&gt;] [--name &lt;label&gt;] [--skills &lt;ids&gt;] [--delete]</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1185,13 +1185,23 @@
               <tbody>
                 <tr>
                   <td>&lt;skillId&gt;</td>
-                  <td>Target skill ID for the fusion or promotion candidate.</td>
+                  <td>Target skill ID for the fusion, promotion candidate, or delete target.</td>
                   <td>prompted</td>
                 </tr>
                 <tr>
                   <td>--name &lt;label&gt;</td>
                   <td>Optional display name for the fused skill in your tree.</td>
                   <td>canonical name</td>
+                </tr>
+                <tr>
+                  <td>--skills &lt;ids&gt;</td>
+                  <td style="max-width: 420px;">Comma-separated source skill IDs for a custom fusion. Requires <code>&lt;skillId&gt;</code> as the target ID.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--delete</td>
+                  <td style="max-width: 420px;">Deletes an existing custom fusion. Prompts to pick one if <code>&lt;skillId&gt;</code> is omitted (interactive shells only).</td>
+                  <td>false</td>
                 </tr>
               </tbody>
             </table>
@@ -1201,7 +1211,13 @@
 <span class="cmd">gaia fuse</span>
 
 <span class="c"># Confirm a specific fusion target</span>
-<span class="cmd">gaia fuse</span> <span class="arg">autonomous-research-agent</span></pre>
+<span class="cmd">gaia fuse</span> <span class="arg">autonomous-research-agent</span>
+
+<span class="c"># Declare a custom fusion from two owned skills</span>
+<span class="cmd">gaia fuse</span> <span class="arg">get-shit-done</span> <span class="flag">--skills</span> planning,execution
+
+<span class="c"># Delete a custom fusion</span>
+<span class="cmd">gaia fuse</span> <span class="arg">get-shit-done</span> <span class="flag">--delete</span></pre>
             </div>
           </div>
         </div>
