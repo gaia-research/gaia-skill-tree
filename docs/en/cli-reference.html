@@ -2866,7 +2866,8 @@
           <div class="cmd-card-header">
             <span class="cmd-name">gaia dev timeline</span>
             <span class="cmd-signature">&lt;skillId&gt; --user &lt;handle&gt; --action &lt;action&gt; [--notes
-              &lt;text&gt;] [--timestamp &lt;ISO8601&gt;]</span>
+              &lt;text&gt;] [--timestamp &lt;ISO8601&gt;] [--previous-value &lt;level&gt;] [--new-value
+              &lt;level&gt;]</span>
             <span class="gate-badge verifier">◇ verifier</span>
           </div>
           <div class="cmd-body">
@@ -2875,6 +2876,9 @@
               <li>Requires the <a href="#flag-dev-timeline-user"><code>--user</code></a> flag to write to user skill
                 tree files.</li>
               <li>Supports historical timestamps for backfilling events.</li>
+              <li>With <code>--user</code> and action <code>rank_up</code> or <code>demote</code>,
+                <code>--new-value</code> also updates the tree's <code>unlockedSkills</code>
+                level and <code>levelHistory</code> so the Transparency Gate sees the change.</li>
             </ul>
             <div class="callout warn" style="margin-bottom:0.85rem;">
               <strong>Known gap.</strong> <code>gaia dev timeline</code> without
@@ -2912,6 +2916,19 @@
                   <td>Historical timestamp. Backfilled events are sorted chronologically.</td>
                   <td>now (UTC)</td>
                 </tr>
+                <tr>
+                  <td>--previous-value &lt;level&gt;</td>
+                  <td style="max-width: 420px;">Previous level (e.g. <code>1★</code>) recorded on the event. Only
+                    meaningful with <code>--user</code> and action <code>rank_up</code>/<code>demote</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--new-value &lt;level&gt;</td>
+                  <td style="max-width: 420px;">New level (e.g. <code>3★</code>). With <code>--user</code> and action
+                    <code>rank_up</code>/<code>demote</code>, also writes the matching
+                    <code>unlockedSkills</code> level and <code>levelHistory</code> entry.</td>
+                  <td>—</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
@@ -2923,7 +2940,12 @@
 <span class="c"># Backfill a historical event</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
   --user alice --action rank_up \
-  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled (direct edit — CLI gap)"</span></pre>
+  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled (direct edit — CLI gap)"</span>
+
+<span class="c"># Backfill a rank_up and sync unlockedSkills so the Transparency Gate passes</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
+  --user alice --action rank_up --previous-value 1★ --new-value 3★ \
+  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled after frozen-skill restore"</span></pre>
             </div>
           </div>
         </div>

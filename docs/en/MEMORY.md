@@ -2,6 +2,110 @@
 
 ---
 
+## 2026-09-17 — Routine 054
+
+**Branch:** `docs/routines/053` (PR #1834 open — continued on it per the
+one-open-PR rule; branch name lags the routine number since it was created
+under 053 and never renamed, matching the "keep to one open PR" rule over
+branch-name tidiness).
+
+**Task chosen:** SYNC. Rebased onto current `origin/main` (already at
+v8.12.1, no-op) before picking a task, per the Branch instructions. Skimmed
+the commits `main` picked up since routine 053: `fix(cli): thread
+--new-value/--previous-value through gaia dev timeline` (commit `5d4355b30`,
+landed via PR #1822's frozen-skill-integrity fix) extends a command
+`cli-reference.html` documents in detail — a real, in-scope SYNC target,
+so it took priority over routine 053's carried-forward ROTATE suggestion
+(`skill-hierarchy.html`).
+
+### Trigger
+
+Verified the gap against live code before touching the page (per CLAUDE.md's
+Stale Tooling directive), not against the commit message alone:
+
+- `dev_timeline.add_argument` in `src/gaia_cli/commands/dev/__init__.py`
+  (~L627-634) adds `--previous-value` and `--new-value` to the `dev
+  timeline` subparser, both undocumented on `cli-reference.html`'s
+  `#dev-timeline` card (only `--user`, `--action`, `--notes`, `--timestamp`
+  were listed).
+- `meta_timeline_command()` in `commands/dev/timeline.py` (~L116-117) threads
+  both through to `append_skill_tree_event()`.
+- `append_skill_tree_event()` in `src/gaia_cli/timeline.py` (L10-50): both
+  values are recorded on the timeline event as `previousValue`/`newValue`
+  when set; when `new_value` is set AND `action` is `rank_up` or `demote`,
+  it additionally finds the matching entry in `unlockedSkills` and writes
+  `level` plus a `levelHistory` entry (`source: "promotion"` or `"demote"`)
+  — this is the exact mechanism PR #1822 used to fix the Transparency Gate
+  for mattpocock's three frozen skills.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia dev timeline` card: added
+  `[--previous-value <level>] [--new-value <level>]` to the `cmd-signature`
+  line; added a `cmd-desc` bullet explaining the `unlockedSkills`
+  sync behavior; added two flag-table rows with descriptions matching the
+  verified semantics; added a third example showing a `rank_up` backfill
+  that also passes `--new-value` to sync the tree.
+
+### Design decisions
+
+- Matched the page's existing flag-table row shape (plain `<td>` cells,
+  `max-width: 420px` on description cells) — same pattern used on the
+  `gaia fuse` card fixed in routine 053, no new markup introduced.
+- Added the new example as a third entry rather than replacing either
+  existing example — the existing two (plain backfill, no sync) are still
+  valid and common; the new one demonstrates the additive sync behavior.
+- Phrased the new bullet and flag descriptions around "Transparency Gate"
+  since that's the concrete mechanism the flags exist to satisfy (per
+  `commands/dev/__init__.py`'s own help text), not a generic "updates
+  state" description.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy sync against an already-merged
+PR (#1822) — no new tech debt or gap to flag.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/cli-reference.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff region — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `--previous-value`/`--new-value` semantics cross-checked directly against
+  `append_skill_tree_event()` in `src/gaia_cli/timeline.py`, not against the
+  commit message summary alone.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — `gaia dev timeline` card signature, flag
+  table, description bullet, examples.
+- `docs/en/DOCS.md` — page map row 3 updated with this fix and the `054`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 055)
+
+- `skill-hierarchy.html` is still the least-recently-touched page (routine
+  028 / editor-026wk, 2026-08-13) — still the standing ROTATE candidate if
+  no CONTINUE/SYNC task applies next.
+- The dead `--skill-count-in-repo` mothership-discount code path and the
+  stale I11-era formula note in `docs/agents/curation-guidelines.md`
+  (flagged by routines 050/051) are still open and still out of `docs/en/**`
+  scope — not a docs-routine task, just don't let a future routine
+  reintroduce the discount into a page.
+
+### Token spend
+
+2026-09-17 Sonnet 5 Low: ~50k in, ~4k out. ~$0.16
+
+---
+
 ## 2026-09-16 — Routine 053
 
 **Branch:** `docs/routines/053` (new — the prior integration PR, `docs/routines/047`
