@@ -83,6 +83,12 @@ timeline:
   previousValue: null
   newValue: v0.8.34
   details: first-run baseline
+- timestamp: '2026-09-22T19:48:03Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: v0.8.34
+  newValue: v0.8.60
+  details: synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
   evaluator: mbtiongson1
@@ -134,11 +140,11 @@ overallTrustGrade: A
 trustMagnitudeInputHash: 121fc2097a60cc4a77facdf6a9cca5474518053ba003a0930980deade4d443f0
 upstream:
   mode: components
-  releasedAt: '2026-09-10T18:49:39Z'
+  releasedAt: '2026-09-22T07:50:15Z'
   repo: heygen-com/hyperframes
-  sourceUrl: https://github.com/heygen-com/hyperframes/releases/tag/v0.8.34
-  syncedAt: '2026-09-11T13:31:17Z'
-  version: v0.8.34
+  sourceUrl: https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60
+  syncedAt: '2026-09-22T19:48:03Z'
+  version: v0.8.60
 ---
 
 ## Installation
