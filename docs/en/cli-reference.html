@@ -1185,22 +1185,22 @@
               <tbody>
                 <tr>
                   <td>&lt;skillId&gt;</td>
-                  <td>Target skill ID for the fusion, promotion candidate, or delete target.</td>
+                  <td>Target skill ID; with <code>--skills</code>, supply it positionally or with <code>--name</code>. Also selects the custom fusion to delete.</td>
                   <td>prompted</td>
                 </tr>
                 <tr>
                   <td>--name &lt;label&gt;</td>
-                  <td>Optional display name for the fused skill in your tree.</td>
-                  <td>canonical name</td>
+                  <td>In the <code>--skills</code> path, supplies the target skill ID when no positional target is given.</td>
+                  <td>—</td>
                 </tr>
                 <tr>
                   <td>--skills &lt;ids&gt;</td>
-                  <td style="max-width: 420px;">Comma-separated source skill IDs for a custom fusion. Requires <code>&lt;skillId&gt;</code> as the target ID.</td>
+                  <td style="max-width: 420px;">Comma-separated source skill IDs for a custom fusion. Saves it locally in <code>.gaia/custom_state.json</code>; it does not immediately edit the skill tree.</td>
                   <td>—</td>
                 </tr>
                 <tr>
                   <td>--delete</td>
-                  <td style="max-width: 420px;">Deletes an existing custom fusion. Prompts to pick one if <code>&lt;skillId&gt;</code> is omitted (interactive shells only).</td>
+                  <td style="max-width: 420px;">Removes only the custom fusion entry; does not change the registry or skill tree. Prompts for a selection when no target is supplied in an interactive shell.</td>
                   <td>false</td>
                 </tr>
               </tbody>
@@ -1213,7 +1213,7 @@
 <span class="c"># Confirm a specific fusion target</span>
 <span class="cmd">gaia fuse</span> <span class="arg">autonomous-research-agent</span>
 
-<span class="c"># Declare a custom fusion from two owned skills</span>
+<span class="c"># Declare a local custom fusion from source skills</span>
 <span class="cmd">gaia fuse</span> <span class="arg">get-shit-done</span> <span class="flag">--skills</span> planning,execution
 
 <span class="c"># Delete a custom fusion</span>
@@ -2875,10 +2875,8 @@
               <li>Appends a timeline action to a skill's log.</li>
               <li>Requires the <a href="#flag-dev-timeline-user"><code>--user</code></a> flag to write to user skill
                 tree files.</li>
-              <li>Supports historical timestamps for backfilling events.</li>
-              <li>With <code>--user</code> and action <code>rank_up</code> or <code>demote</code>,
-                <code>--new-value</code> also updates the tree's <code>unlockedSkills</code>
-                level and <code>levelHistory</code> so the Transparency Gate sees the change.</li>
+              <li>Supports historical timestamps; events are sorted chronologically.</li>
+              <li>With <code>--user</code>, <code>--previous-value</code> and <code>--new-value</code> are recorded on the event. For <code>rank_up</code> or <code>demote</code>, <code>--new-value</code> also updates a matching <code>unlockedSkills</code> level and appends to <code>levelHistory</code>; it does not create a missing entry.</li>
             </ul>
             <div class="callout warn" style="margin-bottom:0.85rem;">
               <strong>Known gap.</strong> <code>gaia dev timeline</code> without
@@ -2902,7 +2900,7 @@
                 <tr>
                   <td>--action &lt;action&gt;</td>
                   <td>Event type, e.g. <code>rank_up</code>, <code>demote</code>, <code>fuse</code>,
-                    <code>backfill</code>.
+                    <code>note</code>.
                   </td>
                   <td>—</td>
                 </tr>
@@ -2918,15 +2916,12 @@
                 </tr>
                 <tr>
                   <td>--previous-value &lt;level&gt;</td>
-                  <td style="max-width: 420px;">Previous level (e.g. <code>1★</code>) recorded on the event. Only
-                    meaningful with <code>--user</code> and action <code>rank_up</code>/<code>demote</code>.</td>
+                  <td style="max-width: 420px;">Previous level (e.g. <code>1★</code>) recorded on the event when <code>--user</code> is supplied.</td>
                   <td>—</td>
                 </tr>
                 <tr>
                   <td>--new-value &lt;level&gt;</td>
-                  <td style="max-width: 420px;">New level (e.g. <code>3★</code>). With <code>--user</code> and action
-                    <code>rank_up</code>/<code>demote</code>, also writes the matching
-                    <code>unlockedSkills</code> level and <code>levelHistory</code> entry.</td>
+                  <td style="max-width: 420px;">New level (e.g. <code>3★</code>) recorded when <code>--user</code> is supplied. For <code>rank_up</code>/<code>demote</code>, also updates a matching <code>unlockedSkills</code> level and appends a <code>levelHistory</code> entry.</td>
                   <td>—</td>
                 </tr>
               </tbody>
@@ -2935,17 +2930,18 @@
               <div class="example-label">examples</div>
               <pre><span class="c"># Append a current-time event to alice's tree</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
-  --user alice --action rank_up --notes "Promoted to 3★ Evolved"</span>
+  --user alice --action rank_up --previous-value 1★ --new-value 3★ \
+  --notes "Promoted to 3★ Evolved"</span>
 
-<span class="c"># Backfill a historical event</span>
+<span class="c"># Record historical context without changing the rank</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
-  --user alice --action rank_up \
-  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled (direct edit — CLI gap)"</span>
+  --user alice --action note --timestamp 2026-01-15T00:00:00Z \
+  --notes "Historical context"</span>
 
-<span class="c"># Backfill a rank_up and sync unlockedSkills so the Transparency Gate passes</span>
+<span class="c"># Record a historical rank change and update a matching unlockedSkills entry</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
   --user alice --action rank_up --previous-value 1★ --new-value 3★ \
-  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled after frozen-skill restore"</span></pre>
+  --timestamp 2026-01-15T00:00:00Z --notes "Historical rank change"</span></pre>
             </div>
           </div>
         </div>

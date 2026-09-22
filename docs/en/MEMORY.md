@@ -89,21 +89,6 @@ PR (#1822) — no new tech debt or gap to flag.
   history tag.
 - `docs/en/MEMORY.md` — this entry.
 
-### Planned next (Routine 055)
-
-- `skill-hierarchy.html` is still the least-recently-touched page (routine
-  028 / editor-026wk, 2026-08-13) — still the standing ROTATE candidate if
-  no CONTINUE/SYNC task applies next.
-- The dead `--skill-count-in-repo` mothership-discount code path and the
-  stale I11-era formula note in `docs/agents/curation-guidelines.md`
-  (flagged by routines 050/051) are still open and still out of `docs/en/**`
-  scope — not a docs-routine task, just don't let a future routine
-  reintroduce the discount into a page.
-
-### Token spend
-
-2026-09-17 Sonnet 5 Low: ~50k in, ~4k out. ~$0.16
-
 ---
 
 ## 2026-09-16 — Routine 053
@@ -173,21 +158,6 @@ already-real CLI surface — no new tech debt to track.
 - `docs/en/DOCS.md` — page map row 3 updated with this fix and the `053` history
   tag.
 - `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 054)
-
-- `skill-hierarchy.html` is still the least-recently-touched page in the Page Map
-  (routine 028 / editor-026wk, 2026-08-13) — good ROTATE candidate if no
-  CONTINUE/SYNC task applies next.
-- The dead `--skill-count-in-repo` mothership-discount CLI code path and the stale
-  I11-era formula note in `docs/agents/curation-guidelines.md` (flagged by
-  routines 050/051) are still open and still out of `docs/en/**` scope — not a
-  task for a docs routine, just don't let a future routine reintroduce either
-  stale claim into a page.
-
-### Token spend
-
-2026-09-16 Sonnet 5 Low: ~55k in, ~3k out. ~$0.18
 
 ---
 
