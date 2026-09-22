@@ -286,6 +286,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ○ Adversarial Review | Intrinsic Skill | — | `/adversarial-review` |
 | ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Audio Mixing | Intrinsic Skill | 3★ | `/audio-mixing` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
@@ -294,6 +295,7 @@
 | ○ Creative Direction | Intrinsic Skill | 3★ | `/creative-direction` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
+| ○ Deprecation and Migration | Intrinsic Skill | — | `/deprecation-and-migration` |
 | ○ Design Source Import | Intrinsic Skill | 3★ | `/design-source-import` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
@@ -306,8 +308,10 @@
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | 3★ | `/image-generate` |
 | ○ Interactive Presentation Authoring | Intrinsic Skill | 3★ | `/interactive-presentation-authoring` |
+| ○ MCP Server Deployment | Intrinsic Skill | — | `/mcp-server-deployment` |
 | ○ Media Asset Orchestration | Intrinsic Skill | 3★ | `/media-asset-orchestration` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
+| ○ Observability Instrumentation | Intrinsic Skill | — | `/observability-instrumentation` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ postgres-best-practices | Intrinsic Skill | — | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |

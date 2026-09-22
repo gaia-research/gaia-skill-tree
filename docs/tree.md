@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-09-18
+GAIA SKILL TREE  ·  generated 2026-09-22
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -416,6 +416,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
+  ○ /adversarial-review
   ○ panniantong/agent-reach  [3★]
   ○ heygen-com/hyperframes-audio  [3★]
   ○ /autonomous-engineering-platform
@@ -424,6 +425,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ heygen-com/hyperframes-creative  [3★]
   ○ ████████/update-unique-churches
   ○ /cultural-localization
+  ○ /deprecation-and-migration
   ○ heygen-com/figma  [3★]
   ○ ████████/attendees
   ○ ████████/export-attendees
@@ -436,8 +438,10 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/financial-assistance
   ○ leonxlnx/imagegen-frontend-web  [3★]
   ○ heygen-com/slideshow  [3★]
+  ○ /mcp-server-deployment
   ○ heygen-com/media-use  [3★]
   ○ ████████/huggingface-vision-trainer
+  ○ /observability-instrumentation
   ○ /pathway-ontology-retrieval
   ○ ████████/supabase-postgres-best-practices
   ○ /prompt-caching
@@ -459,4 +463,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-09-18. Do not edit directly.*
+*Generated from gaia.json on 2026-09-22. Do not edit directly.*

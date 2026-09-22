@@ -1,0 +1,22 @@
+{
+  "id": "observability-instrumentation",
+  "name": "Observability Instrumentation",
+  "type": "basic",
+  "description": "Instruments production software with structured logs, metrics, distributed traces, and actionable alerts so behavior can be diagnosed and verified during operation.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-23",
+  "updatedAt": "2026-09-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-22T20:42:16Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill observability-instrumentation"
+    }
+  ]
+}
