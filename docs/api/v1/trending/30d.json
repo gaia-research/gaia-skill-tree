@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-09-18T14:37:34Z",
+  "generatedAt": "2026-09-23T05:29:24Z",
   "firstRun": false,
   "skills": [
     {
@@ -186,188 +186,6 @@
       }
     },
     {
-      "id": "mattpocock/tdd",
-      "name": "TDD",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/tdd.json"
-      }
-    },
-    {
-      "id": "mattpocock/ask-matt",
-      "name": "Ask Matt",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ask-matt.json"
-      }
-    },
-    {
-      "id": "mattpocock/codebase-design",
-      "name": "Codebase Design",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/codebase-design.json"
-      }
-    },
-    {
-      "id": "mattpocock/diagnosing-bugs",
-      "name": "Diagnosing Bugs",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
-      }
-    },
-    {
-      "id": "mattpocock/domain-modeling",
-      "name": "Domain Modeling",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
-      }
-    },
-    {
-      "id": "mattpocock/git-guardrails-claude-code",
-      "name": "Git Guardrails Claude Code",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
-      }
-    },
-    {
-      "id": "mattpocock/grilling",
-      "name": "Grilling",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/grilling.json"
-      }
-    },
-    {
-      "id": "mattpocock/implement",
-      "name": "Implement",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/implement.json"
-      }
-    },
-    {
-      "id": "mattpocock/migrate-to-shoehorn",
-      "name": "Migrate to Shoehorn",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
-      }
-    },
-    {
-      "id": "mattpocock/resolving-merge-conflicts",
-      "name": "Resolving Merge Conflicts",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
-      }
-    },
-    {
-      "id": "mattpocock/scaffold-exercises",
-      "name": "Scaffold Exercises",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
-      }
-    },
-    {
-      "id": "mattpocock/setup-pre-commit",
-      "name": "Setup Pre-Commit",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
-      }
-    },
-    {
-      "id": "mattpocock/writing-for-agents",
-      "name": "Writing For Agents",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
-      }
-    },
-    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -410,17 +228,17 @@
       }
     },
     {
-      "id": "nexu-io/open-design",
-      "name": "Open Design",
+      "id": "mattpocock/tdd",
+      "name": "TDD",
       "level": "2★",
-      "contributor": "nexu-io",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
       "trendingScore": 50.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/nexu-io/open-design.json"
+        "self": "/api/v1/skills/mattpocock/tdd.json"
       }
     },
     {
@@ -617,20 +435,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
-      }
-    },
-    {
-      "id": "garrytan/design-consultation",
-      "name": "Design Consultation",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 27.44,
-      "tmDelta": -17.4,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-consultation.json"
       }
     },
     {
@@ -1220,93 +1024,9 @@
       "_links": {
         "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       }
-    },
-    {
-      "id": "mattpocock/code-review",
-      "name": "Code Review",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/code-review.json"
-      }
-    },
-    {
-      "id": "mattpocock/research",
-      "name": "Research",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/research.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-questionnaire",
-      "name": "To Questionnaire",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
-      }
-    },
-    {
-      "id": "mattpocock/wait-what",
-      "name": "Wait What",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wait-what.json"
-      }
-    },
-    {
-      "id": "mattpocock/wayfinder",
-      "name": "Wayfinder",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wayfinder.json"
-      }
-    },
-    {
-      "id": "mattpocock/wizard",
-      "name": "Wizard",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 20.77,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/wizard.json"
-      }
     }
   ],
-  "totalTrending": 93,
+  "totalTrending": 73,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

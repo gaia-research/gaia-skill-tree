@@ -5,35 +5,8 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2026 14:37:34 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 05:29:24 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>Diagnose</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/diagnose</link>
-      <description>Trust Magnitude: 94.9 · Grade B</description>
-      <pubDate>Fri, 18 Sep 2026 14:37:34 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/diagnose-2026-09-18</guid>
-    </item>
-    <item>
-      <title>Edit Article</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/edit-article</link>
-      <description>Trust Magnitude: 94.9 · Grade B</description>
-      <pubDate>Fri, 18 Sep 2026 14:37:34 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/edit-article-2026-09-18</guid>
-    </item>
-    <item>
-      <title>Obsidian Vault Manager</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/obsidian-vault</link>
-      <description>Trust Magnitude: 94.9 · Grade B</description>
-      <pubDate>Fri, 18 Sep 2026 14:37:34 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/obsidian-vault-2026-09-18</guid>
-    </item>
-    <item>
-      <title>Ubiquitous Language</title>
-      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/ubiquitous-language</link>
-      <description>Trust Magnitude: 94.9 · Grade B</description>
-      <pubDate>Fri, 18 Sep 2026 14:37:34 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/ubiquitous-language-2026-09-18</guid>
-    </item>
+
   </channel>
 </rss>

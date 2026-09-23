@@ -1,66 +1,9 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-18T14:37:34Z",
+  "generatedAt": "2026-09-23T05:29:24Z",
   "firstRun": false,
-  "skills": [
-    {
-      "id": "mattpocock/diagnose",
-      "name": "Diagnose",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnose.json"
-      }
-    },
-    {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      }
-    },
-    {
-      "id": "mattpocock/obsidian-vault",
-      "name": "Obsidian Vault Manager",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      }
-    },
-    {
-      "id": "mattpocock/ubiquitous-language",
-      "name": "Ubiquitous Language",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      }
-    }
-  ],
-  "totalTrending": 4,
+  "skills": [],
+  "totalTrending": 0,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
