@@ -2,6 +2,165 @@
 
 ---
 
+## 2026-09-17 — Routine 054
+
+**Branch:** `docs/routines/053` (PR #1834 open — continued on it per the
+one-open-PR rule; branch name lags the routine number since it was created
+under 053 and never renamed, matching the "keep to one open PR" rule over
+branch-name tidiness).
+
+**Task chosen:** SYNC. Rebased onto current `origin/main` (already at
+v8.12.1, no-op) before picking a task, per the Branch instructions. Skimmed
+the commits `main` picked up since routine 053: `fix(cli): thread
+--new-value/--previous-value through gaia dev timeline` (commit `5d4355b30`,
+landed via PR #1822's frozen-skill-integrity fix) extends a command
+`cli-reference.html` documents in detail — a real, in-scope SYNC target,
+so it took priority over routine 053's carried-forward ROTATE suggestion
+(`skill-hierarchy.html`).
+
+### Trigger
+
+Verified the gap against live code before touching the page (per CLAUDE.md's
+Stale Tooling directive), not against the commit message alone:
+
+- `dev_timeline.add_argument` in `src/gaia_cli/commands/dev/__init__.py`
+  (~L627-634) adds `--previous-value` and `--new-value` to the `dev
+  timeline` subparser, both undocumented on `cli-reference.html`'s
+  `#dev-timeline` card (only `--user`, `--action`, `--notes`, `--timestamp`
+  were listed).
+- `meta_timeline_command()` in `commands/dev/timeline.py` (~L116-117) threads
+  both through to `append_skill_tree_event()`.
+- `append_skill_tree_event()` in `src/gaia_cli/timeline.py` (L10-50): both
+  values are recorded on the timeline event as `previousValue`/`newValue`
+  when set; when `new_value` is set AND `action` is `rank_up` or `demote`,
+  it additionally finds the matching entry in `unlockedSkills` and writes
+  `level` plus a `levelHistory` entry (`source: "promotion"` or `"demote"`)
+  — this is the exact mechanism PR #1822 used to fix the Transparency Gate
+  for mattpocock's three frozen skills.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia dev timeline` card: added
+  `[--previous-value <level>] [--new-value <level>]` to the `cmd-signature`
+  line; added a `cmd-desc` bullet explaining the `unlockedSkills`
+  sync behavior; added two flag-table rows with descriptions matching the
+  verified semantics; added a third example showing a `rank_up` backfill
+  that also passes `--new-value` to sync the tree.
+
+### Design decisions
+
+- Matched the page's existing flag-table row shape (plain `<td>` cells,
+  `max-width: 420px` on description cells) — same pattern used on the
+  `gaia fuse` card fixed in routine 053, no new markup introduced.
+- Added the new example as a third entry rather than replacing either
+  existing example — the existing two (plain backfill, no sync) are still
+  valid and common; the new one demonstrates the additive sync behavior.
+- Phrased the new bullet and flag descriptions around "Transparency Gate"
+  since that's the concrete mechanism the flags exist to satisfy (per
+  `commands/dev/__init__.py`'s own help text), not a generic "updates
+  state" description.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy sync against an already-merged
+PR (#1822) — no new tech debt or gap to flag.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/cli-reference.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff region — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `--previous-value`/`--new-value` semantics cross-checked directly against
+  `append_skill_tree_event()` in `src/gaia_cli/timeline.py`, not against the
+  commit message summary alone.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — `gaia dev timeline` card signature, flag
+  table, description bullet, examples.
+- `docs/en/DOCS.md` — page map row 3 updated with this fix and the `054`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+---
+
+## 2026-09-16 — Routine 053
+
+**Branch:** `docs/routines/053` (new — the prior integration PR, `docs/routines/047`
+/ PR #1750, was shipped by the editor-053wk pass and its branch is gone; created
+this branch fresh from `origin/main` per the Branch instructions).
+
+**Task chosen:** CONTINUE. Routine 053wk's "Planned next" named a small, concrete
+gap: `cli-reference.html`'s `gaia fuse` flag table only documented `<skillId>` and
+`--name`, while the implementation also has `--skills` and `--delete` — confirmed
+by the editor pass reading `impl.py` directly, not yet fixed.
+
+### Trigger
+
+Verified the gap against live code before touching the page (per CLAUDE.md's
+Stale Tooling directive): `fuse_parser` in `src/gaia_cli/impl.py` (~L3546-3558)
+defines `skillId` (positional), `--name`, `--skills`, and `--delete` on the `fuse`
+subcommand. `fuse_command()` (~L1658-1722) confirmed the exact semantics: `--delete`
+removes an existing custom fusion for `<skillId>` (or prompts interactively if
+omitted in a TTY); `--skills <ids>` declares a new custom fusion with `<skillId>`
+as the target and a comma-separated source list. Neither flag appeared in
+`cli-reference.html`'s `#fuse` card signature or flag table — only `--name` was
+documented, leaving two real, working flags undiscoverable.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `gaia fuse` card: added `[--skills <ids>]
+  [--delete]` to the `cmd-signature` line; added two flag-table rows (`--skills
+  <ids>`, `--delete`) with descriptions matching the verified CLI behavior;
+  widened the `<skillId>` row's description to cover its dual role as delete
+  target; added two new examples (declaring a custom fusion, deleting one).
+
+### Design decisions
+
+- Matched the existing flag-table row shape used elsewhere on the page (e.g. the
+  `dev fuse` card) — plain `<td>` cells with `max-width: 420px` on the longer
+  description cells, no new markup patterns.
+- Kept the `<skillId>` row's original "prompted" default and only extended its
+  description text, since the flag's default behavior didn't change — just its
+  documented scope.
+- Added one example per new flag rather than combining them into a single
+  example, matching the page's existing one-concept-per-example convention.
+
+### Issues informed
+
+None filed or closed. This is a docs-accuracy completion of an already-verified,
+already-real CLI surface — no new tech debt to track.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/cli-reference.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`, case-insensitive) on
+  the diff region — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still
+  linked, unchanged.
+- `--skills`/`--delete` flag existence and exact semantics cross-checked directly
+  against `fuse_parser` and `fuse_command()` in `src/gaia_cli/impl.py`, not
+  against the editor pass's summary alone.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — `gaia fuse` card signature, flag table, examples.
+- `docs/en/DOCS.md` — page map row 3 updated with this fix and the `053` history
+  tag.
+- `docs/en/MEMORY.md` — this entry.
+
+---
+
 ## 2026-09-12 — Weekly Editor Pass (editor-053wk)
 
 **Branch:** `docs/routines/047` (PR #1750 — shipped this pass via merge commit)
