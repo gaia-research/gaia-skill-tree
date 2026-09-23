@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gsd-build  ·  generated 2026-09-18
+GAIA SKILL TREE — gsd-build  ·  generated 2026-09-23
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -38,7 +38,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ mattpocock/ask-matt  [2★]
+  │  └─ · ○ ████████/functional-area-resolver  [2★]
   ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
@@ -97,7 +97,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/health  [2★]  (↑ see above)
   ├─ · ○ garrytan/pair-agent  [2★]
   ├─ · · garrytan/learn  [2★]
-  │  ├─ · ○ garrytan/context-restore  [2★]
+  │  ├─ · ○ ████████/context-audit  [2★]
   │  └─ · ○ /retrieve
   ├─ · · garrytan/careful  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
