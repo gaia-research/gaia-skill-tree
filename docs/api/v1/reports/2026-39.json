@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-39",
+  "isoYear": 2026,
+  "isoWeek": 39,
+  "generatedAt": "2026-09-21T14:53:20Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "8.13.0",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "mattpocock/diagnose",
+          "name": "Diagnose",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/diagnose"
+        },
+        {
+          "id": "mattpocock/edit-article",
+          "name": "Edit Article",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/edit-article"
+        },
+        {
+          "id": "mattpocock/obsidian-vault",
+          "name": "Obsidian Vault Manager",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/obsidian-vault"
+        },
+        {
+          "id": "mattpocock/ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "/named/#explorer/mattpocock/ubiquitous-language"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "mattpocock/obsidian-vault",
+          "name": "Obsidian Vault Manager",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "previousLevel": "1★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-11T17:25:05Z",
+          "url": "/named/#explorer/mattpocock/obsidian-vault"
+        },
+        {
+          "id": "mattpocock/edit-article",
+          "name": "Edit Article",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "previousLevel": "1★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-11T17:25:03Z",
+          "url": "/named/#explorer/mattpocock/edit-article"
+        },
+        {
+          "id": "mattpocock/ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "contributor": "mattpocock",
+          "level": "3★",
+          "previousLevel": "1★",
+          "trustMagnitude": 94.92,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-11T17:24:57Z",
+          "url": "/named/#explorer/mattpocock/ubiquitous-language"
+        },
+        {
+          "id": "trailhq/graft",
+          "name": "graft",
+          "contributor": "trailhq",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 140.42,
+          "trustGrade": "A",
+          "ascendedAt": "2026-09-10T15:54:27Z",
+          "url": "/named/#explorer/trailhq/graft"
+        },
+        {
+          "id": "panniantong/agent-reach",
+          "name": "Agent Reach",
+          "contributor": "panniantong",
+          "level": "3★",
+          "previousLevel": "1★",
+          "trustMagnitude": 53.86,
+          "trustGrade": "B",
+          "ascendedAt": "2026-09-09T20:31:09Z",
+          "url": "/named/#explorer/panniantong/agent-reach"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "ux-audit",
+          "implementations": 4,
+          "topTM": 226.5,
+          "skills": [
+            {
+              "id": "nextlevelbuilder/ui-ux-pro-max",
+              "level": "4★",
+              "trustMagnitude": 226.5,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+            },
+            {
+              "id": "garrytan/plan-design-review",
+              "level": "3★",
+              "trustMagnitude": 50.0,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-design-review"
+            },
+            {
+              "id": "garrytan/plan-devex-review",
+              "level": "3★",
+              "trustMagnitude": 50.0,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-devex-review"
+            },
+            {
+              "id": "garrytan/devex-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/devex-review"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "autonomous-web-research",
+          "implementations": 2,
+          "topTM": 205.15,
+          "skills": [
+            {
+              "id": "mvanhorn/last30days",
+              "level": "4★",
+              "trustMagnitude": 205.15,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/mvanhorn/last30days"
+            },
+            {
+              "id": "balukosuri/autoresearch-universal",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/balukosuri/autoresearch-universal"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "refactor-code",
+          "implementations": 3,
+          "topTM": 190.0,
+          "skills": [
+            {
+              "id": "addy-osmani/code-simplification",
+              "level": "4★",
+              "trustMagnitude": 190.0,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/addy-osmani/code-simplification"
+            },
+            {
+              "id": "mattpocock/improve-codebase-architecture",
+              "level": "2★",
+              "trustMagnitude": 45.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/improve-codebase-architecture"
+            },
+            {
+              "id": "mattpocock/migrate-to-shoehorn",
+              "level": "2★",
+              "trustMagnitude": 41.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/migrate-to-shoehorn"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-39/",
+    "json": "/api/v1/reports/2026-39.json",
+    "previous": "/reports/2026-38/",
+    "archive": "/reports/"
+  }
+}
