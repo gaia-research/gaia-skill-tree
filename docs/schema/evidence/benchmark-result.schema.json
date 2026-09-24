@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json",
+  "title": "Benchmark result evidence row",
+  "description": "Benchmark measurement attached to a Gaia skill as an evidence row. Benchmark provenance collapses to three Trust Magnitude lanes: verified (CI reproduced or verifier attested, 2.0x), reported (public claim or mirrored benchmark approved by a human gate, 1.0x), and rejected (blacklisted/disputed/no scoring, 0x). Legacy aliases remain accepted: ci-reproduced/verifier-attested → verified, mirrored → reported, pending/unknown/retired/candidate → rejected. Self-attested provenance is FOREVER rejected. Trust Magnitude computes final benchmark score internally; do not persist finalScore.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "type",
+    "source",
+    "evaluator",
+    "date",
+    "benchmarkId",
+    "score",
+    "unit",
+    "provenance"
+  ],
+  "properties": {
+    "type": {
+      "const": "benchmark-result",
+      "description": "Fixed discriminator. Matched by the evidenceEntry allOf/if branch to gate the benchmark-only required fields."
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "Public URL where the benchmark run or report can be inspected (leaderboard entry, blog post, CI workflow run, arXiv paper). Mirrors evidenceEntry.source."
+    },
+    "evaluator": {
+      "type": "string",
+      "description": "GitHub username of the person who filed the evidence row. For CI-reproduced rows this is typically the workflow owner or a bot handle."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date (YYYY-MM-DD) the evidence was filed against the registry. Distinct from runAt (when the benchmark itself was run)."
+    },
+    "benchmarkId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$",
+      "description": "Semver-ish identifier of the benchmark spec. Widened to accept humaneval@v1.0, humaneval/python@v1.0, swe-bench_verified@1.0, mmlu-5shot@2024-03. FROZEN — extensions require a major schema bump."
+    },
+    "score": {
+      "type": "number",
+      "description": "Raw score as reported by the harness, in the units named by `unit`. Interpretation is unit-specific: pass@1 is 0..1, pct is 0..100, elo is unbounded, etc."
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "pct",
+        "pass@1",
+        "pass@10",
+        "bleu",
+        "f1",
+        "accuracy",
+        "elo",
+        "raw"
+      ],
+      "description": "FROZEN enum of score units. Extending this list is a major schema bump — downstream leaderboard consumers switch on it."
+    },
+    "runAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life calculation in Trust Magnitude."
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "reported",
+        "rejected",
+        "verifier-attested",
+        "ci-reproduced",
+        "mirrored",
+        "pending"
+      ],
+      "description": "Benchmark evidence lane/provenance. verified: CI-reproduced or verifier-attested evidence (2.0x). reported: public claimed or mirrored benchmark evidence approved by the human gate (1.0x). rejected: blacklisted, disputed, pending, or otherwise no-scoring evidence (0x). Legacy aliases ci-reproduced/verifier-attested normalize to verified; mirrored normalizes to reported; pending normalizes to rejected. self-attested is intentionally absent and FOREVER rejected."
+    },
+    "attestor": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Attestor or public source for benchmark-result evidence. For verified: verifier username or workflow run URL plus commit SHA. For reported: public claim, blog post, or leaderboard URL accepted by the human gate. Required for verified/reported rows."
+    },
+    "datasetHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex chars) of the raw dataset used for evaluation. Locks the row to a specific dataset version — a dataset revision produces a different hash, and thus a different row."
+    },
+    "benchmarkInputHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex chars) of the concatenation of (dataset + prompt template + harness config). Reproducibility fingerprint — a downstream verifier can re-run the harness with the same inputs and expect the same score. Different concept from datasetHash: two rows may share datasetHash but differ in benchmarkInputHash if the harness config or prompt template changed."
+    },
+    "percentile": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Optional placement percentile (0..100) within the field of published scores on this benchmark. Trust Magnitude uses percentile when present; otherwise it normalizes score by unit."
+    },
+    "harnessUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional URL to the exact harness code used to produce the score. For CI-reproduced rows this is typically a permalink into scripts/benchmarks/<benchmark>/run.py at the pinned commit."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "provenance": {
+            "enum": [
+              "verified",
+              "ci-reproduced",
+              "verifier-attested"
+            ]
+          }
+        },
+        "required": [
+          "provenance"
+        ]
+      },
+      "then": {
+        "required": [
+          "runAt",
+          "attestor",
+          "datasetHash",
+          "benchmarkInputHash"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "provenance": {
+            "enum": [
+              "reported",
+              "mirrored"
+            ]
+          }
+        },
+        "required": [
+          "provenance"
+        ]
+      },
+      "then": {
+        "required": [
+          "attestor"
+        ]
+      }
+    }
+  ]
+}

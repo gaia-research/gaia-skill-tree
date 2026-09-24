@@ -1,0 +1,892 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/graph.schema.json",
+  "title": "Gaia Skill Graph",
+  "description": "Schema for the Gaia Skill Graph feed (gaia.json), representing the assembled skill tree DAG, layout coordinates, origin taxonomy, and metadata.",
+  "type": "object",
+  "required": [
+    "skills",
+    "edges"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI or path of the schema describing this graph feed."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the registry snapshot (omitted in decorative Class S docs/graph/gaia.json per Issue #807)."
+    },
+    "generatedAt": {
+      "type": "string",
+      "anyOf": [
+        {
+          "format": "date-time"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "description": "ISO 8601 timestamp when this graph was assembled or synced."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Metadata block containing display labels, color ramps, epochs, and layout clustering.",
+      "additionalProperties": false,
+      "properties": {
+        "typeLabels": {
+          "type": "object",
+          "description": "Display labels for skill taxonomy types."
+        },
+        "levelLabels": {
+          "type": "object",
+          "description": "Display labels for star levels."
+        },
+        "levelColors": {
+          "type": "object",
+          "description": "Color definitions for star levels."
+        },
+        "typeColors": {
+          "type": "object",
+          "description": "Color definitions for skill taxonomy types."
+        },
+        "typeSymbols": {
+          "type": "object",
+          "description": "Glyph symbols for skill taxonomy types."
+        },
+        "demeritLabels": {
+          "type": "object",
+          "description": "Display labels for demerit codes."
+        },
+        "metaEpochs": {
+          "type": "object",
+          "description": "Metadata version epochs."
+        },
+        "centroids": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "description": "Centroid coordinates for 3D layout clusters."
+        },
+        "clusterNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Human-readable names for layout clusters."
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "description": "Array of skill nodes in the graph.",
+      "items": {
+        "$ref": "#/definitions/graphSkill"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Array of directed prerequisite edges connecting skills in the graph.",
+      "items": {
+        "$ref": "#/definitions/graphEdge"
+      }
+    }
+  },
+  "definitions": {
+    "evidenceEntry": {
+      "type": "object",
+      "required": [
+        "source",
+        "evaluator",
+        "date"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Evidence Type — the provenance of the demonstration (where it came from, not how strong it is). Kebab-case, validated against meta.json evidence.types (initially arxiv, repo, github-stars); list-driven so new types can be added in meta.json without a schema change. Carries the provenance meaning that the deprecated `class` field used to conflate. Distinct from the skill `type` taxonomy (basic/fusion)."
+        },
+        "grade": {
+          "type": "string",
+          "enum": [
+            "S",
+            "A",
+            "B",
+            "C"
+          ],
+          "description": "per-evidence grade (S/A/B/C) derived from the row's artifact_score against per-type floors in meta.json evidence.perRowGradeThresholds (Issue #761). Distinct from the skill's overall trust grade (overallTrustGrade). Used by the diversity gate per RFC §4. A row below its type's C floor is ungraded: this field is absent. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
+        },
+        "trustNumber": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Internal 0–100 trust score that the Evidence Grade derives from via meta.json evidence.gradeThresholds. Not user-facing; surfaces show the grade, never the raw number."
+        },
+        "class": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ],
+          "description": "DEPRECATED — removed at the next major release. Legacy single axis that conflated provenance and quality into one letter (A peer-reviewed, B reproducible demo, C credible demo). Superseded by `type` (provenance) + `grade` (quality). Class A/B are NOT grade A/B. Retained for backward compatibility until the class-to-type migration completes; no longer required."
+        },
+        "source": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the evidence source."
+        },
+        "evaluator": {
+          "type": "string",
+          "description": "GitHub username of the person who evaluated the evidence."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of evaluation."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional notes about the evaluation."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "True if the evidence has been verified by a Verifier (4★+ contributor)."
+        },
+        "disputed": {
+          "type": "boolean",
+          "description": "True if the evidence is currently under dispute."
+        },
+        "verificationSource": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the verification discussion or PR."
+        },
+        "sourceStartedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date the source project/repo/publication was first created or published. Optional for B/C/ungraded rows. Required at A/S tier for apex eligibility (gaia validate warns on A/S rows missing this field; hard-fail is I4's job post-cutover). Used by the sourceTenureDaysGte180AorS apex predicate."
+        },
+        "citations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw academic citation count for arxiv-type evidence. Consumed by the arxiv magnitude formula: citations / 5 (capped at 100). Persisted so `gaia dev calibrate-evidence-grades` can re-derive the grade if the formula changes."
+        },
+        "stars": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw GitHub star count for github-stars-own / proxy-containment / repo-own evidence. Consumed by the github-stars-own formula: min(200, stars/1000) / min(skillCountInRepo, 4)."
+        },
+        "commits": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw commit count for repo-own evidence. Consumed by the repo-own formula: (commits/200) + (contributors² × 2), capped at 60."
+        },
+        "contributors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Distinct contributor count for repo-own evidence. Consumed alongside `commits` in the repo-own formula."
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "View count for social-signal evidence. Consumed by the social-signal formula: log₁₀(views) × 8 × creator_mult × engagement_ratio. Views below 1000 score 0 (floor)."
+        },
+        "reviewers": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Peer reviewer count for peer-review evidence. Consumed by the peer-review formula: 25 × reviewers."
+        },
+        "percentile": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Benchmark placement percentile (0..100) for benchmark-result evidence. Trust Magnitude uses percentile when present; otherwise it normalizes score by unit, then applies the benchmark lane multiplier."
+        },
+        "skillCountInRepo": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of skills that share the source repo for github-stars-own / proxy-containment evidence. Used as the divisor in the github-stars-own 'mothership discount' — the star pool is split across all skills in the repo up to a cap of 4."
+        },
+        "unverified": {
+          "type": "boolean",
+          "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports."
+        },
+        "layer": {
+          "type": "string",
+          "enum": [
+            "generic",
+            "named"
+          ],
+          "description": "The layer at which this evidence row is attached. Defaults to the layer of the containing skill node — generic skills default to 'generic', named skills default to 'named'. Used by the per-type allowedLayers validator and the inheritance multiplier."
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Per-evidence-entry links used by the trust magnitude computation.",
+          "properties": {
+            "canonicalRepo": {
+              "type": "string",
+              "format": "uri",
+              "description": "Canonical upstream repository URL for fork-network canonicalization opt-out (RFC §11.5). When set, this evidence entry's star pool is attributed to this URL rather than the auto-detected upstream fork. Required when a fork has legitimately diverged into a separate skill."
+            }
+          }
+        },
+        "cosigners": {
+          "type": "array",
+          "description": "Verifier co-signers for social-signal recognized-voice (1.2× creator multiplier) and cross-org verifier-attestation requirements. Each cosigner must be a 4★+ verifier from a distinct GitHub org. Recorded via gaia dev evidence --cosign-with <verifier>.",
+          "items": {
+            "type": "object",
+            "required": [
+              "username",
+              "org",
+              "signedAt"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "username": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+                "description": "GitHub username of the co-signing verifier."
+              },
+              "org": {
+                "type": "string",
+                "description": "GitHub org the verifier belongs to at co-sign time (used for cross-org distinctness check)."
+              },
+              "signedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 timestamp when the co-sign was recorded."
+              }
+            }
+          }
+        },
+        "benchmarkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$",
+          "description": "Semver-ish benchmark spec id for benchmark-result evidence (Sprint D W2a, #904). Widened pattern accepts humaneval@v1.0, humaneval/python@v1.0, swe-bench_verified@1.0, mmlu-5shot@2024-03. FROZEN post-merge — see registry/schema/evidence/benchmark-result.schema.json for the citable standalone form."
+        },
+        "score": {
+          "type": "number",
+          "description": "Raw benchmark score for benchmark-result evidence, in the units named by `unit`. Interpretation is unit-specific (pass@1 is 0..1, pct is 0..100, elo is unbounded)."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "pct",
+            "pass@1",
+            "pass@10",
+            "bleu",
+            "f1",
+            "accuracy",
+            "elo",
+            "raw"
+          ],
+          "description": "Frozen benchmark score unit enum for benchmark-result evidence. Extending the list is a major schema bump — downstream leaderboard consumers switch on it."
+        },
+        "runAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life for benchmark-result rows in Trust Magnitude. Distinct from `date` (when the evidence row itself was filed)."
+        },
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "reported",
+            "rejected",
+            "verifier-attested",
+            "ci-reproduced",
+            "mirrored",
+            "pending"
+          ],
+          "description": "Benchmark-result lane/provenance. verified (including legacy ci-reproduced/verifier-attested) scores at 2.0x; reported (including legacy mirrored) scores at 1.0x; rejected/pending scores 0x. self-attested is intentionally absent and FOREVER rejected."
+        },
+        "attestor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Attestor identity for benchmark-result evidence. For verifier-attested: GitHub username of the co-signing verifier. For ci-reproduced: workflow run URL plus commit SHA (e.g. 'https://github.com/owner/repo/actions/runs/12345@abc1234'). For mirrored: upstream leaderboard URL. For pending: filer's own handle."
+        },
+        "datasetHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of the raw dataset used to produce the benchmark-result score. Locks the row to a specific dataset revision — a bumped dataset produces a different hash and therefore a different row."
+        },
+        "benchmarkInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of the concatenation (dataset + prompt template + harness config). Reproducibility fingerprint for benchmark-result rows — a downstream verifier can re-run with the same inputs and expect the same score. Different concept from datasetHash: two rows may share datasetHash but differ in benchmarkInputHash if the harness config or prompt template changed."
+        },
+        "harnessUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional URL to the exact harness code that produced the benchmark-result score. For CI-reproduced rows this is typically a permalink into scripts/benchmarks/<benchmark>/run.py at the pinned commit."
+        }
+      },
+      "allOf": [
+        {
+          "$comment": "#1419 benchmark-result lane gate. Legacy rows filed before 2026-07-05 remain exempt. Rows filed 2026-07-05 or later require common benchmark fields. Verified lanes additionally require reproducibility fields; reported lanes only require attestor/source.",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "benchmark-result"
+              },
+              "date": {
+                "pattern": "^(2026-(0[7-9]|1[0-2])|20(2[7-9]|[3-9][0-9]))"
+              }
+            },
+            "required": [
+              "type",
+              "date"
+            ]
+          },
+          "then": {
+            "required": [
+              "benchmarkId",
+              "score",
+              "unit",
+              "provenance"
+            ],
+            "properties": {
+              "provenance": {
+                "enum": [
+                  "verified",
+                  "reported",
+                  "rejected",
+                  "verifier-attested",
+                  "ci-reproduced",
+                  "mirrored",
+                  "pending"
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "provenance": {
+                      "enum": [
+                        "verified",
+                        "ci-reproduced",
+                        "verifier-attested"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "runAt",
+                    "attestor",
+                    "datasetHash",
+                    "benchmarkInputHash"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "provenance": {
+                      "enum": [
+                        "reported",
+                        "mirrored"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "attestor"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "timelineEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "action"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the event."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "rank_up",
+            "fuse",
+            "propose",
+            "name",
+            "demote",
+            "ascend",
+            "rejected",
+            "merge",
+            "split",
+            "rename",
+            "add",
+            "evidence_added",
+            "evidence_removed",
+            "evidence_graded",
+            "type_change",
+            "verified",
+            "disputed",
+            "security_scan_passed",
+            "apex_pr_signed",
+            "note",
+            "suite_ref_set",
+            "migrate_trust_magnitude",
+            "installation_updated",
+            "discovered",
+            "intake_opened"
+          ],
+          "description": "The meta-action that occurred."
+        },
+        "contributor": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+          "description": "The GitHub username responsible for the change."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
+        },
+        "metaEpoch": {
+          "type": "string",
+          "enum": [
+            "yggdrasil-i",
+            "yggdrasil-ii"
+          ],
+          "description": "Optional structured provenance: the meta epoch (schema-generation slug) this event belongs to. Mirrors meta.json metaEpochs.order. Stamped on migration events (e.g. a node type_change) so provenance is queryable without prose parsing. Absent on pre-Yggdrasil-II (legacy) events."
+        },
+        "migrationBatch": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+@\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Optional structured provenance: the migration batch identifier in '<epoch-slug>@YYYY-MM-DD' form (e.g. 'yggdrasil-ii@2026-07-16'). Groups the events of one dated migration batch so provenance can be verified structurally. Absent on non-migration and legacy events."
+        }
+      }
+    },
+    "graphEdge": {
+      "type": "object",
+      "required": [
+        "sourceSkillId",
+        "targetSkillId",
+        "edgeType"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sourceSkillId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "description": "The prerequisite skill ID (parent)."
+        },
+        "targetSkillId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "description": "The derived skill ID (child)."
+        },
+        "edgeType": {
+          "type": "string",
+          "enum": [
+            "prerequisite",
+            "corequisite",
+            "enhances"
+          ],
+          "description": "The relationship type between source and target."
+        },
+        "condition": {
+          "type": "string",
+          "description": "Optional condition that must be met for this edge to be active."
+        },
+        "levelFloor": {
+          "type": "string",
+          "enum": [
+            "1★",
+            "2★",
+            "3★",
+            "4★",
+            "5★"
+          ],
+          "description": "Minimum level the source skill must be at for this edge to apply."
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "References to evidence entries that support this edge relationship."
+        }
+      }
+    },
+    "graphSkill": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "description",
+        "prerequisites",
+        "derivatives",
+        "knownAgents",
+        "status",
+        "createdAt",
+        "updatedAt",
+        "version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "description": "Unique camelCase identifier for the skill."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable display name."
+        },
+        "title": {
+          "type": "string",
+          "description": "Optional lore title. For unclaimed ultimate skills, stored in the graph but not rendered in projections until a named implementation claims the skill."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "basic",
+            "fusion"
+          ],
+          "description": "Skill classification type: basic (no prerequisites) or fusion (≥1 prerequisite)."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A brief summary of the skill."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Clear, agent-agnostic definition of the capability."
+        },
+        "useCase": {
+          "type": "string",
+          "description": "Detailed scenario of how a developer would use this skill."
+        },
+        "directives": {
+          "type": "string",
+          "description": "Specific guidelines or rules the skill follows during execution."
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "description": "Array of parent skill IDs required to unlock this skill."
+        },
+        "derivatives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "description": "Array of child skill IDs that this skill contributes to."
+        },
+        "conditions": {
+          "type": "string",
+          "description": "Optional free-text conditions required for fusion or level-up."
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/evidenceEntry"
+          },
+          "description": "Capability-level evidence for this abstract skill (e.g. Class A / academic sources describing the generic capability). Inherited by every named skill that points at this skill via genericSkillRef; named skills may add their own implementation-specific evidence."
+        },
+        "knownAgents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of known agents that demonstrate this skill."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "provisional",
+            "validated",
+            "disputed",
+            "deprecated"
+          ],
+          "description": "Current validation status of the skill."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date when the skill was first added."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date of last modification."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version of this skill definition."
+        },
+        "timeline": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/timelineEvent"
+          },
+          "description": "Chronological history of meta-changes for this canonical skill."
+        },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Verification tier state for this skill. Recomputed by `gaia dev verify-tier` and surfaced in `gaia skills info`. The `tier` field stores the highest tier currently satisfied (or null); `firstEvidenceAt` is the tenure baseline for the enterprise-ready tier.",
+          "properties": {
+            "tier": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                null,
+                "community-verified",
+                "benchmark-verified",
+                "security-reviewed",
+                "enterprise-ready"
+              ],
+              "description": "Highest verification tier this skill currently satisfies, or null if no tier is met."
+            },
+            "tierEvaluatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 timestamp of the most recent tier recomputation."
+            },
+            "firstEvidenceAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 timestamp of the first `evidence_added` event. Used as the tenure baseline for the enterprise-ready tier."
+            }
+          }
+        },
+        "trustMagnitude": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Yggdrasil III Trust Magnitude — accumulated positive-scoring evidence only. Sum of per-evidence artifact scores (magnitude × weight × freshness); fusion-recipe is structural/provenance metadata at 0 TM. Display layer soft-caps at 500; raw value drives grading and the apex gate."
+        },
+        "overallTrustGrade": {
+          "type": "string",
+          "enum": [
+            "S",
+            "A",
+            "B",
+            "C",
+            "ungraded"
+          ],
+          "description": "Yggdrasil III Overall Trust Grade: S ≥ 250 plus ≥3 distinct positive-scoring evidence types and a positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review; A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Fusion-recipe does not score or count toward diversity."
+        },
+        "provisional": {
+          "type": "boolean",
+          "default": false,
+          "description": "True if this skill is graded at its current overallTrustGrade under the 6-month provisional grace window (RFC §5.7). A provisional skill passed the magnitude threshold for its grade but failed the applicable Yggdrasil III diversity gate at migration cutover. Demotion at grace expiry is PR-gated, not automatic."
+        },
+        "provisionalUntil": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date when the provisional grace window expires. Populated only when provisional=true. After this date gaia validate emits a provisional-expired warning; demotion requires a curator PR."
+        },
+        "apexGateStatus": {
+          "type": "object",
+          "description": "Reserved for forward-compat with namedSkill propagation — unused on canonical nodes. Per-predicate pass/fail for the 6★ apex gate (RFC §11.12, amended by G7 delta §A). All 6 active predicates must be true simultaneously for apex eligibility. Two additional predicates are feature-flagged OFF (return null = skipped) until 2026-Q4 review.",
+          "additionalProperties": false,
+          "properties": {
+            "aGradedOriginsGte5": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if the skill's transitive fusion-recipe closure contains ≥5 distinct A-or-S-graded origin evidence rows. Consolidates the old transitiveOriginsGte12 and aGradedClosureGte8 predicates (delta §A)."
+            },
+            "sourceTenureDaysGte180AorS": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if the maximum source age across all A/S-tier evidence rows is ≥180 calendar days, measured via the per-row sourceStartedAt field. Replaces the old tenureDaysGte180 predicate (delta §A). False (not null) when no A/S rows exist."
+            },
+            "directNestedSuiteGte1": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if at least one direct component of this skill itself has non-empty suiteComponents (RFC §11.12.2)."
+            },
+            "depth2OnlyReachableGte1": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if the fusion graph (role=origin edges, excluding suite-component edges) contains at least one skill reachable only at depth-2 and not at depth-1 (RFC §11.12.3, delta §A depth-2 walk amendment)."
+            },
+            "overallGradeS": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if overallTrustGrade equals S under strict-evidence reading: TM ≥250, three distinct positive-scoring types, and an eligible positive witness; fusion-recipe may be auto-derived only as structural metadata."
+            },
+            "apexPromotionPrSigned": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "TRUE if a PR labeled apex-promotion exists with ≥2 distinct 4★+ verifier approvals from at least 2 distinct GitHub orgs (RFC §11.12.8). gaia promote rejects target_level==6★ at CLI layer; this predicate is set only by meta-guard.yml at merge time."
+            },
+            "crossOrgVerifierGte2": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "FEATURE-FLAGGED OFF until 2026-Q4 review. When active: TRUE if ≥2 verifier-attestation rows exist from 4★+ verifiers in at least 2 distinct GitHub orgs (RFC §11.12.6). Returns null (skipped) while flag is off; CI cap in I4 enforces the system-wide limit independently."
+            },
+            "systemWideCapRespected": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "FEATURE-FLAGGED OFF. System-wide 6★ cap (≤5) is enforced by meta-guard.yml CI (I4), not by this per-skill predicate. Returns null (skipped). Kept for forward compatibility; re-enable by flipping the feature flag in src/gaia_cli/trustMagnitude.py at 2026-Q4 review."
+            }
+          }
+        },
+        "cluster": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Cluster ID from 3D layout projection."
+        },
+        "positions": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "3D layout positions across deterministic, spectral, and semantic projections.",
+          "properties": {
+            "deterministic": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "spectral": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "semantic": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "branch": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "suite",
+            "unique"
+          ],
+          "description": "Taxonomy branch classification."
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6,
+          "description": "Numeric rank (0★ through 6★)."
+        },
+        "rankWord": {
+          "type": "string",
+          "enum": [
+            "Basic",
+            "Awakened",
+            "Named",
+            "Evolved",
+            "Extra",
+            "Ultimate",
+            "Apex",
+            "Unique",
+            "Unique Ultimate"
+          ],
+          "description": "Human-readable rank label."
+        },
+        "medallion": {
+          "type": "string",
+          "description": "Decorative medallion glyph associated with branch/rank."
+        },
+        "namedMaxLevel": {
+          "type": "string",
+          "enum": [
+            "0★",
+            "1★",
+            "2★",
+            "3★",
+            "4★",
+            "5★",
+            "6★"
+          ],
+          "description": "Highest level among named implementations for this generic bucket."
+        },
+        "ultimateGateStatus": {
+          "type": "object",
+          "required": [
+            "passes",
+            "reason"
+          ],
+          "additionalProperties": false,
+          "description": "Ultimate gate evaluation status for high-rank nodes.",
+          "properties": {
+            "passes": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

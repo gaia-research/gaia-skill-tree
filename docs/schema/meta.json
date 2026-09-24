@@ -1,0 +1,533 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "description": "Gaia schema metadata — single source of truth for nomenclature, theming, and validation rules. Technical policy is documented in META.md.",
+  "levels": {
+    "order": [
+      "0★",
+      "1★",
+      "2★",
+      "3★",
+      "4★",
+      "5★",
+      "6★"
+    ],
+    "labels": {
+      "0★": "Basic",
+      "1★": "Awakened",
+      "2★": "Named",
+      "3★": "Evolved",
+      "4★": "Extra",
+      "5★": "Ultimate",
+      "6★": "Apex"
+    },
+    "colors": {
+      "0★": {
+        "hex": "#94a3b8",
+        "bg": "rgba(148,163,184,.12)",
+        "border": "rgba(148,163,184,.4)"
+      },
+      "1★": {
+        "hex": "#38bdf8",
+        "bg": "rgba(56,189,248,.12)",
+        "border": "rgba(56,189,248,.4)"
+      },
+      "2★": {
+        "hex": "#63cab7",
+        "bg": "rgba(99,202,183,.15)",
+        "border": "rgba(99,202,183,.4)"
+      },
+      "3★": {
+        "hex": "#a78bfa",
+        "bg": "rgba(167,139,250,.15)",
+        "border": "rgba(167,139,250,.4)"
+      },
+      "4★": {
+        "hex": "#e879f9",
+        "bg": "rgba(232,121,249,.15)",
+        "border": "rgba(232,121,249,.4)"
+      },
+      "5★": {
+        "hex": "#fbbf24",
+        "bg": "rgba(251,191,36,.15)",
+        "border": "rgba(251,191,36,.4)"
+      },
+      "6★": {
+        "hex": "#fbbf24",
+        "bg": "rgba(251,191,36,.22)",
+        "border": "rgba(251,191,36,.55)"
+      }
+    }
+  },
+  "types": {
+    "order": [
+      "basic",
+      "fusion"
+    ],
+    "labels": {
+      "basic": "Basic",
+      "fusion": "Fusion"
+    },
+    "symbols": {
+      "basic": "○",
+      "fusion": "◆"
+    },
+    "colors": {
+      "basic": {
+        "hex": "#38bdf8",
+        "rgb": "56,189,248"
+      },
+      "fusion": {
+        "hex": "#f59e0b",
+        "rgb": "245,158,11"
+      }
+    },
+    "minPrereqs": {
+      "basic": 0,
+      "fusion": 1
+    },
+    "ultimateFusionCriteria": {
+      "description": "All prerequisites must be named skills. The proposer must hold origin status on at least 1 of them.",
+      "minNamedPrereqs": 5,
+      "minOriginContributions": 1
+    }
+  },
+  "metaEpochs": {
+    "order": [
+      "yggdrasil-i",
+      "yggdrasil-ii",
+      "yggdrasil-iii"
+    ],
+    "labels": {
+      "yggdrasil-i": "Yggdrasil I",
+      "yggdrasil-ii": "Yggdrasil II",
+      "yggdrasil-iii": "Yggdrasil III"
+    }
+  },
+  "evidence": {
+    "classes": [
+      "A",
+      "B",
+      "C"
+    ],
+    "ultimateMinSources": 3,
+    "ultimateRequiredClasses": [
+      "A",
+      "B"
+    ],
+    "types": [
+      {
+        "id": "fusion-recipe",
+        "description": "Structural/provenance metadata for composition and rank. Auto-derived for fused/Ultimate skills from suiteComponents; contributes 0 Trust Magnitude and does not count toward Trust Grade diversity.",
+        "magnitude": "0 (structural/provenance metadata only)",
+        "weight": 0,
+        "cap": 0,
+        "contributionCap": 0,
+        "gradeCeiling": null,
+        "freshness": "1.0 (intrinsic — no decay)",
+        "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
+        "notes": "Retained for structural/provenance/rank metadata. A skill with suiteComponents and no fusion-recipe row fails validation; origin counts, nested suites, graph traversal, and Apex predicates remain structural."
+      },
+      {
+        "id": "github-stars-own",
+        "description": "Stars on the skill's own repository, calibrated as direct adoption evidence under logarithmic diminishing returns (#1705).",
+        "magnitude": "min(175.0, 35.0 * log10(max(1.0, stars / 10.0)))",
+        "weight": 1.0,
+        "cap": 175.0,
+        "gradeCeiling": "A",
+        "freshness": "re-fetch quarterly; no time decay (gaia refresh-stars re-stamps lastVerified)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "named"
+        ],
+        "notes": "Same-source dedup collapses multiple entries pointing at the same canonical URL to one. Fork-network canonicalization merges forks of the same upstream unless the evidence entry sets links.canonicalRepo. Capped at 175.0 TM under logarithmic diminishing returns; stars cannot satisfy Grade S without independent corroboration."
+      },
+      {
+        "id": "proxy-containment",
+        "description": "The skill's artifact is bundled inside a separately-starred external project.",
+        "magnitude": "min(160, (external_stars / 1000) * 0.8)",
+        "weight": 1.0,
+        "cap": 160,
+        "gradeCeiling": "S",
+        "freshness": "re-fetch quarterly; no time decay",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.25,
+        "maxEntriesPerSkill": 3,
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
+        "externalStarFloor": 10000,
+        "notes": "Until proxy-containment validator ships, claims count at full magnitude with explicit unverified=true flag. S-capable at 125k+ external stars (RFC §2.4)."
+      },
+      {
+        "id": "verifier-attestation",
+        "description": "A 4★+ Verifier signs an attestation that the skill is real and graded fairly.",
+        "magnitude": "30 * verifiers",
+        "weight": 1.5,
+        "cap": null,
+        "gradeCeiling": "S",
+        "freshness": "null on derank — evaluates to null (not zero) when attesting Verifier drops below 4★ (RFC §5.6)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "named"
+        ],
+        "notes": "No cap on verifier count for magnitude. Diversity gate for S counts max 3 verifiers as one distinct type slot. Null-on-derank: the row is removed from TM sum; flag preserved for audit. S-capable at 3+ verifiers."
+      },
+      {
+        "id": "benchmark-result",
+        "description": "A reproducible benchmark on a public dataset, scored as percentile rank within the field.",
+        "magnitude": "percentile (0–100)",
+        "weight": 1.4,
+        "cap": 100,
+        "gradeCeiling": "S",
+        "freshness": "50%/year decay (half-life ≈ 1 year)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.15,
+        "notes": "S-capable at 95th+ percentile. Weight 1.4 because percentiles are externally verifiable. Only at 1.4 (not 1.5) because benchmark choice can be cherry-picked."
+      },
+      {
+        "id": "arxiv",
+        "description": "Academic citation count for a published paper associated with the skill.",
+        "magnitude": "min(100, citations / 5)",
+        "weight": 1.0,
+        "cap": 100,
+        "gradeCeiling": "S",
+        "freshness": "re-fetch quarterly; no time decay",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.7,
+        "notes": "S-capable at 500+ citations (artifact_score=100). High citation counts cluster around foundational papers — these legitimately deserve S. S floor is 95 (artifact_score threshold)."
+      },
+      {
+        "id": "peer-review",
+        "description": "Structured walkthrough with written critique by 4★+ reviewers (distinct from verifier-attestation).",
+        "magnitude": "25 * reviewers",
+        "weight": 1.2,
+        "cap": null,
+        "gradeCeiling": "S",
+        "freshness": "25%/2yr decay (linear)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.3,
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
+        "notes": "S-capable at 3+ distinct reviewers (magnitude=75, weight=1.2, artifact_score≈90). Published NAR/Nature-level peer-reviewed papers with 4★+ reviewers legitimately deserve S. S floor is 88."
+      },
+      {
+        "id": "repo-own",
+        "description": "Artifact volume evidence from the contributor's own repository (commits + contributors).",
+        "magnitude": "min(60, commits/200 + contributors^2 * 2)",
+        "weight": 0.6,
+        "cap": 60,
+        "gradeCeiling": "B",
+        "freshness": "re-fetch quarterly; no time decay",
+        "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
+        "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. repo-own is self-produced and cannot serve as the Yggdrasil III S witness; A/B behavior is unchanged."
+      },
+      {
+        "id": "self-attestation",
+        "description": "Contributor declaration that the skill exists and is real. Flat 10 magnitude, max 1 entry per skill.",
+        "magnitude": "10 (flat)",
+        "weight": 0.5,
+        "cap": 10,
+        "gradeCeiling": "C",
+        "freshness": "static — never decays",
+        "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
+        "maxEntriesPerSkill": 1,
+        "notes": "C-cap. A skill with only self-attestation scores 5 artifact score (10 × 0.5) and lands ungraded. Placeholder for newly-added skills with no external trail yet."
+      },
+      {
+        "id": "social-signal",
+        "description": "Creator/audience evidence — video views, engagement, topical authority from external creators.",
+        "magnitude": "log10(views) * 8 * creator_mult * engagement_ratio where engagement_ratio = min(1.5, (likes + comments*5) / views * 50)",
+        "weight": 1.0,
+        "cap": 80,
+        "gradeCeiling": "A",
+        "freshness": "50%/year decay (half-life ≈ 1 year)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.35,
+        "maxEntriesPerSkill": 3,
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
+        "creatorMultipliers": {
+          "sameAsAuthor": 0,
+          "anonymous": 0.3,
+          "established": 0.6,
+          "topicalAuthority": 1.0,
+          "recognizedVoice": 1.2,
+          "reserved": 1.4
+        },
+        "viewFloor": 1000,
+        "publishCooldownDays": 30,
+        "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80. Same-creator dedup: 2nd entry at 0.5×, 3rd at 0.25× regardless of slot. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
+      },
+      {
+        "id": "npm-downloads",
+        "description": "Weekly download count for the skill's published npm package, calibrated as adoption evidence under logarithmic diminishing returns (#1787).",
+        "magnitude": "min(150.0, 30.0 * log10(max(1.0, downloads / 100.0)))",
+        "weight": 0.9,
+        "cap": 150.0,
+        "gradeCeiling": "A",
+        "freshness": "re-fetch quarterly; no time decay",
+        "selfProducible": false,
+        "allowedLayers": [
+          "named"
+        ],
+        "notes": "downloads is the weekly download count from the npm registry API (https://api.npmjs.org/downloads/point/last-week/<package>). Same-source dedup collapses multiple entries at the same package URL to one. Cannot satisfy Grade S without independent corroboration."
+      },
+      {
+        "id": "engagement",
+        "description": "View-less social engagement evidence (likes + comments/replies) for platforms that don't expose view counts, distinct from social-signal which requires views.",
+        "magnitude": "min(60.0, 15.0 * log10(max(1.0, likes + comments * 3)))",
+        "weight": 0.7,
+        "cap": 60.0,
+        "gradeCeiling": "B",
+        "freshness": "50%/year decay (half-life ≈ 1 year)",
+        "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.25,
+        "maxEntriesPerSkill": 3,
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
+        "notes": "For platforms with no visible view count (e.g. a reply-only thread). Lower cap/weight/gradeCeiling than social-signal since engagement-only signal is a weaker adoption proxy without view-count context. Same-creator dedup follows the social-signal plateau pattern."
+      }
+    ],
+    "gradeThresholds": {
+      "S": 250,
+      "A": 100,
+      "B": 50,
+      "C": 20
+    },
+    "perRowGradeThresholds": {
+      "fusion-recipe": {},
+      "github-stars-own": {
+        "S": 88,
+        "A": 60,
+        "B": 35,
+        "C": 20
+      },
+      "proxy-containment": {
+        "S": 112,
+        "A": 64,
+        "B": 32,
+        "C": 16
+      },
+      "verifier-attestation": {
+        "S": 90,
+        "A": 54,
+        "B": 27,
+        "C": 14
+      },
+      "benchmark-result": {
+        "S": 90,
+        "A": 70,
+        "B": 40,
+        "C": 20
+      },
+      "arxiv": {
+        "S": 95,
+        "A": 70,
+        "B": 40,
+        "C": 15
+      },
+      "peer-review": {
+        "S": 88,
+        "A": 60,
+        "B": 35,
+        "C": 14
+      },
+      "repo-own": {
+        "B": 22,
+        "C": 9
+      },
+      "self-attestation": {
+        "C": 4
+      },
+      "social-signal": {
+        "A": 60,
+        "B": 28,
+        "C": 12
+      }
+    },
+    "ultimateGate": {
+      "minEvidencedComponents": 3,
+      "requiredComponentGrades": {
+        "S": 1,
+        "A": 2
+      },
+      "componentFloor": "C"
+    }
+  },
+  "trustMagnitudeThresholds": {
+    "description": "Yggdrasil III Trust Magnitude grade thresholds. TM measures accumulated positive-scoring evidence only; fusion-recipe remains structural/provenance metadata at 0 TM and is excluded from diversity. S also requires an eligible independent witness.",
+    "S": 250,
+    "A": 100,
+    "B": 50,
+    "C": 20,
+    "ungraded": 0,
+    "softDisplayCap": 500,
+    "diversityGate": {
+      "S": {
+        "minDistinctTypes": 3,
+        "plusRule": ">=3 distinct positive scoring evidence types AND >=1 positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review"
+      },
+      "A": {
+        "minDistinctTypes": 1,
+        "requiresNonSelfProducible": false,
+        "plusRule": ">=1 A-capable type present (pure github-stars-own at A is valid)"
+      },
+      "B": {
+        "minDistinctTypes": 1,
+        "requiresNonSelfProducible": false,
+        "plusRule": ">=1 B-capable type or higher"
+      },
+      "C": {
+        "minDistinctTypes": 0,
+        "requiresNonSelfProducible": false,
+        "plusRule": "none"
+      }
+    },
+    "selfProducibleTypes": [
+      "fusion-recipe",
+      "self-attestation",
+      "repo-own"
+    ],
+    "sWitnessTypes": [
+      "benchmark-result",
+      "verifier-attestation",
+      "peer-review"
+    ],
+    "sWitnessExclusions": [
+      "github-stars-own",
+      "repo-own",
+      "fusion-recipe",
+      "self-attestation",
+      "social-signal",
+      "arxiv",
+      "proxy-containment"
+    ]
+  },
+  "curationPrefill": {
+    "description": "Embedding-similarity thresholds for gaia-curate v2 prefill. Tunable via the Haiku dynamic-workflow loop. Cosine (all-MiniLM-L6-v2).",
+    "strongMap": 0.72,
+    "weakMap": 0.45,
+    "topK": 3
+  },
+  "apexGate": {
+    "description": "6★ apex gate configuration (RFC §11.12, amended by G7 delta §A). All 6 active predicates must be simultaneously satisfied. Two predicates are feature-flagged OFF until 2026-Q4 review.",
+    "predicates": [
+      "aGradedOriginsGte5",
+      "sourceTenureDaysGte180AorS",
+      "directNestedSuiteGte1",
+      "depth2OnlyReachableGte1",
+      "overallGradeS",
+      "apexPromotionPrSigned"
+    ],
+    "featureFlaggedOff": [
+      "crossOrgVerifierGte2",
+      "systemWideCapRespected"
+    ],
+    "systemWideCap": 5,
+    "featureFlaggedOffReviewDate": "2026-Q4",
+    "notes": "crossOrgVerifierGte2 and systemWideCapRespected are implemented in passesSuiteApexGate() but return null (skipped) until re-enabled. System-wide cap enforcement lives in CI (meta-guard.yml I4), not in per-skill predicate evaluation. gaia promote rejects target_level==6★ at CLI layer; apex requires a manually-opened PR labeled apex-promotion with >=2 verifier approvals from >=2 distinct GitHub orgs."
+  },
+  "demerits": {
+    "order": [
+      "broken-evidence",
+      "niche-integration",
+      "experimental-feature",
+      "heavyweight-dependency"
+    ],
+    "labels": {
+      "broken-evidence": "Broken evidence",
+      "niche-integration": "Niche integrations",
+      "experimental-feature": "Experimental features",
+      "heavyweight-dependency": "Heavyweight dependencies"
+    },
+    "eligibleLevels": [
+      "0★",
+      "1★",
+      "2★",
+      "3★",
+      "4★",
+      "5★",
+      "6★"
+    ],
+    "minimumEffectiveLevel": "0★"
+  },
+  "alternativePathways": {
+    "4★": {
+      "description": "Origin-fusion path: 3+ skill fuses with at least 1 origin named skill (alternative to evidence path).",
+      "fusionPath": {
+        "minFusions": 3,
+        "minOriginContributions": 1
+      }
+    },
+    "5★": {
+      "description": "Ultimate path: Platform capstones requires 5+ named prerequisites + Origin Fusion + 10k repository stars.",
+      "ultimatePath": {
+        "minNamedPrereqs": 5,
+        "minOriginContributions": 1,
+        "minRepoStars": 10000
+      }
+    },
+    "6★": {
+      "description": "Apex path: Reaching Apex rank (6★) requires satisfying all 6 active apex gate predicates simultaneously (RFC §11.12, amended by G7 delta §A). gaia promote rejects target_level==6★ at CLI layer. A PR labeled apex-promotion with >=2 cross-org verifier approvals is required. Legacy apexPath (minUltimateSkills/minUltimateLevel) is superseded by apexGate block above."
+    }
+  },
+  "customInstallation": {
+    "eligibleLevels": [
+      "4★",
+      "5★",
+      "6★"
+    ],
+    "minimumLevel": "4★",
+    "alternativeUnlocks": {
+      "skillSuite": {
+        "description": "Fusion of 2 or more prerequisite skills where all component skills are installed altogether.",
+        "minPrerequisites": 2,
+        "requireAllPrerequisitesInstalled": true
+      }
+    }
+  }
+}
