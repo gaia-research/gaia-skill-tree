@@ -20,6 +20,7 @@ DEFAULT_EXCLUDED_DIRS = {
     "coverage",
     "vendor",
     "__pycache__",
+    "fixtures",
 }
 
 DEFAULT_EXCLUDED_EXTENSIONS = (
