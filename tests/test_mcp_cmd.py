@@ -58,3 +58,48 @@ def test_dev_mcp_has_no_daemon_subcommands():
 
     with pytest.raises(SystemExit):
         parser.parse_args(["mcp", "start"])
+
+
+def test_dev_mcp_help_reflects_plugin_and_summon():
+    """`gaia dev dev --help` help string must reference plugin/summon, not standalone package."""
+    from gaia_cli.commands.dev import DevCommand
+
+    parser = argparse.ArgumentParser(prog="gaia dev")
+    DevCommand().configure(parser)
+    help_text = " ".join(parser.format_help().split())
+    assert "Show install instructions for the Skill Heaven plugin and bundled summon MCP server" in help_text
+    assert "standalone @gaia-research/mcp server" not in help_text
+
+
+def test_no_obsolete_mcp_install_commands_in_active_surfaces():
+    """Guard against obsolete MCP install commands returning to active surfaces."""
+    import json
+
+    repo_root = Path(__file__).resolve().parent.parent
+
+    # 1. .mcp.json
+    mcp_json_path = repo_root / ".mcp.json"
+    if mcp_json_path.exists():
+        mcp_data = json.loads(mcp_json_path.read_text(encoding="utf-8"))
+        assert "gaia" not in mcp_data.get("mcpServers", {})
+
+    # 2. AGENTS.md
+    agents_md = (repo_root / "AGENTS.md").read_text(encoding="utf-8")
+    assert "claude mcp add gaia" not in agents_md
+    assert "claude plugin install skill-heaven@gaia-skill-heaven" in agents_md
+    assert "@gaia-research/mcp@latest" not in agents_md
+
+    # 3. packages/cli-npm/README.md
+    npm_readme = (repo_root / "packages" / "cli-npm" / "README.md").read_text(encoding="utf-8")
+    assert "claude mcp add gaia" not in npm_readme
+    assert "@gaia-research/mcp@0.1.0" not in npm_readme
+    assert "claude plugin install skill-heaven@gaia-skill-heaven" in npm_readme
+
+    # 4. DEV.md
+    dev_md = (repo_root / "DEV.md").read_text(encoding="utf-8")
+    assert "standalone @gaia-research/mcp npm package (v0.1.0" not in dev_md
+
+    # 5. docs/en/cli-reference.html
+    cli_ref = (repo_root / "docs" / "en" / "cli-reference.html").read_text(encoding="utf-8")
+    assert "claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0" not in cli_ref
+

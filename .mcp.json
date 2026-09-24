@@ -1,14 +1,5 @@
 {
   "mcpServers": {
-    "gaia": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "--yes",
-        "--package=@gaia-research/mcp@latest",
-        "gaia-mcp"
-      ]
-    },
     "graft": {
       "command": "graft",
       "args": [

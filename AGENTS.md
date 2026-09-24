@@ -65,18 +65,15 @@ Not you if you are a fresh visiting agent. Playbook lives in `docs/agent.md` §5
 - Do not invent evidence rows.
 - Do not touch files under "Agent-Managed Files (Hermes Ownership)" in `docs/agent.md`.
 
-## MCP
+## Agent Plugin & Summon (MCP)
 
-The published [Gaia MCP 0.4.0 release](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is the current rich
-Registry/Bond package surface: `gaia_search`, `gaia_inspect`, `summon`, and
-`gaia_status`. Add its explicit MCP binary to Claude Code:
+The recommended path for Claude Code is the unified **Skill Heaven** plugin, which bundles its own summon MCP server:
 
-    claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
+    claude plugin install skill-heaven@gaia-skill-heaven
 
-`@gaia-research/mcp` has both `gaia-mcp` and `skill-hell` binaries, so do not
-leave a scoped package invocation without a binary selector. `summon` is the
-current name, not `gaia_summon`; D4's thin `search_skills` + `summon` profile is
-separate from this four-tool package.
+The core runtime mechanic is `summon` &mdash; materializing capabilities into session context on demand with zero ambient skill debt.
+
+*(Note: Standalone `@gaia-research/mcp` and `skill-hell` npm packages have been decommissioned and deprecated on npm as of 2026-08-19 in favor of the bundled Agent Plugin in `gaia-research/gaia-skill-heaven`.)*
 
 ## Organization dogfooding and feedback
 
