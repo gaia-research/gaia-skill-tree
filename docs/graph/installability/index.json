@@ -4929,7 +4929,7 @@
         "entrypoint": ".agents/skills/gaia-bot-curate/SKILL.md",
         "installSubpath": ".agents/skills/gaia-bot-curate"
       },
-      "currentSkillContentSha256": "bf30dceefda094588cfd3550fd890db84ac291672d74e9fde865d57cac0ecc49",
+      "currentSkillContentSha256": "744dae73b09293bb0a286897c392ceb1f86a2f6f2a1bb42ef6406a34f84f4e01",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4949,7 +4949,7 @@
         "entrypoint": ".agents/skills/gaia-curate/SKILL.md",
         "installSubpath": ".agents/skills/gaia-curate"
       },
-      "currentSkillContentSha256": "28a81d5f2aaebb6c8dc7c1f380b476fe57147491e943b9ce530ab09648c7c3db",
+      "currentSkillContentSha256": "80581aebef233c2435c5d12587bc30ef20476e56c5d88468864791c6accc4120",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5029,7 +5029,7 @@
         "entrypoint": ".agents/skills/gaia-integrity/SKILL.md",
         "installSubpath": ".agents/skills/gaia-integrity"
       },
-      "currentSkillContentSha256": "33df1f69e4533b006212b83eea3f64ea2e27385ff8b21f6dda7b70dfb1c40505",
+      "currentSkillContentSha256": "afb6a1adb995bd9034fc9f0d05f8cb2d290a135f5b50c9d6463297c46d2702cf",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5049,7 +5049,7 @@
         "entrypoint": ".agents/skills/gaia-meta-audit/SKILL.md",
         "installSubpath": ".agents/skills/gaia-meta-audit"
       },
-      "currentSkillContentSha256": "fa4ed3a7721d0ec59179de56a8d40fffaa8e19d863267cf31a1e2bd5359ee03f",
+      "currentSkillContentSha256": "9b503c9bada88ab53f2526070151c83f439a43266a10f4ac7b536cd926b3bfc4",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5089,7 +5089,7 @@
         "entrypoint": ".agents/skills/gaia-triage/SKILL.md",
         "installSubpath": ".agents/skills/gaia-triage"
       },
-      "currentSkillContentSha256": "cb4c75a2c21b1d78bd94e6fe2106b6b5f5a60fe1475a8d8a3dc38b5400a47524",
+      "currentSkillContentSha256": "80d1d5722419c551b463bbcceff643579086d586948ac50b51c20cb3231f13db",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
