@@ -90,6 +90,43 @@ The contract and mirror checks are CI gates. Triggering and execution evidence a
 required when the first playbook lands. Floor measurements remain advisory until a
 later founder ruling.
 
+## Validator precedence and quick validation
+
+The repository contains both ordinary agent skills and opt-in Agent Playbooks. Because generic skill tooling (such as Anthropic's `skill-creator` and its `quick_validate.py`) expects a closed set of frontmatter properties (`name`, `description`, `license`, `allowed-tools`, `metadata`, `compatibility`), running generic quick validation against a Gaia playbook emits contradictory errors regarding unexpected keys (`class`, `objective`, `steps`, etc.).
+
+The validator precedence hierarchy for Gaia playbooks and skills is:
+
+1. **Authoritative Playbook Contract (`founder/steward/playbook.schema.json`, `scripts/check_playbook_contract.py`):**
+   For any skill declaring `playbookVersion: 1`, the Gaia playbook schema and live command spine checker are authoritative. If generic tooling reports valid `playbookVersion: 1` contract fields as unexpected, the playbook contract takes precedence.
+2. **Reconciled Quick Validation (`scripts/quick_validate_skill.py` / `scripts/quick_validate.py`):**
+   Gaia provides an upstream-compatible quick validator that bridges generic skill checks with the playbook contract:
+   - For ordinary skills (lacking `playbookVersion: 1`), it strictly enforces base skill properties and detects unexpected keys or unauthorized playbook fields.
+   - For playbooks (`playbookVersion: 1`), it recognizes the full playbook frontmatter extension set (`class`, `objective`, `capability`, `preconditions`, `steps`, `stopConditions`, `proof`, `done`) alongside base properties, while keeping arbitrary unknown keys detectable.
+   - It can wrap an external upstream validator via `adapt_upstream_validator()` or run standalone.
+3. **Repository Skill Quality Gate (`scripts/validate_skills.py`):**
+   Enforces file length (≤ 800 lines), orphan asset detection, frontmatter key integrity, and name/description conventions across all skills in `.agents/skills/`.
+4. **Mirror Integrity Gate (`scripts/sync_agent_skill_mirror.py --check`):**
+   Ensures byte-parity between `.agents/skills/` and `.claude/skills/`.
+
+## Authoring and validation workflow
+
+When authoring or modifying an agent skill or playbook, run both generic skill quality checks and the Gaia playbook contract where applicable:
+
+```bash
+# 1. Quick validation (generic skill hygiene + frontmatter key check):
+python scripts/quick_validate_skill.py .agents/skills/<skill-name>
+
+# 2. For playbooks (carrying playbookVersion: 1), verify contract and live command spine:
+python scripts/check_playbook_contract.py
+
+# 3. Repository-wide skill quality check:
+python scripts/validate_skills.py
+
+# 4. Mirror sync and gate:
+python scripts/sync_agent_skill_mirror.py
+python scripts/sync_agent_skill_mirror.py --check
+```
+
 ## Change discipline
 
 - Author once under `.agents/skills/`; sync with

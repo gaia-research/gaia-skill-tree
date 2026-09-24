@@ -112,3 +112,45 @@ Run `git status` to confirm no raw asset paths appear as untracked files.
    (e.g. `/assets/ascension-overdrive/rank-1-awakened.webp`)
 
 See Issue #975 for the full Ascension Overdrive v2 context.
+
+---
+
+## quick_validate_skill.py / quick_validate.py — Quick Skill & Playbook Frontmatter Validator
+
+Validates single skill frontmatter against generic skill-creator constraints and
+Gaia's opt-in `playbookVersion: 1` contract extensions.
+
+### Background & Precedence
+
+Generic skill tooling (e.g. Anthropic `skill-creator`) permits only a fixed set
+of frontmatter properties (`name`, `description`, `license`, `allowed-tools`,
+`metadata`, `compatibility`). Gaia Agent Playbooks extend frontmatter with
+`playbookVersion`, `class`, `objective`, `capability`, `preconditions`, `steps`,
+`stopConditions`, `proof`, and `done`.
+
+Validator precedence for Gaia:
+1. **Playbook Contract (`founder/steward/playbook.schema.json`, `scripts/check_playbook_contract.py`):**
+   Authoritative for all `playbookVersion: 1` skills.
+2. **Reconciled Quick Validator (`scripts/quick_validate_skill.py` / `scripts/quick_validate.py`):**
+   Recognizes `playbookVersion: 1` contract fields when present, while strictly
+   detecting unexpected keys on ordinary skills and catching unknown keys on playbooks.
+3. **Repository Skill Quality Gate (`scripts/validate_skills.py`):**
+   Scans the repository for line limit (≤ 800), orphan assets, and frontmatter property integrity.
+4. **Mirror Integrity (`scripts/sync_agent_skill_mirror.py --check`):**
+   Ensures byte-parity between `.agents/skills/` and `.claude/skills/`.
+
+### How to run
+
+```bash
+# Validate any skill or playbook directory
+python scripts/quick_validate_skill.py .agents/skills/dev-calibrate
+# Or using the upstream-compatible alias
+python scripts/quick_validate.py .agents/skills/dev-calibrate
+
+# Also check playbook contract (schema + command spine)
+python scripts/quick_validate_skill.py .agents/skills/dev-calibrate --check-contract
+
+# Wrap an external skill-creator quick_validate.py script
+python scripts/quick_validate_skill.py .agents/skills/dev-calibrate --upstream-validator path/to/quick_validate.py
+```
+
