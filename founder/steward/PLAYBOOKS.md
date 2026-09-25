@@ -137,3 +137,11 @@ python scripts/sync_agent_skill_mirror.py --check
   playbook. Different terminal proof or authority is a different playbook.
 - Final integration-to-`main` merges remain human decisions regardless of a
   playbook's class or capability prose.
+
+## Test fixture naming and location convention (#1692)
+
+Test fixtures and mock skill assets must never compete with runtime skills during discovery or validation:
+
+1. **Naming:** Do not name embedded test fixture or sample files `SKILL.md`. Use distinct names such as `UPSTREAM_SKILL.md`, `fixture.skill.md`, or `<name>.fixture.md`. Only canonical, discoverable skills may bear the file name `SKILL.md`.
+2. **Location:** Store test fixtures under repository test suites (e.g., `tests/fixtures/skills/`) or inside dedicated `fixtures/` directories pruned by the scanner (`DEFAULT_EXCLUDED_DIRS`). Never embed a nested `SKILL.md` inside `.agents/skills/<skill-name>/` or its subdirectories.
+3. **Enforcement:** `scripts/validate_skills.py` strictly fails if any nested `SKILL.md` is detected within a skill directory, and `src/gaia_cli/scanner.py` automatically prunes any directory named `fixtures`.

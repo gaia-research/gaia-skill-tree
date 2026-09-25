@@ -62,7 +62,7 @@ def test_docs_graph_validates_against_graph_schema(graph_schema):
 def test_registry_gaia_json_validates_against_graph_schema(graph_schema):
     """registry/gaia.json must be valid vs graph.schema.json."""
     if not REGISTRY_GRAPH_PATH.is_file():
-        subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "assemble_gaia.py")], check=True)
+        subprocess.run([sys.executable, str(REPO_ROOT / "scripts" / "assemble_gaia.py")], cwd=str(REPO_ROOT), check=True)
     with open(REGISTRY_GRAPH_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
     validator = jsonschema.Draft7Validator(graph_schema)
@@ -101,6 +101,27 @@ def test_graph_schema_rejects_unexpected_edge_properties(graph_schema):
     validator = jsonschema.Draft7Validator(graph_schema)
     errors = list(validator.iter_errors(mutated))
     assert any("unexpectedEdgeProp" in e.message for e in errors)
+
+
+def test_graph_and_skill_schema_overlapping_properties_match(graph_schema):
+    """Overlapping skill properties in graph.schema.json must match skill.schema.json to prevent drift."""
+    skill_schema_path = REPO_ROOT / "registry" / "schema" / "skill.schema.json"
+    assert skill_schema_path.is_file(), f"Missing {skill_schema_path}"
+    with open(skill_schema_path, "r", encoding="utf-8") as f:
+        skill_schema = json.load(f)
+
+    skill_props = skill_schema.get("properties", {})
+    graph_skill_props = graph_schema.get("definitions", {}).get("graphSkill", {}).get("properties", {})
+
+    overlapping_keys = sorted(set(skill_props.keys()) & set(graph_skill_props.keys()))
+    assert len(overlapping_keys) >= 24, f"Expected at least 24 overlapping properties, got {len(overlapping_keys)}"
+
+    mismatches = []
+    for key in overlapping_keys:
+        if skill_props[key] != graph_skill_props[key]:
+            mismatches.append(key)
+
+    assert not mismatches, f"Overlapping schema properties differ between skill.schema.json and graph.schema.json: {mismatches}"
 
 
 def test_validate_script_passes_on_docs_graph():

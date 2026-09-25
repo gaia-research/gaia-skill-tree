@@ -33961,7 +33961,7 @@
         "genericSkillRef": "issue-triage",
         "status": "named",
         "level": "1★",
-        "description": "Triages incoming skill proposals and issues against the Gaia registry backlog — sorting by impact, feasibility, and dependency order to produce an actionable prioritized work queue.",
+        "description": "Triages incoming skill proposals and issues against the registry backlog — sorting by impact, feasibility, and dependency order to produce an actionable prioritized work queue.",
         "title": "The Issue Sorter",
         "tags": [
           "registry-curation",
@@ -34975,7 +34975,7 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "1★",
-        "description": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
+        "description": "Runs an automated batch curation pass over the registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
         "title": "The Automated Curator",
         "tags": [
           "registry-curation",
@@ -35065,7 +35065,7 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "1★",
-        "description": "Expands the Gaia skill registry with new, fully evidenced AI agent skills — researching skill sources, running validation, opening versioned PRs, and appending discovered marketplaces to the sources registry in one end-to-end workflow.",
+        "description": "Expands the Gaia skill tree with new, fully evidenced AI agent skills — researching skill sources, running validation, opening versioned PRs, and appending discovered marketplaces to the sources registry in one end-to-end workflow.",
         "title": "The Registrar",
         "tags": [
           "registry-curation",
@@ -35331,7 +35331,7 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "1★",
-        "description": "Validates the structural integrity of the Gaia registry — checking schema compliance, detecting duplicate IDs, verifying cross-references, and reporting any inconsistencies that would break build or generation.",
+        "description": "Validates the structural integrity of the registry — checking schema compliance, detecting duplicate IDs, verifying cross-references, and reporting any inconsistencies that would break build or generation.",
         "title": "The Schema Sentinel",
         "tags": [
           "registry-curation",
@@ -35508,7 +35508,7 @@
         "genericSkillRef": "registry-health-scan",
         "status": "named",
         "level": "2★",
-        "description": "Produces a prioritized review queue of Gaia registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
+        "description": "Produces a prioritized review queue of registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
         "title": "The Triage Director",
         "tags": [
           "registry-curation",
