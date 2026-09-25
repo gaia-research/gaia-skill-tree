@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 900" role="img" aria-labelledby="title desc">
+  <title id="title">Many upstream signals, one reviewed integration boundary</title>
+  <desc id="desc">Five upstream projects feed candidate packets into a shared review and decision gate. The selected changes converge into one combined integration, then validation, then main. The diagram emphasizes many discovery streams but one admission boundary.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#62594f"/></marker></defs>
+  <rect x="10" y="10" width="400" height="880" rx="18" fill="#fbfaf7" stroke="#d8d3cb" stroke-width="2"/>
+  <text x="30" y="49" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">Many sources · one review boundary</text>
+  <text x="30" y="76" fill="#55514b" font-family="Arial,sans-serif" font-size="15">Five sources · one combined review</text>
+  <g font-family="Arial,sans-serif" font-size="16" fill="#201f1d">
+    <rect x="28" y="108" width="155" height="48" rx="10" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/><text x="42" y="138" font-weight="700">Superpowers</text>
+    <rect x="28" y="174" width="155" height="48" rx="10" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/><text x="42" y="204" font-weight="700">Agent Skills</text>
+    <rect x="28" y="240" width="155" height="48" rx="10" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/><text x="42" y="270" font-weight="700">Hyperframes</text>
+    <rect x="28" y="306" width="155" height="48" rx="10" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/><text x="42" y="336" font-weight="700">GBrain</text>
+    <rect x="28" y="372" width="155" height="48" rx="10" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/><text x="42" y="402" font-weight="700">Ruflo / AgentDB</text>
+  </g>
+  <g fill="#fff" stroke="#62594f" stroke-width="2">
+    <rect x="222" y="113" width="143" height="38" rx="8"/><rect x="222" y="179" width="143" height="38" rx="8"/><rect x="222" y="245" width="143" height="38" rx="8"/><rect x="222" y="311" width="143" height="38" rx="8"/><rect x="222" y="377" width="143" height="38" rx="8"/>
+  </g>
+  <g font-family="Arial,sans-serif" font-size="15" fill="#201f1d" font-weight="700" text-anchor="middle">
+    <text x="293" y="138">review packet</text><text x="293" y="204">review packet</text><text x="293" y="270">review packet</text><text x="293" y="336">review packet</text><text x="293" y="402">release signal</text>
+  </g>
+  <g fill="none" stroke="#62594f" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M183 132h29"/><path d="M183 198h29"/><path d="M183 264h29"/><path d="M183 330h29"/><path d="M183 396h29"/>
+  </g>
+  <g fill="none" stroke="#62594f" stroke-width="2.5">
+    <path d="M365 132h18M365 198h18M365 264h18M365 330h18M365 396h18"/>
+    <path d="M383 132v324"/>
+  </g>
+  <g fill="none" stroke="#62594f" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M383 456H210"/>
+    <path d="M210 456v25"/><path d="M210 579v25"/><path d="M210 687v25"/><path d="M210 785v25"/>
+  </g>
+  <rect x="53" y="481" width="314" height="98" rx="14" fill="#e8efed" stroke="#4b716d" stroke-width="2.5"/>
+  <text x="210" y="515" text-anchor="middle" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">Shared semantic review</text>
+  <text x="210" y="542" text-anchor="middle" fill="#55514b" font-family="Arial,sans-serif" font-size="15">deduplicate · map · accept · omit</text>
+  <text x="210" y="565" text-anchor="middle" fill="#55514b" font-family="Arial,sans-serif" font-size="14">escalate uncertain decisions</text>
+  <rect x="53" y="604" width="314" height="83" rx="14" fill="#f4e7e4" stroke="#a84236" stroke-width="2.5"/>
+  <text x="210" y="638" text-anchor="middle" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">ONE reviewed integration</text>
+  <text x="210" y="665" text-anchor="middle" fill="#55514b" font-family="Arial,sans-serif" font-size="15">all decisions and source links together</text>
+  <rect x="85" y="712" width="250" height="73" rx="14" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/>
+  <text x="210" y="742" text-anchor="middle" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">Validation</text>
+  <text x="210" y="766" text-anchor="middle" fill="#55514b" font-family="Arial,sans-serif" font-size="15">rebuild combined outputs</text>
+  <rect x="132" y="810" width="156" height="55" rx="14" fill="#201f1d"/>
+  <text x="210" y="845" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="19" font-weight="700">main</text>
+</svg>

@@ -354,6 +354,20 @@ def md_to_html(md: str) -> str:
             i += 1
             continue
 
+        # Raw figure blocks let reports embed accessible, responsive SVG assets.
+        if line.strip().startswith("<figure"):
+            flush_list()
+            figure_lines = [line]
+            i += 1
+            while i < len(lines):
+                figure_lines.append(lines[i])
+                if lines[i].strip() == "</figure>":
+                    i += 1
+                    break
+                i += 1
+            out.append("\n".join(figure_lines))
+            continue
+
         # Blank line — ends a list or paragraph
         if not line.strip():
             flush_list()
@@ -701,7 +715,7 @@ def render_report_html(
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  {chart_script_tag}
+{chart_script_tag}
   <style>
 {_REPORT_CSS}
   </style>
