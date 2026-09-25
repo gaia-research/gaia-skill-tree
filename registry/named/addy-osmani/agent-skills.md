@@ -125,6 +125,12 @@ timeline:
   previousValue: 0.6.3
   newValue: 0.6.9
   details: synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.9
+- timestamp: '2026-09-22T19:48:02Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: 0.6.9
+  newValue: 0.6.10
+  details: synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.10
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-09-01'
@@ -169,11 +175,11 @@ links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
 upstream:
   mode: components
-  releasedAt: '2026-09-05T03:25:18Z'
+  releasedAt: '2026-09-18T03:32:23Z'
   repo: addyosmani/agent-skills
-  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.9
-  syncedAt: '2026-09-12T10:08:15Z'
-  version: 0.6.9
+  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.10
+  syncedAt: '2026-09-22T19:48:02Z'
+  version: 0.6.10
 ---
 
 ## Installation

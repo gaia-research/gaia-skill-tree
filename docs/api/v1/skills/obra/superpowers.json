@@ -217,6 +217,14 @@
       "previousValue": "v6.1.1",
       "newValue": "v6.3.0",
       "details": "synced from https://github.com/obra/superpowers/releases/tag/v6.3.0"
+    },
+    {
+      "timestamp": "2026-09-22T19:48:02Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": "v6.3.0",
+      "newValue": "v6.4.1",
+      "details": "synced from https://github.com/obra/superpowers/releases/tag/v6.4.1"
     }
   ],
   "links": {

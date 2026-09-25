@@ -155,6 +155,14 @@
       "previousValue": null,
       "newValue": "v0.8.34",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-09-22T19:48:03Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": "v0.8.34",
+      "newValue": "v0.8.60",
+      "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60"
     }
   ],
   "links": {

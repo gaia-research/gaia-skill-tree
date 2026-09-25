@@ -57,7 +57,67 @@
         "entrypoint": "README.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "3bb8adac6fe27f1796792a79bcf37462f407e35b57e848e45fefcc2ea25521a0",
+      "currentSkillContentSha256": "70168cb5c6069aa8eb035c84b9add10dc449f0a7c8bee14f3422b8a8d3655ae4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/api-and-interface-design": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/api-and-interface-design/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/api-and-interface-design",
+        "entrypoint": "skills/api-and-interface-design/SKILL.md",
+        "installSubpath": "skills/api-and-interface-design"
+      },
+      "currentSkillContentSha256": "906e3232aa57c1d77c7e378430a5a94987c1cf6a88379e2c811f6b7b7f3496b4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/browser-testing-with-devtools": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/browser-testing-with-devtools/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/browser-testing-with-devtools",
+        "entrypoint": "skills/browser-testing-with-devtools/SKILL.md",
+        "installSubpath": "skills/browser-testing-with-devtools"
+      },
+      "currentSkillContentSha256": "3aa129d3e3606de02db3ab87b187b2003dc4967084250c70894bfead77647d20",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/ci-cd-and-automation": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/ci-cd-and-automation/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/ci-cd-and-automation",
+        "entrypoint": "skills/ci-cd-and-automation/SKILL.md",
+        "installSubpath": "skills/ci-cd-and-automation"
+      },
+      "currentSkillContentSha256": "c5abaabfee045de5bd8992b9ff2cfe9b2ddb2a699b04417865693e2d7facff4e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -103,6 +163,126 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "addy-osmani/constraint-driven-development": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/constraint-driven-development/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/constraint-driven-development",
+        "entrypoint": "skills/constraint-driven-development/SKILL.md",
+        "installSubpath": "skills/constraint-driven-development"
+      },
+      "currentSkillContentSha256": "e19ed806aef190081fc95e5bc34b22897281dad0302d218e363549d967ecb2aa",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/context-engineering": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/context-engineering",
+        "entrypoint": "skills/context-engineering/SKILL.md",
+        "installSubpath": "skills/context-engineering"
+      },
+      "currentSkillContentSha256": "f63fd6f8d10c8000624d7d870709e9639e57dd78c13de73a0533338f388faedb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/deprecation-and-migration": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/deprecation-and-migration/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/deprecation-and-migration",
+        "entrypoint": "skills/deprecation-and-migration/SKILL.md",
+        "installSubpath": "skills/deprecation-and-migration"
+      },
+      "currentSkillContentSha256": "b46c5376a60a036a37f39a67006435e4093d8153140b7407126a0110c6da0321",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/documentation-and-adrs": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/documentation-and-adrs/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/documentation-and-adrs",
+        "entrypoint": "skills/documentation-and-adrs/SKILL.md",
+        "installSubpath": "skills/documentation-and-adrs"
+      },
+      "currentSkillContentSha256": "3cdc9b1b105e382665d481ba9da84089fbb9ab28d33a65e8ff2d98ac9eee7664",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/doubt-driven-development": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/doubt-driven-development/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/doubt-driven-development",
+        "entrypoint": "skills/doubt-driven-development/SKILL.md",
+        "installSubpath": "skills/doubt-driven-development"
+      },
+      "currentSkillContentSha256": "51367656dc5150a80f5cec6af7ec8d3ffe1b8947bd7b54ed520d323032528215",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/frontend-ui-engineering": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/frontend-ui-engineering/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/frontend-ui-engineering",
+        "entrypoint": "skills/frontend-ui-engineering/SKILL.md",
+        "installSubpath": "skills/frontend-ui-engineering"
+      },
+      "currentSkillContentSha256": "ee60dc52176f919f522833369e12f75e7d3611535be0b323d0eea61face5420c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "addy-osmani/incremental-implementation": {
       "state": "unknown",
       "reason": "not-observed",
@@ -118,6 +298,26 @@
         "installSubpath": "skills/incremental-implementation"
       },
       "currentSkillContentSha256": "16de47e711410ec18f651063eb0310bbb02b37e210f26dd7d5e1e873ea521051",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/observability-and-instrumentation": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/observability-and-instrumentation/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/observability-and-instrumentation",
+        "entrypoint": "skills/observability-and-instrumentation/SKILL.md",
+        "installSubpath": "skills/observability-and-instrumentation"
+      },
+      "currentSkillContentSha256": "6cba02c87334fb31032f38f59039f65a9809b526d36088061a5e79e920adb62f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -163,6 +363,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "addy-osmani/security-and-hardening": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/security-and-hardening/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/security-and-hardening",
+        "entrypoint": "skills/security-and-hardening/SKILL.md",
+        "installSubpath": "skills/security-and-hardening"
+      },
+      "currentSkillContentSha256": "188903b8ff5ef06140dfc1f4b94eca5b7b6a26d89697c7b97b0519cf7a0db461",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "addy-osmani/shipping-and-launch": {
       "state": "unknown",
       "reason": "not-observed",
@@ -178,6 +398,26 @@
         "installSubpath": "skills/shipping-and-launch"
       },
       "currentSkillContentSha256": "fca27096137e7d95e1e0f4bd9498fc5992ae1d13a750e4bf2929f4d04cc17c55",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/source-driven-development": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/source-driven-development/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.10",
+        "subpath": "skills/source-driven-development",
+        "entrypoint": "skills/source-driven-development/SKILL.md",
+        "installSubpath": "skills/source-driven-development"
+      },
+      "currentSkillContentSha256": "198a60f539f3748d42f8adbfef5c9841e7d0a8b28e7ab8a83beb855caa0a7221",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -955,6 +1195,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/academic-verify": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/academic-verify/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/academic-verify",
+        "entrypoint": "plugin/skills/academic-verify/SKILL.md",
+        "installSubpath": "plugin/skills/academic-verify"
+      },
+      "currentSkillContentSha256": "e1f79182800990d974c64f67b6cfaddd06ed07d826a5e83817b7fa29b5c1e62a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/archive-crawler": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/archive-crawler/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/archive-crawler",
+        "entrypoint": "plugin/skills/archive-crawler/SKILL.md",
+        "installSubpath": "plugin/skills/archive-crawler"
+      },
+      "currentSkillContentSha256": "723b06b5b5bd35b96736d0e4de4b2c446d4bdd8b9fdb563562df5fbcf897d3d1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/benchmark": {
       "state": "unknown",
       "reason": "not-observed",
@@ -995,6 +1275,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/blog-ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/blog-ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/blog-ingest",
+        "entrypoint": "plugin/skills/blog-ingest/SKILL.md",
+        "installSubpath": "plugin/skills/blog-ingest"
+      },
+      "currentSkillContentSha256": "674397f45c797bcb2003ef63e495f86d2da030f0e3bf0f07a10d979ec0d9fc0c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/book-mirror": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/book-mirror/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/book-mirror",
+        "entrypoint": "plugin/skills/book-mirror/SKILL.md",
+        "installSubpath": "plugin/skills/book-mirror"
+      },
+      "currentSkillContentSha256": "cecc30d4a47872bee693e28f4df5ce006f99e4217925ab84497ed1c2f4ec2e62",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/brain-ops": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1030,6 +1350,26 @@
         "installSubpath": "browse"
       },
       "currentSkillContentSha256": "f97c6b15e1ae37373abf9f6646cf2e67cacca378d19ae0b041660341df05a6b8",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/bulk-ingestion": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/bulk-ingestion/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/bulk-ingestion",
+        "entrypoint": "plugin/skills/bulk-ingestion/SKILL.md",
+        "installSubpath": "plugin/skills/bulk-ingestion"
+      },
+      "currentSkillContentSha256": "39e6d6414e160efb36df9bedf621ce7ff427fdba35af66bdcc4a24f1a1475209",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1095,6 +1435,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/citation-graph-ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/citation-graph-ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/citation-graph-ingest",
+        "entrypoint": "plugin/skills/citation-graph-ingest/SKILL.md",
+        "installSubpath": "plugin/skills/citation-graph-ingest"
+      },
+      "currentSkillContentSha256": "d83577d07f39a1e26ef8ee88a08a35aa19ad010c35d6d202688d3e710114d535",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/codex": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1130,6 +1490,26 @@
         "installSubpath": "skills/concept-synthesis"
       },
       "currentSkillContentSha256": "6aa069591e653614fa7db401d7cecb375abc326106422fd3b823fd7ab3e61c21",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/context-audit": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/context-audit/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/context-audit",
+        "entrypoint": "plugin/skills/context-audit/SKILL.md",
+        "installSubpath": "plugin/skills/context-audit"
+      },
+      "currentSkillContentSha256": "43dbb9279a471b7fe5f19ef1e4f17d12d3018907d7c2b24ab1d4b72e7f795463",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1175,6 +1555,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/conversation-archive": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/conversation-archive/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/conversation-archive",
+        "entrypoint": "plugin/skills/conversation-archive/SKILL.md",
+        "installSubpath": "plugin/skills/conversation-archive"
+      },
+      "currentSkillContentSha256": "4a9d78ab3ea6bebb9b95bc7a387526869da968371b2e83c3b5dc9846e52340f7",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/cso": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1190,6 +1590,26 @@
         "installSubpath": "cso"
       },
       "currentSkillContentSha256": "acc9fa4254cd31397f7afafb6b9a7b72041085be9ffea1e53001c3b2a834d403",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/data-research": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/data-research/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/data-research",
+        "entrypoint": "plugin/skills/data-research/SKILL.md",
+        "installSubpath": "plugin/skills/data-research"
+      },
+      "currentSkillContentSha256": "c6fdf115b44d32507b64683272a9f9247fbfbf4e7ed211ebe404cdbc7c75c74c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1335,6 +1755,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/draft-in-voice": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/draft-in-voice/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/draft-in-voice",
+        "entrypoint": "plugin/skills/draft-in-voice/SKILL.md",
+        "installSubpath": "plugin/skills/draft-in-voice"
+      },
+      "currentSkillContentSha256": "28b0c66c31dcfebaff2474fa997a71f861cc296321734520a406b03e461b6178",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/fact-check": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/fact-check",
+        "entrypoint": "plugin/skills/fact-check/SKILL.md",
+        "installSubpath": "plugin/skills/fact-check"
+      },
+      "currentSkillContentSha256": "8bf70b52396c5bb37eb61f86077ed0d4645105b72eb1021a814ea85dd5b47770",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/freeze": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1350,6 +1810,26 @@
         "installSubpath": "freeze"
       },
       "currentSkillContentSha256": "1eb9392db8836494b5c42cb43e75eac861d05a7087aebd41556a722feb0324ca",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/functional-area-resolver": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/functional-area-resolver",
+        "entrypoint": "plugin/skills/functional-area-resolver/SKILL.md",
+        "installSubpath": "plugin/skills/functional-area-resolver"
+      },
+      "currentSkillContentSha256": "6c1edd2b366d934b23296942565c16fc11e419686715b00ef896e04ae8df4537",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1389,7 +1869,7 @@
         "entrypoint": "README.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "c670595e60fba71a4b8085c3db222c6691277c2d17c5bd7e9410ebb06886bc74",
+      "currentSkillContentSha256": "7017b0b03ef6179bd07d5cffc23e4c28c0905f6eeaa1c6b04010bee70b47c852",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1470,6 +1950,26 @@
         "installSubpath": "health"
       },
       "currentSkillContentSha256": "1fddae6041f1b6dd9a75b88957f2a3a93e7c1897060a13f7832994b0bdc15c6e",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/idea-lineage": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/idea-lineage/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/idea-lineage",
+        "entrypoint": "plugin/skills/idea-lineage/SKILL.md",
+        "installSubpath": "plugin/skills/idea-lineage"
+      },
+      "currentSkillContentSha256": "cab7e10388ab025f7358a898ec71f844737e70bc4502c7ae503b1bc22d84b312",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1570,6 +2070,66 @@
         "installSubpath": "make-pdf"
       },
       "currentSkillContentSha256": "b337deca79afc5097e7b6ceda9be2a7196c4ec24da5581fe7d4c037af7eef32a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/measure-before-you-fix": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/measure-before-you-fix/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/measure-before-you-fix",
+        "entrypoint": "plugin/skills/measure-before-you-fix/SKILL.md",
+        "installSubpath": "plugin/skills/measure-before-you-fix"
+      },
+      "currentSkillContentSha256": "bcbc2eb42b6db703382502c49fafaa044398c129d2dad5bd883492ee5f4bccf8",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/meeting-ingestion": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/meeting-ingestion/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/meeting-ingestion",
+        "entrypoint": "plugin/skills/meeting-ingestion/SKILL.md",
+        "installSubpath": "plugin/skills/meeting-ingestion"
+      },
+      "currentSkillContentSha256": "1043f0cecee6ded86503c0fe6d4bf9a636e1b391dd3c5883c14cbee3fe831a64",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/minion-orchestrator": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/minion-orchestrator/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/minion-orchestrator",
+        "entrypoint": "plugin/skills/minion-orchestrator/SKILL.md",
+        "installSubpath": "plugin/skills/minion-orchestrator"
+      },
+      "currentSkillContentSha256": "4b901b40e44367ad336a7293aadad599dee75273eb31daff39d4fd1fb608419e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1775,6 +2335,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/remote-mcp": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/remote-mcp/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/remote-mcp",
+        "entrypoint": "plugin/skills/remote-mcp/SKILL.md",
+        "installSubpath": "plugin/skills/remote-mcp"
+      },
+      "currentSkillContentSha256": "50e83ec68a8ffda28e10e2670f4cb2bad245b7a318c4c7d61c5e2b76bfbef071",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/research-compendium": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/research-compendium/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/research-compendium",
+        "entrypoint": "plugin/skills/research-compendium/SKILL.md",
+        "installSubpath": "plugin/skills/research-compendium"
+      },
+      "currentSkillContentSha256": "2c6a4fb6275b355dc6f4140fe2d08add01cf1054073835e7711f94d1dbca31b1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/retro": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1915,6 +2515,66 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/signal-detector": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/signal-detector/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/signal-detector",
+        "entrypoint": "plugin/skills/signal-detector/SKILL.md",
+        "installSubpath": "plugin/skills/signal-detector"
+      },
+      "currentSkillContentSha256": "22a15eb54303392b61dc026a60ed01091d69e1ecffe35f604fbc53f929e25b57",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/skill-autobench": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "skills/skill-autobench",
+        "entrypoint": "skills/skill-autobench/SKILL.md",
+        "installSubpath": "skills/skill-autobench"
+      },
+      "currentSkillContentSha256": "31e65f64292baf54065a7ea549789005428416da7de8f7f9ff8b82af8b176a88",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/skill-optimizer": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/skill-optimizer/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/skill-optimizer",
+        "entrypoint": "plugin/skills/skill-optimizer/SKILL.md",
+        "installSubpath": "plugin/skills/skill-optimizer"
+      },
+      "currentSkillContentSha256": "0946c43162a895a135d0e179a8b1b296b258014ad7e07591b8fd483b382fe7a9",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/skillify": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1935,6 +2595,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/strategic-reading": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/strategic-reading/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/strategic-reading",
+        "entrypoint": "plugin/skills/strategic-reading/SKILL.md",
+        "installSubpath": "plugin/skills/strategic-reading"
+      },
+      "currentSkillContentSha256": "13706216ca778c5b169ed966becfbe79cde55ac26ba9355a01cf95aef1ed07a7",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/sync-gbrain": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1950,6 +2630,26 @@
         "installSubpath": "sync-gbrain"
       },
       "currentSkillContentSha256": "5f8fd4108d5bd2b604bd5c9ae8bee37c11dd0310ab479c299fbcb97b63cea40a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/two-tier-extraction": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/two-tier-extraction/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.51.6.0",
+        "subpath": "plugin/skills/two-tier-extraction",
+        "entrypoint": "plugin/skills/two-tier-extraction/SKILL.md",
+        "installSubpath": "plugin/skills/two-tier-extraction"
+      },
+      "currentSkillContentSha256": "5d80fd0228c781115a629b136ad37f80cc6af3755dc00d91dbff69d2b753be89",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2915,6 +3615,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "heygen-com/general-video": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/heygen-com/hyperframes/blob/v0.8.60/skills/general-video/SKILL.md",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "ref": "v0.8.60",
+        "subpath": "skills/general-video",
+        "entrypoint": "skills/general-video/SKILL.md",
+        "installSubpath": "skills/general-video"
+      },
+      "currentSkillContentSha256": "6287556f8940290bdb50aa57296498e54bb88484cf42b2d971133b4cce60f7de",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "heygen-com/hyperframes": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2929,7 +3649,7 @@
         "entrypoint": "skills/hyperframes/SKILL.md",
         "installSubpath": "skills/hyperframes"
       },
-      "currentSkillContentSha256": "4c0f02ce0ed867bf28e955b918200de0b78f67b20c3e7a8a8ae8d5a2d4cd559d",
+      "currentSkillContentSha256": "8554c5d7cb38cde7a4a9824d2bad292c35d0b3458aca03236ff58059f599ee5b",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4929,7 +5649,7 @@
         "entrypoint": ".agents/skills/gaia-bot-curate/SKILL.md",
         "installSubpath": ".agents/skills/gaia-bot-curate"
       },
-      "currentSkillContentSha256": "744dae73b09293bb0a286897c392ceb1f86a2f6f2a1bb42ef6406a34f84f4e01",
+      "currentSkillContentSha256": "bf30dceefda094588cfd3550fd890db84ac291672d74e9fde865d57cac0ecc49",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4949,7 +5669,7 @@
         "entrypoint": ".agents/skills/gaia-curate/SKILL.md",
         "installSubpath": ".agents/skills/gaia-curate"
       },
-      "currentSkillContentSha256": "80581aebef233c2435c5d12587bc30ef20476e56c5d88468864791c6accc4120",
+      "currentSkillContentSha256": "28a81d5f2aaebb6c8dc7c1f380b476fe57147491e943b9ce530ab09648c7c3db",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5029,7 +5749,7 @@
         "entrypoint": ".agents/skills/gaia-integrity/SKILL.md",
         "installSubpath": ".agents/skills/gaia-integrity"
       },
-      "currentSkillContentSha256": "afb6a1adb995bd9034fc9f0d05f8cb2d290a135f5b50c9d6463297c46d2702cf",
+      "currentSkillContentSha256": "33df1f69e4533b006212b83eea3f64ea2e27385ff8b21f6dda7b70dfb1c40505",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5049,7 +5769,7 @@
         "entrypoint": ".agents/skills/gaia-meta-audit/SKILL.md",
         "installSubpath": ".agents/skills/gaia-meta-audit"
       },
-      "currentSkillContentSha256": "9b503c9bada88ab53f2526070151c83f439a43266a10f4ac7b536cd926b3bfc4",
+      "currentSkillContentSha256": "fa4ed3a7721d0ec59179de56a8d40fffaa8e19d863267cf31a1e2bd5359ee03f",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5089,7 +5809,7 @@
         "entrypoint": ".agents/skills/gaia-triage/SKILL.md",
         "installSubpath": ".agents/skills/gaia-triage"
       },
-      "currentSkillContentSha256": "80d1d5722419c551b463bbcceff643579086d586948ac50b51c20cb3231f13db",
+      "currentSkillContentSha256": "cb4c75a2c21b1d78bd94e6fe2106b6b5f5a60fe1475a8d8a3dc38b5400a47524",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5401,7 +6121,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "26ddf5ee3e7d29d25f26bf06d44c2606b11b4ac7ecac141b1b1d38cbc4896b3a",
+      "currentSkillContentSha256": "fc1908fe7b5ac3500690414742211b2e095b2d6e9c2f3370961a45bd8cfb45e8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5422,6 +6142,26 @@
         "installSubpath": "skills/systematic-debugging"
       },
       "currentSkillContentSha256": "cab03ead911bc4726d2f8249d84ab377e0256015e84bcfa53e686999526a70d9",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "obra/test-driven-development": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md",
+        "owner": "obra",
+        "repo": "superpowers",
+        "ref": "v6.4.1",
+        "subpath": "skills/test-driven-development",
+        "entrypoint": "skills/test-driven-development/SKILL.md",
+        "installSubpath": "skills/test-driven-development"
+      },
+      "currentSkillContentSha256": "2ff11720c745789bf2eed4ee707100af4c5b543a055716ef375c43d0c1a86cd8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5482,6 +6222,26 @@
         "installSubpath": "skills/writing-plans"
       },
       "currentSkillContentSha256": "5bc14056ff66b931caf802ce1683318f300930a81c891ab03dff8ab2b96e7fa3",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "obra/writing-skills": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/obra/superpowers/blob/v6.4.1/skills/writing-skills/SKILL.md",
+        "owner": "obra",
+        "repo": "superpowers",
+        "ref": "v6.4.1",
+        "subpath": "skills/writing-skills",
+        "entrypoint": "skills/writing-skills/SKILL.md",
+        "installSubpath": "skills/writing-skills"
+      },
+      "currentSkillContentSha256": "e98278423bf20c611fe0519d9dd28c5b93bcddf00e0686dbd9bab4d224f29254",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5729,7 +6489,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "31ebe805a4c1e50f3ecf1962db8f8c5ef28241781c5a5ffb78f67fea34b69192",
+      "currentSkillContentSha256": "4265f4fa4d5033eeae6717317e1e531fdecc9a476f495a37ecdf0d3b8ca659ab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

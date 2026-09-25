@@ -2,6 +2,7 @@
 
 * [API Call](/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
+* [Adversarial Review](/adversarial-review.md) - Challenges a proposed decision or artifact with an independent, disconfirming review before commitment, surfaces falsifiable objections, and reconciles findings against the original contract.
 * [Agent Reach](/agent-reach.md) - Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.
 * [Audience Model](/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
 * [Audio Mixing](/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
@@ -29,6 +30,7 @@
 * [Cultural Localization](/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
 * [Decision Ticket Planning](/decision-ticket-planning.md) - Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.
+* [Deprecation and Migration](/deprecation-and-migration.md) - Plans and executes safe retirement or replacement of APIs, features, and data contracts through compatibility windows, staged migration, consumer communication, and verified removal.
 * [Design Source Import](/design-source-import.md) - Import design sources into a composition workflow as reusable visual assets and layout inputs without depending on a particular design vendor.
 * [Diff Content](/diff-content.md) - Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.
 * [Document Editing](/document-editing.md) - Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.
@@ -64,6 +66,7 @@
 * [Literature Search](/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.
 * [Logical Inference](/logical-inference.md) - Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.
 * [MCP Integration](/mcp-integration.md) - Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.
+* [MCP Server Deployment](/mcp-server-deployment.md) - Deploys and securely exposes an existing Model Context Protocol server to remote clients, configuring transport, authentication, least-privilege access, and end-to-end connectivity checks.
 * [Math Reason](/math-reason.md) - Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.
 * [Media Asset Orchestration](/media-asset-orchestration.md) - Discover, prepare, organize, and route media assets through a repeatable composition workflow.
 * [Memory Pattern Design](/memory-pattern-design.md) - Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.
@@ -71,6 +74,7 @@
 * [Multi-Repo Coordination](/multi-repo-coordination.md) - Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.
 * [OCR](/optical-character-recognition.md) - Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.
 * [Object Detection](/object-detection.md) - Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass.
+* [Observability Instrumentation](/observability-instrumentation.md) - Instruments production software with structured logs, metrics, distributed traces, and actionable alerts so behavior can be diagnosed and verified during operation.
 * [Opinion](/opinion.md) - Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.
 * [Parallel Execution](/parallel-execution.md) - Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.
 * [Parse HTML](/parse-html.md) - Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.

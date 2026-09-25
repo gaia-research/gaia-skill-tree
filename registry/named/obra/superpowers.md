@@ -170,6 +170,12 @@ timeline:
   previousValue: v6.1.1
   newValue: v6.3.0
   details: synced from https://github.com/obra/superpowers/releases/tag/v6.3.0
+- timestamp: '2026-09-22T19:48:02Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: v6.3.0
+  newValue: v6.4.1
+  details: synced from https://github.com/obra/superpowers/releases/tag/v6.4.1
 trustMagnitude: 220.81
 overallTrustGrade: A
 apexGateStatus:
@@ -188,11 +194,11 @@ verification:
 trustMagnitudeInputHash: 02178485dd223c9757a30b673b732920d1a7b0ff1d9354c3886f98666c949e54
 upstream:
   mode: components
-  releasedAt: '2026-08-12T16:58:30Z'
+  releasedAt: '2026-09-19T00:32:44Z'
   repo: obra/superpowers
-  sourceUrl: https://github.com/obra/superpowers/releases/tag/v6.3.0
-  syncedAt: '2026-09-12T10:08:22Z'
-  version: v6.3.0
+  sourceUrl: https://github.com/obra/superpowers/releases/tag/v6.4.1
+  syncedAt: '2026-09-22T19:48:02Z'
+  version: v6.4.1
 ---
 
 ## Overview
