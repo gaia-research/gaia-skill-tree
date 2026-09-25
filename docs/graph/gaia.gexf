@@ -25,6 +25,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="adversarial-review" label="Adversarial Review">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="adversarial-robustness-testing" label="Adversarial Robustness Testing">
         <attvalues>
           <attvalue for="level" value="" />
@@ -422,6 +429,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="fusion" />
+        </attvalues>
+      </node>
+      <node id="deprecation-and-migration" label="Deprecation and Migration">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="design-generation" label="Design Generation">
@@ -984,6 +998,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="mcp-server-deployment" label="MCP Server Deployment">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="media-asset-orchestration" label="Media Asset Orchestration">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1090,6 +1111,13 @@
         </attvalues>
       </node>
       <node id="object-detection" label="Object Detection">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="observability-instrumentation" label="Observability Instrumentation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

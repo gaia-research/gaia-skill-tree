@@ -38,6 +38,12 @@ timeline:
   previousValue: null
   newValue: v0.50.0.0
   details: first-run baseline
+- timestamp: '2026-09-22T19:48:14Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: v0.50.0.0
+  newValue: v0.51.6.0
+  details: synced from https://github.com/garrytan/gbrain/releases/tag/v0.51.6.0
 suiteComponents:
 - garrytan/brain-ops
 - garrytan/capture
@@ -59,11 +65,11 @@ verification:
   firstEvidenceAt: '2026-09-06T17:52:41Z'
 upstream:
   mode: components
-  releasedAt: '2026-09-11T00:27:21Z'
+  releasedAt: '2026-09-21T20:18:41Z'
   repo: garrytan/gbrain
-  sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.50.0.0
-  syncedAt: '2026-09-11T13:31:44Z'
-  version: v0.50.0.0
+  sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.51.6.0
+  syncedAt: '2026-09-22T19:48:14Z'
+  version: v0.51.6.0
 ---
 
 ## Installation

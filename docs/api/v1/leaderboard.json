@@ -1,11 +1,11 @@
 {
   "distribution": {
-    "total": 225,
+    "total": 263,
     "S": 3,
     "A": 25,
     "B": 93,
     "C": 103,
-    "ungraded": 1,
+    "ungraded": 39,
     "floor": 0,
     "up": 1
   },
@@ -2645,6 +2645,341 @@
       "branch": "standard"
     },
     {
+      "id": "obra/test-driven-development",
+      "trustMagnitude": 9.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/api-and-interface-design",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/browser-testing-with-devtools",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/ci-cd-and-automation",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/constraint-driven-development",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/context-engineering",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/deprecation-and-migration",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/documentation-and-adrs",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/doubt-driven-development",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/frontend-ui-engineering",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/security-and-hardening",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/academic-verify",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/archive-crawler",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/blog-ingest",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/book-mirror",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/bulk-ingestion",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/citation-graph-ingest",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/context-audit",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/conversation-archive",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/data-research",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/draft-in-voice",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/fact-check",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/functional-area-resolver",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/idea-lineage",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/measure-before-you-fix",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/meeting-ingestion",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/minion-orchestrator",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/remote-mcp",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/research-compendium",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/signal-detector",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/skill-autobench",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/skill-optimizer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/strategic-reading",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "garrytan/two-tier-extraction",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "heygen-com/general-video",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/personal",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
@@ -2652,6 +2987,15 @@
       "typeBreakdown": {},
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "obra/writing-skills",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false,
+      "branch": "standard"
     }
   ],
   "_links": {
