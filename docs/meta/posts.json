@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-09-25-discovery-is-not-admission-what-95-agent-skill-candidates-taught-us",
+      "type": "report",
+      "date": "2026-09-25",
+      "title": "Discovery Is Not Admission: What 95 Agent-Skill Candidates Taught Us",
+      "summary": "Five upstream release streams produced 95 candidate skills. A reviewed integration accepted 38, mapped 40 to existing capabilities, omitted 17, and deferred none.",
+      "label": "Engineering note",
+      "url": "meta/reports/2026-09-25-discovery-is-not-admission-what-95-agent-skill-candidates-taught-us.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-09-discovery-is-not-admission.md"
+    },
+    {
       "id": "2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit",
       "type": "report",
       "date": "2026-09-13",
