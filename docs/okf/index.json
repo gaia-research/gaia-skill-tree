@@ -4,12 +4,17 @@
   "families": [
     {
       "id": "basic",
-      "count": 147,
+      "count": 151,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
           "name": "Adaptive Pattern Learning",
           "summary": "Implements adaptive learning through pattern recognition and strategy optimization."
+        },
+        {
+          "id": "adversarial-review",
+          "name": "Adversarial Review",
+          "summary": "Challenges a proposed decision or artifact with an independent, disconfirming review before commitment, surfaces falsifiable objections, and reconciles findings against the original contract."
         },
         {
           "id": "agent-reach",
@@ -150,6 +155,11 @@
           "id": "decision-ticket-planning",
           "name": "Decision Ticket Planning",
           "summary": "Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear."
+        },
+        {
+          "id": "deprecation-and-migration",
+          "name": "Deprecation and Migration",
+          "summary": "Plans and executes safe retirement or replacement of APIs, features, and data contracts through compatibility windows, staged migration, consumer communication, and verified removal."
         },
         {
           "id": "design-source-import",
@@ -347,6 +357,11 @@
           "summary": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers \\u2014 enumerate available tools, execute calls, and handle responses across any MCP-compatible backend."
         },
         {
+          "id": "mcp-server-deployment",
+          "name": "MCP Server Deployment",
+          "summary": "Deploys and securely exposes an existing Model Context Protocol server to remote clients, configuring transport, authentication, least-privilege access, and end-to-end connectivity checks."
+        },
+        {
           "id": "media-asset-orchestration",
           "name": "Media Asset Orchestration",
           "summary": "Discover, prepare, organize, and route media assets through a repeatable composition workflow."
@@ -370,6 +385,11 @@
           "id": "object-detection",
           "name": "Object Detection",
           "summary": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass."
+        },
+        {
+          "id": "observability-instrumentation",
+          "name": "Observability Instrumentation",
+          "summary": "Instruments production software with structured logs, metrics, distributed traces, and actionable alerts so behavior can be diagnosed and verified during operation."
         },
         {
           "id": "opinion",
