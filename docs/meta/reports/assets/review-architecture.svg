@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 925" role="img" aria-labelledby="title desc">
+  <title id="title">A review architecture for admitting candidate skills</title>
+  <desc id="desc">Seven numbered stages run vertically: automated discovery, mechanical consolidation, semantic review, stronger review for ambiguity, one combined integration, validation, and merge to main. Mechanical work and deeper judgment are separated.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#62594f"/></marker></defs>
+  <rect x="10" y="10" width="400" height="905" rx="18" fill="#fbfaf7" stroke="#d8d3cb" stroke-width="2"/>
+  <text x="30" y="49" fill="#201f1d" font-family="Arial,sans-serif" font-size="20" font-weight="700">From discovery to admission</text>
+  <g font-family="Arial,sans-serif">
+    <g fill="none" stroke="#62594f" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M210 142v26"/><path d="M210 252v26"/><path d="M210 362v26"/><path d="M210 472v26"/><path d="M210 582v26"/><path d="M210 692v26"/>
+    </g>
+    <g>
+      <rect x="38" y="72" width="344" height="70" rx="13" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/>
+      <circle cx="66" cy="107" r="17" fill="#201f1d"/><text x="66" y="113" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">1</text>
+      <text x="95" y="103" fill="#201f1d" font-size="19" font-weight="700">Automated discovery</text><text x="95" y="126" fill="#55514b" font-size="15">Find plausible skills upstream</text>
+      <rect x="38" y="182" width="344" height="70" rx="13" fill="#f2e9dc" stroke="#8e6c3c" stroke-width="2"/>
+      <circle cx="66" cy="217" r="17" fill="#201f1d"/><text x="66" y="223" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">2</text>
+      <text x="95" y="213" fill="#201f1d" font-size="19" font-weight="700">Mechanical consolidation</text><text x="95" y="236" fill="#55514b" font-size="15">Group packets; keep source links</text>
+      <rect x="38" y="292" width="344" height="70" rx="13" fill="#e8efed" stroke="#4b716d" stroke-width="2"/>
+      <circle cx="66" cy="327" r="17" fill="#201f1d"/><text x="66" y="333" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">3</text>
+      <text x="95" y="323" fill="#201f1d" font-size="19" font-weight="700">Semantic review</text><text x="95" y="346" fill="#55514b" font-size="15">Compare behavior with existing skills</text>
+      <rect x="38" y="402" width="344" height="70" rx="13" fill="#e8efed" stroke="#4b716d" stroke-width="2"/>
+      <circle cx="66" cy="437" r="17" fill="#201f1d"/><text x="66" y="443" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">4</text>
+      <text x="95" y="433" fill="#201f1d" font-size="19" font-weight="700">Escalate ambiguity</text><text x="95" y="456" fill="#55514b" font-size="15">Use deeper review; resolve doubts</text>
+      <rect x="38" y="512" width="344" height="70" rx="13" fill="#f4e7e4" stroke="#a84236" stroke-width="2"/>
+      <circle cx="66" cy="547" r="17" fill="#201f1d"/><text x="66" y="553" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">5</text>
+      <text x="95" y="543" fill="#201f1d" font-size="19" font-weight="700">One combined integration</text><text x="95" y="566" fill="#55514b" font-size="15">Apply the reviewed decisions</text>
+      <rect x="38" y="622" width="344" height="70" rx="13" fill="#f4e7e4" stroke="#a84236" stroke-width="2"/>
+      <circle cx="66" cy="657" r="17" fill="#201f1d"/><text x="66" y="663" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">6</text>
+      <text x="95" y="653" fill="#201f1d" font-size="19" font-weight="700">Validate combined state</text><text x="95" y="676" fill="#55514b" font-size="15">Rebuild outputs; check integrity</text>
+      <rect x="38" y="732" width="344" height="70" rx="13" fill="#201f1d" stroke="#201f1d" stroke-width="2"/>
+      <circle cx="66" cy="767" r="17" fill="#fff"/><text x="66" y="773" text-anchor="middle" fill="#201f1d" font-size="16" font-weight="700">7</text>
+      <text x="95" y="763" fill="#fff" font-size="19" font-weight="700">Merge to main</text><text x="95" y="786" fill="#f1e9de" font-size="15">One auditable admission boundary</text>
+    </g>
+    <path d="M38 843h344" stroke="#c7bfb4" stroke-width="2"/>
+    <text x="38" y="872" fill="#201f1d" font-size="16" font-weight="700">Different work, different review depth.</text>
+    <text x="38" y="895" fill="#55514b" font-size="15">Mechanical throughput ≠ semantic judgment.</text>
+  </g>
+</svg>

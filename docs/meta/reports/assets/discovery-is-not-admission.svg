@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 590" role="img" aria-labelledby="title desc">
+  <title id="title">Discovery is not admission: 95 candidate skills, four outcomes</title>
+  <desc id="desc">A proportional decision funnel begins with 95 candidate skills. Thirty-eight were accepted, 40 mapped to capabilities already represented, 17 omitted, and zero deferred. Only 38 became additions.</desc>
+  <defs>
+    <pattern id="mapped" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#dce9e7"/><path d="M0 0V8" stroke="#4b716d" stroke-width="2"/></pattern>
+    <pattern id="omitted" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#eee9e2"/><circle cx="2" cy="2" r="1" fill="#62594f"/></pattern>
+  </defs>
+  <rect x="12" y="12" width="396" height="566" rx="18" fill="#fbfaf7" stroke="#d8d3cb" stroke-width="2"/>
+  <text x="32" y="54" fill="#201f1d" font-family="Arial,sans-serif" font-size="20" font-weight="700">95 candidate skills discovered</text>
+  <text x="32" y="83" fill="#55514b" font-family="Arial,sans-serif" font-size="16">Discovery count ≠ additions</text>
+  <path d="M210 98v32m-9-9 9 9 9-9" fill="none" stroke="#62594f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="32" y="166" fill="#62594f" font-family="Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1">FINAL REVIEW OUTCOME · 95 TOTAL</text>
+  <text x="32" y="207" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">38 accepted</text>
+  <text x="388" y="207" text-anchor="end" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">40%</text>
+  <rect x="32" y="220" width="356" height="24" rx="6" fill="#e7e2da"/>
+  <rect x="32" y="220" width="142.4" height="24" rx="6" fill="#a84236"/>
+  <text x="32" y="270" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">40 mapped · already represented</text>
+  <rect x="32" y="283" width="356" height="24" rx="6" fill="#e7e2da"/>
+  <rect x="32" y="283" width="150" height="24" rx="6" fill="url(#mapped)" stroke="#4b716d"/>
+  <text x="32" y="333" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">17 omitted</text>
+  <rect x="32" y="346" width="356" height="24" rx="6" fill="#e7e2da"/>
+  <rect x="32" y="346" width="64" height="24" rx="6" fill="url(#omitted)" stroke="#62594f"/>
+  <text x="32" y="397" fill="#201f1d" font-family="Arial,sans-serif" font-size="18" font-weight="700">0 deferred</text>
+  <line x1="32" y1="411" x2="388" y2="411" stroke="#62594f" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="32" y="458" fill="#201f1d" font-family="Arial,sans-serif" font-size="17" font-weight="700">38 candidates became additions.</text>
+  <text x="32" y="488" fill="#55514b" font-family="Arial,sans-serif" font-size="16">Mapping preserves useful work without</text>
+  <text x="32" y="512" fill="#55514b" font-family="Arial,sans-serif" font-size="16">creating a second copy of a capability.</text>
+  <g font-family="Arial,sans-serif" font-size="14" fill="#55514b">
+    <rect x="32" y="538" width="14" height="14" rx="3" fill="#a84236"/><text x="53" y="550">add</text>
+    <rect x="117" y="538" width="14" height="14" rx="3" fill="url(#mapped)" stroke="#4b716d"/><text x="138" y="550">already represented</text>
+    <rect x="292" y="538" width="14" height="14" rx="3" fill="url(#omitted)" stroke="#62594f"/><text x="313" y="550">omit</text>
+  </g>
+</svg>
