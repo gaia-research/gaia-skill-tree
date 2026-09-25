@@ -45,7 +45,11 @@ class _PlaceholderChoices:
         self._choices = choices
 
     def __contains__(self, value: object) -> bool:
-        return isinstance(value, _Placeholder) or value in self._choices
+        return (
+            isinstance(value, _Placeholder)
+            or (isinstance(value, str) and _is_placeholder(value))
+            or value in self._choices
+        )
 
     def __iter__(self):
         return iter(self._choices)
@@ -267,7 +271,7 @@ def _format_schema_path(error: Any, data: dict[str, Any]) -> str:
 def validate_repository(repo_root: Path = REPO_ROOT) -> tuple[int, int, list[str]]:
     schema = json.loads((repo_root / SCHEMA_PATH).read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)
-    skills = sorted((repo_root / CANONICAL_SKILLS).glob("**/SKILL.md"))
+    skills = sorted((repo_root / CANONICAL_SKILLS).glob("*/SKILL.md"))
     opted_in = 0
     errors: list[str] = []
 

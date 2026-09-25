@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/pluginConfig.schema.json",
+  "title": "Gaia Plugin Configuration",
+  "description": "Schema for the per-repository Gaia plugin configuration file (.gaia/config.json).",
+  "type": "object",
+  "required": [
+    "gaiaUser",
+    "gaiaRegistryRef",
+    "scanPaths"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "gaiaUser": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+      "description": "GitHub username of the plugin user."
+    },
+    "gaiaRegistryRef": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the Gaia registry repository."
+    },
+    "scanPaths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Repository-relative paths to scan for skill references."
+    },
+    "autoPromptCombinations": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to automatically prompt for detected combinations. Defaults to false."
+    },
+    "lastScan": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last plugin scan."
+    },
+    "installedNamedSkills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "installedAt", "sourceRef"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$",
+            "description": "Named skill ID in contributor/skill-name format."
+          },
+          "installedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the skill was installed."
+          },
+          "sourceRef": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the source of the named skill in the registry."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "SHA-256 hash of the skill file content for sync detection."
+          }
+        }
+      },
+      "description": "Named skills installed in this repository."
+    }
+  }
+}

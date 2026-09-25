@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: issue-triage
 status: named
 level: 1★
-description: Triages incoming skill proposals and issues against the Gaia registry
+description: Triages incoming skill proposals and issues against the registry
   backlog — sorting by impact, feasibility, and dependency order to produce an actionable
   prioritized work queue.
 createdAt: '2026-05-27'

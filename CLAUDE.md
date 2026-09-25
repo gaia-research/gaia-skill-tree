@@ -71,7 +71,7 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 | Scope | Allowed Directories | Reasoning |
 |-------|---------------------|-----------|
 | **infra/** | `.github/`, `scripts/`, `tests/`, `.claude/skills/`, `.agents/skills/`, `*.md`, `docs/*.html`, `docs/badges/` | Already codified in `.github/workflows/branch-scope.yml` and exempt from re-litigation. `tests/` travels with `scripts/` so a one-line script fix and its regression test can land together (#1790). |
-| **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` | The two schema directories must move in lockstep; schema PRs touching only one side always trip CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check`. |
+| **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/`, `docs/schema/` | The schema directories must move in lockstep; schema PRs touching only one side always trip CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check`. |
 | **review/meta/** | `docs/` (excl. `registry/schema/`), `registry/` (excl. `registry/schema/`) | Required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (per-user profile pages, badges, graph, API docs). Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR. |
 
 
@@ -264,6 +264,14 @@ bare CLI call and leave the method unwritten for the next agent.
   checks — it only sequences and verifies around them.
 - Reference playbook: `dev-calibrate` (`.agents/skills/dev-calibrate/SKILL.md`) —
   the first one to land; use its shape as the template for the next.
+- **Validator Precedence:** for any skill declaring `playbookVersion: 1`, the Gaia
+  playbook contract (`scripts/check_playbook_contract.py` and
+  `founder/steward/playbook.schema.json`) is authoritative. When running generic
+  skill-creator validation, use the Gaia adapter (`scripts/quick_validate_skill.py`
+  or `scripts/quick_validate.py`) so `playbookVersion: 1` extension fields are
+  recognized without emitting contradictory noise or weakening ordinary skill checks.
+  Always run both `python scripts/quick_validate_skill.py <skill-path>` and
+  `python scripts/check_playbook_contract.py` when authoring or changing playbooks.
 
 ## CLI Shape
 
@@ -384,6 +392,12 @@ The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **depreca
 ## Agent Skills
 
 Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; keep mirrored copies synchronized. Shared curation contracts live beside the canonical skill in both trees.
+
+When authoring or modifying skills, run the validation gates:
+1. `python scripts/quick_validate_skill.py .agents/skills/<skill>` (quick frontmatter hygiene and unknown-key check; recognizes `playbookVersion: 1` fields for playbooks)
+2. `python scripts/check_playbook_contract.py` (if `playbookVersion: 1` is declared)
+3. `python scripts/validate_skills.py` (repo-wide skill quality, line limits, orphan checks)
+4. `python scripts/sync_agent_skill_mirror.py --check` (mirror parity)
 
 ## Graft — codebase context graph
 

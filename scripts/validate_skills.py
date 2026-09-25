@@ -5,15 +5,33 @@ import yaml
 import re
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.quick_validate_skill import validate_frontmatter_dict
+
 def get_skill_dirs(base_dir):
-    """Return all directories under base_dir that contain a SKILL.md file."""
+    """Return all canonical top-level directories under base_dir that contain a SKILL.md file."""
     skill_dirs = []
     base_path = Path(base_dir)
     if not base_path.exists():
         return skill_dirs
-    for p in base_path.rglob("SKILL.md"):
+    for p in sorted(base_path.glob("*/SKILL.md")):
         skill_dirs.append(p.parent)
     return skill_dirs
+
+def find_nested_skill_mds(base_dir):
+    """Detect nested SKILL.md files in subdirectories (fixtures, test assets, etc.)."""
+    base_path = Path(base_dir)
+    if not base_path.exists():
+        return []
+    nested = []
+    for p in sorted(base_path.rglob("SKILL.md")):
+        rel = p.relative_to(base_path)
+        if len(rel.parts) > 2:
+            nested.append(p)
+    return nested
 
 def validate_skill(skill_dir):
     """Validate a single skill directory."""
@@ -23,6 +41,15 @@ def validate_skill(skill_dir):
     skill_md_path = skill_dir / "SKILL.md"
     if not skill_md_path.exists():
         return [f"SKILL.md does not exist in {skill_dir}"], []
+
+    # 0. Check for nested SKILL.md files inside the skill directory (fixtures, subdirs)
+    for p in sorted(skill_dir.rglob("SKILL.md")):
+        if p != skill_md_path:
+            errors.append(
+                f"Nested SKILL.md detected at '{p.relative_to(skill_dir)}'. "
+                "Test fixtures and subdirectory assets must not be named 'SKILL.md' "
+                "(use 'UPSTREAM_SKILL.md' or fixture-specific names) to avoid leaking into runtime skill discovery."
+            )
 
     # 1. Read file and check lines
     try:
@@ -59,9 +86,22 @@ def validate_skill(skill_dir):
         errors.append("YAML frontmatter is not a dictionary/object")
         return errors, warnings
 
-    # 3. Check name and description fields
+    # 3. Validate frontmatter keys with playbook reconciliation
+    fm_valid, fm_err, _is_playbook = validate_frontmatter_dict(frontmatter)
+    if not fm_valid:
+        errors.append(fm_err)
+
+    # 4. Check name and description fields
     if "name" not in frontmatter or not frontmatter["name"]:
         errors.append("YAML frontmatter is missing the 'name' field")
+    else:
+        name = str(frontmatter["name"]).strip()
+        if not re.match(r"^[a-z0-9-]+$", name) or name.startswith("-") or name.endswith("-") or "--" in name:
+            errors.append(
+                f"Skill name '{name}' should be kebab-case (lowercase letters, digits, and hyphens only)"
+            )
+        if len(name) > 64:
+            errors.append(f"Skill name exceeds limit ({len(name)} characters, max allowed is 64)")
     
     if "description" not in frontmatter or not frontmatter["description"]:
         errors.append("YAML frontmatter is missing the 'description' field")
@@ -70,7 +110,7 @@ def validate_skill(skill_dir):
         if len(desc) > 1024:
             errors.append(f"Description field exceeds limit ({len(desc)} characters, max allowed is 1024)")
 
-    # 4. Orphan detection
+    # 5. Orphan detection
     # Find all files in the skill directory recursively (excluding SKILL.md, and hidden files)
     all_files = []
     for root, dirs, files in os.walk(skill_dir):
@@ -128,13 +168,22 @@ def main():
         base_dir = sys.argv[1]
 
     skill_dirs = get_skill_dirs(base_dir)
-    if not skill_dirs:
+    nested_files = find_nested_skill_mds(base_dir)
+    if not skill_dirs and not nested_files:
         print(f"No skills found in {base_dir}")
         sys.exit(0)
 
     print(f"Validating {len(skill_dirs)} skills under {base_dir}...")
     total_errors = 0
     total_warnings = 0
+
+    if nested_files:
+        for nf in nested_files:
+            rel = nf.relative_to(Path(base_dir))
+            print(f"\n[{rel.parts[0]}] ({nf})")
+            print(f"  ❌ ERROR: Nested SKILL.md detected at '{base_dir}/{rel}'.")
+            print("  Test fixtures and nested assets must not be named 'SKILL.md' to prevent leaking into agent runtime catalogs.")
+            total_errors += 1
 
     for skill_dir in sorted(skill_dirs):
         errors, warnings = validate_skill(skill_dir)

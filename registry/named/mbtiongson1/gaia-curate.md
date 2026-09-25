@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★
-description: Expands the Gaia skill registry with new, fully evidenced AI agent skills
+description: Expands the Gaia skill tree with new, fully evidenced AI agent skills
   — researching skill sources, running validation, opening versioned PRs, and appending
   discovered marketplaces to the sources registry in one end-to-end workflow.
 createdAt: '2026-05-27'
@@ -63,4 +63,4 @@ trustMagnitudeInputHash: 1ba6c084f28f99a390a56c55c2a12a780c5fac6f7e394f62f6891aa
 
 ## Overview
 
-Expands the Gaia skill registry with new fully-evidenced AI agent skills: researches skill sources, sources reproducible (Tier B/A) evidence, runs schema and DAG validation, scripts graph updates via `gaia dev add` / `gaia dev link` / `gaia dev evidence`, opens versioned PRs, and appends discovered marketplaces to the sources registry. End-to-end registry-curation playbook.
+Expands the Gaia skill tree with new fully-evidenced AI agent skills: researches skill sources, sources reproducible (Tier B/A) evidence, runs schema and DAG validation, scripts graph updates via `gaia dev add` / `gaia dev link` / `gaia dev evidence`, opens versioned PRs, and appends discovered marketplaces to the sources registry. End-to-end registry-curation playbook.

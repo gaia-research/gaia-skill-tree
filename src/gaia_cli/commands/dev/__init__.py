@@ -914,12 +914,11 @@ class DevCommand(Command):
         )
         _add_build_flags(dev_fuse, "fusing")
 
-        # The bundled `packages/mcp` prototype was deleted; there is no local
-        # daemon to start/stop. The shipped server is the standalone npm
-        # package `@gaia-research/mcp`, so this verb only prints instructions.
+        # Standalone `@gaia-research/mcp` was decommissioned on 2026-08-19;
+        # summon now ships bundled inside the Skill Heaven plugin.
         dev_sub.add_parser(
             "mcp",
-            help="Show install/run instructions for the standalone @gaia-research/mcp server",
+            help="Show install instructions for the Skill Heaven plugin and bundled summon MCP server",
         )
 
         dev_hook = dev_sub.add_parser(

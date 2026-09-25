@@ -1,0 +1,251 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/skillTree.schema.json",
+  "title": "Gaia User Skill Tree",
+  "description": "Schema for a user's personal skill tree record in the Gaia registry.",
+  "type": "object",
+  "required": [
+    "userId",
+    "updatedAt",
+    "unlockedSkills",
+    "pendingCombinations",
+    "stats"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "userId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+      "description": "GitHub username of the skill tree owner."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of last update."
+    },
+    "unlockedSkills": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/unlockedSkill"
+      },
+      "description": "Skills the user has confirmed and unlocked."
+    },
+    "pendingCombinations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/pendingCombination"
+      },
+      "description": "Detected but unconfirmed combination candidates."
+    },
+    "stats": {
+      "$ref": "#/definitions/treeStats",
+      "description": "Aggregate statistics for the skill tree."
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/timelineEvent"
+      },
+      "description": "Chronological history of meta-changes for the user's skill tree."
+    }
+  },
+  "definitions": {
+    "unlockedSkill": {
+      "type": "object",
+      "required": [
+        "skillId",
+        "level",
+        "unlockedAt",
+        "unlockedIn"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "skillId": {
+          "type": "string",
+          "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$",
+          "description": "Reference to a skill ID in the Gaia graph. Generic slug or contributor/slug named-skill form."
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "1\u2605",
+            "2\u2605",
+            "3\u2605",
+            "4\u2605",
+            "5\u2605"
+          ],
+          "description": "The level at which this skill was unlocked."
+        },
+        "unlockedAt": {
+          "type": "string",
+          "anyOf": [
+            { "format": "date" },
+            { "format": "date-time" }
+          ],
+          "description": "ISO 8601 date or date-time when the skill was first unlocked. New entries are written as date-time (#473); legacy entries written as YYYY-MM-DD remain valid."
+        },
+        "unlockedIn": {
+          "type": "string",
+          "description": "Repository (owner/repo format) where the skill was detected."
+        },
+        "combinedFrom": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$"
+          },
+          "description": "Parent skill IDs used in fusion (for extra/ultimate skills). Generic slug or contributor/slug named-skill form."
+        },
+        "levelHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "level",
+              "achievedAt"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "level": {
+                "type": "string",
+                "enum": [
+                  "1★",
+                  "2★",
+                  "3★",
+                  "4★",
+                  "5★"
+                ]
+              },
+              "achievedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "evidence",
+                  "fusion",
+                  "promotion"
+                ]
+              }
+            }
+          },
+          "description": "Each level this skill reached, in ascending order."
+        }
+      }
+    },
+    "pendingCombination": {
+      "type": "object",
+      "required": [
+        "detectedSkills",
+        "candidateResult",
+        "levelFloor",
+        "promptedAt"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "detectedSkills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "minItems": 2,
+          "description": "Set of prerequisite skill IDs detected together."
+        },
+        "candidateResult": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "description": "The extra/ultimate skill that would be unlocked."
+        },
+        "levelFloor": {
+          "type": "string",
+          "enum": [
+            "1\u2605",
+            "2\u2605",
+            "3\u2605",
+            "4\u2605",
+            "5\u2605"
+          ],
+          "description": "Minimum level required for the fusion."
+        },
+        "promptedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "Date when the combination was first detected and prompted."
+        }
+      }
+    },
+    "treeStats": {
+      "type": "object",
+      "required": [
+        "totalUnlocked",
+        "deepestLineage"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "totalUnlocked": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of skills unlocked."
+        },
+        "deepestLineage": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum DAG depth across all unlocked skills."
+        }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "action",
+        "skillId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the event."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "rank_up",
+            "fuse",
+            "propose",
+            "name",
+            "demote",
+            "ascend",
+            "register",
+            "bond",
+            "push",
+            "rename"
+          ],
+          "description": "The meta-action that occurred."
+        },
+        "skillId": {
+          "type": "string",
+          "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$"
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'register'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
+        }
+      }
+    }
+  }
+}

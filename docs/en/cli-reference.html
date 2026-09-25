@@ -1713,21 +1713,22 @@
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
-              <li>Purely informational — prints install and run instructions for the standalone Gaia MCP server.</li>
-              <li>The server itself lives in a dedicated package, <a href="mcp-server.html"><code>@gaia-research/mcp</code></a>, not in this repo.</li>
+              <li>Purely informational — prints install instructions for the Skill Heaven plugin and bundled summon MCP server.</li>
+              <li>Standalone <code>@gaia-research/mcp</code> was decommissioned on 2026-08-19.</li>
             </ul>
-            <div class="callout warn" style="margin-bottom:0.85rem;">
-              <strong>⚠️ This is a literal transcript, not a recommendation.</strong> <code>@gaia-research/mcp</code>
-              has been decommissioned and deprecated on npm since 2026-08-19. For the supported path, install
-              <code>skill-heaven</code> via <code>claude plugin install skill-heaven@gaia-skill-heaven</code> —
-              see the <a href="mcp-server.html">MCP Server guide</a>.
-            </div>
             <div class="example-block">
               <div class="example-label">examples</div>
               <pre><span class="cmd">gaia dev mcp</span>
 <span class="c"># Output:</span>
-<span class="c">#   claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0</span>
-<span class="c">#   Source and releases: https://github.com/gaia-research/gaia-mcp</span></pre>
+<span class="c">#   Gaia summon MCP — bundled in the Skill Heaven plugin</span>
+<span class="c">#</span>
+<span class="c">#   Standalone @gaia-research/mcp was decommissioned on 2026-08-19.</span>
+<span class="c">#   Summon now ships inside the Skill Heaven plugin, which bundles its</span>
+<span class="c">#   own MCP server — there is nothing to configure separately.</span>
+<span class="c">#</span>
+<span class="c">#     claude plugin install skill-heaven@gaia-skill-heaven</span>
+<span class="c">#</span>
+<span class="c">#   Source and releases: https://github.com/gaia-research/gaia-skill-heaven</span></pre>
             </div>
           </div>
         </div>

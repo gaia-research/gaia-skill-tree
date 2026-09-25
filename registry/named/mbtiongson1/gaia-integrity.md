@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★
-description: Validates the structural integrity of the Gaia registry — checking schema
+description: Validates the structural integrity of the registry — checking schema
   compliance, detecting duplicate IDs, verifying cross-references, and reporting any
   inconsistencies that would break build or generation.
 createdAt: '2026-05-27'
@@ -62,4 +62,4 @@ trustMagnitudeInputHash: 345367cc1e231782d259170040976560761f75ff2e5e6eae68c0f6a
 
 ## Overview
 
-Validates the structural integrity of the Gaia registry: runs `gaia validate`, checks schema compliance, detects duplicate IDs, verifies cross-references between `registry/nodes/` and `registry/skills/`, and surfaces orphan documentation. Includes safe-archival of stale `.md` files via timestamped `registry/archive/`. Run before submitting a PR or after large registry shifts.
+Validates the structural integrity of the registry: runs `gaia validate`, checks schema compliance, detects duplicate IDs, verifies cross-references between `registry/nodes/` and `registry/skills/`, and surfaces orphan documentation. Includes safe-archival of stale `.md` files via timestamped `registry/archive/`. Run before submitting a PR or after large registry shifts.

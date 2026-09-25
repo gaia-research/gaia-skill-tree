@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/combination.schema.json",
+  "title": "Gaia Combination Edge",
+  "description": "Schema for a directed edge (prerequisite relationship) between two skills in the Gaia DAG.",
+  "type": "object",
+  "required": [
+    "sourceSkillId",
+    "targetSkillId",
+    "edgeType"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "sourceSkillId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "description": "The prerequisite skill ID (parent)."
+    },
+    "targetSkillId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "description": "The derived skill ID (child)."
+    },
+    "edgeType": {
+      "type": "string",
+      "enum": ["prerequisite", "corequisite", "enhances"],
+      "description": "The relationship type between source and target."
+    },
+    "condition": {
+      "type": "string",
+      "description": "Optional condition that must be met for this edge to be active."
+    },
+    "levelFloor": {
+      "type": "string",
+      "enum": ["1★", "2★", "3★", "4★", "5★"],
+      "description": "Minimum level the source skill must be at for this edge to apply."
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to evidence entries that support this edge relationship."
+    }
+  }
+}

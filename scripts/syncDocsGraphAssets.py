@@ -8,6 +8,7 @@ static page needs to fetch or download.
 
 from __future__ import annotations
 
+import filecmp
 import json
 import shutil
 import sys
@@ -205,6 +206,19 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
         named_index_dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(named_index_src, named_index_dst)
         print(f"Synced registry/named-skills.json -> {named_index_dst.relative_to(root)}")
+
+    # Mirror canonical schemas to docs/schema/ for live hosting on GitHub Pages (#1201)
+    schema_src = root / "registry" / "schema"
+    if schema_src.exists():
+        schema_dst = root / "docs" / "schema"
+        schema_dst.mkdir(parents=True, exist_ok=True)
+        for s_file in schema_src.rglob("*.json"):
+            rel_s = s_file.relative_to(schema_src)
+            target = schema_dst / rel_s
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.exists() or not filecmp.cmp(s_file, target, shallow=False):
+                shutil.copy2(s_file, target)
+                print(f"Synced registry/schema/{rel_s} -> docs/schema/{rel_s}")
 
 
 def main() -> None:

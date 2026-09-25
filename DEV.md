@@ -150,7 +150,7 @@ Every row's universal fallback is `python -m gaia_cli dev <cmd> …`. The **Dire
 | `test <meta\|all>` | – | `meta`→`python -m pytest tests/test_meta_ops.py tests/test_authz.py` · `all`→`python -m pytest tests/` | Thin pytest wrapper (cwd = repo root). Needs a source checkout with `tests/` (absent from wheels). |
 | `docs [--check]` | – | `python scripts/build_docs.py [--check]` | Not authz-gated. On Windows set the UTF-8 knob for **both** paths (the `build_docs.py` child never inherits the parent's UTF-8 reconfigure). |
 | `hook [--event T]` | – | — | Internal Claude Code editor hook; fully in-process, not for manual runs. |
-| `mcp` | – | — | Prints install/run instructions for the standalone `@gaia-research/mcp` npm package (v0.1.0, binary `gaia-mcp`). Read-only; nothing is built or spawned locally. Not authz-gated. |
+| `mcp` | – | — | Prints install instructions for the Skill Heaven plugin and bundled summon MCP server (standalone `@gaia-research/mcp` is decommissioned). Read-only; nothing is built or spawned locally. Not authz-gated. |
 | `build` | ✓ | `python scripts/build_docs.py` | Thin wrapper (`→ python -m gaia_cli docs build → build_docs.py`). The **direct script bypasses authz**. Regenerates Class P + Class S; no git commit/push (only a read-only `git log`). No `--no-build` flag. |
 | `add <name> …` | ✓ | — | Writes `registry/nodes/…` or `registry/named/…` + `add` timeline event, then rebuilds docs unless `--no-build`. `--description` ≥10 chars. |
 | `rm <id> [--yes]` | ✓ | — | Deletes node + strips it from all prereqs/derivatives. Non-TTY must pass `--yes`. Rebuilds unless `--no-build`. |

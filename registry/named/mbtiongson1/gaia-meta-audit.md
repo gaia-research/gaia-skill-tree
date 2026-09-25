@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: registry-health-scan
 status: named
 level: 2★
-description: Produces a prioritized review queue of Gaia registry entries needing
+description: Produces a prioritized review queue of registry entries needing
   attention — flagging stale evidence, broken links, mis-classified tiers, and naming
   inconsistencies in one structured audit pass.
 createdAt: '2026-05-27'
@@ -87,7 +87,7 @@ trustMagnitudeInputHash: f239c8b5d313d4f20e59d1637a70404e639458f5a46b12526272a1b
 
 ## Overview
 
-Produces a prioritized review queue of Gaia registry entries needing attention: scans `registry/gaia.json`, `registry/named/**`, and the real-skill catalog for stale evidence, broken links, mis-classified tiers, brand-coupled IDs, missing 3★+ Star Bar implementations, and likely fusion candidates. Output is a P0–P4 table that hands off each accepted candidate to `/gaia-audit`.
+Produces a prioritized review queue of registry entries needing attention: scans `registry/gaia.json`, `registry/named/**`, and the real-skill catalog for stale evidence, broken links, mis-classified tiers, brand-coupled IDs, missing 3★+ Star Bar implementations, and likely fusion candidates. Output is a P0–P4 table that hands off each accepted candidate to `/gaia-audit`.
 
 The v1.1 workflow (refined during PR #525, the `review/meta/mbtiongson1-audit` cleanup) adds explicit detection for:
 

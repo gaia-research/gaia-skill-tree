@@ -175,6 +175,73 @@ def test_forbidden_shell_forms_are_rejected(command: str):
 
 
 @pytest.mark.parametrize(
+    "command",
+    [
+        "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane {source_lane}",
+        "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane={source_lane}",
+        "gaia dev add {skill_id} --type {skill_type}",
+        "gaia dev add {skill_id} --type={skill_type}",
+        "gaia dev test {suite}",
+        "gaia dev release {release_type}",
+    ],
+)
+def test_argparse_choice_placeholders_are_permitted(command: str):
+    contract.validate_run(command, ROOT)
+
+
+@pytest.mark.parametrize(
+    ("command", "match"),
+    [
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane invalid_lane",
+            "invalid choice",
+        ),
+        ("gaia dev test invalid_suite", "invalid choice"),
+        ("gaia dev release invalid_release", "invalid choice"),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --nonexistent-flag {source_lane}",
+            "unrecognized arguments",
+        ),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane {Bad_Lane}",
+            "malformed placeholder",
+        ),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane {bad-lane}",
+            "malformed placeholder",
+        ),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane {foo}{bar}",
+            "malformed placeholder",
+        ),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane={foo}{bar}",
+            "malformed placeholder",
+        ),
+        (
+            "gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane {lane1} {lane2}",
+            "unrecognized arguments",
+        ),
+        (
+            'gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane "{source_lane}; rm -rf /"',
+            "malformed placeholder",
+        ),
+        (
+            r"gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane $(whoami)",
+            "command substitution is forbidden",
+        ),
+        (
+            r"gaia dev prefill {candidate_id} --name {name} --url {url} --description {desc} --source-lane `whoami`",
+            "command substitution is forbidden",
+        ),
+    ],
+)
+def test_argparse_choice_validation_and_safety_are_enforced(command: str, match: str):
+    with pytest.raises(contract.CommandContractError, match=match):
+        contract.validate_run(command, ROOT)
+
+
+@pytest.mark.parametrize(
     ("capability", "term"),
     [
         ("Ask Hermes to classify the input.", "hermes"),

@@ -4044,7 +4044,7 @@ def get_parser():
 
     dev_mcp = dev_sub.add_parser(
         "mcp",
-        help="Show install/run instructions for the standalone @gaia-research/mcp server",
+        help="Show install instructions for the Skill Heaven plugin and bundled summon MCP server",
     )
 
     dev_hook = dev_sub.add_parser(

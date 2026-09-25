@@ -131,8 +131,8 @@ def load_schema(schema_path):
         return json.load(f)
 
 
-def validate_schema(graph, schema_dir):
-    """Validate all skill nodes against skill.schema.json."""
+def validate_schema(graph, schema_dir, is_artifact=True):
+    """Validate graph envelope and skill nodes against schemas."""
     errors = []
     if not HAS_JSONSCHEMA:
         print("⚠  jsonschema not installed — skipping schema validation.")
@@ -141,13 +141,27 @@ def validate_schema(graph, schema_dir):
 
     skill_schema = load_schema(os.path.join(schema_dir, "skill.schema.json"))
     combo_schema = load_schema(os.path.join(schema_dir, "combination.schema.json"))
+    graph_schema_path = os.path.join(schema_dir, "graph.schema.json")
+    graph_schema = load_schema(graph_schema_path) if os.path.isfile(graph_schema_path) else None
 
+    # 1. If graph-level schema exists and validating a graph artifact, validate full envelope
+    if is_artifact and graph_schema is not None and isinstance(graph, dict) and "skills" in graph:
+        graph_validator = jsonschema.Draft7Validator(graph_schema)
+        for e in graph_validator.iter_errors(graph):
+            path_str = ".".join(str(p) for p in e.absolute_path)
+            loc = f" at {path_str}" if path_str else " at root"
+            errors.append(f"Graph schema error{loc}: {e.message}")
+
+    # 2. For skills without graph-level layout/origin enrichment, enforce canonical skill.schema.json
+    ENRICHED_KEYS = {"positions", "cluster", "branch", "namedMaxLevel", "medallion", "rank", "rankWord", "ultimateGateStatus"}
     for skill in graph.get("skills", []):
-        try:
-            jsonschema.validate(instance=skill, schema=skill_schema)
-        except jsonschema.ValidationError as e:
-            errors.append(f"Schema error in skill '{skill.get('id', '?')}': {e.message}")
+        if not any(k in skill for k in ENRICHED_KEYS):
+            try:
+                jsonschema.validate(instance=skill, schema=skill_schema)
+            except jsonschema.ValidationError as e:
+                errors.append(f"Schema error in skill '{skill.get('id', '?')}': {e.message}")
 
+    # 3. Validate edges against combination.schema.json
     for edge in graph.get("edges", []):
         try:
             jsonschema.validate(instance=edge, schema=combo_schema)
@@ -893,7 +907,8 @@ def main():
 
     # 1. Schema validation
     print("   [1/10] Schema validation...")
-    all_errors.extend(validate_schema(graph, schema_dir))
+    is_artifact = os.path.isfile(graph_path)
+    all_errors.extend(validate_schema(graph, schema_dir, is_artifact=is_artifact))
 
     # 2. Unique identifiers
     print("   [2/10] Unique identifiers...")

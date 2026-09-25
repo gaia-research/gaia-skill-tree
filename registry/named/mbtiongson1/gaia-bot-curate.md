@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★
-description: Runs an automated batch curation pass over the Gaia skill registry —
+description: Runs an automated batch curation pass over the registry —
   scanning for new agent skills, validating evidence, and opening versioned draft
   PRs without human intervention.
 createdAt: '2026-05-27'
@@ -61,4 +61,4 @@ trustMagnitudeInputHash: 5d7e5b5a94b45e358c45f4fe051e7a6a68d400469010f2c28eedd9d
 
 ## Overview
 
-Runs an automated batch curation pass over the Gaia skill registry: scans configured `bot/*` crawl branches for new candidate skills, validates evidence classes, normalizes the resulting batch, and opens versioned draft PRs without human intervention. Designed for headless CI use; complements human-driven `gaia-curate`.
+Runs an automated batch curation pass over the registry: scans configured `bot/*` crawl branches for new candidate skills, validates evidence classes, normalizes the resulting batch, and opens versioned draft PRs without human intervention. Designed for headless CI use; complements human-driven `gaia-curate`.

@@ -2,18 +2,17 @@
 
 The Gaia CLI integrates local development repositories and CI pipelines with the Gaia Skill Tree registry.
 
-> **Prefer the MCP server?** If you use Claude Code, Cursor, or any MCP-compatible
-> agent, install the standalone server — it is published on npm as
-> `@gaia-research/mcp` (v0.1.0, binary `gaia-mcp`):
+> **Prefer the Agent Plugin / MCP?** If you use Claude Code, the recommended path
+> is the unified **Skill Heaven** plugin, which bundles its own summon MCP server:
 >
 > ```bash
-> claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+> claude plugin install skill-heaven@gaia-skill-heaven
 > ```
 >
-> v0.1.0 is **read-only Registry mode** — it reads the public registry and cannot
-> install, fuse, or mutate skills. It ships three tools: `gaia_search`,
-> `gaia_inspect`, and `gaia_status`. For anything that writes, use this CLI.
-> Source: <https://github.com/gaia-research/gaia-mcp>.
+> The core mechanic is `/summon` — materializing capabilities into session context
+> on demand with zero ambient skill debt. Standalone `@gaia-research/mcp` has been
+> decommissioned and deprecated on npm as of 2026-08-19. For anything that writes,
+> use this CLI. Source: <https://github.com/gaia-research/gaia-skill-heaven>.
 
 ## Installation
 
