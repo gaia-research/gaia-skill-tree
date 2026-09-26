@@ -51,6 +51,7 @@
 | ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
+| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-creative | Basic | 3★ | `/creative-direction` |
 | · ████████/huggingface-datasets | Fusion | — | `/data-analysis` |
 | ○ /data-visualize | Basic | — | `/data-visualize` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
@@ -156,6 +157,7 @@
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
+| · [latent-spaces](../docs/u/latent-spaces/)/brag | Fusion | 3★ | `/project-launch-video-production` |
 | · [yylo-dev](../docs/u/yylo-dev/)/ledger-tasks-yylo | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [garrytan](../docs/u/garrytan/)/plan-tune | Fusion | 2★ | `/prompt-optimization` |
@@ -292,7 +294,6 @@
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
-| ○ Creative Direction | Intrinsic Skill | 3★ | `/creative-direction` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Deprecation and Migration | Intrinsic Skill | — | `/deprecation-and-migration` |

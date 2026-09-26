@@ -1,0 +1,73 @@
+{
+  "batchId": "20260926162927-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-09-26T16:29:27Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "project-launch-video-production",
+      "candidateId": "latent-spaces/brag",
+      "name": "Project Launch Video Production",
+      "description": "Turn a project's source and visual identity into a concise launch video by defining its creative direction, composing the video, rendering deliverables, and preparing share copy.",
+      "attribution": {
+        "skill_file_url": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "fusion",
+      "prerequisites": [
+        "creative-direction",
+        "video-composition"
+      ],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "latent-spaces",
+        "skill_name": "brag",
+        "links_github": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "project-launch-video-production",
+      "targetSkillId": "object-detection",
+      "score": 0.553,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "project-launch-video-production",
+      "targetSkillId": "video-composition",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "project-launch-video-production",
+      "targetSkillId": "project-management",
+      "score": 0.49,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "latent-spaces/brag",
+        "packetContentSha256": "bc8d117535826fbf2bd965084c47ebb4cfcdc98210e4ce075ac81c608cbfee58",
+        "sourceContentSha256": "77d0ff935c91239f92244498fc42a45a94eb5a356e2f55d3c68f8007e3aac904",
+        "packetPath": "registry-for-review/discovery-packets/latent-spaces--brag.json"
+      }
+    ]
+  }
+}

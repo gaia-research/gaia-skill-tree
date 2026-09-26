@@ -1,0 +1,31 @@
+{
+  "id": "project-launch-video-production",
+  "name": "Project Launch Video Production",
+  "type": "fusion",
+  "description": "Turn a project's source and visual identity into a concise launch video by defining its creative direction, composing the video, rendering deliverables, and preparing share copy.",
+  "prerequisites": [
+    "creative-direction",
+    "video-composition"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-09-27",
+  "updatedAt": "2026-09-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-09-26T16:33:11Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'project-launch-video-production' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-09-26T16:33:11Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: creative-direction, video-composition."
+    }
+  ]
+}

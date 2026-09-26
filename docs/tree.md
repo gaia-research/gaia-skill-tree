@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-09-25
+GAIA SKILL TREE  ·  generated 2026-09-26
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -422,7 +422,6 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /autonomous-engineering-platform
   ○ gaia-research/ci-churn  [2★]
   ○ /clinical-data-retrieval
-  ○ heygen-com/hyperframes-creative  [3★]
   ○ ████████/update-unique-churches
   ○ /cultural-localization
   ○ ████████/deprecation-and-migration
@@ -463,4 +462,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-09-25. Do not edit directly.*
+*Generated from gaia.json on 2026-09-26. Do not edit directly.*

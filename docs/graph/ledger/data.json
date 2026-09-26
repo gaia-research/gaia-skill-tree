@@ -1,15 +1,15 @@
 {
-  "version": "8.14.3",
-  "generatedAt": "2026-09-25T13:24:14Z",
+  "version": "8.12.0",
+  "generatedAt": "2026-09-26T16:51:26Z",
   "summary": {
-    "total": 263,
+    "total": 264,
     "S": 3,
-    "A": 25,
+    "A": 26,
     "B": 93,
     "C": 103,
     "ungraded": 39,
     "floor": 0,
-    "up": 1
+    "up": 2
   },
   "rows": [
     {
@@ -377,6 +377,23 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "latent-spaces/brag",
+      "tm": 139.93,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 103.93,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/gbrain",

@@ -517,6 +517,23 @@
       "genericSkillRef": "codebase-graph-retrieval"
     },
     {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "3★",
+      "trustMagnitude": 139.93,
+      "overallTrustGrade": "A",
+      "fusionScore": 200.0,
+      "contributor": "latent-spaces",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
+      },
+      "genericSkillRef": "project-launch-video-production"
+    },
+    {
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
@@ -1072,28 +1089,11 @@
         "self": "/api/v1/skills/garrytan/office-hours.json"
       },
       "genericSkillRef": "question-answer"
-    },
-    {
-      "id": "garrytan/plan-eng-review",
-      "name": "Plan Eng Review",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 224,
+  "totalSkills": 225,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

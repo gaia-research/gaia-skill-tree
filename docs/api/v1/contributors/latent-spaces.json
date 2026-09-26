@@ -1,0 +1,36 @@
+{
+  "handle": "latent-spaces",
+  "namedSkills": [
+    {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "3★",
+      "trustMagnitude": 139.93,
+      "overallTrustGrade": "A",
+      "fusionScore": 200.0,
+      "contributor": "latent-spaces",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
+      },
+      "genericSkillRef": "project-launch-video-production"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "latent-spaces/brag",
+    "level": "3★",
+    "trustMagnitude": 139.93
+  },
+  "prestigeScore": 139.93,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/latent-spaces.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}
