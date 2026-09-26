@@ -45,4 +45,6 @@ def test_report_html_has_no_trailing_whitespace_without_chart():
         download_name="test-report.html",
     )
 
+    assert ".paper-journal-header {" in rendered
+    assert ".paper-journal-header {{" not in rendered
     assert all(line == line.rstrip() for line in rendered.splitlines())
