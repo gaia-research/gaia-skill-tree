@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "balukosuri/autoresearch-universal",
+      "name": "AutoResearch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 228.28,
+      "contributor": "balukosuri",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/balukosuri/autoresearch-universal.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
+    },
+    {
       "id": "citrolabs/ego-browser",
       "name": "Ego Browser",
       "level": "2★",
@@ -848,35 +865,11 @@
         "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
       },
       "genericSkillRef": "multi-repo-coordination"
-    },
-    {
-      "id": "ruvnet/github-suite",
-      "name": "GitHub Suite",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 240.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/github-suite.json"
-      },
-      "genericSkillRef": "git-integration",
-      "suiteComponents": [
-        "ruvnet/github-code-review",
-        "ruvnet/github-multi-repo",
-        "ruvnet/github-project-management",
-        "ruvnet/github-release-management",
-        "ruvnet/github-workflow-automation"
-      ]
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 224,
+  "totalSkills": 225,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

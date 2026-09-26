@@ -1,6 +1,30 @@
 {
   "skills": [
     {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      },
+      "genericSkillRef": "git-integration",
+      "suiteComponents": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
+    },
+    {
       "id": "ruvnet/pair-programming",
       "name": "Pair Programming",
       "level": "2★",
@@ -424,7 +448,7 @@
   ],
   "page": 5,
   "totalPages": 5,
-  "totalSkills": 224,
+  "totalSkills": 225,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json"

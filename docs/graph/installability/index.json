@@ -4567,6 +4567,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "latent-spaces/brag": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+        "owner": "latent-spaces",
+        "repo": "brag",
+        "ref": "c893c5ed52aed84e3e2ee56787de869fccdae6b0",
+        "subpath": "skills/brag",
+        "entrypoint": "skills/brag/SKILL.md",
+        "installSubpath": "skills/brag"
+      },
+      "currentSkillContentSha256": "546846ccccbedf276580a2434324b08eb23c3f5dc3ab5463e4ddf2fba6bb9a98",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "leonxlnx/brandkit": {
       "state": "unknown",
       "reason": "not-observed",

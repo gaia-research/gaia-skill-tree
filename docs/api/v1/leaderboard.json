@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 263,
+    "total": 264,
     "S": 3,
-    "A": 25,
+    "A": 26,
     "B": 93,
     "C": 103,
     "ungraded": 39,
     "floor": 0,
-    "up": 1
+    "up": 2
   },
   "rows": [
     {
@@ -253,6 +253,18 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "latent-spaces/brag",
+      "trustMagnitude": 139.93,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 103.93,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/gbrain",

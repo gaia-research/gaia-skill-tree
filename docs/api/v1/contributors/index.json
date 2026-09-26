@@ -261,6 +261,19 @@
       }
     },
     {
+      "handle": "latent-spaces",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "latent-spaces/brag",
+        "level": "3★",
+        "trustMagnitude": 139.93
+      },
+      "prestigeScore": 139.93,
+      "_links": {
+        "self": "/api/v1/contributors/latent-spaces.json"
+      }
+    },
+    {
       "handle": "ayghri",
       "namedSkills": 1,
       "topSkill": {
@@ -508,7 +521,7 @@
       }
     }
   ],
-  "totalContributors": 39,
+  "totalContributors": 40,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }
