@@ -1,6 +1,19 @@
 {
-  "generatedAt": "2026-09-25T10:33:10Z",
+  "generatedAt": "2026-09-26T17:41:50Z",
   "skills": [
+    {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "3★",
+      "contributor": "latent-spaces",
+      "trustMagnitude": 139.93,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-09-26T16:45:15Z",
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "mattpocock/obsidian-vault",
       "name": "Obsidian Vault Manager",
@@ -375,19 +388,6 @@
         "self": "/api/v1/skills/garrytan/brain-ops.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "heygen-com/hyperframes",
-      "name": "HyperFrames",
-      "level": "4★",
-      "contributor": "heygen-com",
-      "trustMagnitude": 163.63,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-06T16:21:50Z",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes.json"
-      },
-      "previousLevel": "3★"
     }
   ],
   "_links": {

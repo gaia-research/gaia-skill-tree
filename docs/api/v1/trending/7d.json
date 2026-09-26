@@ -1,9 +1,24 @@
 {
   "window": "7d",
-  "generatedAt": "2026-09-25T10:33:10Z",
+  "generatedAt": "2026-09-26T17:41:50Z",
   "firstRun": false,
-  "skills": [],
-  "totalTrending": 0,
+  "skills": [
+    {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "3★",
+      "contributor": "latent-spaces",
+      "trustMagnitude": 139.93,
+      "overallTrustGrade": "A",
+      "trendingScore": 69.97,
+      "tmDelta": 139.93,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
+      }
+    }
+  ],
+  "totalTrending": 1,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
