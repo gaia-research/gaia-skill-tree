@@ -687,17 +687,24 @@ def run_doctor(repo_root: Optional[Path] = None) -> Dict[str, Any]:
         and ml_ready
     )
     artifact_ready = bool(fresh.get("fresh"))
+    # Termux proof is platform-conditional: a cloud/Linux runner can never hold
+    # an Android receipt, so it is reported separately and never gates `healthy`
+    # off-device. On-device it is still required for the release constraint.
+    isAndroidHost = bool(termux.get("is_android"))
+    # Smoke receipt only blocks health when present-but-mismatched, or when
+    # we are actually on Android and therefore expected to hold a valid receipt.
+    # An absent receipt on a cloud runner is expected and not a failure.
+    smoke_ok = (
+        smoke.get("matches_active", False)
+        or (not smoke.get("present", False) and not isAndroidHost)
+    )
     healthy = (
         deps_ready
         and artifact_ready
         and ret.get("ok", False)
         and cur_eval.get("matches_active", False)
-        and smoke.get("matches_active", True)
+        and smoke_ok
     )
-    # Termux proof is platform-conditional: a cloud/Linux runner can never hold
-    # an Android receipt, so it is reported separately and never gates `healthy`
-    # off-device. On-device it is still required for the release constraint.
-    isAndroidHost = bool(termux.get("is_android"))
 
     return {
         "healthy": healthy,
