@@ -1,0 +1,44 @@
+{
+  "contractVersion": "curation-principles-v1",
+  "rubricVersion": "1.0.0",
+  "rubricId": "gaia-curation-principles",
+  "authority": "advisory",
+  "doctrine": ["Similarity is not identity.", "Popularity is not identity.", "Packaging is not identity.", "Trust is not topology."],
+  "principles": {
+    "identity": {
+      "description": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic.",
+      "doctrineRef": ["META.md §1.2", "CONTEXT.md: Option D", "issues/1677"]
+    },
+    "transferability": {
+      "description": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging.",
+      "doctrineRef": ["GOVERNANCE.md §4.2", "META.md §2.3", "issues/1483", "issues/1809"]
+    },
+    "relation": {
+      "description": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "allowedRelations": ["same", "narrower", "broader", "composite", "orthogonal", "unknown"],
+      "doctrineRef": ["META.md §1.2", "issues/1675", "issues/1677"]
+    },
+    "material_distinction": {
+      "description": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic.",
+      "doctrineRef": ["issues/1677", "issues/1801", "issues/1922"]
+    },
+    "atomicity": {
+      "description": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "allowedTypes": ["basic", "fusion", "unknown"],
+      "doctrineRef": ["META.md §1.2", "CONTEXT.md: Fusion structure"]
+    },
+    "artifact_packaging": {
+      "description": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "allowedShapes": ["single", "suite", "package", "router", "wrapper", "unknown"],
+      "doctrineRef": ["META.md §1.2", "GOVERNANCE.md §4.2", "docs/agents/curation-guidelines.md §3"]
+    },
+    "overlap": {
+      "description": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "doctrineRef": ["issues/1675", "issues/1677", "issues/1922"]
+    },
+    "topology_independence": {
+      "description": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "doctrineRef": ["META.md §1.2", "META.md §2.1e", "issues/1906", "issues/1922"]
+    }
+  }
+}

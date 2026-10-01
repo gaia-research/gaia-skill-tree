@@ -164,6 +164,24 @@ def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
         ):
             errors.append("INVALID_SUITE_BLOCK")
 
+    if is_v2 and "l4Resolution" in packet:
+        l4_res = packet.get("l4Resolution")
+        if isinstance(l4_res, dict) and "humanReview" in l4_res:
+            hr = l4_res.get("humanReview")
+            if (
+                not isinstance(hr, dict)
+                or not isinstance(hr.get("reviewedBy"), str) or not hr["reviewedBy"].strip()
+                or not isinstance(hr.get("approvalRef"), str) or not hr["approvalRef"].strip()
+                or not isinstance(hr.get("rationale"), str) or not hr["rationale"].strip()
+                or not isinstance(hr.get("reviewedAt"), str) or not hr["reviewedAt"].strip()
+                or not isinstance(hr.get("assessmentPath"), str) or not hr["assessmentPath"].strip()
+                or not isinstance(hr.get("assessmentReceiptDigest"), str)
+                or not SHA256.fullmatch(hr["assessmentReceiptDigest"])
+                or ("humanOverride" in hr and not isinstance(hr["humanOverride"], bool))
+                or ("operatorOverride" in hr and not isinstance(hr["operatorOverride"], bool))
+            ):
+                errors.append("INVALID_HUMAN_REVIEW")
+
     mapped = isinstance(lifecycle, list) and "mapped" in lifecycle
     snapshot = packet.get("genericSnapshot")
     if mapped:

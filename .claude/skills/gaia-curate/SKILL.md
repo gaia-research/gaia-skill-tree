@@ -13,20 +13,29 @@ argument-hint: "<source-page-url>"
 Read [CURATION-CORE.md](CURATION-CORE.md). This skill is discovery-only and processes one manually selected source page with at most five candidates.
 
 1. Fetch the page and record its canonical URL, retrieval time, source lane, and source-native trend signals. Do not treat popularity as trust.
-2. For each candidate, fetch a real upstream `SKILL.md`. Reject/defer a listing that cannot resolve to one. Parse non-empty `name` and `description` frontmatter; preserve host repository, cited origin/attribution, commit SHA when available, and SHA-256 content hash.
-3. Normalize one candidate, exact-dedupe by canonical URL/content hash, then persist the complete JSON output of `gaia dev list --generic --json` before worker dispatch. Preserve it in the generic snapshot receipt; every mapping option must appear in the same separately supplied snapshot. Offer at most three mapping options plus the bounded `NEW_GENERIC` and `UNSURE` paths; `UNSURE` is recorded as `DEFER`.
-4. Emit one `discovery-packet-v2` decision using `MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_A_SKILL`, or `DEFER`, and validate it with [scripts/validate_discovery_packet.py](scripts/validate_discovery_packet.py) plus `--generic-snapshot <saved-cli-output.json>`. A `DUPLICATE` must repeat the candidate's canonical URL or content hash exactly. Use Yggdrasil II `basic|fusion` only for an L4-reviewable proposal; do not ask workers for legacy branches or stars. The validator retains v1 read compatibility, but v1 is not normative for new output.
-5. Write the validated V2 packet to `registry-for-review/discovery-packets/`, present the L4 human shortlist, and stop. A shortlist is not registry acceptance. Only after L4 may the human append the schema-defined `l4Resolution` (vendor-neutral generic identity, named identity, and exact upstream `blob/.../SKILL.md` URL) and hand the resolved packet to `gaia push --from-file <packet.json>`. Never infer those fields from a candidate slug or listing URL.
+2. For each candidate, fetch a real upstream `SKILL.md`. Reject/defer a listing that cannot resolve to one. Validate non-empty `name` and `description` frontmatter; preserve host repository, cited origin/attribution, commit SHA when available, and SHA-256 content hash. Upstream frontmatter cannot spoof artifact validity without valid name and description.
+3. Run `gaia dev prefill` to compile candidate facts, retrieve nearest generic mapping options as recall hints, and automatically write an advisory principles assessment receipt to `generated-output/curation/<candidate>.assessment.json`. Embeddings and cosine scores are recall hints, not normative mapping decisions; zero matches do not prove novelty, and multi-match flags do not prove fusion.
+4. (Optional) Run `gaia dev assess <packet.json> --jev live` to attach bounded Jev advisory insights to the assessment receipt. Machine advice is strictly non-authoritative.
+5. Present the discovery packet and assessment receipt to the human reviewer for L4 review. The machine never ratifies topology or makes L4 decisions.
+6. Upon human approval, ratify the packet using `gaia dev ratify` with mandatory human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, and `--acknowledge-human-review`). Then submit via `gaia push --from-file <packet.json>`.
 
 Never gather or score evidence, assign manual grades/classes, calculate TM, calibrate stars, mutate registry files, regenerate docs, commit, push, or open a PR.
 
-## Optional Semantic Advisory Sidecar (L4)
+## Portable Environment Setup, Check, and Maintenance
 
-Before L4 human sign-off, an operator may optionally run the read-only Jev advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+Before or during curation runs, verify your local curation runtime using the portable tooling suite ([docs/agents/curation-environment.md](../../../docs/agents/curation-environment.md)):
 
 ```bash
-# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
-python scripts/jev_advisory.py --mode mapping --input registry-for-review/discovery-packets/<packet>.json
+# Lightweight environment diagnostics (inspects deps, active source, model, freshness)
+python scripts/environment/doctor.py
+
+# Full environment bootstrap or non-destructive check
+./scripts/environment/setup.sh --check
+
+# Curation maintenance pass (runs steward scan, PR guards, secret scan, focused tests)
+./scripts/environment/maintenance.sh
 ```
 
-This advisory executes strictly as an auxiliary sidecar; it never alters deterministic decision precedence, `discovery-packet-v2` fields, or generic snapshots. If credentials are missing, budget limits are reached, or confidence is below 0.75, it emits an actionable fallback packet to `worker-luna`. L4 human ratification remains mandatory.
+## Optional Semantic Advisory Sidecar (L4)
+
+Before L4 human sign-off, an operator may optionally run `gaia dev assess <packet.json> --jev live` (or `python scripts/jev_advisory.py --mode mapping --input <packet.json>`) to attach a non-binding semantic second opinion ([docs/agents/jev.md](../../../docs/agents/jev.md)). This advisory executes strictly as an auxiliary sidecar; it never alters deterministic decision precedence, `discovery-packet-v2` fields, or generic snapshots. L4 human ratification remains mandatory.

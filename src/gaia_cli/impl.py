@@ -1960,12 +1960,12 @@ _EMBEDDINGS_INSTALL_STEPS = """\
             pip install "gaia-cli[embeddings]"
 
   Step 2 -- Generate embeddings (run once, ~30 seconds):
-            gaia embed
+            gaia dev embed
 
   Step 3 -- Search:
             gaia skills search "<your query>"
 
-  Tip: Re-run `gaia embed` whenever new skills are added to the registry.\
+  Tip: Re-run `gaia dev embed` whenever new skills are added to the registry.\
 """
 
 _EMBEDDINGS_MISSING_STEPS = """\
@@ -1975,22 +1975,68 @@ _EMBEDDINGS_MISSING_STEPS = """\
   +----------------------------------------------------------------+
 
   Generate them now (run once from the registry root, ~30 seconds):
-    gaia embed
+    gaia dev embed
 
   Then retry:
     gaia skills search "{query}"
 
-  Tip: Re-run `gaia embed` whenever new skills are added to the registry.\
+  Tip: Re-run `gaia dev embed` whenever new skills are added to the registry.\
 """
 
 
 def embed_command(args):
+    registry_path = getattr(args, "registry", ".") or "."
+    model_name = getattr(args, "model", None)
+    output_path = getattr(args, "output", None)
+    force = bool(getattr(args, "force", False))
+    check_only = bool(getattr(args, "check", False))
+
+    from gaia_cli.curation.retrieval import loadRetrievalConfig, embeddingStatus
+
     try:
-        import sentence_transformers  # noqa: F401
+        config = loadRetrievalConfig(registryPath=registry_path, modelName=model_name)
+    except Exception as exc:
+        print(f"Error loading retrieval config: {exc}", file=sys.stderr)
+        return 1
+
+    if check_only:
+        status = embeddingStatus(
+            registryPath=registry_path,
+            artifactPath=output_path,
+            config=config,
+        )
+        status_val = status.get("status")
+        reason = status.get("reason", "")
+        fp = status.get("fingerprint") or "none"
+        model_id = status.get("model") or config.get("modelId")
+        count = status.get("entriesCount", 0)
+        path = status.get("path", "")
+        print(f"Embedding status: {status_val}")
+        print(f"  Model: {model_id}")
+        print(f"  Artifact: {path}")
+        print(f"  Entries: {count}")
+        print(f"  Fingerprint: {fp}")
+        print(f"  Reason: {reason}")
+        return 0 if status_val == "fresh" else 1
+
+    try:
+        from gaia_cli.embeddings import generate_embeddings
+        result = generate_embeddings(
+            registry_path=registry_path,
+            model_name=config.get("modelId"),
+            config=config,
+            force=force,
+            output_path=output_path,
+        )
+        if result is None:
+            return 1
+        return 0
     except ImportError:
-        print(_EMBEDDINGS_INSTALL_STEPS)
-        sys.exit(1)
-    generate_embeddings(registry_path=args.registry)
+        print(_EMBEDDINGS_INSTALL_STEPS, file=sys.stderr)
+        return 1
+    except Exception as exc:
+        print(f"Error generating embeddings: {exc}", file=sys.stderr)
+        return 1
 
 
 def search_command(args):

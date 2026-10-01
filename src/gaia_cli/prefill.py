@@ -16,15 +16,23 @@ mutate the registry. Output packets land in registry-for-review/discovery-packet
 
 import hashlib
 import json
+import math
 import os
 import re
 import sys
 import urllib.request
 from datetime import datetime, timezone
 
+from gaia_cli.curation.assessment import buildAssessment
+from gaia_cli.curation.retrieval import (
+    embeddingStatus,
+    loadRetrievalConfig,
+    validateVector,
+)
 from gaia_cli.intakeAdapter import REASON_CODES, _canonicalDigest
 from gaia_cli.registry import (
     embeddings_path,
+    generated_output_dir,
     registry_dir,
     registry_schema_dir,
     registry_for_review_dir,
@@ -56,13 +64,25 @@ GITHUB_BLOB_RE = re.compile(
     r"^https://(?:www\.)?github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/blob/(?P<branch>[^/]+)/(?P<path>.+)$"
 )
 
+MAX_FETCH_BYTES = 1024 * 1024  # 1MB
+FETCH_TIMEOUT_SECONDS = 15
+
+
+def defaultFetcher(url):
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Gaia-Curate-Prefill/1.0"},
+    )
+    with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT_SECONDS) as resp:
+        return resp.read(MAX_FETCH_BYTES + 1)
+
 
 def fetchCandidateSource(canonicalUrl, fetcher=None):
     """Fetch the content of a GitHub blob URL (e.g., a SKILL.md).
 
     Args:
         canonicalUrl: GitHub blob URL (e.g., https://github.com/owner/repo/blob/branch/SKILL.md)
-        fetcher: Optional callable(url: str) -> bytes. Defaults to urllib.request.urlopen.
+        fetcher: Optional callable(url: str) -> bytes. Defaults to bounded urllib fetcher.
 
     Returns:
         A tuple of (hostRepository, rawUrl, content, contentSha256), or (None, None, None, None) on error.
@@ -70,7 +90,7 @@ def fetchCandidateSource(canonicalUrl, fetcher=None):
         rawUrl is https://raw.githubusercontent.com/owner/repo/branch/path
     """
     if fetcher is None:
-        fetcher = lambda url: urllib.request.urlopen(url).read()
+        fetcher = defaultFetcher
 
     match = GITHUB_BLOB_RE.match(canonicalUrl)
     if not match:
@@ -85,9 +105,15 @@ def fetchCandidateSource(canonicalUrl, fetcher=None):
     rawUrl = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}"
 
     try:
-        content = fetcher(rawUrl)
-        if isinstance(content, bytes):
-            content = content.decode("utf-8")
+        raw_data = fetcher(rawUrl)
+        if isinstance(raw_data, bytes):
+            if len(raw_data) > MAX_FETCH_BYTES:
+                return None, None, None, None
+            content = raw_data.decode("utf-8")
+        else:
+            content = str(raw_data)
+            if len(content.encode("utf-8")) > MAX_FETCH_BYTES:
+                return None, None, None, None
         contentSha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
         return hostRepository, rawUrl, content, contentSha256
     except Exception:
@@ -281,12 +307,72 @@ def rankNamedNeighbors(queryVector, embeddings, thresholds, topK=5):
     return neighbors
 
 
-def detectImpliedFusionFlags(options, thresholds):
-    """Surface implied-fusion 'missing links' as flags (Axis B).
+def parseAndValidateVector(
+    vectorSource,
+    expectedModel=None,
+    expectedRevision=None,
+    expectedDim=None,
+):
+    """Parse and strictly validate precomputed query vector.
 
-    When two distinct generics both clear strongMap, the candidate straddles
-    them — a fusion node covering their union may be missing. Emits a flag per
-    such pair so L4 can ratify the topology.
+    Accepts:
+      - Envelope object: {"model": str, "revision": Optional[str], "vector": list[float]}
+      - Plain list: [float, ...] (tied to active artifact)
+
+    Rejects non-finite values (inf, -inf, NaN) and booleans.
+    Verifies model and revision match active artifact configuration if present.
+    Verifies dimensions match expectedDim if provided.
+    """
+    if isinstance(vectorSource, str):
+        if os.path.exists(vectorSource):
+            with open(vectorSource, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        else:
+            data = json.loads(vectorSource)
+    elif isinstance(vectorSource, (dict, list)):
+        data = vectorSource
+    else:
+        raise ValueError("Invalid vector source: must be filepath, JSON string, dict, or list")
+
+    if isinstance(data, dict):
+        if "vector" not in data:
+            raise ValueError("Precomputed vector envelope missing 'vector' key")
+        vec = data["vector"]
+        model_in_env = data.get("model")
+        rev_in_env = data.get("revision")
+
+        if model_in_env and expectedModel and model_in_env != expectedModel:
+            raise ValueError(
+                f"Vector model '{model_in_env}' does not match active artifact model '{expectedModel}'"
+            )
+        if rev_in_env is not None and expectedRevision is not None and rev_in_env != expectedRevision:
+            raise ValueError(
+                f"Vector revision '{rev_in_env}' does not match active artifact revision '{expectedRevision}'"
+            )
+    elif isinstance(data, list):
+        vec = data
+    else:
+        raise ValueError("Precomputed vector must be a JSON object with 'vector' or a list of numbers")
+
+    if not isinstance(vec, (list, tuple)):
+        raise ValueError("Vector must be a list of numbers")
+    if len(vec) == 0:
+        raise ValueError("Vector cannot be empty")
+
+    for idx, val in enumerate(vec):
+        if isinstance(val, bool) or not isinstance(val, (int, float)) or not math.isfinite(val):
+            raise ValueError(f"Vector contains invalid or non-finite value at index {idx}: {val}")
+
+    if expectedDim is not None and len(vec) != expectedDim:
+        raise ValueError(f"Vector dimension ({len(vec)}) does not match expected dimension ({expectedDim})")
+
+    return [float(x) for x in vec]
+
+
+def detectImpliedFusionFlags(options, thresholds):
+    """Surface multi-generic ambiguity / multi-domain overlap as flags.
+
+    Cosine similarity is a recall hint, not an implied fusion requirement.
     """
     strong = [o for o in options if o["matchTier"] == "strong"]
     flags = []
@@ -298,8 +384,8 @@ def detectImpliedFusionFlags(options, thresholds):
                     "code": "IMPLIED_FUSION",
                     "generics": sorted([a, b]),
                     "note": (
-                        f"Candidate strongly matches both '{a}' and '{b}'; "
-                        "an implied fusion node covering their union may be missing."
+                        f"Candidate has high semantic similarity to multiple generics ('{a}', '{b}'); "
+                        "represents potential ambiguity or multi-domain overlap, not an automatic fusion requirement."
                     ),
                 }
             )
@@ -316,9 +402,10 @@ def buildPrefillPacket(
     thresholds,
     registryPath=None,
     precomputedVector=None,
-    modelName="all-MiniLM-L6-v2",
+    modelName=None,
     suite=None,
     fetcher=None,
+    config=None,
 ):
     """Assemble a discovery-packet-v2 with prefilled mappingOptions and source fields.
 
@@ -329,10 +416,30 @@ def buildPrefillPacket(
 
     When registryPath is None, uses the legacy short-circuit lifecycle for backward compatibility.
     """
+    effectiveModel = modelName or embeddings.get("model") or "all-MiniLM-L6-v2"
+    retrievalConfig = config
+    if retrievalConfig is None:
+        try:
+            retrievalConfig = loadRetrievalConfig(registryPath or ".", modelName=effectiveModel)
+        except Exception:
+            retrievalConfig = None
+
     if precomputedVector is not None:
-        queryVector = precomputedVector
+        expected_dim = embeddings.get("dimensions") or (retrievalConfig.get("dimensions") if retrievalConfig else None)
+        expected_model = (retrievalConfig.get("modelId") if retrievalConfig else None) or embeddings.get("model")
+        expected_rev = retrievalConfig.get("revision") if retrievalConfig else None
+        queryVector = parseAndValidateVector(
+            precomputedVector,
+            expectedModel=expected_model,
+            expectedRevision=expected_rev,
+            expectedDim=expected_dim,
+        )
     else:
-        queryVector = embed_query(f"{name}: {description}", model_name=modelName)
+        queryVector = embed_query(
+            f"{name}: {description}",
+            model_name=effectiveModel,
+            config=retrievalConfig,
+        )
 
     options = rankGenericOptions(queryVector, embeddings, thresholds)
     neighbors = rankNamedNeighbors(queryVector, embeddings, thresholds)
@@ -342,7 +449,7 @@ def buildPrefillPacket(
             {
                 "code": "SUITE_COMPONENT_CANDIDATES",
                 "namedNeighbors": neighbors,
-                "note": "Closest named skills — candidate suite components for appointing.",
+                "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision.",
             }
         )
 
@@ -365,21 +472,21 @@ def buildPrefillPacket(
             contentSha256 = sourceContentSha256
             frontmatter = parseFrontmatter(content)
 
-            # Stamp artifactGate: an explicit frontmatter value wins; otherwise
-            # gate on the minimal real signal a SKILL.md must carry (name +
-            # description), rather than rubber-stamping every fetched blob —
-            # a README/LICENSE/config file with no frontmatter must NOT pass.
-            if "artifactGate" in frontmatter:
-                artifactGate = frontmatter["artifactGate"]
-            elif (
+            has_valid_frontmatter = (
                 isinstance(frontmatter.get("name"), str)
-                and frontmatter["name"].strip()
+                and bool(frontmatter["name"].strip())
                 and isinstance(frontmatter.get("description"), str)
-                and frontmatter["description"].strip()
-            ):
-                artifactGate = "valid-skill"
-            else:
+                and bool(frontmatter["description"].strip())
+            )
+
+            # Stamp artifactGate: Cannot be spoofed by upstream frontmatter 'valid-skill'
+            # when name or description is absent/empty.
+            if not has_valid_frontmatter:
                 artifactGate = "rejected-missing-frontmatter"
+            elif "artifactGate" in frontmatter and frontmatter["artifactGate"] != "valid-skill":
+                artifactGate = frontmatter["artifactGate"]
+            else:
+                artifactGate = "valid-skill"
 
             # Build genericSnapshot
             snapshot = buildGenericSnapshot(registryPath)
@@ -423,6 +530,14 @@ def buildPrefillPacket(
             else REASON_CODES.NOT_A_SKILL,
         },
         "flags": flags,
+    }
+
+    # Add retrieval provenance metadata
+    packet["retrieval"] = {
+        "model": effectiveModel,
+        "revision": retrievalConfig.get("revision") if isinstance(retrievalConfig, dict) else None,
+        "fingerprint": embeddings.get("fingerprint"),
+        "thresholds": thresholds,
     }
 
     # Add source fields when fetched
@@ -584,24 +699,88 @@ def prefillCommand(args):
     Non-mutating: writes to registry-for-review/discovery-packets/, never the
     registry. Reads thresholds from meta.json at runtime.
     """
-    registryPath = args.registry
+    registryPath = getattr(args, "registry", ".") or "."
     thresholds = loadPrefillThresholds(registryPath)
+
+    try:
+        retrievalCfg = loadRetrievalConfig(registryPath)
+    except Exception:
+        retrievalCfg = None
 
     embPath = embeddings_path(registryPath)
     # graph/embeddings.json is the tracked artifact; fall back to it when the
     # registry/embeddings.json path is absent.
     if not os.path.exists(embPath):
-        graphEmb = os.path.join(str(registryPath), "graph", "embeddings.json")
-        if os.path.exists(graphEmb):
-            embPath = graphEmb
+        for alt in [
+            os.path.join(str(registryPath), "graph", "embeddings.json"),
+            os.path.join(str(registryPath), "docs", "graph", "embeddings.json"),
+        ]:
+            if os.path.exists(alt):
+                embPath = alt
+                break
+
+    # Check embeddings artifact freshness and presence
+    status = embeddingStatus(
+        registryPath=registryPath,
+        artifactPath=embPath,
+        config=retrievalCfg,
+    )
+    status_val = status.get("status")
+
+    if status_val == "missing":
+        print(
+            "Embeddings artifact not found. Run `gaia dev embed` first.",
+            file=sys.stderr,
+        )
+        return 1
+
+    allow_stale = getattr(args, "allow_stale", False)
+    if status_val in ("stale", "invalid"):
+        if allow_stale:
+            print(
+                f"Warning: Embeddings artifact is {status_val} ({status.get('reason')}). Proceeding with --allow-stale.",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                f"Error: Embeddings artifact is {status_val}: {status.get('reason')}.\n"
+                "Run `gaia dev embed` to update embeddings, or pass --allow-stale to proceed.",
+                file=sys.stderr,
+            )
+            return 1
+
     try:
         embeddings = load_embeddings(embPath)
     except FileNotFoundError:
         print(
-            "Embeddings not found. Run `gaia dev embed` (or regenerate "
-            "graph/embeddings.json) first.",
+            "Embeddings not found. Run `gaia dev embed` first.",
+            file=sys.stderr,
         )
         return 1
+    except Exception as exc:
+        print(f"Error loading embeddings: {exc}", file=sys.stderr)
+        return 1
+
+    # Handle precomputed vector argument
+    precomputedVector = None
+    vector_file = getattr(args, "vector", None)
+    if vector_file:
+        if not os.path.exists(vector_file):
+            print(f"Vector file not found: {vector_file}", file=sys.stderr)
+            return 1
+        expected_dim = embeddings.get("dimensions") or (retrievalCfg.get("dimensions") if retrievalCfg else 384)
+        expected_model = (retrievalCfg.get("modelId") if retrievalCfg else None) or embeddings.get("model")
+        expected_rev = retrievalCfg.get("revision") if retrievalCfg else None
+        try:
+            precomputedVector = parseAndValidateVector(
+                vector_file,
+                expectedModel=expected_model,
+                expectedRevision=expected_rev,
+                expectedDim=expected_dim,
+            )
+        except Exception as exc:
+            print(f"Error parsing --vector: {exc}", file=sys.stderr)
+            return 1
 
     suite = None
     if getattr(args, "suite_role", None) and getattr(args, "suite_id", None):
@@ -610,6 +789,8 @@ def prefillCommand(args):
             suite["componentCandidateIds"] = [
                 c.strip() for c in args.component_ids.split(",") if c.strip()
             ]
+
+    effective_model = embeddings.get("model") or (retrievalCfg.get("modelId") if retrievalCfg else "all-MiniLM-L6-v2")
 
     try:
         packet = buildPrefillPacket(
@@ -621,12 +802,20 @@ def prefillCommand(args):
             embeddings=embeddings,
             thresholds=thresholds,
             registryPath=registryPath,
+            precomputedVector=precomputedVector,
+            modelName=effective_model,
             suite=suite,
+            config=retrievalCfg,
+            fetcher=getattr(args, "fetcher", None),
         )
     except ImportError:
         print(
-            "sentence-transformers is not installed. Run: pip install sentence-transformers"
+            "sentence-transformers is not installed. Run: pip install sentence-transformers",
+            file=sys.stderr,
         )
+        return 1
+    except Exception as exc:
+        print(f"Error building prefill packet: {exc}", file=sys.stderr)
         return 1
 
     errors = selfValidatePacket(packet)
@@ -646,4 +835,18 @@ def prefillCommand(args):
     print(f"Wrote prefilled discovery-packet-v2 to {outPath}")
     print(f"  mappingOptions: {len(packet['mappingOptions'])} ({strong} strong, {weak} weak)")
     print(f"  flags: {len(packet['flags'])}")
+
+    # Automatic advisory assessment receipt generation for disk writes
+    slug = packet["candidateId"].replace("/", "-")
+    curation_out_dir = os.path.join(generated_output_dir(registryPath), "curation")
+    os.makedirs(curation_out_dir, exist_ok=True)
+    assessment_path = os.path.join(curation_out_dir, f"{slug}.assessment.json")
+    try:
+        receipt = buildAssessment(packet, registryPath=registryPath, client=None)
+        with open(assessment_path, "w", encoding="utf-8") as f:
+            json.dump(receipt, f, indent=2)
+        print(f"Wrote advisory assessment receipt to {assessment_path}")
+    except Exception as exc:
+        print(f"Warning: Failed to generate advisory assessment receipt: {exc}", file=sys.stderr)
+
     return 0

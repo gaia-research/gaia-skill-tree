@@ -18,22 +18,21 @@ Curation is presented **named-first**: a concrete NAMED skill (a contributor's i
 
 ## Bounded mapping
 
-The bounded mapping consumes a deterministic **prefill** (produced by `gaia dev prefill`) so the worker performs **no semantic re-judgment**. The prefill has already embedded the candidate's `{name}: {description}`, ranked the top-K generics by cosine similarity, performed exact dedupe, and stamped every `mappingOptions[]` entry with `genericId`, `rationale`, `similarity` (cosine 0..1), and `matchTier` (`strong|weak`, derived from `meta.json` thresholds). Options below `weakMap` are already dropped — anything below threshold never reaches the worker. **The worker does not re-rank, re-score, or re-derive tier from the text.** It counts the pre-stamped options by tier and follows the precedence checklist below.
+## Semantic retrieval and bounded prefill
 
-### Decision precedence — first matching rule wins, top to bottom
+Prefill (`gaia dev prefill`) performs deterministic retrieval over the skill corpus to supply **recall hints** to aid human evaluation. It embeds the candidate's `{name}: {description}`, retrieves the top nearest generics by cosine similarity, performs exact dedupe, checks artifact validity, and attaches mapping candidates with similarity scores and tiers (`strong|weak`).
 
-First compute two integers from the pre-stamped `mappingOptions[]` (no text reading): `nTotal` = number of options, `nStrong` = number of options whose `matchTier == "strong"`. Then evaluate these rules in order against the literal fields. Stop at the first rule that fires; do not skip ahead, do not weigh alternatives, do not inspect *why* a field holds a value — the prefill already decided that.
+### Normative semantic principles (replaces threshold-only rules)
 
-1. **`NOT_A_SKILL`** — if `artifactGate != "valid-skill"`. Reason code `NOT_A_SKILL`.
-2. **`DUPLICATE`** — if `exactDedupe != null` (the prefill already matched the candidate's canonical URL or content hash, including a `cited-origin` digest, to an existing candidate). The `exactDedupe` object IS the proof; do not re-verify it. Reason code `DUPLICATE_EXACT`.
-3. **`DEFER`** — if `ambiguity != null`. Reason code `DEFER_AMBIGUOUS_BUNDLE`. (The prefill sets `ambiguity` when the candidate straddles multiple capabilities; do not re-evaluate that — only check the field for null.)
-4. **`NEW_GENERIC`** — if `nTotal == 0` (no generic cleared `weakMap`). Reason code `NEW_GENERIC_NO_MATCH`.
-5. **`MAP`** — if `nStrong == 1`. Select that one strong option's `genericId`. Reason code `MAP_EXISTING_GENERIC`. (If `nStrong == 1` but other weak options also exist, still MAP the single strong one — the weak options are non-competing.)
-6. **`DEFER`** — every remaining case (`nStrong == 0` with `nTotal >= 1` — i.e. only weak options; or `nStrong >= 2` — multiple strong options competing). Reason code `DEFER_WEAK_ADJUDICATION`. Never MAP a weak option and never guess between strong options to break a tie.
+Cosine similarity scores and threshold tiers are **retrieval recall hints, not normative ontology or identity**. They guide discovery rather than dictating ontology:
 
-These six rules are exhaustive and mutually exclusive once `nTotal`/`nStrong` are computed: rule 4 owns `nTotal == 0`, rule 5 owns `nStrong == 1`, rule 6 owns `nStrong == 0 && nTotal >= 1` and `nStrong >= 2`. A lone weak option (`nTotal == 1, nStrong == 0`) is rule 6 (`DEFER`), never rule 5.
-
-The worker emits exactly one decision from `MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_A_SKILL`, `DEFER` — nothing else. It may not invent generic IDs, re-derive `matchTier`, assign type beyond an L4-reviewable Yggdrasil II `basic|fusion` proposal, or use free-form acceptance language. `MAP` selects the single strong option's ID (rule 5). `NEW_GENERIC` (rule 4) proposes a `basic|fusion` type and copies the candidate's own `normalized.name` + `normalized.description` verbatim as the proposed name and description — the worker does NOT author or quality-judge new prose; deterministic downstream intake assigns or validates the canonical ID and vets the description. Malformed worker output (a decision not in the vocabulary, or a `MAP` to an id absent from `mappingOptions`) is recorded as `DEFER` with `DEFER_INVALID_PACKET`; it never becomes an inferred mapping.
+1. **Cosine similarity is a recall hint, not semantic identity or permission.** High similarity suggests an existing generic node to consider; it does not replace human domain judgment of whether the candidate's core capability is truly identical, subordinate, or distinct.
+2. **No-match is not semantic novelty.** When `nTotal == 0` (no existing generic exceeds `weakMap`), this indicates an empty retrieval result in the current embedding space, NOT proof that the candidate is a genuinely novel universal primitive. Many candidates with zero matches are hyper-specific tools, vendor wrappers, or rephrased capabilities that belong under an existing generic or require rejection.
+3. **Proximity flags are not fusion or suite proof.** Multiple high-similarity generic options (`IMPLIED_FUSION`) indicate multi-domain semantic overlap or phrasing ambiguity; they do not prove an implied fusion node is missing or required. Similarly, nearby named neighbor skills are advisory context, not an automatic suite declaration.
+4. **Exact deduplication requires proof.** An exact duplicate decision requires matching canonical URL, cited origin, or exact SHA-256 content hash. A non-null dedupe object with `matched: false` is not a duplicate.
+5. **Mandatory advisory principles receipt before L4.** Every prefilled candidate automatically receives a durable principles assessment receipt (`generated-output/curation/<candidate>.assessment.json`) evaluated against the versioned curation principles rubric (`src/gaia_cli/data/curation/principles.json`). This receipt evaluates source validity, packaging, neutrality, and ontological fit. An assessment receipt is mandatory input for L4 review.
+6. **The machine never ratifies or makes an L4 decision.** Machine proposals, embedding ranks, and advisory outputs (including Jev sidecars) are strictly non-authoritative advisory context. Only an authorized human reviewer inspecting the candidate, the discovery packet, and the principles assessment receipt holds the authority to ratify topology.
+7. **Historical viability fixtures are harness threshold tests, not gold ontology.** Older test fixtures (such as `luna-viability-page.json` and `luna-viability-expected.json`) capture historical test-harness threshold behaviors; they do not define canonical Gaia ontological ground truth.
 
 The persisted generic snapshot still governs validation: persist the complete `gaia dev list --generic --json` array before worker dispatch, copy it into `genericSnapshot.generics`, record that exact command, and SHA-256 canonical JSON (`sort_keys=True`, compact separators) into `contentSha256`. Validate every mapped packet against that separate persisted JSON array: the validator rejects absent or mismatched trusted snapshots and mapping IDs absent from the receipt.
 
@@ -49,12 +48,50 @@ Stable validator codes include `MALFORMED_PACKET`, `MISSING_REQUIRED_FIELD`, `IN
 
 At L4 the packet MUST show WHY the worker chose `MAP` vs `NEW_GENERIC` — both the **signal** (cosine `similarity` + `matchTier`) AND the **source** (which generic/named id it matched). This is the human ratification surface for all new topology (new generics, fusions, suites). The `mappingOptions[].similarity` / `mappingOptions[].matchTier` fields plus the matched id carry this WHY through from prefill → worker → L4 report.
 
-## Human checkpoint
+## Human checkpoint and ratification flow
 
-`/gaia-curate` writes each review-ready `discovery-packet-v2` JSON to `registry-for-review/discovery-packets/` (alongside the existing `registry-for-review/skill-batches/` intake). An L4 human reviews every `review-ready` row, all deferrals, and every proposed new generic. Shortlist acceptance is not registry acceptance. Stop after producing the L4 review artifact.
+`/gaia-curate` writes each review-ready `discovery-packet-v2` JSON to `registry-for-review/discovery-packets/` (alongside the existing `registry-for-review/skill-batches/` intake), and automatically emits an advisory assessment receipt to `generated-output/curation/<candidate>.assessment.json`.
 
-The explicit post-L4 handoff is the only packet→intake seam. After approval, the human appends `l4Resolution` as defined by the V2 schema: the ratified vendor-neutral generic `{id,name,description,type,prerequisites}`, exact named `{contributor,skillName}`, and an exact upstream GitHub `blob/.../SKILL.md` URL. Then `gaia push --from-file <packet.json>` validates the frozen snapshot and resolution, rejects exact canonical named duplicates, and emits a provenance-linked batch/issue. The adapter never derives identity from `candidateId` and never converts a listing or `tree/` URL into blob provenance. Existing human topology and evidence gates remain mandatory.
+An L4 human reviews every candidate row, all deferrals, proposed new generics, and the advisory assessment receipt. Shortlist acceptance is not registry acceptance.
+
+### Canonical five-step curation flow
+
+1. **Prefill (recall hints & automatic assessment receipt):**
+   ```bash
+   gaia dev prefill <candidate_id> --name ... --description ... --url ...
+   ```
+   Writes `registry-for-review/discovery-packets/<candidate>.json` and `generated-output/curation/<candidate>.assessment.json`.
+2. **Optional live advisory evaluation:**
+   ```bash
+   gaia dev assess registry-for-review/discovery-packets/<candidate>.json --jev live
+   ```
+   Reruns principles evaluation with live Jev advisory advice if requested.
+3. **L4 human review:**
+   Human examines candidate SKILL.md, packet mapping options, and assessment receipt.
+4. **L4 ratification (operator + human review attestation):**
+   ```bash
+   gaia dev ratify registry-for-review/discovery-packets/<candidate>.json \
+     --decision {MAP,NEW_GENERIC} \
+     --generic-id <generic-id> \
+     --generic-name <name> \
+     --generic-description <desc> \
+     --generic-type {basic,fusion} \
+     --contributor <handle> \
+     --skill-name <kebab-name> \
+     --skill-file-url https://github.com/owner/repo/blob/branch/SKILL.md \
+     --assessment generated-output/curation/<candidate>.assessment.json \
+     --reviewed-by <user> \
+     --approval-ref <ref> \
+     --reason "<rationale>" \
+     --acknowledge-human-review
+   ```
+   Atomically attaches `l4Resolution` containing the ratified generic/named identities, blob URL, and `humanReview` attestation metadata. Requires operator override and explicit human acknowledgement; operator authorization alone is not L4 approval, and no CLI shortcut permits faking human review.
+5. **Intake submission:**
+   ```bash
+   gaia push --from-file registry-for-review/discovery-packets/<candidate>.json
+   ```
+   Validates the frozen snapshot and resolution, rejects exact canonical duplicates, and creates the intake issue.
 
 ## Optional semantic advisory sidecar (L4)
 
-Before human L4 review, an operator may optionally run `python scripts/jev_advisory.py --mode mapping --input <packet.json>` (defaults to offline dry-run, $0 spend; add `--live` for TypeSafe API calls) to attach a non-binding semantic second opinion ([docs/agents/jev.md](../../../docs/agents/jev.md)). This advisory executes strictly outside the deterministic worker loop, cannot alter `matchTier`, `nStrong`, or the decision precedence rules, and falls back to a structured `worker-luna` packet on low confidence or exhaustion. The L4 human gate remains the sole ratification authority.
+Before human L4 review, an operator may optionally run `python scripts/jev_advisory.py --mode mapping --input <packet.json>` or `gaia dev assess <packet.json> --jev live` to attach a non-binding semantic second opinion ([docs/agents/jev.md](../../../docs/agents/jev.md)). This advisory executes strictly outside the deterministic worker loop, cannot alter `matchTier` or decision precedence, and falls back gracefully. The L4 human gate remains the sole ratification authority.
