@@ -26,7 +26,7 @@ This writes an evaluation report to `generated-output/jev/report.json`.
 
 ### Consuming the Luna Handoff
 
-The advisory runner does NOT launch an agent, invoke external processes, or spawn sub-agents. When running offline (default), or when live confidence falls below 0.75 or budget is exhausted, each evaluated item includes an actionable handoff under `.fallback`:
+The advisory runner does NOT launch an agent, invoke external processes, or spawn sub-agents. When running offline (default), or when live confidence falls below 0.75, or budget/Flash quota is exhausted, each evaluated item includes an actionable handoff under `.fallback`:
 
 ```json
 {
@@ -49,7 +49,12 @@ The advisory runner does NOT launch an agent, invoke external processes, or spaw
 }
 ```
 
-Human operators or higher-level orchestrators can inspect this report and provide the structured `fallback` context directly to `worker-luna` for reasoning when automated sidecar advisory is unavailable or uncertain.
+Human operators or higher-level orchestrators can inspect this report and provide the structured `fallback` context directly to Luna reasoning agents when automated sidecar advisory is unavailable, low confidence, or depleted. Route based on task complexity:
+- **`worker-luna`** (medium): Standard candidate mapping, duplicate triage, and routine PR/issue review.
+- **`worker-luna-high`**: High-complexity candidate evaluations, ambiguous capability taxonomies, or conflicting evidence triage.
+- **`worker-luna-xhigh`**: Deep architectural review, structural ontology changes, or contested policy decisions.
+
+*Note: The advisory tool emits this structured handoff packet for consumption by the user or harness orchestrator; it never automatically spawns or executes fallback agents.*
 
 ## Pricing and API Specifications
 
@@ -103,7 +108,12 @@ The \$5.00/month provider envelope is allocated across two distinct lanes:
 ### Local Developer Setup
 To use Jev advisory locally:
 ```bash
-# Prompt securely without saving secrets into your shell history:
+# Sourcing local credentials explicitly (repo-local, gitignored, mode 0600):
+# (Do NOT commit .gaia/jev/local.env or pass credentials in command-line arguments)
+set +x; source .gaia/jev/local.env  # In bash
+# or in POSIX sh: set +x; . .gaia/jev/local.env
+
+# Alternatively, prompt securely without saving secrets into your shell history:
 read -rs TYPESAFE_API_KEY; export TYPESAFE_API_KEY
 
 # 1. Initialize the monthly budget ledger (required before first live call)
@@ -115,7 +125,7 @@ python scripts/jev_advisory.py --mode mapping --input tests/fixtures/discovery-p
 # 3. Run advisory in live mode (requires initialized budget and key; add --live)
 python scripts/jev_advisory.py --mode mapping --input tests/fixtures/discovery-packet-v2-valid.json --live
 ```
-By default, all commands execute in offline / dry-run mode ($0 spend). No network calls occur unless `--live` is explicitly passed, `TYPESAFE_API_KEY` is present in the environment, and a valid budget ledger exists.
+By default, all commands execute in offline / dry-run mode ($0 spend). No network calls occur unless `--live` is explicitly passed, `TYPESAFE_API_KEY` is present in the environment, and a valid budget ledger exists. The runner does not automatically load credential files; operators must explicitly export or source their credentials into the process environment.
 
 ## Integration Matrix: 6 Modes & 8 Skills
 

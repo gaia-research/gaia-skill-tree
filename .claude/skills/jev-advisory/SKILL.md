@@ -24,7 +24,7 @@ This writes an evaluation report to `generated-output/jev/report.json`.
 
 ### Consuming the Luna Handoff
 
-The advisory runner does NOT launch an agent, invoke external processes, or spawn sub-agents. When running offline (default), or when live confidence falls below 0.75 or budget is exhausted, each evaluated item includes an actionable handoff under `.fallback`:
+The advisory runner does NOT launch an agent, invoke external processes, or spawn sub-agents. When running offline (default), or when live confidence falls below 0.75, or budget/Flash quota is exhausted, each evaluated item includes an actionable handoff under `.fallback`:
 
 ```json
 {
@@ -39,13 +39,21 @@ The advisory runner does NOT launch an agent, invoke external processes, or spaw
 }
 ```
 
-Curators or orchestrators can inspect `generated-output/jev/report.json` and feed this structured context directly to `worker-luna` for reasoning when automated sidecar advisory is unavailable or uncertain.
+Curators or orchestrators can inspect `generated-output/jev/report.json` and feed this structured context directly to Luna reasoning agents when automated sidecar advisory is unavailable, low confidence, or depleted. Route based on task complexity:
+- **`worker-luna`** (medium): Standard candidate mapping, duplicate triage, and routine PR/issue review.
+- **`worker-luna-high`**: High-complexity candidate evaluations, ambiguous capability taxonomies, or conflicting evidence triage.
+- **`worker-luna-xhigh`**: Deep architectural review, structural ontology changes, or contested policy decisions.
+
+*Note: The advisory tool emits this structured handoff packet for consumption by the curator or harness orchestrator; it never automatically spawns fallback agents.*
 
 ## Usage
 
 All commands execute in offline / dry-run mode by default ($0 spend). To enable live TypeSafe API calls, add `--live` (requires `TYPESAFE_API_KEY` exported in environment and initialized budget).
 
 ```bash
+# Explicitly source repo-local ignored credentials (.gaia/jev/local.env, mode 0600):
+set +x; source .gaia/jev/local.env
+
 # Initialize local monthly budget ledger (required before first live call)
 python scripts/jev_advisory.py --mode mapping --init-budget
 
