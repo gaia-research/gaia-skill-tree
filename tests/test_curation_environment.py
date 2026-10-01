@@ -180,8 +180,10 @@ class TestDoctor:
             assert res["present"] is True
             assert res["matches_active"] is True
 
-    def test_doctor_healthy_requires_both_matching_eval_and_smoke_receipts(self, tmp_path):
-        """run_doctor() healthy requires deps_ready, artifact_ready, ret.ok, cur_eval matching, AND smoke matching."""
+    def test_doctor_healthy_requires_eval_receipt_and_smoke_when_present_or_android(self, tmp_path):
+        """run_doctor() healthy requires deps_ready, artifact_ready, ret.ok, cur_eval matching.
+        Smoke receipt blocks only when present-but-mismatched or on Android.
+        An absent smoke receipt on a non-Android host is expected and does not block."""
         cur_dir = tmp_path / "generated-output" / "curation"
         cur_dir.mkdir(parents=True, exist_ok=True)
 
@@ -252,6 +254,7 @@ class TestDoctor:
              patch("doctor.check_dependencies", return_value=mock_deps), \
              patch("doctor.check_retrieval", return_value=mock_retrieval), \
              patch("doctor.check_artifact_freshness", return_value=mock_freshness), \
+             patch("doctor.is_real_android", return_value=False), \
              patch("doctor.hashlib.sha256") as mock_sha:
             mock_hash = MagicMock()
             mock_hash.hexdigest.side_effect = ["c_sha", "cat_sha"] * 20
@@ -261,10 +264,11 @@ class TestDoctor:
             rep = doctor.run_doctor(tmp_path)
             assert rep["healthy"] is False
 
-            # 2. Only eval receipt exists -> healthy is False
+            # 2. Only eval receipt exists, no smoke, non-Android -> healthy is True
+            #    (smoke receipt is platform-conditional; absent on non-Android is OK)
             eval_file.write_text(json.dumps(eval_data_matching), encoding="utf-8")
             rep = doctor.run_doctor(tmp_path)
-            assert rep["healthy"] is False
+            assert rep["healthy"] is True
 
             # 3. Only smoke receipt exists (eval deleted) -> healthy is False
             eval_file.unlink()
