@@ -5,7 +5,7 @@
     "contributor": "mattpocock",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 373.22,
+    "trustMagnitude": 374.99,
     "branch": "suite",
     "tokens": [
       "all",
@@ -30,7 +30,7 @@
     "contributor": "garrytan",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 355.66,
+    "trustMagnitude": 356.11,
     "branch": "suite",
     "tokens": [
       "agent",
@@ -70,7 +70,7 @@
     "contributor": "safishamsi",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 316.88,
+    "trustMagnitude": 318.14,
     "branch": "unique",
     "tokens": [
       "analysis",
@@ -96,7 +96,7 @@
     "contributor": "nextlevelbuilder",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 226.5,
+    "trustMagnitude": 227.51,
     "branch": "unique",
     "tokens": [
       "accessibility",
@@ -130,7 +130,7 @@
     "contributor": "dietrichgebert",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 221.96,
+    "trustMagnitude": 225.42,
     "branch": "unique",
     "tokens": [
       "actually",
@@ -164,7 +164,7 @@
     "contributor": "obra",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 220.81,
+    "trustMagnitude": 221.52,
     "branch": "suite",
     "tokens": [
       "agenti",
@@ -203,7 +203,7 @@
     "contributor": "mvanhorn",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 205.15,
+    "trustMagnitude": 205.75,
     "branch": "unique",
     "tokens": [
       "(reddit",
@@ -242,7 +242,7 @@
     "contributor": "mattpocock",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 199.13,
+    "trustMagnitude": 200.29,
     "branch": "suite",
     "tokens": [
       "commit",
@@ -291,7 +291,7 @@
     "contributor": "anthropics",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 184.32,
+    "trustMagnitude": 184.87,
     "branch": "unique",
     "tokens": [
       "anthropic's",
@@ -318,7 +318,7 @@
     "contributor": "addy-osmani",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 174.62,
+    "trustMagnitude": 176.04,
     "branch": "suite",
     "tokens": [
       "agent",
@@ -356,7 +356,7 @@
     "contributor": "ruvnet",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 174.59,
+    "trustMagnitude": 175.34,
     "branch": "suite",
     "tokens": [
       "6★",
@@ -393,7 +393,7 @@
     "contributor": "leonxlnx",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 172.43,
+    "trustMagnitude": 174.68,
     "branch": "suite",
     "tokens": [
       "anti",
@@ -425,12 +425,35 @@
     ]
   },
   {
+    "id": "pbakaus/impeccable",
+    "name": "Impeccable",
+    "contributor": "pbakaus",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 171.27,
+    "branch": "unique",
+    "tokens": [
+      "ai",
+      "audit",
+      "code",
+      "design",
+      "elite",
+      "frontend",
+      "generated",
+      "generation",
+      "impeccable",
+      "polishing",
+      "tool",
+      "vocabulary"
+    ]
+  },
+  {
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 169.36,
+    "trustMagnitude": 169.31,
     "branch": "suite",
     "tokens": [
       "agentic",
@@ -455,35 +478,12 @@
     ]
   },
   {
-    "id": "pbakaus/impeccable",
-    "name": "Impeccable",
-    "contributor": "pbakaus",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 169.34,
-    "branch": "unique",
-    "tokens": [
-      "ai",
-      "audit",
-      "code",
-      "design",
-      "elite",
-      "frontend",
-      "generated",
-      "generation",
-      "impeccable",
-      "polishing",
-      "tool",
-      "vocabulary"
-    ]
-  },
-  {
     "id": "heygen-com/hyperframes",
     "name": "HyperFrames",
     "contributor": "heygen-com",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 163.63,
+    "trustMagnitude": 166.92,
     "branch": "suite",
     "tokens": [
       "canvas",
@@ -512,7 +512,7 @@
     "contributor": "vercel-labs",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 162.66,
+    "trustMagnitude": 163.19,
     "branch": "unique",
     "tokens": [
       "applications",
@@ -541,7 +541,7 @@
     "contributor": "mksglu",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 151.89,
+    "trustMagnitude": 154.71,
     "branch": "unique",
     "tokens": [
       "\"analyze",
@@ -580,7 +580,7 @@
     "contributor": "trailhq",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 140.42,
+    "trustMagnitude": 145.16,
     "branch": "unique",
     "tokens": [
       "any",
@@ -620,7 +620,7 @@
     "contributor": "latent-spaces",
     "level": "3★",
     "grade": "A",
-    "trustMagnitude": 139.93,
+    "trustMagnitude": 144.54,
     "branch": "standard",
     "tokens": [
       "\"",
@@ -654,32 +654,12 @@
     ]
   },
   {
-    "id": "garrytan/gbrain",
-    "name": "GBrain",
-    "contributor": "garrytan",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 121.52,
-    "branch": "suite",
-    "tokens": [
-      "capstone",
-      "capture",
-      "concept",
-      "gbrain",
-      "installable",
-      "knowledge",
-      "operations",
-      "router",
-      "synthesis"
-    ]
-  },
-  {
     "id": "ayghri/i-have-adhd",
     "name": "I Have ADHD",
     "contributor": "ayghri",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 119.66,
+    "trustMagnitude": 130.23,
     "branch": "unique",
     "tokens": [
       "accessibility",
@@ -700,6 +680,26 @@
       "specified",
       "structures",
       "such"
+    ]
+  },
+  {
+    "id": "garrytan/gbrain",
+    "name": "GBrain",
+    "contributor": "garrytan",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 121.94,
+    "branch": "suite",
+    "tokens": [
+      "capstone",
+      "capture",
+      "concept",
+      "gbrain",
+      "installable",
+      "knowledge",
+      "operations",
+      "router",
+      "synthesis"
     ]
   },
   {
@@ -1247,6 +1247,40 @@
     ]
   },
   {
+    "id": "leonxlnx/unlazy",
+    "name": "unlazy",
+    "contributor": "leonxlnx",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 91.46,
+    "branch": "standard",
+    "tokens": [
+      "anti",
+      "checks",
+      "completion",
+      "criteria",
+      "decomposes",
+      "depth",
+      "discipline",
+      "enforcement",
+      "enforces",
+      "execution",
+      "files",
+      "gate",
+      "into",
+      "laziness",
+      "recursive",
+      "runnable",
+      "substantial",
+      "task",
+      "tasks",
+      "through",
+      "trees",
+      "unlazy",
+      "work"
+    ]
+  },
+  {
     "id": "garrytan/browse",
     "name": "Browse",
     "contributor": "garrytan",
@@ -1309,30 +1343,12 @@
     ]
   },
   {
-    "id": "firecrawl/firecrawl-build-search",
-    "name": "Firecrawl Search",
-    "contributor": "firecrawl",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 83.62,
-    "branch": "standard",
-    "tokens": [
-      "code",
-      "firecrawl",
-      "integrate",
-      "into",
-      "product",
-      "search",
-      "web"
-    ]
-  },
-  {
     "id": "nateherkai/scroll-craft",
     "name": "Scroll Craft",
     "contributor": "nateherkai",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 82.22,
+    "trustMagnitude": 87.38,
     "branch": "standard",
     "tokens": [
       "bespoke",
@@ -1363,6 +1379,24 @@
       "visitor",
       "web",
       "wi"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-search",
+    "name": "Firecrawl Search",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 83.62,
+    "branch": "standard",
+    "tokens": [
+      "code",
+      "firecrawl",
+      "integrate",
+      "into",
+      "product",
+      "search",
+      "web"
     ]
   },
   {
@@ -1485,7 +1519,7 @@
     "contributor": "firecrawl",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 70.69,
+    "trustMagnitude": 72.86,
     "branch": "suite",
     "tokens": [
       "`npx",
@@ -1620,40 +1654,6 @@
       "systematically",
       "test",
       "through"
-    ]
-  },
-  {
-    "id": "leonxlnx/unlazy",
-    "name": "unlazy",
-    "contributor": "leonxlnx",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 65.81,
-    "branch": "standard",
-    "tokens": [
-      "anti",
-      "checks",
-      "completion",
-      "criteria",
-      "decomposes",
-      "depth",
-      "discipline",
-      "enforcement",
-      "enforces",
-      "execution",
-      "files",
-      "gate",
-      "into",
-      "laziness",
-      "recursive",
-      "runnable",
-      "substantial",
-      "task",
-      "tasks",
-      "through",
-      "trees",
-      "unlazy",
-      "work"
     ]
   },
   {
@@ -6879,7 +6879,7 @@
     "contributor": "aplaceforallmystuff",
     "level": "2★",
     "grade": "C",
-    "trustMagnitude": 21.51,
+    "trustMagnitude": 22.67,
     "branch": "standard",
     "tokens": [
       "activity",

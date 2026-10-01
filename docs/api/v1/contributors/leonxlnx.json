@@ -5,7 +5,7 @@
       "id": "leonxlnx/taste-skill",
       "name": "taste-skill",
       "level": "4★",
-      "trustMagnitude": 172.43,
+      "trustMagnitude": 174.68,
       "overallTrustGrade": "A",
       "fusionScore": 256.57,
       "contributor": "leonxlnx",
@@ -35,7 +35,7 @@
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
       "level": "3★",
-      "trustMagnitude": 65.81,
+      "trustMagnitude": 91.46,
       "overallTrustGrade": "B",
       "fusionScore": 80.0,
       "contributor": "leonxlnx",
@@ -240,9 +240,9 @@
   "topSkill": {
     "id": "leonxlnx/taste-skill",
     "level": "4★",
-    "trustMagnitude": 172.43
+    "trustMagnitude": 174.68
   },
-  "prestigeScore": 788.24,
+  "prestigeScore": 816.14,
   "gradeDistribution": {
     "A": 1,
     "B": 12

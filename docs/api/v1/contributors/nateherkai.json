@@ -5,7 +5,7 @@
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
-      "trustMagnitude": 82.22,
+      "trustMagnitude": 87.38,
       "overallTrustGrade": "B",
       "fusionScore": 0.0,
       "contributor": "nateherkai",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "nateherkai/scroll-craft",
     "level": "3★",
-    "trustMagnitude": 82.22
+    "trustMagnitude": 87.38
   },
-  "prestigeScore": 82.22,
+  "prestigeScore": 87.38,
   "gradeDistribution": {
     "B": 1
   },
