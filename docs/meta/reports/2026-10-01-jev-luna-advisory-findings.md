@@ -1,19 +1,19 @@
-# Registry & Intake Advisory Report: Jev Sidecar + Luna High Review
+# Jev Advisory Dogfood & Curator Triage Report
 
 **Date:** 2026-10-01  
 **Harness / Workflow:** Bounded Jev Advisory Lane (`scripts/jev_advisory.py`) with `worker-luna-high` Fallback Reasoning  
 **Scope:** Intake Batches (`registry-for-review/skill-batches/`), Issue Backlog (#2024–#1993), and Canonical Generic Nodes (`registry/nodes/`)  
-**Status:** Read-only advisory audit & curator triage handoff (Receipt v2)  
+**Status:** Read-only Jev dogfood & curator triage handoff (Receipt v2). **Not a completed `/gaia-meta-sweep`.**  
 
 ---
 
 ## Executive Summary
 
-Following the merge of PR #2029 introducing the repository-native Jev Advisory Lane (`docs/agents/jev.md`), this operational audit demonstrates the bounded multi-agent advisory loop in production:
+Following the merge of PR #2029 introducing the repository-native Jev Advisory Lane (`docs/agents/jev.md`), this dogfood run exercises the bounded multi-agent advisory loop across selected intake, issue, and generic-node surfaces. It is useful operational evidence, but it is **not** the canonical whole-tree meta sweep:
 1. **Automated Semantic Evaluation:** Live TypeSafe System One (`jev-1.13.0`) evaluations executed across candidate mapping batches, generic ontology descriptions, and open issues.
-2. **Deterministic Guardrails & Budgeting:** Local monthly budget ledger (`.gaia/jev/budget.json`) maintained strict accounting. Total actual spend for this run was **$0.000320 USD** across 9 live API calls, preserving over **$0.499** of the local developer monthly limit ($0.50).
+2. **Deterministic Guardrails & Budgeting:** The attached native receipts reconstruct **6 live calls**, **8 cache hits**, and **$0.000250 USD** of live replay cost. The local monthly ledger snapshot after the broader dogfood/repair work records **$0.000320 USD** spent and **$0.499680 USD** remaining. These are different accounting scopes and are reported separately.
 3. **Actionable Luna Fallback:** When items fell below the 0.75 confidence threshold or reached process call allocations, structured fallback packets were handed off to `worker-luna-high` for deep architectural reasoning.
-4. **Scope & Audit Compliance:** PR is strictly report-only (`review/meta/*` scope-compliant), touching only documentation and raw receipt artifacts under `docs/meta/reports/`. All numbers reconcile across items, clusters, and receipt logs.
+4. **Scope & Audit Compliance:** PR is strictly report-only (`review/meta/*` scope-compliant), touching only documentation and raw receipt artifacts under `docs/meta/reports/`. Intake/issue triage and the focused generic review remain explicitly classified as Jev dogfood rather than a completed meta sweep.
 
 ---
 
@@ -23,9 +23,12 @@ To guarantee audit reproducibility without relying on orchestrator assertions, n
 
 | Receipt Artifact | Path | SHA-256 Checksum | Items | Calls (Live / Cached) | Cost (USD) |
 |---|---|---|---|---|---|
-| **Issues Report** | `docs/meta/reports/receipts/2026-10-01-jev-issues-report.json` | `31b6308b84cefd844ddba4baed1093606e33881eb18d365a12e8270168b15c7e` | 30 | 5 live / 5 cached | $0.000229 |
-| **Mapping Report** | `docs/meta/reports/receipts/2026-10-01-jev-mapping-report.json` | `48d36a6facce0b96784857c84576015230c52d0fa2fc40e693d49534fc457b72` | 3 | 3 cached (from live runs) | $0.000070 |
-| **Meta Report** | `docs/meta/reports/receipts/2026-10-01-jev-meta-report.json` | `afbc05b41bafc41f9409e76396ec5e0922d9fe666d881591ef17d50d4e982c35` | 20 | 1 live / 19 fallback | $0.000021 |
+| **Issues Report** | `docs/meta/reports/receipts/2026-10-01-jev-issues-report.json` | `31b6308b84cefd844ddba4baed1093606e33881eb18d365a12e8270168b15c7e` | 30 | 5 live / 5 cached / 20 fallback | $0.000229 |
+| **Mapping Report** | `docs/meta/reports/receipts/2026-10-01-jev-mapping-report.json` | `48d36a6facce0b96784857c84576015230c52d0fa2fc40e693d49534fc457b72` | 3 | 0 live / 3 cached | $0.000000 replay cost |
+| **Meta Report** | `docs/meta/reports/receipts/2026-10-01-jev-meta-report.json` | `afbc05b41bafc41f9409e76396ec5e0922d9fe666d881591ef17d50d4e982c35` | 20 | 1 live evaluation; 20 fallback rows | $0.000021 |
+
+
+The three mapping rows were served from cache in the attached replay receipt. Their earlier token/cost estimates are retained in the consolidated JSON only as historical provenance; they are **not** spend incurred by the attached mapping replay.
 
 ---
 
@@ -156,9 +159,7 @@ Record task outcomes with observable success signals and execution metrics. Iden
 - **Ledger Path:** `.gaia/jev/budget.json` (month `2026-10`)
 - **API Model:** TypeSafe System One pinned to `jev-1.13.0` ($0.042 / 1M input tokens, free output tokens)
 - **Account Ceiling:** $0.50 / month local developer envelope
-- **Telemetry Accounting:**
-  - Total HTTP Calls in this sweep: 9 live calls (5 on open issues, 3 on candidate mapping batches, 1 on meta nodes)
-  - Cached Executions: 5 issue queries and 3 mapping queries served from atomic cache at $0.00 cost
-  - Cumulative Spend: **$0.000320 USD**
-  - Remaining Budget: **$0.499680 USD** (99.93% intact)
-  - Zero Registry Drift: Canonical registry files untouched; all outputs contained in audit reports.
+- **Attached Receipt Accounting:** 6 live calls total: 5 issue evaluations + 1 meta evaluation. The receipts also contain 8 cache hits (5 issue + 3 mapping) and 40 fallback rows. Live replay cost totals **$0.000250 USD** ($0.000229 issues + $0.000021 meta).
+- **Historical Cached Mapping Metadata:** the three cached mapping rows carry prior token/cost estimates totaling approximately **$0.000071 USD** in the consolidated JSON. Those values are provenance, not replay spend.
+- **Local Ledger Snapshot After Dogfood/Repair Work:** **$0.000320 USD** spent; **$0.499680 USD** remaining of the $0.50 local envelope. This ledger snapshot is broader than the attached receipt replay and is intentionally not presented as their sum.
+- **Zero Registry Drift:** Canonical registry files untouched; all outputs contained in audit reports.
