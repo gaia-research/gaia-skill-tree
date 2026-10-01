@@ -444,3 +444,61 @@ def test_api_freshness_structural_field_in_skill_blocks(tmp_path: Path):
     )
     assert is_material
     assert any("structural field 'name' changed" in b for b in blocking)
+
+def test_explicit_review_blocks_even_when_tm_does_not_move(tmp_path: Path):
+    skill_file = tmp_path / "registry" / "named" / "example" / "skill.md"
+    skill_file.parent.mkdir(parents=True)
+    skill_file.write_text(
+        "---\n"
+        "id: example/skill\n"
+        "timeline:\n"
+        "  - timestamp: '2026-10-02T10:00:00Z'\n"
+        "    action: recalibrate_trust_magnitude\n"
+        "    contributor: reviewer1\n"
+        "---\n",
+        encoding="utf-8",
+    )
+    comm = {
+        "generatedAt": "2026-10-01T00:00:00Z",
+        "rows": [_base_row("example/skill", tm=172.43)],
+    }
+    fresh = {
+        "generatedAt": "2026-10-02T12:00:00Z",
+        "rows": [_base_row("example/skill", tm=172.43)],
+    }
+    is_material, blocking, routine = evaluateTrustLedgerFreshness(
+        comm, fresh, repo_root=tmp_path
+    )
+    assert is_material
+    assert routine == []
+    assert any("explicit review event" in b for b in blocking)
+
+
+def test_installability_digest_change_without_proof_blocks():
+    comm = {
+        "observations": [],
+        "skills": {
+            "example/skill": {
+                "state": "unknown",
+                "reason": "not-observed",
+                "observationDigest": None,
+                "observedAt": None,
+                "currentSourceRoute": None,
+                "currentSkillContentSha256": "a" * 64,
+                "observedSourceRoute": None,
+                "observedSkillContentSha256": None,
+                "resolvedRevision": None,
+                "deliveredContentSha256": None,
+            }
+        },
+    }
+    fresh = json.loads(json.dumps(comm))
+    fresh["skills"]["example/skill"]["currentSkillContentSha256"] = "b" * 64
+
+    is_material, blocking, routine = evaluateInstallabilityFreshness(
+        comm, fresh, repo_root=None
+    )
+    assert is_material
+    assert routine == []
+    assert any("could not be verified" in b for b in blocking)
+
