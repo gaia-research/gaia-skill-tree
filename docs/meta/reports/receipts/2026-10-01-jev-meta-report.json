@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "jev-advisory-report-v1",
+  "generatedAt": "2026-10-01T06:23:06.153613+00:00",
+  "mode": "meta",
+  "advisoryOnly": true,
+  "summary": {
+    "totalAvailable": 299,
+    "processedCount": 20,
+    "advisoryCount": 0,
+    "fallbackCount": 20,
+    "totalCalls": 1,
+    "totalReservedUsd": 0.003,
+    "totalEstimatedCostUsd": 2.1e-05,
+    "overflowReported": true,
+    "offset": 0,
+    "nextOffset": 20,
+    "omittedCount": 279,
+    "omittedIdentifiers": [
+      "autonomous-engineering-platform",
+      "autonomous-web-research",
+      "bioinformatic-sequence-analysis",
+      "brainstorming",
+      "brand-guideline-application",
+      "browser-automation",
+      "browser-control",
+      "career-operations",
+      "causal-inference",
+      "chain-of-thought",
+      "cheminformatics-analysis",
+      "chunk-document",
+      "ci-churn-analysis",
+      "cite-sources",
+      "classify",
+      "cli-modernization",
+      "clinical-data-retrieval",
+      "cloud-platform-management",
+      "code-execution",
+      "code-explain",
+      "code-generation",
+      "code-review-pipeline",
+      "codebase-graph-retrieval",
+      "collaborative-diagramming",
+      "computational-biology-workflows",
+      "computational-science-platform",
+      "computer-use",
+      "concept-synthesis",
+      "content-moderation",
+      "context-compression",
+      "context-safe-execution",
+      "conversational-agent",
+      "core-platform-implementation",
+      "creative-direction",
+      "crm-data-cleanup",
+      "cultural-localization",
+      "data-analysis",
+      "data-visualize",
+      "decision-ticket-planning",
+      "deployment-automation",
+      "deprecation-and-migration",
+      "design-generation",
+      "design-review",
+      "design-source-import",
+      "design-system-extraction",
+      "detect-anomaly",
+      "diff-content",
+      "dispatching-parallel-agents",
+      "distributed-consensus-coordination",
+      "distributed-neural-training"
+    ]
+  },
+  "items": [
+    {
+      "id": "adaptive-pattern-learning",
+      "name": "Adaptive Pattern Learning",
+      "status": "fallback",
+      "reason": "low_confidence",
+      "advisoryResult": {
+        "reviewRoute": "well_scoped",
+        "confidence": 0.64,
+        "probabilities": {
+          "uncertain": 0.0,
+          "vendor_coupling_suspect": 0.0,
+          "overly_broad": 0.27,
+          "well_scoped": 0.73
+        },
+        "recommendation": "worker-luna-review"
+      },
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Meta abstraction review returned 'well_scoped' (confidence: 0.64). Worker Luna maintainer review required.",
+        "context": {
+          "id": "adaptive-pattern-learning",
+          "name": "Adaptive Pattern Learning",
+          "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
+          "summary": "Implements adaptive learning through pattern recognition and strategy optimization."
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'adaptive-pattern-learning' (Adaptive Pattern Learning) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 503,
+        "output_tokens": 62
+      },
+      "estimatedCostUsd": 2.1e-05,
+      "reservedUsd": 0.003,
+      "cached": false
+    },
+    {
+      "id": "advanced-swarm-coordination",
+      "name": "Advanced Swarm Coordination",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluate state with questions using worker-luna reasoning (process call limit of 1 reached).",
+        "context": {
+          "id": "advanced-swarm-coordination",
+          "name": "Advanced Swarm Coordination",
+          "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'advanced-swarm-coordination' (Advanced Swarm Coordination) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "adversarial-review",
+      "name": "Adversarial Review",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "adversarial-review",
+          "name": "Adversarial Review",
+          "description": "Challenges a proposed decision or artifact with an independent, disconfirming review before commitment, surfaces falsifiable objections, and reconciles findings against the original contract.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'adversarial-review' (Adversarial Review) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "adversarial-robustness-testing",
+      "name": "Adversarial Robustness Testing",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "adversarial-robustness-testing",
+          "name": "Adversarial Robustness Testing",
+          "description": "Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'adversarial-robustness-testing' (Adversarial Robustness Testing) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-environment-setup",
+      "name": "agent-environment-setup",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-environment-setup",
+          "name": "agent-environment-setup",
+          "description": "Scaffolding per-repo configuration for other engineering skills.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-environment-setup' (agent-environment-setup) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-eval",
+      "name": "Agent Evaluation",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-eval",
+          "name": "Agent Evaluation",
+          "description": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-eval' (Agent Evaluation) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-fusion",
+      "name": "Agent Fusion",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-fusion",
+          "name": "Agent Fusion",
+          "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-fusion' (Agent Fusion) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-handoff",
+      "name": "agent-handoff",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-handoff",
+          "name": "agent-handoff",
+          "description": "Compacting the current conversation into a summary for a fresh agent.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-handoff' (agent-handoff) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-memory-learning",
+      "name": "Agent Memory Learning",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-memory-learning",
+          "name": "Agent Memory Learning",
+          "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-memory-learning' (Agent Memory Learning) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-memory-platform",
+      "name": "Agent Memory Platform",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-memory-platform",
+          "name": "Agent Memory Platform",
+          "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-memory-platform' (Agent Memory Platform) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agent-reach",
+      "name": "Agent Reach",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agent-reach",
+          "name": "Agent Reach",
+          "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agent-reach' (Agent Reach) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "agentic-workflow-design",
+      "name": "Agentic Workflow Design",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "agentic-workflow-design",
+          "name": "Agentic Workflow Design",
+          "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'agentic-workflow-design' (Agentic Workflow Design) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "api-call",
+      "name": "API Call",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "api-call",
+          "name": "API Call",
+          "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters. This skill allows agents to fetch dynamic data, trigger remote actions, and interact with external systems programmatically by adhering to OpenAPI or other API specifications.",
+          "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls."
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'api-call' (API Call) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "architecture-diagram",
+      "name": "Architecture Diagram",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "architecture-diagram",
+          "name": "Architecture Diagram",
+          "description": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'architecture-diagram' (Architecture Diagram) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "audience-model",
+      "name": "Audience Model",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "audience-model",
+          "name": "Audience Model",
+          "description": "Adapts tone, complexity, and framing of output to match a target audience profile.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'audience-model' (Audience Model) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "audio-mixing",
+      "name": "Audio Mixing",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "audio-mixing",
+          "name": "Audio Mixing",
+          "description": "Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'audio-mixing' (Audio Mixing) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "auto-review",
+      "name": "Auto-Review",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "auto-review",
+          "name": "Auto-Review",
+          "description": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'auto-review' (Auto-Review) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "automated-testing",
+      "name": "Automated Testing",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "automated-testing",
+          "name": "Automated Testing",
+          "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'automated-testing' (Automated Testing) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "autonomous-data-scientist",
+      "name": "Autonomous Data Scientist",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "autonomous-data-scientist",
+          "name": "Autonomous Data Scientist",
+          "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'autonomous-data-scientist' (Autonomous Data Scientist) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    },
+    {
+      "id": "autonomous-debug",
+      "name": "Autonomous Debug",
+      "status": "fallback",
+      "reason": "max_calls_exceeded",
+      "advisoryResult": null,
+      "fallback": {
+        "agent": "worker-luna",
+        "instruction": "Evaluation fell back due to earlier max_calls_exceeded. Preserved row requires offline maintainer or Luna triage.",
+        "context": {
+          "id": "autonomous-debug",
+          "name": "Autonomous Debug",
+          "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
+          "summary": ""
+        },
+        "questions": {
+          "review_route": {
+            "type": "choice",
+            "instructions": "Evaluate generic skill 'autonomous-debug' (Autonomous Debug) for vendor neutrality and abstraction scope.",
+            "criteria": {
+              "vendor_coupling_suspect": "Mentions vendor-specific tools, proprietary brands, or company-specific terminology instead of vendor-neutral abstractions.",
+              "overly_broad": "Scope is excessively broad or umbrella-like, combining multiple distinct capabilities into one.",
+              "well_scoped": "Vendor-neutral, precise, and well-scoped capability definition.",
+              "uncertain": "Ambiguous or insufficient description to evaluate abstraction quality."
+            }
+          }
+        }
+      },
+      "usage": {},
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": false
+    }
+  ]
+}
