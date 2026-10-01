@@ -36,7 +36,7 @@ dependencies = [
 
 [project.optional-dependencies]
 embeddings = [
-    "sentence-transformers>=2.2.0",
+    "sentence-transformers>=3.0.0",
     "numpy>=1.21.0",
 ]
 interactive = []
@@ -86,6 +86,7 @@ include = ["gaia_cli*"]
 [tool.setuptools.package-data]
 gaia_cli = [
     "tui/theme.tcss",
+    "data/curation/*.json",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
     "data/registry/benchmark-sources.json",

@@ -70,6 +70,23 @@ class TestCosineSimilarity:
         b = [0.8, 0.2, 0.4]
         assert abs(cosine_similarity(a, b) - cosine_similarity(b, a)) < 1e-9
 
+    def test_dimension_mismatch_raises_value_error(self):
+        """Vectors of different dimensions raise ValueError."""
+        from gaia_cli.semantic_search import cosine_similarity
+
+        with pytest.raises(ValueError, match="Vector dimension mismatch"):
+            cosine_similarity([1.0, 0.0], [1.0, 0.0, 0.0])
+
+    def test_non_finite_vectors_raise_value_error(self):
+        """Vectors containing NaN or Inf raise ValueError."""
+        from gaia_cli.semantic_search import cosine_similarity
+
+        with pytest.raises(ValueError, match="non-finite value"):
+            cosine_similarity([1.0, float("nan")], [1.0, 0.0])
+
+        with pytest.raises(ValueError, match="non-finite value"):
+            cosine_similarity([1.0, 0.0], [1.0, float("inf")])
+
 
 class TestSearchPrecomputed:
     """Tests for search_precomputed in semantic_search.py."""
@@ -142,6 +159,45 @@ class TestSearchPrecomputed:
 
         results = search_precomputed([1.0, 0.0, 0.0], sample_embeddings, top_k=100)
         assert len(results) == 4  # only 4 entries exist
+
+    def test_query_dimension_mismatch_raises_value_error(self, sample_embeddings):
+        """Query vector with wrong dimension raises ValueError."""
+        from gaia_cli.semantic_search import search_precomputed
+
+        with pytest.raises(ValueError, match="dimension .* does not match"):
+            search_precomputed([1.0, 0.0], sample_embeddings)
+
+    def test_entry_dimension_mismatch_prevents_zip_truncation(self):
+        """Mismatched entry vector dimension raises ValueError instead of silent zip truncation."""
+        from gaia_cli.semantic_search import search_precomputed
+
+        bad_embeddings = {
+            "entries": [
+                {"id": "short-vector", "vector": [1.0, 0.0]},  # dim 2
+            ]
+        }
+        with pytest.raises(ValueError, match="dimension .* does not match"):
+            search_precomputed([1.0, 0.0, 0.0], bad_embeddings)  # dim 3
+
+    def test_non_finite_query_or_entry_raises_value_error(self):
+        """Non-finite vector values raise ValueError."""
+        from gaia_cli.semantic_search import search_precomputed
+
+        embeddings = {
+            "entries": [
+                {"id": "nan-entry", "vector": [1.0, float("nan"), 0.0]},
+            ]
+        }
+        with pytest.raises(ValueError, match="non-finite value"):
+            search_precomputed([1.0, 0.0, 0.0], embeddings)
+
+        valid_embeddings = {
+            "entries": [
+                {"id": "valid", "vector": [1.0, 0.0, 0.0]},
+            ]
+        }
+        with pytest.raises(ValueError, match="non-finite value"):
+            search_precomputed([1.0, float("inf"), 0.0], valid_embeddings)
 
 
 class TestLoadEmbeddings:
@@ -343,3 +399,32 @@ class TestEmbeddingsLoader:
         assert data["dimensions"] == 3
         assert len(data["entries"]) == 2
         assert "generatedAt" in data
+
+    def test_load_skills_prefers_canonical_nodes_over_gaia_json(self, tmp_path):
+        """load_skills loads fresh edits from registry/nodes/ over stale gaia.json."""
+        from gaia_cli.embeddings import load_skills
+
+        # Write stale gaia.json
+        reg_dir = tmp_path / "registry"
+        reg_dir.mkdir(parents=True)
+        gaia_data = {
+            "skills": [
+                {"id": "web-search", "name": "Web Search (stale)", "description": "Stale description."}
+            ]
+        }
+        (reg_dir / "gaia.json").write_text(json.dumps(gaia_data))
+
+        # Write fresh canonical node
+        node_dir = reg_dir / "nodes" / "basic"
+        node_dir.mkdir(parents=True)
+        node_data = {
+            "id": "web-search",
+            "name": "Web Search (fresh)",
+            "description": "Fresh canonical description.",
+        }
+        (node_dir / "web-search.json").write_text(json.dumps(node_data))
+
+        skills = load_skills(str(tmp_path))
+        assert len(skills) == 1
+        assert skills[0]["name"] == "Web Search (fresh)"
+        assert skills[0]["description"] == "Fresh canonical description."
