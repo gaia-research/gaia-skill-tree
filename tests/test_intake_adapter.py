@@ -22,6 +22,7 @@ from gaia_cli.intakeAdapter import (  # noqa: E402
     buildIntakeYaml,
     candidateSlug,
     isDiscoveryPacket,
+    validateL4Resolution,
 )
 
 
@@ -335,3 +336,158 @@ def test_build_intake_yaml_single_packet():
     assert len(result["skills"]) == 1
     assert result["skills"][0]["id"] == "research"
     assert result["curationHandoff"]["contractVersion"] == "curation-handoff-v1"
+
+
+# --------------------------------------------------------------------------- #
+# Human Review Attestation & Boundary Enforcement Tests
+# --------------------------------------------------------------------------- #
+
+def _addValidHumanReview(packet, assessment_path=None, receipt_digest=None):
+    valid_sha = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    packet["artifactGate"] = "valid-skill"
+    if "source" not in packet:
+        packet["source"] = {}
+    packet["source"]["contentSha256"] = valid_sha
+    packet["source"]["canonicalUrl"] = packet["l4Resolution"]["skillFileUrl"]
+    packet["l4Resolution"]["humanReview"] = {
+        "reviewedBy": "curator-alice",
+        "approvalRef": "https://github.com/gaia-research/gaia-skill-tree/issues/999",
+        "rationale": "Human review confirms candidate meets all principles.",
+        "reviewedAt": "2026-09-11T12:00:00Z",
+        "assessmentPath": assessment_path or "/tmp/portable-laptop-path/assessment.json",
+        "assessmentReceiptDigest": receipt_digest or valid_sha,
+        "operatorOverride": False,
+        "humanOverride": False,
+        "attestation": "Local file attestation; does not cryptographically authenticate a human.",
+    }
+    return packet
+
+
+def test_validate_l4_resolution_legacy_read_without_human_review_accepted():
+    """Default validation preserves legacy read compatibility."""
+    packet = _basePacket()
+    assert "humanReview" not in packet["l4Resolution"]
+    errors = validateL4Resolution(packet, requireHumanReview=False)
+    assert errors == []
+    entry = buildIntakeSkill(packet, requireHumanReview=False)
+    assert entry["id"] == "research"
+
+
+def test_validate_l4_resolution_require_human_review_missing_rejects():
+    """Push boundary requires explicit human review attestation."""
+    packet = _basePacket()
+    assert "humanReview" not in packet["l4Resolution"]
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("legacy packet must be human-ratified with gaia dev ratify" in e for e in errors)
+    with pytest.raises(ValueError, match="legacy packet must be human-ratified with gaia dev ratify"):
+        buildIntakeSkill(packet, requireHumanReview=True)
+
+
+def test_validate_l4_resolution_with_valid_human_review_succeeds():
+    """Packet with valid humanReview attestation passes requireHumanReview=True."""
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert errors == []
+    entry = buildIntakeSkill(packet, requireHumanReview=True)
+    assert entry["id"] == "research"
+
+
+def test_validate_l4_resolution_human_review_field_validations():
+    """Validates nonempty fields, digest regex, attestation, and source binding."""
+    # Test empty reviewedBy
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["reviewedBy"] = ""
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("humanReview.reviewedBy" in e for e in errors)
+
+    # Test empty approvalRef
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["approvalRef"] = "   "
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("humanReview.approvalRef" in e for e in errors)
+
+    # Test empty rationale
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["rationale"] = ""
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("humanReview.rationale" in e for e in errors)
+
+    # Test empty reviewedAt
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["reviewedAt"] = ""
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("humanReview.reviewedAt" in e for e in errors)
+
+    # Test malformed assessmentReceiptDigest
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["assessmentReceiptDigest"] = "not-a-sha256"
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("assessmentReceiptDigest" in e for e in errors)
+
+    # Test empty attestation
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["humanReview"]["attestation"] = ""
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("humanReview.attestation" in e for e in errors)
+
+    # Test artifactGate must be valid-skill
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["artifactGate"] = "not-a-skill"
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("artifactGate" in e for e in errors)
+
+    # Test skillFileUrl must match source.canonicalUrl
+    packet = _basePacket()
+    _addValidHumanReview(packet)
+    packet["l4Resolution"]["skillFileUrl"] = "https://github.com/alice/other-repo/blob/main/SKILL.md"
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("skillFileUrl does not match packet source.canonicalUrl" in e for e in errors)
+
+
+def test_validate_l4_resolution_local_receipt_integrity(tmp_path):
+    """When assessment receipt file is accessible locally, verify digest and bindings."""
+    receipt = {
+        "candidateId": "alice/some-skill",
+        "candidateSourceDigest": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "advisory": True,
+    }
+    receipt_bytes = json.dumps(receipt, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    receipt_sha = hashlib.sha256(receipt_bytes).hexdigest()
+
+    receipt_file = tmp_path / "receipt.json"
+    receipt_file.write_text(json.dumps(receipt), encoding="utf-8")
+
+    # Matching receipt succeeds
+    packet = _basePacket()
+    _addValidHumanReview(packet, assessment_path=str(receipt_file), receipt_digest=receipt_sha)
+    packet["source"]["contentSha256"] = receipt["candidateSourceDigest"]
+    assert validateL4Resolution(packet, requireHumanReview=True) == []
+
+    # Corrupted digest fails
+    packet_corrupt = _basePacket()
+    _addValidHumanReview(packet_corrupt, assessment_path=str(receipt_file), receipt_digest="f" * 64)
+    errors = validateL4Resolution(packet_corrupt, requireHumanReview=True)
+    assert any("digest mismatch" in e for e in errors)
+
+    # Mismatch candidateId binding fails
+    receipt_bad_cand = dict(receipt, candidateId="bob/other-skill")
+    bad_cand_file = tmp_path / "bad_cand.json"
+    bad_cand_file.write_text(json.dumps(receipt_bad_cand), encoding="utf-8")
+    bad_cand_sha = hashlib.sha256(json.dumps(receipt_bad_cand, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    packet_bad_cand = _basePacket()
+    _addValidHumanReview(packet_bad_cand, assessment_path=str(bad_cand_file), receipt_digest=bad_cand_sha)
+    errors = validateL4Resolution(packet_bad_cand, requireHumanReview=True)
+    assert any("does not match packet candidateId" in e for e in errors)
+
+    # Non-existent receipt file is accepted (portable packet)
+    packet_portable = _basePacket()
+    _addValidHumanReview(packet_portable, assessment_path="/does/not/exist/on/this/laptop/assessment.json")
+    assert validateL4Resolution(packet_portable, requireHumanReview=True) == []

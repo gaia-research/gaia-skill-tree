@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "ego-browser-approved-map",
+      "provenance_class": "human-approved",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1677",
+      "ruling": "L4 approved citrolabs/ego-browser for the existing browser-control generic; approved at 2★.",
+      "name": "Low-level browser control through browser protocols",
+      "description": "Operate a browser through CDP to manipulate DOM, cookies, network traffic and user interactions without a high-level automation wrapper.",
+      "expected_generic_id": "browser-control",
+      "expected_shape": "basic",
+      "expected_disposition": "map_existing",
+      "human_target": "browser-control"
+    },
+    {
+      "id": "context-mode-original-weak-neighbor",
+      "provenance_class": "unresolved-discussion",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1675",
+      "ruling": "Issue reports context-mode retrieved context-compression at 0.529 and memory-manage at 0.471; it asks for evaluation and does not adjudicate a target.",
+      "name": "Context-mode externalized context retrieval",
+      "description": "Reduce agent prompt load by storing conversation context externally and retrieving relevant portions as needed.",
+      "expected_generic_id": null,
+      "expected_shape": "basic",
+      "expected_disposition": "unresolved"
+    },
+    {
+      "id": "browser-automation-boundary-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1675",
+      "ruling": "Regression probe derived from the issue's explicit human L4 override: direct low-level browser control maps to browser-control, not the broader browser-automation label.",
+      "name": "Direct browser protocol control",
+      "description": "Use CDP directly to inspect and modify browser state, cookies, DOM and network requests; does not describe high-level workflow automation.",
+      "expected_generic_id": "browser-control",
+      "expected_shape": "basic",
+      "expected_disposition": "map_existing",
+      "human_target": "browser-control",
+      "jev_target": "browser-automation"
+    },
+    {
+      "id": "product-coupling-open",
+      "provenance_class": "unresolved-discussion",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1483",
+      "ruling": "RFC asks whether product-specific skills should be rejected, dependency-declared, warned, or tiered; no option is selected.",
+      "name": "Product-specific operational procedure",
+      "description": "Operate a named product's CLI and service-specific database using product-specific commands and assumptions.",
+      "expected_generic_id": null,
+      "expected_shape": "unknown",
+      "expected_disposition": "unresolved"
+    },
+    {
+      "id": "early-stage-preservation-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1809",
+      "ruling": "Regression probe: distinguish bad-faith squatters from legitimate self-hosted, prototype, conceptual and installable:false early-stage skills; do not infer purge from thin packaging alone.",
+      "name": "Early-stage self-hosted agent practice",
+      "description": "A prototype skill authored for an internal or self-hosted workflow that may be useful despite limited packaging, evidence or public installability.",
+      "expected_generic_id": null,
+      "expected_shape": "basic",
+      "expected_disposition": "no_match"
+    },
+    {
+      "id": "maker-attribution-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1803",
+      "ruling": "Regression probe: a product command/API reference without credit to the actual maker is an attribution/generalizability review concern; the issue's five-instance detector scope is not a mapping adjudication.",
+      "name": "Third-party tool command reference",
+      "description": "A skill that wraps one named external product's commands and API, without explaining a product-independent transferable capability or crediting its maintainer.",
+      "expected_generic_id": null,
+      "expected_shape": "wrapper",
+      "expected_disposition": "package"
+    },
+    {
+      "id": "assurance-disagreement-open",
+      "provenance_class": "unresolved-discussion",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1922",
+      "ruling": "Issue proposes disagreement and outcome sensors as observations; explicitly says disagreement is not authority and must not auto-mutate canonical curation.",
+      "name": "Independent semantic curation review",
+      "description": "Compare an independent curator's proposed mapping and disposition with a primary curation decision, preserving disagreements for human review.",
+      "expected_generic_id": null,
+      "expected_shape": "unknown",
+      "expected_disposition": "unresolved"
+    },
+    {
+      "id": "prompt-compaction-token-pruning-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1675",
+      "ruling": "Synthetic regression probe for basic shape mapping: selective token pruning and prompt minimization maps to context-compression.",
+      "name": "Selective token pruning and prompt compaction",
+      "description": "Reduces context window consumption by identifying and removing redundant or low-information tokens from LLM prompts prior to model forward pass.",
+      "expected_generic_id": "context-compression",
+      "expected_shape": "basic",
+      "expected_disposition": "map_existing"
+    },
+    {
+      "id": "persistent-conversational-store-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1675",
+      "ruling": "Synthetic regression probe for fusion shape mapping: composite multi-session dialogue indexing and cross-turn retrieval maps to memory-manage.",
+      "name": "Cross-turn conversational state and long-term dialogue index",
+      "description": "Maintains structured dialogue history across distinct agent sessions, storing chat interactions in an indexed external store and recalling relevant past turns.",
+      "expected_generic_id": "memory-manage",
+      "expected_shape": "fusion",
+      "expected_disposition": "map_existing"
+    },
+    {
+      "id": "headless-devtools-wire-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/issues/1677",
+      "ruling": "Synthetic regression probe: raw devtools wire protocol control without wrapper libraries maps to browser-control.",
+      "name": "Low-level Chrome DevTools wire protocol driver",
+      "description": "Controls a remote or local headless browser via raw CDP websocket messages to capture screenshots, set session cookies, and read network request streams without playwright or selenium.",
+      "expected_generic_id": "browser-control",
+      "expected_shape": "basic",
+      "expected_disposition": "map_existing"
+    },
+    {
+      "id": "multi-agent-intent-dispatcher-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/curation-oracle.md",
+      "ruling": "Synthetic regression probe for router shape: request intent classification and sub-agent dispatch maps to route-intent.",
+      "name": "Natural language task classifier and executor dispatcher",
+      "description": "Parses incoming user instructions, evaluates operational intent, and routes the request to the matching specialized sub-agent or tool implementation.",
+      "expected_generic_id": "route-intent",
+      "expected_shape": "router",
+      "expected_disposition": "map_existing"
+    },
+    {
+      "id": "monorepo-toolkit-bundle-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/curation-oracle.md",
+      "ruling": "Synthetic regression probe for package shape: an omnibus bundle of unrelated dev utilities is an artifact package, not an individual capability.",
+      "name": "Multi-tool developer utility bundle",
+      "description": "An omnibus distribution containing unrelated developer automation scripts, git branch cleanup utilities, Docker build scripts, and local environment lint helpers packaged into a single repository.",
+      "expected_generic_id": null,
+      "expected_shape": "package",
+      "expected_disposition": "package"
+    },
+    {
+      "id": "quantum-annealing-transpile-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/curation-oracle.md",
+      "ruling": "Synthetic regression probe for orthogonal no-match: quantum circuit transpilation has no canonical generic in the current catalog.",
+      "name": "Adiabatic quantum annealing Ising model mapper",
+      "description": "Translates polynomial unconstrained binary optimization problems into graph minor embeddings for execution on superconducting quantum annealer chipsets.",
+      "expected_generic_id": null,
+      "expected_shape": "basic",
+      "expected_disposition": "no_match"
+    },
+    {
+      "id": "fpga-bitstream-hdl-synthesis-probe",
+      "provenance_class": "synthetic-doctrine",
+      "source_url": "https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/curation-oracle.md",
+      "ruling": "Synthetic regression probe for orthogonal no-match: hardware description language place-and-route has no canonical generic in the catalog.",
+      "name": "Register-transfer level Verilog netlist synthesis",
+      "description": "Performs logic synthesis, technology mapping, place-and-route, and timing closure on Verilog hardware descriptions to produce FPGA bitstreams.",
+      "expected_generic_id": null,
+      "expected_shape": "basic",
+      "expected_disposition": "no_match"
+    }
+  ]
+}

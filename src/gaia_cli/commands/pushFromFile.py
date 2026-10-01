@@ -334,7 +334,7 @@ def _load_yaml_file(path):
 
     if isDiscoveryPacket(data):
         try:
-            data = buildIntakeYaml(data, packetPath=path)
+            data = buildIntakeYaml(data, packetPath=path, requireHumanReview=True)
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
 

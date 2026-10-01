@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contractVersion": "curation-retrieval-v1",
+  "version": 1,
+  "defaultModel": "all-MiniLM-L6-v2",
+  "models": {
+    "all-MiniLM-L6-v2": {
+      "modelId": "all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "backend": "torch",
+      "dimensions": 384,
+      "normalize": true,
+      "pooling": "mean",
+      "textTemplate": "{name}: {description}",
+      "queryPrefix": "",
+      "candidate": false,
+      "tier": "production default",
+      "description": "Default production retrieval model (compact, fast, widely supported across architectures)."
+    },
+    "BAAI/bge-small-en-v1.5": {
+      "modelId": "BAAI/bge-small-en-v1.5",
+      "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+      "backend": "torch",
+      "dimensions": 384,
+      "normalize": true,
+      "pooling": "cls",
+      "textTemplate": "{name}: {description}",
+      "queryPrefix": "Represent this sentence for searching relevant passages: ",
+      "candidate": true,
+      "tier": "modern compact",
+      "description": "Candidate modern compact model with query instruction prefix."
+    },
+    "Qwen/Qwen3-Embedding-0.6B": {
+      "modelId": "Qwen/Qwen3-Embedding-0.6B",
+      "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+      "backend": "torch",
+      "dimensions": 1024,
+      "normalize": true,
+      "pooling": "last_token",
+      "textTemplate": "{name}: {description}",
+      "queryPrefix": "",
+      "candidate": true,
+      "tier": "optional experimental",
+      "description": "Candidate optional experimental model."
+    }
+  },
+  "aliases": {
+    "Qwen3": "Qwen/Qwen3-Embedding-0.6B",
+    "Qwen/Qwen3-Embedding": "Qwen/Qwen3-Embedding-0.6B",
+    "bge-small-en-v1.5": "BAAI/bge-small-en-v1.5",
+    "sentence-transformers/all-MiniLM-L6-v2": "all-MiniLM-L6-v2"
+  }
+}

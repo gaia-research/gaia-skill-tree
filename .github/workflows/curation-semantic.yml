@@ -1,0 +1,98 @@
+name: Curation Semantic CI
+
+on:
+  pull_request:
+    paths:
+      - 'src/gaia_cli/curation/**'
+      - 'src/gaia_cli/prefill.py'
+      - 'src/gaia_cli/embeddings.py'
+      - 'src/gaia_cli/semantic_search.py'
+      - 'src/gaia_cli/commands/dev/**'
+      - 'src/gaia_cli/intakeAdapter.py'
+      - 'src/gaia_cli/data/curation/**'
+      - 'scripts/environment/**'
+      - 'scripts/curation_benchmark.py'
+      - 'tests/test_curation*'
+      - 'tests/fixtures/**'
+      - 'docs/agents/curation-oracle.md'
+      - 'pyproject.toml'
+      - '.github/workflows/curation-semantic.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  semantic-ci:
+    name: Curation Semantic Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout active PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Restore model weights cache
+        uses: actions/cache@v4
+        with:
+          path: .gaia/models
+          key: ${{ runner.os }}-${{ runner.arch }}-model-${{ hashFiles('src/gaia_cli/data/curation/retrieval.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-model-
+
+      - name: Restore evaluation vectors cache
+        uses: actions/cache@v4
+        with:
+          path: generated-output/curation/cache
+          key: ${{ runner.os }}-${{ runner.arch }}-curation-eval-${{ hashFiles('tests/fixtures/curation-oracle.json', 'src/gaia_cli/curation/**', 'src/gaia_cli/data/curation/**') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-curation-eval-
+
+      - name: Bootstrap isolated .venv with CPU PyTorch
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install --upgrade pip setuptools wheel
+          .venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
+
+      - name: Run environment setup and warmup with benchmark
+        run: |
+          bash scripts/environment/setup.sh --benchmark
+
+      - name: Run focused curation and semantic tests
+        run: |
+          source scripts/environment/env.sh
+          "${PY}" -m pytest tests/test_curation*.py tests/test_embeddings.py tests/test_dev_prefill.py tests/test_dev_ratify.py -q
+
+      - name: Verify embeddings freshness via CLI check
+        run: |
+          source scripts/environment/env.sh
+          "${PY}" -m gaia_cli dev embed --check
+
+      - name: Inspect environment doctor diagnostics
+        run: |
+          source scripts/environment/env.sh
+          "${PY}" scripts/environment/doctor.py --check
+          "${PY}" scripts/environment/doctor.py --json > generated-output/curation/doctor-report.json
+
+      - name: Upload sanitized curation reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: curation-semantic-reports
+          path: |
+            generated-output/curation/*.json
+            !generated-output/curation/*.packet.json
+            !generated-output/curation/cache/**
+          if-no-files-found: ignore

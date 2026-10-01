@@ -52,9 +52,36 @@ def test_appraise_skill_named_resolves_real_tm():
     appraiser = loadAppraiser()
     result = appraiser.appraise_skill("leonxlnx/taste-skill")
     assert result["skillRef"] == "leonxlnx/taste-skill"
-    assert result["tm"] == 172.43
+    assert isinstance(result["tm"], (int, float)) and result["tm"] > 0
     assert result["grade"] == "A"
     assert "github-stars-own" in result["byType"]
+    assert "repo-own" in result["byType"]
+    assert "fusionScore" in result
+    assert result.get("fusionScoreVersion") == "yggdrasil-iii-v1"
+    assert len(result.get("rows", [])) >= 2
+
+
+def test_appraise_skill_named_resolves_frozen_inputs_exact_tm():
+    """Hermetic appraisal with frozen inputs resolves exact TM deterministically."""
+    appraiser = loadAppraiser()
+    frozen_skill = {
+        "id": "synthetic/frozen-skill",
+        "evidence": [
+            {
+                "type": "github-stars-own",
+                "source": "https://github.com/example/repo/blob/main/SKILL.md",
+                "stars": 79067,
+            },
+            {
+                "type": "repo-own",
+                "source": "https://github.com/example/repo",
+                "commits": 100,
+                "contributors": 10,
+            },
+        ],
+    }
+    tm = appraiser.computeTrustMagnitude(frozen_skill)
+    assert round(tm, 2) == 172.43
 
 
 def test_appraise_node_delegation():

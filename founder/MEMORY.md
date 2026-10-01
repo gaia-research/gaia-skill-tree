@@ -4,6 +4,65 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-01, Curation Semantic System — final 15% shipped, PR #2033 CI green)
+
+### TLDR
+
+- **Determinism fix committed and pushed** (2 commits): native Android Torch 2.11 left sentence-transformers in TRAINING mode; >1 CPU thread caused repeat-query vector drift (cosine 0.23–0.72). Fix enforces `model.eval()` + `torch.set_num_threads(1)` on fresh load AND cache hit reuse. Contract: `sentence-transformers-eval-single-thread-v2`.
+- **Embeddings regenerated** under the deterministic contract: 699 entries, fingerprint `b1f1fd9a0b97...`.
+- **436 tests passed**, 10/10 `gaia dev validate`, pr_guards 6/6, skill mirror in sync.
+- **All CI checks GREEN** on PR #2033: Curation Semantic Verification, Test/Build/Smoke, CodeQL, Schema+DAG+Integrity, Design-system lint, PR guards, Agent Skill Quality Gates, branch scope — all SUCCESS.
+- **PR #2033 body updated** with full architecture, benchmark results, Termux status, known limits, and reviewer checklist.
+- Pre-fix smoke receipt was invalidated (not hidden); `doctor.py` now rejects pre-fix receipts.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Determinism fix | ✅ `retrieval.py` enforces eval+single-thread contract on fresh AND cached models |
+| Evaluation guard | ✅ `evaluation.py` raises ValueError on threads!=1 |
+| Smoke verification | ✅ `smoke.py` requires repeat_cosine >= 0.999999 |
+| Doctor validation | ✅ `doctor.py` rejects pre-fix receipts (missing encoderContract/repeat_cosine) |
+| Benchmark runner | ✅ `curation_benchmark.py` --threads choices=[1] |
+| Tests | ✅ Hermetic fake sentence_transformers fixtures; new tests for contract enforcement |
+| Embeddings | ✅ Regenerated 699 entries under deterministic contract |
+| PR body | ✅ Updated with measured benchmarks, architecture, Termux status, next actions |
+| CI | ✅ All required checks green |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/curation-semantic-system` | `362b9b2cf` | PR #2033, all CI green, draft, ready for founder review |
+
+### Issues + PRs touched
+
+- PR #2033 — body updated, CI confirmed green
+
+### Routing — where things live now
+
+- Determinism contract: `src/gaia_cli/curation/retrieval.py` (ENCODER_CONTRACT constant)
+- Curation principles: `src/gaia_cli/data/curation/principles.json` (rubricVersion 1.0.0)
+- Oracle: `tests/fixtures/curation-oracle.json` (14 cases, 1 human-adjudicated)
+- Environment scripts: `scripts/environment/{setup.sh,maintenance.sh,doctor.py,smoke.py,env.sh,termux-smoke.sh}`
+- Benchmark runner: `scripts/curation_benchmark.py`
+- CI workflow: `.github/workflows/curation-semantic.yml`
+- Oracle documentation: `docs/agents/curation-oracle.md`
+
+### Lessons / hazards preserved
+
+- **Native ARM Torch nondeterminism:** sentence-transformers defaults to TRAINING mode. Combined with multi-thread CPU inference, identical queries produce different vectors. The fix is defensive: eval() AND single-thread on every model access, including cache hits. This is not a Termux-only issue — it affects any aarch64 deployment.
+- **Pre-fix receipt invalidation:** An earlier smoke "success" was unsound because the encoder was non-deterministic. The receipt was invalidated via `doctor.py` contract checks, not deleted. Transparency over tidiness.
+- **Oracle is thin:** 1 human-adjudicated case is not enough to justify model migration. BGE outperforms MiniLM but the evidence base is too thin. More real L4 rulings needed.
+
+### Open questions for next orchestrator
+
+1. Marco needs to personally test `gaia dev prefill` → `gaia dev assess` → `gaia dev ratify` on a real intake.
+2. Review `principles.json` for doctrine accuracy.
+3. Merge PR #2033 when satisfied (merge commit only — squash disabled).
+
+---
+
 ## State Snapshot (2026-09-12, Upstream Watcher Release Sync Active Set — PR #1826 Ready for Review, PRs #1827, #1828, #1829 Merged to Dev Integration)
 
 ### TLDR

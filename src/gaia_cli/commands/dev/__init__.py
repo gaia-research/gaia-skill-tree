@@ -61,10 +61,14 @@ Registry development commands (requires Verifier authorization):
   gaia dev list [--generic] [--named] [--description] [--json]
   gaia dev audit <skill_id>
   gaia dev diff [ref] [--base <ref>]
-  gaia dev prefill <candidate_id> --name ... --description ... --url ...
+  gaia dev prefill <candidate_id> --name ... --description ... --url ... [--vector <file>] [--allow-stale]
+  gaia dev assess <packet_path> [--output <path>] [--jev {off,offline,live}] [--state-dir <dir>]
   gaia dev ratify <packet_path> --decision {MAP,NEW_GENERIC} --generic-id ... \\
-           --generic-name ... --generic-description ... --generic-type {basic,fusion} \\
-           [--prereqs a,b,c] --contributor ... --skill-name ... --skill-file-url ...
+           [--generic-name ...] [--generic-description ...] [--generic-type {basic,fusion}] \\
+           [--prereqs a,b,c] --contributor ... --skill-name ... [--skill-file-url ...] \\
+           --assessment <path> --reviewed-by <user> --approval-ref <ref> --reason <reason> \\
+           --acknowledge-human-review
+  gaia dev embed [--model <model>] [--force] [--check] [--output <path>]
   gaia dev add <name> [--type <type>] [--description <desc>] [--named]
   gaia dev merge <target> <source1> [source2...] [--named] [--yes]
   gaia dev split <source> <target1> <target2>... [--yes]
@@ -162,8 +166,41 @@ class DevCommand(Command):
             help="Comma-separated component candidate ids (capstone packets)",
         )
         dev_prefill.add_argument(
+            "--vector",
+            help="Path to precomputed query vector JSON file",
+        )
+        dev_prefill.add_argument(
+            "--allow-stale",
+            action="store_true",
+            default=False,
+            help="Allow using stale embeddings artifact for prefill with visible warning",
+        )
+        dev_prefill.add_argument(
             "--json", "--stdout", dest="json", action="store_true",
             help="Print the packet to stdout instead of writing to disk",
+        )
+
+        dev_assess = dev_sub.add_parser(
+            "assess",
+            help="Evaluate a discovery packet against curation principles and produce an advisory receipt",
+        )
+        dev_assess.add_argument(
+            "packet_path", help="Path to the discovery packet JSON file"
+        )
+        dev_assess.add_argument(
+            "--output",
+            help="Output path for assessment receipt (default: generated-output/curation/<candidate>.assessment.json)",
+        )
+        dev_assess.add_argument(
+            "--jev",
+            choices=("off", "offline", "live"),
+            default="off",
+            help="Jev evaluation mode (default: off)",
+        )
+        dev_assess.add_argument(
+            "--state-dir",
+            default=".gaia/jev",
+            help="State directory for Jev cache, lock, and budget (default: .gaia/jev)",
         )
 
         dev_ratify = dev_sub.add_parser(
@@ -186,23 +223,26 @@ class DevCommand(Command):
         )
         dev_ratify.add_argument(
             "--generic-name",
-            required=True,
-            help="Generic skill name",
+            required=False,
+            default=None,
+            help="Generic skill name (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--generic-description",
-            required=True,
-            help="Generic skill description (at least 10 characters)",
+            required=False,
+            default=None,
+            help="Generic skill description (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--generic-type",
             choices=("basic", "fusion"),
-            required=True,
-            help="Generic skill type",
+            required=False,
+            default=None,
+            help="Generic skill type (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--prereqs",
-            help="Comma-separated prerequisites (fusion skills only)",
+            help="Comma-separated prerequisites (fusion skills only; resolved from live node for MAP if omitted)",
         )
         dev_ratify.add_argument(
             "--contributor",
@@ -216,8 +256,60 @@ class DevCommand(Command):
         )
         dev_ratify.add_argument(
             "--skill-file-url",
+            required=False,
+            default=None,
+            help="GitHub blob URL to the upstream SKILL.md (defaults to packet source canonicalUrl)",
+        )
+        dev_ratify.add_argument(
+            "--assessment",
             required=True,
-            help="GitHub blob URL to the upstream SKILL.md",
+            help="Path to principles assessment receipt JSON",
+        )
+        dev_ratify.add_argument(
+            "--reviewed-by",
+            required=True,
+            help="Identifier or handle of the human reviewer",
+        )
+        dev_ratify.add_argument(
+            "--approval-ref",
+            required=True,
+            help="Approval reference (issue, PR URL, or decision reference)",
+        )
+        dev_ratify.add_argument(
+            "--reason",
+            required=True,
+            help="Rationale for ratification",
+        )
+        dev_ratify.add_argument(
+            "--acknowledge-human-review",
+            action="store_true",
+            default=False,
+            help="Explicitly acknowledge that a human reviewed the candidate and assessment",
+        )
+
+        dev_embed = dev_sub.add_parser(
+            "embed",
+            help="Generate skill embeddings into registry/embeddings.json",
+        )
+        dev_embed.add_argument(
+            "--model",
+            help="Retrieval model identifier or alias",
+        )
+        dev_embed.add_argument(
+            "--force",
+            action="store_true",
+            default=False,
+            help="Force regeneration of embeddings even if artifact is fresh",
+        )
+        dev_embed.add_argument(
+            "--check",
+            action="store_true",
+            default=False,
+            help="Check freshness and validity of embeddings artifact without regenerating",
+        )
+        dev_embed.add_argument(
+            "--output",
+            help="Custom output file path for embeddings JSON",
         )
 
         dev_evidence_seed = dev_sub.add_parser(
@@ -1029,6 +1121,7 @@ class DevCommand(Command):
             "sync-upstream",
             "freeze",
             "ratify",
+            "embed",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS or (
             dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
@@ -1138,6 +1231,12 @@ class DevCommand(Command):
         elif dev_cmd == "freeze":
             from gaia_cli.commands.dev.freeze import freeze_command
             freeze_command(args)
+        elif dev_cmd == "assess":
+            from gaia_cli.curation.assessment import assessCommand
+            return assessCommand(args)
+        elif dev_cmd == "embed":
+            from gaia_cli.impl import embed_command
+            return embed_command(args)
         elif dev_cmd == "ratify":
             from gaia_cli.commands.dev.ratify import ratifyCommand
             return ratifyCommand(args)
