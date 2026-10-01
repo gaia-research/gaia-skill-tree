@@ -218,6 +218,18 @@ def buildAssessment(packet, registryPath=".", client=None):
                                   strongestNeighbor=neighbors[0]["id"] if neighbors else None)
     principles["topology_independence"].update(evaluation="independent", inputs="Allowlisted semantic fields only; rank, popularity and evidence excluded.")
     advice = semanticAdvice(packet, neighbors, rubric, client)
+    if advice["status"] == "advisory":
+        ans = advice["answers"]
+        if "relation" in ans:
+            principles["relation"]["relation"] = ans["relation"]["choice"]
+        if "shape" in ans:
+            principles["artifact_packaging"]["shape"] = ans["shape"]["choice"]
+        if "transferability" in ans:
+            principles["transferability"]["evaluation"] = ans["transferability"]["choice"]
+        if "distinction" in ans:
+            principles["material_distinction"]["evaluation"] = ans["distinction"]["choice"]
+        if "atomicity" in ans:
+            principles["atomicity"]["type"] = ans["atomicity"]["choice"]
     proposal = {"value": "DEFER", "reasonCode": "SEMANTIC_REVIEW_REQUIRED" if neighbors else "NO_RECALL_POSSIBLE_NEW_GENERIC",
                 "targetGenericId": neighbors[0]["id"] if neighbors else None, "advisoryOnly": True}
     target = advice["answers"].get("target", {})
@@ -260,9 +272,32 @@ def validateAssessment(receipt, packet, registryPath="."):
     try:
         expected = buildAssessment(packet, registryPath)
         for key in ("contractVersion", "authority", "candidateId", "candidate", "source", "candidateSourceDigest",
-                    "semanticInputSha256", "catalogSha256", "rubric", "retrievedGenerics", "retrieval", "principles"):
+                    "semanticInputSha256", "catalogSha256", "rubric", "retrievedGenerics", "retrieval"):
             if receipt.get(key) != expected[key]:
                 errors.append(f"receipt {key} mismatch or stale")
+        # Principles: baseline comparison; jev-advisory receipts wire answers in
+        storedAdvice = receipt.get("jevAdvice") or {}
+        expectedPrinciples = dict(expected["principles"])
+        if isinstance(storedAdvice, dict) and storedAdvice.get("status") == "advisory":
+            ans = storedAdvice.get("answers", {})
+            if isinstance(ans, dict):
+                if "relation" in ans and isinstance(ans["relation"], dict):
+                    expectedPrinciples.setdefault("relation", {})
+                    expectedPrinciples["relation"] = {**expectedPrinciples.get("relation", {}), "relation": ans["relation"].get("choice", "unknown")}
+                if "shape" in ans and isinstance(ans["shape"], dict):
+                    expectedPrinciples.setdefault("artifact_packaging", {})
+                    expectedPrinciples["artifact_packaging"] = {**expectedPrinciples.get("artifact_packaging", {}), "shape": ans["shape"].get("choice", "unknown")}
+                if "transferability" in ans and isinstance(ans["transferability"], dict):
+                    expectedPrinciples.setdefault("transferability", {})
+                    expectedPrinciples["transferability"] = {**expectedPrinciples.get("transferability", {}), "evaluation": ans["transferability"].get("choice", "unknown")}
+                if "distinction" in ans and isinstance(ans["distinction"], dict):
+                    expectedPrinciples.setdefault("material_distinction", {})
+                    expectedPrinciples["material_distinction"] = {**expectedPrinciples.get("material_distinction", {}), "evaluation": ans["distinction"].get("choice", "unknown")}
+                if "atomicity" in ans and isinstance(ans["atomicity"], dict):
+                    expectedPrinciples.setdefault("atomicity", {})
+                    expectedPrinciples["atomicity"] = {**expectedPrinciples.get("atomicity", {}), "type": ans["atomicity"].get("choice", "unknown")}
+        if receipt.get("principles") != expectedPrinciples:
+            errors.append("receipt principles mismatch or stale")
         proposal = receipt.get("proposedDisposition", {})
         if not isinstance(proposal, dict) or proposal.get("advisoryOnly") is not True or proposal.get("value") not in {"DEFER", "MAP_CANDIDATE", "NEW_GENERIC_CANDIDATE"}:
             errors.append("invalid advisory proposal")

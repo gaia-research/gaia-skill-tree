@@ -850,3 +850,103 @@ class TestAssessCommandCLI:
         })()
 
         assert assessCommand(args) == 1
+
+
+class TestJevPrinciplesWiring:
+    """P1-A: Jev advisory answers are wired into the canonical principles surface."""
+
+    def test_advisory_answers_populate_principles(self, tmp_path, monkeypatch):
+        """When Jev returns advisory status, answer choices populate principles fields."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            choice_map = {
+                "target": "graph-traversal",
+                "relation": "narrower",
+                "shape": "suite",
+                "transferability": "yes",
+                "distinction": "material",
+                "atomicity": "fusion",
+            }
+            return _make_transport_response(body_bytes, choice_map=choice_map)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+
+        assert receipt["jevAdvice"]["status"] == "advisory"
+        p = receipt["principles"]
+        assert p["relation"]["relation"] == "narrower"
+        assert p["artifact_packaging"]["shape"] == "suite"
+        assert p["transferability"]["evaluation"] == "yes"
+        assert p["material_distinction"]["evaluation"] == "material"
+        assert p["atomicity"]["type"] == "fusion"
+
+    def test_jev_off_principles_remain_unknown(self, tmp_path):
+        """With Jev off (no client), all principle fields stay unknown."""
+        reg = _make_test_registry(tmp_path)
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=None)
+
+        assert receipt["jevAdvice"]["status"] == "skipped"
+        p = receipt["principles"]
+        assert p["relation"]["relation"] == "unknown"
+        assert p["artifact_packaging"]["shape"] == "unknown"
+        assert p["transferability"]["evaluation"] == "unknown"
+        assert p["material_distinction"]["evaluation"] == "unknown"
+        assert p["atomicity"]["type"] == "unknown"
+
+    def test_jev_fallback_principles_remain_unknown(self, tmp_path, monkeypatch):
+        """With Jev fallback (low confidence), principle fields stay unknown."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            return _make_transport_response(body_bytes, confidence=0.50)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+
+        assert receipt["jevAdvice"]["status"] == "fallback"
+        p = receipt["principles"]
+        assert p["relation"]["relation"] == "unknown"
+        assert p["artifact_packaging"]["shape"] == "unknown"
+        assert p["transferability"]["evaluation"] == "unknown"
+        assert p["material_distinction"]["evaluation"] == "unknown"
+        assert p["atomicity"]["type"] == "unknown"
+
+    def test_advisory_receipt_validates_with_wired_principles(self, tmp_path, monkeypatch):
+        """A receipt built with Jev advisory passes validation (principles match)."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            choice_map = {
+                "target": "graph-traversal",
+                "relation": "same",
+                "shape": "single",
+                "transferability": "yes",
+                "distinction": "material",
+                "atomicity": "basic",
+            }
+            return _make_transport_response(body_bytes, choice_map=choice_map)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+        errors = validateAssessment(receipt, packet, registryPath=reg)
+        assert errors == []
