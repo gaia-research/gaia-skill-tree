@@ -33,3 +33,14 @@ Split reviewer work across `evidence/by-type/<type>.md` files, not tier files. S
 - Imposter over-purging & audit taxonomy conflation (RFC #1809): ensure legitimate early-stage, self-hosted, or `installable: false` skills (Tier 2 Packaging Gap, Tier 3 Under-Evidenced Stub) are not mislabeled as Tier 1 Malicious Imposters or flagged for deletion.
 
 Append concise findings to the source report. Do not mutate registry files.
+
+## Optional Semantic Evidence Review Sidecar
+
+An operator may optionally run the read-only Jev advisory runner to flag semantic anomalies in evidence rows ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+python scripts/jev_advisory.py --mode evidence --input <evidence-rows.json>
+```
+
+This output serves as review triage hints only. It never marks evidence rows verified, does not replace deterministic HTTP health or Phase 2B benchmark verification, does not touch Trust Magnitude scoring, and emits an actionable handoff to `worker-luna` on uncertainty.

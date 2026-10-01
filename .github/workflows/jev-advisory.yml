@@ -1,0 +1,261 @@
+name: Jev Advisory Lane
+
+# Bounded semantic advisory CI workflow.
+#
+# Generates non-authoritative read-only advisory reports for generic mapping and
+# open issue triage. All execution is read-only sidecar and never mutates registry
+# data or changes decision authority.
+#
+# Safety invariants:
+# - Default-branch only (main). No PR triggers, no checkout of untrusted refs.
+# - Global serialization (concurrency group independent of ref, cancel-in-progress: false).
+# - Run-history budget gate: monthly ceiling <= 60 runs ($3.60/month CI ceiling).
+# - Reruns (run_attempt > 1) are strictly rejected from paid execution.
+# - TYPESAFE_API_KEY is scoped strictly to paid execution steps.
+# - Offline/dry-run fallback on missing key, exhausted budget, or uncertainty.
+
+on:
+  schedule:
+    # Weekly run at 06:00 UTC Mondays (default branch only)
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Run live paid Jev calls (requires TYPESAFE_API_KEY and budget clearance)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+  issues: read
+
+concurrency:
+  group: jev-advisory-lane
+  cancel-in-progress: false
+
+jobs:
+  advisory:
+    name: Bounded advisory run
+    runs-on: ubuntu-latest
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch || 'main')
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Determine requested live mode
+        id: mode
+        run: |
+          REQUESTED_LIVE="false"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ inputs.live }}" = "true" ]; then
+              REQUESTED_LIVE="true"
+            fi
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            if [ "${{ vars.GAIA_JEV_ENABLED }}" = "true" ]; then
+              REQUESTED_LIVE="true"
+            fi
+          fi
+          echo "requested_live=$REQUESTED_LIVE" >> "$GITHUB_OUTPUT"
+          echo "Requested live mode: $REQUESTED_LIVE"
+
+      - name: Evaluate run-history budget gate
+        id: budget
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python scripts/jev_ci_budget.py \
+            --repo "${{ github.repository }}" \
+            --workflow "jev-advisory.yml" \
+            --run-id "${{ github.run_id }}" \
+            --run-attempt "${{ github.run_attempt }}" \
+            --json
+
+      - name: Evaluate execution authorization and month alignment
+        id: auth
+        env:
+          HAS_KEY: ${{ secrets.TYPESAFE_API_KEY != '' }}
+          REQUESTED_LIVE: ${{ steps.mode.outputs.requested_live }}
+          BUDGET_ALLOWED: ${{ steps.budget.outputs.allowed }}
+          BUDGET_MONTH: ${{ steps.budget.outputs.month }}
+        run: |
+          CURRENT_UTC_MONTH=$(date -u +%Y-%m)
+          if [ "$REQUESTED_LIVE" = "true" ] && [ "$HAS_KEY" = "true" ] && [ "$BUDGET_ALLOWED" = "true" ]; then
+            if [ -n "$BUDGET_MONTH" ] && [ "$CURRENT_UTC_MONTH" != "$BUDGET_MONTH" ]; then
+              echo "execute_live=false" >> "$GITHUB_OUTPUT"
+              echo "month_rollover=true" >> "$GITHUB_OUTPUT"
+              echo "Execution mode: DRY-RUN / OFFLINE (cross-midnight month rollover: budget=$BUDGET_MONTH vs current=$CURRENT_UTC_MONTH)"
+            else
+              echo "execute_live=true" >> "$GITHUB_OUTPUT"
+              echo "month_rollover=false" >> "$GITHUB_OUTPUT"
+              echo "Execution mode: LIVE (budget approved for $CURRENT_UTC_MONTH, key present)"
+            fi
+          else
+            echo "execute_live=false" >> "$GITHUB_OUTPUT"
+            echo "month_rollover=false" >> "$GITHUB_OUTPUT"
+            echo "Execution mode: DRY-RUN / OFFLINE (requested=$REQUESTED_LIVE, key=$HAS_KEY, budget=$BUDGET_ALLOWED)"
+          fi
+
+      - name: Prepare workspace directories
+        run: |
+          mkdir -p generated-output/jev
+          mkdir -p .gaia/jev-ci
+
+      - name: Initialize ephemeral CI budget ledger
+        if: steps.auth.outputs.execute_live == 'true'
+        env:
+          PYTHONPATH: src
+        run: |
+          python scripts/jev_advisory.py \
+            --mode mapping \
+            --init-budget \
+            --state-dir .gaia/jev-ci \
+            --monthly-limit-usd 0.06 \
+            --max-calls 20
+
+      - name: Collect open issues for triage advisory
+        id: collect_issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh issue list --limit 20 --json number,title,body,labels > generated-output/jev/open-issues.json; then
+            echo "status=ok" >> "$GITHUB_OUTPUT"
+            echo '{"status": "ok", "warning": null}' > generated-output/jev/open-issues-status.json
+          else
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            echo "::warning::Failed to collect open issues via gh CLI. Proceeding with empty issue list."
+            echo '{"status": "failed", "warning": "Failed to collect open issues via gh CLI"}' > generated-output/jev/open-issues-status.json
+            echo "[]" > generated-output/jev/open-issues.json
+          fi
+
+      - name: Run mapping advisory
+        env:
+          PYTHONPATH: src
+          TYPESAFE_API_KEY: ${{ steps.auth.outputs.execute_live == 'true' && secrets.TYPESAFE_API_KEY || '' }}
+        run: |
+          LIVE_ARG=""
+          if [ "${{ steps.auth.outputs.execute_live }}" = "true" ]; then
+            LIVE_ARG="--live"
+          fi
+          python scripts/jev_advisory.py \
+            --mode mapping \
+            --collect-repo \
+            --output generated-output/jev/mapping-report.json \
+            --state-dir .gaia/jev-ci \
+            --monthly-limit-usd 0.06 \
+            --max-calls 10 \
+            $LIVE_ARG
+
+      - name: Run issues advisory
+        env:
+          PYTHONPATH: src
+          TYPESAFE_API_KEY: ${{ steps.auth.outputs.execute_live == 'true' && secrets.TYPESAFE_API_KEY || '' }}
+        run: |
+          LIVE_ARG=""
+          if [ "${{ steps.auth.outputs.execute_live }}" = "true" ]; then
+            LIVE_ARG="--live"
+          fi
+          python scripts/jev_advisory.py \
+            --mode issues \
+            --input generated-output/jev/open-issues.json \
+            --output generated-output/jev/issues-report.json \
+            --state-dir .gaia/jev-ci \
+            --monthly-limit-usd 0.06 \
+            --max-calls 10 \
+            $LIVE_ARG
+
+      - name: Verify repository non-mutation
+        run: |
+          MUTATIONS=$(git status --porcelain registry/ skill-trees/ docs/graph/ .gaia/steward)
+          if [ -n "$MUTATIONS" ]; then
+            echo "::error::Unauthorized repository mutation detected in protected paths:"
+            echo "$MUTATIONS"
+            exit 1
+          fi
+          echo "Repository non-mutation assertion passed: registry/, skill-trees/, docs/graph/, and .gaia/steward are clean."
+
+      - name: Upload advisory reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jev-advisory-reports
+          path: generated-output/jev/
+          retention-days: 14
+
+      - name: Generate summary
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          import os
+          import pathlib
+
+          print("## Jev Advisory Lane Summary\n")
+          mode = "${{ steps.auth.outputs.execute_live }}"
+          print(f"**Execution Mode:** `{'LIVE' if mode == 'true' else 'DRY-RUN / OFFLINE'}`")
+
+          rollover = "${{ steps.auth.outputs.month_rollover }}"
+          if rollover == "true":
+              print("⚠️ **Notice:** Cross-midnight UTC month rollover occurred between budget check and execution; safely fell back to dry-run.\n")
+
+          budget_allowed = "${{ steps.budget.outputs.allowed }}"
+          budget_reason = "${{ steps.budget.outputs.reason }}"
+          budget_month = "${{ steps.budget.outputs.month }}"
+          monthly_runs = "${{ steps.budget.outputs.monthly_runs }}"
+          print(f"**Budget Gate:** `allowed={budget_allowed}`, reason=`{budget_reason}`, month=`{budget_month}`")
+          print(f"**Runs This Month:** `{monthly_runs} / 60`\n")
+
+          issues_status = "${{ steps.collect_issues.outputs.status }}"
+          if issues_status == "failed":
+              print("⚠️ **Input Collection Warning:** `gh issue list` failed; issues advisory ran with empty issue list (fallback).\n")
+
+          for name, filename in [("Mapping Advisory", "mapping-report.json"), ("Issues Advisory", "issues-report.json")]:
+              path = pathlib.Path("generated-output/jev") / filename
+              print(f"### {name}")
+              if filename == "issues-report.json":
+                  if issues_status == "failed":
+                      print("- **Input Status:** ⚠️ FAILED (`gh issue list` failed, evaluated 0 items)")
+                  else:
+                      print("- **Input Status:** OK (collected via `gh issue list`)")
+              else:
+                  print("- **Input Status:** OK (collected via `--collect-repo`)")
+
+              if path.is_file():
+                  try:
+                      data = json.loads(path.read_text(encoding="utf-8"))
+                      advisory_only = data.get("advisoryOnly", True)
+                      items = data.get("items", [])
+                      summary = data.get("summary", {})
+                      total_calls = summary.get("totalCalls", 0)
+                      total_reserved = summary.get("totalReservedUsd", 0.0)
+                      total_est_cost = summary.get("totalEstimatedCostUsd", 0.0)
+                      advisory_count = summary.get("advisoryCount", 0)
+                      fallback_count = summary.get("fallbackCount", 0)
+                      overflow = summary.get("overflowReported", False)
+                      processed = summary.get("processedCount", len(items))
+                      total_avail = summary.get("totalAvailable", processed)
+
+                      print(f"- **Advisory Only:** `{advisory_only}`")
+                      print(f"- **Processed Items:** `{processed}` of `{total_avail}` (overflow: `{overflow}`)")
+                      print(f"- **Outcomes:** `{advisory_count}` advisory, `{fallback_count}` fallback to worker-luna")
+                      print(f"- **Total Calls:** `{total_calls}`")
+                      print(f"- **Reserved / Estimated USD:** `${total_reserved:.4f}` / `${total_est_cost:.4f}`")
+                  except Exception as e:
+                      print(f"- Error reading report: {e}")
+              else:
+                  print("- Report file not found.")
+              print("")
+          PY

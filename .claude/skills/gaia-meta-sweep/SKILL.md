@@ -244,6 +244,19 @@ RFC1 + #1148 + the RFC3 umbrella landing. Tracked by issue #1353 — do NOT buil
 the pre-ingest sweep here; when it lands it reuses this skill's fan-out topology
 over the pre-ingest artifacts.
 
+## Optional Semantic Advisory Sidecar
+
+During Phase 2 (Fuse) or Phase 3 (Propose), an operator may optionally run the read-only Jev advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+# Uses --collect-repo to inspect canonical generic nodes directly from registry/nodes/
+# Supports bounded paging via --offset (default: 0) and --max-calls
+python scripts/jev_advisory.py --mode meta --collect-repo --offset 0
+```
+
+This advisory operates strictly as an auxiliary sidecar; it does not replace the 13 deterministic audit dimensions, never commits registry changes, and falls back to `worker-luna` when confidence is below 0.75 or budget is exhausted.
+
 ## Non-goal
 
 - **nova-gaia (`sourceProposal.schema.json`)** — a separate pipeline for
