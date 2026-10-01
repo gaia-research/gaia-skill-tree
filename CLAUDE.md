@@ -136,7 +136,15 @@ Skill levels are stored in slots, not on skill objects — account for this when
 
 ## Commands & Setup
 
-See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local setup (virtualenv, pip), common commands, and testing.
+See [DEV.md](DEV.md) for common commands and testing.
+
+### Portable curation environment
+
+Before substantial curation, run `python scripts/environment/doctor.py` (lightweight, no model loads or paid calls). On a fresh environment run `bash scripts/environment/setup.sh`; when stale, use `bash scripts/environment/maintenance.sh` (`--refresh` explicitly rebuilds changed semantic artifacts). Healthy dependencies are reused, not reinstalled each invocation. Canonical scripts and cache controls: [curation environment](docs/agents/curation-environment.md).
+
+Use repository-declared models in `src/gaia_cli/data/curation/retrieval.json` and the shared caches; never improvise a laptop-specific setup. Never expose Jev credentials; live advice is opt-in. Embedding/backend changes require a genuine `bash scripts/environment/termux-smoke.sh` receipt, not inference from cloud success.
+
+`gaia dev prefill` retrieves candidates and writes an advisory principles receipt. Optional `gaia dev assess <packet> --jev live` enriches it. Only after actual human L4 approval may `gaia dev ratify` record the reviewer, approval reference and rationale; operator authorization alone is not approval. Principles v1.0.0 and authority boundaries: [curation principles](docs/agents/curation-principles.md).
 
 ## Current Layout
 
@@ -420,7 +428,7 @@ When authoring or modifying skills, run the validation gates:
 - Skills with `suiteComponents` need NO `links.github` of their own — do not flag them uninstallable; but each **component** needs its own `blob/branch/subpath`. Non-suite skills ≤2★ with no public repo → `installable: false` (see CONTRIBUTING.md §12).
 - Trust Magnitude evidence learnings (same-source dedup, mothership discount, peer-review being highest-impact for science skills, `benchmark-result` needing `percentile`, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file before touching evidence.
 
-See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for setup, testing, and CI troubleshooting.
+See [DEV.md](DEV.md) and [portable curation setup](docs/agents/curation-environment.md) for setup, testing, and CI troubleshooting.
 
 ## Workspace Rules (Agent Directives)
 

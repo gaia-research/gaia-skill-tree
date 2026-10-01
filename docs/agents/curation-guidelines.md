@@ -1,6 +1,6 @@
 # Curation Guidelines
 
-Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup, testing, and CI troubleshooting. Keep these curation-specific rules in mind.
+Refer to [DEV.md](../../DEV.md) and [curation-environment.md](curation-environment.md) for local environment setup, portable diagnostic verification (`python scripts/environment/doctor.py`), testing, and CI troubleshooting. Keep these curation-specific rules in mind.
 
 All meta shifts route through `gaia dev add` / `gaia dev merge` / `gaia dev split` / `gaia dev evidence` (Programmatic-First Policy) rather than hand-edits.
 

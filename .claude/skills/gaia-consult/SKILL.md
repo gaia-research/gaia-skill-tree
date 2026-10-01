@@ -27,7 +27,7 @@ Open it in any browser. It is self-contained, offline-capable, and covers every 
 |---|---|
 | You want to automate everything from a URL | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not this doc |
 | Discovering a skill, running prefill, writing the packet | **Phase 1 — gaia-curate** |
-| Reviewing the packet, appending `l4Resolution` | **Phase 2 — L4 Review** |
+| Reviewing the packet, ratifying with `gaia dev ratify` | **Phase 2 — L4 Review** |
 | Running `gaia push`, branching, opening the draft PR | **Phase 3 — gaia push → PR** |
 | Running the evidence lake phases (0–4) | **Phase 4 — ev-pipeline** |
 | Writing evidence rows, appraising TM, calibrating stars | **Phase 5 — gaia-ingest** |

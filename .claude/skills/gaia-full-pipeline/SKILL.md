@@ -173,8 +173,8 @@ gh issue list --state open --search 'label:intake'
 Every strategy stops after producing review-ready `discovery-packet-v2` files in `registry-for-review/discovery-packets/`. (Exception: `/gaia-bot-curate` may go directly to registry mutation — re-read its protocol.)
 
 For strategies A–D and F, L4 means:
-1. Open each packet JSON. Verify mapping decision, `blob/` URL, verbatim description.
-2. Append `l4Resolution` with ratified `generic`, `named`, and `upstreamSkillFileUrl`.
+1. Open each packet JSON and its companion advisory assessment receipt (`generated-output/curation/<candidate>.assessment.json`). Verify mapping decision, `blob/` URL, and verbatim description against curation principles.
+2. Ratify topology using `gaia dev ratify` with explicit human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, and `--acknowledge-human-review`), which atomically attaches `l4Resolution` with ratified `generic`, `named`, `upstreamSkillFileUrl`, and `humanReview` metadata. Operator authorization alone is not L4 approval; no manual append of fake resolutions.
 3. Re-validate: `python3 scripts/validate_discovery_packet.py --generic-snapshot /tmp/generic-snapshot.json <packet>.json`
 
 ---

@@ -30,7 +30,7 @@ The chain ends at L4 human review. It does not collect evidence, calculate trust
 
 After an L4 decision, write a handoff record; do not silently end the caller:
 
-- New external discoveries: after L4, require the human to append the schema-defined `l4Resolution` to each approved V2 packet, then run `gaia push --from-file <packet.json>`. Do not manually translate packets to `skills.yml`; the adapter owns that deterministic translation and refuses unresolved identity or non-blob provenance.
+- New external discoveries: after L4 human approval, ratify the packet via `gaia dev ratify` with mandatory human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, `--acknowledge-human-review`), which attaches the schema-defined `l4Resolution`, then run `gaia push --from-file <packet.json>`. Do not manually translate packets to `skills.yml` or fabricate resolutions; the adapter owns that deterministic translation and refuses unresolved identity or non-blob provenance.
 - Rows that already came from `/gaia-draft-curate`: preserve `batchId` and issue/PR links, return them as `needs-evidence` to `/ev-pipeline`, then hand verified rows to a maintainer on `review/meta/*` for the CLI-only meta-shift in `CONTRIBUTING.md` §1C. Do not submit the same intake twice.
 
 Record the route, artifact path, remaining gate, and exact next command. This compatibility handoff is data only; the chain remains discovery-only.

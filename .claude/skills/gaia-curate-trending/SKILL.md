@@ -71,4 +71,4 @@ deferred.jsonl
 L4-REVIEW.md
 ```
 
-`L4-REVIEW.md` lists candidate, trend band, source, existing-generic mapping, bounded disposition, and flags. Validate every row as `discovery-packet-v2`; copy final review packets to the Core-owned `registry-for-review/discovery-packets/` path, then stop at L4. V1 is read-compatible only, not normative output. A shortlist decision is not intake, evidence, named-star, or mutation approval. Only Core's explicit post-L4 `l4Resolution` handoff may feed intake.
+`L4-REVIEW.md` lists candidate, trend band, source, existing-generic mapping, bounded disposition, and flags. Validate every row as `discovery-packet-v2`; copy final review packets to the Core-owned `registry-for-review/discovery-packets/` path, then stop at L4. V1 is read-compatible only, not normative output. A shortlist decision is not intake, evidence, named-star, or mutation approval. Only Core's explicit post-L4 ratification seam via `gaia dev ratify` and `gaia push` may feed intake.
