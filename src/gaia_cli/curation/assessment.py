@@ -306,8 +306,46 @@ def validateAssessment(receipt, packet, registryPath="."):
                 errors.append(f"invalid {field}")
         if not isinstance(receipt.get("assessedAt"), str):
             errors.append("missing assessment timestamp")
+        # P2-A: jevAdvice/proposedDisposition consistency
+        if isinstance(storedAdvice, dict) and storedAdvice.get("status") == "advisory":
+            answersPayload = storedAdvice.get("answers", {})
+            answerErrors = _validateJevAnswers(answersPayload)
+            errors.extend(answerErrors)
+            if not answerErrors:
+                neighbors = expected.get("retrievedGenerics", [])
+                recomputed = _recomputeDisposition(storedAdvice, neighbors)
+                if proposal != recomputed:
+                    errors.append("proposedDisposition inconsistent with stored jevAdvice")
     except (ValueError, TypeError, OSError, KeyError):
         errors.append("unable to validate current semantic inputs")
+    return errors
+
+
+def _recomputeDisposition(advice, neighbors):
+    """Deterministically recompute proposedDisposition from stored jevAdvice."""
+    proposal = {"value": "DEFER",
+                "reasonCode": "SEMANTIC_REVIEW_REQUIRED" if neighbors else "NO_RECALL_POSSIBLE_NEW_GENERIC",
+                "targetGenericId": neighbors[0]["id"] if neighbors else None, "advisoryOnly": True}
+    target = advice.get("answers", {}).get("target", {})
+    if advice.get("status") == "advisory" and target:
+        proposal.update(
+            value="NEW_GENERIC_CANDIDATE" if target.get("choice") == "NONE" else "MAP_CANDIDATE",
+            targetGenericId=None if target.get("choice") == "NONE" else target.get("choice"),
+            reasonCode="JEV_SEMANTIC_PROPOSAL")
+    return proposal
+
+
+def _validateJevAnswers(answers):
+    """Schema-validate jevAdvice answers: each must map to a dict with 'choice' as a string."""
+    errors = []
+    if not isinstance(answers, dict):
+        errors.append("jevAdvice answers must be an object")
+        return errors
+    for key, value in answers.items():
+        if not isinstance(value, dict):
+            errors.append(f"jevAdvice answer '{key}' must be a dict")
+        elif not isinstance(value.get("choice"), str):
+            errors.append(f"jevAdvice answer '{key}' missing string 'choice'")
     return errors
 
 

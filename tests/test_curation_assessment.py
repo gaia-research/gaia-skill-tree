@@ -23,6 +23,8 @@ from gaia_cli.curation.assessment import (
     validateAssessment,
     assessCommand,
     extractSemanticInputs,
+    _recomputeDisposition,
+    _validateJevAnswers,
 )
 from gaia_cli.jev import JevClient, PINNED_MODEL, DEFAULT_ENDPOINT
 
@@ -950,3 +952,146 @@ class TestJevPrinciplesWiring:
         receipt = buildAssessment(packet, registryPath=reg, client=client)
         errors = validateAssessment(receipt, packet, registryPath=reg)
         assert errors == []
+
+
+class TestReceiptConsistencyValidation:
+    """P2-A: jevAdvice/proposedDisposition consistency and answer schema validation."""
+
+    def test_disposition_inconsistent_with_jev_answers(self, tmp_path, monkeypatch):
+        """Tampering with proposedDisposition after Jev advisory triggers inconsistency error."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            choice_map = {
+                "target": "graph-traversal",
+                "relation": "narrower",
+                "shape": "single",
+                "transferability": "yes",
+                "distinction": "material",
+                "atomicity": "basic",
+            }
+            return _make_transport_response(body_bytes, choice_map=choice_map)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+
+        # Tamper: change proposedDisposition to contradict jevAdvice
+        tampered = json.loads(json.dumps(receipt))
+        tampered["proposedDisposition"]["value"] = "NEW_GENERIC_CANDIDATE"
+        tampered["proposedDisposition"]["targetGenericId"] = None
+        errors = validateAssessment(tampered, packet, registryPath=reg)
+        assert any("proposedDisposition inconsistent with stored jevAdvice" in e for e in errors)
+
+    def test_malformed_jev_answers_rejected(self, tmp_path, monkeypatch):
+        """Answers with non-dict values or missing choice strings are flagged."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            choice_map = {
+                "target": "graph-traversal",
+                "relation": "narrower",
+                "shape": "single",
+                "transferability": "yes",
+                "distinction": "material",
+                "atomicity": "basic",
+            }
+            return _make_transport_response(body_bytes, choice_map=choice_map)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+
+        # Tamper: replace an answer value with a non-dict
+        tampered = json.loads(json.dumps(receipt))
+        tampered["jevAdvice"]["answers"]["target"] = "not-a-dict"
+        errors = validateAssessment(tampered, packet, registryPath=reg)
+        assert any("jevAdvice answer 'target' must be a dict" in e for e in errors)
+
+        # Tamper: remove choice from an answer
+        tampered2 = json.loads(json.dumps(receipt))
+        del tampered2["jevAdvice"]["answers"]["relation"]["choice"]
+        errors2 = validateAssessment(tampered2, packet, registryPath=reg)
+        assert any("jevAdvice answer 'relation' missing string 'choice'" in e for e in errors2)
+
+    def test_consistent_advisory_receipt_passes(self, tmp_path, monkeypatch):
+        """Untampered advisory receipt passes all consistency checks."""
+        reg = _make_test_registry(tmp_path)
+        state_dir = tmp_path / "jev_state"
+        monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
+
+        client = JevClient(state_dir, live=True, maxCalls=2)
+        client.initializeBudget()
+
+        def transport(url, headers, body_bytes, timeout):
+            choice_map = {
+                "target": "graph-traversal",
+                "relation": "same",
+                "shape": "single",
+                "transferability": "yes",
+                "distinction": "material",
+                "atomicity": "basic",
+            }
+            return _make_transport_response(body_bytes, choice_map=choice_map)
+
+        client.transport = transport
+        packet = _make_test_packet()
+        receipt = buildAssessment(packet, registryPath=reg, client=client)
+        errors = validateAssessment(receipt, packet, registryPath=reg)
+        assert errors == []
+
+    def test_recompute_disposition_map_candidate(self):
+        """Recompute produces MAP_CANDIDATE for advisory target choice."""
+        advice = {"status": "advisory", "answers": {
+            "target": {"choice": "graph-traversal", "confidence": 0.9}}}
+        neighbors = [{"id": "graph-traversal", "definitionAvailable": True}]
+        result = _recomputeDisposition(advice, neighbors)
+        assert result["value"] == "MAP_CANDIDATE"
+        assert result["targetGenericId"] == "graph-traversal"
+        assert result["reasonCode"] == "JEV_SEMANTIC_PROPOSAL"
+
+    def test_recompute_disposition_new_generic(self):
+        """Recompute produces NEW_GENERIC_CANDIDATE for NONE target."""
+        advice = {"status": "advisory", "answers": {
+            "target": {"choice": "NONE", "confidence": 0.9}}}
+        neighbors = [{"id": "graph-traversal", "definitionAvailable": True}]
+        result = _recomputeDisposition(advice, neighbors)
+        assert result["value"] == "NEW_GENERIC_CANDIDATE"
+        assert result["targetGenericId"] is None
+
+    def test_recompute_disposition_fallback_defers(self):
+        """Non-advisory status always produces DEFER."""
+        advice = {"status": "fallback", "answers": {}}
+        neighbors = [{"id": "graph-traversal", "definitionAvailable": True}]
+        result = _recomputeDisposition(advice, neighbors)
+        assert result["value"] == "DEFER"
+
+    def test_validate_jev_answers_valid(self):
+        answers = {
+            "target": {"choice": "graph-traversal", "confidence": 0.9},
+            "relation": {"choice": "narrower", "confidence": 0.85},
+        }
+        assert _validateJevAnswers(answers) == []
+
+    def test_validate_jev_answers_not_dict(self):
+        assert len(_validateJevAnswers("not-a-dict")) == 1
+
+    def test_validate_jev_answers_missing_choice(self):
+        answers = {"target": {"confidence": 0.9}}
+        errors = _validateJevAnswers(answers)
+        assert any("missing string 'choice'" in e for e in errors)
+
+    def test_validate_jev_answers_non_string_choice(self):
+        answers = {"target": {"choice": 42}}
+        errors = _validateJevAnswers(answers)
+        assert any("missing string 'choice'" in e for e in errors)
