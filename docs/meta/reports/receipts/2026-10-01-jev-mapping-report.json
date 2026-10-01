@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "jev-advisory-report-v1",
+  "generatedAt": "2026-10-01T07:58:38.037702+00:00",
+  "mode": "mapping",
+  "advisoryOnly": true,
+  "summary": {
+    "totalAvailable": 3,
+    "processedCount": 3,
+    "advisoryCount": 3,
+    "fallbackCount": 0,
+    "totalCalls": 0,
+    "totalReservedUsd": 0.0,
+    "totalEstimatedCostUsd": 0.0,
+    "overflowReported": false,
+    "offset": 0,
+    "nextOffset": null,
+    "omittedCount": 0,
+    "omittedIdentifiers": []
+  },
+  "items": [
+    {
+      "candidateId": "latent-spaces/brag",
+      "name": "Project Launch Video Production",
+      "advisoryShortlist": [
+        "project-launch-video-production",
+        "creative-direction",
+        "video-rendering"
+      ],
+      "advisoryShortlistIncomplete": true,
+      "status": "advisory",
+      "reason": "ok",
+      "advisoryResult": {
+        "choice": "project-launch-video-production",
+        "confidence": 0.9,
+        "probabilities": {
+          "NONE_OF_SHORTLIST": 0.01,
+          "UNCERTAIN": 0.0,
+          "creative-direction": 0.06,
+          "project-launch-video-production": 0.92,
+          "video-rendering": 0.01
+        },
+        "recommendation": "map-to-project-launch-video-production"
+      },
+      "fallback": null,
+      "usage": {
+        "input_tokens": 532,
+        "output_tokens": 70
+      },
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": true
+    },
+    {
+      "candidateId": "project-management",
+      "name": "Project Management",
+      "advisoryShortlist": [
+        "project-management",
+        "issue-triage",
+        "ml-artifact-management"
+      ],
+      "advisoryShortlistIncomplete": true,
+      "status": "advisory",
+      "reason": "ok",
+      "advisoryResult": {
+        "choice": "project-management",
+        "confidence": 1.0,
+        "probabilities": {
+          "NONE_OF_SHORTLIST": 0.0,
+          "UNCERTAIN": 0.0,
+          "issue-triage": 0.0,
+          "ml-artifact-management": 0.0,
+          "project-management": 1.0
+        },
+        "recommendation": "map-to-project-management"
+      },
+      "fallback": null,
+      "usage": {
+        "input_tokens": 568,
+        "output_tokens": 69
+      },
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": true
+    },
+    {
+      "candidateId": "trailhq/graft",
+      "name": "Codebase Graph Retrieval",
+      "advisoryShortlist": [
+        "codebase-graph-retrieval",
+        "context-safe-execution",
+        "refactor-code"
+      ],
+      "advisoryShortlistIncomplete": true,
+      "status": "advisory",
+      "reason": "ok",
+      "advisoryResult": {
+        "choice": "codebase-graph-retrieval",
+        "confidence": 1.0,
+        "probabilities": {
+          "NONE_OF_SHORTLIST": 0.0,
+          "UNCERTAIN": 0.0,
+          "codebase-graph-retrieval": 1.0,
+          "context-safe-execution": 0.0,
+          "refactor-code": 0.0
+        },
+        "recommendation": "map-to-codebase-graph-retrieval"
+      },
+      "fallback": null,
+      "usage": {
+        "input_tokens": 587,
+        "output_tokens": 80
+      },
+      "estimatedCostUsd": 0.0,
+      "reservedUsd": 0.0,
+      "cached": true
+    }
+  ]
+}
