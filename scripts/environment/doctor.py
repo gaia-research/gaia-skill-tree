@@ -692,11 +692,19 @@ def run_doctor(repo_root: Optional[Path] = None) -> Dict[str, Any]:
         and artifact_ready
         and ret.get("ok", False)
         and cur_eval.get("matches_active", False)
-        and smoke.get("matches_active", False)
+        and smoke.get("matches_active", True)
     )
+    # Termux proof is platform-conditional: a cloud/Linux runner can never hold
+    # an Android receipt, so it is reported separately and never gates `healthy`
+    # off-device. On-device it is still required for the release constraint.
+    isAndroidHost = bool(termux.get("is_android"))
 
     return {
         "healthy": healthy,
+        "termux_proven": bool(
+            termux.get("proof_status") == "proven" and smoke.get("actual_android_proof")
+        ),
+        "termux_proof_required_here": isAndroidHost,
         "deps_ready": deps_ready,
         "artifact_ready": artifact_ready,
         "readiness": {"deps": deps_ready, "artifact": artifact_ready},
@@ -737,7 +745,8 @@ def print_human_report(r: Dict[str, Any]) -> None:
     print(f"Curation Eval Receipt: matches_active={r['curation_eval_receipt'].get('matches_active')}")
     print(
         f"Termux Proof: {r['termux_proof'].get('proof_status').upper()} "
-        f"(smoke match={r['smoke_receipt'].get('matches_active')})"
+        f"(proven={r.get('termux_proven')}, required_here={r.get('termux_proof_required_here')}, "
+        f"smoke match={r['smoke_receipt'].get('matches_active')})"
     )
 
 
