@@ -91,11 +91,12 @@ timeline:
   details: synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: Host repository stars for heygen-com/hyperframes
-  stars: 44308
+  stars: 55019
   skillCountInRepo: 20
   grade: A
   sourceStartedAt: '2025-06-16'

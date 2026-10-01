@@ -140,13 +140,13 @@ evidence:
     safishamsi/graphify across 5 axes on 25-file multi-domain corpus.
 - source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-09-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
-  stars: 113188
+  stars: 122926
   grade: A
 - source: https://www.youtube.com/watch?v=q6t8xTjV5rM
   evaluator: mbtiongson1

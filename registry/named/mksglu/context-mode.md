@@ -57,12 +57,13 @@ evidence:
   contributors: 110
   grade: B
 - source: https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: Verified GitHub stars and 11 SKILL.md files at the approved canonical root
     pinned commit; license is Elastic License 2.0 (ELv2).
-  stars: 20473
+  stars: 24651
   skillCountInRepo: 11
   grade: A
 verification:

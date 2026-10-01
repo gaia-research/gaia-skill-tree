@@ -50,6 +50,7 @@ suiteComponents:
 - garrytan/concept-synthesis
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md
+  updatedAt: '2026-10-01'
   evaluator: unknown
   date: '2026-09-07'
   type: github-stars-own
@@ -57,7 +58,7 @@ evidence:
     root README documents the canonical install path and orchestrates the suite. Live
     repository has 29,650 stars and 73 bundled skills; repo-wide adoption is discounted
     by skill count.
-  stars: 29650
+  stars: 30471
   skillCountInRepo: 73
   sourceStartedAt: '2026-09-03'
   grade: A

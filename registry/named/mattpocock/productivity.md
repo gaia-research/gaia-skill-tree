@@ -107,12 +107,13 @@ suiteComponents:
 - mattpocock/write-a-skill
 evidence:
 - source: https://github.com/mattpocock/skills
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: 253k GitHub stars on mattpocock/skills — upstream repository for all productivity-suite
     components (grill-me, handoff, teach, to-questionnaire, wait-what, write-a-skill).
-  stars: 253393
+  stars: 273408
   sourceStartedAt: '2026-02-03'
   grade: A
 - source: https://github.com/mattpocock/skills

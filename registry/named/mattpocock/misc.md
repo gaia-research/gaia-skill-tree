@@ -82,13 +82,14 @@ overallTrustGrade: A
 trustMagnitudeInputHash: 111e5c7a2eef35de624c3ff3c1637f0c2ff418814d4f10ff32368a01ade90cfb
 evidence:
 - source: https://github.com/mattpocock/skills
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: '253k GitHub stars on mattpocock/skills — upstream repository hosting the
     misc/utility skills: git-guardrails-claude-code, migrate-to-shoehorn, scaffold-exercises,
     setup-pre-commit.'
-  stars: 253393
+  stars: 273408
   sourceStartedAt: '2026-02-03'
   grade: A
 - source: https://github.com/mattpocock/skills
