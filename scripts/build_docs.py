@@ -39,6 +39,12 @@ def _child_env() -> dict:
 
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser  # noqa: E402
 from gaia_cli.taxonomy import branchFor, levelNum  # noqa: E402
+from gaia_cli.trustFreshness import (  # noqa: E402
+    evaluateApiFreshness,
+    evaluateInstallabilityFreshness,
+    evaluateNamedIndexFreshness,
+    evaluateTrustLedgerFreshness,
+)
 
 # Handles permanently exempted from redaction badge-dir violations.
 # These contributors have ≤1★ skills but their _assets/ dirs are kept
@@ -918,6 +924,20 @@ def build_docs_named_index(check: bool) -> bool:
     if dst.exists() and filecmp.cmp(src, dst, shallow=False):
         return False
     if check:
+        if dst.exists():
+            try:
+                s_json = json.loads(src.read_text(encoding="utf-8"))
+                d_json = json.loads(dst.read_text(encoding="utf-8"))
+                is_material, blocking, routine = evaluateNamedIndexFreshness(d_json, s_json)
+                if not is_material:
+                    print(
+                        f"::warning::docs/graph/named/index.json has routine adoption evidence drift "
+                        f"(warn-only: {len(routine)} skill(s) updated, no structural changes).",
+                        file=sys.stderr,
+                    )
+                    return False
+            except Exception:
+                pass
         print("diff docs/graph/named/index.json")
         return True
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -967,6 +987,22 @@ def build_trust_ledger(check: bool) -> bool:
             except Exception:
                 pass
 
+            # Materiality check: distinguish routine adoption drift from material trust changes
+            try:
+                import json
+                a = json.loads(committed.read_text(encoding="utf-8"))
+                b = json.loads(out_path.read_text(encoding="utf-8"))
+                is_material, blocking, routine = evaluateTrustLedgerFreshness(a, b, repo_root=ROOT)
+                if not is_material:
+                    print(
+                        f"::warning::docs/graph/ledger/data.json has routine Trust Magnitude drift "
+                        f"(warn-only: {len(routine)} skill(s) drifted within tolerance, no grade or gate changes).",
+                        file=sys.stderr,
+                    )
+                    return False
+            except Exception:
+                pass
+
             # Emit a unified diff of the JSON payloads (with normalized timestamps/version)
             try:
                 import json, difflib
@@ -1004,6 +1040,18 @@ def build_installability_projection(check: bool) -> bool:
             print("diff docs/graph/installability/index.json (missing)")
             return True
         if committed.read_text(encoding="utf-8") != encoded:
+            try:
+                comm_doc = json.loads(committed.read_text(encoding="utf-8"))
+                is_material, blocking, routine = evaluateInstallabilityFreshness(comm_doc, document)
+                if not is_material:
+                    print(
+                        f"::warning::docs/graph/installability/index.json has content digest drift from routine "
+                        f"adoption evidence updates (warn-only: {len(routine)} skill(s) re-digested, no observation or route changes).",
+                        file=sys.stderr,
+                    )
+                    return False
+            except Exception:
+                pass
             print("diff docs/graph/installability/index.json")
             return True
         return False
@@ -1050,6 +1098,19 @@ def build_api_projection(check: bool) -> bool:
         if not drifts:
             return False
         if check:
+            try:
+                is_material, blocking, routine = evaluateApiFreshness(
+                    committed, out_dir, drifts, ledger_is_routine=True
+                )
+                if not is_material:
+                    print(
+                        f"::warning::docs/api/v1/ has routine Trust projection drift "
+                        f"(warn-only: {len(routine)} file(s) reflect routine Trust Magnitude movements).",
+                        file=sys.stderr,
+                    )
+                    return False
+            except Exception:
+                pass
             for d in drifts:
                 print(f"diff docs/api/v1/{d}")
         else:
