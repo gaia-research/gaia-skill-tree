@@ -20,7 +20,13 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
-from gaia_cli.intakeAdapter import REASON_CODES, validateL4Resolution, _canonicalDigest
+from gaia_cli.intakeAdapter import (
+    REASON_CODES,
+    SKILL_ID_RE,
+    _canonicalDigest,
+    _isExactSkillBlob,
+    validateL4Resolution,
+)
 from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket, _importPacketValidator
 from gaia_cli.curation.assessment import validateAssessment, loadGenericSemantics
 
@@ -45,13 +51,13 @@ def ratifyCommand(args):
     packetPath = args.packet_path
     decision = args.decision
     genericId = args.generic_id
-    genericName = args.generic_name
-    genericDesc = args.generic_description
-    genericType = args.generic_type
-    prereqs = args.prereqs
+    genericName = getattr(args, "generic_name", None)
+    genericDesc = getattr(args, "generic_description", None)
+    genericType = getattr(args, "generic_type", None)
+    prereqs = getattr(args, "prereqs", None)
     contributor = args.contributor
     skillName = args.skill_name
-    skillFileUrl = args.skill_file_url
+    skillFileUrl = getattr(args, "skill_file_url", None)
 
     if decision not in ("MAP", "NEW_GENERIC"):
         print(
@@ -60,19 +66,19 @@ def ratifyCommand(args):
         )
         return 1
 
-    if genericType not in ("basic", "fusion"):
+    if not SKILL_ID_RE.fullmatch(genericId):
         print(
-            f"Ratification rejected: generic_type must be 'basic' or 'fusion'.",
+            f"Ratification rejected: generic_id '{genericId}' must be a vendor-neutral kebab-case id.",
             file=sys.stderr,
         )
         return 1
 
-    split_prereqs = _splitPrereqs(prereqs)
-    if genericType == "basic" and split_prereqs:
-        print(
-            f"Ratification rejected: basic generic cannot have prerequisites (found: {split_prereqs}).",
-            file=sys.stderr,
-        )
+    if not contributor or not str(contributor).strip() or "/" in str(contributor):
+        print("Ratification rejected: contributor is required and cannot contain '/'.", file=sys.stderr)
+        return 1
+
+    if not skillName or not SKILL_ID_RE.fullmatch(str(skillName)):
+        print(f"Ratification rejected: skill_name '{skillName}' must be kebab-case.", file=sys.stderr)
         return 1
 
     # Human review acknowledgement check
@@ -147,6 +153,28 @@ def ratifyCommand(args):
         print("Ratification rejected: valid non-empty source contentSha256 is required.", file=sys.stderr)
         return 1
 
+    canonical_url = source.get("canonicalUrl")
+    if not canonical_url or not _isExactSkillBlob(canonical_url):
+        print(
+            "Ratification rejected: packet source canonicalUrl must be an exact GitHub blob URL ending in SKILL.md.",
+            file=sys.stderr,
+        )
+        return 1
+
+    # Ensure ratify source URL is tied to packet source URL/digest
+    if skillFileUrl is None or not str(skillFileUrl).strip():
+        skillFileUrl = canonical_url
+    elif skillFileUrl != canonical_url:
+        print(
+            f"Ratification rejected: --skill-file-url '{skillFileUrl}' does not match packet source canonicalUrl '{canonical_url}'.",
+            file=sys.stderr,
+        )
+        return 1
+
+    if not _isExactSkillBlob(skillFileUrl):
+        print("Ratification rejected: skillFileUrl must be an exact GitHub blob URL ending in SKILL.md.", file=sys.stderr)
+        return 1
+
     # Load and validate assessment receipt
     try:
         with open(assessment_path, "r", encoding="utf-8") as f:
@@ -162,30 +190,54 @@ def ratifyCommand(args):
         print(f"Ratification rejected: failed to load live generic semantics: {exc}", file=sys.stderr)
         return 1
 
+    split_prereqs = _splitPrereqs(prereqs)
+
     if decision == "MAP":
         if genericId not in live_catalog:
             print(f"Ratification rejected: target generic '{genericId}' does not exist in live registry.", file=sys.stderr)
             return 1
         live_node = live_catalog[genericId]
-        if live_node.get("name") is not None and live_node["name"] != genericName:
+
+        # Resolve genericName from live node if omitted; reject on mismatch (no mutating ontology via MAP)
+        if genericName is None or not str(genericName).strip():
+            genericName = live_node.get("name")
+        elif live_node.get("name") is not None and live_node["name"] != genericName:
             print(
                 f"Ratification rejected: approved generic name '{genericName}' does not match live node name '{live_node['name']}'.",
                 file=sys.stderr,
             )
             return 1
-        if live_node.get("type") is not None and live_node["type"] != genericType:
+
+        # Resolve genericType from live node if omitted; reject on mismatch
+        if genericType is None:
+            genericType = live_node.get("type", "basic")
+        elif live_node.get("type") is not None and live_node["type"] != genericType:
             print(
                 f"Ratification rejected: approved generic type '{genericType}' does not match live node type '{live_node['type']}'.",
                 file=sys.stderr,
             )
             return 1
-        if live_node.get("description") is not None and live_node["description"] != genericDesc:
+        if genericType not in ("basic", "fusion"):
+            print(
+                f"Ratification rejected: generic_type must be 'basic' or 'fusion'.",
+                file=sys.stderr,
+            )
+            return 1
+
+        # Resolve genericDesc from live node if omitted; reject on mismatch
+        if genericDesc is None or not str(genericDesc).strip():
+            genericDesc = live_node.get("description")
+        elif live_node.get("description") is not None and live_node["description"] != genericDesc:
             print(
                 "Ratification rejected: approved generic description does not match live node description.",
                 file=sys.stderr,
             )
             return 1
-        if live_node.get("prerequisites") is not None:
+
+        # Resolve prerequisites from live node if omitted; reject on mismatch
+        if prereqs is None:
+            split_prereqs = list(live_node.get("prerequisites") or [])
+        else:
             live_prereqs = sorted(live_node.get("prerequisites") or [])
             approved_prereqs = sorted(split_prereqs if genericType == "fusion" else [])
             if live_prereqs != approved_prereqs:
@@ -194,9 +246,39 @@ def ratifyCommand(args):
                     file=sys.stderr,
                 )
                 return 1
+
+        if genericType == "basic" and split_prereqs:
+            print(
+                f"Ratification rejected: basic generic cannot have prerequisites (found: {split_prereqs}).",
+                file=sys.stderr,
+            )
+            return 1
+
     elif decision == "NEW_GENERIC":
         if genericId in live_catalog:
             print(f"Ratification rejected: generic id '{genericId}' already exists in live registry.", file=sys.stderr)
+            return 1
+        if not genericName or not str(genericName).strip():
+            print("Ratification rejected: --generic-name is required for NEW_GENERIC.", file=sys.stderr)
+            return 1
+        if not genericDesc or len(str(genericDesc).strip()) < 10:
+            print(
+                "Ratification rejected: --generic-description is required for NEW_GENERIC (at least 10 characters).",
+                file=sys.stderr,
+            )
+            return 1
+        if not genericType or genericType not in ("basic", "fusion"):
+            print(
+                "Ratification rejected: --generic-type must be 'basic' or 'fusion' for NEW_GENERIC.",
+                file=sys.stderr,
+            )
+            return 1
+
+        if genericType == "basic" and split_prereqs:
+            print(
+                f"Ratification rejected: basic generic cannot have prerequisites (found: {split_prereqs}).",
+                file=sys.stderr,
+            )
             return 1
         if genericType == "fusion":
             if not split_prereqs:
@@ -319,7 +401,7 @@ def ratifyCommand(args):
         testPacket["decision"]["proposal"] = proposal
 
     # Pre-flight validation
-    resolutionErrors = validateL4Resolution(testPacket)
+    resolutionErrors = validateL4Resolution(testPacket, requireHumanReview=True)
     if resolutionErrors:
         print("Ratification validation failed:", file=sys.stderr)
         for err in resolutionErrors:

@@ -295,6 +295,279 @@ class TestDevPrefillCommand:
         assert parsed["candidateId"] == "tester/unit-runner"
         assert "retrieval" in parsed
 
+    def test_prefill_fresh_checkout_nodes_no_gaia_json(self, tmp_path, capsys):
+        """Fresh checkout with nodes/ and schema/ but no gaia.json works end-to-end."""
+        reg_dir = tmp_path / "registry"
+        nodes_dir = reg_dir / "nodes" / "basic"
+        nodes_dir.mkdir(parents=True)
+        schema_dir = reg_dir / "schema"
+        schema_dir.mkdir(parents=True)
+
+        node = {
+            "id": "automated-testing",
+            "name": "Automated Testing",
+            "description": "Frameworks and harnesses for automated software testing.",
+            "type": "basic",
+            "prerequisites": [],
+        }
+        (nodes_dir / "automated-testing.json").write_text(json.dumps(node, indent=2), encoding="utf-8")
+
+        meta_json = {
+            "curationPrefill": {
+                "strongMap": 0.72,
+                "weakMap": 0.45,
+                "topK": 3,
+            }
+        }
+        (schema_dir / "meta.json").write_text(json.dumps(meta_json, indent=2), encoding="utf-8")
+
+        # Explicitly verify no gaia.json exists
+        assert not (reg_dir / "gaia.json").exists()
+
+        _write_mock_embeddings(tmp_path)
+        vec_file = tmp_path / "test_vec.json"
+        vec_file.write_text(json.dumps({
+            "model": "all-MiniLM-L6-v2",
+            "vector": [1.0] + [0.0] * 383,
+        }), encoding="utf-8")
+
+        valid_skill_md = (
+            "---\n"
+            "name: Unit Runner\n"
+            "description: Runs unit tests with mocks.\n"
+            "---\n"
+            "# Content\n"
+        ).encode("utf-8")
+
+        args = argparse.Namespace(
+            registry=str(tmp_path),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=False,
+            json=False,
+            stdout=False,
+            fetcher=lambda url: valid_skill_md,
+        )
+        code = prefillCommand(args)
+        assert code == 0
+        captured = capsys.readouterr()
+        assert "Wrote prefilled discovery-packet-v2" in captured.out
+
+        packet_path = tmp_path / "registry-for-review" / "discovery-packets" / "tester-unit-runner.json"
+        assert packet_path.is_file()
+        packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        snapshot = packet.get("genericSnapshot")
+        assert snapshot is not None
+        assert any(g["id"] == "automated-testing" for g in snapshot.get("generics", []))
+
+    def test_atomic_receipt_failure_no_corrupted_previous_file(self, test_registry, monkeypatch, capsys):
+        """If advisory receipt atomic write fails, existing previous receipt file is preserved."""
+        _write_mock_embeddings(test_registry)
+        vec_file = test_registry / "test_vec.json"
+        vec_file.write_text(json.dumps({
+            "model": "all-MiniLM-L6-v2",
+            "vector": [1.0] + [0.0] * 383,
+        }), encoding="utf-8")
+
+        # Pre-create an existing assessment receipt file
+        curation_dir = test_registry / "generated-output" / "curation"
+        curation_dir.mkdir(parents=True, exist_ok=True)
+        assessment_file = curation_dir / "tester-unit-runner.assessment.json"
+        original_content = {"contractVersion": "pre-existing", "preserved": True}
+        assessment_file.write_text(json.dumps(original_content, indent=2), encoding="utf-8")
+
+        from gaia_cli.curation import assessment as assessment_mod
+        real_atomic_write = assessment_mod._atomic_write_json
+
+        def failing_atomic_write(path, data):
+            if str(path).endswith(".assessment.json"):
+                raise OSError("Disk write failed intentionally")
+            return real_atomic_write(path, data)
+
+        monkeypatch.setattr(assessment_mod, "_atomic_write_json", failing_atomic_write)
+        import gaia_cli.prefill as prefill_mod
+        monkeypatch.setattr(prefill_mod, "_atomic_write_json", failing_atomic_write)
+
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=False,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 0
+        captured = capsys.readouterr()
+        assert "Warning: Failed to generate advisory assessment receipt" in captured.err
+
+        # Original assessment file must be completely untouched and intact
+        assert assessment_file.is_file()
+        current_data = json.loads(assessment_file.read_text(encoding="utf-8"))
+        assert current_data == original_content
+
+    def test_prefill_vector_malformed_json_returns_one(self, test_registry, capsys):
+        """Malformed JSON in --vector file gracefully exits with code 1."""
+        _write_mock_embeddings(test_registry)
+        vec_file = test_registry / "bad_vec.json"
+        vec_file.write_text("{ this is not valid json ..", encoding="utf-8")
+
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=False,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 1
+        captured = capsys.readouterr()
+        assert "Error parsing --vector" in captured.err
+
+    def test_prefill_vector_nonfinite_returns_one(self, test_registry, capsys):
+        """Vector containing non-finite or boolean value gracefully exits with code 1."""
+        _write_mock_embeddings(test_registry)
+        vec_file = test_registry / "nan_vec.json"
+        vec_file.write_text(json.dumps([True] + [0.0] * 383), encoding="utf-8")
+
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=False,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 1
+        captured = capsys.readouterr()
+        assert "Error parsing --vector" in captured.err
+
+    def test_prefill_vector_dimension_mismatch_returns_one(self, test_registry, capsys):
+        """Vector dimension mismatch gracefully exits with code 1."""
+        _write_mock_embeddings(test_registry)
+        vec_file = test_registry / "wrong_dim_vec.json"
+        vec_file.write_text(json.dumps([1.0, 0.0, 0.0]), encoding="utf-8")
+
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=False,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 1
+        captured = capsys.readouterr()
+        assert "Error parsing --vector" in captured.err
+
+    def test_prefill_rejects_unsafe_candidate_id(self, test_registry, capsys):
+        """Candidate IDs containing path traversal or invalid characters return 1."""
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="../escape-id",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=None,
+            allow_stale=False,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 1
+        captured = capsys.readouterr()
+        assert "Invalid candidate identity" in captured.err
+
+    def test_prefill_stale_provenance_and_no_inferred_revision(self, test_registry, capsys):
+        """When --allow-stale is used on legacy embeddings, provenance is marked stale and revision is None."""
+        emb_path = os.path.join(str(test_registry), "registry", "embeddings.json")
+        os.makedirs(os.path.dirname(emb_path), exist_ok=True)
+        # Legacy artifact without config or revision
+        with open(emb_path, "w", encoding="utf-8") as f:
+            json.dump({
+                "model": "all-MiniLM-L6-v2",
+                "dimensions": 384,
+                "entries": [{"id": "automated-testing", "vector": [1.0] + [0.0] * 383}],
+            }, f)
+
+        vec_file = test_registry / "test_vec.json"
+        vec_file.write_text(json.dumps({
+            "model": "all-MiniLM-L6-v2",
+            "vector": [1.0] + [0.0] * 383,
+        }), encoding="utf-8")
+
+        args = argparse.Namespace(
+            registry=str(test_registry),
+            candidate_id="tester/unit-runner",
+            name="Unit Runner",
+            description="Runs unit tests with mocks.",
+            url="https://github.com/tester/unit-runner/blob/main/SKILL.md",
+            source_lane="source-repository",
+            suite_role=None,
+            suite_id=None,
+            component_ids=None,
+            vector=str(vec_file),
+            allow_stale=True,
+            json=False,
+            stdout=False,
+        )
+        code = prefillCommand(args)
+        assert code == 0
+
+        packet_path = test_registry / "registry-for-review" / "discovery-packets" / "tester-unit-runner.json"
+        packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        retrieval = packet["retrieval"]
+        assert retrieval["provenance"] == "stale/unverified"
+        assert retrieval["stale"] is True
+        assert retrieval["revision"] is None
+
+        assessment_file = test_registry / "generated-output" / "curation" / "tester-unit-runner.assessment.json"
+        receipt = json.loads(assessment_file.read_text(encoding="utf-8"))
+        assert receipt["retrieval"]["provenance"] == "stale/unverified"
+        assert receipt["retrieval"]["revision"] is None
+
 
 class TestDevAssessCommand:
     def test_assess_command_generates_receipt(self, test_registry, capsys):

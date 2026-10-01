@@ -21,6 +21,7 @@ from gaia_cli.commands.pushFromFile import (
     _load_yaml_file,
     _validate_skill,
     build_from_file_batch,
+    push_from_file_command,
 )
 
 
@@ -378,6 +379,138 @@ class TestBuildFromFileBatch(unittest.TestCase):
             skills, self._config(), ".", "testuser/repo"
         )
         self.assertIn("from-file", batch["batchId"])
+
+
+class TestPushFromFilePacketAuthority(unittest.TestCase):
+    """Authority boundary tests for discovery packets submitted via push --from-file."""
+
+    def _make_packet(self, with_human_review=False):
+        valid_sha = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        options = [{
+            "genericId": "research", "rationale": "Match",
+            "similarity": 0.95, "matchTier": "strong",
+        }]
+        generics = [{"id": "research", "kind": "generic"}]
+        import json, hashlib
+        digest = lambda v: hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        packet = {
+            "contractVersion": "discovery-packet-v2",
+            "candidateId": "alice/some-skill",
+            "lifecycle": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"],
+            "artifactGate": "valid-skill",
+            "source": {
+                "canonicalUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+                "hostRepository": "https://github.com/alice/some-skill",
+                "sourceLane": "source-repository",
+                "fetchedAt": "2026-09-11T12:00:00Z",
+                "contentSha256": valid_sha,
+            },
+            "mappingOptions": options,
+            "genericSnapshot": {
+                "capturedAt": "2026-09-11T12:00:00Z",
+                "command": "gaia dev list --generic --json",
+                "generics": generics,
+                "contentSha256": digest(generics),
+                "mappingOptionsSha256": digest(options),
+            },
+            "decision": {
+                "value": "MAP",
+                "reasonCode": "L4_RATIFIED_MAP",
+                "genericId": "research",
+            },
+            "l4Resolution": {
+                "status": "approved",
+                "generic": {
+                    "id": "research",
+                    "name": "Research",
+                    "description": "A valid generic capability description.",
+                    "type": "basic",
+                    "prerequisites": [],
+                },
+                "named": {
+                    "contributor": "alice",
+                    "skillName": "some-skill",
+                },
+                "skillFileUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+            },
+        }
+        if with_human_review:
+            packet["l4Resolution"]["humanReview"] = {
+                "reviewedBy": "curator-bob",
+                "approvalRef": "https://github.com/gaia-research/gaia-skill-tree/issues/123",
+                "rationale": "Human review confirms candidate meets principles.",
+                "reviewedAt": "2026-09-11T12:00:00Z",
+                "assessmentPath": "/tmp/portable-laptop-path/assessment.json",
+                "assessmentReceiptDigest": valid_sha,
+                "operatorOverride": False,
+                "humanOverride": False,
+                "attestation": "Local file attestation; does not cryptographically authenticate a human.",
+            }
+        return packet
+
+    def test_missing_human_review_push_rejects(self):
+        import json, tempfile
+        packet = self._make_packet(with_human_review=False)
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(packet, f)
+            packet_path = f.name
+        try:
+            data, err = _load_yaml_file(packet_path)
+            self.assertIsNone(data)
+            self.assertIn("legacy packet must be human-ratified with gaia dev ratify", err)
+        finally:
+            os.remove(packet_path)
+
+    def test_missing_human_review_push_command_fails_with_no_output(self):
+        import contextlib, io, json, tempfile
+        from types import SimpleNamespace
+        packet = self._make_packet(with_human_review=False)
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(packet, f)
+            packet_path = f.name
+        try:
+            args = SimpleNamespace(fromFile=packet_path, dry_run=True, yes=True, no_issue=True)
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                rc = push_from_file_command(args)
+            self.assertEqual(rc, 1)
+            self.assertIn("legacy packet must be human-ratified with gaia dev ratify", stderr.getvalue())
+            # Output must NOT contain any dry-run batch JSON or issue body
+            self.assertNotIn("Dry run — batch JSON", stdout.getvalue())
+            self.assertNotIn("proposedSkills", stdout.getvalue())
+        finally:
+            os.remove(packet_path)
+
+    def test_valid_reviewed_packet_push_succeeds(self):
+        import contextlib, io, json, tempfile
+        from types import SimpleNamespace
+        packet = self._make_packet(with_human_review=True)
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(packet, f)
+            packet_path = f.name
+        try:
+            args = SimpleNamespace(fromFile=packet_path, dry_run=True, yes=True, no_issue=True)
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                rc = push_from_file_command(args)
+            self.assertEqual(rc, 0)
+            self.assertIn("Dry run — batch JSON", stdout.getvalue())
+            self.assertIn("research", stdout.getvalue())
+        finally:
+            os.remove(packet_path)
+
+    def test_legacy_read_accepted_without_human_review(self):
+        from gaia_cli.intakeAdapter import validateL4Resolution, buildIntakeSkill, buildIntakeYaml
+        packet = self._make_packet(with_human_review=False)
+        self.assertNotIn("humanReview", packet["l4Resolution"])
+        errors = validateL4Resolution(packet, requireHumanReview=False)
+        self.assertEqual(errors, [])
+        skill = buildIntakeSkill(packet, requireHumanReview=False)
+        self.assertEqual(skill["id"], "research")
+        yaml_data = buildIntakeYaml(packet, requireHumanReview=False)
+        self.assertEqual(len(yaml_data["skills"]), 1)
 
 
 if __name__ == "__main__":

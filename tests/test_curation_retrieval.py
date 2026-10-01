@@ -236,6 +236,26 @@ class TestSemanticFingerprint:
         cfg2["queryPrefix"] = "Query prefix: "
         assert semanticFingerprint(sample_skills, config=cfg1) != semanticFingerprint(sample_skills, config=cfg2)
 
+    def test_pooling_aliases_normalization_same_fingerprint(self, sample_skills):
+        """Equivalent pooling aliases produce identical semanticFingerprint."""
+        fp1 = semanticFingerprint(sample_skills, {"modelId": "all-MiniLM-L6-v2", "pooling": "mean"})
+        fp2 = semanticFingerprint(sample_skills, {"modelId": "all-MiniLM-L6-v2", "pooling": "mean_tokens"})
+        assert fp1 == fp2
+
+        fp_cls1 = semanticFingerprint(sample_skills, {"modelId": "BAAI/bge-small-en-v1.5", "pooling": "cls"})
+        fp_cls2 = semanticFingerprint(sample_skills, {"modelId": "BAAI/bge-small-en-v1.5", "pooling": "cls_token"})
+        assert fp_cls1 == fp_cls2
+
+        fp_last1 = semanticFingerprint(sample_skills, {"modelId": "Qwen/Qwen3-Embedding-0.6B", "pooling": "last_token"})
+        fp_last2 = semanticFingerprint(sample_skills, {"modelId": "Qwen/Qwen3-Embedding-0.6B", "pooling": "lasttoken"})
+        assert fp_last1 == fp_last2
+
+    def test_model_alias_normalization_same_fingerprint(self, sample_skills):
+        """Model alias in config produces same fingerprint as canonical modelId."""
+        fp1 = semanticFingerprint(sample_skills, {"modelId": "all-MiniLM-L6-v2"})
+        fp2 = semanticFingerprint(sample_skills, {"modelId": "sentence-transformers/all-MiniLM-L6-v2"})
+        assert fp1 == fp2
+
 
 class TestEmbeddingStatus:
     """Tests for embeddingStatus / embedding_status."""
@@ -570,6 +590,31 @@ class TestValidationAndSearchSafety:
         with pytest.raises(FileNotFoundError, match="gaia dev embed"):
             load_embeddings(str(tmp_path / "nonexistent.json"))
 
+    def test_search_explicit_config_alias_canonicalization_no_mismatch(self, tmp_path):
+        """Passing alias like sentence-transformers/all-MiniLM-L6-v2 does not cause false mismatch."""
+        skills = [{"id": "automated-testing", "name": "Automated Testing", "description": "Testing desc"}]
+        cfg = loadRetrievalConfig(modelName="all-MiniLM-L6-v2")
+        fp = semanticFingerprint(skills, cfg)
+        entries = [{"id": "automated-testing", "vector": [1.0] + [0.0] * 383}]
+        emb_path = tmp_path / "embeddings.json"
+        saveEmbeddingsAtomic(
+            entries=entries,
+            outputPath=str(emb_path),
+            modelName="all-MiniLM-L6-v2",
+            dimensions=384,
+            fingerprint=fp,
+            config=cfg,
+        )
+
+        with patch("gaia_cli.semantic_search.embed_query", return_value=[1.0] + [0.0] * 383):
+            results = search(
+                "query",
+                str(emb_path),
+                config={"modelId": "sentence-transformers/all-MiniLM-L6-v2"},
+            )
+            assert len(results) == 1
+            assert results[0]["id"] == "automated-testing"
+
 
 class TestModelCacheAndExecution:
     """Tests for model caching and generation orchestration (mocked encoder)."""
@@ -634,6 +679,24 @@ class TestModelCacheAndExecution:
         embed_query("test", revision="explicit-query-sha")
         m = getSentenceTransformer("all-MiniLM-L6-v2", revision="explicit-query-sha")
         assert m.kwargs["revision"] == "explicit-query-sha"
+
+    @patch("sentence_transformers.SentenceTransformer", side_effect=MockSentenceTransformer)
+    def test_same_model_alias_cache_hit(self, mock_cls):
+        """Calling getSentenceTransformer with alias or canonical modelId hits same cache."""
+        clearModelCache()
+        m1 = getSentenceTransformer("all-MiniLM-L6-v2")
+        m2 = getSentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+        assert m1 is m2
+        assert mock_cls.call_count == 1
+        assert len(getModelCache()) == 1
+
+    @patch("sentence_transformers.SentenceTransformer", side_effect=MockSentenceTransformer)
+    def test_explicit_revision_overrides_and_forwards(self, mock_cls):
+        """Explicit revision arg forwards and overrides default pinned revision."""
+        clearModelCache()
+        model = getSentenceTransformer("all-MiniLM-L6-v2", revision="explicit-sha-456")
+        assert model.kwargs["revision"] == "explicit-sha-456"
+        assert ("all-MiniLM-L6-v2", "explicit-sha-456", "torch") in getModelCache()
 
     def test_load_skills_fails_on_malformed_canonical_node_json(self, tmp_path):
         nodes_dir = tmp_path / "registry" / "nodes" / "basic"

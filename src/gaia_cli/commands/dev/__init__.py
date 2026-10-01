@@ -64,8 +64,8 @@ Registry development commands (requires Verifier authorization):
   gaia dev prefill <candidate_id> --name ... --description ... --url ... [--vector <file>] [--allow-stale]
   gaia dev assess <packet_path> [--output <path>] [--jev {off,offline,live}] [--state-dir <dir>]
   gaia dev ratify <packet_path> --decision {MAP,NEW_GENERIC} --generic-id ... \\
-           --generic-name ... --generic-description ... --generic-type {basic,fusion} \\
-           [--prereqs a,b,c] --contributor ... --skill-name ... --skill-file-url ... \\
+           [--generic-name ...] [--generic-description ...] [--generic-type {basic,fusion}] \\
+           [--prereqs a,b,c] --contributor ... --skill-name ... [--skill-file-url ...] \\
            --assessment <path> --reviewed-by <user> --approval-ref <ref> --reason <reason> \\
            --acknowledge-human-review
   gaia dev embed [--model <model>] [--force] [--check] [--output <path>]
@@ -223,23 +223,26 @@ class DevCommand(Command):
         )
         dev_ratify.add_argument(
             "--generic-name",
-            required=True,
-            help="Generic skill name",
+            required=False,
+            default=None,
+            help="Generic skill name (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--generic-description",
-            required=True,
-            help="Generic skill description (at least 10 characters)",
+            required=False,
+            default=None,
+            help="Generic skill description (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--generic-type",
             choices=("basic", "fusion"),
-            required=True,
-            help="Generic skill type",
+            required=False,
+            default=None,
+            help="Generic skill type (optional for MAP, resolved from live registry node; required for NEW_GENERIC)",
         )
         dev_ratify.add_argument(
             "--prereqs",
-            help="Comma-separated prerequisites (fusion skills only)",
+            help="Comma-separated prerequisites (fusion skills only; resolved from live node for MAP if omitted)",
         )
         dev_ratify.add_argument(
             "--contributor",
@@ -253,8 +256,9 @@ class DevCommand(Command):
         )
         dev_ratify.add_argument(
             "--skill-file-url",
-            required=True,
-            help="GitHub blob URL to the upstream SKILL.md",
+            required=False,
+            default=None,
+            help="GitHub blob URL to the upstream SKILL.md (defaults to packet source canonicalUrl)",
         )
         dev_ratify.add_argument(
             "--assessment",

@@ -22,9 +22,11 @@ import re
 import sys
 import urllib.request
 from datetime import datetime, timezone
+from pathlib import Path
 
-from gaia_cli.curation.assessment import buildAssessment
+from gaia_cli.curation.assessment import _atomic_write_json, buildAssessment
 from gaia_cli.curation.retrieval import (
+    canonicalize_model_id,
     embeddingStatus,
     loadRetrievalConfig,
     validateVector,
@@ -58,6 +60,20 @@ REVIEW_READY_LIFECYCLE = [
     "mapped",
     "review-ready",
 ]
+
+# Safe candidate identifier regex: alphanumeric, _, ., - segments joined by /
+SAFE_CANDIDATE_RE = re.compile(r"^[a-zA-Z0-9_.-]+(/[a-zA-Z0-9_.-]+)*$")
+
+
+def safeCandidateSlug(candidateId: str) -> str:
+    """Validate candidateId format and convert to safe filename slug."""
+    if not isinstance(candidateId, str) or not candidateId.strip():
+        raise ValueError("Candidate ID must be a non-empty string")
+    cleanId = candidateId.strip()
+    if not SAFE_CANDIDATE_RE.fullmatch(cleanId) or ".." in cleanId:
+        raise ValueError(f"Unsafe or invalid candidateId: {candidateId!r}")
+    return cleanId.replace("/", "-")
+
 
 # GitHub blob URL pattern for extracting owner/repo/branch/path
 GITHUB_BLOB_RE = re.compile(
@@ -159,12 +175,10 @@ def parseFrontmatter(text):
 def buildGenericSnapshot(registryPath):
     """Build a frozen genericSnapshot matching `gaia dev list --generic --json`.
 
-    registry/gaia.json's top-level "skills" array holds only generic (canonical)
-    nodes — raw entries carry no "kind" field (that field is synthesized by
-    meta_list_command / commands/dev/list.py at output time, not present on
-    disk). This mirrors that synthesis exactly: {id, name, kind: "generic"} per
-    entry, matching the shape validate_discovery_packet.py's mapped-block subset
-    check expects (it filters snapshot rows on kind == "generic").
+    Prefers canonical source nodes under registry/nodes/ (sorted by id) when present,
+    falling back to the legacy registry/gaia.json graph file for backward compatibility.
+    This ensures prefill works on fresh checkouts where generated gaia.json is absent.
+    If the nodes/ directory exists but is empty, it does not fall back to a stale graph.
 
     Returns a dict with:
         {
@@ -174,23 +188,53 @@ def buildGenericSnapshot(registryPath):
             "contentSha256": canonical digest of generics array,
             "mappingOptionsSha256": will be set separately per packet
         }
-    Returns None if the registry/gaia.json is not found or has no skills.
+    Returns None if neither canonical nodes nor gaia.json are found, or contain no skills.
     """
-    gaia_json_path = os.path.join(registry_dir(registryPath), "gaia.json")
-    if not os.path.exists(gaia_json_path):
-        return None
+    reg_dir = registry_dir(registryPath)
+    nodes_dir = os.path.join(reg_dir, "nodes")
+    generics = []
 
-    try:
-        with open(gaia_json_path, "r", encoding="utf-8") as f:
-            graph_data = json.load(f)
-    except (OSError, json.JSONDecodeError):
-        return None
-
-    generics = [
-        {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
-        for skill in graph_data.get("skills", [])
-        if isinstance(skill, dict) and "id" in skill
-    ]
+    if os.path.isdir(nodes_dir):
+        node_files = sorted(Path(nodes_dir).rglob("*.json"))
+        for p in node_files:
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, dict) and isinstance(data.get("id"), str) and data["id"].strip():
+                    generics.append({
+                        "id": data["id"],
+                        "name": data.get("name"),
+                        "kind": "generic",
+                    })
+            except (OSError, json.JSONDecodeError):
+                continue
+        seen = set()
+        unique_generics = []
+        for g in generics:
+            if g["id"] not in seen:
+                seen.add(g["id"])
+                unique_generics.append(g)
+        unique_generics.sort(key=lambda x: x["id"])
+        generics = unique_generics
+    else:
+        # Fallback graph legacy when nodes/ directory does not exist
+        gaia_json_path = os.path.join(reg_dir, "gaia.json")
+        if os.path.exists(gaia_json_path):
+            try:
+                with open(gaia_json_path, "r", encoding="utf-8") as f:
+                    graph_data = json.load(f)
+                legacy_generics = [
+                    {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
+                    for skill in graph_data.get("skills", [])
+                    if isinstance(skill, dict) and isinstance(skill.get("id"), str) and skill["id"].strip()
+                ]
+                seen = set()
+                for g in legacy_generics:
+                    if g["id"] not in seen:
+                        seen.add(g["id"])
+                        generics.append(g)
+            except (OSError, json.JSONDecodeError):
+                return None
 
     if not generics:
         return None
@@ -315,9 +359,16 @@ def parseAndValidateVector(
 ):
     """Parse and strictly validate precomputed query vector.
 
+    Note: On the CLI, `--vector FILE` intentionally requires a file path (to keep
+    command-line invocations safe, bounded, and free of shell-escaping issues).
+    This function additionally accepts in-memory dicts, lists, or JSON strings
+    for programmatic and testing convenience.
+
     Accepts:
+      - Filepath containing an envelope or plain list
       - Envelope object: {"model": str, "revision": Optional[str], "vector": list[float]}
       - Plain list: [float, ...] (tied to active artifact)
+      - JSON string representation of either
 
     Rejects non-finite values (inf, -inf, NaN) and booleans.
     Verifies model and revision match active artifact configuration if present.
@@ -328,7 +379,10 @@ def parseAndValidateVector(
             with open(vectorSource, "r", encoding="utf-8") as f:
                 data = json.load(f)
         else:
-            data = json.loads(vectorSource)
+            try:
+                data = json.loads(vectorSource)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Failed to parse vector JSON: {exc}") from exc
     elif isinstance(vectorSource, (dict, list)):
         data = vectorSource
     else:
@@ -341,10 +395,13 @@ def parseAndValidateVector(
         model_in_env = data.get("model")
         rev_in_env = data.get("revision")
 
-        if model_in_env and expectedModel and model_in_env != expectedModel:
-            raise ValueError(
-                f"Vector model '{model_in_env}' does not match active artifact model '{expectedModel}'"
-            )
+        if model_in_env and expectedModel:
+            norm_env_model = canonicalize_model_id(model_in_env) or model_in_env
+            norm_exp_model = canonicalize_model_id(expectedModel) or expectedModel
+            if norm_env_model != norm_exp_model:
+                raise ValueError(
+                    f"Vector model '{model_in_env}' does not match active artifact model '{expectedModel}'"
+                )
         if rev_in_env is not None and expectedRevision is not None and rev_in_env != expectedRevision:
             raise ValueError(
                 f"Vector revision '{rev_in_env}' does not match active artifact revision '{expectedRevision}'"
@@ -406,6 +463,8 @@ def buildPrefillPacket(
     suite=None,
     fetcher=None,
     config=None,
+    staleStatus=None,
+    allowStale=False,
 ):
     """Assemble a discovery-packet-v2 with prefilled mappingOptions and source fields.
 
@@ -533,12 +592,24 @@ def buildPrefillPacket(
     }
 
     # Add retrieval provenance metadata
-    packet["retrieval"] = {
+    # Never infer revision for legacy unmanifested artifacts
+    artifact_config = embeddings.get("config") if isinstance(embeddings.get("config"), dict) else None
+    artifact_rev = embeddings.get("revision") or (artifact_config.get("revision") if artifact_config else None)
+
+    retrieval_meta = {
         "model": effectiveModel,
-        "revision": retrievalConfig.get("revision") if isinstance(retrievalConfig, dict) else None,
+        "revision": artifact_rev,
         "fingerprint": embeddings.get("fingerprint"),
         "thresholds": thresholds,
     }
+    if staleStatus or allowStale:
+        retrieval_meta["provenance"] = "stale/unverified"
+        retrieval_meta["stale"] = True
+        if staleStatus:
+            retrieval_meta["status"] = staleStatus
+        if allowStale:
+            retrieval_meta["allowStale"] = True
+    packet["retrieval"] = retrieval_meta
 
     # Add source fields when fetched
     if hostRepository is not None:
@@ -683,14 +754,15 @@ def validateDiscoveryPackets(registryPath, trustedGenerics=None):
 
 
 def writePacket(packet, registryPath):
-    """Write a packet to registry-for-review/discovery-packets/<candidateId>.json."""
-    outDir = discoveryPacketsDir(registryPath)
-    os.makedirs(outDir, exist_ok=True)
-    slug = packet["candidateId"].replace("/", "-")
-    outPath = os.path.join(outDir, f"{slug}.json")
-    with open(outPath, "w", encoding="utf-8") as f:
-        json.dump(packet, f, indent=2)
-    return outPath
+    """Write a packet to registry-for-review/discovery-packets/<candidateId>.json atomically."""
+    slug = safeCandidateSlug(packet.get("candidateId", ""))
+    outDir = Path(discoveryPacketsDir(registryPath)).resolve()
+    outDir.mkdir(parents=True, exist_ok=True)
+    outPath = (outDir / f"{slug}.json").resolve()
+    if not str(outPath).startswith(str(outDir) + os.sep):
+        raise ValueError(f"Candidate path escapes target directory: {outPath}")
+    _atomic_write_json(outPath, packet)
+    return str(outPath)
 
 
 def prefillCommand(args):
@@ -699,6 +771,13 @@ def prefillCommand(args):
     Non-mutating: writes to registry-for-review/discovery-packets/, never the
     registry. Reads thresholds from meta.json at runtime.
     """
+    candidate_id = getattr(args, "candidate_id", None)
+    try:
+        slug = safeCandidateSlug(candidate_id or "")
+    except ValueError as exc:
+        print(f"Error: Invalid candidate identity: {exc}", file=sys.stderr)
+        return 1
+
     registryPath = getattr(args, "registry", ".") or "."
     thresholds = loadPrefillThresholds(registryPath)
 
@@ -770,7 +849,7 @@ def prefillCommand(args):
             return 1
         expected_dim = embeddings.get("dimensions") or (retrievalCfg.get("dimensions") if retrievalCfg else 384)
         expected_model = (retrievalCfg.get("modelId") if retrievalCfg else None) or embeddings.get("model")
-        expected_rev = retrievalCfg.get("revision") if retrievalCfg else None
+        expected_rev = embeddings.get("revision") or (embeddings.get("config", {}).get("revision") if isinstance(embeddings.get("config"), dict) else None)
         try:
             precomputedVector = parseAndValidateVector(
                 vector_file,
@@ -807,6 +886,8 @@ def prefillCommand(args):
             suite=suite,
             config=retrievalCfg,
             fetcher=getattr(args, "fetcher", None),
+            staleStatus=status_val if status_val in ("stale", "invalid") else None,
+            allowStale=allow_stale,
         )
     except ImportError:
         print(
@@ -829,7 +910,12 @@ def prefillCommand(args):
         print(json.dumps(packet, indent=2))
         return 0
 
-    outPath = writePacket(packet, registryPath)
+    try:
+        outPath = writePacket(packet, registryPath)
+    except Exception as exc:
+        print(f"Error writing packet: {exc}", file=sys.stderr)
+        return 1
+
     strong = sum(1 for o in packet["mappingOptions"] if o["matchTier"] == "strong")
     weak = sum(1 for o in packet["mappingOptions"] if o["matchTier"] == "weak")
     print(f"Wrote prefilled discovery-packet-v2 to {outPath}")
@@ -837,16 +923,18 @@ def prefillCommand(args):
     print(f"  flags: {len(packet['flags'])}")
 
     # Automatic advisory assessment receipt generation for disk writes
-    slug = packet["candidateId"].replace("/", "-")
-    curation_out_dir = os.path.join(generated_output_dir(registryPath), "curation")
-    os.makedirs(curation_out_dir, exist_ok=True)
-    assessment_path = os.path.join(curation_out_dir, f"{slug}.assessment.json")
-    try:
-        receipt = buildAssessment(packet, registryPath=registryPath, client=None)
-        with open(assessment_path, "w", encoding="utf-8") as f:
-            json.dump(receipt, f, indent=2)
-        print(f"Wrote advisory assessment receipt to {assessment_path}")
-    except Exception as exc:
-        print(f"Warning: Failed to generate advisory assessment receipt: {exc}", file=sys.stderr)
+    curation_out_dir = Path(generated_output_dir(registryPath)) / "curation"
+    curation_out_dir.mkdir(parents=True, exist_ok=True)
+    curation_out_dir_resolved = curation_out_dir.resolve()
+    assessment_path = (curation_out_dir / f"{slug}.assessment.json").resolve()
+    if not str(assessment_path).startswith(str(curation_out_dir_resolved) + os.sep):
+        print(f"Warning: Assessment path escapes target directory: {assessment_path}", file=sys.stderr)
+    else:
+        try:
+            receipt = buildAssessment(packet, registryPath=registryPath, client=None)
+            _atomic_write_json(assessment_path, receipt)
+            print(f"Wrote advisory assessment receipt to {assessment_path}")
+        except Exception as exc:
+            print(f"Warning: Failed to generate advisory assessment receipt: {exc}", file=sys.stderr)
 
     return 0

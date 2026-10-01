@@ -237,6 +237,133 @@ class TestRatifyMapDecision:
         rc = ratifyCommand(args)
         assert rc == 1
 
+    def test_map_ratification_resolves_optional_generic_metadata_from_live_node(self, tmp_path):
+        """--generic-name/description/type/prereqs are optional for MAP and resolve from live node."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        # Omit generic_name, generic_description, generic_type, prereqs
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            generic_name=None,
+            generic_description=None,
+            generic_type=None,
+            prereqs=None,
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 0
+
+        with open(packet_path) as f:
+            updated = json.load(f)
+        gen = updated["l4Resolution"]["generic"]
+        assert gen["name"] == "Test Skill"
+        assert gen["description"] == "A test skill for mapping."
+        assert gen["type"] == "basic"
+        assert gen["prerequisites"] == []
+
+    def test_map_ratification_defaults_skill_file_url_from_packet_source(self, tmp_path):
+        """--skill-file-url defaults to packet source canonicalUrl if omitted."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            skill_file_url=None,
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 0
+
+        with open(packet_path) as f:
+            updated = json.load(f)
+        assert updated["l4Resolution"]["skillFileUrl"] == packet["source"]["canonicalUrl"]
+
+    def test_map_ratification_rejects_mismatching_generic_name(self, tmp_path, capsys):
+        """Supplying a mismatching generic name rejects to prevent mutating ontology via MAP."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            generic_name="Altered Generic Name",
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 1
+        captured = capsys.readouterr()
+        assert "does not match live node name" in captured.err
+
+    def test_map_ratification_rejects_mismatching_generic_description(self, tmp_path, capsys):
+        """Supplying a mismatching generic description rejects to prevent mutating ontology via MAP."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            generic_description="Altered description that is long enough to pass min length.",
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 1
+        captured = capsys.readouterr()
+        assert "does not match live node description" in captured.err
+
+    def test_map_ratification_rejects_mismatching_generic_type(self, tmp_path, capsys):
+        """Supplying a mismatching generic type rejects to prevent mutating ontology via MAP."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            generic_type="fusion",
+            prereqs="skill-c",
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 1
+        captured = capsys.readouterr()
+        assert "does not match live node type" in captured.err
+
+    def test_map_ratification_rejects_mismatching_skill_file_url(self, tmp_path, capsys):
+        """Explicit skill-file-url must match packet source canonicalUrl."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            skill_file_url="https://github.com/different/repo/blob/main/SKILL.md",
+        )
+
+        rc = ratifyCommand(args)
+        assert rc == 1
+        captured = capsys.readouterr()
+        assert "does not match packet source canonicalUrl" in captured.err
+
 
 class TestRatifyNewGenericDecision:
     """Test NEW_GENERIC ratification (create new generic node)."""
@@ -319,6 +446,69 @@ class TestHumanReviewEnforcement:
 
         rc = ratifyCommand(args)
         assert rc == 1
+
+    def test_new_generic_requires_generic_name(self, tmp_path, capsys):
+        """NEW_GENERIC requires explicit --generic-name."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            decision="NEW_GENERIC",
+            generic_id="new-skill",
+            generic_name=None,
+            generic_description="A valid generic description.",
+            generic_type="basic",
+        )
+        assert ratifyCommand(args) == 1
+        captured = capsys.readouterr()
+        assert "--generic-name is required for NEW_GENERIC" in captured.err
+
+    def test_new_generic_requires_generic_description(self, tmp_path, capsys):
+        """NEW_GENERIC requires explicit --generic-description."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            decision="NEW_GENERIC",
+            generic_id="new-skill",
+            generic_name="New Skill",
+            generic_description="",
+            generic_type="basic",
+        )
+        assert ratifyCommand(args) == 1
+        captured = capsys.readouterr()
+        assert "--generic-description is required for NEW_GENERIC" in captured.err
+
+    def test_new_generic_requires_generic_type(self, tmp_path, capsys):
+        """NEW_GENERIC requires explicit --generic-type."""
+        packet = _makeDeferredMappedPacket()
+        packet_path = tmp_path / "test.json"
+        with open(packet_path, "w") as f:
+            json.dump(packet, f)
+
+        args = _makeRatifyArgs(
+            tmp_path,
+            packet,
+            packet_path,
+            decision="NEW_GENERIC",
+            generic_id="new-skill",
+            generic_name="New Skill",
+            generic_description="A valid generic description.",
+            generic_type=None,
+        )
+        assert ratifyCommand(args) == 1
+        captured = capsys.readouterr()
+        assert "--generic-type must be 'basic' or 'fusion' for NEW_GENERIC" in captured.err
 
     def test_reject_without_reviewer_or_approval_ref_or_reason(self, tmp_path):
         packet = _makeDeferredMappedPacket()

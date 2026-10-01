@@ -374,3 +374,91 @@ class TestRetrievalProvenance:
         assert retrieval["model"] == "all-MiniLM-L6-v2"
         assert retrieval["fingerprint"] == "abc123fingerprint"
         assert retrieval["thresholds"] == THRESHOLDS
+
+    def test_legacy_artifact_has_no_inferred_revision(self):
+        """When embeddings artifact has no manifest/config, revision must be None (never inferred)."""
+        emb = makeEmbeddings()  # legacy artifact without config or revision
+        packet = prefill.buildPrefillPacket(
+            candidateId="author/skill",
+            name="Skill",
+            description="Skill description.",
+            canonicalUrl="https://github.com/author/skill/blob/main/SKILL.md",
+            sourceLane="source-repository",
+            embeddings=emb,
+            thresholds=THRESHOLDS,
+            precomputedVector=[1.0, 0.0, 0.0],
+        )
+        assert packet["retrieval"]["revision"] is None
+
+
+class TestGenericSnapshot:
+    def test_build_generic_snapshot_from_canonical_nodes_no_gaia_json(self, tmp_path):
+        """Fresh checkout with nodes/ directory but no gaia.json builds sorted generic snapshot."""
+        nodes_basic = tmp_path / "registry" / "nodes" / "basic"
+        nodes_fusion = tmp_path / "registry" / "nodes" / "fusion"
+        nodes_basic.mkdir(parents=True)
+        nodes_fusion.mkdir(parents=True)
+
+        (nodes_basic / "zebra-skill.json").write_text(json.dumps({
+            "id": "zebra-skill",
+            "name": "Zebra Skill",
+            "type": "basic",
+        }))
+        (nodes_fusion / "alpha-skill.json").write_text(json.dumps({
+            "id": "alpha-skill",
+            "name": "Alpha Skill",
+            "type": "fusion",
+        }))
+
+        snapshot = prefill.buildGenericSnapshot(tmp_path)
+        assert snapshot is not None
+        assert snapshot["command"] == "gaia dev list --generic --json"
+        generics = snapshot["generics"]
+        assert len(generics) == 2
+        # Must be sorted by id
+        assert generics[0]["id"] == "alpha-skill"
+        assert generics[0]["kind"] == "generic"
+        assert generics[1]["id"] == "zebra-skill"
+        assert generics[1]["kind"] == "generic"
+
+    def test_empty_nodes_dir_does_not_fallback_to_stale_gaia_json(self, tmp_path):
+        """Intentional empty registry with nodes/ directory must not fall back to stale gaia.json."""
+        nodes_dir = tmp_path / "registry" / "nodes"
+        nodes_dir.mkdir(parents=True)
+        # Create stale gaia.json
+        (tmp_path / "registry" / "gaia.json").write_text(json.dumps({
+            "skills": [{"id": "stale-generic", "name": "Stale"}]
+        }))
+
+        snapshot = prefill.buildGenericSnapshot(tmp_path)
+        assert snapshot is None
+
+    def test_fallback_to_legacy_gaia_json_when_no_nodes_dir(self, tmp_path):
+        """Legacy registry without nodes/ directory falls back to gaia.json."""
+        reg_dir = tmp_path / "registry"
+        reg_dir.mkdir(parents=True)
+        (reg_dir / "gaia.json").write_text(json.dumps({
+            "skills": [{"id": "legacy-generic", "name": "Legacy Generic"}]
+        }))
+
+        snapshot = prefill.buildGenericSnapshot(tmp_path)
+        assert snapshot is not None
+        assert len(snapshot["generics"]) == 1
+        assert snapshot["generics"][0]["id"] == "legacy-generic"
+
+
+class TestSafeCandidateSlug:
+    def test_valid_slugs(self):
+        assert prefill.safeCandidateSlug("owner/repo") == "owner-repo"
+        assert prefill.safeCandidateSlug("org/sub-team/repo") == "org-sub-team-repo"
+        assert prefill.safeCandidateSlug("simple-id") == "simple-id"
+
+    def test_reject_unsafe_path_traversal(self):
+        with pytest.raises(ValueError, match="Unsafe or invalid"):
+            prefill.safeCandidateSlug("../traversal")
+        with pytest.raises(ValueError, match="Unsafe or invalid"):
+            prefill.safeCandidateSlug("foo/../../bar")
+        with pytest.raises(ValueError, match="non-empty string"):
+            prefill.safeCandidateSlug("")
+        with pytest.raises(ValueError, match="Unsafe or invalid"):
+            prefill.safeCandidateSlug("bad space/id")

@@ -68,38 +68,52 @@ def normalize_pooling_mode(mode: Any) -> str:
 
 def extract_model_pooling(model: Any) -> Optional[str]:
     """Inspect model or its modules to determine native pooling mode."""
-    if hasattr(model, "pooling") and model.pooling:
-        return normalize_pooling_mode(model.pooling)
-    if hasattr(model, "pooling_mode") and model.pooling_mode:
-        return normalize_pooling_mode(model.pooling_mode)
+    pool_attr = getattr(model, "pooling", None)
+    if isinstance(pool_attr, str) and pool_attr.strip():
+        return normalize_pooling_mode(pool_attr)
+    mode_attr = getattr(model, "pooling_mode", None)
+    if isinstance(mode_attr, str) and mode_attr.strip():
+        return normalize_pooling_mode(mode_attr)
 
     if hasattr(model, "modules") and callable(model.modules):
-        for mod in model.modules():
+        try:
+            mods = model.modules()
+        except Exception:
+            mods = []
+        for mod in mods:
             if mod is model:
                 continue
-            if hasattr(mod, "pooling_mode") and mod.pooling_mode:
-                return normalize_pooling_mode(mod.pooling_mode)
+            mod_pool = getattr(mod, "pooling_mode", None)
+            if isinstance(mod_pool, str) and mod_pool.strip():
+                return normalize_pooling_mode(mod_pool)
             if hasattr(mod, "get_config_dict") and callable(mod.get_config_dict):
-                cd = mod.get_config_dict()
-                if isinstance(cd, dict) and "pooling_mode" in cd:
-                    return normalize_pooling_mode(cd["pooling_mode"])
-            if getattr(mod, "pooling_mode_cls_token", False):
+                try:
+                    cd = mod.get_config_dict()
+                    if isinstance(cd, dict) and isinstance(cd.get("pooling_mode"), str):
+                        return normalize_pooling_mode(cd["pooling_mode"])
+                except Exception:
+                    pass
+            if getattr(mod, "pooling_mode_cls_token", False) is True:
                 return "cls"
-            if getattr(mod, "pooling_mode_mean_tokens", False):
+            if getattr(mod, "pooling_mode_mean_tokens", False) is True:
                 return "mean"
-            if getattr(mod, "pooling_mode_max_tokens", False):
+            if getattr(mod, "pooling_mode_max_tokens", False) is True:
                 return "max"
-            if getattr(mod, "pooling_mode_lasttoken", False):
+            if getattr(mod, "pooling_mode_lasttoken", False) is True:
                 return "last_token"
 
     if hasattr(model, "_modules") and isinstance(model._modules, dict):
         for mod in model._modules.values():
-            if hasattr(mod, "pooling_mode") and mod.pooling_mode:
-                return normalize_pooling_mode(mod.pooling_mode)
+            mod_pool = getattr(mod, "pooling_mode", None)
+            if isinstance(mod_pool, str) and mod_pool.strip():
+                return normalize_pooling_mode(mod_pool)
             if hasattr(mod, "get_config_dict") and callable(mod.get_config_dict):
-                cd = mod.get_config_dict()
-                if isinstance(cd, dict) and "pooling_mode" in cd:
-                    return normalize_pooling_mode(cd["pooling_mode"])
+                try:
+                    cd = mod.get_config_dict()
+                    if isinstance(cd, dict) and isinstance(cd.get("pooling_mode"), str):
+                        return normalize_pooling_mode(cd["pooling_mode"])
+                except Exception:
+                    pass
 
     return None
 
@@ -135,16 +149,22 @@ def getSentenceTransformer(
     Reuses model objects and weights across query and document encoding to
     avoid redundant re-instantiation and ensure identical weights.
     Honors repository default configuration when modelName is None, while
-    retaining explicit modelName support.
+    resolving declared aliases/config and defaults for explicit modelName too.
+    Explicit revision argument overrides configured revision.
     """
-    if modelName is None:
-        default_cfg = loadRetrievalConfig()
-        resolved_model = default_cfg["modelId"]
-        resolved_rev = revision if revision is not None else default_cfg.get("revision")
-        resolved_backend = backend if backend is not None else default_cfg.get("backend", "torch")
-        resolved_pooling = pooling if pooling is not None else default_cfg.get("pooling")
+    cfg: Optional[dict[str, Any]] = None
+    try:
+        cfg = loadRetrievalConfig(modelName=modelName)
+    except Exception:
+        cfg = None
+
+    if cfg is not None:
+        resolved_model = cfg["modelId"]
+        resolved_rev = revision if revision is not None else cfg.get("revision")
+        resolved_backend = backend if backend is not None else cfg.get("backend", "torch")
+        resolved_pooling = pooling if pooling is not None else cfg.get("pooling")
     else:
-        resolved_model = modelName
+        resolved_model = modelName or "all-MiniLM-L6-v2"
         resolved_rev = revision
         resolved_backend = backend if backend is not None else "torch"
         resolved_pooling = pooling
@@ -319,6 +339,23 @@ def loadRetrievalConfig(
 load_retrieval_config = loadRetrievalConfig
 
 
+def canonicalizeModelId(
+    modelName: Optional[str],
+    registryPath: str | Path = ".",
+) -> Optional[str]:
+    """Resolve model alias or identifier to canonical modelId."""
+    if not modelName or not isinstance(modelName, str):
+        return modelName
+    try:
+        cfg = loadRetrievalConfig(registryPath=registryPath, modelName=modelName)
+        return cfg.get("modelId", modelName)
+    except Exception:
+        return modelName
+
+
+canonicalize_model_id = canonicalizeModelId
+
+
 def semanticFingerprint(
     skills: Sequence[Mapping[str, Any]] | Mapping[str, Any],
     config: Optional[dict[str, Any] | str] = None,
@@ -329,6 +366,7 @@ def semanticFingerprint(
     named fields actually embedded). Excludes stars, TM, dates, levels, evidence,
     or other volatile metadata.
     Includes dimensions, modelId, revision, backend, normalize, pooling, textTemplate, queryPrefix.
+    Normalizes pooling aliases and model aliases so equivalent configurations produce identical fingerprints.
     """
     if config is None:
         resolvedConfig = loadRetrievalConfig()
@@ -340,12 +378,24 @@ def semanticFingerprint(
     raw_dim = resolvedConfig.get("dimensions")
     dim_val = int(raw_dim) if raw_dim is not None else None
 
+    raw_model = resolvedConfig.get("modelId") or resolvedConfig.get("model") or resolvedConfig.get("defaultModel")
+    norm_model = canonicalizeModelId(raw_model) or raw_model
+
+    raw_pooling = resolvedConfig.get("pooling")
+    if raw_pooling is not None and isinstance(raw_pooling, str) and raw_pooling.strip():
+        try:
+            norm_pooling = normalize_pooling_mode(raw_pooling)
+        except ValueError:
+            norm_pooling = raw_pooling.strip().lower()
+    else:
+        norm_pooling = "mean"
+
     cfgPayload = {
         "backend": resolvedConfig.get("backend", "torch"),
         "dimensions": dim_val,
-        "modelId": resolvedConfig.get("modelId") or resolvedConfig.get("model") or resolvedConfig.get("defaultModel"),
+        "modelId": norm_model,
         "normalize": bool(resolvedConfig.get("normalize", True)),
-        "pooling": resolvedConfig.get("pooling", "mean"),
+        "pooling": norm_pooling,
         "queryPrefix": resolvedConfig.get("queryPrefix") or resolvedConfig.get("query_prefix", ""),
         "revision": resolvedConfig.get("revision"),
         "textTemplate": resolvedConfig.get("textTemplate") or resolvedConfig.get("text_template", "{name}: {description}"),
@@ -468,10 +518,13 @@ def validateEmbeddingsData(
 
     if expectedModel:
         artifactModel = data.get("model") or (data.get("config", {}) if isinstance(data.get("config"), dict) else {}).get("modelId")
-        if artifactModel and artifactModel != expectedModel:
-            raise ValueError(
-                f"Model mismatch: expected '{expectedModel}', found '{artifactModel}'"
-            )
+        if artifactModel:
+            normExpected = canonicalizeModelId(expectedModel) or expectedModel
+            normArtifact = canonicalizeModelId(artifactModel) or artifactModel
+            if normArtifact != normExpected:
+                raise ValueError(
+                    f"Model mismatch: expected '{expectedModel}', found '{artifactModel}'"
+                )
 
 
 validate_embeddings_data = validateEmbeddingsData
@@ -562,15 +615,18 @@ def embeddingStatus(
     artifactModel = data.get("model") or (data.get("config", {}) if isinstance(data.get("config"), dict) else {}).get("modelId")
 
     # Check model mismatch
-    if expectedModel and artifactModel and artifactModel != expectedModel:
-        return {
-            "status": "stale",
-            "reason": f"Model mismatch: artifact has '{artifactModel}', expected '{expectedModel}'",
-            "fingerprint": data.get("fingerprint") or data.get("semanticFingerprint"),
-            "model": artifactModel,
-            "path": resolvedPathStr,
-            "entriesCount": len(entries),
-        }
+    if expectedModel and artifactModel:
+        normExpected = canonicalizeModelId(expectedModel, regPath) or expectedModel
+        normArtifact = canonicalizeModelId(artifactModel, regPath) or artifactModel
+        if normExpected != normArtifact:
+            return {
+                "status": "stale",
+                "reason": f"Model mismatch: artifact has '{artifactModel}', expected '{expectedModel}'",
+                "fingerprint": data.get("fingerprint") or data.get("semanticFingerprint"),
+                "model": artifactModel,
+                "path": resolvedPathStr,
+                "entriesCount": len(entries),
+            }
 
     artifactFp = data.get("fingerprint") or data.get("semanticFingerprint")
     if not artifactFp:
@@ -652,15 +708,43 @@ def embeddingStatus(
             val_cfg = cfg.get(key)
             if key == "dimensions" and val_art is None:
                 val_art = data.get("dimensions")
-            if val_art is not None and val_cfg is not None and val_art != val_cfg:
-                return {
-                    "status": "stale",
-                    "reason": f"Semantic config mismatch on '{key}': artifact has {val_art!r}, expected {val_cfg!r}",
-                    "fingerprint": artifactFp,
-                    "model": artifactModel or expectedModel,
-                    "path": resolvedPathStr,
-                    "entriesCount": len(entries),
-                }
+            if val_art is not None and val_cfg is not None:
+                if key == "pooling":
+                    try:
+                        art_p = normalize_pooling_mode(val_art)
+                        cfg_p = normalize_pooling_mode(val_cfg)
+                    except ValueError:
+                        art_p, cfg_p = val_art, val_cfg
+                    if art_p != cfg_p:
+                        return {
+                            "status": "stale",
+                            "reason": f"Semantic config mismatch on 'pooling': artifact has {val_art!r}, expected {val_cfg!r}",
+                            "fingerprint": artifactFp,
+                            "model": artifactModel or expectedModel,
+                            "path": resolvedPathStr,
+                            "entriesCount": len(entries),
+                        }
+                elif key == "modelId":
+                    art_m = canonicalizeModelId(val_art, regPath) or val_art
+                    cfg_m = canonicalizeModelId(val_cfg, regPath) or val_cfg
+                    if art_m != cfg_m:
+                        return {
+                            "status": "stale",
+                            "reason": f"Semantic config mismatch on 'modelId': artifact has {val_art!r}, expected {val_cfg!r}",
+                            "fingerprint": artifactFp,
+                            "model": artifactModel or expectedModel,
+                            "path": resolvedPathStr,
+                            "entriesCount": len(entries),
+                        }
+                elif val_art != val_cfg:
+                    return {
+                        "status": "stale",
+                        "reason": f"Semantic config mismatch on '{key}': artifact has {val_art!r}, expected {val_cfg!r}",
+                        "fingerprint": artifactFp,
+                        "model": artifactModel or expectedModel,
+                        "path": resolvedPathStr,
+                        "entriesCount": len(entries),
+                    }
 
     expectedFp = semanticFingerprint(skills, cfg)
     if artifactFp == expectedFp:

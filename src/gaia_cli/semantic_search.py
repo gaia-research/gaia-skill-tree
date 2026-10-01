@@ -13,6 +13,8 @@ import os
 from typing import Any, Mapping, Optional, Sequence
 
 from gaia_cli.curation.retrieval import (
+    canonicalize_model_id,
+    canonicalizeModelId,
     clearModelCache,
     clear_model_cache,
     embeddingStatus,
@@ -205,11 +207,14 @@ def search(
     if config is not None:
         callerModel = config.get("modelId") or config.get("model")
         artModel = effective_config.get("modelId") or embeddings.get("model")
-        if callerModel and artModel and callerModel != artModel:
-            raise ValueError(
-                f"Model mismatch: query config specifies '{callerModel}', "
-                f"but embeddings artifact was built with '{artModel}'"
-            )
+        if callerModel and artModel:
+            normCaller = canonicalize_model_id(callerModel) or callerModel
+            normArt = canonicalize_model_id(artModel) or artModel
+            if normCaller != normArt:
+                raise ValueError(
+                    f"Model mismatch: query config specifies '{callerModel}', "
+                    f"but embeddings artifact was built with '{artModel}'"
+                )
 
         callerRev = config.get("revision")
         artRev = effective_config.get("revision")

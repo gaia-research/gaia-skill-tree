@@ -40,6 +40,7 @@ from urllib.parse import urlparse
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
 HANDOFF_CONTRACT_VERSION = "curation-handoff-v1"
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
 
 
 def isDiscoveryPacket(data):
@@ -98,13 +99,17 @@ def _isExactSkillBlob(url):
     )
 
 
-def validateL4Resolution(packet):
+def validateL4Resolution(packet, requireHumanReview=False):
     """Validate the explicit human-ratified packet -> intake handoff.
 
     Discovery fields are never reinterpreted here. The resolution must name the
     vendor-neutral generic, the canonical named implementation, and the exact
     upstream SKILL.md blob. The packet's embedded frozen generic snapshot is
     digest-checked; MAP resolutions must select the same existing generic.
+
+    When *requireHumanReview* is True (enforced at the push boundary), human
+    review attestation and gate checks are mandatory; legacy packets lacking
+    attestation fail with "legacy packet must be human-ratified with gaia dev ratify".
     """
     errors = []
     if packet.get("lifecycle", [])[-1:] != ["review-ready"]:
@@ -181,10 +186,108 @@ def validateL4Resolution(packet):
             errors.append("MAP l4Resolution.generic.id is absent from the frozen snapshot")
     elif decision.get("value") != "NEW_GENERIC":
         errors.append("only MAP or NEW_GENERIC packets are intake-eligible")
+
+    if requireHumanReview:
+        if packet.get("artifactGate") != "valid-skill":
+            errors.append("packet artifactGate must be 'valid-skill'")
+        source = packet.get("source")
+        if not isinstance(source, dict):
+            errors.append("packet source is required and must be an object")
+        else:
+            sourceSha = source.get("contentSha256")
+            if not isinstance(sourceSha, str) or not SHA256_RE.fullmatch(sourceSha):
+                errors.append(
+                    "packet source.contentSha256 is required and must be a valid 64-character sha256 hex digest"
+                )
+            canonicalUrl = source.get("canonicalUrl")
+            if canonicalUrl and resolution.get("skillFileUrl") != canonicalUrl:
+                errors.append("l4Resolution.skillFileUrl does not match packet source.canonicalUrl")
+
+        hr = resolution.get("humanReview")
+        if not isinstance(hr, dict) or not hr:
+            errors.append("legacy packet must be human-ratified with gaia dev ratify")
+            return errors
+
+    hr = resolution.get("humanReview")
+    if hr is not None:
+        if not isinstance(hr, dict):
+            errors.append("l4Resolution.humanReview must be an object")
+        else:
+            reviewedBy = hr.get("reviewedBy")
+            if not isinstance(reviewedBy, str) or not reviewedBy.strip():
+                errors.append("humanReview.reviewedBy is required and must be a non-empty string")
+
+            approvalRef = hr.get("approvalRef")
+            if not isinstance(approvalRef, str) or not approvalRef.strip():
+                errors.append("humanReview.approvalRef is required and must be a non-empty string")
+
+            rationale = hr.get("rationale") or hr.get("reason")
+            if not isinstance(rationale, str) or not rationale.strip():
+                errors.append("humanReview.rationale is required and must be a non-empty string")
+
+            reviewedAt = hr.get("reviewedAt")
+            if not isinstance(reviewedAt, str) or not reviewedAt.strip():
+                errors.append("humanReview.reviewedAt is required and must be a non-empty string")
+
+            digest = hr.get("assessmentReceiptDigest")
+            if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest):
+                errors.append(
+                    "humanReview.assessmentReceiptDigest must be a valid 64-character sha256 hex digest"
+                )
+
+            attestation = hr.get("attestation")
+            if not isinstance(attestation, str) or not attestation.strip():
+                errors.append("humanReview.attestation is required and must be a non-empty string")
+
+            if "operatorOverride" in hr and not isinstance(hr["operatorOverride"], bool):
+                errors.append("humanReview.operatorOverride must be a boolean")
+
+            if "humanOverride" in hr and not isinstance(hr["humanOverride"], bool):
+                errors.append("humanReview.humanOverride must be a boolean")
+
+            assessmentPath = hr.get("assessmentPath")
+            if assessmentPath is not None:
+                if not isinstance(assessmentPath, str) or not assessmentPath.strip():
+                    errors.append("humanReview.assessmentPath must be a non-empty string")
+                elif os.path.isfile(assessmentPath):
+                    # Stored assessmentReceiptDigest records the hash of the local receipt.
+                    # Verify digest and bindings if the receipt path is accessible locally,
+                    # but do not require laptop-absolute paths for portable packets.
+                    # Stored assessmentReceiptDigest cannot cryptographically verify a human;
+                    # do not overclaim.
+                    try:
+                        with open(assessmentPath, "r", encoding="utf-8") as f:
+                            receiptObj = json.load(f)
+                        actualDigest = _canonicalDigest(receiptObj)
+                        if digest and actualDigest != digest:
+                            errors.append(
+                                f"assessment receipt at '{assessmentPath}' digest mismatch: "
+                                f"expected {digest}, got {actualDigest}"
+                            )
+                        else:
+                            rCandId = receiptObj.get("candidateId")
+                            pCandId = packet.get("candidateId")
+                            if rCandId and pCandId and rCandId != pCandId:
+                                errors.append(
+                                    f"assessment receipt candidateId '{rCandId}' does not match "
+                                    f"packet candidateId '{pCandId}'"
+                                )
+                            rSourceSha = receiptObj.get("candidateSourceDigest")
+                            pSourceSha = (packet.get("source") or {}).get("contentSha256")
+                            if rSourceSha and pSourceSha and rSourceSha != pSourceSha:
+                                errors.append(
+                                    f"assessment receipt candidateSourceDigest '{rSourceSha}' does not match "
+                                    f"packet source contentSha256 '{pSourceSha}'"
+                                )
+                    except Exception as exc:
+                        errors.append(f"failed to read assessment receipt at '{assessmentPath}': {exc}")
+            elif requireHumanReview:
+                errors.append("humanReview.assessmentPath is required and must be a non-empty string")
+
     return errors
 
 
-def buildIntakeSkill(packet):
+def buildIntakeSkill(packet, requireHumanReview=False):
     """Build a single intake ``skills[]`` entry from a review-ready packet.
 
     Returns the entry dict (top-level shape consumed by ``pushFromFile``). Raises
@@ -201,7 +304,7 @@ def buildIntakeSkill(packet):
             "(only MAP or NEW_GENERIC produce an intake entry)"
         )
 
-    resolutionErrors = validateL4Resolution(packet)
+    resolutionErrors = validateL4Resolution(packet, requireHumanReview=requireHumanReview)
     if resolutionErrors:
         raise ValueError("invalid post-L4 handoff: " + "; ".join(resolutionErrors))
 
@@ -284,7 +387,7 @@ def buildIntakeSkill(packet):
     return entry
 
 
-def buildIntakeYaml(packets, packetPath=None):
+def buildIntakeYaml(packets, packetPath=None, requireHumanReview=False):
     """Build the intake mapping (``{'skills': [...]}``) from packet dict(s).
 
     Accepts a single packet dict or an iterable of packet dicts (e.g. a suite
@@ -297,7 +400,7 @@ def buildIntakeYaml(packets, packetPath=None):
     if isinstance(packets, dict):
         packets = [packets]
     packets = list(packets)
-    skills = [buildIntakeSkill(p) for p in packets]
+    skills = [buildIntakeSkill(p, requireHumanReview=requireHumanReview) for p in packets]
     refs = []
     for packet in packets:
         ref = {
