@@ -6,9 +6,9 @@
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
-        "trustMagnitude": 356.11
+        "trustMagnitude": 355.66
       },
-      "prestigeScore": 2695.55,
+      "prestigeScore": 2694.68,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -19,9 +19,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 374.99
+        "trustMagnitude": 373.22
       },
-      "prestigeScore": 2464.45,
+      "prestigeScore": 2461.52,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -32,9 +32,9 @@
       "topSkill": {
         "id": "ruvnet/ruflo",
         "level": "4★",
-        "trustMagnitude": 175.34
+        "trustMagnitude": 174.59
       },
-      "prestigeScore": 1375.86,
+      "prestigeScore": 1375.11,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -45,9 +45,9 @@
       "topSkill": {
         "id": "obra/superpowers",
         "level": "4★",
-        "trustMagnitude": 221.52
+        "trustMagnitude": 220.81
       },
-      "prestigeScore": 1090.57,
+      "prestigeScore": 1089.86,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
@@ -58,9 +58,9 @@
       "topSkill": {
         "id": "heygen-com/hyperframes",
         "level": "4★",
-        "trustMagnitude": 166.92
+        "trustMagnitude": 163.63
       },
-      "prestigeScore": 1066.92,
+      "prestigeScore": 1063.63,
       "_links": {
         "self": "/api/v1/contributors/heygen-com.json"
       }
@@ -73,7 +73,7 @@
         "level": "4★",
         "trustMagnitude": 190.0
       },
-      "prestigeScore": 831.04,
+      "prestigeScore": 829.62,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
       }
@@ -84,9 +84,9 @@
       "topSkill": {
         "id": "leonxlnx/taste-skill",
         "level": "4★",
-        "trustMagnitude": 174.68
+        "trustMagnitude": 172.43
       },
-      "prestigeScore": 816.14,
+      "prestigeScore": 788.24,
       "_links": {
         "self": "/api/v1/contributors/leonxlnx.json"
       }
@@ -97,9 +97,9 @@
       "topSkill": {
         "id": "gsd-build/get-shit-done",
         "level": "4★",
-        "trustMagnitude": 169.31
+        "trustMagnitude": 169.36
       },
-      "prestigeScore": 419.31,
+      "prestigeScore": 419.36,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
       }
@@ -112,7 +112,7 @@
         "level": "4★",
         "trustMagnitude": 110.02
       },
-      "prestigeScore": 416.5,
+      "prestigeScore": 414.33,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
@@ -123,9 +123,9 @@
       "topSkill": {
         "id": "safishamsi/graphify",
         "level": "5★",
-        "trustMagnitude": 318.14
+        "trustMagnitude": 316.88
       },
-      "prestigeScore": 318.14,
+      "prestigeScore": 316.88,
       "_links": {
         "self": "/api/v1/contributors/safishamsi.json"
       }
@@ -136,9 +136,9 @@
       "topSkill": {
         "id": "anthropics/brand-guidelines",
         "level": "4★",
-        "trustMagnitude": 184.87
+        "trustMagnitude": 184.32
       },
-      "prestigeScore": 228.39,
+      "prestigeScore": 227.84,
       "_links": {
         "self": "/api/v1/contributors/anthropics.json"
       }
@@ -149,9 +149,9 @@
       "topSkill": {
         "id": "nextlevelbuilder/ui-ux-pro-max",
         "level": "4★",
-        "trustMagnitude": 227.51
+        "trustMagnitude": 226.5
       },
-      "prestigeScore": 227.51,
+      "prestigeScore": 226.5,
       "_links": {
         "self": "/api/v1/contributors/nextlevelbuilder.json"
       }
@@ -162,9 +162,9 @@
       "topSkill": {
         "id": "dietrichgebert/ponytail",
         "level": "4★",
-        "trustMagnitude": 225.42
+        "trustMagnitude": 221.96
       },
-      "prestigeScore": 225.42,
+      "prestigeScore": 221.96,
       "_links": {
         "self": "/api/v1/contributors/dietrichgebert.json"
       }
@@ -175,9 +175,9 @@
       "topSkill": {
         "id": "mvanhorn/last30days",
         "level": "4★",
-        "trustMagnitude": 205.75
+        "trustMagnitude": 205.15
       },
-      "prestigeScore": 205.75,
+      "prestigeScore": 205.15,
       "_links": {
         "self": "/api/v1/contributors/mvanhorn.json"
       }
@@ -201,9 +201,9 @@
       "topSkill": {
         "id": "pbakaus/impeccable",
         "level": "4★",
-        "trustMagnitude": 171.27
+        "trustMagnitude": 169.34
       },
-      "prestigeScore": 171.27,
+      "prestigeScore": 169.34,
       "_links": {
         "self": "/api/v1/contributors/pbakaus.json"
       }
@@ -214,9 +214,9 @@
       "topSkill": {
         "id": "vercel-labs/vercel-react-best-practices",
         "level": "4★",
-        "trustMagnitude": 163.19
+        "trustMagnitude": 162.66
       },
-      "prestigeScore": 163.19,
+      "prestigeScore": 162.66,
       "_links": {
         "self": "/api/v1/contributors/vercel-labs.json"
       }
@@ -227,9 +227,9 @@
       "topSkill": {
         "id": "mksglu/context-mode",
         "level": "4★",
-        "trustMagnitude": 154.71
+        "trustMagnitude": 151.89
       },
-      "prestigeScore": 154.71,
+      "prestigeScore": 151.89,
       "_links": {
         "self": "/api/v1/contributors/mksglu.json"
       }
@@ -253,9 +253,9 @@
       "topSkill": {
         "id": "trailhq/graft",
         "level": "4★",
-        "trustMagnitude": 145.16
+        "trustMagnitude": 140.42
       },
-      "prestigeScore": 145.16,
+      "prestigeScore": 140.42,
       "_links": {
         "self": "/api/v1/contributors/trailhq.json"
       }
@@ -266,9 +266,9 @@
       "topSkill": {
         "id": "latent-spaces/brag",
         "level": "3★",
-        "trustMagnitude": 144.54
+        "trustMagnitude": 139.93
       },
-      "prestigeScore": 144.54,
+      "prestigeScore": 139.93,
       "_links": {
         "self": "/api/v1/contributors/latent-spaces.json"
       }
@@ -279,24 +279,11 @@
       "topSkill": {
         "id": "ayghri/i-have-adhd",
         "level": "4★",
-        "trustMagnitude": 130.23
+        "trustMagnitude": 119.66
       },
-      "prestigeScore": 130.23,
+      "prestigeScore": 119.66,
       "_links": {
         "self": "/api/v1/contributors/ayghri.json"
-      }
-    },
-    {
-      "handle": "nateherkai",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "nateherkai/scroll-craft",
-        "level": "3★",
-        "trustMagnitude": 87.38
-      },
-      "prestigeScore": 87.38,
-      "_links": {
-        "self": "/api/v1/contributors/nateherkai.json"
       }
     },
     {
@@ -310,6 +297,19 @@
       "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
+      }
+    },
+    {
+      "handle": "nateherkai",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nateherkai/scroll-craft",
+        "level": "3★",
+        "trustMagnitude": 82.22
+      },
+      "prestigeScore": 82.22,
+      "_links": {
+        "self": "/api/v1/contributors/nateherkai.json"
       }
     },
     {
@@ -513,9 +513,9 @@
       "topSkill": {
         "id": "aplaceforallmystuff/log-to-daily",
         "level": "2★",
-        "trustMagnitude": 22.67
+        "trustMagnitude": 21.51
       },
-      "prestigeScore": 22.67,
+      "prestigeScore": 21.51,
       "_links": {
         "self": "/api/v1/contributors/aplaceforallmystuff.json"
       }

@@ -5,7 +5,7 @@
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
-      "trustMagnitude": 356.11,
+      "trustMagnitude": 355.66,
       "overallTrustGrade": "S",
       "fusionScore": 392.87,
       "contributor": "garrytan",
@@ -70,7 +70,7 @@
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
-      "trustMagnitude": 121.94,
+      "trustMagnitude": 121.52,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "garrytan",
@@ -932,9 +932,9 @@
   "topSkill": {
     "id": "garrytan/gstack",
     "level": "5★",
-    "trustMagnitude": 356.11
+    "trustMagnitude": 355.66
   },
-  "prestigeScore": 2695.55,
+  "prestigeScore": 2694.68,
   "gradeDistribution": {
     "S": 1,
     "A": 1,

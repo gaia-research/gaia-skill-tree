@@ -5,7 +5,7 @@
       "id": "heygen-com/hyperframes",
       "name": "HyperFrames",
       "level": "4★",
-      "trustMagnitude": 166.92,
+      "trustMagnitude": 163.63,
       "overallTrustGrade": "A",
       "fusionScore": 280.0,
       "contributor": "heygen-com",
@@ -349,9 +349,9 @@
   "topSkill": {
     "id": "heygen-com/hyperframes",
     "level": "4★",
-    "trustMagnitude": 166.92
+    "trustMagnitude": 163.63
   },
-  "prestigeScore": 1066.92,
+  "prestigeScore": 1063.63,
   "gradeDistribution": {
     "A": 1,
     "B": 18

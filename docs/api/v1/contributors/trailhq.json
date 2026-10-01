@@ -5,7 +5,7 @@
       "id": "trailhq/graft",
       "name": "graft",
       "level": "4★",
-      "trustMagnitude": 145.16,
+      "trustMagnitude": 140.42,
       "overallTrustGrade": "A",
       "fusionScore": 100.0,
       "contributor": "trailhq",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "trailhq/graft",
     "level": "4★",
-    "trustMagnitude": 145.16
+    "trustMagnitude": 140.42
   },
-  "prestigeScore": 145.16,
+  "prestigeScore": 140.42,
   "gradeDistribution": {
     "A": 1
   },

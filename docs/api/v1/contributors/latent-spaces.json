@@ -5,7 +5,7 @@
       "id": "latent-spaces/brag",
       "name": "brag",
       "level": "3★",
-      "trustMagnitude": 144.54,
+      "trustMagnitude": 139.93,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "latent-spaces/brag",
     "level": "3★",
-    "trustMagnitude": 144.54
+    "trustMagnitude": 139.93
   },
-  "prestigeScore": 144.54,
+  "prestigeScore": 139.93,
   "gradeDistribution": {
     "A": 1
   },

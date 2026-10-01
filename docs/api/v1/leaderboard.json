@@ -12,13 +12,13 @@
   "rows": [
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 374.99,
+      "trustMagnitude": 373.22,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
         "arxiv": 105.2,
         "peer-review": 75.0,
-        "github-stars-own": 155.29,
+        "github-stars-own": 153.52,
         "social-signal": 39.5
       },
       "origin": true,
@@ -26,14 +26,14 @@
     },
     {
       "id": "garrytan/gstack",
-      "trustMagnitude": 356.11,
+      "trustMagnitude": 355.66,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
         "arxiv": 70.0,
         "peer-review": 60.0,
         "repo-own": 36.0,
-        "github-stars-own": 144.52,
+        "github-stars-own": 144.07,
         "social-signal": 45.59
       },
       "origin": true,
@@ -41,24 +41,24 @@
     },
     {
       "id": "safishamsi/graphify",
-      "trustMagnitude": 318.14,
+      "trustMagnitude": 316.88,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
         "arxiv": 100.0,
         "peer-review": 75.0,
-        "github-stars-own": 143.14
+        "github-stars-own": 141.88
       },
       "origin": true,
       "branch": "unique"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
-      "trustMagnitude": 227.51,
+      "trustMagnitude": 226.5,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 144.24,
+        "github-stars-own": 143.23,
         "peer-review": 30.0,
         "social-signal": 53.26
       },
@@ -67,12 +67,12 @@
     },
     {
       "id": "dietrichgebert/ponytail",
-      "trustMagnitude": 225.42,
+      "trustMagnitude": 221.96,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 146.14,
+        "github-stars-own": 142.67,
         "social-signal": 42.58,
         "arxiv": 0.7
       },
@@ -81,12 +81,12 @@
     },
     {
       "id": "obra/superpowers",
-      "trustMagnitude": 221.52,
+      "trustMagnitude": 220.81,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 156.38,
+        "github-stars-own": 155.66,
         "social-signal": 29.15
       },
       "origin": true,
@@ -94,11 +94,11 @@
     },
     {
       "id": "mvanhorn/last30days",
-      "trustMagnitude": 205.75,
+      "trustMagnitude": 205.15,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 133.05,
+        "github-stars-own": 132.45,
         "repo-own": 36.0,
         "social-signal": 36.7
       },
@@ -107,11 +107,11 @@
     },
     {
       "id": "mattpocock/misc",
-      "trustMagnitude": 200.29,
+      "trustMagnitude": 199.13,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 155.29,
+        "github-stars-own": 154.13,
         "peer-review": 45.0
       },
       "origin": true,
@@ -123,8 +123,8 @@
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23,
+        "github-stars-own": 39.69,
+        "repo-own": 10.31,
         "benchmark-result": 140.0
       },
       "origin": false,
@@ -132,23 +132,23 @@
     },
     {
       "id": "anthropics/brand-guidelines",
-      "trustMagnitude": 184.87,
+      "trustMagnitude": 184.32,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 148.87
+        "github-stars-own": 148.32
       },
       "origin": true,
       "branch": "unique"
     },
     {
       "id": "addy-osmani/agent-skills",
-      "trustMagnitude": 176.04,
+      "trustMagnitude": 174.62,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 140.04,
+        "github-stars-own": 138.62,
         "repo-own": 36.0
       },
       "origin": true,
@@ -156,12 +156,12 @@
     },
     {
       "id": "ruvnet/ruflo",
-      "trustMagnitude": 175.34,
+      "trustMagnitude": 174.59,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 135.34,
+        "github-stars-own": 134.59,
         "arxiv": 4.0
       },
       "origin": true,
@@ -169,11 +169,23 @@
     },
     {
       "id": "leonxlnx/taste-skill",
-      "trustMagnitude": 174.68,
+      "trustMagnitude": 172.43,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 138.68,
+        "github-stars-own": 136.43,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "trustMagnitude": 169.36,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 133.36,
         "repo-own": 36.0
       },
       "origin": false,
@@ -181,35 +193,23 @@
     },
     {
       "id": "pbakaus/impeccable",
-      "trustMagnitude": 171.27,
+      "trustMagnitude": 169.34,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 135.27
+        "github-stars-own": 133.34
       },
       "origin": true,
       "branch": "unique"
     },
     {
-      "id": "gsd-build/get-shit-done",
-      "trustMagnitude": 169.31,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "github-stars-own": 133.31,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "suite"
-    },
-    {
       "id": "heygen-com/hyperframes",
-      "trustMagnitude": 166.92,
+      "trustMagnitude": 163.63,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 130.92,
+        "github-stars-own": 127.63,
         "repo-own": 36.0
       },
       "origin": false,
@@ -217,11 +217,11 @@
     },
     {
       "id": "vercel-labs/vercel-react-best-practices",
-      "trustMagnitude": 163.19,
+      "trustMagnitude": 162.66,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 122.58,
+        "github-stars-own": 122.05,
         "arxiv": 0.2,
         "social-signal": 35.41,
         "self-attestation": 5.0
@@ -231,24 +231,24 @@
     },
     {
       "id": "mksglu/context-mode",
-      "trustMagnitude": 154.71,
+      "trustMagnitude": 151.89,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 118.71
+        "github-stars-own": 115.89
       },
       "origin": true,
       "branch": "unique"
     },
     {
       "id": "trailhq/graft",
-      "trustMagnitude": 145.16,
+      "trustMagnitude": 140.42,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 104.16,
+        "github-stars-own": 99.42,
         "self-attestation": 5.0
       },
       "origin": true,
@@ -256,37 +256,37 @@
     },
     {
       "id": "latent-spaces/brag",
-      "trustMagnitude": 144.54,
+      "trustMagnitude": 139.93,
       "grade": "A",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 108.54,
+        "github-stars-own": 103.93,
         "repo-own": 36.0
       },
       "origin": true,
       "branch": "standard"
     },
     {
-      "id": "ayghri/i-have-adhd",
-      "trustMagnitude": 130.23,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "github-stars-own": 130.23
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
       "id": "garrytan/gbrain",
-      "trustMagnitude": 121.94,
+      "trustMagnitude": 121.52,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
-        "github-stars-own": 121.94
+        "github-stars-own": 121.52
       },
       "origin": false,
       "branch": "suite"
+    },
+    {
+      "id": "ayghri/i-have-adhd",
+      "trustMagnitude": 119.66,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 119.66
+      },
+      "origin": false,
+      "branch": "unique"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -347,8 +347,8 @@
       "level": "4★",
       "typeBreakdown": {
         "social-signal": 60.02,
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
       },
       "origin": true,
       "branch": "unique"
@@ -409,8 +409,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.49,
-        "repo-own": 10.51,
+        "github-stars-own": 39.45,
+        "repo-own": 10.55,
         "social-signal": 45.02
       },
       "origin": true,
@@ -422,8 +422,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23,
+        "github-stars-own": 39.69,
+        "repo-own": 10.31,
         "peer-review": 45.0
       },
       "origin": false,
@@ -435,8 +435,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23,
+        "github-stars-own": 39.69,
+        "repo-own": 10.31,
         "peer-review": 45.0
       },
       "origin": false,
@@ -448,8 +448,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": false,
@@ -461,8 +461,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": false,
@@ -474,8 +474,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": false,
@@ -487,8 +487,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
         "social-signal": 44.92
       },
       "origin": true,
@@ -500,21 +500,9 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
+        "repo-own": 3.4,
+        "github-stars-own": 46.6,
         "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "trustMagnitude": 91.46,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 90.23,
-        "repo-own": 1.23
       },
       "origin": false,
       "branch": "standard"
@@ -544,28 +532,28 @@
       "branch": "suite"
     },
     {
-      "id": "nateherkai/scroll-craft",
-      "trustMagnitude": 87.38,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 1.25,
-        "github-stars-own": 86.13
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "firecrawl/firecrawl-build-search",
       "trustMagnitude": 83.62,
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
         "social-signal": 33.62,
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "trustMagnitude": 82.22,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 80.97
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -598,8 +586,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23,
+        "github-stars-own": 39.69,
+        "repo-own": 10.31,
         "peer-review": 30.0
       },
       "origin": false,
@@ -619,12 +607,12 @@
     },
     {
       "id": "firecrawl/firecrawl-skills",
-      "trustMagnitude": 72.86,
+      "trustMagnitude": 70.69,
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
-        "github-stars-own": 36.86
+        "github-stars-own": 34.69
       },
       "origin": true,
       "branch": "suite"
@@ -661,6 +649,18 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "leonxlnx/unlazy",
+      "trustMagnitude": 65.81,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 64.58,
+        "repo-own": 1.23
       },
       "origin": false,
       "branch": "standard"
@@ -778,8 +778,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23
+        "github-stars-own": 39.69,
+        "repo-own": 10.31
       },
       "origin": false,
       "branch": "standard"
@@ -790,8 +790,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 10.23,
-        "github-stars-own": 39.77
+        "repo-own": 10.31,
+        "github-stars-own": 39.69
       },
       "origin": true,
       "branch": "standard"
@@ -802,8 +802,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.77,
-        "repo-own": 10.23
+        "github-stars-own": 39.69,
+        "repo-own": 10.31
       },
       "origin": true,
       "branch": "standard"
@@ -814,8 +814,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
       },
       "origin": false,
       "branch": "standard"
@@ -826,8 +826,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
       },
       "origin": true,
       "branch": "standard"
@@ -838,8 +838,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
+        "repo-own": 25.46,
+        "github-stars-own": 24.54
       },
       "origin": false,
       "branch": "standard"
@@ -850,8 +850,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -873,8 +873,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -907,8 +907,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": true,
       "branch": "standard"
@@ -919,8 +919,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -931,8 +931,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": true,
       "branch": "standard"
@@ -943,8 +943,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -955,8 +955,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": true,
       "branch": "standard"
@@ -967,8 +967,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": true,
       "branch": "standard"
@@ -979,8 +979,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -991,8 +991,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1003,8 +1003,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1015,8 +1015,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1027,8 +1027,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1039,8 +1039,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1051,8 +1051,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1063,8 +1063,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "repo-own": 10.0,
+        "github-stars-own": 40.0
       },
       "origin": false,
       "branch": "standard"
@@ -1135,8 +1135,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1147,8 +1147,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1159,8 +1159,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1171,8 +1171,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1183,8 +1183,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1195,8 +1195,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1207,8 +1207,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1219,8 +1219,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1231,8 +1231,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1243,8 +1243,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1255,8 +1255,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1267,8 +1267,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1279,8 +1279,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1291,8 +1291,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1303,8 +1303,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1315,8 +1315,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1327,8 +1327,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": true,
       "branch": "standard"
@@ -1339,8 +1339,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.22,
-        "repo-own": 10.78
+        "github-stars-own": 39.0,
+        "repo-own": 11.0
       },
       "origin": false,
       "branch": "standard"
@@ -1351,8 +1351,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1363,8 +1363,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1375,8 +1375,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1387,8 +1387,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1399,8 +1399,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1411,8 +1411,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": true,
       "branch": "standard"
@@ -1423,8 +1423,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1435,8 +1435,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1447,8 +1447,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": true,
       "branch": "standard"
@@ -1459,8 +1459,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": false,
       "branch": "standard"
@@ -1471,8 +1471,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "github-stars-own": 39.56,
+        "repo-own": 10.44
       },
       "origin": true,
       "branch": "standard"
@@ -1496,8 +1496,8 @@
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "repo-own": 9.36,
-        "github-stars-own": 40.64
+        "repo-own": 9.39,
+        "github-stars-own": 40.61
       },
       "origin": true,
       "branch": "standard"
@@ -2580,12 +2580,12 @@
     },
     {
       "id": "aplaceforallmystuff/log-to-daily",
-      "trustMagnitude": 22.67,
+      "trustMagnitude": 21.51,
       "grade": "C",
       "level": "2★",
       "typeBreakdown": {
         "repo-own": 1.22,
-        "github-stars-own": 21.45
+        "github-stars-own": 20.29
       },
       "origin": false,
       "branch": "standard"

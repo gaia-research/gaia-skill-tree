@@ -5,7 +5,7 @@
       "id": "aplaceforallmystuff/log-to-daily",
       "name": "Log To Daily",
       "level": "2★",
-      "trustMagnitude": 22.67,
+      "trustMagnitude": 21.51,
       "overallTrustGrade": "C",
       "fusionScore": 0.0,
       "contributor": "aplaceforallmystuff",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "aplaceforallmystuff/log-to-daily",
     "level": "2★",
-    "trustMagnitude": 22.67
+    "trustMagnitude": 21.51
   },
-  "prestigeScore": 22.67,
+  "prestigeScore": 21.51,
   "gradeDistribution": {
     "C": 1
   },

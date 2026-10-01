@@ -5,7 +5,7 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 22.67,
+  "trustMagnitude": 21.51,
   "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
@@ -50,12 +50,11 @@
     },
     {
       "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers",
-      "updatedAt": "2026-10-01",
       "evaluator": "unknown",
       "date": "2026-07-31",
       "type": "github-stars-own",
       "notes": "Live GitHub stars for daily-patterns-pack; one SKILL.md file under skills/.",
-      "stars": 41,
+      "stars": 38,
       "skillCountInRepo": 1,
       "sourceStartedAt": "2026-01-22"
     }

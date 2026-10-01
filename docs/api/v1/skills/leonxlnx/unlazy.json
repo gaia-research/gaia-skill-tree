@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 91.46,
+  "trustMagnitude": 65.81,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -40,12 +40,11 @@
   "evidence": [
     {
       "source": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
-      "updatedAt": "2026-10-01",
       "evaluator": "mbtiongson1",
       "date": "2026-08-22",
       "type": "github-stars-own",
       "notes": "700 stars on Leonxlnx/unlazy repository",
-      "stars": 3785,
+      "stars": 700,
       "sourceStartedAt": "2026-08-09"
     },
     {
