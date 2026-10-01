@@ -464,6 +464,15 @@ def run_termux_smoke(
         return 1
     direct_duration_ms = round((time.perf_counter() - t_direct) * 1000, 2)
     direct_dim = len(direct_vec)
+    # Portability is not proven if identical inputs produce drifting vectors.
+    from gaia_cli.semantic_search import cosine_similarity
+    repeat_vec = embed_query(query_text, model_name=model_name, config=cfg_data)
+    repeat_cosine = cosine_similarity(direct_vec, repeat_vec)
+    if repeat_cosine < 0.999999:
+        receipt_path.write_text(json.dumps({"status": "failed", "error": "NONDETERMINISTIC_ENCODER",
+                                           "repeat_cosine": repeat_cosine}), encoding="utf-8")
+        print("[TERMUX SMOKE] FAILED: identical-query embeddings are not repeatable.", file=sys.stderr)
+        return 1
     if direct_dim != expected_dim:
         err_msg = f"Direct vector dimension mismatch ({direct_dim} != {expected_dim})"
         receipt = {"status": "dimension_mismatch", "timestamp": timestamp, "platform": termux_proof, "error": err_msg}
@@ -593,6 +602,7 @@ def run_termux_smoke(
             "load_duration_ms": load_duration_ms,
             "direct_duration_ms": direct_duration_ms,
             "direct_vector_dim": direct_dim,
+            "repeat_cosine": repeat_cosine,
             "prefill_duration_ms": prefill_duration_ms,
             "actual_mapping_options": actual_options,
             "rss_initial_mb": rss_start,

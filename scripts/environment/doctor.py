@@ -269,7 +269,10 @@ def check_curation_eval_receipt(repo_root: Path, active_retrieval: Dict[str, Any
         r_pool = r_cfg.get("pooling")
         r_pfx = r_cfg.get("queryPrefix") if "queryPrefix" in r_cfg else r_cfg.get("query_prefix")
 
+        from gaia_cli.curation.retrieval import ENCODER_CONTRACT
         m = []
+        if d.get("encoder_contract") != ENCODER_CONTRACT:
+            m.append("encoder contract mismatch: measurement predates deterministic inference")
         if corpus_sha and r_corpus != corpus_sha:
             m.append(f"corpus_sha mismatch ({r_corpus} != {corpus_sha})")
         if catalog_sha and r_catalog != catalog_sha:
@@ -458,6 +461,8 @@ def check_smoke_receipt(
             elif act_fp and rec_fp != act_fp:
                 mismatches.append(f"fingerprint: {rec_fp} != {act_fp}")
 
+        if d.get("metrics", {}).get("repeat_cosine", 0) < 0.999999:
+            mismatches.append("missing or failed identical-query repeatability proof")
         if not is_android:
             mismatches.append("not Android/aarch64")
 

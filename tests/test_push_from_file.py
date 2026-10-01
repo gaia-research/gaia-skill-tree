@@ -493,7 +493,10 @@ class TestPushFromFilePacketAuthority(unittest.TestCase):
             args = SimpleNamespace(fromFile=packet_path, dry_run=True, yes=True, no_issue=True)
             stdout = io.StringIO()
             stderr = io.StringIO()
-            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            from unittest.mock import patch
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr), patch(
+                "gaia_cli.scanner.load_config", return_value={"gaiaUser": "fixture-user"}
+            ):
                 rc = push_from_file_command(args)
             self.assertEqual(rc, 0)
             self.assertIn("Dry run — batch JSON", stdout.getvalue())

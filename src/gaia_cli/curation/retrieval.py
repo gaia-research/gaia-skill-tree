@@ -11,12 +11,14 @@ import hashlib
 import json
 import math
 import os
+import sys
 import tempfile
 from datetime import date
 from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence
 
 
+ENCODER_CONTRACT = "sentence-transformers-eval-single-thread-v2"
 SUPPORTED_BACKENDS: set[str] = {"torch", "onnx"}
 SUPPORTED_POOLING: set[str] = {"mean", "cls", "last_token", "max"}
 
@@ -177,7 +179,12 @@ def getSentenceTransformer(
 
     cacheKey = (resolved_model, resolved_rev, resolved_backend)
     if cacheKey in _MODEL_CACHE:
+        torchRuntime = sys.modules.get("torch")
+        if torchRuntime is not None:
+            torchRuntime.set_num_threads(1)
         model = _MODEL_CACHE[cacheKey]
+        if callable(getattr(model, "eval", None)):
+            model.eval()
         if resolved_pooling:
             verify_model_pooling(model, resolved_pooling, model_id=resolved_model)
         return model
@@ -198,7 +205,17 @@ def getSentenceTransformer(
     if resolved_rev:
         kwargs["revision"] = resolved_rev
 
+    # Native Android Torch 2.11 showed repeat-query drift with >1 CPU thread.
+    # One thread is the verified portable inference contract; unlike weights,
+    # this process setting must also be reasserted on cached model reuse.
+    torchRuntime = sys.modules.get("torch")
+    if torchRuntime is not None:
+        torchRuntime.set_num_threads(1)
     model = SentenceTransformer(resolved_model, **kwargs)
+    # encode() is not guaranteed to switch to inference mode across supported
+    # sentence-transformers versions. Dropout corrupts deterministic recall.
+    if callable(getattr(model, "eval", None)):
+        model.eval()
     if resolved_pooling:
         verify_model_pooling(model, resolved_pooling, model_id=resolved_model)
 
@@ -391,6 +408,7 @@ def semanticFingerprint(
         norm_pooling = "mean"
 
     cfgPayload = {
+        "encoderContract": ENCODER_CONTRACT,
         "backend": resolvedConfig.get("backend", "torch"),
         "dimensions": dim_val,
         "modelId": norm_model,
@@ -788,6 +806,7 @@ def saveEmbeddingsAtomic(
         "model": modelName,
         "dimensions": dimensions,
         "generatedAt": str(date.today()),
+        "encoderContract": ENCODER_CONTRACT,
         "entries": entries,
     }
     if fingerprint:

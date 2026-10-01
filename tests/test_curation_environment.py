@@ -25,6 +25,7 @@ if str(ENV_DIR) not in sys.path:
 
 import doctor  # type: ignore
 import smoke  # type: ignore
+from gaia_cli.curation.retrieval import ENCODER_CONTRACT
 
 
 class TestDoctor:
@@ -161,6 +162,7 @@ class TestDoctor:
             json.dumps({
                 "corpus_sha256": "expected_corpus_sha",
                 "catalog_sha256": "expected_catalog_sha",
+                "encoder_contract": ENCODER_CONTRACT,
                 "config": {"model": "all-MiniLM-L6-v2"},
             }),
             encoding="utf-8",
@@ -185,6 +187,7 @@ class TestDoctor:
                 "status": "success",
                 "model": {"declared_name": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch"},
                 "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+                "metrics": {"repeat_cosine": 1.0},
             }),
             encoding="utf-8",
         )
@@ -213,6 +216,7 @@ class TestDoctor:
                 "fingerprint": "fresh-fp-1",
             },
             "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+            "metrics": {"repeat_cosine": 1.0},
         }
         smoke_file.write_text(json.dumps(base_receipt), encoding="utf-8")
 
@@ -240,6 +244,82 @@ class TestDoctor:
         res_fp = doctor.check_smoke_receipt(tmp_path, active_cfg, active_freshness=active_fresh_stale)
         assert res_fp["matches_active"] is False
         assert any("fingerprint" in m for m in res_fp["mismatches"])
+
+    def test_doctor_refuses_prefix_curation_eval_receipt(self, tmp_path):
+        """Doctor refuses pre-fix curation eval receipts missing or outdated encoder_contract."""
+        out_dir = tmp_path / "generated-output" / "curation"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        eval_receipt = out_dir / "eval-receipt.json"
+
+        # Case 1: Receipt completely missing encoder_contract (pre-fix)
+        eval_receipt.write_text(
+            json.dumps({
+                "corpus_sha256": "expected_c",
+                "catalog_sha256": "expected_cat",
+                "config": {"model": "all-MiniLM-L6-v2"},
+            }),
+            encoding="utf-8",
+        )
+        with patch("doctor.hashlib.sha256") as mock_sha:
+            mock_hash = MagicMock()
+            mock_hash.hexdigest.side_effect = ["expected_c", "expected_cat"]
+            mock_sha.return_value = mock_hash
+
+            res = doctor.check_curation_eval_receipt(tmp_path, active_retrieval={"model": "all-MiniLM-L6-v2"})
+            assert res["matches_active"] is False
+            assert any("encoder contract mismatch" in m for m in res["mismatches"])
+
+        # Case 2: Receipt with stale / outdated encoder_contract
+        eval_receipt.write_text(
+            json.dumps({
+                "corpus_sha256": "expected_c",
+                "catalog_sha256": "expected_cat",
+                "encoder_contract": "sentence-transformers-legacy-v0",
+                "config": {"model": "all-MiniLM-L6-v2"},
+            }),
+            encoding="utf-8",
+        )
+        with patch("doctor.hashlib.sha256") as mock_sha:
+            mock_hash = MagicMock()
+            mock_hash.hexdigest.side_effect = ["expected_c", "expected_cat"]
+            mock_sha.return_value = mock_hash
+
+            res = doctor.check_curation_eval_receipt(tmp_path, active_retrieval={"model": "all-MiniLM-L6-v2"})
+            assert res["matches_active"] is False
+            assert any("encoder contract mismatch" in m for m in res["mismatches"])
+
+    def test_doctor_refuses_prefix_smoke_receipt_without_repeatability(self, tmp_path):
+        """Doctor refuses pre-fix smoke receipts missing repeat_cosine or with repeat_cosine < 0.999999."""
+        smoke_file = tmp_path / "generated-output" / "curation" / "termux-smoke.json"
+        smoke_file.parent.mkdir(parents=True, exist_ok=True)
+        active_cfg = {"model": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch"}
+
+        # Case 1: Receipt without metrics block (pre-fix receipt)
+        smoke_file.write_text(
+            json.dumps({
+                "status": "success",
+                "model": {"declared_name": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch"},
+                "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+            }),
+            encoding="utf-8",
+        )
+        res_no_metrics = doctor.check_smoke_receipt(tmp_path, active_cfg)
+        assert res_no_metrics["matches_active"] is False
+        assert any("repeatability proof" in m for m in res_no_metrics["mismatches"])
+
+        # Case 2: Receipt with non-deterministic drift (e.g. repeat_cosine=0.53 from train mode dropout)
+        smoke_file.write_text(
+            json.dumps({
+                "status": "success",
+                "model": {"declared_name": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch"},
+                "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+                "metrics": {"repeat_cosine": 0.53},
+            }),
+            encoding="utf-8",
+        )
+        res_drift = doctor.check_smoke_receipt(tmp_path, active_cfg)
+        assert res_drift["matches_active"] is False
+        assert any("repeatability proof" in m for m in res_drift["mismatches"])
 
     def test_doctor_core_modules_includes_pytest(self):
         """doctor core modules must include pytest dev requirement."""
@@ -525,6 +605,40 @@ class TestSmoke:
             assert data["semantic_config"]["model"] == "BAAI/bge-small-en-v1.5"
             assert data["semantic_config"]["pooling"] == "cls"
             assert data["semantic_config"]["fingerprint"] == "bge-fp-999"
+
+    def test_smoke_termux_rejects_drift_vectors(self, tmp_path):
+        """smoke run_termux_smoke rejects non-deterministic encoders when repeated query drifts."""
+        receipt_path = tmp_path / "termux-drift-receipt.json"
+
+        mock_st = MagicMock()
+        fresh_status = {"status": "fresh", "fingerprint": "fp-12345", "reason": "Artifact is fresh"}
+        mock_embs = {
+            "entries": [{"id": "code-review", "vector": [0.1] * 384}],
+            "dimensions": 384,
+            "model": "all-MiniLM-L6-v2",
+            "fingerprint": "fp-12345",
+        }
+
+        # Simulate non-deterministic dropout/drift: first query vector is orthogonal to second query vector
+        vec_initial = [1.0] + [0.0] * 383
+        vec_drifted = [0.0, 1.0] + [0.0] * 382
+
+        with patch("doctor.check_termux_proof", return_value={"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"}), \
+             patch("doctor.check_retrieval", return_value={"ok": True, "model": "all-MiniLM-L6-v2", "revision": "v1.2", "backend": "torch", "dimensions": 384, "config": {"pooling": "mean", "normalize": True}, "source": "core_api"}), \
+             patch("importlib.util.find_spec", return_value=MagicMock()), \
+             patch("importlib.metadata.version", return_value="2.0.0"), \
+             patch("gaia_cli.curation.retrieval.embeddingStatus", return_value=fresh_status), \
+             patch("gaia_cli.semantic_search.load_embeddings", return_value=mock_embs), \
+             patch("gaia_cli.curation.retrieval.getSentenceTransformer", return_value=mock_st), \
+             patch("gaia_cli.semantic_search.embed_query", side_effect=[vec_initial, vec_drifted]):
+            code = smoke.run_termux_smoke(tmp_path, output_path=str(receipt_path))
+            assert code == 1, "Termux smoke must exit 1 when identical-query vectors drift"
+            assert receipt_path.is_file()
+            data = json.loads(receipt_path.read_text(encoding="utf-8"))
+            assert data["status"] == "failed"
+            assert data["error"] == "NONDETERMINISTIC_ENCODER"
+            assert data["repeat_cosine"] < 0.999999
+            assert abs(data["repeat_cosine"] - 0.0) < 1e-6
 
     def test_smoke_sanitizes_errors(self):
         """Diagnostic string errors must sanitize secret tokens."""
@@ -924,6 +1038,7 @@ class TestShellScriptsWithStubs:
         rep_file.write_text(
             json.dumps({
                 "schema_version": 1,
+                "encoder_contract": ENCODER_CONTRACT,
                 "status": "completed",
                 "corpus_sha256": "c_sha",
                 "catalog_sha256": "cat_sha",
@@ -955,6 +1070,7 @@ class TestShellScriptsWithStubs:
         (cur_dir / "minilm-report.json").write_text(
             json.dumps({
                 "schema_version": 1,
+                "encoder_contract": ENCODER_CONTRACT,
                 "status": "completed",
                 "corpus_sha256": "c_sha",
                 "catalog_sha256": "cat_sha",
@@ -969,6 +1085,7 @@ class TestShellScriptsWithStubs:
         (cur_dir / "bge-report.json").write_text(
             json.dumps({
                 "schema_version": 1,
+                "encoder_contract": ENCODER_CONTRACT,
                 "status": "completed",
                 "corpus_sha256": "c_sha",
                 "catalog_sha256": "cat_sha",

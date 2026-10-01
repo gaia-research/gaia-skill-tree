@@ -10,6 +10,7 @@ import json
 import math
 import os
 import sys
+import types
 from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
@@ -18,11 +19,22 @@ import pytest
 
 pytestmark = [pytest.mark.integration]
 
+
+@pytest.fixture(autouse=True)
+def isolatedEncoderModule(monkeypatch):
+    module = types.ModuleType("sentence_transformers")
+    module.SentenceTransformer = MagicMock()
+    monkeypatch.setitem(sys.modules, "sentence_transformers", module)
+    clearModelCache()
+    yield
+    clearModelCache()
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from gaia_cli.curation.retrieval import (
+    ENCODER_CONTRACT,
     clearModelCache,
     clear_model_cache,
     embeddingStatus,
@@ -56,12 +68,23 @@ class MockSentenceTransformer:
         self.model_name = model_name
         self.kwargs = kwargs
         self.encode_call_count = 0
+        self.training = False
+        self.eval_call_count = 0
         if "bge" in model_name.lower():
             self.pooling = "cls"
         elif "qwen" in model_name.lower():
             self.pooling = "last_token"
         else:
             self.pooling = "mean"
+
+    def eval(self) -> MockSentenceTransformer:
+        self.training = False
+        self.eval_call_count += 1
+        return self
+
+    def train(self, mode: bool = True) -> MockSentenceTransformer:
+        self.training = mode
+        return self
 
     def encode(
         self,
@@ -255,6 +278,24 @@ class TestSemanticFingerprint:
         fp1 = semanticFingerprint(sample_skills, {"modelId": "all-MiniLM-L6-v2"})
         fp2 = semanticFingerprint(sample_skills, {"modelId": "sentence-transformers/all-MiniLM-L6-v2"})
         assert fp1 == fp2
+
+    def test_fingerprint_changes_when_encoder_contract_changes(self, sample_skills, monkeypatch):
+        """Semantic fingerprint incorporates ENCODER_CONTRACT constant; changes bust cache."""
+        assert ENCODER_CONTRACT == "sentence-transformers-eval-single-thread-v2"
+        fp_baseline = semanticFingerprint(sample_skills)
+        monkeypatch.setattr("gaia_cli.curation.retrieval.ENCODER_CONTRACT", "sentence-transformers-eval-v0-drift")
+        fp_drifted = semanticFingerprint(sample_skills)
+        assert fp_baseline != fp_drifted
+
+    def test_evaluation_cache_hash_changes_when_encoder_contract_changes(self, monkeypatch):
+        """Evaluation config hash incorporates ENCODER_CONTRACT to invalidate pre-eval caches."""
+        from gaia_cli.curation.evaluation import _compute_config_hash
+
+        cfg = {"modelId": "all-MiniLM-L6-v2", "backend": "torch", "dimensions": 384}
+        h_baseline = _compute_config_hash(cfg)
+        monkeypatch.setattr("gaia_cli.curation.retrieval.ENCODER_CONTRACT", "sentence-transformers-eval-v0-drift")
+        h_drifted = _compute_config_hash(cfg)
+        assert h_baseline != h_drifted
 
 
 class TestEmbeddingStatus:
@@ -631,6 +672,44 @@ class TestModelCacheAndExecution:
         m2 = getSentenceTransformer("all-MiniLM-L6-v2")
         assert m1 is m2
         assert mock_cls.call_count == 1
+
+    def test_mocked_train_mode_model_eval_called_fresh_and_cache_hit(self):
+        """getSentenceTransformer calls model.eval() on fresh instantiation AND on cache hit."""
+        class MockTrainModeModel:
+            def __init__(self, model_name: str = "all-MiniLM-L6-v2", **kwargs: Any):
+                self.model_name = model_name
+                self.kwargs = kwargs
+                self.training = True
+                self.eval_call_count = 0
+                self.pooling = "mean"
+
+            def eval(self):
+                self.training = False
+                self.eval_call_count += 1
+                return self
+
+            def train(self, mode: bool = True):
+                self.training = mode
+                return self
+
+        clearModelCache()
+        with patch("sentence_transformers.SentenceTransformer", side_effect=MockTrainModeModel) as mock_cls:
+            # 1. Fresh instantiation: model starts in train mode; getSentenceTransformer must call eval()
+            m1 = getSentenceTransformer("all-MiniLM-L6-v2")
+            assert mock_cls.call_count == 1
+            assert m1.training is False
+            assert m1.eval_call_count == 1
+
+            # 2. Simulate model being placed back in train mode (e.g. external mutation or native ST behavior)
+            m1.train(True)
+            assert m1.training is True
+
+            # 3. Cache hit: getSentenceTransformer must call eval() again before returning
+            m2 = getSentenceTransformer("all-MiniLM-L6-v2")
+            assert m2 is m1
+            assert mock_cls.call_count == 1  # Reused from cache
+            assert m2.training is False
+            assert m2.eval_call_count == 2
 
     @patch("sentence_transformers.SentenceTransformer", side_effect=MockSentenceTransformer)
     def test_clear_model_cache(self, mock_cls):

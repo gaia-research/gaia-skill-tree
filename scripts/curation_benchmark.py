@@ -71,7 +71,8 @@ def main() -> int:
     p.add_argument(
         "--threads",
         type=int,
-        help="Max CPU threads for PyTorch operations (e.g. 2 for Termux)",
+        choices=[1],
+        help="CPU threads (1 is the verified portable inference contract)",
     )
     p.add_argument(
         "--no-cache",

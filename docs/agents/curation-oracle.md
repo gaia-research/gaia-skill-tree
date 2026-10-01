@@ -11,7 +11,7 @@
 - **Reranker**: Optional CrossEncoder reranker `cross-encoder/ms-marco-MiniLM-L-6-v2` pinned to revision `233902d25c440f23af6f7d6e94d2946bac0bee0a` via CLI `--reranker-revision`. Evaluates pairs across top retrieval candidates and re-orders results while retaining both retrieval cosine scores and cross-encoder reranker scores.
 - **Production Embedding APIs**: Uses `embed_skills` for catalog documents and `embed_query` for candidate queries, ensuring that query instruction prefixes (e.g. BGE's prefix) and pooling normalizations are applied identically to production.
 - **Document Vector Caching**: Evaluated document vectors are cached in the ignored directory `generated-output/curation/cache/`. The cache key is a deterministic SHA-256 hash of the complete sorted generic catalog and the effective retrieval configuration (`catalog_hash` + `config_hash`). Writes are atomic via `tempfile` and `os.replace`. Caching automatically invalidates whenever catalog nodes or retrieval configuration parameters change.
-- **Hardware & Termux Boundedness**: Default `batch_size` is bounded at 16. Optional `--threads` (e.g. `--threads 2` for Termux) constrains CPU concurrency. Latencies are split into `load_seconds` (warm load via shared `getSentenceTransformer`), `reranker_load_seconds` (separated from model load), `document_seconds`, `query_seconds`, and `rerank_seconds`. `model_load_state` records `"cold"` vs `"cached"`. Peak RSS is reported as exact normalized bytes in `peak_rss_bytes` (avoiding ambiguous platform units). Model weight size is measured in `model_weight_bytes` by inspecting the pinned revision snapshot path and counting actual parameter tensors (`.safetensors`, `.bin`), strictly excluding READMEs, tokenizers, vocabularies, configs, and duplicate cache blobs.
+- **Hardware & Termux Boundedness**: Default `batch_size` is bounded at 16. The verified portable inference contract uses evaluation mode and one CPU thread (`--threads 1`). Native Android Torch 2.11 produced repeat-query drift with multiple threads; pre-contract measurements and vector caches are invalid. Latencies are split into `load_seconds` (warm load via shared `getSentenceTransformer`), `reranker_load_seconds` (separated from model load), `document_seconds`, `query_seconds`, and `rerank_seconds`. `model_load_state` records `"cold"` vs `"cached"`. Peak RSS is reported as exact normalized bytes in `peak_rss_bytes` (avoiding ambiguous platform units). Model weight size is measured in `model_weight_bytes` by inspecting the pinned revision snapshot path and counting actual parameter tensors (`.safetensors`, `.bin`), strictly excluding READMEs, tokenizers, vocabularies, configs, and duplicate cache blobs.
 
 ## Provenance and Oracle Integrity
 
@@ -79,7 +79,7 @@ python scripts/curation_benchmark.py \
   --model all-MiniLM-L6-v2 \
   --reranker cross-encoder/ms-marco-MiniLM-L-6-v2 \
   --reranker-revision 233902d25c440f23af6f7d6e94d2946bac0bee0a \
-  --threads 2 \
+  --threads 1 \
   --batch-size 16 \
   --output generated-output/curation/minilm_reranked_report.json
 ```

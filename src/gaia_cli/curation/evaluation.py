@@ -12,6 +12,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from gaia_cli.curation.retrieval import ENCODER_CONTRACT
 
 BASELINE = "all-MiniLM-L6-v2"
 CHALLENGER = "BAAI/bge-small-en-v1.5"
@@ -148,7 +149,9 @@ def _get_cache_dir(root: str | Path) -> Path:
 
 def _compute_config_hash(cfg: dict[str, Any]) -> str:
     """Deterministic hash of retrieval configuration fields influencing embeddings."""
+    from gaia_cli.curation.retrieval import ENCODER_CONTRACT
     payload = {
+        "encoderContract": ENCODER_CONTRACT,
         "backend": cfg.get("backend", "torch"),
         "dimensions": cfg.get("dimensions"),
         "modelId": cfg.get("modelId") or cfg.get("defaultModel"),
@@ -600,12 +603,8 @@ def run(
     started = time.perf_counter()
     root = Path(root)
 
-    if threads is not None:
-        try:
-            import torch
-            torch.set_num_threads(threads)
-        except Exception:
-            pass
+    if threads not in (None, 1):
+        raise ValueError("Portable inference requires --threads 1; multi-thread native ARM output was not repeatable")
 
     corpus_file = Path(corpus_path)
     corpus_data = json.loads(corpus_file.read_text(encoding="utf-8"))
@@ -744,6 +743,8 @@ def run(
             if reranker_revision:
                 cross_kwargs["revision"] = reranker_revision
             cross = CrossEncoder(reranker, **cross_kwargs)
+            if callable(getattr(getattr(cross, "model", None), "eval", None)):
+                cross.model.eval()
             latency_reranker_load = time.perf_counter() - t_rerank_load
 
             t_rerank_start = time.perf_counter()
@@ -834,6 +835,7 @@ def run(
 
     return {
         "schema_version": 1,
+        "encoder_contract": ENCODER_CONTRACT,
         "status": "completed",
         "evaluatedAt": datetime.now(timezone.utc).isoformat(),
         "config": config,
