@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-01T01:30:05Z",
+  "generatedAt": "2026-10-01T23:06:43Z",
   "firstRun": false,
   "skills": [
     {
@@ -8,10 +8,10 @@
       "name": "Misc",
       "level": "4★",
       "contributor": "mattpocock",
-      "trustMagnitude": 199.13,
+      "trustMagnitude": 200.29,
       "overallTrustGrade": "A",
-      "trendingScore": 4271.73,
-      "tmDelta": 199.13,
+      "trendingScore": 4296.09,
+      "tmDelta": 200.29,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/misc.json"
@@ -50,10 +50,10 @@
       "name": "HyperFrames",
       "level": "4★",
       "contributor": "heygen-com",
-      "trustMagnitude": 163.63,
+      "trustMagnitude": 166.92,
       "overallTrustGrade": "A",
-      "trendingScore": 81.81,
-      "tmDelta": 163.63,
+      "trendingScore": 83.46,
+      "tmDelta": 166.92,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes.json"
@@ -64,10 +64,10 @@
       "name": "Graphify",
       "level": "5★",
       "contributor": "safishamsi",
-      "trustMagnitude": 316.88,
+      "trustMagnitude": 318.14,
       "overallTrustGrade": "S",
-      "trendingScore": 80.36,
-      "tmDelta": 19.08,
+      "trendingScore": 81.71,
+      "tmDelta": 20.34,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
@@ -78,10 +78,10 @@
       "name": "Context Mode",
       "level": "4★",
       "contributor": "mksglu",
-      "trustMagnitude": 151.89,
+      "trustMagnitude": 154.71,
       "overallTrustGrade": "A",
-      "trendingScore": 75.94,
-      "tmDelta": 151.89,
+      "trendingScore": 77.36,
+      "tmDelta": 154.71,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mksglu/context-mode.json"
@@ -92,10 +92,10 @@
       "name": "graft",
       "level": "4★",
       "contributor": "trailhq",
-      "trustMagnitude": 140.42,
+      "trustMagnitude": 145.16,
       "overallTrustGrade": "A",
-      "trendingScore": 70.21,
-      "tmDelta": 140.42,
+      "trendingScore": 72.58,
+      "tmDelta": 145.16,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/trailhq/graft.json"
@@ -106,27 +106,13 @@
       "name": "brag",
       "level": "3★",
       "contributor": "latent-spaces",
-      "trustMagnitude": 139.93,
+      "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
-      "trendingScore": 69.97,
-      "tmDelta": 139.93,
+      "trendingScore": 72.27,
+      "tmDelta": 144.54,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
-      }
-    },
-    {
-      "id": "garrytan/gbrain",
-      "name": "GBrain",
-      "level": "4★",
-      "contributor": "garrytan",
-      "trustMagnitude": 121.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 60.76,
-      "tmDelta": 121.52,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gbrain.json"
       }
     },
     {
@@ -134,13 +120,27 @@
       "name": "I Have ADHD",
       "level": "4★",
       "contributor": "ayghri",
-      "trustMagnitude": 119.66,
+      "trustMagnitude": 130.23,
       "overallTrustGrade": "A",
-      "trendingScore": 59.83,
-      "tmDelta": 119.66,
+      "trendingScore": 65.11,
+      "tmDelta": 130.23,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+      }
+    },
+    {
+      "id": "garrytan/gbrain",
+      "name": "GBrain",
+      "level": "4★",
+      "contributor": "garrytan",
+      "trustMagnitude": 121.94,
+      "overallTrustGrade": "A",
+      "trendingScore": 60.97,
+      "tmDelta": 121.94,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain.json"
       }
     },
     {
@@ -148,10 +148,10 @@
       "name": "Matt Pocock Skills",
       "level": "5★",
       "contributor": "mattpocock",
-      "trustMagnitude": 373.22,
+      "trustMagnitude": 374.99,
       "overallTrustGrade": "S",
-      "trendingScore": 55.95,
-      "tmDelta": 43.32,
+      "trendingScore": 57.82,
+      "tmDelta": 45.09,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
@@ -162,10 +162,10 @@
       "name": "Vercel React Best Practices",
       "level": "4★",
       "contributor": "vercel-labs",
-      "trustMagnitude": 162.66,
+      "trustMagnitude": 163.19,
       "overallTrustGrade": "A",
-      "trendingScore": 54.11,
-      "tmDelta": 3.65,
+      "trendingScore": 54.71,
+      "tmDelta": 4.18,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
@@ -480,14 +480,28 @@
       }
     },
     {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 91.46,
+      "overallTrustGrade": "B",
+      "trendingScore": 45.73,
+      "tmDelta": 91.46,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      }
+    },
+    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
       "contributor": "nateherkai",
-      "trustMagnitude": 82.22,
+      "trustMagnitude": 87.38,
       "overallTrustGrade": "B",
-      "trendingScore": 41.11,
-      "tmDelta": 82.22,
+      "trendingScore": 43.69,
+      "tmDelta": 87.38,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nateherkai/scroll-craft.json"
@@ -498,27 +512,13 @@
       "name": "Founder Mode",
       "level": "5★",
       "contributor": "garrytan",
-      "trustMagnitude": 355.66,
+      "trustMagnitude": 356.11,
       "overallTrustGrade": "S",
-      "trendingScore": 35.52,
-      "tmDelta": 24.07,
+      "trendingScore": 36.0,
+      "tmDelta": 24.52,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
-      }
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 65.81,
-      "overallTrustGrade": "B",
-      "trendingScore": 32.91,
-      "tmDelta": 65.81,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
       }
     },
     {
@@ -862,10 +862,10 @@
       "name": "Log To Daily",
       "level": "2★",
       "contributor": "aplaceforallmystuff",
-      "trustMagnitude": 21.51,
+      "trustMagnitude": 22.67,
       "overallTrustGrade": "C",
-      "trendingScore": 10.76,
-      "tmDelta": 21.51,
+      "trendingScore": 11.34,
+      "tmDelta": 22.67,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"

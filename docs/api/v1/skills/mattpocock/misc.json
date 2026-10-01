@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 199.13,
+  "trustMagnitude": 200.29,
   "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Extra",
@@ -40,11 +40,12 @@
   "evidence": [
     {
       "source": "https://github.com/mattpocock/skills",
+      "updatedAt": "2026-10-01",
       "evaluator": "mbtiongson1",
       "date": "2026-09-06",
       "type": "github-stars-own",
       "notes": "253k GitHub stars on mattpocock/skills — upstream repository hosting the misc/utility skills: git-guardrails-claude-code, migrate-to-shoehorn, scaffold-exercises, setup-pre-commit.",
-      "stars": 253393,
+      "stars": 273408,
       "sourceStartedAt": "2026-02-03",
       "grade": "A"
     },

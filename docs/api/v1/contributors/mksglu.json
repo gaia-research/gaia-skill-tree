@@ -5,7 +5,7 @@
       "id": "mksglu/context-mode",
       "name": "Context Mode",
       "level": "4★",
-      "trustMagnitude": 151.89,
+      "trustMagnitude": 154.71,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "mksglu",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "mksglu/context-mode",
     "level": "4★",
-    "trustMagnitude": 151.89
+    "trustMagnitude": 154.71
   },
-  "prestigeScore": 151.89,
+  "prestigeScore": 154.71,
   "gradeDistribution": {
     "A": 1
   },

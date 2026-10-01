@@ -4,7 +4,7 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 373.22,
+      "trustMagnitude": 374.99,
       "overallTrustGrade": "S",
       "fusionScore": 364.92,
       "contributor": "mattpocock",
@@ -48,7 +48,7 @@
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
-      "trustMagnitude": 355.66,
+      "trustMagnitude": 356.11,
       "overallTrustGrade": "S",
       "fusionScore": 392.87,
       "contributor": "garrytan",
@@ -113,7 +113,7 @@
       "id": "safishamsi/graphify",
       "name": "Graphify",
       "level": "5★",
-      "trustMagnitude": 316.88,
+      "trustMagnitude": 318.14,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "safishamsi",
@@ -130,7 +130,7 @@
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
-      "trustMagnitude": 226.5,
+      "trustMagnitude": 227.51,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "nextlevelbuilder",
@@ -147,7 +147,7 @@
       "id": "dietrichgebert/ponytail",
       "name": "Ponytail",
       "level": "4★",
-      "trustMagnitude": 221.96,
+      "trustMagnitude": 225.42,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "dietrichgebert",
@@ -164,7 +164,7 @@
       "id": "obra/superpowers",
       "name": "Superpowers",
       "level": "4★",
-      "trustMagnitude": 220.81,
+      "trustMagnitude": 221.52,
       "overallTrustGrade": "A",
       "fusionScore": 300.0,
       "contributor": "obra",
@@ -194,7 +194,7 @@
       "id": "mvanhorn/last30days",
       "name": "Last 30 Days Web Research",
       "level": "4★",
-      "trustMagnitude": 205.15,
+      "trustMagnitude": 205.75,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mvanhorn",
@@ -211,7 +211,7 @@
       "id": "mattpocock/misc",
       "name": "Misc",
       "level": "4★",
-      "trustMagnitude": 199.13,
+      "trustMagnitude": 200.29,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mattpocock",
@@ -251,7 +251,7 @@
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
       "level": "4★",
-      "trustMagnitude": 184.32,
+      "trustMagnitude": 184.87,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "anthropics",
@@ -268,7 +268,7 @@
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "4★",
-      "trustMagnitude": 174.62,
+      "trustMagnitude": 176.04,
       "overallTrustGrade": "A",
       "fusionScore": 284.85,
       "contributor": "addy-osmani",
@@ -295,7 +295,7 @@
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
       "level": "4★",
-      "trustMagnitude": 174.59,
+      "trustMagnitude": 175.34,
       "overallTrustGrade": "A",
       "fusionScore": 389.74,
       "contributor": "ruvnet",
@@ -361,7 +361,7 @@
       "id": "leonxlnx/taste-skill",
       "name": "taste-skill",
       "level": "4★",
-      "trustMagnitude": 172.43,
+      "trustMagnitude": 174.68,
       "overallTrustGrade": "A",
       "fusionScore": 256.57,
       "contributor": "leonxlnx",
@@ -388,10 +388,27 @@
       ]
     },
     {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "trustMagnitude": 171.27,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "pbakaus",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
       "level": "4★",
-      "trustMagnitude": 169.36,
+      "trustMagnitude": 169.31,
       "overallTrustGrade": "A",
       "fusionScore": 272.11,
       "contributor": "gsd-build",
@@ -412,27 +429,10 @@
       ]
     },
     {
-      "id": "pbakaus/impeccable",
-      "name": "Impeccable",
-      "level": "4★",
-      "trustMagnitude": 169.34,
-      "overallTrustGrade": "A",
-      "fusionScore": 60.0,
-      "contributor": "pbakaus",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/pbakaus/impeccable.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
       "id": "heygen-com/hyperframes",
       "name": "HyperFrames",
       "level": "4★",
-      "trustMagnitude": 163.63,
+      "trustMagnitude": 166.92,
       "overallTrustGrade": "A",
       "fusionScore": 280.0,
       "contributor": "heygen-com",
@@ -469,7 +469,7 @@
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
-      "trustMagnitude": 162.66,
+      "trustMagnitude": 163.19,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "vercel-labs",
@@ -486,7 +486,7 @@
       "id": "mksglu/context-mode",
       "name": "Context Mode",
       "level": "4★",
-      "trustMagnitude": 151.89,
+      "trustMagnitude": 154.71,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "mksglu",
@@ -503,7 +503,7 @@
       "id": "trailhq/graft",
       "name": "graft",
       "level": "4★",
-      "trustMagnitude": 140.42,
+      "trustMagnitude": 145.16,
       "overallTrustGrade": "A",
       "fusionScore": 100.0,
       "contributor": "trailhq",
@@ -520,7 +520,7 @@
       "id": "latent-spaces/brag",
       "name": "brag",
       "level": "3★",
-      "trustMagnitude": 139.93,
+      "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
@@ -534,10 +534,27 @@
       "genericSkillRef": "project-launch-video-production"
     },
     {
+      "id": "ayghri/i-have-adhd",
+      "name": "I Have ADHD",
+      "level": "4★",
+      "trustMagnitude": 130.23,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "ayghri",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
-      "trustMagnitude": 121.52,
+      "trustMagnitude": 121.94,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "garrytan",
@@ -554,23 +571,6 @@
         "garrytan/capture",
         "garrytan/concept-synthesis"
       ]
-    },
-    {
-      "id": "ayghri/i-have-adhd",
-      "name": "I Have ADHD",
-      "level": "4★",
-      "trustMagnitude": 119.66,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "ayghri",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
-      },
-      "genericSkillRef": "format-output"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -886,6 +886,23 @@
       "genericSkillRef": "ubiquitous-language"
     },
     {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "trustMagnitude": 91.46,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      },
+      "genericSkillRef": "task-depth-enforcement"
+    },
+    {
       "id": "garrytan/browse",
       "name": "Browse",
       "level": "3★",
@@ -924,6 +941,23 @@
       ]
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "trustMagnitude": 87.38,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "nateherkai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "genericSkillRef": "scroll-driven-web-design"
+    },
+    {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "3★",
@@ -939,23 +973,6 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       },
       "genericSkillRef": "web-search"
-    },
-    {
-      "id": "nateherkai/scroll-craft",
-      "name": "Scroll Craft",
-      "level": "3★",
-      "trustMagnitude": 82.22,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "nateherkai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
-      },
-      "genericSkillRef": "scroll-driven-web-design"
     },
     {
       "id": "garrytan/retro",
@@ -1036,7 +1053,7 @@
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
       "level": "3★",
-      "trustMagnitude": 70.69,
+      "trustMagnitude": 72.86,
       "overallTrustGrade": "B",
       "fusionScore": 240.0,
       "contributor": "firecrawl",
@@ -1072,23 +1089,6 @@
         "self": "/api/v1/skills/garrytan/careful.json"
       },
       "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "garrytan/office-hours",
-      "name": "Office Hours",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/office-hours.json"
-      },
-      "genericSkillRef": "question-answer"
     }
   ],
   "page": 1,

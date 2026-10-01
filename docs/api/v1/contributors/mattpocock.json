@@ -5,7 +5,7 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 373.22,
+      "trustMagnitude": 374.99,
       "overallTrustGrade": "S",
       "fusionScore": 364.92,
       "contributor": "mattpocock",
@@ -49,7 +49,7 @@
       "id": "mattpocock/misc",
       "name": "Misc",
       "level": "4★",
-      "trustMagnitude": 199.13,
+      "trustMagnitude": 200.29,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mattpocock",
@@ -709,9 +709,9 @@
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
-    "trustMagnitude": 373.22
+    "trustMagnitude": 374.99
   },
-  "prestigeScore": 2461.52,
+  "prestigeScore": 2464.45,
   "gradeDistribution": {
     "S": 1,
     "A": 3,

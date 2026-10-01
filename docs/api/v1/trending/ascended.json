@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-01T01:30:05Z",
+  "generatedAt": "2026-10-01T23:06:43Z",
   "skills": [
     {
       "id": "latent-spaces/brag",
       "name": "brag",
       "level": "3★",
       "contributor": "latent-spaces",
-      "trustMagnitude": 139.93,
+      "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-09-26T16:45:15Z",
       "_links": {
@@ -58,7 +58,7 @@
       "name": "graft",
       "level": "4★",
       "contributor": "trailhq",
-      "trustMagnitude": 140.42,
+      "trustMagnitude": 145.16,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-09-10T15:54:27Z",
       "_links": {
@@ -84,7 +84,7 @@
       "name": "unlazy",
       "level": "3★",
       "contributor": "leonxlnx",
-      "trustMagnitude": 65.81,
+      "trustMagnitude": 91.46,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-09-09T20:31:07Z",
       "_links": {
@@ -123,7 +123,7 @@
       "name": "Log To Daily",
       "level": "2★",
       "contributor": "aplaceforallmystuff",
-      "trustMagnitude": 21.51,
+      "trustMagnitude": 22.67,
       "overallTrustGrade": "C",
       "ascendedAt": "2026-09-09T20:31:01Z",
       "_links": {
@@ -136,7 +136,7 @@
       "name": "Context Mode",
       "level": "4★",
       "contributor": "mksglu",
-      "trustMagnitude": 151.89,
+      "trustMagnitude": 154.71,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-09-06T17:59:58Z",
       "_links": {
@@ -149,7 +149,7 @@
       "name": "GBrain",
       "level": "4★",
       "contributor": "garrytan",
-      "trustMagnitude": 121.52,
+      "trustMagnitude": 121.94,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-09-06T17:52:54Z",
       "_links": {
@@ -342,7 +342,7 @@
       "name": "Scroll Craft",
       "level": "3★",
       "contributor": "nateherkai",
-      "trustMagnitude": 82.22,
+      "trustMagnitude": 87.38,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-09-06T16:59:08Z",
       "_links": {

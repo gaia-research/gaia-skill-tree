@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-01T01:30:05Z",
+  "generatedAt": "2026-10-01T23:06:43Z",
   "buckets": [
     {
       "genericSkillRef": "ux-audit",
       "implementations": 4,
-      "topTM": 226.5,
+      "topTM": 227.51,
       "skills": [
         {
           "id": "nextlevelbuilder/ui-ux-pro-max",
-          "trustMagnitude": 226.5,
+          "trustMagnitude": 227.51,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -39,11 +39,11 @@
     {
       "genericSkillRef": "autonomous-web-research",
       "implementations": 2,
-      "topTM": 205.15,
+      "topTM": 205.75,
       "skills": [
         {
           "id": "mvanhorn/last30days",
-          "trustMagnitude": 205.15,
+          "trustMagnitude": 205.75,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -88,11 +88,11 @@
     {
       "genericSkillRef": "brand-guideline-application",
       "implementations": 2,
-      "topTM": 184.32,
+      "topTM": 184.87,
       "skills": [
         {
           "id": "anthropics/brand-guidelines",
-          "trustMagnitude": 184.32,
+          "trustMagnitude": 184.87,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -109,18 +109,18 @@
     {
       "genericSkillRef": "git-ship-done-pipeline",
       "implementations": 2,
-      "topTM": 174.62,
+      "topTM": 176.04,
       "skills": [
         {
           "id": "addy-osmani/agent-skills",
-          "trustMagnitude": 174.62,
+          "trustMagnitude": 176.04,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
         {
           "id": "gsd-build/get-shit-done",
-          "trustMagnitude": 169.36,
+          "trustMagnitude": 169.31,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": false
@@ -130,18 +130,18 @@
     {
       "genericSkillRef": "design-generation",
       "implementations": 7,
-      "topTM": 172.43,
+      "topTM": 174.68,
       "skills": [
         {
           "id": "leonxlnx/taste-skill",
-          "trustMagnitude": 172.43,
+          "trustMagnitude": 174.68,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
         },
         {
           "id": "pbakaus/impeccable",
-          "trustMagnitude": 169.34,
+          "trustMagnitude": 171.27,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": false
@@ -186,11 +186,11 @@
     {
       "genericSkillRef": "video-composition",
       "implementations": 6,
-      "topTM": 163.63,
+      "topTM": 166.92,
       "skills": [
         {
           "id": "heygen-com/hyperframes",
-          "trustMagnitude": 163.63,
+          "trustMagnitude": 166.92,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -235,11 +235,11 @@
     {
       "genericSkillRef": "format-output",
       "implementations": 3,
-      "topTM": 119.66,
+      "topTM": 130.23,
       "skills": [
         {
           "id": "ayghri/i-have-adhd",
-          "trustMagnitude": 119.66,
+          "trustMagnitude": 130.23,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
