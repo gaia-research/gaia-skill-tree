@@ -39,13 +39,14 @@ timeline:
     changed notes, stars'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-07'
   type: github-stars-own
   notes: Pinned upstream implementation at gbrain commit 8c70f6255047a7647adb30b1d6333a48068d9fa5;
     live GitHub repository has 29,650 stars and 73 bundled skills; source is concrete
     and installable through the canonical gbrain router.
-  stars: 29650
+  stars: 30471
   skillCountInRepo: 73
   sourceStartedAt: '2026-09-03'
   grade: A

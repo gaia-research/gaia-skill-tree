@@ -147,13 +147,14 @@ suiteComponents:
 - mattpocock/zoom-out
 evidence:
 - source: https://github.com/mattpocock/skills
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: 253 k GitHub stars on mattpocock/skills — upstream repository for all engineering-discipline
     suite components (code-review, diagnose, grill-with-docs, to-spec, to-tickets,
     triage, etc.).
-  stars: 253393
+  stars: 273408
   sourceStartedAt: '2026-02-03'
   grade: A
 - source: https://github.com/mattpocock/skills

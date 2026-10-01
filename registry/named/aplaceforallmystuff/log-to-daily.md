@@ -56,11 +56,12 @@ evidence:
   contributors: 1
   sourceStartedAt: '2026-01-22'
 - source: https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers
+  updatedAt: '2026-10-01'
   evaluator: unknown
   date: '2026-07-31'
   type: github-stars-own
   notes: Live GitHub stars for daily-patterns-pack; one SKILL.md file under skills/.
-  stars: 38
+  stars: 41
   skillCountInRepo: 1
   sourceStartedAt: '2026-01-22'
 verification:

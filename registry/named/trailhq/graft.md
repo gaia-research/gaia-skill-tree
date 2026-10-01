@@ -64,12 +64,13 @@ evidence:
   sourceStartedAt: '2026-07-03'
   grade: B
 - source: https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: unknown
   date: '2026-09-10'
   type: github-stars-own
   notes: 'GitHub stars: 6927 (live re-verified Phase 2/Phase 3, 2026-09-10, supersedes
     Phase-0 snapshot of 6892).'
-  stars: 6927
+  stars: 9464
   skillCountInRepo: 1
   sourceStartedAt: '2026-07-03'
   grade: A

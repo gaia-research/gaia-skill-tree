@@ -42,11 +42,12 @@ timeline:
   details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-08-22'
   type: github-stars-own
   notes: 79.0k stars on Leonxlnx/taste-skill suite component
-  stars: 79067
+  stars: 91660
   sourceStartedAt: '2026-02-19'
   grade: A
 - source: https://github.com/leonxlnx/taste-skill

@@ -47,12 +47,13 @@ timeline:
   details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-27'
   type: github-stars-own
   notes: GitHub REST stargazers at verification; upstream /brag SKILL.md is one of
     two distinct skill files in the repo.
-  stars: 9323
+  stars: 12621
   skillCountInRepo: 2
   sourceStartedAt: '2026-06-16'
   grade: A
