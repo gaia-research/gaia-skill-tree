@@ -1,6 +1,9 @@
 import hashlib
 import json
 import numpy as np
+import pytest
+import sys
+import types
 from pathlib import Path
 
 from gaia_cli.curation.evaluation import (
@@ -13,6 +16,20 @@ from gaia_cli.curation.evaluation import (
 from gaia_cli.curation.retrieval import clear_model_cache, loadRetrievalConfig
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(autouse=True)
+def isolatedEncoderModule(monkeypatch):
+    """Unit tests execute with no installed ML stack, including on light CI."""
+    module = types.ModuleType("sentence_transformers")
+    def unexpectedLoad(*args, **kwargs):
+        raise AssertionError("Test must explicitly supply a fake encoder")
+    module.SentenceTransformer = unexpectedLoad
+    module.CrossEncoder = unexpectedLoad
+    monkeypatch.setitem(sys.modules, "sentence_transformers", module)
+    clear_model_cache()
+    yield
+    clear_model_cache()
 
 
 def test_metrics_use_only_available_labelled_predictions():

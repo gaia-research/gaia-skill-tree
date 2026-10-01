@@ -274,10 +274,57 @@ class TestDoctor:
         assert len(violations) == 1
         v = violations[0]
         assert v["file"] == str(leak_file)
+        assert v["path"] == str(leak_file)
         assert v["pattern"] == "api_key"
+        assert v["category"] == "api_key"
+        assert v["report"] is True
         assert v["redacted"] is True
         assert "line" not in v
         assert "sk-live" not in json.dumps(v)
+
+    def test_secret_scanner_canary_injected_source_line_never_leaks(self, tmp_path, capsys, monkeypatch):
+        """Canary API token injected into source lines is never emitted in reports or stdout/stderr."""
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+
+        canary_token = "ghp_" + "CanaryTokenInjectedSourceSecret12345"
+        leak_file = tmp_path / "leaky_module.py"
+        leak_file.write_text(
+            f'# Configuration\nGITHUB_SECRET_TOKEN = "{canary_token}"\nACTIVE = True\n',
+            encoding="utf-8",
+        )
+
+        findings = doctor.scan_path_rule_findings(leak_file)
+        assert len(findings) >= 1
+        assert canary_token not in json.dumps(findings)
+        assert findings[0]["path"] == str(leak_file)
+        assert findings[0]["report"] is True
+
+        is_clean, changed_findings = doctor.scan_changed_tracked_paths(tmp_path, explicit_files=[str(leak_file)])
+        assert is_clean is False
+        assert canary_token not in json.dumps(changed_findings)
+
+        with patch("sys.argv", ["doctor.py", "--scan-secrets", "--registry", str(tmp_path), "--files", str(leak_file)]):
+            exit_code = doctor.main()
+            assert exit_code == 1
+
+        out, err = capsys.readouterr()
+        assert canary_token not in out
+        assert canary_token not in err
+        assert "VIOLATION" in out
+
+    def test_canary_injected_token_in_doctor_retrieval_exception_never_leaks(self, tmp_path, monkeypatch):
+        """Doctor retrieval config exception never reflects raw exception string or injected secrets."""
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        canary_token = "AIza_CANARY_DOCTOR_RETRIEVAL_TOKEN_12345"
+
+        with patch("gaia_cli.curation.retrieval.loadRetrievalConfig", side_effect=RuntimeError(f"HTTP auth failed key={canary_token}")):
+            res = doctor.check_retrieval(tmp_path)
+            assert res["ok"] is False
+            dumped = json.dumps(res)
+            assert canary_token not in dumped
+            assert "RETRIEVAL_CONFIG_LOAD_FAILED" in res["error"]
 
 
 class TestSmoke:
@@ -488,6 +535,95 @@ class TestSmoke:
         assert "ghp_1234567890" not in sanitized
         assert "sk-abcdef" not in sanitized
         assert "[REDACTED" in sanitized
+
+    def test_failure_code_safe_opaque_status(self):
+        """failureCode returns safe opaque status codes without reflecting exception message contents."""
+        assert smoke.failureCode(None, "DEFAULT_ERR") == "DEFAULT_ERR"
+        canary = "sk-live-CANARY-SECRET-KEY-123456789"
+        exc = ValueError(f"Secret leakage attempt: {canary}")
+        res = smoke.failureCode(exc, "CONFIG_FAILED")
+        assert canary not in res
+        assert res == "ValueError [CONFIG_FAILED]"
+        assert smoke.failure_code(exc, "CONFIG_FAILED") == "ValueError [CONFIG_FAILED]"
+
+    def test_canary_injected_token_in_failing_model_exception_never_leaks(self, tmp_path, capsys, monkeypatch):
+        """Canary API token in failing model exception is never emitted in stdout, stderr, or receipts."""
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("HF_TOKEN", raising=False)
+
+        canary_token = "sk-live-CANARY_FAILING_MODEL_EXCEPTION_TOKEN_12345"
+        failing_exc = RuntimeError(f"Connection failed to endpoint with Authorization: Bearer {canary_token}")
+
+        # 1. Warmup failure
+        with patch("doctor.check_retrieval", return_value={"ok": True, "model": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch", "dimensions": 384, "config": {}}), \
+             patch("gaia_cli.curation.retrieval.getSentenceTransformer", side_effect=failing_exc):
+            code = smoke.run_warmup(tmp_path)
+            assert code == 1
+
+        out, err = capsys.readouterr()
+        assert canary_token not in out
+        assert canary_token not in err
+        assert "MODEL_LOAD_FAILED" in err
+        assert "RuntimeError" in err
+
+        # 2. Termux smoke failure & receipt
+        receipt_path = tmp_path / "termux-receipt.json"
+        fresh_status = {"status": "fresh", "fingerprint": "fp-12345"}
+        mock_embs = {"entries": [{"id": "code-review", "vector": [0.1] * 384}], "dimensions": 384, "model": "all-MiniLM-L6-v2", "fingerprint": "fp-12345"}
+
+        with patch("doctor.check_termux_proof", return_value={"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"}), \
+             patch("doctor.check_retrieval", return_value={"ok": True, "model": "all-MiniLM-L6-v2", "revision": "v1.2", "backend": "torch", "dimensions": 384, "config": {}}), \
+             patch("importlib.util.find_spec", return_value=MagicMock()), \
+             patch("importlib.metadata.version", return_value="2.0.0"), \
+             patch("gaia_cli.curation.retrieval.embeddingStatus", return_value=fresh_status), \
+             patch("gaia_cli.semantic_search.load_embeddings", return_value=mock_embs), \
+             patch("gaia_cli.curation.retrieval.getSentenceTransformer", side_effect=failing_exc):
+            code = smoke.run_termux_smoke(tmp_path, output_path=str(receipt_path))
+            assert code == 1
+
+        out, err = capsys.readouterr()
+        assert canary_token not in out
+        assert canary_token not in err
+        assert receipt_path.is_file()
+        receipt_text = receipt_path.read_text(encoding="utf-8")
+        assert canary_token not in receipt_text
+        assert "MODEL_LOAD_FAILED" in receipt_text
+        assert "RuntimeError" in receipt_text
+
+    def test_canary_injected_token_in_invalid_config_never_leaks(self, tmp_path, capsys, monkeypatch):
+        """Canary API token in invalid config exception is never emitted in stdout, stderr, or receipts."""
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        canary_token = "typesafe-CANARY_INVALID_CONFIG_SECRET_TOKEN_67890"
+        cfg_exc = ValueError(f"Malformed config: invalid credential key={canary_token} at https://internal.gaia.org")
+
+        # 1. Warmup with model_override
+        with patch("gaia_cli.curation.retrieval.loadRetrievalConfig", side_effect=cfg_exc):
+            code = smoke.run_warmup(tmp_path, model_override="canary-model")
+            assert code == 1
+
+        out, err = capsys.readouterr()
+        assert canary_token not in out
+        assert canary_token not in err
+        assert "RETRIEVAL_CONFIG_LOAD_FAILED" in err
+
+        # 2. Termux smoke with model_override
+        receipt_path = tmp_path / "termux-cfg-receipt.json"
+        with patch("doctor.check_termux_proof", return_value={"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"}), \
+             patch("importlib.util.find_spec", return_value=MagicMock()), \
+             patch("importlib.metadata.version", return_value="2.0.0"), \
+             patch("gaia_cli.curation.retrieval.loadRetrievalConfig", side_effect=cfg_exc):
+            code = smoke.run_termux_smoke(tmp_path, output_path=str(receipt_path), model_override="canary-model")
+            assert code == 1
+
+        out, err = capsys.readouterr()
+        assert canary_token not in out
+        assert canary_token not in err
+        assert receipt_path.is_file()
+        receipt_text = receipt_path.read_text(encoding="utf-8")
+        assert canary_token not in receipt_text
+        assert "RETRIEVAL_CONFIG_LOAD_FAILED" in receipt_text
+        assert "ValueError" in receipt_text
 
 
 class TestShellScriptsWithStubs:

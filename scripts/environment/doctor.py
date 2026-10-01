@@ -62,7 +62,7 @@ def check_source_import(repo_root: Path) -> Dict[str, Any]:
             "path": None,
             "source_matched": False,
             "version": None,
-            "error": str(exc),
+            "error": f"{exc.__class__.__name__}: SOURCE_IMPORT_FAILED",
         }
 
 
@@ -132,7 +132,7 @@ def check_retrieval(repo_root: Path) -> Dict[str, Any]:
     except Exception as exc:
         return {
             "ok": False,
-            "error": f"Retrieval config load failed: {exc}",
+            "error": f"{exc.__class__.__name__}: RETRIEVAL_CONFIG_LOAD_FAILED",
             "model": None,
             "source": "failed",
         }
@@ -155,17 +155,25 @@ def check_artifact_freshness(repo_root: Path, config: Optional[Dict[str, Any]] =
             "status": st,
         }
     except Exception as exc:
+        err_code = f"{exc.__class__.__name__}: ARTIFACT_FRESHNESS_CHECK_FAILED"
         return {
             "ok": False,
             "fresh": False,
             "present": False,
-            "error": str(exc),
-            "status": {"status": "error", "reason": str(exc)},
+            "error": err_code,
+            "status": {"status": "error", "reason": err_code},
         }
 
 
 def check_typesafe_credential() -> Dict[str, Any]:
-    return {"configured": bool(os.environ.get("TYPESAFE_API_KEY", "").strip())}
+    """Check if Typesafe credential is configured in the environment.
+
+    Only TYPESAFE_API_KEY is supported. Legacy or unofficial JEV_API_KEY
+    is not supported for curation environment evaluation.
+    Reports boolean presence only without ever reading or exposing the secret value.
+    """
+    key_val = os.environ.get("TYPESAFE_API_KEY")
+    return {"configured": bool(key_val and key_val.strip())}
 
 
 def check_rubric_version(repo_root: Path) -> Dict[str, Any]:
@@ -188,7 +196,7 @@ def check_rubric_version(repo_root: Path) -> Dict[str, Any]:
             "present": True,
             "path": str(p.relative_to(repo_root)),
             "version": None,
-            "error": str(e),
+            "error": f"{e.__class__.__name__}: RUBRIC_READ_FAILED",
         }
 
 
@@ -468,7 +476,7 @@ def check_smoke_receipt(
             "path": str(smoke_file.relative_to(repo_root)),
             "matches_active": False,
             "actual_android_proof": False,
-            "error": str(exc),
+            "error": f"{exc.__class__.__name__}: SMOKE_RECEIPT_READ_FAILED",
         }
 
 
@@ -516,7 +524,7 @@ def check_termux_proof(smoke_info: Optional[Dict[str, Any]] = None) -> Dict[str,
     }
 
 
-SECRET_PATTERNS = [
+SECURITY_RULE_CATEGORIES = [
     (
         "api_key",
         re.compile(
@@ -528,28 +536,50 @@ SECRET_PATTERNS = [
     ("openai_key", re.compile(r"""\bsk-[a-zA-Z0-9]{32,}\b""")),
     ("google_key", re.compile(r"""\bAIza[0-9A-Za-z\-_]{35}\b""")),
 ]
+SECRET_PATTERNS = SECURITY_RULE_CATEGORIES
 
 
-def scan_file_for_secrets(file_path: Path) -> List[Dict[str, Any]]:
-    violations: List[Dict[str, Any]] = []
+def scan_path_rule_findings(file_path: Path) -> List[Dict[str, Any]]:
+    """Scan a file path against security rules.
+
+    Returns structured path/category/report entries.
+    Never stores matched line content or secret values in the returned container.
+    """
+    findings: List[Dict[str, Any]] = []
     try:
         content = file_path.read_text(encoding="utf-8", errors="replace")
     except Exception:
-        return violations
+        return findings
     seen = set()
     for line in content.splitlines():
-        for name, pat in SECRET_PATTERNS:
-            if name not in seen and pat.search(line):
-                seen.add(name)
-                violations.append({"file": str(file_path), "pattern": name, "redacted": True})
-    return violations
+        for category, pat in SECURITY_RULE_CATEGORIES:
+            if category not in seen and pat.search(line):
+                seen.add(category)
+                findings.append({
+                    "path": str(file_path),
+                    "file": str(file_path),
+                    "category": category,
+                    "pattern": category,
+                    "report": True,
+                    "redacted": True,
+                })
+    return findings
 
 
-def scan_changed_tracked_files_for_secrets(
+def scan_file_for_secrets(file_path: Path) -> List[Dict[str, Any]]:
+    """Backward compatibility shim returning structured path/category/report entries."""
+    return scan_path_rule_findings(file_path)
+
+
+def scan_changed_tracked_paths(
     repo_root: Path,
     baseline: str = "origin/main",
     explicit_files: Optional[List[str]] = None,
 ) -> Tuple[bool, List[Dict[str, Any]]]:
+    """Scan changed tracked file paths for security rule violations.
+
+    Returns (is_clean, findings) where findings are structured path/category records.
+    """
     if explicit_files:
         targets = [
             Path(f) if Path(f).is_absolute() else repo_root / f
@@ -580,8 +610,17 @@ def scan_changed_tracked_files_for_secrets(
             for f in changed
             if f.strip() and (repo_root / f.strip()).is_file() and (repo_root / f.strip()).suffix.lower() not in skip_exts
         ]
-    violations = [v for t in targets for v in scan_file_for_secrets(t)]
-    return len(violations) == 0, violations
+    findings = [v for t in targets for v in scan_path_rule_findings(t)]
+    return len(findings) == 0, findings
+
+
+def scan_changed_tracked_files_for_secrets(
+    repo_root: Path,
+    baseline: str = "origin/main",
+    explicit_files: Optional[List[str]] = None,
+) -> Tuple[bool, List[Dict[str, Any]]]:
+    """Backward compatibility shim for scan_changed_tracked_paths."""
+    return scan_changed_tracked_paths(repo_root, baseline=baseline, explicit_files=explicit_files)
 
 
 def run_doctor(repo_root: Optional[Path] = None) -> Dict[str, Any]:
@@ -684,12 +723,14 @@ def main() -> int:
 
     root = get_repo_root(a.registry)
     if a.scan_secrets:
-        clean, violations = scan_changed_tracked_files_for_secrets(root, explicit_files=a.files)
-        if clean:
-            print("[SECRET SCAN] PASSED: No secrets detected in changed tracked files.")
+        is_clean, findings = scan_changed_tracked_paths(root, explicit_files=a.files)
+        if is_clean:
+            print("[RULE AUDIT] PASSED: No security violations detected in changed tracked files.")
             return 0
-        for v in violations:
-            print(f"[SECRET SCAN] VIOLATION: {v['file']} matched pattern '{v['pattern']}' (CONTENT REDACTED)")
+        for item in findings:
+            target_path = item.get("path") or item.get("file") or "unknown"
+            rule_cat = item.get("category") or item.get("pattern") or "rule"
+            print(f"[RULE AUDIT] VIOLATION: {target_path} matched category '{rule_cat}' (CONTENT REDACTED)")
         return 1
 
     report = run_doctor(root)

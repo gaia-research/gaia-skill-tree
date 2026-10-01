@@ -42,8 +42,22 @@ if str(_HERE) not in sys.path:
 import doctor
 
 
+def failureCode(exc: Optional[BaseException] = None, default_code: str = "ERROR") -> str:
+    """Return safe opaque failure status code without reflecting sensitive exception details."""
+    if exc is None:
+        return default_code
+    return f"{exc.__class__.__name__} [{default_code}]"
+
+
+failure_code = failureCode
+
+
 def sanitize_secrets(text: str) -> str:
-    """Sanitize any API key or token patterns from diagnostic strings."""
+    """Sanitize any API key or token patterns from diagnostic strings.
+
+    Retained for diagnostic scrubbing and backward compatibility.
+    Production error paths use opaque failureCode instead of reflecting sanitized strings.
+    """
     redacted = re.sub(r"""(?i)(?:key|token|secret)\s*[:=]\s*['"]?[A-Za-z0-9_\-]{8,}['"]?""", "[REDACTED]", text)
     redacted = re.sub(r"""\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{20,}\b""", "[REDACTED_GH_TOKEN]", redacted)
     redacted = re.sub(r"""\bsk-[a-zA-Z0-9]{20,}\b""", "[REDACTED_SK_KEY]", redacted)
@@ -85,12 +99,13 @@ def run_warmup(repo_root: Path, model_override: Optional[str] = None) -> int:
             backend = cfg_data.get("backend", "torch")
             expected_dim = cfg_data.get("dimensions", 384)
         except Exception as exc:
-            print(f"[SMOKE WARMUP] ERROR: Failed loading retrieval config for {model_override}: {sanitize_secrets(str(exc))}", file=sys.stderr)
+            err_code = failureCode(exc, "RETRIEVAL_CONFIG_LOAD_FAILED")
+            print(f"[SMOKE WARMUP] ERROR: Failed loading retrieval config for {model_override}: {err_code}", file=sys.stderr)
             return 1
     else:
         ret_info = doctor.check_retrieval(repo_root)
         if not ret_info.get("ok"):
-            print(f"[SMOKE WARMUP] ERROR: Failed loading retrieval config: {ret_info.get('error')}", file=sys.stderr)
+            print(f"[SMOKE WARMUP] ERROR: Failed loading retrieval config: RETRIEVAL_CONFIG_UNAVAILABLE", file=sys.stderr)
             return 1
         model_name = ret_info.get("model", "all-MiniLM-L6-v2")
         revision = ret_info.get("revision")
@@ -113,8 +128,8 @@ def run_warmup(repo_root: Path, model_override: Optional[str] = None) -> int:
 
         model = getSentenceTransformer(model_name, revision=revision, backend=backend, pooling=cfg_data.get("pooling"))
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
-        print(f"[SMOKE WARMUP] ERROR: Failed loading model '{model_name}': {clean_err}", file=sys.stderr)
+        err_code = failureCode(exc, "MODEL_LOAD_FAILED")
+        print(f"[SMOKE WARMUP] ERROR: Failed loading model '{model_name}': {err_code}", file=sys.stderr)
         return 1
     load_time_ms = round((time.perf_counter() - t0) * 1000, 2)
 
@@ -133,8 +148,8 @@ def run_warmup(repo_root: Path, model_override: Optional[str] = None) -> int:
             config=cfg_data,
         )
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
-        print(f"[SMOKE WARMUP] ERROR: Direct query encoding failed: {clean_err}", file=sys.stderr)
+        err_code = failureCode(exc, "DIRECT_ENCODE_FAILED")
+        print(f"[SMOKE WARMUP] ERROR: Direct query encoding failed: {err_code}", file=sys.stderr)
         return 1
     direct_time_ms = round((time.perf_counter() - t1) * 1000, 2)
     dim_ok = len(direct_vec) == expected_dim
@@ -226,8 +241,8 @@ def run_warmup(repo_root: Path, model_override: Optional[str] = None) -> int:
                 return 1
 
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
-        print(f"[SMOKE WARMUP] ERROR: Warmup prefill failed: {clean_err}", file=sys.stderr)
+        err_code = failureCode(exc, "WARMUP_PREFILL_FAILED")
+        print(f"[SMOKE WARMUP] ERROR: Warmup prefill failed: {err_code}", file=sys.stderr)
         return 1
 
     prefill_time_ms = round((time.perf_counter() - t2) * 1000, 2)
@@ -330,18 +345,18 @@ def run_termux_smoke(
             expected_dim = cfg_data.get("dimensions", 384)
             cfg_source = "cli_override"
         except Exception as exc:
-            clean_err = sanitize_secrets(str(exc))
-            receipt = {"status": "failed", "timestamp": timestamp, "platform": termux_proof, "error": f"Failed retrieval config: {clean_err}"}
+            err_code = failureCode(exc, "RETRIEVAL_CONFIG_LOAD_FAILED")
+            receipt = {"status": "failed", "timestamp": timestamp, "platform": termux_proof, "error": f"Failed retrieval config: {err_code}"}
             receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-            print(f"[TERMUX SMOKE] FAILED: Retrieval config error: {clean_err}", file=sys.stderr)
+            print(f"[TERMUX SMOKE] FAILED: Retrieval config error: {err_code}", file=sys.stderr)
             return 1
     else:
         ret_info = doctor.check_retrieval(repo_root)
         if not ret_info.get("ok"):
-            clean_err = sanitize_secrets(str(ret_info.get("error")))
-            receipt = {"status": "failed", "timestamp": timestamp, "platform": termux_proof, "error": f"Failed retrieval config: {clean_err}"}
+            err_code = "RETRIEVAL_CONFIG_UNAVAILABLE"
+            receipt = {"status": "failed", "timestamp": timestamp, "platform": termux_proof, "error": f"Failed retrieval config: {err_code}"}
             receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-            print(f"[TERMUX SMOKE] FAILED: Retrieval config error: {clean_err}", file=sys.stderr)
+            print(f"[TERMUX SMOKE] FAILED: Retrieval config error: {err_code}", file=sys.stderr)
             return 1
         model_name = ret_info.get("model", "all-MiniLM-L6-v2")
         revision = ret_info.get("revision")
@@ -389,17 +404,17 @@ def run_termux_smoke(
     try:
         repo_embeddings = load_embeddings(str(art_path), validate=True)
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
+        err_code = failureCode(exc, "EMBEDDINGS_LOAD_FAILED")
         receipt = {
             "status": "invalid_embeddings",
             "timestamp": timestamp,
             "platform": termux_proof,
             "dependencies": deps_versions,
-            "error": f"Failed loading embeddings artifact: {clean_err}",
+            "error": f"Failed loading embeddings artifact: {err_code}",
             "recommendations": ["Run 'gaia dev embed' to regenerate valid embeddings."],
         }
         receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-        print(f"[TERMUX SMOKE] FAILED: {clean_err}", file=sys.stderr)
+        print(f"[TERMUX SMOKE] FAILED: Embeddings artifact load error: {err_code}", file=sys.stderr)
         return 1
 
     # 5. Model Load via shared getSentenceTransformer with full revision/backend/pooling
@@ -409,16 +424,16 @@ def run_termux_smoke(
 
         model = getSentenceTransformer(model_name, revision=revision, backend=backend, pooling=pooling)
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
+        err_code = failureCode(exc, "MODEL_LOAD_FAILED")
         receipt = {
             "status": "failed",
             "timestamp": timestamp,
             "platform": termux_proof,
-            "error": f"Model load failure: {clean_err}",
-            "limitations": [clean_err],
+            "error": f"Model load failure: {err_code}",
+            "limitations": [f"Model load failure: {err_code}"],
         }
         receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-        print(f"[TERMUX SMOKE] FAILED: Model load error: {clean_err}", file=sys.stderr)
+        print(f"[TERMUX SMOKE] FAILED: Model load error: {err_code}", file=sys.stderr)
         return 1
     load_duration_ms = round((time.perf_counter() - t0) * 1000, 2)
 
@@ -437,15 +452,15 @@ def run_termux_smoke(
             config=cfg_data,
         )
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
+        err_code = failureCode(exc, "DIRECT_ENCODE_FAILED")
         receipt = {
             "status": "failed",
             "timestamp": timestamp,
             "platform": termux_proof,
-            "error": f"Direct vector failure: {clean_err}",
+            "error": f"Direct vector failure: {err_code}",
         }
         receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-        print(f"[TERMUX SMOKE] FAILED: Direct vector error: {clean_err}", file=sys.stderr)
+        print(f"[TERMUX SMOKE] FAILED: Direct vector error: {err_code}", file=sys.stderr)
         return 1
     direct_duration_ms = round((time.perf_counter() - t_direct) * 1000, 2)
     direct_dim = len(direct_vec)
@@ -515,15 +530,15 @@ def run_termux_smoke(
             return 1
 
     except Exception as exc:
-        clean_err = sanitize_secrets(str(exc))
+        err_code = failureCode(exc, "PREFILL_QUERY_FAILED")
         receipt = {
             "status": "failed",
             "timestamp": timestamp,
             "platform": termux_proof,
-            "error": f"Prefill query error: {clean_err}",
+            "error": f"Prefill query error: {err_code}",
         }
         receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-        print(f"[TERMUX SMOKE] FAILED: Real prefill query error: {clean_err}", file=sys.stderr)
+        print(f"[TERMUX SMOKE] FAILED: Real prefill query error: {err_code}", file=sys.stderr)
         return 1
 
     prefill_duration_ms = round((time.perf_counter() - t_prefill) * 1000, 2)
