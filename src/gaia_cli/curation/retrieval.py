@@ -647,6 +647,20 @@ def embeddingStatus(
             }
 
     artifactFp = data.get("fingerprint") or data.get("semanticFingerprint")
+    artifactContract = data.get("encoderContract")
+    if artifactContract != ENCODER_CONTRACT:
+        return {
+            "status": "stale",
+            "reason": (
+                f"Encoder contract mismatch: artifact has '{artifactContract}', "
+                f"active contract is '{ENCODER_CONTRACT}'"
+            ),
+            "fingerprint": artifactFp,
+            "model": artifactModel or expectedModel,
+            "path": resolvedPathStr,
+            "entriesCount": len(entries),
+        }
+
     if not artifactFp:
         return {
             "status": "stale",

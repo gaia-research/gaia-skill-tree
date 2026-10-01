@@ -242,6 +242,18 @@ def validateL4Resolution(packet, requireHumanReview=False):
             if "operatorOverride" in hr and not isinstance(hr["operatorOverride"], bool):
                 errors.append("humanReview.operatorOverride must be a boolean")
 
+            retrieval = packet.get("retrieval") or {}
+            if retrieval.get("allowStale"):
+                errors.append(
+                    "packet was built from a stale/unverified embeddings artifact "
+                    "(retrieval.allowStale); re-run `gaia dev prefill` before ratification"
+                )
+            if retrieval.get("vectorSource"):
+                errors.append(
+                    "packet mapping was supplied via --vector instead of the declared encoder; "
+                    "re-run `gaia dev prefill` so retrieval provenance is verifiable"
+                )
+
             if "humanOverride" in hr and not isinstance(hr["humanOverride"], bool):
                 errors.append("humanReview.humanOverride must be a boolean")
 

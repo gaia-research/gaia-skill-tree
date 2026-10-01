@@ -27,6 +27,9 @@ import doctor  # type: ignore
 import smoke  # type: ignore
 from gaia_cli.curation.retrieval import ENCODER_CONTRACT
 
+doctor.ENCODER_CONTRACT = ENCODER_CONTRACT
+smoke.ENCODER_CONTRACT = ENCODER_CONTRACT
+
 
 class TestDoctor:
     """Tests for doctor.py."""
@@ -177,6 +180,121 @@ class TestDoctor:
             assert res["present"] is True
             assert res["matches_active"] is True
 
+    def test_doctor_healthy_requires_both_matching_eval_and_smoke_receipts(self, tmp_path):
+        """run_doctor() healthy requires deps_ready, artifact_ready, ret.ok, cur_eval matching, AND smoke matching."""
+        cur_dir = tmp_path / "generated-output" / "curation"
+        cur_dir.mkdir(parents=True, exist_ok=True)
+
+        mock_src = {"ok": True, "source_matched": True}
+        mock_deps = {
+            "python": {"version_ok": True},
+            "core": {"all_core_ok": True},
+            "ml": {
+                "sentence_transformers": {"available": True},
+                "torch": {"available": True},
+                "numpy": {"available": True},
+            },
+        }
+        mock_retrieval = {
+            "ok": True,
+            "model": "all-MiniLM-L6-v2",
+            "revision": "main",
+            "backend": "torch",
+            "dimensions": 384,
+            "config": {"pooling": "mean", "normalize": True, "queryPrefix": None},
+        }
+        mock_freshness = {"fresh": True, "present": True, "status": {"fingerprint": "fresh-fp-1"}}
+
+        eval_file = cur_dir / "curation-eval.json"
+        smoke_file = cur_dir / "termux-smoke.json"
+
+        eval_data_matching = {
+            "schema_version": 1,
+            "encoder_contract": ENCODER_CONTRACT,
+            "status": "completed",
+            "corpus_sha256": "c_sha",
+            "catalog_sha256": "cat_sha",
+            "config": {
+                "model": "all-MiniLM-L6-v2",
+                "revision": "main",
+                "backend": "torch",
+                "dimensions": 384,
+                "pooling": "mean",
+                "normalize": True,
+                "queryPrefix": None,
+                "threads": 1,
+            },
+            "metrics": {"top1": 1.0, "mrr": 1.0},
+        }
+
+        smoke_data_matching = {
+            "status": "success",
+            "encoder_contract": ENCODER_CONTRACT,
+            "platform": {
+                "genuine_termux_aarch64": True,
+                "is_android": True,
+                "arch": "aarch64",
+            },
+            "semantic_config": {
+                "model": "all-MiniLM-L6-v2",
+                "revision": "main",
+                "backend": "torch",
+                "dimensions": 384,
+                "pooling": "mean",
+                "normalize": True,
+                "query_prefix": None,
+                "fingerprint": "fresh-fp-1",
+            },
+            "metrics": {"repeat_cosine": 1.0},
+        }
+
+        with patch("doctor.check_source_import", return_value=mock_src), \
+             patch("doctor.check_dependencies", return_value=mock_deps), \
+             patch("doctor.check_retrieval", return_value=mock_retrieval), \
+             patch("doctor.check_artifact_freshness", return_value=mock_freshness), \
+             patch("doctor.hashlib.sha256") as mock_sha:
+            mock_hash = MagicMock()
+            mock_hash.hexdigest.side_effect = ["c_sha", "cat_sha"] * 20
+            mock_sha.return_value = mock_hash
+
+            # 1. Neither receipt exists -> healthy is False
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is False
+
+            # 2. Only eval receipt exists -> healthy is False
+            eval_file.write_text(json.dumps(eval_data_matching), encoding="utf-8")
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is False
+
+            # 3. Only smoke receipt exists (eval deleted) -> healthy is False
+            eval_file.unlink()
+            smoke_file.write_text(json.dumps(smoke_data_matching), encoding="utf-8")
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is False
+
+            # 4. Eval receipt matching + smoke receipt PRE-FIX (missing encoder_contract) -> healthy is False
+            eval_file.write_text(json.dumps(eval_data_matching), encoding="utf-8")
+            smoke_prefix = dict(smoke_data_matching)
+            del smoke_prefix["encoder_contract"]
+            smoke_file.write_text(json.dumps(smoke_prefix), encoding="utf-8")
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is False
+            assert rep["smoke_receipt"]["matches_active"] is False
+
+            # 5. Smoke receipt matching + eval receipt PRE-FIX (missing encoder_contract) -> healthy is False
+            smoke_file.write_text(json.dumps(smoke_data_matching), encoding="utf-8")
+            eval_prefix = dict(eval_data_matching)
+            del eval_prefix["encoder_contract"]
+            eval_file.write_text(json.dumps(eval_prefix), encoding="utf-8")
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is False
+            assert rep["curation_eval_receipt"]["matches_active"] is False
+
+            # 6. BOTH matching eval receipt AND matching smoke receipt exist -> healthy is True!
+            eval_file.write_text(json.dumps(eval_data_matching), encoding="utf-8")
+            rep = doctor.run_doctor(tmp_path)
+            assert rep["healthy"] is True
+
     def test_smoke_receipt_matching(self, tmp_path):
         """Smoke receipt verifies matching active model, revision, backend, and Android platform proof."""
         smoke_file = tmp_path / "generated-output" / "curation" / "termux-smoke.json"
@@ -187,6 +305,7 @@ class TestDoctor:
                 "status": "success",
                 "model": {"declared_name": "all-MiniLM-L6-v2", "revision": "main", "backend": "torch"},
                 "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+                "encoder_contract": ENCODER_CONTRACT,
                 "metrics": {"repeat_cosine": 1.0},
             }),
             encoding="utf-8",
@@ -216,6 +335,7 @@ class TestDoctor:
                 "fingerprint": "fresh-fp-1",
             },
             "platform": {"genuine_termux_aarch64": True, "is_android": True, "arch": "aarch64"},
+            "encoder_contract": ENCODER_CONTRACT,
             "metrics": {"repeat_cosine": 1.0},
         }
         smoke_file.write_text(json.dumps(base_receipt), encoding="utf-8")
@@ -1109,6 +1229,37 @@ class TestShellScriptsWithStubs:
             assert res_challenger["regression_status"]["baseline_present"] is True
             assert res_challenger["regression_status"]["metrics"] == "regressed"
             assert res_challenger["regression_status"]["time"] == "regressed"
+
+    def test_doctor_eval_baseline_selection_rejects_prefix_receipt(self, tmp_path):
+        """eval baseline selection rejects pre-fix receipts missing encoder_contract via _eval_mismatches."""
+        cur_dir = tmp_path / "generated-output" / "curation"
+        cur_dir.mkdir(parents=True, exist_ok=True)
+
+        # Baseline missing encoder_contract (pre-fix)
+        (cur_dir / "minilm-report.json").write_text(
+            json.dumps({
+                "schema_version": 1,
+                "status": "completed",
+                "corpus_sha256": "c_sha",
+                "catalog_sha256": "cat_sha",
+                "config": {"model": "all-MiniLM-L6-v2", "backend": "torch"},
+                "latencies": {"query_seconds": 1.0},
+                "metrics": {"top1": 1.0, "mrr": 1.0},
+            }),
+            encoding="utf-8",
+        )
+
+        with patch("doctor.hashlib.sha256") as mock_sha:
+            mock_hash = MagicMock()
+            mock_hash.hexdigest.side_effect = ["c_sha", "cat_sha"] * 5
+            mock_sha.return_value = mock_hash
+
+            res = doctor.check_curation_eval_receipt(
+                tmp_path,
+                active_retrieval={"model": "all-MiniLM-L6-v2"},
+            )
+            # Pre-fix receipt must NOT be selected as baseline
+            assert res["regression_status"]["baseline_present"] is False
 
     def test_termux_proof_rejects_fake_env_without_android_markers(self):
         """Termux proof must reject fake env markers on non-Android platforms."""

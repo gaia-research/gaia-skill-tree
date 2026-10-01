@@ -609,6 +609,8 @@ def buildPrefillPacket(
             retrieval_meta["status"] = staleStatus
         if allowStale:
             retrieval_meta["allowStale"] = True
+    if precomputedVector is not None:
+        retrieval_meta["vectorSource"] = "precomputed-vector-file"
     packet["retrieval"] = retrieval_meta
 
     # Add source fields when fetched

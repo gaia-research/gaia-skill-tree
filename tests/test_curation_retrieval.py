@@ -13,7 +13,7 @@ import sys
 import types
 from pathlib import Path
 from typing import Any
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, call, patch
 
 import pytest
 
@@ -343,6 +343,7 @@ class TestEmbeddingStatus:
             "model": "all-MiniLM-L6-v2",
             "dimensions": 3,
             "generatedAt": "2026-04-29",
+            "encoderContract": ENCODER_CONTRACT,
             "entries": [
                 {"id": "skill-a", "vector": [1.0, 0.0, 0.0]}
             ],
@@ -352,6 +353,23 @@ class TestEmbeddingStatus:
         assert res["status"] == "stale"
         assert "Legacy artifact missing semantic fingerprint; unverified" in res["reason"]
         assert res["fingerprint"] is None
+
+    def test_artifact_contract_mismatch_is_stale(self, tmp_path):
+        """Artifacts with missing or mismatched encoderContract are reported stale."""
+        art_path = tmp_path / "embeddings.json"
+        data = {
+            "model": "all-MiniLM-L6-v2",
+            "dimensions": 3,
+            "generatedAt": "2026-04-29",
+            "fingerprint": "fake-fp-1234",
+            "entries": [
+                {"id": "skill-a", "vector": [1.0, 0.0, 0.0]}
+            ],
+        }
+        art_path.write_text(json.dumps(data))
+        res = embeddingStatus(registryPath=tmp_path, artifactPath=art_path)
+        assert res["status"] == "stale"
+        assert "Encoder contract mismatch" in res["reason"]
 
     def test_fresh_status_when_fingerprint_matches(self, tmp_path):
         nodes_dir = tmp_path / "registry" / "nodes" / "basic"
@@ -369,6 +387,7 @@ class TestEmbeddingStatus:
             "model": "all-MiniLM-L6-v2",
             "dimensions": 3,
             "generatedAt": "2026-10-01",
+            "encoderContract": ENCODER_CONTRACT,
             "fingerprint": fp,
             "entries": [
                 {"id": "web-search", "vector": [0.1, 0.2, 0.3]}
@@ -396,6 +415,7 @@ class TestEmbeddingStatus:
         data = {
             "model": "all-MiniLM-L6-v2",
             "dimensions": 3,
+            "encoderContract": ENCODER_CONTRACT,
             "fingerprint": old_fp,
             "entries": [{"id": "web-search", "vector": [0.1, 0.2, 0.3]}],
         }
@@ -423,6 +443,7 @@ class TestEmbeddingStatus:
         data = {
             "model": "all-MiniLM-L6-v2",
             "dimensions": 384,
+            "encoderContract": ENCODER_CONTRACT,
             "fingerprint": fp,
             "entries": [],
         }
@@ -445,6 +466,7 @@ class TestEmbeddingStatus:
         data = {
             "model": "all-MiniLM-L6-v2",
             "dimensions": 3,
+            "encoderContract": ENCODER_CONTRACT,
             "fingerprint": fp,
             "entries": [{"id": "s1", "vector": [1.0, 0.0, 0.0]}],
         }
@@ -478,6 +500,7 @@ class TestEmbeddingStatus:
         data = {
             "model": "all-MiniLM-L6-v2",
             "dimensions": 3,
+            "encoderContract": ENCODER_CONTRACT,
             "fingerprint": "different-fake-fp",
             "config": {
                 "backend": "torch",
@@ -886,3 +909,42 @@ class TestAtomicWrite:
         temp_file = Path(created_temps[0])
         assert temp_file.parent == out_path.parent
         assert temp_file.name.startswith("embeddings.json.tmp.")
+
+
+class TestDeterminismContract:
+    """The single-thread/eval contract must actually execute, not just exist.
+
+    Enforcement is reached through ``sys.modules.get("torch")``, which is only
+    populated because sentence-transformers imports torch transitively. If that
+    ever becomes a lazy import, the contract would silently evaporate.
+    """
+
+    def _installFakeTorch(self, monkeypatch):
+        torch = types.ModuleType("torch")
+        torch.set_num_threads = MagicMock()
+        monkeypatch.setitem(sys.modules, "torch", torch)
+        return torch
+
+    def test_set_num_threads_pinned_on_fresh_load_and_cache_hit(self, monkeypatch):
+        from gaia_cli.curation import retrieval
+
+        torch = self._installFakeTorch(monkeypatch)
+        model = MagicMock()
+        model.pooling = "mean"
+        module = types.ModuleType("sentence_transformers")
+        module.SentenceTransformer = MagicMock(return_value=model)
+        monkeypatch.setitem(sys.modules, "sentence_transformers", module)
+        clearModelCache()
+
+        retrieval.getSentenceTransformer()
+        assert torch.set_num_threads.call_args_list == [call(1)], (
+            "fresh load must pin torch to a single thread"
+        )
+        model.eval.assert_called()
+
+        torch.set_num_threads.reset_mock()
+        retrieval.getSentenceTransformer()
+        assert torch.set_num_threads.call_args_list == [call(1)], (
+            "cache-hit reuse must re-assert single-thread pinning"
+        )
+        assert model.eval.called, "cache-hit reuse must re-assert evaluation mode"

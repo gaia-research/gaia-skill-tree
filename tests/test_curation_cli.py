@@ -658,11 +658,6 @@ class TestDevRatifyCommand:
         monkeypatch.setenv("GAIA_OPERATOR_OVERRIDE", "1")
 
         _write_mock_embeddings(test_registry)
-        vec_file = test_registry / "test_vec.json"
-        vec_file.write_text(json.dumps({
-            "model": "all-MiniLM-L6-v2",
-            "vector": [1.0] + [0.0] * 383,
-        }), encoding="utf-8")
 
         mock_fetcher = lambda url: (
             "---\n"
@@ -672,7 +667,7 @@ class TestDevRatifyCommand:
             "# Unit Runner\n"
         ).encode("utf-8")
 
-        # 1. Prefill
+        # 1. Prefill via declared encoder path (no --vector, verifiable provenance)
         prefill_args = argparse.Namespace(
             registry=str(test_registry),
             candidate_id="tester/unit-runner",
@@ -683,13 +678,14 @@ class TestDevRatifyCommand:
             suite_role=None,
             suite_id=None,
             component_ids=None,
-            vector=str(vec_file),
+            vector=None,
             allow_stale=False,
             json=False,
             stdout=False,
             fetcher=mock_fetcher,
         )
-        assert prefillCommand(prefill_args) == 0
+        with patch("gaia_cli.prefill.embed_query", return_value=[1.0] + [0.0] * 383):
+            assert prefillCommand(prefill_args) == 0
 
         packet_path = (
             test_registry

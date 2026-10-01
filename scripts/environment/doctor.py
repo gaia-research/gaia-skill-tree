@@ -15,6 +15,11 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+try:
+    from gaia_cli.curation.retrieval import ENCODER_CONTRACT as _BASELINE_CONTRACT
+except Exception:  # pragma: no cover - doctor still runs and reports the gap
+    _BASELINE_CONTRACT = "sentence-transformers-eval-single-thread-v2"
+
 
 def get_repo_root(registry_path: Optional[str] = None) -> Path:
     return Path(registry_path).resolve() if registry_path else Path(__file__).resolve().parent.parent.parent
@@ -270,6 +275,7 @@ def check_curation_eval_receipt(repo_root: Path, active_retrieval: Dict[str, Any
         r_pfx = r_cfg.get("queryPrefix") if "queryPrefix" in r_cfg else r_cfg.get("query_prefix")
 
         from gaia_cli.curation.retrieval import ENCODER_CONTRACT
+
         m = []
         if d.get("encoder_contract") != ENCODER_CONTRACT:
             m.append("encoder contract mismatch: measurement predates deterministic inference")
@@ -291,6 +297,12 @@ def check_curation_eval_receipt(repo_root: Path, active_retrieval: Dict[str, Any
             m.append(f"normalize mismatch ({r_norm} != {act_norm})")
         if act_pfx is not None and r_pfx != act_pfx:
             m.append(f"queryPrefix mismatch ({r_pfx!r} != {act_pfx!r})")
+        if bool(r_cfg.get("reranker")) != bool(active_retrieval.get("reranker")):
+            m.append("reranker presence mismatch")
+        if (r_cfg.get("reranker_revision") or None) != (active_retrieval.get("reranker_revision") or None):
+            m.append("reranker_revision mismatch")
+        if r_cfg.get("threads") not in (None, 1):
+            m.append(f"threads not portable ({r_cfg.get('threads')})")
         return m
 
     # Score and sort receipts: exact matching active first, then most recently modified
@@ -313,6 +325,8 @@ def check_curation_eval_receipt(repo_root: Path, active_retrieval: Dict[str, Any
         if (
             b_model == "all-MiniLM-L6-v2"
             and not b_cfg.get("reranker")
+            and b_candidate.get("encoder_contract") == _BASELINE_CONTRACT
+            and b_cfg.get("threads") in (None, 1)
             and (not corpus_sha or b_candidate.get("corpus_sha256") == corpus_sha)
             and (not catalog_sha or b_candidate.get("catalog_sha256") == catalog_sha)
         ):
@@ -385,6 +399,8 @@ def check_smoke_receipt(
     active_retrieval: Dict[str, Any],
     active_freshness: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
+    from gaia_cli.curation.retrieval import ENCODER_CONTRACT
+
     smoke_file = repo_root / "generated-output" / "curation" / "termux-smoke.json"
     if not smoke_file.is_file():
         return {
@@ -463,6 +479,10 @@ def check_smoke_receipt(
 
         if d.get("metrics", {}).get("repeat_cosine", 0) < 0.999999:
             mismatches.append("missing or failed identical-query repeatability proof")
+        if d.get("encoder_contract") != active_retrieval.get("encoder_contract", ENCODER_CONTRACT):
+            mismatches.append(
+                f"encoder_contract mismatch ({d.get('encoder_contract')} != {active_retrieval.get('encoder_contract', ENCODER_CONTRACT)})"
+            )
         if not is_android:
             mismatches.append("not Android/aarch64")
 
@@ -667,7 +687,13 @@ def run_doctor(repo_root: Optional[Path] = None) -> Dict[str, Any]:
         and ml_ready
     )
     artifact_ready = bool(fresh.get("fresh"))
-    healthy = deps_ready and artifact_ready and ret.get("ok", False)
+    healthy = (
+        deps_ready
+        and artifact_ready
+        and ret.get("ok", False)
+        and cur_eval.get("matches_active", False)
+        and smoke.get("matches_active", False)
+    )
 
     return {
         "healthy": healthy,

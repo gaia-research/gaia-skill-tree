@@ -41,6 +41,11 @@ if str(_HERE) not in sys.path:
 
 import doctor
 
+try:
+    from gaia_cli.curation.retrieval import ENCODER_CONTRACT as _SMOKE_CONTRACT
+except Exception:  # pragma: no cover
+    _SMOKE_CONTRACT = "sentence-transformers-eval-single-thread-v2"
+
 
 def failureCode(exc: Optional[BaseException] = None, default_code: str = "ERROR") -> str:
     """Return safe opaque failure status code without reflecting sensitive exception details."""
@@ -589,6 +594,8 @@ def run_termux_smoke(
             "fingerprint": artifact_fp,
         },
         "fingerprint": artifact_fp,
+        "encoder_contract": _SMOKE_CONTRACT,
+        "contract_version": "termux-smoke-v2",
         "source": {
             "candidate_id": "smoke/termux",
             "candidate_name": candidate_name,
