@@ -70,22 +70,26 @@ An L4 human reviews every candidate row, all deferrals, proposed new generics, a
    Human examines candidate SKILL.md, packet mapping options, and assessment receipt.
 4. **L4 ratification (operator + human review attestation):**
    ```bash
+   # For MAP the generic metadata flags are OPTIONAL and are resolved from the
+   # live canonical node; supply them only to assert a value (mismatches are
+   # rejected, so MAP can never rewrite canonical metadata).
    gaia dev ratify registry-for-review/discovery-packets/<candidate>.json \
      --decision {MAP,NEW_GENERIC} \
      --generic-id <generic-id> \
-     --generic-name <name> \
-     --generic-description <desc> \
-     --generic-type {basic,fusion} \
+     [--generic-name <name> --generic-description <desc> --generic-type {basic,fusion}] \
+     [--prereqs <a,b,c>] \
      --contributor <handle> \
      --skill-name <kebab-name> \
-     --skill-file-url https://github.com/owner/repo/blob/branch/SKILL.md \
+     [--skill-file-url https://github.com/owner/repo/blob/branch/SKILL.md] \
      --assessment generated-output/curation/<candidate>.assessment.json \
      --reviewed-by <user> \
      --approval-ref <ref> \
      --reason "<rationale>" \
      --acknowledge-human-review
    ```
-   Atomically attaches `l4Resolution` containing the ratified generic/named identities, blob URL, and `humanReview` attestation metadata. Requires operator override and explicit human acknowledgement; operator authorization alone is not L4 approval, and no CLI shortcut permits faking human review.
+   `NEW_GENERIC` requires `--generic-name`, `--generic-description` and `--generic-type`. Atomically attaches `l4Resolution` containing the ratified generic/named identities, blob URL, and `humanReview` attestation metadata. Requires operator override and explicit human acknowledgement; operator authorization alone is not L4 approval.
+
+   **Enforcement boundary, stated honestly:** the CLI refuses to ratify without the acknowledgement flags and a fresh assessment, and `push --from-file` refuses any packet lacking `humanReview`. But `humanReview` is a *local file attestation* — it is not cryptographic proof that a human approved it. Anyone with write access to the packet can hand-write that block and intake will accept it on a machine where the gitignored receipt is absent. This seam is trusted to repository write access and maintainer review, not to mathematics.
 5. **Intake submission:**
    ```bash
    gaia push --from-file registry-for-review/discovery-packets/<candidate>.json

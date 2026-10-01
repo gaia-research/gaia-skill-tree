@@ -13,7 +13,7 @@ The harness provides deterministic, isolated, and portable environment setup, li
    - Automatically prefixes `PYTHONPATH` with active-branch `src/` to ensure current checkout modules take precedence over site-packages.
    - Discovers and exports virtual environment interpreter (`.venv/bin/python`), preferring newly created or existing `.venv` over stale initial `python3` fallback while preserving explicit caller overrides (`GAIA_PYTHON`).
    - Never modifies global git, npm, pip, or system configurations.
-2. **Lightweight Diagnostics & Fast Startup (`doctor.py` <= 300 lines):**
+2. **Lightweight Diagnostics & Fast Startup (`doctor.py`, single file):**
    - Inspects dependency installation via `importlib.util.find_spec` and `importlib.metadata.version` only; **never imports `torch`, `sentence_transformers`, or `onnxruntime`** into the diagnostic process.
    - Inspects core runtime and dev dependencies (`jinja2`, `jsonschema`, `yaml`, `questionary`, `pytest`).
    - Resolves CLI package version by preferring project metadata (`pyproject.toml`) and installed metadata over stale module `__version__ = "0.1.0"`.
@@ -41,7 +41,7 @@ The harness provides deterministic, isolated, and portable environment setup, li
 |---|---|---|
 | `scripts/environment/env.sh` | Bash | Centralizes caches, active-branch `PYTHONPATH`, and venv interpreter paths |
 | `scripts/environment/setup.sh` | Bash (`set -euo pipefail`) | Bootstraps `.venv` with `[dev,embeddings]`, warms up, generates fresh embeddings via CLI, optional benchmark |
-| `scripts/environment/doctor.py` | Python 3 (<= 300 lines) | Inspects active source, lightweight deps, retrieval, freshness, receipts, and Android proof |
+| `scripts/environment/doctor.py` | Python 3 (single module) | Inspects active source, lightweight deps, retrieval, freshness, receipts, and Android proof |
 | `scripts/environment/maintenance.sh` | Bash (`set -euo pipefail`) | Runs steward scan, validation, PR guards, secret scan, focused tests, and evaluation benchmark |
 | `scripts/environment/termux-smoke.sh` | Bash (`set -euo pipefail`) | Orchestrates genuine Termux / Android aarch64 runtime verification and receipt emission |
 | `scripts/environment/smoke.py` | Python 3 | Executes bounded synthetic warmup or genuine Android runtime verification with latency profiling |

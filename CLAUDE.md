@@ -144,7 +144,7 @@ Before substantial curation, run `python scripts/environment/doctor.py` (lightwe
 
 Use repository-declared models in `src/gaia_cli/data/curation/retrieval.json` and the shared caches; never improvise a laptop-specific setup. Never expose Jev credentials; live advice is opt-in. Embedding/backend changes require a genuine `bash scripts/environment/termux-smoke.sh` receipt, not inference from cloud success.
 
-`gaia dev prefill` retrieves candidates and writes an advisory principles receipt. Optional `gaia dev assess <packet> --jev live` enriches it. Only after actual human L4 approval may `gaia dev ratify` record the reviewer, approval reference and rationale; operator authorization alone is not approval. Principles v1.0.0 and authority boundaries: [curation principles](docs/agents/curation-principles.md).
+`gaia dev prefill` retrieves candidates and writes an advisory principles receipt that binds the candidate, source bytes, and live generic catalog. `gaia dev ratify` REQUIRES that receipt (`--assessment`) — it verifies freshness, not semantic correctness. `gaia dev assess <packet> --jev live` is optional and *only* adds probabilistic Jev advice (paywalled, cached, budget-bounded); with `--jev off` the receipt's semantic principles stay `unknown` by design. Only after actual human L4 approval may `ratify` record the reviewer, approval reference and rationale; operator authorization alone is not approval. Principles v1.0.0 and authority boundaries: [curation principles](docs/agents/curation-principles.md).
 
 ## Current Layout
 

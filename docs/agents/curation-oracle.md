@@ -55,7 +55,7 @@ To prevent inflated accuracy when predictions cover only a few easy cases, retri
 `python scripts/environment/doctor.py` provides lightweight verification without importing heavy ML packages:
 
 - **Receipt Discovery by Schema**: Locates evaluation receipts in `generated-output/curation/` by schema (`corpus_sha256`, `catalog_sha256`, `config`), rather than matching arbitrary filename substrings (e.g. `minilm-report.json`, `bge-report.json`).
-- **Full Configuration & Hash Verification**: Compares the complete encoder configuration (`model`, `revision`, `backend`, `dimensions`, `normalize`, `pooling`, `queryPrefix`) and deterministic SHA-256 hashes of the corpus fixture and canonical generic catalog.
+- **Encoder Configuration & Hash Verification**: Compares encoder identity (`model`, `revision`, `backend`, `dimensions`, `normalize`, `pooling`, `queryPrefix`), the deterministic `encoder_contract` stamp, reranker presence/revision, thread setting, and SHA-256 hashes of the corpus fixture and canonical generic catalog. `reranker`-bearing runs are not accepted as matching a non-reranked default config.
 - **Baseline-Gated Regression Reporting**: Reports `time` and `metrics` regression status against an explicit baseline receipt (`all-MiniLM-L6-v2`) only; returns `unknown` when no explicit baseline exists.
 - **Artifact Freshness**: `--check-artifact` correctly fails with status code 1 and outputs the mismatch reason when embeddings are stale.
 - **Termux & Hardware Proof**: Requires genuine Android runtime verification via Python Android API (`sys.getandroidapilevel`) or `/system` filesystem markers (`/system/build.prop`), alongside `aarch64` CPU architecture. Fake environment variables (`TERMUX_VERSION`) on non-Android platforms are rejected as `non-termux`. Smoke receipts reject missing fingerprints and incomplete semantic configs.
@@ -73,7 +73,7 @@ Run challenger compact model with declared instruction prefix and pinned revisio
 python scripts/curation_benchmark.py --model BAAI/bge-small-en-v1.5 --output generated-output/curation/bge_report.json
 ```
 
-Run baseline with cross-encoder reranker on Termux (2 CPU threads, batch size 16):
+Run baseline with cross-encoder reranker on Termux (1 CPU thread, batch size 16):
 ```sh
 python scripts/curation_benchmark.py \
   --model all-MiniLM-L6-v2 \
