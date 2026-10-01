@@ -306,3 +306,17 @@ At the end of a triage pass, report:
   `/gaia-issue-resolver`, not another issue
 
 This summary helps the next maintainer understand what happened without re-reading every issue thread.
+
+---
+
+## Optional Semantic Issue Advisory
+
+When evaluating large backlogs or triage queues, an operator may optionally run the read-only Jev advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+gh issue list --json number,title,body,labels > /tmp/issues.json
+python scripts/jev_advisory.py --mode issues --input /tmp/issues.json
+```
+
+The runner provides non-binding duplicate shortlists and advisory P0–P4 priority recommendations. It never labels, comments on, or closes issues. If unauthenticated, ambiguous, or over budget, it generates a bounded handoff packet to `worker-luna`.
