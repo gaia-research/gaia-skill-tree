@@ -9,7 +9,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ### TLDR
 
 - **Determinism fix committed and pushed** (2 commits): native Android Torch 2.11 left sentence-transformers in TRAINING mode; >1 CPU thread caused repeat-query vector drift (cosine 0.23–0.72). Fix enforces `model.eval()` + `torch.set_num_threads(1)` on fresh load AND cache hit reuse. Contract: `sentence-transformers-eval-single-thread-v2`.
-- **Embeddings regenerated** under the deterministic contract: 699 entries, fingerprint `65741e10bcf...`.
+- **Embeddings regenerated** under the deterministic contract: 699 entries, fingerprint `b1f1fd9a0b97...`.
 - **436 tests passed**, 10/10 `gaia dev validate`, pr_guards 6/6, skill mirror in sync.
 - **All CI checks GREEN** on PR #2033: Curation Semantic Verification, Test/Build/Smoke, CodeQL, Schema+DAG+Integrity, Design-system lint, PR guards, Agent Skill Quality Gates, branch scope — all SUCCESS.
 - **PR #2033 body updated** with full architecture, benchmark results, Termux status, known limits, and reviewer checklist.
