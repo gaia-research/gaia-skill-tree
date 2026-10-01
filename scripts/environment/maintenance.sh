@@ -161,7 +161,7 @@ fi
 # Step 8: Real Benchmark (--benchmark)
 if [[ "${BENCHMARK}" -eq 1 ]]; then
   echo "--> Step 8: Running real curation retrieval evaluation benchmark..."
-  if ! "${PY}" scripts/curation_benchmark.py; then
+  if ! "${PY}" scripts/curation_benchmark.py --output generated-output/curation/curation-eval.json; then
     echo "[ERROR] Curation retrieval benchmark failed!" >&2
     ERRORS=$((ERRORS + 1))
   fi

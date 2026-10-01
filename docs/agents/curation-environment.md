@@ -45,6 +45,7 @@ The harness provides deterministic, isolated, and portable environment setup, li
 | `scripts/environment/maintenance.sh` | Bash (`set -euo pipefail`) | Runs steward scan, validation, PR guards, secret scan, focused tests, and evaluation benchmark |
 | `scripts/environment/termux-smoke.sh` | Bash (`set -euo pipefail`) | Orchestrates genuine Termux / Android aarch64 runtime verification and receipt emission |
 | `scripts/environment/smoke.py` | Python 3 | Executes bounded synthetic warmup or genuine Android runtime verification with latency profiling |
+| `.github/workflows/curation-semantic.yml` | GitHub Actions | Cloud CI verification: Ubuntu fresh setup, CPU PyTorch, warm model, eval benchmark, focused tests, doctor JSON |
 
 ---
 
@@ -197,3 +198,10 @@ python scripts/environment/smoke.py --warmup
 6. **Packet Self-Validation:** Invokes `selfValidatePacket(packet)` and verifies that zero validation errors occur and no L4 resolution blocks exist in discovery packets.
 7. **Full Semantic Receipt Emission:** Records full semantic configuration in receipt (`model`, `revision`, `backend`, `dimensions`, `pooling`, `normalize`, `query_prefix`, `fingerprint`), latencies, peak RSS, and dependency versions.
 8. **Error Sanitization:** All exceptions and diagnostics redact potential secret keys and tokens.
+
+---
+
+### 6. Cloud CI Verification (`.github/workflows/curation-semantic.yml`)
+
+The semantic curation subsystem is continuously verified in cloud CI via `.github/workflows/curation-semantic.yml` on pull requests touching curation code, retrieval data, oracle fixtures, and environment scripts. The workflow provides fresh Ubuntu setup verification without paid Jev dependencies or repository mutations. It runs with read-only permissions (`contents: read`), checks out the active PR head, configures Python 3.12 with pip caching, and pre-installs official CPU-only PyTorch wheels from `https://download.pytorch.org/whl/cpu` into an isolated `.venv` to prevent downloading multi-gigabyte CUDA binaries. It executes `bash scripts/environment/setup.sh --benchmark` to warm the retrieval model, generates fresh corpus artifacts, leverages GitHub Actions cache for model weights (`.gaia/models` keyed by OS, architecture, and `retrieval.json` hash without weekly invalidation) and evaluation document vectors, runs focused test suites (`tests/test_curation*.py`, embeddings, prefill, ratify), validates embedding freshness via `gaia dev embed --check`, inspects `doctor.py --json`, and uploads sanitized report JSON artifacts (excluding raw packets and vector caches, with no secret environment variables or external dashboards).
+

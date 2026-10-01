@@ -121,7 +121,7 @@ fi
 # 4. Optional Benchmark Receipt
 if [[ "${RUN_BENCHMARK}" -eq 1 ]]; then
   echo "==> Running offline curation evaluation benchmark receipt..."
-  "${EXEC_PY}" "${REPO_ROOT}/scripts/curation_benchmark.py"
+  "${EXEC_PY}" "${REPO_ROOT}/scripts/curation_benchmark.py" --output generated-output/curation/curation-eval.json
 fi
 
 # 5. Diagnostics and Health Report
