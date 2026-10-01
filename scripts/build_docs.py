@@ -915,6 +915,11 @@ def build_named_index(check: bool) -> bool:
         return True
 
 
+# Threaded state: tracks whether the Trust Ledger was evaluated as routine (warn-only).
+# Consumed by build_api_projection to ensure API drift exemptions require proven ledger routine status.
+_TRUST_LEDGER_ROUTINE: bool = False
+
+
 def build_docs_named_index(check: bool) -> bool:
     """Mirror registry/named-skills.json → docs/graph/named/index.json (sync step)."""
     src = ROOT / "registry" / "named-skills.json"
@@ -983,6 +988,7 @@ def build_trust_ledger(check: bool) -> bool:
                     if k in b:
                         b[k] = "<normalized>"
                 if json.dumps(a, sort_keys=True, ensure_ascii=False) == json.dumps(b, sort_keys=True, ensure_ascii=False):
+                    globals()["_TRUST_LEDGER_ROUTINE"] = True
                     return False
             except Exception:
                 pass
@@ -994,14 +1000,17 @@ def build_trust_ledger(check: bool) -> bool:
                 b = json.loads(out_path.read_text(encoding="utf-8"))
                 is_material, blocking, routine = evaluateTrustLedgerFreshness(a, b, repo_root=ROOT)
                 if not is_material:
+                    globals()["_TRUST_LEDGER_ROUTINE"] = True
                     print(
                         f"::warning::docs/graph/ledger/data.json has routine Trust Magnitude drift "
                         f"(warn-only: {len(routine)} skill(s) drifted within tolerance, no grade or gate changes).",
                         file=sys.stderr,
                     )
                     return False
+                else:
+                    globals()["_TRUST_LEDGER_ROUTINE"] = False
             except Exception:
-                pass
+                globals()["_TRUST_LEDGER_ROUTINE"] = False
 
             # Emit a unified diff of the JSON payloads (with normalized timestamps/version)
             try:
@@ -1042,7 +1051,9 @@ def build_installability_projection(check: bool) -> bool:
         if committed.read_text(encoding="utf-8") != encoded:
             try:
                 comm_doc = json.loads(committed.read_text(encoding="utf-8"))
-                is_material, blocking, routine = evaluateInstallabilityFreshness(comm_doc, document)
+                is_material, blocking, routine = evaluateInstallabilityFreshness(
+                    comm_doc, document, repo_root=ROOT
+                )
                 if not is_material:
                     print(
                         f"::warning::docs/graph/installability/index.json has content digest drift from routine "
@@ -1099,8 +1110,9 @@ def build_api_projection(check: bool) -> bool:
             return False
         if check:
             try:
+                ledger_ok = bool(globals().get("_TRUST_LEDGER_ROUTINE", False))
                 is_material, blocking, routine = evaluateApiFreshness(
-                    committed, out_dir, drifts, ledger_is_routine=True
+                    committed, out_dir, drifts, ledger_is_routine=ledger_ok
                 )
                 if not is_material:
                     print(
@@ -1113,7 +1125,7 @@ def build_api_projection(check: bool) -> bool:
                 pass
             for d in drifts:
                 print(f"diff docs/api/v1/{d}")
-        else:
+            return True
             import shutil
             generated_n = sum(1 for _ in out_dir.rglob("*.json"))
             committed_n = sum(1 for _ in committed.rglob("*.json"))
