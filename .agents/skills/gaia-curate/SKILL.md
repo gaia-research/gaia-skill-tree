@@ -19,3 +19,14 @@ Read [CURATION-CORE.md](CURATION-CORE.md). This skill is discovery-only and proc
 5. Write the validated V2 packet to `registry-for-review/discovery-packets/`, present the L4 human shortlist, and stop. A shortlist is not registry acceptance. Only after L4 may the human append the schema-defined `l4Resolution` (vendor-neutral generic identity, named identity, and exact upstream `blob/.../SKILL.md` URL) and hand the resolved packet to `gaia push --from-file <packet.json>`. Never infer those fields from a candidate slug or listing URL.
 
 Never gather or score evidence, assign manual grades/classes, calculate TM, calibrate stars, mutate registry files, regenerate docs, commit, push, or open a PR.
+
+## Optional Semantic Advisory Sidecar (L4)
+
+Before L4 human sign-off, an operator may optionally run the read-only Jev advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+python scripts/jev_advisory.py --mode mapping --input registry-for-review/discovery-packets/<packet>.json
+```
+
+This advisory executes strictly as an auxiliary sidecar; it never alters deterministic decision precedence, `discovery-packet-v2` fields, or generic snapshots. If credentials are missing, budget limits are reached, or confidence is below 0.75, it emits an actionable fallback packet to `worker-luna`. L4 human ratification remains mandatory.

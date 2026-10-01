@@ -110,6 +110,17 @@ After L4 topology approval, a maintainer applies `intake:topology-approved` on t
 
 The handoff must preserve the originating batch and issue/PR links. This skill itself does not run `gaia dev add`, `gaia dev evidence`, or any other mutating command.
 
+## Optional Semantic Advisory Sidecar
+
+To assist batch classification without altering intake state, an operator may optionally generate an auxiliary read-only advisory report ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+python scripts/jev_advisory.py --mode mapping --input registry-for-review/skill-batches/<batch>.json
+```
+
+The runner provides non-authoritative candidate alignment hints and falls back to `worker-luna` when uncertain, offline, or budget-limited. All batch decisions remain human-confirmed.
+
 ## Final report
 
 ```text

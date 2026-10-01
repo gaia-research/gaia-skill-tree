@@ -122,6 +122,18 @@ that before anything else.
   said so.
 - Take a second dispatch before the first is verified.
 
+## Optional External Operator Advisory (Outside Runtime Only)
+
+Gaia Steward maintenance dispatches run with a strict zero-model budget. Model execution is strictly forbidden inside the automated Class A/B dispatch loop. However, an external operator inspecting maintenance debt outside the runtime may optionally run the read-only advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+gaia steward scan --json > /tmp/debt.json
+python scripts/jev_advisory.py --mode steward --input /tmp/debt.json
+```
+
+This inspection provides non-binding hints only, never reorders maintenance debt, never expands the dispatch envelope, and hands off to `worker-luna` when uncertain or offline.
+
 ## When there is genuinely nothing
 
 Say so in one line and stop. Steward is measured on its no-op rate as much as its

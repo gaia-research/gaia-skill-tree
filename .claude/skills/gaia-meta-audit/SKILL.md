@@ -127,3 +127,16 @@ thresholds and is not the skill's accumulated Trust Magnitude.
 ## Canonical worked example
 
 PR #525 (`review/meta/mbtiongson1-audit`, 2026-05-30) ran every red-flag category above on 14 named skills and produced: 2 named removals (P0), 2 generic renames (P1), 1 new `fusion` generic via Semantic Fusion (P3), 5 `genericSkillRef` remaps, 7 `links.github` casing fixes, and 12 placeholder body backfills. Read `AUDIT-mbtiongson1.md` and the PR description for the full flag-to-action mapping.
+
+## Optional Semantic Meta Advisory
+
+To assist triage queue generation, an operator may optionally run the read-only Jev advisory runner to inspect generic descriptions and vendor coupling ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+
+```bash
+# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
+# Uses --collect-repo to inspect canonical generic nodes directly from registry/nodes/
+# Supports bounded paging via --offset (default: 0) and --max-calls
+python scripts/jev_advisory.py --mode meta --collect-repo --offset 0
+```
+
+This advisory produces triage suggestions only. It never mutates registry files, never calibrates stars, never skips deterministic audit checks, and hands off ambiguous items to `worker-luna`.
