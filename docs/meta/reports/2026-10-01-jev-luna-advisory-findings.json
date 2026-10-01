@@ -1,7 +1,7 @@
 {
   "schemaVersion": "jev-luna-findings-v2",
   "generatedAt": "2026-10-01T08:00:00Z",
-  "harness": "gaia-meta-sweep-sidecar",
+  "harness": "jev-advisory-dogfood",
   "branch": "review/meta/jev-luna-advisory-findings",
   "auditIntegrity": {
     "scopeStrict": true,
@@ -22,60 +22,97 @@
     }
   },
   "summary": {
+    "runClassification": "jev-advisory-dogfood-not-full-meta-sweep",
     "totalEvaluatedItems": 34,
     "issuesEvaluated": 30,
     "candidateBatchesEvaluated": 3,
     "metaNodesInFocus": 1,
-    "totalLiveApiCalls": 9,
-    "cachedAdvisoryCalls": 5,
-    "lunaFallbacksTriaged": 21,
-    "telemetry": {
-      "liveCalls": 9,
-      "reservedUsd": 0.027,
-      "actualCostUsd": 0.000320,
-      "monthlyCeilingUsd": 0.50,
-      "remainingBudgetUsd": 0.499680
-    }
+    "attachedReceiptAccounting": {
+      "liveCalls": 6,
+      "cachedHits": 8,
+      "fallbackRows": 40,
+      "estimatedLiveCostUsd": 0.00025,
+      "byReceipt": {
+        "issues": {
+          "liveCalls": 5,
+          "cachedHits": 5,
+          "fallbackRows": 20,
+          "estimatedCostUsd": 0.000229
+        },
+        "mapping": {
+          "liveCalls": 0,
+          "cachedHits": 3,
+          "fallbackRows": 0,
+          "estimatedCostUsd": 0
+        },
+        "meta": {
+          "liveCalls": 1,
+          "cachedHits": 0,
+          "fallbackRows": 20,
+          "estimatedCostUsd": 0.000021
+        }
+      }
+    },
+    "lunaFallbacksActuallyTriaged": 21,
+    "historicalCachedMappingUsageEstimateUsd": 0.000071,
+    "ledgerSnapshot": {
+      "spendUsd": 0.00032,
+      "monthlyCeilingUsd": 0.5,
+      "remainingBudgetUsd": 0.49968
+    },
+    "accountingNote": "Attached receipts reconstruct 6 live calls and $0.000250 of live replay cost. The three mapping results were cache hits in the attached mapping receipt; their displayed token/cost estimates are historical metadata, not replay spend. The $0.000320 figure is the local ledger snapshot after this dogfood/repair work and must not be read as the sum of the attached receipt run."
   },
   "candidateMapping": [
     {
       "candidateId": "latent-spaces/brag",
       "sourceBatch": "registry-for-review/skill-batches/20260926162927-mbtiongson1-from-file.json",
       "jevChoice": "project-launch-video-production",
-      "jevConfidence": 0.90,
+      "jevConfidence": 0.9,
       "cached": true,
-      "inputTokens": 532,
-      "outputTokens": 70,
-      "estimatedCostUsd": 0.000022,
       "lunaVerdict": "MAPPING ENDORSED (L4 curation pending)",
       "scope": "well_scoped",
-      "resolution": "Map as named implementation candidate to existing generic fusion 'project-launch-video-production'. The end-to-end video launch workflow combines creative direction, composition, and rendering; do not prematurely decompose into component primitives ('video-rendering', 'creative-direction')."
+      "resolution": "Map as named implementation candidate to existing generic fusion 'project-launch-video-production'. The end-to-end video launch workflow combines creative direction, composition, and rendering; do not prematurely decompose into component primitives ('video-rendering', 'creative-direction').",
+      "historicalCachedEstimatedCostUsd": 0.000022,
+      "historicalCachedUsage": {
+        "inputTokens": 532,
+        "outputTokens": 70
+      },
+      "receiptReplayCostUsd": 0,
+      "costNote": "Attached mapping receipt served this result from cache; historical usage metadata is retained for provenance only."
     },
     {
       "candidateId": "InsightFactoryAPP/project-management",
       "sourceBatch": "registry-for-review/skill-batches/20260911153000-InsightFactoryAPP-from-file.json",
       "jevChoice": "project-management",
-      "jevConfidence": 1.0,
+      "jevConfidence": 1,
       "cached": true,
-      "inputTokens": 568,
-      "outputTokens": 69,
-      "estimatedCostUsd": 0.000024,
       "lunaVerdict": "REFINE (L4 curation required)",
       "scope": "overly_broad_as_basic",
-      "resolution": "Canonical generic fusion 'project-management' already exists in registry/nodes/fusion/project-management.json. Do not mint a duplicate generic node. Evaluate this candidate strictly as a named implementation under the existing fusion node, pending verified attribution and evidence."
+      "resolution": "Canonical generic fusion 'project-management' already exists in registry/nodes/fusion/project-management.json. Do not mint a duplicate generic node. Evaluate this candidate strictly as a named implementation under the existing fusion node, pending verified attribution and evidence.",
+      "historicalCachedEstimatedCostUsd": 0.000024,
+      "historicalCachedUsage": {
+        "inputTokens": 568,
+        "outputTokens": 69
+      },
+      "receiptReplayCostUsd": 0,
+      "costNote": "Attached mapping receipt served this result from cache; historical usage metadata is retained for provenance only."
     },
     {
       "candidateId": "mbtiongson1/codebase-graph-retrieval",
       "sourceBatch": "registry-for-review/skill-batches/20260910121121-mbtiongson1-from-file.json",
       "jevChoice": "codebase-graph-retrieval",
-      "jevConfidence": 1.0,
+      "jevConfidence": 1,
       "cached": true,
-      "inputTokens": 587,
-      "outputTokens": 80,
-      "estimatedCostUsd": 0.000025,
       "lunaVerdict": "MAPPING ENDORSED (L4 curation pending)",
       "scope": "well_scoped",
-      "resolution": "Exact 1.0 match to canonical generic fusion 'codebase-graph-retrieval'. Lexical similarity to biological/clinical retrieval is a false positive; accept as named implementation candidate."
+      "resolution": "Exact 1.0 match to canonical generic fusion 'codebase-graph-retrieval'. Lexical similarity to biological/clinical retrieval is a false positive; accept as named implementation candidate.",
+      "historicalCachedEstimatedCostUsd": 0.000025,
+      "historicalCachedUsage": {
+        "inputTokens": 587,
+        "outputTokens": 80
+      },
+      "receiptReplayCostUsd": 0,
+      "costNote": "Attached mapping receipt served this result from cache; historical usage metadata is retained for provenance only."
     }
   ],
   "metaRegistryAudit": [
@@ -90,8 +127,8 @@
         "probabilities": {
           "well_scoped": 0.73,
           "overly_broad": 0.27,
-          "vendor_coupling_suspect": 0.0,
-          "uncertain": 0.0
+          "vendor_coupling_suspect": 0,
+          "uncertain": 0
         }
       },
       "lunaVerdict": "REFINE (L4 curation required)",
@@ -129,7 +166,7 @@
         "outputTokens": 144,
         "jevChoice": "NONE_OF_SHORTLIST",
         "jevConfidence": 0.96,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": null,
         "lunaPriority": "P2",
         "lunaRationale": "Component intake of obra/superpowers suite v6.4.2."
@@ -144,7 +181,7 @@
         "outputTokens": 144,
         "jevChoice": "NONE_OF_SHORTLIST",
         "jevConfidence": 0.96,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": null,
         "lunaPriority": "P2",
         "lunaRationale": "Component intake of obra/superpowers suite v6.4.2."
@@ -159,10 +196,10 @@
         "outputTokens": 144,
         "jevChoice": "NONE_OF_SHORTLIST",
         "jevConfidence": 0.96,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": null,
         "lunaPriority": "P2",
-        "lunaRationale": "Component intake of obra/superpowers suite v6.4.2; link to canonical test-engineering capability."
+        "lunaRationale": "Component intake of obra/superpowers suite v6.4.2; compare/map to canonical test-driven-development capability subject to L4 curation."
       },
       {
         "number": 2021,
@@ -174,7 +211,7 @@
         "outputTokens": 144,
         "jevChoice": "NONE_OF_SHORTLIST",
         "jevConfidence": 0.96,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": null,
         "lunaPriority": "P2",
         "lunaRationale": "Component intake of obra/superpowers suite v6.4.2."
@@ -189,7 +226,7 @@
         "outputTokens": 144,
         "jevChoice": "NONE_OF_SHORTLIST",
         "jevConfidence": 0.98,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": null,
         "lunaPriority": "P2",
         "lunaRationale": "Upstream release umbrella for obra/superpowers suite upgrade."
@@ -279,7 +316,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; evaluate ideation refinement scope."
@@ -294,7 +331,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; compare git-integration vs specific workflow."
@@ -309,7 +346,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; inspect frontend engineering boundary."
@@ -324,7 +361,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; evaluate assumption testing vs verification."
@@ -339,7 +376,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; assess ADR authoring vs general documentation."
@@ -354,7 +391,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; strong candidate mapping to deprecation-and-migration."
@@ -369,7 +406,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; matches canonical systematic-debugging (root cause before fixes)."
@@ -384,7 +421,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; broader than context-compression (rules, budgeting, loading)."
@@ -399,7 +436,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; evaluate constraint application workflow."
@@ -414,7 +451,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; plausible candidate ci-cd."
@@ -429,7 +466,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; compare browser-automation vs e2e-testing."
@@ -444,7 +481,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Child component addition for existing addy-osmani suite expansion; distinct from api-call (usage vs contract design)."
@@ -459,7 +496,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Upstream release umbrella for existing addy-osmani suite expansion (0.6.10 -> 0.6.11)."
@@ -474,7 +511,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P1",
         "lunaRationale": "High-leverage architectural and governance proposal affecting repo maintenance and authority boundaries."
@@ -489,7 +526,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P3",
         "lunaRationale": "Content engine documentation deliverable; sequence after integration fact receipts land."
@@ -504,7 +541,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Routine single candidate intake; pending source inspection and generic mapping."
@@ -519,7 +556,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P3",
         "lunaRationale": "Peripheral studio candidate of heygen-com family; umbrella already decoupled."
@@ -534,7 +571,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Core engine candidate of heygen-com family; verify distinct scopes and installability."
@@ -549,7 +586,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P3",
         "lunaRationale": "Peripheral video candidate of heygen-com family; umbrella already decoupled."
@@ -564,7 +601,7 @@
         "outputTokens": null,
         "jevChoice": null,
         "jevConfidence": null,
-        "jevCostUsd": 0.0,
+        "jevCostUsd": 0,
         "fallbackReason": "max_calls_exceeded",
         "lunaPriority": "P2",
         "lunaRationale": "Routine candidate intake; map to existing webhook/API capability if applicable."
@@ -629,5 +666,7 @@
         "notes": "Inspect upstream instructions individually before deciding generic mapping or suite inclusion."
       }
     ]
-  }
+  },
+  "runClassification": "jev-advisory-dogfood-not-full-meta-sweep",
+  "fullMetaSweep": false
 }
