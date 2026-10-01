@@ -9,9 +9,9 @@ REPO_ROOT="${REPO_ROOT:-$(cd "${SCRIPT_DIR}/../.." && pwd)}"
 # Centralize cache directories (repository-local or respect existing GAIA_MODEL_CACHE)
 export GAIA_MODEL_CACHE="${GAIA_MODEL_CACHE:-${REPO_ROOT}/.gaia/models}"
 # `gaia dev embed` rewrites the tracked semantic artifact that downstream trust
-# decisions hash, so it is an operator mutation. Setup/maintenance are the
-# sanctioned callers; local regeneration never touches system or global config.
-export GAIA_OPERATOR_OVERRIDE="${GAIA_OPERATOR_OVERRIDE:-1}"
+# decisions hash, so it is an operator mutation. The override is scoped to the
+# embed invocation itself (see setup.sh / maintenance.sh) rather than exported
+# here, so it can never leak into unrelated commands or test runs.
 export HF_HOME="${GAIA_MODEL_CACHE}"
 export SENTENCE_TRANSFORMERS_HOME="${GAIA_MODEL_CACHE}"
 mkdir -p "${GAIA_MODEL_CACHE}"

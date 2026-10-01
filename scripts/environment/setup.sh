@@ -115,7 +115,7 @@ if [[ "${ARTIFACT_FRESH}" -eq 1 && "${FORCE}" -eq 0 ]]; then
   echo "[SETUP] Embeddings artifact is already fresh. Skipping generation."
 else
   echo "==> Embeddings artifact missing or stale: generating fresh embeddings via gaia dev embed..."
-  "${EXEC_PY}" -m gaia_cli dev embed
+  GAIA_OPERATOR_OVERRIDE=1 "${EXEC_PY}" -m gaia_cli dev embed
 fi
 
 # 4. Optional Benchmark Receipt
