@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-01T23:06:43Z",
+  "generatedAt": "2026-10-03T14:57:08Z",
   "firstRun": false,
   "skills": [
     {
@@ -10,9 +10,9 @@
       "contributor": "latent-spaces",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
-      "trendingScore": 72.27,
-      "tmDelta": 144.54,
-      "new": true,
+      "trendingScore": 75.27,
+      "tmDelta": 4.61,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       }
