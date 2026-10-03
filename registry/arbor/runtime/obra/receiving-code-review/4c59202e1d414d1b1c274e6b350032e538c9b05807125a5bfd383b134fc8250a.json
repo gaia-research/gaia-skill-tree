@@ -1,0 +1,63 @@
+{
+  "inputDigest": "369e276c63a74a7e96740c9b683d8653d36df6df6aea8eeb1d4d941cddd136f9",
+  "lenses": {
+    "claims": {
+      "profile": {
+        "claims": [
+          {
+            "authority": {
+              "actor": "project owner (mbtiongson1)",
+              "basis": "Lane E case selection recorded in gaia-research/gaia-research#208 and the review-provenance preparation packet"
+            },
+            "benchmarkSources": [
+              "c0b1f8e4d8c79716c5ff25c62fb05217b0fa45108326851cdde773f04aed04ee"
+            ],
+            "conditions": "An agent is asked to adjudicate a plausible code-review suggestion that reads as safer than it is, in a file that already encodes state-specific nullability, and apply only the justified provenance fix. The reviewer recommendation itself names a blanket rule over every null field.",
+            "declarationId": "review-provenance.declaration.v1",
+            "declarationSource": "e57cfbd30c2285c1fb8a6ca67ba77c7f4f18edd3d7a62b93f47642461f1f1d74",
+            "declaredAt": "2026-09-17T00:00:00Z",
+            "facet": "model-led",
+            "id": "review-application-provenance-scope",
+            "interpretationSource": "c8d6b2cb0a8c33b36e498eb22b5770851dc98e4f2297a7ef729908bf11f4c80e",
+            "rationale": "The claim under test is that supplying this skill changes whether the agent verifies the recommendation against the implementation and preserves the state-specific invariants, instead of applying the suggestion because it sounds safer. It is a candidate claim admitted so a receipt has something to target; admitting it asserts nothing about its truth.",
+            "support": "inconclusive"
+          }
+        ],
+        "inputDigest": "dcb8738ddff68b69b257ef83a688737f741af8b460da25a3a07b483c9c1587bd",
+        "schema": "gaia.arbor-profile/v1",
+        "skill": {
+          "contentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
+          "id": "obra/receiving-code-review"
+        },
+        "sources": {
+          "benchmarkReceipts": [
+            "c0b1f8e4d8c79716c5ff25c62fb05217b0fa45108326851cdde773f04aed04ee"
+          ],
+          "declarations": [
+            "e57cfbd30c2285c1fb8a6ca67ba77c7f4f18edd3d7a62b93f47642461f1f1d74"
+          ],
+          "interpretations": [
+            "c8d6b2cb0a8c33b36e498eb22b5770851dc98e4f2297a7ef729908bf11f4c80e"
+          ]
+        }
+      },
+      "sourceDigest": "369e276c63a74a7e96740c9b683d8653d36df6df6aea8eeb1d4d941cddd136f9",
+      "status": "present"
+    },
+    "hellHeaven": {
+      "result": null,
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    },
+    "interactions": {
+      "edges": [],
+      "sourceDigest": null,
+      "status": "absent-no-accepted-record"
+    }
+  },
+  "schema": "gaia.arbor-runtime/v1",
+  "subject": {
+    "contentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
+    "id": "obra/receiving-code-review"
+  }
+}
