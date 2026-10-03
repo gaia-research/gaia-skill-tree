@@ -199,16 +199,18 @@
 
     // Ledger strip
     var elUlts = document.getElementById('ledgerUlts');
-    // §8: an "Ultimate" is a 5★+ Suite NAMED skill, not every suite-branch node.
-    // Count the named entries with branch==='suite' && rank>=5 (dedup by id) —
-    // the true elite tier the Hall calls Ultimates — rather than ultimates.length
-    // (all 15 suite-branch canonical nodes), which over-counts the concept.
+    // §8: an "Ultimate" is a 5★+ NAMED skill, not every suite-branch node.
+    // Count the named entries with rank>=5 on ANY branch (dedup by id) — the true
+    // elite tier the Hall calls Ultimates — rather than ultimates.length (all 15
+    // suite-branch canonical nodes), which over-counts the concept. Ultimate is a
+    // rank, not a branch: 5★ Unique (Unique Ultimate) counts the same as 5★ Suite,
+    // so no branch filter here — otherwise Unique Apex entries were silently dropped.
     var ultSeen = {};
     var ultimateCount = 0;
     function tallyUltimate(e) {
       if (!e || !e.id || ultSeen[e.id]) return;
       var rn = (typeof e.rank === 'number') ? e.rank : 0;
-      if (e.branch === 'suite' && rn >= 5) { ultSeen[e.id] = true; ultimateCount++; }
+      if (rn >= 5) { ultSeen[e.id] = true; ultimateCount++; }
     }
     Object.keys(buckets).forEach(function (k) { (buckets[k] || []).forEach(tallyUltimate); });
     (namedData.awaitingClassification || []).forEach(tallyUltimate);
