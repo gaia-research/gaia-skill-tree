@@ -1,22 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-03T14:57:08Z",
+  "generatedAt": "2026-10-03T18:42:08Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "latent-spaces/brag",
-      "name": "brag",
-      "level": "3★",
-      "contributor": "latent-spaces",
-      "trustMagnitude": 144.54,
-      "overallTrustGrade": "A",
-      "trendingScore": 75.27,
-      "tmDelta": 4.61,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/latent-spaces/brag.json"
-      }
-    },
     {
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
@@ -71,6 +57,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/trailhq/graft.json"
+      }
+    },
+    {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "3★",
+      "contributor": "latent-spaces",
+      "trustMagnitude": 144.54,
+      "overallTrustGrade": "A",
+      "trendingScore": 5.27,
+      "tmDelta": 4.61,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
       }
     },
     {
