@@ -1126,16 +1126,17 @@ def build_api_projection(check: bool) -> bool:
             for d in drifts:
                 print(f"diff docs/api/v1/{d}")
             return True
-            import shutil
-            generated_n = sum(1 for _ in out_dir.rglob("*.json"))
-            committed_n = sum(1 for _ in committed.rglob("*.json"))
-            if committed_n > 0 and generated_n < committed_n * 0.7:
-                raise RuntimeError(
-                    f"docs/api/v1/ regen aborted: generated {generated_n}/{committed_n} "
-                    "files — likely stale snapshot. Run `gaia pull` then retry."
-                )
-            shutil.rmtree(committed)
-            shutil.copytree(out_dir, committed)
+
+        import shutil
+        generated_n = sum(1 for _ in out_dir.rglob("*.json"))
+        committed_n = sum(1 for _ in committed.rglob("*.json"))
+        if committed_n > 0 and generated_n < committed_n * 0.7:
+            raise RuntimeError(
+                f"docs/api/v1/ regen aborted: generated {generated_n}/{committed_n} "
+                "files — likely stale snapshot. Run `gaia pull` then retry."
+            )
+        shutil.rmtree(committed)
+        shutil.copytree(out_dir, committed)
         return True
 
 

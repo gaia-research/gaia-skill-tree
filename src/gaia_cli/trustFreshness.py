@@ -355,27 +355,34 @@ def evaluateTrustLedgerFreshness(
             else:
                 routine.append(f"{sid}: TM {comm_tm} -> {fresh_tm} ({fresh_tm - comm_tm:+.2f})")
 
-    # 6. Check for explicit review events and non-volatile evidence changes in skill files
+    # 6. Explicit Trust review/recalibration is independently material.
+    # Do not scope this to skills that also happened to move numerically: a review
+    # should require a fresh projection even when TM stays identical after review.
     if repo_root is not None:
         generated_at = committed_data.get("generatedAt")
-        for sid in (w.split(":")[0] for w in routine):
-            if "/" in sid:
+        if generated_at:
+            for sid in fresh_skills:
+                if "/" not in sid:
+                    continue
                 contributor, skill_slug = sid.split("/", 1)
                 md_path = repo_root / "registry" / "named" / contributor / f"{skill_slug}.md"
-                if md_path.exists():
-                    try:
-                        _, fm_text, _ = split_frontmatter(md_path.read_text(encoding="utf-8"))
-                        fm = load_yaml_simple(fm_text) or {}
-                        for ev in fm.get("timeline", []):
-                            if isinstance(ev, dict) and ev.get("action") in EXPLICIT_REVIEW_ACTIONS:
-                                ev_ts = str(ev.get("timestamp", ""))
-                                if generated_at and ev_ts > str(generated_at):
-                                    blocking.append(
-                                        f"{sid}: explicit review event '{ev.get('action')}' "
-                                        f"recorded at {ev_ts} (after {generated_at}) requires fresh projection"
-                                    )
-                    except Exception:
-                        pass
+                if not md_path.exists():
+                    continue
+                try:
+                    _, fm_text, _ = split_frontmatter(md_path.read_text(encoding="utf-8"))
+                    fm = load_yaml_simple(fm_text) or {}
+                    for ev in fm.get("timeline", []):
+                        if not isinstance(ev, dict) or ev.get("action") not in EXPLICIT_REVIEW_ACTIONS:
+                            continue
+                        ev_ts = str(ev.get("timestamp", ""))
+                        if ev_ts and ev_ts > str(generated_at):
+                            blocking.append(
+                                f"{sid}: explicit review event '{ev.get('action')}' "
+                                f"recorded at {ev_ts} (after {generated_at}) requires fresh projection"
+                            )
+                            break
+                except Exception:
+                    pass
 
     # 7. Check if Trust scoring methodology or schema rules changed relative to merge-base
     if repo_root is not None:
@@ -471,7 +478,9 @@ def evaluateInstallabilityFreshness(
                 else:
                     routine.append(f"{sid}: content sha256 changed (proven limited to volatile Trust fields)")
             else:
-                routine.append(f"{sid}: content sha256 changed")
+                blocking.append(
+                    f"{sid}: content sha256 changed but volatile-only provenance could not be verified"
+                )
 
     return bool(blocking), blocking, routine
 
