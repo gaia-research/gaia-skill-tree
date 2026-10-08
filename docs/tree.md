@@ -344,6 +344,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /tool-use
   └─ ○ firecrawl/firecrawl-research-index  [3★]
 
+◆ hikari9/auto-office  [3★]
+─────────────────────────────────────────────────────────────────
+  └─ · obra/verification-before-completion  [3★]
+     ├─ ○ /code-execution
+     └─ ○ /self-critique
+
 ◆ disler/agent-fusion  [2★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ disler/opinion  [2★]
@@ -419,7 +425,6 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/doubt-driven-development
   ○ panniantong/agent-reach  [3★]
   ○ heygen-com/hyperframes-audio  [3★]
-  ○ /autonomous-engineering-platform
   ○ gaia-research/ci-churn  [2★]
   ○ /clinical-data-retrieval
   ○ ████████/update-unique-churches

@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "garrytan/careful",
+      "name": "Careful",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/careful.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
       "id": "garrytan/office-hours",
       "name": "Office Hours",
       "level": "3★",
@@ -186,6 +203,23 @@
         "self": "/api/v1/skills/panniantong/agent-reach.json"
       },
       "genericSkillRef": "agent-reach"
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "trustMagnitude": 52.66,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
+      },
+      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -681,23 +715,6 @@
       "genericSkillRef": "finishing-a-development-branch"
     },
     {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
       "id": "heygen-com/embedded-captions",
       "name": "Embedded Captions",
       "level": "3★",
@@ -832,28 +849,11 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
       },
       "genericSkillRef": "creative-direction"
-    },
-    {
-      "id": "heygen-com/hyperframes-keyframes",
-      "name": "Hyperframes Keyframes",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-keyframes.json"
-      },
-      "genericSkillRef": "timeline-animation"
     }
   ],
   "page": 2,
   "totalPages": 5,
-  "totalSkills": 225,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

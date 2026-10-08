@@ -912,6 +912,41 @@
     ]
   },
   {
+    "id": "obra/verification-before-completion",
+    "name": "Verification Before Completion",
+    "contributor": "obra",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 97.81,
+    "branch": "standard",
+    "tokens": [
+      "any",
+      "before",
+      "claim",
+      "claiming",
+      "commands",
+      "complete",
+      "completion",
+      "confirming",
+      "discipline",
+      "evidence",
+      "fixed",
+      "gate",
+      "no",
+      "output",
+      "passing",
+      "quality",
+      "requires",
+      "running",
+      "testing",
+      "their",
+      "verification",
+      "without",
+      "work",
+      "—"
+    ]
+  },
+  {
     "id": "obra/executing-plans",
     "name": "Executing Plans",
     "contributor": "obra",
@@ -943,41 +978,6 @@
       "when",
       "without",
       "written",
-      "—"
-    ]
-  },
-  {
-    "id": "obra/verification-before-completion",
-    "name": "Verification Before Completion",
-    "contributor": "obra",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 95.15,
-    "branch": "standard",
-    "tokens": [
-      "any",
-      "before",
-      "claim",
-      "claiming",
-      "commands",
-      "complete",
-      "completion",
-      "confirming",
-      "discipline",
-      "evidence",
-      "fixed",
-      "gate",
-      "no",
-      "output",
-      "passing",
-      "quality",
-      "requires",
-      "running",
-      "testing",
-      "their",
-      "verification",
-      "without",
-      "work",
       "—"
     ]
   },
@@ -1278,6 +1278,41 @@
       "trees",
       "unlazy",
       "work"
+    ]
+  },
+  {
+    "id": "hikari9/auto-office",
+    "name": "Auto Office",
+    "contributor": "hikari9",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 88.97,
+    "branch": "suite",
+    "tokens": [
+      "`office`",
+      "adaptive",
+      "auto",
+      "autonomous",
+      "cli",
+      "closeout",
+      "complete",
+      "driven",
+      "engineering",
+      "execution",
+      "independent",
+      "intent",
+      "lifecycle",
+      "office",
+      "one",
+      "planning",
+      "platform",
+      "review",
+      "routed",
+      "runtime",
+      "through",
+      "use",
+      "verification",
+      "when"
     ]
   },
   {
@@ -1953,6 +1988,31 @@
       "routing",
       "support",
       "web"
+    ]
+  },
+  {
+    "id": "gsd-build/verify-work",
+    "name": "GSD Verify Work",
+    "contributor": "gsd-build",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 52.66,
+    "branch": "standard",
+    "tokens": [
+      "before",
+      "built",
+      "completion",
+      "declared",
+      "diagnoses",
+      "fixes",
+      "gaps",
+      "gsd",
+      "issues",
+      "through",
+      "verification",
+      "verify",
+      "walks",
+      "work"
     ]
   },
   {
@@ -2878,31 +2938,6 @@
       "review",
       "runs",
       "ship"
-    ]
-  },
-  {
-    "id": "gsd-build/verify-work",
-    "name": "GSD Verify Work",
-    "contributor": "gsd-build",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 50.0,
-    "branch": "standard",
-    "tokens": [
-      "before",
-      "built",
-      "completion",
-      "declared",
-      "diagnoses",
-      "fixes",
-      "gaps",
-      "gsd",
-      "issues",
-      "through",
-      "verification",
-      "verify",
-      "walks",
-      "work"
     ]
   },
   {
@@ -4449,6 +4484,31 @@
       "vocabulary",
       "writing",
       "—"
+    ]
+  },
+  {
+    "id": "ruvnet/verification-quality",
+    "name": "Verification Quality",
+    "contributor": "ruvnet",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 38.66,
+    "branch": "standard",
+    "tokens": [
+      "are",
+      "before",
+      "checklists",
+      "completion",
+      "ensuring",
+      "finalization",
+      "gates",
+      "implements",
+      "met",
+      "pre",
+      "quality",
+      "structured",
+      "task",
+      "verification"
     ]
   },
   {
@@ -6650,31 +6710,6 @@
     ]
   },
   {
-    "id": "ruvnet/verification-quality",
-    "name": "Verification Quality",
-    "contributor": "ruvnet",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 36.0,
-    "branch": "standard",
-    "tokens": [
-      "are",
-      "before",
-      "checklists",
-      "completion",
-      "ensuring",
-      "finalization",
-      "gates",
-      "implements",
-      "met",
-      "pre",
-      "quality",
-      "structured",
-      "task",
-      "verification"
-    ]
-  },
-  {
     "id": "ruvnet/worker-integration",
     "name": "Worker Integration",
     "contributor": "ruvnet",
@@ -6871,6 +6906,46 @@
       "under",
       "unit",
       "unittest"
+    ]
+  },
+  {
+    "id": "hikari9/office-submit",
+    "name": "Office Submit",
+    "contributor": "hikari9",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 24.34,
+    "branch": "standard",
+    "tokens": [
+      "`office",
+      "adversarial",
+      "auto",
+      "before",
+      "behavior",
+      "brief's",
+      "checks",
+      "commit",
+      "completion",
+      "diff",
+      "executor",
+      "findings",
+      "finish",
+      "fix",
+      "medium+",
+      "mutation",
+      "office",
+      "p",
+      "pass",
+      "preserving",
+      "prove",
+      "push",
+      "review",
+      "run",
+      "self",
+      "simplify",
+      "submit",
+      "task",
+      "verification"
     ]
   },
   {
