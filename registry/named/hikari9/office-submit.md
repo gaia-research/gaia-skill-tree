@@ -48,6 +48,10 @@ timeline:
   action: installation_updated
   contributor: unknown
   details: 'Replaced ## Installation section from generated-output/2054-installation.md'
+- timestamp: '2026-10-09T07:00:00Z'
+  action: installation_updated
+  contributor: unknown
+  details: Updated suite member installation instructions referencing auto-office capstone
 evidence:
 - source: https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md
   evaluator: unknown
@@ -77,15 +81,12 @@ verification:
 ---
 
 ## Installation
-Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either uv or pipx:
+
+This skill is part of the Auto Office suite.
 
 ```bash
 uv tool install git+https://github.com/Hikari9/auto-office.git
-# Alternatively:
-pipx install git+https://github.com/Hikari9/auto-office.git
-
 office install
-office doctor
 ```
 
-`office install` registers the runtime and bundled skills, including Office Submit, with supported harnesses. Review the upstream installation instructions before allowing harness configuration changes. Packaging was verified at commit `da6aa9a93dbab98c03d2fbb3593f994acf85d7a7`; the commands above install the current upstream revision.
+See the [Auto Office (hikari9/auto-office)](../hikari9/auto-office.md) capstone for full multi-harness installation options and plugin configuration.

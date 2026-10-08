@@ -3969,7 +3969,7 @@
         "entrypoint": "SKILL.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "c68b02a2bf4eca83dfe374166251f3e530243ab21185f73365a81c9fb39b0c80",
+      "currentSkillContentSha256": "bb6a0657ca6970cedc1b8967d423ce19e1e8dddf2646f4d174f23980c48cf8ea",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3989,7 +3989,7 @@
         "entrypoint": "skills/office-submit/SKILL.md",
         "installSubpath": "skills/office-submit"
       },
-      "currentSkillContentSha256": "a555236a5e1a0d04d3a408d63b6fea29ecf97a03ab1c73341d852a80f204d9d8",
+      "currentSkillContentSha256": "200ff9b9a680a78345cb895fb137ab0e4020093e0d8dc4132c924268f57c16ae",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
