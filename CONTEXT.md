@@ -214,6 +214,8 @@ _Avoid_: queue, draft pool.
 A user's personal projection of the registry, showing which skills they have demonstrated, at what stars, in which repository.
 _Avoid_: profile, dashboard, scorecard.
 
+**Possessive naming:** `My Skill Tree`, `Your Skill Tree`, and a person's named `Skill Tree` are natural references to this same personal projection, not distinct brands. Prefer the complete **Skill Tree** noun over an abbreviated `My Tree` in new UI copy; existing `Your Tree` nav copy can be reviewed at its own design gate. This terminology does not change the registry or its evidence/rank rules.
+
 ### Registry Management
 
 **Programmatic-First Policy**:
