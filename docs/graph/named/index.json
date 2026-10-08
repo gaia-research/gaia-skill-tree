@@ -25213,11 +25213,17 @@
             "action": "installation_updated",
             "contributor": "unknown",
             "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          },
+          {
+            "timestamp": "2026-10-09T07:00:00Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Updated suite member installation instructions referencing auto-office capstone"
           }
         ],
         "suiteRef": "hikari9/auto-office",
         "type": "fusion",
-        "installBody": "Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either uv or pipx:\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\n# Alternatively:\npipx install git+https://github.com/Hikari9/auto-office.git\n\noffice install\noffice doctor\n```\n\n`office install` registers the runtime and bundled skills, including Office Submit, with supported harnesses. Review the upstream installation instructions before allowing harness configuration changes. Packaging was verified at commit `da6aa9a93dbab98c03d2fbb3593f994acf85d7a7`; the commands above install the current upstream revision.",
+        "installBody": "This skill is part of the Auto Office suite.\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\noffice install\n```\n\nSee the [Auto Office (hikari9/auto-office)](../hikari9/auto-office.md) capstone for full multi-harness installation options and plugin configuration.",
         "role": "variant",
         "trustMagnitude": 24.34,
         "overallTrustGrade": "C",
@@ -28642,13 +28648,19 @@
             "action": "installation_updated",
             "contributor": "unknown",
             "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          },
+          {
+            "timestamp": "2026-10-09T07:00:00Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Added structured custom installation instructions with multi-harness tabs and worktree configuration"
           }
         ],
         "suiteComponents": [
           "hikari9/office-submit"
         ],
         "type": "fusion",
-        "installBody": "Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either uv or pipx:\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\n# Alternatively:\npipx install git+https://github.com/Hikari9/auto-office.git\n\noffice install\noffice doctor\n```\n\n`office install` registers the runtime and bundled skills, including Office Submit, with supported harnesses. Review the upstream installation instructions before allowing harness configuration changes. Packaging was verified at commit `da6aa9a93dbab98c03d2fbb3593f994acf85d7a7`; the commands above install the current upstream revision.",
+        "installBody": "Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either `uv` or `pipx`, or as an agent plugin.\n\n### Step 1: Install the CLI\n\nFor normal use:\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\n```\n\nFor browser capture and visual gates:\n\n```bash\nuv tool install 'git+https://github.com/Hikari9/auto-office.git#egg=auto-office[visual]'\n```\n\nAlternatively, install using `pipx`:\n\n```bash\npipx install git+https://github.com/Hikari9/auto-office.git\n```\n\n### Plugin Marketplace\n\nThis repository is a plugin marketplace for both Claude Code and Codex / ChatGPT:\n\n```bash\n# Claude Code\nclaude plugin marketplace add Hikari9/auto-office\nclaude plugin install auto-office@auto-office\n\n# Codex / ChatGPT desktop\ncodex plugin marketplace add Hikari9/auto-office\n```\n\nEnable `auto-office` from the Codex plugin directory. Claude reads `.claude-plugin/marketplace.json`; Codex reads `.agents/plugins/marketplace.json` and the root `plugin.json`.\n\n### Harness Integrations\n\nRegister the runtime and agent integrations:\n\n```bash\noffice install\noffice doctor\n```\n\n`office install` is idempotent. It registers the current runtime and installs the harness integrations that Auto Office can verify safely. Existing configuration is backed up before Office-managed entries are changed.\n\n| Agent / harness | After office install |\n|---|---|\n| Claude Code | Installs managed SessionStart, UserPromptSubmit, and PreToolUse hooks in ~/.claude/settings.json |\n| Gemini CLI | Installs managed SessionStart, BeforeAgent, and BeforeTool hooks in ~/.gemini/settings.json |\n| Codex | No config is written; explicit office commands are the contract |\n| agy / Antigravity | Explicit office commands and status |\n| Hermes | Explicit office commands |\n| Herdr | Dispatches open real agent panes and Office tracks/reclaims them |\n\n### Operating Rule\n\nEvery normal CLI result ends with a `next:` line declaring the next legal action:\n\n1. Run `office --version` and `office doctor` when bootstrapping a machine/session.\n2. Use `office start` or `office resume` rather than inventing lifecycle state.\n3. Follow `next:` instead of editing Office state directly.\n4. Never edit `runs.db`, generated run views, receipts, or telemetry by hand.\n5. Submit plans and implementation through `office submit`.\n6. Let the runtime dispatch reviewers and evaluate acceptance.\n\n### Worktree Configuration\n\nOffice creates fresh task, integration, and check worktrees. If tests need dependencies, declare the setup command in `.auto-office/config.yaml`:\n\n```yaml\nworktree:\n  setup: \"uv sync --frozen\"\n  setup_inputs:\n    - pyproject.toml\n    - uv.lock\n  setup_timeout_s: 600\n  applies_to: [task, integration, check]\n```",
         "role": "variant",
         "trustMagnitude": 88.97,
         "overallTrustGrade": "B",

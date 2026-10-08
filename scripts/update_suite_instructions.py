@@ -42,6 +42,11 @@ UPSTREAM_CONFIG = {
         "url": "https://raw.githubusercontent.com/open-gsd/gsd-core/main/README.md",
         "heading_keywords": ["Quickstart", "Installation"],
         "path": "registry/named/gsd-build/get-shit-done.md"
+    },
+    "hikari9/auto-office": {
+        "url": "https://raw.githubusercontent.com/Hikari9/auto-office/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/README.md",
+        "heading_keywords": ["Install"],
+        "path": "registry/named/hikari9/auto-office.md"
     }
 }
 
@@ -79,6 +84,15 @@ npx @opengsd/gsd-core@latest
 ```
 
 This is the recommended path from the upstream repo's Quickstart."""
+
+HIKARI9_MEMBER_TEMPLATE = """This skill is part of the Auto Office suite.
+
+```bash
+uv tool install git+https://github.com/Hikari9/auto-office.git
+office install
+```
+
+See the [Auto Office (hikari9/auto-office)](../hikari9/auto-office.md) capstone for full multi-harness installation options and plugin configuration."""
 
 MATT_TEMPLATE = """This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
@@ -257,6 +271,8 @@ def main():
                 surgical_update(fp, ADDY_MEMBER_TEMPLATE)
             elif "/gsd-build/" in fp and "id: gsd-build/get-shit-done" not in content:
                 surgical_update(fp, GSD_MEMBER_TEMPLATE)
+            elif "/hikari9/" in fp and "id: hikari9/auto-office" not in content:
+                surgical_update(fp, HIKARI9_MEMBER_TEMPLATE)
 
     # 3. Bake changes
     print("Running indexer...")
