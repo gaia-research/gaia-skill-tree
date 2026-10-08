@@ -26,6 +26,23 @@
       ]
     },
     {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "trustMagnitude": 52.66,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "gsd-build",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
       "id": "gsd-build/discuss-phase",
       "name": "GSD Discuss Phase",
       "level": "3★",
@@ -92,23 +109,6 @@
         "self": "/api/v1/skills/gsd-build/ship.json"
       },
       "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
-      },
-      "genericSkillRef": "verification-before-completion"
     }
   ],
   "namedSkillsCount": 6,
@@ -117,7 +117,7 @@
     "level": "4★",
     "trustMagnitude": 169.31
   },
-  "prestigeScore": 419.31,
+  "prestigeScore": 421.97,
   "gradeDistribution": {
     "A": 1,
     "B": 5

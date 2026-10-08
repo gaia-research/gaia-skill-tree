@@ -100,6 +100,23 @@
       "genericSkillRef": "writing-plans"
     },
     {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "trustMagnitude": 97.81,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
       "id": "obra/executing-plans",
       "name": "Executing Plans",
       "level": "3★",
@@ -115,23 +132,6 @@
         "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "name": "Verification Before Completion",
-      "level": "3★",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/verification-before-completion.json"
-      },
-      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "obra/systematic-debugging",
@@ -225,7 +225,7 @@
     "level": "4★",
     "trustMagnitude": 221.52
   },
-  "prestigeScore": 1090.57,
+  "prestigeScore": 1093.23,
   "gradeDistribution": {
     "A": 5,
     "B": 4,

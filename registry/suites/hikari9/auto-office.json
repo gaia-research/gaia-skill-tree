@@ -1,0 +1,14 @@
+{
+  "id": "hikari9/auto-office",
+  "name": "Auto Office",
+  "contributor": "hikari9",
+  "description": "",
+  "version": "1.0.0",
+  "capstone": "hikari9/auto-office",
+  "suites": [],
+  "standalones": [
+    "hikari9/office-submit"
+  ],
+  "createdAt": "2026-10-09",
+  "updatedAt": "2026-10-09"
+}

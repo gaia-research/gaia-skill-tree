@@ -24864,7 +24864,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -24942,10 +24942,16 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 95.15 -> 95.15, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T21:41:41Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 95.15 -> 97.81, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "obra/superpowers",
-        "trustMagnitude": 95.15,
+        "trustMagnitude": 97.81,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "7856d03a30430774407a08352e8b43dddcc6c5b95f8eb375800b9b151ab4e3f7",
         "apexGateStatus": {
@@ -25102,7 +25108,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 50.0,
+        "trustMagnitude": 52.66,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "29543ee7f8ca243279ba01b0c9510065adfa70c92adc39736d89fc2fac179291",
         "apexGateStatus": {
@@ -25121,6 +25127,113 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "fusionScore": 40.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 2,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
+        "id": "hikari9/office-submit",
+        "name": "Office Submit",
+        "contributor": "hikari9",
+        "origin": false,
+        "genericSkillRef": "verification-before-completion",
+        "status": "named",
+        "level": "2★",
+        "description": "Finish an Auto Office executor task: behavior-preserving simplify pass, adversarial self-review of the diff, fix and mutation-prove medium+ findings, run the brief's checks, commit and push, `office preflight`, `office submit`, and end with one status line. Use when you are an Office executor (inside a task worktree with an Office brief) and your work is ready to submit, or when asked to submit, resubmit, or finish an Office task.",
+        "title": "Office Submit",
+        "links": {
+          "github": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-10-08",
+            "type": "repo-own",
+            "notes": "Explicit shared whole-repository baseline, not exclusive component activity or independent implementation corroboration. suiteRef bounds combined repo-own plus github-stars-own baseline to 50 TM, NOT 50 commits or contributors. Supplemental path history: 11 commits / 1 contributor; SHA-256 261a30a5bc0b1b5c9211634bd96ab3e2b497255cb3336b924b55a91d0ecd7ea2.",
+            "commits": 826,
+            "contributors": 4,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2026-10-08",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/Hikari9/auto-office",
+            "evaluator": "unknown",
+            "date": "2026-10-08",
+            "type": "github-stars-own",
+            "notes": "Explicit shared suite repository adoption baseline (1 star, 21 skills). Not independent component adoption. Combined repo-own plus github-stars-own maximum is 50 TM, not a count limit.",
+            "stars": 1,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2026-10-08"
+          }
+        ],
+        "createdAt": "2026-10-09",
+        "updatedAt": "2026-10-09",
+        "timeline": [
+          {
+            "timestamp": "2026-10-08T21:36:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill hikari9/office-submit"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:19Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Hikari9/auto-office (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:55Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-10-08T21:37:24Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          },
+          {
+            "timestamp": "2026-10-08T21:47:58Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          }
+        ],
+        "suiteRef": "hikari9/auto-office",
+        "type": "fusion",
+        "installBody": "Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either uv or pipx:\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\n# Alternatively:\npipx install git+https://github.com/Hikari9/auto-office.git\n\noffice install\noffice doctor\n```\n\n`office install` registers the runtime and bundled skills, including Office Submit, with supported harnesses. Review the upstream installation instructions before allowing harness configuration changes. Packaging was verified at commit `da6aa9a93dbab98c03d2fbb3593f994acf85d7a7`; the commands above install the current upstream revision.",
+        "role": "variant",
+        "trustMagnitude": 24.34,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "fusionScore": 40.0,
@@ -25168,7 +25281,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:18Z",
@@ -25207,10 +25320,16 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T21:41:41Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 36.0 -> 38.66, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 38.66,
         "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "7d922e93a493252d7de60bada75423b28b85bec9b933810978bfa85f1c517ec2",
         "apexGateStatus": {
@@ -28437,6 +28556,127 @@
           "directCount": 0,
           "transitiveCount": 0,
           "maxDepth": 0,
+          "nestedSuiteCount": 0
+        }
+      }
+    ],
+    "autonomous-engineering-platform": [
+      {
+        "id": "hikari9/auto-office",
+        "name": "Auto Office",
+        "contributor": "hikari9",
+        "origin": false,
+        "genericSkillRef": "autonomous-engineering-platform",
+        "status": "named",
+        "level": "3★",
+        "description": "Adaptive office engineering runtime for the complete lifecycle from intent through planning, routed execution, independent review, verification, and closeout, driven through one `office` CLI. Use when explicitly invoked as /auto-office or when the user directly asks to run an Auto Office lifecycle. Routes each role by harness, model, and effort under pinned policy, trust and capability floors, and live quota; the runtime owns state, receipts, evidence, and review mechanics. Preserves human merge-to-main unless the user chose merge or end-to-end at intake, no-self-approval, private evidence, and version-pinned runs.",
+        "title": "Auto Office",
+        "links": {
+          "github": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-10-08",
+            "type": "repo-own",
+            "notes": "Whole runtime repository baseline at pinned HEAD da6aa9a93dbab98c03d2fbb3593f994acf85d7a7; metrics enumerate whole repository, not this SKILL.md alone. See receipts/head.json, commit-shas.txt, contributors.json.",
+            "commits": 826,
+            "contributors": 4,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2026-10-08",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/Hikari9/auto-office",
+            "evaluator": "unknown",
+            "date": "2026-10-08",
+            "type": "github-stars-own",
+            "notes": "Observed GitHub API stargazers_count. Shared repository baseline across 21 skills; not independent per-component adoption.",
+            "stars": 1,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2026-10-08"
+          }
+        ],
+        "createdAt": "2026-10-09",
+        "updatedAt": "2026-10-09",
+        "timeline": [
+          {
+            "timestamp": "2026-10-08T21:36:11Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill hikari9/auto-office"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Hikari9/auto-office (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-10-08T21:36:34Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Updated via `gaia dev fuse`: suiteRef=hikari9/auto-office, suiteComponents+=['hikari9/office-submit']."
+          },
+          {
+            "timestamp": "2026-10-08T21:36:52Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 3★"
+          },
+          {
+            "timestamp": "2026-10-08T21:37:21Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          },
+          {
+            "timestamp": "2026-10-08T21:47:57Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+          }
+        ],
+        "suiteComponents": [
+          "hikari9/office-submit"
+        ],
+        "type": "fusion",
+        "installBody": "Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either uv or pipx:\n\n```bash\nuv tool install git+https://github.com/Hikari9/auto-office.git\n# Alternatively:\npipx install git+https://github.com/Hikari9/auto-office.git\n\noffice install\noffice doctor\n```\n\n`office install` registers the runtime and bundled skills, including Office Submit, with supported harnesses. Review the upstream installation instructions before allowing harness configuration changes. Packaging was verified at commit `da6aa9a93dbab98c03d2fbb3593f994acf85d7a7`; the commands above install the current upstream revision.",
+        "role": "variant",
+        "trustMagnitude": 88.97,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 1/3 components carry graded evidence"
+        },
+        "fusionScore": 80.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 2,
+          "transitiveCount": 4,
+          "maxDepth": 2,
           "nestedSuiteCount": 0
         }
       }
@@ -48546,6 +48786,10 @@
       "heygen-com/remotion-to-hyperframes",
       "heygen-com/slideshow",
       "heygen-com/talking-head-recut"
+    ],
+    "hikari9": [
+      "hikari9/auto-office",
+      "hikari9/office-submit"
     ],
     "huggingface": [
       "huggingface/hf-cli",

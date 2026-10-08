@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 264,
+    "total": 266,
     "S": 3,
     "A": 26,
-    "B": 93,
-    "C": 103,
+    "B": 94,
+    "C": 104,
     "ungraded": 39,
     "floor": 0,
     "up": 2
@@ -378,6 +378,20 @@
       "branch": "suite"
     },
     {
+      "id": "obra/verification-before-completion",
+      "trustMagnitude": 97.81,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 29.15,
+        "peer-review": 30.0,
+        "arxiv": 2.66
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "id": "obra/executing-plans",
       "trustMagnitude": 95.15,
       "grade": "B",
@@ -386,19 +400,6 @@
         "repo-own": 36.0,
         "peer-review": 30.0,
         "social-signal": 29.15
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "trustMagnitude": 95.15,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "social-signal": 29.15,
-        "peer-review": 30.0
       },
       "origin": true,
       "branch": "standard"
@@ -518,6 +519,18 @@
       },
       "origin": false,
       "branch": "standard"
+    },
+    {
+      "id": "hikari9/auto-office",
+      "trustMagnitude": 88.97,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 21.68,
+        "arxiv": 67.29
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "garrytan/browse",
@@ -768,6 +781,19 @@
       "typeBreakdown": {
         "social-signal": 48.86,
         "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "trustMagnitude": 52.66,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.37,
+        "repo-own": 10.63,
+        "arxiv": 2.66
       },
       "origin": false,
       "branch": "standard"
@@ -1107,18 +1133,6 @@
     },
     {
       "id": "gsd-build/ship",
-      "trustMagnitude": 50.0,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 39.37,
-        "repo-own": 10.63
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "gsd-build/verify-work",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
@@ -1736,6 +1750,18 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "trustMagnitude": 38.66,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "arxiv": 2.66
       },
       "origin": false,
       "branch": "standard"
@@ -2502,17 +2528,6 @@
       "branch": "standard"
     },
     {
-      "id": "ruvnet/verification-quality",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "ruvnet/worker-integration",
       "trustMagnitude": 36.0,
       "grade": "C",
@@ -2576,6 +2591,18 @@
         "peer-review": 30.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "hikari9/office-submit",
+      "trustMagnitude": 24.34,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 21.68,
+        "arxiv": 2.66
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
