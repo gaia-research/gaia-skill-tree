@@ -5,8 +5,42 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Oct 2026 19:17:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 22:08:08 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-
+    <item>
+      <title>Auto Office (+89.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/hikari9/auto-office</link>
+      <description>Trust Magnitude: 89.0 · Grade B</description>
+      <pubDate>Thu, 08 Oct 2026 22:08:08 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-hikari9/auto-office-2026-10-08</guid>
+    </item>
+    <item>
+      <title>Office Submit (+24.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/hikari9/office-submit</link>
+      <description>Trust Magnitude: 24.3 · Grade C</description>
+      <pubDate>Thu, 08 Oct 2026 22:08:08 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-hikari9/office-submit-2026-10-08</guid>
+    </item>
+    <item>
+      <title>Verification Quality (+2.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/ruvnet/verification-quality</link>
+      <description>Trust Magnitude: 38.7 · Grade C</description>
+      <pubDate>Thu, 08 Oct 2026 22:08:08 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/verification-quality-2026-10-08</guid>
+    </item>
+    <item>
+      <title>GSD Verify Work (+2.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work</link>
+      <description>Trust Magnitude: 52.7 · Grade B</description>
+      <pubDate>Thu, 08 Oct 2026 22:08:08 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/verify-work-2026-10-08</guid>
+    </item>
+    <item>
+      <title>Verification Before Completion (+2.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/obra/verification-before-completion</link>
+      <description>Trust Magnitude: 97.8 · Grade B</description>
+      <pubDate>Thu, 08 Oct 2026 22:08:08 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/verification-before-completion-2026-10-08</guid>
+    </item>
   </channel>
 </rss>

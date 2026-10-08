@@ -21,6 +21,7 @@
 | · [garrytan](../docs/u/garrytan/)/health | Fusion | 2★ | `/automated-testing` |
 | · /autonomous-data-scientist | Fusion | — | `/autonomous-data-scientist` |
 | · [mattpocock](../docs/u/mattpocock/)/diagnose | Fusion | 3★ | `/autonomous-debug` |
+| · [hikari9](../docs/u/hikari9/)/auto-office | Fusion | 3★ | `/autonomous-engineering-platform` |
 | · [mvanhorn](../docs/u/mvanhorn/)/last30days | Fusion | 4★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic | — | `/bioinformatic-sequence-analysis` |
 | · [obra](../docs/u/obra/)/brainstorming | Fusion | 4★ | `/brainstorming` |
@@ -291,7 +292,6 @@
 | ○ Adversarial Review | Intrinsic Skill | — | `/adversarial-review` |
 | ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Audio Mixing | Intrinsic Skill | 3★ | `/audio-mixing` |
-| ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |

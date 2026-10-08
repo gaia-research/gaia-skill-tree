@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-08T19:17:00Z",
+  "generatedAt": "2026-10-08T22:08:08Z",
   "firstRun": false,
   "skills": [
     {
@@ -522,6 +522,20 @@
       }
     },
     {
+      "id": "hikari9/auto-office",
+      "name": "Auto Office",
+      "level": "3★",
+      "contributor": "hikari9",
+      "trustMagnitude": 88.97,
+      "overallTrustGrade": "B",
+      "trendingScore": 44.48,
+      "tmDelta": 88.97,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/hikari9/auto-office.json"
+      }
+    },
+    {
       "id": "yylo-dev/ledger-tasks-yylo",
       "name": "Ledger Tasks (yylo)",
       "level": "2★",
@@ -550,6 +564,20 @@
       }
     },
     {
+      "id": "hikari9/office-submit",
+      "name": "Office Submit",
+      "level": "2★",
+      "contributor": "hikari9",
+      "trustMagnitude": 24.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 12.17,
+      "tmDelta": 24.34,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/hikari9/office-submit.json"
+      }
+    },
+    {
       "id": "nateherkai/scroll-craft",
       "name": "Scroll Craft",
       "level": "3★",
@@ -561,6 +589,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 38.66,
+      "overallTrustGrade": "C",
+      "trendingScore": 4.14,
+      "tmDelta": 2.66,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
       }
     },
     {
@@ -578,6 +620,20 @@
       }
     },
     {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.66,
+      "overallTrustGrade": "B",
+      "trendingScore": 3.72,
+      "tmDelta": 2.66,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
+      }
+    },
+    {
       "id": "heygen-com/hyperframes",
       "name": "HyperFrames",
       "level": "4★",
@@ -589,6 +645,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      }
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 97.81,
+      "overallTrustGrade": "B",
+      "trendingScore": 3.22,
+      "tmDelta": 2.66,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
       }
     },
     {
@@ -732,7 +802,7 @@
       }
     }
   ],
-  "totalTrending": 52,
+  "totalTrending": 57,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

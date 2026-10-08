@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (151)
+### Basic Skills (150)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -17,7 +17,6 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Audience Model](/skills/basic/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
 * [Audio Mixing](/skills/basic/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
 * [Auto-Review](/skills/basic/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
-* [Autonomous Engineering Platform](/skills/basic/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/skills/basic/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
 * [Brand Guideline Application](/skills/basic/brand-guideline-application.md) - Applies a supplied organization's colors, typography, and visual rules consistently to artifacts.
 * [Browser Control](/skills/basic/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).

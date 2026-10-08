@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26",
+  "generatedAt": "2026-10-08",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2577,6 +2577,43 @@
           "slash": "/ledger-tasks-yylo",
           "file": "ledger-tasks-yylo.svg",
           "fileSeal": "ledger-tasks-yylo-seal.svg"
+        }
+      ]
+    },
+    "hikari9": {
+      "repos": [
+        "Hikari9/auto-office"
+      ],
+      "skillsByRepo": {
+        "Hikari9/auto-office": [
+          "hikari9/auto-office",
+          "hikari9/office-submit"
+        ]
+      },
+      "topSkill": "hikari9/auto-office",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "hikari9/auto-office",
+          "name": "Auto Office",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/auto-office",
+          "file": "auto-office.svg",
+          "fileSeal": "auto-office-seal.svg"
+        },
+        {
+          "id": "hikari9/office-submit",
+          "name": "Office Submit",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/office-submit",
+          "file": "office-submit.svg",
+          "fileSeal": "office-submit-seal.svg"
         }
       ]
     },

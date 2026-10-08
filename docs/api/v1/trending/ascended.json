@@ -1,6 +1,32 @@
 {
-  "generatedAt": "2026-10-08T19:17:00Z",
+  "generatedAt": "2026-10-08T22:08:08Z",
   "skills": [
+    {
+      "id": "hikari9/office-submit",
+      "name": "Office Submit",
+      "level": "2★",
+      "contributor": "hikari9",
+      "trustMagnitude": 24.34,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-10-08T21:36:55Z",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/office-submit.json"
+      },
+      "previousLevel": "1★"
+    },
+    {
+      "id": "hikari9/auto-office",
+      "name": "Auto Office",
+      "level": "3★",
+      "contributor": "hikari9",
+      "trustMagnitude": 88.97,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-10-08T21:36:52Z",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/auto-office.json"
+      },
+      "previousLevel": "1★"
+    },
     {
       "id": "latent-spaces/brag",
       "name": "brag",

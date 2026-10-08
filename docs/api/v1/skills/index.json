@@ -716,6 +716,23 @@
       ]
     },
     {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "trustMagnitude": 97.81,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
       "id": "obra/executing-plans",
       "name": "Executing Plans",
       "level": "3★",
@@ -731,23 +748,6 @@
         "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "name": "Verification Before Completion",
-      "level": "3★",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/verification-before-completion.json"
-      },
-      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "ruvnet/hive-mind",
@@ -901,6 +901,26 @@
         "self": "/api/v1/skills/leonxlnx/unlazy.json"
       },
       "genericSkillRef": "task-depth-enforcement"
+    },
+    {
+      "id": "hikari9/auto-office",
+      "name": "Auto Office",
+      "level": "3★",
+      "trustMagnitude": 88.97,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "hikari9",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/auto-office.json"
+      },
+      "genericSkillRef": "autonomous-engineering-platform",
+      "suiteComponents": [
+        "hikari9/office-submit"
+      ]
     },
     {
       "id": "garrytan/browse",
@@ -1072,28 +1092,11 @@
         "firecrawl/firecrawl-build-search",
         "firecrawl/firecrawl-research-index"
       ]
-    },
-    {
-      "id": "garrytan/careful",
-      "name": "Careful",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/careful.json"
-      },
-      "genericSkillRef": "guardrails"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 225,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
