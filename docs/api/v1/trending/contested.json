@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T19:17:00Z",
+  "generatedAt": "2026-10-08T22:08:08Z",
   "buckets": [
     {
       "genericSkillRef": "ux-audit",
@@ -352,6 +352,41 @@
       ]
     },
     {
+      "genericSkillRef": "verification-before-completion",
+      "implementations": 4,
+      "topTM": 97.81,
+      "skills": [
+        {
+          "id": "obra/verification-before-completion",
+          "trustMagnitude": 97.81,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": true
+        },
+        {
+          "id": "gsd-build/verify-work",
+          "trustMagnitude": 52.66,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "ruvnet/verification-quality",
+          "trustMagnitude": 38.66,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
+          "id": "hikari9/office-submit",
+          "trustMagnitude": 24.34,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
       "genericSkillRef": "executing-plans",
       "implementations": 3,
       "topTM": 95.15,
@@ -373,34 +408,6 @@
         {
           "id": "mattpocock/implement",
           "trustMagnitude": 41.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "verification-before-completion",
-      "implementations": 3,
-      "topTM": 95.15,
-      "skills": [
-        {
-          "id": "obra/verification-before-completion",
-          "trustMagnitude": 95.15,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "gsd-build/verify-work",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "ruvnet/verification-quality",
-          "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
           "origin": false
