@@ -85,6 +85,88 @@ npx @opengsd/gsd-core@latest
 
 This is the recommended path from the upstream repo's Quickstart."""
 
+HIKARI9_CAPSTONE_TEMPLATE = """Auto Office uses its own runtime installer rather than a standalone SKILL.md copy. Install from upstream using either `uv` or `pipx`, or as an agent plugin.
+
+### Step 1: Install the CLI
+
+For normal use:
+
+```bash
+uv tool install git+https://github.com/Hikari9/auto-office.git
+```
+
+For browser capture and visual gates:
+
+```bash
+uv tool install 'git+https://github.com/Hikari9/auto-office.git#egg=auto-office[visual]'
+```
+
+Alternatively, install using `pipx`:
+
+```bash
+pipx install git+https://github.com/Hikari9/auto-office.git
+```
+
+### Plugin Marketplace
+
+This repository is a plugin marketplace for both Claude Code and Codex / ChatGPT:
+
+```bash
+# Claude Code
+claude plugin marketplace add Hikari9/auto-office
+claude plugin install auto-office@auto-office
+
+# Codex / ChatGPT desktop
+codex plugin marketplace add Hikari9/auto-office
+```
+
+Enable `auto-office` from the Codex plugin directory. Claude reads `.claude-plugin/marketplace.json`; Codex reads `.agents/plugins/marketplace.json` and the root `plugin.json`.
+
+### Harness Integrations
+
+Register the runtime and agent integrations:
+
+```bash
+office install
+office doctor
+```
+
+`office install` is idempotent. It registers the current runtime and installs the harness integrations that Auto Office can verify safely. Existing configuration is backed up before Office-managed entries are changed.
+
+| Agent / harness | After office install |
+|---|---|
+| Claude Code | Installs managed SessionStart, UserPromptSubmit, and PreToolUse hooks in ~/.claude/settings.json |
+| Gemini CLI | Installs managed SessionStart, BeforeAgent, and BeforeTool hooks in ~/.gemini/settings.json |
+| Codex | No config is written; explicit office commands are the contract |
+| agy / Antigravity | Explicit office commands and status |
+| Hermes | Explicit office commands |
+| Herdr | Dispatches open real agent panes and Office tracks/reclaims them |
+
+### Operating Rule
+
+Every normal CLI result ends with a `next:` line declaring the next legal action:
+
+1. Run `office --version` and `office doctor` when bootstrapping a machine/session.
+2. Use `office start` or `office resume` rather than inventing lifecycle state.
+3. Follow `next:` instead of editing Office state directly.
+4. Never edit `runs.db`, generated run views, receipts, or telemetry by hand.
+5. Submit plans and implementation through `office submit`.
+6. Let the runtime dispatch reviewers and evaluate acceptance.
+
+### Worktree Configuration
+
+Office creates fresh task, integration, and check worktrees. If tests need dependencies, declare the setup command in `.auto-office/config.yaml`:
+
+```yaml
+worktree:
+  setup: "uv sync --frozen"
+  setup_inputs:
+    - pyproject.toml
+    - uv.lock
+  setup_timeout_s: 600
+  applies_to: [task, integration, check]
+```"""
+
 HIKARI9_MEMBER_TEMPLATE = """This skill is part of the Auto Office suite.
 
 ```bash
@@ -242,6 +324,9 @@ def main():
             continue
         if suite_id == "gsd-build/get-shit-done":
             surgical_update(info["path"], GSD_CAPSTONE_TEMPLATE)
+            continue
+        if suite_id == "hikari9/auto-office":
+            surgical_update(info["path"], HIKARI9_CAPSTONE_TEMPLATE)
             continue
         raw_content = fetch_url(info["url"])
         if raw_content:
