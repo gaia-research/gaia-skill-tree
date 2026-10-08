@@ -1,8 +1,22 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-07T03:06:55Z",
+  "generatedAt": "2026-10-08T19:17:00Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "leonxlnx/unlazy",
+      "name": "unlazy",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 91.46,
+      "overallTrustGrade": "B",
+      "trendingScore": 83.45,
+      "tmDelta": 25.65,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/unlazy.json"
+      }
+    },
     {
       "id": "trailhq/graft",
       "name": "graft",
@@ -43,6 +57,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "contributor": "aplaceforallmystuff",
+      "trustMagnitude": 22.67,
+      "overallTrustGrade": "C",
+      "trendingScore": 52.24,
+      "tmDelta": 1.16,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       }
     },
     {
@@ -242,6 +270,20 @@
       }
     },
     {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
@@ -312,6 +354,20 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
       "id": "garrytan/cso",
       "name": "CSO",
       "level": "3★",
@@ -337,6 +393,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/tdd.json"
+      }
+    },
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
       }
     },
     {
@@ -452,62 +522,6 @@
       }
     },
     {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 91.46,
-      "overallTrustGrade": "B",
-      "trendingScore": 45.73,
-      "tmDelta": 91.46,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      }
-    },
-    {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "trendingScore": 26.93,
-      "tmDelta": 53.86,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.77,
-      "tmDelta": 37.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
-    {
       "id": "yylo-dev/ledger-tasks-yylo",
       "name": "Ledger Tasks (yylo)",
       "level": "2★",
@@ -533,20 +547,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
-      }
-    },
-    {
-      "id": "aplaceforallmystuff/log-to-daily",
-      "name": "Log To Daily",
-      "level": "2★",
-      "contributor": "aplaceforallmystuff",
-      "trustMagnitude": 22.67,
-      "overallTrustGrade": "C",
-      "trendingScore": 11.34,
-      "tmDelta": 22.67,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       }
     },
     {

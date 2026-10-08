@@ -1,1355 +1,1355 @@
 {
-  "generatedAt": "2026-10-07T03:06:55Z",
+  "generatedAt": "2026-10-08T19:17:00Z",
   "skills": {
     "mattpocock/skills": {
       "tm": 374.99,
       "grade": "S",
       "level": "5★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/gstack": {
       "tm": 356.11,
       "grade": "S",
       "level": "5★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "safishamsi/graphify": {
       "tm": 318.14,
       "grade": "S",
       "level": "5★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "nextlevelbuilder/ui-ux-pro-max": {
       "tm": 227.51,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "dietrichgebert/ponytail": {
       "tm": 225.42,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/superpowers": {
       "tm": 221.52,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mvanhorn/last30days": {
       "tm": 205.75,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/misc": {
       "tm": 200.29,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/code-simplification": {
       "tm": 190.0,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "anthropics/brand-guidelines": {
       "tm": 184.87,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/agent-skills": {
       "tm": 176.04,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/ruflo": {
       "tm": 175.34,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/taste-skill": {
       "tm": 174.68,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "pbakaus/impeccable": {
       "tm": 171.27,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/get-shit-done": {
       "tm": 169.31,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes": {
       "tm": 166.92,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "vercel-labs/vercel-react-best-practices": {
       "tm": 163.19,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mksglu/context-mode": {
       "tm": 154.71,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "trailhq/graft": {
       "tm": 145.16,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "latent-spaces/brag": {
       "tm": 144.54,
       "grade": "A",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ayghri/i-have-adhd": {
       "tm": 130.23,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/gbrain": {
       "tm": 121.94,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/subagent-driven-development": {
       "tm": 117.65,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/using-git-worktrees": {
       "tm": 117.65,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/brainstorming": {
       "tm": 110.15,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/writing-plans": {
       "tm": 110.15,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-build-scrape": {
       "tm": 110.02,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/engineering": {
       "tm": 102.5,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/productivity": {
       "tm": 102.5,
       "grade": "A",
       "level": "4★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/executing-plans": {
       "tm": 95.15,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/verification-before-completion": {
       "tm": 95.15,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/hive-mind": {
       "tm": 95.02,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/incremental-implementation": {
       "tm": 95.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/planning-and-task-breakdown": {
       "tm": 95.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/diagnose": {
       "tm": 94.92,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/edit-article": {
       "tm": 94.92,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/obsidian-vault": {
       "tm": 94.92,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/to-tickets": {
       "tm": 94.92,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/ubiquitous-language": {
       "tm": 94.92,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/unlazy": {
       "tm": 91.46,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/browse": {
       "tm": 88.5,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/reasoningbank": {
       "tm": 88.5,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "nateherkai/scroll-craft": {
       "tm": 87.38,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-build-search": {
       "tm": 83.62,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/retro": {
       "tm": 81.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentdb": {
       "tm": 81.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/spec-driven-development": {
       "tm": 80.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "browser-use/browser-harness": {
       "tm": 73.59,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-skills": {
       "tm": 72.86,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/careful": {
       "tm": 66.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/office-hours": {
       "tm": 66.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/plan-eng-review": {
       "tm": 66.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/systematic-debugging": {
       "tm": 65.15,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/grill-me": {
       "tm": 63.71,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/grill-with-docs": {
       "tm": 63.71,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/handoff": {
       "tm": 63.71,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/to-spec": {
       "tm": 63.71,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "oso95/scroll-world": {
       "tm": 60.98,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/setup-matt-pocock-skills": {
       "tm": 56.21,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/triage": {
       "tm": 56.21,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "panniantong/agent-reach": {
       "tm": 53.86,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/code-review-and-quality": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/performance-optimization": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/shipping-and-launch": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-build-interact": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-build-onboarding": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "firecrawl/firecrawl-research-index": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/benchmark": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/brain-ops": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/canary": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/capture": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/concept-synthesis": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/cso": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/design-consultation": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/design-html": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/design-shotgun": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/document-generate": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/investigate": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/land-and-deploy": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/plan-ceo-review": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/plan-design-review": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/plan-devex-review": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/qa": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/review": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/ship": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/skillify": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/discuss-phase": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/execute-phase": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/plan-phase": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/ship": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gsd-build/verify-work": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/embedded-captions": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/faceless-explainer": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/figma": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-animation": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-audio": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-cli": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-core": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-creative": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-keyframes": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/hyperframes-registry": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/media-use": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/motion-graphics": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/music-to-video": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/pr-to-video": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/product-launch-video": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/remotion-to-hyperframes": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/slideshow": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "heygen-com/talking-head-recut": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/brandkit": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/brutalist-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/gpt-tasteskill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/image-to-code-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/imagegen-frontend-mobile": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/imagegen-frontend-web": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/minimalist-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/output-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/redesign-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/soft-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "leonxlnx/stitch-skill": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/tdd": {
       "tm": 50.0,
       "grade": "B",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/dispatching-parallel-agents": {
       "tm": 50.0,
       "grade": "B",
       "level": "3★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "addy-osmani/test-driven-development": {
       "tm": 45.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/improve-codebase-architecture": {
       "tm": 45.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/write-a-skill": {
       "tm": 45.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/teach": {
       "tm": 44.48,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "anthropics/canvas-design": {
       "tm": 43.52,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gaia-research/fuse": {
       "tm": 41.62,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/prototype": {
       "tm": 41.21,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "gaia-research/ci-churn": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/ask-matt": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/codebase-design": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/diagnosing-bugs": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/domain-modeling": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/git-guardrails-claude-code": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/grilling": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/implement": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/migrate-to-shoehorn": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/resolving-merge-conflicts": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/scaffold-exercises": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/setup-pre-commit": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/writing-for-agents": {
       "tm": 41.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "disler/agent-fusion": {
       "tm": 37.54,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "bradautomates/watch": {
       "tm": 37.47,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "yylo-dev/ledger-tasks-yylo": {
       "tm": 36.6,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "disler/auto-review": {
       "tm": 36.34,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "disler/opinion": {
       "tm": 36.34,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "disler/plan-synthesis": {
       "tm": 36.34,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "Manavarya09/design-extract": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "anthropic/pptx": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "balukosuri/autoresearch-universal": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "citrolabs/ego-browser": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/benchmark-models": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/codex": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/context-restore": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/context-save": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/design-review": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/devex-review": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/document-release": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/freeze": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/garrytan": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/gstack-upgrade": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/guard": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/health": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/landing-report": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/learn": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/make-pdf": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/open-gstack-browser": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/pair-agent": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/plan-tune": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/qa-only": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/scrape": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/setup-browser-cookies": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/setup-deploy": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/setup-gbrain": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/sync-gbrain": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "garrytan/unfreeze": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mbtiongson1/gaia-audit": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mbtiongson1/gaia-curation-review": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mbtiongson1/gaia-meta-audit": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mbtiongson1/gaia-preview": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mbtiongson1/graphify-triage": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "nexu-io/open-design": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "nousresearch/feed-monitoring": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/finishing-a-development-branch": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/receiving-code-review": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "obra/requesting-code-review": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentdb-advanced": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentdb-memory-patterns": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentdb-optimization": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentdb-vector-search": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/agentic-jujutsu": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/dual-collect": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/dual-coordinate": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/dual-mode": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/dual-spawn": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/flow-nexus": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/flow-nexus-neural": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/flow-nexus-platform": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/github-multi-repo": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/github-suite": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/pair-programming": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/reasoningbank-intelligence": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/ruflo-v3": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/stream-chain": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/swarm-advanced": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/swarm-orchestration": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/v3-cli-modernization": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/v3-core-implementation": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/v3-ddd-architecture": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/v3-integration-deep": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/verification-quality": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "ruvnet/worker-integration": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "santifer/career-ops": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "spring-ai/readme-generate": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "vercel/find-skills": {
       "tm": 36.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "anthropic/skill-creator": {
       "tm": 30.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "upsonic/unittest-generator": {
       "tm": 30.0,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "aplaceforallmystuff/log-to-daily": {
       "tm": 22.67,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/code-review": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/research": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/to-questionnaire": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/wait-what": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/wayfinder": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     },
     "mattpocock/wizard": {
       "tm": 20.77,
       "grade": "C",
       "level": "2★",
-      "updatedAt": "2026-10-07T03:06:55Z"
+      "updatedAt": "2026-10-08T19:17:00Z"
     }
   }
 }
