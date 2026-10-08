@@ -19,7 +19,7 @@ tags:
 - quality-gates
 - completion
 createdAt: '2026-05-19'
-updatedAt: '2026-08-30'
+updatedAt: '2026-10-09'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -60,7 +60,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 36.0 -> 36.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 36.0
+- timestamp: '2026-10-08T21:41:41Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 36.0 -> 38.66, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 38.66
 overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false

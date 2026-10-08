@@ -181,6 +181,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
+· ◆ hikari9/auto-office  [3★]
+  └─ ✓ · obra/verification-before-completion  [3★]
+     ├─ · ○ /code-execution
+     └─ · ○ /self-critique
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
