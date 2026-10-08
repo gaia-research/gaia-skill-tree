@@ -2,6 +2,110 @@
 
 ---
 
+## 2026-10-08 — Routine 056
+
+**Branch:** `docs/routines/056` (new — the prior integration branch,
+`docs/routines/055`, was shipped by the editor-055wk pass on 2026-10-07 and
+no daily picked up a new routine since; created fresh from `origin/main`
+per the Branch instructions).
+
+**Task chosen:** ROTATE. No concrete item in routine 055wk's "Planned
+next" (just "resume normal rotation"); the only commit on `main` since
+055wk was a pure version-bump release (`v8.18.3`, no CLI/schema behavior
+change) so there was no SYNC target either. Checked open `documentation`-labeled
+GitHub issues — all nine are large RFCs/meta-posts/split-ideas, nothing
+small enough for a daily slot. Took `share-bundles.html`, the
+least-recently-touched page in the Page Map (last real content edit at
+routine 038; it was untouched by 055wk's version-chip sweep because it's
+already on the 3-page dynamic `window.GAIA_VERSION` registered list).
+
+### Trigger
+
+Verified against live code before touching the page (per CLAUDE.md's Stale
+Tooling directive), not against prose alone:
+
+- `share_parser` in `src/gaia_cli/impl.py` (~L3410-3422) defines `--user`,
+  `-o`/`--output <path>`, and `--stdout` on `gaia share`. The page's Flags
+  table only documented `--stdout` and `--user <handle>` — `-o, --output`
+  was real and undocumented.
+- The page's "Non-TTY / Automation" callout claimed a `--auto all` flag
+  "(when available)" bypasses the TTY check. Grepped the whole CLI for
+  `--auto` on the `install` parsers — zero hits. `install_bundle()` in
+  `src/gaia_cli/share.py` (~L415-430) does take an `auto=` keyword
+  (`"all"/"pick"/"view"/"quit"`), but `install_command()` in `impl.py`
+  (~L2372-2409) never passes it — only `tests/test_share.py` calls
+  `install_bundle(..., auto=...)` directly. There is no CLI path to set it;
+  the page was documenting a flag that exists only as an internal/test
+  parameter, never as real CLI surface.
+
+### What I did
+
+- `docs/en/share-bundles.html` — `#share-flags`: added a `-o, --output
+  <path>` row to the `gaia share` Flags table (default
+  `generated-output/share/`, noted it's ignored when `--stdout` is set).
+- `docs/en/share-bundles.html` — `#non-tty`: rewrote the Automation note
+  callout to drop the false `--auto all` claim; states plainly that no CLI
+  flag exists yet to force an all-install from a bundle in automation, and
+  that the only scripted path today is resolving each skill's ID from the
+  bundle and running `gaia skills install <id>` individually.
+- `docs/en/DOCS.md` — Page Map row 11 updated with this fix and the `056`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Did not add a CLI flag to wire `auto=` through to `gaia install` —
+  that's a `src/gaia_cli/impl.py` change, outside `docs/en/**` and outside
+  a generator this seat is allowed to touch. Documented the real behavior
+  instead of inventing a workaround not evidenced by the code.
+- Placed the new `-o, --output` row between `--user` and `--stdout` in the
+  table to match the parser's own declaration order.
+- Kept the Automation note's one concrete workaround (`gaia skills install
+  <id>` per resolved skill) rather than leaving it purely negative — it's
+  the only scripted path the code actually supports today.
+
+### Issues informed
+
+None filed. This is a docs-accuracy fix against already-existing CLI code
+(the `-o/--output` flag and the absence of `--auto` are both long-standing,
+not a regression from a recent change) — no new tech debt to track beyond
+what's already implicit in `install_bundle()`'s unused `auto` parameter.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/share-bundles.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `-o/--output` and the absence of `--auto` cross-checked directly against
+  `share_parser`/`install_parser` in `src/gaia_cli/impl.py` and
+  `install_bundle()` in `src/gaia_cli/share.py`, not against page prose or
+  commit messages alone.
+- Did not touch any version chip or cache-bust string on this page — out
+  of scope per this routine's own config (handled elsewhere weekly).
+
+### Files modified
+
+- `docs/en/share-bundles.html` — Flags table row, Automation callout.
+- `docs/en/DOCS.md` — page map row 11.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 057)
+
+- No further gaps found on `share-bundles.html` this pass beyond the two
+  fixed above — page is otherwise accurate against live code.
+- `index.html` (last real edit: routine 051) and `evidence-classes.html`
+  (last real edit: routine 052) are next in the least-recently-touched
+  rotation after this page.
+
+---
+
 ## 2026-10-07 — Weekly Editor Pass (editor-055wk)
 
 **Branch:** `docs/routines/055` (new — no `docs/routines/*` PR was open; the
