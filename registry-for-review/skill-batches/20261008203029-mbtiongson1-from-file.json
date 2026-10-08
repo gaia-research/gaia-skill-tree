@@ -1,0 +1,124 @@
+{
+  "batchId": "20261008203029-mbtiongson1-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "Hikari9/auto-office",
+  "generatedAt": "2026-10-08T20:30:29Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "autonomous-engineering-platform",
+      "name": "Autonomous Engineering Platform",
+      "type": "fusion",
+      "prerequisites": [
+        "verification-before-completion"
+      ],
+      "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
+      "mapsToGeneric": "autonomous-engineering-platform",
+      "candidateId": "Hikari9/auto-office",
+      "attribution": {
+        "upstream_author": "Hikari9",
+        "skill_file_url": "https://github.com/Hikari9/auto-office/blob/main/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/Hikari9/auto-office/blob/main/SKILL.md",
+          "notes": "Provenance reference only, not a scoring grade. Maintainer-authorized recovery of intake #2044; named evidence requires independent verification and human approval."
+        }
+      ],
+      "named": {
+        "contributor": "Hikari9",
+        "skill_name": "auto-office",
+        "links_github": "https://github.com/Hikari9/auto-office/blob/main/SKILL.md",
+        "level": "2\u2605"
+      },
+      "suite": {
+        "suiteId": "Hikari9/auto-office",
+        "role": "capstone",
+        "componentCandidateIds": [
+          "Hikari9/office-submit"
+        ]
+      },
+      "sourceRepo": "Hikari9/auto-office",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Verification Before Completion",
+      "type": "fusion",
+      "prerequisites": [
+        "code-execution",
+        "self-critique"
+      ],
+      "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
+      "mapsToGeneric": "verification-before-completion",
+      "candidateId": "Hikari9/office-submit",
+      "attribution": {
+        "upstream_author": "Hikari9",
+        "skill_file_url": "https://github.com/Hikari9/auto-office/blob/main/skills/office-submit/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/Hikari9/auto-office/blob/main/skills/office-submit/SKILL.md",
+          "notes": "Provenance reference only, not a scoring grade. Maintainer-authorized recovery of intake #2044; named evidence requires independent verification and human approval."
+        }
+      ],
+      "named": {
+        "contributor": "Hikari9",
+        "skill_name": "office-submit",
+        "links_github": "https://github.com/Hikari9/auto-office/blob/main/skills/office-submit/SKILL.md",
+        "level": "2\u2605"
+      },
+      "suite": {
+        "suiteId": "Hikari9/auto-office",
+        "role": "component"
+      },
+      "sourceRepo": "Hikari9/auto-office",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "autonomous-engineering-platform",
+      "targetSkillId": "autonomous-engineering-platform",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "autonomous-engineering-platform",
+      "targetSkillId": "engineering-discipline",
+      "score": 0.566,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "autonomous-engineering-platform",
+      "targetSkillId": "computational-science-platform",
+      "score": 0.557,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "verification-before-completion",
+      "targetSkillId": "verification-before-completion",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "verification-before-completion",
+      "targetSkillId": "context-compression",
+      "score": 0.531,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "verification-before-completion",
+      "targetSkillId": "video-composition",
+      "score": 0.511,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}
