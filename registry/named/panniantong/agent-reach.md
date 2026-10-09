@@ -9,10 +9,10 @@ level: 3★
 description: Gives an AI agent internet access by routing web requests across 16+
   platforms with MCP support and harness-agnostic integration.
 createdAt: '2026-07-30'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-09'
 title: Agent Reach
 links:
-  github: https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md
+  github: https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
 timeline:
 - timestamp: '2026-07-29T20:14:41Z'
   action: add
@@ -62,6 +62,14 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 3★
+- timestamp: '2026-10-08T20:42:20Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from /tmp/agent-reach-install.md'
+- timestamp: '2026-10-08T20:42:20Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
 evidence:
 - source: https://lobehub.com/skills/panniantong-agent-reach-skill
   evaluator: unknown
@@ -111,4 +119,16 @@ trustMagnitudeInputHash: 14c069bd883324e5192fc9845715470db7a0f1db0628d8de1dffa7b
 ---
 
 ## Installation
-Add installation instructions here.
+Install the agent skill into your agent harness with Gaia:
+
+```bash
+gaia install panniantong/agent-reach
+```
+
+### Verification
+
+Run doctor to inspect active routing backends across 16+ supported platforms:
+
+```bash
+agent-reach doctor --json
+```

@@ -167,7 +167,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic | 3★ | `/question-answer` |
 | ○ [mattpocock](../docs/u/mattpocock/)/to-questionnaire | Basic | 2★ | `/questionnaire-generation` |
-| · ████████/orchestkit-rag | Fusion | — | `/rag-pipeline` |
+| · ████████/rag-retrieval | Fusion | — | `/rag-pipeline` |
 | ○ /rank | Basic | — | `/rank` |
 | · /re-act-reasoning | Fusion | — | `/re-act-reasoning` |
 | ○ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Basic | 4★ | `/react-performance-optimization` |

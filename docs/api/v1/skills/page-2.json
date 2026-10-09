@@ -205,7 +205,7 @@
       "genericSkillRef": "agent-reach"
     },
     {
-      "id": "gsd-build/verify-work",
+      "id": "gsd-build/gsd-verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
       "trustMagnitude": 52.66,
@@ -217,7 +217,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
+        "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
       },
       "genericSkillRef": "verification-before-completion"
     },
@@ -647,7 +647,7 @@
       "genericSkillRef": "skill-authoring"
     },
     {
-      "id": "gsd-build/discuss-phase",
+      "id": "gsd-build/gsd-discuss-phase",
       "name": "GSD Discuss Phase",
       "level": "3★",
       "trustMagnitude": 50.0,
@@ -659,12 +659,12 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
+        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
       },
       "genericSkillRef": "brainstorming"
     },
     {
-      "id": "gsd-build/execute-phase",
+      "id": "gsd-build/gsd-execute-phase",
       "name": "GSD Execute Phase",
       "level": "3★",
       "trustMagnitude": 50.0,
@@ -676,12 +676,12 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gsd-build/execute-phase.json"
+        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
       },
       "genericSkillRef": "subagent-driven-development"
     },
     {
-      "id": "gsd-build/plan-phase",
+      "id": "gsd-build/gsd-plan-phase",
       "name": "GSD Plan Phase",
       "level": "3★",
       "trustMagnitude": 50.0,
@@ -693,12 +693,12 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gsd-build/plan-phase.json"
+        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
       },
       "genericSkillRef": "writing-plans"
     },
     {
-      "id": "gsd-build/ship",
+      "id": "gsd-build/gsd-ship",
       "name": "GSD Ship",
       "level": "3★",
       "trustMagnitude": 50.0,
@@ -710,7 +710,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gsd-build/ship.json"
+        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
       },
       "genericSkillRef": "finishing-a-development-branch"
     },

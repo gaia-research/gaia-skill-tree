@@ -849,9 +849,6 @@
           "pipeline",
           "agentic-workflow"
         ],
-        "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/README.md"
-        },
         "evidence": [
           {
             "source": "https://github.com/gsd-build/get-shit-done/stargazers",
@@ -882,7 +879,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:57Z",
@@ -1010,14 +1007,26 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 169.36, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T21:19:38Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from generated-output/artifacts/1445/gsd-suite-installation.md"
+          },
+          {
+            "timestamp": "2026-10-08T21:19:38Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Cleared GitHub link."
           }
         ],
         "suiteComponents": [
-          "gsd-build/discuss-phase",
-          "gsd-build/execute-phase",
-          "gsd-build/plan-phase",
-          "gsd-build/ship",
-          "gsd-build/verify-work"
+          "gsd-build/gsd-discuss-phase",
+          "gsd-build/gsd-execute-phase",
+          "gsd-build/gsd-plan-phase",
+          "gsd-build/gsd-ship",
+          "gsd-build/gsd-verify-work"
         ],
         "trustMagnitude": 169.31,
         "overallTrustGrade": "A",
@@ -1033,7 +1042,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "Install the full GSD Core software development pipeline with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThis is the recommended path from the upstream repo's Quickstart.",
+        "installBody": "Install all 5 components of the Get Shit Done suite into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/get-shit-done\n```\n\nThis fans out and installs each individual component skill:\n- `gsd-build/gsd-discuss-phase`\n- `gsd-build/gsd-plan-phase`\n- `gsd-build/gsd-execute-phase`\n- `gsd-build/gsd-verify-work`\n- `gsd-build/gsd-ship`\n\n### Runtime Prerequisite\n\nThe GSD skills execute workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definitions across the suite components, but does not install the GSD runtime itself.\n\nInstall the GSD runtime separately before invoking the skills:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "suite",
         "rank": 4,
@@ -8774,7 +8783,7 @@
         }
       },
       {
-        "id": "gsd-build/ship",
+        "id": "gsd-build/gsd-ship",
         "name": "GSD Ship",
         "contributor": "gsd-build",
         "origin": false,
@@ -8785,7 +8794,7 @@
         "title": "GSD Ship Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-ship/SKILL.md"
         },
         "evidence": [
           {
@@ -8808,7 +8817,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:52Z",
@@ -8898,6 +8907,24 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:42Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gsd-build/ship to gsd-build/gsd-ship"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:49Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/gsd-install-ship.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:49Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-ship/SKILL.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -8915,7 +8942,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-ship\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "standard",
         "rank": 3,
@@ -12206,8 +12233,8 @@
         }
       },
       {
-        "id": "gooseworks/notte-browser",
-        "name": "Notte Browser",
+        "id": "gooseworks/browser-automation-notte",
+        "name": "Browser Automation Notte",
         "contributor": "gooseworks",
         "origin": false,
         "genericSkillRef": "browser-automation",
@@ -12224,10 +12251,10 @@
           "notte"
         ],
         "links": {
-          "github": "https://github.com/gooseworks-ai/goose-skills"
+          "github": "https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:17Z",
@@ -12255,6 +12282,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:29Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gooseworks/notte-browser to gooseworks/browser-automation-notte"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:34Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md"
           }
         ],
         "trustMagnitude": 0.0,
@@ -23712,7 +23751,7 @@
         }
       },
       {
-        "id": "gsd-build/discuss-phase",
+        "id": "gsd-build/gsd-discuss-phase",
         "name": "GSD Discuss Phase",
         "contributor": "gsd-build",
         "origin": false,
@@ -23723,7 +23762,7 @@
         "title": "GSD Discuss Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md"
         },
         "evidence": [
           {
@@ -23746,7 +23785,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:47Z",
@@ -23842,6 +23881,24 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:57Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gsd-build/discuss-phase to gsd-build/gsd-discuss-phase"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:03Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/gsd-install-discuss-phase.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:03Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -23859,7 +23916,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-discuss-phase\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "standard",
         "rank": 3,
@@ -24114,7 +24171,7 @@
         }
       },
       {
-        "id": "gsd-build/execute-phase",
+        "id": "gsd-build/gsd-execute-phase",
         "name": "GSD Execute Phase",
         "contributor": "gsd-build",
         "origin": false,
@@ -24125,7 +24182,7 @@
         "title": "GSD Execute Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md"
         },
         "evidence": [
           {
@@ -24148,7 +24205,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:49Z",
@@ -24238,6 +24295,24 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:11Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gsd-build/execute-phase to gsd-build/gsd-execute-phase"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:17Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/gsd-install-execute-phase.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:17Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -24255,7 +24330,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-execute-phase\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "standard",
         "rank": 3,
@@ -24638,7 +24713,7 @@
         }
       },
       {
-        "id": "gsd-build/plan-phase",
+        "id": "gsd-build/gsd-plan-phase",
         "name": "GSD Plan Phase",
         "contributor": "gsd-build",
         "origin": false,
@@ -24649,7 +24724,7 @@
         "title": "GSD Plan Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-plan-phase/SKILL.md"
         },
         "evidence": [
           {
@@ -24672,7 +24747,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:48Z",
@@ -24762,6 +24837,24 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:29Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gsd-build/plan-phase to gsd-build/gsd-plan-phase"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:34Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/gsd-install-plan-phase.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:34Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-plan-phase/SKILL.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -24779,7 +24872,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-plan-phase\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "standard",
         "rank": 3,
@@ -24981,7 +25074,7 @@
         }
       },
       {
-        "id": "gsd-build/verify-work",
+        "id": "gsd-build/gsd-verify-work",
         "name": "GSD Verify Work",
         "contributor": "gsd-build",
         "origin": false,
@@ -24992,7 +25085,7 @@
         "title": "GSD Verify Work",
         "installable": true,
         "links": {
-          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md"
         },
         "evidence": [
           {
@@ -25015,7 +25108,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:50Z",
@@ -25105,6 +25198,24 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:43:57Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gsd-build/verify-work to gsd-build/gsd-verify-work"
+          },
+          {
+            "timestamp": "2026-10-08T20:44:02Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/gsd-install-verify-work.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:44:02Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -25122,7 +25233,7 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install gsd-build/gsd-verify-work\n```\n\n### Runtime Prerequisite\n\nThis skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.\n\nInstall the GSD runtime separately before invoking the skill:\n\n```bash\nnpx -y @opengsd/gsd-core@latest --claude --local\n```",
         "role": "variant",
         "branch": "standard",
         "rank": 3,
@@ -37400,7 +37511,7 @@
         "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
         "title": "Agent Reach",
         "links": {
-          "github": "https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md"
+          "github": "https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md"
         },
         "evidence": [
           {
@@ -37451,7 +37562,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:41Z",
@@ -37514,13 +37625,25 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 1★ to 3★"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:20Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/agent-reach-install.md"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:20Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md"
           }
         ],
         "trustMagnitude": 53.86,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "14c069bd883324e5192fc9845715470db7a0f1db0628d8de1dffa7bb7d2553b3",
         "type": "basic",
-        "installBody": "Add installation instructions here.",
+        "installBody": "Install the agent skill into your agent harness with Gaia:\n\n```bash\ngaia install panniantong/agent-reach\n```\n\n### Verification\n\nRun doctor to inspect active routing backends across 16+ supported platforms:\n\n```bash\nagent-reach doctor --json\n```",
         "role": "variant",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -42628,8 +42751,8 @@
     ],
     "rag-pipeline": [
       {
-        "id": "yonatangross/orchestkit-rag",
-        "name": "OrchestrKit RAG",
+        "id": "yonatangross/rag-retrieval",
+        "name": "RAG Retrieval",
         "contributor": "yonatangross",
         "origin": false,
         "genericSkillRef": "rag-pipeline",
@@ -42648,10 +42771,10 @@
           "agentic-rag"
         ],
         "links": {
-          "github": "https://github.com/yonatangross/orchestkit"
+          "github": "https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-10-09",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -42679,6 +42802,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:44Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from yonatangross/orchestkit-rag to yonatangross/rag-retrieval"
+          },
+          {
+            "timestamp": "2026-10-08T20:42:49Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md"
           }
         ],
         "trustMagnitude": 0.0,
@@ -48767,15 +48902,15 @@
       "google-deepmind/workflow-skill-creator"
     ],
     "gooseworks": [
-      "gooseworks/notte-browser"
+      "gooseworks/browser-automation-notte"
     ],
     "gsd-build": [
-      "gsd-build/discuss-phase",
-      "gsd-build/execute-phase",
       "gsd-build/get-shit-done",
-      "gsd-build/plan-phase",
-      "gsd-build/ship",
-      "gsd-build/verify-work"
+      "gsd-build/gsd-discuss-phase",
+      "gsd-build/gsd-execute-phase",
+      "gsd-build/gsd-plan-phase",
+      "gsd-build/gsd-ship",
+      "gsd-build/gsd-verify-work"
     ],
     "heygen-com": [
       "heygen-com/embedded-captions",
@@ -49070,7 +49205,7 @@
       "xquik-dev/hermes-tweet"
     ],
     "yonatangross": [
-      "yonatangross/orchestkit-rag"
+      "yonatangross/rag-retrieval"
     ],
     "yylo-dev": [
       "yylo-dev/ledger-tasks-yylo"

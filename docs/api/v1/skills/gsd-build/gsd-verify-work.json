@@ -1,17 +1,17 @@
 {
-  "id": "gsd-build/plan-phase",
-  "name": "GSD Plan Phase",
+  "id": "gsd-build/gsd-verify-work",
+  "name": "GSD Verify Work",
   "contributor": "gsd-build",
   "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 50.0,
+  "trustMagnitude": 52.66,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
-    "self": "/api/v1/skills/gsd-build/plan-phase.json",
+    "self": "/api/v1/skills/gsd-build/gsd-verify-work.json",
     "contributor": "/api/v1/contributors/gsd-build.json",
     "list": "/api/v1/skills/index.json"
   },
@@ -23,10 +23,10 @@
     "maxDepth": 1,
     "nestedSuiteCount": 0
   },
-  "title": "GSD Plan Phase",
-  "genericSkillRef": "writing-plans",
+  "title": "GSD Verify Work",
+  "genericSkillRef": "verification-before-completion",
   "origin": false,
-  "description": "Researches, decomposes, and verifies an implementation plan against a fresh context window before execution.",
+  "description": "Walks through built work, diagnoses gaps, and fixes issues before completion is declared.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": false,
@@ -39,7 +39,7 @@
   },
   "evidence": [
     {
-      "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md",
+      "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md",
       "updatedAt": "2026-10-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
@@ -59,55 +59,55 @@
   ],
   "timeline": [
     {
-      "timestamp": "2026-07-02T18:04:48Z",
+      "timestamp": "2026-07-02T18:04:50Z",
       "action": "add",
       "contributor": "unknown",
-      "details": "Added named skill gsd-build/plan-phase"
+      "details": "Added named skill gsd-build/verify-work"
     },
     {
-      "timestamp": "2026-07-02T18:05:02Z",
+      "timestamp": "2026-07-02T18:05:05Z",
       "action": "evidence_added",
       "contributor": "unknown",
-      "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md (type: github-stars-own)"
+      "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md (type: github-stars-own)"
     },
     {
-      "timestamp": "2026-07-02T18:05:57Z",
+      "timestamp": "2026-07-02T18:05:58Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
     },
     {
-      "timestamp": "2026-07-02T18:09:47Z",
+      "timestamp": "2026-07-02T18:09:48Z",
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef to gsd-build/get-shit-done"
     },
     {
-      "timestamp": "2026-07-02T20:53:07Z",
+      "timestamp": "2026-07-02T20:53:09Z",
       "action": "name",
       "contributor": "unknown",
       "details": "Promoted from awakened to named."
     },
     {
-      "timestamp": "2026-07-02T20:53:07Z",
+      "timestamp": "2026-07-02T20:53:10Z",
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 1★ to 2★"
     },
     {
-      "timestamp": "2026-07-02T20:59:00Z",
+      "timestamp": "2026-07-02T20:59:01Z",
       "action": "note",
       "contributor": "unknown",
       "details": "Set installable to false"
     },
     {
-      "timestamp": "2026-07-02T21:04:06Z",
+      "timestamp": "2026-07-02T21:04:07Z",
       "action": "note",
       "contributor": "unknown",
       "details": "Set installable to true"
     },
     {
-      "timestamp": "2026-07-02T21:07:13Z",
+      "timestamp": "2026-07-02T21:07:14Z",
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/gsd-build/get-shit-done (type: repo-own)"
@@ -118,22 +118,22 @@
       "details": "TM None -> 52.16, grade ungraded -> B (direct edit -- CLI gap)"
     },
     {
-      "timestamp": "2026-07-02T21:33:53Z",
+      "timestamp": "2026-07-02T21:33:54Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
     },
     {
-      "timestamp": "2026-07-02T21:34:08Z",
+      "timestamp": "2026-07-02T21:34:09Z",
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
     },
     {
-      "timestamp": "2026-08-06T04:54:31Z",
+      "timestamp": "2026-08-06T04:54:33Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
+      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
     },
     {
       "timestamp": "2026-08-29T17:15:49Z",
@@ -146,9 +146,27 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-08T20:43:57Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed named skill from gsd-build/verify-work to gsd-build/gsd-verify-work"
+    },
+    {
+      "timestamp": "2026-10-08T20:44:02Z",
+      "action": "installation_updated",
+      "contributor": "unknown",
+      "details": "Replaced ## Installation section from /tmp/gsd-install-verify-work.md"
+    },
+    {
+      "timestamp": "2026-10-08T20:44:02Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
+    "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md"
   }
 }

@@ -1,6 +1,6 @@
 {
-  "id": "gsd-build/discuss-phase",
-  "name": "GSD Discuss Phase",
+  "id": "gsd-build/gsd-execute-phase",
+  "name": "GSD Execute Phase",
   "contributor": "gsd-build",
   "level": "3★",
   "type": "fusion",
@@ -11,22 +11,22 @@
   "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
-    "self": "/api/v1/skills/gsd-build/discuss-phase.json",
+    "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json",
     "contributor": "/api/v1/contributors/gsd-build.json",
     "list": "/api/v1/skills/index.json"
   },
-  "fusionScore": 40.0,
+  "fusionScore": 220.0,
   "fusionScoreVersion": "yggdrasil-iii-v1",
   "fusionBreakdown": {
-    "directCount": 2,
-    "transitiveCount": 2,
-    "maxDepth": 1,
+    "directCount": 3,
+    "transitiveCount": 11,
+    "maxDepth": 3,
     "nestedSuiteCount": 0
   },
-  "title": "GSD Discuss Phase",
-  "genericSkillRef": "brainstorming",
+  "title": "GSD Execute Phase",
+  "genericSkillRef": "subagent-driven-development",
   "origin": false,
-  "description": "Captures implementation decisions and tradeoffs before planning so the agent begins with explicit shared context.",
+  "description": "Runs implementation plans in parallel executor waves where each executor starts from a clean context.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
     "sourceTenureDaysGte180AorS": false,
@@ -39,7 +39,7 @@
   },
   "evidence": [
     {
-      "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md",
+      "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md",
       "updatedAt": "2026-10-01",
       "evaluator": "unknown",
       "date": "2026-07-03",
@@ -59,61 +59,55 @@
   ],
   "timeline": [
     {
-      "timestamp": "2026-07-02T18:04:47Z",
+      "timestamp": "2026-07-02T18:04:49Z",
       "action": "add",
       "contributor": "unknown",
-      "details": "Added named skill gsd-build/discuss-phase"
+      "details": "Added named skill gsd-build/execute-phase"
     },
     {
-      "timestamp": "2026-07-02T18:05:01Z",
+      "timestamp": "2026-07-02T18:05:04Z",
       "action": "evidence_added",
       "contributor": "unknown",
-      "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md (type: github-stars-own)"
+      "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md (type: github-stars-own)"
     },
     {
-      "timestamp": "2026-07-02T18:05:56Z",
+      "timestamp": "2026-07-02T18:05:57Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
     },
     {
-      "timestamp": "2026-07-02T18:09:46Z",
+      "timestamp": "2026-07-02T18:09:47Z",
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef to gsd-build/get-shit-done"
     },
     {
-      "timestamp": "2026-07-02T20:52:54Z",
-      "action": "rank_up",
-      "contributor": "unknown",
-      "details": "Calibrated level from 1★ to 2★"
-    },
-    {
-      "timestamp": "2026-07-02T20:52:58Z",
+      "timestamp": "2026-07-02T20:53:08Z",
       "action": "name",
       "contributor": "unknown",
       "details": "Promoted from awakened to named."
     },
     {
-      "timestamp": "2026-07-02T20:53:06Z",
-      "action": "demote",
+      "timestamp": "2026-07-02T20:53:09Z",
+      "action": "rank_up",
       "contributor": "unknown",
-      "details": "Calibrated level from 2★ to 2★"
+      "details": "Calibrated level from 1★ to 2★"
     },
     {
-      "timestamp": "2026-07-02T20:59:00Z",
+      "timestamp": "2026-07-02T20:59:01Z",
       "action": "note",
       "contributor": "unknown",
       "details": "Set installable to false"
     },
     {
-      "timestamp": "2026-07-02T21:04:05Z",
+      "timestamp": "2026-07-02T21:04:07Z",
       "action": "note",
       "contributor": "unknown",
       "details": "Set installable to true"
     },
     {
-      "timestamp": "2026-07-02T21:07:12Z",
+      "timestamp": "2026-07-02T21:07:14Z",
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/gsd-build/get-shit-done (type: repo-own)"
@@ -124,22 +118,22 @@
       "details": "TM None -> 52.16, grade ungraded -> B (direct edit -- CLI gap)"
     },
     {
-      "timestamp": "2026-07-02T21:33:52Z",
+      "timestamp": "2026-07-02T21:33:53Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
     },
     {
-      "timestamp": "2026-07-02T21:34:07Z",
+      "timestamp": "2026-07-02T21:34:09Z",
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
     },
     {
-      "timestamp": "2026-08-06T04:54:30Z",
+      "timestamp": "2026-08-06T04:54:31Z",
       "action": "note",
       "contributor": "unknown",
-      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
+      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
     },
     {
       "timestamp": "2026-08-29T17:15:48Z",
@@ -152,9 +146,27 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-08T20:43:11Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed named skill from gsd-build/execute-phase to gsd-build/gsd-execute-phase"
+    },
+    {
+      "timestamp": "2026-10-08T20:43:17Z",
+      "action": "installation_updated",
+      "contributor": "unknown",
+      "details": "Replaced ## Installation section from /tmp/gsd-install-execute-phase.md"
+    },
+    {
+      "timestamp": "2026-10-08T20:43:17Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
+    "github": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md"
   }
 }

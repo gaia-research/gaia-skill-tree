@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ gooseworks/notte-browser | Basic | 1★ | Awakened | gooseworks/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ gooseworks/browser-automation-notte | Basic | 1★ | Awakened | gooseworks/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 

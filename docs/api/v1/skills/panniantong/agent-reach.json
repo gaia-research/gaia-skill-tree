@@ -147,9 +147,21 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 1★ to 3★"
+    },
+    {
+      "timestamp": "2026-10-08T20:42:20Z",
+      "action": "installation_updated",
+      "contributor": "unknown",
+      "details": "Replaced ## Installation section from /tmp/agent-reach-install.md"
+    },
+    {
+      "timestamp": "2026-10-08T20:42:20Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md"
+    "github": "https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md"
   }
 }

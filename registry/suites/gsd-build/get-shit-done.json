@@ -7,11 +7,11 @@
   "capstone": "gsd-build/get-shit-done",
   "suites": [],
   "standalones": [
-    "gsd-build/discuss-phase",
-    "gsd-build/plan-phase",
-    "gsd-build/execute-phase",
-    "gsd-build/verify-work",
-    "gsd-build/ship"
+    "gsd-build/gsd-discuss-phase",
+    "gsd-build/gsd-plan-phase",
+    "gsd-build/gsd-execute-phase",
+    "gsd-build/gsd-verify-work",
+    "gsd-build/gsd-ship"
   ],
   "createdAt": "2026-07-03",
   "updatedAt": "2026-07-03"

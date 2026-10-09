@@ -3415,61 +3415,21 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gooseworks/notte-browser": {
+    "gooseworks/browser-automation-notte": {
       "state": "unknown",
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/gooseworks-ai/goose-skills",
+        "url": "https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md",
         "owner": "gooseworks-ai",
         "repo": "goose-skills",
-        "ref": null,
-        "subpath": "",
-        "entrypoint": "",
-        "installSubpath": ""
+        "ref": "main",
+        "subpath": "skills/research-tools/capabilities/browser-automation-notte",
+        "entrypoint": "skills/research-tools/capabilities/browser-automation-notte/SKILL.md",
+        "installSubpath": "skills/research-tools/capabilities/browser-automation-notte"
       },
-      "currentSkillContentSha256": "a54a6f29ce22fee832ede3171e6462661b8ba81b6536ad8b61c8b8cc923fe318",
-      "observedSourceRoute": null,
-      "observedSkillContentSha256": null,
-      "resolvedRevision": null,
-      "deliveredContentSha256": null
-    },
-    "gsd-build/discuss-phase": {
-      "state": "unknown",
-      "reason": "not-observed",
-      "observationDigest": null,
-      "observedAt": null,
-      "currentSourceRoute": {
-        "url": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md",
-        "owner": "open-gsd",
-        "repo": "gsd-core",
-        "ref": "next",
-        "subpath": "commands/gsd",
-        "entrypoint": "commands/gsd/discuss-phase.md",
-        "installSubpath": "commands/gsd"
-      },
-      "currentSkillContentSha256": "5e02a7710cf1e2acb8b0c93eef41cd6ebabee738197bc43ace89c4407436ed80",
-      "observedSourceRoute": null,
-      "observedSkillContentSha256": null,
-      "resolvedRevision": null,
-      "deliveredContentSha256": null
-    },
-    "gsd-build/execute-phase": {
-      "state": "unknown",
-      "reason": "not-observed",
-      "observationDigest": null,
-      "observedAt": null,
-      "currentSourceRoute": {
-        "url": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md",
-        "owner": "open-gsd",
-        "repo": "gsd-core",
-        "ref": "next",
-        "subpath": "commands/gsd",
-        "entrypoint": "commands/gsd/execute-phase.md",
-        "installSubpath": "commands/gsd"
-      },
-      "currentSkillContentSha256": "f46d50583f3780cd26d467e86ad273953407e33ab96b2ff72c803324c6acf519",
+      "currentSkillContentSha256": "6b6f4bd094e3df317ceed77332d98bb24579dd665afe0568f9d77bf82a5c952d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3480,76 +3440,108 @@
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
-      "currentSourceRoute": {
-        "url": "https://github.com/gsd-build/get-shit-done/blob/main/README.md",
-        "owner": "gsd-build",
-        "repo": "get-shit-done",
-        "ref": "main",
-        "subpath": "",
-        "entrypoint": "README.md",
-        "installSubpath": ""
-      },
-      "currentSkillContentSha256": "1c1f6b9ba1b830ba10703b15a16d8520f4564d9636db1e9439f4bafbe249df36",
+      "currentSourceRoute": null,
+      "currentSkillContentSha256": "e598ff605297c3fb7dbac8789e5ceea030e12c6c31c1fab193e3eed9bcf0a586",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gsd-build/plan-phase": {
+    "gsd-build/gsd-discuss-phase": {
       "state": "unknown",
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md",
+        "url": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md",
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd",
-        "entrypoint": "commands/gsd/plan-phase.md",
-        "installSubpath": "commands/gsd"
+        "subpath": "skills/gsd-discuss-phase",
+        "entrypoint": "skills/gsd-discuss-phase/SKILL.md",
+        "installSubpath": "skills/gsd-discuss-phase"
       },
-      "currentSkillContentSha256": "c3d4e5b7dc2bce2f738a4c05eeb9e5ba3a375bdeaddf13c678565117b9831cd1",
+      "currentSkillContentSha256": "85d7aa3e4a71847a0449deb5a9efa3f19b35f0dd110b765cfc1c7157ffb70d4e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gsd-build/ship": {
+    "gsd-build/gsd-execute-phase": {
       "state": "unknown",
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md",
+        "url": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md",
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd",
-        "entrypoint": "commands/gsd/ship.md",
-        "installSubpath": "commands/gsd"
+        "subpath": "skills/gsd-execute-phase",
+        "entrypoint": "skills/gsd-execute-phase/SKILL.md",
+        "installSubpath": "skills/gsd-execute-phase"
       },
-      "currentSkillContentSha256": "dfa0a8806dcdc90e69d961bfe843e9afb2eaf0c16f5eee1e622be9ab3557dae9",
+      "currentSkillContentSha256": "297fc002b971bfe8ebc376ffdec9c4be17cf3f9449a0b3d9b5c8d5aeb779c7d5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gsd-build/verify-work": {
+    "gsd-build/gsd-plan-phase": {
       "state": "unknown",
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md",
+        "url": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-plan-phase/SKILL.md",
         "owner": "open-gsd",
         "repo": "gsd-core",
         "ref": "next",
-        "subpath": "commands/gsd",
-        "entrypoint": "commands/gsd/verify-work.md",
-        "installSubpath": "commands/gsd"
+        "subpath": "skills/gsd-plan-phase",
+        "entrypoint": "skills/gsd-plan-phase/SKILL.md",
+        "installSubpath": "skills/gsd-plan-phase"
       },
-      "currentSkillContentSha256": "66d42ee54ac8fe75309edb95f03be6c758cd7b1ccaec42a2f46653726879afa6",
+      "currentSkillContentSha256": "28d3063fb779f311ed75c492a496d7452e7fcaaee7442b59b31be906607dbf27",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "gsd-build/gsd-ship": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-ship/SKILL.md",
+        "owner": "open-gsd",
+        "repo": "gsd-core",
+        "ref": "next",
+        "subpath": "skills/gsd-ship",
+        "entrypoint": "skills/gsd-ship/SKILL.md",
+        "installSubpath": "skills/gsd-ship"
+      },
+      "currentSkillContentSha256": "b946107e3d9ab3aa26c2968c2ac020ddabead4176c28b67039f71626c3ec1f43",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "gsd-build/gsd-verify-work": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md",
+        "owner": "open-gsd",
+        "repo": "gsd-core",
+        "ref": "next",
+        "subpath": "skills/gsd-verify-work",
+        "entrypoint": "skills/gsd-verify-work/SKILL.md",
+        "installSubpath": "skills/gsd-verify-work"
+      },
+      "currentSkillContentSha256": "33f029a8bcd917de32d884305b1cff14dad9df1158418b59b528d10cee0c58b7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6333,15 +6325,15 @@
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md",
+        "url": "https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md",
         "owner": "Panniantong",
         "repo": "Agent-Reach",
         "ref": "main",
-        "subpath": "",
-        "entrypoint": "SKILL.md",
-        "installSubpath": ""
+        "subpath": "agent_reach/skill",
+        "entrypoint": "agent_reach/skill/SKILL.md",
+        "installSubpath": "agent_reach/skill"
       },
-      "currentSkillContentSha256": "38feb0081ead1a606b0f9fe202e7955bf70066de3e41f80df43f103fb229bee1",
+      "currentSkillContentSha256": "04e323409617ec10d8d780314caaee35235dbf8dc9e9c3cfd7b377e17b8bf045",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7707,21 +7699,21 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "yonatangross/orchestkit-rag": {
+    "yonatangross/rag-retrieval": {
       "state": "unknown",
       "reason": "not-observed",
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/yonatangross/orchestkit",
+        "url": "https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md",
         "owner": "yonatangross",
         "repo": "orchestkit",
-        "ref": null,
-        "subpath": "",
-        "entrypoint": "",
-        "installSubpath": ""
+        "ref": "main",
+        "subpath": "plugins/ork/skills/rag-retrieval",
+        "entrypoint": "plugins/ork/skills/rag-retrieval/SKILL.md",
+        "installSubpath": "plugins/ork/skills/rag-retrieval"
       },
-      "currentSkillContentSha256": "3dcb97495172d23749bd2735644a12b83527eb6f01bfadaab978c9d53a45cb02",
+      "currentSkillContentSha256": "8d9647c2081d54d8e942f777be672e99f2308fd208d9f889cfb8e97f45bb9179",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

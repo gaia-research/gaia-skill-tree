@@ -1991,7 +1991,7 @@
     ]
   },
   {
-    "id": "gsd-build/verify-work",
+    "id": "gsd-build/gsd-verify-work",
     "name": "GSD Verify Work",
     "contributor": "gsd-build",
     "level": "3★",
@@ -2833,7 +2833,7 @@
     ]
   },
   {
-    "id": "gsd-build/discuss-phase",
+    "id": "gsd-build/gsd-discuss-phase",
     "name": "GSD Discuss Phase",
     "contributor": "gsd-build",
     "level": "3★",
@@ -2860,7 +2860,7 @@
     ]
   },
   {
-    "id": "gsd-build/execute-phase",
+    "id": "gsd-build/gsd-execute-phase",
     "name": "GSD Execute Phase",
     "contributor": "gsd-build",
     "level": "3★",
@@ -2888,7 +2888,7 @@
     ]
   },
   {
-    "id": "gsd-build/plan-phase",
+    "id": "gsd-build/gsd-plan-phase",
     "name": "GSD Plan Phase",
     "contributor": "gsd-build",
     "level": "3★",
@@ -2914,7 +2914,7 @@
     ]
   },
   {
-    "id": "gsd-build/ship",
+    "id": "gsd-build/gsd-ship",
     "name": "GSD Ship",
     "contributor": "gsd-build",
     "level": "3★",
