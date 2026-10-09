@@ -1,8 +1,22 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-09T00:00:16Z",
+  "generatedAt": "2026-10-09T00:25:53Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "trailhq/graft",
+      "name": "graft",
+      "level": "4★",
+      "contributor": "trailhq",
+      "trustMagnitude": 145.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 95.42,
+      "tmDelta": 4.74,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/trailhq/graft.json"
+      }
+    },
     {
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
@@ -15,20 +29,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      }
-    },
-    {
-      "id": "trailhq/graft",
-      "name": "graft",
-      "level": "4★",
-      "contributor": "trailhq",
-      "trustMagnitude": 145.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 72.58,
-      "tmDelta": 145.16,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/trailhq/graft.json"
       }
     },
     {
@@ -536,6 +536,76 @@
       }
     },
     {
+      "id": "gsd-build/gsd-verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.66,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.33,
+      "tmDelta": 52.66,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-ship",
+      "name": "GSD Ship",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
+      }
+    },
+    {
       "id": "yylo-dev/ledger-tasks-yylo",
       "name": "Ledger Tasks (yylo)",
       "level": "2★",
@@ -617,20 +687,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/dietrichgebert/ponytail.json"
-      }
-    },
-    {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.66,
-      "overallTrustGrade": "B",
-      "trendingScore": 3.72,
-      "tmDelta": 2.66,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
       }
     },
     {
@@ -802,7 +858,7 @@
       }
     }
   ],
-  "totalTrending": 57,
+  "totalTrending": 61,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

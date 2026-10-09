@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-09T00:00:16Z",
+  "generatedAt": "2026-10-09T00:25:53Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,6 +15,76 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/hikari9/auto-office.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.66,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.33,
+      "tmDelta": 52.66,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/gsd-ship",
+      "name": "GSD Ship",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
       }
     },
     {
@@ -46,20 +116,6 @@
       }
     },
     {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.66,
-      "overallTrustGrade": "B",
-      "trendingScore": 3.72,
-      "tmDelta": 2.66,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
-      }
-    },
-    {
       "id": "obra/verification-before-completion",
       "name": "Verification Before Completion",
       "level": "3★",
@@ -74,7 +130,7 @@
       }
     }
   ],
-  "totalTrending": 5,
+  "totalTrending": 9,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

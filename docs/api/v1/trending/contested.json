@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:00:16Z",
+  "generatedAt": "2026-10-09T00:25:53Z",
   "buckets": [
     {
       "genericSkillRef": "ux-audit",
@@ -273,7 +273,7 @@
           "origin": true
         },
         {
-          "id": "gsd-build/execute-phase",
+          "id": "gsd-build/gsd-execute-phase",
           "trustMagnitude": 50.0,
           "level": "3★",
           "overallTrustGrade": "B",
@@ -301,7 +301,7 @@
           "origin": true
         },
         {
-          "id": "gsd-build/discuss-phase",
+          "id": "gsd-build/gsd-discuss-phase",
           "trustMagnitude": 50.0,
           "level": "3★",
           "overallTrustGrade": "B",
@@ -322,7 +322,7 @@
           "origin": true
         },
         {
-          "id": "gsd-build/plan-phase",
+          "id": "gsd-build/gsd-plan-phase",
           "trustMagnitude": 50.0,
           "level": "3★",
           "overallTrustGrade": "B",
@@ -364,7 +364,7 @@
           "origin": true
         },
         {
-          "id": "gsd-build/verify-work",
+          "id": "gsd-build/gsd-verify-work",
           "trustMagnitude": 52.66,
           "level": "3★",
           "overallTrustGrade": "B",
