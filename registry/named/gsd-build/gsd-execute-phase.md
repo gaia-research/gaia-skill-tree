@@ -1,5 +1,5 @@
 ---
-id: gsd-build/execute-phase
+id: gsd-build/gsd-execute-phase
 name: GSD Execute Phase
 contributor: gsd-build
 origin: false
@@ -9,7 +9,7 @@ level: 3★
 description: Runs implementation plans in parallel executor waves where each executor
   starts from a clean context.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-09'
 timeline:
 - timestamp: '2026-07-02T18:04:49Z'
   action: add
@@ -74,6 +74,18 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-08T20:43:11Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from gsd-build/execute-phase to gsd-build/gsd-execute-phase
+- timestamp: '2026-10-08T20:43:17Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from /tmp/gsd-install-execute-phase.md'
+- timestamp: '2026-10-08T20:43:17Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
   updatedAt: '2026-10-01'
@@ -107,15 +119,23 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 393cdbefeef7527270b8d7aa9be2bb60f5628f18eb141e6a8ca4af4df3d4b95e
 links:
-  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md
 ---
 
 ## Installation
 
-This skill is part of the GSD Core pipeline. Install the suite with:
+Install the agent skill into your agent harness with Gaia:
 
 ```bash
-npx @opengsd/gsd-core@latest
+gaia install gsd-build/gsd-execute-phase
 ```
 
-Then use the matching phase from the installed GSD workflow.
+### Runtime Prerequisite
+
+This skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.
+
+Install the GSD runtime separately before invoking the skill:
+
+```bash
+npx -y @opengsd/gsd-core@latest --claude --local
+```

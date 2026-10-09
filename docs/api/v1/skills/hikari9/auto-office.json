@@ -103,6 +103,12 @@
       "action": "installation_updated",
       "contributor": "unknown",
       "details": "Replaced ## Installation section from generated-output/2054-installation.md"
+    },
+    {
+      "timestamp": "2026-10-09T07:00:00Z",
+      "action": "installation_updated",
+      "contributor": "unknown",
+      "details": "Added structured custom installation instructions with multi-harness tabs and worktree configuration"
     }
   ],
   "links": {

@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ yonatangross/orchestkit-rag | Basic | 1★ | Awakened | yonatangross/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ yonatangross/rag-retrieval | Basic | 1★ | Awakened | yonatangross/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 

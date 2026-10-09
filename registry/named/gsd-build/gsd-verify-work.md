@@ -1,5 +1,5 @@
 ---
-id: gsd-build/verify-work
+id: gsd-build/gsd-verify-work
 name: GSD Verify Work
 contributor: gsd-build
 origin: false
@@ -9,7 +9,7 @@ level: 3★
 description: Walks through built work, diagnoses gaps, and fixes issues before completion
   is declared.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-09'
 timeline:
 - timestamp: '2026-07-02T18:04:50Z'
   action: add
@@ -74,6 +74,18 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-08T20:43:57Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from gsd-build/verify-work to gsd-build/gsd-verify-work
+- timestamp: '2026-10-08T20:44:02Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from /tmp/gsd-install-verify-work.md'
+- timestamp: '2026-10-08T20:44:02Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
   updatedAt: '2026-10-01'
@@ -107,15 +119,23 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 29543ee7f8ca243279ba01b0c9510065adfa70c92adc39736d89fc2fac179291
 links:
-  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md
 ---
 
 ## Installation
 
-This skill is part of the GSD Core pipeline. Install the suite with:
+Install the agent skill into your agent harness with Gaia:
 
 ```bash
-npx @opengsd/gsd-core@latest
+gaia install gsd-build/gsd-verify-work
 ```
 
-Then use the matching phase from the installed GSD workflow.
+### Runtime Prerequisite
+
+This skill executes workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definition, but does not install the GSD runtime.
+
+Install the GSD runtime separately before invoking the skill:
+
+```bash
+npx -y @opengsd/gsd-core@latest --claude --local
+```

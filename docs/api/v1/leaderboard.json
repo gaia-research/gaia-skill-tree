@@ -786,7 +786,7 @@
       "branch": "standard"
     },
     {
-      "id": "gsd-build/verify-work",
+      "id": "gsd-build/gsd-verify-work",
       "trustMagnitude": 52.66,
       "grade": "B",
       "level": "3★",
@@ -1096,7 +1096,7 @@
       "branch": "standard"
     },
     {
-      "id": "gsd-build/discuss-phase",
+      "id": "gsd-build/gsd-discuss-phase",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
@@ -1108,7 +1108,7 @@
       "branch": "standard"
     },
     {
-      "id": "gsd-build/execute-phase",
+      "id": "gsd-build/gsd-execute-phase",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
@@ -1120,7 +1120,7 @@
       "branch": "standard"
     },
     {
-      "id": "gsd-build/plan-phase",
+      "id": "gsd-build/gsd-plan-phase",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
@@ -1132,7 +1132,7 @@
       "branch": "standard"
     },
     {
-      "id": "gsd-build/ship",
+      "id": "gsd-build/gsd-ship",
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",

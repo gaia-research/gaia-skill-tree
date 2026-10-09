@@ -1,6 +1,6 @@
 {
   "version": "8.21.0",
-  "generatedAt": "2026-10-09T00:00:13Z",
+  "generatedAt": "2026-10-09T00:17:06Z",
   "summary": {
     "total": 266,
     "S": 3,
@@ -1125,7 +1125,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/verify-work",
+      "skillId": "gsd-build/gsd-verify-work",
       "tm": 52.66,
       "grade": "B",
       "currentStars": "3★",
@@ -1565,7 +1565,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/discuss-phase",
+      "skillId": "gsd-build/gsd-discuss-phase",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
@@ -1582,7 +1582,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/execute-phase",
+      "skillId": "gsd-build/gsd-execute-phase",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
@@ -1599,7 +1599,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/plan-phase",
+      "skillId": "gsd-build/gsd-plan-phase",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
@@ -1616,7 +1616,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gsd-build/ship",
+      "skillId": "gsd-build/gsd-ship",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",

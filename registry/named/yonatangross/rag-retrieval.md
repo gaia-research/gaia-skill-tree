@@ -1,6 +1,6 @@
 ---
-id: yonatangross/orchestkit-rag
-name: OrchestrKit RAG
+id: yonatangross/rag-retrieval
+name: RAG Retrieval
 contributor: yonatangross
 origin: false
 genericSkillRef: rag-pipeline
@@ -12,7 +12,7 @@ description: Production-grade RAG retrieval skill covering 30+ patterns includin
   core pipeline composition, HyDE query expansion, pgvector hybrid search, cross-encoder
   reranking, multimodal chunking, and agentic self-RAG and corrective-RAG loops.
 links:
-  github: https://github.com/yonatangross/orchestkit
+  github: https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md
 tags:
 - rag
 - retrieval
@@ -22,7 +22,7 @@ tags:
 - reranking
 - agentic-rag
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-10-09'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -42,6 +42,14 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-08T20:42:44Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from yonatangross/orchestkit-rag to yonatangross/rag-retrieval
+- timestamp: '2026-10-08T20:42:49Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

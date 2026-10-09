@@ -1,6 +1,6 @@
 ---
-id: gooseworks/notte-browser
-name: Notte Browser
+id: gooseworks/browser-automation-notte
+name: Browser Automation Notte
 contributor: gooseworks
 origin: false
 genericSkillRef: browser-automation
@@ -12,7 +12,7 @@ description: AI-first browser automation using the Notte Browser API to control 
   sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents
   with managed credential handling.
 links:
-  github: https://github.com/gooseworks-ai/goose-skills
+  github: https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md
 tags:
 - browser
 - automation
@@ -20,7 +20,7 @@ tags:
 - scraping
 - notte
 createdAt: '2026-04-30'
-updatedAt: '2026-08-30'
+updatedAt: '2026-10-09'
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
@@ -40,6 +40,14 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-08T20:42:29Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from gooseworks/notte-browser to gooseworks/browser-automation-notte
+- timestamp: '2026-10-08T20:42:34Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
