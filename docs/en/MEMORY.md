@@ -2,6 +2,203 @@
 
 ---
 
+## 2026-10-09 — Routine 057
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** ROTATE. Routine 056's "Planned next" named `index.html`
+(last real edit: routine 051) as the next least-recently-touched page.
+Checked `main` since routine 056 for a SYNC target first — the commits
+since then (`v8.19.1`→`v8.21.1`) are all registry curation/promotion
+(`auto-office` suite, hikari9 office suite, lexicon updates) and release
+bumps, none of which change documented CLI/flag behavior on any `docs/en/`
+page — so no SYNC item applied. Read `index.html` end to end and
+cross-checked its ten card descriptions against the live pages/code they
+summarize (MCP decommission notice, `gaia share`/`gaia install` bundle
+flow, Transparency Gate naming, honor-red attribution, the quickstart
+`gaia init`/`gaia push --dry-run`/`gaia tree` snippet against
+`src/gaia_cli/commands/init.py` and `push.py`) — all accurate, no drift
+found there.
+
+### Trigger
+
+Found one real, verifiable inaccuracy while checking the page's own
+version chip: `index.html` is one of the 3 pages `build_html_cache_busting()`
+(`scripts/build_docs.py`) keeps live — confirmed `window.GAIA_VERSION =
+"8.21.1"` (line 4) and all three `?v=8.21.1` cache-bust strings already
+match the current release (`pyproject.toml` `version = "8.21.1"`). But the
+`<span id="ver">` nav chip's hardcoded initial text still read `v8.11.1` —
+ten patch releases stale. The inline script at the bottom of the page
+(`document.getElementById('ver').textContent = 'v' + window.GAIA_VERSION`)
+overwrites it client-side on every load, which is why this was invisible
+in a browser with JS enabled — but the raw served HTML (what a no-JS
+client or crawler sees before that script runs) was still wrong. Same
+hardcoded-fallback pattern exists on `evidence-classes.html`'s `#ver` span
+(also frozen at `v8.11.1`) — out of scope for this run (one page per
+routine), noted below for whoever rotates there next.
+
+### What I did
+
+- `docs/en/index.html` — `#ver` nav chip: fixed the hardcoded fallback text
+  from `v8.11.1` to `v8.21.1` to match the already-correct
+  `window.GAIA_VERSION` the generator maintains on this page.
+- `docs/en/DOCS.md` — Page Map row 1 updated with this fix and the `057`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or the
+  client-side overwrite script — all three were already correct. Only the
+  one stale literal needed fixing.
+- Did not extend this fix to `evidence-classes.html` — that page wasn't
+  today's assigned rotation target, and the Hard Rules cap each run at one
+  page. Flagged it in Planned next instead of silently leaving it, since
+  it's the same bug.
+- Did not file a GitHub issue for this one — it's a single stale literal
+  with an obvious one-line fix, not a process gap like #2042 (the
+  registered-page list itself). Fixed directly instead of routing through
+  the tracker.
+
+### Issues informed
+
+None filed.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/index.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- Rebased onto current `origin/main` tip (`v8.21.1`) before this entry —
+  no conflicts.
+
+### Files modified
+
+- `docs/en/index.html` — nav version chip fallback text.
+- `docs/en/DOCS.md` — page map row 1.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 058)
+
+- `evidence-classes.html` (last real edit: routine 052) is next in the
+  least-recently-touched rotation. While there, also fix its `#ver` span's
+  same stale `v8.11.1` fallback text (same bug as this routine's fix on
+  `index.html`, just not in scope for this run).
+
+---
+
+## 2026-10-08 — Routine 056
+
+**Branch:** `docs/routines/056` (new — the prior integration branch,
+`docs/routines/055`, was shipped by the editor-055wk pass on 2026-10-07 and
+no daily picked up a new routine since; created fresh from `origin/main`
+per the Branch instructions).
+
+**Task chosen:** ROTATE. No concrete item in routine 055wk's "Planned
+next" (just "resume normal rotation"); the only commit on `main` since
+055wk was a pure version-bump release (`v8.18.3`, no CLI/schema behavior
+change) so there was no SYNC target either. Checked open `documentation`-labeled
+GitHub issues — all nine are large RFCs/meta-posts/split-ideas, nothing
+small enough for a daily slot. Took `share-bundles.html`, the
+least-recently-touched page in the Page Map (last real content edit at
+routine 038; it was untouched by 055wk's version-chip sweep because it's
+already on the 3-page dynamic `window.GAIA_VERSION` registered list).
+
+### Trigger
+
+Verified against live code before touching the page (per CLAUDE.md's Stale
+Tooling directive), not against prose alone:
+
+- `share_parser` in `src/gaia_cli/impl.py` (~L3410-3422) defines `--user`,
+  `-o`/`--output <path>`, and `--stdout` on `gaia share`. The page's Flags
+  table only documented `--stdout` and `--user <handle>` — `-o, --output`
+  was real and undocumented.
+- The page's "Non-TTY / Automation" callout claimed a `--auto all` flag
+  "(when available)" bypasses the TTY check. Grepped the whole CLI for
+  `--auto` on the `install` parsers — zero hits. `install_bundle()` in
+  `src/gaia_cli/share.py` (~L415-430) does take an `auto=` keyword
+  (`"all"/"pick"/"view"/"quit"`), but `install_command()` in `impl.py`
+  (~L2372-2409) never passes it — only `tests/test_share.py` calls
+  `install_bundle(..., auto=...)` directly. There is no CLI path to set it;
+  the page was documenting a flag that exists only as an internal/test
+  parameter, never as real CLI surface.
+
+### What I did
+
+- `docs/en/share-bundles.html` — `#share-flags`: added a `-o, --output
+  <path>` row to the `gaia share` Flags table (default
+  `generated-output/share/`, noted it's ignored when `--stdout` is set).
+- `docs/en/share-bundles.html` — `#non-tty`: rewrote the Automation note
+  callout to drop the false `--auto all` claim; states plainly that no CLI
+  flag exists yet to force an all-install from a bundle in automation, and
+  that the only scripted path today is resolving each skill's ID from the
+  bundle and running `gaia skills install <id>` individually.
+- `docs/en/DOCS.md` — Page Map row 11 updated with this fix and the `056`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Did not add a CLI flag to wire `auto=` through to `gaia install` —
+  that's a `src/gaia_cli/impl.py` change, outside `docs/en/**` and outside
+  a generator this seat is allowed to touch. Documented the real behavior
+  instead of inventing a workaround not evidenced by the code.
+- Placed the new `-o, --output` row between `--user` and `--stdout` in the
+  table to match the parser's own declaration order.
+- Kept the Automation note's one concrete workaround (`gaia skills install
+  <id>` per resolved skill) rather than leaving it purely negative — it's
+  the only scripted path the code actually supports today.
+
+### Issues informed
+
+None filed. This is a docs-accuracy fix against already-existing CLI code
+(the `-o/--output` flag and the absence of `--auto` are both long-standing,
+not a regression from a recent change) — no new tech debt to track beyond
+what's already implicit in `install_bundle()`'s unused `auto` parameter.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/share-bundles.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `-o/--output` and the absence of `--auto` cross-checked directly against
+  `share_parser`/`install_parser` in `src/gaia_cli/impl.py` and
+  `install_bundle()` in `src/gaia_cli/share.py`, not against page prose or
+  commit messages alone.
+- Did not touch any version chip or cache-bust string on this page — out
+  of scope per this routine's own config (handled elsewhere weekly).
+
+### Files modified
+
+- `docs/en/share-bundles.html` — Flags table row, Automation callout.
+- `docs/en/DOCS.md` — page map row 11.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 057)
+
+- No further gaps found on `share-bundles.html` this pass beyond the two
+  fixed above — page is otherwise accurate against live code.
+- `index.html` (last real edit: routine 051) and `evidence-classes.html`
+  (last real edit: routine 052) are next in the least-recently-touched
+  rotation after this page.
+
+---
+
 ## 2026-10-07 — Weekly Editor Pass (editor-055wk)
 
 **Branch:** `docs/routines/055` (new — no `docs/routines/*` PR was open; the

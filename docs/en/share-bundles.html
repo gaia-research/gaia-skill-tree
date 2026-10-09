@@ -508,6 +508,11 @@
               <td>whoami</td>
               <td>Override the username. Defaults to the handle set by <code>gaia init --user</code>.</td>
             </tr>
+            <tr>
+              <td>-o, --output &lt;path&gt;</td>
+              <td>generated-output/share/</td>
+              <td>Write the bundle JSON to a custom path instead of the default location. Ignored when <code>--stdout</code> is set.</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -594,7 +599,7 @@ Summary:
 
         <div class="callout callout-warn">
           <strong class="callout-label">Automation note</strong>
-          To install all skills non-interactively in a CI pipeline, you must pass the intent explicitly. The <code>--auto all</code> flag (when available) bypasses the TTY check. Without it, automation always gets view-only output.
+          There is no CLI flag to force an all-install from a bundle yet. In a non-TTY context, <code>gaia install &lt;bundle&gt;</code> always falls back to view-only, with no override. To install specific skills from a script, resolve each one's ID from the bundle and run <code>gaia skills install &lt;id&gt;</code> individually.
         </div>
 
         <p>This design prevents accidental installs when bundles are processed in scripts or agent pipelines that pipe bundle JSON through <code>gaia install</code>.</p>
