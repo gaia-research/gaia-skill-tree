@@ -2,6 +2,99 @@
 
 ---
 
+## 2026-10-09 — Routine 057
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** ROTATE. Routine 056's "Planned next" named `index.html`
+(last real edit: routine 051) as the next least-recently-touched page.
+Checked `main` since routine 056 for a SYNC target first — the commits
+since then (`v8.19.1`→`v8.21.1`) are all registry curation/promotion
+(`auto-office` suite, hikari9 office suite, lexicon updates) and release
+bumps, none of which change documented CLI/flag behavior on any `docs/en/`
+page — so no SYNC item applied. Read `index.html` end to end and
+cross-checked its ten card descriptions against the live pages/code they
+summarize (MCP decommission notice, `gaia share`/`gaia install` bundle
+flow, Transparency Gate naming, honor-red attribution, the quickstart
+`gaia init`/`gaia push --dry-run`/`gaia tree` snippet against
+`src/gaia_cli/commands/init.py` and `push.py`) — all accurate, no drift
+found there.
+
+### Trigger
+
+Found one real, verifiable inaccuracy while checking the page's own
+version chip: `index.html` is one of the 3 pages `build_html_cache_busting()`
+(`scripts/build_docs.py`) keeps live — confirmed `window.GAIA_VERSION =
+"8.21.1"` (line 4) and all three `?v=8.21.1` cache-bust strings already
+match the current release (`pyproject.toml` `version = "8.21.1"`). But the
+`<span id="ver">` nav chip's hardcoded initial text still read `v8.11.1` —
+ten patch releases stale. The inline script at the bottom of the page
+(`document.getElementById('ver').textContent = 'v' + window.GAIA_VERSION`)
+overwrites it client-side on every load, which is why this was invisible
+in a browser with JS enabled — but the raw served HTML (what a no-JS
+client or crawler sees before that script runs) was still wrong. Same
+hardcoded-fallback pattern exists on `evidence-classes.html`'s `#ver` span
+(also frozen at `v8.11.1`) — out of scope for this run (one page per
+routine), noted below for whoever rotates there next.
+
+### What I did
+
+- `docs/en/index.html` — `#ver` nav chip: fixed the hardcoded fallback text
+  from `v8.11.1` to `v8.21.1` to match the already-correct
+  `window.GAIA_VERSION` the generator maintains on this page.
+- `docs/en/DOCS.md` — Page Map row 1 updated with this fix and the `057`
+  history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or the
+  client-side overwrite script — all three were already correct. Only the
+  one stale literal needed fixing.
+- Did not extend this fix to `evidence-classes.html` — that page wasn't
+  today's assigned rotation target, and the Hard Rules cap each run at one
+  page. Flagged it in Planned next instead of silently leaving it, since
+  it's the same bug.
+- Did not file a GitHub issue for this one — it's a single stale literal
+  with an obvious one-line fix, not a process gap like #2042 (the
+  registered-page list itself). Fixed directly instead of routing through
+  the tracker.
+
+### Issues informed
+
+None filed.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/index.html`, `docs/en/DOCS.md`,
+  `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- Rebased onto current `origin/main` tip (`v8.21.1`) before this entry —
+  no conflicts.
+
+### Files modified
+
+- `docs/en/index.html` — nav version chip fallback text.
+- `docs/en/DOCS.md` — page map row 1.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 058)
+
+- `evidence-classes.html` (last real edit: routine 052) is next in the
+  least-recently-touched rotation. While there, also fix its `#ver` span's
+  same stale `v8.11.1` fallback text (same bug as this routine's fix on
+  `index.html`, just not in scope for this run).
+
+---
+
 ## 2026-10-08 — Routine 056
 
 **Branch:** `docs/routines/056` (new — the prior integration branch,
