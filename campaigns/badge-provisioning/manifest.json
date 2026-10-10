@@ -2,24 +2,24 @@
   "campaign": "Gaia Badge Provisioning Campaign #1817",
   "phase": 1,
   "generated_at": "2026-10-10T22:53:20.888857+00:00",
-  "last_updated_at": "2026-10-10T22:53:20.888889+00:00",
+  "last_updated_at": "2026-10-10T23:32:41.404960+00:00",
   "source_registry_generated_at": "2026-10-08",
   "serving_mode": "honesty_mode_static",
   "authenticates_ownership": false,
   "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
   "total_unique_repositories": 43,
   "classification_counts": {
-    "OPTED_OUT": 0,
-    "READY": 35,
-    "APPROVED": 0,
-    "PILOT_CANDIDATE": 3,
-    "DECLINED": 0,
+    "REVIEW": 2,
+    "PR_OPEN": 2,
     "ADOPTED": 0,
     "ALREADY_ADOPTED": 0,
+    "PILOT_CANDIDATE": 1,
+    "OPTED_OUT": 0,
     "NO_RESPONSE": 0,
-    "PR_OPEN": 0,
     "SKIP": 3,
-    "REVIEW": 2
+    "READY": 35,
+    "APPROVED": 0,
+    "DECLINED": 0
   },
   "eligibility_counts": {
     "PILOT_CANDIDATE": 3,
@@ -1233,7 +1233,7 @@
     "pbakaus/impeccable": {
       "repository": "pbakaus/impeccable",
       "eligibility": "PILOT_CANDIDATE",
-      "status": "PILOT_CANDIDATE",
+      "status": "PR_OPEN",
       "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
       "contributor_associations": [
         "pbakaus"
@@ -1255,15 +1255,32 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": []
+        "approved": true,
+        "approved_by": "Marco Tiongson",
+        "approved_at": "2026-10-10T23:32:40.838566+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-10T23:32:41.037350+00:00",
+        "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Outbound badge provisioning PR opened",
+        "history": [
+          {
+            "timestamp": "2026-10-10T23:32:40.838566+00:00",
+            "from_status": "PILOT_CANDIDATE",
+            "to_status": "APPROVED",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "actor": "Marco Tiongson",
+            "pr_url": null
+          },
+          {
+            "timestamp": "2026-10-10T23:32:41.037350+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Outbound badge provisioning PR opened",
+            "actor": "Marco Tiongson",
+            "pr_url": "https://github.com/pbakaus/impeccable/pull/1010"
+          }
+        ]
       }
     },
     "ruvnet/ruflo": {
@@ -1413,7 +1430,7 @@
     "trailhq/Graft": {
       "repository": "trailhq/Graft",
       "eligibility": "PILOT_CANDIDATE",
-      "status": "PILOT_CANDIDATE",
+      "status": "PR_OPEN",
       "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
       "contributor_associations": [
         "trailhq"
@@ -1435,15 +1452,32 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": []
+        "approved": true,
+        "approved_by": "Marco Tiongson",
+        "approved_at": "2026-10-10T23:32:41.224404+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-10T23:32:41.404960+00:00",
+        "pr_url": "https://github.com/trailhq/Graft/pull/581",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Outbound badge provisioning PR opened",
+        "history": [
+          {
+            "timestamp": "2026-10-10T23:32:41.224404+00:00",
+            "from_status": "PILOT_CANDIDATE",
+            "to_status": "APPROVED",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "actor": "Marco Tiongson",
+            "pr_url": null
+          },
+          {
+            "timestamp": "2026-10-10T23:32:41.404960+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Outbound badge provisioning PR opened",
+            "actor": "Marco Tiongson",
+            "pr_url": "https://github.com/trailhq/Graft/pull/581"
+          }
+        ]
       }
     },
     "vercel-labs/agent-skills": {
