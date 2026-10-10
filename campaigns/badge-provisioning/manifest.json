@@ -1,0 +1,1558 @@
+{
+  "campaign": "Gaia Badge Provisioning Campaign #1817",
+  "phase": 1,
+  "generated_at": "2026-10-10T22:53:20.888857+00:00",
+  "last_updated_at": "2026-10-10T22:53:20.888889+00:00",
+  "source_registry_generated_at": "2026-10-08",
+  "serving_mode": "honesty_mode_static",
+  "authenticates_ownership": false,
+  "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
+  "total_unique_repositories": 43,
+  "classification_counts": {
+    "OPTED_OUT": 0,
+    "READY": 35,
+    "APPROVED": 0,
+    "PILOT_CANDIDATE": 3,
+    "DECLINED": 0,
+    "ADOPTED": 0,
+    "ALREADY_ADOPTED": 0,
+    "NO_RESPONSE": 0,
+    "PR_OPEN": 0,
+    "SKIP": 3,
+    "REVIEW": 2
+  },
+  "eligibility_counts": {
+    "PILOT_CANDIDATE": 3,
+    "READY": 35,
+    "REVIEW": 2,
+    "SKIP": 3
+  },
+  "repositories": {
+    "addyosmani/agent-skills": {
+      "repository": "addyosmani/agent-skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "addy-osmani"
+      ],
+      "canonical_skill": {
+        "id": "addy-osmani/agent-skills",
+        "name": "Agent Skills",
+        "rank": 4,
+        "branch": "suite",
+        "file": "agent-skills.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/addy-osmani/agent-skills.svg?repo=addyosmani/agent-skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills",
+      "markdown_preview": "[![Gaia Skill: Agent Skills](https://gaiaskilltree.com/badges/_assets/addy-osmani/agent-skills.svg?repo=addyosmani/agent-skills)](https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "anthropics/skills": {
+      "repository": "anthropics/skills",
+      "eligibility": "SKIP",
+      "status": "SKIP",
+      "decision_reason": "Multi-contributor collision: mapped to handles ['anthropic', 'anthropics']",
+      "contributor_associations": [
+        "anthropic",
+        "anthropics"
+      ],
+      "canonical_skill": null,
+      "badge_url": null,
+      "deep_link": null,
+      "markdown_preview": null,
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "aplaceforallmystuff/daily-patterns-pack": {
+      "repository": "aplaceforallmystuff/daily-patterns-pack",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "aplaceforallmystuff"
+      ],
+      "canonical_skill": {
+        "id": "aplaceforallmystuff/log-to-daily",
+        "name": "Log To Daily",
+        "rank": 2,
+        "branch": "standard",
+        "file": "log-to-daily.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/aplaceforallmystuff/log-to-daily.svg?repo=aplaceforallmystuff/daily-patterns-pack",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/aplaceforallmystuff/log-to-daily",
+      "markdown_preview": "[![Gaia Skill: Log To Daily](https://gaiaskilltree.com/badges/_assets/aplaceforallmystuff/log-to-daily.svg?repo=aplaceforallmystuff/daily-patterns-pack)](https://gaiaskilltree.com/named/#explorer/aplaceforallmystuff/log-to-daily)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "ayghri/i-have-adhd": {
+      "repository": "ayghri/i-have-adhd",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "ayghri"
+      ],
+      "canonical_skill": {
+        "id": "ayghri/i-have-adhd",
+        "name": "I Have ADHD",
+        "rank": 4,
+        "branch": "unique",
+        "file": "i-have-adhd.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/ayghri/i-have-adhd.svg?repo=ayghri/i-have-adhd",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/ayghri/i-have-adhd",
+      "markdown_preview": "[![Gaia Skill: I Have ADHD](https://gaiaskilltree.com/badges/_assets/ayghri/i-have-adhd.svg?repo=ayghri/i-have-adhd)](https://gaiaskilltree.com/named/#explorer/ayghri/i-have-adhd)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill": {
+      "repository": "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "balukosuri"
+      ],
+      "canonical_skill": {
+        "id": "balukosuri/autoresearch-universal",
+        "name": "AutoResearch",
+        "rank": 2,
+        "branch": "standard",
+        "file": "autoresearch-universal.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/balukosuri/autoresearch-universal.svg?repo=balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/balukosuri/autoresearch-universal",
+      "markdown_preview": "[![Gaia Skill: AutoResearch](https://gaiaskilltree.com/badges/_assets/balukosuri/autoresearch-universal.svg?repo=balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill)](https://gaiaskilltree.com/named/#explorer/balukosuri/autoresearch-universal)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "bradautomates/claude-video": {
+      "repository": "bradautomates/claude-video",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "bradautomates"
+      ],
+      "canonical_skill": {
+        "id": "bradautomates/watch",
+        "name": "Watch",
+        "rank": 2,
+        "branch": "standard",
+        "file": "watch.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/bradautomates/watch.svg?repo=bradautomates/claude-video",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/bradautomates/watch",
+      "markdown_preview": "[![Gaia Skill: Watch](https://gaiaskilltree.com/badges/_assets/bradautomates/watch.svg?repo=bradautomates/claude-video)](https://gaiaskilltree.com/named/#explorer/bradautomates/watch)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "browser-use/browser-harness": {
+      "repository": "browser-use/browser-harness",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "browser-use"
+      ],
+      "canonical_skill": {
+        "id": "browser-use/browser-harness",
+        "name": "Browser Harness",
+        "rank": 3,
+        "branch": "standard",
+        "file": "browser-harness.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/browser-use/browser-harness.svg?repo=browser-use/browser-harness",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/browser-use/browser-harness",
+      "markdown_preview": "[![Gaia Skill: Browser Harness](https://gaiaskilltree.com/badges/_assets/browser-use/browser-harness.svg?repo=browser-use/browser-harness)](https://gaiaskilltree.com/named/#explorer/browser-use/browser-harness)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "citrolabs/ego-lite": {
+      "repository": "citrolabs/ego-lite",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "citrolabs"
+      ],
+      "canonical_skill": {
+        "id": "citrolabs/ego-browser",
+        "name": "Ego Browser",
+        "rank": 2,
+        "branch": "standard",
+        "file": "ego-browser.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/citrolabs/ego-browser.svg?repo=citrolabs/ego-lite",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/citrolabs/ego-browser",
+      "markdown_preview": "[![Gaia Skill: Ego Browser](https://gaiaskilltree.com/badges/_assets/citrolabs/ego-browser.svg?repo=citrolabs/ego-lite)](https://gaiaskilltree.com/named/#explorer/citrolabs/ego-browser)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "DietrichGebert/ponytail": {
+      "repository": "DietrichGebert/ponytail",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "dietrichgebert"
+      ],
+      "canonical_skill": {
+        "id": "dietrichgebert/ponytail",
+        "name": "Ponytail",
+        "rank": 4,
+        "branch": "unique",
+        "file": "ponytail.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/dietrichgebert/ponytail.svg?repo=DietrichGebert/ponytail",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/dietrichgebert/ponytail",
+      "markdown_preview": "[![Gaia Skill: Ponytail](https://gaiaskilltree.com/badges/_assets/dietrichgebert/ponytail.svg?repo=DietrichGebert/ponytail)](https://gaiaskilltree.com/named/#explorer/dietrichgebert/ponytail)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "disler/fusion-harness": {
+      "repository": "disler/fusion-harness",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "disler"
+      ],
+      "canonical_skill": {
+        "id": "disler/auto-review",
+        "name": "Auto-Review",
+        "rank": 2,
+        "branch": "standard",
+        "file": "auto-review.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/disler/auto-review.svg?repo=disler/fusion-harness",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/disler/auto-review",
+      "markdown_preview": "[![Gaia Skill: Auto-Review](https://gaiaskilltree.com/badges/_assets/disler/auto-review.svg?repo=disler/fusion-harness)](https://gaiaskilltree.com/named/#explorer/disler/auto-review)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "firecrawl/firecrawl": {
+      "repository": "firecrawl/firecrawl",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "firecrawl"
+      ],
+      "canonical_skill": {
+        "id": "firecrawl/firecrawl-skills",
+        "name": "Firecrawl Skills",
+        "rank": 3,
+        "branch": "suite",
+        "file": "firecrawl-skills.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/firecrawl/firecrawl-skills.svg?repo=firecrawl/firecrawl",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-skills",
+      "markdown_preview": "[![Gaia Skill: Firecrawl Skills](https://gaiaskilltree.com/badges/_assets/firecrawl/firecrawl-skills.svg?repo=firecrawl/firecrawl)](https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-skills)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "firecrawl/skills": {
+      "repository": "firecrawl/skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "firecrawl"
+      ],
+      "canonical_skill": {
+        "id": "firecrawl/firecrawl-build-scrape",
+        "name": "Firecrawl Scrape",
+        "rank": 4,
+        "branch": "unique",
+        "file": "firecrawl-build-scrape.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/firecrawl/firecrawl-build-scrape.svg?repo=firecrawl/skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-scrape",
+      "markdown_preview": "[![Gaia Skill: Firecrawl Scrape](https://gaiaskilltree.com/badges/_assets/firecrawl/firecrawl-build-scrape.svg?repo=firecrawl/skills)](https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-scrape)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "gaia-research/gaia-skill-tree": {
+      "repository": "gaia-research/gaia-skill-tree",
+      "eligibility": "SKIP",
+      "status": "SKIP",
+      "decision_reason": "Multi-contributor collision: mapped to handles ['gaia-research', 'mbtiongson1']",
+      "contributor_associations": [
+        "gaia-research",
+        "mbtiongson1"
+      ],
+      "canonical_skill": null,
+      "badge_url": null,
+      "deep_link": null,
+      "markdown_preview": null,
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "gaia-research/skill-fuse": {
+      "repository": "gaia-research/skill-fuse",
+      "eligibility": "SKIP",
+      "status": "SKIP",
+      "decision_reason": "Gaia-owned internal repository (excluded from external outreach)",
+      "contributor_associations": [
+        "gaia-research"
+      ],
+      "canonical_skill": null,
+      "badge_url": null,
+      "deep_link": null,
+      "markdown_preview": null,
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "main",
+        "readme_path": "README.md",
+        "contribution_policy": "INTERNAL"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "garrytan/gbrain": {
+      "repository": "garrytan/gbrain",
+      "eligibility": "REVIEW",
+      "status": "REVIEW",
+      "decision_reason": "Resolved via suite preference: Preferred suite capstone garrytan/gbrain over cross-repo topSkill garrytan/gstack (4 skills in repo)",
+      "contributor_associations": [
+        "garrytan"
+      ],
+      "canonical_skill": {
+        "id": "garrytan/gbrain",
+        "name": "GBrain",
+        "rank": 4,
+        "branch": "suite",
+        "file": "gbrain.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/garrytan/gbrain.svg?repo=garrytan/gbrain",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/garrytan/gbrain",
+      "markdown_preview": "[![Gaia Skill: GBrain](https://gaiaskilltree.com/badges/_assets/garrytan/gbrain.svg?repo=garrytan/gbrain)](https://gaiaskilltree.com/named/#explorer/garrytan/gbrain)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "garrytan/gstack": {
+      "repository": "garrytan/gstack",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "garrytan"
+      ],
+      "canonical_skill": {
+        "id": "garrytan/gstack",
+        "name": "Founder Mode",
+        "rank": 5,
+        "branch": "suite",
+        "file": "gstack.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/garrytan/gstack.svg?repo=garrytan/gstack",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/garrytan/gstack",
+      "markdown_preview": "[![Gaia Skill: Founder Mode](https://gaiaskilltree.com/badges/_assets/garrytan/gstack.svg?repo=garrytan/gstack)](https://gaiaskilltree.com/named/#explorer/garrytan/gstack)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "google-deepmind/science-skills": {
+      "repository": "google-deepmind/science-skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "google-deepmind"
+      ],
+      "canonical_skill": {
+        "id": "google-deepmind/workflow-skill-creator",
+        "name": "Workflow-Skill-Creator",
+        "rank": 4,
+        "branch": "unique",
+        "file": "workflow-skill-creator.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/google-deepmind/workflow-skill-creator.svg?repo=google-deepmind/science-skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/google-deepmind/workflow-skill-creator",
+      "markdown_preview": "[![Gaia Skill: Workflow-Skill-Creator](https://gaiaskilltree.com/badges/_assets/google-deepmind/workflow-skill-creator.svg?repo=google-deepmind/science-skills)](https://gaiaskilltree.com/named/#explorer/google-deepmind/workflow-skill-creator)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "gsd-build/get-shit-done": {
+      "repository": "gsd-build/get-shit-done",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "gsd-build"
+      ],
+      "canonical_skill": {
+        "id": "gsd-build/get-shit-done",
+        "name": "Get Shit Done",
+        "rank": 4,
+        "branch": "suite",
+        "file": "get-shit-done.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/get-shit-done.svg?repo=gsd-build/get-shit-done",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done",
+      "markdown_preview": "[![Gaia Skill: Get Shit Done](https://gaiaskilltree.com/badges/_assets/gsd-build/get-shit-done.svg?repo=gsd-build/get-shit-done)](https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "heygen-com/hyperframes": {
+      "repository": "heygen-com/hyperframes",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "heygen-com"
+      ],
+      "canonical_skill": {
+        "id": "heygen-com/hyperframes",
+        "name": "HyperFrames",
+        "rank": 4,
+        "branch": "suite",
+        "file": "hyperframes.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/heygen-com/hyperframes.svg?repo=heygen-com/hyperframes",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/heygen-com/hyperframes",
+      "markdown_preview": "[![Gaia Skill: HyperFrames](https://gaiaskilltree.com/badges/_assets/heygen-com/hyperframes.svg?repo=heygen-com/hyperframes)](https://gaiaskilltree.com/named/#explorer/heygen-com/hyperframes)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "Hikari9/auto-office": {
+      "repository": "Hikari9/auto-office",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "hikari9"
+      ],
+      "canonical_skill": {
+        "id": "hikari9/auto-office",
+        "name": "Auto Office",
+        "rank": 3,
+        "branch": "suite",
+        "file": "auto-office.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/hikari9/auto-office.svg?repo=Hikari9/auto-office",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/hikari9/auto-office",
+      "markdown_preview": "[![Gaia Skill: Auto Office](https://gaiaskilltree.com/badges/_assets/hikari9/auto-office.svg?repo=Hikari9/auto-office)](https://gaiaskilltree.com/named/#explorer/hikari9/auto-office)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "latent-spaces/brag": {
+      "repository": "latent-spaces/brag",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "latent-spaces"
+      ],
+      "canonical_skill": {
+        "id": "latent-spaces/brag",
+        "name": "brag",
+        "rank": 3,
+        "branch": "standard",
+        "file": "brag.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/latent-spaces/brag.svg?repo=latent-spaces/brag",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/latent-spaces/brag",
+      "markdown_preview": "[![Gaia Skill: brag](https://gaiaskilltree.com/badges/_assets/latent-spaces/brag.svg?repo=latent-spaces/brag)](https://gaiaskilltree.com/named/#explorer/latent-spaces/brag)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "leonxlnx/taste-skill": {
+      "repository": "leonxlnx/taste-skill",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "leonxlnx"
+      ],
+      "canonical_skill": {
+        "id": "leonxlnx/taste-skill",
+        "name": "taste-skill",
+        "rank": 4,
+        "branch": "suite",
+        "file": "taste-skill.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/leonxlnx/taste-skill.svg?repo=leonxlnx/taste-skill",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/leonxlnx/taste-skill",
+      "markdown_preview": "[![Gaia Skill: taste-skill](https://gaiaskilltree.com/badges/_assets/leonxlnx/taste-skill.svg?repo=leonxlnx/taste-skill)](https://gaiaskilltree.com/named/#explorer/leonxlnx/taste-skill)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "leonxlnx/unlazy": {
+      "repository": "leonxlnx/unlazy",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "leonxlnx"
+      ],
+      "canonical_skill": {
+        "id": "leonxlnx/unlazy",
+        "name": "unlazy",
+        "rank": 3,
+        "branch": "standard",
+        "file": "unlazy.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/leonxlnx/unlazy.svg?repo=leonxlnx/unlazy",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/leonxlnx/unlazy",
+      "markdown_preview": "[![Gaia Skill: unlazy](https://gaiaskilltree.com/badges/_assets/leonxlnx/unlazy.svg?repo=leonxlnx/unlazy)](https://gaiaskilltree.com/named/#explorer/leonxlnx/unlazy)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "Manavarya09/design-extract": {
+      "repository": "Manavarya09/design-extract",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "Manavarya09"
+      ],
+      "canonical_skill": {
+        "id": "Manavarya09/design-extract",
+        "name": "Design Extract",
+        "rank": 2,
+        "branch": "standard",
+        "file": "design-extract.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/Manavarya09/design-extract.svg?repo=Manavarya09/design-extract",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/Manavarya09/design-extract",
+      "markdown_preview": "[![Gaia Skill: Design Extract](https://gaiaskilltree.com/badges/_assets/Manavarya09/design-extract.svg?repo=Manavarya09/design-extract)](https://gaiaskilltree.com/named/#explorer/Manavarya09/design-extract)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "mattpocock/skills": {
+      "repository": "mattpocock/skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "mattpocock"
+      ],
+      "canonical_skill": {
+        "id": "mattpocock/skills",
+        "name": "Matt Pocock Skills",
+        "rank": 5,
+        "branch": "suite",
+        "file": "skills~.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/skills",
+      "markdown_preview": "[![Gaia Skill: Matt Pocock Skills](https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/skills)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "mksglu/context-mode": {
+      "repository": "mksglu/context-mode",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "mksglu"
+      ],
+      "canonical_skill": {
+        "id": "mksglu/context-mode",
+        "name": "Context Mode",
+        "rank": 4,
+        "branch": "unique",
+        "file": "context-mode.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/mksglu/context-mode.svg?repo=mksglu/context-mode",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/mksglu/context-mode",
+      "markdown_preview": "[![Gaia Skill: Context Mode](https://gaiaskilltree.com/badges/_assets/mksglu/context-mode.svg?repo=mksglu/context-mode)](https://gaiaskilltree.com/named/#explorer/mksglu/context-mode)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "mvanhorn/last30days-skill": {
+      "repository": "mvanhorn/last30days-skill",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "mvanhorn"
+      ],
+      "canonical_skill": {
+        "id": "mvanhorn/last30days",
+        "name": "Last 30 Days Web Research",
+        "rank": 4,
+        "branch": "unique",
+        "file": "last30days.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/mvanhorn/last30days.svg?repo=mvanhorn/last30days-skill",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/mvanhorn/last30days",
+      "markdown_preview": "[![Gaia Skill: Last 30 Days Web Research](https://gaiaskilltree.com/badges/_assets/mvanhorn/last30days.svg?repo=mvanhorn/last30days-skill)](https://gaiaskilltree.com/named/#explorer/mvanhorn/last30days)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "nateherkai/scroll-craft": {
+      "repository": "nateherkai/scroll-craft",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "nateherkai"
+      ],
+      "canonical_skill": {
+        "id": "nateherkai/scroll-craft",
+        "name": "Scroll Craft",
+        "rank": 3,
+        "branch": "standard",
+        "file": "scroll-craft.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/nateherkai/scroll-craft.svg?repo=nateherkai/scroll-craft",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/nateherkai/scroll-craft",
+      "markdown_preview": "[![Gaia Skill: Scroll Craft](https://gaiaskilltree.com/badges/_assets/nateherkai/scroll-craft.svg?repo=nateherkai/scroll-craft)](https://gaiaskilltree.com/named/#explorer/nateherkai/scroll-craft)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "nextlevelbuilder/ui-ux-pro-max-skill": {
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "nextlevelbuilder"
+      ],
+      "canonical_skill": {
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "name": "UI/UX Pro Max",
+        "rank": 4,
+        "branch": "unique",
+        "file": "ui-ux-pro-max.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/nextlevelbuilder/ui-ux-pro-max.svg?repo=nextlevelbuilder/ui-ux-pro-max-skill",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/nextlevelbuilder/ui-ux-pro-max",
+      "markdown_preview": "[![Gaia Skill: UI/UX Pro Max](https://gaiaskilltree.com/badges/_assets/nextlevelbuilder/ui-ux-pro-max.svg?repo=nextlevelbuilder/ui-ux-pro-max-skill)](https://gaiaskilltree.com/named/#explorer/nextlevelbuilder/ui-ux-pro-max)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "nexu-io/open-design": {
+      "repository": "nexu-io/open-design",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "nexu-io"
+      ],
+      "canonical_skill": {
+        "id": "nexu-io/open-design",
+        "name": "Open Design",
+        "rank": 2,
+        "branch": "standard",
+        "file": "open-design.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/nexu-io/open-design.svg?repo=nexu-io/open-design",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/nexu-io/open-design",
+      "markdown_preview": "[![Gaia Skill: Open Design](https://gaiaskilltree.com/badges/_assets/nexu-io/open-design.svg?repo=nexu-io/open-design)](https://gaiaskilltree.com/named/#explorer/nexu-io/open-design)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "obra/superpowers": {
+      "repository": "obra/superpowers",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "obra"
+      ],
+      "canonical_skill": {
+        "id": "obra/brainstorming",
+        "name": "Brainstorming",
+        "rank": 4,
+        "branch": "unique",
+        "file": "brainstorming.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/obra/brainstorming.svg?repo=obra/superpowers",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/obra/brainstorming",
+      "markdown_preview": "[![Gaia Skill: Brainstorming](https://gaiaskilltree.com/badges/_assets/obra/brainstorming.svg?repo=obra/superpowers)](https://gaiaskilltree.com/named/#explorer/obra/brainstorming)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "open-gsd/gsd-core": {
+      "repository": "open-gsd/gsd-core",
+      "eligibility": "REVIEW",
+      "status": "REVIEW",
+      "decision_reason": "AMBIGUOUS: Multiple skills (5) and contributor topSkill gsd-build/get-shit-done belongs to another repo (suites found: [])",
+      "contributor_associations": [
+        "gsd-build"
+      ],
+      "canonical_skill": null,
+      "badge_url": null,
+      "deep_link": null,
+      "markdown_preview": null,
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "oso95/scroll-world": {
+      "repository": "oso95/scroll-world",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "oso95"
+      ],
+      "canonical_skill": {
+        "id": "oso95/scroll-world",
+        "name": "Scroll World",
+        "rank": 3,
+        "branch": "standard",
+        "file": "scroll-world.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/oso95/scroll-world.svg?repo=oso95/scroll-world",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/oso95/scroll-world",
+      "markdown_preview": "[![Gaia Skill: Scroll World](https://gaiaskilltree.com/badges/_assets/oso95/scroll-world.svg?repo=oso95/scroll-world)](https://gaiaskilltree.com/named/#explorer/oso95/scroll-world)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "Panniantong/Agent-Reach": {
+      "repository": "Panniantong/Agent-Reach",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "panniantong"
+      ],
+      "canonical_skill": {
+        "id": "panniantong/agent-reach",
+        "name": "Agent Reach",
+        "rank": 3,
+        "branch": "standard",
+        "file": "agent-reach.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/panniantong/agent-reach.svg?repo=Panniantong/Agent-Reach",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/panniantong/agent-reach",
+      "markdown_preview": "[![Gaia Skill: Agent Reach](https://gaiaskilltree.com/badges/_assets/panniantong/agent-reach.svg?repo=Panniantong/Agent-Reach)](https://gaiaskilltree.com/named/#explorer/panniantong/agent-reach)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "pbakaus/impeccable": {
+      "repository": "pbakaus/impeccable",
+      "eligibility": "PILOT_CANDIDATE",
+      "status": "PILOT_CANDIDATE",
+      "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
+      "contributor_associations": [
+        "pbakaus"
+      ],
+      "canonical_skill": {
+        "id": "pbakaus/impeccable",
+        "name": "Impeccable",
+        "rank": 4,
+        "branch": "unique",
+        "file": "impeccable.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/pbakaus/impeccable.svg?repo=pbakaus/impeccable",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable",
+      "markdown_preview": "[![Gaia Skill: Impeccable](https://gaiaskilltree.com/badges/_assets/pbakaus/impeccable.svg?repo=pbakaus/impeccable)](https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "main",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "ruvnet/ruflo": {
+      "repository": "ruvnet/ruflo",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "contributor_associations": [
+        "ruvnet"
+      ],
+      "canonical_skill": {
+        "id": "ruvnet/ruflo",
+        "name": "Ruflo",
+        "rank": 4,
+        "branch": "suite",
+        "file": "ruflo.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/ruvnet/ruflo.svg?repo=ruvnet/ruflo",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/ruvnet/ruflo",
+      "markdown_preview": "[![Gaia Skill: Ruflo](https://gaiaskilltree.com/badges/_assets/ruvnet/ruflo.svg?repo=ruvnet/ruflo)](https://gaiaskilltree.com/named/#explorer/ruvnet/ruflo)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "safishamsi/graphify": {
+      "repository": "safishamsi/graphify",
+      "eligibility": "PILOT_CANDIDATE",
+      "status": "PILOT_CANDIDATE",
+      "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
+      "contributor_associations": [
+        "safishamsi"
+      ],
+      "canonical_skill": {
+        "id": "safishamsi/graphify",
+        "name": "Graphify",
+        "rank": 5,
+        "branch": "unique",
+        "file": "graphify.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
+      "markdown_preview": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "v8",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "santifer/career-ops": {
+      "repository": "santifer/career-ops",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "santifer"
+      ],
+      "canonical_skill": {
+        "id": "santifer/career-ops",
+        "name": "Career-Ops",
+        "rank": 2,
+        "branch": "standard",
+        "file": "career-ops.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/santifer/career-ops.svg?repo=santifer/career-ops",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/santifer/career-ops",
+      "markdown_preview": "[![Gaia Skill: Career-Ops](https://gaiaskilltree.com/badges/_assets/santifer/career-ops.svg?repo=santifer/career-ops)](https://gaiaskilltree.com/named/#explorer/santifer/career-ops)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "spring-ai-alibaba/examples": {
+      "repository": "spring-ai-alibaba/examples",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "spring-ai"
+      ],
+      "canonical_skill": {
+        "id": "spring-ai/readme-generate",
+        "name": "REST API README Generator",
+        "rank": 2,
+        "branch": "standard",
+        "file": "readme-generate.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/spring-ai/readme-generate.svg?repo=spring-ai-alibaba/examples",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/spring-ai/readme-generate",
+      "markdown_preview": "[![Gaia Skill: REST API README Generator](https://gaiaskilltree.com/badges/_assets/spring-ai/readme-generate.svg?repo=spring-ai-alibaba/examples)](https://gaiaskilltree.com/named/#explorer/spring-ai/readme-generate)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "trailhq/Graft": {
+      "repository": "trailhq/Graft",
+      "eligibility": "PILOT_CANDIDATE",
+      "status": "PILOT_CANDIDATE",
+      "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
+      "contributor_associations": [
+        "trailhq"
+      ],
+      "canonical_skill": {
+        "id": "trailhq/graft",
+        "name": "graft",
+        "rank": 4,
+        "branch": "unique",
+        "file": "graft.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/trailhq/graft.svg?repo=trailhq/Graft",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/trailhq/graft",
+      "markdown_preview": "[![Gaia Skill: graft](https://gaiaskilltree.com/badges/_assets/trailhq/graft.svg?repo=trailhq/Graft)](https://gaiaskilltree.com/named/#explorer/trailhq/graft)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "main",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "vercel-labs/agent-skills": {
+      "repository": "vercel-labs/agent-skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "vercel-labs"
+      ],
+      "canonical_skill": {
+        "id": "vercel-labs/vercel-react-best-practices",
+        "name": "Vercel React Best Practices",
+        "rank": 4,
+        "branch": "unique",
+        "file": "vercel-react-best-practices.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/vercel-labs/vercel-react-best-practices.svg?repo=vercel-labs/agent-skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/vercel-labs/vercel-react-best-practices",
+      "markdown_preview": "[![Gaia Skill: Vercel React Best Practices](https://gaiaskilltree.com/badges/_assets/vercel-labs/vercel-react-best-practices.svg?repo=vercel-labs/agent-skills)](https://gaiaskilltree.com/named/#explorer/vercel-labs/vercel-react-best-practices)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "vercel-labs/skills": {
+      "repository": "vercel-labs/skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "vercel"
+      ],
+      "canonical_skill": {
+        "id": "vercel/find-skills",
+        "name": "Find Skills",
+        "rank": 2,
+        "branch": "standard",
+        "file": "find-skills.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/vercel/find-skills.svg?repo=vercel-labs/skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/vercel/find-skills",
+      "markdown_preview": "[![Gaia Skill: Find Skills](https://gaiaskilltree.com/badges/_assets/vercel/find-skills.svg?repo=vercel-labs/skills)](https://gaiaskilltree.com/named/#explorer/vercel/find-skills)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    },
+    "yylo-dev/yylo-skills": {
+      "repository": "yylo-dev/yylo-skills",
+      "eligibility": "READY",
+      "status": "READY",
+      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "contributor_associations": [
+        "yylo-dev"
+      ],
+      "canonical_skill": {
+        "id": "yylo-dev/ledger-tasks-yylo",
+        "name": "Ledger Tasks (yylo)",
+        "rank": 2,
+        "branch": "standard",
+        "file": "ledger-tasks-yylo.svg"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/yylo-dev/ledger-tasks-yylo.svg?repo=yylo-dev/yylo-skills",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/yylo-dev/ledger-tasks-yylo",
+      "markdown_preview": "[![Gaia Skill: Ledger Tasks (yylo)](https://gaiaskilltree.com/badges/_assets/yylo-dev/ledger-tasks-yylo.svg?repo=yylo-dev/yylo-skills)](https://gaiaskilltree.com/named/#explorer/yylo-dev/ledger-tasks-yylo)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "UNKNOWN",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": []
+      }
+    }
+  }
+}
