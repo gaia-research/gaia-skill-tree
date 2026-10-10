@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T00:25:53Z",
+  "generatedAt": "2026-10-10T22:58:31Z",
   "skills": [
     {
       "id": "hikari9/office-submit",
@@ -76,84 +76,6 @@
       "ascendedAt": "2026-09-11T17:24:57Z",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "trailhq/graft",
-      "name": "graft",
-      "level": "4★",
-      "contributor": "trailhq",
-      "trustMagnitude": 145.16,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-09-10T15:54:27Z",
-      "_links": {
-        "self": "/api/v1/skills/trailhq/graft.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-09T20:31:09Z",
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "contributor": "leonxlnx",
-      "trustMagnitude": 91.46,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-09T20:31:07Z",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-09T20:31:03Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-09-09T20:31:02Z",
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "aplaceforallmystuff/log-to-daily",
-      "name": "Log To Daily",
-      "level": "2★",
-      "contributor": "aplaceforallmystuff",
-      "trustMagnitude": 22.67,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-09-09T20:31:01Z",
-      "_links": {
-        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
       },
       "previousLevel": "1★"
     }
