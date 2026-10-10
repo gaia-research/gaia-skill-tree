@@ -66,6 +66,7 @@ LEGAL_STATUSES = {
     "ALREADY_ADOPTED",
     "DECLINED",
     "OPTED_OUT",
+    "NO_RESPONSE",
 }
 
 OUTBOUND_STATES = {
@@ -75,6 +76,7 @@ OUTBOUND_STATES = {
     "ALREADY_ADOPTED",
     "DECLINED",
     "OPTED_OUT",
+    "NO_RESPONSE",
 }
 
 TERMINAL_STATES = {
@@ -82,6 +84,7 @@ TERMINAL_STATES = {
     "ALREADY_ADOPTED",
     "DECLINED",
     "OPTED_OUT",
+    "NO_RESPONSE",
 }
 
 
@@ -227,6 +230,9 @@ def plan_campaign(
             })
 
     existing_repos_state = existing_manifest.get("repositories", {})
+    existing_lookup: dict[str, dict[str, Any]] = {
+        k.strip().lower(): v for k, v in existing_repos_state.items() if isinstance(v, dict)
+    }
 
     manifest_repos: dict[str, Any] = {}
     classification_counts: dict[str, int] = {s: 0 for s in LEGAL_STATUSES}
@@ -239,7 +245,7 @@ def plan_campaign(
 
     for norm_key, entries in sorted(repo_groups.items()):
         canonical_repo_name = entries[0]["repo"]
-        prev_state = existing_repos_state.get(canonical_repo_name) or existing_repos_state.get(norm_key, {})
+        prev_state = existing_lookup.get(norm_key, {})
         prev_status = prev_state.get("status")
         prev_prov = prev_state.get("provisioning", {})
 
@@ -438,6 +444,7 @@ def plan_campaign(
         "campaign": "Gaia Badge Provisioning Campaign #1817",
         "phase": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "last_updated_at": existing_manifest.get("last_updated_at") or datetime.now(timezone.utc).isoformat(),
         "source_registry_generated_at": registry_data.get("generatedAt", "UNKNOWN"),
         "serving_mode": "honesty_mode_static" if honesty_mode else "worker_validated",
         "authenticates_ownership": False if honesty_mode else True,

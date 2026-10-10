@@ -461,7 +461,7 @@ def test_record_outcome_duplicate_dispatch_prevented():
 
 
 def test_record_outcome_terminal_states_locked():
-    """Verify terminal states (ADOPTED, DECLINED, OPTED_OUT) cannot be transitioned."""
+    """Verify terminal states (ADOPTED, DECLINED, OPTED_OUT, NO_RESPONSE) cannot be transitioned."""
     reg = load_registry(DEFAULT_REGISTRY)
     manifest = plan_campaign(reg, {})
 
@@ -479,3 +479,30 @@ def test_record_outcome_terminal_states_locked():
     record_outcome(manifest_data=manifest, repo="addyosmani/agent-skills", status="OPTED_OUT")
     with pytest.raises(ValueError, match="is in terminal state 'OPTED_OUT'"):
         record_outcome(manifest_data=manifest, repo="addyosmani/agent-skills", status="APPROVED", approved_by="@founder")
+
+    # Mark NO_RESPONSE
+    record_outcome(manifest_data=manifest, repo="safishamsi/graphify", status="NO_RESPONSE", notes="Unmerged after timeout")
+    with pytest.raises(ValueError, match="is in terminal state 'NO_RESPONSE'"):
+        record_outcome(manifest_data=manifest, repo="safishamsi/graphify", status="PR_OPEN", pr_url="https://github.com/safishamsi/graphify/pull/12")
+
+
+def test_case_insensitive_lookup_preserves_state():
+    """Verify that replanning preserves state even if casing differs between registry and manifest."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    existing_manifest = {
+        "repositories": {
+            "TRAILHQ/GRAFT": {
+                "status": "PR_OPEN",
+                "provisioning": {
+                    "approved": True,
+                    "attempts": 1,
+                    "pr_url": "https://github.com/trailhq/graft/pull/99",
+                },
+            }
+        }
+    }
+    manifest = plan_campaign(reg, existing_manifest)
+    graft_record = manifest["repositories"]["trailhq/Graft"]
+    assert graft_record["status"] == "PR_OPEN"
+    assert graft_record["provisioning"]["pr_url"] == "https://github.com/trailhq/graft/pull/99"
+

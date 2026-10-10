@@ -1,23 +1,25 @@
 {
   "campaign": "Gaia Badge Provisioning Campaign #1817",
   "phase": 1,
-  "generated_at": "2026-10-10T22:45:35.441570+00:00",
+  "generated_at": "2026-10-10T22:53:20.888857+00:00",
+  "last_updated_at": "2026-10-10T22:53:20.888889+00:00",
   "source_registry_generated_at": "2026-10-08",
   "serving_mode": "honesty_mode_static",
   "authenticates_ownership": false,
   "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
   "total_unique_repositories": 43,
   "classification_counts": {
-    "REVIEW": 2,
-    "DECLINED": 0,
-    "PILOT_CANDIDATE": 3,
     "OPTED_OUT": 0,
     "READY": 35,
     "APPROVED": 0,
-    "ALREADY_ADOPTED": 0,
+    "PILOT_CANDIDATE": 3,
+    "DECLINED": 0,
     "ADOPTED": 0,
+    "ALREADY_ADOPTED": 0,
+    "NO_RESPONSE": 0,
+    "PR_OPEN": 0,
     "SKIP": 3,
-    "PR_OPEN": 0
+    "REVIEW": 2
   },
   "eligibility_counts": {
     "PILOT_CANDIDATE": 3,
