@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-10T22:58:31Z",
+  "generatedAt": "2026-10-11T00:30:59Z",
   "firstRun": false,
   "skills": [
     {
@@ -52,9 +52,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
-      "trendingScore": 47.46,
-      "tmDelta": 94.92,
-      "new": true,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
       }
@@ -66,9 +66,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
-      "trendingScore": 47.46,
-      "tmDelta": 94.92,
-      "new": true,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       }
@@ -80,9 +80,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 94.92,
       "overallTrustGrade": "B",
-      "trendingScore": 47.46,
-      "tmDelta": 94.92,
-      "new": true,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       }

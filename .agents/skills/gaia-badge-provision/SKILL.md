@@ -18,10 +18,18 @@ upstream open-source repositories (Campaign #1817).
 
 ## Non-Negotiable Invariants
 
-1. **One repo $\rightarrow$ one PR $\rightarrow$ one canonical Named Skill badge $\rightarrow$ one exact deep link**.
-   - Never provision multiple skill badges to one repo.
+1. **One repo $\rightarrow$ one approved outreach attempt $\rightarrow$ one PR $\rightarrow$ one or more eligible Named Skill badges**.
+   - Enumerate the full eligible skill set from `skillsByRepo[repo]`.
+   - Resolve each skill against contributor metadata and deduplicate by Named Skill ID.
+   - Verify rank, attribution, SVG asset, and skill deep link.
+   - Distinguish separate Named Skills from alternate badge styles: seals are alternative presentations of recognition, not separate earned skills.
    - Never provision handle, rank-word, or total-skill-count badges outbound.
-   - Never install entire badge stacks.
+   - README presentation adapts to eligible skill count:
+     - **1 skill**: One Named Skill badge.
+     - **2–4 skills**: Compact row of distinct skill badges.
+     - **5–8 skills**: Small labeled badge section (`### Gaia Skill Tree Recognition`).
+     - **9+ skills**: Concise curated display and link to the full recognized collection (the outreach message notes displayed badges are a curated selection).
+   - Store exact offered skill IDs and chosen badge presentation in the campaign manifest and ledger history.
 2. **Explicit Human Gate**:
    - Neither `PILOT_CANDIDATE` nor `READY` in the campaign manifest authorizes outbound dispatch.
    - Outbound dispatch is strictly human-gated: every target repository must be explicitly authorized by human maintainers (recorded via `--status APPROVED` or `--approved-by`) before any branch, fork, or PR is created.

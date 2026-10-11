@@ -71,7 +71,22 @@ BASE_URL = "https://gaiaskilltree.com"
 PILOT_CANDIDATE_REPOS = {
     "pbakaus/impeccable",
     "safishamsi/graphify",
+    "graphify-labs/graphify",
     "trailhq/graft",
+}
+
+# Known upstream repository migrations (old_repo -> new_repo)
+# Used to preserve campaign history and state when a repository moves or renames.
+REPO_MIGRATIONS = {
+    "safishamsi/graphify": "Graphify-Labs/graphify",
+}
+
+PRESENTATION_TIERS = {
+    "SINGLE",
+    "COMPACT_ROW",
+    "LABELED_SECTION",
+    "CURATED_COLLECTION",
+    "NONE",
 }
 
 LEGAL_STATUSES = {
@@ -195,30 +210,204 @@ def derive_canonical_skill(
     if not skills_in_repo:
         return None, "NO_SKILLS", "No skills mapped to this repository"
 
-    if len(skills_in_repo) == 1:
-        sid = skills_in_repo[0]
+    # Deduplicate while preserving order
+    unique_skills_in_repo = list(dict.fromkeys(skills_in_repo))
+
+    if len(unique_skills_in_repo) == 1:
+        sid = unique_skills_in_repo[0]
         skill_obj = named_dict.get(sid)
         if skill_obj:
             return skill_obj, "SINGLE_SKILL", "Sole skill mapped to repository"
         return None, "MISSING_SKILL_DATA", f"Skill {sid} metadata missing"
 
     # Multiple skills in repo
-    if top_skill_id in skills_in_repo:
+    if top_skill_id in unique_skills_in_repo:
         skill_obj = named_dict.get(top_skill_id)
         if skill_obj:
-            return skill_obj, "TOP_SKILL_MATCH", f"Matches contributor topSkill ({len(skills_in_repo)} skills in repo)"
+            return skill_obj, "TOP_SKILL_MATCH", f"Matches contributor topSkill ({len(unique_skills_in_repo)} skills in repo)"
         return None, "MISSING_SKILL_DATA", f"Top skill {top_skill_id} metadata missing"
 
     # topSkill is in another repository. Check if there is a suite capstone in this repo.
-    suites = [sid for sid in skills_in_repo if named_dict.get(sid, {}).get("branch") == "suite"]
+    suites = [sid for sid in unique_skills_in_repo if named_dict.get(sid, {}).get("branch") == "suite"]
     if len(suites) == 1:
         capstone_id = suites[0]
         skill_obj = named_dict.get(capstone_id)
         if skill_obj:
             return skill_obj, "SUITE_CAPSTONE_PREFERENCE", (
                 f"Preferred suite capstone {capstone_id} over cross-repo topSkill {top_skill_id} "
-                f"({len(skills_in_repo)} skills in repo)"
+                f"({len(unique_skills_in_repo)} skills in repo)"
             )
+
+    return None, "AMBIGUOUS", (
+        f"Multiple skills ({len(unique_skills_in_repo)}) and contributor topSkill {top_skill_id} "
+        f"belongs to another repo (suites found: {suites})"
+    )
+
+
+def resolve_eligible_skills(
+    handle: str,
+    repo: str,
+    cinfo: dict[str, Any],
+    named_dict: dict[str, dict[str, Any]],
+    honesty_mode: bool,
+    assets_root: Path | None = None,
+    check_assets: bool = True,
+) -> list[dict[str, Any]]:
+    """Resolves and validates all distinct eligible Named Skills for a repository.
+
+    Deduplicates by Named Skill ID and verifies SVG asset existence.
+    Distinguishes separate Named Skills from alternate badge styles (e.g. seals).
+    """
+    if assets_root is None:
+        assets_root = REPO_ROOT / "docs" / "badges" / "_assets"
+
+    raw_skill_ids = cinfo.get("skillsByRepo", {}).get(repo, [])
+    # Deduplicate while preserving original order
+    seen_ids: set[str] = set()
+    unique_ids: list[str] = []
+    for sid in raw_skill_ids:
+        if sid not in seen_ids:
+            seen_ids.add(sid)
+            unique_ids.append(sid)
+
+    eligible: list[dict[str, Any]] = []
+    for sid in unique_ids:
+        sobj = named_dict.get(sid)
+        if not sobj:
+            # Metadata missing for mapped skill
+            continue
+
+        skill_name = sobj.get("name", sid)
+        skill_rank = sobj.get("rank", 0)
+        skill_branch = sobj.get("branch", "standard")
+        skill_file = sobj.get("file", f"{sid.split('/')[-1]}.svg")
+
+        # Verify asset exists if assets_root is provided and check_assets is enabled
+        if check_assets and assets_root:
+            asset_path = assets_root / handle / skill_file
+            if not asset_path.exists():
+                raise FileNotFoundError(
+                    f"Missing SVG badge asset for skill '{sid}': {asset_path}"
+                )
+
+        badge_url = generate_badge_url(handle, skill_file, repo, honesty_mode)
+        deep_link = f"{BASE_URL}/named/#explorer/{sid}"
+        markdown = f"[![Gaia Skill: {skill_name}]({badge_url})]({deep_link})"
+        html = f'<a href="{deep_link}"><img src="{badge_url}" alt="Gaia Skill: {skill_name}" /></a>'
+
+        eligible.append({
+            "id": sid,
+            "name": skill_name,
+            "rank": skill_rank,
+            "branch": skill_branch,
+            "file": skill_file,
+            "badge_url": badge_url,
+            "deep_link": deep_link,
+            "markdown": markdown,
+            "html": html,
+        })
+
+    return eligible
+
+
+def determine_badge_presentation(
+    eligible_skills: list[dict[str, Any]],
+    canonical_skill: dict[str, Any] | None,
+    handle: str,
+) -> dict[str, Any]:
+    """Applies canonical README presentation rules:
+
+    - 1: Single Named Skill badge
+    - 2–4: Compact row of distinct skill badges
+    - 5–8: Small labeled badge section
+    - 9+: Concise curated display and link to full recognized collection
+    """
+    count = len(eligible_skills)
+    if count == 0:
+        return {
+            "tier": "NONE",
+            "eligible_count": 0,
+            "displayed_count": 0,
+            "displayed_skill_ids": [],
+            "offered_skill_ids": [],
+            "is_curated_selection": False,
+            "collection_link": None,
+            "markdown": "",
+            "html": "",
+        }
+
+    offered_ids = [s["id"] for s in eligible_skills]
+
+    if count == 1:
+        item = eligible_skills[0]
+        return {
+            "tier": "SINGLE",
+            "eligible_count": 1,
+            "displayed_count": 1,
+            "displayed_skill_ids": [item["id"]],
+            "offered_skill_ids": offered_ids,
+            "is_curated_selection": False,
+            "collection_link": item["deep_link"],
+            "markdown": item["markdown"],
+            "html": item["html"],
+        }
+
+    if 2 <= count <= 4:
+        return {
+            "tier": "COMPACT_ROW",
+            "eligible_count": count,
+            "displayed_count": count,
+            "displayed_skill_ids": offered_ids,
+            "offered_skill_ids": offered_ids,
+            "is_curated_selection": False,
+            "collection_link": f"{BASE_URL}/u/{handle}/",
+            "markdown": " ".join(s["markdown"] for s in eligible_skills),
+            "html": "\n".join(s["html"] for s in eligible_skills),
+        }
+
+    if 5 <= count <= 8:
+        md_text = "### Gaia Skill Tree Recognition\n\n" + " ".join(s["markdown"] for s in eligible_skills)
+        html_text = (
+            '<div class="gaia-badge-section">\n'
+            "  <p><strong>Gaia Skill Tree Recognition:</strong></p>\n  "
+            + "\n  ".join(s["html"] for s in eligible_skills)
+            + "\n</div>"
+        )
+        return {
+            "tier": "LABELED_SECTION",
+            "eligible_count": count,
+            "displayed_count": count,
+            "displayed_skill_ids": offered_ids,
+            "offered_skill_ids": offered_ids,
+            "is_curated_selection": False,
+            "collection_link": f"{BASE_URL}/u/{handle}/",
+            "markdown": md_text,
+            "html": html_text,
+        }
+
+    # count >= 9: Curated display and link to full collection
+    canonical_id = canonical_skill["id"] if canonical_skill else eligible_skills[0]["id"]
+    canonical_item = next((s for s in eligible_skills if s["id"] == canonical_id), eligible_skills[0])
+    collection_link = f"{BASE_URL}/u/{handle}/"
+    md_text = (
+        f"{canonical_item['markdown']}\n\n"
+        f"[Explore all {count} recognized skills in Gaia Skill Tree]({collection_link})"
+    )
+    html_text = (
+        f"{canonical_item['html']}\n"
+        f'<p><a href="{collection_link}">Explore all {count} recognized skills in Gaia Skill Tree</a></p>'
+    )
+    return {
+        "tier": "CURATED_COLLECTION",
+        "eligible_count": count,
+        "displayed_count": 1,
+        "displayed_skill_ids": [canonical_item["id"]],
+        "offered_skill_ids": offered_ids,
+        "is_curated_selection": True,
+        "collection_link": collection_link,
+        "markdown": md_text,
+        "html": html_text,
+    }
 
     return None, "AMBIGUOUS", (
         f"Multiple skills ({len(skills_in_repo)}) and contributor topSkill {top_skill_id} "
@@ -230,6 +419,8 @@ def plan_campaign(
     registry_data: dict[str, Any],
     existing_manifest: dict[str, Any],
     badges_index_path: Path = DEFAULT_BADGES_INDEX,
+    assets_root: Path | None = None,
+    check_assets: bool = True,
 ) -> dict[str, Any]:
     """Deterministically generates the campaign manifest, preserving existing outbound state."""
     honesty_mode = detect_honesty_mode(badges_index_path)
@@ -265,6 +456,11 @@ def plan_campaign(
     for norm_key, entries in sorted(repo_groups.items()):
         canonical_repo_name = entries[0]["repo"]
         prev_state = existing_lookup.get(norm_key, {})
+        if not prev_state:
+            for old_repo, new_repo in REPO_MIGRATIONS.items():
+                if new_repo.strip().lower() == norm_key and old_repo.strip().lower() in existing_lookup:
+                    prev_state = existing_lookup[old_repo.strip().lower()]
+                    break
         prev_status = prev_state.get("status")
         prev_prov = prev_state.get("provisioning", {})
 
@@ -301,7 +497,7 @@ def plan_campaign(
         # Preflight branch overrides for known pilots if not already set
         if norm_key == "pbakaus/impeccable" and preflight["default_branch"] == "UNKNOWN":
             preflight["default_branch"] = "main"
-        elif norm_key == "safishamsi/graphify" and preflight["default_branch"] == "UNKNOWN":
+        elif norm_key in ("safishamsi/graphify", "graphify-labs/graphify") and preflight["default_branch"] == "UNKNOWN":
             preflight["default_branch"] = "v8"
         elif norm_key == "trailhq/graft" and preflight["default_branch"] == "UNKNOWN":
             preflight["default_branch"] = "main"
@@ -326,6 +522,10 @@ def plan_campaign(
                 "decision_reason": decision_reason,
                 "contributor_associations": handles,
                 "canonical_skill": None,
+                "eligible_skills": [],
+                "eligible_skill_count": 0,
+                "offered_skills": [],
+                "badge_presentation": None,
                 "badge_url": None,
                 "deep_link": None,
                 "markdown_preview": None,
@@ -362,6 +562,10 @@ def plan_campaign(
                 "decision_reason": decision_reason,
                 "contributor_associations": [handle],
                 "canonical_skill": None,
+                "eligible_skills": [],
+                "eligible_skill_count": 0,
+                "offered_skills": [],
+                "badge_presentation": None,
                 "badge_url": None,
                 "deep_link": None,
                 "markdown_preview": None,
@@ -372,8 +576,17 @@ def plan_campaign(
             classification_counts[status] += 1
             continue
 
-        # Derive canonical skill
+        # Derive canonical skill and eligible skills
         skill_obj, strategy, note = derive_canonical_skill(handle, repo, cinfo, named_dict)
+        eligible_skills = resolve_eligible_skills(
+            handle,
+            repo,
+            cinfo,
+            named_dict,
+            honesty_mode,
+            assets_root=assets_root,
+            check_assets=check_assets,
+        )
 
         # Case 3: No skill / Ambiguous skill
         if skill_obj is None:
@@ -387,6 +600,8 @@ def plan_campaign(
                 status = computed_eligibility
                 decision_reason = f"{strategy}: {note}"
 
+            badge_presentation = determine_badge_presentation(eligible_skills, None, handle)
+
             repo_record = {
                 "repository": repo,
                 "eligibility": computed_eligibility,
@@ -394,6 +609,10 @@ def plan_campaign(
                 "decision_reason": decision_reason,
                 "contributor_associations": [handle],
                 "canonical_skill": None,
+                "eligible_skills": eligible_skills,
+                "eligible_skill_count": len(eligible_skills),
+                "offered_skills": badge_presentation["offered_skill_ids"],
+                "badge_presentation": badge_presentation,
                 "badge_url": None,
                 "deep_link": None,
                 "markdown_preview": None,
@@ -410,13 +629,23 @@ def plan_campaign(
         skill_file = skill_obj.get("file", f"{skill_id.split('/')[-1]}.svg")
         skill_rank = skill_obj.get("rank", 0)
 
+        canonical_skill = {
+            "id": skill_id,
+            "name": skill_name,
+            "rank": skill_rank,
+            "branch": skill_obj.get("branch", "standard"),
+            "file": skill_file,
+        }
+
+        badge_presentation = determine_badge_presentation(eligible_skills, canonical_skill, handle)
+
         badge_url = generate_badge_url(handle, skill_file, repo, honesty_mode)
         deep_link = f"{BASE_URL}/named/#explorer/{skill_id}"
-        md_preview = f"[![Gaia Skill: {skill_name}]({badge_url})]({deep_link})"
+        md_preview = badge_presentation["markdown"]
 
         if strategy == "SUITE_CAPSTONE_PREFERENCE":
             computed_eligibility = "REVIEW"
-        elif norm_key in PILOT_CANDIDATE_REPOS:
+        elif norm_key in {p.lower() for p in PILOT_CANDIDATE_REPOS}:
             computed_eligibility = "PILOT_CANDIDATE"
         else:
             computed_eligibility = "READY"
@@ -436,19 +665,20 @@ def plan_campaign(
             status = "READY"
             decision_reason = f"Deterministic resolution ({strategy})"
 
+        provisioning["offered_skills"] = prev_prov.get("offered_skills") or badge_presentation["offered_skill_ids"]
+        provisioning["chosen_presentation"] = prev_prov.get("chosen_presentation") or badge_presentation["tier"]
+
         repo_record = {
             "repository": repo,
             "eligibility": computed_eligibility,
             "status": status,
             "decision_reason": decision_reason,
             "contributor_associations": [handle],
-            "canonical_skill": {
-                "id": skill_id,
-                "name": skill_name,
-                "rank": skill_rank,
-                "branch": skill_obj.get("branch", "standard"),
-                "file": skill_file,
-            },
+            "canonical_skill": canonical_skill,
+            "eligible_skills": eligible_skills,
+            "eligible_skill_count": len(eligible_skills),
+            "offered_skills": badge_presentation["offered_skill_ids"],
+            "badge_presentation": badge_presentation,
             "badge_url": badge_url,
             "deep_link": deep_link,
             "markdown_preview": md_preview,
@@ -505,6 +735,17 @@ def record_outcome(
             break
 
     if target_repo is None:
+        for old_repo, new_repo in REPO_MIGRATIONS.items():
+            if old_repo.strip().lower() == repo.strip().lower():
+                for k, v in repos_dict.items():
+                    if k.strip().lower() == new_repo.strip().lower():
+                        target_repo = v
+                        target_key = k
+                        break
+                if target_repo is not None:
+                    break
+
+    if target_repo is None:
         raise KeyError(f"Repository '{repo}' not found in campaign manifest.")
 
     target_status = status.strip().upper()
@@ -551,6 +792,14 @@ def record_outcome(
 
     now_iso = datetime.now(timezone.utc).isoformat()
 
+    offered_skills = target_repo.get("offered_skills") or []
+    presentation_tier = target_repo.get("badge_presentation", {}).get("tier", "SINGLE")
+
+    if "offered_skills" not in prov:
+        prov["offered_skills"] = offered_skills
+    if "chosen_presentation" not in prov:
+        prov["chosen_presentation"] = presentation_tier
+
     # Append to history ledger
     history_entry = {
         "timestamp": now_iso,
@@ -559,6 +808,8 @@ def record_outcome(
         "notes": notes,
         "actor": approved_by or prov.get("approved_by"),
         "pr_url": pr_url or prov.get("pr_url"),
+        "offered_skills": offered_skills,
+        "presentation_tier": presentation_tier,
     }
     prov.setdefault("history", []).append(history_entry)
 
