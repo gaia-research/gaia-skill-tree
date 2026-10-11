@@ -75,7 +75,7 @@ CAMPAIGN_HOLDS = {
 MAX_PAGES = 10
 # Unmarked open PRs get a full diff inspection up to this many per repo (newest first).
 # Beyond it the scan is explicitly INCOMPLETE and a repo can never be READY_TO_APPROVE.
-MAX_OPEN_SCAN = 100
+MAX_OPEN_SCAN = 40
 INSPECT_WORKERS = 6  # concurrent PR diff fetches per repository
 DOC_SUFFIXES = (".md", ".mdx", ".markdown", ".rst", ".adoc", ".txt", ".html", ".htm")
 PER_PAGE = 100
@@ -185,6 +185,7 @@ class GitHubClient:
         self.search_intervals = dict(self.SEARCH_INTERVALS if search_intervals is None else search_intervals)
         self._search_next: dict[str, float] = {}
         self._search_lock = threading.Lock()
+        self._rate_limited: ApiError | None = None  # circuit breaker: stop spending calls once limited
 
     def _throttle_search(self, path: str) -> None:
         """Space search calls across all worker threads so a campaign-wide run stays within budget."""
@@ -203,6 +204,8 @@ class GitHubClient:
 
     def get(self, path: str) -> Response:
         """GET with retries for transient (5xx / network) failures only."""
+        if self._rate_limited is not None:
+            raise self._rate_limited
         last: ApiError | None = None
         self._throttle_search(path)
         for attempt in range(self.retries + 1):
@@ -225,7 +228,10 @@ class GitHubClient:
         resp = self.get(path)
         if resp.status == 200:
             return resp
-        raise classify_error(resp)
+        err = classify_error(resp)
+        if err.code == "RATE_LIMITED":
+            self._rate_limited = err
+        raise err
 
     def paginate(self, path: str, items_key: str | None = None, max_pages: int = MAX_PAGES
                  ) -> tuple[list[Any], bool, dict[str, Any]]:

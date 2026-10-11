@@ -622,7 +622,7 @@ def test_campaign_receipt_is_read_only_idempotent_and_complete(registry, manifes
     gh.add("/repos/Alice/Multi/readme", {"encoding": "base64", "content": b64(badge_md("alice", "main")), "sha": "b", "path": "README.md"})
     c = client(gh)
     r1 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=3)
-    r2 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=1, open_scan_limit=100)
+    r2 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=1)
     assert r1 == r2  # repeat-run idempotency (deterministic given fixed clock)
     assert json.dumps(manifest, sort_keys=True) == before
     assert r1["mode"] == "read-only" and r1["summary"]["repositories"] == 2
@@ -884,3 +884,15 @@ def test_search_calls_are_spaced_across_threads_but_other_calls_are_not():
 
 def test_known_migrations_mirror_planner():
     assert br.KNOWN_MIGRATIONS == {k.lower(): v.lower() for k, v in pbp.REPO_MIGRATIONS.items()}
+
+
+def test_rate_limit_trips_circuit_breaker_and_stops_spending_calls(registry, manifest):
+    gh = world("bob/single")
+    gh.add("/repos/bob/single", {"message": "API rate limit exceeded"}, status=403, headers={"x-ratelimit-remaining": "0"})
+    c = client(gh)
+    key, rec = br.find_record(manifest, SINGLE)
+    e = br.reconcile_repo(c, key, rec, registry, now=now)
+    assert e["classification"] == "UNKNOWN"
+    n = len(gh.calls)
+    e2 = br.reconcile_repo(c, key, rec, registry, now=now)
+    assert e2["classification"] == "UNKNOWN" and len(gh.calls) == n  # no further API calls

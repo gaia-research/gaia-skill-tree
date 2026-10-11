@@ -14,7 +14,7 @@ Upstream reconciliation (Issue #2069) adds an *observation* layer. It never chan
 
 Evidence per repository (all must be complete or the result is `UNKNOWN`):
 1. **Identity**: `GET /repos/{name}` follows renames. Records GitHub ID, canonical name, aliases, default branch.
-2. **PRs**: ledger-recorded PRs, the live open-PR list, and search (`gaiaskilltree.com`, `"Gaia Skill Tree"`, campaign author). Each candidate's diff is fetched and inspected for Gaia badge URLs. **Unmarked open PRs** (odd title/branch/author) are diff-scanned too, newest first, up to `--open-scan-limit` (default 100) per repo.
+2. **PRs**: ledger-recorded PRs, the live open-PR list, and search (`gaiaskilltree.com`, `"Gaia Skill Tree"`, campaign author). Each candidate's diff is fetched and inspected for Gaia badge URLs. **Unmarked open PRs** (odd title/branch/author) are diff-scanned too, newest first, up to `--open-scan-limit` (default 40) per repo.
 3. **README**: default-branch HEAD SHA, then the README at that SHA. Markdown, HTML, URL-encoded, `?repo=`, `&amp;`, `_assets`/worker paths, and `-seal` variants are normalized.
 4. **Other files**: code search for Gaia badge URLs outside the README.
 5. **Coverage**: badge `(handle, stem)` mapped to every Named Skill mapped to the repo in `docs/badges/registry.json`: `full` / `partial` / `none` / `unknown`.
@@ -65,6 +65,6 @@ Not guaranteed (do not claim otherwise):
   another worker can still open a PR. Mitigation: one dispatcher at a time, create the PR immediately, re-run `reconcile` afterwards.
 - **Search index lag.** Merged/closed PRs not in the ledger are found via GitHub search, which can lag minutes behind and is capped at 1000 results (flagged incomplete).
   The *open* PR list is read directly and is not subject to index lag.
-- **Open-PR scan limit.** Every open PR's diff is inspected up to `--open-scan-limit` (default 100, newest first; ~1 API call each). If a repo has more unmarked open PRs than that (or a README diff is too large to read), the scan is recorded as incomplete (`open_pr_scan_incomplete`), the repo can never be `READY_TO_APPROVE` (it becomes `UNKNOWN`), and `predispatch` refuses. Live example: Graphify has ~840 open PRs, so it reports `UNKNOWN`.
+- **Open-PR scan limit.** Every open PR's diff is inspected up to `--open-scan-limit` (default 40, newest first; ~1 API call each). If a repo has more unmarked open PRs than that (or a README diff is too large to read), the scan is recorded as incomplete (`open_pr_scan_incomplete`), the repo can never be `READY_TO_APPROVE` (it becomes `UNKNOWN`), and `predispatch` refuses. Live example: Graphify has ~840 open PRs, so it reports `UNKNOWN`. For one repo, a human may raise it explicitly (`predispatch --open-scan-limit 200`). A full `--all` run costs roughly 1 API call per inspected PR, so keep the limit low (the hourly core budget is 5000 calls) and avoid repeated full runs inside one hour. After the first `RATE_LIMITED` response the client stops calling GitHub and the remaining repos report `UNKNOWN` (fail closed).
 - **No apply path.** Observed states are never written back automatically; a lead records outcomes with `record-outcome`.
 - Static badges do not authenticate repository ownership (#494).
