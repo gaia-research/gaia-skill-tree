@@ -11,13 +11,16 @@ from scripts.plan_badge_provisioning import (
     DEFAULT_BADGES_INDEX,
     DEFAULT_MANIFEST,
     DEFAULT_REGISTRY,
+    PRESENTATION_TIERS,
     derive_canonical_skill,
+    determine_badge_presentation,
     detect_honesty_mode,
     generate_badge_url,
     load_existing_manifest,
     load_registry,
     plan_campaign,
     record_outcome,
+    resolve_eligible_skills,
 )
 
 
@@ -484,6 +487,205 @@ def test_record_outcome_terminal_states_locked():
     record_outcome(manifest_data=manifest, repo="safishamsi/graphify", status="NO_RESPONSE", notes="Unmerged after timeout")
     with pytest.raises(ValueError, match="is in terminal state 'NO_RESPONSE'"):
         record_outcome(manifest_data=manifest, repo="safishamsi/graphify", status="PR_OPEN", pr_url="https://github.com/safishamsi/graphify/pull/12")
+
+
+def test_multi_badge_single_skill_repo():
+    """Verify single-skill repository resolves to tier SINGLE with exactly 1 badge."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    manifest = plan_campaign(reg, {})
+
+    rec = manifest["repositories"]["pbakaus/impeccable"]
+    assert rec["eligible_skill_count"] == 1
+    assert len(rec["eligible_skills"]) == 1
+    assert rec["offered_skills"] == ["pbakaus/impeccable"]
+
+    pres = rec["badge_presentation"]
+    assert pres["tier"] == "SINGLE"
+    assert pres["eligible_count"] == 1
+    assert pres["displayed_count"] == 1
+    assert pres["is_curated_selection"] is False
+    assert pres["displayed_skill_ids"] == ["pbakaus/impeccable"]
+    assert pres["markdown"].startswith("[![Gaia Skill: Impeccable]")
+    assert pres["markdown"] == rec["markdown_preview"]
+    assert "<img" in pres["html"]
+
+
+def test_multi_badge_two_to_four_skill_repo():
+    """Verify 2-4 skill repository resolves to tier COMPACT_ROW with all badges."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    manifest = plan_campaign(reg, {})
+
+    rec = manifest["repositories"]["disler/fusion-harness"]
+    assert rec["eligible_skill_count"] == 4
+    assert len(rec["eligible_skills"]) == 4
+    assert len(rec["offered_skills"]) == 4
+
+    pres = rec["badge_presentation"]
+    assert pres["tier"] == "COMPACT_ROW"
+    assert pres["eligible_count"] == 4
+    assert pres["displayed_count"] == 4
+    assert pres["is_curated_selection"] is False
+    assert len(pres["displayed_skill_ids"]) == 4
+    # Compact row is space-separated markdown badges on one row
+    assert " " in pres["markdown"]
+    assert pres["markdown"].count("[![Gaia Skill:") == 4
+    assert pres["html"].count("<img") == 4
+
+
+def test_multi_badge_five_to_eight_skill_repo():
+    """Verify 5-8 skill repository resolves to tier LABELED_SECTION."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    manifest = plan_campaign(reg, {})
+
+    rec = manifest["repositories"]["firecrawl/skills"]
+    assert rec["eligible_skill_count"] == 5
+    assert len(rec["eligible_skills"]) == 5
+
+    pres = rec["badge_presentation"]
+    assert pres["tier"] == "LABELED_SECTION"
+    assert pres["eligible_count"] == 5
+    assert pres["displayed_count"] == 5
+    assert pres["is_curated_selection"] is False
+    assert "### Gaia Skill Tree Recognition" in pres["markdown"]
+    assert "gaia-badge-section" in pres["html"]
+
+
+def test_multi_badge_nine_plus_skill_repo():
+    """Verify 9+ skill repository resolves to tier CURATED_COLLECTION with collection link."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    manifest = plan_campaign(reg, {})
+
+    rec = manifest["repositories"]["leonxlnx/taste-skill"]
+    assert rec["eligible_skill_count"] == 12
+    assert len(rec["eligible_skills"]) == 12
+    # Full eligible skill set must be retained in offered_skills
+    assert len(rec["offered_skills"]) == 12
+
+    pres = rec["badge_presentation"]
+    assert pres["tier"] == "CURATED_COLLECTION"
+    assert pres["eligible_count"] == 12
+    assert pres["displayed_count"] == 1
+    assert pres["is_curated_selection"] is True
+    assert pres["displayed_skill_ids"] == ["leonxlnx/taste-skill"]
+    # Curated display displays top badge + collection link
+    assert "Explore all 12 recognized skills" in pres["markdown"]
+    assert "https://gaiaskilltree.com/u/leonxlnx/" in pres["markdown"]
+    assert "<a href=\"https://gaiaskilltree.com/u/leonxlnx/\">" in pres["html"]
+
+
+def test_multi_badge_duplicate_skills_deduplicated():
+    """Verify duplicate skill entries in skillsByRepo are deduplicated."""
+    cinfo = {
+        "repos": ["owner/repo"],
+        "skillsByRepo": {
+            "owner/repo": ["owner/skill-a", "owner/skill-a", "owner/skill-b"]
+        },
+        "topSkill": "owner/skill-a",
+        "namedSkills": [
+            {"id": "owner/skill-a", "name": "Skill A", "rank": 3, "file": "skill-a.svg"},
+            {"id": "owner/skill-b", "name": "Skill B", "rank": 2, "file": "skill-b.svg"},
+        ],
+    }
+    named_dict = {s["id"]: s for s in cinfo["namedSkills"]}
+    eligible = resolve_eligible_skills("owner", "owner/repo", cinfo, named_dict, honesty_mode=True, check_assets=False)
+    assert len(eligible) == 2
+    assert [s["id"] for s in eligible] == ["owner/skill-a", "owner/skill-b"]
+
+
+def test_multi_badge_variants_vs_distinct_skills():
+    """Verify that seal badge variants are not treated as separate earned skills."""
+    cinfo = {
+        "repos": ["owner/repo"],
+        "skillsByRepo": {
+            "owner/repo": ["owner/skill-1"]
+        },
+        "topSkill": "owner/skill-1",
+        "namedSkills": [
+            {
+                "id": "owner/skill-1",
+                "name": "Skill One",
+                "rank": 4,
+                "file": "skill-1.svg",
+                "fileSeal": "skill-1-seal.svg",
+            }
+        ],
+    }
+    named_dict = {s["id"]: s for s in cinfo["namedSkills"]}
+    eligible = resolve_eligible_skills("owner", "owner/repo", cinfo, named_dict, honesty_mode=True, check_assets=False)
+    # Exactly one earned skill, not two
+    assert len(eligible) == 1
+    assert eligible[0]["id"] == "owner/skill-1"
+    assert eligible[0]["file"] == "skill-1.svg"
+
+
+def test_multi_badge_exact_offered_skill_ledger_recording():
+    """Verify outcome recording records offered_skills and presentation tier in ledger history."""
+    reg = load_registry(DEFAULT_REGISTRY)
+    manifest = plan_campaign(reg, {})
+
+    # Record approval on a multi-badge repo (disler/fusion-harness, 4 skills)
+    record_outcome(
+        manifest_data=manifest,
+        repo="disler/fusion-harness",
+        status="APPROVED",
+        approved_by="@founder",
+        notes="Approved multi-badge outreach",
+    )
+    rec = manifest["repositories"]["disler/fusion-harness"]
+    prov = rec["provisioning"]
+    assert prov["approved"] is True
+    assert prov["chosen_presentation"] == "COMPACT_ROW"
+    assert len(prov["offered_skills"]) == 4
+
+    # Record PR_OPEN
+    record_outcome(
+        manifest_data=manifest,
+        repo="disler/fusion-harness",
+        status="PR_OPEN",
+        pr_url="https://github.com/disler/fusion-harness/pull/1",
+        notes="Dispatched multi-badge PR",
+    )
+    assert prov["outcome"] == "PR_OPEN"
+    assert prov["attempts"] == 1
+    assert len(prov["history"]) == 2
+
+    # Check history entries
+    h_appr = prov["history"][0]
+    assert h_appr["presentation_tier"] == "COMPACT_ROW"
+    assert len(h_appr["offered_skills"]) == 4
+
+    h_pr = prov["history"][1]
+    assert h_pr["presentation_tier"] == "COMPACT_ROW"
+    assert len(h_pr["offered_skills"]) == 4
+    assert h_pr["pr_url"] == "https://github.com/disler/fusion-harness/pull/1"
+
+
+def test_multi_badge_fail_closed_on_missing_asset(tmp_path: Path):
+    """Verify resolver fails closed when an SVG asset is missing on disk."""
+    cinfo = {
+        "repos": ["owner/repo"],
+        "skillsByRepo": {"owner/repo": ["owner/missing-asset-skill"]},
+        "topSkill": "owner/missing-asset-skill",
+        "namedSkills": [
+            {
+                "id": "owner/missing-asset-skill",
+                "name": "Missing",
+                "rank": 3,
+                "file": "nonexistent.svg",
+            }
+        ],
+    }
+    named_dict = {s["id"]: s for s in cinfo["namedSkills"]}
+    with pytest.raises(FileNotFoundError, match="Missing SVG badge asset"):
+        resolve_eligible_skills(
+            "owner",
+            "owner/repo",
+            cinfo,
+            named_dict,
+            honesty_mode=True,
+            assets_root=tmp_path,
+            check_assets=True,
+        )
 
 
 def test_case_insensitive_lookup_preserves_state():
