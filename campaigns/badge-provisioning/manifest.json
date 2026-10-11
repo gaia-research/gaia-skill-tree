@@ -2,24 +2,24 @@
   "campaign": "Gaia Badge Provisioning Campaign #1817",
   "phase": 1,
   "generated_at": "2026-10-11T00:11:44.306101+00:00",
-  "last_updated_at": "2026-10-10T23:32:41.404960+00:00",
+  "last_updated_at": "2026-10-11T00:27:54.804766+00:00",
   "source_registry_generated_at": "2026-10-08",
   "serving_mode": "honesty_mode_static",
   "authenticates_ownership": false,
   "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
   "total_unique_repositories": 43,
   "classification_counts": {
-    "SKIP": 3,
-    "ADOPTED": 0,
-    "READY": 35,
-    "APPROVED": 0,
-    "PR_OPEN": 2,
+    "ALREADY_ADOPTED": 0,
+    "NO_RESPONSE": 0,
     "REVIEW": 2,
     "PILOT_CANDIDATE": 1,
-    "NO_RESPONSE": 0,
-    "DECLINED": 0,
+    "READY": 29,
+    "PR_OPEN": 8,
+    "ADOPTED": 0,
+    "SKIP": 3,
     "OPTED_OUT": 0,
-    "ALREADY_ADOPTED": 0
+    "APPROVED": 0,
+    "DECLINED": 0
   },
   "eligibility_counts": {
     "PILOT_CANDIDATE": 3,
@@ -682,7 +682,7 @@
     "DietrichGebert/ponytail": {
       "repository": "DietrichGebert/ponytail",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
       "contributor_associations": [
         "dietrichgebert"
@@ -736,15 +736,40 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:09.704799+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:27:54.804766+00:00",
+        "pr_url": "https://github.com/DietrichGebert/ponytail/pull/1101",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:09.704799+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "dietrichgebert/ponytail"
+            ],
+            "presentation_tier": "SINGLE"
+          },
+          {
+            "timestamp": "2026-10-11T00:27:54.804766+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted",
+            "actor": "@founder",
+            "pr_url": "https://github.com/DietrichGebert/ponytail/pull/1101",
+            "offered_skills": [
+              "dietrichgebert/ponytail"
+            ],
+            "presentation_tier": "SINGLE"
+          }
+        ],
         "offered_skills": [
           "dietrichgebert/ponytail"
         ],
@@ -2604,7 +2629,7 @@
     "leonxlnx/taste-skill": {
       "repository": "leonxlnx/taste-skill",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
       "contributor_associations": [
         "leonxlnx"
@@ -2801,15 +2826,62 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:08.879188+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:23:48.148646+00:00",
+        "pr_url": "https://github.com/Leonxlnx/taste-skill/pull/139",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted (CURATED_COLLECTION tier)",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:08.879188+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "leonxlnx/brandkit",
+              "leonxlnx/brutalist-skill",
+              "leonxlnx/gpt-tasteskill",
+              "leonxlnx/image-to-code-skill",
+              "leonxlnx/imagegen-frontend-mobile",
+              "leonxlnx/imagegen-frontend-web",
+              "leonxlnx/minimalist-skill",
+              "leonxlnx/output-skill",
+              "leonxlnx/redesign-skill",
+              "leonxlnx/soft-skill",
+              "leonxlnx/stitch-skill",
+              "leonxlnx/taste-skill"
+            ],
+            "presentation_tier": "CURATED_COLLECTION"
+          },
+          {
+            "timestamp": "2026-10-11T00:23:48.148646+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted (CURATED_COLLECTION tier)",
+            "actor": "@founder",
+            "pr_url": "https://github.com/Leonxlnx/taste-skill/pull/139",
+            "offered_skills": [
+              "leonxlnx/brandkit",
+              "leonxlnx/brutalist-skill",
+              "leonxlnx/gpt-tasteskill",
+              "leonxlnx/image-to-code-skill",
+              "leonxlnx/imagegen-frontend-mobile",
+              "leonxlnx/imagegen-frontend-web",
+              "leonxlnx/minimalist-skill",
+              "leonxlnx/output-skill",
+              "leonxlnx/redesign-skill",
+              "leonxlnx/soft-skill",
+              "leonxlnx/stitch-skill",
+              "leonxlnx/taste-skill"
+            ],
+            "presentation_tier": "CURATED_COLLECTION"
+          }
+        ],
         "offered_skills": [
           "leonxlnx/brandkit",
           "leonxlnx/brutalist-skill",
@@ -3522,7 +3594,7 @@
     "mksglu/context-mode": {
       "repository": "mksglu/context-mode",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
       "contributor_associations": [
         "mksglu"
@@ -3576,15 +3648,40 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:08.677095+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:22:21.385382+00:00",
+        "pr_url": "https://github.com/mksglu/context-mode/pull/1283",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:08.677095+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "mksglu/context-mode"
+            ],
+            "presentation_tier": "SINGLE"
+          },
+          {
+            "timestamp": "2026-10-11T00:22:21.385382+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted",
+            "actor": "@founder",
+            "pr_url": "https://github.com/mksglu/context-mode/pull/1283",
+            "offered_skills": [
+              "mksglu/context-mode"
+            ],
+            "presentation_tier": "SINGLE"
+          }
+        ],
         "offered_skills": [
           "mksglu/context-mode"
         ],
@@ -3594,7 +3691,7 @@
     "mvanhorn/last30days-skill": {
       "repository": "mvanhorn/last30days-skill",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
       "contributor_associations": [
         "mvanhorn"
@@ -3648,15 +3745,40 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:09.294748+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:25:50.998597+00:00",
+        "pr_url": "https://github.com/mvanhorn/last30days-skill/pull/1252",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:09.294748+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "mvanhorn/last30days"
+            ],
+            "presentation_tier": "SINGLE"
+          },
+          {
+            "timestamp": "2026-10-11T00:25:50.998597+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted",
+            "actor": "@founder",
+            "pr_url": "https://github.com/mvanhorn/last30days-skill/pull/1252",
+            "offered_skills": [
+              "mvanhorn/last30days"
+            ],
+            "presentation_tier": "SINGLE"
+          }
+        ],
         "offered_skills": [
           "mvanhorn/last30days"
         ],
@@ -3666,7 +3788,7 @@
     "nateherkai/scroll-craft": {
       "repository": "nateherkai/scroll-craft",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
       "contributor_associations": [
         "nateherkai"
@@ -3720,15 +3842,40 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:09.083794+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:24:38.581358+00:00",
+        "pr_url": "https://github.com/nateherkai/scroll-craft/pull/13",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:09.083794+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "nateherkai/scroll-craft"
+            ],
+            "presentation_tier": "SINGLE"
+          },
+          {
+            "timestamp": "2026-10-11T00:24:38.581358+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted",
+            "actor": "@founder",
+            "pr_url": "https://github.com/nateherkai/scroll-craft/pull/13",
+            "offered_skills": [
+              "nateherkai/scroll-craft"
+            ],
+            "presentation_tier": "SINGLE"
+          }
+        ],
         "offered_skills": [
           "nateherkai/scroll-craft"
         ],
@@ -3738,7 +3885,7 @@
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
       "eligibility": "READY",
-      "status": "READY",
+      "status": "PR_OPEN",
       "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
       "contributor_associations": [
         "nextlevelbuilder"
@@ -3792,15 +3939,40 @@
         "contribution_policy": "UNKNOWN"
       },
       "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
+        "approved": true,
+        "approved_by": "@founder",
+        "approved_at": "2026-10-11T00:20:09.494418+00:00",
+        "attempts": 1,
+        "attempted_at": "2026-10-11T00:27:02.383832+00:00",
+        "pr_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/524",
+        "outcome": "PR_OPEN",
+        "decision_notes": "Phase 3 Batch A PR submitted",
+        "history": [
+          {
+            "timestamp": "2026-10-11T00:20:09.494418+00:00",
+            "from_status": "READY",
+            "to_status": "APPROVED",
+            "notes": "Phase 3 Batch A approved",
+            "actor": "@founder",
+            "pr_url": null,
+            "offered_skills": [
+              "nextlevelbuilder/ui-ux-pro-max"
+            ],
+            "presentation_tier": "SINGLE"
+          },
+          {
+            "timestamp": "2026-10-11T00:27:02.383832+00:00",
+            "from_status": "APPROVED",
+            "to_status": "PR_OPEN",
+            "notes": "Phase 3 Batch A PR submitted",
+            "actor": "@founder",
+            "pr_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/524",
+            "offered_skills": [
+              "nextlevelbuilder/ui-ux-pro-max"
+            ],
+            "presentation_tier": "SINGLE"
+          }
+        ],
         "offered_skills": [
           "nextlevelbuilder/ui-ux-pro-max"
         ],
