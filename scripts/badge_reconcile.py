@@ -615,7 +615,7 @@ def gather_readme(client: GitHubClient, canonical: str, branch: str, ev: Evidenc
         ev.fail("readme", ApiError("BAD_RESPONSE", "README base64 decode failed"))
         return
     refs, links = extract_badges(text)
-    snippets = [ln.strip()[:240] for ln in text.splitlines() if "gaiaskilltree.com/badges" in html.unescape(ln).lower()]
+    snippets = [ln.strip()[:240] for ln in text.splitlines() if GAIA_URL_RE.search(html.unescape(ln))]
     ev.readme = {
         "present": True,
         "path": body.get("path"),
