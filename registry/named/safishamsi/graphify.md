@@ -10,13 +10,13 @@ level: 5★
 description: Maps codebases and documentation into a queryable knowledge graph using
   AST analysis and semantic extraction.
 links:
-  github: https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py
+  github: https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py
 tags:
 - knowledge-graph
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-11'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -108,7 +108,11 @@ timeline:
 - timestamp: '2026-09-04T18:30:00Z'
   action: recalibrate_trust_magnitude
   contributor: mbtiongson1
-  details: 'TM 171.88 -> 316.88, grade A -> S (verified independent witness)'
+  details: TM 171.88 -> 316.88, grade A -> S (verified independent witness)
+- timestamp: '2026-10-11T00:24:44Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py
 trustMagnitude: 316.88
 overallTrustGrade: S
 trustMagnitudeInputHash: b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908
@@ -136,8 +140,8 @@ evidence:
   type: peer-review
   reviewers: 2
   grade: A
-  notes: Independent technical comparison framework comparing glassgraph against
-    safishamsi/graphify across 5 axes on 25-file multi-domain corpus.
+  notes: Independent technical comparison framework comparing glassgraph against safishamsi/graphify
+    across 5 axes on 25-file multi-domain corpus.
 - source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
   updatedAt: '2026-10-01'
@@ -165,7 +169,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908
 ---
 
 ## Overview

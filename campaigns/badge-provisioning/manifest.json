@@ -1,25 +1,25 @@
 {
   "campaign": "Gaia Badge Provisioning Campaign #1817",
   "phase": 1,
-  "generated_at": "2026-10-11T00:11:44.306101+00:00",
+  "generated_at": "2026-10-11T00:43:32.848837+00:00",
   "last_updated_at": "2026-10-11T00:27:54.804766+00:00",
-  "source_registry_generated_at": "2026-10-08",
+  "source_registry_generated_at": "2026-10-11",
   "serving_mode": "honesty_mode_static",
   "authenticates_ownership": false,
   "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
   "total_unique_repositories": 43,
   "classification_counts": {
+    "PR_OPEN": 8,
+    "DECLINED": 0,
     "ALREADY_ADOPTED": 0,
-    "NO_RESPONSE": 0,
+    "OPTED_OUT": 0,
+    "SKIP": 3,
     "REVIEW": 2,
     "PILOT_CANDIDATE": 1,
     "READY": 29,
-    "PR_OPEN": 8,
     "ADOPTED": 0,
-    "SKIP": 3,
-    "OPTED_OUT": 0,
-    "APPROVED": 0,
-    "DECLINED": 0
+    "NO_RESPONSE": 0,
+    "APPROVED": 0
   },
   "eligibility_counts": {
     "PILOT_CANDIDATE": 3,
@@ -683,7 +683,7 @@
       "repository": "DietrichGebert/ponytail",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "dietrichgebert"
       ],
@@ -2071,6 +2071,78 @@
         "chosen_presentation": "SINGLE"
       }
     },
+    "Graphify-Labs/graphify": {
+      "repository": "Graphify-Labs/graphify",
+      "eligibility": "PILOT_CANDIDATE",
+      "status": "PILOT_CANDIDATE",
+      "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
+      "contributor_associations": [
+        "safishamsi"
+      ],
+      "canonical_skill": {
+        "id": "safishamsi/graphify",
+        "name": "Graphify",
+        "rank": 5,
+        "branch": "unique",
+        "file": "graphify.svg"
+      },
+      "eligible_skills": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 5,
+          "branch": "unique",
+          "file": "graphify.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
+          "markdown": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/safishamsi/graphify\"><img src=\"https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify\" alt=\"Gaia Skill: Graphify\" /></a>"
+        }
+      ],
+      "eligible_skill_count": 1,
+      "offered_skills": [
+        "safishamsi/graphify"
+      ],
+      "badge_presentation": {
+        "tier": "SINGLE",
+        "eligible_count": 1,
+        "displayed_count": 1,
+        "displayed_skill_ids": [
+          "safishamsi/graphify"
+        ],
+        "offered_skill_ids": [
+          "safishamsi/graphify"
+        ],
+        "is_curated_selection": false,
+        "collection_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
+        "markdown": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
+        "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/safishamsi/graphify\"><img src=\"https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify\" alt=\"Gaia Skill: Graphify\" /></a>"
+      },
+      "badge_url": "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify",
+      "deep_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
+      "markdown_preview": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
+      "preflight": {
+        "existing_badge": false,
+        "default_branch": "v8",
+        "readme_path": "README.md",
+        "contribution_policy": "UNKNOWN"
+      },
+      "provisioning": {
+        "approved": false,
+        "approved_by": null,
+        "approved_at": null,
+        "attempts": 0,
+        "attempted_at": null,
+        "pr_url": null,
+        "outcome": null,
+        "decision_notes": null,
+        "history": [],
+        "offered_skills": [
+          "safishamsi/graphify"
+        ],
+        "chosen_presentation": "SINGLE"
+      }
+    },
     "gsd-build/get-shit-done": {
       "repository": "gsd-build/get-shit-done",
       "eligibility": "READY",
@@ -2630,7 +2702,7 @@
       "repository": "leonxlnx/taste-skill",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (TOP_SKILL_MATCH)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "leonxlnx"
       ],
@@ -3137,6 +3209,17 @@
           "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/edit-article\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/edit-article.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Edit Article\" /></a>"
         },
         {
+          "id": "mattpocock/engineering",
+          "name": "Engineering",
+          "rank": 4,
+          "branch": "suite",
+          "file": "engineering.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/mattpocock/engineering.svg?repo=mattpocock/skills",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/engineering",
+          "markdown": "[![Gaia Skill: Engineering](https://gaiaskilltree.com/badges/_assets/mattpocock/engineering.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/engineering)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/engineering\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/engineering.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Engineering\" /></a>"
+        },
+        {
           "id": "mattpocock/git-guardrails-claude-code",
           "name": "Git Guardrails Claude Code",
           "rank": 2,
@@ -3225,6 +3308,17 @@
           "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/migrate-to-shoehorn\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/migrate-to-shoehorn.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Migrate to Shoehorn\" /></a>"
         },
         {
+          "id": "mattpocock/misc",
+          "name": "Misc",
+          "rank": 4,
+          "branch": "suite",
+          "file": "misc.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/mattpocock/misc.svg?repo=mattpocock/skills",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/misc",
+          "markdown": "[![Gaia Skill: Misc](https://gaiaskilltree.com/badges/_assets/mattpocock/misc.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/misc)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/misc\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/misc.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Misc\" /></a>"
+        },
+        {
           "id": "mattpocock/obsidian-vault",
           "name": "Obsidian Vault Manager",
           "rank": 3,
@@ -3234,6 +3328,17 @@
           "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/obsidian-vault",
           "markdown": "[![Gaia Skill: Obsidian Vault Manager](https://gaiaskilltree.com/badges/_assets/mattpocock/obsidian-vault.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/obsidian-vault)",
           "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/obsidian-vault\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/obsidian-vault.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Obsidian Vault Manager\" /></a>"
+        },
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 4,
+          "branch": "suite",
+          "file": "productivity.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/mattpocock/productivity.svg?repo=mattpocock/skills",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/productivity",
+          "markdown": "[![Gaia Skill: Productivity](https://gaiaskilltree.com/badges/_assets/mattpocock/productivity.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/productivity)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/productivity\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/productivity.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Productivity\" /></a>"
         },
         {
           "id": "mattpocock/prototype",
@@ -3445,7 +3550,7 @@
           "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/writing-for-agents\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/writing-for-agents.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Writing For Agents\" /></a>"
         }
       ],
-      "eligible_skill_count": 35,
+      "eligible_skill_count": 38,
       "offered_skills": [
         "mattpocock/ask-matt",
         "mattpocock/code-review",
@@ -3454,6 +3559,7 @@
         "mattpocock/diagnosing-bugs",
         "mattpocock/domain-modeling",
         "mattpocock/edit-article",
+        "mattpocock/engineering",
         "mattpocock/git-guardrails-claude-code",
         "mattpocock/grill-me",
         "mattpocock/grill-with-docs",
@@ -3462,7 +3568,9 @@
         "mattpocock/implement",
         "mattpocock/improve-codebase-architecture",
         "mattpocock/migrate-to-shoehorn",
+        "mattpocock/misc",
         "mattpocock/obsidian-vault",
+        "mattpocock/productivity",
         "mattpocock/prototype",
         "mattpocock/research",
         "mattpocock/resolving-merge-conflicts",
@@ -3485,7 +3593,7 @@
       ],
       "badge_presentation": {
         "tier": "CURATED_COLLECTION",
-        "eligible_count": 35,
+        "eligible_count": 38,
         "displayed_count": 1,
         "displayed_skill_ids": [
           "mattpocock/skills"
@@ -3498,6 +3606,7 @@
           "mattpocock/diagnosing-bugs",
           "mattpocock/domain-modeling",
           "mattpocock/edit-article",
+          "mattpocock/engineering",
           "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
@@ -3506,7 +3615,9 @@
           "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
           "mattpocock/migrate-to-shoehorn",
+          "mattpocock/misc",
           "mattpocock/obsidian-vault",
+          "mattpocock/productivity",
           "mattpocock/prototype",
           "mattpocock/research",
           "mattpocock/resolving-merge-conflicts",
@@ -3529,12 +3640,12 @@
         ],
         "is_curated_selection": true,
         "collection_link": "https://gaiaskilltree.com/u/mattpocock/",
-        "markdown": "[![Gaia Skill: Matt Pocock Skills](https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/skills)\n\n[Explore all 35 recognized skills in Gaia Skill Tree](https://gaiaskilltree.com/u/mattpocock/)",
-        "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/skills\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Matt Pocock Skills\" /></a>\n<p><a href=\"https://gaiaskilltree.com/u/mattpocock/\">Explore all 35 recognized skills in Gaia Skill Tree</a></p>"
+        "markdown": "[![Gaia Skill: Matt Pocock Skills](https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/skills)\n\n[Explore all 38 recognized skills in Gaia Skill Tree](https://gaiaskilltree.com/u/mattpocock/)",
+        "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/mattpocock/skills\"><img src=\"https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills\" alt=\"Gaia Skill: Matt Pocock Skills\" /></a>\n<p><a href=\"https://gaiaskilltree.com/u/mattpocock/\">Explore all 38 recognized skills in Gaia Skill Tree</a></p>"
       },
       "badge_url": "https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills",
       "deep_link": "https://gaiaskilltree.com/named/#explorer/mattpocock/skills",
-      "markdown_preview": "[![Gaia Skill: Matt Pocock Skills](https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/skills)\n\n[Explore all 35 recognized skills in Gaia Skill Tree](https://gaiaskilltree.com/u/mattpocock/)",
+      "markdown_preview": "[![Gaia Skill: Matt Pocock Skills](https://gaiaskilltree.com/badges/_assets/mattpocock/skills~.svg?repo=mattpocock/skills)](https://gaiaskilltree.com/named/#explorer/mattpocock/skills)\n\n[Explore all 38 recognized skills in Gaia Skill Tree](https://gaiaskilltree.com/u/mattpocock/)",
       "preflight": {
         "existing_badge": false,
         "default_branch": "UNKNOWN",
@@ -3595,7 +3706,7 @@
       "repository": "mksglu/context-mode",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "mksglu"
       ],
@@ -3692,7 +3803,7 @@
       "repository": "mvanhorn/last30days-skill",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "mvanhorn"
       ],
@@ -3789,7 +3900,7 @@
       "repository": "nateherkai/scroll-craft",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "nateherkai"
       ],
@@ -3886,7 +3997,7 @@
       "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
       "eligibility": "READY",
       "status": "PR_OPEN",
-      "decision_reason": "Deterministic resolution (SINGLE_SKILL)",
+      "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: READY)",
       "contributor_associations": [
         "nextlevelbuilder"
       ],
@@ -4288,91 +4399,91 @@
       "canonical_skill": null,
       "eligible_skills": [
         {
-          "id": "gsd-build/discuss-phase",
+          "id": "gsd-build/gsd-discuss-phase",
           "name": "GSD Discuss Phase",
           "rank": 3,
           "branch": "standard",
-          "file": "discuss-phase.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/discuss-phase.svg?repo=open-gsd/gsd-core",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase",
-          "markdown": "[![Gaia Skill: GSD Discuss Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/discuss-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/discuss-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Discuss Phase\" /></a>"
+          "file": "gsd-discuss-phase.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-discuss-phase.svg?repo=open-gsd/gsd-core",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-discuss-phase",
+          "markdown": "[![Gaia Skill: GSD Discuss Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-discuss-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-discuss-phase)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-discuss-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-discuss-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Discuss Phase\" /></a>"
         },
         {
-          "id": "gsd-build/execute-phase",
+          "id": "gsd-build/gsd-execute-phase",
           "name": "GSD Execute Phase",
           "rank": 3,
           "branch": "standard",
-          "file": "execute-phase.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/execute-phase.svg?repo=open-gsd/gsd-core",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase",
-          "markdown": "[![Gaia Skill: GSD Execute Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/execute-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/execute-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Execute Phase\" /></a>"
+          "file": "gsd-execute-phase.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-execute-phase.svg?repo=open-gsd/gsd-core",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-execute-phase",
+          "markdown": "[![Gaia Skill: GSD Execute Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-execute-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-execute-phase)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-execute-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-execute-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Execute Phase\" /></a>"
         },
         {
-          "id": "gsd-build/plan-phase",
+          "id": "gsd-build/gsd-plan-phase",
           "name": "GSD Plan Phase",
           "rank": 3,
           "branch": "standard",
-          "file": "plan-phase.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/plan-phase.svg?repo=open-gsd/gsd-core",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase",
-          "markdown": "[![Gaia Skill: GSD Plan Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/plan-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/plan-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Plan Phase\" /></a>"
+          "file": "gsd-plan-phase.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-plan-phase.svg?repo=open-gsd/gsd-core",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-plan-phase",
+          "markdown": "[![Gaia Skill: GSD Plan Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-plan-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-plan-phase)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-plan-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-plan-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Plan Phase\" /></a>"
         },
         {
-          "id": "gsd-build/ship",
+          "id": "gsd-build/gsd-ship",
           "name": "GSD Ship",
           "rank": 3,
           "branch": "standard",
-          "file": "ship.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/ship.svg?repo=open-gsd/gsd-core",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/ship",
-          "markdown": "[![Gaia Skill: GSD Ship](https://gaiaskilltree.com/badges/_assets/gsd-build/ship.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/ship)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/ship\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/ship.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Ship\" /></a>"
+          "file": "gsd-ship.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-ship.svg?repo=open-gsd/gsd-core",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-ship",
+          "markdown": "[![Gaia Skill: GSD Ship](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-ship.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-ship)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-ship\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-ship.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Ship\" /></a>"
         },
         {
-          "id": "gsd-build/verify-work",
+          "id": "gsd-build/gsd-verify-work",
           "name": "GSD Verify Work",
           "rank": 3,
           "branch": "standard",
-          "file": "verify-work.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/verify-work.svg?repo=open-gsd/gsd-core",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work",
-          "markdown": "[![Gaia Skill: GSD Verify Work](https://gaiaskilltree.com/badges/_assets/gsd-build/verify-work.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/verify-work.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Verify Work\" /></a>"
+          "file": "gsd-verify-work.svg",
+          "badge_url": "https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-verify-work.svg?repo=open-gsd/gsd-core",
+          "deep_link": "https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-verify-work",
+          "markdown": "[![Gaia Skill: GSD Verify Work](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-verify-work.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-verify-work)",
+          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-verify-work\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-verify-work.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Verify Work\" /></a>"
         }
       ],
       "eligible_skill_count": 5,
       "offered_skills": [
-        "gsd-build/discuss-phase",
-        "gsd-build/execute-phase",
-        "gsd-build/plan-phase",
-        "gsd-build/ship",
-        "gsd-build/verify-work"
+        "gsd-build/gsd-discuss-phase",
+        "gsd-build/gsd-execute-phase",
+        "gsd-build/gsd-plan-phase",
+        "gsd-build/gsd-ship",
+        "gsd-build/gsd-verify-work"
       ],
       "badge_presentation": {
         "tier": "LABELED_SECTION",
         "eligible_count": 5,
         "displayed_count": 5,
         "displayed_skill_ids": [
-          "gsd-build/discuss-phase",
-          "gsd-build/execute-phase",
-          "gsd-build/plan-phase",
-          "gsd-build/ship",
-          "gsd-build/verify-work"
+          "gsd-build/gsd-discuss-phase",
+          "gsd-build/gsd-execute-phase",
+          "gsd-build/gsd-plan-phase",
+          "gsd-build/gsd-ship",
+          "gsd-build/gsd-verify-work"
         ],
         "offered_skill_ids": [
-          "gsd-build/discuss-phase",
-          "gsd-build/execute-phase",
-          "gsd-build/plan-phase",
-          "gsd-build/ship",
-          "gsd-build/verify-work"
+          "gsd-build/gsd-discuss-phase",
+          "gsd-build/gsd-execute-phase",
+          "gsd-build/gsd-plan-phase",
+          "gsd-build/gsd-ship",
+          "gsd-build/gsd-verify-work"
         ],
         "is_curated_selection": false,
         "collection_link": "https://gaiaskilltree.com/u/gsd-build/",
-        "markdown": "### Gaia Skill Tree Recognition\n\n[![Gaia Skill: GSD Discuss Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/discuss-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase) [![Gaia Skill: GSD Execute Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/execute-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase) [![Gaia Skill: GSD Plan Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/plan-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase) [![Gaia Skill: GSD Ship](https://gaiaskilltree.com/badges/_assets/gsd-build/ship.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/ship) [![Gaia Skill: GSD Verify Work](https://gaiaskilltree.com/badges/_assets/gsd-build/verify-work.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work)",
-        "html": "<div class=\"gaia-badge-section\">\n  <p><strong>Gaia Skill Tree Recognition:</strong></p>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/discuss-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Discuss Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/execute-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Execute Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/plan-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Plan Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/ship\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/ship.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Ship\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/verify-work.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Verify Work\" /></a>\n</div>"
+        "markdown": "### Gaia Skill Tree Recognition\n\n[![Gaia Skill: GSD Discuss Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-discuss-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-discuss-phase) [![Gaia Skill: GSD Execute Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-execute-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-execute-phase) [![Gaia Skill: GSD Plan Phase](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-plan-phase.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-plan-phase) [![Gaia Skill: GSD Ship](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-ship.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-ship) [![Gaia Skill: GSD Verify Work](https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-verify-work.svg?repo=open-gsd/gsd-core)](https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-verify-work)",
+        "html": "<div class=\"gaia-badge-section\">\n  <p><strong>Gaia Skill Tree Recognition:</strong></p>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-discuss-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-discuss-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Discuss Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-execute-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-execute-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Execute Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-plan-phase\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-plan-phase.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Plan Phase\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-ship\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-ship.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Ship\" /></a>\n  <a href=\"https://gaiaskilltree.com/named/#explorer/gsd-build/gsd-verify-work\"><img src=\"https://gaiaskilltree.com/badges/_assets/gsd-build/gsd-verify-work.svg?repo=open-gsd/gsd-core\" alt=\"Gaia Skill: GSD Verify Work\" /></a>\n</div>"
       },
       "badge_url": null,
       "deep_link": null,
@@ -5104,78 +5215,6 @@
           "ruvnet/worker-integration"
         ],
         "chosen_presentation": "CURATED_COLLECTION"
-      }
-    },
-    "safishamsi/graphify": {
-      "repository": "safishamsi/graphify",
-      "eligibility": "PILOT_CANDIDATE",
-      "status": "PILOT_CANDIDATE",
-      "decision_reason": "Founder-selected pilot candidate (SINGLE_SKILL)",
-      "contributor_associations": [
-        "safishamsi"
-      ],
-      "canonical_skill": {
-        "id": "safishamsi/graphify",
-        "name": "Graphify",
-        "rank": 5,
-        "branch": "unique",
-        "file": "graphify.svg"
-      },
-      "eligible_skills": [
-        {
-          "id": "safishamsi/graphify",
-          "name": "Graphify",
-          "rank": 5,
-          "branch": "unique",
-          "file": "graphify.svg",
-          "badge_url": "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify",
-          "deep_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
-          "markdown": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
-          "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/safishamsi/graphify\"><img src=\"https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify\" alt=\"Gaia Skill: Graphify\" /></a>"
-        }
-      ],
-      "eligible_skill_count": 1,
-      "offered_skills": [
-        "safishamsi/graphify"
-      ],
-      "badge_presentation": {
-        "tier": "SINGLE",
-        "eligible_count": 1,
-        "displayed_count": 1,
-        "displayed_skill_ids": [
-          "safishamsi/graphify"
-        ],
-        "offered_skill_ids": [
-          "safishamsi/graphify"
-        ],
-        "is_curated_selection": false,
-        "collection_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
-        "markdown": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
-        "html": "<a href=\"https://gaiaskilltree.com/named/#explorer/safishamsi/graphify\"><img src=\"https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify\" alt=\"Gaia Skill: Graphify\" /></a>"
-      },
-      "badge_url": "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify",
-      "deep_link": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify",
-      "markdown_preview": "[![Gaia Skill: Graphify](https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=safishamsi/graphify)](https://gaiaskilltree.com/named/#explorer/safishamsi/graphify)",
-      "preflight": {
-        "existing_badge": false,
-        "default_branch": "v8",
-        "readme_path": "README.md",
-        "contribution_policy": "UNKNOWN"
-      },
-      "provisioning": {
-        "approved": false,
-        "approved_by": null,
-        "approved_at": null,
-        "attempts": 0,
-        "attempted_at": null,
-        "pr_url": null,
-        "outcome": null,
-        "decision_notes": null,
-        "history": [],
-        "offered_skills": [
-          "safishamsi/graphify"
-        ],
-        "chosen_presentation": "SINGLE"
       }
     },
     "santifer/career-ops": {

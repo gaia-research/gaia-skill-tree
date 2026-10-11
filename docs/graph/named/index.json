@@ -17032,7 +17032,7 @@
           "ast"
         ],
         "links": {
-          "github": "https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
+          "github": "https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py"
         },
         "evidence": [
           {
@@ -17083,7 +17083,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-11",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -17212,6 +17212,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 171.88 -> 316.88, grade A -> S (verified independent witness)"
+          },
+          {
+            "timestamp": "2026-10-11T00:24:44Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py"
           }
         ],
         "trustMagnitude": 318.14,

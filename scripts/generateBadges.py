@@ -845,6 +845,16 @@ def build_registry(contributors: dict[str, dict]) -> dict:
         for skill in public_skills:
             url = (skill.get("links") or {}).get("github")
             repo = extract_repo(url) if url else None
+            if not repo and skill.get("suiteComponents"):
+                for ev in skill.get("evidence", []):
+                    if ev.get("type") in ("github-stars-own", "repo-own"):
+                        repo = extract_repo(ev.get("source"))
+                        if repo:
+                            break
+                if not repo:
+                    upstream_repo = (skill.get("upstream") or {}).get("repo")
+                    if upstream_repo:
+                        repo = upstream_repo
             if not repo:
                 continue
             repos.setdefault(repo, []).append(skill.get("id", ""))

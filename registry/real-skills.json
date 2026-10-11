@@ -1702,8 +1702,8 @@
       "name": "safishamsi/graphify",
       "contributor": "safishamsi",
       "description": "Knowledge graph construction from codebases and docs to provide agents with architectural memory.",
-      "sourceRepo": "safishamsi/graphify",
-      "url": "https://github.com/safishamsi/graphify",
+      "sourceRepo": "Graphify-Labs/graphify",
+      "url": "https://github.com/Graphify-Labs/graphify",
       "mapsToGaia": [
         "knowledge-graph-build"
       ],
