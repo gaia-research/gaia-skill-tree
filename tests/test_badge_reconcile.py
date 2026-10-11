@@ -127,7 +127,7 @@ def world(repo="o/r", requested=None, canonical=None, readme="# Title\n", open_p
 
 
 def client(gh: FakeGitHub) -> br.GitHubClient:
-    return br.GitHubClient(gh, retries=1, sleep=lambda s: None)
+    return br.GitHubClient(gh, retries=1, sleep=lambda s: None, search_intervals={})
 
 
 # ---------------------------------------------------------------------------
@@ -156,7 +156,7 @@ def registry() -> dict:
 
 @pytest.fixture
 def manifest(registry) -> dict:
-    return pbp.plan_campaign(registry, {})
+    return pbp.plan_campaign(registry, {}, check_assets=False)
 
 
 def approve(manifest: dict, repo: str) -> dict:
@@ -458,7 +458,7 @@ def test_graphify_hold_is_never_recommended_for_approval(registry, manifest):
     reg["contributors"]["safishamsi"] = {"repos": ["safishamsi/graphify"], "topSkill": "safishamsi/graphify", "namedSkills": [
         {"id": "safishamsi/graphify", "name": "Graphify", "rank": 5, "branch": "unique", "file": "graphify.svg"}],
         "skillsByRepo": {"safishamsi/graphify": ["safishamsi/graphify"]}}
-    m = pbp.plan_campaign(reg, {})
+    m = pbp.plan_campaign(reg, {}, check_assets=False)
     gh = world("safishamsi/graphify", canonical="Graphify-Labs/graphify")
     gh.add("/repos/safishamsi/graphify", {"id": 4242, "full_name": "Graphify-Labs/graphify", "default_branch": "main"})
     e = run(gh, m, reg, "safishamsi/graphify")
@@ -868,3 +868,19 @@ def test_atomic_manifest_write_leaves_no_temp_files(tmp_path, manifest):
     pbp.write_manifest_atomic(p, manifest)
     assert json.loads(p.read_text()) == manifest
     assert [x.name for x in tmp_path.iterdir()] == ["m.json"]
+
+
+def test_search_calls_are_spaced_across_threads_but_other_calls_are_not():
+    slept: list[float] = []
+    t = [100.0]
+    gh = world("bob/single")
+    c = br.GitHubClient(gh, sleep=slept.append, clock=lambda: t[0], search_intervals={"issues": 2.0, "code": 6.0})
+    c.get("/search/issues?q=a")
+    c.get("/search/issues?q=b")      # same instant: must wait one interval
+    c.get("/search/code?q=c")        # separate bucket: no wait
+    c.get("/repos/bob/single")       # non-search: never throttled
+    assert slept == [2.0]
+
+
+def test_known_migrations_mirror_planner():
+    assert br.KNOWN_MIGRATIONS == {k.lower(): v.lower() for k, v in pbp.REPO_MIGRATIONS.items()}

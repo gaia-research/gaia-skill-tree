@@ -32,6 +32,7 @@ import os
 import re
 import socket
 import subprocess
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -65,6 +66,8 @@ CONTACTED_STATUSES = ("PR_OPEN", "ADOPTED", "ALREADY_ADOPTED", "DECLINED", "OPTE
 DEFAULT_CAMPAIGN_AUTHORS = ("mbtiongson1",)
 # Founder holds: repo (normalized, incl. known renames) -> tracking issue. Held repos are
 # never recommended for approval and never pass the pre-dispatch gate.
+# Mirrors plan_badge_provisioning.REPO_MIGRATIONS (lowercased) so old names still resolve.
+KNOWN_MIGRATIONS = {"safishamsi/graphify": "graphify-labs/graphify"}
 CAMPAIGN_HOLDS = {
     "safishamsi/graphify": "#2067",
     "graphify-labs/graphify": "#2067",
@@ -73,6 +76,7 @@ MAX_PAGES = 10
 # Unmarked open PRs get a full diff inspection up to this many per repo (newest first).
 # Beyond it the scan is explicitly INCOMPLETE and a repo can never be READY_TO_APPROVE.
 MAX_OPEN_SCAN = 100
+INSPECT_WORKERS = 6  # concurrent PR diff fetches per repository
 DOC_SUFFIXES = (".md", ".mdx", ".markdown", ".rst", ".adoc", ".txt", ".html", ".htm")
 PER_PAGE = 100
 
@@ -166,16 +170,41 @@ class ApiError(Exception):
 class GitHubClient:
     """Thin wrapper adding error classification, bounded retries and pagination."""
 
+    # GitHub search budgets: 30 req/min (issues) and 10 req/min (code) when authenticated.
+    SEARCH_INTERVALS = {"issues": 2.2, "code": 6.5}
+
     def __init__(self, transport: Any, retries: int = 2, backoff: float = 0.5,
-                 sleep: Callable[[float], None] = time.sleep) -> None:
+                 sleep: Callable[[float], None] = time.sleep,
+                 search_intervals: dict[str, float] | None = None,
+                 clock: Callable[[], float] = time.monotonic) -> None:
         self.transport = transport
         self.retries = retries
         self.backoff = backoff
         self.sleep = sleep
+        self.clock = clock
+        self.search_intervals = dict(self.SEARCH_INTERVALS if search_intervals is None else search_intervals)
+        self._search_next: dict[str, float] = {}
+        self._search_lock = threading.Lock()
+
+    def _throttle_search(self, path: str) -> None:
+        """Space search calls across all worker threads so a campaign-wide run stays within budget."""
+        if not path.startswith("/search/"):
+            return
+        bucket = "code" if path.startswith("/search/code") else "issues"
+        interval = self.search_intervals.get(bucket, 0.0)
+        if interval <= 0:
+            return
+        with self._search_lock:
+            now = self.clock()
+            at = max(now, self._search_next.get(bucket, 0.0))
+            self._search_next[bucket] = at + interval
+        if at > now:
+            self.sleep(at - now)
 
     def get(self, path: str) -> Response:
         """GET with retries for transient (5xx / network) failures only."""
         last: ApiError | None = None
+        self._throttle_search(path)
         for attempt in range(self.retries + 1):
             try:
                 resp = self.transport.get(path)
@@ -580,9 +609,14 @@ def gather_prs(client: GitHubClient, canonical: str, ledger_pr_url: str | None,
                 targets.setdefault(n, (owner, repo))
                 matched.setdefault(n, set()).add("search")
 
-        for n in sorted(targets):
+        def _inspect(n: int) -> dict[str, Any]:
             o, r = targets[n]
-            info = inspect_pr(client, o, r, n, open_payloads.get(n) if matched[n] == {"open_scan"} else None)
+            return inspect_pr(client, o, r, n, open_payloads.get(n) if matched[n] == {"open_scan"} else None)
+
+        order = sorted(targets)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=INSPECT_WORKERS) as pool:
+            inspected = list(pool.map(_inspect, order))  # first ApiError propagates (fail closed)
+        for n, info in zip(order, inspected):
             info["matched_by"] = sorted(matched[n])
             raw = info.pop("_raw")
             marker = _is_marker_pr(raw, authors)
@@ -936,6 +970,12 @@ def find_record(manifest: dict[str, Any], repo: str) -> tuple[str, dict[str, Any
     for k, v in manifest.get("repositories", {}).items():
         if normalize_repo_name(k) == want:
             return k, v
+    # Known upstream migrations (e.g. safishamsi/graphify -> Graphify-Labs/graphify).
+    moved = KNOWN_MIGRATIONS.get(want)
+    if moved:
+        for k, v in manifest.get("repositories", {}).items():
+            if normalize_repo_name(k) == moved:
+                return k, v
     raise KeyError(f"Repository '{repo}' not found in campaign manifest.")
 
 
