@@ -79,6 +79,7 @@ DEEP_LINK_RE = re.compile(
     r"""https?://(?:www\.)?gaiaskilltree\.com/named/?#explorer/[^\s)"'<>\]]+""", re.IGNORECASE
 )
 CONTRIBUTOR_STEMS = {"handle", "rank", "skills"}
+GAIA_HOST_RE = re.compile(r"gaiaskilltree\.com", re.IGNORECASE)  # text marker, not URL validation
 PR_URL_RE = re.compile(r"^https?://github\.com/([^/]+)/([^/]+)/pull/(\d+)/?$", re.IGNORECASE)
 
 
@@ -428,7 +429,7 @@ def _is_marker_pr(pr: dict[str, Any], authors: tuple[str, ...]) -> bool:
     user = ((pr.get("user") or {}).get("login") or "").lower()
     return (
         head_ref.startswith("gaia/badge")
-        or "gaiaskilltree.com" in body
+        or bool(GAIA_HOST_RE.search(body))
         or "gaia skill tree" in title
         or "gaia skill tree" in body
         or user in {a.lower() for a in authors}
