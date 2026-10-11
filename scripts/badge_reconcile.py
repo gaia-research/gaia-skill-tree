@@ -70,6 +70,10 @@ CAMPAIGN_HOLDS = {
     "graphify-labs/graphify": "#2067",
 }
 MAX_PAGES = 10
+# Unmarked open PRs get a full diff inspection up to this many per repo (newest first).
+# Beyond it the scan is explicitly INCOMPLETE and a repo can never be READY_TO_APPROVE.
+MAX_OPEN_SCAN = 100
+DOC_SUFFIXES = (".md", ".mdx", ".markdown", ".rst", ".adoc", ".txt", ".html", ".htm")
 PER_PAGE = 100
 
 GAIA_URL_RE = re.compile(
@@ -406,7 +410,8 @@ def _added_lines(files: list[dict[str, Any]]) -> tuple[str, bool]:
     for f in files:
         patch = f.get("patch")
         if patch is None:
-            if f.get("status") not in ("removed",) and f.get("changes", 1) != 0:
+            doc_like = str(f.get("filename", "")).lower().endswith(DOC_SUFFIXES)
+            if doc_like and f.get("status") not in ("removed",) and f.get("changes", 1) != 0:
                 missing = True
             continue
         for line in patch.splitlines():
@@ -436,10 +441,11 @@ def _is_marker_pr(pr: dict[str, Any], authors: tuple[str, ...]) -> bool:
     )
 
 
-def inspect_pr(client: GitHubClient, owner: str, repo: str, number: int) -> dict[str, Any]:
+def inspect_pr(client: GitHubClient, owner: str, repo: str, number: int,
+               payload: dict[str, Any] | None = None) -> dict[str, Any]:
     """Fetch exact PR status plus patch contents (never rely on the title)."""
     base = f"/repos/{owner}/{repo}/pulls/{number}"
-    pr = client.get_ok(base).body
+    pr = payload if payload is not None else client.get_ok(base).body
     if not isinstance(pr, dict):
         raise ApiError("BAD_RESPONSE", f"PR {number} payload not an object")
     files, complete, _meta = client.paginate(f"{base}/files")
@@ -474,6 +480,7 @@ class Evidence:
     identity: dict[str, Any] = field(default_factory=dict)
     prs: list[dict[str, Any]] = field(default_factory=list)
     ignored_prs: list[int] = field(default_factory=list)
+    open_scan: dict[str, Any] = field(default_factory=dict)
     readme: dict[str, Any] = field(default_factory=dict)
     other_files: dict[str, Any] = field(default_factory=dict)
     components: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -524,7 +531,8 @@ def resolve_identity(client: GitHubClient, requested: str, ev: Evidence) -> str 
 
 
 def gather_prs(client: GitHubClient, canonical: str, ledger_pr_url: str | None,
-               history_urls: list[str], authors: tuple[str, ...], ev: Evidence) -> None:
+               history_urls: list[str], authors: tuple[str, ...], ev: Evidence,
+               open_scan_limit: int = MAX_OPEN_SCAN) -> None:
     """Combine ledger-recorded PRs, the live open-PR list, and search for unledgered PRs."""
     owner, repo = canonical.split("/", 1)
     targets: dict[int, tuple[str, str]] = {}  # number -> (owner, repo) to fetch from
@@ -543,11 +551,22 @@ def gather_prs(client: GitHubClient, canonical: str, ledger_pr_url: str | None,
         # Authoritative (non-index) view of all open PRs.
         open_prs, open_complete, _ = client.paginate(f"/repos/{owner}/{repo}/pulls?state=open")
         complete &= open_complete
+        unmarked: list[dict[str, Any]] = []
         for pr in open_prs:
             if _is_marker_pr(pr, authors) or _is_weak_candidate(pr):
                 n = pr["number"]
                 targets.setdefault(n, (owner, repo))
                 matched.setdefault(n, set()).add("open_list")
+            else:
+                unmarked.append(pr)
+        # Unmarked open PRs may still carry a Gaia badge (odd title/branch/author): inspect the
+        # diff of up to `open_scan_limit` of them rather than trusting metadata.
+        scan_pool = [pr for pr in unmarked if pr["number"] not in targets][:open_scan_limit]
+        open_payloads = {pr["number"]: pr for pr in scan_pool}
+        scan_incomplete = (len(unmarked) > open_scan_limit) or not open_complete
+        for n in open_payloads:
+            targets.setdefault(n, (owner, repo))
+            matched.setdefault(n, set()).add("open_scan")
 
         # Index-based search for merged / closed / unledgered PRs.
         queries = ["gaiaskilltree.com", '"Gaia Skill Tree" in:title,body']
@@ -563,13 +582,21 @@ def gather_prs(client: GitHubClient, canonical: str, ledger_pr_url: str | None,
 
         for n in sorted(targets):
             o, r = targets[n]
-            info = inspect_pr(client, o, r, n)
+            info = inspect_pr(client, o, r, n, open_payloads.get(n) if matched[n] == {"open_scan"} else None)
             info["matched_by"] = sorted(matched[n])
             raw = info.pop("_raw")
             marker = _is_marker_pr(raw, authors)
             info["ledgered"] = "ledger" in matched[n]
             info["has_gaia_badge"] = bool(info["badge_refs"])
             info["marker_only"] = (not info["has_gaia_badge"]) and marker and not info["ledgered"]
+            if matched[n] == {"open_scan"} and not info["has_gaia_badge"]:
+                # Unmarked PR sampled only by the open scan: a clean diff is unrelated; an
+                # uninspectable one makes the scan (not the PR list) incomplete.
+                if info["patch_unavailable"]:
+                    scan_incomplete = True
+                else:
+                    ev.ignored_prs.append(n)
+                continue
             if (not info["has_gaia_badge"] and not info["ledgered"] and not marker
                     and not info["patch_unavailable"]):
                 # Weak candidate whose full diff is clean: unrelated badge PR.
@@ -581,6 +608,9 @@ def gather_prs(client: GitHubClient, canonical: str, ledger_pr_url: str | None,
     except ApiError as e:
         ev.fail("pull_requests", e)
         return
+    ev.open_scan = {"complete": not scan_incomplete, "open_total": len(open_prs),
+                    "unmarked_total": len(unmarked), "unmarked_inspected": len(scan_pool),
+                    "limit": open_scan_limit}
     if complete:
         ev.ok("pull_requests", searched=queries, inspected=len(ev.prs))
     else:
@@ -649,7 +679,7 @@ def gather_other_files(client: GitHubClient, canonical: str, readme_path: str | 
 
 
 def collect_evidence(client: GitHubClient, requested_repo: str, record: dict[str, Any],
-                     authors: tuple[str, ...]) -> Evidence:
+                     authors: tuple[str, ...], open_scan_limit: int = MAX_OPEN_SCAN) -> Evidence:
     ev = Evidence()
     canonical = resolve_identity(client, requested_repo, ev)
     prov = record.get("provisioning", {})
@@ -658,7 +688,7 @@ def collect_evidence(client: GitHubClient, requested_repo: str, record: dict[str
         for c in ("pull_requests", "readme", "other_files"):
             ev.components[c] = {"complete": False, "error_code": "SKIPPED", "detail": "identity unresolved"}
         return ev
-    gather_prs(client, canonical, prov.get("pr_url"), hist_urls, authors, ev)
+    gather_prs(client, canonical, prov.get("pr_url"), hist_urls, authors, ev, open_scan_limit)
     gather_readme(client, canonical, ev.identity["default_branch"], ev)
     gather_other_files(client, canonical, ev.readme.get("path"), ev)
     return ev
@@ -774,6 +804,11 @@ def classify(record: dict[str, Any], expected: list[dict[str, Any]], ev: Evidenc
             anomaly("merged_without_badge", "high",
                     f"PR #{p['number']} merged but its badge is not on the current default-branch README.")
 
+    if ev.open_scan and not ev.open_scan.get("complete"):
+        anomaly("open_pr_scan_incomplete", "medium",
+                f"Inspected {ev.open_scan.get('unmarked_inspected')} of {ev.open_scan.get('unmarked_total')} "
+                "unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.")
+
     has_campaign_pr = any(p["ledgered"] for p in ev.prs) or bool(prov.get("pr_url"))
 
     # --- precedence -------------------------------------------------------
@@ -811,17 +846,23 @@ def classify(record: dict[str, Any], expected: list[dict[str, Any]], ev: Evidenc
     if record.get("eligibility") not in ("READY", "PILOT_CANDIDATE") or not record.get("canonical_skill"):
         reasons.append(f"Ledger eligibility {record.get('eligibility')} is not dispatchable.")
         return finish("NEEDS_REVIEW", "EXPLICIT_REVIEW_REQUIRED_NO_AUTO_OUTREACH")
+    if ev.open_scan and not ev.open_scan.get("complete"):
+        reasons.append(
+            f"Open-PR scan incomplete ({ev.open_scan.get('unmarked_inspected')} of "
+            f"{ev.open_scan.get('unmarked_total')} unmarked open PRs inspected, limit {ev.open_scan.get('limit')}); "
+            "an unmarked PR with a Gaia badge cannot be ruled out. Failing closed.")
+        return finish("UNKNOWN", "RETRY_RECONCILE_NO_DISPATCH")
     reasons.append("No PR, no badge, complete upstream evidence, no prior outreach.")
     return finish("READY_TO_APPROVE", "REQUEST_HUMAN_APPROVAL")
 
 
 def reconcile_repo(client: GitHubClient, requested: str, record: dict[str, Any],
                    registry: dict[str, Any], authors: tuple[str, ...] = DEFAULT_CAMPAIGN_AUTHORS,
-                   now: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+                   now: Callable[[], datetime] = utcnow, open_scan_limit: int = MAX_OPEN_SCAN) -> dict[str, Any]:
     """Reconcile one repository; never raises for upstream conditions (fails closed)."""
     expected = expected_skills_for_repo(registry, requested)
     try:
-        ev = collect_evidence(client, requested, record, authors)
+        ev = collect_evidence(client, requested, record, authors, open_scan_limit)
     except ApiError as e:  # defensive: a late failure must not escape as success
         ev = Evidence()
         ev.fail("identity", e)
@@ -857,6 +898,7 @@ def reconcile_repo(client: GitHubClient, requested: str, record: dict[str, Any],
             "components": ev.components,
             "readme_commit_sha": ev.readme.get("commit_sha"),
             "errors": ev.errors,
+            "open_pr_scan": ev.open_scan,
         },
         "ledger": {
             "status": record.get("status"),
@@ -899,7 +941,8 @@ def find_record(manifest: dict[str, Any], repo: str) -> tuple[str, dict[str, Any
 
 def reconcile_campaign(client: GitHubClient, manifest: dict[str, Any], registry: dict[str, Any],
                        repos: list[str] | None = None, authors: tuple[str, ...] = DEFAULT_CAMPAIGN_AUTHORS,
-                       max_workers: int = 4, now: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+                       max_workers: int = 4, now: Callable[[], datetime] = utcnow,
+                       open_scan_limit: int = MAX_OPEN_SCAN) -> dict[str, Any]:
     """Read-only reconciliation of selected repos (or the whole manifest)."""
     all_repos = manifest.get("repositories", {})
     if repos:
@@ -909,7 +952,7 @@ def reconcile_campaign(client: GitHubClient, manifest: dict[str, Any], registry:
     digest_before = manifest_digest(manifest)
     results: dict[str, dict[str, Any]] = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, max_workers)) as pool:
-        futs = {pool.submit(reconcile_repo, client, k, all_repos[k], registry, authors, now): k for k in keys}
+        futs = {pool.submit(reconcile_repo, client, k, all_repos[k], registry, authors, now, open_scan_limit): k for k in keys}
         for fut in concurrent.futures.as_completed(futs):
             results[futs[fut]] = fut.result()
     ordered = {k: results[k] for k in sorted(results)}
@@ -1025,8 +1068,24 @@ def reservation_path(repo: str, directory: Path = DEFAULT_RESERVATION_DIR) -> Pa
     return directory / f"{_slug(repo)}.lock"
 
 
+def ledger_snapshot(record: dict[str, Any]) -> dict[str, Any]:
+    """The authorization-relevant ledger facts a reservation is bound to."""
+    prov = record.get("provisioning", {})
+    return {
+        "status": record.get("status"),
+        "approved": bool(prov.get("approved")),
+        "approved_by": prov.get("approved_by"),
+        "approved_at": prov.get("approved_at"),
+        "attempts": int(prov.get("attempts") or 0),
+        "pr_url": prov.get("pr_url"),
+        "outcome": prov.get("outcome"),
+        "history_len": len(prov.get("history", [])),
+    }
+
+
 def acquire_reservation(repo: str, worker: str, ttl_minutes: int = 30, directory: Path = DEFAULT_RESERVATION_DIR,
-                        now: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+                        now: Callable[[], datetime] = utcnow,
+                        ledger_snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
     """Exclusive per-repo reservation via O_CREAT|O_EXCL (atomic on a local filesystem).
 
     Expired reservations are NOT silently stolen; they must be released explicitly.
@@ -1043,6 +1102,7 @@ def acquire_reservation(repo: str, worker: str, ttl_minutes: int = 30, directory
         "host": socket.gethostname(),
         "acquired_at": t.isoformat(),
         "expires_at": (t + timedelta(minutes=ttl_minutes)).isoformat(),
+        "ledger_snapshot": ledger_snapshot,
     }
     try:
         fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
@@ -1063,7 +1123,13 @@ def acquire_reservation(repo: str, worker: str, ttl_minutes: int = 30, directory
 
 
 def verify_reservation(repo: str, token: str, directory: Path = DEFAULT_RESERVATION_DIR,
-                       now: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+                       now: Callable[[], datetime] = utcnow,
+                       current_snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Validate token + expiry and, when given, that the ledger still matches the gate-time snapshot.
+
+    A token authorizes one PR for the ledger state it was issued against. Any change to status,
+    approval, attempts, PR URL, outcome or history (e.g. DECLINED / OPTED_OUT) voids it.
+    """
     path = reservation_path(repo, directory)
     try:
         held = json.loads(path.read_text(encoding="utf-8"))
@@ -1073,6 +1139,10 @@ def verify_reservation(repo: str, token: str, directory: Path = DEFAULT_RESERVAT
         raise ReservationError(f"Reservation token mismatch for {repo}")
     if datetime.fromisoformat(held["expires_at"]) < now():
         raise ReservationError(f"Reservation for {repo} expired at {held['expires_at']}; re-run predispatch")
+    if current_snapshot is not None and held.get("ledger_snapshot") != current_snapshot:
+        raise ReservationError(
+            f"Ledger for {repo} changed since predispatch (status now {current_snapshot.get('status')}); "
+            "authorization void, re-run predispatch")
     return held
 
 
@@ -1123,7 +1193,8 @@ def evaluate_dispatch(manifest: dict[str, Any], repo: str, entry: dict[str, Any]
 def predispatch_gate(client: GitHubClient, manifest: dict[str, Any], registry: dict[str, Any], repo: str,
                      worker: str, ttl_minutes: int = 30, authors: tuple[str, ...] = DEFAULT_CAMPAIGN_AUTHORS,
                      directory: Path = DEFAULT_RESERVATION_DIR,
-                     now: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+                     now: Callable[[], datetime] = utcnow,
+                     open_scan_limit: int = MAX_OPEN_SCAN) -> dict[str, Any]:
     """Mandatory immediately-before-PR check.
 
     Order: reserve first (so concurrent workers serialize), then refresh upstream
@@ -1132,11 +1203,12 @@ def predispatch_gate(client: GitHubClient, manifest: dict[str, Any], registry: d
     """
     key, record = find_record(manifest, repo)
     try:
-        res = acquire_reservation(repo, worker, ttl_minutes, directory, now)
+        res = acquire_reservation(repo, worker, ttl_minutes, directory, now,
+                                  ledger_snapshot=ledger_snapshot(record))
     except ReservationError as e:
         return {"allowed": False, "repository": key, "refusals": [str(e)], "reservation": None, "entry": None}
     try:
-        entry = reconcile_repo(client, key, record, registry, authors, now)
+        entry = reconcile_repo(client, key, record, registry, authors, now, open_scan_limit)
         refusals = evaluate_dispatch(manifest, key, entry)
     except Exception as e:  # fail closed on anything unexpected
         release_reservation(repo, res["token"], directory=directory)

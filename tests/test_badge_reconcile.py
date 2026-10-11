@@ -264,9 +264,65 @@ def test_unledgered_open_pr_is_found_by_content_and_blocks(registry, manifest):
 
 def test_unrelated_open_pr_is_ignored(registry, manifest):
     p = pr_payload(8, user="someone", head="fix-typo", title="Fix typo")
-    gh = world("bob/single", open_pulls=[p])
+    clean = [{"filename": "src/a.py", "status": "modified", "changes": 3, "patch": "@@ -1 +1 @@\n+x = 1\n"}]
+    gh = world("bob/single", open_pulls=[p], prs={8: (p, clean)})
     e = run(gh, manifest, registry, SINGLE)
     assert e["classification"] == "READY_TO_APPROVE" and e["pull_requests"] == []
+    assert e["ignored_pr_numbers"] == [8]
+    assert e["evidence"]["open_pr_scan"]["complete"] is True
+
+
+def test_unmarked_open_pr_with_gaia_badge_is_found_and_blocks_dispatch(registry, manifest, tmp_path):
+    """Review check 1: odd title/branch/author must not hide a Gaia badge PR."""
+    approve(manifest, SINGLE)
+    p = pr_payload(21, user="a-maintainer", head="patch-1", title="Update readme")
+    gh = world("bob/single", open_pulls=[p], prs={21: (p, patch_for(badge_md("bob", "solo", "bob/single")))})
+    e = run(gh, manifest, registry, SINGLE)
+    assert e["classification"] == "PR_OPEN"
+    assert e["pull_requests"][0]["matched_by"] == ["open_scan"]
+    assert any(a["code"] == "unledgered_pr" for a in e["anomalies"])
+    verdict = br.predispatch_gate(client(gh), manifest, registry, SINGLE, "w", directory=tmp_path / "res", now=now)
+    assert verdict["allowed"] is False
+    assert not list((tmp_path / "res").glob("*.lock"))  # reservation released on refusal
+
+
+def test_open_pr_scan_over_limit_fails_closed_never_ready(registry, manifest, tmp_path):
+    approve(manifest, SINGLE)
+    ps = [pr_payload(30 + i, user="u", head=f"b{i}", title=f"t{i}") for i in range(3)]
+    clean = [{"filename": "a.md", "status": "modified", "changes": 1, "patch": "@@ -1 +1 @@\n+hi\n"}]
+    gh = world("bob/single", open_pulls=ps, prs={p["number"]: (p, clean) for p in ps})
+    key, rec = br.find_record(manifest, SINGLE)
+    e = br.reconcile_repo(client(gh), key, rec, registry, now=now, open_scan_limit=2)
+    assert e["classification"] == "UNKNOWN"
+    assert e["evidence"]["open_pr_scan"] == {"complete": False, "open_total": 3, "unmarked_total": 3,
+                                             "unmarked_inspected": 2, "limit": 2}
+    assert any(a["code"] == "open_pr_scan_incomplete" for a in e["anomalies"])
+    assert br.evaluate_dispatch(manifest, key, e)
+    assert br.reconcile_repo(client(gh), key, rec, registry, now=now, open_scan_limit=3)["classification"] == "READY_TO_APPROVE"
+
+
+def test_unmarked_pr_with_unreadable_readme_diff_makes_scan_incomplete(registry, manifest):
+    p = pr_payload(40, user="u", head="b", title="t")
+    big = [{"filename": "README.md", "status": "modified", "changes": 5000}]
+    e = run(world("bob/single", open_pulls=[p], prs={40: (p, big)}), manifest, registry, SINGLE)
+    assert e["classification"] == "UNKNOWN" and e["pull_requests"] == []
+
+
+def test_reservation_voided_when_ledger_authorization_changes(tmp_path, registry, manifest):
+    """Review check 2: a token cannot outlive the authorization it was issued under."""
+    approve(manifest, SINGLE)
+    res = tmp_path / "res"
+    v = br.predispatch_gate(client(world("bob/single")), manifest, registry, SINGLE, "w", directory=res, now=now)
+    assert v["allowed"]
+    token = v["reservation"]["token"]
+    _, rec = br.find_record(manifest, SINGLE)
+    br.verify_reservation(SINGLE, token, res, now=now, current_snapshot=br.ledger_snapshot(rec))
+    for status in ("DECLINED", "OPTED_OUT"):
+        changed = json.loads(json.dumps(manifest))
+        pbp.record_outcome(changed, SINGLE, status, notes="maintainer said no")
+        _, crec = br.find_record(changed, SINGLE)
+        with pytest.raises(br.ReservationError, match="changed since predispatch"):
+            br.verify_reservation(SINGLE, token, res, now=now, current_snapshot=br.ledger_snapshot(crec))
 
 
 def test_unrelated_badge_pr_with_clean_diff_is_ignored_but_unreadable_one_is_not(registry, manifest):
@@ -566,7 +622,7 @@ def test_campaign_receipt_is_read_only_idempotent_and_complete(registry, manifes
     gh.add("/repos/Alice/Multi/readme", {"encoding": "base64", "content": b64(badge_md("alice", "main")), "sha": "b", "path": "README.md"})
     c = client(gh)
     r1 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=3)
-    r2 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=1)
+    r2 = br.reconcile_campaign(c, manifest, registry, now=now, max_workers=1, open_scan_limit=100)
     assert r1 == r2  # repeat-run idempotency (deterministic given fixed clock)
     assert json.dumps(manifest, sort_keys=True) == before
     assert r1["mode"] == "read-only" and r1["summary"]["repositories"] == 2
@@ -715,11 +771,11 @@ def test_corrupt_manifest_preserved_and_fail_closed(tmp_path, registry):
     reg = tmp_path / "registry.json"
     reg.write_text(json.dumps(registry), encoding="utf-8")
     args = Namespace(manifest=mpath, registry=reg, campaign_author=None, repo=["bob/single"], all=False,
-                     out_dir=tmp_path / "out", max_workers=1)
+                     out_dir=tmp_path / "out", max_workers=1, open_scan_limit=100)
     with pytest.raises(ValueError, match="Corrupt manifest"):
         pbp._cmd_reconcile(args, client(FakeGitHub()))
     pargs = Namespace(manifest=mpath, registry=reg, campaign_author=None, repo="bob/single", worker="w",
-                      ttl_minutes=5, out_dir=None, reservation_dir=tmp_path / "res")
+                      ttl_minutes=5, out_dir=None, reservation_dir=tmp_path / "res", open_scan_limit=100)
     with pytest.raises(ValueError, match="Corrupt manifest"):
         pbp._cmd_predispatch(pargs, client(FakeGitHub()))
     assert mpath.read_text() == "{not json"
@@ -735,7 +791,7 @@ def test_cli_reconcile_end_to_end_writes_only_receipts(tmp_path, registry, manif
     reg.write_text(json.dumps(registry), encoding="utf-8")
     before = mpath.read_bytes()
     args = Namespace(manifest=mpath, registry=reg, campaign_author=None, repo=None, all=True,
-                     out_dir=tmp_path / "out", max_workers=2)
+                     out_dir=tmp_path / "out", max_workers=2, open_scan_limit=100)
     gh = world("bob/single")
     gh.add("/repos/Alice/Multi", {"message": "Not Found"}, status=404)
     assert pbp._cmd_reconcile(args, client(gh)) == 0
@@ -753,7 +809,7 @@ def test_cli_predispatch_exit_codes_and_pr_open_requires_token(tmp_path, registr
     _write_manifest(mpath, manifest)
     reg.write_text(json.dumps(registry), encoding="utf-8")
     pargs = Namespace(manifest=mpath, registry=reg, campaign_author=None, repo=SINGLE, worker="w",
-                      ttl_minutes=10, out_dir=tmp_path / "gate", reservation_dir=res)
+                      ttl_minutes=10, out_dir=tmp_path / "gate", reservation_dir=res, open_scan_limit=100)
     assert pbp._cmd_predispatch(pargs, client(world("bob/single"))) == 0
     token = json.loads(next(res.glob("*.lock")).read_text())["token"]
     assert pbp._cmd_predispatch(pargs, client(world("bob/single"))) == 2  # already reserved
@@ -781,6 +837,30 @@ def test_cli_predispatch_exit_codes_and_pr_open_requires_token(tmp_path, registr
     assert not list(res.glob("*.lock"))  # reservation consumed
     # History preserved append-only
     assert [h["to_status"] for h in rec["provisioning"]["history"]] == ["APPROVED", "PR_OPEN"]
+
+
+@pytest.mark.integration
+def test_cli_old_token_cannot_record_pr_after_decline(tmp_path, registry, manifest):
+    mpath, reg, res = tmp_path / "manifest.json", tmp_path / "registry.json", tmp_path / "res"
+    approve(manifest, SINGLE)
+    _write_manifest(mpath, manifest)
+    reg.write_text(json.dumps(registry), encoding="utf-8")
+    pargs = Namespace(manifest=mpath, registry=reg, campaign_author=None, repo=SINGLE, worker="w",
+                      ttl_minutes=10, out_dir=None, reservation_dir=res, open_scan_limit=100)
+    assert pbp._cmd_predispatch(pargs, client(world("bob/single"))) == 0
+    token = json.loads(next(res.glob("*.lock")).read_text())["token"]
+
+    r = _cli("record-outcome", "--manifest", str(mpath), "--repo", SINGLE, "--status", "DECLINED",
+             "--notes", "maintainer declined", "--reservation-dir", str(res))
+    assert r.returncode == 0, r.stderr
+    assert not list(res.glob("*.lock"))  # any other ledger change voids the outstanding reservation
+
+    r = _cli("record-outcome", "--manifest", str(mpath), "--repo", SINGLE, "--status", "PR_OPEN",
+             "--pr-url", "https://github.com/bob/single/pull/1", "--reservation-token", token,
+             "--reservation-dir", str(res))
+    assert r.returncode != 0
+    rec = json.loads(mpath.read_text())["repositories"][SINGLE]
+    assert rec["status"] == "DECLINED" and not rec["provisioning"].get("pr_url")
 
 
 def test_atomic_manifest_write_leaves_no_temp_files(tmp_path, manifest):

@@ -105,6 +105,11 @@ python3 scripts/plan_badge_provisioning.py record-outcome --repo <owner>/<repo> 
 python3 scripts/plan_badge_provisioning.py release-reservation --repo <owner>/<repo> --token <token>  # if you abort
 ```
 
+The token is bound to the ledger state it was issued under and is void if that changes (e.g. `DECLINED`,
+`OPTED_OUT`) or it expires. `--force` (on `record-outcome` / `release-reservation`) is an **admin override**
+for founder-authorized recovery only. Agents and routines must never use it. If a repo has more open PRs than
+`--open-scan-limit`, it reports `UNKNOWN` and is never dispatchable.
+
 Residual risk: reservations are local files (`campaigns/badge-provisioning/.reservations/`), so they
 serialize workers on one checkout/machine only. GitHub offers no atomic compare-and-create for PRs, so a
 maintainer or another machine can still open a PR between the final check and creation. Run the

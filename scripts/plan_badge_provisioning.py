@@ -647,6 +647,7 @@ def _cmd_reconcile(args: argparse.Namespace, client: "br.GitHubClient | None" = 
     receipt = br.reconcile_campaign(
         client or default_client, manifest, registry,
         repos=None if args.all else args.repo, authors=authors, max_workers=args.max_workers,
+        open_scan_limit=args.open_scan_limit,
     )
     out_dir = args.out_dir or (DEFAULT_MANIFEST.parent / "receipts" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
     jp, mp = br.write_receipt(receipt, out_dir)
@@ -664,6 +665,7 @@ def _cmd_predispatch(args: argparse.Namespace, client: "br.GitHubClient | None" 
     verdict = br.predispatch_gate(
         client or default_client, manifest, registry, args.repo, args.worker,
         ttl_minutes=args.ttl_minutes, authors=authors, directory=args.reservation_dir,
+        open_scan_limit=args.open_scan_limit,
     )
     if args.out_dir and verdict.get("entry"):
         args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -697,7 +699,8 @@ def main() -> None:
     record_parser.add_argument("--notes", default=None, help="Decision notes or reason")
     record_parser.add_argument("--approved-by", default=None, help="Human reviewer granting approval")
     record_parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to manifest.json")
-    record_parser.add_argument("--force", action="store_true", help="Bypass transition validations (admin recovery only)")
+    record_parser.add_argument("--force", action="store_true", help="ADMIN OVERRIDE (founder-authorized recovery only; agents/routines must never use it): "
+                                 "bypasses transition validation and the PR_OPEN reservation gate")
 
     record_parser.add_argument("--reservation-token", default=None, help="Token from a successful 'predispatch' (required for PR_OPEN)")
     record_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
@@ -707,6 +710,9 @@ def main() -> None:
         sp.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to manifest.json (read-only)")
         sp.add_argument("--campaign-author", action="append", default=None,
                         help="GitHub login(s) that author campaign PRs (default: mbtiongson1)")
+        sp.add_argument("--open-scan-limit", type=int, default=br.MAX_OPEN_SCAN,
+                        help="Max unmarked open PRs to diff-inspect per repo; more makes the repo UNKNOWN, "
+                             f"never READY (default {br.MAX_OPEN_SCAN})")
 
     rec_parser = subparsers.add_parser(
         "reconcile", help="Read-only upstream reconciliation; writes receipt.json + receipt.md only")
@@ -730,7 +736,8 @@ def main() -> None:
     rel_parser = subparsers.add_parser("release-reservation", help="Release a dispatch reservation")
     rel_parser.add_argument("--repo", required=True)
     rel_parser.add_argument("--token", default=None)
-    rel_parser.add_argument("--force", action="store_true", help="Release without token (stale reservation recovery)")
+    rel_parser.add_argument("--force", action="store_true",
+                            help="ADMIN OVERRIDE: release without token (stale reservation recovery; not for routine agent use)")
     rel_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
 
     # Support default execution as 'plan' when no subcommand is specified
@@ -768,7 +775,9 @@ def main() -> None:
                         "(#2069 mandatory pre-dispatch gate)."
                     )
                 try:
-                    br.verify_reservation(args.repo, args.reservation_token, args.reservation_dir)
+                    _key, _rec = br.find_record(manifest_data, args.repo)
+                    br.verify_reservation(args.repo, args.reservation_token, args.reservation_dir,
+                                          current_snapshot=br.ledger_snapshot(_rec))
                 except br.ReservationError as e:
                     raise ValueError(f"Pre-dispatch reservation invalid: {e}") from e
 
@@ -784,6 +793,9 @@ def main() -> None:
             write_manifest_atomic(args.manifest, updated)
             if gated_pr_open:
                 br.release_reservation(args.repo, args.reservation_token, directory=args.reservation_dir)
+            else:
+                # Any other ledger change voids outstanding authorization for this repo.
+                br.release_reservation(args.repo, force=True, directory=args.reservation_dir)
         print(f"Outcome successfully recorded for {args.repo} -> {args.status}")
         return
 
