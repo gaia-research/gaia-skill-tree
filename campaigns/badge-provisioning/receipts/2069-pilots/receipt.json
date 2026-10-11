@@ -1,0 +1,486 @@
+{
+  "anomalies": [
+    {
+      "code": "repo_renamed",
+      "detail": "safishamsi/graphify redirects to Graphify-Labs/graphify",
+      "repository": "Graphify-Labs/graphify",
+      "severity": "info"
+    }
+  ],
+  "campaign": "Gaia Badge Provisioning Campaign #1817",
+  "generated_at": "2026-10-11T00:05:13.616911+00:00",
+  "issue": "#2069",
+  "manifest_sha256": "cd519b41706f81ba9dd61026e2fd4d6e5d59be81882472ccb7d6a45666738333",
+  "mode": "read-only",
+  "repositories": {
+    "pbakaus/impeccable": {
+      "aliases": [],
+      "anomalies": [],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "pbakaus/impeccable"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T00:04:49.607639+00:00",
+        "readme_commit_sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7"
+      },
+      "expected_skills": [
+        {
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4
+        }
+      ],
+      "github_id": 1097346685,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "pbakaus/impeccable",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1097346685,
+        "renamed": false,
+        "requested": "pbakaus/impeccable"
+      },
+      "ignored_pr_numbers": [],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-10T23:32:40.838566+00:00",
+        "approved_by": "Marco Tiongson",
+        "attempted_at": "2026-10-10T23:32:41.037350+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "impeccable.svg",
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "PILOT_CANDIDATE",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "pr_url": null,
+            "timestamp": "2026-10-10T23:32:40.838566+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "APPROVED",
+            "notes": "Outbound badge provisioning PR opened",
+            "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+            "timestamp": "2026-10-10T23:32:41.037350+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "pbakaus",
+              "stem": "impeccable",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/pbakaus/impeccable.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "gaia/badge-impeccable",
+            "repo": "mbtiongson1/impeccable",
+            "sha": "8b5242795b3432ae2f5e76d249b426c8b95bdb92"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 1010,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for Impeccable",
+          "url": "https://github.com/pbakaus/impeccable/pull/1010"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "f0dfab179ff56fd261d17adbde5386cf9a2b104e",
+        "branch": "main",
+        "commit_sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+        "deep_links": [],
+        "html_url": "https://github.com/pbakaus/impeccable/blob/d631a8827f99414d2b6daba4ef08b7f8701751d7/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #1010"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "pbakaus/impeccable",
+      "requested_name": "pbakaus/impeccable",
+      "terminal_restriction": null
+    },
+    "safishamsi/graphify": {
+      "aliases": [
+        "safishamsi/graphify"
+      ],
+      "anomalies": [
+        {
+          "code": "repo_renamed",
+          "detail": "safishamsi/graphify redirects to Graphify-Labs/graphify",
+          "severity": "info"
+        }
+      ],
+      "badges_found": [],
+      "classification": "READY_TO_APPROVE",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "safishamsi/graphify"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "v8",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 0,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T00:05:13.609469+00:00",
+        "readme_commit_sha": "b4e6307bf170f27e0cb888c03f4af9308d531a42"
+      },
+      "expected_skills": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 5
+        }
+      ],
+      "github_id": 1200597263,
+      "hold": "#2067",
+      "identity": {
+        "archived": false,
+        "canonical": "Graphify-Labs/graphify",
+        "case_normalized": false,
+        "default_branch": "v8",
+        "disabled": false,
+        "github_id": 1200597263,
+        "renamed": true,
+        "requested": "safishamsi/graphify"
+      },
+      "ignored_pr_numbers": [
+        2223
+      ],
+      "ledger": {
+        "approved": false,
+        "approved_at": null,
+        "approved_by": null,
+        "attempted_at": null,
+        "attempts": 0,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "graphify.svg",
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 5
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [],
+        "outcome": null,
+        "pr_url": null,
+        "status": "PILOT_CANDIDATE"
+      },
+      "other_files": [],
+      "pull_requests": [],
+      "readme": {
+        "badges": [],
+        "blob_sha": "a1d7be6c5e4a4eb241e1d73ea8f1314d3390bc93",
+        "branch": "v8",
+        "commit_sha": "b4e6307bf170f27e0cb888c03f4af9308d531a42",
+        "deep_links": [],
+        "html_url": "https://github.com/Graphify-Labs/graphify/blob/b4e6307bf170f27e0cb888c03f4af9308d531a42/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "No PR, no badge, complete upstream evidence, no prior outreach."
+      ],
+      "recommended_action": "HELD_UNDER_2067_DO_NOT_REQUEST_APPROVAL",
+      "repository": "Graphify-Labs/graphify",
+      "requested_name": "safishamsi/graphify",
+      "terminal_restriction": null
+    },
+    "trailhq/Graft": {
+      "aliases": [],
+      "anomalies": [],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "trailhq/graft"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T00:04:52.048352+00:00",
+        "readme_commit_sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad"
+      },
+      "expected_skills": [
+        {
+          "id": "trailhq/graft",
+          "name": "graft",
+          "rank": 4
+        }
+      ],
+      "github_id": 1288325627,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "trailhq/Graft",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1288325627,
+        "renamed": false,
+        "requested": "trailhq/Graft"
+      },
+      "ignored_pr_numbers": [],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-10T23:32:41.224404+00:00",
+        "approved_by": "Marco Tiongson",
+        "attempted_at": "2026-10-10T23:32:41.404960+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "graft.svg",
+          "id": "trailhq/graft",
+          "name": "graft",
+          "rank": 4
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "PILOT_CANDIDATE",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "pr_url": null,
+            "timestamp": "2026-10-10T23:32:41.224404+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "APPROVED",
+            "notes": "Outbound badge provisioning PR opened",
+            "pr_url": "https://github.com/trailhq/Graft/pull/581",
+            "timestamp": "2026-10-10T23:32:41.404960+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/trailhq/Graft/pull/581",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "trailhq",
+              "stem": "graft",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/trailhq/graft.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/trailhq/graft"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "gaia/badge-graft",
+            "repo": "mbtiongson1/Graft",
+            "sha": "c0b03993be18b8e1cd04c52a145cae3befe73d6b"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 581,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for graft",
+          "url": "https://github.com/trailhq/Graft/pull/581"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "709a27680c8f26e9f2c1fdd8d45a99462716d0b3",
+        "branch": "main",
+        "commit_sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad",
+        "deep_links": [],
+        "html_url": "https://github.com/trailhq/Graft/blob/fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #581"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "trailhq/Graft",
+      "requested_name": "trailhq/Graft",
+      "terminal_restriction": null
+    }
+  },
+  "schema_version": 1,
+  "scope": "subset",
+  "summary": {
+    "anomalies": 1,
+    "by_classification": {
+      "PR_OPEN": 2,
+      "READY_TO_APPROVE": 1
+    },
+    "by_coverage": {
+      "none": 3
+    },
+    "by_terminal_restriction": {},
+    "incomplete_evidence": 0,
+    "repositories": 3
+  }
+}

@@ -30,17 +30,36 @@ Rules & Invariants:
 6. Fail-closed State Loading:
    - Corrupt, invalid, or unreadable manifests abort execution immediately
      instead of silently resetting campaign progress.
+7. Upstream Reconciliation (Issue #2069, scripts/badge_reconcile.py):
+   - `reconcile` is strictly read-only: it observes GitHub and emits receipt.json /
+     receipt.md without touching the manifest.
+   - `predispatch` is the MANDATORY gate immediately before any external PR: it
+     reserves the repo, refreshes upstream PR + README evidence, checks ledger and
+     approval, and refuses duplicates / terminal restrictions / ambiguous state.
+   - `record-outcome --status PR_OPEN` requires the reservation token issued by a
+     successful `predispatch` (admin recovery: --force).
+   - Manifest writes are serialized with an advisory file lock and are atomic.
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
+import fcntl
 import json
+import os
 import re
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
+
+try:  # imported as scripts.plan_badge_provisioning (tests) or run as a script
+    from scripts import badge_reconcile as br
+except ImportError:  # pragma: no cover - direct script execution
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts import badge_reconcile as br
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REGISTRY = REPO_ROOT / "docs" / "badges" / "registry.json"
@@ -582,6 +601,85 @@ def record_outcome(
     return manifest_data
 
 
+def write_manifest_atomic(path: Path, data: dict[str, Any]) -> None:
+    """Write manifest via temp file + os.replace so readers never see a partial file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(data, indent=2) + "\n")
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.unlink(tmp)
+        raise
+
+
+@contextlib.contextmanager
+def manifest_lock(path: Path) -> Iterator[None]:
+    """Exclusive advisory lock serializing manifest read-modify-write cycles."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.parent / (path.name + ".lock")
+    with open(lock_path, "w") as fh:
+        fcntl.flock(fh, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(fh, fcntl.LOCK_UN)
+
+
+def _load_for_reconcile(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any], tuple[str, ...], "br.GitHubClient"]:
+    manifest = load_existing_manifest(args.manifest)
+    if not manifest or "repositories" not in manifest:
+        raise ValueError(f"Cannot reconcile: valid manifest not found at {args.manifest}.")
+    registry = load_registry(args.registry)
+    authors = tuple(args.campaign_author or br.DEFAULT_CAMPAIGN_AUTHORS)
+    return manifest, registry, authors, br.GitHubClient(br.UrllibTransport())
+
+
+def _cmd_reconcile(args: argparse.Namespace, client: "br.GitHubClient | None" = None) -> int:
+    if not args.all and not args.repo:
+        print("error: specify --repo (repeatable) or --all", file=sys.stderr)
+        return 64
+    manifest, registry, authors, default_client = _load_for_reconcile(args)
+    receipt = br.reconcile_campaign(
+        client or default_client, manifest, registry,
+        repos=None if args.all else args.repo, authors=authors, max_workers=args.max_workers,
+    )
+    out_dir = args.out_dir or (DEFAULT_MANIFEST.parent / "receipts" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
+    jp, mp = br.write_receipt(receipt, out_dir)
+    s = receipt["summary"]
+    print("=== Gaia Upstream Badge Reconciliation (read-only) ===")
+    print(f"Repositories: {s['repositories']}  incomplete: {s['incomplete_evidence']}  anomalies: {s['anomalies']}")
+    for k, v in s["by_classification"].items():
+        print(f"  {k:18}: {v}")
+    print(f"receipt.json: {jp}\nreceipt.md:   {mp}")
+    return 0
+
+
+def _cmd_predispatch(args: argparse.Namespace, client: "br.GitHubClient | None" = None) -> int:
+    manifest, registry, authors, default_client = _load_for_reconcile(args)
+    verdict = br.predispatch_gate(
+        client or default_client, manifest, registry, args.repo, args.worker,
+        ttl_minutes=args.ttl_minutes, authors=authors, directory=args.reservation_dir,
+    )
+    if args.out_dir and verdict.get("entry"):
+        args.out_dir.mkdir(parents=True, exist_ok=True)
+        (args.out_dir / "predispatch.json").write_text(
+            json.dumps({k: v for k, v in verdict.items()}, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    if verdict["allowed"]:
+        print(f"ALLOWED: {verdict['repository']} (reservation expires {verdict['reservation']['expires_at']})")
+        print(f"RESERVATION_TOKEN={verdict['reservation']['token']}")
+        print("Create the PR now, then: record-outcome --status PR_OPEN --pr-url <url> --reservation-token <token>")
+        return 0
+    print(f"REFUSED: {verdict['repository']}", file=sys.stderr)
+    for r in verdict["refusals"]:
+        print(f"  - {r}", file=sys.stderr)
+    return 2
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Gaia Badge Provisioning Planner (Issue #1817).")
     subparsers = parser.add_subparsers(dest="command", help="Command to run")
@@ -601,36 +699,101 @@ def main() -> None:
     record_parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to manifest.json")
     record_parser.add_argument("--force", action="store_true", help="Bypass transition validations (admin recovery only)")
 
+    record_parser.add_argument("--reservation-token", default=None, help="Token from a successful 'predispatch' (required for PR_OPEN)")
+    record_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
+
+    def add_gh_args(sp: argparse.ArgumentParser) -> None:
+        sp.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="Path to registry.json")
+        sp.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to manifest.json (read-only)")
+        sp.add_argument("--campaign-author", action="append", default=None,
+                        help="GitHub login(s) that author campaign PRs (default: mbtiongson1)")
+
+    rec_parser = subparsers.add_parser(
+        "reconcile", help="Read-only upstream reconciliation; writes receipt.json + receipt.md only")
+    add_gh_args(rec_parser)
+    rec_parser.add_argument("--repo", action="append", default=None, help="Repository (repeatable). Omit with --all")
+    rec_parser.add_argument("--all", action="store_true", help="Reconcile the entire campaign manifest")
+    rec_parser.add_argument("--read-only", action="store_true", default=True, help="Always on; accepted for explicitness")
+    rec_parser.add_argument("--out-dir", type=Path, default=None,
+                            help="Receipt directory (default: campaigns/badge-provisioning/receipts/<UTC timestamp>)")
+    rec_parser.add_argument("--max-workers", type=int, default=4, help="Bounded concurrency (default 4)")
+
+    pre_parser = subparsers.add_parser(
+        "predispatch", help="MANDATORY gate immediately before creating an upstream PR")
+    add_gh_args(pre_parser)
+    pre_parser.add_argument("--repo", required=True)
+    pre_parser.add_argument("--worker", required=True, help="Worker identity recorded in the reservation")
+    pre_parser.add_argument("--ttl-minutes", type=int, default=30)
+    pre_parser.add_argument("--out-dir", type=Path, default=None, help="Optionally write the gate receipt here")
+    pre_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
+
+    rel_parser = subparsers.add_parser("release-reservation", help="Release a dispatch reservation")
+    rel_parser.add_argument("--repo", required=True)
+    rel_parser.add_argument("--token", default=None)
+    rel_parser.add_argument("--force", action="store_true", help="Release without token (stale reservation recovery)")
+    rel_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
+
     # Support default execution as 'plan' when no subcommand is specified
     args_list = sys.argv[1:]
-    if not args_list or (args_list[0] not in ("plan", "record-outcome") and not args_list[0].startswith("-h")):
+    commands = ("plan", "record-outcome", "reconcile", "predispatch", "release-reservation")
+    if not args_list or (args_list[0] not in commands and not args_list[0].startswith("-h")):
         args_list = ["plan"] + args_list
 
     args = parser.parse_args(args_list)
 
-    if args.command == "record-outcome":
-        manifest_data = load_existing_manifest(args.manifest)
-        if not manifest_data or "repositories" not in manifest_data:
-            raise ValueError(f"Cannot record outcome: valid manifest not found at {args.manifest}. Run 'plan' first.")
+    if args.command == "reconcile":
+        sys.exit(_cmd_reconcile(args))
+    if args.command == "predispatch":
+        sys.exit(_cmd_predispatch(args))
+    if args.command == "release-reservation":
+        try:
+            released = br.release_reservation(args.repo, args.token, args.force, args.reservation_dir)
+        except br.ReservationError as e:
+            print(f"REFUSED: {e}", file=sys.stderr)
+            sys.exit(2)
+        print("released" if released else "no reservation held")
+        return
 
-        updated = record_outcome(
-            manifest_data=manifest_data,
-            repo=args.repo,
-            status=args.status,
-            pr_url=args.pr_url,
-            notes=args.notes,
-            approved_by=args.approved_by,
-            force=args.force,
-        )
-        args.manifest.write_text(json.dumps(updated, indent=2) + "\n", encoding="utf-8")
+    if args.command == "record-outcome":
+        with manifest_lock(args.manifest):
+            manifest_data = load_existing_manifest(args.manifest)
+            if not manifest_data or "repositories" not in manifest_data:
+                raise ValueError(f"Cannot record outcome: valid manifest not found at {args.manifest}. Run 'plan' first.")
+
+            gated_pr_open = args.status.strip().upper() == "PR_OPEN" and not args.force
+            if gated_pr_open:
+                if not args.reservation_token:
+                    raise ValueError(
+                        "Recording PR_OPEN requires --reservation-token from a successful 'predispatch' "
+                        "(#2069 mandatory pre-dispatch gate)."
+                    )
+                try:
+                    br.verify_reservation(args.repo, args.reservation_token, args.reservation_dir)
+                except br.ReservationError as e:
+                    raise ValueError(f"Pre-dispatch reservation invalid: {e}") from e
+
+            updated = record_outcome(
+                manifest_data=manifest_data,
+                repo=args.repo,
+                status=args.status,
+                pr_url=args.pr_url,
+                notes=args.notes,
+                approved_by=args.approved_by,
+                force=args.force,
+            )
+            write_manifest_atomic(args.manifest, updated)
+            if gated_pr_open:
+                br.release_reservation(args.repo, args.reservation_token, directory=args.reservation_dir)
         print(f"Outcome successfully recorded for {args.repo} -> {args.status}")
         return
 
     # Subcommand: plan
     reg_data = load_registry(args.registry)
-    existing_manifest = load_existing_manifest(args.manifest)
-
-    manifest = plan_campaign(reg_data, existing_manifest, badges_index_path=args.badges_index)
+    with manifest_lock(args.manifest) if not args.dry_run else contextlib.nullcontext():
+        existing_manifest = load_existing_manifest(args.manifest)
+        manifest = plan_campaign(reg_data, existing_manifest, badges_index_path=args.badges_index)
+        if not args.dry_run:
+            write_manifest_atomic(args.manifest, manifest)
 
     print("=== Gaia Badge Provisioning Plan Summary ===")
     print(f"Total Unique Repositories: {manifest['total_unique_repositories']}")
@@ -641,8 +804,6 @@ def main() -> None:
             print(f"  {status:16}: {count}")
 
     if not args.dry_run:
-        args.manifest.parent.mkdir(parents=True, exist_ok=True)
-        args.manifest.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         print(f"\nManifest successfully written to: {args.manifest}")
 
 
