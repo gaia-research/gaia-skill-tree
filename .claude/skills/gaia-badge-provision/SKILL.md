@@ -62,10 +62,67 @@ Before creating any branch or fork:
    - Inspect upstream README and check `CONTRIBUTING.md`, `AGENTS.md`, or README header immediately before any dispatch.
    - Check if the repository is archived or deleted.
    - If PRs for badges/docs are explicitly forbidden, record `OPTED_OUT` via CLI and stop.
-3. **Existing Badge Detection**:
-   - Fetch upstream README (`raw.githubusercontent.com` or via GitHub API).
-   - Search for `gaiaskilltree.com/badges/`.
-   - If already present, record `ADOPTED` via CLI and stop.
+3. **Existing Badge Detection** (superseded by the reconciler, Issue #2069):
+   - Do not hand-grep READMEs. Run the read-only reconciler and the mandatory pre-dispatch gate below.
+   - If the receipt shows `ADOPTED` / `ALREADY_ADOPTED`, a lead reviews and records the outcome via CLI; stop.
+
+---
+
+## Upstream Reconciliation (read-only, Issue #2069)
+
+`scripts/plan_badge_provisioning.py reconcile` observes GitHub and compares it with the ledger.
+It never mutates `manifest.json`, upstream repositories, or GitHub state. It writes only
+`receipt.json` and `receipt.md`.
+
+```bash
+# One or more repositories, or the whole campaign (safe for Flash / Flash-Lite recon routines)
+python3 scripts/plan_badge_provisioning.py reconcile --repo pbakaus/impeccable --repo trailhq/Graft
+python3 scripts/plan_badge_provisioning.py reconcile --all --max-workers 4 \
+  --out-dir campaigns/badge-provisioning/receipts/<UTC-timestamp>
+```
+
+Observed states (independent of the ledger lifecycle): `PR_OPEN`, `ADOPTED`, `ALREADY_ADOPTED`,
+`PARTIAL_COVERAGE`, `CLOSED_UNMERGED`, `READY_TO_APPROVE`, `NEEDS_REVIEW`, `UNKNOWN`.
+`DECLINED` / `OPTED_OUT` / `NO_RESPONSE` remain terminal outreach restrictions shown beside the state.
+
+Reviewer rules:
+- `UNKNOWN` (rate limit, 403, truncated search, unresolved identity) means *retry later*. It is never ready.
+- A merged PR without the badge on the current default-branch README is `NEEDS_REVIEW`, not adoption.
+- A contributor-level badge (handle / rank / skills) never proves Named Skill coverage.
+- Only `READY_TO_APPROVE` may be put in front of a human for approval. Held repos
+  (Graphify, #2067) are never recommended for approval.
+- Routines may run `reconcile`; only the lead reviews anomalies and authorizes any ledger mutation.
+
+---
+
+## Mandatory Pre-Dispatch Gate (immediately before any upstream PR)
+
+```bash
+python3 scripts/plan_badge_provisioning.py predispatch --repo <owner>/<repo> --worker <id>
+```
+
+Exit `0` prints `RESERVATION_TOKEN=...`; exit `2` prints the refusal reasons. The gate takes a
+per-repo reservation, refreshes upstream PR and README evidence, then checks ledger history and
+human approval. It refuses duplicates, existing badges, terminal restrictions, holds, ambiguous
+state and incomplete evidence. Create the PR **immediately** afterwards and record it with the
+token (the token is required for `PR_OPEN`):
+
+```bash
+python3 scripts/plan_badge_provisioning.py record-outcome --repo <owner>/<repo> --status PR_OPEN \
+  --pr-url <url> --reservation-token <token>
+python3 scripts/plan_badge_provisioning.py release-reservation --repo <owner>/<repo> --token <token>  # if you abort
+```
+
+The token is bound to the ledger state it was issued under and is void if that changes (e.g. `DECLINED`,
+`OPTED_OUT`) or it expires. `--force` (on `record-outcome` / `release-reservation`) is an **admin override**
+for founder-authorized recovery only. Agents and routines must never use it. If a repo has more open PRs than
+`--open-scan-limit`, it reports `UNKNOWN` and is never dispatchable.
+
+Residual risk: reservations are local files (`campaigns/badge-provisioning/.reservations/`), so they
+serialize workers on one checkout/machine only. GitHub offers no atomic compare-and-create for PRs, so a
+maintainer or another machine can still open a PR between the final check and creation. Run the
+single dispatcher per campaign, and re-run `reconcile` right after dispatch (duplicate open PRs surface as
+the `duplicate_open_prs` anomaly). Details: `campaigns/badge-provisioning/README.md`.
 
 ---
 
