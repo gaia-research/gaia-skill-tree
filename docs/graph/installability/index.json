@@ -7493,15 +7493,15 @@
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": {
-        "url": "https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py",
-        "owner": "safishamsi",
+        "url": "https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py",
+        "owner": "Graphify-Labs",
         "repo": "graphify",
         "ref": "v8",
         "subpath": "graphify/__init__.py",
         "entrypoint": "graphify/__init__.py",
         "installSubpath": "graphify/__init__.py"
       },
-      "currentSkillContentSha256": "5753e506338538f3e4d7765b89103370c95329f40118ca7f8bc3a6d8ff6d8b53",
+      "currentSkillContentSha256": "fd35fbe33f75c2e3ac916ba17e2261f9c09d585c4bbf11b1309b3ddd26521b94",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

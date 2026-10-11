@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08",
+  "generatedAt": "2026-10-11",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -893,11 +893,11 @@
           "gsd-build/get-shit-done"
         ],
         "open-gsd/gsd-core": [
-          "gsd-build/discuss-phase",
-          "gsd-build/execute-phase",
-          "gsd-build/plan-phase",
-          "gsd-build/ship",
-          "gsd-build/verify-work"
+          "gsd-build/gsd-discuss-phase",
+          "gsd-build/gsd-execute-phase",
+          "gsd-build/gsd-plan-phase",
+          "gsd-build/gsd-ship",
+          "gsd-build/gsd-verify-work"
         ]
       },
       "topSkill": "gsd-build/get-shit-done",
@@ -916,54 +916,54 @@
           "fileSeal": "get-shit-done-seal.svg"
         },
         {
-          "id": "gsd-build/discuss-phase",
+          "id": "gsd-build/gsd-discuss-phase",
           "name": "GSD Discuss Phase",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/discuss-phase",
-          "file": "discuss-phase.svg",
-          "fileSeal": "discuss-phase-seal.svg"
+          "slash": "/gsd-discuss-phase",
+          "file": "gsd-discuss-phase.svg",
+          "fileSeal": "gsd-discuss-phase-seal.svg"
         },
         {
-          "id": "gsd-build/execute-phase",
+          "id": "gsd-build/gsd-execute-phase",
           "name": "GSD Execute Phase",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/execute-phase",
-          "file": "execute-phase.svg",
-          "fileSeal": "execute-phase-seal.svg"
+          "slash": "/gsd-execute-phase",
+          "file": "gsd-execute-phase.svg",
+          "fileSeal": "gsd-execute-phase-seal.svg"
         },
         {
-          "id": "gsd-build/plan-phase",
+          "id": "gsd-build/gsd-plan-phase",
           "name": "GSD Plan Phase",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/plan-phase",
-          "file": "plan-phase.svg",
-          "fileSeal": "plan-phase-seal.svg"
+          "slash": "/gsd-plan-phase",
+          "file": "gsd-plan-phase.svg",
+          "fileSeal": "gsd-plan-phase-seal.svg"
         },
         {
-          "id": "gsd-build/ship",
+          "id": "gsd-build/gsd-ship",
           "name": "GSD Ship",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/ship",
-          "file": "ship.svg",
-          "fileSeal": "ship-seal.svg"
+          "slash": "/gsd-ship",
+          "file": "gsd-ship.svg",
+          "fileSeal": "gsd-ship-seal.svg"
         },
         {
-          "id": "gsd-build/verify-work",
+          "id": "gsd-build/gsd-verify-work",
           "name": "GSD Verify Work",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/verify-work",
-          "file": "verify-work.svg",
-          "fileSeal": "verify-work-seal.svg"
+          "slash": "/gsd-verify-work",
+          "file": "gsd-verify-work.svg",
+          "fileSeal": "gsd-verify-work-seal.svg"
         }
       ]
     },
@@ -980,6 +980,7 @@
           "mattpocock/diagnosing-bugs",
           "mattpocock/domain-modeling",
           "mattpocock/edit-article",
+          "mattpocock/engineering",
           "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
@@ -988,7 +989,9 @@
           "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
           "mattpocock/migrate-to-shoehorn",
+          "mattpocock/misc",
           "mattpocock/obsidian-vault",
+          "mattpocock/productivity",
           "mattpocock/prototype",
           "mattpocock/research",
           "mattpocock/resolving-merge-conflicts",
@@ -2504,10 +2507,10 @@
     },
     "safishamsi": {
       "repos": [
-        "safishamsi/graphify"
+        "Graphify-Labs/graphify"
       ],
       "skillsByRepo": {
-        "safishamsi/graphify": [
+        "Graphify-Labs/graphify": [
           "safishamsi/graphify"
         ]
       },

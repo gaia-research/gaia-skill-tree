@@ -222,7 +222,7 @@ def test_pilot_candidates_resolved_with_valid_urls():
     reg = load_registry(DEFAULT_REGISTRY)
     manifest = plan_campaign(reg, {})
 
-    pilots = ["pbakaus/impeccable", "safishamsi/graphify", "trailhq/Graft"]
+    pilots = ["pbakaus/impeccable", "Graphify-Labs/graphify", "trailhq/Graft"]
     for p in pilots:
         record = manifest["repositories"][p]
         assert record["status"] == "PILOT_CANDIDATE"
@@ -376,11 +376,13 @@ def test_lifecycle_preserves_contacted_and_outbound_states():
     assert imp["provisioning"]["attempts"] == 1
     assert imp["provisioning"]["pr_url"] == "https://github.com/pbakaus/impeccable/pull/42"
 
-    # safishamsi/graphify must remain DECLINED, never reverting to PILOT_CANDIDATE
-    graph = manifest["repositories"]["safishamsi/graphify"]
+    # safishamsi/graphify migrated to Graphify-Labs/graphify and must remain DECLINED, never reverting to PILOT_CANDIDATE
+    assert "safishamsi/graphify" not in manifest["repositories"]
+    graph = manifest["repositories"]["Graphify-Labs/graphify"]
     assert graph["status"] == "DECLINED"
     assert graph["eligibility"] == "PILOT_CANDIDATE"
     assert graph["provisioning"]["outcome"] == "DECLINED"
+    assert graph["canonical_skill"]["id"] == "safishamsi/graphify"
 
     # trailhq/Graft must remain ADOPTED
     graft = manifest["repositories"]["trailhq/Graft"]
@@ -707,4 +709,81 @@ def test_case_insensitive_lookup_preserves_state():
     graft_record = manifest["repositories"]["trailhq/Graft"]
     assert graft_record["status"] == "PR_OPEN"
     assert graft_record["provisioning"]["pr_url"] == "https://github.com/trailhq/graft/pull/99"
+
+
+def test_graphify_upstream_migration_preserves_history_and_state():
+    """Verify that Graphify upstream repo migration from safishamsi/graphify to Graphify-Labs/graphify
+
+    preserves campaign state, Named Skill ID, and does not leave duplicate targets (Issue #2067).
+    """
+    reg = load_registry(DEFAULT_REGISTRY)
+    existing_manifest = {
+        "repositories": {
+            "safishamsi/graphify": {
+                "status": "PR_OPEN",
+                "preflight": {
+                    "existing_badge": False,
+                    "default_branch": "v8",
+                    "readme_path": "README.md",
+                    "contribution_policy": "UNKNOWN",
+                },
+                "provisioning": {
+                    "approved": True,
+                    "approved_by": "@founder",
+                    "approved_at": "2026-10-10T12:00:00Z",
+                    "attempts": 2,
+                    "attempted_at": "2026-10-10T14:00:00Z",
+                    "pr_url": "https://github.com/Graphify-Labs/graphify/pull/1",
+                    "outcome": "PR_OPEN",
+                    "decision_notes": "Phase 2 pilot hold",
+                    "history": [
+                        {
+                            "timestamp": "2026-10-10T12:00:00Z",
+                            "from_status": "PILOT_CANDIDATE",
+                            "to_status": "APPROVED",
+                            "notes": "Approved",
+                        }
+                    ],
+                },
+            }
+        }
+    }
+
+    manifest = plan_campaign(reg, existing_manifest)
+
+    # Must appear only once under the new canonical repo
+    assert "safishamsi/graphify" not in manifest["repositories"]
+    assert "Graphify-Labs/graphify" in manifest["repositories"]
+    assert manifest["total_unique_repositories"] == 43
+
+    record = manifest["repositories"]["Graphify-Labs/graphify"]
+    assert record["eligibility"] == "PILOT_CANDIDATE"
+    assert record["status"] == "PR_OPEN"
+    assert record["contributor_associations"] == ["safishamsi"]
+    assert record["canonical_skill"]["id"] == "safishamsi/graphify"
+    assert record["canonical_skill"]["rank"] == 5
+    assert record["canonical_skill"]["branch"] == "unique"
+    assert record["badge_url"] == "https://gaiaskilltree.com/badges/_assets/safishamsi/graphify.svg?repo=Graphify-Labs/graphify"
+    assert record["deep_link"] == "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify"
+    assert record["preflight"]["default_branch"] == "v8"
+
+    # Provisioning state preserved across migration
+    prov = record["provisioning"]
+    assert prov["approved"] is True
+    assert prov["approved_by"] == "@founder"
+    assert prov["attempts"] == 2
+    assert prov["pr_url"] == "https://github.com/Graphify-Labs/graphify/pull/1"
+    assert prov["outcome"] == "PR_OPEN"
+    assert len(prov["history"]) == 1
+
+    # record_outcome aliasing
+    record_outcome(
+        manifest_data=manifest,
+        repo="safishamsi/graphify",
+        status="NO_RESPONSE",
+        notes="Aliased resolution test",
+        force=True,
+    )
+    assert record["status"] == "NO_RESPONSE"
+    assert record["provisioning"]["outcome"] == "NO_RESPONSE"
 
