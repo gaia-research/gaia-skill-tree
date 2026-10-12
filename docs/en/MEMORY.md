@@ -2,6 +2,105 @@
 
 ---
 
+## 2026-10-12 — Routine 058
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** CONTINUE. Routine 057's "Planned next" named
+`evidence-classes.html`'s `#ver` span as the next concrete item: same
+stale hardcoded-fallback bug just fixed on `index.html`, explicitly flagged
+as out of scope for that run. Rebased onto `origin/main` first (branch was
+at `v8.21.1`, main had moved to `v8.24.0` across badge-provisioning and
+registry-migration work) — none of those intervening commits touch
+documented CLI/flag behavior on this page, so no SYNC item took priority
+over the named CONTINUE task.
+
+### Trigger
+
+Verified directly against the page's own source rather than trusting the
+prior entry's description alone:
+
+- `docs/en/evidence-classes.html` line 4: `window.GAIA_VERSION = "8.24.0"`
+  — already correct. This page is one of the 3 pages
+  `build_html_cache_busting()` (`scripts/build_docs.py`) keeps live, so the
+  generator-owned value and all four `?v=8.24.0` cache-bust query strings
+  (`tokens.css`, `styles.css`, `docs-en-shell.css`, `mounts.js`,
+  `site-nav.js`, `ui.js`, `site-footer.js`) were already current.
+- Line 398: `<span class="docs-nav-version" id="ver">v8.11.1</span>` — the
+  hardcoded fallback text, invisible in a browser with JS enabled because
+  the inline script at line 792 (`if (window.GAIA_VERSION && verEl)
+  verEl.textContent = 'v' + window.GAIA_VERSION;`) overwrites it on load —
+  but wrong in the raw served HTML a no-JS client or crawler sees. Same
+  exact pattern and same frozen value (`v8.11.1`) as the bug fixed on
+  `index.html` last routine.
+
+### What I did
+
+- `docs/en/evidence-classes.html` — `#ver` nav chip: fixed the hardcoded
+  fallback text from `v8.11.1` to `v8.24.0` to match the already-correct
+  `window.GAIA_VERSION` the generator maintains on this page. One line
+  changed; nothing else on the page needed touching.
+- `docs/en/DOCS.md` — Page Map row 7 updated with the `058` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or the
+  client-side overwrite script — all already correct, matching last
+  routine's reasoning for the same bug on `index.html`.
+- Did not file a GitHub issue for this one — it's a single stale literal
+  with an obvious one-line fix, matching last routine's reasoning on
+  `index.html`. The underlying process gap (registered-page list doesn't
+  cover all 13 pages) is already tracked as #2042.
+- Checked the third registered page, `share-bundles.html`, while here:
+  it has a *different and worse* version of this bug, not the same one.
+  Its nav chip is `<span class="nav-version">v7.11.3</span>` (line 352) —
+  no `id="ver"` at all, so the client-side `document.getElementById('ver')`
+  overwrite script never finds it and the chip is permanently frozen, even
+  with JS enabled, not just stale in the no-JS fallback case. Out of scope
+  for this run (one page per routine, and this page wasn't today's named
+  target) — pushed to Planned next below rather than silently expanding
+  scope.
+
+### Issues informed
+
+None filed.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/evidence-classes.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits (one pre-existing, unchanged
+  `merge` reference to the `gaia dev merge` CLI verb elsewhere on the page,
+  outside this diff).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- Rebased onto current `origin/main` tip (`v8.24.0`) before pushing — no
+  conflicts.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — nav version chip fallback text.
+- `docs/en/DOCS.md` — page map row 7.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 059)
+
+- `share-bundles.html` — fix the permanently-frozen `nav-version` span
+  (`v7.11.3`, no `id="ver"`): give it `id="ver"` so the existing
+  `window.GAIA_VERSION` overwrite script (already present and correct on
+  this page) actually reaches it, the same way `index.html` and
+  `evidence-classes.html` work. Small, concrete, and already diagnosed —
+  the next daily should take this before anything else.
+
+---
+
 ## 2026-10-09 — Routine 057
 
 **Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
