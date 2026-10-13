@@ -2,6 +2,91 @@
 
 ---
 
+## 2026-10-13 — Routine 059
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** CONTINUE. Routine 058's "Planned next" named the exact
+item: `share-bundles.html`'s nav version chip, diagnosed last routine as
+*worse* than the `index.html`/`evidence-classes.html` bug — not just stale
+text, but permanently frozen regardless of JS. Rebased; `origin/main` was
+already at the tip this branch tracked, no intervening commits touch this
+page's documented behavior.
+
+### Trigger
+
+Verified directly against the page's own source:
+
+- Line 352: `<span class="nav-version">v7.11.3</span>` — no `id` attribute
+  at all, so no script on the page can ever find and update it.
+- Line 744 (inline script): `document.getElementById('footerVersion')` —
+  this id does not exist anywhere in the page (no `.page-footer` is
+  actually rendered in the body; the real footer is the separate
+  `site-footer-mount` component). The lookup always returns `null`, so the
+  `if (window.GAIA_VERSION && verEl)` guard is a silent no-op. Two
+  independent breaks, not one: wrong id attribute AND wrong id reference.
+
+### What I did
+
+- `docs/en/share-bundles.html`:
+  - Nav chip: added `id="ver"` and updated the stale literal from
+    `v7.11.3` to the current `v8.24.0` (the page's `window.GAIA_VERSION`
+    and cache-bust query strings were already correct at `8.24.0` — only
+    this one visible span had drifted).
+  - Inline script: changed `getElementById('footerVersion')` to
+    `getElementById('ver')` so the existing overwrite logic actually
+    reaches the chip, matching the live pattern already working on
+    `index.html` and `evidence-classes.html`.
+- `docs/en/DOCS.md` — Page Map row 11 updated with the `059` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Kept the existing `nav-version` class rather than switching to
+  `docs-nav-version` (the class index.html/evidence-classes.html use) —
+  both classes are already handled by the same hide-when-`#site-nav`-present
+  CSS rule on this page (line 357), so renaming would be a cosmetic no-op
+  that touches more of the file than the bug needs.
+- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or
+  any other part of the overwrite script — all already correct.
+- Did not file a GitHub issue — single-page, two-line fix with an obvious
+  diagnosis already written up in the prior routine's entry.
+
+### Issues informed
+
+None filed.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/share-bundles.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the whole file — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+
+### Files modified
+
+- `docs/en/share-bundles.html` — nav version chip `id` + script target fix.
+- `docs/en/DOCS.md` — page map row 11.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 060)
+
+- No specific CONTINUE item named. Next daily should ROTATE to the
+  least-recently-touched page in the DOCS.md Page Map (check routine
+  history tags — `timeline-audit.html` and `manual-curation-pipeline.html`
+  haven't had a non-editor pass since routines 044/046) or SYNC against
+  any release/merged PR since this routine that changed documented CLI
+  behavior.
+
+---
+
 ## 2026-10-12 — Routine 058
 
 **Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
