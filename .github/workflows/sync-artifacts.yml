@@ -223,14 +223,19 @@ jobs:
           # superseded the static SVG atlas; only the GEXF export survives — see
           # scripts/build_docs.py). `gaia dev docs` no longer emits it, so listing
           # it here made `set -e` tar exit 2 and skip the PyPI/Cloudflare steps.
-          tar -czf gaia-artifacts.tar.gz \
-            registry/gaia.json \
-            registry/gaia.gexf \
-            registry/layouts_3d.json \
-            registry/named-skills.json \
-            registry/real-skills.json \
-            registry/real-skills.md \
+          ARTIFACTS=(
+            registry/gaia.json
+            registry/gaia.gexf
+            registry/layouts_3d.json
+            registry/named-skills.json
+            registry/real-skills.json
+            registry/real-skills.md
             docs/graph/
+          )
+          if [ -d registry/support ]; then
+            ARTIFACTS+=(registry/support/)
+          fi
+          tar -czf gaia-artifacts.tar.gz "${ARTIFACTS[@]}"
 
           echo "Uploading gaia-artifacts.tar.gz to release ${TAG}..."
           gh release upload "${TAG}" gaia-artifacts.tar.gz --clobber

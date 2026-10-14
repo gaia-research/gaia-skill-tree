@@ -64,9 +64,13 @@ jobs:
           rm -f  src/gaia_cli/data/registry/gaia.json
           rm -f  src/gaia_cli/data/registry/named-skills.json
           rm -rf src/gaia_cli/data/registry/named
+          rm -rf src/gaia_cli/data/registry/support
           cp /tmp/gaia-snap/registry/gaia.json          src/gaia_cli/data/registry/gaia.json
           cp /tmp/gaia-snap/registry/named-skills.json  src/gaia_cli/data/registry/named-skills.json
           cp -r registry/named                          src/gaia_cli/data/registry/named
+          if [ -d /tmp/gaia-snap/registry/support ]; then
+            cp -r /tmp/gaia-snap/registry/support src/gaia_cli/data/registry/support
+          fi
           echo "Bundled snapshot refreshed from ${TAG}."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
