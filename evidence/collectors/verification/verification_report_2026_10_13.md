@@ -149,3 +149,11 @@ Generated candidate-only type partitions and the unified lake are kept locally u
 ## 6. Trust and next-stage boundary
 
 The three rows are unscored evidence candidates. No creator multiplier/authority tier was assigned, no TM or grade was calculated, and nothing was ingested. The other nine eligible skills retain zero skill-specific rows rather than borrowing a sibling's video or suite stars. The next gate is human review of these source candidates; additional evidence discovery is justified only for skills where a stronger independent signal is desired. Support-component representation/install requirements remain tracked under #2084 and outside this EV change.
+
+## 7. Whole-registry verification supplement — 2026-10-14
+
+A separate whole-registry run covered 410 skills and 880 evidence entries. It retained exactly the three Emil social-signal rows and no candidate suite-star or sibling evidence. Live-star verification was dry-run only: 101 rows scanned, 98 differed, and no registry values were changed. Phase 2B classified four existing benchmark rows (one scoring-eligible, three citation-only), with no Emil benchmark candidates or hard blockers. The read-only adversarial audit found unrelated pre-existing row-quality issues; none were changed.
+
+The whole-lake Firecrawl run checked 610 unique URLs: 609 validated, zero confirmed broken links, and one Firecrawl error for a DOI that redirects to an RSC Cloudflare challenge (content remains unverified, not classified as a 404). The 12 pinned candidate blobs separately returned HTTP 200; the support-only source also returned HTTP 200 in a separate non-evidence check. Details: [whole-registry EV supplement](whole_registry_ev_report_2026_10_14.md), [whole-lake URL receipt](whole_registry_url_validation_2026_10_14.md), [candidate source receipt](candidate_source_validation_2026_10_14.md), and [support-only source receipt](support_source_validation_2026_10_14.md).
+
+Human evidence approval is still pending. No evidence was ingested and no TM, grade, rank, or calibration was calculated.
