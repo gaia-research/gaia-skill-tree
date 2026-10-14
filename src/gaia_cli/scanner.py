@@ -337,7 +337,7 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
             continue
         for r, dirs, files in os.walk(search_root, followlinks=True):
             # Harness-visible support payloads intentionally are not Gaia skills.
-            if ".gaia-support-component" in os.listdir(r):
+            if ".gaia-support-component" in files:
                 dirs[:] = []
                 continue
             r_real = os.path.realpath(r)
