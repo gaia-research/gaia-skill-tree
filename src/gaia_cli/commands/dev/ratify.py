@@ -343,6 +343,12 @@ def ratifyCommand(args):
         elif prop_val == "NEW_GENERIC_CANDIDATE" and decision == "NEW_GENERIC":
             human_override = False
 
+    if decision == "MAP" and genericId not in {
+        option.get("genericId") for option in packet.get("mappingOptions", [])
+        if isinstance(option, dict)
+    }:
+        human_override = True
+
     # Local file attestation; does not claim cryptographic authentication of a human
     human_review = {
         "reviewedBy": reviewed_by.strip(),
@@ -414,7 +420,11 @@ def ratifyCommand(args):
         testPacket["decision"]["proposal"] = proposal
 
     # Pre-flight validation
-    resolutionErrors = validateL4Resolution(testPacket, requireHumanReview=True)
+    liveSnapshot = buildGenericSnapshot(registry_path)
+    liveGenerics = liveSnapshot["generics"] if liveSnapshot else []
+    resolutionErrors = validateL4Resolution(
+        testPacket, requireHumanReview=True, trustedGenerics=liveGenerics
+    )
     if resolutionErrors:
         print("Ratification validation failed:", file=sys.stderr)
         for err in resolutionErrors:
@@ -428,8 +438,6 @@ def ratifyCommand(args):
     # holds against the registry as it stands right now. A registry that has
     # drifted since prefill correctly fails here with UNTRUSTED/INVALID
     # GENERIC_SNAPSHOT, telling the operator to re-run prefill.
-    liveSnapshot = buildGenericSnapshot(args.registry)
-    liveGenerics = liveSnapshot["generics"] if liveSnapshot else []
     selfValidateErrors = selfValidatePacket(testPacket, trustedGenerics=liveGenerics)
     if selfValidateErrors:
         print("Packet self-validation failed:", file=sys.stderr)

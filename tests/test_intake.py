@@ -11,10 +11,12 @@ pytestmark = [pytest.mark.integration, pytest.mark.slow]
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALIDATE_INTAKE_SCRIPT = os.path.join(REPO_ROOT, "scripts", "validate_intake.py")
-GRAPH_PATH = os.path.join(REPO_ROOT, "registry", "gaia.json")
-
-
 def run_validate_intake(intake_dir, *extra_args):
+    # Generated registry/gaia.json is ignored and absent in fresh worktrees.
+    # These tests only need one known canonical generic; keep them hermetic.
+    graph_path = os.path.join(intake_dir, "canonical.json")
+    with open(graph_path, "w", encoding="utf-8") as f:
+        json.dump({"skills": [{"id": "web-search"}]}, f)
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
     result = subprocess.run(
@@ -24,7 +26,7 @@ def run_validate_intake(intake_dir, *extra_args):
             "--intake-dir",
             intake_dir,
             "--graph",
-            GRAPH_PATH,
+            graph_path,
             *extra_args,
         ],
         capture_output=True,
