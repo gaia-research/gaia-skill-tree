@@ -273,8 +273,32 @@ def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
             for option in options
             if isinstance(option, dict)
         } if isinstance(options, list) else set()
-        if not isinstance(selected, str) or selected not in option_ids:
+        l4 = packet.get("l4Resolution")
+        hr = l4.get("humanReview") if isinstance(l4, dict) else None
+        trusted_ids = {
+            row.get("id") for row in trusted_generics
+            if isinstance(row, dict) and row.get("kind") == "generic"
+        } if isinstance(trusted_generics, list) else set()
+        human_override = (
+            is_v2
+            and isinstance(hr, dict)
+            and hr.get("humanOverride") is True
+            and l4.get("status") == "approved"
+            and isinstance(l4.get("generic"), dict)
+            and l4["generic"].get("id") == selected
+            and decision.get("reasonCode") == "L4_RATIFIED_MAP"
+            and isinstance(selected, str)
+            and selected in trusted_ids
+            and "INVALID_HUMAN_REVIEW" not in errors
+            and isinstance(hr.get("attestation"), str)
+            and bool(hr["attestation"].strip())
+        )
+        if not isinstance(selected, str) or (selected not in option_ids and not human_override):
             errors.append("INVALID_GENERIC_SELECTION")
+        if human_override:
+            retrieval = packet.get("retrieval") or {}
+            if retrieval.get("allowStale") or retrieval.get("vectorSource"):
+                errors.append("UNTRUSTED_RETRIEVAL")
     elif isinstance(decision, dict) and "genericId" in decision:
         errors.append("INVALID_GENERIC_SELECTION")
 

@@ -262,6 +262,9 @@ def build_from_file_batch(
     for i, entry in enumerate(skillsYaml):
         allErrors.extend(_validate_skill(entry, i, canonicalIds))
 
+    from gaia_cli.intakeAdapter import validateIntakeIdentities
+    allErrors.extend(validateIntakeIdentities(skillsYaml))
+
     canonicalNamedIds = _loadCanonicalNamedIds(registryRoot)
     for i, entry in enumerate(skillsYaml):
         named = entry.get("named") or {}
@@ -304,6 +307,63 @@ def build_from_file_batch(
 # Load helpers
 # ---------------------------------------------------------------------------
 
+def _loadPacketManifest(data, yamlLoader):
+    """Adapt an explicit discovery-packet-manifest-v1, all-or-nothing.
+
+    Shape: ``contractVersion: discovery-packet-manifest-v1`` and
+    ``packetPaths: [registry-for-review/discovery-packets/<file>.json, ...]``.
+    Paths are repository-relative (the push working directory), never relative
+    to the manifest. Absolute paths, traversal, duplicates, and symlink escapes
+    are rejected before reading. Each packet retains its own handoff receipt.
+    """
+    from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
+    from gaia_cli.prefill import buildGenericSnapshot
+
+    paths = data.get("packetPaths")
+    if set(data) != {"contractVersion", "packetPaths"} or not isinstance(paths, list) or not paths:
+        return None, "Discovery packet manifest requires a non-empty 'packetPaths' list only"
+    packetRoot = os.path.abspath("registry-for-review/discovery-packets")
+    resolvedPaths = set()
+    candidates = set()
+    combined = {"skills": [], "curationHandoff": {
+        "contractVersion": "curation-handoff-v1", "packetRefs": [],
+    }}
+    snapshot = buildGenericSnapshot(".")
+    trustedGenerics = snapshot["generics"] if snapshot else []
+    for path in paths:
+        if (
+            not isinstance(path, str)
+            or not path.startswith("registry-for-review/discovery-packets/")
+            or any(part in ("", ".", "..") for part in path.split("/"))
+            or "\\" in path
+            or ":" in path
+        ):
+            return None, "Manifest packet paths must be bounded repository-relative discovery-packets paths"
+        resolved = os.path.realpath(path)
+        if os.path.commonpath([packetRoot, resolved]) != packetRoot:
+            return None, f"Manifest packet path escapes discovery-packets: '{path}'"
+        if resolved in resolvedPaths:
+            return None, f"Duplicate manifest packet path: '{path}'"
+        resolvedPaths.add(resolved)
+        try:
+            with open(resolved, encoding="utf-8") as f:
+                packet = yamlLoader.safe_load(f)
+            if not isDiscoveryPacket(packet):
+                return None, f"Manifest entry '{path}' is not a discovery-packet-v2"
+            candidateId = packet.get("candidateId")
+            if not isinstance(candidateId, str) or not candidateId.strip() or candidateId in candidates:
+                return None, f"Manifest entry '{path}' requires a unique non-empty candidateId"
+            candidates.add(candidateId)
+            intake = buildIntakeYaml(
+                packet, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics
+            )
+        except (OSError, ValueError, yamlLoader.YAMLError) as exc:
+            return None, f"Cannot adapt manifest packet '{path}': {exc}"
+        combined["skills"].extend(intake["skills"])
+        combined["curationHandoff"]["packetRefs"].extend(intake["curationHandoff"]["packetRefs"])
+    return combined, None
+
+
 def _load_yaml_file(path):
     """Load and parse a YAML file; return (data, error_message)."""
     # Import yaml lazily so the module can be imported without PyYAML installed.
@@ -332,9 +392,17 @@ def _load_yaml_file(path):
     # 'contractVersion' key, which an intake YAML never carries.
     from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
 
+    if data.get("contractVersion") == "discovery-packet-manifest-v1":
+        return _loadPacketManifest(data, _yaml)
+
     if isDiscoveryPacket(data):
+        from gaia_cli.prefill import buildGenericSnapshot
+        snapshot = buildGenericSnapshot(".")
+        trustedGenerics = snapshot["generics"] if snapshot else []
         try:
-            data = buildIntakeYaml(data, packetPath=path, requireHumanReview=True)
+            data = buildIntakeYaml(
+                data, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics
+            )
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
 
