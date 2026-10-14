@@ -2,6 +2,116 @@
 
 ---
 
+## 2026-10-14 — Routine 060
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** ROTATE. Routine 059's "Planned next" named no specific
+CONTINUE item and confirmed no SYNC candidate (`origin/main` was already at
+the tip this branch tracks, v8.24.0 — no new release/merge since). Per its
+suggestion, picked between `timeline-audit.html` (last non-editor pass:
+044) and `manual-curation-pipeline.html` (046) — `timeline-audit.html` is
+older, so took it.
+
+### Trigger
+
+Read the page end to end and verified every CLI claim against live code
+(per CLAUDE.md's Stale Tooling directive), not against the page's own prior
+text. Found the "Common drift causes" → "Reclassification" card wrong on
+two counts:
+
+- It claimed `installable: false` is "Applied via `gaia dev reclassify`".
+  Checked `dev_reclassify.add_argument("new_type", choices=("basic",
+  "fusion"), ...)` in `src/gaia_cli/commands/dev/__init__.py` (~L627-636)
+  and `meta_reclassify_command()` in `commands/dev/build.py` (~L380-437):
+  the command only ever rewrites a **generic** skill's `type` field to
+  `basic`/`fusion` and moves its file between type directories — it never
+  reads or writes `installable`. The real toggle is
+  `dev_update_named.add_argument("--installable", choices=["true",
+  "false"], ...)` (`commands/dev/__init__.py` ~L679-682), wired in
+  `update_named_command()` (`commands/dev/named.py` ~L96-99) — a different
+  command, operating on a **named** skill, not a generic one.
+- Its own example, "A skill's type changes (e.g. Unique → Basic)", used
+  the retired Yggdrasil I four-tier structural framing (Basic/Extra/Unique/
+  Ultimate as *types*) that Issue #1479 already migrated the rest of the
+  site off of. `reclassify`'s real `new_type` choices are `basic`/`fusion`
+  (the current Type axis) — "Unique" was never a valid value.
+
+### What I did
+
+- `docs/en/timeline-audit.html` — rewrote the "Reclassification" cause
+  card (renamed "Installability loss" to match what it now accurately
+  describes): states the real command (`gaia dev update-named
+  --installable false`), explicitly separates it from `gaia dev
+  reclassify` (which only changes a generic skill's Type axis and never
+  touches a named skill's rank), and drops the banned "Unique → Basic"
+  example. Updated the card's git-log search hint from `reclassif` to
+  `installable` to match.
+- `docs/en/DOCS.md` — Page Map row 12 updated with the `060` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Kept the existing cause-card markup structure (`cause-card-label` +
+  `<small>` subtitle + `cause-card-detail`) — only the label text and body
+  copy changed, no new classes or layout.
+- Did not touch the other two cause cards (Star-Bar hard reset, Evidence
+  rot) — both verified accurate against `META.md` §2.4 and the CLI gap
+  workaround text already matches `CLAUDE.md`'s own Known CLI gap note;
+  no defect found there.
+- Did not fix the version chip / cache-bust strings on this page — still
+  `v8.18.2`, one release behind `origin/main`'s `v8.24.0` — per this
+  routine's own prompt, matching version chips is explicitly out of scope
+  ("the lowest value you can give"); leaving it for the weekly
+  auto-sync.
+
+### Issues informed
+
+None filed. Single-page, already-diagnosed fix with the correct command
+names confirmed directly against the argparse definitions and their
+handlers — no CLI gap, just two wrong claims in the prose.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/timeline-audit.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the edited page — zero hits (also removes the
+  page's only use of the retired Yggdrasil I "Unique" structural-type
+  framing).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — only hit is an
+  unchanged pre-existing `var(--muted,#64748b)` inline style carried
+  through on a line the diff touched for unrelated text; no new hex
+  introduced.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `installable`/`reclassify` command semantics cross-checked directly
+  against `commands/dev/__init__.py`, `commands/dev/build.py`, and
+  `commands/dev/named.py` — not against the page's prior prose.
+
+### Files modified
+
+- `docs/en/timeline-audit.html` — "Reclassification" cause card.
+- `docs/en/DOCS.md` — page map row 12.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 061)
+
+- No specific CONTINUE item named. Next daily: ROTATE to
+  `manual-curation-pipeline.html` (last non-editor pass: 046) — it is now
+  the least-recently-touched page by real content — or SYNC against any
+  release/merged PR since this routine that changed documented CLI
+  behavior.
+- The version-chip drift this routine deliberately skipped
+  (`timeline-audit.html` still shows `v8.18.2`, one release behind
+  `v8.24.0`) is explicitly the weekly auto-sync's job, not a daily's — do
+  not "fix" it as a quick win.
+
+---
+
 ## 2026-10-13 — Routine 059
 
 **Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
