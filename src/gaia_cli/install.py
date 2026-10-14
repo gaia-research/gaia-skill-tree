@@ -464,7 +464,11 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
     if suite_components:
         return install_suite(sid, registry_path, visited, location=location)
 
-    return _install_single(sid, meta, registry_path, visited, location=location)
+    installed = _install_single(sid, meta, registry_path, visited, location=location)
+    if not installed:
+        return False
+    from gaia_cli.support import install_support_components
+    return install_support_components(sid, registry_path, location=location)
 
 
 def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None, location: str = "local") -> bool:
@@ -520,6 +524,9 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
     if meta.get("links", {}).get("github"):
         root_attempted = True
         root_ok = _install_single(sid, meta, registry_path, visited, location=location)
+        if root_ok:
+            from gaia_cli.support import install_support_components
+            root_ok = install_support_components(sid, registry_path, location=location)
         if not root_ok:
             failed.append(sid)
 
@@ -611,6 +618,11 @@ def uninstall_skill(skill_id):
 
     manifest["installed"] = [s for s in manifest["installed"] if s["id"] != target_id]
     save_manifest(manifest)
+    from gaia_cli.support import uninstall_target_support
+    try:
+        uninstall_target_support(target_id, location=entry.get("location", "local"))
+    except (OSError, ValueError) as exc:
+        print(f"Warning: could not clean up support components for {target_id}: {exc}", file=sys.stderr)
     print(f"Uninstalled: {target_id}")
     return True
 

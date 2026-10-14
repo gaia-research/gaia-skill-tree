@@ -89,6 +89,7 @@ gaia_cli = [
     "data/curation/*.json",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
+    "data/registry/support/*.json",
     "data/registry/benchmark-sources.json",
     "data/registry/named/**/*.md",
     "data/registry/named/**/*.json",

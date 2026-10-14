@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/supportComponent.schema.json",
+  "title": "Gaia support component manifest",
+  "description": "Non-ranked, suite-scoped support assets installed alongside explicitly supported named skills.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "components"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "components": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/component" }
+    }
+  },
+  "definitions": {
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "distribution", "source", "upstreamAuthor", "license", "supports"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "distribution": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "path", "pinnedBlobUrl", "skillSha256", "licensePath", "licenseSha256"],
+          "properties": {
+            "repository": { "type": "string", "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$" },
+            "pinnedBlobUrl": { "type": "string", "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/blob/[a-f0-9]{40}/[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*/SKILL\\.md$" },
+            "skillSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "licensePath": { "type": "string", "pattern": "^(?!\\.{1,2}$)[A-Za-z0-9_.-]+$" },
+            "licenseSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        "upstreamAuthor": { "type": "string", "minLength": 1 },
+        "license": { "type": "string", "minLength": 1 },
+        "supports": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" }
+        }
+      }
+    }
+  }
+}
