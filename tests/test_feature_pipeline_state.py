@@ -16,7 +16,7 @@ SCRIPT = ROOT / '.agents/skills/feature-pipeline/scripts/state.sh'
 
 def run_state(tmp_path, *args):
     return subprocess.run(
-        ['bash', str(SCRIPT), *args], text=True, capture_output=True,
+        ['bash', str(SCRIPT), *args], cwd=tmp_path, text=True, capture_output=True,
         env={**os.environ, 'FP_STATE_FILE': str(tmp_path / 'state.json')},
     )
 

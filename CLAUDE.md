@@ -253,10 +253,10 @@ checker: `scripts/check_playbook_contract.py`; rationale:
 playbook already covers that operation (`playbookVersion: 1` under
 `.agents/skills/*/SKILL.md`). If one does, its **objective, authority envelope,
 invariants, prohibited actions, terminal proof and hard stops are binding**.
-Inside that envelope the agent chooses the route. Ordered `run:` steps are the
-required procedure only where the sequence is load-bearing (deterministic or
-safety-sensitive mutations); `judgment:` steps are advisory. Strictness is set
-per step in `founder/steward/PLAYBOOKS.md` § Step strictness.
+Inside that envelope the agent chooses the judgment route. Declared ordered
+`run:` steps remain the required canonical command spine; `judgment:` routes are
+advisory without changing their bounded answers or dependencies. Strictness is
+set per step in `founder/steward/PLAYBOOKS.md` § Step strictness.
 
 - A missing bespoke playbook does not force meta-authoring before a bounded task
   that already has a safe canonical CLI interface (the verb and its pre-flight

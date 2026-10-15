@@ -88,7 +88,8 @@ of execution depends on each step's kind:
 - **`judgment:` steps are advisory.** They name a bounded answer space and the
   `rules` that govern it. The agent may choose the route to reach the answer,
   combine or reorder judgment work, or use delegation, as long as the answer stays
-  inside the declared space and the playbook's `proof` and `done` still hold.
+  inside the declared space, input dependencies are respected, the strict `run:`
+  order is preserved, and the playbook's `proof` and `done` still hold.
 - **`stopConditions` and `proof` are never advisory.** A route inside the envelope
   is free; the hard stops, the authority class and the terminal proof are not.
 - A step that is judgment in one playbook and mutation in another is two different
