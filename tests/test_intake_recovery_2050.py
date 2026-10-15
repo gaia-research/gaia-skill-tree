@@ -1362,3 +1362,17 @@ def test_previously_minted_recovery_artifact_cannot_materialize_mixed_case_ident
     with pytest.raises(rec.RecoveryError, match="expected 'hikari9'"):
         rec.materialize(4242, comments, str(branch), Fetcher())
     assert noFiles(branch)
+
+
+def test_previously_minted_original_batch_handoff_cannot_bypass_lowercase_contract(tmp_path):
+    comments = normalApproval(tmp_path)
+    path = tmp_path / rec.batchRelPath(BATCH_ID)
+    batch = json.loads(path.read_text())
+    batch["proposedSkills"][0]["named"]["contributor"] = "Hikari9"
+    path.write_text(json.dumps(batch))
+    approval = copy.deepcopy(HANDOFFS[1001]["approval"])
+    approval["batchSha256"] = rec.sha256Hex(rec.canonicalJson(batch))
+    registerHandoff(approval)
+    comments["comments"][-1] = botComment(approvalComment(json.dumps(approval)))
+    with pytest.raises(rec.RecoveryError, match="expected 'hikari9'"):
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())

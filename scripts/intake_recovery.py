@@ -977,6 +977,7 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
             onDisk = json.load(handle)
         if sha256Hex(canonicalJson(onDisk)) != approval.get("batchSha256"):
             raise RecoveryError("The checked-out batch differs from the topology-approved batch.", EXIT_STALE)
+        requireLowercaseNamedContributors(onDisk)
     bound = approval.get("recovery") or None
     if not isinstance(bound, dict):
         if not os.path.exists(batchPath):
