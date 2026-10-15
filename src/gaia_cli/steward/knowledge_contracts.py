@@ -30,9 +30,9 @@ TRUST_SURFACES = (
 # agreement tests. They are not numeric heuristics over arbitrary repository text.
 BANNED_PATTERNS = {
     "skill-count divisor": re.compile(
-        r"(?:/\s*(?:min\(\s*)?skill_count_in_repo|"
-        r"\bskill_count_in_repo\b.{0,35}\bdivisor\b|"
-        r"\bskill_count_in_repo\b.{0,35}\bdivides?\s+(?:the\s+)?(?:score|contribution)\b)",
+        r"(?:/\s*(?:min\(\s*)?(?:skill_count_in_repo|skillCountInRepo)|"
+        r"\b(?:skill_count_in_repo|skillCountInRepo)\b.{0,35}\bdivisor\b|"
+        r"\b(?:skill_count_in_repo|skillCountInRepo)\b.{0,35}\bdivides?\s+(?:the\s+)?(?:score|contribution)\b)",
         re.I,
     ),
     "mothership discount": re.compile(r"mothership\s+discount", re.I),

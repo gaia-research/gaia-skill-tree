@@ -8,6 +8,7 @@ from gaia_cli.steward.knowledge_contracts import (
     AUTHORITY_MAP,
     MAX_INPUT_BYTES,
     TRUST_SURFACES,
+    bannedClaims,
     check_trust_guidance,
 )
 
@@ -121,6 +122,28 @@ def test_mothership_discount_claim_is_detected(tmp_path: Path, claim: str) -> No
     _write(tmp_path, TRUST_SURFACES[0], f"{claim} See curation-authority-map.md.")
     violations = check_trust_guidance(tmp_path)
     assert any(v["source"] == TRUST_SURFACES[0] and v["rule"] == "retired-trust-claim" for v in violations)
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "score = contribution / min(skillCountInRepo, 50)",
+        "score = contribution / skillCountInRepo",
+    ],
+)
+def test_camel_case_skill_count_divisor_is_detected(text: str) -> None:
+    assert bannedClaims(text) == ["skill-count divisor"]
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "skillCountInRepo is ignored provenance",
+        "Do not use a skillCountInRepo divisor",
+    ],
+)
+def test_camel_case_harmless_mention_and_denial_are_not_detected(text: str) -> None:
+    assert bannedClaims(text) == []
 
 
 def test_authority_map_link_is_required_on_each_active_surface(tmp_path: Path) -> None:
