@@ -888,6 +888,39 @@ def _item_state(item: dict[str, Any]) -> str:
     return item.get("state", "open")
 
 
+def mentionsGaiaSite(text: str) -> bool:
+    """Recognize real site links, including bare domains, without trusting URL substrings.
+
+    Keep each URL token intact: a matching name in userinfo, a path, query or an
+    attacker-controlled hostname is not a reference to the Gaia site.
+    """
+    for token in re.findall(r'''[^\s<>()"'`]+''', text):
+        token = token.rstrip(".,;!?")
+        # Bare domains are often emphasized or displayed as Markdown link text.
+        # Strip balanced outer markup only; never split a URL's authority/path.
+        wrapped = True
+        while wrapped:
+            wrapped = False
+            for left, right in (("**", "**"), ("__", "__"), ("~~", "~~"), ("*", "*"), ("_", "_"), ("[", "]")):
+                if len(token) > len(left) + len(right) and token.startswith(left) and token.endswith(right):
+                    token = token[len(left):-len(right)]
+                    wrapped = True
+                    break
+        candidate = token if "://" in token or token.startswith("//") else "//" + token
+        try:
+            parsed = urllib.parse.urlsplit(candidate)
+            if parsed.scheme not in ("", "http", "https") or parsed.username is not None or parsed.password is not None:
+                continue
+            # Accessing port validates malformed and out-of-range authority values.
+            if parsed.port is not None and not 0 < parsed.port <= 65535:
+                continue
+            if (parsed.hostname or "").removesuffix(".") in {"gaiaskilltree.com", "www.gaiaskilltree.com"}:
+                return True
+        except ValueError:
+            continue
+    return False
+
+
 def normalize_prior_items(items: list[dict[str, Any]], authors: tuple[str, ...], keys: set[str]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Search hits -> (issues, prs), deduplicated across aliases/renames by number."""
     issues: dict[int, dict[str, Any]] = {}
@@ -904,7 +937,7 @@ def normalize_prior_items(items: list[dict[str, Any]], authors: tuple[str, ...],
             "url": url, "number": n, "state": _item_state(it), "state_reason": it.get("state_reason"),
             "title": it.get("title"), "author": user, "author_association": it.get("author_association"),
             "closed_at": it.get("closed_at"), "created_at": it.get("created_at"),
-            "gaia_authored": user.lower() in low_authors or "gaia skill tree" in text or "gaiaskilltree.com" in text,
+            "gaia_authored": user.lower() in low_authors or "gaia skill tree" in text or mentionsGaiaSite(text),
         }
         (prs if "pull_request" in it else issues).setdefault(n, rec)
     return ([issues[k] for k in sorted(issues)], [prs[k] for k in sorted(prs)])
