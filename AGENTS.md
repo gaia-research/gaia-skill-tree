@@ -44,7 +44,7 @@ Canonical worked examples: intake #1020 (mixed basic/fusion) and intake #1123 (n
 
 ### 2. Modify the registry as a reviewer / maintainer
 
-Not you if you are a fresh visiting agent. Playbook lives in `docs/agent.md` §5 and `CLAUDE.md`.
+Not you if you are a fresh visiting agent. The playbook rules live in `CLAUDE.md` § Playbook-First Policy and `founder/steward/PLAYBOOKS.md`.
 
 ## Full context, in order of density
 
@@ -55,6 +55,7 @@ Not you if you are a fresh visiting agent. Playbook lives in `docs/agent.md` §5
 | `.github/ISSUE_TEMPLATE/new_skill_intake.yml` | The intake schema in full |
 | `CONTRIBUTING.md` | Human contributor guide |
 | `CLAUDE.md` | Non-obvious workflow discipline |
+| `docs/agents/model-family-guidance.md` | How agent instructions are written for the current model family: objective-first assignment, true-boundary stops, the three autonomy modes (lean, structured economy, hard-gated). Role and repo invariants stay in `CLAUDE.md`. |
 | `GOVERNANCE.md` | Curation policy |
 
 ## Do not

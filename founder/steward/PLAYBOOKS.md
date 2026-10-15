@@ -1,8 +1,10 @@
 # Agent playbook contract
 
 Agent playbooks carry Gaia's method above the CLI. The CLI remains the canonical
-mutation surface; a playbook fixes the order, authority envelope, stopping rules,
-and proof so an agent does not reconstruct them from scattered prose.
+mutation surface. A playbook states the objective, authority envelope, invariants,
+prohibited actions, hard stops and terminal proof, so an agent does not reconstruct
+them from scattered prose. Ordered steps are strict only where the sequence is
+load-bearing; see § Step strictness.
 
 This contract generalizes the Steward routine packet. It is opt-in: a canonical
 `.agents/skills/*/SKILL.md` becomes a playbook only when its YAML frontmatter has
@@ -73,6 +75,28 @@ the checker can inspect.
 This constrained grammar is deliberate. If a step cannot be expressed inside it,
 move the mechanism into a tested CLI verb or script and keep the playbook spine
 small.
+
+## Step strictness
+
+`steps` is always declared (the schema requires at least one), but the strictness
+of execution depends on each step's kind:
+
+- **`run:` steps are strict.** Deterministic or dangerous mutations run in the
+  declared order through the canonical command, and each must produce its declared
+  `proves:` evidence before the next step. Do not reorder, skip, or substitute a
+  `run:` step; if it cannot run, stop at its `stopConditions` landing place.
+- **`judgment:` steps are advisory.** They name a bounded answer space and the
+  `rules` that govern it. The agent may choose the route to reach the answer,
+  combine or reorder judgment work, or use delegation, as long as the answer stays
+  inside the declared space and the playbook's `proof` and `done` still hold.
+- **`stopConditions` and `proof` are never advisory.** A route inside the envelope
+  is free; the hard stops, the authority class and the terminal proof are not.
+- A step that is judgment in one playbook and mutation in another is two different
+  playbooks, not one with relaxed strictness (see § Change discipline).
+
+Strict and advisory steps can share one playbook. The strict `run:` spine protects
+the mutation; the advisory judgment steps let a capable agent pick the route
+without reconstructing the method from prose.
 
 ## Proof layers
 
