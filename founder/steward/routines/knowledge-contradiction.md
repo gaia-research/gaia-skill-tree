@@ -2,7 +2,8 @@
 
 | | |
 |---|---|
-| **Policy rule** | *(not wired — no sensor emits this debt yet)* |
+| **Policy rule** | `knowledge-contradiction` — founder-review routing proposal in #2105 |
+| **Sensor** | Existing `knowledge-contradiction` sensor — partial coverage, extended rather than duplicated |
 | **Debt kind** | `knowledge_contradiction` |
 | **Authority** | Class B — bounded autonomous repair |
 | **Cadence** | Monthly, and after any founder ruling |
@@ -24,6 +25,15 @@ behind its twin.
 It does **not** do editorial improvement. Rewriting for clarity is not a
 maintenance debt, and a routine that starts polishing prose will never stop.
 
+The current sensor checks selected policy/schema/document invariants and a
+finite shared set of retired trust-guidance claims from #2052. The shared helper
+`src/gaia_cli/steward/knowledge_contracts.py` lists the active inputs; its tests
+reuse the authority-map agreement contract rather than defining a new trust
+formula. Equal skill mirrors do not prove semantic consistency. Missing, empty,
+unreadable or oversized required semantic inputs fail to unknown coverage.
+Historical handovers, retrospectives and unlisted archives are not scanned.
+This is not a general natural-language contradiction detector.
+
 ## When it is worth looking
 
 Monthly for accumulated drift, and immediately after a founder ruling lands —
@@ -32,9 +42,19 @@ the highest-value moment for this routine by a wide margin.
 
 ## Envelope to grant
 
-- **May write:** the directory subtree holding the documents named in the finding. Policy expresses scopes as `<dir>/**` subtrees, so a routine touching a root-level file such as `CLAUDE.md` cannot be wired without widening that scope — prefer running it by hand over granting the repository root.
-- **Never writes:** `registry/**`, `skill-trees/**`, `docs/graph/**`, `founder/**`, source code
-- **May run:** read-only search, link checks, the mirror check commands
+The proposed `POLICY.yaml` packet is authoritative; this routine cannot widen it.
+
+- **May write:** `docs/agents/**` and `tests/steward/**`, only for a reproduced,
+  source-settled correction/proposal.
+- **Never writes:** root documents, either skill tree, `registry/**`,
+  `skill-trees/**`, `docs/graph/**`, `founder/**`, `.github/**`, `.gaia/steward/**`
+  or source code.
+- **May run:** only the packet's read-only status and focused test commands.
+
+A finding in a protected source can still be observed. The packet must diagnose
+it and stop, not grant itself that source. Naming/product decisions and unsettled
+source precedence remain human-governed. The routing proposal requires founder
+review before integration to main.
 
 ## Stop conditions
 
@@ -53,6 +73,9 @@ true then; correcting it destroys the audit trail.
 ## Done means
 
 - Every correction points at the authoritative source that settles it
+- Protected-source findings return a diagnosis and stop without widening scope
+- Historical positive fixtures and active negative controls reproduce the claim
+- Independent review is required before integration
 - Mirrored files (`.agents/skills/` ↔ `.claude/skills/`) stay byte-identical —
   and note that this specific drift is **Class A**, repaired automatically by
   the `agent-skill-mirror` executor, so it should never reach this routine
