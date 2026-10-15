@@ -940,8 +940,8 @@ def recoveryComment(result):
 # ---------------------------------------------------------------------------
 
 
-def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
-    """Write the recorded reconstruction into the promotion branch; no-op when none was recorded.
+def approvedHandoff(issueNumber, commentsDoc, verifier=None):
+    """Verify the exact latest approval and current issue revision.
 
     `commentsDoc` is `gh issue view --json body,comments`. The latest bot pointer must
     match a successful authenticated workflow's immutable artifact. The artifact
@@ -971,6 +971,13 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
         raise RecoveryError("The topology approval has an unsafe batch id.", EXIT_BLOCKED)
     if approval.get("batchPath") != batchRelPath(batchId):
         raise RecoveryError("The topology approval has a noncanonical batch path.", EXIT_BLOCKED)
+    return approval, handoff
+
+
+def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
+    """Carry the authenticated reconstruction into the promotion branch."""
+    approval, handoff = approvedHandoff(issueNumber, commentsDoc, verifier)
+    batchId = approval["batchId"]
     batchPath = os.path.join(repoRoot, batchRelPath(batchId))
     if os.path.exists(batchPath):
         with open(batchPath, encoding="utf-8") as handle:
@@ -1027,6 +1034,39 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
     return {"status": "recovery-already-present" if batchPresent else "materialized", "files": files}
 
 
+def verifyPromotionHead(issueNumber, commentsDoc, headSha, api=None, repository=None, verifier=None):
+    """An existing promotion PR may only be reused with its exact approved intake bytes."""
+    if not isinstance(headSha, str) or not re.fullmatch(r"[a-f0-9]{40}", headSha):
+        raise RecoveryError("The existing promotion PR has no valid immutable head SHA.", EXIT_REFUSED)
+    api = api or githubApi
+    repository = repository or os.environ.get("GH_REPO")
+    if not isinstance(repository, str) or not SOURCE_REPO_RE.fullmatch(repository):
+        raise RecoveryError("GH_REPO must name the authenticated repository.", EXIT_REFUSED)
+    approval, handoff = approvedHandoff(issueNumber, commentsDoc, verifier)
+
+    def headJson(path):
+        try:
+            response = api(f"repos/{repository}/contents/{path}?ref={headSha}")
+            if response.get("type") != "file" or response.get("encoding") != "base64":
+                raise ValueError("not an encoded file")
+            return json.loads(base64.b64decode(response["content"]))
+        except (RecoveryError, ValueError, KeyError, UnicodeDecodeError) as exc:
+            raise RecoveryError(
+                f"The existing promotion PR lacks its readable approved {path}; reconcile that PR before rerunning.",
+                EXIT_STALE) from exc
+
+    batch = headJson(approval["batchPath"])
+    if sha256Hex(canonicalJson(batch)) != approval.get("batchSha256"):
+        raise RecoveryError("The existing promotion PR has a stale or changed batch; reconcile that PR before rerunning.", EXIT_STALE)
+    requireLowercaseNamedContributors(batch)
+    if isinstance(approval.get("recovery"), dict):
+        receipt = headJson(receiptRelPath(issueNumber))
+        record = handoff.get("record") or {}
+        if canonicalJson(receipt) != canonicalJson(record.get("receipt")):
+            raise RecoveryError("The existing promotion PR has a stale or changed recovery receipt; reconcile that PR before rerunning.", EXIT_STALE)
+    return {"status": "existing-promotion-verified", "headSha": headSha}
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -1077,8 +1117,17 @@ def main(argv=None, fetcher=None):
     revision.add_argument("--issue-json", required=True)
     revision.add_argument("--transition", choices=("topology", "evidence"), required=True)
 
+    promotion = sub.add_parser("verify-pr", help="verify an existing promotion PR's immutable intake bytes")
+    promotion.add_argument("--issue", required=True)
+    promotion.add_argument("--comments-json", required=True)
+    promotion.add_argument("--head-sha", required=True)
+
     args = parser.parse_args(argv)
     try:
+        if args.command == "verify-pr":
+            result = verifyPromotionHead(args.issue, loadJson(args.comments_json), args.head_sha)
+            print(f"Existing promotion PR: {result['status']} at {result['headSha']}")
+            return EXIT_OK
         if args.command == "check-revision":
             verifyIssueRevision(loadJson(args.issue_json), os.environ.get("GITHUB_EVENT_NAME"),
                 loadJson(os.environ["GITHUB_EVENT_PATH"]), args.transition,

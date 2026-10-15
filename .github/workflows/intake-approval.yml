@@ -402,9 +402,13 @@ jobs:
             python3 .intake-tools/scripts/intake_recovery.py materialize --issue "$ISSUE_NUMBER" \
               --comments-json /tmp/issue-comments.json --files-out /tmp/recovery-files.txt
 
-            existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
+            existing=$(gh pr list --state open --head "review/meta/intake-${ISSUE_NUMBER}" --json url,headRefOid --jq '.[0] // empty')
             if [ -n "$existing" ]; then
-              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
+              existing_head=$(printf '%s' "$existing" | python3 -c 'import json,sys; print(json.load(sys.stdin)["headRefOid"])')
+              existing_url=$(printf '%s' "$existing" | python3 -c 'import json,sys; print(json.load(sys.stdin)["url"])')
+              python3 .intake-tools/scripts/intake_recovery.py verify-pr --issue "$ISSUE_NUMBER" \
+                --comments-json /tmp/issue-comments.json --head-sha "$existing_head"
+              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval verified its single promotion PR: $existing_url"
               exit 0
             fi
 

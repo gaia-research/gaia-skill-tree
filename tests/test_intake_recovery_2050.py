@@ -1376,3 +1376,80 @@ def test_previously_minted_original_batch_handoff_cannot_bypass_lowercase_contra
     comments["comments"][-1] = botComment(approvalComment(json.dumps(approval)))
     with pytest.raises(rec.RecoveryError, match="expected 'hikari9'"):
         rec.materialize(4242, comments, str(tmp_path), Fetcher())
+
+
+def promotionApi(files, headSha="b" * 40):
+    """Immutable existing-PR head fixture; any other ref/path must fail."""
+    def api(endpoint, binary=False):
+        prefix = f"repos/{REPOSITORY}/contents/"
+        assert endpoint.startswith(prefix) and endpoint.endswith(f"?ref={headSha}")
+        path = endpoint[len(prefix):].split("?ref=", 1)[0]
+        if path not in files:
+            raise rec.RecoveryError("HTTP 404", rec.EXIT_REFUSED)
+        return {"type": "file", "encoding": "base64",
+                "content": base64.b64encode(json.dumps(files[path]).encode()).decode()}
+    return api
+
+
+def test_existing_promotion_pr_is_reused_only_with_identical_approved_bytes(tmp_path):
+    result, comments, _ = handoff(tmp_path)
+    files = {rec.batchRelPath(BATCH_ID): result["batch"], rec.receiptRelPath(4242): result["receipt"]}
+    for _ in range(2):
+        assert rec.verifyPromotionHead(4242, comments, "b" * 40, api=promotionApi(files)) == {
+            "status": "existing-promotion-verified", "headSha": "b" * 40}
+
+
+@pytest.mark.parametrize("change", ["missing-batch", "missing-receipt", "changed-batch", "changed-receipt"])
+def test_existing_promotion_pr_never_succeeds_with_stale_or_missing_intake_bytes(tmp_path, change):
+    result, comments, _ = handoff(tmp_path)
+    files = {rec.batchRelPath(BATCH_ID): copy.deepcopy(result["batch"]),
+             rec.receiptRelPath(4242): copy.deepcopy(result["receipt"])}
+    if change == "missing-batch":
+        del files[rec.batchRelPath(BATCH_ID)]
+    elif change == "missing-receipt":
+        del files[rec.receiptRelPath(4242)]
+    elif change == "changed-batch":
+        files[rec.batchRelPath(BATCH_ID)]["proposedSkills"][0]["description"] = "Different worker or stale bytes"
+    else:
+        files[rec.receiptRelPath(4242)]["originalBytesRecovered"] = True
+    with pytest.raises(rec.RecoveryError, match="existing promotion PR") as raised:
+        rec.verifyPromotionHead(4242, comments, "b" * 40, api=promotionApi(files))
+    assert raised.value.code == rec.EXIT_STALE
+
+
+def test_new_valid_topology_cannot_report_success_for_old_promotion_pr_head(tmp_path):
+    first, comments, _ = handoff(tmp_path, name="old-topology")
+    files = {rec.batchRelPath(BATCH_ID): first["batch"], rec.receiptRelPath(4242): first["receipt"]}
+
+    def edited():
+        issue = richIssue()
+        issue["body"] = issue["body"].replace("Does the Sample Skill job end to end for reviewers.",
+                                              "New candidate description selected in the second approval.")
+        return issue
+
+    second, newComments, _ = handoff(tmp_path, edited, name="new-topology", existing=comments)
+    # Materializing the new approved batch in a temporary base checkout does
+    # not make the already-open promotion PR contain those bytes.
+    promotion = tmp_path / "base-checkout"
+    assert rec.materialize(4242, newComments, str(promotion), Fetcher())["status"] == "materialized"
+    with pytest.raises(rec.RecoveryError, match="stale or changed batch"):
+        rec.verifyPromotionHead(4242, newComments, "b" * 40, api=promotionApi(files))
+    assert second["batch"] != first["batch"]
+
+
+def test_original_batch_existing_pr_must_also_match_approved_digest(tmp_path):
+    comments = normalApproval(tmp_path)
+    batch = json.loads((tmp_path / rec.batchRelPath(BATCH_ID)).read_text())
+    files = {rec.batchRelPath(BATCH_ID): batch}
+    rec.verifyPromotionHead(4242, comments, "b" * 40, api=promotionApi(files))
+    files[rec.batchRelPath(BATCH_ID)]["userId"] = "different-submitter"
+    with pytest.raises(rec.RecoveryError, match="stale or changed batch"):
+        rec.verifyPromotionHead(4242, comments, "b" * 40, api=promotionApi(files))
+
+
+def test_existing_pr_shortcut_checks_immutable_head_before_success_or_new_pr():
+    run = stepNamed("evidence-approved", "Create or reuse the batch promotion PR")["run"]
+    assert '--head "review/meta/intake-${ISSUE_NUMBER}"' in run
+    assert "--json url,headRefOid" in run
+    assert run.index(" verify-pr ") < run.index("Evidence approval verified its single promotion PR")
+    assert run.index(" verify-pr ") < run.index('git checkout -b "$branch"')
