@@ -1005,31 +1005,34 @@
       truncLabel(label, ult.name || ult.id.split('/')[1], ls.maxChars);
       barGroup.appendChild(label);
 
-      // Contributor handle below name label
-      var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
-      var contribY = labelY + rotatedExtra + ls.fontPx + 4;
-      var contrib = svgEl('text', {
-        x: x + UB / 2,
-        y: contribY,
-        'text-anchor': 'middle',
-        'font-size': String(ls.fontPx),
-        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
-      });
-      truncLabel(contrib, ult.contributor, Math.max(8, ls.maxChars - 2));
-      barGroup.appendChild(contrib);
+      // Dense mobile bars keep only the rotated name; details remain in the tooltip.
+      if (!isMobileViewport()) {
+        // Contributor handle below name label
+        var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
+        var contribY = labelY + rotatedExtra + ls.fontPx + 4;
+        var contrib = svgEl('text', {
+          x: x + UB / 2,
+          y: contribY,
+          'text-anchor': 'middle',
+          'font-size': String(ls.fontPx),
+          fill: 'rgba(' + TOKENS.gold + ', 0.7)'
+        });
+        truncLabel(contrib, ult.contributor, Math.max(8, ls.maxChars - 2));
+        barGroup.appendChild(contrib);
 
-      // Branch pill below contributor — use GaiaSemantics for correct rank word
-      var ultBranch = gs ? gs.branchOf(ult) : 'suite';
-      var ultPillWord = gs ? gs.rankWord(ult.level, ultBranch) : 'Suite';
-      var typeBadge = svgEl('text', {
-        x: x + UB / 2,
-        y: contribY + ls.fontPx + 4,
-        'text-anchor': 'middle',
-        'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
-      });
-      typeBadge.textContent = ultPillWord;
-      barGroup.appendChild(typeBadge);
+        // Branch pill below contributor — use GaiaSemantics for correct rank word
+        var ultBranch = gs ? gs.branchOf(ult) : 'suite';
+        var ultPillWord = gs ? gs.rankWord(ult.level, ultBranch) : 'Suite';
+        var typeBadge = svgEl('text', {
+          x: x + UB / 2,
+          y: contribY + ls.fontPx + 4,
+          'text-anchor': 'middle',
+          'font-size': String(Math.max(8, ls.fontPx - 1)),
+          fill: 'rgba(' + TOKENS.gold + ', 0.7)'
+        });
+        typeBadge.textContent = ultPillWord;
+        barGroup.appendChild(typeBadge);
+      }
     });
 
     svg.appendChild(barGroup);
@@ -1245,28 +1248,31 @@
       truncLabel(label, suite.id || suite.name, Math.max(ls.maxChars, 14));
       barGroup.appendChild(label);
 
-      // Contributor handle (placed below name label, with extra space if rotated)
-      var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
-      var contribY = labelY + rotatedExtra + ls.fontPx + 4;
-      var contrib = svgEl('text', {
-        x: x + SB / 2, y: contribY,
-        'text-anchor': 'middle', 'font-size': String(ls.fontPx),
-        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
-      });
-      truncLabel(contrib, suite.contributor, Math.max(8, ls.maxChars - 2));
-      barGroup.appendChild(contrib);
+      // Dense mobile bars keep only the rotated name; details remain in the tooltip.
+      if (!isMobileViewport()) {
+        // Contributor handle (placed below name label, with extra space if rotated)
+        var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
+        var contribY = labelY + rotatedExtra + ls.fontPx + 4;
+        var contrib = svgEl('text', {
+          x: x + SB / 2, y: contribY,
+          'text-anchor': 'middle', 'font-size': String(ls.fontPx),
+          fill: 'rgba(' + TOKENS.gold + ', 0.7)'
+        });
+        truncLabel(contrib, suite.contributor, Math.max(8, ls.maxChars - 2));
+        barGroup.appendChild(contrib);
 
-      // Branch pill — use GaiaSemantics.rankWord for branch-forked name, gold token for suite
-      var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
-      var suiteBranch = gs ? gs.branchOf(suite) : 'suite';
-      var suitePillWord = gs ? gs.rankWord(suite.level, suiteBranch) : 'Suite';
-      var typePill = svgEl('text', {
-        x: x + SB / 2, y: contribY + ls.fontPx + 4,
-        'text-anchor': 'middle', 'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: suiteBranch === 'unique' ? 'rgba(' + TOKENS.rank4 + ',0.9)' : 'rgba(' + TOKENS.gold + ',0.9)'
-      });
-      typePill.textContent = suitePillWord;
-      barGroup.appendChild(typePill);
+        // Branch pill — use GaiaSemantics.rankWord for branch-forked name, gold token for suite
+        var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
+        var suiteBranch = gs ? gs.branchOf(suite) : 'suite';
+        var suitePillWord = gs ? gs.rankWord(suite.level, suiteBranch) : 'Suite';
+        var typePill = svgEl('text', {
+          x: x + SB / 2, y: contribY + ls.fontPx + 4,
+          'text-anchor': 'middle', 'font-size': String(Math.max(8, ls.fontPx - 1)),
+          fill: suiteBranch === 'unique' ? 'rgba(' + TOKENS.rank4 + ',0.9)' : 'rgba(' + TOKENS.gold + ',0.9)'
+        });
+        typePill.textContent = suitePillWord;
+        barGroup.appendChild(typePill);
+      }
     });
 
     svg.appendChild(barGroup);
@@ -1561,7 +1567,7 @@
       dynH = Math.round(220 + (CHART_H - 220) * Math.sqrt(ratio));
     }
 
-    var totalW = Math.max(metrics.totalW, 320);
+    var totalW = Math.max(metrics.totalW, Math.min(chartContainerW(), 320));
     var innerH = dynH - NPAD.top - NPAD.bottom;
     if (innerH < 80) innerH = 80;
 
