@@ -429,11 +429,42 @@ def resolveSourceUrls(record):
     }
 
 
+def validateContributor(value):
+    """Stdlib-only counterpart of gaia_cli.namedIdentity for sparse workflow tooling.
+
+    Source repository owner spelling and upstream attribution are external
+    provenance; this contract applies only to Gaia's named contributor identity.
+    """
+    if not isinstance(value, str) or not value.strip():
+        return "contributor is required"
+    if "/" in value:
+        return f"contributor '{value}' cannot contain '/'"
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", value):
+        return (f"contributor '{value}' is not a valid handle "
+                "(lowercase alphanumeric, underscore or hyphen)")
+    if value != value.lower():
+        return (f"contributor '{value}' must be lowercase; expected '{value.lower()}'. "
+                "Gaia never normalizes identities silently")
+    return None
+
+
+def requireLowercaseNamedContributors(batch):
+    for skill in batch.get("proposedSkills") or []:
+        if skill.get("named"):
+            problem = validateContributor(skill["named"].get("contributor"))
+            if problem:
+                raise RecoveryError(problem, EXIT_BLOCKED)
+
+
 def findMissingFacts(record):
     missing = []
     urls = resolveSourceUrls(record)
     for skill in record["skills"]:
         skillId = skill["id"]
+        if skill.get("named"):
+            identityProblem = validateContributor(skill["named"].get("contributor"))
+            if identityProblem:
+                missing.append(f"skills[{skillId}].named: {identityProblem}")
         if not SKILL_ID_RE.match(skillId or ""):
             missing.append(f"skills[{skillId!r}].id is not a kebab-case skill id")
         if not str(skill.get("name") or "").strip():
@@ -764,6 +795,7 @@ def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=Non
     """The topology hand-off payload. Without a recovery it is byte-identical to the historical one."""
     with open(os.path.join(repoRoot, batchPath), encoding="utf-8") as handle:
         batch = json.load(handle)
+    requireLowercaseNamedContributors(batch)
     payload = {
         "schemaVersion": 1,
         "batchId": batch["batchId"],
@@ -959,6 +991,7 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
             EXIT_STALE,
         )
     batch, receipt = decoded["batch"], decoded["receipt"]
+    requireLowercaseNamedContributors(batch)
     if receipt.get("issue") != int(issueNumber) or receipt.get("reconstruction") is not True:
         raise RecoveryError("The recovery record does not belong to this intake issue.", EXIT_BLOCKED)
     if receipt.get("reconstructedBatch", {}).get("sha256") != sha256Hex(canonicalJson(batch)) or bound.get("batchSha256") != receipt["reconstructedBatch"]["sha256"]:

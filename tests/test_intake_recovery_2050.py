@@ -137,7 +137,7 @@ def richSkill(skillId, name, url, named=True):
         "evidence": [{"grade": "C", "type": "repo", "url": f"https://github.com/{SOURCE_REPO}", "notes": "pipe | in notes"}],
     }
     if named:
-        skill["named"] = {"contributor": "ExampleSubmitter", "skill_name": skillId, "level": "2★", "links_github": url}
+        skill["named"] = {"contributor": "examplesubmitter", "skill_name": skillId, "level": "2★", "links_github": url}
     return attach_identity(skill, SOURCE_REPO)
 
 
@@ -259,7 +259,7 @@ def test_rich_issue_needs_no_facts_and_keeps_issue_evidence_verbatim(tmp_path):
     batch = result["batch"]
     sample = batch["proposedSkills"][0]
     assert sample["attribution"] == {"type": "self-made", "upstream_author": "ExampleSubmitter", "skill_file_url": URL_ONE}
-    assert sample["named"] == {"contributor": "ExampleSubmitter", "skill_name": "sample-skill", "level": "2★", "links_github": URL_ONE}
+    assert sample["named"] == {"contributor": "examplesubmitter", "skill_name": "sample-skill", "level": "2★", "links_github": URL_ONE}
     assert sample["evidence"] == [{"grade": "C", "type": "repo", "url": f"https://github.com/{SOURCE_REPO}", "notes": "pipe | in notes"}]
     assert sample["description"] == "Does the Sample Skill job end to end for reviewers."
     assert all(item["origin"] == "issue" for item in result["receipt"]["sources"])
@@ -1319,3 +1319,46 @@ def test_dispatch_digest_stays_in_environment_and_revision_checks_precede_work()
         assert step["env"]["ISSUE_BODY_SHA256"] == "${{ inputs.issue_body_sha256 }}"
         assert "${{ inputs.issue_body_sha256 }}" not in step["run"]
         assert step["run"].index(" check-revision ") < step["run"].index(" payload " if job == "topology-approved" else " materialize ")
+
+
+@pytest.mark.parametrize("contributor", ["ExampleSubmitter", "Hikari9", "HIKARI9"])
+def test_recovery_never_normalizes_mixed_case_named_contributor(tmp_path, contributor):
+    skill = richSkill("sample-skill", "Sample Skill", URL_ONE)
+    skill["named"]["contributor"] = contributor
+    fetcher = Fetcher()
+    with pytest.raises(rec.RecoveryError) as raised:
+        run(issueOf([skill], True), tmp_path, fetcher=fetcher)
+    assert f"expected '{contributor.lower()}'" in "\n".join(raised.value.lines)
+    assert "never normalizes identities silently" in "\n".join(raised.value.lines)
+    assert fetcher.calls == [] and noFiles(tmp_path)
+
+
+@pytest.mark.parametrize("value", ["hikari9", "user_name", "user-name", "99", "Hikari9", "bad/name", " spaced ", "", None])
+def test_recovery_contributor_contract_matches_shared_identity_validation_when_integrated(value):
+    shared = pytest.importorskip("gaia_cli.namedIdentity")
+    assert rec.validateContributor(value) == shared.validateContributor(value)
+
+
+def test_existing_batch_cannot_mint_a_mixed_case_identity_handoff(tmp_path):
+    path = tmp_path / rec.batchRelPath(BATCH_ID)
+    path.parent.mkdir(parents=True)
+    skill = richSkill("sample-skill", "Sample Skill", URL_ONE)
+    skill["named"]["contributor"] = "Hikari9"
+    path.write_text(json.dumps(batchOf([skill], True)))
+    with pytest.raises(rec.RecoveryError, match="expected 'hikari9'"):
+        rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "maintainer-one", str(tmp_path))
+
+
+def test_previously_minted_recovery_artifact_cannot_materialize_mixed_case_identity(tmp_path):
+    result, comments, approval = handoff(tmp_path)
+    result["batch"]["proposedSkills"][0]["named"]["contributor"] = "Hikari9"
+    result["receipt"]["reconstructedBatch"]["sha256"] = rec.sha256Hex(rec.canonicalJson(result["batch"]))
+    approval["recovery"]["recordDigest"] = rec.recordIdentityDigest(result["batch"], result["receipt"])
+    approval["recovery"]["batchSha256"] = result["receipt"]["reconstructedBatch"]["sha256"]
+    approval["batchSha256"] = approval["recovery"]["batchSha256"]
+    registerHandoff(approval, {"batch": result["batch"], "receipt": result["receipt"]})
+    comments["comments"][-1] = botComment(approvalComment(json.dumps(approval)))
+    branch = tmp_path / "promotion"
+    with pytest.raises(rec.RecoveryError, match="expected 'hikari9'"):
+        rec.materialize(4242, comments, str(branch), Fetcher())
+    assert noFiles(branch)
