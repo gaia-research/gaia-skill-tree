@@ -494,7 +494,9 @@
       <h2>Trust Magnitude Formula</h2>
       <p class="section-sub">
         Trust Magnitude (TM) is the aggregate numeric signal for a skill's trustworthiness.
-        It is computed at build time from a skill's evidence inventory, never stored on a node.
+        It is computed from the effective evidence inventory, including eligible generic-layer evidence inherited by a named skill.
+        Named frontmatter may store a hash-signed cache written only by <code>gaia dev calibrate-trust-magnitude</code>;
+        generated catalogs trust it only while its input hash matches, otherwise they recompute.
       </p>
 
       <div class="tm-formula-block">
@@ -912,7 +914,8 @@
       <h2>Overall Trust Grade Thresholds</h2>
       <p class="section-sub">
         The Overall Trust Grade is derived from accumulated positive-scoring evidence in a skill's Trust Magnitude and a diversity gate.
-        It is computed at build time and surfaces in generated catalogs — never stored on a node.
+        It surfaces in generated catalogs and may be stored with Trust Magnitude as the CLI-written, hash-signed cache described above;
+        a matching input hash is required to reuse that cache.
       </p>
 
       <table class="tm-table" aria-label="Overall Trust Grade thresholds">

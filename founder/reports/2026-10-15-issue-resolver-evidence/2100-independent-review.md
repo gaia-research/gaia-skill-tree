@@ -1,0 +1,5 @@
+> Historical lane evidence. Status statements describe the inspected commit, not the final integrated tree. The parent recovery report records subsequent merges and holds.
+
+Independent recovery-lead prepatch and candidate review at 9d3d232a75c5845d166af283febbe12fe81b9521: traced the CodeQL annotation at normalize_prior_items through attribution, prior-contact holds, and recorded maintainer approval verification. Exact URL-host recognition replaces unsafe substring matching without treating attacker-host/path/userinfo text as campaign attribution. Existing known-author/name signals and real Gaia references, including Markdown-wrapped bare domains, retain holds.
+
+The first candidate missed ordinary Markdown wrappers; independent review caught it and the final candidate repairs it. Six independent positive and six malicious URL probes pass through the actual normalization path; 283 focused policy/reconciliation/planner tests pass. Approval still requires its existing human and verified maintainer gates. Current-head CI is green. Final #2097 CodeQL alert clearance remains an integration check; this review does not claim it already ran on the aggregate.

@@ -18,6 +18,18 @@ Persist a run ledger under `generated-output/curate-discovery/<run-id>/run.json`
 
 Process exactly one candidate at a time. Validate its `discovery-packet-v2` after every transition and persist each final review packet to Core's `registry-for-review/discovery-packets/` path. V1 remains readable only for compatibility. Advance only when the current transition validates and its input digest matches the checkpoint. On resume, revalidate contract and generic snapshot digests; preserve raw source records but move stale mappings to `DEFER`.
 
+Keep current-state `blockers` and `sourceRevisions` separate from historical events.
+Each blocker records `checkId`, `status` (`open` or `resolved`), `summary`, and
+`resolutionEvidence` when resolved. On resume, read
+`gaia_cli.curationCheckpoint.compactCheckpoint(ledger, freshFailingChecks)` first;
+only checks actually rerun during this resume, with fresh failure evidence, belong in
+`freshFailingChecks`. Resolved blockers with evidence stay resolved; unproven
+resolutions and open blockers remain active. Never promote old failure history into
+a fresh check. Persist new failures as open blockers before the next checkpoint.
+The CLI's `.gaia/curation/runs/<run-id>/state.json` stores the same fields under
+`checkpoint`; `gaia curate --resume <run-id> [--status]` reports that compact state
+and pauses on active blockers. Neither ledger format grants L4 approval.
+
 ## Bounded repair
 
 Route only the failing candidate and field back to its worker. Allow at most two retries for transient fetch failure and one Luna High/equivalent repair for invalid structured output. A deterministic schema, hash, or generic-reference failure is not blindly retried.

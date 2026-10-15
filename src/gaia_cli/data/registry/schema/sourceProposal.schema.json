@@ -113,7 +113,7 @@
         "skillCountInRepo": {
           "type": "integer",
           "minimum": 1,
-          "description": "Number of skills in the repo (mothership divisor). Used by github-stars-own type."
+          "description": "Number of skills in the repo. Retained as provenance for github-stars-own; it is not a scoring divisor."
         }
       }
     },

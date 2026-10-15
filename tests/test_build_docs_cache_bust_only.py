@@ -117,3 +117,77 @@ def test_cache_bust_only_main_refreshes_html_and_readme(bd, monkeypatch):
     assert rc == 0
     assert ("html", False) in calls
     assert ("readme", False) in calls
+
+
+# --- build_html_cache_busting: docs/en/*.html coverage (#2042) -------------
+
+_EN_PAGE = (
+    "<!doctype html>\n<html>\n<head>\n  <title>t</title>\n"
+    '  <link rel="stylesheet" href="../css/styles.css?v=8.18.2">\n'
+    "</head>\n<body>\n"
+    '  <nav><span class="nav-version">v8.18.2</span></nav>\n'
+    '  <script src="../js/site-nav.js?v=8.18.2"></script>\n'
+    "</body>\n</html>\n"
+)
+
+
+def _seed_en_root(bd, tmp_path, monkeypatch, version="9.9.9"):
+    (tmp_path / "docs" / "en").mkdir(parents=True)
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: version)
+    return tmp_path / "docs" / "en"
+
+
+def test_en_glob_covers_unregistered_page(bd, tmp_path, monkeypatch, capsys):
+    """A page dropped into docs/en/ is picked up with no list entry to add."""
+    en_dir = _seed_en_root(bd, tmp_path, monkeypatch)
+    page = en_dir / "newpage.html"
+    page.write_text(_EN_PAGE, encoding="utf-8")
+
+    assert bd.build_html_cache_busting(check=True) is True
+    assert "diff docs/en/newpage.html" in capsys.readouterr().out
+    assert page.read_text(encoding="utf-8") == _EN_PAGE  # check mode never writes
+
+    assert bd.build_html_cache_busting(check=False) is True
+    text = page.read_text(encoding="utf-8")
+    assert '<span class="nav-version">v9.9.9</span>' in text
+    assert "../js/site-nav.js?v=9.9.9" in text
+    assert "../css/styles.css?v=9.9.9" in text
+    assert 'window.GAIA_VERSION = "9.9.9";' in text
+    assert bd.build_html_cache_busting(check=True) is False
+
+
+def test_stale_nav_version_chip_fails_check(bd, tmp_path, monkeypatch, capsys):
+    """A stale version chip alone is drift: check reports it and does not heal it."""
+    en_dir = _seed_en_root(bd, tmp_path, monkeypatch)
+    stale = (
+        "<!doctype html>\n<html>\n<head>\n"
+        '  <link rel="stylesheet" href="../css/styles.css?v=9.9.9">\n'
+        "</head>\n<body>\n"
+        '  <span class="docs-nav-version" id="ver">v8.11.1</span>\n'
+        "</body>\n</html>\n"
+    )
+    page = en_dir / "faq.html"
+    page.write_text(stale, encoding="utf-8")
+
+    assert bd.build_html_cache_busting(check=True) is True
+    assert "diff docs/en/faq.html" in capsys.readouterr().out
+    assert "v8.11.1" in page.read_text(encoding="utf-8")
+
+    assert bd.build_html_cache_busting(check=False) is True
+    assert '<span class="docs-nav-version" id="ver">v9.9.9</span>' in page.read_text(encoding="utf-8")
+
+
+def test_cache_bust_preserves_crlf_line_endings(bd, tmp_path, monkeypatch):
+    """CRLF pages stay CRLF: no line-by-line rewrite, no bare-LF injections."""
+    en_dir = _seed_en_root(bd, tmp_path, monkeypatch)
+    page = en_dir / "crlf.html"
+    page.write_bytes(_EN_PAGE.replace("\n", "\r\n").encode("utf-8"))
+
+    assert bd.build_html_cache_busting(check=False) is True
+
+    data = page.read_bytes()
+    assert b"\r\n" in data
+    assert data.count(b"\n") == data.count(b"\r\n")  # every newline is CRLF
+    assert b'window.GAIA_VERSION = "9.9.9";' in data
+    assert b'<span class="nav-version">v9.9.9</span>' in data

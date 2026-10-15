@@ -242,8 +242,8 @@ preferred way agents perform dev-mutation work (calibration, evidence, fusion,
 curation, and the rest of the `gaia dev` surface). A playbook is a canonical
 `.agents/skills/*/SKILL.md` carrying `playbookVersion: 1` frontmatter — the same
 physical file type as a user-invokable skill, but built for an **agent following a
-checked procedure**, not for a human's `/slash-command`. It fixes the order,
-authority envelope, stopping rules, and proof around a `gaia dev` verb so an agent
+checked contract**, not for a human's `/slash-command`. It binds the objective,
+authority envelope, stopping rules, proof and load-bearing command order around a `gaia dev` verb so an agent
 does not reconstruct that method from scattered prose every time. Contract:
 `founder/steward/PLAYBOOKS.md`; schema: `founder/steward/playbook.schema.json`;
 checker: `scripts/check_playbook_contract.py`; rationale:
@@ -251,12 +251,22 @@ checker: `scripts/check_playbook_contract.py`; rationale:
 
 **Rule:** before calling a mutating `gaia dev` verb directly, check whether a
 playbook already covers that operation (`playbookVersion: 1` under
-`.agents/skills/*/SKILL.md`). If one exists, follow it — its steps, stop
-conditions, and proof obligations are the required procedure, not a suggestion.
-If none exists yet for the operation at hand, author one first per
-`founder/steward/PLAYBOOKS.md`, validate it against
-`scripts/check_playbook_contract.py`, and use it — don't do the mutation via a
-bare CLI call and leave the method unwritten for the next agent.
+`.agents/skills/*/SKILL.md`). If one does, its **objective, authority envelope,
+invariants, prohibited actions, terminal proof and hard stops are binding**.
+Inside that envelope the agent chooses the judgment route. Declared ordered
+`run:` steps remain the required canonical command spine; `judgment:` routes are
+advisory without changing their bounded answers or dependencies. Strictness is
+set per step in `founder/steward/PLAYBOOKS.md` § Step strictness.
+
+- A missing bespoke playbook does not force meta-authoring before a bounded task
+  that already has a safe canonical CLI interface (the verb and its pre-flight
+  checks). Author a playbook when the operation recurs, its method is non-obvious,
+  or one has been asked for, per `founder/steward/PLAYBOOKS.md`, and validate it
+  against `scripts/check_playbook_contract.py`.
+- Agent authoring and autonomy modes (lean autonomous, structured economy,
+  hard-gated) and the classification of instruction structure live in
+  [`docs/agents/model-family-guidance.md`](docs/agents/model-family-guidance.md).
+  Role and repository invariants stay in this file, not in that layer.
 
 - This is a migration, not a retroactive requirement: most `gaia dev` verbs have
   no playbook yet. Calling the CLI directly remains fine where no playbook exists
@@ -370,7 +380,7 @@ Before #807 the version stamp on these files was the dominant source of cross-PR
 
 ### Adding a new versioned HTML page
 
-**Never manually patch `?v=` query strings.** Add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` (function at ~L316 lists every auto-versioned HTML file). New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css`/`.js` src/href attributes automatically.
+**Never manually patch `?v=` query strings.** Add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` (its explicit list covers every auto-versioned HTML file except `docs/en/*.html`, which is globbed and needs no entry). New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css`/`.js` src/href attributes automatically.
 
 ### Bundled registry snapshot — refresh cadence
 
@@ -426,7 +436,7 @@ When authoring or modifying skills, run the validation gates:
 
 - `links.github` MUST use `blob/branch/subpath`, not `tree/` (bare repo roots make skills undiscoverable). Only `links.github` is read by the installer — rename `links.repo`/`links.docs`/`origin` etc. accordingly.
 - Skills with `suiteComponents` need NO `links.github` of their own — do not flag them uninstallable; but each **component** needs its own `blob/branch/subpath`. Non-suite skills ≤2★ with no public repo → `installable: false` (see CONTRIBUTING.md §12).
-- Trust Magnitude evidence learnings (same-source dedup, mothership discount, peer-review being highest-impact for science skills, `benchmark-result` needing `percentile`, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file before touching evidence.
+- Trust Magnitude evidence learnings (same-source dedup within type, no repository-count divisor, peer-review being highest-impact for science skills, `benchmark-result` being catalog-gated, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file and the canonical [curation authority map](docs/agents/curation-authority-map.md) before touching evidence.
 
 See [DEV.md](DEV.md) and [portable curation setup](docs/agents/curation-environment.md) for setup, testing, and CI troubleshooting.
 

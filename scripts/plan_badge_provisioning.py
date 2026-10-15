@@ -39,6 +39,12 @@ Rules & Invariants:
    - `record-outcome --status PR_OPEN` requires the reservation token issued by a
      successful `predispatch` (admin recovery: --force).
    - Manifest writes are serialized with an advisory file lock and are atomic.
+8. Contribution-channel policy (Issue #2074, scripts/badge_policy.py):
+   - `reconcile` classifies each scoped repo as PR_ALLOWED / ISSUE_FIRST / NO_OUTREACH / UNKNOWN (fail closed)
+     and `predispatch` refuses everything except PR_ALLOWED or ISSUE_FIRST with a verified maintainer approval.
+   - `policy ...` is an offline, append-only, hash-chained ledger of channel/approval/closure events. It never
+     contacts GitHub; the only proposal artifact is a local draft that is never sent.
+   - `POLICY_HOLD` is a non-terminal lifecycle status for a PR closed under a repo policy; history is kept.
 """
 
 from __future__ import annotations
@@ -46,6 +52,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import fcntl
+import hashlib
 import json
 import os
 import re
@@ -56,15 +63,19 @@ from pathlib import Path
 from typing import Any, Iterator
 
 try:  # imported as scripts.plan_badge_provisioning (tests) or run as a script
+    from scripts import badge_policy as bp
     from scripts import badge_reconcile as br
 except ImportError:  # pragma: no cover - direct script execution
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts import badge_policy as bp
     from scripts import badge_reconcile as br
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REGISTRY = REPO_ROOT / "docs" / "badges" / "registry.json"
 DEFAULT_MANIFEST = REPO_ROOT / "campaigns" / "badge-provisioning" / "manifest.json"
 DEFAULT_BADGES_INDEX = REPO_ROOT / "docs" / "badges" / "index.html"
+DEFAULT_POLICY_LEDGER = br.DEFAULT_POLICY_LEDGER
+DEFAULT_DRAFT_DIR = DEFAULT_MANIFEST.parent / "drafts"
 BASE_URL = "https://gaiaskilltree.com"
 
 # The three founder-approved low-risk pilot candidates
@@ -101,9 +112,11 @@ LEGAL_STATUSES = {
     "DECLINED",
     "OPTED_OUT",
     "NO_RESPONSE",
+    "POLICY_HOLD",
 }
 
 OUTBOUND_STATES = {
+    "POLICY_HOLD",
     "APPROVED",
     "PR_OPEN",
     "ADOPTED",
@@ -719,10 +732,17 @@ def record_outcome(
     notes: str | None = None,
     approved_by: str | None = None,
     force: bool = False,
+    actor: str | None = None,
 ) -> dict[str, Any]:
     """Records an approval, PR URL, or terminal outcome in the campaign manifest.
 
     Enforces legal state transitions, human approval gates, and duplicate dispatch prevention.
+
+    ``POLICY_HOLD`` (Issue #2074) is a non-terminal internal hold recorded when the repo's contribution
+    policy blocks outreach (for example a PR closed under an issue-first policy). It never erases the
+    PR URL, attempts or history. Leaving it needs a FRESH ``APPROVED`` with ``approved_by``; the stale
+    approval of the earlier attempt does not carry over. ``actor`` attributes the history entry
+    without touching the approval fields.
     """
     repos_dict = manifest_data.get("repositories", {})
 
@@ -765,7 +785,15 @@ def record_outcome(
                 f"and cannot transition to '{target_status}'."
             )
 
+        if target_status == "POLICY_HOLD" and not notes:
+            raise ValueError("Recording POLICY_HOLD requires --notes explaining the policy evidence.")
+
         # Check 2: Outbound PR creation gate
+        if target_status == "PR_OPEN" and current_status == "POLICY_HOLD":
+            raise ValueError(
+                f"Illegal transition: Repository '{repo}' is on POLICY_HOLD; it cannot go straight to PR_OPEN. "
+                "Record a fresh APPROVED (with --approved-by) after the policy gate is satisfied, then run predispatch."
+            )
         if target_status == "PR_OPEN":
             if not pr_url:
                 raise ValueError("Recording status PR_OPEN requires --pr-url.")
@@ -789,6 +817,11 @@ def record_outcome(
                 raise ValueError(
                     "Recording status APPROVED requires an approver (--approved-by)."
                 )
+            if current_status == "POLICY_HOLD" and not approved_by:
+                raise ValueError(
+                    "Leaving POLICY_HOLD requires a fresh human approval (--approved-by); "
+                    "the earlier attempt's approval does not carry over."
+                )
 
     now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -806,7 +839,7 @@ def record_outcome(
         "from_status": current_status,
         "to_status": target_status,
         "notes": notes,
-        "actor": approved_by or prov.get("approved_by"),
+        "actor": actor or approved_by or prov.get("approved_by"),
         "pr_url": pr_url or prov.get("pr_url"),
         "offered_skills": offered_skills,
         "presentation_tier": presentation_tier,
@@ -816,7 +849,7 @@ def record_outcome(
     if approved_by:
         prov["approved"] = True
         prov["approved_by"] = approved_by
-        prov["approved_at"] = prov.get("approved_at") or now_iso
+        prov["approved_at"] = now_iso if current_status == "POLICY_HOLD" else (prov.get("approved_at") or now_iso)
 
     if target_status == "APPROVED":
         prov["approved"] = True
@@ -835,6 +868,9 @@ def record_outcome(
         prov["outcome"] = target_status
         if pr_url:
             prov["pr_url"] = pr_url
+
+    elif target_status == "POLICY_HOLD":
+        prov["outcome"] = "POLICY_HOLD"
 
     if notes:
         prov["decision_notes"] = notes
@@ -881,24 +917,39 @@ def manifest_lock(path: Path) -> Iterator[None]:
             fcntl.flock(fh, fcntl.LOCK_UN)
 
 
-def _load_for_reconcile(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any], tuple[str, ...], "br.GitHubClient"]:
+def _load_for_reconcile(args: argparse.Namespace, client: "br.GitHubClient | None" = None
+                        ) -> tuple[dict[str, Any], dict[str, Any], tuple[str, ...], "br.GitHubClient"]:
+    """Load ledger inputs. The live GitHub client is only built when the caller injects none, so tests
+    and offline callers never touch the network or the local ``gh`` credential store."""
     manifest = load_existing_manifest(args.manifest)
     if not manifest or "repositories" not in manifest:
         raise ValueError(f"Cannot reconcile: valid manifest not found at {args.manifest}.")
     registry = load_registry(args.registry)
     authors = tuple(args.campaign_author or br.DEFAULT_CAMPAIGN_AUTHORS)
-    return manifest, registry, authors, br.GitHubClient(br.UrllibTransport())
+    return manifest, registry, authors, client if client is not None else br.GitHubClient(br.UrllibTransport())
 
 
 def _cmd_reconcile(args: argparse.Namespace, client: "br.GitHubClient | None" = None) -> int:
     if not args.all and not args.repo:
         print("error: specify --repo (repeatable) or --all", file=sys.stderr)
         return 64
-    manifest, registry, authors, default_client = _load_for_reconcile(args)
+    manifest, registry, authors, gh_client = _load_for_reconcile(args, client)
+    n_repos = len(manifest.get("repositories", {})) if args.all else len(args.repo)
+    mode = getattr(args, "policy", "auto")
+    max_repos = getattr(args, "policy_max_repos", 10)
+    scan_policy = mode == "on" or (mode == "auto" and not args.all and n_repos <= max_repos)
+    if mode == "on" and n_repos > max_repos:
+        print(f"error: policy scan covers at most {max_repos} repo(s) per run (cost guard) but {n_repos} are in "
+              "scope. Scope with --repo, or raise --policy-max-repos explicitly.", file=sys.stderr)
+        return 64
+    # Recorded history (closures, refusals, approvals) is always overlaid: it is offline and free.
+    policy_cfg = br.PolicyConfig(call_budget=getattr(args, "policy_budget", br.PolicyConfig.call_budget),
+                                 events=br.load_policy_events(getattr(args, "policy_ledger", DEFAULT_POLICY_LEDGER)),
+                                 scan=scan_policy)
     receipt = br.reconcile_campaign(
-        client or default_client, manifest, registry,
+        gh_client, manifest, registry,
         repos=None if args.all else args.repo, authors=authors, max_workers=args.max_workers,
-        open_scan_limit=args.open_scan_limit,
+        open_scan_limit=args.open_scan_limit, policy=policy_cfg,
     )
     out_dir = args.out_dir or (DEFAULT_MANIFEST.parent / "receipts" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
     jp, mp = br.write_receipt(receipt, out_dir)
@@ -907,16 +958,20 @@ def _cmd_reconcile(args: argparse.Namespace, client: "br.GitHubClient | None" = 
     print(f"Repositories: {s['repositories']}  incomplete: {s['incomplete_evidence']}  anomalies: {s['anomalies']}")
     for k, v in s["by_classification"].items():
         print(f"  {k:18}: {v}")
+    print("Policy channels: " + (", ".join(f"{k}={v}" for k, v in s["by_policy_channel"].items()) or "none")
+          + f" (policy API calls: {receipt['cost']['policy_api_calls']}, incomplete: {s['policy_incomplete']})")
     print(f"receipt.json: {jp}\nreceipt.md:   {mp}")
     return 0
 
 
 def _cmd_predispatch(args: argparse.Namespace, client: "br.GitHubClient | None" = None) -> int:
-    manifest, registry, authors, default_client = _load_for_reconcile(args)
+    manifest, registry, authors, gh_client = _load_for_reconcile(args, client)
     verdict = br.predispatch_gate(
-        client or default_client, manifest, registry, args.repo, args.worker,
+        gh_client, manifest, registry, args.repo, args.worker,
         ttl_minutes=args.ttl_minutes, authors=authors, directory=args.reservation_dir,
         open_scan_limit=args.open_scan_limit,
+        policy=br.PolicyConfig(call_budget=getattr(args, "policy_budget", 36),
+                               events=br.load_policy_events(getattr(args, "policy_ledger", DEFAULT_POLICY_LEDGER))),
     )
     if args.out_dir and verdict.get("entry"):
         args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -931,6 +986,137 @@ def _cmd_predispatch(args: argparse.Namespace, client: "br.GitHubClient | None" 
     for r in verdict["refusals"]:
         print(f"  - {r}", file=sys.stderr)
     return 2
+
+
+def _slug(repo: str) -> str:
+    return bp.normalize_repo_name(repo).replace("/", "__")
+
+
+def _policy_record_key(manifest: dict[str, Any], repo: str) -> str:
+    try:
+        return br.find_record(manifest, repo)[0]
+    except KeyError:
+        raise ValueError(f"Repository '{repo}' not found in campaign manifest.") from None
+
+
+def _ledger_view(ledger: Path, manifest: dict[str, Any], repo: str) -> tuple[str, dict[str, Any]]:
+    key = _policy_record_key(manifest, repo)
+    events = list(br.load_policy_events(ledger))
+    return key, bp.ledger_state(events, [key, repo], br.KNOWN_MIGRATIONS)
+
+
+def _cmd_policy(args: argparse.Namespace) -> int:
+    """Offline policy-ledger operations. Nothing here touches the network or posts to GitHub."""
+    ledger: Path = args.ledger
+    act = args.policy_action
+    if act == "verify":
+        problems = bp.verify_chain(bp.read_events(ledger))
+        for pr in problems:
+            print(f"BROKEN: {pr}", file=sys.stderr)
+        print("policy ledger intact" if not problems else f"{len(problems)} problem(s)")
+        return 0 if not problems else 2
+    manifest = load_existing_manifest(args.manifest)
+    if not manifest or "repositories" not in manifest:
+        raise ValueError(f"Cannot use policy ledger: valid manifest not found at {args.manifest}.")
+    if act == "apply":
+        receipt = json.loads(args.receipt.read_text(encoding="utf-8"))
+        digest = hashlib.sha256(args.receipt.read_bytes()).hexdigest()
+        wanted = {bp.normalize_repo_name(r) for r in (args.repo or [])}
+        wrote = 0
+        for name, entry in sorted(receipt.get("repositories", {}).items()):
+            if wanted and bp.normalize_repo_name(name) not in wanted:
+                continue
+            pol = entry.get("policy") or {}
+            if not pol.get("scanned"):
+                continue
+            key, state = _ledger_view(ledger, manifest, name)
+            if state["last_channel"] == pol["channel"]:
+                continue
+            bp.append_event(ledger, key, "CHANNEL_CLASSIFIED", args.recorded_by, {
+                "channel": pol["channel"], "previous_channel": state["last_channel"],
+                "partial_channel": pol.get("partial_channel"), "observed_at": pol["observed_at"],
+                "complete": pol["completeness"]["complete"], "incomplete_reasons": pol["completeness"]["incomplete_reasons"],
+                "source_urls": sorted({sg["source_url"] for sg in pol["sources"] if sg.get("decisive") and sg.get("source_url")}),
+                "receipt_sha256": digest, "aliases": entry.get("aliases", []),
+            })
+            wrote += 1
+        print(f"recorded {wrote} channel event(s)")
+        return 0
+    key, state = _ledger_view(ledger, manifest, args.repo)
+    if act == "status":
+        out = {
+            "repository": key, "last_channel": state["last_channel"],
+            "historical_closures": [e["data"] | {"event_hash": e["hash"]} for e in state["historical_closures"]],
+            "refusals": [e["data"] | {"event_hash": e["hash"]} for e in state["refusals"]],
+            "drafts": [e["data"] | {"event_hash": e["hash"]} for e in state["drafts"]],
+            "proposals_sent": [e["data"] | {"event_hash": e["hash"]} for e in state["proposals_sent"]],
+            "approvals": [{"active": a["active"], "hash": a["event"]["hash"], **a["event"]["data"]} for a in state["approvals"]],
+            "events": len(state["events"]),
+        }
+        print(json.dumps(out, indent=2, sort_keys=True))
+        return 0
+    blocked = bool(state["refusals"])
+    if act == "record-closure":
+        bp.append_event(ledger, key, "HISTORICAL_CLOSURE_RECORDED", args.recorded_by, {
+            "pr_url": args.pr_url, "state": "CLOSED_UNMERGED", "closed_at": args.closed_at, "kind": args.kind,
+            "comment_url": args.comment_url, "excerpt": args.excerpt, "authority": args.authority,
+            "live_verified": args.live_verified,
+            "source_note": args.source_note, "aliases": [args.repo] if args.repo != key else []})
+    elif act == "classify":
+        bp.append_event(ledger, key, "CHANNEL_CLASSIFIED", args.recorded_by, {
+            "channel": args.channel, "previous_channel": state["last_channel"], "partial_channel": None,
+            "observed_at": datetime.now(timezone.utc).isoformat(), "complete": False,
+            "incomplete_reasons": ["recorded_from_history_no_live_scan"], "basis": args.basis,
+            "source_urls": args.source_url or [], "receipt_sha256": None, "aliases": []})
+    elif act == "record-refusal":
+        bp.append_event(ledger, key, "PRIOR_REFUSAL_RECORDED", args.recorded_by, {
+            "source_url": args.source_url, "excerpt": args.excerpt, "authority": args.authority})
+    elif act == "draft":
+        if blocked:
+            print("REFUSED: a prior refusal is recorded; no proposal may be drafted for this repo.", file=sys.stderr)
+            return 2
+        if state["proposals_sent"]:
+            print("REFUSED: a proposal issue is already recorded; one outreach attempt = one proposal.", file=sys.stderr)
+            return 2
+        rec = manifest["repositories"][key]
+        skill = (rec.get("canonical_skill") or {}).get("name")
+        if not skill or not rec.get("deep_link") or not rec.get("badge_url"):
+            print("REFUSED: ledger has no canonical skill / deep link / badge URL for this repo.", file=sys.stderr)
+            return 2
+        text = bp.render_draft_proposal(key, skill, rec["deep_link"], rec["badge_url"])
+        out_path = args.out or (DEFAULT_DRAFT_DIR / f"{_slug(key)}.issue-first-proposal.md")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(text, encoding="utf-8")
+        bp.append_event(ledger, key, "ISSUE_PROPOSAL_DRAFTED", args.recorded_by, {
+            "draft_path": str(out_path.relative_to(REPO_ROOT)) if out_path.is_relative_to(REPO_ROOT) else str(out_path),
+            "draft_sha256": hashlib.sha256(text.encode()).hexdigest(), "words": bp.draft_word_count(text), "sent": False})
+        print(f"draft written (LOCAL ONLY, never sent): {out_path}")
+    elif act == "record-sent":
+        if blocked:
+            print("REFUSED: a prior refusal is recorded; no proposal may be recorded for this repo.", file=sys.stderr)
+            return 2
+        if state["proposals_sent"]:
+            print("REFUSED: exactly one proposal issue is allowed per outreach attempt.", file=sys.stderr)
+            return 2
+        bp.append_event(ledger, key, "ISSUE_PROPOSAL_SENT", args.recorded_by, {"issue_url": args.issue_url})
+    elif act == "approve":
+        if blocked:
+            print("REFUSED: a prior refusal is recorded; an approval cannot lift it.", file=sys.stderr)
+            return 2
+        if not any(bp._norm_url(e["data"]["issue_url"]) == bp._norm_url(args.issue_url) for e in state["proposals_sent"]):
+            print("REFUSED: approval must attach to the single proposal issue recorded with `policy record-sent`.", file=sys.stderr)
+            return 2
+        if state["active_approvals"]:
+            print("REFUSED: an active approval already exists; revoke it first.", file=sys.stderr)
+            return 2
+        bp.append_event(ledger, key, "MAINTAINER_APPROVAL_RECORDED", args.recorded_by, {
+            "issue_url": args.issue_url, "approver": args.approver, "authority": args.authority,
+            "evidence_url": args.evidence_url, "evidence_excerpt": args.evidence_excerpt, "scope": "single_readme_pr"})
+    elif act == "revoke":
+        bp.append_event(ledger, key, "APPROVAL_REVOKED", args.recorded_by, {
+            "target_hash": args.target_hash, "reason": args.reason})
+    print(f"recorded {act} for {key}")
+    return 0
 
 
 def main() -> None:
@@ -953,6 +1139,7 @@ def main() -> None:
     record_parser.add_argument("--force", action="store_true", help="ADMIN OVERRIDE (founder-authorized recovery only; agents/routines must never use it): "
                                  "bypasses transition validation and the PR_OPEN reservation gate")
 
+    record_parser.add_argument("--actor", default=None, help="Who recorded this entry (history attribution only; does not set approval)")
     record_parser.add_argument("--reservation-token", default=None, help="Token from a successful 'predispatch' (required for PR_OPEN)")
     record_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
 
@@ -964,6 +1151,11 @@ def main() -> None:
         sp.add_argument("--open-scan-limit", type=int, default=br.MAX_OPEN_SCAN,
                         help="Max unmarked open PRs to diff-inspect per repo; more makes the repo UNKNOWN, "
                              f"never READY (default {br.MAX_OPEN_SCAN})")
+        sp.add_argument("--policy-ledger", type=Path, default=DEFAULT_POLICY_LEDGER,
+                        help="Append-only policy ledger (read-only here)")
+        sp.add_argument("--policy-budget", type=int, default=br.PolicyConfig.call_budget,
+                        help="Max GitHub API calls per repo for the contribution-channel scan (cost guard); "
+                             f"exceeding it makes the repo UNKNOWN (default {br.PolicyConfig.call_budget})")
 
     rec_parser = subparsers.add_parser(
         "reconcile", help="Read-only upstream reconciliation; writes receipt.json + receipt.md only")
@@ -974,6 +1166,11 @@ def main() -> None:
     rec_parser.add_argument("--out-dir", type=Path, default=None,
                             help="Receipt directory (default: campaigns/badge-provisioning/receipts/<UTC timestamp>)")
     rec_parser.add_argument("--max-workers", type=int, default=4, help="Bounded concurrency (default 4)")
+    rec_parser.add_argument("--policy", choices=("auto", "on", "off"), default="auto",
+                            help="Contribution-channel scan (#2074). auto = on for a scoped --repo run, off for --all "
+                                 "(unscanned repos report policy_channel UNKNOWN). Never required for a full campaign scan.")
+    rec_parser.add_argument("--policy-max-repos", type=int, default=10,
+                            help="Cost guard: max repos policy-scanned per run (default 10)")
 
     pre_parser = subparsers.add_parser(
         "predispatch", help="MANDATORY gate immediately before creating an upstream PR")
@@ -991,9 +1188,67 @@ def main() -> None:
                             help="ADMIN OVERRIDE: release without token (stale reservation recovery; not for routine agent use)")
     rel_parser.add_argument("--reservation-dir", type=Path, default=br.DEFAULT_RESERVATION_DIR, help=argparse.SUPPRESS)
 
+
+    pol_parser = subparsers.add_parser(
+        "policy", help="Offline contribution-channel policy ledger (#2074). Never contacts GitHub or upstream.")
+    pol_parser.add_argument("--ledger", type=Path, default=DEFAULT_POLICY_LEDGER, help="Append-only policy ledger (JSONL)")
+    pol_parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to manifest.json (read-only)")
+    psub = pol_parser.add_subparsers(dest="policy_action", required=True)
+    psub.add_parser("verify", help="Verify the ledger hash chain")
+    p_status = psub.add_parser("status", help="Show recorded policy state for a repo (offline)")
+    p_status.add_argument("--repo", required=True)
+    p_apply = psub.add_parser("apply", help="Record channel CHANGES from a reconcile receipt as ledger events")
+    p_apply.add_argument("--receipt", type=Path, required=True)
+    p_apply.add_argument("--repo", action="append", default=None)
+    p_apply.add_argument("--recorded-by", required=True)
+    p_clo = psub.add_parser("record-closure", help="Record a historical PR closure (never erased)")
+    p_clo.add_argument("--repo", required=True)
+    p_clo.add_argument("--pr-url", required=True)
+    p_clo.add_argument("--closed-at", required=True)
+    p_clo.add_argument("--kind", required=True, choices=bp.CLOSURE_KINDS)
+    p_clo.add_argument("--excerpt", required=True)
+    p_clo.add_argument("--comment-url", default=None)
+    p_clo.add_argument("--authority", default="policy_bot")
+    p_clo.add_argument("--source-note", default=None, help="Provenance, e.g. where the excerpt was read")
+    p_clo.add_argument("--live-verified", action="store_true", help="Set only if a human verified the upstream state live")
+    p_clo.add_argument("--recorded-by", required=True)
+    p_cls = psub.add_parser("classify", help="Record a channel decision from history (no live scan); audit trail only")
+    p_cls.add_argument("--repo", required=True)
+    p_cls.add_argument("--channel", required=True, choices=bp.CHANNELS)
+    p_cls.add_argument("--basis", required=True, help="Why, e.g. 'recorded #1010 closure under issue-first policy'")
+    p_cls.add_argument("--source-url", action="append", default=None)
+    p_cls.add_argument("--recorded-by", required=True)
+    p_ref = psub.add_parser("record-refusal", help="Record an upstream refusal (terminal for this repo)")
+    p_ref.add_argument("--repo", required=True)
+    p_ref.add_argument("--source-url", required=True)
+    p_ref.add_argument("--excerpt", required=True)
+    p_ref.add_argument("--authority", default="maintainer")
+    p_ref.add_argument("--recorded-by", required=True)
+    p_dr = psub.add_parser("draft", help="Write a LOCAL draft proposal issue. It is never sent.")
+    p_dr.add_argument("--repo", required=True)
+    p_dr.add_argument("--out", type=Path, default=None)
+    p_dr.add_argument("--recorded-by", required=True)
+    p_sent = psub.add_parser("record-sent", help="A human records that they filed the ONE proposal issue")
+    p_sent.add_argument("--repo", required=True)
+    p_sent.add_argument("--issue-url", required=True)
+    p_sent.add_argument("--recorded-by", required=True)
+    p_ap = psub.add_parser("approve", help="Record a maintainer approval with authority and evidence")
+    p_ap.add_argument("--repo", required=True)
+    p_ap.add_argument("--issue-url", required=True)
+    p_ap.add_argument("--approver", required=True, help="Maintainer GitHub login")
+    p_ap.add_argument("--authority", required=True, choices=bp.AUTHORITY_ASSOCIATIONS)
+    p_ap.add_argument("--evidence-url", required=True, help="URL of the approving comment (…#issuecomment-<id>)")
+    p_ap.add_argument("--evidence-excerpt", required=True, help="Verbatim approving text; verified against upstream at predispatch")
+    p_ap.add_argument("--recorded-by", required=True)
+    p_rv = psub.add_parser("revoke", help="Revoke an approval (history is kept)")
+    p_rv.add_argument("--repo", required=True)
+    p_rv.add_argument("--target-hash", required=True)
+    p_rv.add_argument("--reason", required=True)
+    p_rv.add_argument("--recorded-by", required=True)
+
     # Support default execution as 'plan' when no subcommand is specified
     args_list = sys.argv[1:]
-    commands = ("plan", "record-outcome", "reconcile", "predispatch", "release-reservation")
+    commands = ("plan", "record-outcome", "reconcile", "predispatch", "release-reservation", "policy")
     if not args_list or (args_list[0] not in commands and not args_list[0].startswith("-h")):
         args_list = ["plan"] + args_list
 
@@ -1003,6 +1258,12 @@ def main() -> None:
         sys.exit(_cmd_reconcile(args))
     if args.command == "predispatch":
         sys.exit(_cmd_predispatch(args))
+    if args.command == "policy":
+        try:
+            sys.exit(_cmd_policy(args))
+        except (bp.LedgerError, ValueError, OSError) as e:
+            print(f"REFUSED: {e}", file=sys.stderr)
+            sys.exit(2)
     if args.command == "release-reservation":
         try:
             released = br.release_reservation(args.repo, args.token, args.force, args.reservation_dir)
@@ -1040,6 +1301,7 @@ def main() -> None:
                 notes=args.notes,
                 approved_by=args.approved_by,
                 force=args.force,
+                actor=args.actor,
             )
             write_manifest_atomic(args.manifest, updated)
             if gated_pr_open:

@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from gaia_cli.commands.curate import CurateCommand
+from gaia_cli.curation.state import CurationRun
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -113,3 +114,71 @@ def test_quick_curate_skill_describes_the_paused_scaffold_truthfully():
     assert "Fully automated" not in frontmatter
     assert "PR merge as a 25-state machine" not in frontmatter
     assert "Do not describe this skill as an automated two-gate pipeline" in skill_text
+
+
+@pytest.mark.parametrize("status_only", [False, True])
+def test_resume_preserves_current_blockers_without_reviving_history(
+    tmp_path, monkeypatch, capsys, status_only
+):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="synthetic-resume", current_state="RESOLVING_URL")
+    run.checkpoint = {
+        "sourceRevisions": {"example/tool": "synthetic-sha"},
+        "blockers": [
+            {"checkId": "batch-recovery", "status": "resolved",
+             "resolutionEvidence": "synthetic recovery check passed"},
+            {"checkId": "missing-blob", "status": "open", "summary": "blob required"},
+            {"checkId": "unproven", "status": "resolved"},
+        ],
+    }
+    run.ledger = [{"checkId": "batch-recovery", "message": "historical failure"}]
+    run.save(run.run_dir)
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+    argv = ["--resume", run.run_id] + (["--status"] if status_only else [])
+
+    # A live active blocker pauses before any transition (RESOLVING_URL is a stub).
+    # Repeated resumes must remain stable, retaining the resolution evidence.
+    for _ in range(2):
+        assert command.execute(parser.parse_args(argv)) == 0
+        output = capsys.readouterr().out
+        active, resolved = output.split("Resolved blockers (with evidence):")
+        assert "missing-blob: open" in active
+        assert "unproven: unproven-resolution" in active
+        assert "batch-recovery" not in active
+        assert "batch-recovery: synthetic recovery check passed" in resolved
+        assert "example/tool: synthetic-sha" in resolved
+        assert CurationRun.load(run.run_dir) == run
+
+
+@pytest.mark.parametrize("gate", [
+    "AWAITING_L4_REVIEW", "AWAITING_EVIDENCE_APPROVAL", "AWAITING_CALIBRATION_APPROVAL"
+])
+def test_resume_resolved_blockers_do_not_cross_human_gates(tmp_path, monkeypatch, gate):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="synthetic-gate", current_state=gate)
+    run.checkpoint = {"blockers": [
+        {"checkId": "recovery", "status": "resolved", "resolutionEvidence": "rc=0"}
+    ]}
+    run.save(run.run_dir)
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+    assert command.execute(parser.parse_args(["--resume", run.run_id])) == 0
+    assert CurationRun.load(run.run_dir) == run
+
+
+def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="legacy")
+    run.save(run.run_dir)
+    target = run.run_dir / "state.json"
+    data = json.loads(target.read_text())
+    del data["checkpoint"]
+    target.write_text(json.dumps(data))
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+    assert command.execute(parser.parse_args(["--resume", "legacy"])) == 0
+    assert CurationRun.load(run.run_dir).checkpoint == {}
