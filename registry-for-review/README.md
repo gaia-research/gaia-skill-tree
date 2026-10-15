@@ -34,3 +34,17 @@ Each proposed skill in a batch has a `lifecycle` field:
 This directory is the review queue, not a user's tree. User-owned skill progress lives in `skill-trees/<username>/skill-tree.json`, while local renders and promotion recommendations live in `generated-output/`.
 
 Pending intake from the configured user is visible in `gaia skills list`, `gaia skills search`, and `gaia skills info` by default. Use `--exclude-pending` when you only want maintainer-reviewed named skills.
+
+## Recovering an intake whose batch was never committed
+
+`gaia push` writes the batch JSON only to the submitter's disk, so an approved intake can exist as an issue alone. The topology job then stops with "batch file is not on this branch".
+
+A repository maintainer (admin, maintain or write) can recover it explicitly by running **Intake Approval** with `workflow_dispatch`:
+
+- `transition`: `topology`, `issue_number`: the intake issue
+- `recovery`: `true`, and `recovery_rationale`: why the recovery is authorized
+- `recovery_facts` (optional): JSON `{"<skillId>": {"description", "name", "type", "prerequisites", "skillFileUrl"}}` for facts the issue does not show, e.g. descriptions or the upstream `SKILL.md` blob URL of a scan-based intake
+
+`scripts/intake_recovery.py` rebuilds a current review record from the issue's structured submission and the upstream `SKILL.md` blobs, which it fetches and hashes. It never guesses: missing facts are listed by name and nothing is written. The result is a **reconstruction**, not the original bytes: the batch keeps the original batch id, candidate ids, user and `generatedAt`; `registry-for-review/recoveries/intake-<N>.json` records `reconstruction: true`, `originalBytesRecovered: false`, the source URLs and SHA-256 hashes, the actor and the rationale. No evidence, approval, discovery packet or assessment receipt is invented; fresh canonical assessments satisfy the current review obligations.
+
+Everything after recovery is unchanged: schema and intake validation, L4 human review, `intake:evidence-ready` and `intake:evidence-approved`, and the single `review/meta/intake-<N>` promotion PR, which carries the reconstructed batch and its receipt. Replaying a recovery with identical inputs is a no-op; an existing batch file is never overwritten, and upstream bytes that changed since the recorded hashes are rejected as stale.
