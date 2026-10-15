@@ -31,6 +31,7 @@ may be appended by other parts of the command's setup.
 import json
 import sys
 import datetime
+import tempfile
 from pathlib import Path
 
 from gaia_cli.registry import (
@@ -126,6 +127,54 @@ def _preflight_prereqs_exist(registry_path: str, prereqs: list[str]) -> None:
             )
 
 
+def preflightFusionPath(registryPath: str, genericId: str) -> None:
+    """Reject ambiguous IDs and occupied destinations before any registry write."""
+    nodesDir = Path(registry_nodes_dir(registryPath))
+    matches = []
+    for path in nodesDir.glob("**/*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if data.get("id") == genericId:
+            matches.append(path)
+    if len(matches) > 1:
+        _fail_dev_preflight(
+            f"Generic ID collision: '{genericId}' exists in multiple node files.",
+            fix="Resolve the duplicate generic IDs before fusing.",
+        )
+    destination = nodesDir / FUSE_NODE_TYPE / f"{genericId}.json"
+    if destination.exists() and (not matches or matches[0] != destination):
+        _fail_dev_preflight(
+            f"Fusion destination collision at {destination}.",
+            fix="Resolve the destination collision before fusing.",
+        )
+
+
+def preflightFusionDag(registryPath: str, genericId: str, prereqs: list[str]) -> None:
+    """Adding a prerequisite must not introduce a self/transitive cycle."""
+    nodesDir = Path(registry_nodes_dir(registryPath))
+    graph = {}
+    for path in nodesDir.glob("**/*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        graph[data.get("id")] = data.get("prerequisites") or []
+    pending = list(prereqs)
+    seen = set()
+    while pending:
+        nodeId = pending.pop()
+        if nodeId == genericId:
+            _fail_dev_preflight(
+                f"Fusion prerequisites for '{genericId}' would create a DAG cycle.",
+                fix="Choose prerequisites that do not depend on the fusion itself.",
+            )
+        if nodeId not in seen:
+            seen.add(nodeId)
+            pending.extend(graph.get(nodeId, []))
+
+
 def _generic_node_exists(nodes_dir: Path, generic_id: str) -> bool:
     for p in nodes_dir.glob("**/*.json"):
         try:
@@ -171,7 +220,6 @@ def _load_or_create_generic_node(nodes_dir: Path, generic_id: str, skill_type: s
             return p, data, False
 
     dest_dir = nodes_dir / skill_type
-    dest_dir.mkdir(parents=True, exist_ok=True)
     dest_file = dest_dir / f"{generic_id}.json"
     data = {
         "id": generic_id,
@@ -195,6 +243,31 @@ def _write_json(path: Path, data: dict) -> None:
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
+
+
+def writeFusionNode(source: Path, destination: Path, data: dict) -> None:
+    """Publish a complete payload, then retire the old path; rollback on failure.
+
+    Correctly located fusions need no relocation. For conversions, serialization
+    happens off-registry before the atomic replacement; a failed write leaves
+    the source untouched and a failed unlink removes the newly published copy.
+    """
+    if source == destination:
+        _write_json(destination, data)
+        return
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(dir=destination.parent, suffix=".tmp", delete=False) as temp:
+        staged = Path(temp.name)
+    try:
+        _write_json(staged, data)
+        staged.replace(destination)
+        try:
+            source.unlink()
+        except OSError:
+            destination.unlink()
+            raise
+    finally:
+        staged.unlink(missing_ok=True)
 
 
 def _upsert_suite_manifest(registry_path: str,
@@ -280,8 +353,10 @@ def meta_dev_fuse_command(args) -> None:
     _run_dev_preflights([
         lambda: _preflight_generic_id(generic_id),
         lambda: _preflight_type(skill_type),
+        lambda: preflightFusionPath(registry_path, generic_id),
         lambda: _preflight_create_requirements(registry_path, generic_id, name, description),
         lambda: _preflight_prereqs_exist(registry_path, prereqs),
+        lambda: preflightFusionDag(registry_path, generic_id, prereqs),
         lambda: _preflight_named_capstone(registry_path, capstone_id),
         lambda: _preflight_suite_components(registry_path, components),
     ])
@@ -313,7 +388,16 @@ def meta_dev_fuse_command(args) -> None:
     # so pre-existing nodes touched by `gaia dev fuse` land on the collapsed enum.
     node_data["type"] = FUSE_NODE_TYPE
     node_data["updatedAt"] = datetime.date.today().isoformat()
-    _write_json(node_file, node_data)
+    destination = nodes_dir / FUSE_NODE_TYPE / f"{generic_id}.json"
+    writeFusionNode(node_file, destination, node_data)
+    sourcePath = node_file
+    node_file = destination
+    if sourcePath != destination:
+        append_skill_event(
+            generic_id, "type_change", _get_contributor(),
+            f"Reclassified as fusion and moved from {sourcePath.parent.name} via `gaia dev fuse`.",
+            registry_path=registry_path,
+        )
     if created_new_node:
         print(f"Created generic fusion node: {node_file}")
         append_skill_event(

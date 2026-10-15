@@ -4,6 +4,57 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-09, Intake #2044 Hikari9/auto-office — Curation & Promotion Closed)
+
+### TLDR
+
+- **Intake #2044 closed end-to-end**: `hikari9/auto-office` and `hikari9/office-submit` curated and promoted into the canonical registry.
+- **Topology ratified**: `autonomous-engineering-platform` converted `basic` → `fusion` with prerequisite `verification-before-completion`. Exceptional 1:1 suite established (`registry/suites/hikari9/auto-office.json`).
+- **CLI relocation bug fixed (#2051)**: `gaia dev fuse` now safely relocates converted basic nodes to `registry/nodes/fusion/` with collision preflight and failure rollback. 53 regression tests pass.
+- **Intake recovery record created**: Recovered review record `20261008203029-mbtiongson1-from-file.json` committed with full provenance; issue #2050 filed to allow issue-backed recovery without requiring local files.
+- **Evidence verified & calibrated**:
+  - `hikari9/auto-office`: 88.9655 TM / Grade B / 3★ Extra (Suite Capstone). 826 repo commits, 4 contributors, 1 star; generic research inherited (MetaGPT 156 citations, ChatDev ACL 396 citations, OpenHands 15 citations, Agentless 19 citations).
+  - `hikari9/office-submit`: 24.338 TM / Grade C / 2★ Provisional (Suite Component). Bounded shared suite baseline (21.68 TM, under 50 TM cap) + Agentless verification inheritance (2.66 TM).
+- **PRs merged**: PR #2051 (CLI fix), PR #2054 (intake draft promotion PR), PR #2060 (integration PR to `main` — all CI green).
+- **Full closeout comments posted**: Standardized `/gaia-intake-close` closing comments with live badges and universal Powered by Gaia snippet posted to PR #2054, PR #2060, and Issue #2044. Issue #2044 closed.
+- **Follow-up issues filed**:
+  - #2050: Allow issue-backed recovery for gaia push intakes without original local batch
+  - #2052: Curation pollution controls: canonical context, metric provenance and appraisal scope
+  - #2053: Jev evidence advisory: bounded pre-calibration semantic anomaly coverage
+  - #2055: `gaia dev add` rejects uppercase contributor handles accepted by `gaia dev ratify`
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Topology | ✅ `autonomous-engineering-platform` converted to fusion; prerequisite `verification-before-completion` wired; 1:1 suite manifest created |
+| CLI fix | ✅ `src/gaia_cli/commands/dev/fuse.py` safely relocates converted fusion nodes; 53 tests pass (PR #2051) |
+| Intake recovery | ✅ Recovered review batch `20261008203029-mbtiongson1-from-file.json` committed on `review/meta/2044-recovery` |
+| Evidence | ✅ 9 verified rows (2 capstone, 2 component shared baseline, 4 platform research, 1 verification research) |
+| Calibrations | ✅ `hikari9/auto-office` 3★ (TM 89.0 / Grade B); `hikari9/office-submit` 2★ (TM 24.3 / Grade C) |
+| Class S docs | ✅ Regenerated graph (`docs/graph/*`), badges, profile (`docs/u/hikari9/`), API v1, sitemap |
+| PRs | ✅ PR #2051, PR #2054, and PR #2060 all merged into `main` |
+| Closeout | ✅ Issue #2044 closed with `/gaia-intake-close` comments and live badge embeds |
+
+### Issues + PRs touched
+
+- **PR #2051**: fix(cli): safely relocate converted fusion nodes for intake #2044 (merged)
+- **PR #2054**: [intake] evidence-approved batch #2044 (merged)
+- **PR #2060**: feat(registry): curate and promote Hikari9/auto-office suite (#2044) (merged to main)
+- **Issue #2044**: [intake] 2 skills: auto-office, office-submit (closed as completed)
+- **Issue #2050**: Allow issue-backed recovery for gaia push intakes without original local batch (filed)
+- **Issue #2052**: Curation pollution controls (filed)
+- **Issue #2053**: Jev evidence advisory pre-calibration coverage (filed)
+- **Issue #2055**: CLI add vs ratify handle case sensitivity mismatch (filed)
+
+### Validation
+
+- `gaia dev validate`: PASS (Schema, DAG, integrity, redaction, transparency, TM consistency)
+- `python3 scripts/build_docs.py --check`: exit 0
+- `python3 scripts/review_meta_close.py check`: CLEAN
+
+---
+
 ## State Snapshot (2026-10-01, Curation Semantic System — final 15% shipped, PR #2033 CI green)
 
 ### TLDR

@@ -1,5 +1,10 @@
 {
   "runtimeVersion": "gaia.arbor-runtime/v1",
   "schema": "gaia.arbor-runtime-index/v1",
-  "subjects": []
+  "subjects": [
+    {
+      "contentSha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a",
+      "id": "obra/receiving-code-review"
+    }
+  ]
 }

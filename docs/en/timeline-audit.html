@@ -437,9 +437,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.11.3"></script>
-  <script src="../js/site-nav.js?v=7.11.3"></script>
-  <script src="../js/ui.js?v=7.11.2"></script>
+  <script src="../js/mounts.js?v=8.18.2"></script>
+  <script src="../js/site-nav.js?v=8.18.2"></script>
+  <script src="../js/ui.js?v=8.18.2"></script>
 
 
 
@@ -451,7 +451,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Timeline Audit</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.11.3</span>
+    <span class="nav-version">v8.18.2</span>
   </nav>
 
   <div class="page-layout">
@@ -781,6 +781,10 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
           <p>
             For a single hand-authored event, <code>gaia dev timeline</code> can append it directly.
             Use this when you want to write a custom note rather than mirror the registry node verbatim.
+            Pass <code>--previous-value</code> and <code>--new-value</code> on a <code>rank_up</code> or
+            <code>demote</code> event — the CLI writes both onto the timeline event <em>and</em>
+            updates the user tree's <code>unlockedSkills[].level</code> / <code>levelHistory</code> in
+            the same write, so the rank chart plots the transition immediately.
           </p>
         </div>
 
@@ -789,19 +793,20 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
           <pre><span class="cmd">gaia dev timeline &lt;handle&gt;/&lt;slug&gt; \
   --user &lt;owner&gt; \
   --action demote \
+  --previous-value 3★ \
+  --new-value 1★ \
   --timestamp 2026-06-02T23:48:18Z \
   --notes "Star-Bar hard reset (META §2.4): installable link was tree/ not blob/"</span></pre>
         </div>
 
-        <div class="callout callout-warning">
-          <span class="callout-label">⚠ Prefer trace_timeline.py for level changes</span>
+        <div class="callout callout-info">
+          <span class="callout-label">ℹ When to use trace_timeline.py instead</span>
           <p>
-            <code>gaia dev timeline</code> does not write <code>previousValue</code> or
-            <code>newValue</code> fields — those are what the rank chart reads to plot transitions.
-            Without them the event appears in the timeline list but the chart line stays flat.
-            Use <code>trace_timeline.py --apply</code> for any demote or rank_up event.
-            Reserve <code>gaia dev timeline</code> for milestone events (register, fuse, notes)
-            that don't represent rank changes.
+            <code>gaia dev timeline --previous-value/--new-value</code> covers one event at write
+            time. <code>trace_timeline.py</code> is the bulk auditor/fixer — use it when the
+            registry node and the user tree have <em>already</em> drifted apart (one or more
+            past rank changes were never mirrored to <code>skill-tree.json</code>) and you need
+            to reconcile many skills at once. See <a href="#apply">3 — Apply the fix</a> above.
           </p>
         </div>
       </section>
@@ -811,7 +816,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
         <h2>Known CLI gaps</h2>
         <div class="section-body">
           <p>
-            Several gaps exist in <code>gaia dev timeline</code> as of v7.11.3.
+            A few gaps still exist in <code>gaia dev timeline</code>.
             Do not silently work around them with hand-edits; flag any gap-forced edit in
             the PR description and include a <code>"(direct edit — CLI gap)"</code> marker in
             the event's <code>details</code> string.
@@ -833,14 +838,9 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
               <td>Always pass <code>--user &lt;handle&gt;</code> when targeting a user tree</td>
             </tr>
             <tr>
-              <td>No <code>previousValue</code> / <code>newValue</code> output</td>
-              <td>Level changes don't plot on the rank chart</td>
-              <td>Use <code>trace_timeline.py --apply</code> for demote / rank_up</td>
-            </tr>
-            <tr>
               <td>No <code>gaia demote</code> command</td>
               <td>Demotion events can't be written by any player-facing CLI flow</td>
-              <td>Use <code>trace_timeline.py --apply</code> or <code>gaia dev timeline --action demote</code> + manual <code>previousValue</code></td>
+              <td>Use <code>trace_timeline.py --apply</code>, or <code>gaia dev timeline --action demote --previous-value &lt;level&gt; --new-value &lt;level&gt;</code> for a single event</td>
             </tr>
             <tr>
               <td>No <code>gaia remove-skill</code> command</td>
@@ -994,7 +994,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
 
   <!-- footer -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=7.11.3"></script>
+  <script src="../js/site-footer.js?v=8.18.2"></script>
 
   <script>
     /* Sidebar scroll-spy */

@@ -3,19 +3,19 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "gooseworks/notte-browser",
-      "level": "1★",
+      "skillId": "gooseworks/browser-automation-notte",
+      "level": "1\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "gooseworks/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-02T23:48:17Z",
           "source": "demote"
         }
@@ -26,18 +26,24 @@
     {
       "timestamp": "2026-04-30T00:00:00Z",
       "action": "register",
-      "skillId": "gooseworks/notte-browser",
-      "details": "Registered named skill gooseworks/notte-browser",
+      "skillId": "gooseworks/browser-automation-notte",
+      "details": "Registered named skill gooseworks/browser-automation-notte",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-06-02T23:48:17Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "1★",
-      "details": "Calibrated level from 3★ to 1★",
-      "skillId": "gooseworks/notte-browser"
+      "previousValue": "3\u2605",
+      "newValue": "1\u2605",
+      "details": "Calibrated level from 3\u2605 to 1\u2605",
+      "skillId": "gooseworks/browser-automation-notte"
+    },
+    {
+      "timestamp": "2026-10-08T20:42:28Z",
+      "action": "rename",
+      "skillId": "gooseworks/browser-automation-notte",
+      "details": "Renamed from gooseworks/notte-browser to gooseworks/browser-automation-notte"
     }
   ],
   "stats": {

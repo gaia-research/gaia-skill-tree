@@ -134,8 +134,9 @@ FAILURE_ORIGINS = {
 }
 
 # Codes whose root cause is a bad registry link, but which ALSO show gaia
-# failing to validate what it installed. Fixing the data clears the finding;
-# hardening the CLI stops the next one landing silently.
+# failing to validate what it installed (silent success, exit 0). Fixing the
+# data clears the finding; hardening the installer stops the next one landing
+# silently. When the installer rejects them with nonzero, it is pure DATA.
 DUAL_ORIGIN = {"NOT_A_SKILL_DIR", "NO_SKILL_MD", "DANGLING_SYMLINK"}
 
 print_lock = threading.Lock()
@@ -189,6 +190,7 @@ class Skill:
 class Failure:
     code: str
     detail: str
+    also_cli_gap: bool = False
 
     @property
     def origin(self) -> str:
@@ -196,7 +198,7 @@ class Failure:
 
     @property
     def dual(self) -> bool:
-        return self.code in DUAL_ORIGIN
+        return self.also_cli_gap
 
 
 @dataclass
@@ -231,9 +233,14 @@ class Result:
     gaia_stderr_tail: str | None = None
     gaia_stderr_digest: str | None = None
 
-    def fail(self, code: str, detail: str) -> None:
+    def fail(self, code: str, detail: str, also_cli_gap: bool | None = None) -> None:
         self.verdict = FAIL
-        self.failures.append(Failure(code, detail))
+        if also_cli_gap is None:
+            # Dual-origin only on silent success: gaia exited 0, but what landed
+            # on disk was invalid (check_gaia_health detected a post-install gap).
+            # Explicit nonzero validation rejections are not a CLI gap.
+            also_cli_gap = bool(code in DUAL_ORIGIN and self.gaia_exit_code == 0)
+        self.failures.append(Failure(code, detail, also_cli_gap=also_cli_gap))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -640,6 +647,19 @@ def classify_gaia_failure(code: int, out: str, err: str) -> tuple[str, str]:
     if "git error" in lowered or "fatal:" in lowered:
         tail = [ln for ln in blob.splitlines() if ln.strip()][-1:] or ["git failed"]
         return "GIT_CLONE_FAILED", tail[0].strip()
+    if "no skill.md at" in lowered:
+        matching = [ln.strip() for ln in blob.splitlines() if "no skill.md at" in ln.lower()]
+        return "NO_SKILL_MD", matching[-1] if matching else "no SKILL.md"
+    if "points at a file, not a skill directory" in lowered:
+        matching = [ln.strip() for ln in blob.splitlines() if "points at a file, not a skill directory" in ln.lower()]
+        return "NOT_A_SKILL_DIR", matching[-1] if matching else "points at a file, not a skill directory"
+    if "the link may be stale" in lowered or ("subpath" in lowered and "not found in" in lowered):
+        matching = [
+            ln.strip()
+            for ln in blob.splitlines()
+            if "the link may be stale" in ln.lower() or ("subpath" in ln.lower() and "not found in" in ln.lower())
+        ]
+        return "DANGLING_SYMLINK", matching[-1] if matching else "subpath not found in repo; the link may be stale"
     tail = [ln for ln in blob.splitlines() if ln.strip()][-1:] or ["unknown error"]
     return "GAIA_INSTALL_FAILED", f"exit {code}: {tail[0].strip()}"
 
@@ -657,6 +677,10 @@ def _set_gaia_failure(result: Result, code: int, out: str, err: str) -> tuple[st
     # local-tree problems are recorded separately as intrinsic evidence; the
     # future upstream `classifiedCause` taxonomy remains unset.
     result.classified_cause = None
+    if failure_code in DUAL_ORIGIN:
+        result.intrinsic_cause = failure_code
+    else:
+        result.intrinsic_cause = None
     return failure_code, detail
 
 

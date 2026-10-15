@@ -6,6 +6,12 @@ description: >
 
 # Evidence Discovery (ev-discovery)
 
+> **Different from pre-curation `/ev-scout`:** scouting happens before
+> topology mapping and casts a wide contextual net, including rivals and
+> negative evidence. This Phase 0 is a later, optional evidence-development
+> step for selected Stage-2 sources. Scout leads are unverified and non-scoring
+> until the canonical verification and human approval sequence completes.
+
 Phase 0 is optional. It searches for new, higher-quality Stage-2 evidence only when a maintainer declares a need.
 
 ## Type-First Evidence Lake Contract (#1148)

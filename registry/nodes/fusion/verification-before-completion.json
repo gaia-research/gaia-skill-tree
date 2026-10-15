@@ -12,11 +12,21 @@
     "receiving-code-review"
   ],
   "conditions": "",
-  "evidence": [],
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2407.01489",
+      "evaluator": "unknown",
+      "date": "2026-10-08",
+      "type": "arxiv",
+      "notes": "Agentless: Demystifying LLM-based Software Engineering Agents. Single selected bibliometric record https://openalex.org/W4400337928 DOI https://doi.org/10.48550/arxiv.2407.01489, queried 2026-10-08. Record-specific cited_by_count=19, not whole-work/all-version deduplicated citations; NEVER sum alternate records. Generic platform research, not direct Auto Office usage or peer review. Narrow verification-before-completion applicability established in paper body sections 3.3.1-3.3.2: executed regression and reproduction tests filter/rank patches before final submission. Lowest-regression-failures selection and reproduction fallback mean this is a validation stage, NOT a universal all-tests-pass guarantee. See receipts/agentless-body.json.",
+      "citations": 19,
+      "sourceStartedAt": "2024-07-01"
+    }
+  ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-07-16",
+  "updatedAt": "2026-10-09",
   "version": "0.1.0",
   "timeline": [
     {
@@ -42,6 +52,15 @@
       "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-10-08T21:36:20Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2407.01489 (type: arxiv)"
     }
-  ]
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-10-08T21:36:20Z"
+  }
 }

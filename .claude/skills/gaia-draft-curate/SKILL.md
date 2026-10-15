@@ -18,6 +18,14 @@ This skill owns only intake batches and their linked intake issues/PRs. It does 
 - deeply audit an existing canonical curation PR (use `/gaia-curation-review`);
 - promote accepted proposals (hand off to `/gaia-curate-chain` or `/gaia-curate`).
 
+## Pre-curation context
+
+When invoked directly rather than through `/gaia-full-pipeline`, run
+[`/ev-scout`](../ev-scout/SKILL.md) **before** reviewing the batch.
+Provide its broad, explicitly unverified scout packet to the decision-maker.
+Do not turn scouting into evidence grading or registry mutation.
+Reuse an existing packet for the same intake when available.
+
 ## Workflow
 
 ### 1. Establish a clean review state

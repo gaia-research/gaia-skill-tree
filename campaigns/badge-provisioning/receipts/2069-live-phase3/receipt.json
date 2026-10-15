@@ -1,0 +1,2044 @@
+{
+  "anomalies": [
+    {
+      "code": "ledger_pr_open_but_not_open_upstream",
+      "detail": "Ledger says PR_OPEN but no open Gaia PR upstream.",
+      "repository": "pbakaus/impeccable",
+      "severity": "high"
+    },
+    {
+      "code": "open_pr_scan_incomplete",
+      "detail": "Inspected 40 of 842 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+      "repository": "Graphify-Labs/graphify",
+      "severity": "medium"
+    },
+    {
+      "code": "open_pr_scan_incomplete",
+      "detail": "Inspected 40 of 168 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+      "repository": "mksglu/context-mode",
+      "severity": "medium"
+    },
+    {
+      "code": "open_pr_scan_incomplete",
+      "detail": "Inspected 40 of 49 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "severity": "medium"
+    },
+    {
+      "code": "open_pr_scan_incomplete",
+      "detail": "Inspected 40 of 122 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+      "repository": "trailhq/Graft",
+      "severity": "medium"
+    },
+    {
+      "code": "repo_renamed",
+      "detail": "safishamsi/graphify redirects to Graphify-Labs/graphify",
+      "repository": "Graphify-Labs/graphify",
+      "severity": "info"
+    },
+    {
+      "code": "repo_case_normalized",
+      "detail": "leonxlnx/taste-skill -> Leonxlnx/taste-skill",
+      "repository": "Leonxlnx/taste-skill",
+      "severity": "info"
+    }
+  ],
+  "campaign": "Gaia Badge Provisioning Campaign #1817",
+  "generated_at": "2026-10-11T03:05:52.648413+00:00",
+  "issue": "#2069",
+  "manifest_sha256": "446f8bf8786ec4f2968225ed3f64daadacb261564a079845b785466c17aeaa50",
+  "mode": "read-only",
+  "repositories": {
+    "DietrichGebert/ponytail": {
+      "aliases": [],
+      "anomalies": [],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "dietrichgebert/ponytail"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:04:44.303464+00:00",
+        "open_pr_scan": {
+          "complete": true,
+          "limit": 40,
+          "open_total": 30,
+          "unmarked_inspected": 29,
+          "unmarked_total": 29
+        },
+        "readme_commit_sha": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf"
+      },
+      "expected_skills": [
+        {
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "rank": 4
+        }
+      ],
+      "github_id": 1266797999,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "DietrichGebert/ponytail",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1266797999,
+        "renamed": false,
+        "requested": "DietrichGebert/ponytail"
+      },
+      "ignored_pr_numbers": [
+        1046,
+        1047,
+        1048,
+        1049,
+        1050,
+        1052,
+        1054,
+        1055,
+        1057,
+        1059,
+        1060,
+        1065,
+        1066,
+        1070,
+        1073,
+        1074,
+        1075,
+        1076,
+        1077,
+        1078,
+        1080,
+        1082,
+        1083,
+        1084,
+        1088,
+        1089,
+        1090,
+        1097,
+        1099
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:09.704799+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:27:54.804766+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "ponytail.svg",
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "rank": 4
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "dietrichgebert/ponytail"
+            ],
+            "pr_url": null,
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:20:09.704799+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted",
+            "offered_skills": [
+              "dietrichgebert/ponytail"
+            ],
+            "pr_url": "https://github.com/DietrichGebert/ponytail/pull/1101",
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:27:54.804766+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/DietrichGebert/ponytail/pull/1101",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "dietrichgebert",
+              "stem": "ponytail",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/DietrichGebert/ponytail.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/dietrichgebert/ponytail"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-ponytail",
+            "repo": "mbtiongson1/ponytail",
+            "sha": "fbf6aef9c617ae4147fec41f1445b5926cc8ef10"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 1101,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for ponytail",
+          "url": "https://github.com/DietrichGebert/ponytail/pull/1101"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "5c55c68317ad27e585194266f0807608f2c1b11c",
+        "branch": "main",
+        "commit_sha": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf",
+        "deep_links": [],
+        "html_url": "https://github.com/DietrichGebert/ponytail/blob/9b58c1ffb790c075ca32e70a89cf1d80588f4abf/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #1101"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "DietrichGebert/ponytail",
+      "requested_name": "DietrichGebert/ponytail",
+      "terminal_restriction": null
+    },
+    "leonxlnx/taste-skill": {
+      "aliases": [
+        "leonxlnx/taste-skill"
+      ],
+      "anomalies": [
+        {
+          "code": "repo_case_normalized",
+          "detail": "leonxlnx/taste-skill -> Leonxlnx/taste-skill",
+          "severity": "info"
+        }
+      ],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "leonxlnx/taste-skill",
+          "leonxlnx/brandkit",
+          "leonxlnx/brutalist-skill",
+          "leonxlnx/gpt-tasteskill",
+          "leonxlnx/image-to-code-skill",
+          "leonxlnx/imagegen-frontend-mobile",
+          "leonxlnx/imagegen-frontend-web",
+          "leonxlnx/minimalist-skill",
+          "leonxlnx/output-skill",
+          "leonxlnx/redesign-skill",
+          "leonxlnx/soft-skill",
+          "leonxlnx/stitch-skill"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:04:37.702613+00:00",
+        "open_pr_scan": {
+          "complete": true,
+          "limit": 40,
+          "open_total": 41,
+          "unmarked_inspected": 39,
+          "unmarked_total": 39
+        },
+        "readme_commit_sha": "717446e07a78d4e6d7918b1fde1a263378eebac9"
+      },
+      "expected_skills": [
+        {
+          "id": "leonxlnx/taste-skill",
+          "name": "taste-skill",
+          "rank": 4
+        },
+        {
+          "id": "leonxlnx/brandkit",
+          "name": "brandkit",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/brutalist-skill",
+          "name": "brutalist-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/gpt-tasteskill",
+          "name": "gpt-tasteskill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/image-to-code-skill",
+          "name": "image-to-code-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/imagegen-frontend-mobile",
+          "name": "imagegen-frontend-mobile",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/imagegen-frontend-web",
+          "name": "imagegen-frontend-web",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/minimalist-skill",
+          "name": "minimalist-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/output-skill",
+          "name": "output-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/redesign-skill",
+          "name": "redesign-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/soft-skill",
+          "name": "soft-skill",
+          "rank": 3
+        },
+        {
+          "id": "leonxlnx/stitch-skill",
+          "name": "stitch-skill",
+          "rank": 3
+        }
+      ],
+      "github_id": 1162099055,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "Leonxlnx/taste-skill",
+        "case_normalized": true,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1162099055,
+        "renamed": false,
+        "requested": "leonxlnx/taste-skill"
+      },
+      "ignored_pr_numbers": [
+        3,
+        13,
+        17,
+        21,
+        25,
+        29,
+        39,
+        40,
+        41,
+        43,
+        46,
+        54,
+        55,
+        56,
+        58,
+        62,
+        64,
+        65,
+        68,
+        73,
+        74,
+        75,
+        77,
+        79,
+        83,
+        85,
+        94,
+        103,
+        105,
+        110,
+        111,
+        115,
+        124,
+        126,
+        127,
+        131,
+        133,
+        135,
+        136,
+        137
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:08.879188+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:23:48.148646+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "suite",
+          "file": "taste-skill.svg",
+          "id": "leonxlnx/taste-skill",
+          "name": "taste-skill",
+          "rank": 4
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "leonxlnx/brandkit",
+              "leonxlnx/brutalist-skill",
+              "leonxlnx/gpt-tasteskill",
+              "leonxlnx/image-to-code-skill",
+              "leonxlnx/imagegen-frontend-mobile",
+              "leonxlnx/imagegen-frontend-web",
+              "leonxlnx/minimalist-skill",
+              "leonxlnx/output-skill",
+              "leonxlnx/redesign-skill",
+              "leonxlnx/soft-skill",
+              "leonxlnx/stitch-skill",
+              "leonxlnx/taste-skill"
+            ],
+            "pr_url": null,
+            "presentation_tier": "CURATED_COLLECTION",
+            "timestamp": "2026-10-11T00:20:08.879188+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted (CURATED_COLLECTION tier)",
+            "offered_skills": [
+              "leonxlnx/brandkit",
+              "leonxlnx/brutalist-skill",
+              "leonxlnx/gpt-tasteskill",
+              "leonxlnx/image-to-code-skill",
+              "leonxlnx/imagegen-frontend-mobile",
+              "leonxlnx/imagegen-frontend-web",
+              "leonxlnx/minimalist-skill",
+              "leonxlnx/output-skill",
+              "leonxlnx/redesign-skill",
+              "leonxlnx/soft-skill",
+              "leonxlnx/stitch-skill",
+              "leonxlnx/taste-skill"
+            ],
+            "pr_url": "https://github.com/Leonxlnx/taste-skill/pull/139",
+            "presentation_tier": "CURATED_COLLECTION",
+            "timestamp": "2026-10-11T00:23:48.148646+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/Leonxlnx/taste-skill/pull/139",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "leonxlnx",
+              "stem": "taste-skill",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/leonxlnx/taste-skill.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "717446e07a78d4e6d7918b1fde1a263378eebac9"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/leonxlnx/taste-skill"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-taste-skill",
+            "repo": "mbtiongson1/taste-skill",
+            "sha": "b9bdefd1a6e793bf65744f29596b1e3dec17c0f8"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 139,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for Taste Skill",
+          "url": "https://github.com/Leonxlnx/taste-skill/pull/139"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "09024294e9b31c9305e9f40b82d35731943ccbd1",
+        "branch": "main",
+        "commit_sha": "717446e07a78d4e6d7918b1fde1a263378eebac9",
+        "deep_links": [],
+        "html_url": "https://github.com/Leonxlnx/taste-skill/blob/717446e07a78d4e6d7918b1fde1a263378eebac9/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #139"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "Leonxlnx/taste-skill",
+      "requested_name": "leonxlnx/taste-skill",
+      "terminal_restriction": null
+    },
+    "mksglu/context-mode": {
+      "aliases": [],
+      "anomalies": [
+        {
+          "code": "open_pr_scan_incomplete",
+          "detail": "Inspected 40 of 168 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+          "severity": "medium"
+        }
+      ],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "mksglu/context-mode"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:04:50.968977+00:00",
+        "open_pr_scan": {
+          "complete": false,
+          "limit": 40,
+          "open_total": 169,
+          "unmarked_inspected": 40,
+          "unmarked_total": 168
+        },
+        "readme_commit_sha": "f33a26e3a40a3dcb3586378879d04cfd2eb808f7"
+      },
+      "expected_skills": [
+        {
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "rank": 4
+        }
+      ],
+      "github_id": 1164477708,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "mksglu/context-mode",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1164477708,
+        "renamed": false,
+        "requested": "mksglu/context-mode"
+      },
+      "ignored_pr_numbers": [
+        1216,
+        1218,
+        1220,
+        1224,
+        1227,
+        1228,
+        1229,
+        1230,
+        1231,
+        1234,
+        1235,
+        1236,
+        1237,
+        1238,
+        1239,
+        1240,
+        1241,
+        1243,
+        1244,
+        1245,
+        1246,
+        1247,
+        1249,
+        1250,
+        1252,
+        1253,
+        1256,
+        1264,
+        1265,
+        1266,
+        1270,
+        1271,
+        1272,
+        1275,
+        1276,
+        1277,
+        1278,
+        1279,
+        1281,
+        1284
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:08.677095+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:22:21.385382+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "context-mode.svg",
+          "id": "mksglu/context-mode",
+          "name": "Context Mode",
+          "rank": 4
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "mksglu/context-mode"
+            ],
+            "pr_url": null,
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:20:08.677095+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted",
+            "offered_skills": [
+              "mksglu/context-mode"
+            ],
+            "pr_url": "https://github.com/mksglu/context-mode/pull/1283",
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:22:21.385382+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/mksglu/context-mode/pull/1283",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "mksglu",
+              "stem": "context-mode",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/mksglu/context-mode.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "f33a26e3a40a3dcb3586378879d04cfd2eb808f7"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/mksglu/context-mode"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-context-mode",
+            "repo": "mbtiongson1/context-mode",
+            "sha": "31ae9aa01e5b1029b71264462d2d6d0302af5115"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 1283,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for Context Mode",
+          "url": "https://github.com/mksglu/context-mode/pull/1283"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "b796169524473691594af24995d21ca94027f7c7",
+        "branch": "main",
+        "commit_sha": "f33a26e3a40a3dcb3586378879d04cfd2eb808f7",
+        "deep_links": [],
+        "html_url": "https://github.com/mksglu/context-mode/blob/f33a26e3a40a3dcb3586378879d04cfd2eb808f7/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #1283"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "mksglu/context-mode",
+      "requested_name": "mksglu/context-mode",
+      "terminal_restriction": null
+    },
+    "mvanhorn/last30days-skill": {
+      "aliases": [],
+      "anomalies": [],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "mvanhorn/last30days"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:04:57.638285+00:00",
+        "open_pr_scan": {
+          "complete": true,
+          "limit": 40,
+          "open_total": 21,
+          "unmarked_inspected": 20,
+          "unmarked_total": 20
+        },
+        "readme_commit_sha": "267d50f7fcbab8a6457a93ad6ca15cbc199f633c"
+      },
+      "expected_skills": [
+        {
+          "id": "mvanhorn/last30days",
+          "name": "Last 30 Days Web Research",
+          "rank": 4
+        }
+      ],
+      "github_id": 1140843380,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "mvanhorn/last30days-skill",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1140843380,
+        "renamed": false,
+        "requested": "mvanhorn/last30days-skill"
+      },
+      "ignored_pr_numbers": [
+        627,
+        704,
+        884,
+        898,
+        929,
+        961,
+        968,
+        972,
+        976,
+        984,
+        1009,
+        1010,
+        1040,
+        1140,
+        1144,
+        1176,
+        1183,
+        1192,
+        1241,
+        1242
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:09.294748+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:25:50.998597+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "last30days.svg",
+          "id": "mvanhorn/last30days",
+          "name": "Last 30 Days Web Research",
+          "rank": 4
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "mvanhorn/last30days"
+            ],
+            "pr_url": null,
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:20:09.294748+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted",
+            "offered_skills": [
+              "mvanhorn/last30days"
+            ],
+            "pr_url": "https://github.com/mvanhorn/last30days-skill/pull/1252",
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:25:50.998597+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/mvanhorn/last30days-skill/pull/1252",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "mvanhorn",
+              "stem": "last-30-days",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/mvanhorn/last-30-days.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "267d50f7fcbab8a6457a93ad6ca15cbc199f633c"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/mvanhorn/last-30-days"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-last30days-skill",
+            "repo": "mbtiongson1/last30days-skill",
+            "sha": "6fdff49c80d33b66fdfb80d0f4da0cf66f1e64a4"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 1252,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for Last 30 Days",
+          "url": "https://github.com/mvanhorn/last30days-skill/pull/1252"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "07ffbea2cb945f26621d39652a54eda199467bce",
+        "branch": "main",
+        "commit_sha": "267d50f7fcbab8a6457a93ad6ca15cbc199f633c",
+        "deep_links": [],
+        "html_url": "https://github.com/mvanhorn/last30days-skill/blob/267d50f7fcbab8a6457a93ad6ca15cbc199f633c/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #1252"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "mvanhorn/last30days-skill",
+      "requested_name": "mvanhorn/last30days-skill",
+      "terminal_restriction": null
+    },
+    "nateherkai/scroll-craft": {
+      "aliases": [],
+      "anomalies": [],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "nateherkai/scroll-craft"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:05:03.640393+00:00",
+        "open_pr_scan": {
+          "complete": true,
+          "limit": 40,
+          "open_total": 5,
+          "unmarked_inspected": 4,
+          "unmarked_total": 4
+        },
+        "readme_commit_sha": "75d81f74e83692add18cd7a8a8e078b8a887a579"
+      },
+      "expected_skills": [
+        {
+          "id": "nateherkai/scroll-craft",
+          "name": "Scroll Craft",
+          "rank": 3
+        }
+      ],
+      "github_id": 1342930695,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "nateherkai/scroll-craft",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1342930695,
+        "renamed": false,
+        "requested": "nateherkai/scroll-craft"
+      },
+      "ignored_pr_numbers": [
+        2,
+        4,
+        7,
+        12
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:09.083794+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:24:38.581358+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "standard",
+          "file": "scroll-craft.svg",
+          "id": "nateherkai/scroll-craft",
+          "name": "Scroll Craft",
+          "rank": 3
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "nateherkai/scroll-craft"
+            ],
+            "pr_url": null,
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:20:09.083794+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted",
+            "offered_skills": [
+              "nateherkai/scroll-craft"
+            ],
+            "pr_url": "https://github.com/nateherkai/scroll-craft/pull/13",
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:24:38.581358+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/nateherkai/scroll-craft/pull/13",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "nateherkai",
+              "stem": "scroll-craft",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/nateherkai/scroll-craft.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "75d81f74e83692add18cd7a8a8e078b8a887a579"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/nateherkai/scroll-craft"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-scroll-craft",
+            "repo": "mbtiongson1/scroll-craft",
+            "sha": "da2d488c8188f05631ecdb0f7ef7f029a5c0ffc9"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 13,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for Scroll Craft",
+          "url": "https://github.com/nateherkai/scroll-craft/pull/13"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "19bf0aba561de2448799651157c742e3f4dfa994",
+        "branch": "main",
+        "commit_sha": "75d81f74e83692add18cd7a8a8e078b8a887a579",
+        "deep_links": [],
+        "html_url": "https://github.com/nateherkai/scroll-craft/blob/75d81f74e83692add18cd7a8a8e078b8a887a579/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #13"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "nateherkai/scroll-craft",
+      "requested_name": "nateherkai/scroll-craft",
+      "terminal_restriction": null
+    },
+    "nextlevelbuilder/ui-ux-pro-max-skill": {
+      "aliases": [],
+      "anomalies": [
+        {
+          "code": "open_pr_scan_incomplete",
+          "detail": "Inspected 40 of 49 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+          "severity": "medium"
+        }
+      ],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "nextlevelbuilder/ui-ux-pro-max"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:05:19.452977+00:00",
+        "open_pr_scan": {
+          "complete": false,
+          "limit": 40,
+          "open_total": 50,
+          "unmarked_inspected": 40,
+          "unmarked_total": 49
+        },
+        "readme_commit_sha": "67803eac81607188194aea9842a723b89326d90d"
+      },
+      "expected_skills": [
+        {
+          "id": "nextlevelbuilder/ui-ux-pro-max",
+          "name": "UI/UX Pro Max",
+          "rank": 4
+        }
+      ],
+      "github_id": 1106996539,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1106996539,
+        "renamed": false,
+        "requested": "nextlevelbuilder/ui-ux-pro-max-skill"
+      },
+      "ignored_pr_numbers": [
+        182,
+        183,
+        189,
+        190,
+        200,
+        201,
+        213,
+        226,
+        230,
+        236,
+        241,
+        249,
+        250,
+        251,
+        254,
+        255,
+        256,
+        271,
+        277,
+        285,
+        288,
+        295,
+        296,
+        300,
+        348,
+        351,
+        374,
+        416,
+        451,
+        463,
+        491,
+        494,
+        511,
+        512,
+        513,
+        518,
+        519,
+        520,
+        522
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-11T00:20:09.494418+00:00",
+        "approved_by": "@founder",
+        "attempted_at": "2026-10-11T00:27:02.383832+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "ui-ux-pro-max.svg",
+          "id": "nextlevelbuilder/ui-ux-pro-max",
+          "name": "UI/UX Pro Max",
+          "rank": 4
+        },
+        "eligibility": "READY",
+        "history": [
+          {
+            "actor": "@founder",
+            "from_status": "READY",
+            "notes": "Phase 3 Batch A approved",
+            "offered_skills": [
+              "nextlevelbuilder/ui-ux-pro-max"
+            ],
+            "pr_url": null,
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:20:09.494418+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "@founder",
+            "from_status": "APPROVED",
+            "notes": "Phase 3 Batch A PR submitted",
+            "offered_skills": [
+              "nextlevelbuilder/ui-ux-pro-max"
+            ],
+            "pr_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/524",
+            "presentation_tier": "SINGLE",
+            "timestamp": "2026-10-11T00:27:02.383832+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/524",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "nextlevelbuilder",
+              "stem": "ui-ux-pro-max",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/nextlevelbuilder/ui-ux-pro-max.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "67803eac81607188194aea9842a723b89326d90d"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "outreach/gaia-badge-ui-ux-pro-max-skill",
+            "repo": "mbtiongson1/ui-ux-pro-max-skill",
+            "sha": "8d82d44bf65d42bd766b6e351d74464ce5626924"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 524,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for UI UX Pro Max",
+          "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/pull/524"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "57443295fea1fcb4060a844e8003c56990cccc6a",
+        "branch": "main",
+        "commit_sha": "67803eac81607188194aea9842a723b89326d90d",
+        "deep_links": [],
+        "html_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/67803eac81607188194aea9842a723b89326d90d/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #524"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "requested_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "terminal_restriction": null
+    },
+    "pbakaus/impeccable": {
+      "aliases": [],
+      "anomalies": [
+        {
+          "code": "ledger_pr_open_but_not_open_upstream",
+          "detail": "Ledger says PR_OPEN but no open Gaia PR upstream.",
+          "severity": "high"
+        }
+      ],
+      "badges_found": [],
+      "classification": "CLOSED_UNMERGED",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "pbakaus/impeccable"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:05:12.736637+00:00",
+        "open_pr_scan": {
+          "complete": true,
+          "limit": 40,
+          "open_total": 18,
+          "unmarked_inspected": 18,
+          "unmarked_total": 18
+        },
+        "readme_commit_sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7"
+      },
+      "expected_skills": [
+        {
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4
+        }
+      ],
+      "github_id": 1097346685,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "pbakaus/impeccable",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1097346685,
+        "renamed": false,
+        "requested": "pbakaus/impeccable"
+      },
+      "ignored_pr_numbers": [
+        806,
+        900,
+        910,
+        919,
+        926,
+        928,
+        930,
+        962,
+        986,
+        994,
+        996,
+        998,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-10T23:32:40.838566+00:00",
+        "approved_by": "Marco Tiongson",
+        "attempted_at": "2026-10-10T23:32:41.037350+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "impeccable.svg",
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "PILOT_CANDIDATE",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "pr_url": null,
+            "timestamp": "2026-10-10T23:32:40.838566+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "APPROVED",
+            "notes": "Outbound badge provisioning PR opened",
+            "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+            "timestamp": "2026-10-10T23:32:41.037350+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "pbakaus",
+              "stem": "impeccable",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/pbakaus/impeccable.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "gaia/badge-impeccable",
+            "repo": "mbtiongson1/impeccable",
+            "sha": "8b5242795b3432ae2f5e76d249b426c8b95bdb92"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 1010,
+          "patch_unavailable": false,
+          "state": "closed_unmerged",
+          "title": "docs: add Gaia Skill Tree recognition badge for Impeccable",
+          "url": "https://github.com/pbakaus/impeccable/pull/1010"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "f0dfab179ff56fd261d17adbde5386cf9a2b104e",
+        "branch": "main",
+        "commit_sha": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+        "deep_links": [],
+        "html_url": "https://github.com/pbakaus/impeccable/blob/d631a8827f99414d2b6daba4ef08b7f8701751d7/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Gaia PR closed without merge: #1010"
+      ],
+      "recommended_action": "EXPLICIT_REVIEW_REQUIRED_NO_AUTO_OUTREACH",
+      "repository": "pbakaus/impeccable",
+      "requested_name": "pbakaus/impeccable",
+      "terminal_restriction": null
+    },
+    "safishamsi/graphify": {
+      "aliases": [
+        "safishamsi/graphify"
+      ],
+      "anomalies": [
+        {
+          "code": "repo_renamed",
+          "detail": "safishamsi/graphify redirects to Graphify-Labs/graphify",
+          "severity": "info"
+        },
+        {
+          "code": "open_pr_scan_incomplete",
+          "detail": "Inspected 40 of 842 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+          "severity": "medium"
+        }
+      ],
+      "badges_found": [],
+      "classification": "UNKNOWN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "safishamsi/graphify"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "v8",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 0,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:05:52.626993+00:00",
+        "open_pr_scan": {
+          "complete": false,
+          "limit": 40,
+          "open_total": 843,
+          "unmarked_inspected": 40,
+          "unmarked_total": 842
+        },
+        "readme_commit_sha": "b4e6307bf170f27e0cb888c03f4af9308d531a42"
+      },
+      "expected_skills": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 5
+        }
+      ],
+      "github_id": 1200597263,
+      "hold": "#2067",
+      "identity": {
+        "archived": false,
+        "canonical": "Graphify-Labs/graphify",
+        "case_normalized": false,
+        "default_branch": "v8",
+        "disabled": false,
+        "github_id": 1200597263,
+        "renamed": true,
+        "requested": "safishamsi/graphify"
+      },
+      "ignored_pr_numbers": [
+        2223,
+        4133,
+        4134,
+        4135,
+        4136,
+        4137,
+        4138,
+        4140,
+        4159,
+        4168,
+        4173,
+        4174,
+        4175,
+        4179,
+        4181,
+        4183,
+        4185,
+        4187,
+        4189,
+        4192,
+        4208,
+        4215,
+        4234,
+        4263,
+        4267,
+        4268,
+        4275,
+        4276,
+        4287,
+        4289,
+        4291,
+        4292,
+        4297,
+        4298,
+        4299,
+        4300,
+        4305,
+        4307,
+        4310,
+        4312,
+        4313
+      ],
+      "ledger": {
+        "approved": false,
+        "approved_at": null,
+        "approved_by": null,
+        "attempted_at": null,
+        "attempts": 0,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "graphify.svg",
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 5
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [],
+        "outcome": null,
+        "pr_url": null,
+        "status": "PILOT_CANDIDATE"
+      },
+      "other_files": [],
+      "pull_requests": [],
+      "readme": {
+        "badges": [],
+        "blob_sha": "a1d7be6c5e4a4eb241e1d73ea8f1314d3390bc93",
+        "branch": "v8",
+        "commit_sha": "b4e6307bf170f27e0cb888c03f4af9308d531a42",
+        "deep_links": [],
+        "html_url": "https://github.com/Graphify-Labs/graphify/blob/b4e6307bf170f27e0cb888c03f4af9308d531a42/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Open-PR scan incomplete (40 of 842 unmarked open PRs inspected, limit 40); an unmarked PR with a Gaia badge cannot be ruled out. Failing closed."
+      ],
+      "recommended_action": "HELD_UNDER_2067_DO_NOT_REQUEST_APPROVAL",
+      "repository": "Graphify-Labs/graphify",
+      "requested_name": "safishamsi/graphify",
+      "terminal_restriction": null
+    },
+    "trailhq/Graft": {
+      "aliases": [],
+      "anomalies": [
+        {
+          "code": "open_pr_scan_incomplete",
+          "detail": "Inspected 40 of 122 unmarked open PRs; an unmarked Gaia badge PR cannot be ruled out.",
+          "severity": "medium"
+        }
+      ],
+      "badges_found": [],
+      "classification": "PR_OPEN",
+      "coverage": {
+        "contributor_level_badges": [],
+        "covered_skill_ids": [],
+        "details": [],
+        "level": "none",
+        "missing_skill_ids": [
+          "trailhq/graft"
+        ],
+        "unmapped_badges": []
+      },
+      "default_branch": "main",
+      "evidence": {
+        "complete": true,
+        "components": {
+          "identity": {
+            "complete": true,
+            "error_code": null
+          },
+          "other_files": {
+            "complete": true,
+            "error_code": null,
+            "paths": []
+          },
+          "pull_requests": {
+            "complete": true,
+            "error_code": null,
+            "inspected": 1,
+            "searched": [
+              "gaiaskilltree.com",
+              "\"Gaia Skill Tree\" in:title,body",
+              "author:mbtiongson1"
+            ]
+          },
+          "readme": {
+            "complete": true,
+            "error_code": null,
+            "present": true
+          }
+        },
+        "errors": [],
+        "observed_at": "2026-10-11T03:05:25.794500+00:00",
+        "open_pr_scan": {
+          "complete": false,
+          "limit": 40,
+          "open_total": 123,
+          "unmarked_inspected": 40,
+          "unmarked_total": 122
+        },
+        "readme_commit_sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad"
+      },
+      "expected_skills": [
+        {
+          "id": "trailhq/graft",
+          "name": "graft",
+          "rank": 4
+        }
+      ],
+      "github_id": 1288325627,
+      "hold": null,
+      "identity": {
+        "archived": false,
+        "canonical": "trailhq/Graft",
+        "case_normalized": false,
+        "default_branch": "main",
+        "disabled": false,
+        "github_id": 1288325627,
+        "renamed": false,
+        "requested": "trailhq/Graft"
+      },
+      "ignored_pr_numbers": [
+        523,
+        524,
+        527,
+        530,
+        531,
+        532,
+        533,
+        534,
+        535,
+        536,
+        538,
+        540,
+        541,
+        544,
+        547,
+        548,
+        549,
+        550,
+        551,
+        552,
+        553,
+        554,
+        558,
+        559,
+        560,
+        561,
+        562,
+        563,
+        564,
+        565,
+        566,
+        570,
+        571,
+        572,
+        573,
+        574,
+        575,
+        577,
+        578,
+        579
+      ],
+      "ledger": {
+        "approved": true,
+        "approved_at": "2026-10-10T23:32:41.224404+00:00",
+        "approved_by": "Marco Tiongson",
+        "attempted_at": "2026-10-10T23:32:41.404960+00:00",
+        "attempts": 1,
+        "canonical_skill": {
+          "branch": "unique",
+          "file": "graft.svg",
+          "id": "trailhq/graft",
+          "name": "graft",
+          "rank": 4
+        },
+        "eligibility": "PILOT_CANDIDATE",
+        "history": [
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "PILOT_CANDIDATE",
+            "notes": "Founder-approved for Phase 2 outbound pilot dispatch",
+            "pr_url": null,
+            "timestamp": "2026-10-10T23:32:41.224404+00:00",
+            "to_status": "APPROVED"
+          },
+          {
+            "actor": "Marco Tiongson",
+            "from_status": "APPROVED",
+            "notes": "Outbound badge provisioning PR opened",
+            "pr_url": "https://github.com/trailhq/Graft/pull/581",
+            "timestamp": "2026-10-10T23:32:41.404960+00:00",
+            "to_status": "PR_OPEN"
+          }
+        ],
+        "outcome": "PR_OPEN",
+        "pr_url": "https://github.com/trailhq/Graft/pull/581",
+        "status": "PR_OPEN"
+      },
+      "other_files": [],
+      "pull_requests": [
+        {
+          "author": "mbtiongson1",
+          "badges": [
+            {
+              "handle": "trailhq",
+              "stem": "graft",
+              "style": "wordmark",
+              "url": "https://gaiaskilltree.com/badges/_assets/trailhq/graft.svg"
+            }
+          ],
+          "base": {
+            "ref": "main",
+            "sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad"
+          },
+          "deep_links": [
+            "https://gaiaskilltree.com/named/#explorer/trailhq/graft"
+          ],
+          "files": [
+            "README.md"
+          ],
+          "files_complete": true,
+          "has_gaia_badge": true,
+          "head": {
+            "ref": "gaia/badge-graft",
+            "repo": "mbtiongson1/Graft",
+            "sha": "c0b03993be18b8e1cd04c52a145cae3befe73d6b"
+          },
+          "ledgered": true,
+          "marker_only": false,
+          "matched_by": [
+            "ledger",
+            "open_list",
+            "search"
+          ],
+          "merged": false,
+          "merged_at": null,
+          "number": 581,
+          "patch_unavailable": false,
+          "state": "open",
+          "title": "docs: add Gaia Skill Tree recognition badge for graft",
+          "url": "https://github.com/trailhq/Graft/pull/581"
+        }
+      ],
+      "readme": {
+        "badges": [],
+        "blob_sha": "709a27680c8f26e9f2c1fdd8d45a99462716d0b3",
+        "branch": "main",
+        "commit_sha": "fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad",
+        "deep_links": [],
+        "html_url": "https://github.com/trailhq/Graft/blob/fe30ead39d5e6f0c921018d364da2bdbc9d4b3ad/README.md",
+        "path": "README.md",
+        "present": true,
+        "snippets": []
+      },
+      "reasons": [
+        "Relevant outbound PR is open: #581"
+      ],
+      "recommended_action": "DO_NOT_DISPATCH_WAIT_FOR_MAINTAINER",
+      "repository": "trailhq/Graft",
+      "requested_name": "trailhq/Graft",
+      "terminal_restriction": null
+    }
+  },
+  "schema_version": 1,
+  "scope": "subset",
+  "summary": {
+    "anomalies": 7,
+    "by_classification": {
+      "CLOSED_UNMERGED": 1,
+      "PR_OPEN": 7,
+      "UNKNOWN": 1
+    },
+    "by_coverage": {
+      "none": 9
+    },
+    "by_terminal_restriction": {},
+    "incomplete_evidence": 0,
+    "repositories": 9
+  }
+}

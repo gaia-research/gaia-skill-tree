@@ -1,6 +1,40 @@
 {
   "skills": [
     {
+      "id": "Manavarya09/design-extract",
+      "name": "Design Extract",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 80.0,
+      "contributor": "Manavarya09",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/Manavarya09/design-extract.json"
+      },
+      "genericSkillRef": "design-system-extraction"
+    },
+    {
+      "id": "anthropic/pptx",
+      "name": "PPTX Editor",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "anthropic",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/pptx.json"
+      },
+      "genericSkillRef": "document-editing"
+    },
+    {
       "id": "balukosuri/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
@@ -831,45 +865,11 @@
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
       },
       "genericSkillRef": "distributed-neural-training"
-    },
-    {
-      "id": "ruvnet/flow-nexus-platform",
-      "name": "Flow Nexus Platform",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
-      },
-      "genericSkillRef": "cloud-platform-management"
-    },
-    {
-      "id": "ruvnet/github-multi-repo",
-      "name": "GitHub Multi-Repo",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
-      },
-      "genericSkillRef": "multi-repo-coordination"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 225,
+  "totalSkills": 227,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

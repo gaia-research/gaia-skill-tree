@@ -34,7 +34,7 @@
         "level": "4★",
         "trustMagnitude": 175.34
       },
-      "prestigeScore": 1375.86,
+      "prestigeScore": 1378.52,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -47,7 +47,7 @@
         "level": "4★",
         "trustMagnitude": 221.52
       },
-      "prestigeScore": 1090.57,
+      "prestigeScore": 1093.23,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
@@ -99,7 +99,7 @@
         "level": "4★",
         "trustMagnitude": 169.31
       },
-      "prestigeScore": 419.31,
+      "prestigeScore": 421.97,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
       }
@@ -284,6 +284,19 @@
       "prestigeScore": 130.23,
       "_links": {
         "self": "/api/v1/contributors/ayghri.json"
+      }
+    },
+    {
+      "handle": "hikari9",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "hikari9/auto-office",
+        "level": "3★",
+        "trustMagnitude": 88.97
+      },
+      "prestigeScore": 113.31,
+      "_links": {
+        "self": "/api/v1/contributors/hikari9.json"
       }
     },
     {
@@ -521,7 +534,7 @@
       }
     }
   ],
-  "totalContributors": 40,
+  "totalContributors": 41,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

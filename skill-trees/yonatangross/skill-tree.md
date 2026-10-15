@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ yonatangross/orchestkit-rag | Basic | 1★ | Awakened | yonatangross/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ yonatangross/rag-retrieval | Basic | 1★ | Awakened | yonatangross/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — yonatangross  ·  generated 2026-10-01
+GAIA SKILL TREE — yonatangross  ·  generated 2026-10-11
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

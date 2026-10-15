@@ -1,0 +1,57 @@
+{
+  "handle": "hikari9",
+  "namedSkills": [
+    {
+      "id": "hikari9/auto-office",
+      "name": "Auto Office",
+      "level": "3★",
+      "trustMagnitude": 88.97,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "hikari9",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/auto-office.json"
+      },
+      "genericSkillRef": "autonomous-engineering-platform",
+      "suiteComponents": [
+        "hikari9/office-submit"
+      ]
+    },
+    {
+      "id": "hikari9/office-submit",
+      "name": "Office Submit",
+      "level": "2★",
+      "trustMagnitude": 24.34,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "hikari9",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/office-submit.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    }
+  ],
+  "namedSkillsCount": 2,
+  "topSkill": {
+    "id": "hikari9/auto-office",
+    "level": "3★",
+    "trustMagnitude": 88.97
+  },
+  "prestigeScore": 113.31,
+  "gradeDistribution": {
+    "B": 1,
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/hikari9.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

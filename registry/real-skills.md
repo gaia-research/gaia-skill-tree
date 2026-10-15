@@ -124,7 +124,7 @@ Curated named skills from live SKILL.md ecosystems.
 - [firecrawl/mcp](https://github.com/firecrawl/firecrawl-mcp-server) - MCP server implementation for Firecrawl, enabling seamless web scraping and search tool integration for agents. Maps to: `autonomous-web-research`.
 - [ladislav-sopko/mcp-vs](https://github.com/LadislavSopko/mcp-server-for-vs) - Deep MCP server for Visual Studio providing Roslyn-powered semantic navigation and full debugger control (breakpoints, stepping, variable inspection). Maps to: `mcp-debugger-control`.
 - [bradautomates/claude-video](https://github.com/bradautomates/claude-video) - Enables AI agents to watch videos by downloading frames and transcribing audio for multimodal context. Maps to: `video-intelligence`.
-- [safishamsi/graphify](https://github.com/safishamsi/graphify) - Knowledge graph construction from codebases and docs to provide agents with architectural memory. Maps to: `knowledge-graph-build`.
+- [safishamsi/graphify](https://github.com/Graphify-Labs/graphify) - Knowledge graph construction from codebases and docs to provide agents with architectural memory. Maps to: `knowledge-graph-build`.
 - [nexu-io/open-design](https://github.com/nexu-io/open-design) - Local-first design engine for generating high-fidelity UI prototypes and brand assets from design intent. Maps to: `design-generation`.
 - [getagentseal/codeburn](https://github.com/getagentseal/codeburn) - Token and cost observability for AI coding tools, providing session-level spend attribution. Maps to: `token-observability`.
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) - Elite design vocabulary and audit tool for polishing AI-generated frontend code to professional standards. Maps to: `ux-audit`.

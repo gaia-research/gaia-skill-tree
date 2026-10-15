@@ -22,6 +22,22 @@ Orchestrates the complete curation lifecycle. Each phase delegates to its canoni
 
 ---
 
+## Phase 0 — /ev-scout (pre-curation context, no authority)
+
+Before *any* Phase 1 strategy, invoke [`/ev-scout`](../ev-scout/SKILL.md) with
+the declared source, skill(s), or intake batch. For Strategy F, this includes
+already-submitted `gaia push` intakes. Hand the resulting scout packet to
+the mapping/curation agent and the L4 reviewer so they see both promising
+generic research and named-implementation leads **before** deciding topology.
+
+Scouting favors breadth: possible papers, peer reviews, benchmarks, rivals,
+counterevidence, and implementation provenance. Leads remain unverified.
+Do not derive Trust Magnitude, ranks, or ingestion from the packet.
+The existing later `/ev-discovery` Phase 0 and `/ev-pipeline` verification
+are separate and remain authoritative. Missing search tooling is non-blocking;
+carry explicit limitations forward. Reuse/refresh existing scout packets
+instead of repeating the same searches.
+
 ## Phase 1 — Choose a discovery strategy
 
 The pipeline starts differently depending on whether you already know *what* you're curating or need to find it first. Pick exactly one path. All strategies stop at L4 — none touch the registry.

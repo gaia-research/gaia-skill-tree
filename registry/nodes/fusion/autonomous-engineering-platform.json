@@ -1,0 +1,158 @@
+{
+  "id": "autonomous-engineering-platform",
+  "name": "Autonomous Engineering Platform",
+  "type": "fusion",
+  "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
+  "prerequisites": [
+    "verification-before-completion"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/changkun/wallfacer",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Auto-discovered from github. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/Taoidle/plan-cascade",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Auto-discovered from github. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "source": "https://arxiv.org/abs/2308.00352",
+      "evaluator": "unknown",
+      "date": "2026-10-08",
+      "type": "arxiv",
+      "notes": "MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework. Single selected bibliometric record https://openalex.org/W4385963839 DOI https://doi.org/10.48550/arxiv.2308.00352, queried 2026-10-08. Record-specific cited_by_count=156, not whole-work/all-version deduplicated citations; NEVER sum alternate records. Generic platform research, not direct Auto Office usage or peer review.",
+      "citations": 156,
+      "sourceStartedAt": "2023-08-01",
+      "grade": "C"
+    },
+    {
+      "source": "https://aclanthology.org/2024.acl-long.810/",
+      "evaluator": "unknown",
+      "date": "2026-10-08",
+      "type": "arxiv",
+      "notes": "ChatDev: Communicative Agents for Software Development. Single selected bibliometric record https://openalex.org/W4402684050 DOI https://doi.org/10.18653/v1/2024.acl-long.810, queried 2026-10-08. Record-specific cited_by_count=396, not whole-work/all-version deduplicated citations; NEVER sum alternate records. Generic platform research, not direct Auto Office usage or peer review. ACL primary metadata gives publication month 2024-08; OpenAlex 2024-01-01 is not claimed as the actual day. sourceStartedAt is conservative observed-public bound, not exact publication day or tenure approval.",
+      "citations": 396,
+      "sourceStartedAt": "2026-10-08",
+      "grade": "A"
+    },
+    {
+      "source": "https://arxiv.org/abs/2407.16741",
+      "evaluator": "unknown",
+      "date": "2026-10-08",
+      "type": "arxiv",
+      "notes": "OpenHands: An Open Platform for AI Software Developers as Generalist Agents. Single selected bibliometric record https://openalex.org/W4403885061 DOI https://doi.org/10.48550/arxiv.2407.16741, queried 2026-10-08. Record-specific cited_by_count=15, not whole-work/all-version deduplicated citations; NEVER sum alternate records. Generic platform research, not direct Auto Office usage or peer review.",
+      "citations": 15,
+      "sourceStartedAt": "2024-07-23"
+    },
+    {
+      "source": "https://arxiv.org/abs/2407.01489",
+      "evaluator": "unknown",
+      "date": "2026-10-08",
+      "type": "arxiv",
+      "notes": "Agentless: Demystifying LLM-based Software Engineering Agents. Single selected bibliometric record https://openalex.org/W4400337928 DOI https://doi.org/10.48550/arxiv.2407.01489, queried 2026-10-08. Record-specific cited_by_count=19, not whole-work/all-version deduplicated citations; NEVER sum alternate records. Generic platform research, not direct Auto Office usage or peer review.",
+      "citations": 19,
+      "sourceStartedAt": "2024-07-01"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-10-09",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:50:17Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill autonomous-engineering-platform"
+    },
+    {
+      "timestamp": "2026-05-22T20:51:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/changkun/wallfacer"
+    },
+    {
+      "timestamp": "2026-05-22T20:51:38Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/Taoidle/plan-cascade"
+    },
+    {
+      "timestamp": "2026-05-22T20:53:00Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/changkun/wallfacer as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/Taoidle/plan-cascade as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-10-08T21:29:45Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified as fusion and moved from basic via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-10-08T21:29:45Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: verification-before-completion."
+    },
+    {
+      "timestamp": "2026-10-08T21:36:19Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2308.00352 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-10-08T21:36:19Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://aclanthology.org/2024.acl-long.810/ (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-10-08T21:36:19Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2407.16741 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-10-08T21:36:19Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2407.01489 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-10-08T21:36:32Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: verification-before-completion."
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-10-08T21:36:19Z"
+  }
+}
