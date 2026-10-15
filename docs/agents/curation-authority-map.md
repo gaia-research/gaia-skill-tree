@@ -85,7 +85,7 @@ Worked examples (synthetic and offline; checked live):
 | ungraded | below 20.0 | — | 1 |
 
 - **4★ strictly requires grade A (TM ≥ 100).** B is not enough at 4★, even "in practice". It caps a skill at 3★ (META.md §1.1). 5★ requires S (TM ≥ 250). 6★ adds the Apex gate (Suite, §4.3) or the Unique Impossible gate (Unique, §4.4).
-- TM is the only numeric promotion gate. The per-star Evidence Floor is retired. The Star Bar (verified `links.github` blob at 3★+, live non-seed evidence at 4★+) is checked separately in META.md §2.
+- TM is the only numeric promotion gate; there is no per-star evidence-class floor. The Star Bar (verified `links.github` blob at 3★+, live non-seed evidence at 4★+) is checked separately in META.md §2.
 
 ## 4. Persistence: computed, not hand-written
 
