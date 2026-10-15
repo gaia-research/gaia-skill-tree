@@ -17,6 +17,12 @@ description: >
 
 # Consult the trust methodology before touching CLI/schema evidence surface
 
+TM facts (weights, caps, dedup, inheritance, grade floors, star gates, persistence and
+appraisal scope) come from one canonical map:
+[`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md).
+`tests/test_curation_authority_map.py` checks that map against the live engine. Read it
+before restating any number, and cite it instead of copying formulas into a fix or a skill.
+
 The Gaia trust surface is a three-layer contract. Skipping any layer when
 proposing a fix guarantees you either widen or narrow it incorrectly:
 
@@ -40,7 +46,9 @@ The TM methodology page covers *how scores are computed*. It does **not** cover
 |---|---|
 | 0★–2★ | No link requirement; `installable: false` permitted |
 | 3★+ | `links.github` **must** be a verified blob URL (`.../blob/<branch>/...`). Bare repo root → hard-demote to 1★. |
+| 4★ | Overall Trust Grade **A (TM ≥ 100)**, strictly. B caps a skill at 3★. |
 | 4★+ | Live, verifiable usage evidence required. Seed/placeholder evidence is insufficient. |
+| 5★ | Overall Trust Grade **S (TM ≥ 250)** and its independent-witness diversity gate. |
 | 4★+ Specialist | Vendor-locked skills: Depth-of-Integration rubric (META.md §2.3) |
 | 6★ Suite (Apex) | Grade S + 6-predicate Apex gate (META.md §4.3) |
 | 6★ Unique (Unique Impossible) | Grade S + provisional 5-predicate gate (Apex set minus directNestedSuiteGte1, META.md §4.4; branch distinction ratified under Yggdrasil III, predicate set otherwise unchanged) |
@@ -48,7 +56,9 @@ The TM methodology page covers *how scores are computed*. It does **not** cover
 When asked "should this skill be 4★?", run this check **before** computing TM:
 1. Does `links.github` point to a concrete file via `/blob/`?
 2. Is every scoring evidence row live and non-seed?
-3. Does `overallTrustGrade` ≥ B (TM ≥ 50)? Grade A (TM ≥ 100) is the norm for 4★ in practice.
+3. Is the computed Overall Trust Grade **A (TM ≥ 100)**? This gate is strict: META.md §1.1,
+   `promotion._UNIQUE_GATE_BY_LEVEL`, and the grade-ceiling clamp in
+   `scripts/generateNamedIndex.py` (B → max 3★). B does not hold 4★.
 
 If any gate fails, the correct action is to fix the gate or demote — not to
 add more evidence rows to compensate.
@@ -83,7 +93,12 @@ The methodology page states, verbatim:
 > trustworthiness. It is computed at build time from a skill's evidence
 > inventory, never stored on a node.
 
-That sentence pins the direction of every fix:
+That sentence pins the direction of every fix. It needs one precision, which the
+authority map §4 owns. Named-skill frontmatter may carry `trustMagnitude`,
+`overallTrustGrade` and `trustMagnitudeInputHash`. That is a **hash-signed cache** written
+only by `gaia dev calibrate-trust-magnitude`, and `scripts/generateNamedIndex.py` trusts it
+only while the input hash matches. Otherwise it recomputes. The cache is not a persistence
+contract, and nothing else may write it.
 
 - **Raw inputs are the persisted state.** Fields like `citations`, `stars`,
   `commits`, `contributors`, `views`, `reviewers`, `percentile`, and
@@ -128,26 +143,18 @@ only steps 4-ish (extend the schema), 6 (regen docs), and 7 (rerun the
 calibration if any stored grade shifted) matter. Small schema changes still
 belong on a `schema/*` branch per the branch-scope rules.
 
-## Helper: recompute a single node's stored TM (`scripts/recompute_one_tm.py`)
+## A stale stored TM is refreshed through the CLI, not a helper
 
-A recurring flavour of CLI gap: the live CLI does **not** recompute and persist
-a named skill's `trustMagnitude`/`overallTrustGrade` when evidence is added, a
-suite is fused, or a level is calibrated. The leaderboard recomputes at build
-time (`computeTrustMagnitude`) and looks correct, but consumers that trust the
-**stored** frontmatter field — the contributors API, badges, and the
-Hall-of-Heroes `topSkill` selection — keep showing the stale value.
+When a consumer shows a stale cached TM, refresh it with the CLI write verb, not a
+vendored script or a hand edit. The verb is Verifier-gated, so run it on a `review/meta/`
+branch, dry-run first, then run `gaia dev docs`:
 
-Until that write-back is closed in `gaia dev`, use the vendored helper for a
-surgical, idempotent, single-node fix (it reuses the canonical write-back logic
-from `scripts/archive/migrateTrustMagnitude.py`, so no unrelated node is swept
-into the diff):
+    gaia dev calibrate-trust-magnitude --skill <owner/skill-id> --dry-run
+    gaia dev calibrate-trust-magnitude --skill <owner/skill-id>
+    gaia dev docs
 
-    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id> --dry-run
-    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id>
-    gaia dev docs   # propagate the new value into docs/ artifacts
-
-This is a *remediation*, not a design — the durable fix is to make the mutation
-commands recompute+persist. Do not hand-edit the stored fields.
+Do not add or recommend a separate write-back helper. The earlier vendored
+`recompute_one_tm.py` was retired because it bypassed this verb.
 
 ## What NOT to do
 
@@ -158,5 +165,7 @@ commands recompute+persist. Do not hand-edit the stored fields.
   next reviewer will re-file the same issue.
 - Do not persist a pre-computed `trustNumber` in place of the raw input as a
   "design" — see "The design principle you must not violate" above.
+- Do not hand-write `trustMagnitude` / `overallTrustGrade`, or recommend any write-back
+  path other than `gaia dev calibrate-trust-magnitude`.
 - Do not re-derive the answer from memory. The methodology has been superseded
   once already (2026-06-17, G7). Always re-read the page before acting.

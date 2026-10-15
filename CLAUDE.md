@@ -426,7 +426,7 @@ When authoring or modifying skills, run the validation gates:
 
 - `links.github` MUST use `blob/branch/subpath`, not `tree/` (bare repo roots make skills undiscoverable). Only `links.github` is read by the installer — rename `links.repo`/`links.docs`/`origin` etc. accordingly.
 - Skills with `suiteComponents` need NO `links.github` of their own — do not flag them uninstallable; but each **component** needs its own `blob/branch/subpath`. Non-suite skills ≤2★ with no public repo → `installable: false` (see CONTRIBUTING.md §12).
-- Trust Magnitude evidence learnings (same-source dedup, mothership discount, peer-review being highest-impact for science skills, `benchmark-result` needing `percentile`, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file before touching evidence.
+- Trust Magnitude evidence learnings (same-source dedup within type, no repository-count divisor, peer-review being highest-impact for science skills, `benchmark-result` being catalog-gated, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file and the canonical [curation authority map](docs/agents/curation-authority-map.md) before touching evidence.
 
 See [DEV.md](DEV.md) and [portable curation setup](docs/agents/curation-environment.md) for setup, testing, and CI troubleshooting.
 
