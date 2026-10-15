@@ -261,3 +261,20 @@ def test_negative_control_detects_lenient_four_star_clamp():
 )
 def test_negative_control_detects_retired_sentences(sentence):
     assert bannedClaims(sentence) != []
+
+
+@pytest.mark.parametrize(
+    "sentence",
+    [
+        "Do not use a skill_count_in_repo divisor.",
+        "Never run python3 scripts/recompute_one_tm.py owner/skill",
+        "The stars/1000 formula is retired.",
+        "The provenance field skill_count_in_repo is ignored.",
+    ],
+)
+def test_explicit_denials_and_harmless_mentions_are_not_retired_claims(sentence):
+    assert bannedClaims(sentence) == []
+
+
+def test_denial_in_an_unrelated_clause_does_not_exempt_a_claim():
+    assert bannedClaims("Never use that old method. skill_count_in_repo is the divisor.") != []

@@ -2,7 +2,8 @@
 
 | | |
 |---|---|
-| **Policy rule** | *(not wired — no sensor emits this debt yet)* |
+| **Policy rule** | `repository-hygiene` — founder-review proposal in #2105 |
+| **Sensor** | `repository-hygiene` — partial, read-only tracked Class P inventory |
 | **Debt kind** | `repository_hygiene` |
 | **Authority** | Class B — bounded autonomous repair |
 | **Cadence** | Worth looking weekly |
@@ -16,21 +17,34 @@ The slow accumulation nobody owns: generated artifacts that drifted from their
 sources, branches whose PRs merged months ago, files referenced by nothing,
 duplicated fixtures, dead scripts.
 
-Hygiene is the *cheapest* Class B routine and the one most likely to
-manufacture work if you let it. The discipline is: report first, repair only
-what is unambiguous.
+Hygiene is particularly likely to manufacture work if you let it. The discipline
+is: report first, propose only what is proven.
+
+The current sensor covers only the eight Class P paths enumerated in
+`src/gaia_cli/steward/repository_hygiene.py`. It reports their presence in Git's
+tracked index, not their age or apparent usefulness. Intentionally tracked
+`registry/real-skills.{json,md}` and the bundled benchmark catalog are excluded
+because their ownership is not settled by the Class P prose alone. Class S
+files, untracked output, mirrors and generated projection content are not this
+sensor's responsibility. Git failure, wrong root or incomplete inventory becomes
+unknown coverage, never a healthy result.
 
 ## When it is worth looking
 
-Weekly. Hygiene debt genuinely accrues with time rather than with events, which
-makes it one of the few routines where a calendar is a defensible trigger — but
-the run must still be allowed to find nothing and stop.
+Observe on a normal scan. Weekly is a ceiling on attention, not a debt trigger.
+A clean index is a successful no-op regardless of how much time has passed.
 
 ## Envelope to grant
 
-- **May write:** `scripts/**`, `tests/**`, and the directory subtree holding the artifacts named in the finding. Policy expresses scopes as `<dir>/**` subtrees, never per-file lists, so grant the narrowest *directory* that covers the finding.
-- **Never writes:** `registry/**`, `skill-trees/**`, `docs/graph/**`, `founder/**`, `.github/workflows/**`
-- **May run:** the repository's own regeneration and validation commands, `git status`, `python -m pytest`
+The proposed `POLICY.yaml` packet is authoritative; this routine cannot widen it.
+
+- **May write:** `scripts/**` and `tests/steward/**`, solely for a bounded proposal.
+- **Never writes:** tracked Class P data, `registry/**`, `skill-trees/**`,
+  `docs/graph/**`, `founder/**`, `.github/**`, either skill tree, or `src/**`.
+- **May run:** only the packet's read-only Git inventory/status and focused tests.
+- **No deletion:** an index leak normally requires an owner-reviewed disposition
+  outside this envelope. Return the exact diagnosis and stop; no `git rm`,
+  regeneration, branch removal or canonical write is granted.
 
 ## Stop conditions
 
@@ -46,9 +60,11 @@ human decide.
 
 ## Done means
 
-- Every removal names the evidence that made it safe
-- The regeneration is reproducible: running it twice produces no second diff
+- Each finding reproduces from the read-only index inventory
+- Any out-of-envelope disposition is explicit; no deletion or regeneration ran
+- Equivalent scans have stable identity; clean input produces no maintenance debt
 - No guard, ignore rule, or test was weakened to make the diff clean
+- Independent review is required before integration
 
 ## Founder notes
 
