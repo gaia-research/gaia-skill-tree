@@ -370,7 +370,7 @@ Before #807 the version stamp on these files was the dominant source of cross-PR
 
 ### Adding a new versioned HTML page
 
-**Never manually patch `?v=` query strings.** Add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` (function at ~L316 lists every auto-versioned HTML file). New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css`/`.js` src/href attributes automatically.
+**Never manually patch `?v=` query strings.** Add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` (its explicit list covers every auto-versioned HTML file except `docs/en/*.html`, which is globbed and needs no entry). New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css`/`.js` src/href attributes automatically.
 
 ### Bundled registry snapshot — refresh cadence
 
