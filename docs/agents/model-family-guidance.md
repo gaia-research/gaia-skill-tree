@@ -37,7 +37,7 @@ Do not write a procedural recipe unless the sequence is load-bearing (section 10
 Rules:
 
 - Existing explicit or standing authorization applies to its stated scope. Do not ask again for the same authorized action; never infer L4 approval from general operator permission. This layer grants no new permission, GitHub-write authority, or merge authority.
-- Approval attaches to a **boundary**, never to a phase. "Ask before each phase" is ceremony unless a real boundary sits inside that phase.
+- Approval attaches to a **boundary** or an explicitly requested operator checkpoint. A phase alone does not require approval; "ask before each phase" is ceremony unless the operator requested those gates or a real boundary sits inside that phase.
 - A stop names the boundary it hit. An agent that cannot name one should not stop.
 - A stronger model does not remove a boundary. It only removes the need for scaffolding that compensated for a weaker one.
 

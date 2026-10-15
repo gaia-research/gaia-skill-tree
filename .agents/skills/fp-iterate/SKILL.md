@@ -41,7 +41,10 @@ Use bounded CI windows through the existing script:
 bash .agents/skills/fp-iterate/scripts/ci-poll.sh <pr-number> --max 2 --interval 30
 ```
 
-Exit 0 reports success, 1 remains pending, 2 reports failure. Inspect the actual
+Exit 0 reports success, 1 remains pending, 2 reports failure. The helper conservatively requires every reported current-head check/context
+to pass using the supported `gh pr view` JSON surface. It reports API/auth errors
+explicitly and holds empty or unknown results. It cannot discover absent required
+checks: verify required-check completeness in the final review. Inspect the actual
 required checks at the current SHA; a later push invalidates an older green
 receipt. Increment `ciRound` for each repair attempt, not each harmless pending
 poll. Pending checks are recoverable interim state. When green was requested,
