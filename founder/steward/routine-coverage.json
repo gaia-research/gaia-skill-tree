@@ -1,22 +1,541 @@
 {
   "schemaVersion": 1,
   "routines": [
-    {"number":1,"title":"Dead-Code Gardener","status":"absent","bindings":[],"predicate":"Evidence identifies a stale path and proves no supported consumer remains.","remainingGaps":["No dedicated automated detector; usage and external-contract review remain required."],"owners":[2001],"tests":[]},
-    {"number":2,"title":"Architecture and Abstraction Doctor","status":"human-gated","bindings":[],"predicate":"Observed coupling, duplication, or repeated defect justifies a bounded abstraction change.","remainingGaps":["No automatic architecture judgment or topology detector."],"owners":[2001],"tests":[]},
-    {"number":3,"title":"Error, Diagnostics, and Incident Learner","status":"partial","bindings":[{"sensorId":null,"debtKind":"sensor_coverage_unknown","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"A registered sensor failure becomes explicit coverage-unknown debt rather than a healthy observation.","remainingGaps":["Controller-generated diagnostic only; it is not a registered sensor and does not cover general incident learning."],"owners":[2001],"tests":["tests/steward/test_controller.py"]},
-    {"number":4,"title":"Test Portfolio Gardener","status":"absent","bindings":[],"predicate":"A behavior change or repeated regression reveals a missing, redundant, or mis-tiered test contract.","remainingGaps":["No test portfolio inventory or cost/coverage assessment."],"owners":[2001],"tests":[]},
-    {"number":5,"title":"Flake and Isolation Hunter","status":"human-gated","bindings":[],"predicate":"Observed nondeterminism is reproduced under controlled conditions and classified by source.","remainingGaps":["No general flake classifier; diagnosis requires controlled test execution."],"owners":[2001],"tests":[]},
-    {"number":6,"title":"CLI and Runtime Contract Steward","status":"partial","bindings":[{"sensorId":"cli-contract","debtKind":"cli_contract_drift","authority":"B","dispatchRule":"cli-contract-drift","repairExecutor":null}],"predicate":"The CLI contract sensor detects declared command/contract drift and has a policy-backed Class B dispatch route.","remainingGaps":["Dispatch is proposal-only; broader clean-install and performance proof remains case-specific."],"owners":[2001],"tests":["tests/steward/test_cli_contract.py"]},
-    {"number":7,"title":"Mutation, Authorization, and Abuse-Boundary Examiner","status":"partial","bindings":[{"sensorId":"registry-integrity","debtKind":"registry_integrity_failed","authority":"B","dispatchRule":"registry-integrity-review","repairExecutor":null},{"sensorId":"frozen-skill-integrity","debtKind":"frozen_skill_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Registry integrity and frozen-record checks expose selected mutation-boundary violations.","remainingGaps":["Coverage is not a general authorization, filesystem, provenance, or hostile-input audit."],"owners":[2001],"tests":["tests/steward/test_sensors.py"]},
-    {"number":8,"title":"Schema Evolution Steward","status":"partial","bindings":[{"sensorId":"bundled-schema-mirror","debtKind":"bundled_schema_mirror_drift","authority":"A","dispatchRule":null,"repairExecutor":"bundled-schema-mirror"}],"predicate":"The bundled schema mirror is compared against its canonical source and a bounded Class A repair executor is registered.","remainingGaps":["Schema evolution, migration, and compatibility decisions remain human-owned."],"owners":[2001],"tests":["tests/steward/test_sensors.py"]},
-    {"number":9,"title":"Evidence and Trust Reconciler","status":"partial","bindings":[{"sensorId":"evidence-link-health","debtKind":"evidence_link_drift","authority":"B","dispatchRule":null,"repairExecutor":null},{"sensorId":"trust-calibration-drift","debtKind":"trust_calibration_drift","authority":"B","dispatchRule":"trust-calibration-drift","repairExecutor":null},{"sensorId":"benchmark-freshness","debtKind":"benchmark_source_drift","authority":"B","dispatchRule":null,"repairExecutor":null},{"sensorId":"taxonomy-script-drift","debtKind":"taxonomy_script_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route.","remainingGaps":["Installability producer scripts/installability.py::build_installability_projection projects committed observations (checkedAt/runId/registryCommit/scope/tool versions and per-skill resolvedRevision/source/content hashes/health/cause); it is not fresh parity or independently verified current source. Owners #1445/#2063.","Curation source src/gaia_cli/curationCheckpoint.py::compactCheckpoint exposes sourceRevisions and blocker evidence; src/gaia_cli/verification.py parses builder transcripts but does not independently adjudicate them. Assurance proof/provenance remains owner #1922; no runtime schema or adapter is justified.","Hash-cache freshness after evidence refresh is not proven (#1642)."],"owners":[1922,1445,2063,1642],"tests":["tests/test_installability.py","tests/test_curation_checkpoint.py","tests/test_curation_evaluation.py","tests/steward/test_sensors.py","tests/steward/test_knowledge_contracts.py"]},
-    {"number":10,"title":"Timeline Causality Keeper","status":"partial","bindings":[{"sensorId":"frozen-skill-integrity","debtKind":"frozen_skill_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Frozen skill integrity provides a limited frozen-state check, not a lifecycle event-chain audit.","remainingGaps":["Timeline rank causality, missing events, and current tree reconciliation are not covered."],"owners":[2001],"tests":["tests/steward/test_sensors.py"]},
-    {"number":11,"title":"Registry Structure and Installability Examiner","status":"partial","bindings":[{"sensorId":"discovery-generic-mapping","debtKind":"generic_mapping","authority":"C","dispatchRule":null,"repairExecutor":null},{"sensorId":"registry-integrity","debtKind":"registry_integrity_failed","authority":"B","dispatchRule":"registry-integrity-review","repairExecutor":null},{"sensorId":"upstream-watcher","debtKind":"upstream_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Registry integrity, unresolved generic mapping, and upstream drift have narrow sensor coverage.","remainingGaps":["Installability still needs compatible proof from #1445/#2063; metadata and link checks do not establish execution."],"owners":[1445,2063],"tests":["tests/steward/test_sensors.py"]},
-    {"number":12,"title":"Artifact, Branch, and Repository Hygiene Sentinel","status":"partial","bindings":[{"sensorId":"repository-hygiene","debtKind":"repository_hygiene","authority":"B","dispatchRule":"repository-hygiene","repairExecutor":null},{"sensorId":"agent-skill-mirror","debtKind":"agent_skill_mirror_drift","authority":"A","dispatchRule":null,"repairExecutor":"agent-skill-mirror"},{"sensorId":"generated-projections","debtKind":"generated_projection_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Repository hygiene, mirror parity, and selected generated projection drift are mapped to existing sensors and policy bindings.","remainingGaps":["The hygiene sensor registration is pending follow-on integration; no source scan, regeneration, or branch-cleanliness health is implied."],"owners":[2042,2001],"tests":["tests/steward/test_repository_hygiene.py","tests/steward/test_sensors.py"]},
-    {"number":13,"title":"CI Architecture and Efficiency Steward","status":"absent","bindings":[],"predicate":"A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.","remainingGaps":["No CI workflow health sensor or automatic churn measurement in Steward."],"owners":[2001],"tests":[]},
-    {"number":14,"title":"Release and Supply-Chain Examiner","status":"partial","bindings":[{"sensorId":"benchmark-freshness","debtKind":"benchmark_source_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Benchmark catalog freshness is checked against registered sources.","remainingGaps":["No general dependency, advisory, license, package, action, or publication audit; release operations remain read-only by default."],"owners":[2001],"tests":["tests/steward/test_sensors.py"]},
-    {"number":15,"title":"Frontend Quality and Resilience Steward","status":"partial","bindings":[{"sensorId":"generated-projections","debtKind":"generated_projection_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Selected generated frontend projections are checked for drift, not rendered browser quality.","remainingGaps":["Responsive, accessibility, degraded-state, performance, and visual review are not sensor health claims."],"owners":[2042],"tests":["tests/steward/test_sensors.py"]},
-    {"number":16,"title":"Browser, Privacy, and External Trust Auditor","status":"human-gated","bindings":[],"predicate":"A change with an external data flow or browser sink receives an explicit security/privacy review.","remainingGaps":["No general browser sink, privacy, or third-party data-flow sensor."],"owners":[2001],"tests":[]},
-    {"number":17,"title":"Knowledge, Nomenclature, and Agent-Surface Editor","status":"partial","bindings":[{"sensorId":"knowledge-contradiction","debtKind":"knowledge_contradiction","authority":"B","dispatchRule":"knowledge-contradiction","repairExecutor":null},{"sensorId":"agent-skill-mirror","debtKind":"agent_skill_mirror_drift","authority":"A","dispatchRule":null,"repairExecutor":"agent-skill-mirror"},{"sensorId":"taxonomy-script-drift","debtKind":"taxonomy_script_drift","authority":"B","dispatchRule":null,"repairExecutor":null}],"predicate":"Knowledge contradictions, agent-skill mirror parity, and taxonomy script drift have limited coverage.","remainingGaps":["Coverage does not imply all root docs, project skills, vocabulary, links, or generated references agree."],"owners":[2001,2052],"tests":["tests/steward/test_knowledge_contracts.py","tests/steward/test_repository_hygiene.py"]}
+    {
+      "number": 1,
+      "title": "Dead-Code Gardener",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "Evidence identifies a stale path and proves no supported consumer remains.",
+      "remainingGaps": [
+        "No dedicated automated detector; usage and external-contract review remain required."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 2,
+      "title": "Architecture and Abstraction Doctor",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "Observed coupling, duplication, or repeated defect justifies a bounded abstraction change.",
+      "remainingGaps": [
+        "No automatic architecture judgment or topology detector."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 3,
+      "title": "Error, Diagnostics, and Incident Learner",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": null,
+          "debtKind": "sensor_coverage_unknown",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "A registered sensor failure becomes explicit coverage-unknown debt rather than a healthy observation.",
+      "remainingGaps": [
+        "Controller-generated diagnostic only; it is not a registered sensor and does not cover general incident learning."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_controller.py"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Test Portfolio Gardener",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "A behavior change or repeated regression reveals a missing, redundant, or mis-tiered test contract.",
+      "remainingGaps": [
+        "No test portfolio inventory or cost/coverage assessment."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 5,
+      "title": "Flake and Isolation Hunter",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "Observed nondeterminism is reproduced under controlled conditions and classified by source.",
+      "remainingGaps": [
+        "No general flake classifier; diagnosis requires controlled test execution."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 6,
+      "title": "CLI and Runtime Contract Steward",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "cli-contract",
+          "debtKind": "cli_contract_drift",
+          "authority": "B",
+          "dispatchRule": "cli-contract-drift",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        }
+      ],
+      "predicate": "The CLI contract sensor detects declared command/contract drift and has a policy-backed Class B dispatch route.",
+      "remainingGaps": [
+        "Dispatch is proposal-only; broader clean-install and performance proof remains case-specific."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_cli_contract.py"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Mutation, Authorization, and Abuse-Boundary Examiner",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "registry-integrity",
+          "debtKind": "registry_integrity_failed",
+          "authority": "B",
+          "dispatchRule": "registry-integrity-review",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "frozen-skill-integrity",
+          "debtKind": "frozen_skill_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Registry integrity and frozen-record checks expose selected mutation-boundary violations.",
+      "remainingGaps": [
+        "Coverage is not a general authorization, filesystem, provenance, or hostile-input audit.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): frozen_skill_drift."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Schema Evolution Steward",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "bundled-schema-mirror",
+          "debtKind": "bundled_schema_mirror_drift",
+          "authority": "A",
+          "dispatchRule": null,
+          "repairExecutor": "bundled-schema-mirror",
+          "founderRule": null,
+          "bindingStatus": "executor-bound"
+        }
+      ],
+      "predicate": "The bundled schema mirror is compared against its canonical source and a bounded Class A repair executor is registered.",
+      "remainingGaps": [
+        "Schema evolution, migration, and compatibility decisions remain human-owned."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Evidence and Trust Reconciler",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "evidence-link-health",
+          "debtKind": "evidence_link_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "trust-calibration-drift",
+          "debtKind": "trust_calibration_drift",
+          "authority": "B",
+          "dispatchRule": "trust-calibration-drift",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "benchmark-freshness",
+          "debtKind": "benchmark_source_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "taxonomy-script-drift",
+          "debtKind": "taxonomy_script_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route.",
+      "remainingGaps": [
+        "Evidence-link sensor validates URL structure and registry representation only; it does not establish external URL liveness.",
+        "Current rank sensor does not prove cache-hash freshness after evidence refresh (#1642).",
+        "Installability producer scripts/installability.py::build_installability_projection projects committed observations (checkedAt/runId/registryCommit/scope/tool versions and per-skill resolvedRevision/source/content hashes/health/cause); it is not fresh parity or independently verified current source. Owners #1445/#2063.",
+        "Curation source src/gaia_cli/curationCheckpoint.py::compactCheckpoint exposes sourceRevisions and blocker evidence; src/gaia_cli/steward/verification.py::evaluate verifies mechanical scope and proof completeness but cannot independently adjudicate whether proof is genuine. Assurance proof/provenance remains owner #1922; no runtime schema or adapter is justified.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): benchmark_source_drift, evidence_link_drift, taxonomy_script_drift."
+      ],
+      "owners": [
+        1922,
+        1445,
+        2063,
+        1642
+      ],
+      "tests": [
+        "tests/test_installability.py",
+        "tests/test_curation_checkpoint.py",
+        "tests/test_curation_evaluation.py",
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_knowledge_contracts.py"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Timeline Causality Keeper",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "frozen-skill-integrity",
+          "debtKind": "frozen_skill_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Frozen skill integrity provides a limited frozen-state check, not a lifecycle event-chain audit.",
+      "remainingGaps": [
+        "Timeline rank causality, missing events, and current tree reconciliation are not covered.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): frozen_skill_drift."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Registry Structure and Installability Examiner",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "discovery-generic-mapping",
+          "debtKind": "generic_mapping",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": "generic-mapping-decision",
+          "bindingStatus": "founder-routed"
+        },
+        {
+          "sensorId": "registry-integrity",
+          "debtKind": "registry_integrity_failed",
+          "authority": "B",
+          "dispatchRule": "registry-integrity-review",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "upstream-watcher",
+          "debtKind": "upstream_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Registry integrity, unresolved generic mapping, and upstream drift have narrow sensor coverage.",
+      "remainingGaps": [
+        "Installability metadata and link checks do not establish executable compatibility or independent verification; see hooks for owners #1445/#2063.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): upstream_drift."
+      ],
+      "owners": [
+        1445,
+        2063
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Artifact, Branch, and Repository Hygiene Sentinel",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "repository-hygiene",
+          "debtKind": "repository_hygiene",
+          "authority": "B",
+          "dispatchRule": "repository-hygiene",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "agent-skill-mirror",
+          "debtKind": "agent_skill_mirror_drift",
+          "authority": "A",
+          "dispatchRule": null,
+          "repairExecutor": "agent-skill-mirror",
+          "founderRule": null,
+          "bindingStatus": "executor-bound"
+        },
+        {
+          "sensorId": "generated-projections",
+          "debtKind": "generated_projection_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Repository hygiene, mirror parity, and selected generated projection drift are mapped to existing sensors and policy bindings.",
+      "remainingGaps": [
+        "repository-hygiene registration remains pending on the integration base.",
+        "Class P hygiene allowlist only; no branch coverage, regeneration, source scan, or inference from unused/absent files.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): generated_projection_drift."
+      ],
+      "owners": [
+        2042,
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_repository_hygiene.py",
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "CI Architecture and Efficiency Steward",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.",
+      "remainingGaps": [
+        "No CI workflow health sensor or automatic churn measurement in Steward."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 14,
+      "title": "Release and Supply-Chain Examiner",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "upstream-watcher",
+          "debtKind": "upstream_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Upstream watcher can identify a narrow local metadata/release-manifest drift predicate.",
+      "remainingGaps": [
+        "No live release, dependency, advisory, license, package, action, or supply-chain health is established; release operations remain read-only by default.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): upstream_drift."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "Frontend Quality and Resilience Steward",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "generated-projections",
+          "debtKind": "generated_projection_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Selected generated frontend projections are checked for drift, not rendered browser quality.",
+      "remainingGaps": [
+        "Responsive, accessibility, degraded-state, performance, and visual review are not sensor health claims.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): generated_projection_drift."
+      ],
+      "owners": [
+        2042
+      ],
+      "tests": [
+        "tests/steward/test_sensors.py"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "Browser, Privacy, and External Trust Auditor",
+      "status": "absent",
+      "bindings": [],
+      "predicate": "A change with an external data flow or browser sink receives an explicit security/privacy review.",
+      "remainingGaps": [
+        "No general browser sink, privacy, or third-party data-flow sensor."
+      ],
+      "owners": [
+        2001
+      ],
+      "tests": []
+    },
+    {
+      "number": 17,
+      "title": "Knowledge, Nomenclature, and Agent-Surface Editor",
+      "status": "partial",
+      "bindings": [
+        {
+          "sensorId": "knowledge-contradiction",
+          "debtKind": "knowledge_contradiction",
+          "authority": "B",
+          "dispatchRule": "knowledge-contradiction",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "agent-skill-mirror",
+          "debtKind": "agent_skill_mirror_drift",
+          "authority": "A",
+          "dispatchRule": null,
+          "repairExecutor": "agent-skill-mirror",
+          "founderRule": null,
+          "bindingStatus": "executor-bound"
+        },
+        {
+          "sensorId": "taxonomy-script-drift",
+          "debtKind": "taxonomy_script_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
+      "predicate": "Knowledge contradictions, agent-skill mirror parity, and taxonomy script drift have limited coverage.",
+      "remainingGaps": [
+        "Coverage does not imply all root docs, project skills, vocabulary, links, or generated references agree.",
+        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): taxonomy_script_drift."
+      ],
+      "owners": [
+        2001,
+        2052
+      ],
+      "tests": [
+        "tests/steward/test_knowledge_contracts.py",
+        "tests/steward/test_repository_hygiene.py"
+      ]
+    }
+  ],
+  "hooks": [
+    {
+      "owner": 1922,
+      "status": "unknown/not-evaluated",
+      "producerPaths": [
+        "src/gaia_cli/curationCheckpoint.py",
+        "src/gaia_cli/steward/verification.py"
+      ],
+      "producerFunctions": [
+        "compactCheckpoint",
+        "evaluate"
+      ],
+      "requiredProof": [
+        "source-revision",
+        "environment",
+        "fresh-independent-verification"
+      ],
+      "reason": "Checkpoint and mechanical verification artifacts do not prove fresh source/environment provenance or independent judgment of genuine proof."
+    },
+    {
+      "owner": 1445,
+      "status": "unknown/not-evaluated",
+      "producerPaths": [
+        "scripts/installability.py"
+      ],
+      "producerFunctions": [
+        "build_installability_projection"
+      ],
+      "requiredProof": [
+        "source-revision",
+        "environment",
+        "fresh-independent-verification"
+      ],
+      "reason": "Committed projection metadata and per-skill hashes do not establish current-source execution or independent parity verification."
+    },
+    {
+      "owner": 2063,
+      "status": "unknown/not-evaluated",
+      "producerPaths": [
+        "scripts/installability.py"
+      ],
+      "producerFunctions": [
+        "build_installability_projection"
+      ],
+      "requiredProof": [
+        "source-revision",
+        "environment",
+        "fresh-independent-verification"
+      ],
+      "reason": "Committed projection metadata and per-skill hashes do not establish current-source execution or independent parity verification."
+    }
   ]
 }

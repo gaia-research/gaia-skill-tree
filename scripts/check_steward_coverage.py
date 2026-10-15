@@ -5,24 +5,14 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = Path("founder/steward/routine-coverage.json")
-EXPECTED_TITLES = (
-    "Dead-Code Gardener", "Architecture and Abstraction Doctor",
-    "Error, Diagnostics, and Incident Learner", "Test Portfolio Gardener",
-    "Flake and Isolation Hunter", "CLI and Runtime Contract Steward",
-    "Mutation, Authorization, and Abuse-Boundary Examiner", "Schema Evolution Steward",
-    "Evidence and Trust Reconciler", "Timeline Causality Keeper",
-    "Registry Structure and Installability Examiner",
-    "Artifact, Branch, and Repository Hygiene Sentinel",
-    "CI Architecture and Efficiency Steward", "Release and Supply-Chain Examiner",
-    "Frontend Quality and Resilience Steward", "Browser, Privacy, and External Trust Auditor",
-    "Knowledge, Nomenclature, and Agent-Surface Editor",
-)
+ROUTINES = Path("founder/ROUTINES.md")
 EXPECTED_SENSOR_IDS = {
     "bundled-schema-mirror", "agent-skill-mirror", "registry-integrity", "cli-contract",
     "discovery-generic-mapping", "taxonomy-script-drift", "upstream-watcher",
@@ -30,6 +20,14 @@ EXPECTED_SENSOR_IDS = {
     "benchmark-freshness", "trust-calibration-drift", "frozen-skill-integrity",
     "repository-hygiene",
 }
+
+
+def _defines_function(path: Path, name: str) -> bool:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return False
+    return any(isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == name for node in ast.walk(tree))
 
 
 def _literal(node: ast.AST) -> Any:
@@ -88,7 +86,7 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     return ownership
 
 
-def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], set[str]]:
+def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], set[str], set[str]]:
     sys.path.insert(0, str(root / "src"))
     from gaia_cli.steward.controller import StewardController
     from gaia_cli.steward.policy import StewardPolicy
@@ -97,7 +95,8 @@ def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]]
     authority = {kind: value.value for kind, value in policy.authority.items()}
     dispatch = {rule.id: (rule.debt_kind, rule.authority.value) for rule in policy.dispatch_rules.values()}
     executors = {key: (executor.debt_kind, executor.authority.value) for key, executor in policy.repair_executors.items()}
-    return authority, dispatch, executors, registered
+    founder_rules = set(policy.founder_rules)
+    return authority, dispatch, executors, registered, founder_rules
 
 
 def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, Any]:
@@ -107,13 +106,49 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return _result([f"cannot read catalog: {exc}"], [], {})
-    if not isinstance(data, dict) or set(data) != {"schemaVersion", "routines"} or data.get("schemaVersion") != 1:
-        return _result(["catalog must contain schemaVersion: 1 and routines only"], [], {})
+    if not isinstance(data, dict) or set(data) != {"schemaVersion", "routines", "hooks"} or data.get("schemaVersion") != 1:
+        return _result(["catalog must contain schemaVersion: 1, routines, and hooks only"], [], {})
+    try:
+        routine_text = (root / ROUTINES).read_text(encoding="utf-8")
+        expected_titles = [title.strip() for number, title in re.findall(r"^##\s+(\d+)\.\s+(.+)$", routine_text, re.MULTILINE)]
+    except OSError as exc:
+        return _result([f"cannot read authoritative routine headings: {exc}"], [], {})
+    if len(expected_titles) != 17:
+        errors = [f"authoritative routines must contain exactly 17 numbered headings; found {len(expected_titles)}"]
+    else:
+        errors = []
+    hooks = data["hooks"]
+    expected_hooks = {1922, 1445, 2063}
+    if not isinstance(hooks, list) or {h.get("owner") for h in hooks if isinstance(h, dict)} != expected_hooks:
+        errors.append("hooks must inventory owners 1922, 1445, and 2063")
+    else:
+        for hook in hooks:
+            if set(hook) != {"owner", "status", "producerPaths", "producerFunctions", "requiredProof", "reason"}:
+                errors.append(f"hook {hook.get('owner')}: malformed fields")
+                continue
+            if hook["status"] != "unknown/not-evaluated":
+                errors.append(f"hook {hook['owner']}: absent evidence cannot claim healthy or verified")
+            paths, functions = hook["producerPaths"], hook["producerFunctions"]
+            if not isinstance(paths, list) or not paths or not all(isinstance(p, str) and (root / p).is_file() for p in paths):
+                errors.append(f"hook {hook['owner']}: producer paths must exist")
+            if not isinstance(functions, list) or not functions or not isinstance(paths, list) or len(functions) != len(paths):
+                errors.append(f"hook {hook['owner']}: producer functions must match paths")
+            else:
+                for path_name, function in zip(paths, functions):
+                    if not isinstance(function, str) or not _defines_function(root / path_name, function):
+                        errors.append(f"hook {hook['owner']}: producer {path_name}::{function} is not defined")
+            if hook["requiredProof"] != ["source-revision", "environment", "fresh-independent-verification"]:
+                errors.append(f"hook {hook['owner']}: requiredProof must include source, environment, and fresh independent verification")
+            if not isinstance(hook["reason"], str) or not hook["reason"].strip():
+                errors.append(f"hook {hook['owner']}: reason must be non-empty")
     rows = data.get("routines")
     if not isinstance(rows, list) or len(rows) != 17:
         return _result(["catalog must contain exactly 17 routine rows"], [], {})
+    title_errors = [f"routine {i}: expected authoritative title {title!r}" for i, (row, title) in enumerate(zip(rows, expected_titles), 1) if not isinstance(row, dict) or row.get("number") != i or row.get("title") != title]
+    if title_errors:
+        return _result(errors + title_errors, [], {})
     ownership = _sensor_ownership(root)
-    authority, dispatch_rules, repair_executors, registered = _live_policy(root)
+    authority, dispatch_rules, repair_executors, registered, founder_rules = _live_policy(root)
     dispatch_ids, executor_ids = set(dispatch_rules), set(repair_executors)
     if len(registered) != 14 or registered != EXPECTED_SENSOR_IDS:
         errors.append(f"registered sensor dependency pending/drifted: expected 14 sensors including repository-hygiene; found {len(registered)} ({', '.join(sorted(registered))})")
@@ -124,7 +159,7 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
     seen_sensor_ids: set[str] = set()
     statuses = {name: 0 for name in ("absent", "partial", "present-undeliverable", "human-gated", "present")}
     statuses.pop("present")
-    for index, (row, title) in enumerate(zip(rows, EXPECTED_TITLES), 1):
+    for index, (row, title) in enumerate(zip(rows, expected_titles), 1):
         label = f"routine {index}"
         required = {"number", "title", "status", "bindings", "predicate", "remainingGaps", "owners", "tests"}
         if not isinstance(row, dict) or set(row) != required:
@@ -139,21 +174,24 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
             statuses[status] += 1
         if not isinstance(row["predicate"], str) or not row["predicate"].strip():
             errors.append(f"{label}: predicate must be a non-empty string")
-        if not isinstance(row["remainingGaps"], list) or not all(isinstance(x, str) and x.strip() for x in row["remainingGaps"]):
-            errors.append(f"{label}: remainingGaps must be non-empty strings")
+        if not isinstance(row["remainingGaps"], list) or not row["remainingGaps"] or not all(isinstance(x, str) and x.strip() for x in row["remainingGaps"]):
+            errors.append(f"{label}: remainingGaps must be a non-empty list of non-empty strings")
         if not isinstance(row["owners"], list) or not all(type(x) is int and x > 0 for x in row["owners"]):
             errors.append(f"{label}: owners must be positive issue integers")
-        if not isinstance(row["tests"], list) or not all(isinstance(x, str) and (root / x).is_file() for x in row["tests"]):
-            errors.append(f"{label}: tests must contain existing repository test paths")
+        if not isinstance(row["tests"], list) or not all(isinstance(x, str) and Path(x).as_posix().startswith("tests/") and ".." not in Path(x).parts and (root / x).is_file() for x in row["tests"]):
+            errors.append(f"{label}: tests must contain existing paths within tests/**")
         if not isinstance(row["bindings"], list):
             errors.append(f"{label}: bindings must be a list")
             continue
         for binding in row["bindings"]:
-            if not isinstance(binding, dict) or set(binding) != {"sensorId", "debtKind", "authority", "dispatchRule", "repairExecutor"}:
+            if not isinstance(binding, dict) or set(binding) != {"sensorId", "debtKind", "authority", "dispatchRule", "repairExecutor", "founderRule", "bindingStatus"}:
                 errors.append(f"{label}: malformed binding fields")
                 continue
             sid, kind = binding["sensorId"], binding["debtKind"]
-            route, executor = binding["dispatchRule"], binding["repairExecutor"]
+            route, executor, founder_rule = binding["dispatchRule"], binding["repairExecutor"], binding["founderRule"]
+            expected_binding_status = "route-bound" if route is not None else "executor-bound" if executor is not None else "founder-routed" if founder_rule is not None else "unrouted"
+            if binding["bindingStatus"] != expected_binding_status:
+                errors.append(f"{label}: bindingStatus does not match declared live binding")
             if not isinstance(kind, str) or not kind:
                 errors.append(f"{label}: debtKind must be a non-empty string")
                 continue
@@ -171,6 +209,8 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
             declared_authority = binding["authority"]
             if not isinstance(declared_authority, str) or declared_authority != authority.get(kind):
                 errors.append(f"{label}: authority mismatch or unknown debt kind {kind!r}")
+            if founder_rule is not None and (founder_rule not in founder_rules or founder_rule != "generic-mapping-decision" or kind != "generic_mapping" or declared_authority != "C"):
+                errors.append(f"{label}: founder rule must be live generic-mapping-decision for Class C generic_mapping")
             if route is not None:
                 if not isinstance(route, str) or route not in dispatch_rules:
                     errors.append(f"{label}: fabricated dispatch rule {route!r}")

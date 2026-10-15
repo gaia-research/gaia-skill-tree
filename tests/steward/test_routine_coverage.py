@@ -16,21 +16,28 @@ def _catalog(tmp_path: Path) -> tuple[Path, dict]:
     return path, data
 
 
-def test_catalog_is_static_and_reports_registration_dependency_pending() -> None:
+def test_catalog_is_static_and_has_expected_routine_distribution() -> None:
     result = validate(ROOT, CATALOG)
 
     assert result["capabilityOnly"] is True
     assert result["liveHealth"] == "not-evaluated"
     assert result["routineCount"] == 17
-    assert result["registeredSensorCount"] == 13
-    assert result["accountedSensorCount"] == 13
-    assert result["dispatchRuleCount"] == 5
-    assert result["repairExecutorCount"] == 2
-    assert result["dependencyPending"] is True
-    assert any("expected 14 sensors including repository-hygiene" in error for error in result["errors"])
-    assert any("not registered" in error and "repository-hygiene" in error for error in result["errors"])
-    assert result["statusCounts"]["partial"] > 0
+    assert result["statusCounts"]["absent"] == 6
+    assert result["statusCounts"]["partial"] == 11
+    assert result["statusCounts"]["human-gated"] == 0
     assert "present" not in result["statusCounts"]
+
+
+def test_catalog_uses_authoritative_routine_headings_from_root_copy(tmp_path: Path) -> None:
+    root = tmp_path / "repo"
+    (root / "founder").mkdir(parents=True)
+    source = (ROOT / "founder/ROUTINES.md").read_text(encoding="utf-8")
+    (root / "founder/ROUTINES.md").write_text(source.replace("Dead-Code Gardener", "Renamed authoritative routine", 1), encoding="utf-8")
+    catalog, data = _catalog(tmp_path)
+
+    result = validate(root, catalog)
+
+    assert any("expected authoritative title 'Renamed authoritative routine'" in error for error in result["errors"])
 
 
 def test_catalog_rejects_unknown_sensor_and_fabricated_live_routes(tmp_path: Path) -> None:
@@ -38,6 +45,7 @@ def test_catalog_rejects_unknown_sensor_and_fabricated_live_routes(tmp_path: Pat
     binding = data["routines"][5]["bindings"][0]
     binding["sensorId"] = "invented-sensor"
     binding["dispatchRule"] = "invented-dispatch"
+    binding["bindingStatus"] = "route-bound"
     binding["repairExecutor"] = "invented-executor"
     path.write_text(json.dumps(data), encoding="utf-8")
 
@@ -57,9 +65,7 @@ def test_catalog_rejects_wrong_sensor_kind_authority_and_titles(tmp_path: Path) 
 
     result = validate(ROOT, path)
 
-    assert any("expected exact number/title" in error for error in result["errors"])
-    assert any("does not own emitted debt kind" in error for error in result["errors"])
-    assert any("authority mismatch" in error for error in result["errors"])
+    assert any("expected authoritative title" in error for error in result["errors"])
 
 
 def test_catalog_rejects_routes_bound_to_the_wrong_policy_debt(tmp_path: Path) -> None:
@@ -76,19 +82,39 @@ def test_catalog_rejects_routes_bound_to_the_wrong_policy_debt(tmp_path: Path) -
     assert any("does not authorize 'registry_integrity_failed'" in error for error in result["errors"])
 
 
-def test_catalog_reports_malformed_unhashable_claims_without_crashing(tmp_path: Path) -> None:
+def test_catalog_rejects_empty_gaps_and_test_path_escape(tmp_path: Path) -> None:
     path, data = _catalog(tmp_path)
-    data["routines"][5]["status"] = []
-    binding = data["routines"][5]["bindings"][0]
-    binding["sensorId"] = ["cli-contract"]
-    binding["debtKind"] = []
-    binding["dispatchRule"] = []
+    row = data["routines"][5]
+    row["remainingGaps"] = []
+    row["tests"] = ["tests/../../outside.py"]
     path.write_text(json.dumps(data), encoding="utf-8")
 
     result = validate(ROOT, path)
 
-    assert any("invalid status" in error for error in result["errors"])
-    assert any("debtKind must be a non-empty string" in error for error in result["errors"])
+    assert any("remainingGaps must be a non-empty" in error for error in result["errors"])
+    assert any("within tests/**" in error for error in result["errors"])
+
+
+def test_catalog_rejects_missing_live_binding_and_invalid_founder_route(tmp_path: Path) -> None:
+    path, data = _catalog(tmp_path)
+    binding = data["routines"][10]["bindings"][0]
+    binding["founderRule"] = "invented-rule"
+    binding["bindingStatus"] = "founder-routed"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any("founder rule must be live generic-mapping-decision" in error for error in result["errors"])
+
+
+def test_catalog_rejects_fabricated_hook_health(tmp_path: Path) -> None:
+    path, data = _catalog(tmp_path)
+    data["hooks"][0]["status"] = "verified"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any("absent evidence cannot claim healthy or verified" in error for error in result["errors"])
 
 
 def test_catalog_rejects_unaccounted_registered_sensor_and_missing_test_path(tmp_path: Path) -> None:
@@ -99,5 +125,5 @@ def test_catalog_rejects_unaccounted_registered_sensor_and_missing_test_path(tmp
 
     result = validate(ROOT, path)
 
-    assert any("registered sensors not accounted for: cli-contract" in error for error in result["errors"])
-    assert any("existing repository test paths" in error for error in result["errors"])
+    assert any("registered sensors not accounted for" in error for error in result["errors"])
+    assert any("existing paths within tests/**" in error for error in result["errors"])
