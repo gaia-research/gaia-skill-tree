@@ -62,14 +62,20 @@ def _is_retired_warning_context(text: str, start: int, end: int) -> bool:
     relative_start, relative_end = start - line_start, end - line_start
     before, after = line[:relative_start], line[relative_end:]
 
-    if before.count("`") % 2:
+    clause = re.split(r"[.!?;]", before)[-1].rstrip("`'\" \t")
+    if re.search(r"\b(?:no|not|never|without)(?:\s+(?:a\s+)?(?:mothership))?$", clause, re.I):
         return True
-    for quote in ('"', "'"):
-        if before.count(quote) % 2 and quote in after:
-            return True
 
-    clause = re.split(r"[.!?;]", before)[-1]
-    return bool(re.search(r"\b(?:no|not|never|without)\s+(?:a\s+)?(?:mothership\s+)?$", clause, re.I))
+    # Delimiters (quotes and code ticks) are not evidence of a warning. Require
+    # explicit retirement language, either as a warning label before the phrase
+    # or as a statement that the phrase itself is retired after it.
+    warning_label = re.search(r"\b(?:warning|retired|obsolete|deprecated)\b", before, re.I)
+    retired_statement = re.search(
+        r"\b(?:is|was|has been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated)\b",
+        after,
+        re.I,
+    )
+    return bool((warning_label and re.search(r"\b(?:retired|obsolete|deprecated)\b", after, re.I)) or retired_statement)
 
 
 def _read_required(repo_root: Path, relative: str) -> str:

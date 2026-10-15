@@ -10,6 +10,7 @@ import pytest
 
 from gaia_cli.commands import discover_commands
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser, main
+from gaia_cli.steward.knowledge_contracts import AUTHORITY_MAP, TRUST_SURFACES
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 
 
@@ -52,6 +53,9 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "docs/graph/gaia.json", json.dumps({"nodes": [], "edges": []}))
     _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {}}))
     _write(root / "docs/api/v1/health.json", json.dumps({"status": "ok"}))
+    _write(root / AUTHORITY_MAP, "# Active curation authority map\n")
+    for surface in TRUST_SURFACES:
+        _write(root / surface, "See curation-authority-map.md for the active trust authority.\n")
     catalog_schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -121,7 +125,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 23  # 13 sensors + coverage marks
+    assert payload["receipt"]["observationsCollected"] == 25  # 14 sensors + coverage marks
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))

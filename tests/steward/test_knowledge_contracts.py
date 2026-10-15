@@ -109,9 +109,16 @@ def test_mothership_warning_and_negation_are_not_mistaken_for_claim(tmp_path: Pa
     )
 
 
-def test_mothership_discount_claim_is_detected(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    "claim",
+    [
+        "A mothership discount applies.",
+        'A \'mothership discount\' applies.',
+    ],
+)
+def test_mothership_discount_claim_is_detected(tmp_path: Path, claim: str) -> None:
     _valid_inputs(tmp_path)
-    _write(tmp_path, TRUST_SURFACES[0], "A mothership discount applies. See curation-authority-map.md.")
+    _write(tmp_path, TRUST_SURFACES[0], f"{claim} See curation-authority-map.md.")
     violations = check_trust_guidance(tmp_path)
     assert any(v["source"] == TRUST_SURFACES[0] and v["rule"] == "retired-trust-claim" for v in violations)
 
