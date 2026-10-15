@@ -1,0 +1,1 @@
+PASS: 6 mixed-case, 5 lowercase, 7 malformed inputs, legacy contributor/slug collisions; no normalization

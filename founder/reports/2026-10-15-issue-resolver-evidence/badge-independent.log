@@ -1,0 +1,1 @@
+PASS: 6 legitimate references preserve attribution, 6 malicious host/path/userinfo/port references rejected through actual prior-item normalization
