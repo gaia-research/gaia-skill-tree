@@ -5,21 +5,8 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Oct 2026 19:39:01 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2026 22:45:37 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>Auto Office</title>
-      <link>https://gaiaskilltree.com/named/#explorer/hikari9/auto-office</link>
-      <description>Trust Magnitude: 89.0 · Grade B</description>
-      <pubDate>Thu, 15 Oct 2026 19:39:01 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-hikari9/auto-office-2026-10-15</guid>
-    </item>
-    <item>
-      <title>Office Submit</title>
-      <link>https://gaiaskilltree.com/named/#explorer/hikari9/office-submit</link>
-      <description>Trust Magnitude: 24.3 · Grade C</description>
-      <pubDate>Thu, 15 Oct 2026 19:39:01 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-hikari9/office-submit-2026-10-15</guid>
-    </item>
+
   </channel>
 </rss>

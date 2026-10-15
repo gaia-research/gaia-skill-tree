@@ -1,38 +1,9 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-15T19:39:01Z",
+  "generatedAt": "2026-10-15T22:45:37Z",
   "firstRun": false,
-  "skills": [
-    {
-      "id": "hikari9/auto-office",
-      "name": "Auto Office",
-      "level": "3★",
-      "contributor": "hikari9",
-      "trustMagnitude": 88.97,
-      "overallTrustGrade": "B",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/hikari9/auto-office.json"
-      }
-    },
-    {
-      "id": "hikari9/office-submit",
-      "name": "Office Submit",
-      "level": "2★",
-      "contributor": "hikari9",
-      "trustMagnitude": 24.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/hikari9/office-submit.json"
-      }
-    }
-  ],
-  "totalTrending": 2,
+  "skills": [],
+  "totalTrending": 0,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
