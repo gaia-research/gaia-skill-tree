@@ -45,6 +45,7 @@ from gaia_cli.push import (
     load_canonical_skill_map,
     skill_name_from_id,
 )
+from gaia_cli.namedIdentity import findIdentityCollisions, validateContributor
 from gaia_cli.registry import registry_graph_path, skill_batches_dir
 
 
@@ -174,8 +175,9 @@ def _validate_skill(entry, index, canonicalIds):
 
     named = entry.get("named") or {}
     if named:
-        if not named.get("contributor", "").strip():
-            errors.append(f"{prefix}.named.contributor: required when named block present")
+        contributorError = validateContributor(named.get("contributor", ""))
+        if contributorError:
+            errors.append(f"{prefix}.named.contributor: {contributorError}")
         # level is optional in Yggdrasil II — defaults to "2★" floor if omitted; TM scoring derives higher ranks
         level = named.get("level", "")
         if level and not _STAR_RE.match(str(level).strip()):
@@ -216,22 +218,6 @@ def _skillEntryToProposed(entry, sourceRepo):
     return proposed
 
 
-def _loadCanonicalNamedIds(registryRoot):
-    """Return case-normalized contributor/skill identities in registry/named."""
-    namedRoot = os.path.join(registryRoot, "registry", "named")
-    identities = set()
-    if not os.path.isdir(namedRoot):
-        return identities
-    for contributor in os.listdir(namedRoot):
-        contributorPath = os.path.join(namedRoot, contributor)
-        if not os.path.isdir(contributorPath):
-            continue
-        for filename in os.listdir(contributorPath):
-            if filename.endswith(".md"):
-                identities.add(f"{contributor}/{filename[:-3]}".lower())
-    return identities
-
-
 def build_from_file_batch(
     skillsYaml, config, registryRoot, sourceRepo, now=None, curationHandoff=None
 ):
@@ -262,16 +248,17 @@ def build_from_file_batch(
     for i, entry in enumerate(skillsYaml):
         allErrors.extend(_validate_skill(entry, i, canonicalIds))
 
-    canonicalNamedIds = _loadCanonicalNamedIds(registryRoot)
     for i, entry in enumerate(skillsYaml):
         named = entry.get("named") or {}
         contributor = str(named.get("contributor", "")).strip()
         skillName = str(named.get("skill_name", "")).strip()
-        namedId = f"{contributor}/{skillName}" if contributor and skillName else ""
-        if namedId.lower() in canonicalNamedIds:
+        if not (contributor and skillName):
+            continue
+        collisions = findIdentityCollisions(registryRoot, contributor, skillName)
+        if collisions:
             allErrors.append(
-                f"skills[{i}].named: exact canonical named implementation "
-                f"'{namedId}' already exists"
+                f"skills[{i}].named: '{contributor}/{skillName}' collides with an existing "
+                f"canonical named implementation: {'; '.join(collisions)}"
             )
 
     if allErrors:

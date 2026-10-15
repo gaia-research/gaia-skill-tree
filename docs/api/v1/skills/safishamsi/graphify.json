@@ -218,9 +218,15 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 171.88 -> 316.88, grade A -> S (verified independent witness)"
+    },
+    {
+      "timestamp": "2026-10-11T00:24:44Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py"
     }
   ],
   "links": {
-    "github": "https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
+    "github": "https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py"
   }
 }

@@ -130,7 +130,12 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.
 - **Null-on-derank verifier:** when a 4★+ Verifier loses rank, their attestations evaluate to null (not flagged, not zero — null); the skill's Trust Magnitude is recomputed without those rows.
 
-The Overall Trust Grade is computed at the skill level from the accumulated Trust Magnitude and is **never stored on a node** — it materialises only in generated catalogs. Distinct from any single row's Evidence Grade.
+The Overall Trust Grade is computed at the skill level from the accumulated Trust Magnitude. Distinct from any single row's Evidence Grade. **Trust Magnitude may live on a node and may be inherited** (founder ruling, 2026-10-15, superseding the earlier "never stored on a node" wording):
+
+- **On a node:** a named skill's frontmatter may carry `trustMagnitude`, `overallTrustGrade` and `trustMagnitudeInputHash` as a hash-signed cache, written only by `gaia dev calibrate-trust-magnitude`. Generated catalogs trust the cache only while its hash matches the current evidence inputs, and recompute otherwise. The fields are never hand-edited, and there is no separate write-back helper.
+- **Inherited:** a named skill's effective Trust Magnitude includes eligible generic-layer evidence at its inherit multiplier (`_effectivePool`). Pinned-named evidence types are never inherited.
+
+See [`docs/agents/curation-authority-map.md`](docs/agents/curation-authority-map.md) for the scopes (`named-own/proposal`, `generic`, `effective named`).
 
 **Implementation status (updated 2026-06-20):** the Trust Magnitude formula is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py`). Migration regrade has run across all 249 named skills; current distribution is **S=4 / A=42 / B=56 / C=76 / ungraded=71** (post-I11 source-curation pass). The public Trust Magnitude leaderboard at `/trust/leaderboard/` reads `docs/graph/leaderboard/data.json`. The recalibration RFC v3 (depth-2 amendments, evidence-tier weights) is scheduled for follow-up — tracked in issue #749.
 

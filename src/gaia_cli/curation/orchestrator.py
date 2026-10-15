@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from gaia_cli.curation.state import CurationRun, STATE_NAMES
+from gaia_cli.curationCheckpoint import compactCheckpoint
 
 
 GATE_STATES = frozenset(
@@ -30,6 +31,8 @@ class CurationOrchestrator:
 
     def run_to_next_gate(self):
         """Advance the run until a human gate or terminal state is reached."""
+        if compactCheckpoint(self.run.checkpoint)["activeBlockers"]:
+            return self.run
         pause_states = GATE_STATES | TERMINAL_STATES | SCAFFOLD_PAUSE_STATES
         while self.run.current_state not in pause_states:
             method = getattr(self, f"transition_{self.run.current_state.lower()}", None)
@@ -47,6 +50,19 @@ class CurationOrchestrator:
         print(f"State: {run.current_state}")
         print(f"URL: {run.input_url or '(none)'}")
         print(f"Dry run: {run.dry_run}")
+        checkpoint = compactCheckpoint(run.checkpoint)
+        print("Active blockers:")
+        for blocker in checkpoint["activeBlockers"]:
+            print(f"  {blocker.get('checkId', '(unnamed)')}: {blocker['currentStatus']}"
+                  f" — {blocker.get('summary', '')}")
+        if not checkpoint["activeBlockers"]:
+            print("  (none)")
+        print("Resolved blockers (with evidence):")
+        for blocker in checkpoint["resolvedBlockers"]:
+            print(f"  {blocker['checkId']}: {blocker['resolutionEvidence']}")
+        print("Source revisions:")
+        for source, revision in sorted(checkpoint["sourceRevisions"].items()):
+            print(f"  {source}: {revision}")
 
     def transition_initialized(self):
         """Move INITIALIZED runs into URL resolution after validating inputs."""

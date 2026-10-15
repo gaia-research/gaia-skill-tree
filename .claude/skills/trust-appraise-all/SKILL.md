@@ -9,13 +9,17 @@ description: >
   "explain the score for X", "what evidence would rank up X", "show leaderboard",
   "rank all skills by TM", "what's dragging down X's score", "dead evidence rows",
   "how close is X to grade A/S".
-version: "1.1.0"
+version: "1.2.0"
 genericSkillRef: registry-inspection
 ---
 
 # /trust-appraise-all
 
 Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces a full ranked leaderboard. TM is the composite evidence score that gates star promotions — understanding it tells you exactly why a skill is ranked where it is and what would change that.
+
+**Scope (authority map §2):** inspect mode reports the **effective named** TM, which sums own
+rows plus resolved generic inheritance. If the `genericSkillRef` node does not resolve, say
+"generic: not evaluated" and do not call the total final.
 
 ## Two Modes
 
@@ -30,7 +34,7 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 **Output includes:**
 
 - Each evidence row with the full score chain:
-  `base magnitude → × type weight → × freshness → × mothership/creator/engagement → × inheritMultiplier → × plateau → final score`
+  `base magnitude → min(cap) → × type weight → × freshness → × creator/engagement (social-signal only) → × inheritMultiplier (inherited rows only) → × plateau → final score`
 - Dead rows (score = 0.0) and why (missing views, stars below threshold, deranked verifier, etc.)
 - Fusion-recipe summary if `suiteComponents` is present: component count, graded origins, Fusion Score (informational, 0 TM)
 - Total TM, overall grade, and exact points to the next grade threshold
@@ -42,15 +46,8 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 /trust-appraise-all --leaderboard
 ```
 
-Full ranked table grouped by grade band:
-
-| Band | TM Threshold |
-|---|---|
-| S | >= 250 |
-| A | >= 100 |
-| B | >= 50 |
-| C | >= 20 |
-| Ungraded | < 20 |
+Full ranked table grouped by Overall Trust Grade band (floors and the S diversity gate:
+authority map §3).
 
 Columns: Rank, Skill ID, TM, Grade, Level, Contributor.
 
@@ -82,50 +79,29 @@ The script loads named skills from `registry/named/`, resolves fusion recipes fr
 2. Present the output grouped by grade band.
 3. Flag any skills with many evidence rows but low TM — dead rows are likely culprits worth a follow-up inspect.
 
-## Trust Magnitude Formula Reference
+## Trust Magnitude reference
 
-```
-artifact_score = magnitude × type_weight × freshness × mothership × creator × engagement
-TM = Σ(artifact_scores), with social-signal capped at 80 across all rows
-```
+Formulas, weights, caps, dedup, inheritance, grade floors, star gates and appraisal scope
+live in one canonical place: [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md).
+This skill does not restate them. Cite the map section when you explain a score. If the
+map and `src/gaia_cli/trustMagnitude.py` ever disagree, the engine wins and the map is
+the bug.
 
-### Per-type magnitude formulas
-
-| Type | Magnitude Formula | Weight | Cap |
-|---|---|---|---|
-| fusion-recipe | — (never scores) | 0 | 0 |
-| github-stars-own | min(175.0, 35.0 × log10(stars/10)) (stars > 10) | 1.0 | 175 |
-| proxy-containment | (externalStars/1000)×0.8 (min 10k stars) | 1.0 | 160 |
-| verifier-attestation | 30 × verifiers | 1.5 | — |
-| benchmark-result | percentile (field required — omitting it scores 0) | 1.4 | 100 |
-| arxiv | citations / 5 | 1.0 | 100 |
-| peer-review | 25 × reviewers | 1.2 | — |
-| repo-own | commits/200 + contributors²×2 | 0.6 | 60 |
-| self-attestation | 10 | 0.5 | 10 |
-| social-signal | log10(views)×8 (min 1k views) | 1.0 | 80 (sum cap) |
-
-> **fusion-recipe scores 0 TM.** Under Yggdrasil III, structure is reported by a separate,
-> informational scalar — **Fusion Score** — never by Trust Magnitude. Over `N` distinct
-> non-variant nodes in the resolved structural closure:
-> `FS = 0` when `N = 0`; `FS = 20 × N` when `1 ≤ N ≤ 10`; `FS = 200 + 20 × √(N − 10)` when `N > 10`.
-> Fusion Score gates no star, no rank, and no Trust Grade. Whenever you report one, also state
-> that published TM fell for suites and fusions because this row went to 0 TM — **no evidence
+> **fusion-recipe scores 0 TM.** Structure is reported by the informational **Fusion
+> Score** (META.md §2.1e). Over `N` distinct non-variant nodes in the resolved structural
+> closure: `FS = 0` when `N = 0`; `FS = 20 × N` when `1 ≤ N ≤ 10`;
+> `FS = 200 + 20 × √(N − 10)` when `N > 10`. Fusion Score gates no star, rank or Trust
+> Grade. When you report one, also state that
+> published TM fell for suites and fusions because this row went to 0 TM. **No evidence
 > row, star count, or rank was edited** (META.md §2.1e).
 
-### Grade thresholds
+### Common dead-row causes (engine-verified, map §1)
 
-| Grade | TM Floor | Additional Gates |
-|---|---|---|
-| S | 250 | distinctTypes >= 3 AND independent witness (`benchmark-result`, `verifier-attestation`, or Grade A `peer-review`) |
-| A | 100 | — |
-| B | 50 | — |
-| C | 20 | — |
-| Ungraded | < 20 | — |
-
-### Common dead-row causes to watch for
-
-- `social-signal` with views < 1000 → scores 0 regardless of type weight
-- Suite component shared repository evidence is capped at 50.0 TM per component across `github-stars-own` and `repo-own` (#1705).
-- `github-stars-own` and `repo-own` pointing to the same URL → deduped; only the higher score counts
-- `benchmark-result` missing `percentile` field → magnitude = 0
-- Large suite with `github-stars-own` at the repo root → per-skill contribution tiny due to `/ skill_count_in_repo` divisor; use `social-signal` or `peer-review` instead
+- `social-signal` with views < 1000 → 0.
+- `github-stars-own` with stars ≤ 10 → 0. Only one `github-stars-own` row scores (plateau max 1).
+- `benchmark-result` that is not catalog-eligible (unknown or rejected `benchmarkId`, or a non-scoring lane) → excluded.
+- A second row of the **same** type at the same canonical URL → collapsed. Dedup is within type: `github-stars-own` + `repo-own` at one URL **both** count.
+- Rows beyond a stackable type's plateau max-rows → 0.
+- Shared suite-root repository evidence on a suite component → capped at 50.0 TM per component.
+- A verifier-attestation from a deranked verifier → excluded (null).
+- `skillCountInRepo` never reduces a score. There is no repository-count divisor.

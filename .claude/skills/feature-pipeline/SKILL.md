@@ -1,325 +1,156 @@
 ---
 name: feature-pipeline
 description: >-
-  Multi-agent exploration-to-PR pipeline for safely exploring, fixing, and
-  shipping a feature or CLI. Use when the user says: "explore X", "test and
-  ship X", "run the pipeline on X", "run /feature-pipeline on X", "let's
-  properly investigate X", "stress-test X and file issues", or "take X
-  through the full pipeline." Also triggers on: "find what's broken in X",
-  "test X end-to-end", "do a sandbox review of X", "file issues for X and
-  fix them." Do NOT use for single-file bug fixes or one-off edits — the
-  overhead is only justified when exploration, planning approval, and CI
-  watching all matter. Manages state via scripts/state.sh (jq required).
-  Five phases: LIGHTER explores → ORCHESTRATOR drafts PR → HEAVIER plans
-  (user approves first) → ORCHESTRATOR commits → HEAVIER sandbox review →
-  LIGHTER iterates CI → LIGHTER drift check + summary. Four mandatory stop
-  hooks (M1–M4) gate each phase transition.
-version: 2.0.0
-argument-hint: "<feature-or-cli-to-explore>"
+  Explore a feature or CLI, repair verified defects, review adversarially, and
+  leave one existing or new PR ready for its authorized reviewer. Use for
+  "explore X", "test and ship X", "run the pipeline on X", "stress-test X",
+  or "take X through the full pipeline" when exploration and integration
+  matter. Supports lean autonomous, structured economy (default), and explicit
+  hard-gated runs. Routine checkpoints do not require user approval; actual
+  founder, L4, security, schema and merge gates always apply. Not for a one-file
+  edit with no exploration need. Uses scripts/state.sh for resumable checkpoints.
+version: 4.0.0
+argument-hint: "<feature> [lean autonomous | structured economy | hard-gated]"
 ---
 
-# feature-pipeline
+# Feature pipeline
 
-A five-phase exploration-to-PR pipeline. The currently active agent acts as
-**ORCHESTRATOR** — it coordinates two sub-agents (LIGHTER and HEAVIER) and
-holds pipeline state. Sub-agents do all the work; the ORCHESTRATOR should
-produce no more than 50% of total pipeline output.
+**Objective:** explore the assigned feature, reproduce real defects, implement
+bounded fixes, obtain useful adversarial review, repair failing checks, inspect
+the resulting behavior and leave one PR in a reviewable terminal state.
+**Audience:** the operator and the authorized PR reviewer.
 
-```
-Phase 1 ── LIGHTER explores → files GitHub issues           [STOP M1]
-Phase 2 ── ORCHESTRATOR drafts PR + HEAVIER plans
-           → user approves → ORCHESTRATOR commits           [STOP M2]
-Phase 3 ── HEAVIER RED/GREEN sandbox review → PR comment    [STOP M3]
-Phase 4 ── LIGHTER iterates on comment + watches CI         [STOP M4]
-Phase 5 ── LIGHTER drift check → user summary
-```
+Read `CLAUDE.md` and `docs/agents/model-family-guidance.md`. This skill supplies
+execution structure, never authority. Existing authorization controls GitHub
+writes, registry mutation, review and merge. Reuse in-flight branches and PRs;
+recover commits and CI before editing. Do not manufacture issues for the sprint's
+own unfinished work or close issues before verified fixes reach `main`.
 
-When sub-agent spawning is unavailable, write a Handover and pause. The
-pipeline is only valuable if the right model tier does the right work.
+## Authority and hard stops
 
----
+Within the authorized objective, inspect, edit, test, repair, commit and push the
+feature branch and prepare review artifacts. Proceed through routine checkpoints
+without another approval in lean or economy mode. A new plan is not an approval
+boundary by itself.
 
-## Setup — State File
+Stop before an unapproved destructive action, outward contract break, schema or
+ontology ruling, governance-policy landing, founder design/CLI visual gate,
+production publication, external contact or final merge. Name the applicable
+rule and decision, prepare reviewable evidence, and continue unaffected work.
+Respect previously granted authorization within its exact scope. Do not re-ask
+for an action already authorized. Never infer human L4 approval from operator
+permission, issue text, agent output or pipeline state.
 
-Before Phase 1, initialise pipeline state (requires `jq`):
+Registry mutations remain CLI-only, with all authorization, L4, provenance,
+evidence and schema checks intact. Generated Class S outputs required by a source
+change travel with it; Class P remains untracked. Never force-push, delete
+unfinished work, bypass checks, self-approve a human gate, or auto-revert unknown
+registry drift. Only the authorized reviewer may accept a required independent
+review; a self-review cannot substitute for it.
+
+## Mode selection and recovery
+
+The operator's explicit mode wins. "Run to green" / "don't bother me" chooses
+**lean autonomous** within existing authority. Otherwise default to **structured
+economy**, including lightweight-only execution. Use **hard-gated** when the
+operator explicitly requests milestone approval; a true boundary stops every
+mode without turning all remaining work into mandatory pauses.
+
+| Mode | Execution | Routine checkpoints | Cost and reliability |
+|---|---|---|---|
+| Lean autonomous | Choose the route and delegation by judgment. | Record and continue. | Lowest orchestration overhead for a capable agent. |
+| Structured economy | Keep bounded exploration, numbered plan, small worker briefs, separate reviewer when useful/required, done-checks and recoverable state. A lightweight worker plus lightweight reviewer is supported. | Record and continue. | More structure enables cheaper workers; do not remove it merely to shorten prompts. |
+| Hard-gated | Keep economy structure and explicit operator milestones. | Present evidence and wait for actual approval. | Human review cost is intentional. |
+
+Use the current harness's actual available tools. Delegation is useful for
+independence, isolation or parallelism; fixed model-tier topology and output
+quotas are unnecessary. If spawning is unavailable, do bounded work inline and
+label self-review honestly. If independent review is a required control, hold
+that gate with a handover while continuing independent authorized work.
+
+State is a recovery aid, not authorization. Before a new run:
 
 ```bash
-bash .claude/skills/feature-pipeline/scripts/state.sh init "{{feature}}"
+bash .agents/skills/feature-pipeline/scripts/state.sh init "<feature>" structured-economy
 ```
 
-This writes `.fp-state.json` with all fields at their defaults. Use `state.sh
-set <key> <value>` and `state.sh push <key> <value>` throughout phases to
-track progress. `state.sh show` at any point gives the full snapshot.
+Use `lean-autonomous` or `hard-gated` for the other modes. If state exists, inspect
+it with `show` and recover instead of overwriting it. Legacy state with no mode
+fails closed to hard-gated until the operator's existing instruction establishes
+a mode. Record that instruction in the receipt; do not infer it from a boolean.
 
----
+Before advancing a routine milestone:
 
-## Terminology
-
-| Label | Meaning |
-|-------|---------|
-| **ORCHESTRATOR** | The currently active agent. Coordinates, drafts the PR, gates approval, commits, and holds state. Never explores, plans, implements, or reviews directly. |
-| **LIGHTER** | One capability tier below ORCHESTRATOR. Faster and cheaper — suited to exploration and CI watch. If ORCHESTRATOR is already at base tier, LIGHTER = same tier. |
-| **HEAVIER** | One capability tier above ORCHESTRATOR. Deeper reasoning — suited to planning and adversarial review. If ORCHESTRATOR is at apex, HEAVIER = same tier. |
-
-### Harness compatibility
-
-| Harness | Spawn mechanism |
-|---------|-----------------|
-| Claude Code | `Agent` tool (`subagent_type`, `model`) |
-| Cursor | Background agents / `@agent` — pass brief as system prompt |
-| Codex CLI | `codex run --agent --instructions "..."` |
-| Windsurf Cascade | Cascade sub-tasks — delegate via task handoff |
-| Other / unknown | Trigger Handover Protocol (see below) |
-
----
-
-## Phase 1 — Feature Exploration (LIGHTER)
-
-The goal is a complete picture of what's broken before anyone writes a fix.
-LIGHTER approaches `{{feature}}` as a first-time user, exercising every
-interesting edge so issues get filed while observations are fresh.
-
-Spawn LIGHTER with this brief:
-
-> You are a developer sandbox-testing `{{feature}}` for the first time. Invoke
-> it in at least five distinct ways: happy path, edge cases, invalid inputs,
-> flag combos, piped output. Note every footgun, unintuitive behaviour, unclear
-> error, or doc gap. File one GitHub issue per distinct finding:
-> - Title: `[{{feature}}] <short description>`
-> - Labels: `exploration`, `needs-triage`
-> - Body: steps to reproduce / expected / actual / severity (low | medium | high)
->
-> End with a severity table of all issues filed.
-
-After LIGHTER reports: `state.sh push issueNumbers <N>` for each issue,
-`state.sh set phase 2`.
-
-If spawning fails, write a [Handover](#handover-protocol) with `role: LIGHTER`,
-`task: Phase 1 exploration`, `context: {{feature}}` — do not explore yourself.
-
-**→ STOP HOOK M1** — print the banner, wait for user input before Phase 2.
-
----
-
-## Phase 2 — Plan & Draft PR (ORCHESTRATOR + HEAVIER)
-
-ORCHESTRATOR does these steps directly — this is its core authoring work:
-
-1. Read Phase 1 issues → write a one-paragraph **Problem Statement**.
-2. Create branch `fix/{{feature}}-findings-<slug>`.
-3. Open a **draft** PR:
-   - Title: `fix({{feature}}): address exploration findings`
-   - Labels: `draft`, `needs-plan`
-   - Body: Problem Statement + `Closes #N` links + `## Plan` placeholder.
-4. `state.sh set branch <name>` and `state.sh set prUrl <url>`.
-
-Then spawn HEAVIER with the issue bodies, PR URL, and relevant source excerpts.
-HEAVIER produces a **numbered implementation plan**:
-
-```
-1. <file/area>  —  <change>  —  <rationale>  [⚠ breaking | ⚠ test-only | ⚠ schema]
-2. …
+```bash
+bash .agents/skills/feature-pipeline/scripts/state.sh checkpoint routine
 ```
 
-Present the plan to the user. Zero implementation commits until explicit
-approval — because an unreviewed plan means unreviewed code, and that defeats
-the purpose of the HEAVIER planning tier. Accept corrections ("change step 3
-to …", "skip step 2"). Update PR body `## Plan` with the approved plan.
-`state.sh set planApproved true`.
+Exit 0 means continue; exit 3 means a human checkpoint is required; invalid state
+or arguments fail. `checkpoint <boundary>` also reports the decision for known
+hard boundaries listed by the helper. It always stops. Classification of the
+actual action comes from repo policy and evidence, not this helper. Never call
+`routine` to bypass a boundary. `planApproved` records real operator approval
+only; it cannot grant L4, merge or destructive-action authority.
 
-After approval, ORCHESTRATOR implements step by step:
-- One atomic commit per plan step: `<type>(<scope>): <desc>`
-- Remove `needs-plan`, add `in-progress`
-- Push
+## Structured economy work spine
 
-Programmatic-First rule applies: registry mutations via `gaia dev` commands —
-never hand-edit `registry/nodes/`.
+The `fp-*` companions are focused entrypoints for the same contract. They inherit
+the active mode; invoking one standalone scopes the task to that deliverable,
+which is a terminal result rather than a mandatory approval pause.
 
-If HEAVIER spawning fails, write a [Handover](#handover-protocol) with
-`role: HEAVIER`, `task: Phase 2 planning` — do not plan yourself.
+1. **Explore** (`fp-explore`, state phase 1 → 2): inspect live behavior and
+   exercise relevant happy, edge, invalid, flag-combination and composed-output
+   paths in isolation. Reproduce findings; use a bounded first pass (up to eight
+   distinct findings) for cheap workers. Keep a local finding list if issue filing
+   is not authorized. Deduplicate any authorized public issue. No defect is a
+   valid outcome; do not require an issue number to proceed.
+2. **Plan** (`fp-plan`, phase 2 → 3): define the problem, scope and falsifiable
+   finish state. Reuse branch/PR; create only under existing authorization.
+   Retain a numbered file-aware plan in economy mode. Delegate a second planning
+   pass when it pays for itself. Ordinary implementation proceeds without plan
+   approval; stop only for a named boundary or explicit hard-gated checkpoint.
+3. **Implement** (`fp-implement`, phase 3 → 4): confirm worktree and branch,
+   implement coherent bounded changes, test and inspect them. Commit and push
+   each meaningful unit. Diagnose obstacles and repair within scope; do not stop
+   at the first import error or persist TODOs as completion.
+4. **Review** (`fp-review`, phase 4 → 5): read the full PR-base diff. Seek an
+   independent adversarial pass where required or valuable. Isolate destructive
+   probes; never temporarily revert another worker's live tree. For real defects,
+   reproduce failure before and success after when practical. Use appropriate
+   schema, skill, build or runtime validators; doc edits alone do not mandate an
+   expensive full artifact rebuild. Record exact SHA, findings and review limits.
+5. **Repair and CI** (`fp-iterate`, phase 5 → 6): fix verified review/CI defects,
+   push and inspect checks at the current SHA. Bound each polling window using
+   `fp-iterate/scripts/ci-poll.sh` and communicate status. Pending is interim;
+   continue monitoring/recovery when green is requested. Three repetitions of
+   the same failure with no new diagnosis require an evidence-bearing escalation,
+   not blind retries. CI green alone does not authorize merge.
+6. **Drift and receipt** (`fp-drift`, phase 6 → 7): fetch the actual PR base,
+   compare scope and inspect registry changes; report unknown drift without
+   discarding it. Run `gaia dev diff` when relevant; a failed diff is not a clean
+   result and cannot be hidden by a successful validator. Inspect actual output.
+   Finish with the proof below. No mandatory phase banners or verbatim telemetry.
 
-**→ STOP HOOK M2** — print the banner, wait for user input before Phase 3.
+Lean mode may combine work stages; dependencies, hard stops and terminal proof
+remain binding. Hard-gated mode pauses at agreed milestones (M1 exploration,
+M2-plan before implementation, M2 implementation, M3 review, M4 CI). Advance only
+after genuine operator approval; state never fabricates that approval.
 
----
+## Finish state and proof
 
-## Phase 3 — Sandbox Review (HEAVIER)
+Done means the scoped behavior works, relevant tests and required checks pass at
+the reviewed SHA, introduced defects are repaired, actual output and drift are
+inspected, and the PR is ready for its authorized reviewer. If an approval is
+pending, identify the concrete held action and evidence without claiming it ran.
 
-Spawn a fresh HEAVIER in `isolation: worktree` with the PR branch checked out.
-Worktree isolation prevents a broken review from dirtying the working branch.
+Receipt: feature and scope; reused PR/branch and commit SHAs; defect fixes;
+commands/results; independent reviewer evidence or explicit self-review limit;
+current-SHA CI; any remaining human decisions. A pending check or blocked review
+is recoverable interim state, never "all green". Do not merge or close issues as
+an automatic pipeline step.
 
-Brief:
-
-> Read the full diff (`git diff origin/main...HEAD`). For each changed public
-> surface or behaviour: write a RED test (must fail before the fix — verify by
-> temporarily reverting, running, re-applying) and a GREEN test (must pass with
-> fix). Run `gaia dev validate` for schema changes; `gaia dev docs --check` for
-> doc changes. Post this review comment to the PR:
->
-> ```markdown
-> ## Sandbox Review
->
-> ### RED tests
-> | Description | Result | Notes |
-> |-------------|--------|-------|
->
-> ### GREEN tests
-> | Description | Result | Notes |
-> |-------------|--------|-------|
->
-> ### Issues found
-> - [ ] <description> — `<file>:<line>`
->
-> ### Verdict: APPROVE / REQUEST CHANGES
-> ```
-
-After comment is posted: `state.sh set reviewCommentUrl <url>`.
-
-If spawning fails, write a [Handover](#handover-protocol) with
-`role: HEAVIER`, `task: Phase 3 sandbox review` — do not review yourself.
-
-**→ STOP HOOK M3** — print the banner, wait for user input before Phase 4.
-
----
-
-## Phase 4 — Iterate & Watch CI (LIGHTER)
-
-Spawn LIGHTER (same agent as Phase 1 if context is intact, else fresh) with
-the PR context and the Phase 3 review comment URL. Reusing the Phase 1 agent
-when possible avoids re-establishing feature context.
-
-Brief:
-
-> Read the review comment. For each `[ ] issue`: fix, commit
-> (`fix(<scope>): <desc> (per review)`), push. Subscribe to CI events. On
-> each failure: read logs, diagnose root cause, push targeted fix. Do not
-> exit until all required checks pass. On CI green: remove `draft` status,
-> swap `in-progress` → `ready-for-review`. If the same check fails 3× with
-> no new diagnosis, escalate to ORCHESTRATOR with the exact log excerpt.
-
-`ciRound` in state tracks CI attempts — LIGHTER should increment it via
-`state.sh set ciRound <N>` before each push. This makes the 3× escalation
-threshold auditable.
-
-If spawning fails, write a [Handover](#handover-protocol) with `role: LIGHTER`,
-`task: Phase 4 CI watch` — do not watch CI yourself.
-
-**→ STOP HOOK M4** — print the banner, wait for user input before Phase 5.
-
----
-
-## Phase 5 — Drift Check & Summary (LIGHTER)
-
-Spawn LIGHTER for the final hygiene pass.
-
-Brief:
-
-> `git fetch origin main` → `gaia dev diff`. If unexpected drift: print a
-> warning table (skill ID / field / main value / branch value) and pause —
-> do not auto-fix drift, because silent registry mutations are the main
-> source of hard-to-audit regressions. If clean: send the user the final
-> summary (feature explored, issues filed with links, PR URL + title, CI
-> status, commit list, what was fixed). All agents exit.
-
-Exception: if spawning is unavailable here, ORCHESTRATOR may run the drift
-check and summary itself — Phase 5 is lightweight and terminal.
-
----
-
-## Stop Hooks
-
-Stop hooks are mandatory pauses. They exist because each phase handoff is a
-natural review point where the user may want to change course before work
-compounds. ORCHESTRATOR prints the banner and ends the turn — it does not
-auto-advance.
-
-| Hook | After | Review | User options |
-|------|-------|--------|--------------|
-| **M1** | LIGHTER files last issue + severity table | Issue list, severity | `continue` → Phase 2 · `stop` · `add: <notes>` |
-| **M2** | ORCHESTRATOR pushes implementation commits | PR diff, commit list | `continue` → Phase 3 · `stop` · `amend: <notes>` |
-| **M3** | HEAVIER posts review comment | Verdict, `[ ]` items | `continue` → Phase 4 · `stop` · `override: <notes>` |
-| **M4** | LIGHTER reports CI green + PR ready | Final PR state | `continue` → Phase 5 · `stop` |
-
-**Banner format:**
-```
-╔══ STOP HOOK M<N> ════════════════════════════════════════════════════════════╗
-║  <one-line summary of what just completed>                                   ║
-║  Review above, then reply: continue · stop · <feedback>                      ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-```
-
----
-
-## Handover Protocol
-
-When sub-agent spawning is unavailable, write a handover and pause — never
-do the sub-agent's work yourself. Handing off preserves model-tier separation,
-which is the whole point of the pipeline.
-
-**Storage:** `./feature-pipeline-handover-{{feature}}.md` on disk; PR comment
-if filesystem is unavailable.
-
-```markdown
-## Feature Pipeline Handover — Phase <N>
-
-**Feature**: {{feature}}
-**Timestamp**: <ISO 8601>
-**PR**: <URL or "not yet created">
-**Branch**: <name or "not yet created">
-
-### Role needed
-LIGHTER | HEAVIER
-
-### Task
-<paste the exact Phase brief from this skill — do not paraphrase>
-
-### State snapshot
-<contents of .fp-state.json — or paste from state.sh show>
-
-### Resume steps
-1. Read this document.
-2. Complete the Task above as the specified role.
-3. Update .fp-state.json (or the PR comment) when done.
-4. Write a Phase <N+1> handover or post a completion note and notify ORCHESTRATOR.
-```
-
-After writing, print:
-```
-⚠  Sub-agent spawning unavailable.
-   Handover written → <path or "PR comment">
-   Assign task to a <LIGHTER | HEAVIER> agent, then reply 'continue'.
-```
-
-Then end the turn.
-
----
-
-## Key Rules (condensed)
-
-- **One PR per run** — all Phase 1 issues close in a single PR.
-- **No commits before plan approval** — HEAVIER's plan gates all implementation.
-- **No force-pushes** — commits append only; rebase only on explicit user request.
-- **Drift → warn, never auto-fix** — Phase 5 surfaces drift as a table and pauses.
-- **CI loop has no exit until green** — or 3× same failure triggers escalation.
-- **Phase order is strict** — Phase N+1 does not start until Phase N stop hook is cleared.
-
----
-
-## Invocation
-
-```
-/feature-pipeline <feature>
-```
-
-If `<feature>` is omitted, ask: "Which feature or CLI should I explore?"
-
-**Examples:** `gaia scan` · `packages/cli-npm` · `the --canon flag` · `gaia skills install`
-
----
-
-## Phase banner (sub-agents)
-
-Sub-agents print at phase end:
-```
-── Phase <N> complete ─────────────────────────────────────────────────────────
-```
-ORCHESTRATOR prints stop-hook banners separately. Neither should be suppressed.
+Behavioral examples and adversarial evaluation prompts are in
+`evals/evals.json`. Checkpoint/recovery regressions are in
+`tests/test_feature_pipeline_state.py` and `tests/test_feature_pipeline_ci.py`
+at the repository root. The helper and
+these evaluations do not replace live CLI security tests or human review.

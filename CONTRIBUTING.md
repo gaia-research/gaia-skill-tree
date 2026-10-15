@@ -190,7 +190,7 @@ gaia dev evidence skill-id "https://github.com/owner/repo" \
 # Numeric payload flags by Evidence Type (I12):
 #   --reviewers <n>          peer-review
 #   --stars <n>              github-stars / github-stars-own
-#   --skill-count <n>        github-stars-own (mothership discount divisor)
+#   --skill-count <n>        github-stars-own (recorded provenance; not a score divisor)
 #   --views <n>              social-signal (views < 1000 → score 0)
 #   --percentile <0..100>    benchmark-result (required; without it, score 0)
 #   --containment <0..1>     proxy-containment

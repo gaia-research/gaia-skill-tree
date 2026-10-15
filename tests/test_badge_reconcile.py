@@ -99,14 +99,42 @@ def patch_for(*badges: str) -> list[dict]:
     return [{"filename": "README.md", "status": "modified", "changes": len(badges), "patch": patch}]
 
 
+DEFAULT_POLICY_FILES = {"CONTRIBUTING.md": "Pull requests are welcome. Please keep each change small.\n"}
+
+
+def policy_routes(gh: FakeGitHub, canonical: str, files: dict[str, str]) -> None:
+    """Serve a repo tree (contents API listings + file bodies) for the contribution-policy scan (#2074)."""
+    dirs: dict[str, dict[str, str]] = {"": {}}
+    for path in files:
+        parts = path.split("/")
+        for i in range(len(parts)):
+            d, name = "/".join(parts[:i]), parts[i]
+            dirs.setdefault(d, {})[name] = "dir" if i < len(parts) - 1 else "file"
+            if i < len(parts) - 1:
+                dirs.setdefault("/".join(parts[:i + 1]), {})
+    for d, entries in dirs.items():
+        listing = [{"name": n, "type": t, "path": f"{d}/{n}" if d else n} for n, t in sorted(entries.items())]
+        gh.add(f"/repos/{canonical}/contents" + (f"/{d}" if d else ""), listing)
+    for path, text in files.items():
+        gh.add(f"/repos/{canonical}/contents/{path}", {
+            "encoding": "base64", "content": b64(text), "path": path,
+            "html_url": f"https://github.com/{canonical}/blob/main/{path}"})
+
+
 def world(repo="o/r", requested=None, canonical=None, readme="# Title\n", open_pulls=None,
-          prs=None, search_prs=None, branch_sha="c" * 40, other_files=None, archived=False) -> FakeGitHub:
-    """prs: {number: (pr_payload, files)}. search_prs: numbers surfaced only by search."""
+          prs=None, search_prs=None, branch_sha="c" * 40, other_files=None, archived=False,
+          policy_files=None, has_issues=True) -> FakeGitHub:
+    """prs: {number: (pr_payload, files)}. search_prs: numbers surfaced only by search.
+
+    policy_files: {path: text} repo tree for the #2074 policy scan (default: CONTRIBUTING with explicit PR welcome).
+    """
     canonical = canonical or repo
     gh = FakeGitHub()
-    gh.add(f"/repos/{requested or repo}", {"id": 4242, "full_name": canonical, "default_branch": "main", "archived": archived})
+    ident = {"id": 4242, "full_name": canonical, "default_branch": "main", "archived": archived, "has_issues": has_issues}
+    gh.add(f"/repos/{requested or repo}", ident)
     if requested and requested != canonical:
-        gh.add(f"/repos/{canonical}", {"id": 4242, "full_name": canonical, "default_branch": "main", "archived": archived})
+        gh.add(f"/repos/{canonical}", ident)
+    policy_routes(gh, canonical, DEFAULT_POLICY_FILES if policy_files is None else policy_files)
     gh.add(f"/repos/{canonical}/pulls", open_pulls or [], query={"state": "open"})
     gh.add("/search/issues", {"total_count": 0, "incomplete_results": False, "items": []})
     if search_prs:
@@ -651,9 +679,15 @@ def test_full_ledger_preserved_when_github_unavailable():
     assert receipt["summary"]["repositories"] == 43
     assert receipt["summary"]["by_classification"] == {"UNKNOWN": 43}
     assert pbp.DEFAULT_MANIFEST.read_bytes() == before
-    for name in ("pbakaus/impeccable", "trailhq/Graft"):
-        assert receipt["repositories"][name]["ledger"]["status"] == "PR_OPEN"
+    # Impeccable #1010 was closed upstream under an issue-first policy (#2074): POLICY_HOLD, with the
+    # original PR_OPEN event and PR URL preserved in history (never erased).
+    expected_status = {"pbakaus/impeccable": "POLICY_HOLD", "trailhq/Graft": "PR_OPEN"}
+    for name, status in expected_status.items():
+        assert receipt["repositories"][name]["ledger"]["status"] == status
         assert receipt["repositories"][name]["ledger"]["history"]
+    imp = receipt["repositories"]["pbakaus/impeccable"]["ledger"]
+    assert imp["pr_url"] == "https://github.com/pbakaus/impeccable/pull/1010" and imp["attempts"] == 1
+    assert [h["to_status"] for h in imp["history"]] == ["APPROVED", "PR_OPEN", "POLICY_HOLD"]
 
 
 @pytest.mark.parametrize("repo,number,slug,handle,skill_stem", [

@@ -9,6 +9,10 @@ on:
         description: "Intake issue number to re-run"
         required: true
         type: string
+      issue_body_sha256:
+        description: "SHA-256 of the exact current issue body selected for this approval (see registry-for-review/README.md)"
+        required: true
+        type: string
       transition:
         description: "Approval transition to process"
         required: true
@@ -18,16 +22,37 @@ on:
         description: "Override the branch to check out / base the promotion PR on (defaults to the issue's Batch Branch row, then main)"
         required: false
         type: string
+      recovery:
+        description: "Topology only: reconstruct a missing batch file from the issue (maintainer-authorized, never the original bytes)"
+        required: false
+        type: boolean
+        default: false
+      recovery_rationale:
+        description: "Why this recovery is authorized (required with recovery)"
+        required: false
+        type: string
+      recovery_facts:
+        description: 'Optional JSON {"<skillId>": {"description", "name", "type", "prerequisites", "skillFileUrl"}} for facts the issue lacks'
+        required: false
+        type: string
 
+# Least privilege: the default token only reads. Each job asks for what it uses.
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+  contents: read
+
+# Serialize label/dispatch runs for an issue; the promotion branch is unique.
+concurrency:
+  group: intake-approval-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
 
 jobs:
   topology-approved:
     name: Queue evidence review after topology approval
     runs-on: ubuntu-latest
+    # Validates and comments only; it never pushes or opens a PR.
+    permissions:
+      contents: read
+      issues: write
     # The resolve step calls `gh issue view` before actions/checkout, where gh
     # has no .git to infer the repository from (#1799).
     env:
@@ -41,15 +66,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_REF_INPUT: ${{ inputs.base_ref }}
+          ISSUE_NUMBER_INPUT: ${{ inputs.issue_number }}
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            number="${{ inputs.issue_number }}"
+            number="$ISSUE_NUMBER_INPUT"
             actor="${{ github.actor }}"
           else
             number="${{ github.event.issue.number }}"
             actor="${{ github.event.sender.login }}"
           fi
+          # The number reaches later shell steps and gh calls: it must be an integer.
+          case "$number" in
+            ''|0|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+          esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
 
@@ -88,6 +118,7 @@ jobs:
               exit 1
               ;;
           esac
+          git check-ref-format --branch "$ref" >/dev/null
           encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
           if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
             echo "::error::Resolved batch branch '$ref' does not exist."
@@ -97,6 +128,7 @@ jobs:
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
 
       - name: Require a repository maintainer
+        id: maintainer
         env:
           GH_TOKEN: ${{ github.token }}
           APPROVER: ${{ steps.issue.outputs.actor }}
@@ -106,6 +138,7 @@ jobs:
             admin|maintain|write) ;;
             *) echo "::error::$APPROVER cannot approve intake transitions (permission: $permission)."; exit 1 ;;
           esac
+          echo "permission=$permission" >> "$GITHUB_OUTPUT"
 
       # Checkout — and everything that follows — only runs once both the ref
       # has been validated against the allowlist above and the actor has
@@ -114,6 +147,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.issue.outputs.ref }}
+
+      # The recovery tooling is read from the workflow's own commit, not from the
+      # batch branch, so an older review branch without it still works (#2050).
+      - name: Check out the intake tooling at the workflow commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: .intake-tools
+          sparse-checkout: scripts/intake_recovery.py
+          sparse-checkout-cone-mode: false
 
       - uses: actions/setup-python@v5
         with:
@@ -124,6 +167,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           APPROVER: ${{ steps.issue.outputs.actor }}
+          PERMISSION: ${{ steps.maintainer.outputs.permission }}
+          # Recovery is an explicit maintainer action: only a workflow_dispatch
+          # can turn it on. These are read through env, never interpolated.
+          RECOVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.recovery || 'false' }}
+          RECOVERY_RATIONALE: ${{ inputs.recovery_rationale }}
+          RECOVERY_FACTS: ${{ inputs.recovery_facts }}
+          ISSUE_BODY_SHA256: ${{ inputs.issue_body_sha256 }}
         run: |
           # GitHub Actions' default `run:` shell is `bash -e {0}` (no
           # `shell:` override in this workflow). Under that, a standalone
@@ -140,34 +190,41 @@ jobs:
           set +e
           (
             set -euo pipefail
-            body=$(gh issue view "$ISSUE_NUMBER" --json body --jq .body)
+            gh issue view "$ISSUE_NUMBER" --json number,state,labels,body,author,comments > /tmp/issue.json
+            python3 .intake-tools/scripts/intake_recovery.py check-revision --issue-json /tmp/issue.json --transition topology
+            body=$(python3 -c 'import json; print(json.load(open("/tmp/issue.json"))["body"], end="")')
             batch_id=$(printf '%s' "$body" | python3 -c '
           import re, sys
           match = re.search(r"\| Batch ID \| `([^`]+)` \|", sys.stdin.read())
           if not match:
               raise SystemExit("Intake issue has no canonical Batch ID row.")
-          print(match.group(1))
+          value = match.group(1)
+          if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value):
+              raise SystemExit("Unsafe Batch ID")
+          print(value)
           ')
             batch="registry-for-review/skill-batches/${batch_id}.json"
+            : > /tmp/recovery-comment.md
+            if [ ! -f "$batch" ]; then
+              if [ "$RECOVERY" != "true" ]; then
+                echo "Batch file $batch is not on this branch."
+                echo "If the submitter never committed it, a maintainer can re-run this workflow via workflow_dispatch"
+                echo "(transition=topology, recovery=true, with a recovery_rationale) to reconstruct a current review"
+                echo "record from this issue and its upstream SKILL.md sources. See scripts/intake_recovery.py (run from the workflow commit)."
+                exit 1
+              fi
+              # Maintainer-authorized reconstruction (#2050). Not the original bytes;
+              # every gate below still applies to what it writes.
+              python3 .intake-tools/scripts/intake_recovery.py recover --issue-json /tmp/issue.json --comments-json /tmp/issue.json \
+                --actor "$APPROVER" --permission "$PERMISSION" --rationale "$RECOVERY_RATIONALE" \
+                --facts "$RECOVERY_FACTS" --comment-out /tmp/recovery-comment.md
+            fi
             test -f "$batch"
             python3 scripts/assemble_gaia.py
             python3 scripts/validate_intake.py
 
-            payload=$(python3 - "$batch" "$ISSUE_NUMBER" "$APPROVER" <<'PY'
-          import json, sys
-          batch_path, issue_number, approver = sys.argv[1:]
-          with open(batch_path, encoding="utf-8") as handle:
-              batch = json.load(handle)
-          print(json.dumps({
-              "schemaVersion": 1,
-              "batchId": batch["batchId"],
-              "batchPath": batch_path,
-              "issue": int(issue_number),
-              "topologyApprovedBy": approver,
-              "evidenceReviewStatus": "pending",
-          }, separators=(",", ":")))
-          PY
-            )
+            payload=$(python3 .intake-tools/scripts/intake_recovery.py payload --batch "$batch" --issue "$ISSUE_NUMBER" --approver "$APPROVER" \
+              --issue-json /tmp/issue.json --handoff-out /tmp/intake-handoff.json)
             cat > /tmp/comment.md <<EOF
           ## Intake topology approved — evidence review queued
 
@@ -177,8 +234,6 @@ jobs:
 
           <!-- gaia-intake-approval $payload -->
           EOF
-            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
-            gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
           ) > /tmp/intake-output.log 2>&1
           rc=$?
           set -e
@@ -190,16 +245,46 @@ jobs:
               echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               echo ""
               echo '```'
-              tail -c 4000 /tmp/intake-output.log
+              # The log can echo issue-controlled text. Neutralize HTML comment
+              # delimiters so a bot comment can never carry a forged marker.
+              tail -c 4000 /tmp/intake-output.log | sed -e 's/<!--/<! --/g' -e 's/-->/-- >/g'
               echo '```'
             } > /tmp/intake-fail-comment.md
             gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true
             exit "$rc"
           fi
 
+      # v4 artifacts are immutable and tied by GitHub to this run and attempt.
+      # Evidence consumes these authenticated bytes, never approval text from an issue.
+      - name: Save the immutable topology handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: gaia-intake-topology-${{ steps.issue.outputs.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/intake-handoff.json
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Publish the topology handoff pointer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          if [ -s /tmp/recovery-comment.md ]; then
+            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/recovery-comment.md
+          fi
+          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
+          gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
+
   evidence-approved:
     name: Open the single promotion PR after evidence approval
     runs-on: ubuntu-latest
+    # Pushes review/meta/intake-<N>, opens the draft PR, and comments.
+    permissions:
+      actions: read
+      contents: write
+      issues: write
+      pull-requests: write
     # The resolve step calls `gh issue view` before actions/checkout, where gh
     # has no .git to infer the repository from (#1799).
     env:
@@ -213,15 +298,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_REF_INPUT: ${{ inputs.base_ref }}
+          ISSUE_NUMBER_INPUT: ${{ inputs.issue_number }}
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            number="${{ inputs.issue_number }}"
+            number="$ISSUE_NUMBER_INPUT"
             actor="${{ github.actor }}"
           else
             number="${{ github.event.issue.number }}"
             actor="${{ github.event.sender.login }}"
           fi
+          # The number reaches later shell steps and gh calls: it must be an integer.
+          case "$number" in
+            ''|0|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+          esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
 
@@ -243,6 +333,7 @@ jobs:
               exit 1
               ;;
           esac
+          git check-ref-format --branch "$ref" >/dev/null
           encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
           if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
             echo "::error::Resolved batch branch '$ref' does not exist."
@@ -266,11 +357,22 @@ jobs:
         with:
           ref: ${{ steps.issue.outputs.ref }}
 
+      # The recovery tooling is read from the workflow's own commit, not from the
+      # batch branch, so an older review branch without it still works (#2050).
+      - name: Check out the intake tooling at the workflow commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: .intake-tools
+          sparse-checkout: scripts/intake_recovery.py
+          sparse-checkout-cone-mode: false
+
       - name: Create or reuse the batch promotion PR
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           BASE_REF: ${{ steps.issue.outputs.ref }}
+          ISSUE_BODY_SHA256: ${{ inputs.issue_body_sha256 }}
         run: |
           set +e
           (
@@ -280,12 +382,6 @@ jobs:
               echo "::error::Evidence approval requires both intake:evidence-review and intake:evidence-ready."
               exit 1
             fi
-            existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
-            if [ -n "$existing" ]; then
-              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
-              exit 0
-            fi
-
             # The resolved batch branch may be a `dev/*` integration branch
             # that this repo's repo-wide `delete_branch_on_merge` has since
             # removed (it does not survive its first merge to main — see
@@ -296,6 +392,24 @@ jobs:
             if [ "$pr_base" != "main" ] && ! git ls-remote --exit-code --heads origin "$pr_base" >/dev/null 2>&1; then
               echo "::warning::Base branch '$pr_base' no longer exists (likely deleted after merge to main); falling back to main."
               pr_base="main"
+            fi
+
+            # A reconstruction recorded at topology approval (#2050) rides in this
+            # same PR. No-op for an intake whose original batch was committed.
+            : > /tmp/recovery-files.txt
+            gh issue view "$ISSUE_NUMBER" --json number,body,comments > /tmp/issue-comments.json
+            python3 .intake-tools/scripts/intake_recovery.py check-revision --issue-json /tmp/issue-comments.json --transition evidence
+            python3 .intake-tools/scripts/intake_recovery.py materialize --issue "$ISSUE_NUMBER" \
+              --comments-json /tmp/issue-comments.json --files-out /tmp/recovery-files.txt
+
+            gh pr list --state open --head "review/meta/intake-${ISSUE_NUMBER}" \
+              --json number,headRefOid,headRefName,headRepository,headRepositoryOwner,isCrossRepository,baseRefName > /tmp/existing-prs.json
+            existing_count=$(python3 -c 'import json; print(len(json.load(open("/tmp/existing-prs.json"))))')
+            if [ "$existing_count" -gt 0 ]; then
+              existing_number=$(python3 .intake-tools/scripts/intake_recovery.py verify-pr --issue "$ISSUE_NUMBER" \
+                --comments-json /tmp/issue-comments.json --prs-json /tmp/existing-prs.json --base-ref "$pr_base")
+              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval verified its single promotion PR: #$existing_number"
+              exit 0
             fi
 
             git config user.name "github-actions[bot]"
@@ -309,6 +423,9 @@ jobs:
           Status: human evidence-approved. This manifest is the single-PR handoff for the batch. Add only verified Stage-1 and Phase-0 sources here before CLI ingestion.
           EOF
             git add registry-for-review/evidence-manifests
+            if [ -s /tmp/recovery-files.txt ]; then
+              xargs git add < /tmp/recovery-files.txt
+            fi
             git commit -m "chore(intake): queue evidence-approved batch #${ISSUE_NUMBER} [skip-gen]"
             git push origin "$branch"
             cat > /tmp/pr.md <<EOF
@@ -320,6 +437,9 @@ jobs:
 
           Fixes #${ISSUE_NUMBER}
           EOF
+            if [ -s /tmp/recovery-files.txt ]; then
+              printf '\nThe batch file was reconstructed from the intake issue (not the original bytes); see registry-for-review/recoveries/intake-%s.json.\n' "$ISSUE_NUMBER" >> /tmp/pr.md
+            fi
             url=$(gh pr create --draft --base "$pr_base" --head "$branch" --title "[intake] evidence-approved batch #${ISSUE_NUMBER}" --body-file /tmp/pr.md)
             gh issue comment "$ISSUE_NUMBER" --body "Evidence approval opened the single draft promotion PR: $url"
           ) > /tmp/intake-output.log 2>&1
@@ -333,7 +453,9 @@ jobs:
               echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               echo ""
               echo '```'
-              tail -c 4000 /tmp/intake-output.log
+              # The log can echo issue-controlled text. Neutralize HTML comment
+              # delimiters so a bot comment can never carry a forged marker.
+              tail -c 4000 /tmp/intake-output.log | sed -e 's/<!--/<! --/g' -e 's/-->/-- >/g'
               echo '```'
             } > /tmp/intake-fail-comment.md
             gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true

@@ -7,9 +7,12 @@ Upstream reconciliation (Issue #2069) adds an *observation* layer. It never chan
 
 | Piece | Where | Role |
 |---|---|---|
-| Planner / ledger CLI | `scripts/plan_badge_provisioning.py` | `plan`, `record-outcome`, plus `reconcile`, `predispatch`, `release-reservation` |
+| Planner / ledger CLI | `scripts/plan_badge_provisioning.py` | `plan`, `record-outcome`, plus `reconcile`, `predispatch`, `release-reservation`, `policy` |
+| Policy engine | `scripts/badge_policy.py` | Pure: signal extraction, channel decision, append-only policy ledger, approval provenance, local draft (Issue #2074) |
+| Policy ledger | `policy-ledger.jsonl` | Append-only, hash-chained channel / approval / closure events. Never edited, never erased |
+| Local drafts | `drafts/` | Draft proposals. **Local only, never sent** |
 | Reconciler engine | `scripts/badge_reconcile.py` | GitHub evidence, badge normalization, coverage, decision engine, receipts, reservations |
-| Tests | `tests/test_badge_reconcile.py` | Fixture-only (fake GitHub transport), no network |
+| Tests | `tests/test_badge_reconcile.py`, `tests/test_badge_policy.py` | Fixture-only (fake GitHub transport), no network |
 | Receipts | `campaigns/badge-provisioning/receipts/<id>/receipt.{json,md}` | Evidence output of `reconcile` |
 
 Evidence per repository (all must be complete or the result is `UNKNOWN`):
@@ -68,3 +71,45 @@ Not guaranteed (do not claim otherwise):
 - **Open-PR scan limit.** Every open PR's diff is inspected up to `--open-scan-limit` (default 40, newest first; ~1 API call each). If a repo has more unmarked open PRs than that (or a README diff is too large to read), the scan is recorded as incomplete (`open_pr_scan_incomplete`), the repo can never be `READY_TO_APPROVE` (it becomes `UNKNOWN`), and `predispatch` refuses. Live example: Graphify has ~840 open PRs, so it reports `UNKNOWN`. For one repo, a human may raise it explicitly (`predispatch --open-scan-limit 200`). A full `--all` run costs roughly 1 API call per inspected PR, so keep the limit low (the hourly core budget is 5000 calls) and avoid repeated full runs inside one hour. After the first `RATE_LIMITED` response the client stops calling GitHub and the remaining repos report `UNKNOWN` (fail closed).
 - **No apply path.** Observed states are never written back automatically; a lead records outcomes with `record-outcome`.
 - Static badges do not authenticate repository ownership (#494).
+
+## Contribution-channel policy (Issue #2074)
+
+Before any outreach every repo gets exactly one channel: `PR_ALLOWED`, `ISSUE_FIRST`, `NO_OUTREACH` or `UNKNOWN`.
+`UNKNOWN` fails closed. `NO_OUTREACH` and `UNKNOWN` are internal holds with **no PR and no issue**.
+
+```bash
+# scoped (policy scan on by default for --repo); --all never scans policy unless forced
+python3 scripts/plan_badge_provisioning.py reconcile --repo <o/r> [--policy-budget 36]
+python3 scripts/plan_badge_provisioning.py reconcile --all                     # policy_channel UNKNOWN (not scanned), no policy calls
+python3 scripts/plan_badge_provisioning.py reconcile --all --policy on --policy-max-repos 43   # explicit, expensive, rarely right
+
+python3 scripts/plan_badge_provisioning.py policy {verify,status,apply,classify,record-closure,record-refusal,draft,record-sent,approve,revoke} ...
+```
+
+**Evidence read** (all GET): README (already fetched), `CONTRIBUTING` (root and `.github/`), `AGENTS.md`/`CLAUDE.md`,
+issue templates/forms and `config.yml`, PR templates, `CODE_OF_CONDUCT`, `SECURITY`, policy-looking workflows,
+repo settings (issues enabled/disabled, archived), maintainer and bot comments on prior Gaia PRs/issues, closed-as-not-planned
+issues, and the policy ledger (recorded refusals and closures). Searches cover PRs **and** issues, open and closed, under the
+canonical name and its aliases (renames, `KNOWN_MIGRATIONS`).
+
+**Decision**: incomplete evidence is `UNKNOWN` (flagged). Otherwise a restriction beats a permission; issue-first beats a general
+"PRs welcome"; `PR_ALLOWED` needs an explicit permission from `CONTRIBUTING`, the README, or an `OWNER`/`MEMBER`/`COLLABORATOR`
+comment. Silence, templates, bots and strangers never grant permission. `ISSUE_FIRST` with no usable issue channel (issues disabled,
+bug-only forms, maintainer-only) is `NO_OUTREACH`: no issue is manufactured into a form that does not accept it.
+
+**One attempt, two stages.** Any prior Gaia issue or PR (any state, any alias) is part of the same attempt. `predispatch` refuses a
+second issue or PR. The one exception: PR(s) closed under the repo's own issue-first policy (`record-closure --kind
+ISSUE_FIRST_REDIRECT`) do not block the single README PR once a maintainer approval is recorded AND verified upstream.
+
+**Approval provenance.** `policy approve` stores approver, authority, evidence comment URL and verbatim excerpt, recorded by a
+named human against the single recorded proposal issue. `predispatch` re-reads the issue comments and verifies author, association,
+excerpt, no withdrawal, and that the approver is named by the repo's policy. Anything else is `UNVERIFIED` and holds.
+
+**Cost guard.** Per repo at most `--policy-budget` calls (default 36): about 5 listings, 12 file reads, 2 searches per name
+(max 3 names), 6 comment reads. Exhausting a cap, a rate limit, a 403, a truncated or `incomplete_results` search all give
+`UNKNOWN` plus an anomaly. The receipt `cost` block reports calls used and `full_campaign_scan_required: false`.
+
+**Lifecycle.** A PR closed upstream under a policy is recorded as `POLICY_HOLD` (non-terminal, history kept). Leaving it needs a fresh
+`APPROVED --approved-by`; `POLICY_HOLD -> PR_OPEN` is refused. Impeccable #1010 is `POLICY_HOLD` (CLOSED_UNMERGED, issue-first
+redirect); `drafts/pbakaus__impeccable.issue-first-proposal.md` is a local draft that has **not** been sent. No upstream contact
+happens without a fresh human decision.
