@@ -86,7 +86,7 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     return ownership
 
 
-def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], set[str], set[str]]:
+def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], set[str], dict[str, tuple[str, str]]]:
     sys.path.insert(0, str(root / "src"))
     from gaia_cli.steward.controller import StewardController
     from gaia_cli.steward.policy import StewardPolicy
@@ -95,7 +95,10 @@ def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]]
     authority = {kind: value.value for kind, value in policy.authority.items()}
     dispatch = {rule.id: (rule.debt_kind, rule.authority.value) for rule in policy.dispatch_rules.values()}
     executors = {key: (executor.debt_kind, executor.authority.value) for key, executor in policy.repair_executors.items()}
-    founder_rules = set(policy.founder_rules)
+    founder_rules = {
+        rule_id: (rule.debt_kind, rule.authority.value)
+        for rule_id, rule in policy.founder_rules.items()
+    }
     return authority, dispatch, executors, registered, founder_rules
 
 
@@ -110,32 +113,40 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
         return _result(["catalog must contain schemaVersion: 1, routines, and hooks only"], [], {})
     try:
         routine_text = (root / ROUTINES).read_text(encoding="utf-8")
-        expected_titles = [title.strip() for number, title in re.findall(r"^##\s+(\d+)\.\s+(.+)$", routine_text, re.MULTILINE)]
+        headings = re.findall(r"^##\s+(\d+)\.\s+(.+)$", routine_text, re.MULTILINE)
+        heading_numbers = [int(number) for number, _ in headings]
+        expected_titles = [title.strip() for _, title in headings]
     except OSError as exc:
         return _result([f"cannot read authoritative routine headings: {exc}"], [], {})
+    errors = []
     if len(expected_titles) != 17:
-        errors = [f"authoritative routines must contain exactly 17 numbered headings; found {len(expected_titles)}"]
-    else:
-        errors = []
+        errors.append(f"authoritative routines must contain exactly 17 numbered headings; found {len(expected_titles)}")
+    if heading_numbers != list(range(1, 18)):
+        errors.append(f"authoritative routine heading numbers must be exactly 1..17; found {heading_numbers}")
     hooks = data["hooks"]
     expected_hooks = {1922, 1445, 2063}
-    if not isinstance(hooks, list) or {h.get("owner") for h in hooks if isinstance(h, dict)} != expected_hooks:
+    hook_owners = [h.get("owner") for h in hooks if isinstance(h, dict)] if isinstance(hooks, list) else []
+    if (not isinstance(hooks, list) or len(hook_owners) != len(hooks)
+            or any(type(owner) is not int for owner in hook_owners)
+            or set(hook_owners) != expected_hooks):
         errors.append("hooks must inventory owners 1922, 1445, and 2063")
     else:
         for hook in hooks:
             if set(hook) != {"owner", "status", "producerPaths", "producerFunctions", "requiredProof", "reason"}:
-                errors.append(f"hook {hook.get('owner')}: malformed fields")
+                errors.append(f"hook {hook['owner']}: malformed fields")
                 continue
             if hook["status"] != "unknown/not-evaluated":
                 errors.append(f"hook {hook['owner']}: absent evidence cannot claim healthy or verified")
             paths, functions = hook["producerPaths"], hook["producerFunctions"]
-            if not isinstance(paths, list) or not paths or not all(isinstance(p, str) and (root / p).is_file() for p in paths):
-                errors.append(f"hook {hook['owner']}: producer paths must exist")
+            if not isinstance(paths, list) or not paths or not all(
+                    isinstance(p, str) and (root / p).is_file() for p in paths):
+                errors.append(f"hook {hook['owner']}: producer paths must exist and be strings")
             if not isinstance(functions, list) or not functions or not isinstance(paths, list) or len(functions) != len(paths):
                 errors.append(f"hook {hook['owner']}: producer functions must match paths")
             else:
                 for path_name, function in zip(paths, functions):
-                    if not isinstance(function, str) or not _defines_function(root / path_name, function):
+                    if (not isinstance(path_name, str) or not isinstance(function, str)
+                            or not _defines_function(root / path_name, function)):
                         errors.append(f"hook {hook['owner']}: producer {path_name}::{function} is not defined")
             if hook["requiredProof"] != ["source-revision", "environment", "fresh-independent-verification"]:
                 errors.append(f"hook {hook['owner']}: requiredProof must include source, environment, and fresh independent verification")
@@ -209,8 +220,11 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
             declared_authority = binding["authority"]
             if not isinstance(declared_authority, str) or declared_authority != authority.get(kind):
                 errors.append(f"{label}: authority mismatch or unknown debt kind {kind!r}")
-            if founder_rule is not None and (founder_rule not in founder_rules or founder_rule != "generic-mapping-decision" or kind != "generic_mapping" or declared_authority != "C"):
-                errors.append(f"{label}: founder rule must be live generic-mapping-decision for Class C generic_mapping")
+            if founder_rule is not None:
+                if not isinstance(founder_rule, str):
+                    errors.append(f"{label}: founderRule must be a string or null")
+                elif founder_rules.get(founder_rule) != (kind, declared_authority):
+                    errors.append(f"{label}: founder rule {founder_rule!r} does not authorize {kind!r} at {declared_authority!r}")
             if route is not None:
                 if not isinstance(route, str) or route not in dispatch_rules:
                     errors.append(f"{label}: fabricated dispatch rule {route!r}")
@@ -221,6 +235,15 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
                     errors.append(f"{label}: fabricated repair executor {executor!r}")
                 elif repair_executors[executor] != (kind, declared_authority):
                     errors.append(f"{label}: repair executor {executor!r} does not authorize {kind!r} at {declared_authority!r}")
+            live_routes = {name for name, binding in dispatch_rules.items() if binding == (kind, declared_authority)}
+            live_executors = {name for name, binding in repair_executors.items() if binding == (kind, declared_authority)}
+            live_founder_rules = {name for name, binding in founder_rules.items() if binding == (kind, declared_authority)}
+            if live_routes and (not isinstance(route, str) or route not in live_routes):
+                errors.append(f"{label}: missing live dispatch route for {kind!r} at {declared_authority!r}")
+            if live_executors and (not isinstance(executor, str) or executor not in live_executors):
+                errors.append(f"{label}: missing live repair executor for {kind!r} at {declared_authority!r}")
+            if live_founder_rules and (not isinstance(founder_rule, str) or founder_rule not in live_founder_rules):
+                errors.append(f"{label}: missing live founder rule for {kind!r} at {declared_authority!r}")
     unaccounted = sorted(registered - seen_sensor_ids)
     if unaccounted:
         errors.append(f"registered sensors not accounted for: {', '.join(unaccounted)}")

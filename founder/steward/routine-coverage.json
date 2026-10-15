@@ -343,7 +343,6 @@
       ],
       "predicate": "Repository hygiene, mirror parity, and selected generated projection drift are mapped to existing sensors and policy bindings.",
       "remainingGaps": [
-        "repository-hygiene registration remains pending on the integration base.",
         "Class P hygiene allowlist only; no branch coverage, regeneration, source scan, or inference from unused/absent files.",
         "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): generated_projection_drift."
       ],

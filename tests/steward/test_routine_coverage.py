@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from scripts.check_steward_coverage import ROOT, validate
 
 
@@ -104,7 +106,75 @@ def test_catalog_rejects_missing_live_binding_and_invalid_founder_route(tmp_path
 
     result = validate(ROOT, path)
 
-    assert any("founder rule must be live generic-mapping-decision" in error for error in result["errors"])
+    assert any("does not authorize 'generic_mapping' at 'C'" in error for error in result["errors"])
+
+
+@pytest.mark.parametrize(
+    ("row_index", "binding_index", "field", "value", "missing"),
+    [
+        (5, 0, "dispatchRule", None, "missing live dispatch route"),
+        (16, 1, "repairExecutor", None, "missing live repair executor"),
+        (10, 0, "founderRule", None, "missing live founder rule"),
+    ],
+)
+def test_catalog_requires_each_live_debt_binding(
+    tmp_path: Path, row_index: int, binding_index: int, field: str, value, missing: str,
+) -> None:
+    path, data = _catalog(tmp_path)
+    binding = data["routines"][row_index]["bindings"][binding_index]
+    binding[field] = value
+    binding["bindingStatus"] = (
+        "route-bound" if binding["dispatchRule"] is not None else
+        "executor-bound" if binding["repairExecutor"] is not None else
+        "founder-routed" if binding["founderRule"] is not None else "unrouted"
+    )
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any(missing in error for error in result["errors"])
+
+
+@pytest.mark.parametrize("malformation", ["non-dict", "owner", "path-and-function"])
+def test_catalog_rejects_malformed_hooks_without_traceback(tmp_path: Path, malformation: str) -> None:
+    path, data = _catalog(tmp_path)
+    if malformation == "non-dict":
+        data["hooks"][0] = None
+    elif malformation == "owner":
+        data["hooks"][0]["owner"] = []
+    else:
+        data["hooks"][0]["producerPaths"] = [None]
+        data["hooks"][0]["producerFunctions"] = [42]
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert result["errors"]
+
+
+def test_catalog_rejects_unhashable_founder_rule_without_traceback(tmp_path: Path) -> None:
+    path, data = _catalog(tmp_path)
+    data["routines"][10]["bindings"][0]["founderRule"] = []
+    data["routines"][10]["bindings"][0]["bindingStatus"] = "founder-routed"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any("founderRule must be a string or null" in error for error in result["errors"])
+
+
+def test_catalog_rejects_nonsequential_authoritative_heading_numbers(tmp_path: Path) -> None:
+    root = tmp_path / "repo"
+    (root / "founder").mkdir(parents=True)
+    source = (ROOT / "founder/ROUTINES.md").read_text(encoding="utf-8")
+    (root / "founder/ROUTINES.md").write_text(source.replace("## 12. Artifact", "## 13. Artifact", 1), encoding="utf-8")
+    catalog, data = _catalog(tmp_path)
+    data["routines"][11]["number"] = 99
+    catalog.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(root, catalog)
+
+    assert any("heading numbers must be exactly 1..17" in error for error in result["errors"])
 
 
 def test_catalog_rejects_fabricated_hook_health(tmp_path: Path) -> None:
