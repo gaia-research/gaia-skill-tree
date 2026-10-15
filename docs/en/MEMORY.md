@@ -2,6 +2,115 @@
 
 ---
 
+## 2026-10-15 — Routine 061
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** ROTATE. Routine 060's "Planned next" named
+`manual-curation-pipeline.html` (last non-editor pass: 046) as the next
+least-recently-touched page. Rebased onto `origin/main` first — tip was
+unchanged since routine 060 (`v8.24.0`, no new merges), so there was no
+SYNC candidate to take priority over ROTATE.
+
+### Trigger
+
+Read the page end to end and cross-checked every documented CLI command
+against the live argparse definitions in
+`src/gaia_cli/commands/dev/__init__.py` (per CLAUDE.md's Stale Tooling
+directive), not against the page's own prior prose. The "Become a
+contributor" CTA table's "Add a named implementation" row claimed:
+
+```
+gaia dev named --contributor handle --skill slug --generic id --upstream <blob-url>
+```
+
+`grep -n 'add_parser(' src/gaia_cli/commands/dev/__init__.py` lists every
+real `gaia dev` subcommand — there is no `named` subparser at all, so
+`gaia dev named` would fail with an argparse error. The actual way to
+create a named skill programmatically is `gaia dev add` with `--named`
+(confirmed in `meta_add_command()`, `src/gaia_cli/commands/dev/build.py`
+~L32-91): it takes `--contributor`, `--generic-ref`, `--description`
+(10+ chars, schema-enforced), and writes
+`registry/named/<contributor>/<id>.md`. There is no `--skill` or
+`--upstream` flag anywhere in the parser; the upstream repo URL is set via
+`--extra-fields '{"links": {"github": "<url>"}}'` — confirmed against a
+real named-skill file's frontmatter (`links.github`, e.g.
+`registry/named/Manavarya09/design-extract.md`).
+
+### What I did
+
+- `docs/en/manual-curation-pipeline.html` — "Become a contributor" CTA
+  table: replaced the fictional `gaia dev named ...` row with the real
+  `gaia dev add "Name" --named --contributor handle --generic-ref
+  generic-id --description "..." --extra-fields
+  '{"links":{"github":"<blob-url>"}}'` invocation.
+- `docs/en/DOCS.md` — Page Map row 13 updated with the `061` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Kept the fix to the one wrong row — the table's other rows (`dev add`
+  for generic nodes, `dev evidence`, `trust_appraise.py`, `dev
+  calibrate`, `dev fuse`, `dev validate`, `dev docs`) were all re-checked
+  against the same argparse file and are accurate; no scope creep.
+- Did not also update `named-skills.html`'s own step-by-step, which
+  documents named skills as a hand-authored markdown file rather than a
+  `gaia dev add --named` invocation — both paths are real (the CLI path
+  just automates what that page has you do by hand), and reconciling
+  which one the docs should lead with is a separate, larger editorial
+  call outside this one-page rotation. Left as a planned-next item below
+  rather than widening this routine.
+- Did not touch the version chip (still `v8.18.2`, one release behind
+  `v8.24.0`) — that's the weekly auto-sync's job per the routine's own
+  instructions, not a daily's.
+
+### Issues informed
+
+None filed. Single-page fix with the correct invocation confirmed
+directly against the argparse definitions and the command handler.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/manual-curation-pipeline.html`,
+  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on the edited
+  page.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — only pre-existing, unrelated hits
+  (`gh pr merge`, "Merge PR" as the literal GitHub merge action, not the
+  Fusion concept) — zero new violations.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked, unchanged.
+- `gaia dev named` nonexistence and the real `--named`/`--contributor`/
+  `--generic-ref`/`--extra-fields` flags cross-checked directly against
+  `src/gaia_cli/commands/dev/__init__.py` and
+  `src/gaia_cli/commands/dev/build.py::meta_add_command` — not against
+  the page's prior prose.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — CTA table row fix.
+- `docs/en/DOCS.md` — page map row 13.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 062)
+
+- No specific CONTINUE item named. Worth a look: `named-skills.html`'s
+  step-by-step still teaches hand-authoring the named-skill markdown file
+  directly rather than the CLI-only `gaia dev add --named` path this
+  routine just confirmed is real and schema-validated — reconciling which
+  one is the documented canonical path (or presenting both, CLI-first per
+  the Programmatic-First Policy) is a bigger editorial call for a future
+  routine or the weekly editor, not a quick fix.
+- Otherwise ROTATE to the next least-recently-touched page per the
+  DOCS.md Page Map, or SYNC against any release/merged PR since this
+  routine that changed documented CLI behavior.
+
+---
+
 ## 2026-10-14 — Routine 060
 
 **Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
