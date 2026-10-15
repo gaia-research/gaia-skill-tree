@@ -1073,14 +1073,14 @@ body:has(#hero.hero-graph-fullscreen) {
 
   #hero.hero-tree-shell .hero-content {
     /* Copy sits over the darkened lower bed of the full-bleed tree, rising out
-       of its base. No top-band offset — the flex column already anchors it low. */
+       of its base. Reserve clearance for the utility strip on short screens. */
     position: relative;
     z-index: 4;
     display: block;
     width: 100%;
     height: auto;
     min-height: 0;
-    padding-top: 0;
+    padding-top: 5rem;
   }
 
   .hero-tree-copy {
@@ -1099,7 +1099,7 @@ body:has(#hero.hero-graph-fullscreen) {
     content: "";
     position: absolute;
     z-index: -1;
-    inset: -1.5rem -1.75rem -2.25rem;
+    inset: -1.5rem -0.5rem -2.25rem;
     background: radial-gradient(
       ellipse 88% 82% at 42% 46%,
       rgba(3, 7, 18, .82) 0%,
