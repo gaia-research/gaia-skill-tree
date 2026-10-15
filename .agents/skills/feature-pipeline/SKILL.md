@@ -151,5 +151,6 @@ an automatic pipeline step.
 
 Behavioral examples and adversarial evaluation prompts are in
 `evals/evals.json`. Checkpoint/recovery regressions are in
-`tests/test_feature_pipeline_state.py` at the repository root. The helper and
+`tests/test_feature_pipeline_state.py` and `tests/test_feature_pipeline_ci.py`
+at the repository root. The helper and
 these evaluations do not replace live CLI security tests or human review.

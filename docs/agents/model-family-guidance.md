@@ -15,7 +15,7 @@ The current target is the GPT-6 family as named in issue #2039: **GPT-6 Luna**, 
 
 ## 3. Assignment shape: objective first
 
-Every assignment, skill or playbook states these, in this order:
+Prefer an objective-first assignment that makes these explicit; keep short bounded tasks proportional:
 
 1. **Objective:** the result wanted, in one sentence.
 2. **Audience:** who consumes the result (a maintainer, the founder, the next agent).
