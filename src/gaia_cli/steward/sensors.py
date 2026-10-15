@@ -22,6 +22,7 @@ from gaia_cli.steward.mirrors import (
 )
 from gaia_cli.steward.models import Observation, Subject, stable_json
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
+from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 
 
@@ -2358,4 +2359,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         BenchmarkFreshnessSensor(),
         TrustCalibrationDriftSensor(),
         FrozenSkillIntegritySensor(),
+        RepositoryHygieneSensor(),
     )

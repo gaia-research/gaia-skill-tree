@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from gaia_cli.steward.knowledge_contracts import TRUST_SURFACES
+from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BenchmarkFreshnessSensor,
@@ -1187,6 +1188,11 @@ def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
     assert len(matching) == 1
 
 
+def test_default_sensor_fleet_has_fourteen_unique_ids_and_repository_hygiene_once() -> None:
+    sensors = default_sensors()
+    assert len(sensors) == 14
+    assert len({sensor.id for sensor in sensors}) == 14
+    assert sum(isinstance(sensor, RepositoryHygieneSensor) for sensor in sensors) == 1
 
 
 def test_knowledge_contradiction_requires_active_semantic_inputs(tmp_path: Path) -> None:

@@ -29,7 +29,7 @@ TRUST_SURFACES = (
 # agreement tests. They are not numeric heuristics over arbitrary repository text.
 BANNED_PATTERNS = {
     "skill-count divisor": re.compile(r"skill_count_in_repo|/\s*min\(\s*skillCountInRepo", re.I),
-    "mothership discount": re.compile(r"mothership", re.I),
+    "mothership discount": re.compile(r"mothership\s+discount", re.I),
     "linear stars formula": re.compile(r"stars\s*/\s*1000"),
     "cross-type same-URL collapse": re.compile(
         r"`github-stars-own`\s+and\s+`repo-own`\s+pointing\s+to\s+the\s+same\s+URL\s*→\s*deduped", re.I
@@ -43,7 +43,33 @@ BANNED_PATTERNS = {
 
 def bannedClaims(text: str) -> list[str]:
     """Return names of finite, specifically retired trust claims in text."""
-    return [name for name, pattern in BANNED_PATTERNS.items() if pattern.search(text)]
+    claims: list[str] = []
+    for name, pattern in BANNED_PATTERNS.items():
+        matches = pattern.finditer(text)
+        if name == "mothership discount":
+            if any(not _is_retired_warning_context(text, match.start(), match.end()) for match in matches):
+                claims.append(name)
+        elif next(matches, None) is not None:
+            claims.append(name)
+    return claims
+
+
+def _is_retired_warning_context(text: str, start: int, end: int) -> bool:
+    """Ignore an explicit denial or literal warning/code mention of the phrase."""
+    line_start = text.rfind("\n", 0, start) + 1
+    line_end = text.find("\n", end)
+    line = text[line_start:] if line_end == -1 else text[line_start:line_end]
+    relative_start, relative_end = start - line_start, end - line_start
+    before, after = line[:relative_start], line[relative_end:]
+
+    if before.count("`") % 2:
+        return True
+    for quote in ('"', "'"):
+        if before.count(quote) % 2 and quote in after:
+            return True
+
+    clause = re.split(r"[.!?;]", before)[-1]
+    return bool(re.search(r"\b(?:no|not|never|without)\s+(?:a\s+)?(?:mothership\s+)?$", clause, re.I))
 
 
 def _read_required(repo_root: Path, relative: str) -> str:
@@ -56,9 +82,12 @@ def _read_required(repo_root: Path, relative: str) -> str:
     if len(content) > MAX_INPUT_BYTES:
         raise ValueError(f"required trust guidance input exceeds safety limit (possibly truncated): {relative}")
     try:
-        return content.decode("utf-8")
+        text = content.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise ValueError(f"required trust guidance input is not UTF-8: {relative}") from exc
+    if not text.strip():
+        raise ValueError(f"required trust guidance input is empty or whitespace-only (possibly truncated): {relative}")
+    return text
 
 
 def check_trust_guidance(repo_root: Path) -> list[dict[str, str]]:
