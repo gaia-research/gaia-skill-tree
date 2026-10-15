@@ -283,6 +283,9 @@ def build_intake_issue_body(batch_data, repo_root="."):
         "| # | ID | Type | Attribution | Decision |",
         "|---|---|---|---|---|",
     ]
+    idCounts = {}
+    for skill in proposedSkills:
+        idCounts[skill.get("id", "")] = idCounts.get(skill.get("id", ""), 0) + 1
     for i, skill in enumerate(proposedSkills, 1):
         skillId = skill.get("id", "")
         skType = skill.get("type", "basic")
@@ -290,8 +293,14 @@ def build_intake_issue_body(batch_data, repo_root="."):
         attrType = attr.get("type", "-") if attr else "-"
         attrAuthor = attr.get("upstream_author", "") if attr else ""
         attrCell = f"`{attrType}`" + (f" (`{attrAuthor}`)") if attrAuthor else f"`{attrType}`"
+        # N:1 fan-out: several named implementations share one generic id, so
+        # the row must also say which named implementation it decides.
+        named = skill.get("named")
+        idCell = f"`{skillId}`"
+        if idCounts.get(skillId, 0) > 1 and isinstance(named, dict) and named.get("contributor"):
+            idCell += f" (`{named['contributor']}/{named.get('skill_name') or skillId}`)"
         lines.append(
-            f"| {i} | `{skillId}` | `{skType}` | {attrCell} | *(pending)* |"
+            f"| {i} | {idCell} | `{skType}` | {attrCell} | *(pending)* |"
         )
 
     if not proposedSkills:
@@ -426,7 +435,7 @@ def _build_intake_issue_title(batch_data):
     if count == 1:
         return f"[intake] single: {proposed[0].get('id', 'unknown')}"
     if count <= 4:
-        ids = ", ".join(s.get("id", "?") for s in proposed[:4])
+        ids = ", ".join(dict.fromkeys(s.get("id", "?") for s in proposed[:4]))
         return f"[intake] {count} skills: {ids}"
     sources = {}
     for s in proposed:

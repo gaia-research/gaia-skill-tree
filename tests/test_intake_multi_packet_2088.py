@@ -339,3 +339,44 @@ def test_duplicate_named_identity_across_batches_rejected(tmp_path):
     writeBatch(registry, "two", [proposedRow("first", "other-skill")])
     errors, _, _ = validate_intake(str(directory), str(registry / "registry/gaia.json"), str(SCHEMA))
     assert any("Duplicate named identity" in error for error in errors)
+
+
+def test_manifest_packet_count_is_bounded(tmp_path, monkeypatch):
+    from gaia_cli.commands.pushFromFile import MAX_MANIFEST_PACKETS
+
+    monkeypatch.chdir(tmp_path)
+    paths = [f"registry-for-review/discovery-packets/{i}.json" for i in range(MAX_MANIFEST_PACKETS + 1)]
+    manifest = tmp_path / "manifest.yml"
+    manifest.write_text(json.dumps({"contractVersion": "discovery-packet-manifest-v1", "packetPaths": paths}),
+                        encoding="utf-8")
+    data, error = _load_yaml_file(str(manifest))
+    assert data is None
+    assert "bounded maximum" in error
+
+
+def test_repeated_generic_similarity_hints_are_not_duplicated(tmp_path):
+    registry = Path(_makeRegistryDir(tmp_path, skills=[
+        {"id": "new-capability-tool", "name": "New Capability Tool", "type": "basic", "prerequisites": []},
+    ]))
+    rows = [proposedRow("first"), proposedRow("second"), proposedRow("third")]
+    batch, errors = build_from_file_batch(rows, {"gaiaUser": "tester"}, str(registry), "test/repo")
+    assert errors == []
+    assert len(batch["proposedSkills"]) == 3
+    pairs = [(link["sourceSkillId"], link["targetSkillId"]) for link in batch["similarity"]]
+    assert pairs, "fixture must exercise the similarity path"
+    assert len(pairs) == len(set(pairs))
+
+
+def test_intake_issue_disambiguates_repeated_generic_rows():
+    from gaia_cli.prWriter import _build_intake_issue_title, build_intake_issue_body
+
+    shared = {"batchId": "b", "userId": "tester", "sourceRepo": "test/repo", "fromFile": True,
+              "knownSkills": [], "similarity": [],
+              "proposedSkills": [proposedRow("first"), proposedRow("second")]}
+    body = build_intake_issue_body(shared)
+    assert "| 1 | `new-capability` (`test/first`) |" in body
+    assert "| 2 | `new-capability` (`test/second`) |" in body
+    assert _build_intake_issue_title(shared) == "[intake] 2 skills: new-capability"
+    distinct = dict(shared, proposedSkills=[proposedRow("first", "alpha-skill"), proposedRow("second", "beta-skill")])
+    body = build_intake_issue_body(distinct)
+    assert "| 1 | `alpha-skill` |" in body and "(`test/first`)" not in body.split("### Skill details")[0]

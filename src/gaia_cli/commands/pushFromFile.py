@@ -286,7 +286,9 @@ def build_from_file_batch(
     proposedSkills = [
         _skillEntryToProposed(entry, sourceRepo) for entry in skillsYaml
     ]
-    proposedIds = [s["id"] for s in proposedSkills]
+    # N:1 fan-out repeats a generic id across distinct named rows; similarity
+    # hints are per generic, so compute them once per id, in submission order.
+    proposedIds = list(dict.fromkeys(s["id"] for s in proposedSkills))
 
     batch = {
         "batchId": batchId,
@@ -307,6 +309,11 @@ def build_from_file_batch(
 # Load helpers
 # ---------------------------------------------------------------------------
 
+# A manifest is a reviewable, bounded batch, not an open-ended crawl. The
+# approved multi-skill intakes this was built for are a dozen packets.
+MAX_MANIFEST_PACKETS = 50
+
+
 def _loadPacketManifest(data, yamlLoader):
     """Adapt an explicit discovery-packet-manifest-v1, all-or-nothing.
 
@@ -322,6 +329,11 @@ def _loadPacketManifest(data, yamlLoader):
     paths = data.get("packetPaths")
     if set(data) != {"contractVersion", "packetPaths"} or not isinstance(paths, list) or not paths:
         return None, "Discovery packet manifest requires a non-empty 'packetPaths' list only"
+    if len(paths) > MAX_MANIFEST_PACKETS:
+        return None, (
+            f"Discovery packet manifest lists {len(paths)} packets; "
+            f"the bounded maximum is {MAX_MANIFEST_PACKETS}. Split it into several batches."
+        )
     packetRoot = os.path.abspath("registry-for-review/discovery-packets")
     resolvedPaths = set()
     candidates = set()

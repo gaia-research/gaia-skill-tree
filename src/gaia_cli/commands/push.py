@@ -130,6 +130,8 @@ class PushCommand(Command):
                 "Load a batch of skills from a YAML file instead of scanning the repo. "
                 "The file must contain a top-level 'skills:' list using the intake schema "
                 "(see .github/ISSUE_TEMPLATE/new_skill_intake.yml for the schema). "
+                "A discovery-packet-manifest-v1 file (see CONTRIBUTING.md) submits several "
+                "ratified discovery packets as one batch. "
                 "Bypasses the .gaia/custom_state.json scan path entirely. "
                 "Compatible with --dry-run, --no-issue, and --yes."
             ),
