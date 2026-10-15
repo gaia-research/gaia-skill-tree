@@ -9,6 +9,10 @@ on:
         description: "Intake issue number to re-run"
         required: true
         type: string
+      issue_body_sha256:
+        description: "SHA-256 of the exact current issue body selected for this approval (see registry-for-review/README.md)"
+        required: true
+        type: string
       transition:
         description: "Approval transition to process"
         required: true
@@ -35,6 +39,11 @@ on:
 # Least privilege: the default token only reads. Each job asks for what it uses.
 permissions:
   contents: read
+
+# Serialize label/dispatch runs for an issue; the promotion branch is unique.
+concurrency:
+  group: intake-approval-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
 
 jobs:
   topology-approved:
@@ -69,7 +78,7 @@ jobs:
           fi
           # The number reaches later shell steps and gh calls: it must be an integer.
           case "$number" in
-            ''|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+            ''|0|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
           esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
@@ -109,6 +118,7 @@ jobs:
               exit 1
               ;;
           esac
+          git check-ref-format --branch "$ref" >/dev/null
           encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
           if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
             echo "::error::Resolved batch branch '$ref' does not exist."
@@ -163,6 +173,7 @@ jobs:
           RECOVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.recovery || 'false' }}
           RECOVERY_RATIONALE: ${{ inputs.recovery_rationale }}
           RECOVERY_FACTS: ${{ inputs.recovery_facts }}
+          ISSUE_BODY_SHA256: ${{ inputs.issue_body_sha256 }}
         run: |
           # GitHub Actions' default `run:` shell is `bash -e {0}` (no
           # `shell:` override in this workflow). Under that, a standalone
@@ -179,13 +190,18 @@ jobs:
           set +e
           (
             set -euo pipefail
-            body=$(gh issue view "$ISSUE_NUMBER" --json body --jq .body)
+            gh issue view "$ISSUE_NUMBER" --json number,state,labels,body,author,comments > /tmp/issue.json
+            python3 .intake-tools/scripts/intake_recovery.py check-revision --issue-json /tmp/issue.json --transition topology
+            body=$(python3 -c 'import json; print(json.load(open("/tmp/issue.json"))["body"], end="")')
             batch_id=$(printf '%s' "$body" | python3 -c '
           import re, sys
           match = re.search(r"\| Batch ID \| `([^`]+)` \|", sys.stdin.read())
           if not match:
               raise SystemExit("Intake issue has no canonical Batch ID row.")
-          print(match.group(1))
+          value = match.group(1)
+          if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value):
+              raise SystemExit("Unsafe Batch ID")
+          print(value)
           ')
             batch="registry-for-review/skill-batches/${batch_id}.json"
             : > /tmp/recovery-comment.md
@@ -199,7 +215,6 @@ jobs:
               fi
               # Maintainer-authorized reconstruction (#2050). Not the original bytes;
               # every gate below still applies to what it writes.
-              gh issue view "$ISSUE_NUMBER" --json number,state,labels,body,author,comments > /tmp/issue.json
               python3 .intake-tools/scripts/intake_recovery.py recover --issue-json /tmp/issue.json --comments-json /tmp/issue.json \
                 --actor "$APPROVER" --permission "$PERMISSION" --rationale "$RECOVERY_RATIONALE" \
                 --facts "$RECOVERY_FACTS" --comment-out /tmp/recovery-comment.md
@@ -208,7 +223,8 @@ jobs:
             python3 scripts/assemble_gaia.py
             python3 scripts/validate_intake.py
 
-            payload=$(python3 .intake-tools/scripts/intake_recovery.py payload --batch "$batch" --issue "$ISSUE_NUMBER" --approver "$APPROVER")
+            payload=$(python3 .intake-tools/scripts/intake_recovery.py payload --batch "$batch" --issue "$ISSUE_NUMBER" --approver "$APPROVER" \
+              --issue-json /tmp/issue.json --handoff-out /tmp/intake-handoff.json)
             cat > /tmp/comment.md <<EOF
           ## Intake topology approved — evidence review queued
 
@@ -218,11 +234,6 @@ jobs:
 
           <!-- gaia-intake-approval $payload -->
           EOF
-            if [ -s /tmp/recovery-comment.md ]; then
-              gh issue comment "$ISSUE_NUMBER" --body-file /tmp/recovery-comment.md
-            fi
-            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
-            gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
           ) > /tmp/intake-output.log 2>&1
           rc=$?
           set -e
@@ -243,11 +254,34 @@ jobs:
             exit "$rc"
           fi
 
+      # v4 artifacts are immutable and tied by GitHub to this run and attempt.
+      # Evidence consumes these authenticated bytes, never approval text from an issue.
+      - name: Save the immutable topology handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: gaia-intake-topology-${{ steps.issue.outputs.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/intake-handoff.json
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Publish the topology handoff pointer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          if [ -s /tmp/recovery-comment.md ]; then
+            gh issue comment "$ISSUE_NUMBER" --body-file /tmp/recovery-comment.md
+          fi
+          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
+          gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
+
   evidence-approved:
     name: Open the single promotion PR after evidence approval
     runs-on: ubuntu-latest
     # Pushes review/meta/intake-<N>, opens the draft PR, and comments.
     permissions:
+      actions: read
       contents: write
       issues: write
       pull-requests: write
@@ -276,7 +310,7 @@ jobs:
           fi
           # The number reaches later shell steps and gh calls: it must be an integer.
           case "$number" in
-            ''|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+            ''|0|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
           esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
@@ -299,6 +333,7 @@ jobs:
               exit 1
               ;;
           esac
+          git check-ref-format --branch "$ref" >/dev/null
           encoded_ref=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "$ref")
           if ! gh api "repos/${GITHUB_REPOSITORY}/branches/${encoded_ref}" >/dev/null 2>&1; then
             echo "::error::Resolved batch branch '$ref' does not exist."
@@ -337,6 +372,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           BASE_REF: ${{ steps.issue.outputs.ref }}
+          ISSUE_BODY_SHA256: ${{ inputs.issue_body_sha256 }}
         run: |
           set +e
           (
@@ -346,12 +382,6 @@ jobs:
               echo "::error::Evidence approval requires both intake:evidence-review and intake:evidence-ready."
               exit 1
             fi
-            existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
-            if [ -n "$existing" ]; then
-              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
-              exit 0
-            fi
-
             # The resolved batch branch may be a `dev/*` integration branch
             # that this repo's repo-wide `delete_branch_on_merge` has since
             # removed (it does not survive its first merge to main — see
@@ -367,9 +397,16 @@ jobs:
             # A reconstruction recorded at topology approval (#2050) rides in this
             # same PR. No-op for an intake whose original batch was committed.
             : > /tmp/recovery-files.txt
-            gh issue view "$ISSUE_NUMBER" --json body,comments > /tmp/issue-comments.json
+            gh issue view "$ISSUE_NUMBER" --json number,body,comments > /tmp/issue-comments.json
+            python3 .intake-tools/scripts/intake_recovery.py check-revision --issue-json /tmp/issue-comments.json --transition evidence
             python3 .intake-tools/scripts/intake_recovery.py materialize --issue "$ISSUE_NUMBER" \
               --comments-json /tmp/issue-comments.json --files-out /tmp/recovery-files.txt
+
+            existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
+            if [ -n "$existing" ]; then
+              gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
+              exit 0
+            fi
 
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"

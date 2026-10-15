@@ -9,6 +9,8 @@ import base64
 import copy
 import importlib.util
 import json
+import io
+import zipfile
 import pathlib
 
 import pytest
@@ -37,6 +39,66 @@ BYTES = {
     URL_ONE: b"---\nname: sample\n---\nSample skill body.\n",
     URL_TWO: b"---\nname: helper\n---\nHelper skill body.\n",
 }
+
+
+REPOSITORY = "gaia-research/gaia-skill-tree"
+HANDOFFS = {}
+
+
+def registerHandoff(payload, record=None):
+    HANDOFFS[payload["workflowRunId"]] = {"approval": copy.deepcopy(payload), "record": copy.deepcopy(record)}
+
+
+def fakeGithubApi(endpoint, binary=False):
+    """Authenticated server fixture: metadata and immutable bytes live outside issue comments."""
+    assert endpoint.startswith(f"repos/{REPOSITORY}/")
+    if endpoint.endswith("actions/workflows/intake-approval.yml"):
+        return {"id": 71, "path": rec.WORKFLOW_PATH}
+    if "/collaborators/" in endpoint:
+        return {"permission": "write"}
+    if "/attempts/" in endpoint:
+        runId = int(endpoint.split("/runs/")[1].split("/")[0])
+        payload = HANDOFFS[runId]["approval"]
+        return {"id": runId, "run_attempt": payload["workflowRunAttempt"], "workflow_id": 71,
+                "path": rec.WORKFLOW_PATH, "repository": {"full_name": REPOSITORY},
+                "head_repository": {"full_name": REPOSITORY}, "head_sha": payload["workflowHeadSha"],
+                "event": "workflow_dispatch", "status": "completed", "conclusion": "success",
+                "actor": {"login": payload["topologyApprovedBy"]},
+                "triggering_actor": {"login": payload["topologyApprovedBy"]}}
+    if "/runs/" in endpoint and "/artifacts" in endpoint:
+        runId = int(endpoint.split("/runs/")[1].split("/")[0])
+        payload = HANDOFFS[runId]["approval"]
+        return {"artifacts": [{"id": runId, "size_in_bytes": 1000, "expired": False,
+                              "name": rec.handoffArtifactName(payload["issue"], runId, payload["workflowRunAttempt"])}]}
+    if endpoint.endswith("/zip"):
+        assert binary
+        artifactId = int(endpoint.split("/artifacts/")[1].split("/")[0])
+        stream = io.BytesIO()
+        with zipfile.ZipFile(stream, "w") as archive:
+            archive.writestr("intake-handoff.json", json.dumps(HANDOFFS[artifactId]))
+        return stream.getvalue()
+    raise AssertionError(endpoint)
+
+
+@pytest.fixture(autouse=True)
+def authenticatedGithub(monkeypatch):
+    HANDOFFS.clear()
+    monkeypatch.setattr(rec, "githubApi", fakeGithubApi)
+    monkeypatch.setenv("GH_REPO", REPOSITORY)
+    monkeypatch.setenv("GITHUB_RUN_ID", "1001")
+    monkeypatch.setenv("GITHUB_RUN_ATTEMPT", "1")
+    monkeypatch.setenv("GITHUB_SHA", "a" * 40)
+
+
+def normalApproval(tmp_path, body="x"):
+    batch = batchOf([richSkill("sample-skill", "Sample Skill", URL_ONE)], True)
+    path = tmp_path / rec.batchRelPath(BATCH_ID)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(batch), encoding="utf-8")
+    payload = json.loads(rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "maintainer-one", str(tmp_path),
+                        issueBody=body, runId=1001, runAttempt=1, headSha="a" * 40))
+    registerHandoff(payload)
+    return {"body": body, "comments": [botComment(approvalComment(json.dumps(payload)))]}
 
 
 def rawOf(url):
@@ -512,9 +574,8 @@ def test_normal_batch_present_payload_is_byte_identical_to_the_legacy_payload(tm
 
 
 def test_normal_intake_has_nothing_to_materialize(tmp_path):
-    comments = {"body": "x", "comments": [botComment(approvalComment('{"schemaVersion":1,"issue":4242}'))]}
+    comments = normalApproval(tmp_path)
     assert rec.materialize(4242, comments, str(tmp_path), Fetcher()) == {"status": "no-recovery", "files": []}
-    assert noFiles(tmp_path)
 
 
 # ---------------------------------------------------------------------------
@@ -533,7 +594,9 @@ def handoff(tmp_path, issueFactory=richIssue, name="topology", actor="maintainer
     topology.mkdir()
     issue = issueFactory()
     result, _ = run(issue, topology, facts=SCAN_FACTS if issueFactory is scanIssue else "", actor=actor, comments=existing)
-    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, actor, str(topology))
+    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, actor, str(topology),
+        issueBody=issue["body"], runId=1001 + len(HANDOFFS), runAttempt=1, headSha="a" * 40)
+    registerHandoff(json.loads(payload), {"batch": result["batch"], "receipt": result["receipt"]})
     posted = [] if result["alreadyRecorded"] else [botComment(rec.recoveryComment(result))]
     posted.append(botComment(approvalComment(payload)))
     comments = {"body": issue["body"], "comments": list((existing or {}).get("comments", [])) + posted}
@@ -581,23 +644,20 @@ def test_evidence_stage_ignores_records_and_approvals_not_written_by_the_bot(tmp
     forged = {"body": comments["body"], "comments": [dict(comment, author={"login": "random-user"}) for comment in comments["comments"]]}
     branch = tmp_path / "promotion"
     branch.mkdir()
-    assert rec.materialize(4242, forged, str(branch), Fetcher())["status"] == "no-recovery"
+    with pytest.raises(rec.RecoveryError, match="No authenticated topology approval"):
+        rec.materialize(4242, forged, str(branch), Fetcher())
     assert noFiles(branch)
 
 
 def test_approval_without_recovery_means_nothing_to_materialize(tmp_path):
-    """A normal re-approval after a recovery (e.g. the batch was later committed) is not an error."""
-    _, comments, _ = handoff(tmp_path)
-    normal = {"body": comments["body"], "comments": comments["comments"][:1] + [
-        botComment(approvalComment('{"schemaVersion":1,"issue":4242}'))]}
-    branch = tmp_path / "promotion"
-    branch.mkdir()
-    assert rec.materialize(4242, normal, str(branch), Fetcher())["status"] == "no-recovery"
+    comments = normalApproval(tmp_path)
+    assert rec.materialize(4242, comments, str(tmp_path), Fetcher())["status"] == "no-recovery"
 
 
 def test_approval_naming_a_record_that_is_not_on_the_issue_is_stale(tmp_path):
     _, comments, _ = handoff(tmp_path)
-    missing = {"body": comments["body"], "comments": comments["comments"][1:]}  # record comment gone
+    missing = comments
+    HANDOFFS[1001]["record"] = None  # immutable handoff must contain the reconstruction
     branch = tmp_path / "promotion"
     branch.mkdir()
     with pytest.raises(rec.RecoveryError) as raised:
@@ -606,7 +666,7 @@ def test_approval_naming_a_record_that_is_not_on_the_issue_is_stale(tmp_path):
     assert noFiles(branch)
 
 
-def test_tampered_record_is_rejected(tmp_path):
+def test_tampered_comment_record_cannot_replace_the_immutable_record(tmp_path):
     result, comments, _ = handoff(tmp_path)
     decoded = rec.decodeRecord(comments["comments"][0]["body"])
     decoded["batch"]["proposedSkills"][0]["description"] = "A tampered description for the record."
@@ -614,9 +674,8 @@ def test_tampered_record_is_rejected(tmp_path):
         rec.canonicalJson(decoded).encode("utf-8")).decode("ascii")
     branch = tmp_path / "promotion"
     branch.mkdir()
-    with pytest.raises(rec.RecoveryError):
-        rec.materialize(4242, {"body": comments["body"], "comments": [botComment(tampered), comments["comments"][1]]}, str(branch), Fetcher())
-    assert noFiles(branch)
+    rec.materialize(4242, {"body": comments["body"], "comments": [botComment(tampered), comments["comments"][1]]}, str(branch), Fetcher())
+    assert json.loads((branch / rec.batchRelPath(BATCH_ID)).read_text()) == result["batch"]
 
 
 def test_original_batch_in_the_checkout_wins_over_the_record(tmp_path):
@@ -625,8 +684,8 @@ def test_original_batch_in_the_checkout_wins_over_the_record(tmp_path):
     path = branch / rec.batchRelPath(BATCH_ID)
     path.parent.mkdir(parents=True)
     path.write_text('{"original": true}\n', encoding="utf-8")
-    outcome = rec.materialize(4242, comments, str(branch), Fetcher())
-    assert outcome == {"status": "original-batch-present", "files": []}
+    with pytest.raises(rec.RecoveryError, match="differs from the topology-approved batch"):
+        rec.materialize(4242, comments, str(branch), Fetcher())
     assert path.read_text(encoding="utf-8") == '{"original": true}\n'
 
 
@@ -651,8 +710,11 @@ def test_cli_recover_payload_materialize_round_trip(tmp_path, capsys):
     assert "gaia-intake-recovery-record" in commentFile.read_text(encoding="utf-8")
 
     assert rec.main(["payload", "--batch", rec.batchRelPath(BATCH_ID), "--issue", "4242", "--approver", "maintainer-one",
-                     "--repo-root", str(topology)]) == rec.EXIT_OK
+                     "--repo-root", str(topology), "--issue-json", str(issueFile),
+                     "--handoff-out", str(tmp_path / "intake-handoff.json")]) == rec.EXIT_OK
     payload = capsys.readouterr().out.strip()
+    handoffDoc = json.loads((tmp_path / "intake-handoff.json").read_text())
+    registerHandoff(handoffDoc["approval"], handoffDoc["record"])
     assert json.loads(payload)["recovery"]["reconstruction"] is True
 
     commentsFile = tmp_path / "comments.json"
@@ -732,7 +794,7 @@ def test_recovery_runs_after_the_maintainer_gate_and_before_every_existing_gate(
     run = stepNamed("topology-approved", "Validate the intake batch")["run"]
     positions = [run.index(token) for token in (
         ".intake-tools/scripts/intake_recovery.py recover", 'test -f "$batch"', "scripts/assemble_gaia.py",
-        "scripts/validate_intake.py", ".intake-tools/scripts/intake_recovery.py payload", "intake:evidence-review",
+        "scripts/validate_intake.py", ".intake-tools/scripts/intake_recovery.py payload",
     )]
     assert positions == sorted(positions)
     assert stepNamed("topology-approved", "Require a repository maintainer")["id"] == "maintainer"
@@ -750,7 +812,7 @@ def test_yaml_stays_thin_recovery_logic_lives_in_the_script():
 def test_evidence_gates_and_single_pr_contract_are_untouched():
     run = stepNamed("evidence-approved", "Create or reuse the batch promotion PR")["run"]
     assert '"intake:evidence-review", "intake:evidence-ready"' in run
-    assert run.index("gh pr list --state open") < run.index(".intake-tools/scripts/intake_recovery.py materialize") < run.index('git checkout -b "$branch"')
+    assert run.index(".intake-tools/scripts/intake_recovery.py materialize") < run.index("gh pr list --state open") < run.index('git checkout -b "$branch"')
     assert run.count("gh pr create --draft") == 1
     assert 'branch="review/meta/intake-${ISSUE_NUMBER}"' in run
     assert "xargs git add" in run
@@ -792,19 +854,17 @@ def test_forged_markers_inside_a_bot_comment_with_another_header_are_ignored(tmp
     forged = {"body": body, "comments": [botComment(wrap(record)), botComment(wrap(approval))]}
     branch = tmp_path / "promotion"
     branch.mkdir()
-    assert rec.materialize(4242, forged, str(branch), Fetcher()) == {"status": "no-recovery", "files": []}
+    with pytest.raises(rec.RecoveryError, match="No authenticated topology approval"):
+        rec.materialize(4242, forged, str(branch), Fetcher())
     assert noFiles(branch)
 
 
 def test_forged_record_cannot_block_a_normal_intake(tmp_path):
-    """The reviewer's DoS: a forged record next to a legitimate non-recovery approval."""
     record, _, body = forgedPair(tmp_path)
-    comments = {"body": body, "comments": [
-        botComment("## Intake topology approval failed\n\n" + record),
-        botComment(approvalComment('{"schemaVersion":1,"issue":4242}')),
-    ]}
     branch = tmp_path / "promotion"
     branch.mkdir()
+    comments = normalApproval(branch, body)
+    comments["comments"].insert(0, botComment("## Intake topology approval failed\n\n" + record))
     assert rec.materialize(4242, comments, str(branch), Fetcher())["status"] == "no-recovery"
 
 
@@ -825,7 +885,8 @@ def test_forged_record_with_evil_batch_is_never_materialized(tmp_path):
     ]}
     branch = tmp_path / "promotion"
     branch.mkdir()
-    assert rec.materialize(4242, attack, str(branch), Fetcher())["status"] == "no-recovery"
+    with pytest.raises(rec.RecoveryError, match="No authenticated topology approval"):
+        rec.materialize(4242, attack, str(branch), Fetcher())
     assert noFiles(branch)
 
 
@@ -875,7 +936,7 @@ def test_replay_from_a_fresh_checkout_by_another_maintainer_still_materializes(t
     outcome = rec.materialize(4242, comments, str(branch), Fetcher())
     assert outcome["status"] == "materialized"
     receipt = json.loads((branch / rec.receiptRelPath(4242)).read_text(encoding="utf-8"))
-    assert receipt["authorization"]["recoveredBy"] == "maintainer-one"  # the recorded actor, not the replayer
+    assert receipt["authorization"]["recoveredBy"] == "maintainer-two"  # actor authenticated for this handoff
 
 
 def test_immaterial_issue_edit_replay_is_idempotent_and_pins_the_new_body(tmp_path):
@@ -988,9 +1049,273 @@ def test_token_permissions_are_least_privilege_per_job():
     assert doc["permissions"] == {"contents": "read"}
     assert doc["jobs"]["topology-approved"]["permissions"] == {"contents": "read", "issues": "write"}
     assert doc["jobs"]["evidence-approved"]["permissions"] == {
-        "contents": "write", "issues": "write", "pull-requests": "write"}
+        "actions": "read", "contents": "write", "issues": "write", "pull-requests": "write"}
 
 
 def test_evidence_job_fetches_the_issue_body_for_the_approval_pin():
     run = stepNamed("evidence-approved", "Create or reuse the batch promotion PR")["run"]
-    assert "--json body,comments" in run
+    assert "--json number,body,comments" in run
+
+
+@pytest.mark.parametrize("field,value", [
+    ("repository", {"full_name": "attacker/fork"}),
+    ("head_repository", {"full_name": "attacker/fork"}),
+    ("workflow_id", 999),
+    ("path", ".github/workflows/comment-on-issue.yml"),
+    ("event", "pull_request"),
+    ("event", "issue_comment"),
+    ("status", "in_progress"),
+    ("conclusion", "failure"),
+    ("head_sha", "b" * 40),
+    ("run_attempt", 2),
+    ("actor", {"login": "issue-author"}),
+    ("triggering_actor", {}),
+])
+def test_artifact_requires_authenticated_repository_workflow_event_and_identity(tmp_path, field, value):
+    _, _, approval = handoff(tmp_path)
+
+    def api(endpoint, binary=False):
+        response = fakeGithubApi(endpoint, binary)
+        if "/attempts/" in endpoint:
+            response[field] = value
+        return response
+
+    with pytest.raises(rec.RecoveryError):
+        rec.verifyHandoff(approval, api=api, repository=REPOSITORY)
+
+
+@pytest.mark.parametrize("actor", ["maintainer-one", "rerun-actor"])
+def test_original_and_rerun_actors_require_current_permission(tmp_path, actor):
+    _, _, approval = handoff(tmp_path)
+
+    def api(endpoint, binary=False):
+        response = fakeGithubApi(endpoint, binary)
+        if "/attempts/" in endpoint:
+            response["triggering_actor"] = {"login": "rerun-actor"}
+        if f"/collaborators/{actor}/" in endpoint:
+            response = {"permission": "read"}
+        return response
+
+    with pytest.raises(rec.RecoveryError, match="maintainer authorization"):
+        rec.verifyHandoff(approval, api=api, repository=REPOSITORY)
+
+
+def test_bot_header_and_a_real_run_id_cannot_forge_approval_bytes(tmp_path):
+    _, comments, approval = handoff(tmp_path)
+    approval["topologyApprovedBy"] = "issue-author"
+    # Even if an attacker finds a successful run, its actor and immutable bytes
+    # cannot be rewritten by embedding a marker in a bot-authored comment.
+    comments["comments"][-1] = botComment(approvalComment(json.dumps(approval)))
+    with pytest.raises(rec.RecoveryError, match="authenticated successful intake workflow event"):
+        rec.materialize(4242, comments, str(tmp_path / "promotion"), Fetcher())
+
+
+@pytest.mark.parametrize("change", ["body", "batch", "record", "issue", "attempt"])
+def test_immutable_artifact_must_match_exact_approval_pointer(tmp_path, change):
+    _, _, approval = handoff(tmp_path)
+    pointer = copy.deepcopy(approval)
+    if change == "body":
+        pointer["issueBodySha256"] = rec.sha256Hex("attacker revision")
+    elif change == "batch":
+        pointer["batchSha256"] = "f" * 64
+    elif change == "record":
+        pointer["recovery"]["recordDigest"] = "f" * 64
+    elif change == "issue":
+        pointer["issue"] = 9999
+    else:
+        pointer["workflowRunAttempt"] = 2
+    with pytest.raises(rec.RecoveryError):
+        rec.verifyHandoff(pointer)
+
+
+@pytest.mark.parametrize("mutation", ["expired", "missing", "duplicate", "oversize"])
+def test_artifacts_fail_closed_when_not_unique_available_and_bounded(tmp_path, mutation):
+    _, _, approval = handoff(tmp_path)
+
+    def api(endpoint, binary=False):
+        response = fakeGithubApi(endpoint, binary)
+        if endpoint.endswith("artifacts?per_page=100"):
+            if mutation == "expired":
+                response["artifacts"][0]["expired"] = True
+            elif mutation == "missing":
+                response["artifacts"] = []
+            elif mutation == "duplicate":
+                response["artifacts"] *= 2
+            else:
+                response["artifacts"][0]["size_in_bytes"] = rec.MAX_HANDOFF_BYTES + 1
+        return response
+
+    with pytest.raises(rec.RecoveryError):
+        rec.verifyHandoff(approval, api=api)
+
+
+def test_comment_only_legacy_recovery_requires_new_authenticated_approval(tmp_path):
+    result, _ = run(richIssue(), tmp_path)
+    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "maintainer-one", str(tmp_path))
+    comments = {"body": richIssue()["body"], "comments": [
+        botComment(rec.recoveryComment(result)), botComment(approvalComment(payload))]}
+    with pytest.raises(rec.RecoveryError, match="lacks verified workflow provenance"):
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())
+
+
+@pytest.mark.parametrize("present", ["original", "reconstruction"])
+def test_existing_batch_does_not_bypass_current_issue_revision(tmp_path, present):
+    if present == "original":
+        comments = normalApproval(tmp_path)
+    else:
+        result, comments, _ = handoff(tmp_path)
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())
+    comments["body"] += "\nattacker edit after approval\n"
+    with pytest.raises(rec.RecoveryError, match="body changed"):
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())
+
+
+def test_existing_reconstruction_does_not_bypass_current_upstream_bytes(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    rec.materialize(4242, comments, str(tmp_path), Fetcher())
+    moved = Fetcher({URL_ONE: b"changed upstream", URL_TWO: BYTES[URL_TWO]})
+    with pytest.raises(rec.RecoveryError, match="upstream SKILL.md bytes changed"):
+        rec.materialize(4242, comments, str(tmp_path), moved)
+
+
+def test_reapproval_in_same_checkout_pins_current_issue_body_without_rewriting_receipt(tmp_path):
+    issue = richIssue()
+    first, _ = run(issue, tmp_path)
+    before = snapshot(tmp_path)
+    issue["body"] += "\nHarmless explanatory note\n"
+    replay, _ = run(issue, tmp_path)
+    assert replay["recordDigest"] == first["recordDigest"]
+    assert snapshot(tmp_path) == before
+    payload = json.loads(rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "maintainer-one", str(tmp_path),
+        issueBody=issue["body"], runId=1001, runAttempt=2, headSha="a" * 40))
+    registerHandoff(payload, {"batch": first["batch"], "receipt": first["receipt"]})
+    comments = {"body": issue["body"], "comments": [botComment(approvalComment(json.dumps(payload)))]}
+    assert rec.materialize(4242, comments, str(tmp_path), Fetcher())["status"] == "recovery-already-present"
+    assert payload["issueBodySha256"] != first["receipt"]["issueBodySha256"]
+
+
+def test_duplicate_markers_are_rejected_even_with_one_valid_pointer(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    comments["comments"][-1]["body"] += "\n<!-- gaia-intake-approval {} -->"
+    with pytest.raises(rec.RecoveryError, match="Ambiguous topology approval"):
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())
+
+
+def test_workflow_publishes_pointer_only_after_immutable_upload():
+    names = [step.get("name") or step.get("uses") for step in stepsOf("topology-approved")]
+    assert names.index("Save the immutable topology handoff") < names.index("Publish the topology handoff pointer")
+    upload = stepNamed("topology-approved", "Save the immutable topology handoff")
+    assert upload["uses"] == "actions/upload-artifact@v4"
+    assert "github.run_attempt" in upload["with"]["name"]
+    assert upload["with"]["if-no-files-found"] == "error"
+
+
+@pytest.mark.parametrize("job", ["topology-approved", "evidence-approved"])
+@pytest.mark.parametrize("input_name", ["ISSUE_NUMBER_INPUT", "BASE_REF_INPUT"])
+def test_workflow_resolve_executes_injected_shell_input_as_data(tmp_path, job, input_name):
+    import os
+    import subprocess
+
+    step = stepNamed(job, "Resolve and validate issue")
+    script = step["run"]
+    replacements = {"github.event_name": "workflow_dispatch", "github.actor": "maintainer-one",
+                    "github.event.issue.number": "4242", "github.event.sender.login": "maintainer-one"}
+    for key, value in replacements.items():
+        script = script.replace("${{ " + key + " }}", value)
+    stub = tmp_path / "gh"
+    stub.write_text("#!/bin/bash\nexit 0\n")
+    stub.chmod(0o755)
+    marker = tmp_path / "injected"
+    payload = f'dev/$(touch "{marker}");`touch "{marker}"`'
+    env = dict(os.environ, ISSUE_NUMBER_INPUT="4242", BASE_REF_INPUT="main", GITHUB_REPOSITORY=REPOSITORY,
+               GITHUB_OUTPUT=str(tmp_path / "output"), PATH=f"{tmp_path}:{os.environ['PATH']}")
+    env[input_name] = payload
+    result = subprocess.run(["bash", "-e", "-c", script], env=env, capture_output=True, text=True)
+    assert not marker.exists(), result.stdout + result.stderr
+    if input_name == "ISSUE_NUMBER_INPUT":
+        assert result.returncode != 0
+
+
+def test_existing_reconstructed_batch_still_carries_missing_sidecar(tmp_path):
+    result, comments, _ = handoff(tmp_path)
+    path = tmp_path / rec.batchRelPath(BATCH_ID)
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(result["batch"]))
+    outcome = rec.materialize(4242, comments, str(tmp_path), Fetcher())
+    assert outcome == {"status": "recovery-already-present", "files": [rec.receiptRelPath(4242)]}
+    assert json.loads((tmp_path / rec.receiptRelPath(4242)).read_text()) == result["receipt"]
+
+
+def test_existing_conflicting_recovery_sidecar_cannot_be_preserved_silently(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    rec.materialize(4242, comments, str(tmp_path), Fetcher())
+    receipt = tmp_path / rec.receiptRelPath(4242)
+    tampered = json.loads(receipt.read_text())
+    tampered["authorization"]["recoveredBy"] = "invented-approver"
+    receipt.write_text(json.dumps(tampered))
+    with pytest.raises(rec.RecoveryError, match="receipt conflicts"):
+        rec.materialize(4242, comments, str(tmp_path), Fetcher())
+    assert json.loads(receipt.read_text()) == tampered
+
+
+@pytest.mark.parametrize("transition", ["topology", "evidence"])
+def test_issue_cannot_change_between_maintainer_label_event_and_workflow_fetch(transition):
+    issue = richIssue()
+    event = {"action": "labeled", "label": {"name": f"intake:{transition}-approved"}, "issue": copy.deepcopy(issue)}
+    rec.verifyIssueRevision(issue, "issues", event, transition)
+    issue["body"] += "\nInjected after the human approval event\n"
+    with pytest.raises(rec.RecoveryError, match="authenticated approval event"):
+        rec.verifyIssueRevision(issue, "issues", event, transition)
+
+
+@pytest.mark.parametrize("change", ["action", "number", "label", "event"])
+def test_issue_revision_check_requires_correct_authenticated_event(change):
+    issue = richIssue()
+    event = {"action": "labeled", "label": {"name": "intake:topology-approved"}, "issue": copy.deepcopy(issue)}
+    eventName = "issues"
+    if change == "action":
+        event["action"] = "edited"
+    elif change == "number":
+        event["issue"]["number"] = 9999
+    elif change == "label":
+        event["label"]["name"] = "intake:evidence-approved"
+    else:
+        eventName = "issue_comment"
+    with pytest.raises(rec.RecoveryError):
+        rec.verifyIssueRevision(issue, eventName, event, "topology")
+
+
+@pytest.mark.parametrize("digest", [None, "", "f" * 63, "f" * 65, "F" * 64, "../attacker"])
+def test_dispatch_requires_exact_maintainer_selected_body_digest(digest):
+    with pytest.raises(rec.RecoveryError, match="Dispatch requires issue_body_sha256"):
+        rec.verifyIssueRevision(richIssue(), "workflow_dispatch", {}, "topology", digest)
+
+
+def test_dispatch_body_hash_is_exact_utf8_and_pinned_before_queued_execution():
+    issue = richIssue()
+    issue["body"] += "\nUnicode note: ✨\n\n"
+    digest = rec.sha256Hex(issue["body"])
+    rec.verifyIssueRevision(issue, "workflow_dispatch", {}, "topology", digest)
+    issue["body"] = issue["body"].rstrip("\n")
+    with pytest.raises(rec.RecoveryError, match="revision selected for dispatch"):
+        rec.verifyIssueRevision(issue, "workflow_dispatch", {}, "topology", digest)
+
+
+def test_restoring_old_issue_body_cannot_grant_approval_of_another_event_revision():
+    issue = richIssue()
+    eventIssue = copy.deepcopy(issue)
+    eventIssue["body"] += "\nThe maintainer labeled this different revision\n"
+    event = {"action": "labeled", "label": {"name": "intake:topology-approved"}, "issue": eventIssue}
+    with pytest.raises(rec.RecoveryError, match="authenticated approval event"):
+        rec.verifyIssueRevision(issue, "issues", event, "topology")
+
+
+def test_dispatch_digest_stays_in_environment_and_revision_checks_precede_work():
+    inputs = workflow()[True]["workflow_dispatch"]["inputs"]
+    assert inputs["issue_body_sha256"]["required"] is True
+    for job, name in [("topology-approved", "Validate the intake batch"),
+                      ("evidence-approved", "Create or reuse the batch promotion PR")]:
+        step = stepNamed(job, name)
+        assert step["env"]["ISSUE_BODY_SHA256"] == "${{ inputs.issue_body_sha256 }}"
+        assert "${{ inputs.issue_body_sha256 }}" not in step["run"]
+        assert step["run"].index(" check-revision ") < step["run"].index(" payload " if job == "topology-approved" else " materialize ")

@@ -29,13 +29,16 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import io
 import json
 import os
 import re
 import sys
+import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
+import zipfile
 
 SCHEMA_VERSION = 1
 AUTHORIZED_PERMISSIONS = {"admin", "maintain", "write"}
@@ -58,12 +61,12 @@ GENERATED_AT_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 SEGMENT_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
 APPROVAL_MARKER = re.compile(r"<!-- gaia-intake-approval (\{.*?\}) -->", re.S)
 RECORD_MARKER = re.compile(r"<!-- gaia-intake-recovery-record ([A-Za-z0-9+/=]+) -->")
-# A marker only counts inside a comment that STARTS with the header the workflow
-# itself writes. The failure comment (which echoes a log tail that contains
-# issue-controlled text) starts with a different header, so a forged marker in it
-# is never trusted.
+# Headers keep failure logs out of the pointer parser. They do not authenticate
+# approvals: only the verified immutable workflow artifact grants authority.
 RECORD_HEADER = "## Intake recovery record (reconstruction)"
 APPROVAL_HEADER = "## Intake topology approved — evidence review queued"
+WORKFLOW_PATH = ".github/workflows/intake-approval.yml"
+MAX_HANDOFF_BYTES = 4 * 1024 * 1024
 
 
 class RecoveryError(Exception):
@@ -597,6 +600,26 @@ def requireIntakeIssue(issue):
         raise RecoveryError("The intake issue is not open; refusing to recover.", EXIT_REFUSED)
 
 
+def verifyIssueRevision(issue, eventName, event, transition, expectedBodySha=None):
+    """Pin a label approval to its event snapshot, not a later issue-author edit."""
+    body = issue.get("body")
+    if not isinstance(body, str):
+        raise RecoveryError("The current intake issue body is unavailable.", EXIT_STALE)
+    if eventName == "issues":
+        snapshot = event.get("issue") or {}
+        if (event.get("action") != "labeled" or snapshot.get("number") != issue.get("number")
+                or (event.get("label") or {}).get("name") != f"intake:{transition}-approved"
+                or snapshot.get("body") != body):
+            raise RecoveryError("The issue revision differs from its authenticated approval event; re-approve it.", EXIT_STALE)
+    elif eventName == "workflow_dispatch":
+        if not isinstance(expectedBodySha, str) or not re.fullmatch(r"[0-9a-f]{64}", expectedBodySha):
+            raise RecoveryError("Dispatch requires issue_body_sha256 for the maintainer-selected revision.", EXIT_REFUSED)
+        if sha256Hex(body) != expectedBodySha:
+            raise RecoveryError("The current issue differs from the revision selected for dispatch.", EXIT_STALE)
+    else:
+        raise RecoveryError("Only an authenticated label or dispatch event can approve intake.", EXIT_REFUSED)
+
+
 def recover(issue, actor, permission, rationale, factsRaw, repoRoot, fetcher, existingComments=None):
     requireAuthorized(actor, permission, rationale)
     requireIntakeIssue(issue)
@@ -736,7 +759,8 @@ def decodeRecord(body):
     return decoded
 
 
-def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=None):
+def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=None,
+                         issueBody=None, runId=None, runAttempt=None, headSha=None):
     """The topology hand-off payload. Without a recovery it is byte-identical to the historical one."""
     with open(os.path.join(repoRoot, batchPath), encoding="utf-8") as handle:
         batch = json.load(handle)
@@ -763,7 +787,90 @@ def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=Non
             "issueBodySha256": receipt["issueBodySha256"],
             "reconstruction": True,
         }
+        if issueBody is not None:
+            payload["recovery"]["issueBodySha256"] = sha256Hex(issueBody)
+    if issueBody is not None:
+        payload.update({
+            "issueBodySha256": sha256Hex(issueBody),
+            "batchSha256": sha256Hex(canonicalJson(batch)),
+            "workflowRunId": int(runId),
+            "workflowRunAttempt": int(runAttempt),
+            "workflowHeadSha": headSha,
+        })
     return json.dumps(payload, separators=(",", ":"))
+
+
+def handoffArtifactName(issueNumber, runId, attempt):
+    return f"gaia-intake-topology-{int(issueNumber)}-{int(runId)}-{int(attempt)}"
+
+
+def githubApi(endpoint, binary=False):
+    """Authenticated API only, with argument arrays (never a shell or issue-controlled URL)."""
+    try:
+        result = subprocess.run(["gh", "api", "--method", "GET", endpoint],
+                                capture_output=True, check=True, timeout=60)
+        return result.stdout if binary else json.loads(result.stdout)
+    except (subprocess.SubprocessError, ValueError) as exc:
+        raise RecoveryError("Could not verify the topology workflow handoff; re-run topology approval.", EXIT_REFUSED) from exc
+
+
+def verifyHandoff(approval, api=None, repository=None):
+    """Authenticate immutable run artifacts; a bot comment is only an untrusted pointer.
+
+    The Actions API supplies the repository, canonical workflow, event, actors and
+    artifact ownership. The ZIP supplies the exact approved bytes. No permission,
+    actor or event assertion from issue text or the comment itself grants access.
+    """
+    api = api or githubApi
+    repository = repository or os.environ.get("GH_REPO")
+    if not isinstance(repository, str) or not SOURCE_REPO_RE.fullmatch(repository):
+        raise RecoveryError("GH_REPO must name the authenticated repository.", EXIT_REFUSED)
+    runId, attempt = approval.get("workflowRunId"), approval.get("workflowRunAttempt")
+    if type(runId) is not int or type(attempt) is not int or runId <= 0 or attempt <= 0:
+        raise RecoveryError("Topology approval lacks verified workflow provenance. Re-run the topology approval.", EXIT_REFUSED)
+    prefix = f"repos/{repository}"
+    workflow = api(f"{prefix}/actions/workflows/intake-approval.yml")
+    run = api(f"{prefix}/actions/runs/{runId}/attempts/{attempt}")
+    actor = (run.get("actor") or {}).get("login")
+    if (run.get("id") != runId or run.get("run_attempt") != attempt
+            or run.get("workflow_id") != workflow.get("id") or workflow.get("path") != WORKFLOW_PATH
+            or run.get("path", "").split("@", 1)[0] != WORKFLOW_PATH
+            or (run.get("repository") or {}).get("full_name") != repository
+            or (run.get("head_repository") or {}).get("full_name") != repository
+            or run.get("head_sha") != approval.get("workflowHeadSha")
+            or run.get("event") not in {"issues", "workflow_dispatch"}
+            or run.get("status") != "completed" or run.get("conclusion") != "success"
+            or not actor or actor != approval.get("topologyApprovedBy")):
+        raise RecoveryError("Topology approval does not match an authenticated successful intake workflow event.", EXIT_REFUSED)
+    for login in {actor, (run.get("triggering_actor") or {}).get("login")}:
+        if not isinstance(login, str) or not re.fullmatch(r"[A-Za-z0-9-]+(?:\[bot\])?", login):
+            raise RecoveryError("Topology event actor identity is missing or invalid.", EXIT_REFUSED)
+        permission = api(f"{prefix}/collaborators/{login}/permission").get("permission")
+        if permission not in AUTHORIZED_PERMISSIONS:
+            raise RecoveryError("Topology event actor no longer has maintainer authorization.", EXIT_REFUSED)
+    name = handoffArtifactName(approval["issue"], runId, attempt)
+    artifacts = api(f"{prefix}/actions/runs/{runId}/artifacts?per_page=100").get("artifacts", [])
+    artifacts = [item for item in artifacts if item.get("name") == name and not item.get("expired")]
+    if len(artifacts) != 1 or type(artifacts[0].get("id")) is not int:
+        raise RecoveryError("The immutable topology handoff artifact is absent or expired. Re-run the topology approval.", EXIT_STALE)
+    artifact = artifacts[0]
+    if artifact.get("size_in_bytes", MAX_HANDOFF_BYTES + 1) > MAX_HANDOFF_BYTES:
+        raise RecoveryError("Topology handoff artifact exceeds the size limit.", EXIT_BLOCKED)
+    archive = api(f"{prefix}/actions/artifacts/{artifact['id']}/zip", binary=True)
+    if len(archive) > MAX_HANDOFF_BYTES:
+        raise RecoveryError("Topology handoff archive exceeds the size limit.", EXIT_BLOCKED)
+    try:
+        with zipfile.ZipFile(io.BytesIO(archive)) as bundle:
+            if bundle.namelist() != ["intake-handoff.json"]:
+                raise ValueError("unexpected files")
+            if bundle.getinfo("intake-handoff.json").file_size > MAX_HANDOFF_BYTES:
+                raise ValueError("oversize handoff")
+            handoff = json.loads(bundle.read("intake-handoff.json"))
+    except (ValueError, KeyError, RuntimeError, zipfile.BadZipFile) as exc:
+        raise RecoveryError("Invalid immutable topology handoff artifact.", EXIT_BLOCKED) from exc
+    if not isinstance(handoff, dict) or handoff.get("approval") != approval:
+        raise RecoveryError("Comment approval differs from its immutable workflow handoff.", EXIT_REFUSED)
+    return handoff
 
 
 def recoveryComment(result):
@@ -801,63 +908,69 @@ def recoveryComment(result):
 # ---------------------------------------------------------------------------
 
 
-def materialize(issueNumber, commentsDoc, repoRoot, fetcher):
+def materialize(issueNumber, commentsDoc, repoRoot, fetcher, verifier=None):
     """Write the recorded reconstruction into the promotion branch; no-op when none was recorded.
 
-    `commentsDoc` is `gh issue view --json body,comments`. Only bot-authored comments that
-    start with the workflow's own headers are read. The latest topology approval decides
-    whether a recovery is in play at all, and names the exact record (by digest) and the
-    issue body it was approved against.
+    `commentsDoc` is `gh issue view --json body,comments`. The latest bot pointer must
+    match a successful authenticated workflow's immutable artifact. The artifact
+    authorizes the exact batch and issue revision; comment text cannot grant approval.
     """
+    verifier = verifier or verifyHandoff
     approvals = []
     for body in botComments(commentsDoc, APPROVAL_MARKER, APPROVAL_HEADER):
+        if len(APPROVAL_MARKER.findall(body)) != 1:
+            raise RecoveryError("Ambiguous topology approval markers; re-run topology approval.", EXIT_REFUSED)
         try:
             approvals.append(json.loads(APPROVAL_MARKER.search(body).group(1)))
         except ValueError:
             continue
     approvals = [item for item in approvals if isinstance(item, dict) and item.get("issue") == int(issueNumber)]
-    bound = (approvals[-1].get("recovery") if approvals else None) or None
-    if not isinstance(bound, dict):
-        return {"status": "no-recovery", "files": []}
-
-    candidates = [
-        (decoded, body)
-        for body in botComments(commentsDoc, RECORD_MARKER, RECORD_HEADER)
-        for decoded in [decodeRecord(body)]
-        if decoded is not None and recordIdentityDigest(decoded["batch"], decoded["receipt"]) == bound.get("recordDigest")
-    ]
-    if not candidates:
+    if not approvals:
+        raise RecoveryError("No authenticated topology approval was found. Re-run the topology approval.", EXIT_REFUSED)
+    approval = approvals[-1]
+    handoff = verifier(approval)
+    body = commentsDoc.get("body") if isinstance(commentsDoc, dict) else None
+    if not isinstance(body, str) or sha256Hex(body) != approval.get("issueBodySha256"):
         raise RecoveryError(
-            "The latest topology approval names a recovery record that is not on the issue; re-run recovery.",
+            "The intake issue body changed (or could not be read) after approval. "
+            "Re-run the topology approval so a maintainer approves the current body.", EXIT_STALE)
+    batchId = approval.get("batchId")
+    if not isinstance(batchId, str) or not BATCH_ID_RE.fullmatch(batchId):
+        raise RecoveryError("The topology approval has an unsafe batch id.", EXIT_BLOCKED)
+    if approval.get("batchPath") != batchRelPath(batchId):
+        raise RecoveryError("The topology approval has a noncanonical batch path.", EXIT_BLOCKED)
+    batchPath = os.path.join(repoRoot, batchRelPath(batchId))
+    if os.path.exists(batchPath):
+        with open(batchPath, encoding="utf-8") as handle:
+            onDisk = json.load(handle)
+        if sha256Hex(canonicalJson(onDisk)) != approval.get("batchSha256"):
+            raise RecoveryError("The checked-out batch differs from the topology-approved batch.", EXIT_STALE)
+    bound = approval.get("recovery") or None
+    if not isinstance(bound, dict):
+        if not os.path.exists(batchPath):
+            raise RecoveryError("The topology-approved batch is absent; explicit recovery is required.", EXIT_BLOCKED)
+        return {"status": "no-recovery", "files": []}
+    decoded = handoff.get("record")
+    if (not isinstance(decoded, dict) or not isinstance(decoded.get("batch"), dict)
+            or not isinstance(decoded.get("receipt"), dict)
+            or recordIdentityDigest(decoded["batch"], decoded["receipt"]) != bound.get("recordDigest")):
+        raise RecoveryError(
+            "The topology handoff lacks its approved recovery record; re-run recovery.",
             EXIT_STALE,
         )
-    decoded = candidates[-1][0]
     batch, receipt = decoded["batch"], decoded["receipt"]
     if receipt.get("issue") != int(issueNumber) or receipt.get("reconstruction") is not True:
         raise RecoveryError("The recovery record does not belong to this intake issue.", EXIT_BLOCKED)
     if receipt.get("reconstructedBatch", {}).get("sha256") != sha256Hex(canonicalJson(batch)) or bound.get("batchSha256") != receipt["reconstructedBatch"]["sha256"]:
         raise RecoveryError("The recovery record's batch does not match its recorded digest.", EXIT_BLOCKED)
+    if approval.get("batchSha256") != receipt["reconstructedBatch"]["sha256"] or bound.get("issueBodySha256") != approval.get("issueBodySha256"):
+        raise RecoveryError("The recovery binding disagrees with the approved batch or issue revision.", EXIT_BLOCKED)
     batchId = batch.get("batchId")
-    if not isinstance(batchId, str) or not BATCH_ID_RE.match(batchId):
+    if batchId != approval.get("batchId") or not isinstance(batchId, str) or not BATCH_ID_RE.fullmatch(batchId):
         raise RecoveryError("The recovery record has an unsafe batch id.", EXIT_BLOCKED)
 
     batchPath = os.path.join(repoRoot, batchRelPath(batchId))
     receiptPath = os.path.join(repoRoot, receiptRelPath(issueNumber))
-    if os.path.exists(batchPath):
-        with open(batchPath, encoding="utf-8") as handle:
-            onDisk = json.load(handle)
-        # Real batch bytes (or an already-committed recovery) win; never overwrite them.
-        same = canonicalJson(onDisk) == canonicalJson(batch)
-        return {"status": "recovery-already-present" if same else "original-batch-present", "files": []}
-
-    body = commentsDoc.get("body") if isinstance(commentsDoc, dict) else None
-    if not isinstance(body, str) or sha256Hex(body) != bound.get("issueBodySha256"):
-        raise RecoveryError(
-            "The intake issue body changed (or could not be read) after the topology approval that recorded this "
-            "recovery. Re-run the topology approval with recovery=true so a maintainer approves the current body.",
-            EXIT_STALE,
-        )
-
     urls = {item["skillId"]: item["url"] for item in receipt.get("sources", [])}
     current = verifySources(urls, fetcher)
     if {item["skillId"]: item["sha256"] for item in current} != {item["skillId"]: item["sha256"] for item in receipt["sources"]}:
@@ -866,12 +979,18 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher):
             EXIT_STALE,
         )
 
+    batchPresent = os.path.exists(batchPath)
+    if os.path.exists(receiptPath):
+        with open(receiptPath, encoding="utf-8") as handle:
+            existingReceipt = json.load(handle)
+        if canonicalJson(existingReceipt) != canonicalJson(receipt):
+            raise RecoveryError("The checked-out recovery receipt conflicts with the authenticated handoff.", EXIT_STALE)
     files = []
     for path, value in ((batchPath, batch), (receiptPath, receipt)):
         if not os.path.exists(path):
             writeAtomic(path, serialize(value))
-        files.append(os.path.relpath(path, repoRoot).replace(os.sep, "/"))
-    return {"status": "materialized", "files": files}
+            files.append(os.path.relpath(path, repoRoot).replace(os.sep, "/"))
+    return {"status": "recovery-already-present" if batchPresent else "materialized", "files": files}
 
 
 # ---------------------------------------------------------------------------
@@ -911,6 +1030,8 @@ def main(argv=None, fetcher=None):
     pay.add_argument("--issue", required=True)
     pay.add_argument("--approver", required=True)
     pay.add_argument("--repo-root", default=".")
+    pay.add_argument("--issue-json", help="current issue snapshot for revision binding")
+    pay.add_argument("--handoff-out", help="write the immutable Actions artifact")
 
     mat = sub.add_parser("materialize", help="carry a recorded reconstruction into the promotion branch")
     mat.add_argument("--issue", required=True)
@@ -918,10 +1039,31 @@ def main(argv=None, fetcher=None):
     mat.add_argument("--repo-root", default=".")
     mat.add_argument("--files-out", default=None, help="write the list of files to add, one per line")
 
+    revision = sub.add_parser("check-revision", help="verify the current issue matches its approval event")
+    revision.add_argument("--issue-json", required=True)
+    revision.add_argument("--transition", choices=("topology", "evidence"), required=True)
+
     args = parser.parse_args(argv)
     try:
+        if args.command == "check-revision":
+            verifyIssueRevision(loadJson(args.issue_json), os.environ.get("GITHUB_EVENT_NAME"),
+                loadJson(os.environ["GITHUB_EVENT_PATH"]), args.transition,
+                os.environ.get("ISSUE_BODY_SHA256"))
+            return EXIT_OK
         if args.command == "payload":
-            print(buildApprovalPayload(args.batch, args.issue, args.approver, args.repo_root))
+            body = loadJson(args.issue_json)["body"] if args.issue_json else None
+            if args.handoff_out and body is None:
+                raise RecoveryError("An issue snapshot is required for the handoff.", EXIT_REFUSED)
+            payload = buildApprovalPayload(args.batch, args.issue, args.approver, args.repo_root,
+                issueBody=body, runId=os.environ.get("GITHUB_RUN_ID"),
+                runAttempt=os.environ.get("GITHUB_RUN_ATTEMPT"), headSha=os.environ.get("GITHUB_SHA"))
+            if args.handoff_out:
+                receiptFile = os.path.join(args.repo_root, receiptRelPath(args.issue))
+                record = None
+                if os.path.exists(receiptFile):
+                    record = {"batch": loadJson(os.path.join(args.repo_root, args.batch)), "receipt": loadJson(receiptFile)}
+                writeAtomic(args.handoff_out, serialize({"approval": json.loads(payload), "record": record}))
+            print(payload)
             return EXIT_OK
         if args.command == "recover":
             if args.no_fetch:
