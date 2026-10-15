@@ -58,6 +58,12 @@ GENERATED_AT_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 SEGMENT_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
 APPROVAL_MARKER = re.compile(r"<!-- gaia-intake-approval (\{.*?\}) -->", re.S)
 RECORD_MARKER = re.compile(r"<!-- gaia-intake-recovery-record ([A-Za-z0-9+/=]+) -->")
+# A marker only counts inside a comment that STARTS with the header the workflow
+# itself writes. The failure comment (which echoes a log tail that contains
+# issue-controlled text) starts with a different header, so a forged marker in it
+# is never trusted.
+RECORD_HEADER = "## Intake recovery record (reconstruction)"
+APPROVAL_HEADER = "## Intake topology approved — evidence review queued"
 
 
 class RecoveryError(Exception):
@@ -291,7 +297,11 @@ def parseIssueBody(body):
     for match in detailPattern.finditer(body):
         skillId = match.group(1).strip()
         if skillId in skills:
-            problems.append(f"issue lists skill '{skillId}' more than once")
+            problems.append(
+                f"issue lists generic id '{skillId}' more than once (an N:1 fan-out intake). Recovery does not "
+                "reconstruct these: the blocks cannot be told apart reliably. Rebuild the batch from the committed "
+                "ratified packets with `gaia push --from-file <discovery-packet-manifest-v1>`"
+            )
             continue
         skills[skillId] = parseDetailsBlock(skillId, match.group(2), match.group(3).strip(), match.group(4))
         order.append(skillId)
@@ -618,9 +628,10 @@ def recover(issue, actor, permission, rationale, factsRaw, repoRoot, fetcher, ex
         writeAtomic(batchPath, serialize(batch))
         writeAtomic(receiptPath, serialize(receipt))
 
-    recordDigest = sha256Hex(canonicalJson({"batch": batch, "receipt": receiptIdentity(receipt)}))
+    recordDigest = recordIdentityDigest(batch, receipt)
     alreadyRecorded = any(
-        recordDigestOf(comment) == recordDigest for comment in botComments(existingComments, RECORD_MARKER)
+        recordDigestOf(comment) == recordDigest
+        for comment in botComments(existingComments, RECORD_MARKER, RECORD_HEADER)
     )
     return {
         "status": status,
@@ -673,22 +684,39 @@ def checkReplay(batch, receipt, batchPath, receiptPath):
 # ---------------------------------------------------------------------------
 
 
-def botComments(commentsDoc, marker):
-    """Comment bodies written by github-actions that carry `marker`, oldest first."""
-    comments = (commentsDoc or {}).get("comments") if isinstance(commentsDoc, dict) else commentsDoc
+def commentList(commentsDoc):
+    comments = commentsDoc.get("comments") if isinstance(commentsDoc, dict) else commentsDoc
+    return comments if isinstance(comments, list) else []
+
+
+def botComments(commentsDoc, marker, header):
+    """Bodies written by github-actions, starting with `header`, carrying `marker`; oldest first."""
     found = []
-    for comment in comments or []:
-        author = (comment.get("author") or {}).get("login") if isinstance(comment, dict) else None
-        if author in BOT_LOGINS and marker.search(comment.get("body") or ""):
-            found.append(comment["body"])
+    for comment in commentList(commentsDoc):
+        if not isinstance(comment, dict):
+            continue
+        author = (comment.get("author") or {}).get("login")
+        body = comment.get("body") or ""
+        if author in BOT_LOGINS and body.startswith(header) and marker.search(body):
+            found.append(body)
     return found
+
+
+def sanitizeLog(text):
+    """Make echoed log text inert: no HTML comment can open or close inside a bot comment."""
+    return str(text).replace("<!--", "<! --").replace("-->", "-- >")
+
+
+def recordIdentityDigest(batch, receipt):
+    """Replay-stable digest of a record: excludes who ran the recovery and the body hash."""
+    return sha256Hex(canonicalJson({"batch": batch, "receipt": receiptIdentity(receipt)}))
 
 
 def recordDigestOf(body):
     decoded = decodeRecord(body)
     if not decoded:
         return None
-    return sha256Hex(canonicalJson({"batch": decoded["batch"], "receipt": receiptIdentity(decoded["receipt"])}))
+    return recordIdentityDigest(decoded["batch"], decoded["receipt"])
 
 
 def encodeRecord(batch, receipt):
@@ -696,11 +724,11 @@ def encodeRecord(batch, receipt):
 
 
 def decodeRecord(body):
-    match = RECORD_MARKER.search(body or "")
-    if not match:
+    matches = RECORD_MARKER.findall(body or "")
+    if not matches:
         return None
     try:
-        decoded = json.loads(base64.b64decode(match.group(1)).decode("utf-8"))
+        decoded = json.loads(base64.b64decode(matches[-1]).decode("utf-8"))
     except (ValueError, UnicodeDecodeError):
         return None
     if not isinstance(decoded, dict) or not isinstance(decoded.get("batch"), dict) or not isinstance(decoded.get("receipt"), dict):
@@ -728,8 +756,11 @@ def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=Non
     if receipt is not None:
         payload["recovery"] = {
             "receiptPath": receiptRelPath(issueNumber),
-            "receiptSha256": sha256Hex(canonicalJson(receipt)),
+            # Identity digest, not the full receipt: a replay from a fresh checkout
+            # (another actor, an immaterial issue edit) must bind to the same record.
+            "recordDigest": recordIdentityDigest(batch, receipt),
             "batchSha256": receipt["reconstructedBatch"]["sha256"],
+            "issueBodySha256": receipt["issueBodySha256"],
             "reconstruction": True,
         }
     return json.dumps(payload, separators=(",", ":"))
@@ -738,7 +769,7 @@ def buildApprovalPayload(batchPath, issueNumber, approver, repoRoot, receipt=Non
 def recoveryComment(result):
     receipt = result["receipt"]
     lines = [
-        "## Intake recovery record (reconstruction)",
+        RECORD_HEADER,
         "",
         f"The batch file for this intake was not available, so a maintainer-authorized recovery built "
         f"`{result['batchPath']}` from this issue and the upstream SKILL.md blobs below.",
@@ -746,7 +777,7 @@ def recoveryComment(result):
         "L4 human review, evidence-ready or evidence-approved, schema validation, or the single promotion PR.",
         "",
         f"- Recovered by: `{receipt['authorization']['recoveredBy']}` ({receipt['authorization']['permission']})",
-        f"- Rationale: {receipt['authorization']['rationale']}",
+        f"- Rationale: {sanitizeLog(receipt['authorization']['rationale'])}",
         f"- Reconstructed batch SHA-256: `{receipt['reconstructedBatch']['sha256']}`",
         "",
         "| Skill | Source | SHA-256 | Origin |",
@@ -771,17 +802,40 @@ def recoveryComment(result):
 
 
 def materialize(issueNumber, commentsDoc, repoRoot, fetcher):
-    """Write the recorded reconstruction into the promotion branch; no-op when none was recorded."""
-    records = botComments(commentsDoc, RECORD_MARKER)
-    if not records:
+    """Write the recorded reconstruction into the promotion branch; no-op when none was recorded.
+
+    `commentsDoc` is `gh issue view --json body,comments`. Only bot-authored comments that
+    start with the workflow's own headers are read. The latest topology approval decides
+    whether a recovery is in play at all, and names the exact record (by digest) and the
+    issue body it was approved against.
+    """
+    approvals = []
+    for body in botComments(commentsDoc, APPROVAL_MARKER, APPROVAL_HEADER):
+        try:
+            approvals.append(json.loads(APPROVAL_MARKER.search(body).group(1)))
+        except ValueError:
+            continue
+    approvals = [item for item in approvals if isinstance(item, dict) and item.get("issue") == int(issueNumber)]
+    bound = (approvals[-1].get("recovery") if approvals else None) or None
+    if not isinstance(bound, dict):
         return {"status": "no-recovery", "files": []}
-    decoded = decodeRecord(records[-1])
-    if decoded is None:
-        raise RecoveryError("The latest recovery record comment is unreadable.", EXIT_BLOCKED)
+
+    candidates = [
+        (decoded, body)
+        for body in botComments(commentsDoc, RECORD_MARKER, RECORD_HEADER)
+        for decoded in [decodeRecord(body)]
+        if decoded is not None and recordIdentityDigest(decoded["batch"], decoded["receipt"]) == bound.get("recordDigest")
+    ]
+    if not candidates:
+        raise RecoveryError(
+            "The latest topology approval names a recovery record that is not on the issue; re-run recovery.",
+            EXIT_STALE,
+        )
+    decoded = candidates[-1][0]
     batch, receipt = decoded["batch"], decoded["receipt"]
     if receipt.get("issue") != int(issueNumber) or receipt.get("reconstruction") is not True:
         raise RecoveryError("The recovery record does not belong to this intake issue.", EXIT_BLOCKED)
-    if receipt.get("reconstructedBatch", {}).get("sha256") != sha256Hex(canonicalJson(batch)):
+    if receipt.get("reconstructedBatch", {}).get("sha256") != sha256Hex(canonicalJson(batch)) or bound.get("batchSha256") != receipt["reconstructedBatch"]["sha256"]:
         raise RecoveryError("The recovery record's batch does not match its recorded digest.", EXIT_BLOCKED)
     batchId = batch.get("batchId")
     if not isinstance(batchId, str) or not BATCH_ID_RE.match(batchId):
@@ -796,17 +850,12 @@ def materialize(issueNumber, commentsDoc, repoRoot, fetcher):
         same = canonicalJson(onDisk) == canonicalJson(batch)
         return {"status": "recovery-already-present" if same else "original-batch-present", "files": []}
 
-    approvals = [json.loads(m.group(1)) for body in botComments(commentsDoc, APPROVAL_MARKER) for m in [APPROVAL_MARKER.search(body)]]
-    approval = approvals[-1] if approvals else None
-    bound = (approval or {}).get("recovery") or {}
-    if (
-        not approval
-        or approval.get("issue") != int(issueNumber)
-        or bound.get("receiptSha256") != sha256Hex(canonicalJson(receipt))
-        or bound.get("batchSha256") != receipt["reconstructedBatch"]["sha256"]
-    ):
+    body = commentsDoc.get("body") if isinstance(commentsDoc, dict) else None
+    if not isinstance(body, str) or sha256Hex(body) != bound.get("issueBodySha256"):
         raise RecoveryError(
-            "The latest topology approval is not bound to this recovery record; re-run recovery.", EXIT_STALE
+            "The intake issue body changed (or could not be read) after the topology approval that recorded this "
+            "recovery. Re-run the topology approval with recovery=true so a maintainer approves the current body.",
+            EXIT_STALE,
         )
 
     urls = {item["skillId"]: item["url"] for item in receipt.get("sources", [])}

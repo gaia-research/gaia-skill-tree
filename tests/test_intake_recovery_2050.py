@@ -512,7 +512,7 @@ def test_normal_batch_present_payload_is_byte_identical_to_the_legacy_payload(tm
 
 
 def test_normal_intake_has_nothing_to_materialize(tmp_path):
-    comments = {"comments": [botComment('<!-- gaia-intake-approval {"schemaVersion":1,"issue":4242} -->')]}
+    comments = {"body": "x", "comments": [botComment(approvalComment('{"schemaVersion":1,"issue":4242}'))]}
     assert rec.materialize(4242, comments, str(tmp_path), Fetcher()) == {"status": "no-recovery", "files": []}
     assert noFiles(tmp_path)
 
@@ -522,16 +522,21 @@ def test_normal_intake_has_nothing_to_materialize(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def handoff(tmp_path, issueFactory=richIssue):
-    """Run topology-stage recovery in one checkout and return the comments it would post."""
-    topology = tmp_path / "topology"
+def approvalComment(payload):
+    """The topology approval comment exactly as the workflow writes it (header first)."""
+    return f"{rec.APPROVAL_HEADER}\n\nThe batch topology is accepted.\n\n<!-- gaia-intake-approval {payload} -->\n"
+
+
+def handoff(tmp_path, issueFactory=richIssue, name="topology", actor="maintainer-one", existing=None):
+    """Run topology-stage recovery in one fresh checkout and return the comments it would post."""
+    topology = tmp_path / name
     topology.mkdir()
-    result, _ = run(issueFactory(), topology, facts=SCAN_FACTS if issueFactory is scanIssue else "")
-    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "maintainer-one", str(topology))
-    comments = {"comments": [
-        botComment(rec.recoveryComment(result)),
-        botComment(f"## Intake topology approved\n\n<!-- gaia-intake-approval {payload} -->"),
-    ]}
+    issue = issueFactory()
+    result, _ = run(issue, topology, facts=SCAN_FACTS if issueFactory is scanIssue else "", actor=actor, comments=existing)
+    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, actor, str(topology))
+    posted = [] if result["alreadyRecorded"] else [botComment(rec.recoveryComment(result))]
+    posted.append(botComment(approvalComment(payload)))
+    comments = {"body": issue["body"], "comments": list((existing or {}).get("comments", [])) + posted}
     return result, comments, json.loads(payload)
 
 
@@ -539,8 +544,9 @@ def test_approval_payload_binds_the_recovery_record(tmp_path):
     result, _, payload = handoff(tmp_path)
     assert payload["recovery"] == {
         "receiptPath": rec.receiptRelPath(4242),
-        "receiptSha256": rec.sha256Hex(rec.canonicalJson(result["receipt"])),
+        "recordDigest": rec.recordIdentityDigest(result["batch"], result["receipt"]),
         "batchSha256": result["receipt"]["reconstructedBatch"]["sha256"],
+        "issueBodySha256": result["receipt"]["issueBodySha256"],
         "reconstruction": True,
     }
     assert payload["evidenceReviewStatus"] == "pending"
@@ -572,20 +578,30 @@ def test_evidence_stage_rejects_stale_upstream(tmp_path):
 
 def test_evidence_stage_ignores_records_and_approvals_not_written_by_the_bot(tmp_path):
     _, comments, _ = handoff(tmp_path)
-    forged = {"comments": [dict(comment, author={"login": "random-user"}) for comment in comments["comments"]]}
+    forged = {"body": comments["body"], "comments": [dict(comment, author={"login": "random-user"}) for comment in comments["comments"]]}
     branch = tmp_path / "promotion"
     branch.mkdir()
     assert rec.materialize(4242, forged, str(branch), Fetcher())["status"] == "no-recovery"
     assert noFiles(branch)
 
 
-def test_evidence_stage_requires_the_approval_to_be_bound_to_the_record(tmp_path):
+def test_approval_without_recovery_means_nothing_to_materialize(tmp_path):
+    """A normal re-approval after a recovery (e.g. the batch was later committed) is not an error."""
     _, comments, _ = handoff(tmp_path)
-    unbound = {"comments": [comments["comments"][0], botComment('<!-- gaia-intake-approval {"schemaVersion":1,"issue":4242} -->')]}
+    normal = {"body": comments["body"], "comments": comments["comments"][:1] + [
+        botComment(approvalComment('{"schemaVersion":1,"issue":4242}'))]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, normal, str(branch), Fetcher())["status"] == "no-recovery"
+
+
+def test_approval_naming_a_record_that_is_not_on_the_issue_is_stale(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    missing = {"body": comments["body"], "comments": comments["comments"][1:]}  # record comment gone
     branch = tmp_path / "promotion"
     branch.mkdir()
     with pytest.raises(rec.RecoveryError) as raised:
-        rec.materialize(4242, unbound, str(branch), Fetcher())
+        rec.materialize(4242, missing, str(branch), Fetcher())
     assert raised.value.code == rec.EXIT_STALE
     assert noFiles(branch)
 
@@ -599,7 +615,7 @@ def test_tampered_record_is_rejected(tmp_path):
     branch = tmp_path / "promotion"
     branch.mkdir()
     with pytest.raises(rec.RecoveryError):
-        rec.materialize(4242, {"comments": [botComment(tampered), comments["comments"][1]]}, str(branch), Fetcher())
+        rec.materialize(4242, {"body": comments["body"], "comments": [botComment(tampered), comments["comments"][1]]}, str(branch), Fetcher())
     assert noFiles(branch)
 
 
@@ -640,9 +656,9 @@ def test_cli_recover_payload_materialize_round_trip(tmp_path, capsys):
     assert json.loads(payload)["recovery"]["reconstruction"] is True
 
     commentsFile = tmp_path / "comments.json"
-    commentsFile.write_text(json.dumps({"comments": [
+    commentsFile.write_text(json.dumps({"body": issue["body"], "comments": [
         botComment(commentFile.read_text(encoding="utf-8")),
-        botComment(f"<!-- gaia-intake-approval {payload} -->"),
+        botComment(approvalComment(payload)),
     ]}), encoding="utf-8")
     branch = tmp_path / "promotion"
     branch.mkdir()
@@ -753,3 +769,228 @@ def test_tooling_comes_from_the_workflow_commit_not_the_batch_branch():
         assert names.index("actions/checkout@v4") < names.index(tools["name"])
         for step in stepsOf(job):
             assert "python3 scripts/intake_recovery.py" not in step.get("run", "")
+
+
+# ---------------------------------------------------------------------------
+# forged markers (review finding 1)
+# ---------------------------------------------------------------------------
+
+
+def forgedPair(tmp_path):
+    """A record + bound approval an issue author could try to smuggle into a bot comment."""
+    result, comments, _ = handoff(tmp_path)
+    return comments["comments"][0]["body"], comments["comments"][1]["body"], comments["body"]
+
+
+@pytest.mark.parametrize("wrap", [
+    lambda text: "## Intake topology approval failed\n\n```\n" + text + "\n```\n",   # the real failure-comment shape
+    lambda text: "Intro line\n" + text,                                               # header not first
+    lambda text: " " + text,                                                          # leading whitespace
+])
+def test_forged_markers_inside_a_bot_comment_with_another_header_are_ignored(tmp_path, wrap):
+    record, approval, body = forgedPair(tmp_path)
+    forged = {"body": body, "comments": [botComment(wrap(record)), botComment(wrap(approval))]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, forged, str(branch), Fetcher()) == {"status": "no-recovery", "files": []}
+    assert noFiles(branch)
+
+
+def test_forged_record_cannot_block_a_normal_intake(tmp_path):
+    """The reviewer's DoS: a forged record next to a legitimate non-recovery approval."""
+    record, _, body = forgedPair(tmp_path)
+    comments = {"body": body, "comments": [
+        botComment("## Intake topology approval failed\n\n" + record),
+        botComment(approvalComment('{"schemaVersion":1,"issue":4242}')),
+    ]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, comments, str(branch), Fetcher())["status"] == "no-recovery"
+
+
+def test_forged_record_with_evil_batch_is_never_materialized(tmp_path):
+    result, comments, _ = handoff(tmp_path)
+    evil = copy.deepcopy(result["batch"])
+    evil["batchId"] = "evil-batch"
+    receipt = copy.deepcopy(result["receipt"])
+    receipt["reconstructedBatch"] = {"path": rec.batchRelPath("evil-batch"), "sha256": rec.sha256Hex(rec.canonicalJson(evil))}
+    marker = f"<!-- gaia-intake-recovery-record {rec.encodeRecord(evil, receipt)} -->"
+    payload = rec.buildApprovalPayload(rec.batchRelPath(BATCH_ID), 4242, "x", str(tmp_path / "topology"))
+    forgedApproval = json.loads(payload)
+    forgedApproval["recovery"]["recordDigest"] = rec.recordIdentityDigest(evil, receipt)
+    forgedApproval["recovery"]["batchSha256"] = receipt["reconstructedBatch"]["sha256"]
+    attack = {"body": comments["body"], "comments": [
+        botComment("## Intake topology approval failed\n\n" + marker),
+        botComment("## Intake topology approval failed\n\n<!-- gaia-intake-approval " + json.dumps(forgedApproval) + " -->"),
+    ]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, attack, str(branch), Fetcher())["status"] == "no-recovery"
+    assert noFiles(branch)
+
+
+def test_a_valid_approval_only_selects_the_record_with_its_own_digest(tmp_path):
+    result, comments, _ = handoff(tmp_path)
+    other = copy.deepcopy(result["batch"])
+    other["proposedSkills"][0]["description"] = "A different reconstruction that was never approved."
+    receipt = copy.deepcopy(result["receipt"])
+    receipt["reconstructedBatch"]["sha256"] = rec.sha256Hex(rec.canonicalJson(other))
+    decoy = rec.recoveryComment({"batch": other, "receipt": receipt, "batchPath": rec.batchRelPath(BATCH_ID)})
+    mixed = {"body": comments["body"], "comments": [comments["comments"][0], botComment(decoy), comments["comments"][1]]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    rec.materialize(4242, mixed, str(branch), Fetcher())
+    written = json.loads((branch / rec.batchRelPath(BATCH_ID)).read_text(encoding="utf-8"))
+    assert written == result["batch"]
+
+
+def test_marker_text_inside_the_rationale_cannot_replace_the_record(tmp_path):
+    rationale = "Verified blobs <!-- gaia-intake-recovery-record AAAA --> by hand."
+    topology = tmp_path / "topology"
+    topology.mkdir()
+    result, _ = run(richIssue(), topology, rationale=rationale)
+    comment = rec.recoveryComment(result)
+    assert "<!-- gaia-intake-recovery-record AAAA" not in comment
+    assert rec.decodeRecord(comment)["batch"] == result["batch"]
+
+
+def test_log_text_is_made_inert():
+    assert "<!--" not in rec.sanitizeLog("see <!-- gaia-intake-approval {} --> now")
+    assert "-->" not in rec.sanitizeLog("a --> b")
+
+
+# ---------------------------------------------------------------------------
+# replay across fresh checkouts and edited bodies (findings 2 and 3)
+# ---------------------------------------------------------------------------
+
+
+def test_replay_from_a_fresh_checkout_by_another_maintainer_still_materializes(tmp_path):
+    first, comments, _ = handoff(tmp_path, name="topology-one")
+    again, comments, payload = handoff(
+        tmp_path, name="topology-two", actor="maintainer-two", existing=comments)
+    assert again["alreadyRecorded"] is True
+    assert payload["recovery"]["recordDigest"] == rec.recordIdentityDigest(first["batch"], first["receipt"])
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    outcome = rec.materialize(4242, comments, str(branch), Fetcher())
+    assert outcome["status"] == "materialized"
+    receipt = json.loads((branch / rec.receiptRelPath(4242)).read_text(encoding="utf-8"))
+    assert receipt["authorization"]["recoveredBy"] == "maintainer-one"  # the recorded actor, not the replayer
+
+
+def test_immaterial_issue_edit_replay_is_idempotent_and_pins_the_new_body(tmp_path):
+    _, comments, _ = handoff(tmp_path, name="topology-one")
+
+    def edited():
+        issue = richIssue()
+        issue["body"] += "\n\nMaintainer note: looks fine.\n"
+        return issue
+
+    again, comments, payload = handoff(tmp_path, edited, name="topology-two", existing=comments)
+    assert again["alreadyRecorded"] is True
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, comments, str(branch), Fetcher())["status"] == "materialized"
+
+
+def test_issue_body_edited_after_approval_requires_re_approval(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    comments = dict(comments, body=comments["body"] + "\nEdited after approval.\n")
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    with pytest.raises(rec.RecoveryError) as raised:
+        rec.materialize(4242, comments, str(branch), Fetcher())
+    assert raised.value.code == rec.EXIT_STALE
+    assert "Re-run the topology approval" in str(raised.value)
+    assert noFiles(branch)
+
+
+def test_missing_issue_body_cannot_be_verified(tmp_path):
+    _, comments, _ = handoff(tmp_path)
+    comments = {"comments": comments["comments"]}
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    with pytest.raises(rec.RecoveryError) as raised:
+        rec.materialize(4242, comments, str(branch), Fetcher())
+    assert raised.value.code == rec.EXIT_STALE
+
+
+def test_material_issue_edit_makes_a_new_record_and_the_new_approval_selects_it(tmp_path):
+    first, comments, _ = handoff(tmp_path, name="topology-one")
+
+    def edited():
+        issue = richIssue()
+        issue["body"] = issue["body"].replace("Does the Sample Skill job end to end for reviewers.",
+                                              "Does the Sample Skill job, now described differently.")
+        return issue
+
+    second, comments, _ = handoff(tmp_path, edited, name="topology-two", existing=comments)
+    assert second["alreadyRecorded"] is False
+    branch = tmp_path / "promotion"
+    branch.mkdir()
+    assert rec.materialize(4242, comments, str(branch), Fetcher())["status"] == "materialized"
+    written = json.loads((branch / rec.batchRelPath(BATCH_ID)).read_text(encoding="utf-8"))
+    assert written == second["batch"] and written != first["batch"]
+
+
+# ---------------------------------------------------------------------------
+# N:1 fan-out intakes (finding 5): an explicit, documented honest failure
+# ---------------------------------------------------------------------------
+
+
+def test_n_to_one_fan_out_intake_is_blocked_with_the_route_that_does_work(tmp_path):
+    first = richSkill("shared-capability", "First Impl", URL_ONE)
+    second = richSkill("shared-capability", "Second Impl", URL_TWO)
+    second["named"]["skill_name"] = "second-impl"
+    with pytest.raises(rec.RecoveryError) as raised:
+        run(issueOf([first, second], True), tmp_path)
+    assert raised.value.code == rec.EXIT_BLOCKED
+    joined = "\n".join(raised.value.lines)
+    assert "N:1 fan-out" in joined and "gaia push --from-file" in joined and "discovery-packet-manifest-v1" in joined
+    assert noFiles(tmp_path)
+
+
+# ---------------------------------------------------------------------------
+# workflow hardening (findings 1 and 4)
+# ---------------------------------------------------------------------------
+
+
+def test_workflow_approval_comment_starts_with_the_header_the_script_trusts():
+    run = stepNamed("topology-approved", "Validate the intake batch")["run"]
+    after = run.split("cat > /tmp/comment.md <<EOF\n", 1)[1]
+    assert after.splitlines()[0].strip() == rec.APPROVAL_HEADER
+    assert rec.RECORD_HEADER in (ROOT / "scripts/intake_recovery.py").read_text(encoding="utf-8")
+
+
+def test_failure_comments_neutralize_html_comment_delimiters():
+    for job in ("topology-approved", "evidence-approved"):
+        failing = [step["run"] for step in stepsOf(job) if "intake-fail-comment.md" in step.get("run", "")]
+        assert failing, job
+        for run in failing:
+            tail = next(line for line in run.splitlines() if "tail -c 4000" in line)
+            assert "sed" in tail and "<!--" in tail and "-->" in tail
+            failureHeader = next(line.split('echo "', 1)[1].rstrip('"') for line in run.splitlines() if 'echo "## Intake' in line)
+            assert not failureHeader.startswith(rec.APPROVAL_HEADER) and not failureHeader.startswith(rec.RECORD_HEADER)
+
+
+def test_issue_number_input_flows_through_env_and_is_validated_as_an_integer():
+    for job in ("topology-approved", "evidence-approved"):
+        resolve = stepNamed(job, "Resolve and validate issue")
+        assert resolve["env"]["ISSUE_NUMBER_INPUT"] == "${{ inputs.issue_number }}"
+        code = "\n".join(line for line in resolve["run"].splitlines() if not line.strip().startswith("#"))
+        assert "${{ inputs.issue_number }}" not in code
+        assert 'number="$ISSUE_NUMBER_INPUT"' in code
+        assert code.index("*[!0-9]*") < code.index('echo "number=$number"')
+
+
+def test_token_permissions_are_least_privilege_per_job():
+    doc = workflow()
+    assert doc["permissions"] == {"contents": "read"}
+    assert doc["jobs"]["topology-approved"]["permissions"] == {"contents": "read", "issues": "write"}
+    assert doc["jobs"]["evidence-approved"]["permissions"] == {
+        "contents": "write", "issues": "write", "pull-requests": "write"}
+
+
+def test_evidence_job_fetches_the_issue_body_for_the_approval_pin():
+    run = stepNamed("evidence-approved", "Create or reuse the batch promotion PR")["run"]
+    assert "--json body,comments" in run

@@ -32,15 +32,18 @@ on:
         required: false
         type: string
 
+# Least privilege: the default token only reads. Each job asks for what it uses.
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+  contents: read
 
 jobs:
   topology-approved:
     name: Queue evidence review after topology approval
     runs-on: ubuntu-latest
+    # Validates and comments only; it never pushes or opens a PR.
+    permissions:
+      contents: read
+      issues: write
     # The resolve step calls `gh issue view` before actions/checkout, where gh
     # has no .git to infer the repository from (#1799).
     env:
@@ -54,15 +57,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_REF_INPUT: ${{ inputs.base_ref }}
+          ISSUE_NUMBER_INPUT: ${{ inputs.issue_number }}
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            number="${{ inputs.issue_number }}"
+            number="$ISSUE_NUMBER_INPUT"
             actor="${{ github.actor }}"
           else
             number="${{ github.event.issue.number }}"
             actor="${{ github.event.sender.login }}"
           fi
+          # The number reaches later shell steps and gh calls: it must be an integer.
+          case "$number" in
+            ''|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+          esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
 
@@ -226,7 +234,9 @@ jobs:
               echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               echo ""
               echo '```'
-              tail -c 4000 /tmp/intake-output.log
+              # The log can echo issue-controlled text. Neutralize HTML comment
+              # delimiters so a bot comment can never carry a forged marker.
+              tail -c 4000 /tmp/intake-output.log | sed -e 's/<!--/<! --/g' -e 's/-->/-- >/g'
               echo '```'
             } > /tmp/intake-fail-comment.md
             gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true
@@ -236,6 +246,11 @@ jobs:
   evidence-approved:
     name: Open the single promotion PR after evidence approval
     runs-on: ubuntu-latest
+    # Pushes review/meta/intake-<N>, opens the draft PR, and comments.
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     # The resolve step calls `gh issue view` before actions/checkout, where gh
     # has no .git to infer the repository from (#1799).
     env:
@@ -249,15 +264,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_REF_INPUT: ${{ inputs.base_ref }}
+          ISSUE_NUMBER_INPUT: ${{ inputs.issue_number }}
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            number="${{ inputs.issue_number }}"
+            number="$ISSUE_NUMBER_INPUT"
             actor="${{ github.actor }}"
           else
             number="${{ github.event.issue.number }}"
             actor="${{ github.event.sender.login }}"
           fi
+          # The number reaches later shell steps and gh calls: it must be an integer.
+          case "$number" in
+            ''|*[!0-9]*) echo "::error::Issue number must be a positive integer."; exit 1 ;;
+          esac
           echo "number=$number" >> "$GITHUB_OUTPUT"
           echo "actor=$actor" >> "$GITHUB_OUTPUT"
 
@@ -347,7 +367,7 @@ jobs:
             # A reconstruction recorded at topology approval (#2050) rides in this
             # same PR. No-op for an intake whose original batch was committed.
             : > /tmp/recovery-files.txt
-            gh issue view "$ISSUE_NUMBER" --json comments > /tmp/issue-comments.json
+            gh issue view "$ISSUE_NUMBER" --json body,comments > /tmp/issue-comments.json
             python3 .intake-tools/scripts/intake_recovery.py materialize --issue "$ISSUE_NUMBER" \
               --comments-json /tmp/issue-comments.json --files-out /tmp/recovery-files.txt
 
@@ -392,7 +412,9 @@ jobs:
               echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               echo ""
               echo '```'
-              tail -c 4000 /tmp/intake-output.log
+              # The log can echo issue-controlled text. Neutralize HTML comment
+              # delimiters so a bot comment can never carry a forged marker.
+              tail -c 4000 /tmp/intake-output.log | sed -e 's/<!--/<! --/g' -e 's/-->/-- >/g'
               echo '```'
             } > /tmp/intake-fail-comment.md
             gh issue comment "$ISSUE_NUMBER" --body-file /tmp/intake-fail-comment.md || true
