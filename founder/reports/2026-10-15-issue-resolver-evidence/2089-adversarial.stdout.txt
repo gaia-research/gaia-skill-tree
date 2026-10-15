@@ -1,0 +1,18 @@
+test_allow_stale_is_rejected (__main__.Review2089.test_allow_stale_is_rejected) ... ok
+test_case_variant_named_identity_rejected (__main__.Review2089.test_case_variant_named_identity_rejected) ... ok
+test_conflicting_generic_definition_rejected (__main__.Review2089.test_conflicting_generic_definition_rejected) ... ok
+test_distinct_named_shared_generic_accepted (__main__.Review2089.test_distinct_named_shared_generic_accepted) ... ok
+test_duplicate_candidate_rejected (__main__.Review2089.test_duplicate_candidate_rejected) ... ok
+test_forged_outside_topk_attestation_is_accepted (__main__.Review2089.test_forged_outside_topk_attestation_is_accepted) ... ok
+test_forgery_still_accepted_with_fabricated_local_receipt (__main__.Review2089.test_forgery_still_accepted_with_fabricated_local_receipt) ... ok
+test_manual_vector_is_rejected (__main__.Review2089.test_manual_vector_is_rejected) ... ok
+test_missing_attestation_is_rejected (__main__.Review2089.test_missing_attestation_is_rejected) ... ok
+test_mixed_case_contributor_survives_push (__main__.Review2089.test_mixed_case_contributor_survives_push) ... ok
+test_same_identity_different_generic_rejected (__main__.Review2089.test_same_identity_different_generic_rejected) ... ok
+test_stale_catalog_is_rejected (__main__.Review2089.test_stale_catalog_is_rejected) ... ok
+test_unaccepted_generic_across_batches_rejected (__main__.Review2089.test_unaccepted_generic_across_batches_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.033s
+
+OK
