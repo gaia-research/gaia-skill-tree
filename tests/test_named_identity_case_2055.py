@@ -1,4 +1,4 @@
-"""Case-preserved named contributor identities across add/ratify/rename/push (#2055).
+"""Lowercase-only named contributor identities across all intake surfaces (#2055).
 
 All fixtures are synthetic tmp_path registries; nothing touches real registry data.
 """
@@ -14,6 +14,8 @@ from gaia_cli.commands.dev.ratify import ratifyCommand
 from gaia_cli.commands.dev.rename import meta_rename_command
 from gaia_cli.commands.pushFromFile import build_from_file_batch
 from gaia_cli.namedIdentity import findIdentityCollisions, identityKey, validateContributor
+from gaia_cli.intakeAdapter import buildIntakeYaml
+from test_intake_adapter import _basePacket
 from test_dev_ratify import (
     _makeDeferredMappedPacket,
     _makeRatifyArgs,
@@ -71,17 +73,20 @@ def namedFiles(root: str):
 # ---------------------------------------------------------------------------
 
 
-def test_add_preserves_mixed_case_contributor(tmp_path, monkeypatch):
-    """The issue's reproduction: ExampleOwner/sample-skill must be accepted verbatim."""
-    monkeypatch.setenv("GAIA_OPERATOR_OVERRIDE", "1")
+@pytest.mark.parametrize("contributor", ["ExampleOwner", "Hikari9", "EXAMPLEOWNER"])
+def test_add_rejects_mixed_case_without_normalizing(tmp_path, capsys, contributor):
     root = makeRegistry(tmp_path)
-    meta_add_command(addArgs(root, "ExampleOwner"))
-    created = Path(root) / "registry" / "named" / "ExampleOwner" / "sample-skill.md"
-    assert created.exists()
-    text = created.read_text(encoding="utf-8")
-    assert "id: ExampleOwner/sample-skill" in text
-    assert "contributor: ExampleOwner" in text
-    assert namedFiles(root) == ["ExampleOwner/sample-skill.md"]
+    with pytest.raises(SystemExit):
+        meta_add_command(addArgs(root, contributor))
+    assert f"expected '{contributor.lower()}'" in capsys.readouterr().err
+    assert namedFiles(root) == []
+
+
+def test_add_approved_hikari9_identity(tmp_path):
+    root = makeRegistry(tmp_path)
+    meta_add_command(addArgs(root, "hikari9", skillId="auto-office"))
+    created = Path(root) / "registry" / "named" / "hikari9" / "auto-office.md"
+    assert "id: hikari9/auto-office" in created.read_text()
 
 
 def test_add_lowercase_contributor_unchanged(tmp_path):
@@ -91,9 +96,8 @@ def test_add_lowercase_contributor_unchanged(tmp_path):
 
 
 @pytest.mark.parametrize("existing,candidate", [
-    ("exampleowner", "ExampleOwner"),
     ("ExampleOwner", "exampleowner"),
-    ("ExampleOwner", "EXAMPLEOWNER"),
+    ("EXAMPLEOWNER", "exampleowner"),
 ])
 def test_add_rejects_case_variant_of_existing_identity(tmp_path, capsys, existing, candidate):
     root = makeRegistry(tmp_path)
@@ -112,26 +116,26 @@ def test_add_rejects_case_variant_of_existing_identity(tmp_path, capsys, existin
 def test_add_rejects_second_spelling_of_contributor_directory(tmp_path, capsys):
     """Same GitHub account under a second directory spelling, different skill slug."""
     root = makeRegistry(tmp_path)
-    writeNamed(root, "exampleowner", "first-skill")
+    writeNamed(root, "ExampleOwner", "first-skill")
     before = namedFiles(root)
     with pytest.raises(SystemExit):
-        meta_add_command(addArgs(root, "ExampleOwner", skillId="second-skill"))
-    assert "differs from 'ExampleOwner' only by case" in capsys.readouterr().err
+        meta_add_command(addArgs(root, "exampleowner", skillId="second-skill"))
+    assert "differs from 'exampleowner' only by case" in capsys.readouterr().err
     assert namedFiles(root) == before
 
 
 def test_add_allows_new_slug_under_existing_exact_contributor_spelling(tmp_path):
     root = makeRegistry(tmp_path)
-    writeNamed(root, "ExampleOwner", "first-skill")
-    meta_add_command(addArgs(root, "ExampleOwner", skillId="second-skill"))
-    assert namedFiles(root) == ["ExampleOwner/first-skill.md", "ExampleOwner/second-skill.md"]
+    writeNamed(root, "exampleowner", "first-skill")
+    meta_add_command(addArgs(root, "exampleowner", skillId="second-skill"))
+    assert namedFiles(root) == ["exampleowner/first-skill.md", "exampleowner/second-skill.md"]
 
 
 def test_add_rejects_exact_duplicate(tmp_path, capsys):
     root = makeRegistry(tmp_path)
-    writeNamed(root, "ExampleOwner", "sample-skill")
+    writeNamed(root, "exampleowner", "sample-skill")
     with pytest.raises(SystemExit):
-        meta_add_command(addArgs(root, "ExampleOwner"))
+        meta_add_command(addArgs(root, "exampleowner"))
     assert "already exists" in capsys.readouterr().err
 
 
@@ -146,8 +150,8 @@ def test_add_rejects_malformed_contributor(tmp_path, capsys, contributor):
 def test_add_slug_must_stay_lowercase(tmp_path, capsys):
     root = makeRegistry(tmp_path)
     with pytest.raises(SystemExit):
-        meta_add_command(addArgs(root, "ExampleOwner", skillId="Sample_Skill"))
-    assert "Named skill ID 'ExampleOwner/Sample_Skill' is invalid" in capsys.readouterr().err
+        meta_add_command(addArgs(root, "exampleowner", skillId="Sample_Skill"))
+    assert "Named skill ID 'exampleowner/Sample_Skill' is invalid" in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------------------
@@ -168,11 +172,11 @@ def ratify(tmp_path, contributor, skillName="sample-skill", seed=None):
     return ratifyCommand(args), packetPath
 
 
-def test_ratify_records_mixed_case_contributor_verbatim(tmp_path):
-    rc, packetPath = ratify(tmp_path, "ExampleOwner")
+def test_ratify_records_lowercase_contributor_verbatim(tmp_path):
+    rc, packetPath = ratify(tmp_path, "exampleowner")
     assert rc == 0
     named = json.loads(packetPath.read_text(encoding="utf-8"))["l4Resolution"]["named"]
-    assert named["contributor"] == "ExampleOwner"
+    assert named["contributor"] == "exampleowner"
 
 
 @pytest.mark.parametrize("seed", [("exampleowner", "sample-skill"), ("ExampleOwner", "sample-skill")])
@@ -184,7 +188,7 @@ def test_ratify_rejects_collision_and_leaves_packet_untouched(tmp_path, capsys, 
     registry = _makeRegistryDir(tmp_path)
     writeNamed(registry, *seed)
     args = _makeRatifyArgs(tmp_path, packet, packetPath, registry=registry,
-                           contributor="ExampleOwner", skill_name="sample-skill")
+                           contributor="exampleowner", skill_name="sample-skill")
     assert ratifyCommand(args) == 1
     assert packetPath.read_text(encoding="utf-8") == original
     assert "collides with an existing named identity" in capsys.readouterr().err
@@ -201,7 +205,7 @@ def test_ratify_rejects_the_handles_add_rejects(tmp_path, contributor):
 # ---------------------------------------------------------------------------
 
 
-def test_rename_accepts_mixed_case_contributor_and_rejects_collisions(tmp_path, capsys):
+def test_rename_accepts_lowercase_contributor_and_rejects_legacy_collisions(tmp_path, capsys):
     root = makeRegistry(tmp_path)
     writeNamed(root, "acme", "old-slug")
     writeNamed(root, "ExampleOwner", "taken")
@@ -209,8 +213,8 @@ def test_rename_accepts_mixed_case_contributor_and_rejects_collisions(tmp_path, 
     with pytest.raises(SystemExit):
         meta_rename_command(SimpleNamespace(new_id="exampleowner/taken", **base))
     assert "collides with an existing identity" in capsys.readouterr().err
-    meta_rename_command(SimpleNamespace(new_id="NewOwner/new-slug", **base))
-    assert (Path(root) / "registry" / "named" / "NewOwner" / "new-slug.md").exists()
+    meta_rename_command(SimpleNamespace(new_id="newowner/new-slug", **base))
+    assert (Path(root) / "registry" / "named" / "newowner" / "new-slug.md").exists()
 
 
 # ---------------------------------------------------------------------------
@@ -232,17 +236,17 @@ def fromFileEntry(contributor):
 
 def test_push_from_file_rejects_case_variant_of_canonical_named(tmp_path):
     root = _makeRegistryDir(tmp_path)
-    writeNamed(root, "exampleowner", "sample-skill")
-    batch, errors = build_from_file_batch([fromFileEntry("ExampleOwner")], {"gaiaUser": "t"}, root, "test/repo")
+    writeNamed(root, "ExampleOwner", "sample-skill")
+    batch, errors = build_from_file_batch([fromFileEntry("exampleowner")], {"gaiaUser": "t"}, root, "test/repo")
     assert batch is None
     assert any("collides with an existing canonical named implementation" in e for e in errors)
 
 
-def test_push_from_file_accepts_mixed_case_when_free(tmp_path):
+def test_push_from_file_accepts_lowercase_when_free(tmp_path):
     root = _makeRegistryDir(tmp_path)
-    batch, errors = build_from_file_batch([fromFileEntry("ExampleOwner")], {"gaiaUser": "t"}, root, "test/repo")
+    batch, errors = build_from_file_batch([fromFileEntry("exampleowner")], {"gaiaUser": "t"}, root, "test/repo")
     assert errors == []
-    assert batch["proposedSkills"][0]["named"]["contributor"] == "ExampleOwner"
+    assert batch["proposedSkills"][0]["named"]["contributor"] == "exampleowner"
 
 
 def test_push_from_file_rejects_malformed_contributor(tmp_path):
@@ -259,8 +263,8 @@ def test_push_from_file_rejects_malformed_contributor(tmp_path):
 
 def test_identity_key_is_case_insensitive_but_inputs_are_untouched():
     assert identityKey("ExampleOwner", "x") == identityKey("exampleowner", "x")
-    assert validateContributor("ExampleOwner") is None
-    assert validateContributor("Example_Owner-1") is None
+    assert "expected 'exampleowner'" in validateContributor("ExampleOwner")
+    assert validateContributor("example_owner-1") is None
 
 
 def test_find_collisions_ignores_deliberate_rename_source(tmp_path):
@@ -270,3 +274,59 @@ def test_find_collisions_ignores_deliberate_rename_source(tmp_path):
     assert findIdentityCollisions(root, "acme", "x", ignoreIds=("Acme/x",)) == [
         "contributor directory 'Acme' already exists and differs from 'acme' only by case"
     ]
+
+
+@pytest.mark.parametrize("contributor", ["ExampleOwner", "Hikari9", "EXAMPLEOWNER"])
+def test_ratify_rejects_mixed_case_without_changing_packet(tmp_path, capsys, contributor):
+    packet = _makeDeferredMappedPacket()
+    packetPath = tmp_path / "packet.json"
+    original = json.dumps(packet)
+    packetPath.write_text(original)
+    registry = _makeRegistryDir(tmp_path)
+    args = _makeRatifyArgs(tmp_path, packet, packetPath, registry=registry,
+                           contributor=contributor, skill_name="sample-skill")
+    assert ratifyCommand(args) == 1
+    assert f"expected '{contributor.lower()}'" in capsys.readouterr().err
+    assert packetPath.read_text() == original
+
+
+@pytest.mark.parametrize("contributor", ["ExampleOwner", "Hikari9", "EXAMPLEOWNER"])
+def test_rename_rejects_mixed_case_without_normalizing(tmp_path, capsys, contributor):
+    root = makeRegistry(tmp_path)
+    original = writeNamed(root, "acme", "old-slug").read_bytes()
+    args = SimpleNamespace(registry=root, old_id="acme/old-slug",
+                           new_id=f"{contributor}/new-slug", no_build=True)
+    with pytest.raises(SystemExit):
+        meta_rename_command(args)
+    assert f"expected '{contributor.lower()}'" in capsys.readouterr().err
+    assert namedFiles(root) == ["acme/old-slug.md"]
+    assert (Path(root) / "registry/named/acme/old-slug.md").read_bytes() == original
+
+
+@pytest.mark.parametrize("contributor", ["ExampleOwner", "Hikari9", "EXAMPLEOWNER"])
+def test_push_rejects_mixed_case_without_normalizing(tmp_path, contributor):
+    root = _makeRegistryDir(tmp_path)
+    entry = fromFileEntry(contributor)
+    original = json.dumps(entry)
+    batch, errors = build_from_file_batch([entry], {"gaiaUser": "t"}, root, "test/repo")
+    assert batch is None
+    assert any(f"expected '{contributor.lower()}'" in error for error in errors)
+    assert json.dumps(entry) == original
+    assert namedFiles(root) == []
+
+
+@pytest.mark.parametrize("contributor", ["ExampleOwner", "Hikari9", "EXAMPLEOWNER", "bad name", "-leading", "has/slash", "", "naïve"])
+def test_adapter_uses_same_contributor_validation(contributor):
+    packet = _basePacket()
+    packet["l4Resolution"]["named"]["contributor"] = contributor
+    original = json.dumps(packet)
+    with pytest.raises(ValueError, match="l4Resolution.named.contributor") as exc:
+        buildIntakeYaml(packet)
+    assert validateContributor(contributor) in str(exc.value)
+    assert json.dumps(packet) == original
+
+
+def test_adapter_preserves_approved_hikari9_identity():
+    packet = _basePacket()
+    packet["l4Resolution"]["named"] = {"contributor": "hikari9", "skillName": "auto-office"}
+    assert buildIntakeYaml(packet)["skills"][0]["named"]["contributor"] == "hikari9"

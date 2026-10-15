@@ -1,14 +1,10 @@
-"""Case-preserving named-skill identity rules (issue #2055).
+"""Lowercase-only named-skill identity rules (issue #2055).
 
-A named skill is ``<contributor>/<slug>``. The contributor is a GitHub handle
-whose case is part of the approved identity and must reach disk exactly as
-approved; GitHub itself treats handles case-insensitively, so two identities
-that differ only by case are one account and must collide rather than coexist.
-
-``gaia dev add``, ``gaia dev ratify``, ``gaia dev rename`` and
-``gaia push --from-file`` all use this module so they cannot disagree again.
-Nothing here ever rewrites case: callers either accept an identity verbatim or
-reject it with a message that names the existing spelling.
+A named skill is ``<contributor>/<slug>`` with a lowercase contributor.
+Mixed-case input is rejected with its expected spelling, never normalized.
+GitHub handles remain case-insensitive for collision detection, including legacy
+mixed-case registry entries. Add, rename, ratify, push and the intake adapter
+share this validation contract.
 """
 
 from __future__ import annotations
@@ -19,7 +15,7 @@ import re
 from gaia_cli.registry import named_skills_dir
 
 # GitHub handle shape. Underscore stays legal because ``gaia dev add`` has
-# always accepted it; case is preserved, never normalized.
+# always accepted it; uppercase is recognized only to explain the rejection.
 HANDLE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 # The skill slug segment stays lowercase.
 NAMED_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
@@ -34,7 +30,12 @@ def validateContributor(value) -> str | None:
     if not HANDLE_RE.fullmatch(value):
         return (
             f"contributor '{value}' is not a valid handle "
-            "(alphanumeric, underscore or hyphen; case is preserved)"
+            "(lowercase alphanumeric, underscore or hyphen)"
+        )
+    if value != value.lower():
+        return (
+            f"contributor '{value}' must be lowercase; expected '{value.lower()}'. "
+            "Gaia never normalizes identities silently"
         )
     return None
 
@@ -89,8 +90,8 @@ def findIdentityCollisions(registryPath, contributor: str, slug: str, ignoreIds=
 
 
 COLLISION_FIX = (
-    "Use the existing spelling, or obtain an explicit maintainer ruling before "
-    "changing it; Gaia never normalizes an approved identity's case."
+    "Resolve the existing identity collision with a maintainer before retrying; "
+    "new contributor identities must be lowercase. Gaia never normalizes identities silently."
 )
 
 

@@ -128,7 +128,7 @@ class DevCommand(Command):
         dev_list.add_argument(
             "--contributor",
             action="store_true",
-            help="Include contributor name (named only); GitHub handle case is preserved, never normalized",
+            help="Include contributor name (named only); handle must be lowercase, never silently normalized",
         )
         dev_list.add_argument("--json", action="store_true", help="Output in JSON format")
         dev_list.add_argument(
@@ -247,7 +247,7 @@ class DevCommand(Command):
         dev_ratify.add_argument(
             "--contributor",
             required=True,
-            help="Named skill contributor handle; case is preserved and recorded verbatim",
+            help="Named skill contributor handle; must be lowercase; mixed-case input is rejected",
         )
         dev_ratify.add_argument(
             "--skill-name",

@@ -768,7 +768,7 @@ def _valid_generic_id(skillId: str) -> bool:
 
 
 def _valid_named_id(skillId: str) -> bool:
-    """A named-skill id is `contributor/slug`: a case-preserved handle and a lowercase slug."""
+    """A named-skill id is `contributor/slug`: a lowercase handle and slug."""
     contributor, separator, slug = skillId.partition("/")
     return bool(
         separator
@@ -863,10 +863,13 @@ def preflightRenameCommand(args) -> None:
     # Named-skill rename (contributor/slug). Named skills live as .md files in
     # registry/named/; the generic-node walk below does not apply to them.
     if "/" in oldId:
+        contributorError = validateContributor(newId.partition("/")[0])
+        if contributorError:
+            _fail_dev_preflight(contributorError)
         if not _valid_named_id(newId):
             _fail_dev_preflight(
                 f"New named skill ID '{newId}' is invalid.",
-                fix="Use a valid 'contributor/slug' id (contributor handle keeps its case; slug is lowercase-hyphenated).",
+                fix="Use a valid 'contributor/slug' id (contributor and slug must be lowercase).",
             )
         namedDir = Path(named_skills_dir(registryPath))
         if _find_named_file(namedDir, oldId) is None:
@@ -876,8 +879,8 @@ def preflightRenameCommand(args) -> None:
                 f"Named skill with id '{newId}' already exists in registry."
             )
         newContributor, newSlug = newId.split("/", 1)
-        # Renaming away from the old spelling is the one deliberate way to change
-        # an identity's case, so the old id is not a collision with itself.
+        # Exclude only the exact source; legacy directory-case collisions remain
+        # protected and cannot be bypassed by a rename.
         collision = identityProblem(registryPath, newContributor, newSlug, ignoreIds=(oldId,))
         if collision:
             _fail_dev_preflight(
@@ -1106,19 +1109,17 @@ def preflightAddCommand(args) -> None:
         contributorVal = getattr(args, "contributor", "gaiabot")
         if contributorVal is None:
             contributorVal = "gaiabot"
-        # Contributor case is part of the approved identity (#2055): validate the
-        # handle with the shared rule, keep the case, and reject case-variant
-        # collisions instead of normalizing them.
-        if validateContributor(contributorVal) is not None:
+        contributorError = validateContributor(contributorVal)
+        if contributorError:
             _fail_dev_preflight(
-                f"Contributor username '{contributorVal}' is invalid.",
-                fix="Use only alphanumeric characters, underscores, or hyphens."
+                f"Contributor username '{contributorVal}' is invalid: {contributorError}.",
+                fix="Use a lowercase contributor handle; identities are never normalized silently."
             )
         fullId = f"{contributorVal}/{skillId}"
         if not NAMED_SLUG_RE.fullmatch(skillId):
             _fail_dev_preflight(
                 f"Named skill ID '{fullId}' is invalid.",
-                fix="The contributor handle keeps its case; the skill ID must be a lowercase slug."
+                fix="The contributor handle and skill ID must be lowercase."
             )
         if namedSkillExists(registryPath, contributorVal, skillId):
             _fail_dev_preflight(

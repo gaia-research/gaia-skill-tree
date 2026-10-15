@@ -83,8 +83,8 @@ def ratifyCommand(args):
         print(f"Ratification rejected: skill_name '{skillName}' must be kebab-case.", file=sys.stderr)
         return 1
 
-    # The approved identity keeps its case (#2055). A case-variant of an existing
-    # named identity is the same GitHub account and skill: reject, never normalize.
+    # Lowercase input can still collide with a legacy mixed-case identity.
+    # Reject the collision without changing either spelling.
     collision = identityProblem(getattr(args, "registry", None) or ".", contributor, str(skillName))
     if collision:
         print(
