@@ -91,3 +91,109 @@ def test_appraise_node_delegation():
     res2 = appraiser.appraiseNode("leonxlnx/taste-skill")
     assert res1 == res2
 
+
+
+# ---------------------------------------------------------------------------
+# #2052: metric provenance, appraisal scope, claim status (offline, synthetic)
+# ---------------------------------------------------------------------------
+
+
+def _fakeRepo(appraiser, monkeypatch, contributions=(500, 316)):
+    monkeypatch.setattr(appraiser, "repoMeta", lambda _repo: {
+        "stargazerCount": 1000,
+        "isArchived": False,
+        "updatedAt": "2026-10-01T00:00:00Z",
+        "defaultBranchRef": {"name": "main"},
+    })
+    rows = [{"login": f"c{i}", "contributions": n} for i, n in enumerate(contributions)]
+    monkeypatch.setattr(appraiser, "runJson", lambda _command: rows)
+
+
+def test_contributor_stats_is_a_contribution_sum(monkeypatch):
+    appraiser = loadAppraiser()
+    _fakeRepo(appraiser, monkeypatch)
+    assert appraiser.contributorStats("example/tool") == (2, 816)
+
+
+def test_contribution_sum_stays_distinct_from_unique_commits(monkeypatch):
+    from gaia_cli.curationCheckpoint import exportClaims
+
+    appraiser = loadAppraiser()
+    _fakeRepo(appraiser, monkeypatch)
+    result = appraiser.appraise(appraiser.AppraisalTarget("example/tool", 1, "SKILL.md"))
+
+    assert "commits" not in result
+    assert result["contributorContributionSum"] == 816
+    claims = {c["metric"]: c for c in result["metricClaims"]}
+    assert claims["contributorContributionSum"]["value"] == 816
+    assert "not a count of unique reachable commits" in claims["contributorContributionSum"]["method"]
+    assert claims["repo-own.commits (engine input)"]["status"] == "inferred"
+
+    uniqueCommits = {
+        "metric": "uniqueReachableCommits",
+        "value": 826,
+        "status": "verified",
+        "method": "git rev-list --count <default-branch>",
+        "repro": "synthetic fixture",
+    }
+    exported = exportClaims(result["metricClaims"] + [uniqueCommits])
+    byMetric = {c["metric"]: c["value"] for c in exported}
+    assert byMetric["contributorContributionSum"] == 816
+    assert byMetric["uniqueReachableCommits"] == 826
+    assert not any(c["metric"] == "commits" for c in exported)
+
+
+def test_proposal_is_labelled_partial_own_only(monkeypatch):
+    appraiser = loadAppraiser()
+    _fakeRepo(appraiser, monkeypatch)
+    result = appraiser.appraise(appraiser.AppraisalTarget("example/tool", 1, "SKILL.md"))
+
+    assert result["scope"] == "named-own/proposal"
+    assert result["genericResolution"] == "not evaluated"
+    assert result["totalStatus"] == "partial"
+    assert "not the effective named TM" in result["tmLabel"]
+    assert result["sourceRevision"]["defaultBranch"] == "main"
+    assert result["sourceRevision"]["repoUpdatedAt"] == "2026-10-01T00:00:00Z"
+    # Value unchanged: the repo-own input still receives the contribution sum.
+    assert round(result["byType"]["repo-own"], 3) == 7.25
+
+
+def _namedFixture(tmp_path):
+    named = tmp_path / "registry" / "named" / "example" / "tool.md"
+    named.parent.mkdir(parents=True)
+    named.write_text(
+        "---\n"
+        "id: example/tool\n"
+        "genericSkillRef: synthetic-generic\n"
+        "evidence:\n"
+        "  - type: repo-own\n"
+        "    source: https://github.com/example/tool\n"
+        "    commits: 816\n"
+        "    contributors: 2\n"
+        "---\n",
+        encoding="utf-8",
+    )
+
+
+GENERIC_MAP = {"synthetic-generic": {"id": "synthetic-generic", "evidence": [
+    {"type": "arxiv", "source": "https://example.org/paper", "citations": 100, "layer": "generic"}
+]}}
+
+
+def test_named_appraisal_scope_effective_vs_not_evaluated(tmp_path, monkeypatch):
+    appraiser = loadAppraiser()
+    _namedFixture(tmp_path)
+    monkeypatch.setattr(appraiser, "REPO_ROOT", tmp_path)
+
+    resolved = appraiser.appraise_skill("example/tool", generic_map=dict(GENERIC_MAP), named_map={})
+    assert resolved["tm"] == 21.25
+    assert resolved["scope"] == "effective named"
+    assert resolved["genericResolution"] == "resolved"
+    assert resolved["totalStatus"] == "final"
+
+    missing = appraiser.appraise_skill("example/tool", generic_map={}, named_map={})
+    assert missing["tm"] == 7.25
+    assert missing["scope"] == "named-own"
+    assert missing["genericResolution"] == "not evaluated"
+    assert missing["totalStatus"] == "partial"
+    assert missing["registryRevision"]
