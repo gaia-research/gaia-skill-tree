@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-11T00:30:59Z",
+  "generatedAt": "2026-10-15T19:39:01Z",
   "firstRun": false,
   "skills": [
     {
@@ -10,81 +10,11 @@
       "contributor": "hikari9",
       "trustMagnitude": 88.97,
       "overallTrustGrade": "B",
-      "trendingScore": 44.48,
-      "tmDelta": 88.97,
-      "new": true,
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/hikari9/auto-office.json"
-      }
-    },
-    {
-      "id": "gsd-build/gsd-verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.66,
-      "overallTrustGrade": "B",
-      "trendingScore": 26.33,
-      "tmDelta": 52.66,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
-      }
-    },
-    {
-      "id": "gsd-build/gsd-discuss-phase",
-      "name": "GSD Discuss Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/gsd-execute-phase",
-      "name": "GSD Execute Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/gsd-plan-phase",
-      "name": "GSD Plan Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
-      }
-    },
-    {
-      "id": "gsd-build/gsd-ship",
-      "name": "GSD Ship",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.0,
-      "tmDelta": 50.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
       }
     },
     {
@@ -94,43 +24,15 @@
       "contributor": "hikari9",
       "trustMagnitude": 24.34,
       "overallTrustGrade": "C",
-      "trendingScore": 12.17,
-      "tmDelta": 24.34,
-      "new": true,
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/hikari9/office-submit.json"
       }
-    },
-    {
-      "id": "ruvnet/verification-quality",
-      "name": "Verification Quality",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 38.66,
-      "overallTrustGrade": "C",
-      "trendingScore": 4.14,
-      "tmDelta": 2.66,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      }
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "name": "Verification Before Completion",
-      "level": "3★",
-      "contributor": "obra",
-      "trustMagnitude": 97.81,
-      "overallTrustGrade": "B",
-      "trendingScore": 3.22,
-      "tmDelta": 2.66,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/obra/verification-before-completion.json"
-      }
     }
   ],
-  "totalTrending": 9,
+  "totalTrending": 2,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

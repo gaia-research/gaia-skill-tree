@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T00:30:59Z",
+  "generatedAt": "2026-10-15T19:39:01Z",
   "skills": [
     {
       "id": "hikari9/office-submit",
@@ -39,45 +39,6 @@
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "mattpocock/obsidian-vault",
-      "name": "Obsidian Vault Manager",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-11T17:25:05Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-11T17:25:03Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/ubiquitous-language",
-      "name": "Ubiquitous Language",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-09-11T17:24:57Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      },
-      "previousLevel": "1★"
     }
   ],
   "_links": {
