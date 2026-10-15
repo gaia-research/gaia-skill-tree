@@ -2,14 +2,14 @@
   "campaign": "Gaia Badge Provisioning Campaign #1817",
   "phase": 1,
   "generated_at": "2026-10-11T00:43:32.848837+00:00",
-  "last_updated_at": "2026-10-11T00:27:54.804766+00:00",
+  "last_updated_at": "2026-10-15T14:27:13.732220+00:00",
   "source_registry_generated_at": "2026-10-11",
   "serving_mode": "honesty_mode_static",
   "authenticates_ownership": false,
   "serving_notice": "Static _assets delivery. ?repo= is retained for cache isolation only and does not authenticate repository ownership (OAuth hardening deferred to #494).",
   "total_unique_repositories": 43,
   "classification_counts": {
-    "PR_OPEN": 8,
+    "PR_OPEN": 7,
     "DECLINED": 0,
     "ALREADY_ADOPTED": 0,
     "OPTED_OUT": 0,
@@ -19,7 +19,8 @@
     "READY": 29,
     "ADOPTED": 0,
     "NO_RESPONSE": 0,
-    "APPROVED": 0
+    "APPROVED": 0,
+    "POLICY_HOLD": 1
   },
   "eligibility_counts": {
     "PILOT_CANDIDATE": 3,
@@ -4653,7 +4654,7 @@
     "pbakaus/impeccable": {
       "repository": "pbakaus/impeccable",
       "eligibility": "PILOT_CANDIDATE",
-      "status": "PR_OPEN",
+      "status": "POLICY_HOLD",
       "decision_reason": "Preserved outbound state: PR_OPEN (computed eligibility: PILOT_CANDIDATE)",
       "contributor_associations": [
         "pbakaus"
@@ -4713,8 +4714,8 @@
         "attempts": 1,
         "attempted_at": "2026-10-10T23:32:41.037350+00:00",
         "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
-        "outcome": "PR_OPEN",
-        "decision_notes": "Outbound badge provisioning PR opened",
+        "outcome": "POLICY_HOLD",
+        "decision_notes": "CLOSED_UNMERGED: #1010 closed 2026-10-11T03:04:32Z under upstream issue-first policy. Policy hold: no PR, no issue. Local draft only; any upstream contact needs fresh human approval. See policy-ledger.jsonl.",
         "history": [
           {
             "timestamp": "2026-10-10T23:32:40.838566+00:00",
@@ -4731,6 +4732,18 @@
             "notes": "Outbound badge provisioning PR opened",
             "actor": "Marco Tiongson",
             "pr_url": "https://github.com/pbakaus/impeccable/pull/1010"
+          },
+          {
+            "timestamp": "2026-10-15T14:27:13.732220+00:00",
+            "from_status": "PR_OPEN",
+            "to_status": "POLICY_HOLD",
+            "notes": "CLOSED_UNMERGED: #1010 closed 2026-10-11T03:04:32Z under upstream issue-first policy. Policy hold: no PR, no issue. Local draft only; any upstream contact needs fresh human approval. See policy-ledger.jsonl.",
+            "actor": "Claude Code lane-c (fleet sprint 2026-10-15, lead instruction)",
+            "pr_url": "https://github.com/pbakaus/impeccable/pull/1010",
+            "offered_skills": [
+              "pbakaus/impeccable"
+            ],
+            "presentation_tier": "SINGLE"
           }
         ],
         "offered_skills": [
