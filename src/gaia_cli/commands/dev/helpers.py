@@ -16,6 +16,12 @@ from gaia_cli.registry import (
     named_skills_dir,
 )
 from gaia_cli.scanner import load_config
+from gaia_cli.namedIdentity import (
+    COLLISION_FIX,
+    NAMED_SLUG_RE,
+    identityProblem,
+    validateContributor,
+)
 
 
 _GENERATED_PREFIXES = (
@@ -762,10 +768,12 @@ def _valid_generic_id(skillId: str) -> bool:
 
 
 def _valid_named_id(skillId: str) -> bool:
-    """A named-skill id is `contributor/slug`; both segments lowercase-hyphenated."""
-    import re
+    """A named-skill id is `contributor/slug`: a case-preserved handle and a lowercase slug."""
+    contributor, separator, slug = skillId.partition("/")
     return bool(
-        re.match(r"^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$", skillId)
+        separator
+        and validateContributor(contributor) is None
+        and NAMED_SLUG_RE.fullmatch(slug)
     )
 
 
@@ -858,7 +866,7 @@ def preflightRenameCommand(args) -> None:
         if not _valid_named_id(newId):
             _fail_dev_preflight(
                 f"New named skill ID '{newId}' is invalid.",
-                fix="Use a valid 'contributor/slug' id (both lowercase-hyphenated).",
+                fix="Use a valid 'contributor/slug' id (contributor handle keeps its case; slug is lowercase-hyphenated).",
             )
         namedDir = Path(named_skills_dir(registryPath))
         if _find_named_file(namedDir, oldId) is None:
@@ -868,6 +876,14 @@ def preflightRenameCommand(args) -> None:
                 f"Named skill with id '{newId}' already exists in registry."
             )
         newContributor, newSlug = newId.split("/", 1)
+        # Renaming away from the old spelling is the one deliberate way to change
+        # an identity's case, so the old id is not a collision with itself.
+        collision = identityProblem(registryPath, newContributor, newSlug, ignoreIds=(oldId,))
+        if collision:
+            _fail_dev_preflight(
+                f"New named skill ID '{newId}' collides with an existing identity: {collision}.",
+                fix=COLLISION_FIX,
+            )
         newPath = namedDir / newContributor / f"{newSlug}.md"
         if newPath.exists():
             _fail_dev_preflight(
@@ -1090,21 +1106,30 @@ def preflightAddCommand(args) -> None:
         contributorVal = getattr(args, "contributor", "gaiabot")
         if contributorVal is None:
             contributorVal = "gaiabot"
-        if not re.match(r"^[a-zA-Z0-9][a-zA-Z0-9_-]*$", contributorVal):
+        # Contributor case is part of the approved identity (#2055): validate the
+        # handle with the shared rule, keep the case, and reject case-variant
+        # collisions instead of normalizing them.
+        if validateContributor(contributorVal) is not None:
             _fail_dev_preflight(
                 f"Contributor username '{contributorVal}' is invalid.",
                 fix="Use only alphanumeric characters, underscores, or hyphens."
             )
         fullId = f"{contributorVal}/{skillId}"
-        if not re.match(r"^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$", fullId):
+        if not NAMED_SLUG_RE.fullmatch(skillId):
             _fail_dev_preflight(
                 f"Named skill ID '{fullId}' is invalid.",
-                fix="Ensure both the contributor username and skill ID are valid lowercase slug patterns."
+                fix="The contributor handle keeps its case; the skill ID must be a lowercase slug."
             )
         if namedSkillExists(registryPath, contributorVal, skillId):
             _fail_dev_preflight(
                 f"Named skill '{fullId}' already exists.",
                 fix="Use a different ID or update the existing skill using `gaia dev update-named`."
+            )
+        collision = identityProblem(registryPath, contributorVal, skillId)
+        if collision:
+            _fail_dev_preflight(
+                f"Named skill '{fullId}' collides with an existing identity: {collision}.",
+                fix=COLLISION_FIX
             )
         levelVal = getattr(args, "level", "2★")
         if levelVal is None:
