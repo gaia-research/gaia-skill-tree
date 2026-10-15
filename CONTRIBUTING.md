@@ -152,6 +152,17 @@ python3 .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
 
 The shortlist is not acceptance. Discovery must not collect evidence, calculate Trust Magnitude, calibrate stars, mutate the registry, generate intake, commit, push, or open a PR. After L4 approval, send new external discoveries through `gaia push --from-file`; send rows already in intake through `/ev-pipeline` and then the maintainer-only CLI path in §1D. Never submit the same intake twice.
 
+To submit several ratified packets as one canonical batch, point `--from-file` at a manifest instead of a single packet:
+
+```yaml
+contractVersion: discovery-packet-manifest-v1
+packetPaths:            # repository-relative, under registry-for-review/discovery-packets/, at most 50
+  - registry-for-review/discovery-packets/first.json
+  - registry-for-review/discovery-packets/second.json
+```
+
+Every packet must already be human-ratified with `gaia dev ratify` against a fresh prefill. The batch is all-or-nothing, keeps each packet's candidate ID, path and digests in `curationHandoff`, and may map several distinct named implementations to one generic only when their contributor/skill-name identities are unique and the generic definition is identical.
+
 ### D) Update the canonical graph directly (Meta Shifts)
 
 **DEPRECATED:** Hand-editing individual JSON files in `registry/nodes/` is now deprecated. 
