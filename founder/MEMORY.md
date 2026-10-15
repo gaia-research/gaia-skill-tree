@@ -6809,3 +6809,14 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 - **2026-06-10 (session 1, cont.)** — PAT received (2nd token worked; 1st lacked read:org). gh installed (arm64). Full comment harvest on 9 issues → major finding: Marco is pivoting away from numeric trust scores toward rank/evidence-grade model; #647 deferred; #128/#155 have actionable design notes awaiting his decisions. Board confirmed healthy (not empty). Plan revised to v2: RFC-first sequencing, Batch 1 ops drafted.
 - **2026-06-10 (session 1, close)** — Marco approved: all Batch 1 ops, #128 option (a) CLI-first, RFC drafting, weekly review. Executed #647 ops (wontfix removed, milestone → #4, verified via gh). Drafted #155/#128 comments — awaiting his text approval before posting. Wrote TRUST_MODEL_RFC.md + GAIA_SHARE_HANDOVER.md. Created `gaia-weekly-review` scheduled task (Mon 09:01).
 - **2026-06-10 (session 1, final)** — Comments posted to #155 + #128 (with Marco's amendments: gaia install exists, #642 relation, backlog PR). Marco resolved all 5 trust-model decisions → RFC v2 accepted. Created #654 (evidence types RFC) + linked as sub-issue of #646 via API. Posted decision summary to #646. Remaining queue: #646/#648 implementation handover draft, verification-workflow issue draft.
+
+
+---
+
+## State Snapshot (2026-10-15, Issue Resolver Fleet ready for founder review)
+
+The earlier paused-recovery snapshots above are preserved verbatim. Current integration branch `dev/issue-resolver-fleet-2026-10-15` is at `5032c7ab4374c7ad15f214b8558292d8ce5bf93a`; PR #2097 to `main` is open, ready for review, mergeable, and not merged. Its exact final-tip CI passed, including Python Package/full tests, semantic CI, graph/schema/integrity, docs, PR guards, skill checks, and CodeQL with no new alerts. Sol Medium performed a bounded sanity pass on the current head and found no code changes needed. The immediately prior code tip `c4465ddc279bd3951a1c44ea4f182cbad90a460f` is identical except for the final handover/memory documentation updates; its full test and CodeQL checks also passed.
+
+Lane merges: #2095 `6de9dcefadbe17b09e39cfac6be11de3e0c23d0a`; #2098 `a7a235d588d169f97ed439bcbfe65d27c3f3a172`; evidence PR #2101 `c4465ddc279bd3951a1c44ea4f182cbad90a460f`. Focused recovery/security/identity tests passed 525 with 1 optional skip. Local full suite reported 3,771 passed, 7 skipped, 3 tree-render failures reproduced at pre-lane baseline `3c999be9af65d9e18b08d6828645a196adfd3aea`; final-tip remote full tests passed.
+
+#2089 remains separately unmerged and security-blocked by forged-attestation acceptance of outside-top-K MAPs; it needs authenticated human approval and revalidation against a trusted snapshot and retrieval top-K. #2087/#2090 remain outside this sprint; #2032/#2045 remain separate. No issues are closed. Integration-to-main awaits founder approval; do not merge #2097 absent that approval.
