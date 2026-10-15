@@ -3,19 +3,19 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "yonatangross/orchestkit-rag",
-      "level": "1★",
+      "skillId": "yonatangross/rag-retrieval",
+      "level": "1\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "yonatangross/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-02T23:48:24Z",
           "source": "demote"
         }
@@ -26,18 +26,24 @@
     {
       "timestamp": "2026-04-30T00:00:00Z",
       "action": "register",
-      "skillId": "yonatangross/orchestkit-rag",
-      "details": "Registered named skill yonatangross/orchestkit-rag",
+      "skillId": "yonatangross/rag-retrieval",
+      "details": "Registered named skill yonatangross/rag-retrieval",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-06-02T23:48:24Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "1★",
-      "details": "Calibrated level from 3★ to 1★",
-      "skillId": "yonatangross/orchestkit-rag"
+      "previousValue": "3\u2605",
+      "newValue": "1\u2605",
+      "details": "Calibrated level from 3\u2605 to 1\u2605",
+      "skillId": "yonatangross/rag-retrieval"
+    },
+    {
+      "timestamp": "2026-10-08T20:42:44Z",
+      "action": "rename",
+      "skillId": "yonatangross/rag-retrieval",
+      "details": "Renamed from yonatangross/orchestkit-rag to yonatangross/rag-retrieval"
     }
   ],
   "stats": {

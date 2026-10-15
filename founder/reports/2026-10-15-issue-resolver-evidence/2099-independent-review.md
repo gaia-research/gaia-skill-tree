@@ -1,0 +1,5 @@
+> Historical lane evidence. Status statements describe the inspected commit, not the final integrated tree. The parent recovery report records subsequent merges and holds.
+
+Independent recovery-lead review at 50a41fe4a9fa51a7b881507fcf95ec6c6d4b3d4c passed. Inspected the full correction and resume wiring. Recursive comparison confirms all 12 schema files are behavior-identical after removing descriptions; founder META commit 2e7a1b878 is an unchanged ancestor and META.md is byte-identical. Public methodology/consult/CONTEXT agree with the approved CLI-written hash-signed cache and eligible generic evidence inheritance.
+
+Independent checkpoint probes distinguish open, unproven, resolved-with-evidence and genuinely regressed blockers; raw history does not resurrect resolutions. Separate review rerun: 49 tests passed; broader worker run: 65 passed. L4/evidence/calibration gates remain paused. Current-head CI is green including full package tests, semantic verification, schema/DAG/integrity, mirrors/skills and guards. No recalibration, formula change or registry-data mutation. Verified for fleet integration only.

@@ -7,7 +7,6 @@
 * [Audience Model](/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
 * [Audio Mixing](/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
 * [Auto-Review](/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
-* [Autonomous Engineering Platform](/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
 * [Brand Guideline Application](/brand-guideline-application.md) - Applies a supplied organization's colors, typography, and visual rules consistently to artifacts.
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).

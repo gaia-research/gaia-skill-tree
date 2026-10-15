@@ -120,6 +120,8 @@ class CurationRun:
     git: dict[str, Any] = field(default_factory=_default_git)
     ledger: list[dict[str, Any]] = field(default_factory=list)
     rollback: dict[str, Any] = field(default_factory=_default_rollback)
+    # Current blocker records are separate from the append-only historical ledger.
+    checkpoint: dict[str, Any] = field(default_factory=dict)
 
     @property
     def run_dir(self) -> Path:

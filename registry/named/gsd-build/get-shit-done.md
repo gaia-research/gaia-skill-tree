@@ -9,7 +9,7 @@ level: 4★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-09'
 tags:
 - suite
 - pipeline
@@ -109,6 +109,14 @@ timeline:
   contributor: unknown
   details: 'TM 286.0 -> 169.36, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-08T21:19:38Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from generated-output/artifacts/1445/gsd-suite-installation.md'
+- timestamp: '2026-10-08T21:19:38Z'
+  action: note
+  contributor: unknown
+  details: Cleared GitHub link.
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   updatedAt: '2026-10-01'
@@ -137,11 +145,11 @@ verification:
 title: Get Shit Done
 installable: true
 suiteComponents:
-- gsd-build/discuss-phase
-- gsd-build/execute-phase
-- gsd-build/plan-phase
-- gsd-build/ship
-- gsd-build/verify-work
+- gsd-build/gsd-discuss-phase
+- gsd-build/gsd-execute-phase
+- gsd-build/gsd-plan-phase
+- gsd-build/gsd-ship
+- gsd-build/gsd-verify-work
 trustMagnitude: 169.36
 overallTrustGrade: A
 apexGateStatus:
@@ -154,8 +162,6 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: e972c06d6b106ca17dc487e9a17e3863e0e67dcda11cc6bd654fc7c97b4897c3
-links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/README.md
 upstream:
   mode: components
   releasedAt: '2026-05-16T04:36:09Z'
@@ -166,10 +172,25 @@ upstream:
 ---
 ## Installation
 
-Install the full GSD Core software development pipeline with:
+Install all 5 components of the Get Shit Done suite into your agent harness with Gaia:
 
 ```bash
-npx @opengsd/gsd-core@latest
+gaia install gsd-build/get-shit-done
 ```
 
-This is the recommended path from the upstream repo's Quickstart.
+This fans out and installs each individual component skill:
+- `gsd-build/gsd-discuss-phase`
+- `gsd-build/gsd-plan-phase`
+- `gsd-build/gsd-execute-phase`
+- `gsd-build/gsd-verify-work`
+- `gsd-build/gsd-ship`
+
+### Runtime Prerequisite
+
+The GSD skills execute workflow definitions that require the externally installed `@opengsd/gsd-core` runtime in `~/.claude/gsd-core`. Gaia installs the agent skill definitions across the suite components, but does not install the GSD runtime itself.
+
+Install the GSD runtime separately before invoking the skills:
+
+```bash
+npx -y @opengsd/gsd-core@latest --claude --local
+```

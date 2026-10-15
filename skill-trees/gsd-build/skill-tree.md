@@ -10,19 +10,19 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ gsd-build/discuss-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/execute-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/gsd-discuss-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/gsd-execute-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/get-shit-done | Basic | 4★ | Extra | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/plan-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/ship | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/verify-work | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/gsd-plan-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/gsd-ship | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/gsd-verify-work | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gsd-build  ·  generated 2026-10-03
+GAIA SKILL TREE — gsd-build  ·  generated 2026-10-15
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -180,6 +180,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ ✓ · addy-osmani/shipping-and-launch  [3★]
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
+
+· ◆ hikari9/auto-office  [3★]
+  └─ ✓ · obra/verification-before-completion  [3★]
+     ├─ · ○ /code-execution
+     └─ · ○ /self-critique
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.

@@ -3984,7 +3984,7 @@ def get_parser():
         dest="skill_count_in_repo",
         type=int,
         metavar="N",
-        help="Number of skills in the repo (mothership discount divisor for github-stars-own)",
+        help="Number of skills in the repo (recorded provenance; never divides a github-stars-own score)",
     )
     dev_evidence.add_argument(
         "--source-started-at",

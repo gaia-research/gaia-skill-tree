@@ -423,3 +423,169 @@ def test_observation_payload_is_schema_valid(tmp_path):
         checked_at="2026-09-06T18:00:00Z",
     )
     install_parity.validate_observation_payload(payload)
+
+
+@pytest.mark.parametrize(
+    "stderr,expected_code,expected_origin",
+    [
+        (
+            "Error: no SKILL.md at /home/user/skills/org/repo/sub.",
+            "NO_SKILL_MD",
+            install_parity.DATA,
+        ),
+        (
+            "Error: links.github for 'demo/test' points at a file, not a skill directory (/path/__init__.py).",
+            "NOT_A_SKILL_DIR",
+            install_parity.DATA,
+        ),
+        (
+            "Error: subpath 'missing' not found in https://github.com/org/repo; the link may be stale.",
+            "DANGLING_SYMLINK",
+            install_parity.DATA,
+        ),
+        (
+            "Error: completely unknown error occurred during install.",
+            "GAIA_INSTALL_FAILED",
+            install_parity.CLI,
+        ),
+    ],
+)
+def test_classify_gaia_failure_and_origin(stderr, expected_code, expected_origin):
+    """Explicit #1441 validation rejections map to DATA taxonomy codes without CLI gap;
+    unknown nonzero failures retain GAIA_INSTALL_FAILED / CLI."""
+    code, detail = install_parity.classify_gaia_failure(1, "", stderr)
+    assert code == expected_code
+    assert stderr.strip() in detail or detail in stderr.strip()
+
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    failure_code, failure_detail = install_parity._set_gaia_failure(result, 1, "", stderr)
+    assert failure_code == expected_code
+    assert result.gaia_health == "failed"
+    assert result.gaia_exit_code == 1
+
+    result.fail(failure_code, failure_detail)
+    assert len(result.failures) == 1
+    failure = result.failures[0]
+    assert failure.code == expected_code
+    assert failure.origin == expected_origin
+    # Explicit nonzero validation rejections are NOT a CLI gap.
+    assert failure.dual is False
+    assert failure.also_cli_gap is False
+
+    if expected_code in install_parity.DUAL_ORIGIN:
+        assert result.intrinsic_cause == expected_code
+    else:
+        assert result.intrinsic_cause is None
+
+
+def test_dual_origin_only_on_silent_success(tmp_path):
+    """Dual-origin (also_cli_gap) is set ONLY when gaia exited 0 silently but
+    installed invalid content on disk. Nonzero validation rejections are pure DATA."""
+    # 1. Silent success (exit 0) with dangling symlink
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    broken_link = tmp_path / "broken_link"
+    target = tmp_path / "nonexistent"
+    broken_link.symlink_to(target)
+    resolved = install_parity.check_gaia_health(
+        result, {"localPath": str(broken_link), "id": "alice/demo"}
+    )
+    assert resolved is None
+    assert result.gaia_health == "failed"
+    assert result.gaia_exit_code == 0
+    assert result.intrinsic_cause == "DANGLING_SYMLINK"
+    assert len(result.failures) == 1
+    assert result.failures[0].code == "DANGLING_SYMLINK"
+    assert result.failures[0].origin == install_parity.DATA
+    assert result.failures[0].dual is True
+    assert result.failures[0].also_cli_gap is True
+
+    # 2. Explicit nonzero rejection for the same issue
+    rejected_result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    err = "Error: subpath 'missing' not found in https://github.com/alice/repo; the link may be stale."
+    fail_code, detail = install_parity._set_gaia_failure(rejected_result, 1, "", err)
+    rejected_result.fail(fail_code, detail)
+    assert rejected_result.gaia_exit_code == 1
+    assert rejected_result.intrinsic_cause == "DANGLING_SYMLINK"
+    assert len(rejected_result.failures) == 1
+    assert rejected_result.failures[0].code == "DANGLING_SYMLINK"
+    assert rejected_result.failures[0].origin == install_parity.DATA
+    assert rejected_result.failures[0].dual is False
+    assert rejected_result.failures[0].also_cli_gap is False
+
+
+@pytest.mark.parametrize(
+    "error_stderr,expected_cause",
+    [
+        ("Error: no SKILL.md at /path/to/skill.", "NO_SKILL_MD"),
+        ("Error: links.github for 'alice/demo' points at a file, not a skill directory (/path/file.py).", "NOT_A_SKILL_DIR"),
+        ("Error: subpath 'sub' not found in https://github.com/alice/source; the link may be stale.", "DANGLING_SYMLINK"),
+    ],
+)
+def test_rejected_install_observation_and_projection(tmp_path, error_stderr, expected_cause):
+    """Rejected installs record gaiaHealth='failed' with no delivered content,
+    and project as 'not-materializable' ('intrinsic-content-failure'), never implying success."""
+    root, skill_path = _fixture_repo(tmp_path)
+
+    result = install_parity.Result("alice/demo", install_parity.STANDARD)
+    result.source_route = _route()
+    result.skill_content_sha256 = hashlib.sha256(skill_path.read_bytes()).hexdigest()
+    # gaia install failed with nonzero exit code:
+    code, detail = install_parity._set_gaia_failure(result, 1, "", error_stderr)
+    result.fail(code, detail)
+
+    # Health must be failed, NOT materialized; deliveredContentSha256 must be None
+    assert result.gaia_health == "failed"
+    assert result.delivered_content_sha256 is None
+    assert result.intrinsic_cause == expected_cause
+
+    args = argparse.Namespace(only=["alice/demo"], contributor=[], category=[], limit=0)
+    cfg = argparse.Namespace(
+        repo_root=str(root), gaia_cmd=["python", "-m", "gaia_cli"], timeout=60, jobs=1
+    )
+    payload = install_parity.observation_payload(
+        [result], cfg, args, "run-reject", root / "docs/graph/named/index.json", "1.5.21", "8.1.0",
+        checked_at="2026-09-06T18:00:00Z",
+    )
+    # Schema validation must pass
+    install_parity.validate_observation_payload(payload)
+
+    # Write observation and project offline
+    obs_dir = root / "registry" / "installability" / "observations"
+    obs_dir.mkdir(parents=True, exist_ok=True)
+    digest = observation_digest(payload)
+    (obs_dir / f"{digest}.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+    projection = build_installability_projection(root)
+    item = projection["skills"]["alice/demo"]
+    assert item["state"] == "not-materializable"
+    assert item["reason"] == "intrinsic-content-failure"
+    assert item["deliveredContentSha256"] is None
+    assert item["observationDigest"] == digest
+
+
+def test_build_kpis_classifies_validation_rejections_as_data():
+    """build_kpis aggregates validation rejections under DATA and none under CLI."""
+    results = []
+    cases = [
+        ("user/a", "Error: no SKILL.md at /path/a."),
+        ("user/b", "Error: links.github for 'user/b' points at a file, not a skill directory (/path/b)."),
+        ("user/c", "Error: subpath 'c' not found in https://github.com/user/c; the link may be stale."),
+    ]
+    for sid, err in cases:
+        r = install_parity.Result(sid, install_parity.STANDARD)
+        code, detail = install_parity._set_gaia_failure(r, 1, "", err)
+        r.fail(code, detail)
+        results.append(r)
+
+    cfg = argparse.Namespace(jobs=1, gaia_cmd=["python", "-m", "gaia_cli"])
+    kpis = install_parity.build_kpis(results, cfg, 5.0, "1.5.21")
+    assert kpis["totals"]["fail"] == 3
+    assert kpis["totals"]["pass"] == 0
+    assert kpis["byOrigin"][install_parity.DATA]["findings"] == 3
+    assert kpis["byOrigin"][install_parity.DATA]["skills"] == 3
+    assert kpis["byOrigin"][install_parity.CLI]["findings"] == 0
+    assert kpis["byOrigin"][install_parity.CLI]["skills"] == 0
+    assert kpis["failureCodes"]["NO_SKILL_MD"] == 1
+    assert kpis["failureCodes"]["NOT_A_SKILL_DIR"] == 1
+    assert kpis["failureCodes"]["DANGLING_SYMLINK"] == 1
+

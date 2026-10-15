@@ -185,7 +185,9 @@ need a registry edit, how many are blocked by an installer defect, how many
 findings a single ruling would clear, and what to ignore.
 
 Findings marked `*` are **dual-origin**: a bad link caused them, *and* gaia
-installed it without complaint. Fixing the data clears the finding; hardening
+installed it without complaint (silent success). When the installer validates
+and rejects the bad link with a nonzero exit (issue #1441), it is reported as
+pure `DATA` without the asterisk. Fixing the data clears the finding; hardening
 the installer stops the next one landing silently. Worth filing both.
 
 ### Failure codes
@@ -195,14 +197,14 @@ the installer stops the next one landing silently. Worth filing both.
 | `NOT_FOUND` | DATA | ref did not resolve in the registry |
 | `AMBIGUOUS_REF` | DATA | duplicate slug; `resolve_named_skill_reference` raised `ValueError` |
 | `NO_SOURCE_LINK` | DATA | no `links.github` (expected only for `NO_SOURCE`) |
-| `NOT_A_SKILL_DIR` | DATA\* | gaia exited 0 having installed a file, not a directory |
-| `NO_SKILL_MD` | DATA\* | the installed tree contains no `SKILL.md` |
+| `NOT_A_SKILL_DIR` | DATA\* | gaia exited 0 having installed a file, not a directory (or DATA on nonzero validation rejection) |
+| `NO_SKILL_MD` | DATA\* | the installed tree contains no `SKILL.md` (or DATA on nonzero validation rejection) |
 | `DIRNAME_MISMATCH` | DATA | the two installers named the directory differently; fix with `gaia dev rename` (issue #1446) |
 | `NPX_NO_SKILL_DISCOVERED` | DATA | the npm CLI found no skill at that URL |
 | `NPX_FAN_OUT` | DATA | a `blob`/`tree` link resolved to more than one skill |
 | `SUITE_COMPONENT_FAILED` | DATA | named components did not install |
 | `CONTENT_MISSING_FILE` / `CONTENT_EXTRA_FILE` / `CONTENT_BYTES_DIFFER` | DATA | tree diff — usually the link points at a near-miss directory |
-| `DANGLING_SYMLINK` | DATA\* | `links.github` points at a path that no longer exists upstream; gaia reported success anyway |
+| `DANGLING_SYMLINK` | DATA\* | `links.github` points at a path that no longer exists upstream; gaia reported success anyway (or DATA on nonzero validation rejection) |
 | `GAIA_INSTALL_FAILED` | CLI | gaia exited nonzero for another reason, or wrote no manifest entry |
 | `UNEXPECTED_SUCCESS` | CLI | a `NO_SOURCE` skill installed anyway |
 | `GIT_CLONE_FAILED` | UPSTREAM | 404, private, or network — captured `git` stderr |

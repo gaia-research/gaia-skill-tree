@@ -43,22 +43,25 @@ dedup (`(type, url)`-keyed — see §6 below) in unintended ways.
 | `npm-downloads` | `https://www.npmjs.com/package/<name>` | Package page; download counts fetched via the npm registry API, not scraped from this URL. |
 | `fusion-recipe` | N/A (structural) | Auto-derived for fused/Ultimate skills; never hand-added. |
 
-## 6. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20)
+## 6. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20; reconciled #2052)
 
-Key facts for evidence curation that affect computed TM scores:
+Formulas, weights, caps, dedup, inheritance, grade floors and star gates are **not**
+restated here. They live in the canonical [curation authority map](curation-authority-map.md),
+which `tests/test_curation_authority_map.py` checks against the live engine. The notes below
+are operational learnings and defer to that map.
 
 **Same-source dedup is `(type, url)`-keyed — cross-type never collapses** (`_dedupeSameSource` in `trustMagnitude.py`): two rows only collapse into one when they share BOTH the same evidence `type` AND the same canonical URL; the highest-magnitude entry wins and the rest are recorded in `_collapsedSources`. A `repo-own` row and a `github-stars-own` row at the identical URL are DIFFERENT keys (different type) and both count independently — they do NOT dedupe against each other. Dedup only bites when you add a *second row of the same type* at a URL already carrying one (e.g. two `repo-own` entries at the same repo, or two `github-stars-own` entries at the same URL after a rename) — in that case only the higher-scoring one counts.
 
-**github-stars-own mothership discount formula**: `artifact_score = (stars/1000) / skill_count_in_repo * weight`. For large suites (34+ skills), per-skill contribution is tiny. Prefer `social-signal` or `peer-review` for high-impact additions.
+**github-stars-own has no repository-count divisor**: the score follows the logarithmic adoption curve (authority map §1). `skillCountInRepo` is recorded provenance and never divides it. What bounds a large suite is the suite-component shared-repository cap (50 TM per component) together with the one-row plateau, not a divisor. For high-impact additions, prefer independent evidence (`peer-review`, an eligible `benchmark-result`).
 
 **peer-review is the highest-impact type for science skills**: `reviewers=3` gives magnitude=75, weight=1.2, so artifact_score≈90. One published NAR/Nature paper lifts a skill from TM=10 to TM=100+ (A grade) immediately.
 
-**benchmark-result requires `percentile` field**: The magnitude formula uses `row.get("percentile", 0)`. Without it, score=0. Without a percentile score, use `peer-review` type instead.
+**benchmark-result is catalog-gated**: a row scores only when its `benchmarkId` is approved in the benchmark source catalog and its provenance normalizes to a scoring lane (`verified` 2×, `reported` 1×). Its magnitude uses `percentile` when present, otherwise a normalized `score` (`gaia_cli.benchmarkCatalog`). A row with neither, or one that is not eligible, contributes nothing.
 
 **rm-evidence --source removes ALL entries at that URL**: If two entries share the same source URL (e.g. `repo` and `github-stars-own`), `--source URL` removes both. Inspect indices first.
 
 **CLI run path in worktrees**: In worktrees, `python3 -m gaia_cli` may resolve to the installed system version, not the worktree source. Use `PYTHONPATH=/path/to/worktree/src python3 -m gaia_cli` to ensure branch-local CLI (e.g. when testing a new flag from a pending branch).
 
-**social-signal view floor**: views < 1000 → score = 0. Formula: `log10(views) * 8.0`. 10K views ≈ 32 score; hard-capped at 80 per skill.
+**social-signal view floor**: views < 1000 → score = 0. 10K views ≈ 32 score, and social-signal is hard-capped at 80 per skill (authority map §1).
 
 **firecrawl-search as WebSearch fallback**: When WebSearch API is down, use `firecrawl search "<query>" -o .firecrawl/result.json --json`. Always write to `.firecrawl/` directory.

@@ -1,126 +1,47 @@
 ---
 name: fp-explore
 description: >-
-  Phase 1 of the feature-pipeline suite — stress-test a CLI command, feature,
-  flag, or module as a developer seeing it for the first time, then file GitHub
-  issues for every distinct finding. Use when someone says "explore X", "test
-  X", "find issues with X", "what's wrong with X", or after /feature-pipeline
-  init. Also triggers standalone as /fp-explore <feature> when you want just
-  the exploration phase without the full pipeline. Reads the target feature from
-  .fp-state.json (or the argument if provided). Completes in one bounded turn
-  and prints the M1 stop hook so the user decides whether to continue to
-  /fp-plan.
-version: 3.0.0
-argument-hint: "[<feature>]"
+  Explore a feature or CLI, reproduce defects and record bounded findings. Use
+  for "explore X", "find issues with X", or the exploration stage of feature-
+  pipeline; standalone runs return findings without automatically expanding
+  scope.
+version: 4.0.0
 ---
 
-# fp-explore  (Phase 1 — Feature Exploration)
+# Explore the feature
 
-Explore `{{feature}}` like a developer encountering it for the first time.
-Invoke it in five or more distinct ways, note every footgun or gap, file one
-GitHub issue per finding, write the issue numbers into state, then print the
-M1 stop hook and end your turn.
+**Objective:** give the operator or next worker a reproducible view of defects.
 
-The single-turn constraint exists so the user can review findings before any
-code changes happen. Don't bleed into Phase 2.
+## Shared execution contract
 
-## Setup
+Read `../feature-pipeline/SKILL.md` relative to this skill directory. Inherit its
+mode, authority, hard stops and finish-state proof. Default is structured economy;
+lean mode may combine stages. A routine checkpoint records progress and continues
+in lean/economy mode. Only explicit hard-gated milestones or an actual unapproved
+authority boundary wait for human approval. Standalone invocation ends when this
+skill's scoped deliverable is complete; it does not require approval to perform
+already-authorized work. Use the actual harness tools, never invented spawn APIs.
 
-Resolve the target feature — the argument takes precedence over state:
+State helper: `bash .agents/skills/feature-pipeline/scripts/state.sh`.
+Inspect existing state and Git/PR state before work. State and `planApproved` are
+recovery notes, never authorization or L4 approval. Refer to the shared skill's
+checkpoint command before advancing; do not classify a real boundary as routine.
 
-```bash
-# If no argument was given, read from state:
-feature=$(.agents/skills/feature-pipeline/scripts/state.sh get feature)
-# If state is also missing, ask: "Which feature should I explore?"
-```
+## Work and done-check
 
-If `.fp-state.json` doesn't exist yet, initialise it first:
+Resolve the feature from the operator's instruction, then state. If both are
+missing, request the target. Exercise relevant happy, edge, invalid-input,
+flag-combination and composed-output cases in a sandbox. Retain this decomposition
+for cheap workers; avoid arbitrary probes that do not apply to the feature.
+Capture expected/actual behavior, exact reproduction and severity. Bound the
+initial pass to eight distinct findings; prioritize real high-impact problems.
 
-```bash
-.agents/skills/feature-pipeline/scripts/state.sh init "<feature>"
-```
+Deduplicate before any authorized issue filing and use `--body-file`. Existing
+operator instructions may prohibit new issues; keep findings locally or in the
+existing PR instead. Record each finding/authorized issue immediately. No findings
+is a valid outcome; do not fabricate an issue to unlock planning.
 
-## Exploration
-
-Run `{{feature}}` in **five or more** distinct ways. Cover these axes — they
-exist because bugs tend to cluster at the boundary between what authors tested
-and what users actually do:
-
-| Axis | Example |
-|------|---------|
-| Happy path | normal use with valid inputs |
-| Edge case | empty input, missing file, zero results |
-| Invalid input | bad flag name, wrong type, out-of-range value |
-| Flag combination | two or more flags together |
-| Composed output | pipe to `jq`, `head`, `wc -l`, etc. |
-
-For each issue found, capture before filing:
-- One-line title
-- Exact reproduction commands
-- Expected vs actual behaviour
-- Severity: `low` / `medium` / `high`
-
-Cap findings at 8. If you find more, keep the highest-severity ones — a short
-list of real problems is more actionable than a long list of noise.
-
-## Filing issues
-
-File one `gh` issue per distinct finding. Use `gh` directly (not GitHub MCP)
-because it's faster in a tight loop:
-
-```bash
-gh issue create \
-  --title "[{{feature}}] <short description>" \
-  --label "exploration,needs-triage" \
-  --body "## Steps to reproduce
-<commands>
-
-## Expected
-<what should happen>
-
-## Actual
-<what happens>
-
-## Severity
-<low | medium | high>"
-```
-
-Push each issue number to state immediately after creation — don't batch at
-the end. If this turn is interrupted, the partial list is still recoverable:
-
-```bash
-.agents/skills/feature-pipeline/scripts/state.sh push issueNumbers <N>
-```
-
-## Phase completion
-
-Print a severity table of all issues filed:
-
-```
-| Issue # | Title | Severity |
-|---------|-------|----------|
-| #N      | …     | high     |
-```
-
-Advance state to Phase 2:
-
-```bash
-.agents/skills/feature-pipeline/scripts/state.sh set phase 2
-```
-
-Print the M1 stop hook and end your turn. The stop hook is mandatory — it's
-the gate that lets the user review findings before any implementation starts:
-
-```
-╔══ STOP HOOK M1 ══════════════════════════════════════════════════════════════╗
-║  Phase 1 complete — <N> issues filed for {{feature}}                         ║
-║  Review above, then run /fp-plan to continue.                                ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-```
-
-## Constraints
-
-- File issues via `gh` CLI, not GitHub MCP tools — the script loop is faster.
-- Push issueNumbers to state after each issue, not in a batch.
-- Stop at 8 issues. Don't keep exploring once you hit the cap.
-- End the turn after the stop hook. Phase 2 belongs to /fp-plan.
+Done: findings are reproducible and scoped, no forbidden external action occurred,
+and state phase advances from 1 to 2. In a full authorized pipeline continue to
+`fp-plan` after a routine checkpoint; in hard-gated mode present M1 evidence and
+wait. A standalone exploration returns the finding receipt.

@@ -2,6 +2,167 @@
 
 ---
 
+## 2026-10-07 — Weekly Editor Pass (editor-055wk)
+
+**Branch:** `docs/routines/055` (new — no `docs/routines/*` PR was open; the
+last one, `docs/routines/053` / PR #1834, carried routine 054 and merged
+2026-09-23. No daily picked up a routine since. Per the ship-gate's own edge
+case — "no PR open (dailies shipped nothing) → run a pure health-audit on
+`main`'s `docs/en/`; open+merge a small corrective PR only if something is
+actually wrong" — ran the audit solo, found two real defects, opened this
+branch to fix them.)
+
+**Role:** Weekly editor/ship-gate. No daily work to consolidate this cycle;
+audited `main`'s `docs/en/` cold for ACCURATE / CURRENT / COHERENT / LEAN /
+REACHABLE against the current release (v8.18.2, confirmed via
+`pyproject.toml`).
+
+### Audit
+
+1. **Version-chip staleness, systemic.** 10 of the 13 `docs/en/*.html` pages
+   (`cli-reference`, `contributing`, `faq`, `fusion`, `getting-started`,
+   `manual-curation-pipeline`, `mcp-server`, `named-skills`,
+   `skill-hierarchy`, `timeline-audit`) carried a hardcoded
+   `<span class="nav-version">v7.11.3</span>` chip and `?v=7.11.3`/`?v=7.11.2`
+   cache-bust strings on `mounts.js`/`site-nav.js`/`ui.js`/`site-footer.js` —
+   several minor releases behind the live `v8.18.2`. Root cause, confirmed by
+   reading `scripts/build_docs.py`'s `build_html_cache_busting()`: its
+   registered-page list covers only 3 of the 13 `docs/en/` pages
+   (`en/index.html`, `en/evidence-classes.html`, `en/share-bundles.html`),
+   per its own comment citing Issue #1542 — a partial fix from an earlier
+   editor pass (2026-09-12, editor-053wk, which bumped `index.html`/
+   `evidence-classes.html` by hand) that never got the other 10 pages
+   registered. Those 10 have no `window.GAIA_VERSION` script and no `#ver`
+   id at all, so the chip has been frozen at its creation-time value ever
+   since and cannot self-correct.
+2. **Stale CLI-gap claim on `timeline-audit.html`, cross-page contradiction.**
+   Its "Manual CLI path" callout and "Known CLI gaps" table both stated
+   `gaia dev timeline` "does not write `previousValue`/`newValue` fields" and
+   told readers to always prefer `trace_timeline.py --apply` for any
+   demote/rank_up event. This was true once but is now false: routine 054
+   (merged in PR #1834, 2026-09-23) added `--previous-value`/`--new-value` to
+   `gaia dev timeline` specifically to write those fields — and
+   `cli-reference.html`'s own `gaia dev timeline` card already documents this
+   (row 3 history: "054"). Verified directly against live code before
+   touching anything (per CLAUDE.md's Stale Tooling directive): the
+   `--previous-value`/`--new-value` `add_argument` calls in
+   `src/gaia_cli/commands/dev/__init__.py` (~L719-726), the pass-through in
+   `commands/dev/timeline.py` (~L116-117), and `append_skill_tree_event()` in
+   `src/gaia_cli/timeline.py` (L27-44), which also updates
+   `unlockedSkills[].level`/`levelHistory` when `--new-value` pairs with
+   `rank_up`/`demote`. `scripts/trace_timeline.py`'s own module docstring
+   confirms the scoping: "Use `gaia dev timeline` for one-off appends; this is
+   the bulk auditor/fixer" for reconciling drift that already happened — so
+   the two tools aren't actually in conflict, the page just never caught up.
+3. **Link/anchor check** — wrote a small script to check every internal
+   `href` (file + in-page anchor) across all 13 pages against the target
+   page's `id`s. Zero broken links/anchors (five regex false-positives on a
+   JS template literal `${e.target.id}` inside inline scripts, not real
+   `href`s — verified by hand, discarded).
+4. **Banned-synonym / hex scan** on this pass's own diff
+   (`\b(merge|combine|compose)\b|rarity`, case-insensitive, plus
+   `#[0-9a-fA-F]{3,6}`) — zero hits, no new violations introduced.
+
+Did not re-run the full site-wide banned-synonym sweep or a line-by-line
+accuracy re-verification of untouched pages this cycle — the two findings
+above were enough to justify shipping a corrective PR per the edge-case
+instruction ("only if something is actually wrong"), and nothing else
+surfaced during the link/version checks that would change that scope.
+
+### What I did
+
+- `docs/en/cli-reference.html`, `contributing.html`, `faq.html`,
+  `fusion.html`, `getting-started.html`, `manual-curation-pipeline.html`,
+  `mcp-server.html`, `named-skills.html`, `skill-hierarchy.html`,
+  `timeline-audit.html` — re-stamped the `nav-version` chip and every
+  `?v=` cache-bust query string to `8.18.2`. Kept the existing static-text
+  pattern (no new `window.GAIA_VERSION` / `id="ver"` wiring) — adding that
+  would partially duplicate what `build_html_cache_busting()` already does
+  for the 3 registered pages without fixing the actual gap, since these 10
+  pages still wouldn't be in its list and would go stale again next release.
+  Filed the real fix (extend the registered list) as a GitHub issue instead
+  — that's a `scripts/build_docs.py` change, outside `docs/en/**` and
+  outside a generator I'm allowed to run or edit from this seat.
+- `docs/en/timeline-audit.html` — "Manual CLI path": rewrote the lead
+  paragraph and shell example to show `--previous-value`/`--new-value` on a
+  `demote` event; replaced the `callout-warning` ("Prefer trace_timeline.py
+  for level changes") with a `callout-info` explaining the actual split
+  (single-event append vs. bulk drift repair), linking to `#apply` (§3 —
+  Apply the fix). "Known CLI gaps": dropped the resolved
+  "No `previousValue`/`newValue` output" row entirely; updated the
+  `gaia demote` row's workaround to cite the real flags instead of "manual
+  `previousValue`"; dropped the version pin ("as of v7.11.3") from the
+  section's lead sentence so it can't go stale the same way again.
+- `docs/en/DOCS.md` — Page Map rows 2–6, 8–10, 12–13 updated with the
+  `editor-055wk` tag and a one-line note; row 12 (`timeline-audit.html`)
+  additionally notes the CLI-gap correction.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Fixed the version text/cache-bust strings as plain hand-edits rather than
+  converting these 10 pages to the dynamic `window.GAIA_VERSION` pattern used
+  by the 3 registered pages. The dynamic pattern only self-corrects because
+  `build_html_cache_busting()` rewrites it on every release for pages in its
+  list — adding the script tag here without that registration buys nothing
+  and risks looking "fixed" when it isn't. Filed the issue instead of
+  silently living with the gap, per CLAUDE.md's Stale Tooling directive
+  ("log tech debt issues aggressively ... do not blindly trust legacy
+  scripts").
+- Did not touch `trace_timeline.py` or its docstring — it is correct as
+  written and remains the right tool for bulk reconciliation; only the page
+  describing it was wrong.
+
+### Issues filed
+
+- #2042 — extend `build_html_cache_busting()`'s registered-page list in
+  `scripts/build_docs.py` to cover all `docs/en/*.html` pages, not just the
+  3 registered under the original #1542 fix — ten pages have been
+  accumulating version drift silently since.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/**` only.
+- `python3 -c "import html.parser; ..."` parse-check clean on all 10 edited
+  pages.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the diff — zero hits.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- Site-wide internal link/anchor check across all 13 pages — zero broken.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked on every edited page, unchanged.
+- `--previous-value`/`--new-value` semantics cross-checked directly against
+  `src/gaia_cli/commands/dev/__init__.py`, `commands/dev/timeline.py`, and
+  `src/gaia_cli/timeline.py` — not against the routine-054 commit message
+  alone.
+- Rebased onto current `origin/main` tip (v8.18.2) before pushing — no
+  conflicts (branch was cut from that same tip).
+
+### Ship
+
+Merge commit into `main` (squash is disabled repo-wide per CLAUDE.md § Squash
+Merges — the scheduled prompt's own "MERGE the PR (squash)" instruction is
+superseded by that project-level rule).
+
+### Token spend
+
+2026-10-07 claude-sonnet-5 high: figures not programmatically available this
+session; rough order-of-magnitude estimate from transcript length only,
+~60k in / ~8k out, ~$0.30. Not a metered figure — treat as approximate.
+
+### Planned next (Routine 056)
+
+- No daily backlog carried forward (dailies were idle this cycle). Next
+  daily: resume the normal rotation — pick a Novel Page, Edit/Improve, or
+  GitHub `documentation`-labeled issue per `ROUTINE_PROMPT.md` Step 3.
+- Worth a look whenever a daily touches `evidence-classes.html` again: the
+  3-page registered list in `build_html_cache_busting()` means that page's
+  chip is live-correct, but confirm the issue filed this pass actually lands
+  before assuming the other 10 are self-healing again.
+
+---
+
 ## 2026-09-17 — Routine 054
 
 **Branch:** `docs/routines/053` (PR #1834 open — continued on it per the

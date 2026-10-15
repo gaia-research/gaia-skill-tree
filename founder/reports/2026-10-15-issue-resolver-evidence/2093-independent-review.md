@@ -1,0 +1,5 @@
+> Historical lane evidence. Status statements describe the inspected commit, not the final integrated tree. The parent recovery report records subsequent merges and holds.
+
+Independent recovery-lead review at 8dddd605d975f0ab5c2ae5dff6227e3fc12839b9: inspected the full lane diff and all five validation surfaces. Lowercase-only rejection names the expected spelling without normalizing input; `hikari9/auto-office` succeeds; case-insensitive collision protection covers legacy mixed-case contributor directories and skill slugs. No schema or registry data changed. A review finding about the wrong help option was corrected in 8dddd605d.
+
+Independent probes exercised 6 mixed-case, 5 lowercase, 7 malformed handles and legacy directory/slug collisions. Separate review rerun: 149 focused tests passed. Worker broader regressions: 211 passed. Current-head GitHub checks are green, including package/full tests, semantic verification, schema/DAG/integrity, skill gates and guards. Verified for merge into fleet integration only; issues remain open until main verification.

@@ -130,6 +130,23 @@
       ]
     },
     {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "trustMagnitude": 38.66,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
       "id": "ruvnet/agentdb-advanced",
       "name": "AgentDB Advanced",
       "level": "2★",
@@ -568,23 +585,6 @@
       "genericSkillRef": "system-integration"
     },
     {
-      "id": "ruvnet/verification-quality",
-      "name": "Verification Quality",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
       "id": "ruvnet/worker-integration",
       "name": "Worker Integration",
       "level": "2★",
@@ -608,7 +608,7 @@
     "level": "4★",
     "trustMagnitude": 175.34
   },
-  "prestigeScore": 1375.86,
+  "prestigeScore": 1378.52,
   "gradeDistribution": {
     "A": 1,
     "B": 3,

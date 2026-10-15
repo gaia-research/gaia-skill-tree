@@ -4,6 +4,65 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-15, Issue Resolver Fleet recovery paused for Flash continuation)
+
+Founder requested push/recovery handover; no final completion claimed. Integration PR #2097 is draft at `3c999be9af65d9e18b08d6828645a196adfd3aea`, all reported CI including full package tests and CodeQL green. Preserved prior four lane merges; merged corrected lowercase #2093 (`cddb09ce9`), surgical #2052 remainder #2099 (`7d405ad6a`, founder META `2e7a1b878` preserved), and CodeQL badge repair #2100 (`3c999be9a`). #2095 security repairs pushed at `480e2fa3d`, but existing-PR guard uses a wrong gh response field and must be repaired/reviewed before integration. #2098 complete at `b3eabcda8`; founder explicitly approved policy integration (comment6196069160); final full CI pending at pause. #2089 independently reviewed original commit: forged L4 attestations admit outside-top-K MAP, findings posted, unmerged. #2087/#2090 untouched. No main push/merge, force-push, registry recalibration or issue closure.
+
+**Continue here:** [exact handover](handovers/2026-10-15-issue-resolver-recovery.md), [evidence/report](reports/2026-10-15-issue-resolver-recovery.md), draft receipt PR #2101 on `dev/fleet-recovery-verification-receipt`. Finish #2095 known gh JSON-shape defect, green/review #2095/#2098, merge lane PRs and receipt by merge commits into integration, verify final tree and update #2097. Final-main merge and #2089 merge still need founder decisions. Original machine worktrees/brief absent; recovered published state only. All implementation workers stopped with pushed commits. Requested Flash unavailable in current harness; no substitute was started.
+
+---
+
+## State Snapshot (2026-10-09, Intake #2044 Hikari9/auto-office — Curation & Promotion Closed)
+
+### TLDR
+
+- **Intake #2044 closed end-to-end**: `hikari9/auto-office` and `hikari9/office-submit` curated and promoted into the canonical registry.
+- **Topology ratified**: `autonomous-engineering-platform` converted `basic` → `fusion` with prerequisite `verification-before-completion`. Exceptional 1:1 suite established (`registry/suites/hikari9/auto-office.json`).
+- **CLI relocation bug fixed (#2051)**: `gaia dev fuse` now safely relocates converted basic nodes to `registry/nodes/fusion/` with collision preflight and failure rollback. 53 regression tests pass.
+- **Intake recovery record created**: Recovered review record `20261008203029-mbtiongson1-from-file.json` committed with full provenance; issue #2050 filed to allow issue-backed recovery without requiring local files.
+- **Evidence verified & calibrated**:
+  - `hikari9/auto-office`: 88.9655 TM / Grade B / 3★ Extra (Suite Capstone). 826 repo commits, 4 contributors, 1 star; generic research inherited (MetaGPT 156 citations, ChatDev ACL 396 citations, OpenHands 15 citations, Agentless 19 citations).
+  - `hikari9/office-submit`: 24.338 TM / Grade C / 2★ Provisional (Suite Component). Bounded shared suite baseline (21.68 TM, under 50 TM cap) + Agentless verification inheritance (2.66 TM).
+- **PRs merged**: PR #2051 (CLI fix), PR #2054 (intake draft promotion PR), PR #2060 (integration PR to `main` — all CI green).
+- **Full closeout comments posted**: Standardized `/gaia-intake-close` closing comments with live badges and universal Powered by Gaia snippet posted to PR #2054, PR #2060, and Issue #2044. Issue #2044 closed.
+- **Follow-up issues filed**:
+  - #2050: Allow issue-backed recovery for gaia push intakes without original local batch
+  - #2052: Curation pollution controls: canonical context, metric provenance and appraisal scope
+  - #2053: Jev evidence advisory: bounded pre-calibration semantic anomaly coverage
+  - #2055: `gaia dev add` rejects uppercase contributor handles accepted by `gaia dev ratify`
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Topology | ✅ `autonomous-engineering-platform` converted to fusion; prerequisite `verification-before-completion` wired; 1:1 suite manifest created |
+| CLI fix | ✅ `src/gaia_cli/commands/dev/fuse.py` safely relocates converted fusion nodes; 53 tests pass (PR #2051) |
+| Intake recovery | ✅ Recovered review batch `20261008203029-mbtiongson1-from-file.json` committed on `review/meta/2044-recovery` |
+| Evidence | ✅ 9 verified rows (2 capstone, 2 component shared baseline, 4 platform research, 1 verification research) |
+| Calibrations | ✅ `hikari9/auto-office` 3★ (TM 89.0 / Grade B); `hikari9/office-submit` 2★ (TM 24.3 / Grade C) |
+| Class S docs | ✅ Regenerated graph (`docs/graph/*`), badges, profile (`docs/u/hikari9/`), API v1, sitemap |
+| PRs | ✅ PR #2051, PR #2054, and PR #2060 all merged into `main` |
+| Closeout | ✅ Issue #2044 closed with `/gaia-intake-close` comments and live badge embeds |
+
+### Issues + PRs touched
+
+- **PR #2051**: fix(cli): safely relocate converted fusion nodes for intake #2044 (merged)
+- **PR #2054**: [intake] evidence-approved batch #2044 (merged)
+- **PR #2060**: feat(registry): curate and promote Hikari9/auto-office suite (#2044) (merged to main)
+- **Issue #2044**: [intake] 2 skills: auto-office, office-submit (closed as completed)
+- **Issue #2050**: Allow issue-backed recovery for gaia push intakes without original local batch (filed)
+- **Issue #2052**: Curation pollution controls (filed)
+- **Issue #2053**: Jev evidence advisory pre-calibration coverage (filed)
+- **Issue #2055**: CLI add vs ratify handle case sensitivity mismatch (filed)
+
+### Validation
+
+- `gaia dev validate`: PASS (Schema, DAG, integrity, redaction, transparency, TM consistency)
+- `python3 scripts/build_docs.py --check`: exit 0
+- `python3 scripts/review_meta_close.py check`: CLEAN
+
+---
+
 ## State Snapshot (2026-10-01, Curation Semantic System — final 15% shipped, PR #2033 CI green)
 
 ### TLDR
@@ -6750,3 +6809,14 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 - **2026-06-10 (session 1, cont.)** — PAT received (2nd token worked; 1st lacked read:org). gh installed (arm64). Full comment harvest on 9 issues → major finding: Marco is pivoting away from numeric trust scores toward rank/evidence-grade model; #647 deferred; #128/#155 have actionable design notes awaiting his decisions. Board confirmed healthy (not empty). Plan revised to v2: RFC-first sequencing, Batch 1 ops drafted.
 - **2026-06-10 (session 1, close)** — Marco approved: all Batch 1 ops, #128 option (a) CLI-first, RFC drafting, weekly review. Executed #647 ops (wontfix removed, milestone → #4, verified via gh). Drafted #155/#128 comments — awaiting his text approval before posting. Wrote TRUST_MODEL_RFC.md + GAIA_SHARE_HANDOVER.md. Created `gaia-weekly-review` scheduled task (Mon 09:01).
 - **2026-06-10 (session 1, final)** — Comments posted to #155 + #128 (with Marco's amendments: gaia install exists, #642 relation, backlog PR). Marco resolved all 5 trust-model decisions → RFC v2 accepted. Created #654 (evidence types RFC) + linked as sub-issue of #646 via API. Posted decision summary to #646. Remaining queue: #646/#648 implementation handover draft, verification-workflow issue draft.
+
+
+---
+
+## State Snapshot (2026-10-15, Issue Resolver Fleet ready for founder review)
+
+The earlier paused-recovery snapshots above are preserved verbatim. Current integration branch `dev/issue-resolver-fleet-2026-10-15` is at `5032c7ab4374c7ad15f214b8558292d8ce5bf93a`; PR #2097 to `main` is open, ready for review, mergeable, and not merged. Its exact final-tip CI passed, including Python Package/full tests, semantic CI, graph/schema/integrity, docs, PR guards, skill checks, and CodeQL with no new alerts. Sol Medium performed a bounded sanity pass on the current head and found no code changes needed. The immediately prior code tip `c4465ddc279bd3951a1c44ea4f182cbad90a460f` is identical except for the final handover/memory documentation updates; its full test and CodeQL checks also passed.
+
+Lane merges: #2095 `6de9dcefadbe17b09e39cfac6be11de3e0c23d0a`; #2098 `a7a235d588d169f97ed439bcbfe65d27c3f3a172`; evidence PR #2101 `c4465ddc279bd3951a1c44ea4f182cbad90a460f`. Focused recovery/security/identity tests passed 525 with 1 optional skip. Local full suite reported 3,771 passed, 7 skipped, 3 tree-render failures reproduced at pre-lane baseline `3c999be9af65d9e18b08d6828645a196adfd3aea`; final-tip remote full tests passed.
+
+#2089 remains separately unmerged and security-blocked by forged-attestation acceptance of outside-top-K MAPs; it needs authenticated human approval and revalidation against a trusted snapshot and retrieval top-K. #2087/#2090 remain outside this sprint; #2032/#2045 remain separate. No issues are closed. Integration-to-main awaits founder approval; do not merge #2097 absent that approval.

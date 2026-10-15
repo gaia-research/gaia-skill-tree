@@ -102,9 +102,145 @@ def test_dev_fuse_updates_existing_generic_node(tmp_path):
 
     meta_dev_fuse_command(_args(root, "existing-fusion", prereqs="new-prereq"))
 
-    node_path = nodes_dir / "ultimate" / "existing-fusion.json"
+    node_path = nodes_dir / "fusion" / "existing-fusion.json"
+    assert not (nodes_dir / "ultimate" / "existing-fusion.json").exists()
     data = json.loads(node_path.read_text(encoding="utf-8"))
+    assert data["type"] == "fusion"
     assert "new-prereq" in data["prerequisites"]
+
+
+def test_dev_fuse_converts_basic_preserving_metadata_and_timeline(tmp_path, monkeypatch):
+    from gaia_cli.timeline import append_skill_event
+    monkeypatch.setattr("gaia_cli.commands.dev.fuse.append_skill_event", append_skill_event)
+    root = _make_registry(tmp_path)
+    nodesDir = Path(root) / "registry" / "nodes"
+    source = _write_generic(nodesDir, "anchor")
+    _write_generic(nodesDir, "component")
+    original = json.loads(source.read_text(encoding="utf-8"))
+    original["evidence"] = [{"type": "repo", "url": "https://example.org/repo", "grade": "B"}]
+    original["knownAgents"] = ["tester"]
+    original["derivatives"] = ["downstream"]
+    original["timeline"] = [{"timestamp": "2026-01-01T00:00:00Z", "action": "add"}]
+    source.write_text(json.dumps(original), encoding="utf-8")
+
+    meta_dev_fuse_command(_args(root, "anchor", prereqs="component,component"))
+
+    destination = nodesDir / "fusion" / "anchor.json"
+    assert destination.exists()
+    assert not source.exists()
+    data = json.loads(destination.read_text(encoding="utf-8"))
+    assert data["type"] == "fusion"
+    assert data["prerequisites"] == ["component"]
+    for key in original.keys() - {"type", "prerequisites", "updatedAt", "timeline"}:
+        assert data[key] == original[key]
+    assert data["timeline"][:-2] == original["timeline"]
+    assert [event["action"] for event in data["timeline"][-2:]] == ["type_change", "fuse"]
+    assert sum(json.loads(p.read_text())["id"] == "anchor"
+               for p in nodesDir.glob("**/*.json")) == 1
+
+    # The generic-only conversion can subsequently be used for a named suite.
+    namedDir = Path(root) / "registry" / "named"
+    _write_named(namedDir, "acme/capstone")
+    _write_named(namedDir, "acme/component")
+    meta_dev_fuse_command(_args(root, "anchor", prereqs="component",
+                               named_capstone="acme/capstone",
+                               suite_components="acme/component"))
+    assert destination.exists() and not source.exists()
+    assert (Path(root) / "registry" / "suites" / "acme" / "capstone.json").exists()
+
+
+@pytest.mark.parametrize("collision", ["different-id", "duplicate-id", "malformed"])
+def test_dev_fuse_destination_collision_writes_nothing(tmp_path, capsys, monkeypatch, collision):
+    root = _make_registry(tmp_path)
+    nodesDir = Path(root) / "registry" / "nodes"
+    _write_generic(nodesDir, "anchor")
+    _write_generic(nodesDir, "component")
+    destination = _write_generic(nodesDir, "anchor", "fusion")
+    if collision == "different-id":
+        data = json.loads(destination.read_text())
+        data["id"] = "someone-else"
+        destination.write_text(json.dumps(data))
+    elif collision == "malformed":
+        destination.write_text("not json")
+    namedDir = Path(root) / "registry" / "named"
+    _write_named(namedDir, "acme/capstone")
+    _write_named(namedDir, "acme/component")
+    before = {str(p.relative_to(tmp_path)): p.read_bytes()
+              for p in tmp_path.rglob("*") if p.is_file()}
+    writes = []
+    monkeypatch.setattr("gaia_cli.commands.dev.fuse._write_json", lambda *a: writes.append(a))
+    monkeypatch.setattr("gaia_cli.commands.dev.fuse.append_skill_event", lambda *a, **kw: writes.append(a))
+    monkeypatch.setattr("gaia_cli.commands.dev.fuse._run_docs_build", lambda *a: writes.append(a))
+    with pytest.raises(SystemExit):
+        meta_dev_fuse_command(_args(root, "anchor", prereqs="component", no_build=False,
+                                   named_capstone="acme/capstone",
+                                   suite_components="acme/component"))
+    assert "collision" in capsys.readouterr().err.lower()
+    assert writes == []
+    assert {str(p.relative_to(tmp_path)): p.read_bytes()
+            for p in tmp_path.rglob("*") if p.is_file()} == before
+
+
+def test_dev_fuse_correct_fusion_path_is_not_moved_on_rerun(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path)
+    nodesDir = Path(root) / "registry" / "nodes"
+    path = _write_generic(nodesDir, "anchor", "fusion")
+    _write_generic(nodesDir, "component")
+    def rejectMove(*args, **kwargs):
+        pytest.fail("Correctly located fusion must not be relocated")
+    monkeypatch.setattr(Path, "replace", rejectMove)
+    monkeypatch.setattr(Path, "unlink", rejectMove)
+    for _ in range(2):
+        meta_dev_fuse_command(_args(root, "anchor", prereqs="component"))
+    data = json.loads(path.read_text())
+    assert data["type"] == "fusion" and data["prerequisites"] == ["component"]
+    assert list(nodesDir.glob("**/anchor.json")) == [path]
+
+
+@pytest.mark.parametrize("failure", ["write", "replace", "unlink"])
+def test_dev_fuse_conversion_failure_preserves_source(tmp_path, monkeypatch, failure):
+    root = _make_registry(tmp_path)
+    nodesDir = Path(root) / "registry" / "nodes"
+    source = _write_generic(nodesDir, "anchor")
+    _write_generic(nodesDir, "component")
+    before = source.read_bytes()
+    if failure == "write":
+        def failWrite(*args):
+            raise OSError("simulated serialization failure")
+        monkeypatch.setattr("gaia_cli.commands.dev.fuse._write_json", failWrite)
+    elif failure == "replace":
+        def failReplace(*args):
+            raise OSError("simulated publication failure")
+        monkeypatch.setattr(Path, "replace", failReplace)
+    else:
+        realUnlink = Path.unlink
+        def failUnlink(path, *args, **kwargs):
+            if path == source:
+                raise OSError("simulated source unlink failure")
+            return realUnlink(path, *args, **kwargs)
+        monkeypatch.setattr(Path, "unlink", failUnlink)
+    with pytest.raises(OSError):
+        meta_dev_fuse_command(_args(root, "anchor", prereqs="component"))
+    assert source.read_bytes() == before
+    assert not (nodesDir / "fusion" / "anchor.json").exists()
+    assert not list(nodesDir.rglob("*.tmp"))
+
+
+@pytest.mark.parametrize("prereq", ["anchor", "dependent", "unknown"])
+def test_dev_fuse_prerequisite_preflight_preserves_source(tmp_path, capsys, prereq):
+    root = _make_registry(tmp_path)
+    nodesDir = Path(root) / "registry" / "nodes"
+    _write_generic(nodesDir, "anchor")
+    dependent = _write_generic(nodesDir, "dependent", "fusion")
+    data = json.loads(dependent.read_text())
+    data["prerequisites"] = ["anchor"]
+    dependent.write_text(json.dumps(data))
+    before = {p: p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
+    with pytest.raises(SystemExit):
+        meta_dev_fuse_command(_args(root, "anchor", prereqs=prereq))
+    error = capsys.readouterr().err
+    assert ("cycle" if prereq != "unknown" else "not a known generic") in error
+    assert {p: p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()} == before
 
 
 def test_dev_fuse_requires_name_when_creating(tmp_path, capsys):

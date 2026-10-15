@@ -7,7 +7,7 @@
     "gaia.skills",
     "gaia.trust"
   ],
-  "updated": "2026-08-10",
+  "updated": "2026-10-09",
   "generated_doc": "founder/LEXICON.md",
   "oracle": null,
   "foreign": "scripts/lexicon/lexicon.foreign.json",
@@ -73,6 +73,13 @@
       "group": "names",
       "oracle": "CONTEXT.md \u00a7 Nomenclature decisions",
       "definition": "The product name, in headline, title and OG copy. The org is Gaia Research; \"the registry\" (lower-case, no Gaia prefix) is the data-layer term only."
+    },
+    {
+      "term": "Skill Tree",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "CONTEXT.md § Domain glossary",
+      "definition": "A person's personal projection of the canonical skill registry, with their skills and available source/provenance shown truthfully. `My Skill Tree`, `Your Skill Tree`, and `[person]'s Skill Tree` are grammatical possessive forms, not additional products. Prefer a qualified Skill Tree label over the bare `My Tree`; a personal projection does not rewrite the canonical Gaia Skill Tree graph or grant ranks."
     },
     {
       "term": "Gaia Registry",

@@ -6,11 +6,18 @@ Two modes:
   --repo   owner/repo             Appraise a proposed suite from live GitHub signals
 
 This script is intentionally non-mutating.
+
+Every result states its appraisal scope (``named-own/proposal``, ``generic``,
+``effective named``), its generic-resolution status, and the provenance and
+claim status of the metrics it collected. See
+``docs/agents/curation-authority-map.md`` §2 and §5. A ``--repo`` proposal sums
+only its own rows: it is a partial total, never the effective named TM.
 """
 
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import subprocess
 import sys
@@ -40,6 +47,21 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n?(.*)", re.DOTALL)
 
+# Appraisal scope labels (docs/agents/curation-authority-map.md §2).
+SCOPE_PROPOSAL = "named-own/proposal"
+SCOPE_GENERIC = "generic"
+SCOPE_EFFECTIVE_NAMED = "effective named"
+SCOPE_NAMED_OWN = "named-own"
+GENERIC_RESOLVED = "resolved"
+GENERIC_NOT_EVALUATED = "not evaluated"
+GENERIC_NOT_APPLICABLE = "not applicable"
+
+CONTRIBUTION_SUM_METHOD = (
+    "sum of per-contributor `contributions` from `gh api repos/{repo}/contributors "
+    "--paginate` (GitHub default branch; anonymous contributors excluded). "
+    "This is a contributor-contribution sum, not a count of unique reachable commits."
+)
+
 
 @dataclass(frozen=True)
 class AppraisalTarget:
@@ -65,6 +87,12 @@ def repoMeta(repo: str) -> dict[str, Any]:
 
 
 def contributorStats(repo: str) -> tuple[int, int]:
+    """Return ``(contributor count, contributor-contribution sum)``.
+
+    The second value sums GitHub's per-contributor ``contributions``. It is a
+    different measurement from unique reachable commits on a ref, and must be
+    reported as ``contributorContributionSum``, never as plain "commits".
+    """
     try:
         contributors = runJson(["gh", "api", f"repos/{repo}/contributors", "--paginate"])
     except subprocess.CalledProcessError:
@@ -72,9 +100,27 @@ def contributorStats(repo: str) -> tuple[int, int]:
     return len(contributors), sum(int(row.get("contributions", 0) or 0) for row in contributors)
 
 
+def utcNow() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def registryRevision(repo_root: Path = REPO_ROOT) -> str:
+    """Return the registry checkout's HEAD sha, or ``unknown`` when it cannot be read."""
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(repo_root), "rev-parse", "HEAD"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+    return out.strip() or "unknown"
+
+
 def appraise(target: AppraisalTarget) -> dict[str, Any]:
     meta = repoMeta(target.repo)
-    contributorCount, commitCount = contributorStats(target.repo)
+    collectedAt = utcNow()
+    contributorCount, contributionSum = contributorStats(target.repo)
     stars = int(meta.get("stargazerCount", 0) or 0)
     evidenceUrl = f"https://github.com/{target.repo}/blob/{meta['defaultBranchRef']['name']}/{target.evidencePath}"
     repoUrl = f"https://github.com/{target.repo}"
@@ -88,7 +134,11 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
         {
             "type": "repo-own",
             "source": repoUrl,
-            "commits": commitCount,
+            # The engine's repo-own input field is `commits`. This proposal
+            # fills it from the contributor-contribution sum. The value is
+            # unchanged; only the label in the result below differs, where it
+            # is reported as an `inferred` input.
+            "commits": contributionSum,
             "contributors": contributorCount,
         },
         {
@@ -102,18 +152,74 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
             row["sourceStartedAt"] = target.sourceStartedAt
     skill = {"id": target.repo.replace("/", "-"), "evidence": evidence}
     tm = computeTrustMagnitude(skill)
+    defaultBranch = (meta.get("defaultBranchRef") or {}).get("name")
+    ghRepro = f"gh repo view {target.repo} --json stargazerCount,defaultBranchRef,updatedAt"
+    contribRepro = f"gh api repos/{target.repo}/contributors --paginate"
     return {
         "repo": target.repo,
         "archived": bool(meta.get("isArchived")),
         "stars": stars,
         "components": target.componentCount,
         "contributors": contributorCount,
-        "commits": commitCount,
+        "contributorContributionSum": contributionSum,
         "evidenceUrl": evidenceUrl,
         "tm": round(tm, 2),
         "grade": computeOverallTrustGradeFromSkill(skill),
         "byType": computeTrustMagnitudeByType(skill),
+        "scope": SCOPE_PROPOSAL,
+        "genericResolution": GENERIC_NOT_EVALUATED,
+        "totalStatus": "partial",
+        "tmLabel": "own-only proposal total (partial; not the effective named TM)",
+        "sourceRevision": {
+            "repo": target.repo,
+            "defaultBranch": defaultBranch,
+            "repoUpdatedAt": meta.get("updatedAt"),
+            "collectedAt": collectedAt,
+        },
+        "metricClaims": [
+            {
+                "metric": "stars",
+                "value": stars,
+                "status": "verified",
+                "method": "GitHub stargazerCount",
+                "repro": ghRepro,
+                "collectedAt": collectedAt,
+            },
+            {
+                "metric": "contributors",
+                "value": contributorCount,
+                "status": "verified",
+                "method": "count of GitHub contributor rows (anonymous excluded)",
+                "repro": contribRepro,
+                "collectedAt": collectedAt,
+            },
+            {
+                "metric": "contributorContributionSum",
+                "value": contributionSum,
+                "status": "verified",
+                "method": CONTRIBUTION_SUM_METHOD,
+                "repro": contribRepro,
+                "collectedAt": collectedAt,
+            },
+            {
+                "metric": "repo-own.commits (engine input)",
+                "value": contributionSum,
+                "status": "inferred",
+                "method": "filled from contributorContributionSum; unique reachable commits were not measured",
+                "collectedAt": collectedAt,
+            },
+        ],
     }
+
+
+def namedScope(named: dict[str, Any], mergedMap: dict[str, Any]) -> tuple[str, str]:
+    """Return ``(scope, genericResolution)`` for a named-skill appraisal."""
+    ref = named.get("genericSkillRef")
+    if not ref:
+        return SCOPE_EFFECTIVE_NAMED, GENERIC_NOT_APPLICABLE
+    if ref in mergedMap:
+        return SCOPE_EFFECTIVE_NAMED, GENERIC_RESOLVED
+    return SCOPE_NAMED_OWN, GENERIC_NOT_EVALUATED
 
 
 def _load_registry_maps(repo_root: Path = REPO_ROOT) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -183,11 +289,16 @@ def appraise_skill(
             grade = computeOverallTrustGrade(tm, distinct_types, has_witness)
             row_scores = computeRowArtifactScores(named_dict, merged_map)
             by_type = computeTrustMagnitudeByType(named_dict, merged_map)
+            scope, genericResolution = namedScope(named_dict, merged_map)
 
             return {
                 "skillRef": skill_id,
                 "tm": round(tm, 2),
                 "grade": grade,
+                "scope": scope,
+                "genericResolution": genericResolution,
+                "totalStatus": "final" if genericResolution != GENERIC_NOT_EVALUATED else "partial",
+                "registryRevision": registryRevision(),
                 **fusionScoreProjection(named_dict, merged_map, merged_map),
                 "byType": dict(by_type),
                 "rows": [
@@ -231,6 +342,10 @@ def appraise_skill(
         "skillRef": skill_id,
         "tm": round(tm, 2),
         "grade": grade,
+        "scope": SCOPE_GENERIC,
+        "genericResolution": GENERIC_NOT_APPLICABLE,
+        "totalStatus": "final",
+        "registryRevision": registryRevision(),
         **fusionScoreProjection(skill, merged_map, merged_map),
         "byType": dict(by_type),
         "rows": [
@@ -278,6 +393,10 @@ def main() -> int:
                 print(f"ERROR {r['skillRef']}: {r['error']}")
                 continue
             print(f"\n=== {r['skillRef']} ===")
+            print(
+                f"  Scope: {r['scope']}  Generic: {r['genericResolution']}"
+                f"  Total: {r['totalStatus']}  Registry rev: {r['registryRevision']}"
+            )
             print(f"  TM: {r['tm']:.1f}  Grade: {r['grade']}")
             fb = r.get("fusionBreakdown") or {}
             print(
@@ -312,10 +431,17 @@ def main() -> int:
         print(json.dumps(rows, indent=2))
         return 0
 
-    print("| Repo | Archived | Stars | Components | Repo signals | TM by type | Total | Grade |")
+    print(
+        f"Scope: {SCOPE_PROPOSAL} (own rows only). Generic context: {GENERIC_NOT_EVALUATED}. "
+        "Totals are partial and are not the effective named TM."
+    )
+    print("| Repo | Archived | Stars | Components | Repo signals | TM by type | Own-only TM (partial) | Grade (own-only) |")
     print("|---|---:|---:|---:|---|---|---:|---|")
     for row in rows:
-        repoSignals = f"{row['commits']} commits / {row['contributors']} contributors"
+        repoSignals = (
+            f"{row['contributorContributionSum']} contributor contributions (inferred as repo-own commits input)"
+            f" / {row['contributors']} contributors"
+        )
         byType = ", ".join(f"{key}={value}" for key, value in row["byType"].items())
         print(f"| `{row['repo']}` | {row['archived']} | {row['stars']:,} | {row['components']} | {repoSignals} | {byType} | {row['tm']:.2f} | {row['grade']} |")
     return 0

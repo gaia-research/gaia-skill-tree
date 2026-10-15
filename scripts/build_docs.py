@@ -546,17 +546,21 @@ def build_skills_index(check: bool) -> bool:
 
 
 def _apply_cache_busting(text: str, version: str) -> str:
+    # Injected lines follow the file's own newline style: some docs pages are
+    # CRLF, and a bare-LF insert would leave the file with mixed endings.
+    nl = "\r\n" if "\r\n" in text else "\n"
+
     # 1. Inject or update Cache-Control meta tags inside <head>
     cache_meta = (
-        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n'
-        '  <meta http-equiv="Pragma" content="no-cache">\n'
+        f'{nl}  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">{nl}'
+        f'  <meta http-equiv="Pragma" content="no-cache">{nl}'
         '  <meta http-equiv="Expires" content="0">'
     )
     if 'http-equiv="Cache-Control"' not in text:
         text = text.replace("<head>", f"<head>{cache_meta}", 1)
 
     # 2. Inject or update window.GAIA_VERSION in <head>
-    version_script = f'\n  <script>window.GAIA_VERSION = "{version}";</script>'
+    version_script = f'{nl}  <script>window.GAIA_VERSION = "{version}";</script>'
     if 'window.GAIA_VERSION = ' in text:
         text = re.sub(
             r'<script>\s*window\.GAIA_VERSION\s*=\s*"[^"]*";\s*</script>',
@@ -582,6 +586,15 @@ def _apply_cache_busting(text: str, version: str) -> str:
 
     # 4. Update the human-readable footer version literal ("v3.x.x ·").
     text = re.sub(r'\bv\d+\.\d+\.\d+(?=\s+·)', f'v{version}', text)
+
+    # 5. Stamp the static nav version chip (`<span class="nav-version">vX.Y.Z</span>`,
+    # or `docs-nav-version`). The docs/en/* pages carry it as plain text with no JS
+    # refresh, so without this stamp the chip silently drifts (#2042).
+    text = re.sub(
+        r'(<span class="(?:docs-)?nav-version"[^>]*>)v\d+\.\d+\.\d+(</span>)',
+        lambda m: f'{m.group(1)}v{version}{m.group(2)}',
+        text,
+    )
 
     return text
 
@@ -614,6 +627,13 @@ def build_sitemap(check: bool) -> bool:
 def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
+    # Every docs/en/*.html page is globbed rather than listed, so a page added
+    # under docs/en/ is covered the day it lands (#2042: 10 of 13 pages were
+    # never registered and drifted for several releases without CI noticing).
+    en_pages = [
+        f"en/{path.name}"
+        for path in sorted((ROOT / "docs" / "en").glob("*.html"))
+    ]
     for filename in (
         "reports/index.html",
         "index.html",
@@ -641,23 +661,20 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
-        # docs/en/* pages read window.GAIA_VERSION for their version chip but
-        # were never registered here, so the chip never updated (Issue #1542).
-        "en/index.html",
-        "en/evidence-classes.html",
-        "en/share-bundles.html",
-    ):
+    ) + tuple(en_pages):
         path = ROOT / "docs" / filename
         if not path.exists():
             continue
-        original_text = path.read_text(encoding="utf-8")
+        # Bytes in, bytes out: read_text()/write_text() would translate CRLF to LF
+        # and rewrite every line of a CRLF page.
+        original_text = path.read_bytes().decode("utf-8")
         updated_text = _apply_cache_busting(original_text, version)
         if original_text != updated_text:
             changed = True
             if check:
                 print(f"diff docs/{filename} (cache busting / version stale)")
             else:
-                path.write_text(updated_text, encoding="utf-8")
+                path.write_bytes(updated_text.encode("utf-8"))
                 print(f"cache-bust: updated docs/{filename}")
     return changed
 
@@ -1126,16 +1143,17 @@ def build_api_projection(check: bool) -> bool:
             for d in drifts:
                 print(f"diff docs/api/v1/{d}")
             return True
-            import shutil
-            generated_n = sum(1 for _ in out_dir.rglob("*.json"))
-            committed_n = sum(1 for _ in committed.rglob("*.json"))
-            if committed_n > 0 and generated_n < committed_n * 0.7:
-                raise RuntimeError(
-                    f"docs/api/v1/ regen aborted: generated {generated_n}/{committed_n} "
-                    "files — likely stale snapshot. Run `gaia pull` then retry."
-                )
-            shutil.rmtree(committed)
-            shutil.copytree(out_dir, committed)
+
+        import shutil
+        generated_n = sum(1 for _ in out_dir.rglob("*.json"))
+        committed_n = sum(1 for _ in committed.rglob("*.json"))
+        if committed_n > 0 and generated_n < committed_n * 0.7:
+            raise RuntimeError(
+                f"docs/api/v1/ regen aborted: generated {generated_n}/{committed_n} "
+                "files — likely stale snapshot. Run `gaia pull` then retry."
+            )
+        shutil.rmtree(committed)
+        shutil.copytree(out_dir, committed)
         return True
 
 

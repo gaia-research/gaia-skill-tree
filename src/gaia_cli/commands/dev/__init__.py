@@ -247,7 +247,7 @@ class DevCommand(Command):
         dev_ratify.add_argument(
             "--contributor",
             required=True,
-            help="Named skill contributor handle",
+            help="Named skill contributor handle; must be lowercase; mixed-case input is rejected",
         )
         dev_ratify.add_argument(
             "--skill-name",
@@ -576,7 +576,7 @@ class DevCommand(Command):
             "--named", action="store_true", help="Add as a named skill instead of generic"
         )
         dev_add.add_argument(
-            "--contributor", help="Contributor name for named skill (default: gaiabot)"
+            "--contributor", help="Lowercase contributor handle for named skill (default: gaiabot); mixed-case input is rejected"
         )
         dev_add.add_argument(
             "--generic-ref", help="Generic skill reference for named skill"
