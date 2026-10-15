@@ -4,6 +4,14 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-15, Issue Resolver Fleet recovery paused for Flash continuation)
+
+Founder requested push/recovery handover; no final completion claimed. Integration PR #2097 is draft at `3c999be9af65d9e18b08d6828645a196adfd3aea`, all reported CI including full package tests and CodeQL green. Preserved prior four lane merges; merged corrected lowercase #2093 (`cddb09ce9`), surgical #2052 remainder #2099 (`7d405ad6a`, founder META `2e7a1b878` preserved), and CodeQL badge repair #2100 (`3c999be9a`). #2095 security repairs pushed at `480e2fa3d`, but existing-PR guard uses a wrong gh response field and must be repaired/reviewed before integration. #2098 complete at `b3eabcda8`; founder explicitly approved policy integration (comment6196069160); final full CI pending at pause. #2089 independently reviewed original commit: forged L4 attestations admit outside-top-K MAP, findings posted, unmerged. #2087/#2090 untouched. No main push/merge, force-push, registry recalibration or issue closure.
+
+**Continue here:** [exact handover](handovers/2026-10-15-issue-resolver-recovery.md), [evidence/report](reports/2026-10-15-issue-resolver-recovery.md), draft receipt PR #2101 on `dev/fleet-recovery-verification-receipt`. Finish #2095 known gh JSON-shape defect, green/review #2095/#2098, merge lane PRs and receipt by merge commits into integration, verify final tree and update #2097. Final-main merge and #2089 merge still need founder decisions. Original machine worktrees/brief absent; recovered published state only. All implementation workers stopped with pushed commits. Requested Flash unavailable in current harness; no substitute was started.
+
+---
+
 ## State Snapshot (2026-10-09, Intake #2044 Hikari9/auto-office — Curation & Promotion Closed)
 
 ### TLDR
