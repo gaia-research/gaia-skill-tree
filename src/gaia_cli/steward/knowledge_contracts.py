@@ -1,8 +1,9 @@
 """Shared bounded semantic contract for active trust guidance.
 
 The authority map and active trust surfaces are explicit inputs. Historical
-archives, handovers, retrospectives, and generated mirrors are intentionally
-outside this semantic scan.
+archives, handovers, retrospectives, and unlisted generated/archive documents
+are intentionally outside this semantic scan; explicitly listed .claude mirrors
+are included.
 """
 
 from __future__ import annotations
@@ -28,7 +29,12 @@ TRUST_SURFACES = (
 # Keep these finite retired-claim predicates aligned with the authority-map
 # agreement tests. They are not numeric heuristics over arbitrary repository text.
 BANNED_PATTERNS = {
-    "skill-count divisor": re.compile(r"skill_count_in_repo|/\s*min\(\s*skillCountInRepo", re.I),
+    "skill-count divisor": re.compile(
+        r"(?:/\s*(?:min\(\s*)?skill_count_in_repo|"
+        r"\bskill_count_in_repo\b.{0,35}\bdivisor\b|"
+        r"\bskill_count_in_repo\b.{0,35}\bdivides?\s+(?:the\s+)?(?:score|contribution)\b)",
+        re.I,
+    ),
     "mothership discount": re.compile(r"mothership\s+discount", re.I),
     "linear stars formula": re.compile(r"stars\s*/\s*1000"),
     "cross-type same-URL collapse": re.compile(
@@ -46,36 +52,37 @@ def bannedClaims(text: str) -> list[str]:
     claims: list[str] = []
     for name, pattern in BANNED_PATTERNS.items():
         matches = pattern.finditer(text)
-        if name == "mothership discount":
-            if any(not _is_retired_warning_context(text, match.start(), match.end()) for match in matches):
-                claims.append(name)
-        elif next(matches, None) is not None:
+        if any(
+            not _is_retired_warning_context(text, match.start(), match.end())
+            for match in matches
+        ):
             claims.append(name)
     return claims
 
 
 def _is_retired_warning_context(text: str, start: int, end: int) -> bool:
-    """Ignore an explicit denial or literal warning/code mention of the phrase."""
-    line_start = text.rfind("\n", 0, start) + 1
-    line_end = text.find("\n", end)
-    line = text[line_start:] if line_end == -1 else text[line_start:line_end]
-    relative_start, relative_end = start - line_start, end - line_start
-    before, after = line[:relative_start], line[relative_end:]
+    """Ignore an explicit denial or retirement warning in the same clause."""
+    boundaries = ("\n", ".", "!", "?", ";")
+    clause_start = max(text.rfind(mark, 0, start) for mark in boundaries) + 1
+    clause_end = min(
+        (position for mark in boundaries if (position := text.find(mark, end)) != -1),
+        default=len(text),
+    )
+    before = text[clause_start:start].rstrip("`'\" \t")
+    after = text[end:clause_end].lstrip("`'\" \t")
 
-    clause = re.split(r"[.!?;]", before)[-1].rstrip("`'\" \t")
-    if re.search(r"\b(?:no|not|never|without)(?:\s+(?:a\s+)?(?:mothership))?$", clause, re.I):
+    # Denials must directly govern the match; quotes and code ticks alone are
+    # not evidence. Clause boundaries prevent unrelated prose from exempting it.
+    if re.search(r"\b(?:do\s+not|don't|never|no|not|without)\b[^.!?;\n]{0,40}$", before, re.I):
         return True
 
-    # Delimiters (quotes and code ticks) are not evidence of a warning. Require
-    # explicit retirement language, either as a warning label before the phrase
-    # or as a statement that the phrase itself is retired after it.
-    warning_label = re.search(r"\b(?:warning|retired|obsolete|deprecated)\b", before, re.I)
-    retired_statement = re.search(
-        r"\b(?:is|was|has been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated)\b",
-        after,
-        re.I,
+    return bool(
+        re.search(
+            r"\b(?:is|was|has been|are|were|have been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated)\b",
+            after,
+            re.I,
+        )
     )
-    return bool((warning_label and re.search(r"\b(?:retired|obsolete|deprecated)\b", after, re.I)) or retired_statement)
 
 
 def _read_required(repo_root: Path, relative: str) -> str:
