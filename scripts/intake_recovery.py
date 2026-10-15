@@ -1067,6 +1067,21 @@ def verifyPromotionHead(issueNumber, commentsDoc, headSha, api=None, repository=
     return {"status": "existing-promotion-verified", "headSha": headSha}
 
 
+def verifyExistingPromotion(issueNumber, commentsDoc, pullRequests, baseRef, api=None, repository=None, verifier=None):
+    """Require the single canonical same-repository promotion PR before reusing it."""
+    repository = repository or os.environ.get("GH_REPO")
+    if not isinstance(pullRequests, list) or len(pullRequests) != 1:
+        raise RecoveryError("Existing promotion PR lookup is ambiguous; reconcile it before rerunning.", EXIT_REFUSED)
+    pr = pullRequests[0]
+    if (not isinstance(pr, dict) or type(pr.get("number")) is not int or pr["number"] <= 0
+            or pr.get("headRefName") != f"review/meta/intake-{int(issueNumber)}"
+            or (pr.get("headRepository") or {}).get("nameWithOwner") != repository
+            or pr.get("isCrossRepository") is not False or pr.get("baseRefName") != baseRef):
+        raise RecoveryError("The existing PR is not the canonical same-repository promotion PR on the chosen base.", EXIT_REFUSED)
+    result = verifyPromotionHead(issueNumber, commentsDoc, pr.get("headRefOid"), api, repository, verifier)
+    return {**result, "number": pr["number"]}
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -1120,13 +1135,15 @@ def main(argv=None, fetcher=None):
     promotion = sub.add_parser("verify-pr", help="verify an existing promotion PR's immutable intake bytes")
     promotion.add_argument("--issue", required=True)
     promotion.add_argument("--comments-json", required=True)
-    promotion.add_argument("--head-sha", required=True)
+    promotion.add_argument("--prs-json", required=True)
+    promotion.add_argument("--base-ref", required=True)
 
     args = parser.parse_args(argv)
     try:
         if args.command == "verify-pr":
-            result = verifyPromotionHead(args.issue, loadJson(args.comments_json), args.head_sha)
-            print(f"Existing promotion PR: {result['status']} at {result['headSha']}")
+            result = verifyExistingPromotion(args.issue, loadJson(args.comments_json),
+                loadJson(args.prs_json), args.base_ref)
+            print(result["number"])
             return EXIT_OK
         if args.command == "check-revision":
             verifyIssueRevision(loadJson(args.issue_json), os.environ.get("GITHUB_EVENT_NAME"),

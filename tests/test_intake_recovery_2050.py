@@ -1450,6 +1450,45 @@ def test_original_batch_existing_pr_must_also_match_approved_digest(tmp_path):
 def test_existing_pr_shortcut_checks_immutable_head_before_success_or_new_pr():
     run = stepNamed("evidence-approved", "Create or reuse the batch promotion PR")["run"]
     assert '--head "review/meta/intake-${ISSUE_NUMBER}"' in run
-    assert "--json url,headRefOid" in run
+    assert "--json number,headRefOid,headRefName,headRepository,isCrossRepository,baseRefName" in run
     assert run.index(" verify-pr ") < run.index("Evidence approval verified its single promotion PR")
     assert run.index(" verify-pr ") < run.index('git checkout -b "$branch"')
+
+
+def canonicalPromotion():
+    return {"number": 5050, "headRefOid": "b" * 40, "headRefName": "review/meta/intake-4242",
+            "headRepository": {"nameWithOwner": REPOSITORY}, "isCrossRepository": False, "baseRefName": "main"}
+
+
+def test_canonical_single_promotion_pr_uses_authenticated_number_and_immutable_head(tmp_path):
+    result, comments, _ = handoff(tmp_path)
+    files = {rec.batchRelPath(BATCH_ID): result["batch"], rec.receiptRelPath(4242): result["receipt"]}
+    outcome = rec.verifyExistingPromotion(4242, comments, [canonicalPromotion()], "main", api=promotionApi(files))
+    assert outcome == {"status": "existing-promotion-verified", "headSha": "b" * 40, "number": 5050}
+
+
+@pytest.mark.parametrize("change", ["fork", "cross-repository", "other-head", "other-base", "duplicate", "missing", "invalid-number"])
+def test_fork_or_ambiguous_promotion_pr_cannot_masquerade_as_canonical_batch(tmp_path, change):
+    _, comments, _ = handoff(tmp_path)
+    pr = canonicalPromotion()
+    prs = [pr]
+    if change == "fork":
+        pr["headRepository"] = {"nameWithOwner": "attacker/gaia-skill-tree"}
+    elif change == "cross-repository":
+        pr["isCrossRepository"] = True
+    elif change == "other-head":
+        pr["headRefName"] = "review/meta/intake-42420"
+    elif change == "other-base":
+        pr["baseRefName"] = "attacker-base"
+    elif change == "duplicate":
+        prs.append(copy.deepcopy(pr))
+    elif change == "missing":
+        prs = []
+    else:
+        pr["number"] = "5050; touch injected"
+
+    def noApi(*args, **kwargs):
+        raise AssertionError("Invalid PR provenance must be rejected before any file read")
+
+    with pytest.raises(rec.RecoveryError):
+        rec.verifyExistingPromotion(4242, comments, prs, "main", api=noApi)
