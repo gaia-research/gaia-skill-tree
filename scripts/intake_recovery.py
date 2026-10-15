@@ -1073,9 +1073,19 @@ def verifyExistingPromotion(issueNumber, commentsDoc, pullRequests, baseRef, api
     if not isinstance(pullRequests, list) or len(pullRequests) != 1:
         raise RecoveryError("Existing promotion PR lookup is ambiguous; reconcile it before rerunning.", EXIT_REFUSED)
     pr = pullRequests[0]
+    headRepository = pr.get("headRepository") if isinstance(pr, dict) else None
+    headRepositoryOwner = pr.get("headRepositoryOwner") if isinstance(pr, dict) else None
+    headRepositoryName = headRepository.get("name") if isinstance(headRepository, dict) else None
+    headRepositoryOwnerLogin = headRepositoryOwner.get("login") if isinstance(headRepositoryOwner, dict) else None
+    headRepositoryFullName = (
+        f"{headRepositoryOwnerLogin}/{headRepositoryName}"
+        if isinstance(headRepositoryOwnerLogin, str) and headRepositoryOwnerLogin
+        and isinstance(headRepositoryName, str) and headRepositoryName
+        else None
+    )
     if (not isinstance(pr, dict) or type(pr.get("number")) is not int or pr["number"] <= 0
             or pr.get("headRefName") != f"review/meta/intake-{int(issueNumber)}"
-            or (pr.get("headRepository") or {}).get("nameWithOwner") != repository
+            or headRepositoryFullName != repository
             or pr.get("isCrossRepository") is not False or pr.get("baseRefName") != baseRef):
         raise RecoveryError("The existing PR is not the canonical same-repository promotion PR on the chosen base.", EXIT_REFUSED)
     result = verifyPromotionHead(issueNumber, commentsDoc, pr.get("headRefOid"), api, repository, verifier)

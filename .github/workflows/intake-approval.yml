@@ -403,7 +403,7 @@ jobs:
               --comments-json /tmp/issue-comments.json --files-out /tmp/recovery-files.txt
 
             gh pr list --state open --head "review/meta/intake-${ISSUE_NUMBER}" \
-              --json number,headRefOid,headRefName,headRepository,isCrossRepository,baseRefName > /tmp/existing-prs.json
+              --json number,headRefOid,headRefName,headRepository,headRepositoryOwner,isCrossRepository,baseRefName > /tmp/existing-prs.json
             existing_count=$(python3 -c 'import json; print(len(json.load(open("/tmp/existing-prs.json"))))')
             if [ "$existing_count" -gt 0 ]; then
               existing_number=$(python3 .intake-tools/scripts/intake_recovery.py verify-pr --issue "$ISSUE_NUMBER" \
