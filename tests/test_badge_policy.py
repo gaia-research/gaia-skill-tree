@@ -450,6 +450,79 @@ def test_an_unrelated_third_party_issue_that_mentions_gaia_still_counts_as_prior
     assert br.evaluate_dispatch(manifest, SINGLE, e)
 
 
+@pytest.mark.parametrize("text", [
+    "https://gaiaskilltree.com/named/#explorer/bob/solo",
+    "[recognition](https://gaiaskilltree.com/badges/_assets/bob/solo.svg)",
+    '<a href="https://www.gaiaskilltree.com/">recognition</a>',
+    "See HTTP://GAIASKILLTREE.COM/named/.",
+    "See gaiaskilltree.com/named/.",
+    "See www.gaiaskilltree.com.",
+    "//gaiaskilltree.com/named/",
+    "https://gaiaskilltree.com:443/named/",
+    "https://gaiaskilltree.com./named/",
+    "**gaiaskilltree.com**",
+    "[gaiaskilltree.com]",
+    "gaiaskilltree.com:",
+    "**[www.gaiaskilltree.com]**.",
+])
+def test_prior_discussion_recognizes_only_real_gaia_site_hosts(text):
+    proposal = item(8, user="some-user", title="Recognition proposal")
+    proposal["body"] = text
+    issues, prs = bp.normalize_prior_items([proposal], ("mbtiongson1",), {SINGLE})
+    assert issues[0]["gaia_authored"] is True
+    assert not prs
+
+
+@pytest.mark.parametrize("text", [
+    "https://gaiaskilltree.com.attacker.example/named/",
+    "https://notgaiaskilltree.com/",
+    "https://www.gaiaskilltree.com.attacker.example/",
+    "https://gaiaskilltree.com@attacker.example/",
+    "https://attacker.example@gaiaskilltree.com/",
+    "https://attacker.example/path/gaiaskilltree.com",
+    "https://attacker.example/?next=https://gaiaskilltree.com/",
+    "https://attacker.example/#gaiaskilltree.com",
+    "attacker.example/gaiaskilltree.com",
+    "gaiaskilltree.com.attacker.example",
+    "gaiaskilltree.com@attacker.example",
+    "attacker@gaiaskilltree.com",
+    "ftp://gaiaskilltree.com/",
+    "javascript:https://gaiaskilltree.com/",
+    "https://gaiaskilltree.com:invalid/",
+    "https://gaiaskilltree.com:99999/",
+    "https://[gaiaskilltree.com/",
+    "https://gaiaskilltree.com\\@attacker.example/",
+    "https://gaiaskilltree.com%2eattacker.example/",
+    "/path/gaiaskilltree.com",
+    "**https://gaiaskilltree.com.attacker.example/**",
+    "[https://attacker.example/gaiaskilltree.com]",
+    "_gaiaskilltree.com",
+])
+def test_prior_discussion_does_not_attribute_lookalike_urls_to_campaign(text):
+    proposal = item(8, user="some-user", title="Recognition proposal")
+    proposal["body"] = text
+    issues, _ = bp.normalize_prior_items([proposal], ("mbtiongson1",), {SINGLE})
+    assert issues[0]["gaia_authored"] is False
+
+
+def test_known_campaign_author_needs_no_site_reference():
+    proposal = item(8, user="MBTIONGSON1", title="Recognition proposal")
+    issues, _ = bp.normalize_prior_items([proposal], ("mbtiongson1",), {SINGLE})
+    assert issues[0]["gaia_authored"] is True
+
+
+def test_real_gaia_link_preserves_prior_contact_dispatch_gate(registry, manifest):
+    approve(manifest, SINGLE)
+    gh = world(SINGLE)
+    proposal = item(8, user="some-user", title="Recognition proposal")
+    proposal["body"] = "See https://gaiaskilltree.com/named/#explorer/bob/solo"
+    prior(gh, [proposal])
+    comments(gh, 8, [])
+    receipt = scan(gh, manifest, registry)
+    assert receipt["policy"]["prior_issues"][0]["gaia_authored"] is True
+    assert any("cross-channel duplicate" in reason for reason in br.evaluate_dispatch(manifest, SINGLE, receipt))
+
+
 def test_repo_rename_finds_prior_issue_under_the_old_name(registry, manifest):
     gh = world(SINGLE, canonical="bob/renamed")
     old = item(3, repo="bob/single")
@@ -581,6 +654,23 @@ def test_approval_issue_missing_upstream_or_not_ours_is_unverified(registry, man
     stranger = item(7, user="someone-else", title="Unrelated question")
     e = scan(approval_world(issue_items=[stranger]), manifest, registry, events=br.load_policy_events(ledger))
     assert "approval_issue_not_authored_by_campaign" in e["policy"]["approval"]["failed_checks"]
+
+
+@pytest.mark.parametrize("url", [
+    "https://gaiaskilltree.com.attacker.example/",
+    "https://gaiaskilltree.com@attacker.example/",
+    "https://attacker.example/gaiaskilltree.com",
+])
+def test_spoof_site_cannot_satisfy_approval_issue_campaign_attribution(registry, manifest, tmp_path, url):
+    ledger = approval_ledger(tmp_path)
+    approve(manifest, SINGLE)
+    stranger = item(7, user="someone-else", title="Recognition proposal")
+    stranger["body"] = url
+    receipt = scan(approval_world(issue_items=[stranger]), manifest, registry, events=br.load_policy_events(ledger))
+    assert receipt["policy"]["approval"]["state"] == "UNVERIFIED"
+    assert "approval_issue_not_authored_by_campaign" in receipt["policy"]["approval"]["failed_checks"]
+    assert receipt["recommended_next_action"] == bp.ACTION_APPROVAL_UNVERIFIED
+    assert br.evaluate_dispatch(manifest, SINGLE, receipt)
 
 
 def test_unreadable_approval_comments_fail_closed_to_unknown(registry, manifest, tmp_path):
