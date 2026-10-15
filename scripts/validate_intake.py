@@ -15,6 +15,10 @@ except ImportError:
     HAS_JSONSCHEMA = False
 
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+from gaia_cli.intakeAdapter import validateIntakeIdentities
+
+
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 VALID_TYPES = {"basic", "fusion"}  # matches registry/schema/skillBatch.schema.json proposedSkills[].type
 
@@ -118,6 +122,7 @@ def validate_intake(intake_dir, graph_path, schema_path=None, strict=False):
     canonical_ids = load_canonical_ids(graph_path)
     schema = load_json(schema_path) if schema_path and HAS_JSONSCHEMA else None
     proposed_seen = {}
+    named_seen = {}
     batches = []
 
     for path in batch_files(intake_dir):
@@ -132,22 +137,34 @@ def validate_intake(intake_dir, graph_path, schema_path=None, strict=False):
         batches.append((path, batch))
 
     for path, batch in batches:
+        errors.extend(f"{path}: {error}" for error in validateIntakeIdentities(batch.get("proposedSkills", [])))
         for known in batch.get("knownSkills", []):
             skill_id = known.get("skillId")
             if skill_id and skill_id not in canonical_ids:
                 errors.append(f"{path}: known skill '{skill_id}' is not canonical.")
 
         for proposed in batch.get("proposedSkills", []):
+            if not isinstance(proposed, dict):
+                continue
             skill_id = proposed.get("id")
             if not skill_id:
                 continue
+            named = proposed.get("named") or {}
+            if isinstance(named, dict) and named.get("contributor"):
+                identity = (
+                    str(named["contributor"]).strip().lower(),
+                    str(named.get("skill_name") or skill_id).strip().lower(),
+                )
+                if identity in named_seen and named_seen[identity] != path:
+                    errors.append(f"{path}: Duplicate named identity '{identity[0]}/{identity[1]}' also appears in {named_seen[identity]}.")
+                named_seen[identity] = path
             if skill_id in canonical_ids:
                 message = canonical_duplicate_warning(path, skill_id)
                 if strict:
                     errors.append(message)
                 else:
                     warnings.append(message)
-            if skill_id in proposed_seen:
+            if skill_id not in canonical_ids and skill_id in proposed_seen and proposed_seen[skill_id] != path:
                 errors.append(
                     f"{path}: Duplicate proposed skill '{skill_id}' also appears in {proposed_seen[skill_id]}."
                 )
