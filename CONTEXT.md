@@ -141,8 +141,8 @@ The internal 0–100 score an **Evidence Grade** derives from, via `meta.json` `
 _Avoid_: showing the trust number in copy; "trust score" (the term is "trust number").
 
 **Overall Trust Grade**:
-A skill's *aggregate* standing — the accumulation of its individual **Evidence Grades** that establishes the capability "beyond reasonable doubt." Computed from the evidence inventory at build time and **never stored in a node** (Programmatic-First); it materialises only in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). Distinct from a single demonstration's **Evidence Grade**.
-_Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
+A skill's *aggregate* standing — the accumulation of its individual **Evidence Grades** that establishes the capability "beyond reasonable doubt." Computed from the effective evidence inventory, including eligible generic-layer evidence inherited by a named skill; it materialises in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). Named frontmatter may also carry a hash-signed Trust Magnitude / Overall Trust Grade cache written only by `gaia dev calibrate-trust-magnitude`; generated catalogs reuse it only while the input hash matches, otherwise they recompute. Distinct from a single demonstration's **Evidence Grade**.
+_Avoid_: hand-writing the cache or treating it as authoritative after its input hash changes; conflating it with one entry's Evidence Grade; "trust rating".
 
 **Fusion Score**:
 A skill's *structural* reading — how much distinct capability it composes, derived from canonical prerequisites, suite components, and origin structure. Ratified by Yggdrasil III as a **second, independent** scalar alongside **Trust Magnitude**: TM answers "how much evidence corroborates this?", Fusion Score answers "how much structure does this compose?". Informational in V1 — it gates no rank, no star, and no Trust Grade. Computed at build time in one Python authority and materialised only in generated projections; **never stored on a node** and never written to Named Skill frontmatter.

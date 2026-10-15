@@ -329,7 +329,7 @@
         "stars": {
           "type": "integer",
           "minimum": 0,
-          "description": "Raw GitHub star count for github-stars-own / proxy-containment / repo-own evidence. Consumed by the github-stars-own formula: min(200, stars/1000) / min(skillCountInRepo, 4)."
+          "description": "Raw GitHub star count for github-stars-own / proxy-containment / repo-own evidence. github-stars-own uses the logarithmic repository adoption curve; skillCountInRepo does not divide its score."
         },
         "commits": {
           "type": "integer",
@@ -360,7 +360,7 @@
         "skillCountInRepo": {
           "type": "integer",
           "minimum": 1,
-          "description": "Number of skills that share the source repo for github-stars-own / proxy-containment evidence. Used as the divisor in the github-stars-own 'mothership discount' — the star pool is split across all skills in the repo up to a cap of 4."
+          "description": "Number of skills that share the source repo for github-stars-own / proxy-containment evidence. Retained as provenance and an input-hash field; it is not a scoring divisor."
         },
         "unverified": {
           "type": "boolean",

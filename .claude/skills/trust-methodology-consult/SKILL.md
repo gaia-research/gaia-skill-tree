@@ -87,28 +87,23 @@ add more evidence rows to compensate.
 
 ## The design principle you must not violate
 
-The methodology page states, verbatim:
-
-> Trust Magnitude (TM) is the aggregate numeric signal for a skill's
-> trustworthiness. It is computed at build time from a skill's evidence
-> inventory, never stored on a node.
-
-That sentence pins the direction of every fix. It needs one precision, which the
-authority map §4 owns. Named-skill frontmatter may carry `trustMagnitude`,
-`overallTrustGrade` and `trustMagnitudeInputHash`. That is a **hash-signed cache** written
-only by `gaia dev calibrate-trust-magnitude`, and `scripts/generateNamedIndex.py` trusts it
-only while the input hash matches. Otherwise it recomputes. The cache is not a persistence
-contract, and nothing else may write it.
+The founder ruling in `META.md` §2.1c and authority map §4 permits computed
+Trust Magnitude and Overall Trust Grade on a named node as a **hash-signed cache**:
+`trustMagnitude`, `overallTrustGrade`, and `trustMagnitudeInputHash` are written
+only by `gaia dev calibrate-trust-magnitude`. `scripts/generateNamedIndex.py` trusts
+the cache only while the input hash matches; otherwise it recomputes. Raw evidence
+remains the source of truth. A named skill's effective TM includes eligible
+generic-layer evidence at the engine's inheritance multipliers; an own-only
+proposal total is not its final effective TM.
 
 - **Raw inputs are the persisted state.** Fields like `citations`, `stars`,
   `commits`, `contributors`, `views`, `reviewers`, `percentile`, and
   `skillCountInRepo` are the evidence inventory. They MUST be storable on an
   evidence row so `gaia dev calibrate-evidence-grades` can re-derive grades
   from them at any future time.
-- **Derived fields are ephemeral.** `trustMagnitude` and `overallTrustGrade`
-  are computed. They may appear on the merged graph or in reports but must
-  not become the persistence contract — otherwise you cannot recompute them
-  when the formula changes.
+- **Derived fields remain recomputable.** `trustMagnitude` and `overallTrustGrade`
+  are computed. They may appear in reports, generated catalogs, and the permitted
+  CLI-written cache, which never replaces the underlying evidence inventory.
 - **Do not "collapse" raw inputs into `trustNumber` as a workaround.** Writing
   only a pre-computed `trustNumber` to sidestep a schema rejection erases the
   audit chain ("why did this row score 73?") and breaks the recompute path.

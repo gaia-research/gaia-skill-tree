@@ -218,6 +218,23 @@ def test_four_star_requires_grade_a_strictly():
     assert clamp["B"] == 3
     assert computeOverallTrustGrade(100.0, 1, False) == "A"
     assert clamp["A"] == 4
+
+
+@pytest.mark.parametrize("surface", [
+    "CONTEXT.md", "META.md", "docs/codex/trust-methodology.html",
+    "docs/meta/2026-06-trust-methodology.md",
+    ".agents/skills/trust-methodology-consult/SKILL.md",
+    ".claude/skills/trust-methodology-consult/SKILL.md",
+])
+def test_tm_storage_surfaces_preserve_the_cli_cache_ruling(surface):
+    text = " ".join((ROOT / surface).read_text(encoding="utf-8").split())
+    assert "gaia dev calibrate-trust-magnitude" in text
+    assert "hash-signed" in text
+    assert "eligible generic-layer evidence" in text
+    # Fusion Score remains unpersisted; this checks the retired TM/grade claims.
+    assert "evidence inventory, never stored on a node" not in text
+    assert "never stored in a node" not in text
+    assert "generated catalogs — never stored on a node" not in text
     assert promotion._UNIQUE_GATE_BY_LEVEL["4★"] == {"grade": "A", "tmFloor": 100.0}
 
 
