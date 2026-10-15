@@ -1,8 +1,9 @@
 """Shared bounded semantic contract for active trust guidance.
 
 The authority map and active trust surfaces are explicit inputs. Historical
-archives, handovers, retrospectives, and generated mirrors are intentionally
-outside this semantic scan.
+archives, handovers, retrospectives, and unlisted generated/archive documents
+are intentionally outside this semantic scan; explicitly listed .claude mirrors
+are included.
 """
 
 from __future__ import annotations
@@ -28,8 +29,13 @@ TRUST_SURFACES = (
 # Keep these finite retired-claim predicates aligned with the authority-map
 # agreement tests. They are not numeric heuristics over arbitrary repository text.
 BANNED_PATTERNS = {
-    "skill-count divisor": re.compile(r"skill_count_in_repo|/\s*min\(\s*skillCountInRepo", re.I),
-    "mothership discount": re.compile(r"mothership", re.I),
+    "skill-count divisor": re.compile(
+        r"(?:/\s*(?:min\(\s*)?skill_count_in_repo|"
+        r"\bskill_count_in_repo\b.{0,35}\bdivisor\b|"
+        r"\bskill_count_in_repo\b.{0,35}\bdivides?\s+(?:the\s+)?(?:score|contribution)\b)",
+        re.I,
+    ),
+    "mothership discount": re.compile(r"mothership\s+discount", re.I),
     "linear stars formula": re.compile(r"stars\s*/\s*1000"),
     "cross-type same-URL collapse": re.compile(
         r"`github-stars-own`\s+and\s+`repo-own`\s+pointing\s+to\s+the\s+same\s+URL\s*→\s*deduped", re.I
@@ -43,7 +49,40 @@ BANNED_PATTERNS = {
 
 def bannedClaims(text: str) -> list[str]:
     """Return names of finite, specifically retired trust claims in text."""
-    return [name for name, pattern in BANNED_PATTERNS.items() if pattern.search(text)]
+    claims: list[str] = []
+    for name, pattern in BANNED_PATTERNS.items():
+        matches = pattern.finditer(text)
+        if any(
+            not _is_retired_warning_context(text, match.start(), match.end())
+            for match in matches
+        ):
+            claims.append(name)
+    return claims
+
+
+def _is_retired_warning_context(text: str, start: int, end: int) -> bool:
+    """Ignore an explicit denial or retirement warning in the same clause."""
+    boundaries = ("\n", ".", "!", "?", ";")
+    clause_start = max(text.rfind(mark, 0, start) for mark in boundaries) + 1
+    clause_end = min(
+        (position for mark in boundaries if (position := text.find(mark, end)) != -1),
+        default=len(text),
+    )
+    before = text[clause_start:start].rstrip("`'\" \t")
+    after = text[end:clause_end].lstrip("`'\" \t")
+
+    # Denials must directly govern the match; quotes and code ticks alone are
+    # not evidence. Clause boundaries prevent unrelated prose from exempting it.
+    if re.search(r"\b(?:do\s+not|don't|never|no|not|without)\b[^.!?;\n]{0,40}$", before, re.I):
+        return True
+
+    return bool(
+        re.search(
+            r"\b(?:is|was|has been|are|were|have been)\s+(?:explicitly\s+)?(?:retired|obsolete|deprecated)\b",
+            after,
+            re.I,
+        )
+    )
 
 
 def _read_required(repo_root: Path, relative: str) -> str:
@@ -56,9 +95,12 @@ def _read_required(repo_root: Path, relative: str) -> str:
     if len(content) > MAX_INPUT_BYTES:
         raise ValueError(f"required trust guidance input exceeds safety limit (possibly truncated): {relative}")
     try:
-        return content.decode("utf-8")
+        text = content.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise ValueError(f"required trust guidance input is not UTF-8: {relative}") from exc
+    if not text.strip():
+        raise ValueError(f"required trust guidance input is empty or whitespace-only (possibly truncated): {relative}")
+    return text
 
 
 def check_trust_guidance(repo_root: Path) -> list[dict[str, str]]:

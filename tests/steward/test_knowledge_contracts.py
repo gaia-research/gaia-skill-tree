@@ -59,6 +59,15 @@ def test_oversized_input_fails_closed_as_truncated(tmp_path: Path) -> None:
         check_trust_guidance(tmp_path)
 
 
+@pytest.mark.parametrize("empty", ["", "   ", "\n\t  \n"])
+@pytest.mark.parametrize("required", [AUTHORITY_MAP, TRUST_SURFACES[0]])
+def test_empty_required_semantic_input_fails_closed(tmp_path: Path, required: str, empty: str) -> None:
+    _valid_inputs(tmp_path)
+    _write(tmp_path, required, empty)
+    with pytest.raises(ValueError, match="empty or whitespace-only"):
+        check_trust_guidance(tmp_path)
+
+
 def test_archives_and_handover_history_are_not_scanned(tmp_path: Path) -> None:
     _valid_inputs(tmp_path)
     retired_claim = "`github-stars-own` and `repo-own` pointing to the same URL → deduped"
@@ -81,6 +90,37 @@ def test_active_surface_retired_claim_is_detected(tmp_path: Path) -> None:
     )
     violations = check_trust_guidance(tmp_path)
     assert any(v["source"] == target and v["rule"] == "retired-trust-claim" for v in violations)
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "There is no mothership discount. See curation-authority-map.md.",
+        'Warning: the old phrase "mothership discount" is retired. See curation-authority-map.md.',
+        "Warning: the old phrase `mothership discount` is retired. See curation-authority-map.md.",
+    ],
+)
+def test_mothership_warning_and_negation_are_not_mistaken_for_claim(tmp_path: Path, text: str) -> None:
+    _valid_inputs(tmp_path)
+    _write(tmp_path, TRUST_SURFACES[0], text)
+    assert not any(
+        v["source"] == TRUST_SURFACES[0] and v["rule"] == "retired-trust-claim"
+        for v in check_trust_guidance(tmp_path)
+    )
+
+
+@pytest.mark.parametrize(
+    "claim",
+    [
+        "A mothership discount applies.",
+        'A \'mothership discount\' applies.',
+    ],
+)
+def test_mothership_discount_claim_is_detected(tmp_path: Path, claim: str) -> None:
+    _valid_inputs(tmp_path)
+    _write(tmp_path, TRUST_SURFACES[0], f"{claim} See curation-authority-map.md.")
+    violations = check_trust_guidance(tmp_path)
+    assert any(v["source"] == TRUST_SURFACES[0] and v["rule"] == "retired-trust-claim" for v in violations)
 
 
 def test_authority_map_link_is_required_on_each_active_surface(tmp_path: Path) -> None:
