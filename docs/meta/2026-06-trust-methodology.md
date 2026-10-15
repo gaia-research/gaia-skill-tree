@@ -77,7 +77,7 @@ The Overall Trust Grade is **B** — the strongest (and only) grade in its evide
 
 ## The Overall Trust Grade
 
-A skill's **Overall Trust Grade** is its aggregate standing — the accumulation of its individual Evidence Grades that establishes the capability "beyond reasonable doubt." It is computed from the evidence inventory at build time and **never stored in a node**; it materialises only in the generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). It is distinct from any single demonstration's Evidence Grade.
+A skill's **Overall Trust Grade** is its aggregate standing — the accumulation of its individual Evidence Grades that establishes the capability "beyond reasonable doubt." It is computed from the effective evidence inventory, including eligible generic-layer evidence inherited by a named skill. It materialises in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`) and may also be stored with Trust Magnitude as a hash-signed named-frontmatter cache written only by `gaia dev calibrate-trust-magnitude`. Generated catalogs reuse that cache only while its input hash matches; otherwise they recompute. It is distinct from any single demonstration's Evidence Grade.
 
 The current implementation takes the strongest grade in the evidence pool. Whether aggregate standing should instead require corroboration — several independent demonstrations rather than one strong one — is the open question reserved for the post-rollout recalibration review.
 
