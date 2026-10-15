@@ -88,15 +88,15 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     return ownership
 
 
-def _live_policy(root: Path) -> tuple[dict[str, str], set[str], set[str], set[str]]:
+def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], set[str]]:
     sys.path.insert(0, str(root / "src"))
     from gaia_cli.steward.controller import StewardController
     from gaia_cli.steward.policy import StewardPolicy
     policy = StewardPolicy.load(root)
     registered = {sensor.id for sensor in StewardController().sensors}
     authority = {kind: value.value for kind, value in policy.authority.items()}
-    dispatch = {rule.id for rule in policy.dispatch_rules.values()}
-    executors = set(policy.repair_executors)
+    dispatch = {rule.id: (rule.debt_kind, rule.authority.value) for rule in policy.dispatch_rules.values()}
+    executors = {key: (executor.debt_kind, executor.authority.value) for key, executor in policy.repair_executors.items()}
     return authority, dispatch, executors, registered
 
 
@@ -113,7 +113,8 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
     if not isinstance(rows, list) or len(rows) != 17:
         return _result(["catalog must contain exactly 17 routine rows"], [], {})
     ownership = _sensor_ownership(root)
-    authority, dispatch_ids, executor_ids, registered = _live_policy(root)
+    authority, dispatch_rules, repair_executors, registered = _live_policy(root)
+    dispatch_ids, executor_ids = set(dispatch_rules), set(repair_executors)
     if len(registered) != 14 or registered != EXPECTED_SENSOR_IDS:
         errors.append(f"registered sensor dependency pending/drifted: expected 14 sensors including repository-hygiene; found {len(registered)} ({', '.join(sorted(registered))})")
     if len(dispatch_ids) != 5:
@@ -132,7 +133,7 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
         if row["number"] != index or row["title"] != title:
             errors.append(f"{label}: expected exact number/title {index}: {title!r}")
         status = row["status"]
-        if status not in {"absent", "partial", "present-undeliverable", "human-gated"}:
+        if not isinstance(status, str) or status not in {"absent", "partial", "present-undeliverable", "human-gated"}:
             errors.append(f"{label}: invalid status {status!r}")
         else:
             statuses[status] += 1
@@ -152,28 +153,38 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
                 errors.append(f"{label}: malformed binding fields")
                 continue
             sid, kind = binding["sensorId"], binding["debtKind"]
+            route, executor = binding["dispatchRule"], binding["repairExecutor"]
+            if not isinstance(kind, str) or not kind:
+                errors.append(f"{label}: debtKind must be a non-empty string")
+                continue
             if sid is None:
                 if not (index == 3 and kind == "sensor_coverage_unknown"):
                     errors.append(f"{label}: null sensorId is only valid for controller sensor_coverage_unknown diagnostics")
+            elif not isinstance(sid, str) or sid not in ownership:
+                errors.append(f"{label}: unknown sensor claim {sid!r}")
             else:
-                if not isinstance(sid, str) or sid not in ownership:
-                    errors.append(f"{label}: unknown sensor claim {sid!r}")
-                else:
-                    seen_sensor_ids.add(sid)
-                    if kind not in ownership[sid]:
-                        errors.append(f"{label}: {sid!r} does not own emitted debt kind {kind!r}")
-                    if sid not in registered:
-                        errors.append(f"{label}: sensor {sid!r} exists in source but is not registered")
-            if binding["authority"] != authority.get(kind):
+                seen_sensor_ids.add(sid)
+                if kind not in ownership[sid]:
+                    errors.append(f"{label}: {sid!r} does not own emitted debt kind {kind!r}")
+                if sid not in registered:
+                    errors.append(f"{label}: sensor {sid!r} exists in source but is not registered")
+            declared_authority = binding["authority"]
+            if not isinstance(declared_authority, str) or declared_authority != authority.get(kind):
                 errors.append(f"{label}: authority mismatch or unknown debt kind {kind!r}")
-            if binding["dispatchRule"] is not None and binding["dispatchRule"] not in dispatch_ids:
-                errors.append(f"{label}: fabricated dispatch rule {binding['dispatchRule']!r}")
-            if binding["repairExecutor"] is not None and binding["repairExecutor"] not in executor_ids:
-                errors.append(f"{label}: fabricated repair executor {binding['repairExecutor']!r}")
+            if route is not None:
+                if not isinstance(route, str) or route not in dispatch_rules:
+                    errors.append(f"{label}: fabricated dispatch rule {route!r}")
+                elif dispatch_rules[route] != (kind, declared_authority):
+                    errors.append(f"{label}: dispatch rule {route!r} does not authorize {kind!r} at {declared_authority!r}")
+            if executor is not None:
+                if not isinstance(executor, str) or executor not in repair_executors:
+                    errors.append(f"{label}: fabricated repair executor {executor!r}")
+                elif repair_executors[executor] != (kind, declared_authority):
+                    errors.append(f"{label}: repair executor {executor!r} does not authorize {kind!r} at {declared_authority!r}")
     unaccounted = sorted(registered - seen_sensor_ids)
     if unaccounted:
         errors.append(f"registered sensors not accounted for: {', '.join(unaccounted)}")
-    return _result(errors, unaccounted, statuses, len(registered), len(seen_sensor_ids), len(dispatch_ids), len(executor_ids))
+    return _result(errors, unaccounted, statuses, len(registered), len(registered) - len(unaccounted), len(dispatch_ids), len(executor_ids))
 
 
 def _result(errors: list[str], unaccounted: list[str], statuses: dict[str, int], registered: int = 0, accounted: int = 0, dispatch_rules: int = 0, repair_executors: int = 0) -> dict[str, Any]:

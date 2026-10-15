@@ -23,6 +23,7 @@ def test_catalog_is_static_and_reports_registration_dependency_pending() -> None
     assert result["liveHealth"] == "not-evaluated"
     assert result["routineCount"] == 17
     assert result["registeredSensorCount"] == 13
+    assert result["accountedSensorCount"] == 13
     assert result["dispatchRuleCount"] == 5
     assert result["repairExecutorCount"] == 2
     assert result["dependencyPending"] is True
@@ -59,6 +60,35 @@ def test_catalog_rejects_wrong_sensor_kind_authority_and_titles(tmp_path: Path) 
     assert any("expected exact number/title" in error for error in result["errors"])
     assert any("does not own emitted debt kind" in error for error in result["errors"])
     assert any("authority mismatch" in error for error in result["errors"])
+
+
+def test_catalog_rejects_routes_bound_to_the_wrong_policy_debt(tmp_path: Path) -> None:
+    path, data = _catalog(tmp_path)
+    binding = data["routines"][5]["bindings"][0]
+    binding["debtKind"] = "registry_integrity_failed"
+    binding["authority"] = "B"
+    binding["dispatchRule"] = "trust-calibration-drift"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any("does not own emitted debt kind" in error for error in result["errors"])
+    assert any("does not authorize 'registry_integrity_failed'" in error for error in result["errors"])
+
+
+def test_catalog_reports_malformed_unhashable_claims_without_crashing(tmp_path: Path) -> None:
+    path, data = _catalog(tmp_path)
+    data["routines"][5]["status"] = []
+    binding = data["routines"][5]["bindings"][0]
+    binding["sensorId"] = ["cli-contract"]
+    binding["debtKind"] = []
+    binding["dispatchRule"] = []
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    result = validate(ROOT, path)
+
+    assert any("invalid status" in error for error in result["errors"])
+    assert any("debtKind must be a non-empty string" in error for error in result["errors"])
 
 
 def test_catalog_rejects_unaccounted_registered_sensor_and_missing_test_path(tmp_path: Path) -> None:
