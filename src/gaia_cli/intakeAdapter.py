@@ -36,6 +36,8 @@ import os
 import re
 from urllib.parse import urlparse
 
+from gaia_cli.namedIdentity import validateContributor
+
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
 HANDOFF_CONTRACT_VERSION = "curation-handoff-v1"
@@ -150,8 +152,9 @@ def validateL4Resolution(packet, requireHumanReview=False):
 
     contributor = named.get("contributor", "")
     skillName = named.get("skillName", "")
-    if not str(contributor).strip() or "/" in str(contributor):
-        errors.append("l4Resolution.named.contributor is required")
+    contributorError = validateContributor(contributor)
+    if contributorError:
+        errors.append(f"l4Resolution.named.contributor: {contributorError}")
     if not SKILL_ID_RE.fullmatch(str(skillName)):
         errors.append("l4Resolution.named.skillName must be kebab-case")
     if not _isExactSkillBlob(resolution.get("skillFileUrl", "")):

@@ -27,6 +27,7 @@ from gaia_cli.intakeAdapter import (
     _isExactSkillBlob,
     validateL4Resolution,
 )
+from gaia_cli.namedIdentity import COLLISION_FIX, identityProblem, validateContributor
 from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket, _importPacketValidator
 from gaia_cli.curation.assessment import validateAssessment, loadGenericSemantics
 
@@ -73,12 +74,24 @@ def ratifyCommand(args):
         )
         return 1
 
-    if not contributor or not str(contributor).strip() or "/" in str(contributor):
-        print("Ratification rejected: contributor is required and cannot contain '/'.", file=sys.stderr)
+    contributorError = validateContributor(contributor)
+    if contributorError:
+        print(f"Ratification rejected: {contributorError}.", file=sys.stderr)
         return 1
 
     if not skillName or not SKILL_ID_RE.fullmatch(str(skillName)):
         print(f"Ratification rejected: skill_name '{skillName}' must be kebab-case.", file=sys.stderr)
+        return 1
+
+    # Lowercase input can still collide with a legacy mixed-case identity.
+    # Reject the collision without changing either spelling.
+    collision = identityProblem(getattr(args, "registry", None) or ".", contributor, str(skillName))
+    if collision:
+        print(
+            f"Ratification rejected: '{contributor}/{skillName}' collides with an existing "
+            f"named identity: {collision}. {COLLISION_FIX}",
+            file=sys.stderr,
+        )
         return 1
 
     # Human review acknowledgement check
