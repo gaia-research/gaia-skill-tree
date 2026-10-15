@@ -502,3 +502,262 @@ def test_installability_digest_change_without_proof_blocks():
     assert routine == []
     assert any("could not be verified" in b for b in blocking)
 
+
+
+# ---------------------------------------------------------------------------
+# API projection drift must be proven Trust/ranking-derived, not same-shape.
+# ---------------------------------------------------------------------------
+
+
+def _write_api_tree(root: Path, files: dict[str, Any]) -> None:
+    for rel, payload in files.items():
+        path = root / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def _api_eval(tmp_path: Path, committed: dict[str, Any], fresh: dict[str, Any]):
+    c_dir = tmp_path / "committed"
+    o_dir = tmp_path / "out"
+    _write_api_tree(c_dir, committed)
+    _write_api_tree(o_dir, fresh)
+    drifts = sorted(
+        rel for rel in set(committed) | set(fresh) if committed.get(rel) != fresh.get(rel)
+    )
+    return evaluateApiFreshness(c_dir, o_dir, drifts, ledger_is_routine=True)
+
+
+def _slim(skill_id: str, tm: float, level: str = "3★", grade: str = "B") -> dict[str, Any]:
+    return {
+        "id": skill_id,
+        "name": skill_id.split("/")[1],
+        "level": level,
+        "trustMagnitude": tm,
+        "overallTrustGrade": grade,
+        "fusionScore": 0.0,
+        "contributor": skill_id.split("/")[0],
+        "rankWord": "Named",
+        "medallion": "bronze",
+    }
+
+
+def _leaderboard(rows: list[dict[str, Any]], distribution: dict[str, int] | None = None) -> dict[str, Any]:
+    return {
+        "distribution": distribution or {"total": len(rows), "A": 0, "B": len(rows), "floor": 0, "up": 0},
+        "rows": rows,
+        "_links": {"self": "/api/v1/leaderboard.json"},
+    }
+
+
+def _lb_row(skill_id: str, tm: float, stars: float, origin: bool = False) -> dict[str, Any]:
+    return {
+        "id": skill_id,
+        "trustMagnitude": tm,
+        "grade": "B",
+        "level": "3★",
+        "typeBreakdown": {"github-stars-own": stars, "repo-own": 7.25},
+        "origin": origin,
+        "branch": "standard",
+    }
+
+
+def test_api_leaderboard_tm_rerank_is_routine(tmp_path: Path):
+    committed = {"leaderboard.json": _leaderboard([_lb_row("a/x", 80.0, 72.75), _lb_row("b/y", 70.0, 62.75)])}
+    fresh = {"leaderboard.json": _leaderboard([_lb_row("b/y", 85.0, 77.75), _lb_row("a/x", 81.0, 73.75)])}
+    is_material, blocking, routine = _api_eval(tmp_path, committed, fresh)
+    assert not is_material, blocking
+    assert routine == ["leaderboard.json"]
+
+
+def test_api_leaderboard_same_shape_non_trust_change_blocks(tmp_path: Path):
+    # Same keys, same shape — only a non-Trust boolean moved. Must not pass.
+    committed = {"leaderboard.json": _leaderboard([_lb_row("a/x", 80.0, 72.75)])}
+    fresh = {"leaderboard.json": _leaderboard([_lb_row("a/x", 80.0, 72.75, origin=True)])}
+    is_material, blocking, _ = _api_eval(tmp_path, committed, fresh)
+    assert is_material
+    assert any("origin" in b for b in blocking)
+
+
+def test_api_leaderboard_distribution_change_blocks(tmp_path: Path):
+    rows = [_lb_row("a/x", 80.0, 72.75)]
+    committed = {"leaderboard.json": _leaderboard(rows)}
+    fresh = {"leaderboard.json": _leaderboard(rows, {"total": 1, "A": 0, "B": 1, "floor": 0, "up": 1})}
+    is_material, blocking, _ = _api_eval(tmp_path, committed, fresh)
+    assert is_material
+    assert any("distribution" in b for b in blocking)
+
+
+def test_api_leaderboard_new_evidence_type_in_breakdown_blocks(tmp_path: Path):
+    committed = {"leaderboard.json": _leaderboard([_lb_row("a/x", 80.0, 72.75)])}
+    row = _lb_row("a/x", 90.0, 72.75)
+    row["typeBreakdown"]["arxiv"] = 10.0
+    fresh = {"leaderboard.json": _leaderboard([row])}
+    is_material, blocking, _ = _api_eval(tmp_path, committed, fresh)
+    assert is_material
+    assert any("evidence types changed" in b for b in blocking)
+
+
+def test_api_search_index_grade_change_blocks_and_tm_rerank_is_routine(tmp_path: Path):
+    def entry(sid: str, tm: float, grade: str = "B") -> dict[str, Any]:
+        return {"id": sid, "name": sid, "contributor": "c", "level": "3★", "grade": grade,
+                "trustMagnitude": tm, "branch": "standard", "tokens": [sid]}
+
+    committed = {"search-index.json": [entry("c/a", 80.0), entry("c/b", 70.0)]}
+    rerank = {"search-index.json": [entry("c/b", 90.0), entry("c/a", 80.0)]}
+    is_material, blocking, _ = _api_eval(tmp_path / "ok", committed, rerank)
+    assert not is_material, blocking
+
+    regrade = {"search-index.json": [entry("c/a", 80.0, grade="A"), entry("c/b", 70.0)]}
+    is_material, blocking, _ = _api_eval(tmp_path / "bad", committed, regrade)
+    assert is_material
+    assert any("grade" in b for b in blocking)
+
+
+def test_api_skill_detail_gate_and_fusion_changes_block(tmp_path: Path):
+    base = {
+        "id": "c/a", "name": "a", "contributor": "c", "trustMagnitude": 80.0,
+        "overallTrustGrade": "B", "fusionScore": 1.0,
+        "apexGateStatus": {"overallGradeS": False},
+        "evidence": [{"type": "github-stars-own", "source": "https://github.com/c/a",
+                      "stars": 100, "grade": "B", "trustNumber": 40.0}],
+    }
+    volatile = json.loads(json.dumps(base))
+    volatile["trustMagnitude"] = 83.0
+    volatile["evidence"][0]["stars"] = 120
+    volatile["evidence"][0]["trustNumber"] = 43.0
+    is_material, blocking, _ = _api_eval(
+        tmp_path / "ok", {"skills/c/a.json": base}, {"skills/c/a.json": volatile}
+    )
+    assert not is_material, blocking
+
+    gate = json.loads(json.dumps(base))
+    gate["apexGateStatus"]["overallGradeS"] = True
+    is_material, blocking, _ = _api_eval(
+        tmp_path / "gate", {"skills/c/a.json": base}, {"skills/c/a.json": gate}
+    )
+    assert is_material
+    assert any("apexGateStatus" in b for b in blocking)
+
+    fusion = json.loads(json.dumps(base))
+    fusion["fusionScore"] = 2.0
+    is_material, blocking, _ = _api_eval(
+        tmp_path / "fusion", {"skills/c/a.json": base}, {"skills/c/a.json": fusion}
+    )
+    assert is_material
+    assert any("fusionScore" in b for b in blocking)
+
+
+def _contrib_detail(handle: str, skills: list[dict[str, Any]]) -> dict[str, Any]:
+    top = max(skills, key=lambda s: s["trustMagnitude"])
+    return {
+        "handle": handle,
+        "namedSkills": skills,
+        "namedSkillsCount": len(skills),
+        "topSkill": {"id": top["id"], "level": top["level"], "trustMagnitude": top["trustMagnitude"]},
+        "prestigeScore": round(sum(s["trustMagnitude"] for s in skills), 2),
+        "gradeDistribution": {"B": len(skills)},
+        "_links": {"self": f"/api/v1/contributors/{handle}.json"},
+    }
+
+
+def _contrib_index(details: list[dict[str, Any]]) -> dict[str, Any]:
+    rows = [
+        {"handle": d["handle"], "namedSkills": d["namedSkillsCount"], "topSkill": d["topSkill"],
+         "prestigeScore": d["prestigeScore"], "_links": {"self": d["_links"]["self"]}}
+        for d in details
+    ]
+    rows.sort(key=lambda r: r["prestigeScore"], reverse=True)
+    return {"contributors": rows, "totalContributors": len(rows), "_links": {"self": "/api/v1/contributors/index.json"}}
+
+
+def test_api_contributor_top_skill_rerank_is_routine(tmp_path: Path):
+    c_detail = _contrib_detail("c", [_slim("c/a", 80.0), _slim("c/b", 70.0)])
+    o_detail = _contrib_detail("c", [_slim("c/b", 90.0), _slim("c/a", 80.0)])
+    committed = {"contributors/c.json": c_detail, "contributors/index.json": _contrib_index([c_detail])}
+    fresh = {"contributors/c.json": o_detail, "contributors/index.json": _contrib_index([o_detail])}
+    is_material, blocking, routine = _api_eval(tmp_path, committed, fresh)
+    assert not is_material, blocking
+    assert sorted(routine) == ["contributors/c.json", "contributors/index.json"]
+
+
+def test_api_contributor_index_top_skill_without_proof_blocks(tmp_path: Path):
+    c_detail = _contrib_detail("c", [_slim("c/a", 80.0), _slim("c/b", 70.0)])
+    index_fresh = _contrib_index([c_detail])
+    # topSkill points at a skill that is not the TM max (and no detail file proves it).
+    index_fresh["contributors"][0]["topSkill"] = {"id": "c/b", "level": "3★", "trustMagnitude": 70.0}
+    committed = {"contributors/index.json": _contrib_index([c_detail])}
+    fresh = {"contributors/index.json": index_fresh}
+    is_material, blocking, _ = _api_eval(tmp_path, committed, fresh)
+    assert is_material
+    assert any("topSkill" in b for b in blocking)
+
+
+def test_api_contributor_level_change_blocks(tmp_path: Path):
+    c_detail = _contrib_detail("c", [_slim("c/a", 80.0)])
+    o_detail = _contrib_detail("c", [_slim("c/a", 80.0, level="4★")])
+    is_material, blocking, _ = _api_eval(
+        tmp_path, {"contributors/c.json": c_detail}, {"contributors/c.json": o_detail}
+    )
+    assert is_material
+    assert any("level" in b for b in blocking)
+
+
+def _page(num: int, total_pages: int, skills: list[dict[str, Any]], total: int) -> dict[str, Any]:
+    return {"skills": skills, "page": num, "totalPages": total_pages, "totalSkills": total,
+            "_links": {"self": f"/api/v1/skills/{'index.json' if num == 1 else f'page-{num}.json'}"}}
+
+
+def test_api_skills_pages_cross_page_rerank_is_routine(tmp_path: Path):
+    committed = {
+        "skills/index.json": _page(1, 2, [_slim("c/a", 80.0)], 2),
+        "skills/page-2.json": _page(2, 2, [_slim("c/b", 70.0)], 2),
+    }
+    fresh = {
+        "skills/index.json": _page(1, 2, [_slim("c/b", 95.0)], 2),
+        "skills/page-2.json": _page(2, 2, [_slim("c/a", 80.0)], 2),
+    }
+    is_material, blocking, routine = _api_eval(tmp_path, committed, fresh)
+    assert not is_material, blocking
+    assert sorted(routine) == ["skills/index.json", "skills/page-2.json"]
+
+
+def test_api_skills_pages_membership_or_level_change_blocks(tmp_path: Path):
+    committed = {
+        "skills/index.json": _page(1, 2, [_slim("c/a", 80.0)], 2),
+        "skills/page-2.json": _page(2, 2, [_slim("c/b", 70.0)], 2),
+    }
+    swapped = {
+        "skills/index.json": _page(1, 2, [_slim("c/a", 80.0)], 2),
+        "skills/page-2.json": _page(2, 2, [_slim("c/new", 70.0)], 2),
+    }
+    is_material, blocking, _ = _api_eval(tmp_path / "swap", committed, swapped)
+    assert is_material
+    assert any("membership" in b for b in blocking)
+
+    promoted = {
+        "skills/index.json": _page(1, 2, [_slim("c/a", 80.0, level="4★")], 2),
+        "skills/page-2.json": _page(2, 2, [_slim("c/b", 70.0)], 2),
+    }
+    is_material, blocking, _ = _api_eval(tmp_path / "level", committed, promoted)
+    assert is_material
+    assert any("level" in b for b in blocking)
+
+
+def test_api_static_endpoint_same_shape_change_blocks(tmp_path: Path):
+    committed = {"evidence-types.json": {"types": ["repo-own"], "gradeThresholds": {"A": 100}}}
+    fresh = {"evidence-types.json": {"types": ["repo-own"], "gradeThresholds": {"A": 90}}}
+    is_material, blocking, _ = _api_eval(tmp_path, committed, fresh)
+    assert is_material
+    assert any("gradeThresholds" in b for b in blocking)
+
+
+def test_api_health_count_change_blocks_but_stamp_is_routine(tmp_path: Path):
+    base = {"ok": True, "version": "8.24.0", "registryGeneratedAt": "2026-10-01", "namedSkillsCount": 2}
+    stamp = dict(base, version="8.24.1", registryGeneratedAt="2026-10-02")
+    is_material, blocking, _ = _api_eval(tmp_path / "ok", {"health.json": base}, {"health.json": stamp})
+    assert not is_material, blocking
+
+    count = dict(base, namedSkillsCount=3)
+    is_material, blocking, _ = _api_eval(tmp_path / "bad", {"health.json": base}, {"health.json": count})
+    assert is_material
+    assert any("namedSkillsCount" in b for b in blocking)
