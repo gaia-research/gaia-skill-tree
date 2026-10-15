@@ -10,12 +10,12 @@ from __future__ import annotations
 
 import ast
 import json
-import re
 from pathlib import Path
 
 import pytest
 
 from gaia_cli import promotion
+from gaia_cli.steward.knowledge_contracts import BANNED_PATTERNS, TRUST_SURFACES, bannedClaims
 from gaia_cli.trustMagnitude import (
     EVIDENCE_TYPE_LAYER_CONTRACT,
     GRADE_A_FLOOR,
@@ -31,32 +31,6 @@ from gaia_cli.trustMagnitude import (
 ROOT = Path(__file__).resolve().parents[1]
 MAP = ROOT / "docs" / "agents" / "curation-authority-map.md"
 MAP_LINK = "curation-authority-map.md"
-TRUST_SURFACES = [
-    ".agents/skills/trust-appraise-all/SKILL.md",
-    ".agents/skills/gaia-tm-inspect/SKILL.md",
-    ".agents/skills/trust-appraise/SKILL.md",
-    ".agents/skills/trust-methodology-consult/SKILL.md",
-    ".claude/skills/trust-appraise-all/SKILL.md",
-    ".claude/skills/gaia-tm-inspect/SKILL.md",
-    ".claude/skills/trust-appraise/SKILL.md",
-    ".claude/skills/trust-methodology-consult/SKILL.md",
-    "docs/agents/curation-guidelines.md",
-]
-
-# Retired claims (authority map "Banned claims"). Each pattern asserts the
-# obsolete behaviour; the corrected wording never matches.
-BANNED_PATTERNS = {
-    "skill-count divisor": re.compile(r"skill_count_in_repo|/\s*min\(\s*skillCountInRepo", re.I),
-    "mothership discount": re.compile(r"mothership", re.I),
-    "linear stars formula": re.compile(r"stars\s*/\s*1000"),
-    "cross-type same-URL collapse": re.compile(
-        r"`github-stars-own`\s+and\s+`repo-own`\s+pointing\s+to\s+the\s+same\s+URL\s*→\s*deduped", re.I
-    ),
-    "4-star at grade B": re.compile(r"(?:≥|>=)\s*B\s*\(\s*TM\s*(?:≥|>=)\s*50\s*\)"),
-    "A merely the norm at 4-star": re.compile(r"norm for 4★"),
-    "write-back helper usage": re.compile(r"python3?\s+\S*recompute_one_tm\.py"),
-    "partial total called final": re.compile(r"inheritance disallowed(?!\")", re.I),
-}
 
 
 def mapText() -> str:
@@ -128,10 +102,6 @@ def gradeDisagreements(text: str) -> list[str]:
         if clamp.get(grade) != int(maxStars):
             problems.append(f"grade {grade}: max stars {maxStars} != clamp {clamp.get(grade)}")
     return problems
-
-
-def bannedClaims(text: str) -> list[str]:
-    return [name for name, pattern in BANNED_PATTERNS.items() if pattern.search(text)]
 
 
 # ---------------------------------------------------------------------------
