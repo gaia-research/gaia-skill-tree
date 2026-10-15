@@ -143,8 +143,12 @@ If you are an agent modifying this repository, you must adhere to these rules:
 *   `docs/QUICKSTART.md`
 
 ### Source of Truth Rule
-*   **NEVER** hand-edit `registry/gaia.json` or generated artifacts in `docs/`.
-*   **Only Edit:** `registry/nodes/**/*.json`, `registry/named/*.json`, or `registry-for-review/skill-batches/*.json`.
+*   Registry mutations use canonical `gaia dev` commands; never hand-edit nodes, named identities, evidence or timeline entries. Intake uses `gaia push` or the canonical intake form.
+*   Never hand-edit generated projections. Regenerate them through the canonical builder; commit the required Class S artifacts with their source change under `CLAUDE.md`.
+*   CLI authorization, schema/provenance checks and actual human L4 approval remain mandatory. Operator permission is not L4 approval.
+
+### Agent execution guidance
+Read [`agents/model-family-guidance.md`](./agents/model-family-guidance.md) for objective-first assignments, autonomous bounded work, structured economy scaffolding and true-boundary stops. `CLAUDE.md`, `GOVERNANCE.md` and the playbook contract retain authority over repository invariants. The guidance grants no new permissions; explicit operator gates and founder review still apply.
 
 ### CLI Design Philosophy
 *   **Local-First Skill Names:** The CLI prioritizes the developer's local workspace context. Pet names (e.g. `/gaia-curate`) are treated as the real skill names for a local developer.

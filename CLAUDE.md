@@ -242,8 +242,8 @@ preferred way agents perform dev-mutation work (calibration, evidence, fusion,
 curation, and the rest of the `gaia dev` surface). A playbook is a canonical
 `.agents/skills/*/SKILL.md` carrying `playbookVersion: 1` frontmatter — the same
 physical file type as a user-invokable skill, but built for an **agent following a
-checked procedure**, not for a human's `/slash-command`. It fixes the order,
-authority envelope, stopping rules, and proof around a `gaia dev` verb so an agent
+checked contract**, not for a human's `/slash-command`. It binds the objective,
+authority envelope, stopping rules, proof and load-bearing command order around a `gaia dev` verb so an agent
 does not reconstruct that method from scattered prose every time. Contract:
 `founder/steward/PLAYBOOKS.md`; schema: `founder/steward/playbook.schema.json`;
 checker: `scripts/check_playbook_contract.py`; rationale:

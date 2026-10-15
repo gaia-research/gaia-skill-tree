@@ -30,12 +30,13 @@ Do not write a procedural recipe unless the sequence is load-bearing (section 10
 
 | Class | The agent may do this on its own | Examples |
 |---|---|---|
-| **Independent action** | Anything reversible, inside the working branch or worktree, within the objective. | Read, search, edit in-scope files, run tests and validators, commit and push to the feature branch, open a draft PR, file issues on the repo, run sandbox checks, re-run CI, repair its own failures. |
-| **True boundary (stop)** | Nothing. Stop with the decision needed, the options and the evidence, then wait for a named human. | Destructive or irreversible change (force-push, deleting unmerged work, removing registry or evidence data). Founder design gate (human-gated frontend or visual changes). Schema or ontology ruling. Governance or policy text. Final merge to `main`. Production publish. Any external contact (upstream issues, PRs, comments). Breaking change to an outward contract that users depend on. |
+| **Independent action** | Reversible work inside the authorized objective and working branch or worktree; repository-specific gates still apply. | Read, search, edit in-scope files, run tests and validators, commit and push to the feature branch, open a draft PR, run sandbox checks, re-run CI, repair its own failures. |
+| **True boundary (stop)** | Prepare a concrete, reviewable proposal within existing authority; stop before crossing an unapproved boundary and name the decision and evidence. | Destructive or irreversible change (force-push, deleting unmerged work, removing registry or evidence data). Founder design gate (human-gated frontend or visual changes). Schema or ontology ruling. Landing unapproved governance or policy text. Final merge to `main`. Production publish. External contact (issues, PRs, comments) without applicable explicit or standing authorization. Breaking change to an outward contract that users depend on. |
 | **Prohibited** | Not a pause. A refusal. | Hand-editing generated or registry data where a CLI verb exists. Bypassing CLI pre-flight checks or authorization. Self-approving a boundary. Relaxing a gate because the model is stronger. |
 
 Rules:
 
+- Existing explicit or standing authorization applies to its stated scope. Do not ask again for the same authorized action; never infer L4 approval from general operator permission. This layer grants no new permission, GitHub-write authority, or merge authority.
 - Approval attaches to a **boundary**, never to a phase. "Ask before each phase" is ceremony unless a real boundary sits inside that phase.
 - A stop names the boundary it hit. An agent that cannot name one should not stop.
 - A stronger model does not remove a boundary. It only removes the need for scaffolding that compensated for a weaker one.
@@ -57,7 +58,7 @@ A receipt is evidence that the finish state holds. It is not a narration of the 
 - the changed surfaces (files, PR, branch);
 - the commands run and their results;
 - commit SHAs and the PR URL;
-- CI status read once (`pending` is a valid status; do not poll for long);
+- CI status at the reviewed SHA; pending checks are a recoverable interim state, not proof of completion. Monitor when the task requires green checks and repair authorized failures;
 - any boundary hit, with the decision needed;
 - known limits, such as "self-review only" or "CI pending".
 
@@ -74,7 +75,7 @@ Two forms of delegation are **cost-amplifying** and should be kept where they ap
 
 ## 8. The three modes
 
-Every skill that runs multi-step work declares which mode is its default and how the operator changes it. The operator's words decide first; the skill's declared default decides otherwise.
+A skill being migrated under this layer declares which mode is its default and how the operator changes it. The operator's words decide first; the skill's declared default decides otherwise.
 
 | Mode | Use when | Stops | Phases and scaffolding | Cost profile |
 |---|---|---|---|---|
@@ -112,7 +113,7 @@ Tool syntax, spawn mechanisms, slash-command names and model selectors belong in
 Before a skill or playbook under this layer is merged:
 
 - [ ] Objective, audience, authority, finish state and proof are present (section 3).
-- [ ] Every stop names a true boundary from section 4.
+- [ ] Every human approval stop names a true boundary from section 4, an explicit operator gate, or a diagnosed blocker outside current authority.
 - [ ] Ordered steps appear only where the sequence is load-bearing, and each step is marked as run (strict) or judgment (advisory).
 - [ ] The default mode is declared, and the operator's way to change it is stated.
 - [ ] No model names outside this document and the migration map.
