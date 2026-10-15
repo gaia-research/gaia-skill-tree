@@ -1,134 +1,52 @@
 ---
 name: fp-drift
 description: >-
-  Phase 5 of the feature-pipeline suite. Use this after /fp-iterate prints the
-  M4 stop hook confirming CI is green. Fetches origin/main, runs gaia dev diff
-  to surface any skill-registry changes the PR introduced that are unrelated to
-  its stated purpose (accidental drift), then prints the final pipeline summary
-  including a CI churn report (via /ci-churn). Also invoke standalone whenever
-  you want to audit whether a branch has unexpected registry drift — e.g. before
-  merging any review/meta or cli/ branch, or when a reviewer asks "did this PR
-  touch anything it shouldn't?". Triggers: "check for drift", "drift check",
-  "final summary", "pipeline done", "wrap up the pipeline", "fp-drift", "Phase 5".
-version: 3.1.0
+  Inspect scope and unexpected registry drift against the actual PR base and
+  leave a concise final receipt. Use for "check for drift", "wrap up the
+  pipeline", or the final stage; never silently discard unknown changes or
+  infer a clean diff from validator success.
+version: 4.0.0
 ---
 
-# fp-drift  (Phase 5 — Drift Check & Final Summary)
+# Inspect drift and prove the finish state
 
-Verify no unintended registry changes leaked into the branch, then close the
-pipeline with a human-readable summary that includes a CI churn report.
-Runs in the main turn — no sub-agent.
+**Objective:** leave a reviewable PR with honest final evidence and held decisions.
 
-## Setup
+## Shared execution contract
 
-Read pipeline state:
+Read `../feature-pipeline/SKILL.md` relative to this skill directory. Inherit its
+mode, authority, hard stops and finish-state proof. Default is structured economy;
+lean mode may combine stages. A routine checkpoint records progress and continues
+in lean/economy mode. Only explicit hard-gated milestones or an actual unapproved
+authority boundary wait for human approval. Standalone invocation ends when this
+skill's scoped deliverable is complete; it does not require approval to perform
+already-authorized work. Use the actual harness tools, never invented spawn APIs.
 
-```bash
-STATE=".agents/skills/feature-pipeline/scripts/state.sh"
-feature=$($STATE get feature)
-branch=$($STATE get branch)
-pr=$($STATE get prNumber)
-prUrl=$($STATE get prUrl)
-issues=$($STATE get issueNumbers)
-ciStatus=$($STATE get ciStatus)
-```
+State helper: `bash .agents/skills/feature-pipeline/scripts/state.sh`.
+Inspect existing state and Git/PR state before work. State and `planApproved` are
+recovery notes, never authorization or L4 approval. Refer to the shared skill's
+checkpoint command before advancing; do not classify a real boundary as routine.
 
-If `ciStatus` is not `"green"`, stop here — the drift check is only meaningful
-once CI has passed, because a failing run may have left the branch in a
-partially applied state:
+## Work and done-check
 
-```
-⚠ CI is not confirmed green. Run /fp-iterate first, then re-run /fp-drift.
-```
+Recover live PR base, tip, review evidence and CI. Fetch the actual base and inspect
+its diff, not an assumed main branch. A standalone drift audit can run with CI
+pending but must report that limit. A full pipeline cannot claim complete until
+required checks are green at the reviewed SHA.
 
-## Drift check
+Inspect changed files and, where relevant, `gaia dev diff` against registry state.
+A failed diff is an inspection failure; do not hide it with `|| gaia dev validate`.
+Validation proves integrity, not absence of drift. Classify changes against the
+objective. If unexpected registry/evidence changes have no known owner, stop the
+affected decision, show ID/field/base/branch values and request disposition; do
+not silently revert, normalize or accept them. Continue independent work.
 
-Fetch the latest main so the diff is against the true merge base, not a stale
-local ref:
+When available, `python scripts/ci_churn.py <pr-number>` can inform a concise cost
+receipt; missing telemetry is not a task blocker. No mandatory verbatim report.
 
-```bash
-git fetch origin main
-gaia dev diff 2>/dev/null || gaia dev validate
-```
-
-`gaia dev diff` compares registry nodes on this branch against `origin/main`.
-Any field change, added node, or removed node will appear here. The question
-to answer: are ALL changes attributable to the stated purpose of this PR?
-
-**If unexpected drift is detected** (skills or fields changed that have no
-connection to `{{feature}}`):
-
-Print a warning table so the user can make an informed call — do not silently
-discard or auto-revert the drift:
-
-```
-⚠ Skill drift detected — please confirm these changes are intentional:
-
-| Skill ID | Field | Value on main | Value on branch |
-|----------|-------|---------------|-----------------|
-| …        | …     | …             | …               |
-```
-
-End your turn and wait. The user may say "intentional", may ask you to revert,
-or may open a follow-up PR. Never decide for them.
-
-**If no unexpected drift (or all drift is confirmed intentional):**
-
-Collect the commit list for the summary:
-
-```bash
-git log origin/main..HEAD --oneline
-```
-
-## CI Churn Report
-
-Before printing the final summary, run the `/ci-churn` script to measure how
-many commits and CI-compute seconds were burned on avoidable push rounds.
-See `.claude/skills/ci-churn/SKILL.md` for full documentation.
-
-```bash
-python3 scripts/ci_churn.py "$pr" 2>/dev/null
-```
-
-If `$pr` is unavailable from state, pass the PR number directly.  
-If the script is unavailable (not yet in repo), skip gracefully with a note.
-
-Capture the output and embed it verbatim in the final summary under a
-`CI Churn` section. Do **not** interpret or editorialize the numbers —
-just include the raw report so the human can read it directly.
-
-Print the final summary and close the pipeline state:
-
-```
-✅ Feature Pipeline Complete
-════════════════════════════════════════════════════════
-
-Feature explored : {{feature}}
-Issues filed     : <count>  (links: <#N> <#M> …)
-PR               : <prUrl>
-CI               : All checks green ✅
-Skill drift      : None detected ✅
-
-Commits
-───────
-<sha7> <message>
-…
-
-What was fixed
-──────────────
-• <issue title>
-…
-
-CI Churn
-────────
-<output of python3 scripts/ci_churn.py $pr>
-```
-
-```bash
-$STATE set phase 7
-$STATE set ciStatus "done"
-```
-
-```
-── Pipeline complete ──────────────────────────────────────────────────────────
-```
+Done: behavior, tests, review, scope and current-SHA CI are inspected. Receipt
+includes feature/scope, PR/base/branch/SHA, fixes, commands/results, review identity
+and independence limits, CI and any concrete founder decision still required.
+Record phase 7 only when terminal proof holds; retain actual `ciStatus` green
+rather than replacing verification status with a vague done flag. Never merge or
+close issues as an automatic terminal action.

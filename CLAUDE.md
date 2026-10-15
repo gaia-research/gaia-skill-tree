@@ -242,8 +242,8 @@ preferred way agents perform dev-mutation work (calibration, evidence, fusion,
 curation, and the rest of the `gaia dev` surface). A playbook is a canonical
 `.agents/skills/*/SKILL.md` carrying `playbookVersion: 1` frontmatter — the same
 physical file type as a user-invokable skill, but built for an **agent following a
-checked procedure**, not for a human's `/slash-command`. It fixes the order,
-authority envelope, stopping rules, and proof around a `gaia dev` verb so an agent
+checked contract**, not for a human's `/slash-command`. It binds the objective,
+authority envelope, stopping rules, proof and load-bearing command order around a `gaia dev` verb so an agent
 does not reconstruct that method from scattered prose every time. Contract:
 `founder/steward/PLAYBOOKS.md`; schema: `founder/steward/playbook.schema.json`;
 checker: `scripts/check_playbook_contract.py`; rationale:
@@ -251,12 +251,22 @@ checker: `scripts/check_playbook_contract.py`; rationale:
 
 **Rule:** before calling a mutating `gaia dev` verb directly, check whether a
 playbook already covers that operation (`playbookVersion: 1` under
-`.agents/skills/*/SKILL.md`). If one exists, follow it — its steps, stop
-conditions, and proof obligations are the required procedure, not a suggestion.
-If none exists yet for the operation at hand, author one first per
-`founder/steward/PLAYBOOKS.md`, validate it against
-`scripts/check_playbook_contract.py`, and use it — don't do the mutation via a
-bare CLI call and leave the method unwritten for the next agent.
+`.agents/skills/*/SKILL.md`). If one does, its **objective, authority envelope,
+invariants, prohibited actions, terminal proof and hard stops are binding**.
+Inside that envelope the agent chooses the judgment route. Declared ordered
+`run:` steps remain the required canonical command spine; `judgment:` routes are
+advisory without changing their bounded answers or dependencies. Strictness is
+set per step in `founder/steward/PLAYBOOKS.md` § Step strictness.
+
+- A missing bespoke playbook does not force meta-authoring before a bounded task
+  that already has a safe canonical CLI interface (the verb and its pre-flight
+  checks). Author a playbook when the operation recurs, its method is non-obvious,
+  or one has been asked for, per `founder/steward/PLAYBOOKS.md`, and validate it
+  against `scripts/check_playbook_contract.py`.
+- Agent authoring and autonomy modes (lean autonomous, structured economy,
+  hard-gated) and the classification of instruction structure live in
+  [`docs/agents/model-family-guidance.md`](docs/agents/model-family-guidance.md).
+  Role and repository invariants stay in this file, not in that layer.
 
 - This is a migration, not a retroactive requirement: most `gaia dev` verbs have
   no playbook yet. Calling the CLI directly remains fine where no playbook exists
