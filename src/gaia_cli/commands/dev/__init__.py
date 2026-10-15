@@ -128,7 +128,7 @@ class DevCommand(Command):
         dev_list.add_argument(
             "--contributor",
             action="store_true",
-            help="Include contributor name (named only); handle must be lowercase, never silently normalized",
+            help="Include contributor name (named only)",
         )
         dev_list.add_argument("--json", action="store_true", help="Output in JSON format")
         dev_list.add_argument(
@@ -576,7 +576,7 @@ class DevCommand(Command):
             "--named", action="store_true", help="Add as a named skill instead of generic"
         )
         dev_add.add_argument(
-            "--contributor", help="Contributor name for named skill (default: gaiabot)"
+            "--contributor", help="Lowercase contributor handle for named skill (default: gaiabot); mixed-case input is rejected"
         )
         dev_add.add_argument(
             "--generic-ref", help="Generic skill reference for named skill"
