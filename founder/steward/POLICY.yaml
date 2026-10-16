@@ -24,6 +24,7 @@ authority:
   benchmark_source_drift: B
   trust_calibration_drift: B
   frozen_skill_drift: B
+  repository_hygiene: B
   generic_mapping: C
 
 priority:
@@ -104,6 +105,12 @@ priority:
     decisionImpact: 0.9
     exposure: 0.9
     freshnessNeed: 0.8
+    expectedCost: 0.2
+  repository_hygiene:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.6
+    freshnessNeed: 0.6
     expectedCost: 0.2
   generic_mapping:
     importance: 0.9
@@ -293,6 +300,88 @@ routing:
         - show the before and after of the rendered help surface
         - state which violations are NOT fixable inside this envelope and why
         - run the packet validation commands that apply to the correction
+        - obtain independent review before integration
+    repository-hygiene:
+      debtKind: repository_hygiene
+      authority: B
+      routine: repository-hygiene
+      promptGuide: founder/steward/routines/repository-hygiene.md
+      capability: >-
+        Compare the bounded tracked-file inventory with an explicit generated-artifact allowlist,
+        distinguish known intentional catalog state from a real leak, and stop when repair authority
+        or source ownership is ambiguous.
+      objective: >-
+        Reproduce the enumerated tracked Class P finding and return a focused, reviewable proposal.
+        This is report-only work: do not delete tracked files, alter canonical skills, or edit repository
+        root or founder policy surfaces; those changes require their owners' approval.
+      allowedPaths:
+        - scripts/**
+        - tests/steward/**
+      allowedCommands:
+        - git status --short
+        - git ls-files -- registry/gaia.json registry/gaia.gexf registry/gaia.svg registry/named-skills.json registry/layouts_3d.json base_gaia.json src/gaia_cli/data/registry/gaia.json src/gaia_cli/data/registry/named-skills.json
+        - python -m pytest tests/steward/test_repository_hygiene.py
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/graph/**
+        - founder/**
+        - registry/**
+        - registry/schema/**
+        - skill-trees/**
+        - src/**
+      stopConditions:
+        - a proposed change would remove or rewrite tracked Class P data; return diagnosis and stop without deleting
+        - the finding requires changing a canonical skill, repository-root file, or founder-owned surface
+        - generator ownership or the authoritative source for an artifact is not proven
+        - the correction depends on dynamic execution, external behavior, or an unbounded inventory
+        - the finding is not reproduced or focused validation and independent review are incomplete
+      proof:
+        - reproduce the finding using the read-only tracked-path inventory
+        - show a diff confined to the allowed paths and preserve all policy floors
+        - run the focused repository hygiene tests and report exact results
+        - obtain independent review before integration
+    knowledge-contradiction:
+      debtKind: knowledge_contradiction
+      authority: B
+      routine: knowledge-contradiction
+      promptGuide: founder/steward/routines/knowledge-contradiction.md
+      capability: >-
+        Compare bounded authoritative documents, establish which source governs the fact, and
+        distinguish a correctable stale statement from history or an unsettled product decision.
+      objective: >-
+        Reproduce one exact contradiction in the permitted agent-document surface and return the
+        smallest reviewable proposal. Stop when source precedence or semantic meaning is disputed.
+      allowedPaths:
+        - docs/agents/**
+        - tests/steward/**
+      allowedCommands:
+        - git status --short
+        - python -m pytest tests/steward/test_sensors.py
+        - python -m pytest tests/steward/test_repository_hygiene.py
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/graph/**
+        - founder/**
+        - registry/**
+        - registry/schema/**
+        - skill-trees/**
+        - src/**
+      stopConditions:
+        - semantic meaning, product policy, or source precedence is ambiguous
+        - the apparent disagreement is historical, archived, or describes a past state
+        - the correction requires a canonical skill, root, founder, registry, Class S, or source edit
+        - a correction would widen authority or weaken any hard floor
+        - focused validation or independent review is incomplete
+      proof:
+        - reproduce the exact incompatible statements and establish their authoritative source
+        - show a diff confined to docs/agents/** and tests/steward/**
+        - run the applicable focused read-only checks and report exact results
         - obtain independent review before integration
   founderRules:
     generic-mapping-decision:

@@ -91,20 +91,36 @@ once; paste the prompt every time.
 |---|---|---|---|---|
 | [Registry integrity review](registry-integrity-review.md) | `registry_integrity_failed` | **Yes** | Every scan (daily pulse) | Any node schema, reference, or DAG violation |
 | [CLI contract drift](cli-contract-drift.md) | `cli_contract_drift` | **Yes** | Every scan; matters most before a release | A command exists but is unlisted, is listed but absent, or is documented and gone |
-| [Repository hygiene](repository-hygiene.md) | `repository_hygiene` | Not yet | Weekly | Generated drift, stale branches, orphaned artifacts |
-| [Knowledge contradiction](knowledge-contradiction.md) | `knowledge_contradiction` | Not yet | Monthly, and after any founder ruling | Two source-of-truth documents disagree |
+| [Trust calibration drift](trust-calibration-drift.md) | `trust_calibration_drift` | **Partial** | Every scan | Stored rank differs from computed grade; not cache-hash freshness |
+| [Repository hygiene](repository-hygiene.md) | `repository_hygiene` | **Partial** | Every scan; weekly review ceiling | One of eight explicitly enumerated Class P paths is tracked in Git |
+| [Knowledge contradiction](knowledge-contradiction.md) | `knowledge_contradiction` | **Partial** | Every scan; especially after a contract change | Selected policy/schema contradictions or exact retired trust-guidance claims |
 
 [**Heartbeat**](heartbeat.md) is not a repair routine and is not in that table.
 It is the standing scheduled question — *is anything happening a person should
 know about?* — and it reports by exception. Daily is plenty.
 
-**"Not yet" is honest, not aspirational.** Those two routines have a written
-human contract and a cadence, but no sensor emits their debt, so `gaia steward
-dispatch` will refuse them today. You can still run one by hand from its file.
-Wiring a routine is a `POLICY.yaml` edit plus a sensor — no CLI change, since
-V1.2 generalized dispatch rules to a declared set. `knowledge_contradiction` is
-already classified Class B in `POLICY.yaml`; `repository_hygiene` is not
-classified at all and needs an `authority` and `priority` entry as well.
+**Partial is not healthy, and a sensor is not the whole routine.** The coverage
+catalog at [`../routine-coverage.json`](../routine-coverage.json) reconciles all
+17 founder routines with registered sensors, debt kinds, policy authority and
+available routes. Validate it from the checkout with
+`python scripts/check_steward_coverage.py --check --json`. This is a static
+capability inventory; it does not run sensors or establish live repository health.
+
+Issue #2105 adds the hygiene sensor and extends the existing knowledge sensor;
+it does not create a second knowledge sensor. The five Class B rules in this
+branch include two **founder-review proposals**: `repository-hygiene` and
+`knowledge-contradiction`. They remain report/proposal-only, preserve the hard
+forbidden-path floor, and grant no deletion or canonical mutation. Changes to
+`POLICY.yaml` must receive founder review before integration to main. Class A
+still has exactly two mirror repair executors.
+
+Hygiene does not assess stale branches, unused code, all generated outputs or
+untracked caller files. Knowledge checks only their explicitly listed active
+surfaces, not general semantic consistency or historical handovers. Evidence-link
+checks do not establish external HTTP liveness, and metadata checks do not prove
+an installation succeeded. Curation assurance (#1922), installability
+(#1445/#2063) and trust-cache refresh (#1642) keep their existing owners; missing
+independent proof stays unknown rather than becoming calendar-created debt.
 
 `cli_contract_drift` was the second one wired (V1.4), and it is worth knowing how
 its sensor works before you read its findings. It never imports the CLI — a

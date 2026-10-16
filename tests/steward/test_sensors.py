@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 
+from gaia_cli.steward.knowledge_contracts import TRUST_SURFACES
+from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BenchmarkFreshnessSensor,
@@ -219,6 +221,9 @@ priority:
 | **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` |
 """
     _write(root / "CLAUDE.md", claude_md)
+    _write(root / "docs/agents/curation-authority-map.md", "# Curation authority map\n")
+    for surface in TRUST_SURFACES:
+        _write(root / surface, "See [the curation authority map](curation-authority-map.md).\n")
 
 
 def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
@@ -1183,6 +1188,39 @@ def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
     assert len(matching) == 1
 
 
+def test_default_sensor_fleet_has_fourteen_unique_ids_and_repository_hygiene_once() -> None:
+    sensors = default_sensors()
+    assert len(sensors) == 14
+    assert len({sensor.id for sensor in sensors}) == 14
+    assert sum(isinstance(sensor, RepositoryHygieneSensor) for sensor in sensors) == 1
+
+
+def test_knowledge_contradiction_requires_active_semantic_inputs(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    (tmp_path / "docs/agents/curation-authority-map.md").unlink()
+
+    with pytest.raises(OSError, match="required trust guidance input unavailable"):
+        KnowledgeContradictionSensor().scan(tmp_path, NOW)
+
+
+def test_knowledge_contradiction_scans_active_claim_but_not_historical_files(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    retired_claim = "`github-stars-own` and `repo-own` pointing to the same URL → deduped"
+    active = "See curation-authority-map.md. " + retired_claim + "\n"
+    _write(tmp_path / ".agents/skills/trust-appraise-all/SKILL.md", active)
+    _write(tmp_path / ".claude/skills/trust-appraise-all/SKILL.md", active)
+    _write(tmp_path / "founder/handovers/archive.md", retired_claim)
+
+    mirror = AgentSkillMirrorSensor().scan(tmp_path, NOW)[0]
+    observation = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+
+    assert mirror.status == "healthy"
+    assert observation.status == "drift"
+    assert any(
+        item["source"] == ".agents/skills/trust-appraise-all/SKILL.md"
+        and item["rule"] == "retired-trust-claim"
+        for item in observation.observed_state["violations"]
+    )
 
 
 def test_knowledge_contradiction_sensor_healthy_on_real_repo() -> None:

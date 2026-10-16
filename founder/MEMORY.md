@@ -4,6 +4,29 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-15, #2105 — Steward coverage ready for founder preview)
+
+### TLDR
+
+- Draft integration PR #2107 on `dev/steward-coverage-2105`; no main merge, release, canonical mutation or deployment. Founder must preview the architecture and approve the proposed policy routes before main integration.
+- Independently reviewed code SHA `daad66ac5113b3350baff484197135922e8f7cc4` received accept-for-founder-preview with no blockers. Final receipt-only changes preserve that code; consult #2107 for the exact final-head CI proof rather than assuming an older green check applies.
+- Verified catalog: 17 routines, 14/14 sensors, 5 Class B routes, 2 unchanged Class A mirror executors; 11 partial and 6 absent. No claim that all routines are covered or live repository health is clean.
+
+### Decisions and proof
+
+- Added bounded tracked Class P hygiene observation; extended existing knowledge sensor with shared finite #2052 semantic predicates and explicit unusable-input unknown behavior. No duplicate mirror/projection sensor, speculative unusedness, branch deletion, scheduler or runtime model calls.
+- Curation/installability hooks remain capability-only and explicitly unknown: existing projections/checkpoints do not provide fresh, environment/source-pinned independent assurance. Owners #1922/#1445/#2063 retain those programs; #2001 retains weekly orchestration. #2052/#2042 fixes were reused, not replayed as current defects. #1642 cache-freshness limitation has a historical fixture, not an automatic writer.
+- Local combined verification: 461 passed, with one unchanged hard-link test unavailable on this Termux Python (`os.link` absent); exact failure reproduced on baseline main. Explicit available-platform rerun: 461 passed / 1 deselected. Full Ubuntu CI remains the proof for the unavailable test. Independent reviewer ran 230 focused tests plus five negative probes; repository guards/validation/mirrors passed.
+- Parent real-sensor scenarios demonstrated clean/no-op, actual drift, stable deduplication, unavailable/truncated-input unknown retaining debt, routing denial and recovery. Live before/after/repeat retained the same 51 existing B debts, zero new sprint debt/unknown sensors/models. Do not reinterpret those existing debts as this sprint's cleanup scope.
+
+### Routing and handoff
+
+- Architecture: `founder/handovers/2026-10-15-steward-2105-architecture.md`; founder receipt: `founder/handovers/2026-10-15-steward-2105-receipt.md`; machine inventory: `founder/steward/routine-coverage.json`; checker: `scripts/check_steward_coverage.py --check --json`.
+- Worker PRs #2108/#2109/#2110/#2111/#2112/#2113 feed #2107 by merge commits. Code delivery completed on isolated Luna worktrees. Flash was assigned work but its configured route failed; the available alternate route was credit-limited. Luna completed the blocked assignments. No global configuration or credit balance was changed.
+- Required decisions: founder review of the two narrow Class B routing proposals in POLICY.yaml, then explicit authorization of final integration to main. Keep #2107 draft until the founder decides. Existing issue owners and unrelated intake/docs PRs remain untouched. Original checkout's unrelated untracked files were preserved.
+
+---
+
 ## State Snapshot (2026-10-15, Issue Resolver Fleet recovery paused for Flash continuation)
 
 Founder requested push/recovery handover; no final completion claimed. Integration PR #2097 is draft at `3c999be9af65d9e18b08d6828645a196adfd3aea`, all reported CI including full package tests and CodeQL green. Preserved prior four lane merges; merged corrected lowercase #2093 (`cddb09ce9`), surgical #2052 remainder #2099 (`7d405ad6a`, founder META `2e7a1b878` preserved), and CodeQL badge repair #2100 (`3c999be9a`). #2095 security repairs pushed at `480e2fa3d`, but existing-PR guard uses a wrong gh response field and must be repaired/reviewed before integration. #2098 complete at `b3eabcda8`; founder explicitly approved policy integration (comment6196069160); final full CI pending at pause. #2089 independently reviewed original commit: forged L4 attestations admit outside-top-K MAP, findings posted, unmerged. #2087/#2090 untouched. No main push/merge, force-push, registry recalibration or issue closure.

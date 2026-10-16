@@ -21,6 +21,8 @@ from gaia_cli.steward.mirrors import (
     is_ignored as _is_ignored,
 )
 from gaia_cli.steward.models import Observation, Subject, stable_json
+from gaia_cli.steward.knowledge_contracts import check_trust_guidance
+from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 
 
@@ -1139,6 +1141,7 @@ class KnowledgeContradictionSensor:
         "benchmark_source_drift",
         "trust_calibration_drift",
         "frozen_skill_drift",
+        "repository_hygiene",
     })
     _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
 
@@ -1148,6 +1151,7 @@ class KnowledgeContradictionSensor:
         violations.extend(self._check_schema_and_metadata(repo_root))
         violations.extend(self._check_governance_docs(repo_root))
         violations.extend(self._check_claude_workflow(repo_root))
+        violations.extend(check_trust_guidance(repo_root))
 
         violations.sort(key=lambda item: (item["source"], item["rule"], item["detail"]))
         drift = bool(violations)
@@ -1172,6 +1176,7 @@ class KnowledgeContradictionSensor:
                     "skillSchemaPath": "registry/schema/skill.schema.json",
                     "metaDocPath": "META.md",
                     "claudeDocPath": "CLAUDE.md",
+                    "trustAuthorityMapPath": "docs/agents/curation-authority-map.md",
                 },
             )
         ]
@@ -2354,4 +2359,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         BenchmarkFreshnessSensor(),
         TrustCalibrationDriftSensor(),
         FrozenSkillIntegritySensor(),
+        RepositoryHygieneSensor(),
     )
