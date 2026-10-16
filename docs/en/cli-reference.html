@@ -2092,8 +2092,18 @@
                 </tr>
                 <tr>
                   <td>--named</td>
-                  <td>Add as a named skill instead of a generic node.</td>
+                  <td>Add as a named skill instead of a generic node. Requires <code>--contributor</code> and <code>--generic-ref</code>.</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--contributor &lt;handle&gt;</td>
+                  <td>Contributor handle for the named skill. Must be lowercase — mixed-case input is rejected.</td>
+                  <td>gaiabot</td>
+                </tr>
+                <tr>
+                  <td>--generic-ref &lt;id&gt;</td>
+                  <td>Generic skill ID this named skill implements.</td>
+                  <td>—</td>
                 </tr>
                 <tr>
                   <td>--build</td>
@@ -2112,11 +2122,21 @@
               regeneration by default. Pass <code>--build</code> when you need the rebuild
               in the same step (e.g. before manually inspecting <code>docs/graph/</code>).
             </div>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ --contributor must be lowercase.</strong> A mixed-case handle
+              (e.g. <code>Marco</code>) is rejected — use the handle's lowercase form
+              (<code>marco</code>). Case is otherwise preserved; two contributors who
+              differ only by case are treated as a collision, not two directories.
+            </div>
             <div class="example-block">
               <div class="example-label">examples</div>
               <pre><span class="c"># Add a new Basic skill (no docs rebuild, the default)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
   <span class="arg">--type basic --description "Reliably emits JSON/XML/YAML matching a given schema."</span>
+
+<span class="c"># Add a named skill implementing an existing generic node</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
+  <span class="arg">--named --contributor marco --generic-ref structured-output --description "Reliably emits JSON matching a given schema."</span>
 
 <span class="c"># Add a Fusion skill with its prerequisites, and rebuild docs/graph assets in the same step</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Chain-of-Thought Reasoning"</span> \

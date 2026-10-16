@@ -2,6 +2,133 @@
 
 ---
 
+## 2026-10-16 — Routine 062
+
+**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
+on it per the Branch instructions; did not open a new branch).
+
+**Task chosen:** SYNC. Rebased onto `origin/main` first — the tip had moved
+from `v8.24.0` to `v8.24.4` (91 commits) since routine 061, including three
+`fix(cli)` commits (`ac42c16a6` #2055, `28cc9caef`, `8dddd605d`) that landed
+*after* routine 061 and changed real, documented CLI behavior: `gaia dev add
+--named --contributor <handle>` now rejects a mixed-case contributor handle
+outright (the live preflight check in
+`src/gaia_cli/commands/dev/helpers.py::preflightAddCommand` matches the
+full `contributor/skill-id` string against an all-lowercase regex). That's a
+genuine SYNC target — it directly affects a flag `cli-reference.html`
+documents — so it took priority over picking a fresh ROTATE page.
+
+### Trigger
+
+Verified against live code, not the commit messages alone:
+- `src/gaia_cli/commands/dev/__init__.py` `dev_add.add_argument("--contributor", ...)`
+  help text: "Lowercase contributor handle for named skill (default: gaiabot);
+  mixed-case input is rejected."
+- `preflightAddCommand()` in `commands/dev/helpers.py` (~L1089-1103): the
+  first regex on the bare `--contributor` value actually allows mixed case,
+  but the *second* regex check on the composed `fullId` ("contributor/skill-id")
+  requires all-lowercase on both halves — so a mixed-case contributor fails
+  there with "Named skill ID '...' is invalid."
+- `cli-reference.html`'s `dev add` flag table (`#dev-add`) listed `--named`
+  but had no row at all for `--contributor` or `--generic-ref` — both real,
+  required-together flags per `meta_add_command()` in `commands/dev/build.py`
+  (~L40-58) — so the page couldn't have told a reader about the casing rule
+  even before this behavior tightened.
+
+### What I did
+
+- `docs/en/cli-reference.html` — `dev add` (`#dev-add`): added `--contributor
+  <handle>` and `--generic-ref <id>` flag-table rows (previously missing
+  entirely); amended the `--named` row to note it requires both; added a
+  `callout warn` directly below the table stating the lowercase-only rule
+  and that case is otherwise preserved (same-case-insensitive-key collision
+  behavior per `namedIdentity.py`); added a third example showing `--named
+  --contributor marco --generic-ref structured-output`.
+- `docs/en/DOCS.md` — Page Map row 3 updated with the `062` history tag.
+- `docs/en/MEMORY.md` — this entry.
+
+### Design decisions
+
+- Scoped the fix to the one missing-flags gap on `dev add` rather than also
+  auditing every other `--contributor`-accepting command (`dev ratify`,
+  `dev evidence --evaluator`, `dev timeline --user`) for the same casing
+  note — `dev ratify`'s own help text already says "must be lowercase;
+  mixed-case input is rejected" verbatim and isn't otherwise documented on
+  this page, so it's a separate, smaller gap; left as a planned-next item
+  rather than widening this routine past the one command.
+- Phrased the callout around the actual rejection mechanism (two-stage
+  regex producing "Named skill ID '...' is invalid", not a friendlier
+  "is normalized to lowercase") since the CLI does not normalize — it
+  rejects. Saying it would auto-lowercase would be a new inaccuracy.
+- Did not touch the version chip — already re-stamped to `v8.24.4` across
+  all 13 pages by the rebase (main's own `#2042` fix, landed 2026-10-15,
+  now globs every `docs/en/*.html` page instead of 3 of 13).
+
+### Rebase conflict note
+
+Rebasing onto `origin/main` produced version-chip-only conflicts on
+`index.html`, `evidence-classes.html`, and `share-bundles.html` (routines
+057–059 had hand-stamped chips to versions `main` had already superseded).
+Resolved each by taking `main`'s newer `v8.24.4` literal. On the first pass
+I dropped `share-bundles.html`'s `id="ver"` attribute while resolving that
+conflict — routine 059 had added it specifically so the page's own
+`document.getElementById('ver')` self-update script (L744-745) could find
+the span; without the id that script silently no-ops. Caught it by grepping
+the page for `getElementById` before finishing and restored the id. Flagging
+this because it's a generic hazard for any future rebase through these
+chip-only conflicts: check for a same-page script keyed to `id="ver"`
+before resolving a version-chip merge conflict by literal value alone.
+
+### Issues informed
+
+None filed. Confirmed behavior directly against live code; the CLI's own
+help text already states the rule correctly — the docs page was just
+missing the flags, not contradicting them.
+
+### Verification
+
+- `git status --short` scoped to `docs/en/cli-reference.html`,
+  `docs/en/share-bundles.html` (rebase-conflict id fix only, no content
+  change), `docs/en/DOCS.md`, `docs/en/MEMORY.md`.
+- `python3 -c "import html.parser; ..."` parse-check clean on
+  `cli-reference.html`, `share-bundles.html`, `index.html`,
+  `evidence-classes.html`.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on `cli-reference.html` — only pre-existing hits on the
+  real `gaia dev merge` CLI verb (nav links, `#dev-merge` card) — zero new
+  violations.
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
+  hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked on `cli-reference.html`, unchanged.
+- Lowercase-rejection mechanism cross-checked directly against
+  `src/gaia_cli/commands/dev/__init__.py`,
+  `commands/dev/helpers.py::preflightAddCommand`, and
+  `commands/dev/build.py::meta_add_command` — not against the commit
+  messages alone.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — `dev add` flag table + callout + example.
+- `docs/en/share-bundles.html` — rebase-conflict `id="ver"` restoration
+  (no visible/content change, chip text unchanged at `v8.24.4`).
+- `docs/en/DOCS.md` — page map row 3.
+- `docs/en/MEMORY.md` — this entry.
+
+### Planned next (Routine 063)
+
+- `dev ratify --contributor` and `dev evidence --evaluator`/`dev timeline
+  --user` carry the same lowercase-contributor expectation at the CLI level
+  (confirmed on `dev ratify`'s own help text); neither is annotated on
+  `cli-reference.html`'s corresponding cards. Small, bounded SYNC/ROTATE
+  candidate for a future routine if no higher-priority SYNC target exists.
+- Otherwise ROTATE to the next least-recently-touched page per the DOCS.md
+  Page Map (`faq.html`/`mcp-server.html`/`named-skills.html`, all last
+  touched at `editor-055wk`), or SYNC against any release/merged PR since
+  this routine that changed documented CLI behavior.
+
+---
+
 ## 2026-10-15 — Routine 061
 
 **Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
