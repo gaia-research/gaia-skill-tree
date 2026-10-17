@@ -925,13 +925,16 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
             </div>
           </div>
           <div class="cause-card">
-            <div class="cause-card-label">Reclassification<br><small style="font-weight:400;color:var(--muted,#64748b);">registry-only change</small></div>
+            <div class="cause-card-label">Installability loss<br><small style="font-weight:400;color:var(--muted,#64748b);">registry-only change</small></div>
             <div class="cause-card-detail">
-              A skill's type changes (e.g. Unique → Basic) or it's marked
-              <code>installable: false</code>, which caps the rank. Applied via
-              <code>gaia dev reclassify</code> on the registry node only.
+              A named skill is marked <code>installable: false</code>, which caps
+              its rank. Applied via <code>gaia dev update-named --installable false</code>
+              on the registry node only — a separate command from
+              <code>gaia dev reclassify</code>, which only changes a <em>generic</em>
+              skill's Type axis (<code>basic</code> / <code>fusion</code>) and never
+              touches a named skill's rank.
               <br><br>
-              Search commit history for <code>reclassif</code> or <code>calibrat</code>.
+              Search commit history for <code>installable</code> or <code>calibrat</code>.
             </div>
           </div>
           <div class="cause-card">

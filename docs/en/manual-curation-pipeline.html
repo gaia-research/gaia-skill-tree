@@ -1067,7 +1067,7 @@
             <thead><tr><th>What you want to do</th><th>Command</th></tr></thead>
             <tbody>
               <tr><td>Add a generic skill node</td><td><code>gaia dev add "Name" --id kebab-id --type basic --description "..."</code></td></tr>
-              <tr><td>Add a named implementation</td><td><code>gaia dev named --contributor handle --skill slug --generic id --upstream &lt;blob-url&gt;</code></td></tr>
+              <tr><td>Add a named implementation</td><td><code>gaia dev add "Name" --named --contributor handle --generic-ref generic-id --description "..." --extra-fields '{"links":{"github":"&lt;blob-url&gt;"}}'</code></td></tr>
               <tr><td>Add an evidence row</td><td><code>gaia dev evidence contributor/skill "&lt;url&gt;" --type repo-own --commits N ...</code></td></tr>
               <tr><td>Appraise Trust Magnitude</td><td><code>PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill</code></td></tr>
               <tr><td>Calibrate star level</td><td><code>gaia dev calibrate contributor/skill N★</code></td></tr>

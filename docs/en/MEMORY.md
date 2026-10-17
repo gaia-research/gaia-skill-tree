@@ -2,6 +2,150 @@
 
 ---
 
+## 2026-10-08 to 2026-10-17 — Weekly Editor Pass (routines 056–062, editor-056wk)
+
+**Branch:** `docs/routines/056` (PR #2045). Seven dailies (056–062) accreted on
+this one PR over the week, all verified against live `src/gaia_cli/` code
+per CLAUDE.md's Stale Tooling directive rather than against each page's own
+prior prose. No daily drifted onto a separate PR — nothing to consolidate
+there. This entry replaces the seven individual daily diary entries that
+stood here; each routine's own commit still carries its per-day diff.
+
+### What the week fixed
+
+- **056** `share-bundles.html` — added the real, undocumented `-o/--output
+  <path>` flag to `gaia share`'s Flags table; killed a false `--auto all`
+  flag claim (`auto=` is an internal `install_bundle()` test parameter,
+  never wired to argparse) and replaced it with the one scripted path that
+  actually exists (`gaia skills install <id>` per resolved skill).
+- **057/058** `index.html` / `evidence-classes.html` — re-stamped frozen
+  `#ver` nav-chip fallback text. **Superseded during this week's sync**: PR
+  #2042 (merged to `main` 2026-10-15) fixed the underlying generator gap
+  site-wide (`build_html_cache_busting()` now globs all 13 `docs/en/*.html`
+  pages instead of 3), so these two pages' diffs collapsed to no-ops on
+  rebase — the fix landed, just via a different, better path.
+- **059** `share-bundles.html` — a *worse* variant of the same bug: the chip
+  had no `id="ver"` at all, so even the page's own overwrite script could
+  never reach it (it also pointed at a nonexistent `footerVersion` id).
+  Fixed both; this one was NOT superseded by #2042 (that PR only re-stamps
+  the literal text, it doesn't add missing `id` attributes), so it's real,
+  additive, and kept.
+- **060** `timeline-audit.html` — "Common drift causes" wrongly attributed
+  `installable: false` to `gaia dev reclassify` (that command only ever
+  changes a generic skill's `basic`/`fusion` Type axis) and used a retired
+  Yggdrasil I "Unique → Basic" example. Corrected to the real command
+  (`gaia dev update-named --installable false`) and dropped the retired
+  framing.
+- **061** `manual-curation-pipeline.html` — the "Become a contributor" CTA
+  table told readers to run a `gaia dev named` subcommand that does not
+  exist. Replaced with the real `gaia dev add --named --contributor
+  <handle> --generic-ref <id> --extra-fields '{"links":{"github":...}}'`
+  invocation.
+- **062** `cli-reference.html` — `dev add`'s flag table documented `--named`
+  but had no row for `--contributor`/`--generic-ref` at all, so it couldn't
+  tell readers about the lowercase-only contributor rule a recent CLI
+  tightening (`#2055`) now enforces. Added both rows plus a callout.
+
+### Editor sync, verify, and one additional fix
+
+- **Rebased the branch onto `origin/main`** (the PR's base had drifted 91
+  commits, `v8.24.4` → `v8.25.0`, across the week). One real conflict: the
+  `share-bundles.html` nav-chip literal (branch had `v8.24.4`/`id="ver"`,
+  main had `v8.25.0`/no id — main's own chip there still carries the
+  `footerVersion` dead-code bug #2042 didn't touch). Resolved by keeping
+  `id="ver"` and taking main's current `v8.25.0`. `index.html` and
+  `evidence-classes.html` merged clean to zero-diff (see 057/058 above).
+  Every file outside `docs/en/**` that showed as modified mid-merge matched
+  `origin/main` byte-for-byte once resolved — pure catch-up, no new content.
+- **Found and fixed one more real bug while auditing the week's theme**
+  (same class as 061/062 — a page instructing a hand-edit or a broken
+  command where a real CLI path exists): `named-skills.html`'s "Claiming a
+  Named Skill" step-by-step told readers to "manually create" the named
+  skill's frontmatter file (step 3) — a direct contradiction of the
+  Programmatic-First Policy and of what 061 just confirmed is the real,
+  schema-validated path. Its step 5 also called
+  `gaia dev calibrate web-scrape "2★"` — `web-scrape` there is the *generic*
+  ref; `meta_calibrate_command()` (`commands/dev/calibrate.py` ~L35-39)
+  hard-errors on any skill id without a `/`, so that command would have
+  failed for any reader who copy-pasted it. Replaced step 3 with the real
+  `gaia dev add --named --contributor karpathy --generic-ref web-scrape
+  --extra-fields '{"origin":true,"links":{...}}'` invocation and fixed step
+  5 (and step 4's evidence target, now pinned to the specific named
+  implementation rather than the shared generic ref — tighter for an origin
+  claim) to use `karpathy/web-scrape`.
+- **Trimmed `DOCS.md`'s Page Map.** The Status column had grown into a
+  second full changelog duplicating `MEMORY.md`, one clause longer every
+  routine, never pruned (row 3 alone had accumulated 14 history tags'
+  worth of prose). Rewrote all 13 rows to state only the page's *current*
+  truth in one sentence; the Routine column (already terse) remains the
+  pointer into `MEMORY.md` for history. No content claim changed, only
+  length — this is the LEAN pass the weekly editor owns and dailies don't.
+- **Did not undertake a full historical compaction of `MEMORY.md`** (4,431
+  pre-existing lines before this week, now part of a ~5,000-line diary
+  going back to routine 001). That bloat is real and worth a dedicated pass,
+  but rewriting months of entries in a single weekly run risks losing the
+  audit trail for no proportionate benefit this cycle; flagging it here so
+  the next editor pass can decide whether to compact older entries (e.g.
+  collapse anything older than N weeks to one-line summaries) rather than
+  silently letting it keep growing forever.
+
+### Issues filed
+
+None. All of this week's findings were docs-only corrections against
+already-shipped CLI behavior — no new product-side gap surfaced.
+
+### Verification
+
+- `git status --short` — every changed path is under `docs/en/**`
+  (`cli-reference.html`, `manual-curation-pipeline.html`,
+  `named-skills.html`, `share-bundles.html`, `timeline-audit.html`,
+  `DOCS.md`, `MEMORY.md`); every other path the rebase touched matches
+  `origin/main` exactly (verified with `git diff origin/main -- <path>` —
+  zero output on each).
+- HTML parse-check clean on all five edited pages.
+- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
+  case-insensitive) on the full diff — zero new hits (pre-existing hits are
+  all the real `gaia dev merge` CLI verb or GitHub's own "Merge PR" action).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero new hex.
+- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+  still linked on every edited page.
+- Every CLI claim above cross-checked directly against
+  `src/gaia_cli/commands/dev/__init__.py`, `commands/dev/build.py`,
+  `commands/dev/calibrate.py`, `commands/dev/evidence.py`, and
+  `namedIdentity.py` — not against prior page prose or commit messages.
+- Rendered the five edited pages via Playwright (`file://.../docs/en/*.html`)
+  — nav clearance, sidebar TOC, callouts, and copy-UI all intact; no layout
+  regression from any of the week's edits.
+
+### Ship
+
+Merge commit into `main` — squash merging is disabled repo-wide
+(CLAUDE.md § Squash Merges); the scheduled prompt's own "MERGE the PR
+(squash)" instruction is superseded by that project-level rule, same as
+the prior weekly pass (editor-055wk) already noted.
+
+### Token spend
+
+2026-10-17 claude-sonnet-5 high: figures not programmatically available
+this session; rough order-of-magnitude estimate from transcript length
+only, ~90k in / ~12k out, ~$0.50. Not a metered figure — treat as
+approximate.
+
+### Planned next (Routine 063)
+
+- `dev ratify --contributor` and `dev evidence --evaluator`/`dev timeline
+  --user` carry the same lowercase-contributor rule at the CLI level
+  (`dev ratify`'s own help text says so) but aren't annotated on
+  `cli-reference.html`'s corresponding cards — small, bounded SYNC/ROTATE
+  candidate.
+- Otherwise ROTATE to the next least-recently-touched page per the DOCS.md
+  Page Map, or SYNC against any release/merged PR since this pass that
+  changed documented CLI behavior.
+- `MEMORY.md`'s pre-2026-09 entries are long-standing bloat (see above) —
+  worth a dedicated compaction pass when there's room for one, not a
+  forced add-on to a normal routine.
+
+---
 ## 2026-10-07 — Weekly Editor Pass (editor-055wk)
 
 **Branch:** `docs/routines/055` (new — no `docs/routines/*` PR was open; the
