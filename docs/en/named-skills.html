@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "8.24.4";</script>
+  <script>window.GAIA_VERSION = "8.25.0";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/tokens.css?v=8.24.4">
-  <link rel="stylesheet" href="../css/styles.css?v=8.24.4">
-  <link rel="stylesheet" href="docs-en-shell.css?v=8.24.4">
+  <link rel="stylesheet" href="../css/tokens.css?v=8.25.0">
+  <link rel="stylesheet" href="../css/styles.css?v=8.25.0">
+  <link rel="stylesheet" href="docs-en-shell.css?v=8.25.0">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -606,9 +606,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=8.24.4"></script>
-  <script src="../js/site-nav.js?v=8.24.4"></script>
-  <script src="../js/ui.js?v=8.24.4"></script>
+  <script src="../js/mounts.js?v=8.25.0"></script>
+  <script src="../js/site-nav.js?v=8.25.0"></script>
+  <script src="../js/ui.js?v=8.25.0"></script>
 
 
 
@@ -620,7 +620,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Named Skills</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v8.24.4</span>
+    <span class="nav-version">v8.25.0</span>
   </nav>
 
   <!-- Layout -->
@@ -915,17 +915,18 @@ gaia dev list --generic | grep web-scrape
 gaia dev add "Web Scrape" --type basic \
   --description "Drives a browser to scrape structured data from web pages"
 
-<span class="c"># 3. Add the Named Skill frontmatter</span>
-<span class="c"># Create: registry/named/karpathy/web-scrape.md</span>
-<span class="c"># (See the frontmatter example above — manually create this file)</span>
+<span class="c"># 3. Add the Named Skill (writes registry/named/karpathy/web-scrape.md — never hand-edit it, per the Programmatic-First Policy)</span>
+gaia dev add "Web Scrape" --named --contributor karpathy --generic-ref web-scrape \
+  --description "Firecrawl-backed deep scraper, first documented implementation" \
+  --extra-fields <span class="str">'{"origin":true,"links":{"github":"https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md"}}'</span>
 
 <span class="c"># 4. Add evidence (Evidence Type + Trust Magnitude, not the deprecated --class)</span>
-gaia dev evidence web-scrape \
+gaia dev evidence karpathy/web-scrape \
   "https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md" \
   --type repo-own --trust 20 --notes "Origin SKILL.md, first documented implementation"
 
 <span class="c"># 5. Set level</span>
-gaia dev calibrate web-scrape "2★"
+gaia dev calibrate karpathy/web-scrape "2★"
 
 <span class="c"># 6. Final build + validate</span>
 gaia dev build
@@ -1026,7 +1027,7 @@ links:
       </section>
 
       <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=8.24.4"></script>
+  <script src="../js/site-footer.js?v=8.25.0"></script>
     </main>
   </div>
 

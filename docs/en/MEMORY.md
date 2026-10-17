@@ -2,733 +2,150 @@
 
 ---
 
-## 2026-10-16 — Routine 062
+## 2026-10-08 to 2026-10-17 — Weekly Editor Pass (routines 056–062, editor-056wk)
 
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
+**Branch:** `docs/routines/056` (PR #2045). Seven dailies (056–062) accreted on
+this one PR over the week, all verified against live `src/gaia_cli/` code
+per CLAUDE.md's Stale Tooling directive rather than against each page's own
+prior prose. No daily drifted onto a separate PR — nothing to consolidate
+there. This entry replaces the seven individual daily diary entries that
+stood here; each routine's own commit still carries its per-day diff.
 
-**Task chosen:** SYNC. Rebased onto `origin/main` first — the tip had moved
-from `v8.24.0` to `v8.24.4` (91 commits) since routine 061, including three
-`fix(cli)` commits (`ac42c16a6` #2055, `28cc9caef`, `8dddd605d`) that landed
-*after* routine 061 and changed real, documented CLI behavior: `gaia dev add
---named --contributor <handle>` now rejects a mixed-case contributor handle
-outright (the live preflight check in
-`src/gaia_cli/commands/dev/helpers.py::preflightAddCommand` matches the
-full `contributor/skill-id` string against an all-lowercase regex). That's a
-genuine SYNC target — it directly affects a flag `cli-reference.html`
-documents — so it took priority over picking a fresh ROTATE page.
+### What the week fixed
 
-### Trigger
+- **056** `share-bundles.html` — added the real, undocumented `-o/--output
+  <path>` flag to `gaia share`'s Flags table; killed a false `--auto all`
+  flag claim (`auto=` is an internal `install_bundle()` test parameter,
+  never wired to argparse) and replaced it with the one scripted path that
+  actually exists (`gaia skills install <id>` per resolved skill).
+- **057/058** `index.html` / `evidence-classes.html` — re-stamped frozen
+  `#ver` nav-chip fallback text. **Superseded during this week's sync**: PR
+  #2042 (merged to `main` 2026-10-15) fixed the underlying generator gap
+  site-wide (`build_html_cache_busting()` now globs all 13 `docs/en/*.html`
+  pages instead of 3), so these two pages' diffs collapsed to no-ops on
+  rebase — the fix landed, just via a different, better path.
+- **059** `share-bundles.html` — a *worse* variant of the same bug: the chip
+  had no `id="ver"` at all, so even the page's own overwrite script could
+  never reach it (it also pointed at a nonexistent `footerVersion` id).
+  Fixed both; this one was NOT superseded by #2042 (that PR only re-stamps
+  the literal text, it doesn't add missing `id` attributes), so it's real,
+  additive, and kept.
+- **060** `timeline-audit.html` — "Common drift causes" wrongly attributed
+  `installable: false` to `gaia dev reclassify` (that command only ever
+  changes a generic skill's `basic`/`fusion` Type axis) and used a retired
+  Yggdrasil I "Unique → Basic" example. Corrected to the real command
+  (`gaia dev update-named --installable false`) and dropped the retired
+  framing.
+- **061** `manual-curation-pipeline.html` — the "Become a contributor" CTA
+  table told readers to run a `gaia dev named` subcommand that does not
+  exist. Replaced with the real `gaia dev add --named --contributor
+  <handle> --generic-ref <id> --extra-fields '{"links":{"github":...}}'`
+  invocation.
+- **062** `cli-reference.html` — `dev add`'s flag table documented `--named`
+  but had no row for `--contributor`/`--generic-ref` at all, so it couldn't
+  tell readers about the lowercase-only contributor rule a recent CLI
+  tightening (`#2055`) now enforces. Added both rows plus a callout.
 
-Verified against live code, not the commit messages alone:
-- `src/gaia_cli/commands/dev/__init__.py` `dev_add.add_argument("--contributor", ...)`
-  help text: "Lowercase contributor handle for named skill (default: gaiabot);
-  mixed-case input is rejected."
-- `preflightAddCommand()` in `commands/dev/helpers.py` (~L1089-1103): the
-  first regex on the bare `--contributor` value actually allows mixed case,
-  but the *second* regex check on the composed `fullId` ("contributor/skill-id")
-  requires all-lowercase on both halves — so a mixed-case contributor fails
-  there with "Named skill ID '...' is invalid."
-- `cli-reference.html`'s `dev add` flag table (`#dev-add`) listed `--named`
-  but had no row at all for `--contributor` or `--generic-ref` — both real,
-  required-together flags per `meta_add_command()` in `commands/dev/build.py`
-  (~L40-58) — so the page couldn't have told a reader about the casing rule
-  even before this behavior tightened.
+### Editor sync, verify, and one additional fix
 
-### What I did
+- **Rebased the branch onto `origin/main`** (the PR's base had drifted 91
+  commits, `v8.24.4` → `v8.25.0`, across the week). One real conflict: the
+  `share-bundles.html` nav-chip literal (branch had `v8.24.4`/`id="ver"`,
+  main had `v8.25.0`/no id — main's own chip there still carries the
+  `footerVersion` dead-code bug #2042 didn't touch). Resolved by keeping
+  `id="ver"` and taking main's current `v8.25.0`. `index.html` and
+  `evidence-classes.html` merged clean to zero-diff (see 057/058 above).
+  Every file outside `docs/en/**` that showed as modified mid-merge matched
+  `origin/main` byte-for-byte once resolved — pure catch-up, no new content.
+- **Found and fixed one more real bug while auditing the week's theme**
+  (same class as 061/062 — a page instructing a hand-edit or a broken
+  command where a real CLI path exists): `named-skills.html`'s "Claiming a
+  Named Skill" step-by-step told readers to "manually create" the named
+  skill's frontmatter file (step 3) — a direct contradiction of the
+  Programmatic-First Policy and of what 061 just confirmed is the real,
+  schema-validated path. Its step 5 also called
+  `gaia dev calibrate web-scrape "2★"` — `web-scrape` there is the *generic*
+  ref; `meta_calibrate_command()` (`commands/dev/calibrate.py` ~L35-39)
+  hard-errors on any skill id without a `/`, so that command would have
+  failed for any reader who copy-pasted it. Replaced step 3 with the real
+  `gaia dev add --named --contributor karpathy --generic-ref web-scrape
+  --extra-fields '{"origin":true,"links":{...}}'` invocation and fixed step
+  5 (and step 4's evidence target, now pinned to the specific named
+  implementation rather than the shared generic ref — tighter for an origin
+  claim) to use `karpathy/web-scrape`.
+- **Trimmed `DOCS.md`'s Page Map.** The Status column had grown into a
+  second full changelog duplicating `MEMORY.md`, one clause longer every
+  routine, never pruned (row 3 alone had accumulated 14 history tags'
+  worth of prose). Rewrote all 13 rows to state only the page's *current*
+  truth in one sentence; the Routine column (already terse) remains the
+  pointer into `MEMORY.md` for history. No content claim changed, only
+  length — this is the LEAN pass the weekly editor owns and dailies don't.
+- **Did not undertake a full historical compaction of `MEMORY.md`** (4,431
+  pre-existing lines before this week, now part of a ~5,000-line diary
+  going back to routine 001). That bloat is real and worth a dedicated pass,
+  but rewriting months of entries in a single weekly run risks losing the
+  audit trail for no proportionate benefit this cycle; flagging it here so
+  the next editor pass can decide whether to compact older entries (e.g.
+  collapse anything older than N weeks to one-line summaries) rather than
+  silently letting it keep growing forever.
 
-- `docs/en/cli-reference.html` — `dev add` (`#dev-add`): added `--contributor
-  <handle>` and `--generic-ref <id>` flag-table rows (previously missing
-  entirely); amended the `--named` row to note it requires both; added a
-  `callout warn` directly below the table stating the lowercase-only rule
-  and that case is otherwise preserved (same-case-insensitive-key collision
-  behavior per `namedIdentity.py`); added a third example showing `--named
-  --contributor marco --generic-ref structured-output`.
-- `docs/en/DOCS.md` — Page Map row 3 updated with the `062` history tag.
-- `docs/en/MEMORY.md` — this entry.
+### Issues filed
 
-### Design decisions
-
-- Scoped the fix to the one missing-flags gap on `dev add` rather than also
-  auditing every other `--contributor`-accepting command (`dev ratify`,
-  `dev evidence --evaluator`, `dev timeline --user`) for the same casing
-  note — `dev ratify`'s own help text already says "must be lowercase;
-  mixed-case input is rejected" verbatim and isn't otherwise documented on
-  this page, so it's a separate, smaller gap; left as a planned-next item
-  rather than widening this routine past the one command.
-- Phrased the callout around the actual rejection mechanism (two-stage
-  regex producing "Named skill ID '...' is invalid", not a friendlier
-  "is normalized to lowercase") since the CLI does not normalize — it
-  rejects. Saying it would auto-lowercase would be a new inaccuracy.
-- Did not touch the version chip — already re-stamped to `v8.24.4` across
-  all 13 pages by the rebase (main's own `#2042` fix, landed 2026-10-15,
-  now globs every `docs/en/*.html` page instead of 3 of 13).
-
-### Rebase conflict note
-
-Rebasing onto `origin/main` produced version-chip-only conflicts on
-`index.html`, `evidence-classes.html`, and `share-bundles.html` (routines
-057–059 had hand-stamped chips to versions `main` had already superseded).
-Resolved each by taking `main`'s newer `v8.24.4` literal. On the first pass
-I dropped `share-bundles.html`'s `id="ver"` attribute while resolving that
-conflict — routine 059 had added it specifically so the page's own
-`document.getElementById('ver')` self-update script (L744-745) could find
-the span; without the id that script silently no-ops. Caught it by grepping
-the page for `getElementById` before finishing and restored the id. Flagging
-this because it's a generic hazard for any future rebase through these
-chip-only conflicts: check for a same-page script keyed to `id="ver"`
-before resolving a version-chip merge conflict by literal value alone.
-
-### Issues informed
-
-None filed. Confirmed behavior directly against live code; the CLI's own
-help text already states the rule correctly — the docs page was just
-missing the flags, not contradicting them.
+None. All of this week's findings were docs-only corrections against
+already-shipped CLI behavior — no new product-side gap surfaced.
 
 ### Verification
 
-- `git status --short` scoped to `docs/en/cli-reference.html`,
-  `docs/en/share-bundles.html` (rebase-conflict id fix only, no content
-  change), `docs/en/DOCS.md`, `docs/en/MEMORY.md`.
-- `python3 -c "import html.parser; ..."` parse-check clean on
-  `cli-reference.html`, `share-bundles.html`, `index.html`,
-  `evidence-classes.html`.
+- `git status --short` — every changed path is under `docs/en/**`
+  (`cli-reference.html`, `manual-curation-pipeline.html`,
+  `named-skills.html`, `share-bundles.html`, `timeline-audit.html`,
+  `DOCS.md`, `MEMORY.md`); every other path the rebase touched matches
+  `origin/main` exactly (verified with `git diff origin/main -- <path>` —
+  zero output on each).
+- HTML parse-check clean on all five edited pages.
 - Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on `cli-reference.html` — only pre-existing hits on the
-  real `gaia dev merge` CLI verb (nav links, `#dev-merge` card) — zero new
-  violations.
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
+  case-insensitive) on the full diff — zero new hits (pre-existing hits are
+  all the real `gaia dev merge` CLI verb or GitHub's own "Merge PR" action).
+- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero new hex.
 - All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked on `cli-reference.html`, unchanged.
-- Lowercase-rejection mechanism cross-checked directly against
-  `src/gaia_cli/commands/dev/__init__.py`,
-  `commands/dev/helpers.py::preflightAddCommand`, and
-  `commands/dev/build.py::meta_add_command` — not against the commit
-  messages alone.
+  still linked on every edited page.
+- Every CLI claim above cross-checked directly against
+  `src/gaia_cli/commands/dev/__init__.py`, `commands/dev/build.py`,
+  `commands/dev/calibrate.py`, `commands/dev/evidence.py`, and
+  `namedIdentity.py` — not against prior page prose or commit messages.
+- Rendered the five edited pages via Playwright (`file://.../docs/en/*.html`)
+  — nav clearance, sidebar TOC, callouts, and copy-UI all intact; no layout
+  regression from any of the week's edits.
 
-### Files modified
+### Ship
 
-- `docs/en/cli-reference.html` — `dev add` flag table + callout + example.
-- `docs/en/share-bundles.html` — rebase-conflict `id="ver"` restoration
-  (no visible/content change, chip text unchanged at `v8.24.4`).
-- `docs/en/DOCS.md` — page map row 3.
-- `docs/en/MEMORY.md` — this entry.
+Merge commit into `main` — squash merging is disabled repo-wide
+(CLAUDE.md § Squash Merges); the scheduled prompt's own "MERGE the PR
+(squash)" instruction is superseded by that project-level rule, same as
+the prior weekly pass (editor-055wk) already noted.
+
+### Token spend
+
+2026-10-17 claude-sonnet-5 high: figures not programmatically available
+this session; rough order-of-magnitude estimate from transcript length
+only, ~90k in / ~12k out, ~$0.50. Not a metered figure — treat as
+approximate.
 
 ### Planned next (Routine 063)
 
 - `dev ratify --contributor` and `dev evidence --evaluator`/`dev timeline
-  --user` carry the same lowercase-contributor expectation at the CLI level
-  (confirmed on `dev ratify`'s own help text); neither is annotated on
-  `cli-reference.html`'s corresponding cards. Small, bounded SYNC/ROTATE
-  candidate for a future routine if no higher-priority SYNC target exists.
+  --user` carry the same lowercase-contributor rule at the CLI level
+  (`dev ratify`'s own help text says so) but aren't annotated on
+  `cli-reference.html`'s corresponding cards — small, bounded SYNC/ROTATE
+  candidate.
 - Otherwise ROTATE to the next least-recently-touched page per the DOCS.md
-  Page Map (`faq.html`/`mcp-server.html`/`named-skills.html`, all last
-  touched at `editor-055wk`), or SYNC against any release/merged PR since
-  this routine that changed documented CLI behavior.
+  Page Map, or SYNC against any release/merged PR since this pass that
+  changed documented CLI behavior.
+- `MEMORY.md`'s pre-2026-09 entries are long-standing bloat (see above) —
+  worth a dedicated compaction pass when there's room for one, not a
+  forced add-on to a normal routine.
 
 ---
-
-## 2026-10-15 — Routine 061
-
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
-
-**Task chosen:** ROTATE. Routine 060's "Planned next" named
-`manual-curation-pipeline.html` (last non-editor pass: 046) as the next
-least-recently-touched page. Rebased onto `origin/main` first — tip was
-unchanged since routine 060 (`v8.24.0`, no new merges), so there was no
-SYNC candidate to take priority over ROTATE.
-
-### Trigger
-
-Read the page end to end and cross-checked every documented CLI command
-against the live argparse definitions in
-`src/gaia_cli/commands/dev/__init__.py` (per CLAUDE.md's Stale Tooling
-directive), not against the page's own prior prose. The "Become a
-contributor" CTA table's "Add a named implementation" row claimed:
-
-```
-gaia dev named --contributor handle --skill slug --generic id --upstream <blob-url>
-```
-
-`grep -n 'add_parser(' src/gaia_cli/commands/dev/__init__.py` lists every
-real `gaia dev` subcommand — there is no `named` subparser at all, so
-`gaia dev named` would fail with an argparse error. The actual way to
-create a named skill programmatically is `gaia dev add` with `--named`
-(confirmed in `meta_add_command()`, `src/gaia_cli/commands/dev/build.py`
-~L32-91): it takes `--contributor`, `--generic-ref`, `--description`
-(10+ chars, schema-enforced), and writes
-`registry/named/<contributor>/<id>.md`. There is no `--skill` or
-`--upstream` flag anywhere in the parser; the upstream repo URL is set via
-`--extra-fields '{"links": {"github": "<url>"}}'` — confirmed against a
-real named-skill file's frontmatter (`links.github`, e.g.
-`registry/named/Manavarya09/design-extract.md`).
-
-### What I did
-
-- `docs/en/manual-curation-pipeline.html` — "Become a contributor" CTA
-  table: replaced the fictional `gaia dev named ...` row with the real
-  `gaia dev add "Name" --named --contributor handle --generic-ref
-  generic-id --description "..." --extra-fields
-  '{"links":{"github":"<blob-url>"}}'` invocation.
-- `docs/en/DOCS.md` — Page Map row 13 updated with the `061` history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Kept the fix to the one wrong row — the table's other rows (`dev add`
-  for generic nodes, `dev evidence`, `trust_appraise.py`, `dev
-  calibrate`, `dev fuse`, `dev validate`, `dev docs`) were all re-checked
-  against the same argparse file and are accurate; no scope creep.
-- Did not also update `named-skills.html`'s own step-by-step, which
-  documents named skills as a hand-authored markdown file rather than a
-  `gaia dev add --named` invocation — both paths are real (the CLI path
-  just automates what that page has you do by hand), and reconciling
-  which one the docs should lead with is a separate, larger editorial
-  call outside this one-page rotation. Left as a planned-next item below
-  rather than widening this routine.
-- Did not touch the version chip (still `v8.18.2`, one release behind
-  `v8.24.0`) — that's the weekly auto-sync's job per the routine's own
-  instructions, not a daily's.
-
-### Issues informed
-
-None filed. Single-page fix with the correct invocation confirmed
-directly against the argparse definitions and the command handler.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/manual-curation-pipeline.html`,
-  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the diff — only pre-existing, unrelated hits
-  (`gh pr merge`, "Merge PR" as the literal GitHub merge action, not the
-  Fusion concept) — zero new violations.
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-- `gaia dev named` nonexistence and the real `--named`/`--contributor`/
-  `--generic-ref`/`--extra-fields` flags cross-checked directly against
-  `src/gaia_cli/commands/dev/__init__.py` and
-  `src/gaia_cli/commands/dev/build.py::meta_add_command` — not against
-  the page's prior prose.
-
-### Files modified
-
-- `docs/en/manual-curation-pipeline.html` — CTA table row fix.
-- `docs/en/DOCS.md` — page map row 13.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 062)
-
-- No specific CONTINUE item named. Worth a look: `named-skills.html`'s
-  step-by-step still teaches hand-authoring the named-skill markdown file
-  directly rather than the CLI-only `gaia dev add --named` path this
-  routine just confirmed is real and schema-validated — reconciling which
-  one is the documented canonical path (or presenting both, CLI-first per
-  the Programmatic-First Policy) is a bigger editorial call for a future
-  routine or the weekly editor, not a quick fix.
-- Otherwise ROTATE to the next least-recently-touched page per the
-  DOCS.md Page Map, or SYNC against any release/merged PR since this
-  routine that changed documented CLI behavior.
-
----
-
-## 2026-10-14 — Routine 060
-
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
-
-**Task chosen:** ROTATE. Routine 059's "Planned next" named no specific
-CONTINUE item and confirmed no SYNC candidate (`origin/main` was already at
-the tip this branch tracks, v8.24.0 — no new release/merge since). Per its
-suggestion, picked between `timeline-audit.html` (last non-editor pass:
-044) and `manual-curation-pipeline.html` (046) — `timeline-audit.html` is
-older, so took it.
-
-### Trigger
-
-Read the page end to end and verified every CLI claim against live code
-(per CLAUDE.md's Stale Tooling directive), not against the page's own prior
-text. Found the "Common drift causes" → "Reclassification" card wrong on
-two counts:
-
-- It claimed `installable: false` is "Applied via `gaia dev reclassify`".
-  Checked `dev_reclassify.add_argument("new_type", choices=("basic",
-  "fusion"), ...)` in `src/gaia_cli/commands/dev/__init__.py` (~L627-636)
-  and `meta_reclassify_command()` in `commands/dev/build.py` (~L380-437):
-  the command only ever rewrites a **generic** skill's `type` field to
-  `basic`/`fusion` and moves its file between type directories — it never
-  reads or writes `installable`. The real toggle is
-  `dev_update_named.add_argument("--installable", choices=["true",
-  "false"], ...)` (`commands/dev/__init__.py` ~L679-682), wired in
-  `update_named_command()` (`commands/dev/named.py` ~L96-99) — a different
-  command, operating on a **named** skill, not a generic one.
-- Its own example, "A skill's type changes (e.g. Unique → Basic)", used
-  the retired Yggdrasil I four-tier structural framing (Basic/Extra/Unique/
-  Ultimate as *types*) that Issue #1479 already migrated the rest of the
-  site off of. `reclassify`'s real `new_type` choices are `basic`/`fusion`
-  (the current Type axis) — "Unique" was never a valid value.
-
-### What I did
-
-- `docs/en/timeline-audit.html` — rewrote the "Reclassification" cause
-  card (renamed "Installability loss" to match what it now accurately
-  describes): states the real command (`gaia dev update-named
-  --installable false`), explicitly separates it from `gaia dev
-  reclassify` (which only changes a generic skill's Type axis and never
-  touches a named skill's rank), and drops the banned "Unique → Basic"
-  example. Updated the card's git-log search hint from `reclassif` to
-  `installable` to match.
-- `docs/en/DOCS.md` — Page Map row 12 updated with the `060` history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Kept the existing cause-card markup structure (`cause-card-label` +
-  `<small>` subtitle + `cause-card-detail`) — only the label text and body
-  copy changed, no new classes or layout.
-- Did not touch the other two cause cards (Star-Bar hard reset, Evidence
-  rot) — both verified accurate against `META.md` §2.4 and the CLI gap
-  workaround text already matches `CLAUDE.md`'s own Known CLI gap note;
-  no defect found there.
-- Did not fix the version chip / cache-bust strings on this page — still
-  `v8.18.2`, one release behind `origin/main`'s `v8.24.0` — per this
-  routine's own prompt, matching version chips is explicitly out of scope
-  ("the lowest value you can give"); leaving it for the weekly
-  auto-sync.
-
-### Issues informed
-
-None filed. Single-page, already-diagnosed fix with the correct command
-names confirmed directly against the argparse definitions and their
-handlers — no CLI gap, just two wrong claims in the prose.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/timeline-audit.html`,
-  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the edited page — zero hits (also removes the
-  page's only use of the retired Yggdrasil I "Unique" structural-type
-  framing).
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — only hit is an
-  unchanged pre-existing `var(--muted,#64748b)` inline style carried
-  through on a line the diff touched for unrelated text; no new hex
-  introduced.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-- `installable`/`reclassify` command semantics cross-checked directly
-  against `commands/dev/__init__.py`, `commands/dev/build.py`, and
-  `commands/dev/named.py` — not against the page's prior prose.
-
-### Files modified
-
-- `docs/en/timeline-audit.html` — "Reclassification" cause card.
-- `docs/en/DOCS.md` — page map row 12.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 061)
-
-- No specific CONTINUE item named. Next daily: ROTATE to
-  `manual-curation-pipeline.html` (last non-editor pass: 046) — it is now
-  the least-recently-touched page by real content — or SYNC against any
-  release/merged PR since this routine that changed documented CLI
-  behavior.
-- The version-chip drift this routine deliberately skipped
-  (`timeline-audit.html` still shows `v8.18.2`, one release behind
-  `v8.24.0`) is explicitly the weekly auto-sync's job, not a daily's — do
-  not "fix" it as a quick win.
-
----
-
-## 2026-10-13 — Routine 059
-
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
-
-**Task chosen:** CONTINUE. Routine 058's "Planned next" named the exact
-item: `share-bundles.html`'s nav version chip, diagnosed last routine as
-*worse* than the `index.html`/`evidence-classes.html` bug — not just stale
-text, but permanently frozen regardless of JS. Rebased; `origin/main` was
-already at the tip this branch tracked, no intervening commits touch this
-page's documented behavior.
-
-### Trigger
-
-Verified directly against the page's own source:
-
-- Line 352: `<span class="nav-version">v7.11.3</span>` — no `id` attribute
-  at all, so no script on the page can ever find and update it.
-- Line 744 (inline script): `document.getElementById('footerVersion')` —
-  this id does not exist anywhere in the page (no `.page-footer` is
-  actually rendered in the body; the real footer is the separate
-  `site-footer-mount` component). The lookup always returns `null`, so the
-  `if (window.GAIA_VERSION && verEl)` guard is a silent no-op. Two
-  independent breaks, not one: wrong id attribute AND wrong id reference.
-
-### What I did
-
-- `docs/en/share-bundles.html`:
-  - Nav chip: added `id="ver"` and updated the stale literal from
-    `v7.11.3` to the current `v8.24.0` (the page's `window.GAIA_VERSION`
-    and cache-bust query strings were already correct at `8.24.0` — only
-    this one visible span had drifted).
-  - Inline script: changed `getElementById('footerVersion')` to
-    `getElementById('ver')` so the existing overwrite logic actually
-    reaches the chip, matching the live pattern already working on
-    `index.html` and `evidence-classes.html`.
-- `docs/en/DOCS.md` — Page Map row 11 updated with the `059` history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Kept the existing `nav-version` class rather than switching to
-  `docs-nav-version` (the class index.html/evidence-classes.html use) —
-  both classes are already handled by the same hide-when-`#site-nav`-present
-  CSS rule on this page (line 357), so renaming would be a cosmetic no-op
-  that touches more of the file than the bug needs.
-- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or
-  any other part of the overwrite script — all already correct.
-- Did not file a GitHub issue — single-page, two-line fix with an obvious
-  diagnosis already written up in the prior routine's entry.
-
-### Issues informed
-
-None filed.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/share-bundles.html`,
-  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the whole file — zero hits.
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-
-### Files modified
-
-- `docs/en/share-bundles.html` — nav version chip `id` + script target fix.
-- `docs/en/DOCS.md` — page map row 11.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 060)
-
-- No specific CONTINUE item named. Next daily should ROTATE to the
-  least-recently-touched page in the DOCS.md Page Map (check routine
-  history tags — `timeline-audit.html` and `manual-curation-pipeline.html`
-  haven't had a non-editor pass since routines 044/046) or SYNC against
-  any release/merged PR since this routine that changed documented CLI
-  behavior.
-
----
-
-## 2026-10-12 — Routine 058
-
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
-
-**Task chosen:** CONTINUE. Routine 057's "Planned next" named
-`evidence-classes.html`'s `#ver` span as the next concrete item: same
-stale hardcoded-fallback bug just fixed on `index.html`, explicitly flagged
-as out of scope for that run. Rebased onto `origin/main` first (branch was
-at `v8.21.1`, main had moved to `v8.24.0` across badge-provisioning and
-registry-migration work) — none of those intervening commits touch
-documented CLI/flag behavior on this page, so no SYNC item took priority
-over the named CONTINUE task.
-
-### Trigger
-
-Verified directly against the page's own source rather than trusting the
-prior entry's description alone:
-
-- `docs/en/evidence-classes.html` line 4: `window.GAIA_VERSION = "8.24.0"`
-  — already correct. This page is one of the 3 pages
-  `build_html_cache_busting()` (`scripts/build_docs.py`) keeps live, so the
-  generator-owned value and all four `?v=8.24.0` cache-bust query strings
-  (`tokens.css`, `styles.css`, `docs-en-shell.css`, `mounts.js`,
-  `site-nav.js`, `ui.js`, `site-footer.js`) were already current.
-- Line 398: `<span class="docs-nav-version" id="ver">v8.11.1</span>` — the
-  hardcoded fallback text, invisible in a browser with JS enabled because
-  the inline script at line 792 (`if (window.GAIA_VERSION && verEl)
-  verEl.textContent = 'v' + window.GAIA_VERSION;`) overwrites it on load —
-  but wrong in the raw served HTML a no-JS client or crawler sees. Same
-  exact pattern and same frozen value (`v8.11.1`) as the bug fixed on
-  `index.html` last routine.
-
-### What I did
-
-- `docs/en/evidence-classes.html` — `#ver` nav chip: fixed the hardcoded
-  fallback text from `v8.11.1` to `v8.24.0` to match the already-correct
-  `window.GAIA_VERSION` the generator maintains on this page. One line
-  changed; nothing else on the page needed touching.
-- `docs/en/DOCS.md` — Page Map row 7 updated with the `058` history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or the
-  client-side overwrite script — all already correct, matching last
-  routine's reasoning for the same bug on `index.html`.
-- Did not file a GitHub issue for this one — it's a single stale literal
-  with an obvious one-line fix, matching last routine's reasoning on
-  `index.html`. The underlying process gap (registered-page list doesn't
-  cover all 13 pages) is already tracked as #2042.
-- Checked the third registered page, `share-bundles.html`, while here:
-  it has a *different and worse* version of this bug, not the same one.
-  Its nav chip is `<span class="nav-version">v7.11.3</span>` (line 352) —
-  no `id="ver"` at all, so the client-side `document.getElementById('ver')`
-  overwrite script never finds it and the chip is permanently frozen, even
-  with JS enabled, not just stale in the no-JS fallback case. Out of scope
-  for this run (one page per routine, and this page wasn't today's named
-  target) — pushed to Planned next below rather than silently expanding
-  scope.
-
-### Issues informed
-
-None filed.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/evidence-classes.html`,
-  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the diff — zero hits (one pre-existing, unchanged
-  `merge` reference to the `gaia dev merge` CLI verb elsewhere on the page,
-  outside this diff).
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-- Rebased onto current `origin/main` tip (`v8.24.0`) before pushing — no
-  conflicts.
-
-### Files modified
-
-- `docs/en/evidence-classes.html` — nav version chip fallback text.
-- `docs/en/DOCS.md` — page map row 7.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 059)
-
-- `share-bundles.html` — fix the permanently-frozen `nav-version` span
-  (`v7.11.3`, no `id="ver"`): give it `id="ver"` so the existing
-  `window.GAIA_VERSION` overwrite script (already present and correct on
-  this page) actually reaches it, the same way `index.html` and
-  `evidence-classes.html` work. Small, concrete, and already diagnosed —
-  the next daily should take this before anything else.
-
----
-
-## 2026-10-09 — Routine 057
-
-**Branch:** `docs/routines/056` (PR #2045 already open and draft — continued
-on it per the Branch instructions; did not open a new branch).
-
-**Task chosen:** ROTATE. Routine 056's "Planned next" named `index.html`
-(last real edit: routine 051) as the next least-recently-touched page.
-Checked `main` since routine 056 for a SYNC target first — the commits
-since then (`v8.19.1`→`v8.21.1`) are all registry curation/promotion
-(`auto-office` suite, hikari9 office suite, lexicon updates) and release
-bumps, none of which change documented CLI/flag behavior on any `docs/en/`
-page — so no SYNC item applied. Read `index.html` end to end and
-cross-checked its ten card descriptions against the live pages/code they
-summarize (MCP decommission notice, `gaia share`/`gaia install` bundle
-flow, Transparency Gate naming, honor-red attribution, the quickstart
-`gaia init`/`gaia push --dry-run`/`gaia tree` snippet against
-`src/gaia_cli/commands/init.py` and `push.py`) — all accurate, no drift
-found there.
-
-### Trigger
-
-Found one real, verifiable inaccuracy while checking the page's own
-version chip: `index.html` is one of the 3 pages `build_html_cache_busting()`
-(`scripts/build_docs.py`) keeps live — confirmed `window.GAIA_VERSION =
-"8.21.1"` (line 4) and all three `?v=8.21.1` cache-bust strings already
-match the current release (`pyproject.toml` `version = "8.21.1"`). But the
-`<span id="ver">` nav chip's hardcoded initial text still read `v8.11.1` —
-ten patch releases stale. The inline script at the bottom of the page
-(`document.getElementById('ver').textContent = 'v' + window.GAIA_VERSION`)
-overwrites it client-side on every load, which is why this was invisible
-in a browser with JS enabled — but the raw served HTML (what a no-JS
-client or crawler sees before that script runs) was still wrong. Same
-hardcoded-fallback pattern exists on `evidence-classes.html`'s `#ver` span
-(also frozen at `v8.11.1`) — out of scope for this run (one page per
-routine), noted below for whoever rotates there next.
-
-### What I did
-
-- `docs/en/index.html` — `#ver` nav chip: fixed the hardcoded fallback text
-  from `v8.11.1` to `v8.21.1` to match the already-correct
-  `window.GAIA_VERSION` the generator maintains on this page.
-- `docs/en/DOCS.md` — Page Map row 1 updated with this fix and the `057`
-  history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Did not touch `window.GAIA_VERSION`, the cache-bust query strings, or the
-  client-side overwrite script — all three were already correct. Only the
-  one stale literal needed fixing.
-- Did not extend this fix to `evidence-classes.html` — that page wasn't
-  today's assigned rotation target, and the Hard Rules cap each run at one
-  page. Flagged it in Planned next instead of silently leaving it, since
-  it's the same bug.
-- Did not file a GitHub issue for this one — it's a single stale literal
-  with an obvious one-line fix, not a process gap like #2042 (the
-  registered-page list itself). Fixed directly instead of routing through
-  the tracker.
-
-### Issues informed
-
-None filed.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/index.html`, `docs/en/DOCS.md`,
-  `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the diff — zero hits.
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-- Rebased onto current `origin/main` tip (`v8.21.1`) before this entry —
-  no conflicts.
-
-### Files modified
-
-- `docs/en/index.html` — nav version chip fallback text.
-- `docs/en/DOCS.md` — page map row 1.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 058)
-
-- `evidence-classes.html` (last real edit: routine 052) is next in the
-  least-recently-touched rotation. While there, also fix its `#ver` span's
-  same stale `v8.11.1` fallback text (same bug as this routine's fix on
-  `index.html`, just not in scope for this run).
-
----
-
-## 2026-10-08 — Routine 056
-
-**Branch:** `docs/routines/056` (new — the prior integration branch,
-`docs/routines/055`, was shipped by the editor-055wk pass on 2026-10-07 and
-no daily picked up a new routine since; created fresh from `origin/main`
-per the Branch instructions).
-
-**Task chosen:** ROTATE. No concrete item in routine 055wk's "Planned
-next" (just "resume normal rotation"); the only commit on `main` since
-055wk was a pure version-bump release (`v8.18.3`, no CLI/schema behavior
-change) so there was no SYNC target either. Checked open `documentation`-labeled
-GitHub issues — all nine are large RFCs/meta-posts/split-ideas, nothing
-small enough for a daily slot. Took `share-bundles.html`, the
-least-recently-touched page in the Page Map (last real content edit at
-routine 038; it was untouched by 055wk's version-chip sweep because it's
-already on the 3-page dynamic `window.GAIA_VERSION` registered list).
-
-### Trigger
-
-Verified against live code before touching the page (per CLAUDE.md's Stale
-Tooling directive), not against prose alone:
-
-- `share_parser` in `src/gaia_cli/impl.py` (~L3410-3422) defines `--user`,
-  `-o`/`--output <path>`, and `--stdout` on `gaia share`. The page's Flags
-  table only documented `--stdout` and `--user <handle>` — `-o, --output`
-  was real and undocumented.
-- The page's "Non-TTY / Automation" callout claimed a `--auto all` flag
-  "(when available)" bypasses the TTY check. Grepped the whole CLI for
-  `--auto` on the `install` parsers — zero hits. `install_bundle()` in
-  `src/gaia_cli/share.py` (~L415-430) does take an `auto=` keyword
-  (`"all"/"pick"/"view"/"quit"`), but `install_command()` in `impl.py`
-  (~L2372-2409) never passes it — only `tests/test_share.py` calls
-  `install_bundle(..., auto=...)` directly. There is no CLI path to set it;
-  the page was documenting a flag that exists only as an internal/test
-  parameter, never as real CLI surface.
-
-### What I did
-
-- `docs/en/share-bundles.html` — `#share-flags`: added a `-o, --output
-  <path>` row to the `gaia share` Flags table (default
-  `generated-output/share/`, noted it's ignored when `--stdout` is set).
-- `docs/en/share-bundles.html` — `#non-tty`: rewrote the Automation note
-  callout to drop the false `--auto all` claim; states plainly that no CLI
-  flag exists yet to force an all-install from a bundle in automation, and
-  that the only scripted path today is resolving each skill's ID from the
-  bundle and running `gaia skills install <id>` individually.
-- `docs/en/DOCS.md` — Page Map row 11 updated with this fix and the `056`
-  history tag.
-- `docs/en/MEMORY.md` — this entry.
-
-### Design decisions
-
-- Did not add a CLI flag to wire `auto=` through to `gaia install` —
-  that's a `src/gaia_cli/impl.py` change, outside `docs/en/**` and outside
-  a generator this seat is allowed to touch. Documented the real behavior
-  instead of inventing a workaround not evidenced by the code.
-- Placed the new `-o, --output` row between `--user` and `--stdout` in the
-  table to match the parser's own declaration order.
-- Kept the Automation note's one concrete workaround (`gaia skills install
-  <id>` per resolved skill) rather than leaving it purely negative — it's
-  the only scripted path the code actually supports today.
-
-### Issues informed
-
-None filed. This is a docs-accuracy fix against already-existing CLI code
-(the `-o/--output` flag and the absence of `--auto` are both long-standing,
-not a regression from a recent change) — no new tech debt to track beyond
-what's already implicit in `install_bundle()`'s unused `auto` parameter.
-
-### Verification
-
-- `git status --short` scoped to `docs/en/share-bundles.html`,
-  `docs/en/DOCS.md`, `docs/en/MEMORY.md` only.
-- `python3 -c "import html.parser; ..."` parse-check clean on the edited
-  page.
-- Banned-synonym grep (`\b(merge|combine|compose)\b|rarity`,
-  case-insensitive) on the diff — zero hits.
-- `git diff -- docs/en | grep -nE '#[0-9a-fA-F]{3,6}'` — zero hits, no new
-  hex.
-- All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
-  still linked, unchanged.
-- `-o/--output` and the absence of `--auto` cross-checked directly against
-  `share_parser`/`install_parser` in `src/gaia_cli/impl.py` and
-  `install_bundle()` in `src/gaia_cli/share.py`, not against page prose or
-  commit messages alone.
-- Did not touch any version chip or cache-bust string on this page — out
-  of scope per this routine's own config (handled elsewhere weekly).
-
-### Files modified
-
-- `docs/en/share-bundles.html` — Flags table row, Automation callout.
-- `docs/en/DOCS.md` — page map row 11.
-- `docs/en/MEMORY.md` — this entry.
-
-### Planned next (Routine 057)
-
-- No further gaps found on `share-bundles.html` this pass beyond the two
-  fixed above — page is otherwise accurate against live code.
-- `index.html` (last real edit: routine 051) and `evidence-classes.html`
-  (last real edit: routine 052) are next in the least-recently-touched
-  rotation after this page.
-
----
-
 ## 2026-10-07 — Weekly Editor Pass (editor-055wk)
 
 **Branch:** `docs/routines/055` (new — no `docs/routines/*` PR was open; the
