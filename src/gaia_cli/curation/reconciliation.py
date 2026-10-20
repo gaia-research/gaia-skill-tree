@@ -54,14 +54,20 @@ def freezeInventory(candidates: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
     """Freeze validated candidate rows before dispatch; detach all JSON inputs."""
     rows = []
     seen: set[str] = set()
+    named_seen: set[str] = set()
     for item in candidates:
         if not isinstance(item, Mapping):
             raise ValueError("each inventory candidate must be a mapping")
         cid = _nonempty(item.get("candidateId"), "candidateId")
+        if cid != cid.strip():
+            raise ValueError("candidateId must not contain surrounding whitespace")
         if cid in seen:
             raise ValueError(f"duplicate candidateId: {cid}")
         seen.add(cid)
         identity = _valid_identity(item.get("namedIdentity"), f"{cid}.namedIdentity")
+        if identity in named_seen:
+            raise ValueError(f"duplicate namedIdentity: {identity}")
+        named_seen.add(identity)
         revision = item.get("sourceRevision")
         freshness_required = item.get("freshnessRequired", False)
         if not isinstance(freshness_required, bool):
@@ -81,9 +87,24 @@ def freezeInventory(candidates: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
             raise ValueError(f"{cid}.packetInput is required")
         try:
             packet_input = copy.deepcopy(item["packetInput"])
+            if not isinstance(packet_input, dict):
+                raise ValueError("packetInput must be an object")
+            content = packet_input.get("sourceContent")
+            if digest is not None:
+                if not isinstance(content, str) or sha256(content.encode("utf-8")) != digest:
+                    raise ValueError("sourceContent does not match frozen sourceDigest")
+                from gaia_cli.prefill import parseFrontmatter
+                frontmatter = parseFrontmatter(content)
+                normalized = {key: frontmatter.get(key) for key in ("name", "description")}
+                if any(not isinstance(value, str) or not value.strip() for value in normalized.values()):
+                    raise ValueError("frozen source requires name and description frontmatter")
+                if any(key in packet_input and packet_input[key] != value for key, value in normalized.items()):
+                    raise ValueError("declared candidate text differs from frozen source")
+                packet_input["frontmatter"] = frontmatter
+                packet_input["normalized"] = normalized
             input_bytes = canonicalJson(packet_input)
         except (TypeError, ValueError) as exc:
-            raise ValueError(f"{cid}.packetInput must be JSON-compatible") from exc
+            raise ValueError(f"{cid}.packetInput is invalid: {exc}") from exc
         input_digest = sha256(input_bytes)
         task_id = "task-" + sha256(canonicalJson({
             "candidateId": cid, "namedIdentity": identity,
@@ -177,12 +198,20 @@ def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
     frozen_input = row.get("packetInput")
     input_packet = frozen_input.get("packet") if isinstance(frozen_input, Mapping) else None
     expected_snapshot = input_packet.get("genericSnapshot") if isinstance(input_packet, Mapping) else None
+    if not isinstance(frozen_input, Mapping) or not isinstance(frozen_input.get("sourceContent"), str):
+        return ["frozen source bytes are unavailable"]
+    if sha256(frozen_input["sourceContent"].encode("utf-8")) != row["sourceDigest"]:
+        return ["frozen source bytes do not match source digest"]
+    if packet.get("normalized") != frozen_input.get("normalized"):
+        return ["packet candidate text differs from frozen source"]
+    if source.get("frontmatter") != frozen_input.get("frontmatter"):
+        return ["packet frontmatter differs from frozen source"]
     if not isinstance(expected_snapshot, Mapping):
         return ["frozen input lacks a trusted generic snapshot"]
     actual_snapshot = packet.get("genericSnapshot")
     if not isinstance(actual_snapshot, Mapping) or any(
         actual_snapshot.get(key) != expected_snapshot.get(key)
-        for key in ("command", "generics", "contentSha256", "semanticCatalogSha256")
+        for key in ("command", "generics", "contentSha256", "semanticGenerics", "semanticCatalogSha256")
     ):
         return ["packet generic snapshot differs from frozen input"]
     if packet.get("contractVersion") != "discovery-packet-v2":
@@ -217,6 +246,8 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
     unsigned = {k: v for k, v in envelope.items() if k != "inventoryDigest"}
     if envelope.get("inventoryDigest") != sha256(canonicalJson(unsigned)):
         raise ValueError("inventory digest mismatch")
+    if freezeInventory(frozen_rows) != dict(envelope):
+        raise ValueError("frozen inventory task/input/source bindings are invalid")
     rows = {row["candidateId"]: row for row in frozen_rows}
     if len(rows) != len(frozen_rows):
         raise ValueError("duplicate candidate in frozen inventory")
@@ -228,12 +259,14 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             unknown.append({"reason": "receipt is not a mapping"})
             continue
         cid = receipt.get("candidateId")
-        if cid not in rows:
+        if not isinstance(cid, str) or cid not in rows:
             unknown.append({"candidateId": cid, "reason": "receipt references unknown candidate"})
             continue
         grouped.setdefault(cid, []).append(receipt)
     validated: dict[str, tuple[Mapping[str, Any], bytes, str]] = {}
     observed_digests: dict[str, str] = {}
+    assessment_digests: dict[str, str] = {}
+    proposal_digests: dict[str, str] = {}
     failures: dict[str, str] = {}
     for cid, candidates in grouped.items():
         if len(candidates) != 1:
@@ -260,15 +293,34 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             packet_errors = _packet_errors(packet, row)
             if packet_errors:
                 raise ValueError("; ".join(packet_errors))
-            if receipt.get("outcome") not in OUTCOMES:
-                raise ValueError("invalid outcome")
+            expected_outcome = {"MAP": "review-ready", "NEW_GENERIC": "review-ready", "DEFER": "deferred", "NOT_A_SKILL": "rejected", "DUPLICATE": "proven-duplicate"}.get(packet["decision"]["value"])
+            if receipt.get("outcome") != expected_outcome:
+                raise ValueError("receipt outcome does not match actual packet decision")
+            assessment = receipt.get("assessment")
+            if isinstance(receipt.get("assessmentBytes"), bytes):
+                assessment_bytes = receipt["assessmentBytes"]
+                assessment = json.loads(assessment_bytes.decode("utf-8"))
+            elif isinstance(assessment, Mapping):
+                assessment_bytes = canonicalJson(assessment)
+            else:
+                assessment_bytes = _safe_packet_bytes({"packetPath": receipt.get("assessmentPath")}, Path(packetRoot))
+                assessment = json.loads(assessment_bytes.decode("utf-8"))
+            assessment_hash = sha256(assessment_bytes)
+            if receipt.get("assessmentSha256") != assessment_hash:
+                raise ValueError("actual assessment output hash mismatch")
+            from gaia_cli.curation.assessment import validateAssessment
+            assessment_errors = validateAssessment(assessment, packet, str(packetRoot))
+            if assessment_errors:
+                raise ValueError("invalid assessment: " + "; ".join(assessment_errors))
+            assessment_digests[cid] = assessment_hash
+            from gaia_cli.curation.authorization import _proposalPacket
+            proposal_digests[cid] = sha256(canonicalJson(_proposalPacket(packet)))
             if receipt["outcome"] == "proven-duplicate" and not _proof_matches(row, receipt.get("duplicateProof"), targets):
                 raise ValueError("exact duplicate proof must match source and a different surviving named identity")
             validated[cid] = (receipt, data, actual_hash)
         except (ValueError, OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
             failures[cid] = str(exc)
     proposals: dict[str, list[tuple[str, str]]] = {}
-    rejected: dict[str, str] = {}
     for cid, (receipt, _, _) in validated.items():
         proposal = receipt.get("proposedGeneric")
         # Proposal is bound to the actual packet decision below, not just the receipt.
@@ -292,26 +344,24 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
                 digest = sha256(canonicalJson(definition))
                 canonical = (genericDefinitions or {}).get(conflict_key)
                 if canonical is not None and canonicalJson(canonical) != canonicalJson(definition):
-                    rejected[cid] = "generic definition conflicts with supplied canonical definition"
+                    failures[cid] = "generic definition conflicts with supplied canonical definition"
                 proposals.setdefault(conflict_key, []).append((cid, digest))
     conflicts = {gid for gid, values in proposals.items() if len({digest for _, digest in values}) > 1}
     for gid in conflicts:
         for cid, _digest in proposals[gid]:
-            rejected[cid] = f"conflicting full definitions for genericId {gid}"
+            failures[cid] = f"conflicting full definitions for genericId {gid}"
     target_candidates = {row["namedIdentity"]: cid for cid, row in rows.items()}
     for cid, (receipt, _, _) in validated.items():
-        if receipt.get("outcome") == "proven-duplicate":
+        if receipt.get("outcome") == "proven-duplicate" and cid not in failures:
             target_id = target_candidates.get((receipt.get("duplicateProof") or {}).get("targetNamedIdentity"))
             target = validated.get(target_id)
-            if target_id in failures or target_id in rejected or target is None or target[0].get("outcome") in {"proven-duplicate", "rejected"}:
+            if target_id in failures or target is None or target[0].get("outcome") != "review-ready":
                 failures[cid] = "duplicate target is not a surviving accounted candidate"
     decisions = []
     for cid, row in sorted(rows.items()):
         item = validated.get(cid)
         raw = grouped.get(cid, [None])[0] if len(grouped.get(cid, [])) == 1 else None
-        if cid in rejected:
-            outcome, reason = "rejected", rejected[cid]
-        elif cid in failures:
+        if cid in failures:
             outcome, reason = "deferred", failures[cid]
         elif item is None:
             outcome, reason = "deferred", "missing worker receipt"
@@ -328,10 +378,13 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             "inputDigest": row["inputDigest"], "outputDigest": item[2] if item else (observed_digests.get(cid) or (raw.get("outputDigest") if raw else None)),
             "packetPath": raw.get("packetPath") if raw else None,
             "packetDigest": item[2] if item else observed_digests.get(cid),
+            "packetProposalSha256": proposal_digests.get(cid),
+            "assessmentPath": raw.get("assessmentPath") if raw else None,
+            "assessmentSha256": assessment_digests.get(cid),
             "proposedGeneric": raw.get("proposedGeneric") if raw else None,
             "duplicateProof": copy.deepcopy(raw.get("duplicateProof")) if raw else None,
             "outcome": outcome, "reason": reason,
-            "receiptValid": cid in validated and cid not in failures and cid not in rejected,
+            "receiptValid": cid in validated and cid not in failures,
         })
     counts = {outcome: sum(row["outcome"] == outcome for row in decisions) for outcome in sorted(OUTCOMES)}
     return {
