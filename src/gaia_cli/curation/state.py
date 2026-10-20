@@ -114,6 +114,7 @@ class CurationRun:
     input_url: str = ""
     suggested_generic_id: Optional[str] = None
     candidate_id: Optional[str] = None
+    named_identity: Optional[str] = None
     candidate_name: Optional[str] = None
     candidate_description: Optional[str] = None
     inventory: list[dict[str, Any]] = field(default_factory=list)

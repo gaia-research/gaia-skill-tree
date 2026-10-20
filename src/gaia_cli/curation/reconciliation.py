@@ -72,7 +72,9 @@ def freezeInventory(candidates: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
         elif not isinstance(revision, str) or not revision.strip():
             raise ValueError(f"{cid}.sourceRevision must be a non-empty string or null")
         digest = item.get("sourceDigest")
-        if not isinstance(digest, str) or not _SHA256.fullmatch(digest):
+        if digest is None and freshness_required:
+            pass  # Explicitly unresolved source; cannot become review-ready.
+        elif not isinstance(digest, str) or not _SHA256.fullmatch(digest):
             raise ValueError(f"{cid}.sourceDigest must be a lowercase SHA-256 digest")
         source_url = _nonempty(item.get("canonicalUrl"), f"{cid}.canonicalUrl")
         if "packetInput" not in item:
@@ -134,9 +136,11 @@ def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Map
     if target_row is None or target == row["namedIdentity"]:
         return False
     source = proof.get("source") if isinstance(proof.get("source"), Mapping) else proof
-    return ((bool(target_row.get("canonicalUrl")) and source.get("canonicalUrl") == target_row.get("canonicalUrl"))
-            or (bool(target_row.get("citedOrigin")) and source.get("citedOrigin") == target_row.get("citedOrigin"))
-            or (bool(target_row.get("sourceDigest")) and source.get("contentSha256") == target_row.get("sourceDigest")))
+    return any(
+        bool(row.get(frozenKey)) and row.get(frozenKey) == target_row.get(frozenKey)
+        and source.get(proofKey) == row.get(frozenKey)
+        for frozenKey, proofKey in (("canonicalUrl", "canonicalUrl"), ("citedOrigin", "citedOrigin"), ("sourceDigest", "contentSha256"))
+    )
 
 
 def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
@@ -173,7 +177,11 @@ def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
     expected_snapshot = input_packet.get("genericSnapshot") if isinstance(input_packet, Mapping) else None
     if not isinstance(expected_snapshot, Mapping):
         return ["frozen input lacks a trusted generic snapshot"]
-    if packet.get("genericSnapshot") != expected_snapshot:
+    actual_snapshot = packet.get("genericSnapshot")
+    if not isinstance(actual_snapshot, Mapping) or any(
+        actual_snapshot.get(key) != expected_snapshot.get(key)
+        for key in ("command", "generics", "contentSha256", "semanticCatalogSha256")
+    ):
         return ["packet generic snapshot differs from frozen input"]
     if packet.get("contractVersion") != "discovery-packet-v2":
         return ["output is not discovery-packet-v2"]

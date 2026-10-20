@@ -25,6 +25,7 @@ class CurateCommand(Command):
         parser.add_argument("--dry-run", action="store_true", help="Persist run state without packet writes")
         parser.add_argument("--inventory", help="Frozen JSON candidate array/envelope (maximum five candidates)")
         parser.add_argument("--candidate-id", help="Explicit candidate identity for a single source URL")
+        parser.add_argument("--named-identity", help="Exact lowercase contributor/skill-name identity (independent of candidate locator)")
         parser.add_argument("--name", help="Candidate display name")
         parser.add_argument("--description", help="Candidate description")
         parser.add_argument("--batch-id", help="Existing intake batch reference; never submits a new batch")
@@ -113,7 +114,7 @@ class CurateCommand(Command):
                 print(f"gaia curate: invalid frozen inventory: {exc}")
                 return 2
             run = CurationRun(input_url=args.url or "", suggested_generic_id=args.generic,
-                              candidate_id=args.candidate_id, candidate_name=args.name,
+                              candidate_id=args.candidate_id, named_identity=args.named_identity, candidate_name=args.name,
                               candidate_description=args.description, inventory=inventory,
                               discover=args.discover, dry_run=args.dry_run)
             run.external_refs.update(batch_id=args.batch_id, intake_issue_number=args.intake_issue_number,

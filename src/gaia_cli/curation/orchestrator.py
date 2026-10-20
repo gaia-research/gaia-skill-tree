@@ -1,10 +1,13 @@
-"""Sequential discovery-to-packet curation workflow; always stops at L4."""
+"""Sequential, checkpointed discovery with shared candidate accounting and L4 stop."""
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
+import re
 from pathlib import Path
-from typing import Any, Callable
+from typing import Callable
+from urllib.parse import urlparse
 
 from gaia_cli.curation.state import CurationRun, STATE_NAMES
 from gaia_cli.curationCheckpoint import compactCheckpoint
@@ -17,230 +20,254 @@ MAX_PROCESSING_ATTEMPTS = 10
 
 
 class CurationOrchestrator:
-    """Prepare deterministic, source-frozen packets and stop for human L4."""
+    """Use existing prefill/assessment primitives; never submit or promote.
 
-    def __init__(self, run: CurationRun, dry_run: bool = False, *, registry_path: str = ".",
-                 save_path: str | Path | None = None,
-                 processor: Callable[[dict[str, Any], str], dict[str, Any]] | None = None):
+    ``processor`` is an internal unit-test/integration hook, not a CLI bypass.
+    Semantic mapping remains model-neutral. Default prefill produces advisory
+    deferred packets for human review; it never invents an approved mapping.
+    """
+
+    def __init__(self, run: CurationRun, dry_run=False, *, registry_path=".",
+                 save_path=None, processor: Callable | None = None):
         self.run, self.dry_run, self.registry_path = run, dry_run, registry_path
         self.save_path = Path(save_path) if save_path else run.run_dir / "state.json"
         self.processor = processor
 
-    def _save(self): self.run.save(self.save_path)
+    def _save(self):
+        self.run.save(self.save_path)
+
+    def _single_candidate(self):
+        cid = self.run.candidate_id or _candidate_id_from_url(self.run.input_url)
+        return {"candidateId": cid, "namedIdentity": self.run.named_identity,
+                "sourceUrl": self.run.input_url, "name": self.run.candidate_name}
 
     def _prepare_inventory(self):
-        """Fetch bounded sources first, then freeze immutable input before processing."""
-        # The explicit processor hook is retained for narrow orchestration unit tests;
-        # production always follows the frozen source + real prefill path below.
         if self.processor and self.run.inventory:
             return self.run.inventory
-        from gaia_cli.curation.reconciliation import freezeInventory
-        from gaia_cli.prefill import fetchCandidateSource, parseFrontmatter
-        candidates = self.run.inventory or [self._single_candidate()]
-        if not 1 <= len(candidates) <= MAX_CANDIDATES:
-            raise ValueError("curate supports 1–5 frozen candidates")
-        if candidates and candidates[0].get("contractVersion") == "curation-inventory-v1":
-            return candidates
-        frozen_inputs, source_info = [], {}
-        for row in candidates:
-            url = row.get("sourceUrl") or row.get("skillFileUrl") or row.get("canonicalUrl")
-            cid = row.get("candidateId")
-            if not isinstance(url, str) or not cid:
-                raise ValueError("each candidate requires candidateId and exact GitHub blob sourceUrl")
-            _, raw_url, content, digest = fetchCandidateSource(url)
-            if content is None:
-                raise ValueError(f"Unable to fetch exact GitHub SKILL.md source: {url}")
-            expected = row.get("sourceDigest") or row.get("sourceSha256")
-            if expected and expected != digest:
-                raise ValueError(f"Frozen source digest changed for {cid}")
-            meta = parseFrontmatter(content)
-            name = meta.get("name") or row.get("name") or cid.rsplit("/", 1)[-1]
-            desc = meta.get("description") or row.get("description")
-            if not isinstance(desc, str) or len(desc.strip()) < 10:
-                raise ValueError(f"source SKILL.md for {cid} must provide a description of at least 10 characters")
-            identity = row.get("namedIdentity") or meta.get("id") or f"named:{cid}"
-            revision = row.get("sourceRevision") or _revision_from_url(url)
-            packet_input = {"candidateId": cid, "namedIdentity": identity, "name": name,
-                            "description": desc, "sourceUrl": url, "sourceSha256": digest,
-                            "sourceContent": content}
-            frozen_inputs.append({"candidateId": cid, "namedIdentity": identity,
-                                  "sourceRevision": revision, "sourceDigest": digest,
-                                  "canonicalUrl": url, "citedOrigin": row.get("citedOrigin"),
-                                  "packetInput": packet_input})
-            source_info[cid] = {"url": url, "rawUrl": raw_url, "content": content, "digest": digest}
-        envelope = freezeInventory(frozen_inputs)
-        self.run.inventory = envelope["candidates"]
-        self.run.checkpoint["inventoryEnvelope"] = envelope
-        self.run.checkpoint["sourceInfo"] = source_info
-        self.run.checkpoint["inventoryIndex"] = int(self.run.checkpoint.get("inventoryIndex", 0))
+        from gaia_cli.curation.reconciliation import freezeInventory, reconcileInventory
+        from gaia_cli.prefill import buildGenericSnapshot, fetchCandidateSource, parseFrontmatter
+        checkpoint = self.run.checkpoint
+        if checkpoint.get("inventoryEnvelope"):
+            envelope = checkpoint["inventoryEnvelope"]
+            reconcileInventory(envelope, [])  # Verify the persisted envelope digest.
+            if self.run.inventory != envelope["candidates"]:
+                raise ValueError("durable inventory differs from its frozen envelope")
+            return self.run.inventory
+        declared = checkpoint.setdefault("declaredInventory", copy.deepcopy(self.run.inventory or [self._single_candidate()]))
+        if not 1 <= len(declared) <= MAX_CANDIDATES:
+            raise ValueError("curate supports 1–5 declared candidates")
+        snapshot = checkpoint.get("genericSnapshot") or buildGenericSnapshot(self.registry_path)
+        if not snapshot:
+            raise ValueError("canonical generic snapshot unavailable; prepare the registry before discovery")
+        checkpoint["genericSnapshot"] = snapshot
+        prepared = checkpoint.setdefault("preparedSources", {})
+        frozen = []
+        for original in declared:
+            cid = original.get("candidateId")
+            url = original.get("sourceUrl") or original.get("skillFileUrl") or original.get("canonicalUrl")
+            if not isinstance(cid, str) or not isinstance(url, str):
+                raise ValueError("each candidate requires candidateId and exact sourceUrl")
+            _candidate_id_from_url(url)  # Validate exact source URL before fetching.
+            if cid not in prepared:
+                _, _, content, digest = fetchCandidateSource(url)
+                if content is None or digest is None:
+                    checkpoint["lastError"] = {"candidateId": cid, "stage": "fetch-source", "message": "source fetch unavailable"}
+                    # The declared inventory is durable even when a fetch fails.
+                    self._save()
+                    raise ValueError(f"source fetch unavailable for {cid}; resume retries this source only")
+                expected = original.get("sourceDigest") or original.get("sourceSha256")
+                if expected and expected != digest:
+                    raise ValueError(f"frozen source changed for {cid}")
+                meta = parseFrontmatter(content)
+                identity = original.get("namedIdentity") or meta.get("id")
+                if not identity and isinstance(meta.get("name"), str) and re.fullmatch(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*", meta["name"]):
+                    identity = f"{urlparse(url).path.split('/')[1]}/{meta['name']}"
+                if not identity:
+                    raise ValueError(f"exact named identity required for {cid}; provide --named-identity or inventory namedIdentity")
+                name, description = meta.get("name"), meta.get("description")
+                if not isinstance(name, str) or not name.strip() or not isinstance(description, str) or not description.strip():
+                    raise ValueError(f"source SKILL.md for {cid} requires name and description frontmatter")
+                revision = _revision_from_url(url)
+                claimed = original.get("sourceRevision")
+                if claimed and claimed != revision:
+                    raise ValueError(f"source revision cannot be independently bound for {cid}")
+                prepared[cid] = {"candidateId": cid, "namedIdentity": identity, "sourceRevision": revision,
+                    "freshnessRequired": revision is None, "sourceDigest": digest, "canonicalUrl": url,
+                    "citedOrigin": original.get("citedOrigin"), "packetInput": {
+                        "candidateId": cid, "namedIdentity": identity, "name": name, "description": description,
+                        "sourceUrl": url, "sourceContent": content, "packet": {"genericSnapshot": snapshot}}}
+                checkpoint.pop("lastError", None)
+                self._save()
+            frozen.append(prepared[cid])
+        envelope = freezeInventory(frozen)
+        checkpoint["inventoryEnvelope"] = envelope
+        self.run.inventory = copy.deepcopy(envelope["candidates"])
         self._save()
         return self.run.inventory
 
     def run_to_next_gate(self):
+        if self.dry_run or self.run.dry_run:
+            return self.run
         if compactCheckpoint(self.run.checkpoint)["activeBlockers"] or self.run.current_state in GATE_STATES | TERMINAL_STATES:
             return self.run
         if self.run.current_state == "INITIALIZED":
             self.run.current_state = "RESOLVING_URL"
-            self._record("resolved input", {"inputUrl": self.run.input_url})
+            self._save()
         candidates = self._prepare_inventory()
         while self.run.current_state != "AWAITING_L4_REVIEW":
             index = int(self.run.checkpoint.get("inventoryIndex", 0))
-            if index >= len(candidates):
-                self.run.current_state = "AWAITING_L4_REVIEW"
-                self.run.checkpoint["handoff"] = self._handoff()
-                self.run.checkpoint["reconciliation"] = self._reconcile()
-                self._record("discovery complete; awaiting human L4 review", self.run.checkpoint["handoff"])
-                break
-            candidate = candidates[index]
             attempts = self.run.checkpoint.setdefault("attempts", {})
-            key = str(index)
-            used = int(attempts.get(key, 0))
-            total = sum(int(value) for value in attempts.values())
-            if used >= MAX_ATTEMPTS or total >= MAX_PROCESSING_ATTEMPTS:
-                raise RuntimeError(f"retry budget exhausted for candidate {candidate['candidateId']} (attempts {used}/{MAX_ATTEMPTS}; total {total}/{MAX_PROCESSING_ATTEMPTS})")
-            self.run.current_state = "FETCHING_SOURCE"
-            self._save()
-            attempts[key] = used + 1
+            if index >= len(candidates):
+                return self._pause_l4()
+            candidate = candidates[index]
+            used = int(attempts.get(str(index), 0))
+            if used >= MAX_ATTEMPTS or sum(attempts.values()) >= MAX_PROCESSING_ATTEMPTS:
+                self.run.checkpoint["budgetExhausted"] = True
+                return self._pause_l4()
+            self.run.current_state = "PREFILLING_MAPPING"
+            attempts[str(index)] = used + 1
+            self._save()  # Charge the attempt before executing external work.
             try:
                 result = self._process(candidate)
                 result["attempt"] = used + 1
+                if result.get("receipt"):
+                    result["receipt"]["attempt"] = used + 1
             except Exception as exc:
-                self.run.checkpoint["lastError"] = {"candidateId": candidate.get("candidateId"), "stage": "packet-preparation", "attempt": used + 1, "message": str(exc)}
+                self.run.checkpoint["lastError"] = {"candidateId": candidate["candidateId"],
+                    "stage": "packet-preparation", "attempt": used + 1, "message": str(exc)}
                 self._save()
                 raise
             self.run.checkpoint.pop("lastError", None)
             self.run.checkpoint["inventoryIndex"] = index + 1
             self.run.checkpoint.setdefault("results", []).append(result)
-            self._record("candidate packet created", result)
+            self.run.ledger.append({"state": "BUILDING_DISCOVERY_PACKET", "candidateId": candidate["candidateId"], "packetSha256": result.get("packetSha256")})
             self.run.current_state = "BUILDING_DISCOVERY_PACKET"
             self._save()
         return self.run
 
     def retry_candidate(self):
-        error = self.run.checkpoint.get("lastError")
-        if not error: raise ValueError("There is no failed candidate stage to retry")
+        if not self.run.checkpoint.get("lastError"):
+            raise ValueError("There is no failed candidate stage to retry")
         index = int(self.run.checkpoint.get("inventoryIndex", 0))
-        if int(self.run.checkpoint.get("attempts", {}).get(str(index), 0)) >= MAX_ATTEMPTS:
+        if self.run.checkpoint.get("attempts", {}).get(str(index), 0) >= MAX_ATTEMPTS:
             raise RuntimeError("candidate retry budget exhausted")
-        self.run.checkpoint.pop("lastError", None)
         self.run.current_state = "FETCHING_SOURCE"
         self._save()
         return self.run_to_next_gate()
 
-    def _single_candidate(self):
-        source_url = self.run.input_url
-        candidate_id = self.run.candidate_id or _candidate_id_from_url(source_url)
-        return {"candidateId": candidate_id, "namedIdentity": f"named:{candidate_id}",
-                "sourceUrl": source_url, "name": self.run.candidate_name}
-
     def _process(self, candidate):
         if self.processor:
             return self.processor(candidate, self.registry_path)
-        from gaia_cli.prefill import prefillCommand, safeCandidateSlug
-        packet_input = candidate["packetInput"]
-        source_url = packet_input["sourceUrl"]
-        content = packet_input["sourceContent"]
-        def frozen_fetcher(_raw_url): return content.encode("utf-8")
+        from gaia_cli.prefill import prefillCommand, safeCandidateSlug, writePacket
+        from gaia_cli.curation.assessment import buildAssessment
+        from gaia_cli.prefill import writeAssessmentReceipt
+        frozen = candidate["packetInput"]
+        # Use only the already fetched bytes, and only for that exact source URL.
+        def frozen_fetcher(raw_url):
+            return frozen["sourceContent"].encode("utf-8")
         args = type("PrefillArgs", (), {})()
-        args.candidate_id = candidate["candidateId"]
-        args.name, args.description, args.url = packet_input["name"], packet_input["description"], source_url
-        args.source_lane, args.registry = "source-repository", self.registry_path
-        args.allow_stale, args.json, args.stdout = False, False, False
+        args.candidate_id, args.name, args.description, args.url = candidate["candidateId"], frozen["name"], frozen["description"], candidate["canonicalUrl"]
+        args.source_lane, args.registry, args.fetcher = "source-repository", self.registry_path, frozen_fetcher
+        args.allow_stale = args.json = args.stdout = False
         args.vector = args.suite_role = args.suite_id = args.component_ids = None
-        args.fetcher = frozen_fetcher
-        if prefillCommand(args) != 0: raise RuntimeError(f"Gaia prefill failed for {args.candidate_id}")
+        if prefillCommand(args) != 0:
+            raise RuntimeError(f"Gaia prefill failed for {args.candidate_id}")
         slug = safeCandidateSlug(args.candidate_id)
-        packet_path = Path(self.registry_path) / "registry-for-review" / "discovery-packets" / f"{slug}.json"
-        assessment_path = Path(self.registry_path) / "generated-output" / "curation" / f"{slug}.assessment.json"
-        packet_bytes = packet_path.read_bytes()
-        packet = json.loads(packet_bytes)
-        if not assessment_path.is_file(): raise RuntimeError(f"Assessment receipt was not created for {args.candidate_id}")
-        packet_hash = hashlib.sha256(packet_bytes).hexdigest()
-        assessment_hash = hashlib.sha256(assessment_path.read_bytes()).hexdigest()
-        return {"candidateId": args.candidate_id, "namedIdentity": candidate["namedIdentity"],
-                "sourceUrl": source_url, "sourceSha256": candidate["sourceDigest"],
-                "sourceRevision": candidate["sourceRevision"], "packetPath": str(packet_path),
-                "packetSha256": packet_hash, "assessmentPath": str(assessment_path),
-                "assessmentSha256": assessment_hash, "genericProposal": packet.get("proposedDisposition"),
-                "receipt": {"candidateId": candidate["candidateId"], "taskId": candidate["taskId"],
-                            "attempt": 1, "inputDigest": candidate["inputDigest"],
-                            "outputDigest": packet_hash, "packetHash": packet_hash,
-                            "packetPath": str(packet_path.relative_to(Path(self.registry_path))),
-                            "proposedGeneric": packet.get("proposedDisposition"), "outcome": "review-ready"}}
+        packet_path = Path(self.registry_path) / "registry-for-review/discovery-packets" / f"{slug}.json"
+        packet = json.loads(packet_path.read_bytes())
+        packet["namedIdentity"] = candidate["namedIdentity"]
+        packet_path = Path(writePacket(packet, self.registry_path))
+        assessment = buildAssessment(packet, self.registry_path)
+        assessment_path = Path(writeAssessmentReceipt(packet, assessment, self.registry_path))
+        decision = packet["decision"]
+        proposal = {"decision": decision["value"]}
+        if decision["value"] == "MAP":
+            proposal["genericId"] = decision["genericId"]
+        elif decision["value"] == "NEW_GENERIC":
+            proposal["proposal"] = decision["proposal"]
+        outcome = {"DEFER": "deferred", "NOT_A_SKILL": "rejected", "DUPLICATE": "proven-duplicate"}.get(decision["value"], "review-ready")
+        packet_hash = hashlib.sha256(packet_path.read_bytes()).hexdigest()
+        receipt = {"candidateId": candidate["candidateId"], "taskId": candidate["taskId"],
+            "attempt": 1, "inputDigest": candidate["inputDigest"], "outputDigest": packet_hash,
+            "packetHash": packet_hash, "packetPath": str(packet_path.relative_to(Path(self.registry_path).resolve())),
+            "proposedGeneric": proposal, "outcome": outcome, "reason": decision.get("reasonCode")}
+        if outcome == "proven-duplicate":
+            dedupe = packet["exactDedupe"]
+            receipt["duplicateProof"] = {"targetNamedIdentity": dedupe.get("namedIdentity"), "source": {
+                "canonicalUrl": dedupe.get("canonicalUrl"), "contentSha256": dedupe.get("contentSha256")}}
+        return {"candidateId": candidate["candidateId"], "namedIdentity": candidate["namedIdentity"],
+            "sourceUrl": candidate["canonicalUrl"], "sourceSha256": candidate["sourceDigest"],
+            "sourceRevision": candidate["sourceRevision"], "packetPath": str(packet_path), "packetSha256": packet_hash,
+            "assessmentPath": str(assessment_path), "assessmentSha256": hashlib.sha256(assessment_path.read_bytes()).hexdigest(),
+            "genericProposal": proposal, "receipt": receipt}
 
     def _reconcile(self):
         from gaia_cli.curation.reconciliation import reconcileInventory
         envelope = self.run.checkpoint.get("inventoryEnvelope")
         if not envelope:
             return {"humanApproved": False, "accounted": False, "decisions": []}
-        return reconcileInventory(envelope,
-                                  [row["receipt"] for row in self.run.checkpoint.get("results", []) if row.get("receipt")],
-                                  packetRoot=self.registry_path)
+        report = reconcileInventory(envelope, [row["receipt"] for row in self.run.checkpoint.get("results", []) if row.get("receipt")], packetRoot=self.registry_path)
+        if self.run.checkpoint.get("budgetExhausted"):
+            for row in report["decisions"]:
+                if row["outcome"] == "deferred" and row["reason"] == "missing worker receipt":
+                    row["reason"] = "processing budget exhausted; explicit deferred candidate"
+        return report
 
-    def _handoff(self):
-        return {"status": "AWAITING_L4_REVIEW", "batchId": self.run.external_refs.get("batch_id"),
-                "intakeIssueNumber": self.run.external_refs.get("intake_issue_number"),
-                "intakeIssueUrl": self.run.external_refs.get("intake_issue_url"),
-                "downstream": "existing intake only" if self.run.external_refs.get("intake_issue_number") else "human review; no submission"}
-
-    def _record(self, message, details):
-        self.run.ledger.append({"state": self.run.current_state, "message": message, "details": details})
+    def _pause_l4(self):
+        self.run.current_state = "AWAITING_L4_REVIEW"
+        self.run.checkpoint["reconciliation"] = self._reconcile()
+        refs = self.run.external_refs
+        self.run.checkpoint["handoff"] = {"status": "AWAITING_L4_REVIEW", "batchId": refs.get("batch_id"),
+            "intakeIssueNumber": refs.get("intake_issue_number"), "intakeIssueUrl": refs.get("intake_issue_url"),
+            "downstream": "existing intake only" if refs.get("intake_issue_number") else "human review; no submission"}
         self._save()
+        return self.run
 
     @classmethod
     def print_status(cls, run):
         print(f"Run: {run.run_id}\nState: {run.current_state}\nURL: {run.input_url or '(none)'}\nDry run: {run.dry_run}")
         checkpoint = compactCheckpoint(run.checkpoint)
         print("Active blockers:")
-        for blocker in checkpoint["activeBlockers"]: print(f"  {blocker.get('checkId', '(unnamed)')}: {blocker['currentStatus']} — {blocker.get('summary', '')}")
-        if not checkpoint["activeBlockers"]: print("  (none)")
+        for blocker in checkpoint["activeBlockers"]:
+            print(f"  {blocker.get('checkId', '(unnamed)')}: {blocker['currentStatus']} — {blocker.get('summary', '')}")
+        if not checkpoint["activeBlockers"]:
+            print("  (none)")
         print("Resolved blockers (with evidence):")
-        for blocker in checkpoint["resolvedBlockers"]: print(f"  {blocker['checkId']}: {blocker['resolutionEvidence']}")
+        for blocker in checkpoint["resolvedBlockers"]:
+            print(f"  {blocker['checkId']}: {blocker['resolutionEvidence']}")
         print("Source revisions:")
-        for source, revision in sorted(checkpoint["sourceRevisions"].items()): print(f"  {source}: {revision}")
+        for source, revision in sorted(checkpoint["sourceRevisions"].items()):
+            print(f"  {source}: {revision}")
+        for row in run.checkpoint.get("reconciliation", {}).get("decisions", []):
+            print(f"  {row['candidateId']} [{row['namedIdentity']}]: {row['outcome']} — {row.get('reason', '')}")
 
-    def transition_initialized(self): return self.run_to_next_gate()
-    def transition_resolving_url(self): return self.run_to_next_gate()
-    def transition_finding_skill_files(self): return self.run_to_next_gate()
-    def transition_fetching_source(self): return self.run_to_next_gate()
-    def transition_snapshotting_generic(self): return self.run_to_next_gate()
-    def transition_prefilling_mapping(self): return self.run_to_next_gate()
-    def transition_building_discovery_packet(self): return self.run_to_next_gate()
-    def transition_awaiting_l4_review(self): return self.run
-    def _blocked(self, state): raise RuntimeError(f"{state} is outside the discovery-only curation boundary")
-    def transition_applying_l4_resolution(self): return self._blocked("APPLYING_L4_RESOLUTION")
-    def transition_discovering_evidence(self): return self._blocked("DISCOVERING_EVIDENCE")
-    def transition_compiling_evidence_lake(self): return self._blocked("COMPILING_EVIDENCE_LAKE")
-    def transition_verifying_stars(self): return self._blocked("VERIFYING_STARS")
-    def transition_verifying_benchmarks(self): return self._blocked("VERIFYING_BENCHMARKS")
-    def transition_auditing_evidence(self): return self._blocked("AUDITING_EVIDENCE")
-    def transition_validating_links(self): return self._blocked("VALIDATING_LINKS")
-    def transition_building_ingest_plan(self): return self._blocked("BUILDING_INGEST_PLAN")
-    def transition_awaiting_evidence_approval(self): return self._blocked("AWAITING_EVIDENCE_APPROVAL")
-    def transition_opening_review_branch(self): return self._blocked("OPENING_REVIEW_BRANCH")
-    def transition_ingesting_evidence(self): return self._blocked("INGESTING_EVIDENCE")
-    def transition_appraising_trust(self): return self._blocked("APPRAISING_TRUST")
-    def transition_proposing_calibration(self): return self._blocked("PROPOSING_CALIBRATION")
-    def transition_awaiting_calibration_approval(self): return self._blocked("AWAITING_CALIBRATION_APPROVAL")
-    def transition_applying_calibration(self): return self._blocked("APPLYING_CALIBRATION")
-    def transition_validating_registry(self): return self._blocked("VALIDATING_REGISTRY")
-    def transition_done(self): return self.run
-
-
-def _revision_from_url(url):
-    from urllib.parse import urlparse
-    parts = [part for part in urlparse(url).path.split("/") if part]
-    if len(parts) < 5 or parts[2] != "blob": raise ValueError("source must be an exact GitHub blob URL; repository-wide discovery is not yet supported")
-    return parts[3]
+    def _blocked(self, state):
+        raise RuntimeError(f"{state} is outside the discovery-only curation boundary")
 
 
 def _candidate_id_from_url(url):
-    from urllib.parse import urlparse
-    path = [part for part in urlparse(url).path.split("/") if part]
-    if len(path) < 5 or path[2] != "blob": raise ValueError("source URL must identify an exact GitHub blob file; repo-wide discovery is unsupported; provide --inventory of exact SKILL.md URLs")
-    if Path(path[-1]).name.lower() != "skill.md": raise ValueError("source URL must point to SKILL.md")
-    return f"{path[0]}/{path[1]}/{Path(path[-2]).name if len(path) > 5 else Path(path[-1]).stem}"
+    parsed = urlparse(url)
+    path = parsed.path.strip("/").split("/")
+    if parsed.scheme != "https" or parsed.netloc not in {"github.com", "www.github.com"} or len(path) < 5 or path[2] != "blob" or path[-1] != "SKILL.md" or any(part in {"", ".", ".."} for part in path):
+        raise ValueError("source must be an exact GitHub SKILL.md blob URL; repository-wide discovery requires a declared inventory")
+    return "/".join(path[:2] + path[4:])
 
 
-_missing = [state for state in STATE_NAMES if not hasattr(CurationOrchestrator, f"transition_{state.lower()}")]
-if _missing: raise RuntimeError(f"Missing curation transition methods: {_missing}")
+def _revision_from_url(url):
+    _candidate_id_from_url(url)
+    revision = urlparse(url).path.strip("/").split("/")[3]
+    return revision if re.fullmatch(r"[0-9a-f]{40}", revision) else None
+
+
+# Preserve the old transition API without implementing downstream governance.
+def _discovery_transition(self):
+    return self.run_to_next_gate()
+
+
+for _state in STATE_NAMES:
+    if _state in {"INITIALIZED", "RESOLVING_URL", "FINDING_SKILL_FILES", "FETCHING_SOURCE", "SNAPSHOTTING_GENERIC", "PREFILLING_MAPPING", "BUILDING_DISCOVERY_PACKET"}:
+        setattr(CurationOrchestrator, f"transition_{_state.lower()}", _discovery_transition)
+    elif _state in {"AWAITING_L4_REVIEW", "DONE"}:
+        setattr(CurationOrchestrator, f"transition_{_state.lower()}", lambda self: self.run)
+    else:
+        setattr(CurationOrchestrator, f"transition_{_state.lower()}", lambda self, state=_state: self._blocked(state))

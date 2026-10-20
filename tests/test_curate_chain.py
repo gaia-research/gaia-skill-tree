@@ -11,7 +11,7 @@ from gaia_cli.curation.state import CurationRun
 
 
 def inventory(count: int):
-    return [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"Owner/Skill {i}",
+    return [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"owner/skill-{i}",
              "sourceUrl": f"https://github.com/owner/repo/blob/main/skills/{i}/SKILL.md"}
             for i in range(count)]
 
@@ -104,7 +104,7 @@ def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, m
     (reg / "graph/embeddings.json").write_text("{}")
     (reg / "registry/nodes").mkdir(parents=True)
     (reg / "registry/nodes/generic.json").write_text(json.dumps({"id": "generic-skill", "name": "Generic Skill"}))
-    candidates = [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"Owner/Skill {i}",
+    candidates = [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"owner/skill-{i}",
                   "sourceUrl": f"https://github.com/owner/repo/blob/main/skills/{i}/SKILL.md"}
                  for i in range(count)]
     run = CurationRun(run_id=f"real-{count}", inventory=candidates)
@@ -115,6 +115,9 @@ def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, m
     assert run.checkpoint["reconciliation"]["accounted"] is True
     assert run.checkpoint["reconciliation"]["humanApproved"] is False
     assert all(r["packetSha256"] and r["assessmentSha256"] for r in run.checkpoint["results"])
+    report = run.checkpoint["reconciliation"]
+    assert report["counts"]["deferred"] == count  # Honest prefill, awaiting semantic/human review.
+    assert all(row["reason"] == "PREFILL_AWAITING_WORKER" for row in report["decisions"])
 
 
 def test_candidate_retry_limit_is_bounded(tmp_path):
