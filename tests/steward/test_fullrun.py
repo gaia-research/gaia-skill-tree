@@ -197,11 +197,54 @@ def writeBuildArtifacts(repo: Path, name: str = "c1", *, proofExit: int = 0) -> 
     return diff, proof
 
 
-BUILD = {"agentId": "builder-1", "model": "claude-haiku-5-5", "effort": "high",
+BUILD = {"agentId": "builder-1", "model": "haiku", "effort": "high",
          "tokensIn": 1200, "tokensOut": 300, "costUsd": 0.01, "noChange": False,
          "summary": "added scripts/fix.py"}
-VERIFY = {"agentId": "verifier-1", "model": "claude-sonnet-5-5", "effort": "high",
+VERIFY = {"agentId": "verifier-1", "model": "sonnet", "effort": "high",
           "verdict": "accept", "rationale": "diff resolves the finding; proof is genuine"}
+
+
+def drive(runner: FullRunner, view: Any, repo: Path, *, builderId: str = "builder-1",
+          verifierId: str = "verifier-1", integrate: str = "integrate", maxRounds: int = 12) -> Any:
+    """A cooperative driver: perform every pending action, record it, resume until the run settles."""
+
+    rounds = 0
+    while view.actions and rounds < maxRounds:
+        rounds += 1
+        for action in list(view.actions):
+            kind = action["type"]
+            if kind == "agent.build":
+                diff, proof = writeBuildArtifacts(repo, action["stepId"].replace(":", "_"))
+                outcome = {**BUILD, "agentId": builderId, "diffPath": str(diff), "proofPath": str(proof)}
+            elif kind == "agent.verify":
+                outcome = {**VERIFY, "agentId": verifierId}
+            elif kind == "forge.open_pr":
+                outcome = {"pullRequest": {"number": 7, "url": "https://example.invalid/pr/7"}}
+            elif kind == "lead.integrate":
+                outcome = {"decision": integrate, "by": "lead", "mergedSha": "a" * 40}
+            else:
+                raise AssertionError(kind)
+            runner.record(view.runId, action["stepId"], outcome)
+        view = runner.resume(view.runId)
+    return view
+
+
+def editLedger(store: Any, change: Any) -> None:
+    """Edit the ledger document directly, the way a crashed or concurrent writer could."""
+
+    from gaia_cli.steward.ledger import update
+
+    update(store, change)
+
+
+def useMaxInFlight(repo: Path, value: int) -> None:
+    """Raise the lane's maxInFlight in the fixture's own policy file (policy allows 1-4)."""
+
+    path = repo / POLICY_RELATIVE_PATH
+    text = path.read_text(encoding="utf-8")
+    assert "maxInFlight: 1" in text
+    path.write_text(text.replace("maxInFlight: 1", f"maxInFlight: {value}"), encoding="utf-8")
+    commitAll(repo, f"maxInFlight {value}")
 
 
 # --- mode to phase mapping (contract section 6) --------------------------------
@@ -254,7 +297,7 @@ def test_effort_missing_is_refused() -> None:
         validateAgent(outcome, BUILDERMODELS, "builder")
 
 
-@pytest.mark.parametrize("model", ["gpt-5", "claude-opus-5", "", None])
+@pytest.mark.parametrize("model", ["gpt-5", "opus", "", None])
 def test_model_must_be_in_the_allowed_set(model: Any) -> None:
     with pytest.raises(RecordRefused, match="not permitted"):
         validateAgent({**BUILD, "model": model}, BUILDERMODELS, "builder")
@@ -306,9 +349,11 @@ def test_class_a_never_targets_the_default_branch(tmp_path: Path) -> None:
     for target in ("main", "master"):
         view = makeRunner(repo, store, [AgentSkillMirrorSensor()], integration_branch=target).start("full")
         assert view.actions == [], view.to_dict()
-    doc = ledgerDoc(store)
-    (item,) = doc["work"].values()
-    assert item["state"] == "blocked" and "protected" in item["blockedReason"] or "default" in item["blockedReason"]
+        (item,) = ledgerDoc(store)["work"].values()
+        reason = item["blockedReason"]
+        assert item["state"] == "blocked", target
+        assert reason.startswith("landing target refused:"), reason
+        assert "protected branch" in reason or "default branch" in reason, reason
     assert not [b for b in git(bare, "for-each-ref", "--format=%(refname:short)", "refs/heads").split()
                 if b.startswith("steward/a/")]
 
@@ -474,22 +519,27 @@ def test_status_reports_lease_work_and_last_scheduled_run(tmp_path: Path) -> Non
     assert status.to_dict()["lane"]["counts"]["dispatched"] == 1
 
 
-def test_recording_after_the_run_was_abandoned_still_reaches_the_adopted_work(tmp_path: Path) -> None:
+def test_an_abandoned_runs_pending_actions_are_superseded_at_adoption(tmp_path: Path) -> None:
     clock = Clock()
     repo, _bare = makeFixture(tmp_path)
     store = fileStore(tmp_path)
     sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
     first = makeRunner(repo, store, [sensor], clock=clock).start("full")
-    build = first.actions[0]
+    old = first.actions[0]
     clock.advance(hours=2)
     second = makeRunner(repo, store, [sensor], clock=clock).start("full")
-    assert ledgerDoc(store)["runs"][first.runId]["status"] == "abandoned"
 
+    doc = ledgerDoc(store)
+    assert doc["runs"][first.runId]["status"] == "abandoned"
+    assert [a["status"] for a in doc["runs"][first.runId]["actions"]] == ["superseded"]
+    # The old step can no longer be recorded against: the adopting run's copy is the live one.
     runner = makeRunner(repo, store, [sensor], clock=clock)
-    runner.record(first.runId, build["stepId"], {**BUILD, "noChange": True, "summary": "late but valid"})
+    with pytest.raises(RecordRefused, match="superseded"):
+        runner.record(first.runId, old["stepId"], {**BUILD, "noChange": True, "summary": "late but valid"})
+    (new,) = second.actions
+    assert new["type"] == "agent.build" and new["params"]["dispatchId"] == old["params"]["dispatchId"]
+    assert new["params"]["attempt"] == old["params"]["attempt"] == 1
 
-    item = ledgerDoc(store)["work"][build["params"]["debtId"]]
-    assert item["build"]["noChange"] is True and item["assignments"][0]["agentId"] == "builder-1"
-    # the adopting run (still holding the lease) carries on from the recorded build
+    runner.record(second.runId, new["stepId"], {**BUILD, "noChange": True, "summary": "re-recorded on the live step"})
     resumed = runner.resume(second.runId)
     assert [a["type"] for a in resumed.actions] == ["agent.verify"]

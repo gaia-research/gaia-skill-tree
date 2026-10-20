@@ -170,7 +170,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(view) == ["agent.build"]
     build = view.actions[0]
     params = build["params"]
-    assert params["allowedModels"] == ["claude-haiku-5-5", "claude-sonnet-5-5"]
+    assert params["allowedModels"] == ["haiku", "sonnet"]
     assert params["effortRequired"] is True and params["base"] == INTEGRATION
     assert params["branch"].startswith("steward/b/repository-hygiene-")
     assert set(params["outputs"]) == {"diffPath", "proofPath"}
@@ -195,7 +195,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     with pytest.raises(RecordRefused, match="effort"):
         runner.record(view.runId, build["stepId"], {**BUILD, "effort": "default", "diffPath": str(diff), "proofPath": str(proof)})
     with pytest.raises(RecordRefused, match="not permitted"):
-        runner.record(view.runId, build["stepId"], {**BUILD, "model": "claude-opus-5", "diffPath": str(diff), "proofPath": str(proof)})
+        runner.record(view.runId, build["stepId"], {**BUILD, "model": "opus", "diffPath": str(diff), "proofPath": str(proof)})
     built = {**BUILD, "diffPath": str(diff), "proofPath": str(proof)}
     runner.record(view.runId, build["stepId"], built)
     again = runner.record(view.runId, build["stepId"], built)  # an identical retry is harmless
@@ -209,20 +209,20 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(verifying) == ["agent.verify"]
     verify = verifying.actions[0]
     assert verify["params"]["forbiddenAgentIds"] == ["builder-1"]
-    assert verify["params"]["allowedModels"] == ["claude-sonnet-5-5"]
+    assert verify["params"]["allowedModels"] == ["sonnet"]
     assert "scripts/fix.py" in (repo / verify["params"]["verifierPromptPath"]).read_text()
 
     # 5. the same agent may not judge its own work; a different one may.
     with pytest.raises(RecordRefused, match="independent"):
         runner.record(view.runId, verify["stepId"], {**VERIFY, "agentId": "builder-1"})
     with pytest.raises(RecordRefused, match="not permitted"):
-        runner.record(view.runId, verify["stepId"], {**VERIFY, "model": "claude-haiku-5-5"})
+        runner.record(view.runId, verify["stepId"], {**VERIFY, "model": "haiku"})
     runner.record(view.runId, verify["stepId"], VERIFY)
     doc = ledgerOf(store)
     assert doc["work"][debtId]["state"] == "verified"
     entry = load_lane(doc["lane"], StewardPolicy.load(repo).lane).by_id(debtId)
-    assert entry.state == "closed" and entry.last_verdict == "accept"
-    assert "verifier-1" in entry.history[-1].reason
+    # Verified is not integrated: the lane slot stays occupied until the lead has decided.
+    assert entry.state == "dispatched" and entry.attempts == 1
 
     # 6. the lead integrates; the work lands.
     integrating = runner.resume(view.runId)
@@ -237,8 +237,11 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert done.status == "completed", done.to_dict()
     doc = ledgerOf(store)
     assert doc["work"][debtId]["state"] == "landed"
+    entry = load_lane(doc["lane"], StewardPolicy.load(repo).lane).by_id(debtId)
+    assert entry.state == "closed" and entry.last_verdict == "accept"
+    assert "lead" in entry.history[-1].reason and "verifier-1" in entry.history[-1].reason
     run = doc["runs"][view.runId]
-    assert run["modelIds"] == ["claude-haiku-5-5", "claude-sonnet-5-5"]
+    assert run["modelIds"] == ["haiku", "sonnet"]
     assert run["thinkingEfforts"] == ["high"]
     assert run["tokensIn"] == 1200 and run["tokensOut"] == 300 and run["costUsd"] == 0.01
     assert [a["role"] for a in run["agentAssignments"]] == ["builder", "verifier"]

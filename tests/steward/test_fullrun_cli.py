@@ -59,7 +59,7 @@ def test_run_arguments_parse_into_the_documented_fields() -> None:
     ])
     assert (args.steward_command, args.fullAction) == ("full", "run")
     assert args.triage is True and args.observe is False
-    assert (args.routine, args.debt, args.afk, args.trigger) == (9, "debt:x", True, "scheduled")
+    assert (args.routine, args.debt, args.afk, args.trigger) == ("9", "debt:x", True, "scheduled")
     assert (args.noAgents, args.ledger, args.integrationBranch, args.push, args.json) == (True, "local", "dev/x", True, True)
     assert StewardCommand._fullModeOf(args) == "triage"
 
@@ -126,17 +126,23 @@ def test_unknown_coverage_exits_three(tmp_path: Path, monkeypatch: pytest.Monkey
     assert view["status"] == "blocked" and view["coverageUnknown"] == ["flaky"]
 
 
-def test_observe_only_with_unknown_coverage_reports_but_does_not_block(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
+@pytest.mark.parametrize("mode", ["--observe", "--triage", "--verify", "--retro", None])
+def test_unknown_coverage_blocks_every_mode_with_exit_three(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys, mode: str | None
 ) -> None:
     repo, _ = makeFixture(tmp_path)
-    useSensors(monkeypatch, [StubSensor("flaky", "registry_integrity_failed", raises=SensorUnavailable("nope"))])
+    useSensors(monkeypatch, [
+        StubSensor("good", "repository_hygiene", routines=(12,)),
+        StubSensor("flaky", "registry_integrity_failed", routines=(7,), raises=SensorUnavailable("nope")),
+    ])
+    args = ["run", "--ledger", "local", "--json"] + ([mode] if mode else [])
 
-    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--observe", "--ledger", "local", "--json")
+    code, out, _err = runCli(monkeypatch, capsys, repo, *args)
 
-    assert code == 0
+    assert code == 3, mode
     view = json.loads(out)
-    assert view["status"] == "completed" and view["coverageUnknown"] == ["flaky"]
+    assert view["status"] == "blocked" and view["coverageUnknown"] == ["flaky"]
+    assert view["actions"] == []
 
 
 def test_human_output_is_a_concise_phase_summary_with_next_action(
@@ -177,7 +183,7 @@ def test_integration_branch_default_comes_from_the_environment(
     assert landed["actions"][0]["params"]["base"] == INTEGRATION
 
 
-def test_second_invocation_while_a_run_is_live_exits_zero_and_names_the_holder(
+def test_second_invocation_while_a_run_is_live_exits_four_and_names_the_holder(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
 ) -> None:
     repo, _ = makeFixture(tmp_path)
@@ -188,7 +194,7 @@ def test_second_invocation_while_a_run_is_live_exits_zero_and_names_the_holder(
 
     code, out, _ = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--json")
 
-    assert code == 0
+    assert code == 4, "observing-existing is neither success (0) nor refused input (2)"
     view = json.loads(out)
     assert view["status"] == "observing-existing" and view["holder"] == first.runId
     assert view["runId"] is None
@@ -245,12 +251,12 @@ def test_record_refuses_invalid_outcomes_and_unknown_steps(tmp_path: Path, monke
     step = view.actions[0]["stepId"]
     outcome = tmp_path / "outcome.json"
 
-    outcome.write_text(json.dumps({"agentId": "b", "model": "claude-haiku-5-5", "effort": "default",
+    outcome.write_text(json.dumps({"agentId": "b", "model": "haiku", "effort": "default",
                                    "noChange": True, "summary": "nothing"}), encoding="utf-8")
     code, _o, err = runCli(monkeypatch, capsys, repo, "record", view.runId, step, "--input", str(outcome), "--ledger", "local")
     assert code == 2 and "effort" in err
 
-    outcome.write_text(json.dumps({"agentId": "b", "model": "claude-haiku-5-5", "effort": "high",
+    outcome.write_text(json.dumps({"agentId": "b", "model": "haiku", "effort": "high",
                                    "noChange": False, "summary": "x"}), encoding="utf-8")
     code, _o, err = runCli(monkeypatch, capsys, repo, "record", view.runId, step, "--input", str(outcome), "--ledger", "local")
     assert code == 2 and "diffPath" in err
@@ -269,7 +275,7 @@ def test_record_accepts_a_valid_no_change_build_and_returns_a_view(
     view, _ = startedBuild(repo, monkeypatch)
     step = view.actions[0]["stepId"]
     outcome = tmp_path / "outcome.json"
-    outcome.write_text(json.dumps({"agentId": "b1", "model": "claude-haiku-5-5", "effort": "medium",
+    outcome.write_text(json.dumps({"agentId": "b1", "model": "haiku", "effort": "medium",
                                    "noChange": True, "summary": "does not reproduce"}), encoding="utf-8")
 
     code, out, err = runCli(monkeypatch, capsys, repo, "record", view.runId, step, "--input", str(outcome), "--ledger", "local", "--json")

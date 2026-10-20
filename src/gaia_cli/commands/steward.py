@@ -168,13 +168,18 @@ class StewardCommand(Command):
             )
             target.add_argument("--json", action="store_true", help="Output the result as JSON")
 
-        run = actions.add_parser("run", help="Start (or resume) a pipeline run")
+        run = actions.add_parser(
+            "run",
+            help="Start (or resume) a pipeline run",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog=EXITCODES,
+        )
         modes = run.add_mutually_exclusive_group()
         modes.add_argument("--observe", action="store_true", help="Observe only: recover, reconcile, observe, report")
         modes.add_argument("--triage", action="store_true", help="Observe and triage only")
         modes.add_argument("--verify", action="store_true", help="Verify recorded work and re-observe")
         modes.add_argument("--retro", action="store_true", help="Live sensor/routine coverage table only")
-        run.add_argument("--routine", type=int, metavar="N", help="Restrict triage to routine N (1-17)")
+        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-17)")
         run.add_argument("--debt", metavar="ID", help="Restrict triage to one debt id")
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
@@ -541,10 +546,16 @@ class StewardCommand(Command):
             if modeFlags or args.routine is not None or args.debt:
                 raise _FullRefused("--resume continues the recorded mode and filters; do not combine it with mode flags")
             return runner.resume(args.resume)
-        if args.routine is not None and not 1 <= args.routine <= 17:
-            raise _FullRefused("--routine must be between 1 and 17")
+        routine = None
+        if args.routine is not None:
+            try:
+                routine = int(args.routine)
+            except ValueError:
+                raise _FullRefused(f"--routine must be a number between 1 and 17, not {args.routine!r}") from None
+            if not 1 <= routine <= 17:
+                raise _FullRefused("--routine must be between 1 and 17")
         return runner.start(
-            self._fullModeOf(args), routine=args.routine, debt=args.debt, afk=args.afk
+            self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
         )
 
     @staticmethod
@@ -576,6 +587,9 @@ class StewardCommand(Command):
                 f"Triage               A {counts['A']}  B {counts['B']}  "
                 f"B-report-only {counts['B-report-only']}  C {counts['C']}"
             )
+        retro = summary.get("retro")
+        if retro:
+            StewardCommand._printRetro(retro, table=view.mode == "retro")
         classA = summary.get("class_a")
         if classA:
             landed = classA.get("landings", [])
@@ -607,6 +621,26 @@ class StewardCommand(Command):
         print(f"Next                 {view.nextAction}")
 
     @staticmethod
+    def _printRetro(retro: dict, *, table: bool) -> None:
+        print(
+            f"Coverage             {retro['registered']} registered, {retro['executed']} executed, "
+            f"{len(retro['unknown'])} unknown, {len(retro['notEvaluated'])} not evaluated"
+        )
+        if not table:
+            return
+        print("Sensors")
+        for sensor in retro["sensors"]:
+            seen = sensor["observations"]
+            reason = f"  ({sensor['reason']})" if sensor.get("reason") else ""
+            routines = ",".join(str(n) for n in sensor["routine_ids"]) or "-"
+            print(f"  {sensor['id']:<28} {sensor['state']:<14} drift {seen['drift']:<4} "
+                  f"healthy {seen['healthy']:<4} routines {routines}{reason}")
+        print("Routines")
+        for routine in retro["routines"]:
+            detectors = ", ".join(f"{d['sensor']}:{d['state']}" for d in routine["detectors"]) or "-"
+            print(f"  {routine['routine']:>2}  {routine['state']:<12} {detectors}")
+
+    @staticmethod
     def _printFullStatus(view) -> None:
         print("Gaia Steward full status")
         shared = "shared" if view.ledger.get("shared") else "local only (ledger_local_only)"
@@ -624,6 +658,17 @@ class StewardCommand(Command):
                   f"escalated {lane['escalated']}  closed {lane['closed']}")
         for run in view.recentRuns[:5]:
             print(f"  {run['runId']}  {run['mode']:<8} {run['status']}")
+
+
+EXITCODES = """\
+exit codes:
+  0  completed, or awaiting-action (a driver must perform the emitted actions)
+  1  failed: a phase raised, the ledger was unavailable, or the run lost its lease
+  2  refused input: bad arguments, an unreadable or invalid outcome file, an unknown run,
+     or a conflicting --integration-branch on --resume
+  3  blocked: sensor coverage is unknown (any mode); nothing was acted on
+  4  observing-existing: another run holds the run lease; nothing was started
+"""
 
 
 class _FullRefused(ValueError):

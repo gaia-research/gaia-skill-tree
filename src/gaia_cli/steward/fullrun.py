@@ -37,11 +37,12 @@ import hashlib
 import json
 import os
 import subprocess
+import unicodedata
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from gaia_cli.steward.controller import ScanResult, StewardController
 from gaia_cli.steward.ledger import (
@@ -93,9 +94,18 @@ HELDWORK = ("escalated", "no_change", "landed")
 OPENRUNSTATES = ("active", "awaiting-action")
 TERMINALRUNSTATES = ("completed", "blocked", "failed", "abandoned")
 
-BUILDERMODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
-VERIFIERMODELS = ("claude-sonnet-5-5",)
+# Model *families*, never version identifiers: the runner constrains who may
+# build and verify, not which release of a model answers. `outcome.model` is
+# matched against these tokens exactly.
+BUILDERMODELS = ("haiku", "sonnet")
+VERIFIERMODELS = ("sonnet",)
 BADEFFORTS = frozenset({"", "default", "inherit"})
+
+# Lane limits live in policy (maxInFlight, maxAttempts, cooldownSeconds). This
+# one is the runner's own: work that has been `building` this long without a
+# verified outcome is a stuck dispatch, not a slow one. It escalates and frees
+# the lane instead of holding the maxInFlight slot forever.
+STUCKBUILDINGSECONDS = 24 * 3600
 
 RUNLEASE = "run"
 RETAINEDRUNS = 25
@@ -187,10 +197,12 @@ class RunView:
 
     @property
     def exitCode(self) -> int:
-        if self.status in {"completed", "awaiting-action", "observing-existing"}:
+        if self.status in {"completed", "awaiting-action"}:
             return 0
         if self.status == "blocked":
             return 3
+        if self.status == "observing-existing":
+            return 4
         return 1
 
     def to_dict(self) -> dict[str, Any]:
@@ -247,11 +259,23 @@ class StatusView:
         }
 
 
+def agentIdentity(value: Any) -> str:
+    """Canonical form of an agent id, so identity checks cannot be dodged by spelling.
+
+    Unicode-compatibility folded, invisible format characters (zero-width
+    spaces and friends) removed, whitespace stripped, case folded.
+    """
+
+    text = unicodedata.normalize("NFKC", str(value))
+    text = "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
+    return text.strip().casefold()
+
+
 def validateAgent(outcome: Mapping[str, Any], allowed: Sequence[str], role: str) -> None:
     """Common model/effort/identity checks for any recorded agent outcome."""
 
     agentId = outcome.get("agentId")
-    if not isinstance(agentId, str) or not agentId.strip():
+    if not isinstance(agentId, str) or not agentIdentity(agentId):
         raise RecordRefused(f"{role} outcome needs a non-empty agentId")
     model = outcome.get("model")
     if model not in allowed:
@@ -411,6 +435,14 @@ class FullRunner:
                     other["abandonedAt"] = now
                     other["abandonedBy"] = runId
                     other["nextAction"] = "abandoned: lease expired; its unfinished work was adopted"
+                    # Its pending actions belong to a run that no longer exists. The adopting run
+                    # re-offers whatever is still needed under its own step ids, so an outcome
+                    # recorded against the old step must be refused, not applied to newer work.
+                    for action in other.get("actions", []):
+                        if action["status"] == "pending":
+                            action["status"] = "superseded"
+                            action["supersededAt"] = now
+                            action["supersededBy"] = runId
             unresolved = [
                 {"debtId": item["debtId"], "state": item["state"], "previousRun": item.get("runId")}
                 for item in sorted(doc["work"].values(), key=lambda value: value["debtId"])
@@ -460,6 +492,13 @@ class FullRunner:
                 raise UnknownRun(f"unknown run {runId}")
             if run["status"] not in OPENRUNSTATES:
                 return {"state": run["status"]}
+            requested = self.config.integration_branch
+            if requested is not None and requested != run["integrationBranch"]:
+                raise FullRunError(
+                    f"run {runId} was started with integration branch {run['integrationBranch']!r}; "
+                    f"refusing to resume it with {requested!r}. Resume without --integration-branch "
+                    "to use the recorded one, or start a new run."
+                )
             held = leaseHolder(doc, RUNLEASE, now)
             if held is not None and held != runId:
                 other = doc["runs"].get(held, {})
@@ -534,12 +573,14 @@ class FullRunner:
                     stale = True
                 elif action["type"] == "agent.build":
                     built = item.get("build") or {}
-                    stale = item["state"] != "building" or built.get("dispatchId") == params["dispatchId"]
+                    stale = (item["state"] != "building" or built.get("dispatchId") == params["dispatchId"]
+                             or item.get("attempt") != params.get("attempt"))
                 elif action["type"] == "agent.verify":
                     judged = (item.get("verification") or {}).get("stage") == "judged"
-                    stale = item["state"] != "building" or judged or not item.get("build")
+                    stale = (item["state"] != "building" or judged or not item.get("build")
+                             or item.get("attempt") != params.get("attempt"))
                 elif action["type"] == "lead.integrate":
-                    stale = item["state"] != "verified"
+                    stale = item["state"] != "verified" or item.get("attempt") != params.get("attempt")
                 elif action["type"] == "forge.open_pr":
                     stale = bool(item.get("pullRequest")) or item["state"] != "proposed"
                 if stale:
@@ -558,6 +599,11 @@ class FullRunner:
 
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
             if run["status"] != "awaiting-action" or self._pending(run):
+                return
+            if run.get("deferred"):
+                # Deferred verification is never "nothing further": stay awaiting-action, but do
+                # not hold the lease for work no driver can finish.
+                release_lease(doc, RUNLEASE, runId)
                 return
             run["status"] = "completed"
             run["finishedAt"] = now
@@ -740,12 +786,17 @@ class FullRunner:
                 raise RecordRefused(f"work for {debtId} is not building; refusing the build outcome")
             if item.get("dispatchId") != params["dispatchId"]:
                 raise RecordRefused("build outcome belongs to a different dispatch than the work item holds")
+            if item.get("attempt") != params.get("attempt"):
+                raise RecordRefused(
+                    f"build outcome belongs to attempt {params.get('attempt')} but the work is on attempt "
+                    f"{item.get('attempt')}; a stale step cannot stand in for the current build"
+                )
             if item.get("build") and item["build"].get("dispatchId") == params["dispatchId"]:
                 raise RecordRefused("a build outcome is already recorded for this dispatch")
             now = self._now()
             self._noteAgent(doc, run, debtId, "builder", live["stepId"], outcome, now)
             item["build"] = {
-                "dispatchId": params["dispatchId"], "noChange": noChange,
+                "dispatchId": params["dispatchId"], "attempt": params.get("attempt"), "noChange": noChange,
                 "diffPath": str(self._resolvePath(outcome["diffPath"])) if outcome.get("diffPath") else None,
                 "proofPath": str(self._resolvePath(outcome["proofPath"])) if outcome.get("proofPath") else None,
                 "summary": summary, "agentId": outcome["agentId"], "recordedAt": now,
@@ -792,9 +843,11 @@ class FullRunner:
             item = doc["work"].get(debtId)
             if item is None or item["state"] != "building" or not item.get("build"):
                 raise RecordRefused(f"work for {debtId} is not awaiting verification")
-            builders = {a["agentId"] for a in item.get("assignments", []) if a["role"] == "builder"}
-            builders |= set(action["params"].get("forbiddenAgentIds", []))
-            if outcome["agentId"] in builders:
+            if item.get("attempt") != action["params"].get("attempt"):
+                raise RecordRefused("verifier outcome belongs to an earlier attempt of this work")
+            builders = {agentIdentity(a["agentId"]) for a in item.get("assignments", []) if a["role"] == "builder"}
+            builders |= {agentIdentity(value) for value in action["params"].get("forbiddenAgentIds", [])}
+            if agentIdentity(outcome["agentId"]) in builders:
                 raise RecordRefused(
                     f"verifier {outcome['agentId']!r} built this work; verification must be independent"
                 )
@@ -803,11 +856,19 @@ class FullRunner:
             if lane.by_id(debtId) is None:
                 raise RecordRefused(f"the shared lane is not tracking {debtId}")
             note = f"independent verification by {outcome['agentId']} ({outcome['model']}, effort {outcome['effort']})"
-            try:
-                lane = record_verdict(lane, debtId, verdict, now=now, note=note)
-            except LaneError as exc:
-                raise RecordRefused(f"the lane refused the verdict: {exc}") from exc
-            set_lane(doc, lane_document(lane))
+            noChange = bool(item["build"]["noChange"])
+            # An accept of a real diff is NOT the end of the lane entry: the work is verified but
+            # unreviewed until the lead integrates it, so the slot stays occupied (maxInFlight) and
+            # the attempt count survives a later integration rejection. Only a no-change finding
+            # (nothing to integrate) closes the entry here.
+            if verdict != "accept" or noChange:
+                try:
+                    lane = record_verdict(lane, debtId, verdict, now=now, note=note)
+                except LaneError as exc:
+                    raise RecordRefused(f"the lane refused the verdict: {exc}") from exc
+                set_lane(doc, lane_document(lane))
+            elif lane.by_id(debtId).state != "dispatched":
+                raise RecordRefused("the lane entry is not dispatched; it cannot take a verdict")
             self._noteAgent(doc, run, debtId, "verifier", live["stepId"], outcome, now)
             item["verification"] = {
                 "stage": "judged", "verdict": verdict, "rationale": rationale,
@@ -815,7 +876,7 @@ class FullRunner:
             }
             escalated = lane.by_id(debtId).state == "escalated"
             if verdict == "accept":
-                if item["build"]["noChange"]:
+                if noChange:
                     self._setState(doc, debtId, "no_change", now, f"{note}: finding does not reproduce")
                 else:
                     self._setState(doc, debtId, "verified", now, note)
@@ -865,12 +926,27 @@ class FullRunner:
             raise RecordRefused("lead.integrate outcome needs by (who decided)")
         debtId = action["debtId"]
 
+        policy = self._policyLoaded()
+
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
             item = doc["work"].get(debtId)
             if item is None or item["state"] != "verified":
                 raise RecordRefused(f"work for {debtId} is not verified; nothing to integrate")
+            if item.get("attempt") != live["params"].get("attempt"):
+                raise RecordRefused("integration decision belongs to an earlier attempt of this work")
             now = self._now()
             run["decisions"].append({"type": "integrate", "debtId": debtId, "decision": decision, "by": by, "at": now})
+            verifier = (item.get("verification") or {}).get("agentId", "unknown")
+            lane = load_lane(doc["lane"], policy.lane)
+            entry = lane.by_id(debtId)
+            if decision != "hold" and entry is not None:
+                if entry.state != "dispatched":
+                    # Verified work must still hold its lane slot; put it back before judging it.
+                    lane = lane.replaced(entry.moved(
+                        to="dispatched", at=now, reason="reopened: verified work awaiting integration"))
+                note = f"integration {decision} by {by}; verified by {verifier}"
+                lane = record_verdict(lane, debtId, "accept" if decision == "integrate" else "reject", now=now, note=note)
+                set_lane(doc, lane_document(lane))
             if decision == "integrate":
                 if outcome.get("pullRequest"):
                     item["pullRequest"] = dict(outcome["pullRequest"])
@@ -879,7 +955,14 @@ class FullRunner:
                     item["mergedSha"] = outcome["mergedSha"]
                 self._setState(doc, debtId, "landed", now, f"integrated by {by}")
             elif decision == "reject":
-                self._setState(doc, debtId, "blocked", now, f"integration rejected by {by}")
+                # A lead rejection is a rejected attempt like any other: it was counted, the lane
+                # applies the cooldown, and the attempt ceiling escalates it.
+                item["build"] = None
+                if entry is not None and lane.by_id(debtId).state == "escalated":
+                    self._setState(doc, debtId, "escalated", now,
+                                   f"integration rejected by {by}; attempt ceiling reached")
+                else:
+                    self._setState(doc, debtId, "blocked", now, f"integration rejected by {by}")
             else:
                 live["heldOnly"] = True
                 self._note(item, now, f"integration held by {by}")
@@ -958,11 +1041,12 @@ class FullRunner:
 
     def _emitIntegrate(self, run: dict[str, Any], item: dict[str, Any], now: str) -> None:
         build = item.get("build") or {}
-        stepId = f"integrate:{_hash12(item['debtId'])}:{item.get('dispatchId', '')[-8:]}"
+        attempt = item.get("attempt", 1)
+        stepId = f"integrate:{_hash12(item['debtId'])}:{attempt}"
         self._addAction(
-            run, stepId, "lead.integrate", item["debtId"], f"integrate:{item.get('dispatchId')}",
+            run, stepId, "lead.integrate", item["debtId"], f"integrate:{item.get('dispatchId')}:{attempt}",
             {"debtId": item["debtId"], "branch": item.get("branch"), "base": run.get("integrationBranch"),
-             "diffPath": build.get("diffPath")}, now,
+             "attempt": attempt, "diffPath": build.get("diffPath")}, now,
         )
 
     @staticmethod
@@ -1053,7 +1137,7 @@ class FullRunner:
     def _phaseReconcile(self, runId: str) -> bool:
         sourceHead = self._git("rev-parse", "HEAD")
         source = sourceHead.stdout.strip() if sourceHead.returncode == 0 else "unknown"
-        branch = self.config.integration_branch
+        branch = self._loadRun(runId)["integrationBranch"]
         integration, reason = "unknown", None
         if not branch:
             reason = "integration branch not configured"
@@ -1098,7 +1182,7 @@ class FullRunner:
                 result.append({"sensor": str(sensor), "reason": str(reason)})
         return sorted(result, key=lambda value: value["sensor"])
 
-    def _observationSummary(self, scan: ScanResult) -> dict[str, Any]:
+    def _observationSummary(self, scan: ScanResult, workIds: Iterable[str] = ()) -> dict[str, Any]:
         bySensor: dict[str, dict[str, int]] = {}
         for observation in scan.observations:
             if observation.kind == "sensor_coverage_unknown":
@@ -1108,7 +1192,10 @@ class FullRunner:
         receipt = scan.receipt
         notEvaluated = self._normNotEvaluated(getattr(receipt, "not_evaluated", ()))
         fresh = sorted(scan.fresh_open_debt_ids & {d.id for d in scan.open_debts})
+        wanted = set(workIds)
+        debtStatus = {d.id: d.status for d in scan.debts if d.id in wanted}
         return {
+            "debtStatus": debtStatus,
             "scanReceiptId": receipt.run_id,
             "observations": receipt.observations_collected,
             "openDebt": len(receipt.open_debt),
@@ -1125,7 +1212,7 @@ class FullRunner:
     def _phaseObserve(self, runId: str) -> bool:
         scan = self._controllerInstance().scan(self.root)
         self._scans[runId] = scan
-        summary = self._observationSummary(scan)
+        summary = self._observationSummary(scan, self._load()["work"])
         receiptId = summary["scanReceiptId"]
 
         def updates(_doc: dict[str, Any], run: dict[str, Any]) -> None:
@@ -1235,7 +1322,8 @@ class FullRunner:
         doc = self._load()
         run = doc["runs"][runId]
         sets = self._triageSets(scan, run, doc["work"])
-        branch = self.config.integration_branch
+        branch = run["integrationBranch"]
+        floor = self._floorStatus(runId)
         pushing = bool(run["options"]["push"])
         outcomes: list[dict[str, Any]] = []
         landings = sum(1 for s in run["steps"] if s["kind"] == "landing")
@@ -1243,18 +1331,16 @@ class FullRunner:
         # Adoption: a proposed Class A branch with no PR action in this run.
         for item in sorted(doc["work"].values(), key=lambda value: value["debtId"]):
             if (item["state"] == "proposed" and item.get("authority") == "A" and item.get("pushed")
-                    and not item.get("pullRequest") and branch):
+                    and not item.get("pullRequest") and floor["ok"]):
                 self._emitPullRequestAction(runId, item, branch)
                 outcomes.append({"debtId": item["debtId"], "result": "adopted", "branch": item.get("branch")})
 
         for debtId in sets["classA"]:
             debt = sets["debts"][debtId]
-            if not branch:
-                self._blockWork(runId, debt, "landing target not configured",
-                                decision={"type": "landing-target", "debtId": debtId,
-                                          "question": "Choose the integration branch Class A repairs land on "
-                                                      "(--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH)."})
-                outcomes.append({"debtId": debtId, "result": "blocked", "reason": "landing target not configured"})
+            if not floor["ok"]:
+                reason = floor["reason"]
+                self._blockWork(runId, debt, reason)
+                outcomes.append({"debtId": debtId, "result": "blocked", "reason": reason})
                 continue
             if landings >= policy.max_repairs_per_run:
                 outcomes.append({"debtId": debtId, "result": "deferred", "reason": "policy repair budget for this run is exhausted"})
@@ -1281,6 +1367,48 @@ class FullRunner:
             outcomes.append(self._confirmLanding(runId, debt, plan, stepId, result, pushing, branch))
         summary = {"status": "ok", "landings": outcomes}
         return self._finish(runId, "class_a", summary)
+
+    def _floorStatus(self, runId: str) -> dict[str, Any]:
+        """Does this run's integration branch pass the same floor as a landing?
+
+        Every phase that can emit an action (Class A landing, Class B dispatch,
+        verification and integration) asks this first, so that no action is ever
+        offered against a target the landing code itself would refuse: nothing
+        configured, `main`/`master`, the remote's default branch (asked of the
+        remote itself), or a branch that cannot be fetched. The answer is
+        recorded on the run, and a failure puts the landing-target decision in
+        the run record for the desk.
+        """
+
+        run = self._loadRun(runId)
+        if run.get("floor") is not None:
+            return run["floor"]
+        branch = run["integrationBranch"]
+        if not branch:
+            result = {"ok": False, "branch": None, "reason": "landing target not configured"}
+        else:
+            from gaia_cli.steward import landing
+
+            try:
+                landing._assert_base_allowed(self.root, branch, self.config.remote)
+                landing._fetch_base(self.root, self.config.remote, branch)
+                result = {"ok": True, "branch": branch, "reason": None}
+            except landing.LandingError as exc:
+                result = {"ok": False, "branch": branch, "reason": f"landing target refused: {exc}"}
+
+        def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
+            record["floor"] = result
+            if not result["ok"]:
+                decision = {
+                    "type": "landing-target", "reason": result["reason"],
+                    "question": "Choose the integration branch Steward work lands on "
+                                "(--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+                }
+                if decision not in record["decisions"]:
+                    record["decisions"].append(decision)
+
+        self._mutateRun(runId, apply, message="steward full floor")
+        return result
 
     def _blockWork(self, runId: str, debt: Debt, reason: str, decision: dict[str, Any] | None = None) -> None:
         now = self._now()
@@ -1405,6 +1533,18 @@ class FullRunner:
             item = doc["work"].get(entry.debt_id)
             if item is not None and item["state"] not in {"escalated", "resolved"}:
                 self._setState(doc, entry.debt_id, "escalated", now, "the shared lane escalated this debt")
+        # maxInFlight bounds *unreviewed* work, not merely open builds: verified work that the
+        # lead has not integrated is still waiting on a person. Count it from the work items
+        # too, so a lane entry that was closed early can never free the slot.
+        unreviewed = sum(
+            1 for item in doc["work"].values()
+            if item.get("authority") == "B" and item["state"] in {"building", "verified"}
+        )
+        if unreviewed >= policy.lane.max_in_flight:
+            return lane, None, (
+                f"{unreviewed} dispatch(es) are building or verified but not integrated, at the "
+                f"maxInFlight ceiling of {policy.lane.max_in_flight}"
+            )
         entry, reason = next_dispatchable(self._dispatchView(lane, eligible), now=now)
         return lane, entry, reason
 
@@ -1426,6 +1566,12 @@ class FullRunner:
             return self._finish(runId, "class_b", {
                 "status": "blocked", "reason": "sensor coverage is unknown; refusing Class B dispatch",
                 "coverageUnknown": unknown}, refuse)
+        floor = self._floorStatus(runId)
+        if not floor["ok"]:
+            return self._finish(runId, "class_b", {
+                "status": "blocked", "reason": floor["reason"], "floor": False,
+                "detail": "no Class B action is emitted without a valid integration branch"})
+        self._expireStuck(runId)
         builds = sum(1 for s in run["steps"] if s["kind"] == "agent.build")
         if builds >= policy.max_dispatches_per_run:
             return self._finish(runId, "class_b", {
@@ -1445,11 +1591,11 @@ class FullRunner:
 
         lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
         if candidate is None:
-            def keepLane(d: dict[str, Any]) -> None:
+            def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
                 _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
                 set_lane(d, lane_document(_lane))
 
-            self._update(keepLane, "steward full lane")
+            self._mutateRun(runId, keepLane, message="steward full lane")
             return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": reason})
 
         debt = sets["debts"][candidate.debt_id]
@@ -1481,15 +1627,15 @@ class FullRunner:
             record = d["runs"][runId]
             self._ensureWork(d, record, debt, now, routine=rule.routine, branch=branchName,
                              dispatchId=packet.dispatch_id, promptPath=self._relative(promptPath),
-                             baseBranch=self.config.integration_branch, attempt=attempt)
+                             baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
             d["work"][debt.id]["build"] = None
             d["work"][debt.id]["verification"] = None
             self._setState(d, debt.id, "building", now, f"dispatched as {packet.dispatch_id} (attempt {attempt})")
             stepId = f"build:{slug}:{attempt}"
             self._addAction(record, stepId, "agent.build", debt.id, f"{packet.dispatch_id}:{attempt}", {
                 "debtId": debt.id, "dispatchId": packet.dispatch_id,
-                "promptPath": self._relative(promptPath), "base": self.config.integration_branch,
-                "branch": branchName, "allowedModels": list(BUILDERMODELS), "effortRequired": True,
+                "promptPath": self._relative(promptPath), "base": record["integrationBranch"],
+                "attempt": attempt, "branch": branchName, "allowedModels": list(BUILDERMODELS), "effortRequired": True,
                 "outputs": {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                             "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"},
             }, now)
@@ -1525,10 +1671,10 @@ class FullRunner:
             promptPath = self._relative(path)
 
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
-            self._addAction(run, f"build:{slug}:{item.get('attempt', 1)}:adopted", "agent.build", item["debtId"],
+            self._addAction(run, f"build:{slug}:{item.get('attempt', 1)}", "agent.build", item["debtId"],
                             f"{item['dispatchId']}:{item.get('attempt', 1)}", {
                 "debtId": item["debtId"], "dispatchId": item["dispatchId"], "promptPath": promptPath,
-                "base": self.config.integration_branch, "branch": item.get("branch"),
+                "base": run["integrationBranch"], "attempt": item.get("attempt", 1), "branch": item.get("branch"),
                 "allowedModels": list(BUILDERMODELS), "effortRequired": True,
                 "outputs": {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                             "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"},
@@ -1552,7 +1698,47 @@ class FullRunner:
             "missed it) or `escalate`, plus a rationale citing what you ran and observed.\n"
         )
 
+    def _expireStuck(self, runId: str) -> list[str]:
+        """Escalate dispatches that have been `building` longer than STUCKBUILDINGSECONDS.
+
+        A build that never produces a verifiable outcome would otherwise hold its
+        maxInFlight slot for ever. The lane entry is escalated (leaving the agent
+        lane for the founder's desk) and the work item follows it.
+        """
+
+        policy = self._policyLoaded()
+        now = self._now()
+        expired: list[str] = []
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            lane = load_lane(doc["lane"], policy.lane)
+            changed = False
+            for debtId, item in sorted(doc["work"].items()):
+                if item.get("authority") != "B" or item["state"] != "building":
+                    continue
+                since = item.get("dispatchedAt") or item.get("updatedAt") or item.get("createdAt")
+                if since is None or (parseTime(now) - parseTime(since)).total_seconds() <= STUCKBUILDINGSECONDS:
+                    continue
+                reason = f"building for more than {STUCKBUILDINGSECONDS // 3600}h without a verified outcome"
+                entry = lane.by_id(debtId)
+                if entry is not None and entry.state == "dispatched":
+                    lane = record_verdict(lane, debtId, "escalate", now=now, note=reason)
+                    changed = True
+                self._setState(doc, debtId, "escalated", now, reason)
+                expired.append(debtId)
+            if changed:
+                set_lane(doc, lane_document(lane))
+
+        self._mutateRun(runId, apply, message="steward full stuck")
+        return expired
+
     def _phaseVerify(self, runId: str) -> bool:
+        floor = self._floorStatus(runId)
+        if not floor["ok"]:
+            return self._finish(runId, "verify", {
+                "status": "blocked", "reason": floor["reason"], "floor": False,
+                "detail": "no verification or integration action is emitted without a valid integration branch"})
+        expired = self._expireStuck(runId)
         doc = self._load()
         run = doc["runs"][runId]
         policy = self._policyLoaded()
@@ -1573,13 +1759,20 @@ class FullRunner:
             if any(a["debtId"] == debtId and a["type"] == "agent.verify" and a["status"] == "pending" for a in run["actions"]):
                 continue
             results.append(self._verifyOne(runId, item, deferred, policy))
+
+        def store(_doc: dict[str, Any], record: dict[str, Any]) -> None:
+            record["deferred"] = deferred
+
+        summary = {"results": results, "deferred": deferred, "expired": expired}
         run = self._loadRun(runId)
         if self._pending(run, "agent.verify"):
-            self._mutateRun(runId, lambda d, r: r["phases"].__setitem__(
-                "verify", {"status": "awaiting-verifier", "results": results, "deferred": deferred}),
-                message="steward full verify awaiting")
+            def awaiting(d: dict[str, Any], record: dict[str, Any]) -> None:
+                store(d, record)
+                record["phases"]["verify"] = dict(summary, status="awaiting-verifier")
+
+            self._mutateRun(runId, awaiting, message="steward full verify awaiting")
             return False
-        return self._finish(runId, "verify", {"status": "ok", "results": results, "deferred": deferred})
+        return self._finish(runId, "verify", dict(summary, status="deferred" if deferred else "ok"), store)
 
     def _verifyOne(self, runId: str, item: dict[str, Any], deferred: list[dict[str, Any]], policy: StewardPolicy) -> dict[str, Any]:
         from gaia_cli.steward.routing import RoutingError, _latest_dispatch_receipt, render_dispatch, render_verification
@@ -1674,6 +1867,7 @@ class FullRunner:
             self._addAction(run, f"verify:{slug}:{work.get('attempt', 1)}", "agent.verify", debtId,
                             f"verify:{work.get('dispatchId')}:{work.get('attempt', 1)}", {
                 "debtId": debtId, "verifierPromptPath": promptPath, "forbiddenAgentIds": builders,
+                "attempt": work.get("attempt", 1),
                 "allowedModels": list(VERIFIERMODELS), "effortRequired": True,
             }, now)
 
@@ -1685,14 +1879,15 @@ class FullRunner:
     def _phaseReobserve(self, runId: str) -> bool:
         run = self._loadRun(runId)
         observed = run["phases"].get("observe")
-        if observed is not None and not run.get("mutated"):
+        if observed is not None and not run.get("mutated") and "debtStatus" in observed:
             summary = dict(observed)
             summary["reused"] = "no state-changing step ran this run; the observe scan is the re-observation"
         else:
             scan = self._controllerInstance().scan(self.root)
             self._scans[runId] = scan
-            summary = self._observationSummary(scan)
+            summary = self._observationSummary(scan, self._load()["work"])
         openIds = set(summary["openDebtIds"])
+        debtStatus = summary["debtStatus"]
         known = not summary["coverageUnknown"]
         policy = self._policyLoaded()
         now = self._now()
@@ -1728,17 +1923,18 @@ class FullRunner:
                     self._note(item, now, text)
                     notes.append({"debtId": debtId, "note": text})
                     continue
-                evidence = f"re-observation {summary['scanReceiptId']}: debt no longer open"
-                if state in {"landed", "no_change"}:
+                if debtStatus.get(debtId) == "resolved":
+                    # The condition itself is gone, observed by its own sensor in a run whose
+                    # coverage is known. Whatever the work was doing is moot, from any state.
+                    evidence = (f"re-observation {summary['scanReceiptId']}: debt resolved by observation"
+                                f" (work was {state})")
+                    if state == "proposed" and item.get("authority") == "A" and not self._mergedInto(item):
+                        evidence += "; the proposed branch is not in this checkout"
                     self._setState(doc, debtId, "resolved", now, evidence)
                     resolvedNow.append(debtId)
-                elif state == "proposed" and item.get("authority") == "A" and self._mergedInto(item):
-                    self._setState(doc, debtId, "resolved", now, evidence + "; proposed branch is in this checkout")
-                    resolvedNow.append(debtId)
                 else:
-                    text = (f"debt no longer open, but work is {state}"
-                            + ("; the proposed branch is not in this checkout" if state == "proposed" else "")
-                            + "; not claiming resolved")
+                    text = (f"debt is not open but was not observed resolved (work is {state}); "
+                            "not claiming resolved")
                     self._note(item, now, text)
                     notes.append({"debtId": debtId, "note": text})
             record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow, notes=notes)
@@ -1804,8 +2000,10 @@ class FullRunner:
             detectors = [{"sensor": s, "state": byId[s]["state"]} for s in sorted(ids)]
             if not detectors:
                 state = "no-detector"
-            elif any(d["state"] == "executed" for d in detectors):
+            elif all(d["state"] == "executed" for d in detectors):
                 state = "observed"
+            elif any(d["state"] == "executed" for d in detectors):
+                state = "partial"
             elif any(d["state"] == "unknown" for d in detectors):
                 state = "unknown"
             else:
@@ -1831,16 +2029,24 @@ class FullRunner:
             if record["phase"] != "report":
                 return
             pending = self._pending(record)
-            blocked = record.get("coverageBlocked")
-            if blocked:
+            unknown = self._observationOf(record).get("coverageUnknown", [])
+            deferred = record.get("deferred") or []
+            if record.get("coverageBlocked") or unknown:
                 status = "blocked"
-                action = "sensor coverage is unknown; fix the failing sensor(s) and start a new run"
+                action = ("sensor coverage is unknown"
+                          + (f" ({', '.join(unknown)})" if unknown else "")
+                          + "; fix the failing sensor(s) and start a new run")
             elif pending:
                 status = "awaiting-action"
                 action = (f"perform {len(pending)} pending action(s) "
                           f"({', '.join(sorted({a['type'] for a in pending}))}), record each with "
                           f"`gaia steward full record {runId} <stepId> --input FILE`, then "
                           f"`gaia steward full run --resume {runId}`")
+            elif deferred:
+                status = "awaiting-action"
+                action = (f"verification was deferred for {len(deferred)} item(s) "
+                          f"({'; '.join(d['reason'] for d in deferred)[:200]}); restore the missing "
+                          "artifacts and run `gaia steward full run --verify`. Nothing is finished.")
             else:
                 status = "completed"
                 action = "nothing further for this run"
@@ -1850,7 +2056,7 @@ class FullRunner:
             record["finishedAt"] = now
             self._addStep(record, {"stepId": "phase:report", "kind": "phase", "status": "done", "at": now})
             record["phase"] = "done"
-            if status != "awaiting-action":
+            if status != "awaiting-action" or not pending:
                 release_lease(d, RUNLEASE, runId)
 
         self._mutateRun(runId, apply, message="steward full report")
@@ -1899,24 +2105,33 @@ class FullRunner:
         policy = self._policyLoaded()
         observed = self._observationOf(run)
         records = list(load_decision_records(self.root))
-        landing = sorted(i["debtId"] for i in doc["work"].values()
-                         if i["state"] == "blocked" and i.get("blockedReason") == "landing target not configured")
-        if landing:
+        landingDecisions = [d for d in run["decisions"] if d.get("type") == "landing-target"]
+        if landingDecisions:
+            blockedIds = sorted(i["debtId"] for i in doc["work"].values()
+                                if i["state"] == "blocked" and str(i.get("blockedReason", "")).startswith("landing target"))
+            evidence = [d["reason"] for d in landingDecisions]
+            if blockedIds:
+                evidence.append(f"{len(blockedIds)} Class A debt(s) blocked: " + ", ".join(blockedIds[:5]))
             records.append({
                 "schemaVersion": "steward-decision-v1", "id": "landing-target-not-configured", "status": "open",
-                "decision": "Choose the integration branch that Class A repairs land on.",
-                "whyItMatters": "Without a landing target the runner finds Class A drift but must not repair it; "
-                                "it refuses main and the default branch in code, so a dev/* branch is needed.",
-                "evidence": [f"{len(landing)} Class A debt(s) blocked: " + ", ".join(landing[:5])],
+                "decision": "Choose the integration branch that Steward work lands on.",
+                "whyItMatters": "Without a valid landing target the runner finds drift but must not repair, "
+                                "verify or integrate it; it refuses main, master and the remote default "
+                                "branch in code, so a dev/* branch is needed.",
+                "evidence": evidence,
                 "recommended": "Set GAIA_STEWARD_INTEGRATION_BRANCH (or pass --integration-branch) to a dev/* branch.",
-                "alternative": "Leave it unset and keep fixing Class A drift by hand.",
-                "unblocks": "Automatic Class A landing branches and their pull requests.",
+                "alternative": "Leave it unset and keep fixing Steward debt by hand.",
+                "unblocks": "Class A landing branches, Class B dispatch, verification and integration.",
                 "links": [],
             })
         failed = [
             {"subject": i["debtId"], "detail": i.get("blockedReason") or "blocked"}
             for i in sorted(doc["work"].values(), key=lambda value: value["debtId"])
-            if i["state"] == "blocked" and i["debtId"] not in landing
+            if i["state"] == "blocked" and not str(i.get("blockedReason", "")).startswith("landing target")
+        ]
+        failed += [
+            {"subject": d["debtId"], "detail": f"verification deferred: {d['reason']}"}
+            for d in run.get("deferred") or []
         ]
         desk = build_desk(
             open_debts=scan.open_debts,
