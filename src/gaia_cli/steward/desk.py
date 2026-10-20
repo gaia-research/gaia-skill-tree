@@ -33,6 +33,7 @@ copied into the desk.
 from __future__ import annotations
 
 import json
+import os
 import re
 import textwrap
 from dataclasses import dataclass, field
@@ -171,9 +172,17 @@ def load_decision_records(repo_root: Path) -> tuple[dict, ...]:
 
     directory = Path(repo_root) / DECISIONS_RELATIVE_DIR
     try:
-        paths = sorted(directory.glob("*.json"))
-    except OSError:
-        return ()
+        if not directory.exists() and not directory.is_symlink():
+            return ()  # no records directory is the normal, quiet case
+        if directory.is_symlink() or not directory.is_dir():
+            raise OSError("not a regular directory")
+        with os.scandir(directory) as entries:
+            paths = sorted(
+                directory / entry.name for entry in entries if entry.name.endswith(".json")
+            )
+    except OSError as exc:
+        # Present but unusable: say so, rather than looking like "no decisions".
+        return ({"_source": DECISIONS_RELATIVE_DIR, "_error": f"directory unreadable: {exc}"},)
     records: list[dict] = []
     for path in paths:
         source = f"{DECISIONS_RELATIVE_DIR}/{path.name}"
@@ -184,8 +193,10 @@ def load_decision_records(repo_root: Path) -> tuple[dict, ...]:
             if len(raw) > _MAX_RECORD_BYTES:
                 raise ValueError(f"exceeds {_MAX_RECORD_BYTES} bytes")
             parsed = json.loads(raw.decode("utf-8"))
-        except (OSError, ValueError) as exc:  # includes UnicodeDecodeError, JSONDecodeError
-            records.append({"_source": source, "_error": f"unreadable: {exc}"})
+        # ValueError covers UnicodeDecodeError and JSONDecodeError; pathological
+        # nesting raises RecursionError and a huge literal can raise MemoryError.
+        except (OSError, ValueError, RecursionError, MemoryError) as exc:
+            records.append({"_source": source, "_error": f"unreadable: {type(exc).__name__}: {exc}"[:240]})
             continue
         if not isinstance(parsed, dict):
             records.append({"_source": source, "_error": "top level must be a JSON object"})
@@ -353,7 +364,10 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
             ),
             unblocks=unblocks,
             links=tuple(links),
-            debt_ids=ids,
+            # A debt id embeds a slug of its subject (a file path). Credential
+            # subjects can carry secret-shaped text, so only the opaque digest
+            # suffix leaves this module.
+            debt_ids=tuple(item.rsplit(":", 1)[-1] for item in ids),
             source="class-c-debt",
             priority=_PRIORITY_CREDENTIAL,
         )
@@ -634,10 +648,17 @@ def build_desk(
 _ASCII = str.maketrans({"\u2014": "-", "\u2013": "-", "\u2026": "...", "\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"'})
 
 
+_CONTROLS = re.compile(r"[\x00-\x1f\x7f-\x9f]")
+
+
 def _plain(text: str) -> str:
     """Whitespace-normalised, terminal-safe text (digest prose uses typography)."""
 
-    return " ".join(text.translate(_ASCII).split()).encode("ascii", "replace").decode("ascii")
+    # Control characters (ESC, BEL, NUL, DEL, ...) never reach a terminal; they
+    # become spaces, then whitespace collapses. Newlines are never needed inside
+    # a wrapped field, so they go too.
+    cleaned = _CONTROLS.sub(" ", text.translate(_ASCII))
+    return " ".join(cleaned.split()).encode("ascii", "replace").decode("ascii")
 
 
 def _field(label: str, text: str) -> list[str]:
@@ -663,10 +684,10 @@ def _list_field(label: str, items: Sequence[str]) -> list[str]:
 
 
 def render_desk(desk: Desk) -> str:
-    """Render the desk as plain text. Deterministic; one line when quiet."""
+    """Render the desk as plain text. Deterministic; one newline-terminated line when quiet."""
 
     if desk.quiet():
-        return QUIET_LINE
+        return QUIET_LINE + "\n"
     lines = [_plain("Gaia Steward: founder desk" + (f" (as of {desk.as_of})" if desk.as_of else "")), ""]
     lines.append(f"NEEDS YOUR DECISION ({len(desk.decisions)})")
     if not desk.decisions:
