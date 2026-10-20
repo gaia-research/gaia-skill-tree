@@ -169,6 +169,10 @@ nothing else:
    of the proof-contract item above that the command proves. A transcript in
    any other shape is rejected mechanically and costs an attempt.
 
+Both paths are relative to the Steward checkout's root. They are hand-off
+slots, not part of the correction: writing them is allowed even where the
+forbidden paths above cover them, and they never belong in the commit.
+
 Independent review is not yours to obtain: Steward hands your diff and
 transcript to a different agent after you report. Do not escalate because that
 review has not happened yet; leave that proof item out of the transcript.
