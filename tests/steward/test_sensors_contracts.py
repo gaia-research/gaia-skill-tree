@@ -379,7 +379,7 @@ def test_timeline_unparseable_frontmatter_is_skipped_and_counted(tmp_path: Path)
     assert stats["skillsWithTimeline"] == 1
 
 
-def test_timeline_id_falls_back_to_path_and_collisions_split(tmp_path: Path) -> None:
+def test_timeline_subject_ids_key_on_path_so_they_are_stable(tmp_path: Path) -> None:
     bad_order = _event("'2026-06-11T00:00:00Z'") + _event("'2026-06-10T00:00:00Z'")
     repo = make_repo(
         tmp_path / "repo",
@@ -390,11 +390,11 @@ def test_timeline_id_falls_back_to_path_and_collisions_split(tmp_path: Path) -> 
         },
     )
     ids = sorted(obs.subject.id for obs in TimelineCausalitySensor().scan(repo, NOW))
-    assert ids == [
-        "registry/named/owner/no-id.md",
-        "registry/named/owner/twin-a.md",
-        "registry/named/owner/twin-b.md",
-    ]
+    # Keyed on the file, never on the author-controlled frontmatter id: adding a
+    # second file that claims "owner/twin" must not re-key the first.
+    assert ids == ["owner/no-id", "owner/twin-a", "owner/twin-b"]
+    alone = make_repo(tmp_path / "alone", {"registry/named/owner/twin-a.md": _skill("owner/twin", bad_order)})
+    assert [obs.subject.id for obs in TimelineCausalitySensor().scan(alone, NOW)] == ["owner/twin-a"]
 
 
 def test_timeline_missing_inventory_is_unavailable(tmp_path: Path) -> None:

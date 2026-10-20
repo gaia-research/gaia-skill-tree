@@ -14,7 +14,7 @@ from gaia_cli.steward.sensors_tests import (
     TestIsolationSensor,
     TestPortfolioSensor,
 )
-from tests.steward.sensor_fixtures import commit_all, make_repo, tree_digest, write_files
+from tests.steward.sensor_fixtures import commit_all, make_repo, set_mtime, tree_digest, write_files
 
 NOW = "2026-10-20T00:00:00Z"
 
@@ -430,6 +430,7 @@ def history(root: Path, runs, *, schema: str = "steward-test-history-v1") -> Non
     path = root / HISTORY_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"schemaVersion": schema, "runs": runs}), encoding="utf-8")
+    set_mtime(path, NOW)
 
 
 def run(run_id: str, sha: str, **results: str) -> dict:
@@ -539,4 +540,5 @@ def test_history_is_read_only_and_recovers(tmp_path):
 def test_history_contract_attributes():
     sensor = TestHistorySensor()
     assert (sensor.id, sensor.routine_ids) == ("test-history", (5,))
-    assert not hasattr(sensor, "resolution_scope")
+    assert sensor.resolution_scope == "exhaustive"
+    assert sensor.driver_inputs == (HISTORY_PATH,)

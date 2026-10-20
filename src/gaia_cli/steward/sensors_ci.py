@@ -3,8 +3,14 @@
 Every sensor here is read-only and never touches the network. Inventory comes
 from Git through ``gaia_cli.steward.primitives``. Two sensors read optional
 inputs that a driver collects under the ignored ``.gaia/steward/inputs/``
-directory; when those inputs are absent the sensor raises
-``SensorNotEvaluated`` rather than reporting anything healthy.
+directory; when those inputs are absent, stale, or about another repository the
+sensor raises ``SensorNotEvaluated`` rather than reporting anything healthy.
+A present, valid, fresh input makes the sensor exhaustive over its own debt, so
+a healthy re-collection resolves what an earlier one found.
+
+Findings never echo a value read from the repository or a driver input: they
+carry structure (rule, path, job id) and, where a value must be referred to, its
+type, length and a short sha256 fingerprint (``primitives.redact``).
 """
 
 from __future__ import annotations
@@ -12,13 +18,12 @@ from __future__ import annotations
 import json
 import re
 import tomllib
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterator
 
 import yaml
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorNotEvaluated,
     SensorUnavailable,
@@ -27,6 +32,8 @@ from gaia_cli.steward.primitives import (
     read_text_bounded,
     tracked_files,
 )
+from gaia_cli.steward.primitives.inputs import origin_repository, parse_instant, require_fresh
+from gaia_cli.steward.primitives.redact import describe_value, safe_token, scrub
 
 _CI_RUNS_INPUT = Path(".gaia/steward/inputs/ci-runs.json")
 _CI_RUNS_SCHEMA = "steward-ci-runs-v1"
@@ -42,6 +49,13 @@ _NPM_MANIFEST = "packages/cli-npm/package.json"
 _LICENSE_FILES = ("LICENSE", "LICENSE.md", "LICENSE.txt")
 _SPDX_IDENTIFIER = re.compile(r"^[A-Za-z0-9.+-]+$")
 _REQUIREMENT_NAME = re.compile(r"^\s*([A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)")
+_REPOSITORY = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
+_BRANCH = re.compile(r"[A-Za-z0-9._/@+-]{1,255}")
+_COMMIT = re.compile(r"[0-9A-Fa-f]{6,64}")
+_RUN_URL = re.compile(r"https?://[^\s@]+")
+_VALUE_LIMIT = 160
+_MAX_NOT_AUDITED = 50
+_VERSION = re.compile(r"v?\d+(?:\.\d+)*(?:[-._]?(?:a|b|rc|alpha|beta|dev|post|pre)\d*)*(?:\+[0-9A-Za-z.]+)?")
 
 
 def _load_optional_json(root: Path, relative: Path) -> Any:
@@ -66,15 +80,10 @@ def _require_str(mapping: Any, key: str, where: str) -> str:
     return value
 
 
-def _parse_timestamp(value: str, where: str) -> datetime:
-    text = value[:-1] + "+00:00" if value.endswith("Z") else value
-    try:
-        parsed = datetime.fromisoformat(text)
-    except ValueError as exc:
-        raise SensorUnavailable(f"{where} has an unparseable timestamp: {value!r}") from exc
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed
+def _shown(value: str) -> str:
+    """A string echoed on purpose (an identifier): bounded and credential-scrubbed."""
+
+    return scrub(value)[:_VALUE_LIMIT]
 
 
 class CiWorkflowSensor:
@@ -132,10 +141,25 @@ def _workflow_findings(path: Path) -> list[dict[str, str]]:
         return [{"rule": "unparseable-workflow", "detail": "workflow is not a mapping"}]
 
     findings: list[dict[str, str]] = []
-    if "permissions" not in document:
-        findings.append({"rule": "missing-permissions", "detail": "no top-level permissions key"})
-
     jobs = document.get("jobs") if isinstance(document.get("jobs"), dict) else {}
+    if "permissions" not in document:
+        # A job that declares its own permissions is scoped; only a job that
+        # inherits the repository default token with no top-level cap is a gap.
+        unscoped = [
+            str(job_id)
+            for job_id in sorted(jobs, key=str)
+            if isinstance(jobs[job_id], dict) and "permissions" not in jobs[job_id]
+        ]
+        if unscoped:
+            findings.append(
+                {
+                    "rule": "missing-permissions",
+                    "detail": (
+                        "no top-level permissions key and no job-level permissions on job "
+                        + ", ".join(_shown(job_id) for job_id in unscoped)
+                    ),
+                }
+            )
     for job_id in sorted(jobs, key=str):
         job = jobs[job_id]
         if not isinstance(job, dict):
@@ -143,18 +167,20 @@ def _workflow_findings(path: Path) -> list[dict[str, str]]:
         # A reusable-workflow call job cannot declare timeout-minutes.
         if "uses" not in job and "timeout-minutes" not in job:
             findings.append(
-                {"rule": "missing-timeout", "detail": f"job {job_id} has no timeout-minutes"}
+                {"rule": "missing-timeout", "detail": f"job {_shown(str(job_id))} has no timeout-minutes"}
             )
 
     for location, value in _walk_key(document, "permissions"):
         if value == "write-all":
-            findings.append({"rule": "write-all-permissions", "detail": f"{location} grants write-all"})
+            findings.append({"rule": "write-all-permissions", "detail": f"{_shown(location)} grants write-all"})
 
     for location, value in _walk_key(document, "uses"):
         if not isinstance(value, str) or "@" not in value:
             continue
         if value.rsplit("@", 1)[1].strip() in _BRANCH_REFS:
-            findings.append({"rule": "branch-pinned-action", "detail": f"{location} uses {value}"})
+            findings.append(
+                {"rule": "branch-pinned-action", "detail": f"{_shown(location)} uses {_shown(value)}"}
+            )
 
     if "pull_request_target" in _triggers(document):
         for job_id in sorted(jobs, key=str):
@@ -178,7 +204,7 @@ def _workflow_findings(path: Path) -> list[dict[str, str]]:
                         {
                             "rule": "pull-request-target-checkout",
                             "detail": (
-                                f"job {job_id} step {index} checks out the pull request head "
+                                f"job {_shown(str(job_id))} step {index} checks out the pull request head "
                                 "under pull_request_target"
                             ),
                         }
@@ -214,11 +240,19 @@ def _walk_key(node: Any, key: str, location: str = "$") -> Iterator[tuple[str, A
 
 
 class CiHealthSensor:
-    """Latest-run failures and retry churn from a driver-supplied run history."""
+    """Latest-run failures and retry churn from a driver-supplied run history.
+
+    Exhaustive whenever the input is present, valid, fresh and about this
+    checkout's repository: a healthy re-collection then resolves the workflow
+    failures an earlier one reported. An absent, stale or foreign input raises
+    ``SensorNotEvaluated`` and the controller sweeps nothing.
+    """
 
     id = "ci-health"
     debt_kinds = ("ci_failure",)
     routine_ids = (13,)
+    resolution_scope = "exhaustive"
+    driver_inputs = (_CI_RUNS_INPUT.as_posix(),)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         root = git_root(repo_root)
@@ -227,19 +261,28 @@ class CiHealthSensor:
             raise SensorUnavailable(f"ci-runs does not declare schema {_CI_RUNS_SCHEMA}")
         repository = _require_str(document, "repository", "ci-runs")
         branch = _require_str(document, "branch", "ci-runs")
-        collected_at = _require_str(document, "collectedAt", "ci-runs")
+        if not _REPOSITORY.fullmatch(repository):
+            raise SensorUnavailable(f"ci-runs repository is not owner/name {describe_value(repository)}")
+        if not _BRANCH.fullmatch(branch):
+            raise SensorUnavailable(f"ci-runs branch is not a plain ref name {describe_value(branch)}")
         runs = _validate_runs(document.get("runs"))
+        freshness = require_fresh(document, root / _CI_RUNS_INPUT, observed_at, label="ci-runs")
+
+        origin = origin_repository(root)
+        if origin is not None and origin.casefold() != repository.casefold():
+            raise SensorNotEvaluated("ci-runs is about another repository than this checkout's origin")
+        repository_check = "origin-match" if origin is not None else "origin-unknown"
 
         by_workflow: dict[str, list[dict[str, Any]]] = {}
         for run in runs:
-            by_workflow.setdefault(run["workflow"], []).append(run)
+            by_workflow.setdefault(run["group"], []).append(run)
 
         observations: list[Observation] = []
-        for workflow in sorted(by_workflow):
-            group = by_workflow[workflow]
+        for group_key in sorted(by_workflow):
+            group = by_workflow[group_key]
             latest = max(
                 group,
-                key=lambda run: (_parse_timestamp(run["createdAt"], "ci-runs"), run["runAttempt"]),
+                key=lambda run: (parse_instant(run["createdAt"], "ci-runs"), run["runAttempt"]),
             )
             if latest["conclusion"] not in _FAILING_CONCLUSIONS:
                 continue
@@ -253,11 +296,13 @@ class CiHealthSensor:
                 "url": latest["url"],
             }
             observed_state = finding_payload([finding])
-            observed_state.update({"workflow": workflow, "retryChurn": churn, "runCount": len(group)})
+            observed_state.update(
+                {"workflow": _shown(latest["workflow"]), "retryChurn": churn, "runCount": len(group)}
+            )
             observations.append(
                 Observation(
                     kind="ci_failure",
-                    subject=Subject(type="workflow-run", id=workflow),
+                    subject=Subject(type="workflow-run", id=_shown(group_key)),
                     observed_at=observed_at,
                     source=self.id,
                     status="drift",
@@ -268,8 +313,9 @@ class CiHealthSensor:
                         "input": _CI_RUNS_INPUT.as_posix(),
                         "schemaVersion": _CI_RUNS_SCHEMA,
                         "repository": repository,
+                        "repositoryCheck": repository_check,
                         "branch": branch,
-                        "collectedAt": collected_at,
+                        **freshness,
                     },
                 )
             )
@@ -293,10 +339,34 @@ def _validate_runs(runs: Any) -> list[dict[str, Any]]:
             key: _require_str(run, key, where)
             for key in ("workflow", "conclusion", "headSha", "createdAt", "url")
         }
-        _parse_timestamp(entry["createdAt"], where)
+        parse_instant(entry["createdAt"], where)
+        if not _COMMIT.fullmatch(entry["headSha"]):
+            raise SensorUnavailable(f"{where} headSha is not a commit id {describe_value(entry['headSha'])}")
+        if not _RUN_URL.fullmatch(entry["url"]):
+            raise SensorUnavailable(f"{where} url is not a plain http(s) URL {describe_value(entry['url'])}")
         entry["runAttempt"] = attempt
+        entry["group"] = _workflow_group(run, entry["workflow"], where)
         validated.append(entry)
     return validated
+
+
+def _workflow_group(run: dict[str, Any], name: str, where: str) -> str:
+    """Group key: the workflow's path or id when the driver supplied one, else its name.
+
+    Two workflows may share a display name; a path or numeric id does not.
+    """
+
+    path = run.get("workflowPath")
+    if path is not None:
+        if not isinstance(path, str) or not path.strip():
+            raise SensorUnavailable(f"{where} workflowPath must be a non-empty string")
+        return path
+    identifier = run.get("workflowId")
+    if identifier is not None:
+        if isinstance(identifier, bool) or not isinstance(identifier, (int, str)) or identifier == "":
+            raise SensorUnavailable(f"{where} workflowId must be an integer or non-empty string")
+        return f"id:{identifier}"
+    return name
 
 
 class SupplyChainSensor:
@@ -344,13 +414,13 @@ class SupplyChainSensor:
                                 {
                                     "rule": "version-mismatch",
                                     "detail": (
-                                        f"pyproject.toml={pyproject_version} "
-                                        f"{_NPM_MANIFEST}={npm_version}"
+                                        f"pyproject.toml={safe_token(pyproject_version, _VERSION)} "
+                                        f"{_NPM_MANIFEST}={safe_token(npm_version, _VERSION)}"
                                     ),
                                 }
                             ]
                         ),
-                        "versions": {"pyproject": pyproject_version, "cliNPM": npm_version},
+                        "versions": {"pyproject": safe_token(pyproject_version, _VERSION), "cliNPM": safe_token(npm_version, _VERSION)},
                     },
                     confidence=1.0,
                     provenance={
@@ -420,12 +490,26 @@ class SupplyChainSensor:
 
     @staticmethod
     def _unpinned_findings(project: dict[str, Any]) -> list[dict[str, str]]:
-        groups: list[tuple[str, Any]] = [("dependencies", project.get("dependencies", []))]
-        optional = project.get("optional-dependencies", {})
+        findings: list[dict[str, str]] = []
+        dynamic = SupplyChainSensor._dynamic_fields(project)
+        groups: list[tuple[str, Any]] = []
+        for field in ("dependencies", "optional-dependencies"):
+            if field in dynamic:
+                # A set the sensor cannot see is not a healthy set.
+                findings.append(
+                    {
+                        "rule": "dynamic-dependencies",
+                        "detail": f"[project].{field} is declared dynamic; pins cannot be checked statically",
+                        "group": field,
+                        "requirement": "",
+                    }
+                )
+        if "dependencies" not in dynamic:
+            groups.append(("dependencies", project.get("dependencies", [])))
+        optional = project.get("optional-dependencies", {}) if "optional-dependencies" not in dynamic else {}
         if not isinstance(optional, dict):
             raise SensorUnavailable("[project].optional-dependencies must be a table")
         groups.extend((f"optional-dependencies.{name}", optional[name]) for name in sorted(optional))
-        findings: list[dict[str, str]] = []
         for group, requirements in groups:
             if not isinstance(requirements, list) or not all(isinstance(item, str) for item in requirements):
                 raise SensorUnavailable(f"[project].{group} must be a list of strings")
@@ -434,12 +518,21 @@ class SupplyChainSensor:
                     findings.append(
                         {
                             "rule": "unpinned-dependency",
-                            "detail": f"{group} declares {requirement.strip()!r} with no version specifier",
+                            "detail": (
+                                f"{group} declares {_shown(requirement.strip())!r} with no version specifier"
+                            ),
                             "group": group,
-                            "requirement": requirement.strip(),
+                            "requirement": _shown(requirement.strip()),
                         }
                     )
         return sorted(findings, key=lambda item: (item["group"], item["requirement"]))
+
+    @staticmethod
+    def _dynamic_fields(project: dict[str, Any]) -> frozenset[str]:
+        dynamic = project.get("dynamic", [])
+        if not isinstance(dynamic, list) or not all(isinstance(item, str) for item in dynamic):
+            raise SensorUnavailable("[project].dynamic must be a list of strings")
+        return frozenset(dynamic)
 
     @staticmethod
     def _license_findings(
@@ -463,6 +556,15 @@ class SupplyChainSensor:
         if any(isinstance(item, str) and item.startswith("License ::") for item in classifiers):
             declared = True
 
+        if "license" in SupplyChainSensor._dynamic_fields(project):
+            findings.append(
+                {
+                    "rule": "license-dynamic",
+                    "detail": "[project].license is declared dynamic; the license cannot be checked statically",
+                }
+            )
+            declared = True  # unknown is reported above, not also called "undeclared"
+
         license_file = next((name for name in _LICENSE_FILES if name in tracked), None)
         if license_file and not declared:
             findings.append(
@@ -484,8 +586,8 @@ class SupplyChainSensor:
                 {
                     "rule": "license-mismatch",
                     "detail": (
-                        f"pyproject declares {pyproject_license} but {_NPM_MANIFEST} "
-                        f"declares {npm_license.strip()}"
+                        f"pyproject declares {_shown(pyproject_license)} but {_NPM_MANIFEST} "
+                        f"declares {_shown(npm_license.strip())}"
                     ),
                 }
             )
@@ -511,15 +613,38 @@ def _is_unpinned(requirement: str) -> bool:
 
 
 class DependencyAdvisorySensor:
-    """Known vulnerabilities from a driver-supplied ``pip-audit --format json`` run."""
+    """Known vulnerabilities from a driver-supplied ``pip-audit --format json`` run.
+
+    Exhaustive whenever the input is present, valid and fresh. pip-audit carries
+    no timestamp, so the file's modification time is the freshness clock unless
+    the driver added ``collectedAt``. Dependencies pip-audit skipped (``name``
+    plus ``skip_reason``) were not audited: they are recorded in provenance and
+    never counted as clean or as findings. A skipped third-party package is a
+    reported skip, so the run never sweeps advisory debt as resolved while some
+    dependency went unaudited; only the checkout's own project (pip-audit always
+    skips the editable install) is exempt.
+    """
 
     id = "dependency-advisory"
     debt_kinds = ("dependency_advisory",)
     routine_ids = (14,)
+    resolution_scope = "exhaustive"
+    driver_inputs = (_ADVISORIES_INPUT.as_posix(),)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         root = git_root(repo_root)
-        dependencies = _validate_advisories(_load_optional_json(root, _ADVISORIES_INPUT))
+        document = _load_optional_json(root, _ADVISORIES_INPUT)
+        dependencies, not_audited = _validate_advisories(document)
+        freshness = require_fresh(document, root / _ADVISORIES_INPUT, observed_at, label="advisories")
+        own = _own_project_names(root)
+        skipped = tuple(
+            {"subjectType": "python-package", "subjectId": entry["name"], "reason": "not audited by pip-audit"}
+            for entry in not_audited
+            if _normalize_package(entry["name"]) not in own
+        )
 
         grouped: dict[str, dict[str, Any]] = {}
         for dependency in dependencies:
@@ -558,25 +683,61 @@ class DependencyAdvisorySensor:
                     current_state={"knownVulnerabilities": 0},
                     observed_state=observed_state,
                     confidence=1.0,
-                    provenance={"input": _ADVISORIES_INPUT.as_posix(), "tool": "pip-audit"},
+                    provenance={
+                        "input": _ADVISORIES_INPUT.as_posix(),
+                        "tool": "pip-audit",
+                        "dependenciesAudited": len(dependencies),
+                        "notAudited": not_audited[:_MAX_NOT_AUDITED],
+                        "notAuditedCount": len(not_audited),
+                        **freshness,
+                    },
                 )
             )
-        return observations
+        return SensorScan(observations, skipped)
 
 
-def _validate_advisories(document: Any) -> list[dict[str, Any]]:
+def _normalize_package(name: str) -> str:
+    return re.sub(r"[-_.]+", "-", name).lower()
+
+
+def _own_project_names(root: Path) -> set[str]:
+    """The checkout's own distribution name(s), which pip-audit never resolves."""
+
+    try:
+        project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8")).get("project")
+    except (OSError, UnicodeDecodeError, tomllib.TOMLDecodeError):
+        return set()
+    name = project.get("name") if isinstance(project, dict) else None
+    return {_normalize_package(name)} if isinstance(name, str) and name else set()
+
+
+def _validate_advisories(document: Any) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+    """Return (audited dependencies, not-audited entries) from pip-audit JSON."""
+
     if not isinstance(document, dict):
         raise SensorUnavailable("advisories must be a JSON object")
     dependencies = document.get("dependencies")
     if not isinstance(dependencies, list):
         raise SensorUnavailable("advisories requires a dependencies list")
+    fixes = document.get("fixes", [])
+    if not isinstance(fixes, list):
+        raise SensorUnavailable("advisories fixes must be a list when present")
     validated: list[dict[str, Any]] = []
+    not_audited: list[dict[str, str]] = []
     for index, dependency in enumerate(dependencies):
         where = f"advisories dependency {index}"
         if not isinstance(dependency, dict):
             raise SensorUnavailable(f"{where} is not an object")
-        name = _require_str(dependency, "name", where)
-        version = _require_str(dependency, "version", where)
+        name = _shown(_require_str(dependency, "name", where))
+        if "version" not in dependency and "skip_reason" in dependency:
+            # pip-audit could not resolve this package (local, editable, not on
+            # the index). It was not audited: say so, never call it clean.
+            reason = dependency["skip_reason"]
+            if not isinstance(reason, str):
+                raise SensorUnavailable(f"{where} skip_reason must be a string")
+            not_audited.append({"name": name, "reason": _shown(reason)})
+            continue
+        version = _shown(_require_str(dependency, "version", where))
         vulns = dependency.get("vulns")
         if not isinstance(vulns, list):
             raise SensorUnavailable(f"{where} requires a vulns list")
@@ -589,7 +750,11 @@ def _validate_advisories(document: Any) -> list[dict[str, Any]]:
             if not isinstance(fix_versions, list) or not all(isinstance(item, str) for item in fix_versions):
                 raise SensorUnavailable(f"{vuln_where} requires fix_versions as a string list")
             parsed_vulns.append(
-                {"id": _require_str(vuln, "id", vuln_where), "fix_versions": sorted(fix_versions)}
+                {
+                    "id": _shown(_require_str(vuln, "id", vuln_where)),
+                    "fix_versions": sorted(_shown(item) for item in fix_versions),
+                }
             )
         validated.append({"name": name, "version": version, "vulns": parsed_vulns})
-    return validated
+    not_audited.sort(key=lambda item: (item["name"], item["reason"]))
+    return validated, not_audited

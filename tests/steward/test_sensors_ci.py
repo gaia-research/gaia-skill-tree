@@ -12,7 +12,7 @@ from gaia_cli.steward.sensors_ci import (
     DependencyAdvisorySensor,
     SupplyChainSensor,
 )
-from tests.steward.sensor_fixtures import commit_all, make_repo, tree_digest, write_files
+from tests.steward.sensor_fixtures import commit_all, make_repo, set_mtime, tree_digest, write_files
 
 
 NOW = "2026-10-20T00:00:00Z"
@@ -66,6 +66,7 @@ def _write_inputs(root: Path, name: str, payload) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = payload if isinstance(payload, str) else json.dumps(payload)
     target.write_text(text, encoding="utf-8")
+    set_mtime(target, NOW)
 
 
 def _ci_runs(runs, **overrides):

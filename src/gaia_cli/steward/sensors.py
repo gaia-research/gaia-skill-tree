@@ -23,10 +23,24 @@ from gaia_cli.steward.mirrors import (
 from gaia_cli.registryMaps import buildMergedSkillMap
 from gaia_cli.steward.models import Observation, SensorScan, Subject, stable_json
 from gaia_cli.steward.primitives.files import SensorUnavailable, SkipLog, tracked_files
+from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
 from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 
+
+
+def schemaViolation(error: Any) -> str:
+    """Describe a jsonschema error by keyword and location, never by the offending value.
+
+    ``error.message`` embeds the instance (``'x' is not of type ...``), which
+    can carry a credential or private text into debt and receipts.
+    """
+
+    keyword = error.validator if isinstance(error.validator, str) and error.validator.isidentifier() else "unknown"
+    parts = [str(part).replace("~", "~0").replace("/", "~1") for part in error.absolute_path]
+    pointer = scrub("/" + "/".join(parts))[:160] if parts else "/"
+    return f"schema {pointer}: {keyword} violation"
 
 class Sensor(Protocol):
     id: str
@@ -376,16 +390,13 @@ class RegistryIntegritySensor:
                 violations.append({"path": relative, "error": "node must be a JSON object"})
                 continue
             for error in sorted(validator.iter_errors(node), key=lambda item: list(item.path)):
-                pointer = "/" + "/".join(str(part) for part in error.path)
-                violations.append(
-                    {"path": relative, "error": f"schema {pointer}: {error.message}"}
-                )
+                violations.append({"path": relative, "error": schemaViolation(error)})
             skill_id = node.get("id")
             if not isinstance(skill_id, str) or not skill_id:
                 continue
             if path.stem != skill_id:
                 violations.append(
-                    {"path": relative, "error": f"filename does not match id {skill_id!r}"}
+                    {"path": relative, "error": f"filename does not match id {scrub(repr(skill_id))[:160]}"}
                 )
             if skill_id in nodes:
                 first_path = nodes[skill_id][0].relative_to(repo_root).as_posix()
@@ -2275,15 +2286,11 @@ class BenchmarkFreshnessSensor:
                 Draft7Validator.check_schema(schema)
                 validator = Draft7Validator(schema)
                 for error in sorted(validator.iter_errors(catalog_data), key=lambda e: list(e.path)):
-                    pointer = "/" + "/".join(str(p) for p in error.path)
-                    violations.append({
-                        "path": self._CATALOG_PATH,
-                        "error": f"schema {pointer}: {error.message}",
-                    })
+                    violations.append({"path": self._CATALOG_PATH, "error": schemaViolation(error)})
             except Exception as exc:
                 violations.append({
                     "path": self._CATALOG_PATH,
-                    "error": f"schema validation error: {exc}",
+                    "error": f"schema validation error: {type(exc).__name__}",
                 })
 
         benchmarks = catalog_data.get("benchmarks")

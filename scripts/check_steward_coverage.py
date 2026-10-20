@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import argparse
 import ast
+import fnmatch
+import functools
+import inspect
 import json
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -53,6 +57,7 @@ def _literal(node: ast.AST) -> Any:
         return None
 
 
+@functools.lru_cache(maxsize=4)
 def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     """Find sensor id -> emitted Observation kind ownership from source AST."""
     files = list((root / "src/gaia_cli/steward").glob("*.py"))
@@ -112,6 +117,7 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     return ownership
 
 
+@functools.lru_cache(maxsize=4)
 def _live_policy(root: Path) -> tuple[dict[str, str], dict[str, tuple[str, str]], dict[str, tuple[str, str]], dict[str, Any], dict[str, tuple[str, str]]]:
     sys.path.insert(0, str(root / "src"))
     from gaia_cli.steward.controller import StewardController
@@ -190,6 +196,104 @@ def _expected_static_states(kinds: list[str], authority: dict[str, str], executo
     return states
 
 
+# Tests that exercise the controller, the CLI or this catalog serve every routine.
+GENERAL_TEST_PATTERNS = (
+    "tests/steward/test_controller*.py",
+    "tests/steward/test_cli.py",
+    "tests/steward/test_routine_coverage.py",
+)
+# Steward modules whose literals say nothing about a sensor's inputs.
+_NEUTRAL_HELPERS = {"models", "primitives", "policy", "receipts", "debt"}
+
+
+def _string_literals(tree: ast.AST) -> set[str]:
+    return {n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)}
+
+
+def _helper_modules(path: Path, tree: ast.Module) -> list[Path]:
+    """Steward modules the sensor module imports from (one hop), e.g. ``mirrors.py``."""
+    found: list[Path] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom):
+            continue
+        if node.level:
+            candidates = [node.module.split(".")[0]] if node.module else [alias.name for alias in node.names]
+        elif (node.module or "").startswith("gaia_cli.steward."):
+            candidates = [node.module.split(".")[2]]
+        elif node.module == "gaia_cli.steward":
+            candidates = [alias.name for alias in node.names]
+        else:
+            continue
+        for name in candidates:
+            if name in _NEUTRAL_HELPERS:
+                continue
+            candidate = path.parent / f"{name}.py"
+            if candidate.is_file() and candidate != path:
+                found.append(candidate)
+    return found
+
+
+@functools.lru_cache(maxsize=None)
+def _module_literals(source: str) -> frozenset[str]:
+    """Literals of one module file plus its imported steward helpers (cached per file)."""
+    path = Path(source)
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return frozenset()
+    literals = _string_literals(tree)
+    for helper in _helper_modules(path, tree):
+        try:
+            literals |= _string_literals(ast.parse(helper.read_text(encoding="utf-8")))
+        except (OSError, SyntaxError):
+            continue
+    return frozenset(literals)
+
+
+def _sensor_literals(sensor: Any) -> frozenset[str]:
+    """String literals in the sensor's module and its imported steward helpers."""
+    try:
+        source = inspect.getsourcefile(type(sensor))
+    except TypeError:
+        source = None
+    return _module_literals(source) if source else frozenset()
+
+
+def _names_input(literals: frozenset[str], path: str) -> bool:
+    """Whether some literal is the path itself or names something beneath it."""
+    wanted = path.rstrip("/")
+    for literal in literals:
+        shown = literal.strip().rstrip("/")
+        if shown == wanted or (wanted not in ("", ".") and shown.startswith(wanted + "/")):
+            return True
+    return False
+
+
+@functools.lru_cache(maxsize=None)
+def _imported_names(path: str) -> frozenset[str]:
+    """Names a module imports from elsewhere, plus attribute names it references."""
+    try:
+        tree = ast.parse(Path(path).read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return frozenset()
+    names: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            names.update(alias.name for alias in node.names)
+        elif isinstance(node, ast.Attribute):
+            names.add(node.attr)
+    return frozenset(names)
+
+
+def _imports_class(root: Path, test: str, class_name: str) -> bool:
+    """AST check that a test module imports (or attribute-references) the sensor class."""
+    return class_name in _imported_names(str(root / test))
+
+
+def _is_general_test(test: str) -> bool:
+    return any(fnmatch.fnmatchcase(Path(test).as_posix(), pattern) for pattern in GENERAL_TEST_PATTERNS)
+
+
 def _check_detector(
     root: Path, detector: Any, sensor: Any, ownership: dict[str, set[str]],
     authority: dict[str, str], executors: dict[str, tuple[str, str]], errors: list[str],
@@ -212,8 +316,22 @@ def _check_detector(
         errors.append(f"{label}: declared debt kinds {sorted(kinds)} differ from kinds emitted in source {sorted(emitted)}")
     if detector["authority"] != {kind: authority.get(kind) for kind in kinds}:
         errors.append(f"{label}: authority must match POLICY.yaml for every debt kind")
-    driver = isinstance(detector["inputs"], list) and any(
-        isinstance(item, dict) and str(item.get("path", "")).startswith(DRIVER_INPUT_PREFIX) for item in detector["inputs"])
+    # "Driver input" is a fact about the SENSOR (``driver_inputs``), never about
+    # what the catalog says, so a catalog cannot relabel an input to dodge a check.
+    declared_driver = tuple(getattr(sensor, "driver_inputs", ()))
+    driver = bool(declared_driver)
+    for path_text in declared_driver:
+        if not isinstance(path_text, str) or not path_text.startswith(DRIVER_INPUT_PREFIX):
+            errors.append(f"{label}: sensor driver_inputs must live under {DRIVER_INPUT_PREFIX}")
+    catalog_driver = sorted(
+        item["path"] for item in detector["inputs"]
+        if isinstance(item, dict) and isinstance(item.get("path"), str) and item["path"].startswith(DRIVER_INPUT_PREFIX)
+    ) if isinstance(detector["inputs"], list) else []
+    if catalog_driver != sorted(p for p in declared_driver if isinstance(p, str)):
+        errors.append(
+            f"{label}: driver inputs {catalog_driver!r} must equal the sensor's driver_inputs {sorted(declared_driver)!r}"
+        )
+    literals = _sensor_literals(sensor)
     if not isinstance(detector["inputs"], list) or not detector["inputs"]:
         errors.append(f"{label}: inputs must be a non-empty list")
     else:
@@ -228,6 +346,10 @@ def _check_detector(
                 errors.append(f"{label}: repository input {item['path']} must be required")
             elif not _tracked(root, item["path"]):
                 errors.append(f"{label}: required input {item['path']} is not tracked by Git")
+            elif not _names_input(literals, item["path"]):
+                errors.append(
+                    f"{label}: required input {item['path']} appears nowhere in the sensor's source or its steward helper"
+                )
     expected_trigger = "every-scan-with-driver-input" if driver else "every-scan"
     if detector["trigger"] != expected_trigger:
         errors.append(f"{label}: trigger must be {expected_trigger!r}")
@@ -267,9 +389,10 @@ def _check_detector(
     if not _test_paths_ok(root, detector["proof"]) or not detector["proof"]:
         errors.append(f"{label}: proof must list existing test paths within tests/**")
     else:
-        names = {sid, type(sensor).__name__}
-        if not any(any(name in (root / test).read_text(encoding="utf-8") for name in names) for test in detector["proof"]):
-            errors.append(f"{label}: no proof test references the sensor by id or class name")
+        class_name = type(sensor).__name__
+        for test in detector["proof"]:
+            if not _imports_class(root, test, class_name):
+                errors.append(f"{label}: proof test {test} does not import {class_name}")
 
 
 def _check_binding(
@@ -412,6 +535,14 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
             errors.append(f"{label}: owners must be positive issue integers")
         if not _test_paths_ok(root, row["tests"]):
             errors.append(f"{label}: tests must contain existing paths within tests/**")
+        else:
+            serving = {type(registered[sid]).__name__ for sid in expected_detectors}
+            for test in row["tests"]:
+                if not _is_general_test(test) and not any(_imports_class(root, test, name) for name in serving):
+                    errors.append(
+                        f"{label}: test {test} imports no sensor serving this routine "
+                        f"and is not a controller, CLI or coverage test"
+                    )
         if not isinstance(row["bindings"], list):
             errors.append(f"{label}: bindings must be a list")
             continue
@@ -461,13 +592,69 @@ def _result(errors: list[str], unaccounted: list[str], statuses: dict[str, int],
             "errors": errors, "ok": not errors}
 
 
+def lie_catalogs(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Self-consistent catalog lies the checker must reject (used by ``--check`` and the tests).
+
+    Each one is internally tidy and would pass a check that only compares the
+    catalog with itself; each is false about the sensor or its tests.
+    """
+    def clone() -> dict[str, Any]:
+        return json.loads(json.dumps(data))
+
+    def detector(copy: dict[str, Any], sensor_id: str) -> dict[str, Any]:
+        return next(item for item in copy["detectors"] if item["id"] == sensor_id)
+
+    result: dict[str, dict[str, Any]] = {}
+    copy = clone()
+    detector(copy, "frontend-contract")["inputs"] = [{"path": "README.md", "required": True}]
+    result["readme-as-input"] = copy
+    copy = clone()
+    detector(copy, "frontend-contract")["inputs"].append({"path": "LICENSE", "required": True})
+    result["unrelated-required-input"] = copy
+    copy = clone()
+    detector(copy, "frontend-contract")["proof"].append("tests/steward/test_primitives.py")
+    result["non-importing-proof-test"] = copy
+    copy = clone()
+    copy["routines"][0]["tests"].append("tests/steward/test_primitives.py")
+    result["unrelated-routine-test"] = copy
+    copy = clone()
+    detector(copy, "frontend-contract")["inputs"].append({"path": DRIVER_INPUT_PREFIX + "x.json", "required": False})
+    result["invented-driver-input"] = copy
+    copy = clone()
+    detector(copy, "ci-health")["inputs"] = [{"path": "docs", "required": True}]
+    result["hidden-driver-input"] = copy
+    return result
+
+
+def self_check(root: Path = ROOT) -> list[str]:
+    """Return the names of lies the checker wrongly accepted (empty means it still has teeth)."""
+    data = json.loads((root / CATALOG).read_text(encoding="utf-8"))
+    accepted: list[str] = []
+    with tempfile.TemporaryDirectory() as scratch:
+        for name, mutated in lie_catalogs(data).items():
+            path = Path(scratch) / f"{name}.json"
+            path.write_text(json.dumps(mutated), encoding="utf-8")
+            if validate(root, path)["ok"]:
+                accepted.append(name)
+    return accepted
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="validate inventory against source and policy")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="also prove the checker still rejects its known catalog lies (README as input, unrelated "
+        "input, non-importing proof test, unrelated routine test, flipped driver semantics)",
+    )
     parser.add_argument("--json", action="store_true", help="emit machine-readable result")
     parser.add_argument("--receipt", type=Path, help="also derive live per-detector states from one Steward receipt")
     args = parser.parse_args()
     result = validate()
+    if args.check and result["ok"]:
+        for name in self_check():
+            result["errors"].append(f"self-check: the checker accepted the false catalog {name!r}")
+        result["ok"] = not result["errors"]
     if args.receipt is not None:
         try:
             receipt = json.loads(args.receipt.read_text(encoding="utf-8"))

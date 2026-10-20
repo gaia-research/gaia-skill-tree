@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.check_steward_coverage import ROOT, live_states, validate
+from scripts.check_steward_coverage import ROOT, lie_catalogs, live_states, self_check, validate
 
 
 CATALOG = ROOT / "founder/steward/routine-coverage.json"
@@ -297,7 +297,7 @@ def test_catalog_cannot_claim_live_observation(tmp_path: Path) -> None:
         ("dead-code", lambda d: d["inputs"].append({"path": "no/such/dir", "required": True}), "is not tracked by Git"),
         ("dead-code", lambda d: d.update(owningSkill="gaia-steward-imaginary"), "owningSkill"),
         ("secret-scan", lambda d: d["dispositionSkills"].update(credential_leak="gaia-steward-lane"), "dispositionSkills"),
-        ("dead-code", lambda d: d.update(proof=["tests/steward/test_digest.py"]), "references the sensor"),
+        ("dead-code", lambda d: d.update(proof=["tests/steward/test_digest.py"]), "does not import DeadCodeSensor"),
         ("dead-code", lambda d: d.update(resolutionScope="observed-only"), "resolutionScope"),
         ("dead-code", lambda d: d.pop("dedupeKey"), "fields must be exactly"),
     ],
@@ -339,6 +339,77 @@ def test_live_states_never_count_an_unexecuted_probe_as_healthy() -> None:
     )
     assert "human-gated" in states["secret-scan"]
     assert "eligible-auto-remediation" in states["agent-skill-mirror"]
+
+
+# --- a catalog that is tidy but false ---------------------------------------
+
+LIE_MESSAGES = {
+    "readme-as-input": "appears nowhere in the sensor's source",
+    "unrelated-required-input": "appears nowhere in the sensor's source",
+    "non-importing-proof-test": "does not import FrontendContractSensor",
+    "unrelated-routine-test": "imports no sensor serving this routine",
+    "invented-driver-input": "must equal the sensor's driver_inputs",
+    "hidden-driver-input": "must equal the sensor's driver_inputs",
+}
+
+
+@pytest.mark.parametrize("name", sorted(LIE_MESSAGES))
+def test_catalog_rejects_each_self_consistent_lie(tmp_path: Path, name: str) -> None:
+    _, data = _catalog(tmp_path)
+    mutated = lie_catalogs(data)[name]
+
+    errors = _errors(tmp_path, mutated)
+
+    assert any(LIE_MESSAGES[name] in error for error in errors), errors
+
+
+def test_every_lie_is_covered_by_a_named_expectation() -> None:
+    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    assert set(lie_catalogs(data)) == set(LIE_MESSAGES)
+
+
+def test_readme_as_input_is_rejected_even_though_it_is_tracked(tmp_path: Path) -> None:
+    _, data = _catalog(tmp_path)
+    _detector(data, "dead-code")["inputs"] = [{"path": "README.md", "required": True}]
+
+    errors = _errors(tmp_path, data)
+
+    assert any("required input README.md appears nowhere" in error for error in errors)
+
+
+def test_flipped_driver_semantics_are_rejected_in_both_directions(tmp_path: Path) -> None:
+    _, data = _catalog(tmp_path)
+    # The catalog calls a driver input required: a missing optional input would then block.
+    _detector(data, "ci-health")["inputs"][0]["required"] = True
+    assert any("cannot be required" in error for error in _errors(tmp_path, data))
+
+    _, data = _catalog(tmp_path)
+    # The catalog calls a sensor's driver input an ordinary repository input.
+    _detector(data, "dependency-advisory")["inputs"] = [{"path": "pyproject.toml", "required": True}]
+    assert any("must equal the sensor's driver_inputs" in error for error in _errors(tmp_path, data))
+
+
+def test_driver_inputs_come_from_the_sensor_not_the_catalog() -> None:
+    from gaia_cli.steward.sensors import default_sensors
+
+    declared = {
+        sensor.id: tuple(sensor.driver_inputs) for sensor in default_sensors() if hasattr(sensor, "driver_inputs")
+    }
+    assert declared == {
+        "ci-health": (".gaia/steward/inputs/ci-runs.json",),
+        "dependency-advisory": (".gaia/steward/inputs/advisories.json",),
+        "test-history": (".gaia/steward/inputs/test-history.json",),
+    }
+    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    for sensor_id, paths in declared.items():
+        catalog_driver = [
+            item["path"] for item in _detector(data, sensor_id)["inputs"] if item["path"].startswith(".gaia/steward/inputs/")
+        ]
+        assert tuple(catalog_driver) == paths
+
+
+def test_check_mode_self_test_proves_the_checker_still_rejects_every_lie() -> None:
+    assert self_check(ROOT) == []
 
 
 def test_live_states_mark_a_partially_covered_detector_in_addition_to_observed() -> None:
