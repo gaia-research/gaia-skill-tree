@@ -9,18 +9,23 @@ TM 21.68 / grade C vs the inspector's 88.97 / grade B).
 from __future__ import annotations
 
 import json
+import shutil
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 import yaml
 
 import gaia_cli.steward.sensors as sensors_module
+from gaia_cli.steward.controller import StewardController
+from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 from gaia_cli.steward.primitives.files import SensorUnavailable
 from gaia_cli.steward.sensors import TrustCalibrationDriftSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 from tests.steward.sensor_fixtures import make_repo, tree_digest
 
 NOW = "2026-10-20T00:00:00Z"
+START = datetime(2026, 10, 20, tzinfo=timezone.utc)
 
 PARENT = {
     "id": "parent-platform",
@@ -203,3 +208,96 @@ def test_tree_without_named_registry_has_no_subjects(tmp_path: Path) -> None:
 
 def test_trust_sensor_declares_exhaustive_resolution() -> None:
     assert TrustCalibrationDriftSensor.resolution_scope == "exhaustive"
+
+
+# ------------------------------------------------------------- stale stamps (#1642)
+
+EFFECTIVE_TM = 56.84  # own 35.0 + inherited 21.84, see the discriminating fixture
+
+
+def test_stale_trust_stamp_is_reported_without_touching_calibration(tmp_path: Path) -> None:
+    repo = _fixture(tmp_path, level="3★", trustMagnitude=50.0)
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    assert observation.kind == "trust_stamp_stale"
+    assert observation.subject.type == "named-skill"
+    assert observation.subject.id == "owner/child"
+    assert observation.status == "drift"
+    assert observation.confidence == 1.0
+    assert observation.current_state == {"trustMagnitude": 50.0}
+    assert observation.observed_state["trustMagnitude"] == pytest.approx(EFFECTIVE_TM)
+    assert observation.observed_state["delta"] == pytest.approx(EFFECTIVE_TM - 50.0, abs=0.01)
+    assert observation.observed_state["tolerance"] == TrustCalibrationDriftSensor._STAMP_TOLERANCE
+
+
+def test_freshly_rounded_stamp_is_not_stale(tmp_path: Path) -> None:
+    repo = _fixture(tmp_path, level="3★", trustMagnitude=round(EFFECTIVE_TM, 2))
+
+    assert TrustCalibrationDriftSensor().scan(repo, NOW) == []
+
+
+@pytest.mark.parametrize(
+    ("offset", "reported"),
+    [(0.0, False), (0.005, False), (0.015, False), (0.03, True), (-0.03, True)],
+)
+def test_stamp_tolerance_separates_rounding_from_movement(
+    tmp_path: Path, offset: float, reported: bool
+) -> None:
+    computed = computeTrustMagnitude(_skill(_fixture(tmp_path / "probe")), {"parent-platform": PARENT})
+    repo = _fixture(tmp_path / "subject", level="3★", trustMagnitude=round(computed + offset, 4))
+
+    kinds = [item.kind for item in TrustCalibrationDriftSensor().scan(repo, NOW)]
+
+    assert kinds == (["trust_stamp_stale"] if reported else [])
+
+
+@pytest.mark.parametrize("stamp", [None, "56.84", True, [56.84]])
+def test_absent_or_non_numeric_stamp_is_not_a_stale_finding(tmp_path: Path, stamp: object) -> None:
+    extra = {} if stamp is None else {"trustMagnitude": stamp}
+    repo = _fixture(tmp_path, level="3★", **extra)
+
+    assert TrustCalibrationDriftSensor().scan(repo, NOW) == []
+
+
+def test_stamp_finding_does_not_alter_calibration_findings(tmp_path: Path) -> None:
+    plain = TrustCalibrationDriftSensor().scan(_fixture(tmp_path / "plain", level="5★"), NOW)
+    stamped = TrustCalibrationDriftSensor().scan(
+        _fixture(tmp_path / "stamped", level="5★", trustMagnitude=10.0), NOW
+    )
+
+    assert [item.kind for item in plain] == ["trust_calibration_drift"]
+    assert sorted(item.kind for item in stamped) == ["trust_calibration_drift", "trust_stamp_stale"]
+    calibration = next(item for item in stamped if item.kind == "trust_calibration_drift")
+    assert calibration.to_dict() == plain[0].to_dict()
+
+
+def test_frozen_skill_keeps_its_rank_but_its_stale_stamp_is_still_measured(tmp_path: Path) -> None:
+    repo = _fixture(
+        tmp_path,
+        level="5★",
+        trustMagnitude=10.0,
+        timeline=[{"action": "upstream_deprecated", "timestamp": "2026-01-01T00:00:00Z"}],
+    )
+
+    assert [item.kind for item in TrustCalibrationDriftSensor().scan(repo, NOW)] == ["trust_stamp_stale"]
+
+
+def test_stamp_findings_resolve_through_the_controller_when_restamped(tmp_path: Path) -> None:
+    repo = _fixture(tmp_path, level="3★", trustMagnitude=10.0)
+    policy = repo / POLICY_RELATIVE_PATH
+    policy.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(Path(__file__).resolve().parents[2] / POLICY_RELATIVE_PATH, policy)
+    ticks = iter(START + timedelta(minutes=n) for n in range(100))
+    controller = StewardController(sensors=[TrustCalibrationDriftSensor()], clock=lambda: next(ticks))
+
+    first = controller.scan(repo)
+    assert [debt.kind for debt in first.open_debts] == ["trust_stamp_stale"]
+    assert first.open_debts[0].authority.value == "C"
+
+    named = repo / "registry/named/owner/child.md"
+    named.write_text(_named("owner/child", level="3★", trustMagnitude=round(EFFECTIVE_TM, 2)), encoding="utf-8")
+    second = controller.scan(repo)
+
+    assert second.open_debts == ()
+    assert second.receipt.debt_resolved == (first.open_debts[0].id,)

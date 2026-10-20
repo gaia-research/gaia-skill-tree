@@ -1635,6 +1635,9 @@ class TrustCalibrationDriftSensor:
     propose false demotions (#2114). When that context cannot be built the
     sensor is unavailable rather than guessing.
 
+    It also measures (never repairs) stale frontmatter ``trustMagnitude``
+    stamps as ``trust_stamp_stale`` (#1642); how to refresh stamps is an open
+    founder decision, so this only reports.
     """
 
     id = "trust-calibration-drift"
@@ -1644,6 +1647,12 @@ class TrustCalibrationDriftSensor:
     resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
     _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
+    # Stamps are written as round(computeTrustMagnitude(...), 2) (calibrate.py,
+    # generateNamedIndex.py), so a fresh stamp is within 0.005 of the computed
+    # value; the repo's own scripts/check_trust_magnitude_consistency.py allows
+    # 0.02. On the live tree 325 of 347 stamps sit inside 0.005 and the next
+    # step is 0.046, so 0.02 separates rounding noise from real movement.
+    _STAMP_TOLERANCE = 0.02
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         import yaml
@@ -1690,6 +1699,31 @@ class TrustCalibrationDriftSensor:
             except (ValueError, TypeError, KeyError, AttributeError):
                 unreadable.append(relative)
                 continue
+
+            # #1642 detection only: a live star/evidence refresh moves the
+            # computed TM without re-stamping the frontmatter. This is a
+            # separate finding; it never feeds the calibration logic below.
+            stored_tm = skill.get("trustMagnitude")
+            if (
+                isinstance(stored_tm, (int, float))
+                and not isinstance(stored_tm, bool)
+                and abs(float(stored_tm) - tm) > self._STAMP_TOLERANCE
+            ):
+                observations.append(Observation(
+                    kind="trust_stamp_stale",
+                    subject=Subject(type="named-skill", id=skill_id),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"trustMagnitude": round(float(stored_tm), 2)},
+                    observed_state={
+                        "trustMagnitude": round(tm, 2),
+                        "delta": round(abs(float(stored_tm) - tm), 2),
+                        "tolerance": self._STAMP_TOLERANCE,
+                    },
+                    confidence=1.0,
+                    provenance={"path": relative},
+                ))
 
             current_level = skill.get("level")
             # Only an explicit upstream_deprecated lifecycle event freezes
