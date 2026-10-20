@@ -1,0 +1,12 @@
+# setup: appended drift line to .claude/skills/gaia-steward-desk/SKILL.md; git rm -r registry/named; committed; pushed main and dev/rehearsal
+$ (cd <scratch>/E/work) python -m gaia_cli --registry <scratch>/E/work steward full run --ledger git --integration-branch dev/rehearsal --push --json
+# exit 3 -> run-full.json
+$ (cd <scratch>/E/work) python -m gaia_cli --registry <scratch>/E/work steward full run --observe --ledger git --json
+# exit 3 -> run-observe.json
+$ (cd <scratch>/E/work) python -m gaia_cli --registry <scratch>/E/work steward full run --retro --ledger git --json
+# exit 3 -> run-retro.json
+$ (cd <scratch>/E/work) python -m gaia_cli --registry <scratch>/E/work steward full run --retro --ledger git
+# exit 3 -> run-retro-human.txt
+# E2 setup: registry/schema/meta.json replaced with invalid JSON; committed; pushed (fresh remote E2)
+$ (cd <scratch>/E2/work) python -m gaia_cli --registry <scratch>/E2/work steward full run --observe --ledger git --json
+# exit 3 -> run-e2-meta-invalid-observe.json
