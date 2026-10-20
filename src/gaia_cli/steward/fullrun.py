@@ -485,6 +485,9 @@ class FullRunner:
         try:
             while True:
                 run = self._loadRun(runId)
+                if run["phase"] == "done" and run["status"] == "awaiting-action":
+                    self._settleDone(runId)
+                    break
                 if run["status"] not in OPENRUNSTATES or run["phase"] == "done":
                     break
                 handler = self._handlers.get(run["phase"])
@@ -508,6 +511,21 @@ class FullRunner:
         except Exception as exc:  # noqa: BLE001 - a failing phase fails the run, loudly
             self._failRun(runId, f"{type(exc).__name__}: {exc}")
         return self._view(self._load(), runId)
+
+    def _settleDone(self, runId: str) -> None:
+        """A finished run that was waiting on the driver completes once nothing is pending."""
+
+        now = self._now()
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            if run["status"] != "awaiting-action" or self._pending(run):
+                return
+            run["status"] = "completed"
+            run["finishedAt"] = now
+            run["nextAction"] = "nothing further for this run"
+            release_lease(doc, RUNLEASE, runId)
+
+        self._mutateRun(runId, apply, message="steward full settle")
 
     def _setStatus(self, runId: str, status: str, nextAction: str) -> None:
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
