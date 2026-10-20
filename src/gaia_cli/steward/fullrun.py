@@ -490,8 +490,11 @@ class FullRunner:
                 handler = self._handlers.get(run["phase"])
                 if handler is None:
                     raise FullRunError(f"run {runId} is at unknown phase {run['phase']!r}")
+                if run["status"] != "active":
+                    self._setStatus(runId, "active", "")
                 _checkpoint(f"phase:{run['phase']}")
                 if not handler(runId):
+                    self._markAwaiting(runId)
                     break
         except LeaseLost as exc:
             doc = self._load()
@@ -505,6 +508,37 @@ class FullRunner:
         except Exception as exc:  # noqa: BLE001 - a failing phase fails the run, loudly
             self._failRun(runId, f"{type(exc).__name__}: {exc}")
         return self._view(self._load(), runId)
+
+    def _setStatus(self, runId: str, status: str, nextAction: str) -> None:
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            if run["status"] in OPENRUNSTATES:
+                run["status"] = status
+                run["nextAction"] = nextAction
+
+        self._mutateRun(runId, apply, message=f"steward full {status}")
+
+    def _markAwaiting(self, runId: str) -> None:
+        run = self._loadRun(runId)
+        pending = self._pending(run)
+        if not pending or run["status"] not in OPENRUNSTATES:
+            return
+        self._setStatus(
+            runId, "awaiting-action",
+            f"perform {len(pending)} pending action(s) ({', '.join(sorted({a['type'] for a in pending}))}), "
+            f"record each with `gaia steward full record {runId} <stepId> --input FILE`, then "
+            f"`gaia steward full run --resume {runId}`",
+        )
+
+    @staticmethod
+    def _observationOf(run: Mapping[str, Any]) -> dict[str, Any]:
+        phases = run["phases"]
+        for name in ("reobserve", "observe"):
+            if name in phases:
+                return phases[name]
+        retro = phases.get("retro")
+        if retro:
+            return {"coverageUnknown": retro.get("unknown", []), "notEvaluated": retro.get("notEvaluated", [])}
+        return {}
 
     def status(self) -> StatusView:
         doc = self._load()
@@ -568,7 +602,7 @@ class FullRunner:
         handler = handlers.get(action["type"])
         if handler is None:
             raise RecordRefused(f"this runner does not take outcomes for {action['type']}")
-        prepared = handler.__self__ and handler(runId, action, outcome)  # validation + mutate fn
+        prepared = handler(runId, action, outcome)  # validates, returns the mutation
         return self._applyRecord(runId, stepId, action, outcome, prepared)
 
     def _applyRecord(
@@ -895,7 +929,7 @@ class FullRunner:
         run = doc["runs"].get(runId)
         if run is None:
             raise UnknownRun(f"unknown run {runId}")
-        observe = run["phases"].get("observe") or run["phases"].get("reobserve") or {}
+        observe = self._observationOf(run)
         return RunView(
             runId=runId, mode=run["mode"], status=run["status"], phase=run["phase"],
             nextAction=run.get("nextAction", ""),
@@ -1443,8 +1477,6 @@ class FullRunner:
         )
 
     def _phaseVerify(self, runId: str) -> bool:
-        from gaia_cli.steward.routing import RoutingError, render_dispatch, render_verification, _latest_dispatch_receipt
-
         doc = self._load()
         run = doc["runs"][runId]
         policy = self._policyLoaded()
@@ -1574,87 +1606,65 @@ class FullRunner:
         if observed is not None and not run.get("mutated"):
             summary = dict(observed)
             summary["reused"] = "no state-changing step ran this run; the observe scan is the re-observation"
-            openIds = set(observed["openDebtIds"])
-            known = not observed["coverageUnknown"]
         else:
             scan = self._controllerInstance().scan(self.root)
             self._scans[runId] = scan
             summary = self._observationSummary(scan)
-            openIds = set(summary["openDebtIds"])
-            known = not summary["coverageUnknown"]
-        now = self._now()
+        openIds = set(summary["openDebtIds"])
+        known = not summary["coverageUnknown"]
         policy = self._policyLoaded()
-        resolvedNow: list[str] = []
-        notes: list[dict[str, str]] = []
+        now = self._now()
 
         def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
-            kinds = {rule.debt_kind: rule.id for rule in policy.dispatch_rules.values()}
-            # Free lane capacity held by debt that is no longer observed.
-            if doc["lane"] is not None or kinds:
-                scanFresh = ()
-                lane = load_lane(doc["lane"], policy.lane)
-                if lane.entries:
-                    lane = self._closeVanished(lane, openIds, now)
-                    set_lane(doc, lane_document(lane))
-            for debtId, item in sorted(doc["work"].items()):
-                if item["state"] in {"resolved", "queued"} and not (item["state"] == "queued" and debtId not in openIds):
-                    continue
-                if debtId in openIds:
-                    if item["state"] == "landed":
-                        merged = self._mergedInto(item)
-                        text = ("landed on the integration branch and this checkout contains it, but the debt is still open"
-                                if merged else "landed on integration branch; this checkout does not contain it yet")
-                        self._note(item, now, text)
-                        notes.append({"debtId": debtId, "note": text})
-                    elif item["state"] == "proposed" and item.get("authority") == "A":
-                        text = ("branch merged into this checkout but the debt is still open"
-                                if self._mergedInto(item) else "awaiting merge of the proposed branch; debt still open")
-                        self._note(item, now, text)
-                        notes.append({"debtId": debtId, "note": text})
-                    continue
-                # The debt is no longer open in the re-observation.
-                if not known:
-                    self._note(item, now, "debt not open, but sensor coverage is unknown; not claiming resolved")
-                    continue
-                if item["state"] in {"landed", "no_change"}:
-                    self._setState(doc, debtId, "resolved", now,
-                                   f"re-observation {summary['scanReceiptId']}: debt no longer open")
-                    resolvedNow.append(debtId)
-                elif item["state"] == "proposed" and item.get("authority") == "A":
-                    if self._mergedInto(item):
-                        self._setState(doc, debtId, "resolved", now,
-                                       f"re-observation {summary['scanReceiptId']}: merged branch and debt no longer open")
-                        resolvedNow.append(debtId)
-                    else:
-                        text = "debt no longer open but the proposed branch is not in this checkout; not claiming resolved"
-                        self._note(item, now, text)
-                        notes.append({"debtId": debtId, "note": text})
-                else:
-                    text = f"debt no longer open, but work is {item['state']}; not claiming resolved"
-                    self._note(item, now, text)
-                    notes.append({"debtId": debtId, "note": text})
-
-        def updates(doc: dict[str, Any], record: dict[str, Any]) -> None:
-            apply(doc, record)
-            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow, notes=notes)
-            # the persisted phase summary is stored by _finish; keep it compact
-        finalSummary = dict(summary)
-        # Resolution happens inside the commit, so the summary is finalised there.
-        def finalize(doc: dict[str, Any], record: dict[str, Any]) -> None:
-            apply(doc, record)
-            record["phases"]["reobserve"] = dict(finalSummary, resolvedWork=list(resolvedNow), notes=list(notes))
-
-        now2 = now
-
-        def run(doc: dict[str, Any], record: dict[str, Any]) -> None:
             if record["phase"] != "reobserve":
                 return
-            finalize(doc, record)
-            self._addStep(record, {"stepId": "phase:reobserve", "kind": "phase", "status": "done", "at": now2})
+            resolvedNow: list[str] = []
+            notes: list[dict[str, str]] = []
+            lane = load_lane(doc["lane"], policy.lane)
+            if lane.entries:
+                # Free lane capacity held by debt that is no longer observed.
+                set_lane(doc, lane_document(self._closeVanished(lane, openIds, now)))
+            for debtId, item in sorted(doc["work"].items()):
+                state = item["state"]
+                if state == "resolved":
+                    continue
+                if debtId in openIds:
+                    text = None
+                    if state == "landed":
+                        text = ("landed on the integration branch and this checkout contains it, but the debt is still open"
+                                if self._mergedInto(item)
+                                else "landed on integration branch; this checkout does not contain it yet")
+                    elif state == "proposed" and item.get("authority") == "A":
+                        text = ("branch is in this checkout but the debt is still open" if self._mergedInto(item)
+                                else "awaiting merge of the proposed branch; debt still open")
+                    if text:
+                        self._note(item, now, text)
+                        notes.append({"debtId": debtId, "note": text})
+                    continue
+                if not known:
+                    text = "debt not open, but sensor coverage is unknown; not claiming resolved"
+                    self._note(item, now, text)
+                    notes.append({"debtId": debtId, "note": text})
+                    continue
+                evidence = f"re-observation {summary['scanReceiptId']}: debt no longer open"
+                if state in {"landed", "no_change"}:
+                    self._setState(doc, debtId, "resolved", now, evidence)
+                    resolvedNow.append(debtId)
+                elif state == "proposed" and item.get("authority") == "A" and self._mergedInto(item):
+                    self._setState(doc, debtId, "resolved", now, evidence + "; proposed branch is in this checkout")
+                    resolvedNow.append(debtId)
+                else:
+                    text = (f"debt no longer open, but work is {state}"
+                            + ("; the proposed branch is not in this checkout" if state == "proposed" else "")
+                            + "; not claiming resolved")
+                    self._note(item, now, text)
+                    notes.append({"debtId": debtId, "note": text})
+            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow, notes=notes)
+            self._addStep(record, {"stepId": "phase:reobserve", "kind": "phase", "status": "done", "at": now})
             order = MODEPHASES[record["mode"]]
             record["phase"] = order[order.index("reobserve") + 1]
 
-        self._mutateRun(runId, run, message="steward full reobserve")
+        self._mutateRun(runId, apply, message="steward full reobserve")
         return True
 
     @staticmethod
@@ -1679,9 +1689,7 @@ class FullRunner:
             scan = self._controllerInstance().scan(self.root)
             self._scans[runId] = scan
             observed = self._observationSummary(scan)
-            executed = True
-        else:
-            executed = True
+        executed = True
         unknown = set(observed["coverageUnknown"])
         notEvaluated = {item["sensor"]: item["reason"] for item in observed["notEvaluated"]}
         counts = observed["observationsBySensor"]
@@ -1727,9 +1735,6 @@ class FullRunner:
             "unknown": sorted(unknown), "notEvaluated": [{"sensor": k, "reason": v} for k, v in sorted(notEvaluated.items())],
         }
 
-        def updates(_doc: dict[str, Any], record: dict[str, Any]) -> None:
-            record.setdefault("phases", {}).setdefault("observe", observed) if "observe" not in record["phases"] and False else None
-
         return self._finish(runId, "retro", summary)
 
     # -- report ----------------------------------------------------------
@@ -1738,7 +1743,7 @@ class FullRunner:
         now = self._now()
         doc = self._load()
         run = doc["runs"][runId]
-        desk = self._buildDesk(doc, run, now)
+        desk = self._buildDesk(runId, doc, run, now)
 
         def apply(d: dict[str, Any], record: dict[str, Any]) -> None:
             if record["phase"] != "report":
@@ -1769,41 +1774,79 @@ class FullRunner:
         self._mutateRun(runId, apply, message="steward full report")
         return True
 
-    def _buildDesk(self, doc: dict[str, Any], run: dict[str, Any], now: str) -> dict[str, Any]:
-        scheduled = [r["startedAt"] for r in doc["runs"].values() if r.get("trigger") == "scheduled" and r.get("status") != "abandoned"]
-        try:
-            from gaia_cli.steward import desk as deskModule  # type: ignore[attr-defined]
-        except ImportError:
-            deskModule = None
-        if deskModule is not None and hasattr(deskModule, "build_desk"):
-            return self._deskFromModule(deskModule, doc, run, now, max(scheduled) if scheduled else None)
-        return self._fallbackDesk(doc, run, max(scheduled) if scheduled else None)
+    def _founderQueue(self, debts: Sequence[Debt]) -> Any:
+        """Group open Class C debt by its founder rule and exact decision target.
 
-    def _deskFromModule(self, module: Any, doc: dict[str, Any], run: dict[str, Any], now: str, lastScheduled: str | None) -> dict[str, Any]:
-        raise NotImplementedError
+        Mirrors `routing.render_founder_queue` without a second scan or receipt.
+        A debt whose target cannot be read is left to the desk's per-kind group.
+        """
 
-    def _fallbackDesk(self, doc: dict[str, Any], run: dict[str, Any], lastScheduled: str | None) -> dict[str, Any]:
-        decisions = [dict(d) for d in run["decisions"] if d.get("type") != "integrate"]
-        triage = run["phases"].get("triage") or {}
-        for debtId in triage.get("classC", []):
-            decisions.append({"type": "class-c", "debtId": debtId})
-        for item in doc["work"].values():
-            if item["state"] == "escalated":
-                decisions.append({"type": "escalated", "debtId": item["debtId"]})
-        operational = []
-        observed = run["phases"].get("observe") or run["phases"].get("reobserve") or {}
-        for sensor in observed.get("coverageUnknown", []):
-            operational.append({"code": "sensor_coverage_unknown", "sensor": sensor})
-        for item in observed.get("notEvaluated", []):
-            operational.append({"code": "sensor_not_evaluated", **item})
-        for item in doc["work"].values():
-            if item["state"] == "blocked":
-                operational.append({"code": "work_blocked", "debtId": item["debtId"]})
-        if not self.config.store.shared:
-            operational.append({"code": "ledger_local_only"})
-        return {
-            "schemaVersion": "steward-full-desk-v1", "quiet": not decisions and not operational,
-            "founderDecisions": decisions, "operational": operational,
-            "ledger": {"shared": bool(self.config.store.shared), "transport": self.config.store.transport},
-            "lastScheduledRunAt": lastScheduled,
-        }
+        from gaia_cli.steward.models import FounderDecision, FounderQueue, normalize_decision_target
+
+        policy = self._policyLoaded()
+        groups: dict[tuple[str, str], list[Debt]] = {}
+        for debt in debts:
+            if debt.authority is not AuthorityClass.C:
+                continue
+            rule = policy.founder_rule_for(debt.kind)
+            if rule is None:
+                continue
+            try:
+                target = normalize_decision_target(debt.observed_state.get(rule.decision_target_field))
+            except ValueError:
+                continue
+            groups.setdefault((rule.id, target), []).append(debt)
+        decisions = []
+        for (ruleId, target), members in sorted(groups.items()):
+            ordered = sorted(members, key=lambda item: item.id)
+            decisions.append(FounderDecision.create(
+                rule=ruleId, decision_target=target, objective=policy.founder_rules[ruleId].objective,
+                debt_ids=tuple(d.id for d in ordered),
+                evidence=tuple({"debtId": d.id, "source": d.source, "subject": d.subject.to_dict(),
+                                "currentState": dict(d.current_state), "observedState": dict(d.observed_state),
+                                "lastObservedAt": d.last_observed_at, "confidence": d.confidence} for d in ordered),
+            ))
+        return FounderQueue.create(tuple(decisions))
+
+    def _buildDesk(self, runId: str, doc: dict[str, Any], run: dict[str, Any], now: str) -> dict[str, Any]:
+        from gaia_cli.steward.desk import build_desk, load_decision_records
+
+        scheduled = [r["startedAt"] for r in doc["runs"].values()
+                     if r.get("trigger") == "scheduled" and r.get("status") != "abandoned"]
+        scan = self._scanFor(runId)
+        policy = self._policyLoaded()
+        observed = self._observationOf(run)
+        records = list(load_decision_records(self.root))
+        landing = sorted(i["debtId"] for i in doc["work"].values()
+                         if i["state"] == "blocked" and any(
+                             n["note"] == "landing target not configured" for n in i.get("notes", [])))
+        if landing:
+            records.append({
+                "schemaVersion": "steward-decision-v1", "id": "landing-target-not-configured", "status": "open",
+                "decision": "Choose the integration branch that Class A repairs land on.",
+                "whyItMatters": "Without a landing target the runner finds Class A drift but must not repair it; "
+                                "it refuses main and the default branch in code, so a dev/* branch is needed.",
+                "evidence": [f"{len(landing)} Class A debt(s) blocked: " + ", ".join(landing[:5])],
+                "recommended": "Set GAIA_STEWARD_INTEGRATION_BRANCH (or pass --integration-branch) to a dev/* branch.",
+                "alternative": "Leave it unset and keep fixing Class A drift by hand.",
+                "unblocks": "Automatic Class A landing branches and their pull requests.",
+                "links": [],
+            })
+        failed = [
+            {"subject": i["debtId"], "detail": (i.get("notes") or [{"note": "blocked"}])[-1]["note"]}
+            for i in sorted(doc["work"].values(), key=lambda value: value["debtId"])
+            if i["state"] == "blocked" and i["debtId"] not in landing
+        ]
+        desk = build_desk(
+            open_debts=scan.open_debts,
+            founder_queue=self._founderQueue(scan.open_debts),
+            lane=load_lane(doc["lane"], policy.lane) if doc["lane"] is not None else None,
+            coverage_unknown=observed.get("coverageUnknown", []),
+            not_evaluated=observed.get("notEvaluated", []),
+            decision_records=records,
+            ledger_shared=bool(self.config.store.shared),
+            last_scheduled_run_at=max(scheduled) if scheduled else None,
+            now=now,
+            failed_dispatches=failed,
+        )
+        return desk.to_dict()
