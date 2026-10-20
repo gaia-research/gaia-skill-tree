@@ -9,4 +9,4 @@ Contract (landing.py): the repair is computed in a throwaway worktree at the INT
 - B4 (same remote, `--integration-branch main`): exit 4 observing-existing, because the awaiting-action run of B3 still holds the run lease (TTL ~30 min). Surprise: an awaiting-action run keeps the lease until its TTL, so a scheduled wake in that window does nothing.
 - B5 (fresh remote, `--integration-branch main --push`): exit 0, completed; landing `blocked` "landing target refused: refusing to land on protected branch 'main'"; work state `blocked`; no push; remote main 36aa8033 before and after; no steward/a/ branch exists; desk gains decision `landing-target-not-configured`. Refusal is per-debt, not exit 2.
 Files: run-b1..b5 json, b3-landing-proof.txt, ledger-after-b1-b2.json, commands.txt.
-- ledger-after-b1-b2.json was 295 KB; run.steps arrays collapsed (noted inside the file).
+- ledger-after-b1-b2.json was 295 KB; per-run phases/desk/steps collapsed to sizes (noted inside the file). Each real-repo run stores ~115 KB of `phases` payload in ledger.json (2 runs = 290 KB), i.e. ledger grows ~150 KB per run on the steward/ledger ref.
