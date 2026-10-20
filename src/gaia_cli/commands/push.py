@@ -121,6 +121,8 @@ class PushCommand(Command):
             dest="overrideReason",
             help="Document an --allow-unsafe override for the audit trail",
         )
+        parser.add_argument("--existing-intake", metavar="ISSUE", help="Continue a verified existing intake; never open a second issue.")
+        parser.add_argument("--existing-batch-id", metavar="ID", help="Preserve the original batch ID for existing-intake continuation.")
         parser.add_argument(
             "--from-file",
             dest="fromFile",

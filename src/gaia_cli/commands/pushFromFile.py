@@ -238,10 +238,8 @@ def build_from_file_batch(
 
     timestamp = now or datetime.now(timezone.utc)
     generatedAt = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    batchId = (
-        f"{timestamp.strftime('%Y%m%d%H%M%S')}-"
-        f"{config.get('gaiaUser', 'unknown')}-from-file"
-    )
+    # The content-derived ID is assigned after validation, not from the clock.
+    batchId = None
 
     # ── validate all entries up front — nothing is written until this passes ──
     allErrors = []
@@ -289,6 +287,9 @@ def build_from_file_batch(
     }
     if curationHandoff:
         batch["curationHandoff"] = curationHandoff
+    from gaia_cli.curation.submission import contentKey
+    batch["submissionKey"] = contentKey(batch)
+    batch["batchId"] = f"content-{batch['submissionKey']}-from-file"
     return batch, []
 
 
@@ -405,6 +406,17 @@ def _load_yaml_file(path):
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
 
+    else:
+        # Unreviewed YAML remains a proposal; it cannot impersonate the trusted
+        # packet adapter by carrying locally authored authority/provenance keys.
+        reserved = {"curationHandoff", "l4Resolution", "humanReview", "authorization", "authorizationEnvelope"}
+        def hasTrustedClaims(value):
+            if isinstance(value, dict):
+                return bool(reserved.intersection(value)) or any(hasTrustedClaims(v) for v in value.values())
+            return isinstance(value, list) and any(hasTrustedClaims(v) for v in value)
+        if hasTrustedClaims(data):
+            return None, "Ordinary YAML is an unreviewed proposal and cannot claim trusted L4 provenance"
+
     if "skills" not in data:
         return None, f"'{path}' is missing the required top-level 'skills:' list"
     if not isinstance(data["skills"], list) or len(data["skills"]) == 0:
@@ -472,22 +484,23 @@ def push_from_file_command(args):
             print("Aborted.")
             return 0
 
-    # ── write batch file ──────────────────────────────────────────────────
-    batchPath = write_skill_batch(batch, registryRoot)
-    print(f"Batch written → {batchPath}")
-
-    # ── open issue (unless --no-issue) ────────────────────────────────────
-    if getattr(args, "no_issue", False):
-        print("Issue creation skipped (--no-issue).")
-        print(f"To open manually:  gh issue create --title '[intake] batch' --body-file <(cat {batchPath})")
-        return 0
-
-    issueUrl = open_intake_issue(
-        config.get("gaiaUser", "unknown"),
-        batch,
-        batch_path=batchPath,
-        repo_root=registryRoot,
-    )
-    if issueUrl:
-        print(f"Intake issue: {issueUrl}")
+    from gaia_cli.curation.submission import submitBatch
+    try:
+        receipt = submitBatch(
+            batch, registryRoot, writeBatch=write_skill_batch, openIssue=open_intake_issue,
+            noIssue=getattr(args, "no_issue", False),
+            existingIntake=getattr(args, "existing_intake", None),
+            existingBatchId=getattr(args, "existing_batch_id", None),
+        )
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(f"Batch: {receipt['batchId']}")
+    if receipt.get("batchPath"):
+        print(f"Batch written → {receipt['batchPath']}")
+    if receipt.get("issueUrl"):
+        print(f"Intake issue: {receipt['issueUrl']}")
+        print("Continue this existing intake with the canonical evidence-verification workflow; do not push another intake.")
+    else:
+        print("Issue creation skipped (--no-issue); durable proposal receipt preserved.")
     return 0

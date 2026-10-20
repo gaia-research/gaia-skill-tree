@@ -4,7 +4,7 @@
 
 - Current `origin/main`: f77e4daf89992b2131ce628a1519ff859682c299. Contains #2093 (cddb09ce9b230dd0187ccebe091b88cab2d67b5b).
 - #2089 remains OPEN at 32ecd0df7c0683167e2d9dfacf6ecbb4481cb453, base dev/emilkowalski-intake-2026-10-13. Its two CLI commits were cherry-picked with attribution onto current main; lowercase/collision protections retained.
-- Prior ARCHITECTURE-AUDIT.md not recovered from checked local artifacts. The founder-supplied confirmed findings are the evidence input; no renewed architecture audit.
+- Recovered and read prior `ARCHITECTURE-AUDIT.md` from `/data/data/com.termux/files/usr/tmp/gaia-curation-audit-BtjgnI/ARCHITECTURE-AUDIT.md` after initially not finding it. The founder-supplied findings and original report are the evidence input; no renewed architecture audit. Exact prior 224-test command recovered from its session receipt.
 - No real submissions, registry mutations, merge, deployment, approval fabrication, or issue updates. Development PR only.
 
 ## Shared interfaces fixed before parallel work

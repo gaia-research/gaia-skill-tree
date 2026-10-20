@@ -36,13 +36,13 @@ Route only the failing candidate and field back to its worker. Allow at most two
 
 If retries are exhausted or output remains invalid/ambiguous, emit `DEFER` with the stable core reason code and exact resume instruction: candidate ID, failed field, validator code, source cursor, and required operator action. Never synthesize or infer a decision.
 
-The chain ends at L4 human review. It does not collect evidence, calculate trust, mutate the registry, regenerate docs, create intake batches, commit, push, or open a PR.
+The chain ends at L4 human review. Shared reconciliation accounts for every expected candidate exactly once (review-ready, deferred, rejected or proven duplicate), including failures. Review-ready is not human-approved. It does not collect evidence, calculate trust, mutate the registry, regenerate docs, create intake batches, commit, push, or open a PR.
 
 ## Explicit downstream handoff
 
 After an L4 decision, write a handoff record; do not silently end the caller:
 
-- New external discoveries: after L4 human approval, ratify the packet via `gaia dev ratify` with mandatory human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, `--acknowledge-human-review`), which attaches the schema-defined `l4Resolution`, then run `gaia push --from-file <packet.json>`. Do not manually translate packets to `skills.yml` or fabricate resolutions; the adapter owns that deterministic translation and refuses unresolved identity or non-blob provenance.
+- New external discoveries: after independently verified L4 human approval bound to the exact reconciled inventory and manifest, ratify the packet via `gaia dev ratify` with a trusted authorization envelope. Local metadata is not authority; the descriptive flags remain (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, `--acknowledge-human-review`), which attaches the schema-defined `l4Resolution`, then run `gaia push --from-file <packet.json>`. Do not manually translate packets to `skills.yml` or fabricate resolutions; the adapter owns that deterministic translation and refuses unresolved identity or non-blob provenance.
 - Rows that already came from `/gaia-draft-curate`: preserve `batchId` and issue/PR links, return them as `needs-evidence` to `/ev-pipeline`, then hand verified rows to a maintainer on `review/meta/*` for the CLI-only meta-shift in `CONTRIBUTING.md` §1C. Do not submit the same intake twice.
 
 Record the route, artifact path, remaining gate, and exact next command. This compatibility handoff is data only; the chain remains discovery-only.

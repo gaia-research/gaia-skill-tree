@@ -41,7 +41,7 @@ These skills are available under both `.claude/skills/` and `.agents/skills/`. C
 Pick by what you're doing:
 
 - **Submitting a skill you already understand?** Use `gaia push --from-file skills.yml` or the new-skill intake issue form (A).
-- **Using the fully automated, guided pipeline?** Use the `gaia curate` 2-gate flow (B).
+- **Preparing checkpointed discovery for human review?** Use the pre-L4 `gaia curate` CHAIN flow (B).
 - **Reviewing external candidates first?** Start with `/gaia-curate` agent skill (C).
 - **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (D).
 
@@ -56,59 +56,25 @@ gaia push --from-file skills.yml
 
 The CLI and issue form are two ways to reach the same intake queue. Do not hand-edit `registry/` or open an unstructured “add my skill” issue.
 
-### B) The Guided 2-Gate Curation Pipeline (`gaia curate`)
+### B) Checkpointed pre-L4 discovery (`gaia curate`)
 
-For a fully automated and guided curation flow, use the CLI's 2-gate pipeline. It orchestrates the entire lifecycle—from URL resolution to evidence discovery, validation, ingestion, star calibration, and PR creation—reducing ~20 manual CLI/JSON commands down to just two human approval checkpoints.
+CHAIN processes candidates sequentially, checkpoints local state atomically, and pauses at `AWAITING_L4_REVIEW`. FAN-OUT uses bounded model-neutral workers with the same packet format and deterministic reconciliation. Neither strategy is an automatic end-to-end promotion engine.
 
-#### Command Syntax
 ```bash
-gaia curate <url> [options]
-
-# Arguments:
-#   <url>                  The GitHub repository or SKILL.md URL to curate
-
-# Options:
-#   -g, --generic <id>     Suggested generic skill ID for the candidate mapping
-#   --discover             Run optional evidence discovery before verification
-#   --resume <RUN_ID>      Resume an existing curation run by its unique run ID
-#   --status               Print the current curation run status and exit
-#   --dry-run              Plan the run without mutating the registry or GitHub
-```
-
-#### The Two Gates
-1. **Gate 1: Topology & Mapping (`AWAITING_L4_REVIEW`)**
-   - **What happens:** The system resolves the source URL, embeds the candidate skill, runs embedding-driven prefill to suggest generic mapping candidates, and generates a `discovery-packet-v2` file under `registry-for-review/discovery-packets/`.
-   - **Your job:** Confirm the candidate mapping, generic identity, and upstream URL. Append your `l4Resolution` decision to the packet to clear the gate.
-2. **Gate 2: Evidence & Calibration (`AWAITING_EVIDENCE_APPROVAL` / `AWAITING_CALIBRATION_APPROVAL`)**
-   - **What happens:** Once Gate 1 is cleared, a review branch is opened and a draft PR is created. The pipeline runs `/ev-pipeline` end-to-end to compile the evidence data lake, verify live star counts and benchmark sources, audit evidence for noise, and validate link liveness. It then generates an ingestion plan and computes a Trust Magnitude rating for star calibration.
-   - **Your job:** Approve the verified evidence rows and the auto-computed calibration rating to clear the gate.
-
-#### Post-Gate Auto-Merge
-Once Gate 2 is approved, if CI checks are green, the changes are auto-merged. The CLI automatically runs post-merge tasks, including posting closing comments, badge status notes, and regenerating documentation.
-
-#### Resuming and Checking Status
-If a curation run is paused at a gate, you can inspect its status or resume it by specifying its run ID:
-```bash
-# Check status
+gaia curate <url>
 gaia curate --resume <RUN_ID> --status
-
-# Resume execution
 gaia curate --resume <RUN_ID>
 ```
 
-#### State File Location
-Local run history and execution state are serialized and stored as formatted JSON at:
-`.gaia/curation/runs/<run_id>/state.json`
+Run state lives at `.gaia/curation/runs/<run_id>/state.json`. Resume must verify source, packet and generic-catalog freshness before reusing completed work. Failed, deferred, rejected and proven-duplicate candidates remain visible in the full L4 inventory; a review-ready packet is not a human-approved packet.
 
-#### When to Use vs. Manual Pipeline
-- **Use `gaia curate`:** For standard, named-first curations bringing a new contributor implementation into the skill tree. It ensures strict provenance, automated evidence gathering, and timeline auditing.
-- **Use the Manual Pipeline:** For complex multi-repo suite consolidations, custom calibrations, or structural meta shifts (like merging/splitting nodes or manual overrides) where the standard guided state machine is too rigid.
+**L4 is independent human authority.** Editing `l4Resolution`, inventing a reviewer/reference, setting an acknowledgement flag or using operator override never clears the gate. Trusted ratification and packet submission require independently verified authorization over the exact reviewed inventory and payload. When that ceremony is unavailable, the protected workflow remains pending human approval.
 
-#### Implementation File Paths
-- CLI Command Definition: `src/gaia_cli/commands/curate.py`
-- State Model & Ledger: `src/gaia_cli/curation/state.py`
-- State-Machine Orchestrator: `src/gaia_cli/curation/orchestrator.py`
-- URL & Provenance Resolver: `src/gaia_cli/curation/url_resolver.py`
+After authorized L4, use the existing intake, `/ev-pipeline`, evidence approval, CLI-only ingestion, Trust Magnitude appraisal and human calibration workflows. The CLI does not automatically run these downstream governance steps, open a promotion PR, close issues, or merge. Final merge requires founder authorization; green CI is not merge permission.
+
+**Existing intake:** preserve its `batchId` and issue references, continue its evidence handoff, and do not submit a second intake. Exact content-addressed retries return an existing receipt. Use `gaia push --from-file <input> --existing-intake <issue> --existing-batch-id <original-id>` only for explicit verified continuation/recovery. Plain YAML and the issue form remain available as unreviewed proposals, never trusted post-L4 decisions.
+
+Implementation: `src/gaia_cli/commands/curate.py`, `curation/orchestrator.py`, `curation/state.py`, and shared `curation/reconciliation.py`. For the human-directed downstream sequence use `/gaia-full-pipeline` or `/gaia-consult`.
 
 ### C) Run a discovery-only curate pass
 

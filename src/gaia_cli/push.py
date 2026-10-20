@@ -292,9 +292,17 @@ def write_skill_batch(batch, registry_root):
     intake_dir = skill_batches_dir(registry_root)
     os.makedirs(intake_dir, exist_ok=True)
     batch_path = os.path.join(intake_dir, f"{batch['batchId']}.json")
-    with open(batch_path, "w", encoding="utf-8") as f:
-        json.dump(batch, f, indent=2)
-        f.write("\n")
+    from gaia_cli.curation.submission import atomicJson, contentKey
+    if batch.get("submissionKey"):
+        if batch["submissionKey"] != contentKey(batch):
+            raise ValueError("Batch submissionKey does not match its content.")
+        if os.path.exists(batch_path):
+            with open(batch_path, encoding="utf-8") as stream:
+                existing = json.load(stream)
+            if contentKey(existing) != contentKey(batch):
+                raise ValueError("Refusing to overwrite a batch owned by different submission content.")
+            return batch_path
+    atomicJson(batch_path, batch)
     return batch_path
 
 

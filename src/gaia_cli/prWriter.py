@@ -253,6 +253,11 @@ def build_intake_issue_body(batch_data, repo_root="."):
         f"| Proposed new skills | `{len(proposedSkills)}` |",
     ]
 
+    if batch_data.get("submissionKey"):
+        from gaia_cli.curation.submission import contentKey
+        # Derived from actual proposal bytes, never a caller-authored claim.
+        lines += ["", f"<!-- gaia:submission {contentKey(batch_data)} -->", ""]
+
     if fileUrl:
         lines += [
             f"| Batch file | [{batchId}.json]({fileUrl}) |",
@@ -461,6 +466,30 @@ def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
         print(reason)
         _print_manual_issue_steps(title, bodyPath)
         return None
+
+    if batch_data.get("submissionKey"):
+        from gaia_cli.curation.submission import contentKey
+        key = contentKey(batch_data)
+        existing = _run(
+            ["gh", "issue", "list", "--repo", "gaia-research/gaia-skill-tree",
+             "--state", "all", "--label", "intake", "--search", f'"{key}" in:body',
+             "--json", "body,url", "--limit", "100"], cwd=repo_root,
+        )
+        try:
+            records = json.loads(existing.stdout) if existing.returncode == 0 else None
+        except (ValueError, TypeError):
+            records = None
+        if not isinstance(records, list):
+            print("Cannot verify prior content-addressed submissions; refusing duplicate-prone creation.")
+            return None
+        matches = [record for record in records if
+                   f"<!-- gaia:submission {key} -->" in record.get("body", "")
+                   and f"| Batch ID | `{batch_data['batchId']}` |" in record.get("body", "")]
+        if len(matches) > 1:
+            print("Multiple existing intake receipts for this content; reconcile them before continuing.")
+            return None
+        if matches:
+            return matches[0].get("url") or None
 
     issue = _run(
         ["gh", "issue", "create", "--title", title,

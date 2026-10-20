@@ -12,7 +12,7 @@ description: >-
 version: 2.0.0
 ---
 
-> **Have one repo URL and want full automation?** Run [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) — 2 human gates, auto-merge. This document is the **manual reference** explaining what runs inside each gate.
+> **Discovery execution:** [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) describes the executable pre-L4 CHAIN surface. FAN-OUT retains model-neutral workers and shared reconciliation. Both pause for independently verified human L4 authority; neither automatically submits, promotes, calibrates, or merges.
 
 # gaia-full-pipeline
 
@@ -190,7 +190,7 @@ Every strategy stops after producing review-ready `discovery-packet-v2` files in
 
 For strategies A–D and F, L4 means:
 1. Open each packet JSON and its companion advisory assessment receipt (`generated-output/curation/<candidate>.assessment.json`). Verify mapping decision, `blob/` URL, and verbatim description against curation principles.
-2. Ratify topology using `gaia dev ratify` with explicit human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, and `--acknowledge-human-review`), which atomically attaches `l4Resolution` with ratified `generic`, `named`, `upstreamSkillFileUrl`, and `humanReview` metadata. Operator authorization alone is not L4 approval; no manual append of fake resolutions.
+2. Ratify topology using `gaia dev ratify` only after independent human authorization over the complete reviewed inventory and exact payload. Local acknowledgement flags, reviewer names, approval references, operator permission and hand-written `humanReview` JSON are not proof. If the trusted authorization ceremony is unavailable, preserve pending L4 state; do not ratify or submit a trusted packet.
 3. Re-validate: `python3 scripts/validate_discovery_packet.py --generic-snapshot /tmp/generic-snapshot.json <packet>.json`
 
 ---
@@ -239,6 +239,10 @@ gaia push --from-file <packet>.json             # opens intake issue (auto-label
 git add . && git commit -m "feat(intake): ..." && git push -u origin <branch>
 # No `gh pr create` here — wait for intake:evidence-approved to open the canonical PR (see below).
 ```
+
+### Existing-intake continuation (no second submission)
+
+Preserve `batchId`, intake issue references and the original batch on resume. If the candidate already belongs to an intake, continue that issue into `/ev-pipeline`; do not run a fresh push to manufacture another intake. For an explicitly recovered submission, `gaia push --from-file <input> --existing-intake <issue> --existing-batch-id <original-id>` verifies the existing issue/batch reference and returns a continuation receipt without opening an issue. Identical content-addressed submissions return their existing receipt. An interrupted/uncertain issue creation fails closed pending explicit recovery. These receipts do not confer L4 authority.
 
 ### `intake:*` label lifecycle — machine gates, applied in order
 

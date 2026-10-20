@@ -371,16 +371,24 @@ def assessCommand(args):
         if packetPath.stat().st_size > MAX_PACKET_BYTES:
             raise ValueError("Packet exceeds size limit")
         packet = json.loads(packetPath.read_text(encoding="utf-8"))
-        if not isinstance(packet, dict) or not re.fullmatch(r"[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+", str(packet.get("candidateId", ""))):
+        if not isinstance(packet, dict):
             raise ValueError("Invalid candidate identity")
-        output = getattr(args, "output", None) or f"generated-output/curation/{packet['candidateId'].replace('/', '-')}.assessment.json"
+        from gaia_cli.prefill import safeCandidateSlug
+        slug = safeCandidateSlug(packet.get("candidateId", ""))
+        output = getattr(args, "output", None) or f"generated-output/curation/{slug}.assessment.json"
         root = getattr(args, "registry", ".") or "."
         mode = getattr(args, "jev", "off")
         stateDir = getattr(args, "state_dir", ".gaia/jev")
         validate_paths(str(packetPath), output, repo_root=str(Path(root).resolve()), state_dir=stateDir if mode != "off" else None)
         client = JevClient(stateDir, live=(mode == "live"), maxCalls=2) if mode != "off" else None
         receipt = buildAssessment(packet, root, client)
-        _atomic_write_json(output, receipt)
+        from gaia_cli.curation.submission import advisoryLock
+        with advisoryLock(f"{output}.lock"):
+            if Path(output).exists():
+                existing = json.loads(Path(output).read_text(encoding="utf-8"))
+                if not isinstance(existing, dict) or existing.get("candidateId") != packet["candidateId"]:
+                    raise ValueError("Assessment path belongs to a different candidate; refusing overwrite")
+            _atomic_write_json(output, receipt)
     except (OSError, ValueError, TypeError, KeyError):
         print("Assessment failed: check packet, output path, and canonical semantic inputs. No packet changed.", file=sys.stderr)
         return 1
