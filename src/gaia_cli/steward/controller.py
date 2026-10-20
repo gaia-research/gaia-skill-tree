@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Callable, Iterable
 
 from gaia_cli.steward.debt import reconcile_debt
-from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, Subject
-from gaia_cli.steward.primitives.files import SensorNotEvaluated
+from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, SensorScan, Subject
+from gaia_cli.steward.primitives.files import SKIP_CAP, SensorNotEvaluated, SensorUnavailable
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
@@ -50,6 +50,9 @@ class _Collection:
     exhaustive_sources: frozenset[str]
     # Sensors whose optional external input was not supplied this run.
     not_evaluated: tuple[dict[str, str], ...]
+    # Sensors that completed but could not evaluate some subjects. They never
+    # sweep: an unevaluated subject is unknown, not resolved.
+    partial_coverage: tuple[dict[str, object], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -133,6 +136,7 @@ class StewardController:
                 observations=collection.observations,
                 exhaustive_sources=collection.exhaustive_sources,
                 not_evaluated=collection.not_evaluated,
+                partial_coverage=collection.partial_coverage,
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
@@ -149,6 +153,7 @@ class StewardController:
                 observations=collection.observations,
                 exhaustive_sources=collection.exhaustive_sources,
                 not_evaluated=collection.not_evaluated,
+                partial_coverage=collection.partial_coverage,
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
@@ -246,6 +251,7 @@ class StewardController:
                     observations=collection.observations,
                     exhaustive_sources=collection.exhaustive_sources,
                     not_evaluated=collection.not_evaluated,
+                    partial_coverage=collection.partial_coverage,
                     state_directory=state_directory,
                     debt_state_path=initial.debt_state_path,
                     receipts_directory=receipts_directory,
@@ -307,7 +313,8 @@ class StewardController:
     ) -> RunResult:
         finished_at = _timestamp(self.clock())
         not_evaluated = initial.receipt.not_evaluated + (final.receipt.not_evaluated if final else ())
-        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "notEvaluated": not_evaluated, "result": result_status}
+        partial_coverage = initial.receipt.partial_coverage + (final.receipt.partial_coverage if final else ())
+        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "notEvaluated": not_evaluated, "partialCoverage": partial_coverage, "result": result_status}
         receipt = Receipt(
             run_id=make_run_id(finished_at, payload), started_at=initial.receipt.started_at,
             finished_at=finished_at, observations_collected=initial.receipt.observations_collected + (final.receipt.observations_collected if final else 0),
@@ -317,6 +324,7 @@ class StewardController:
             authority_counts=final.receipt.authority_counts if final else initial.receipt.authority_counts,
             result_status=result_status, repairs=repairs, blocked=blocked,
             not_evaluated=not_evaluated,
+            partial_coverage=partial_coverage,
             coverage_known=tuple(sorted(set(initial.receipt.coverage_known) | set(final.receipt.coverage_known if final else ()))),
         )
         path, _created = write_immutable_receipt(receipts_directory, receipt, repo_root=root, state_root=state_directory)
@@ -334,6 +342,7 @@ class StewardController:
         receipts_directory: Path,
         exhaustive_sources: frozenset[str] = frozenset(),
         not_evaluated: tuple[dict[str, str], ...] = (),
+        partial_coverage: tuple[dict[str, object], ...] = (),
         cycle_start: Receipt | None = None,
         repairs: tuple[dict[str, object], ...] = (),
         blocked: tuple[dict[str, object], ...] = (),
@@ -404,6 +413,7 @@ class StewardController:
             "repairs": repairs,
             "blocked": blocked,
             "notEvaluated": not_evaluated,
+            "partialCoverage": partial_coverage,
             "result": resolved_status,
         }
         run_id = make_run_id(observed_at, receipt_payload)
@@ -424,6 +434,7 @@ class StewardController:
             repairs=repairs,
             blocked=blocked,
             not_evaluated=not_evaluated,
+            partial_coverage=partial_coverage,
             coverage_known=coverage_known,
         )
 
@@ -479,20 +490,39 @@ class StewardController:
         observations: list[Observation] = []
         exhaustive_sources: set[str] = set()
         not_evaluated: list[dict[str, str]] = []
+        partial_coverage: list[dict[str, object]] = []
+        budget = policy.max_observations_per_run
         for sensor in self.sensors:
             try:
-                sensor_observations = sensor.scan(root, observed_at)
+                result = self._scan_sensor(sensor, root, observed_at)
+                sensor_observations = list(result.observations)
                 for observation in sensor_observations:
                     if observation.source != sensor.id:
                         raise ValueError(
                             f"sensor {sensor.id} emitted observation with source "
                             f"{observation.source}"
                         )
+                # The sensor that crosses the budget loses its own coverage
+                # (reported as unknown with the reason); the others keep
+                # theirs. Truncating its observations instead would drop
+                # findings without saying so.
+                if len(observations) + len(sensor_observations) + 1 > budget:
+                    raise SensorUnavailable(
+                        f"Steward observation budget exceeded: {len(sensor_observations)} "
+                        f"observation(s) from {sensor.id} do not fit in the remaining "
+                        f"{max(budget - len(observations), 0)} of {budget}"
+                    )
                 observations.extend(sensor_observations)
                 observations.append(
                     self._coverage_observation(sensor.id, observed_at, healthy=True)
                 )
-                if getattr(sensor, "resolution_scope", None) == "exhaustive":
+                if result.skipped:
+                    partial_coverage.append({
+                        "sensor": sensor.id,
+                        "skippedCount": len(result.skipped),
+                        "skipped": [dict(item) for item in result.skipped[:SKIP_CAP]],
+                    })
+                elif getattr(sensor, "resolution_scope", None) == "exhaustive":
                     exhaustive_sources.add(sensor.id)
             except SensorNotEvaluated as exc:
                 # An optional external input was not supplied: the sensor saw
@@ -509,16 +539,25 @@ class StewardController:
                     )
                 )
 
-        if len(observations) > policy.max_observations_per_run:
-            raise RuntimeError(
-                f"Steward observation budget exceeded: {len(observations)} > "
-                f"{policy.max_observations_per_run}"
-            )
         return _Collection(
             observations=observations,
             exhaustive_sources=frozenset(exhaustive_sources),
             not_evaluated=tuple(not_evaluated),
+            partial_coverage=tuple(partial_coverage),
         )
+
+    @staticmethod
+    def _scan_sensor(sensor: Sensor, root: Path, observed_at: str) -> SensorScan:
+        """Run one sensor, preferring ``scan_detailed`` so skips stay visible.
+
+        A legacy sensor returns a plain list and has no skipped subjects.
+        """
+
+        detailed = getattr(sensor, "scan_detailed", None)
+        result = detailed(root, observed_at) if callable(detailed) else sensor.scan(root, observed_at)
+        if isinstance(result, SensorScan):
+            return result
+        return SensorScan(observations=tuple(result))
 
     @staticmethod
     def _coverage_observation(

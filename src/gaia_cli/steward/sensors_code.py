@@ -14,8 +14,11 @@ best-effort handlers are honoured through the ``steward: best-effort`` marker.
 
 Inventory is Git's (``tracked_files``) over ``src/gaia_cli`` and ``scripts``.
 Files under ``tests/`` count as *consumers* when judging usage and are never
-subjects. A file with a syntax error is skipped, not fatal; the skipped set is
-exposed through ``skipped_files`` and no finding is invented for it.
+subjects. A file with a syntax error is not fatal and no finding is invented
+for it, but it is not silent either: the skipped set is exposed through
+``skipped_files`` and through each sensor's ``scan_detailed``, so the
+controller reports partial coverage and sweeps none of the sensor's debt while
+a file stays unparsed. If every file fails to parse the scan is unavailable.
 """
 
 from __future__ import annotations
@@ -27,8 +30,9 @@ from functools import cached_property
 from pathlib import Path
 from typing import Any, Iterable
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
+    SensorUnavailable,
     finding_payload,
     parse_python,
     read_text_bounded,
@@ -118,7 +122,21 @@ def _parse_inventory(repo_root: Path, paths: Iterable[str]) -> Corpus:
                 is_package=path.endswith("/__init__.py"),
             )
         )
+    if skipped and not files:
+        raise SensorUnavailable(
+            f"every one of the {len(skipped)} Python files failed to parse "
+            f"(for example: {skipped[0]['reason']})"
+        )
     return Corpus(files=tuple(files), skipped=tuple(skipped))
+
+
+def _scan_skips(skipped: Iterable[dict[str, str]]) -> tuple[dict[str, str], ...]:
+    """Corpus skips as ``SensorScan`` records (the debt subject is the file path)."""
+
+    return tuple(
+        {"subjectType": "source-file", "subjectId": item["path"], "reason": item["reason"][:200]}
+        for item in sorted(skipped, key=lambda entry: entry["path"])
+    )
 
 
 def load_corpus(
@@ -612,6 +630,9 @@ class DeadCodeSensor:
     # -- observations ------------------------------------------------------
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         analysis = self.analyze(repo_root)
         observations: list[Observation] = []
         for path in sorted(analysis.unused_imports):
@@ -665,7 +686,7 @@ class DeadCodeSensor:
                     },
                 )
             )
-        return observations
+        return SensorScan(tuple(observations), _scan_skips(analysis.skipped))
 
 
 # --------------------------------------------------------------------------
@@ -768,6 +789,9 @@ class CodeStructureSensor:
         return result
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         corpus = load_corpus(repo_root, max_files=self.max_files)
         observations: list[Observation] = []
         for cycle in self.cycles(corpus.files):
@@ -816,7 +840,7 @@ class CodeStructureSensor:
                 )
             )
         observations.sort(key=lambda item: (item.kind, item.subject.id))
-        return observations
+        return SensorScan(tuple(observations), _scan_skips(corpus.skipped))
 
 
 def _functions(tree: ast.AST) -> list[tuple[str, ast.FunctionDef | ast.AsyncFunctionDef]]:
@@ -918,6 +942,9 @@ class ErrorHandlingSensor:
         self.max_files = max_files
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         corpus = load_corpus(repo_root, max_files=self.max_files)
         observations: list[Observation] = []
         for file in corpus.files:
@@ -943,5 +970,5 @@ class ErrorHandlingSensor:
                     },
                 )
             )
-        return observations
+        return SensorScan(tuple(observations), _scan_skips(corpus.skipped))
 

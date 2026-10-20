@@ -13,6 +13,7 @@ from typing import Mapping
 
 import pytest
 
+from gaia_cli.steward import sensors_security
 from gaia_cli.steward.primitives import SensorUnavailable
 from gaia_cli.steward.sensors_security import (
     BrowserSinkSensor,
@@ -667,17 +668,31 @@ class TestSecretScan:
         _, observations = _secrets(tmp_path, {"tests/test_a.py": f"t = '{_github_token('real')}'\n"})
         assert len(observations) == 1
 
-    def test_binary_and_oversize_files_are_skipped_and_counted(self, tmp_path: Path) -> None:
+    def test_non_utf8_file_is_still_scanned_and_oversize_is_reported(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        # Previously both were silently skipped and counted; a leak hidden by a
+        # stray byte or by growth past the ceiling simply vanished.
+        monkeypatch.setattr(sensors_security, "_SECRET_MAX_BYTES", 1024 * 1024)
         files: dict[str, str | bytes] = {
             "src/real.py": f"k = '{_github_token()}'\n",
-            "assets/blob.bin": b"\xff\xfe\x00" + _github_token().encode(),
+            "assets/blob.bin": b"\xff\xfe\x00" + _github_token("blob").encode(),
             "assets/big.txt": "x" * (1024 * 1024 + 10),
         }
-        _, observations = _secrets(tmp_path, files)
-        (item,) = observations
-        assert item.provenance["skippedBinary"] == 1
+        root, _ = _secrets(tmp_path, files)
+        result = SecretScanSensor().scan_detailed(root, NOW)
+        assert sorted(item.subject.id for item in result.observations) == ["assets/blob.bin", "src/real.py"]
+        item = next(item for item in result.observations if item.subject.id == "src/real.py")
+        assert item.provenance["scannedNonUtf8"] == 1
         assert item.provenance["skippedOversize"] == 1
-        assert item.provenance["filesScanned"] == 2
+        assert [(entry["subjectId"], entry["subjectType"]) for entry in result.skipped] == [
+            ("assets/big.txt", "source-file")
+        ]
+
+    def test_appending_a_non_utf8_byte_does_not_hide_a_leak(self, tmp_path: Path) -> None:
+        text = f"k = '{_github_token()}'\n".encode()
+        _, observations = _secrets(tmp_path, {"src/a.py": text + b"\xff"})
+        assert [item.subject.id for item in observations] == ["src/a.py"]
 
     def test_findings_are_sorted_and_aggregated_per_file(self, tmp_path: Path) -> None:
         source = f"b = '{_aws_key('two')}'\na = '{_github_token('one')}'\n"

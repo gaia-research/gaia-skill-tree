@@ -21,8 +21,8 @@ from gaia_cli.steward.mirrors import (
     is_ignored as _is_ignored,
 )
 from gaia_cli.registryMaps import buildMergedSkillMap
-from gaia_cli.steward.models import Observation, Subject, stable_json
-from gaia_cli.steward.primitives.files import SensorUnavailable
+from gaia_cli.steward.models import Observation, SensorScan, Subject, stable_json
+from gaia_cli.steward.primitives.files import SensorUnavailable, SkipLog, tracked_files
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
 from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
@@ -32,7 +32,12 @@ class Sensor(Protocol):
     id: str
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        """Return observations without changing repository state."""
+        """Return observations without changing repository state.
+
+        A sensor that can fail to evaluate individual subjects (not just fail
+        outright) also defines ``scan_detailed`` returning a ``SensorScan``;
+        the controller prefers it so the skipped subjects reach the receipt.
+        """
 
 
 @dataclass(frozen=True)
@@ -803,6 +808,21 @@ class TaxonomyScriptDriftSensor:
                 if canonical_types:
                     try:
                         tree = ast.parse(text)
+                    except Exception as exc:
+                        # An unparseable file cannot be checked for evidence
+                        # type lists. Dropping it silently would let this
+                        # single aggregate observation read healthy. Like the
+                        # trustMagnitude.py parse failure above, it is a
+                        # finding: the surface is not consistent while a
+                        # script in it cannot be verified.
+                        violations.append({
+                            "path": relative,
+                            "line": 1,
+                            "kind": "parse-error",
+                            "detail": f"cannot parse AST, evidence type lists not checked: {type(exc).__name__}",
+                            "error": f"cannot parse AST, evidence type lists not checked: {type(exc).__name__}",
+                        })
+                    else:
                         for node in ast.walk(tree):
                             if isinstance(node, ast.Assign):
                                 for target in node.targets:
@@ -822,8 +842,6 @@ class TaxonomyScriptDriftSensor:
                                                             "detail": f"unknown evidence type '{elt.value}' in {target.id}",
                                                             "error": f"unknown evidence type '{elt.value}' in {target.id}",
                                                         })
-                    except Exception:
-                        pass
         return scanned_files_count
 
 
@@ -1634,7 +1652,9 @@ class TrustCalibrationDriftSensor:
     routine_ids = (9,)
     # The scan enumerates every named skill each run and emits drift for every
     # one whose level disagrees with its computed grade; an unparseable record
-    # or an unresolvable generic parent makes the scan raise instead of skip.
+    # or an unresolvable generic parent makes the scan raise. A record with a
+    # broken frontmatter fence or no id cannot be scored: it is reported as a
+    # skipped subject (partial coverage), never silently passed over.
     resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
     _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
@@ -1646,9 +1666,13 @@ class TrustCalibrationDriftSensor:
     _STAMP_TOLERANCE = 0.02
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         import yaml
 
         observations: list[Observation] = []
+        skips = SkipLog()
         # A missing registry is blindness, not "no subjects": this sensor is
         # exhaustive, so an empty result would sweep every open trust debt.
         named_root = _require_named_records(repo_root, self._NAMED_ROOT)
@@ -1666,6 +1690,7 @@ class TrustCalibrationDriftSensor:
             try:
                 parts = path.read_text(encoding="utf-8").split("---", 2)
                 if len(parts) < 3:
+                    skips.add("named-skill-record", relative, "no closed frontmatter fence")
                     continue
                 skill = yaml.safe_load(parts[1]) or {}
             except (OSError, ValueError, yaml.YAMLError):
@@ -1676,6 +1701,7 @@ class TrustCalibrationDriftSensor:
                 continue
             skill_id = skill.get("id")
             if not skill_id:
+                skips.add("named-skill-record", relative, "frontmatter declares no skill id")
                 continue
             parent = skill.get("genericSkillRef")
             if parent and parent not in context:
@@ -1762,7 +1788,7 @@ class TrustCalibrationDriftSensor:
                     + ", ".join(unresolved[:5])
                 )
             raise SensorUnavailable("; ".join(detail))
-        return observations
+        return SensorScan(tuple(observations), skips.entries())
 
 
 class FrozenSkillIntegritySensor:
@@ -2502,15 +2528,18 @@ CONTROLLER_DEBT_KINDS = ("sensor_coverage_unknown",)
 def _require_named_records(repo_root: Path, named_root: str) -> Path:
     """Return the named-skill root, or raise when the domain is missing.
 
-    A sensor whose whole subject domain is absent did not observe anything; an
-    empty result there would read as "every named skill is healthy" and, for
-    an exhaustive sensor, sweep its open debt as resolved.
+    The inventory is the version-control index: a tracked record that is absent
+    from the checkout (a truncated checkout, a deleted-but-unstaged file) makes
+    the sensor blind, and one surviving ``.md`` file does not make the domain
+    look present. An empty result there would read as "every named skill is
+    healthy" and, for an exhaustive sensor, sweep its open debt as resolved.
     """
 
-    directory = repo_root / named_root
-    if not directory.is_dir() or not any(directory.rglob("*.md")):
-        raise SensorUnavailable(f"required named-skill records are missing: {named_root}")
-    return directory
+    try:
+        tracked_files(repo_root, [named_root], suffixes=[".md"], require_present=True)
+    except SensorUnavailable as exc:
+        raise SensorUnavailable(f"required named-skill records are missing: {named_root} ({exc})") from exc
+    return repo_root / named_root
 
 
 def registered_debt_kinds() -> frozenset[str]:

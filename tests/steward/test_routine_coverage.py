@@ -339,3 +339,19 @@ def test_live_states_never_count_an_unexecuted_probe_as_healthy() -> None:
     )
     assert "human-gated" in states["secret-scan"]
     assert "eligible-auto-remediation" in states["agent-skill-mirror"]
+
+
+def test_live_states_mark_a_partially_covered_detector_in_addition_to_observed() -> None:
+    receipt = {
+        "coverageKnown": ["dead-code", "secret-scan"],
+        "coverageUnknown": [],
+        "partialCoverage": [{"sensor": "secret-scan", "skippedCount": 1, "skipped": []}],
+    }
+
+    states = live_states(ROOT, receipt)
+
+    assert {"actively-observed", "partially-covered"} <= set(states["secret-scan"])
+    # A partially covered detector is still observed, never unknown.
+    assert "unknown-unavailable" not in states["secret-scan"]
+    # Only the sensor the receipt lists is marked partial.
+    assert "partially-covered" not in states["dead-code"]
