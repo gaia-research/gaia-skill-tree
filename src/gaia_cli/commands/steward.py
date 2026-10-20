@@ -17,7 +17,7 @@ class StewardCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         subparsers = parser.add_subparsers(
-            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder}"
+            dest="steward_command", metavar="{scan,run,dispatch,lane,verify,founder,full}"
         )
         scan = subparsers.add_parser(
             "scan",
@@ -144,14 +144,72 @@ class StewardCommand(Command):
             ),
         )
         founder.add_argument("--json", action="store_true", help="Output the queue and receipt as JSON")
+        self._configureFull(subparsers)
+
+    @staticmethod
+    def _configureFull(subparsers: argparse._SubParsersAction) -> None:
+        full = subparsers.add_parser(
+            "full",
+            help="Run the full, resumable Steward pipeline (deterministic; emits actions)",
+            description=(
+                "The zero-model runner behind /gaia-steward-full. It observes, triages, lands "
+                "Class A repairs on branches, dispatches and verifies bounded Class B work, "
+                "re-observes and reports - recording every step in a durable ledger. Whatever "
+                "needs a model or a forge becomes an action for a driver; `record` takes the "
+                "outcome back. Never merges and never pushes to main."
+            ),
+        )
+        actions = full.add_subparsers(dest="fullAction", metavar="{run,record,status}")
+
+        def ledgerOptions(target: argparse.ArgumentParser) -> None:
+            target.add_argument(
+                "--ledger", choices=("auto", "git", "local"), default="auto",
+                help="Ledger transport: git ref on the remote, a local file, or auto (git when the remote answers)",
+            )
+            target.add_argument("--json", action="store_true", help="Output the result as JSON")
+
+        run = actions.add_parser(
+            "run",
+            help="Start (or resume) a pipeline run",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog=EXITCODES,
+        )
+        modes = run.add_mutually_exclusive_group()
+        modes.add_argument("--observe", action="store_true", help="Observe only: recover, reconcile, observe, report")
+        modes.add_argument("--triage", action="store_true", help="Observe and triage only")
+        modes.add_argument("--verify", action="store_true", help="Verify recorded work and re-observe")
+        modes.add_argument("--retro", action="store_true", help="Live sensor/routine coverage table only")
+        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-17)")
+        run.add_argument("--debt", metavar="ID", help="Restrict triage to one debt id")
+        run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
+        run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
+        run.add_argument("--trigger", choices=("manual", "scheduled"), default="manual", help="What started this run")
+        run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
+        run.add_argument(
+            "--integration-branch", dest="integrationBranch", metavar="B",
+            help="Branch Class A repairs land on (default: $GAIA_STEWARD_INTEGRATION_BRANCH). Never main.",
+        )
+        run.add_argument("--push", action="store_true", help="Push Class A landing branches to the remote")
+        ledgerOptions(run)
+
+        record = actions.add_parser("record", help="Record a driver's outcome for an emitted action")
+        record.add_argument("runId", metavar="RUN_ID", help="Run that emitted the action")
+        record.add_argument("stepId", metavar="STEP_ID", help="Step id of the action")
+        record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
+        ledgerOptions(record)
+
+        status = actions.add_parser("status", help="Read-only view of the ledger and the active run")
+        ledgerOptions(status)
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder"}:
+        if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full"}:
             print(
-                "usage: gaia steward {scan,run,dispatch,lane,verify,founder} [--json]",
+                "usage: gaia steward {scan,run,dispatch,lane,verify,founder,full} [--json]",
                 file=sys.stderr,
             )
             return 2
+        if args.steward_command == "full":
+            return self._executeFull(args)
         if args.steward_command == "lane" and getattr(args, "lane_action", None) not in {
             "status",
             "next",
@@ -380,6 +438,243 @@ class StewardCommand(Command):
             receipt_display = result.receipt_path
         print(f"Receipt            {receipt_display}")
         return 0
+
+    # ------------------------------------------------------------------
+    # gaia steward full
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _fullStore(root: Path, choice: str, remote: str):
+        """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers."""
+
+        import subprocess
+
+        from gaia_cli.steward.ledger import FileLedgerStore, GitRefLedgerStore
+
+        local = FileLedgerStore(root / ".gaia" / "steward" / "full" / "ledger.json")
+        if choice == "local":
+            return local
+        shared = GitRefLedgerStore(root, remote)
+        if choice == "git":
+            return shared
+        try:
+            probe = subprocess.run(
+                ["git", "-C", str(root), "ls-remote", "--exit-code", remote, "HEAD"],
+                capture_output=True, timeout=30, check=False,
+            )
+            reachable = probe.returncode == 0
+        except (OSError, subprocess.TimeoutExpired):
+            reachable = False
+        return shared if reachable else local
+
+    @staticmethod
+    def _fullModeOf(args: argparse.Namespace) -> str:
+        for flag in ("observe", "triage", "verify", "retro"):
+            if getattr(args, flag, False):
+                return flag
+        return "full"
+
+    def _executeFull(self, args: argparse.Namespace) -> int:
+        import os
+
+        from gaia_cli.steward.fullrun import FullRunConfig, FullRunError, FullRunner
+        from gaia_cli.steward.ledger import LedgerConflict, LedgerUnavailable
+        from gaia_cli.steward.policy import PolicyError
+        from gaia_cli.steward.receipts import StateError
+
+        action = getattr(args, "fullAction", None)
+        if action not in {"run", "record", "status"}:
+            print("usage: gaia steward full {run,record,status} [--json]", file=sys.stderr)
+            return 2
+        root = Path(args.registry).resolve()
+        remote = "origin"
+        try:
+            store = self._fullStore(root, args.ledger, remote)
+            config = FullRunConfig(
+                repo_root=root,
+                store=store,
+                integration_branch=(
+                    getattr(args, "integrationBranch", None)
+                    or os.environ.get("GAIA_STEWARD_INTEGRATION_BRANCH")
+                    or None
+                ),
+                remote=remote,
+                push=bool(getattr(args, "push", False)),
+                trigger=getattr(args, "trigger", "manual"),
+                agents=not getattr(args, "noAgents", False),
+                holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
+            )
+            runner = FullRunner(config)
+            if action == "status":
+                result = runner.status()
+            elif action == "record":
+                outcome = self._readOutcome(args.input)
+                result = runner.record(args.runId, args.stepId, outcome)
+            else:
+                result = self._fullRun(runner, args)
+        except _FullRefused as exc:
+            print(f"Steward full refused: {exc}", file=sys.stderr)
+            return 2
+        except (FullRunError, PolicyError, StateError, ValueError) as exc:
+            print(f"Steward full refused: {exc}", file=sys.stderr)
+            return 2
+        except (LedgerUnavailable, LedgerConflict, OSError) as exc:
+            print(f"Steward full failed: {exc}", file=sys.stderr)
+            return 1
+
+        if args.json:
+            print(json.dumps(result.to_dict(), indent=2, sort_keys=True, ensure_ascii=False))
+        elif action == "status":
+            self._printFullStatus(result)
+        else:
+            self._printFullRun(result)
+        return 0 if action == "status" else result.exitCode
+
+    @staticmethod
+    def _readOutcome(path: str) -> dict:
+        try:
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise _FullRefused(f"cannot read outcome file {path}: {exc}") from exc
+        if not isinstance(data, dict):
+            raise _FullRefused("outcome file must contain a JSON object")
+        return data
+
+    def _fullRun(self, runner, args: argparse.Namespace):
+        modeFlags = [f for f in ("observe", "triage", "verify", "retro") if getattr(args, f, False)]
+        if args.resume:
+            if modeFlags or args.routine is not None or args.debt:
+                raise _FullRefused("--resume continues the recorded mode and filters; do not combine it with mode flags")
+            return runner.resume(args.resume)
+        routine = None
+        if args.routine is not None:
+            try:
+                routine = int(args.routine)
+            except ValueError:
+                raise _FullRefused(f"--routine must be a number between 1 and 17, not {args.routine!r}") from None
+            if not 1 <= routine <= 17:
+                raise _FullRefused("--routine must be between 1 and 17")
+        return runner.start(
+            self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
+        )
+
+    @staticmethod
+    def _printFullRun(view) -> None:
+        print("Gaia Steward full")
+        if view.status == "observing-existing":
+            print(f"Status               observing-existing")
+            print(f"Holder               {view.holder}  (phase {view.holderPhase})")
+            print(f"Next                 {view.nextAction}")
+            return
+        ledger = view.ledger
+        shared = "shared" if ledger.get("shared") else "local only (ledger_local_only)"
+        print(f"Run                  {view.runId}  (mode {view.mode})")
+        print(f"Status               {view.status}  (phase {view.phase})")
+        print(f"Ledger               {ledger.get('transport')}  {shared}")
+        summary = view.summary
+        observe = summary.get("reobserve") or summary.get("observe")
+        if observe:
+            print(
+                f"Observed             {observe.get('observations', 0)} observations, "
+                f"{observe.get('openDebt', 0)} open debt, "
+                f"coverage unknown {len(observe.get('coverageUnknown', []))}, "
+                f"not evaluated {len(observe.get('notEvaluated', []))}, "
+                f"partially covered {len(observe.get('partialCoverage', []))}"
+            )
+        triage = summary.get("triage")
+        if triage:
+            counts = triage["counts"]
+            print(
+                f"Triage               A {counts['A']}  B {counts['B']}  "
+                f"B-report-only {counts['B-report-only']}  C {counts['C']}"
+            )
+        retro = summary.get("retro")
+        if retro:
+            StewardCommand._printRetro(retro, table=view.mode == "retro")
+        classA = summary.get("class_a")
+        if classA:
+            landed = classA.get("landings", [])
+            print(f"Class A              {classA.get('status')}  {len(landed)} landing outcome(s)"
+                  + (f"  - {classA['reason']}" if classA.get("reason") else ""))
+        classB = summary.get("class_b")
+        if classB:
+            detail = classB.get("dispatched") or classB.get("reason") or classB.get("status")
+            print(f"Class B              {classB.get('status')}  {detail}")
+        resolved = (summary.get("reobserve") or {}).get("resolvedWork")
+        if resolved:
+            print(f"Resolved             {len(resolved)} work item(s) after re-observation")
+        if view.unresolvedWork:
+            print(f"Adopted work         {len(view.unresolvedWork)} unfinished item(s) from an earlier run")
+        for action in view.actions:
+            print(f"Action               {action['type']}  {action['stepId']}  ({action['debtId']})")
+        desk = view.desk
+        if desk is not None:
+            if desk.get("quiet"):
+                print("Desk                 nothing needs you")
+            else:
+                print(f"Desk                 {len(desk['decisions'])} decision(s), {len(desk['operations'])} operation(s)")
+                for item in desk["decisions"]:
+                    print(f"  decision  {item['decisionId']}")
+                for item in desk["operations"]:
+                    print(f"  operation [{item['kind']}] {item['subject']}")
+        if view.error:
+            print(f"Error                {view.error}")
+        print(f"Next                 {view.nextAction}")
+
+    @staticmethod
+    def _printRetro(retro: dict, *, table: bool) -> None:
+        print(
+            f"Coverage             {retro['registered']} registered, {retro['executed']} executed, "
+            f"{len(retro['unknown'])} unknown, {len(retro['notEvaluated'])} not evaluated, "
+            f"{len(retro['partiallyCovered'])} partially covered"
+        )
+        if not table:
+            return
+        print("Sensors")
+        for sensor in retro["sensors"]:
+            seen = sensor["observations"]
+            reason = f"  ({sensor['reason']})" if sensor.get("reason") else ""
+            routines = ",".join(str(n) for n in sensor["routine_ids"]) or "-"
+            print(f"  {sensor['id']:<28} {sensor['state']:<14} drift {seen['drift']:<4} "
+                  f"healthy {seen['healthy']:<4} routines {routines}{reason}")
+        print("Routines")
+        for routine in retro["routines"]:
+            detectors = ", ".join(f"{d['sensor']}:{d['state']}" for d in routine["detectors"]) or "-"
+            print(f"  {routine['routine']:>2}  {routine['state']:<12} {detectors}")
+
+    @staticmethod
+    def _printFullStatus(view) -> None:
+        print("Gaia Steward full status")
+        shared = "shared" if view.ledger.get("shared") else "local only (ledger_local_only)"
+        print(f"Ledger               {view.ledger.get('transport')}  {shared}")
+        if view.holder:
+            print(f"Run lease            {view.holder}  (phase {view.holderPhase}, until {view.holderExpiresAt})")
+        else:
+            print("Run lease            free")
+        print(f"Last scheduled run   {view.lastScheduledRunAt or 'never'}")
+        counts = ", ".join(f"{state} {n}" for state, n in view.workCounts.items()) or "none"
+        print(f"Work                 {counts}")
+        if view.lane:
+            lane = view.lane["counts"]
+            print(f"Lane                 queued {lane['queued']}  dispatched {lane['dispatched']}  "
+                  f"escalated {lane['escalated']}  closed {lane['closed']}")
+        for run in view.recentRuns[:5]:
+            print(f"  {run['runId']}  {run['mode']:<8} {run['status']}")
+
+
+EXITCODES = """\
+exit codes:
+  0  completed, or awaiting-action (a driver must perform the emitted actions)
+  1  failed: a phase raised, the ledger was unavailable, or the run lost its lease
+  2  refused input: bad arguments, an unreadable or invalid outcome file, an unknown run,
+     or a conflicting --integration-branch on --resume
+  3  blocked: sensor coverage is unknown (any mode); nothing was acted on
+  4  observing-existing: another run holds the run lease; nothing was started
+"""
+
+
+class _FullRefused(ValueError):
+    """The caller's arguments or input file were refused; exit code 2."""
 
 
 COMMAND = StewardCommand()
