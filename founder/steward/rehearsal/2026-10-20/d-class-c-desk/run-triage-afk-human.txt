@@ -1,0 +1,18 @@
+Gaia Steward full
+Run                  run-20261020T212024Z-5ce81f9a  (mode triage)
+Status               completed  (phase done)
+Ledger               git-ref  shared
+Observed             310 observations, 272 open debt, coverage unknown 0, not evaluated 3, partially covered 0
+Triage               A 0  B 51  B-report-only 199  C 22
+Desk                 6 decision(s), 4 operation(s)
+  decision  steward-class-b-route-unused-import
+  decision  steward-class-b-throughput
+  decision  steward-dev-mutation-gates
+  decision  steward-landing-target
+  decision  steward-timeline-order-1699
+  decision  decision-bd6c25b50dfe8d0d3b4e
+  operation [not_evaluated] ci-health
+  operation [not_evaluated] dependency-advisory
+  operation [not_evaluated] test-history
+  operation [stale_schedule] scheduled run
+Next                 nothing further for this run
