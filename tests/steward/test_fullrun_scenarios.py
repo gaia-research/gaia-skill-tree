@@ -7,22 +7,25 @@ transports. No test touches a real origin or a real `steward/*` ref.
 from __future__ import annotations
 
 import json
+import tempfile
 import threading
 from pathlib import Path
 from typing import Any
 
 import pytest
+import yaml
 
 import gaia_cli.steward.fullrun as fullrun
 from gaia_cli.steward.fullrun import RecordRefused
 from gaia_cli.steward.ledger import GitRefLedgerStore
 from gaia_cli.steward.lane import load_lane
 from gaia_cli.steward.policy import StewardPolicy
-from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+from gaia_cli.steward.sensors import AgentSkillMirrorSensor, TrustCalibrationDriftSensor
 from gaia_cli.steward.primitives import SensorUnavailable
 
 from tests.steward.test_fullrun import (
     BUILD,
+    Clock,
     INTEGRATION,
     VERIFY,
     StubSensor,
@@ -276,3 +279,285 @@ def test_scenario_c_mechanical_reject_returns_the_debt_and_attempts_are_bounded(
     assert entry.last_verdict == "reject" and entry.attempts == 1
     assert entry.state in {"queued", "escalated"}
     assert not (doc["runs"][view.runId]["actions"][0]["status"] == "pending")
+
+
+# --- D: Class C goes to the desk; unrelated A and B work still proceeds ----------------
+
+
+def test_scenario_d_class_c_debt_reaches_the_desk_and_executes_nothing(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    mapping = StubSensor("discovery-generic-mapping", "generic_mapping", ["candidate-1"],
+                         extra={"decisionTarget": "alpha-skill"})
+    hygiene = StubSensor(HYGIENE, "repository_hygiene", ["leaked-artifact"])
+    store = fileStore(tmp_path)
+    runner = makeRunner(repo, store, [AgentSkillMirrorSensor(), mapping, hygiene])
+
+    view = runner.start("full")
+
+    assert view.status == "awaiting-action", view.to_dict()
+    assert sorted(actionTypes(view)) == ["agent.build", "forge.open_pr"]
+    triage = view.summary["triage"]
+    assert triage["counts"] == {"A": 1, "B": 1, "B-report-only": 0, "C": 1}
+    (cDebt,) = triage["classC"]
+    doc = ledgerOf(store)
+    assert cDebt not in doc["work"], "nothing is created, dispatched or landed for a Class C debt"
+    assert load_lane(doc["lane"], StewardPolicy.load(repo).lane).by_id(cDebt) is None
+    assert len(stewardRefs(bare)) == 1, "only the unrelated mirror drift got a branch"
+    # The debt is on the desk as a decision for a person, never as an operation.
+    desk = view.desk
+    assert desk is not None and desk["quiet"] is False
+    assert any(cDebt in d["debtIds"] for d in desk["decisions"]), desk["decisions"]
+    assert all(cDebt not in op["subject"] for op in desk["operations"])
+    assert not any(a["debtId"] == cDebt for a in doc["runs"][view.runId]["actions"])
+
+
+# --- E: a broken sensor ------------------------------------------------------------------
+
+
+def test_scenario_e_broken_sensor_reports_unknown_and_refuses_to_act(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    hygiene = StubSensor(HYGIENE, "repository_hygiene", ["leaked-artifact"])
+    broken = StubSensor("flaky-surface", "registry_integrity_failed")
+    store = fileStore(tmp_path)
+    runner = makeRunner(repo, store, [AgentSkillMirrorSensor(), hygiene, broken])
+    first = runner.start("observe")  # establishes pre-existing open debt
+    assert first.status == "completed" and first.coverageUnknown == []
+
+    broken.raises = SensorUnavailable("surface cannot be read completely")
+    view = runner.start("full")
+
+    assert view.status == "blocked" and view.exitCode == 3, view.to_dict()
+    assert view.coverageUnknown == ["flaky-surface"]
+    assert view.actions == []
+    assert view.summary["class_a"]["status"] == "blocked"
+    assert "coverage is unknown" in view.summary["class_a"]["reason"]
+    assert view.summary["class_b"]["status"] == "blocked"
+    doc = ledgerOf(store)
+    assert doc["work"] == {}
+    assert stewardRefs(bare) == []
+    assert doc["lane"] is None or load_lane(doc["lane"], StewardPolicy.load(repo).lane).in_flight == ()
+    assert [op["kind"] for op in view.desk["operations"]].count("coverage_unknown") == 1
+    assert doc["leases"] == {}
+    # The pre-existing debt is retained, still open, not silently resolved.
+    state = json.loads((repo / ".gaia/steward/debt.json").read_text())
+    openKinds = sorted(d["kind"] for d in state["debts"] if d["status"] == "open")
+    assert "agent_skill_mirror_drift" in openKinds and "repository_hygiene" in openKinds
+
+
+# --- F: crash and resume --------------------------------------------------------------------
+
+
+class Crash(BaseException):
+    """Stands in for a killed process; not an Exception, so nothing swallows it."""
+
+
+def crashAt(monkeypatch: pytest.MonkeyPatch, point: str) -> None:
+    def hook(name: str) -> None:
+        if name == point:
+            raise Crash(name)
+
+    monkeypatch.setattr(fullrun, "_checkpoint", hook)
+
+
+def uncrash(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(fullrun, "_checkpoint", lambda name: None)
+
+
+def onlyRunId(store: Any) -> str:
+    (runId,) = ledgerOf(store)["runs"]
+    return runId
+
+
+def openPrActions(store: Any) -> list[dict[str, Any]]:
+    return [a for run in ledgerOf(store)["runs"].values() for a in run["actions"] if a["type"] == "forge.open_pr"]
+
+
+@pytest.mark.parametrize("point", ["class_a.intent", "class_a.executed"])
+@pytest.mark.parametrize("transport", ["file", "git"])
+def test_scenario_f_class_a_crash_resumes_with_one_branch_and_one_pr_action(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, point: str, transport: str
+) -> None:
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
+    crashAt(monkeypatch, point)
+    with pytest.raises(Crash):
+        makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
+    runId = onlyRunId(store)
+    run = ledgerOf(store)["runs"][runId]
+    assert [s["status"] for s in run["steps"] if s["kind"] == "landing"] == ["intent"], "intent was recorded first"
+    assert len(stewardRefs(bare)) == (0 if point == "class_a.intent" else 1)
+    assert openPrActions(store) == []
+
+    uncrash(monkeypatch)
+    view = makeRunner(repo, store, [AgentSkillMirrorSensor()]).resume(runId)  # a brand new process
+
+    assert view.status == "awaiting-action", view.to_dict()
+    assert len(stewardRefs(bare)) == 1, "the idempotent landing never makes a second branch"
+    assert len(openPrActions(store)) == 1 and actionTypes(view) == ["forge.open_pr"]
+    (item,) = ledgerOf(store)["work"].values()
+    assert item["state"] == "proposed" and item["branch"] == stewardRefs(bare)[0]
+    # A third pass changes nothing.
+    again = makeRunner(repo, store, [AgentSkillMirrorSensor()]).resume(runId)
+    assert len(stewardRefs(bare)) == 1 and len(openPrActions(store)) == 1
+    assert actionTypes(again) == ["forge.open_pr"]
+
+
+@pytest.mark.parametrize("point", ["class_b.rendered", "class_b.dispatched"])
+def test_scenario_f_class_b_crash_resumes_with_exactly_one_dispatch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, point: str
+) -> None:
+    repo, _bare, sensor, store, _runner = hygieneRunner(tmp_path)
+    crashAt(monkeypatch, point)
+    with pytest.raises(Crash):
+        makeRunner(repo, store, [sensor]).start("full")
+    runId = onlyRunId(store)
+
+    uncrash(monkeypatch)
+    view = makeRunner(repo, store, [sensor]).resume(runId)
+
+    assert view.status == "awaiting-action", view.to_dict()
+    assert actionTypes(view) == ["agent.build"]
+    doc = ledgerOf(store)
+    builds = [a for a in doc["runs"][runId]["actions"] if a["type"] == "agent.build"]
+    assert len(builds) == 1
+    lane = load_lane(doc["lane"], StewardPolicy.load(repo).lane)
+    (entry,) = lane.entries
+    assert entry.state == "dispatched" and entry.attempts == 1 and len(lane.in_flight) == 1
+    # Resuming again cannot dispatch a second time.
+    makeRunner(repo, store, [sensor]).resume(runId)
+    lane = load_lane(ledgerOf(store)["lane"], StewardPolicy.load(repo).lane)
+    assert lane.entries[0].attempts == 1
+
+
+def test_scenario_f_expired_lease_is_abandoned_and_its_work_adopted_not_duplicated(tmp_path: Path) -> None:
+    clock = Clock()
+    repo, _bare, sensor, store, _ = hygieneRunner(tmp_path)
+    first = makeRunner(repo, store, [sensor], clock=clock).start("full")
+    assert actionTypes(first) == ["agent.build"]
+    debtId = first.actions[0]["params"]["debtId"]
+    assert makeRunner(repo, store, [sensor], clock=clock).start("full").status == "observing-existing"
+
+    clock.advance(hours=2)  # the lease (1800s) expires with the build still outstanding
+    second = makeRunner(repo, store, [sensor], clock=clock).start("full")
+
+    doc = ledgerOf(store)
+    assert doc["runs"][first.runId]["status"] == "abandoned"
+    assert [w["debtId"] for w in second.unresolvedWork] == [debtId]
+    assert second.unresolvedWork[0]["state"] == "building"
+    assert len(doc["work"]) == 1
+    lane = load_lane(doc["lane"], StewardPolicy.load(repo).lane)
+    assert lane.by_id(debtId).attempts == 1, "the adopted dispatch is not dispatched again"
+    # The adopted build is re-offered under the new run, against the same dispatch.
+    assert actionTypes(second) == ["agent.build"]
+    assert second.actions[0]["params"]["dispatchId"] == first.actions[0]["params"]["dispatchId"]
+    assert second.status == "awaiting-action"
+
+
+# --- G: two runners, one lease -------------------------------------------------------------------
+
+
+def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo, bare = makeFixture(tmp_path)
+    clone = cloneOf(bare, tmp_path / "clone2")
+    sensors = {"a": StubSensor(HYGIENE, "repository_hygiene"), "b": StubSensor(HYGIENE, "repository_hygiene")}
+    runners = {
+        "a": makeRunner(repo, GitRefLedgerStore(repo, "origin"), [sensors["a"]], trigger="manual"),
+        "b": makeRunner(clone, GitRefLedgerStore(clone, "origin"), [sensors["b"]], trigger="manual"),
+    }
+    barrier = threading.Barrier(2)
+    release, results, errors = threading.Event(), {}, []
+
+    def hook(name: str) -> None:  # the winner parks here, still holding the lease
+        if name == "phase:reconcile":
+            assert release.wait(60)
+
+    monkeypatch.setattr(fullrun, "_checkpoint", hook)
+
+    def go(name: str) -> None:
+        try:
+            barrier.wait(30)
+            results[name] = runners[name].start("observe")
+        except BaseException as exc:  # noqa: BLE001 - surface thread failures in the test
+            errors.append(exc)
+            results.setdefault(name, None)
+
+    threads = [threading.Thread(target=go, args=(n,)) for n in runners]
+    for thread in threads:
+        thread.start()
+    deadline = 60.0
+    while len(results) < 1 and deadline > 0:  # the loser returns while the winner is parked
+        threading.Event().wait(0.05)
+        deadline -= 0.05
+    loserName = next(iter(results))
+    release.set()
+    for thread in threads:
+        thread.join(60)
+    assert not errors, errors
+    winnerName = "a" if loserName == "b" else "b"
+    loser, winner = results[loserName], results[winnerName]
+
+    assert loser.status == "observing-existing" and winner.status == "completed"
+    assert loser.holder == winner.runId and loser.runId is None
+    assert loser.holderPhase in {"reconcile", "observe"}
+    document, _ = GitRefLedgerStore(repo, "origin").load()
+    assert list(document["runs"]) == [winner.runId], "the loser created no run"
+    assert document["work"] == {} and document["leases"] == {}
+    assert sensors[loserName].scans == 0, "the loser did no scanning"
+    assert sensors[winnerName].scans == 1
+
+
+# --- H: historical regression #2114 ------------------------------------------------------------------
+
+
+def writeInheritedEvidenceRegistry(root: Path) -> None:
+    """A named 3-star skill whose grade is B only through its generic parent's evidence."""
+
+    write(root / "registry/nodes/basic/gen-skill.json", json.dumps({
+        "id": "gen-skill", "type": "basic", "prerequisites": [], "derivatives": [],
+        "evidence": [
+            {"type": "github-stars-own", "grade": "A", "source": "https://example.invalid/gen/stargazers", "stars": 200},
+            {"type": "repo-own", "grade": "B", "source": "https://example.invalid/gen", "commits": 20, "contributors": 3},
+        ],
+    }))
+    frontmatter = {
+        "id": "acme/thing", "status": "named", "genericSkillRef": "gen-skill", "level": "3★",
+        "evidence": [{"type": "repo-own", "grade": "C", "source": "https://example.invalid/thing/blob/main/SKILL.md",
+                      "commits": 3, "contributors": 1}],
+    }
+    write(root / "registry/named/acme/thing.md", "---\n" + yaml.safe_dump(frontmatter, sort_keys=False) + "---\n")
+
+
+
+def sensorStillUsesEmptyContext() -> bool:
+    """True while TrustCalibrationDriftSensor scores against an empty context map (#2114)."""
+
+    with tempfile.TemporaryDirectory() as scratch:
+        root = Path(scratch)
+        writeInheritedEvidenceRegistry(root)
+        return bool(TrustCalibrationDriftSensor().scan(root, "2026-10-20T00:00:00Z"))
+
+
+@pytest.mark.xfail(
+    strict=True,
+    condition=sensorStillUsesEmptyContext(),
+    reason="#2114: TrustCalibrationDriftSensor still scores with an empty context map; fixed by "
+           "feat/steward-full-correctness. The probe flips this test to a normal one once that merges.",
+)
+def test_scenario_h_inherited_evidence_keeps_a_correct_stored_rank_unflagged(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    writeInheritedEvidenceRegistry(repo)
+    commitAll(repo, "registry with inherited evidence")
+    store = fileStore(tmp_path)
+    runner = makeRunner(repo, store, [TrustCalibrationDriftSensor()])
+
+    view = runner.start("full")
+
+    assert view.status == "completed", view.to_dict()
+    assert view.actions == []
+    doc = ledgerOf(store)
+    assert [w for w in doc["work"].values() if w["kind"] == "trust_calibration_drift"] == []
+    state = json.loads((repo / ".gaia/steward/debt.json").read_text())
+    assert [d for d in state["debts"] if d["kind"] == "trust_calibration_drift"] == []
+    assert view.summary["triage"]["counts"]["B"] == 0

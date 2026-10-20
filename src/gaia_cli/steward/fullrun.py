@@ -540,12 +540,24 @@ class FullRunner:
         pending = self._pending(run)
         if not pending or run["status"] not in OPENRUNSTATES:
             return
-        self._setStatus(
-            runId, "awaiting-action",
+        text = (
             f"perform {len(pending)} pending action(s) ({', '.join(sorted({a['type'] for a in pending}))}), "
             f"record each with `gaia steward full record {runId} <stepId> --input FILE`, then "
-            f"`gaia steward full run --resume {runId}`",
+            f"`gaia steward full run --resume {runId}`"
         )
+        # The run stops before `report`, but the person still deserves the desk as of now.
+        desk = None
+        if runId in self._scans:
+            desk = self._buildDesk(runId, self._load(), run, self._now())
+
+        def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
+            if record["status"] in OPENRUNSTATES:
+                record["status"] = "awaiting-action"
+                record["nextAction"] = text
+                if desk is not None:
+                    record["desk"] = desk
+
+        self._mutateRun(runId, apply, message="steward full awaiting-action")
 
     @staticmethod
     def _observationOf(run: Mapping[str, Any]) -> dict[str, Any]:
@@ -1129,7 +1141,9 @@ class FullRunner:
             if state in HELDWORK:
                 result["held"].append(debt.id)
                 continue
-            if state in ACTIVEWORK:
+            # `queued` is a Class A landing whose intent was recorded but never
+            # confirmed: it must be retried (idempotently), not skipped.
+            if state in ACTIVEWORK and state != "queued":
                 result["skippedActive"].append(debt.id)
                 continue
             debts[debt.id] = debt
@@ -1404,6 +1418,7 @@ class FullRunner:
         packet = result.artifact
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
+        _checkpoint("class_b.rendered")
         slug = _hash12(debt.id)
         promptPath = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         promptPath.write_text(prompt, encoding="utf-8")
