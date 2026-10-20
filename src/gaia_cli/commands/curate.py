@@ -35,13 +35,9 @@ class CurateCommand(Command):
     @staticmethod
     def _inventory(path: str) -> list[dict[str, Any]]:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
-        # C owns canonical freeze/reconcile. If integrated, normalize raw candidate
-        # lists through its shared freezeInventory contract; otherwise consume an
-        # already-frozen envelope without inventing another reconciliation format.
-        if isinstance(data, list):
-            from gaia_cli.curation.reconciliation import freezeInventory
-            data = freezeInventory(data)
-        rows = data.get("candidates") if isinstance(data, dict) else None
+        # Source bytes are fetched and frozen by the orchestrator before semantic
+        # processing; don't invent synthetic hashes at CLI parse time.
+        rows = data if isinstance(data, list) else (data.get("candidates") if isinstance(data, dict) else None)
         if not isinstance(rows, list) or not 1 <= len(rows) <= 5:
             raise ValueError("frozen inventory must contain 1–5 candidates")
         normalized = []
@@ -49,7 +45,7 @@ class CurateCommand(Command):
             if not isinstance(row, dict):
                 raise ValueError("inventory candidates must be objects")
             candidate_id = row.get("candidateId")
-            source_url = row.get("sourceUrl") or row.get("skillFileUrl")
+            source_url = row.get("sourceUrl") or row.get("skillFileUrl") or row.get("canonicalUrl")
             if not isinstance(candidate_id, str) or not candidate_id.strip() or not isinstance(source_url, str):
                 raise ValueError("each candidate requires candidateId and sourceUrl")
             normalized.append({**row, "candidateId": candidate_id, "sourceUrl": source_url})
@@ -65,15 +61,32 @@ class CurateCommand(Command):
         except ImportError:
             return ["packet freshness verifier is unavailable; resume is fail-closed"]
         errors: list[str] = []
+        import hashlib
+        from gaia_cli.prefill import fetchCandidateSource
+        frozen = {row.get("candidateId"): row for row in run.inventory if isinstance(row, dict)}
         for result in results:
-            packet_path = result.get("packetPath")
-            if not packet_path:
-                continue
-            try:
-                packet = json.loads(Path(packet_path).read_text(encoding="utf-8"))
-                errors.extend(verifyPacketFreshness(packet, registryPath=registry))
-            except Exception as exc:
-                errors.append(f"{packet_path}: freshness check failed: {exc}")
+            cid = result.get("candidateId")
+            for path_key, hash_key in (("packetPath", "packetSha256"), ("assessmentPath", "assessmentSha256")):
+                path = result.get(path_key)
+                if not path:
+                    errors.append(f"{cid}: stored {path_key} is missing")
+                    continue
+                try:
+                    content = Path(path).read_bytes()
+                    if hashlib.sha256(content).hexdigest() != result.get(hash_key):
+                        errors.append(f"{path}: stored {path_key} digest mismatch")
+                    if path_key == "packetPath":
+                        packet = json.loads(content)
+                        errors.extend(verifyPacketFreshness(packet, registryPath=registry))
+                except Exception as exc:
+                    errors.append(f"{path}: {path_key} verification failed: {exc}")
+            row = frozen.get(cid, {})
+            url = result.get("sourceUrl") or row.get("canonicalUrl") or row.get("sourceUrl")
+            if url:
+                _, _, _, digest = fetchCandidateSource(url)
+                expected = result.get("sourceSha256") or row.get("sourceDigest")
+                if digest is None or digest != expected:
+                    errors.append(f"{cid}: source bytes no longer match frozen digest")
         return errors
 
     def execute(self, args: argparse.Namespace) -> int | None:
@@ -81,13 +94,14 @@ class CurateCommand(Command):
             run = CurationRun.load(CurationRun(run_id=args.resume).run_dir)
             # Resume arguments cannot replace durable external references/inventory.
             freshness_errors = self._freshness(run, args.registry)
-            if freshness_errors:
-                blockers = {item.get("checkId"): item for item in run.checkpoint.get("blockers", [])}
-                for i, error in enumerate(freshness_errors):
-                    blockers[f"packet-freshness-{i}"] = {
-                        "checkId": f"packet-freshness-{i}", "status": "open", "summary": error
-                    }
-                run.checkpoint["blockers"] = list(blockers.values())
+            # Replace only current packet-resume blockers; old resolved/history entries
+            # remain historical and are never resurrected.
+            blockers = [item for item in run.checkpoint.get("blockers", [])
+                        if not str(item.get("checkId", "")).startswith("packet-freshness-")]
+            blockers.extend({"checkId": f"packet-freshness-{i}", "status": "open", "summary": error}
+                            for i, error in enumerate(freshness_errors))
+            if blockers != run.checkpoint.get("blockers", []):
+                run.checkpoint["blockers"] = blockers
                 run.save(run.run_dir)
         else:
             if not args.url and not args.inventory:

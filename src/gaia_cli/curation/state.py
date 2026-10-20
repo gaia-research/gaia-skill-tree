@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -142,9 +144,23 @@ class CurationRun:
         if target.suffix == "":
             target = target / "state.json"
         target.parent.mkdir(parents=True, exist_ok=True)
-        temporary = target.with_name(target.name + ".tmp")
-        temporary.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
-        temporary.replace(target)
+        payload = (json.dumps(asdict(self), indent=2) + "\n").encode("utf-8")
+        fd, temporary_name = tempfile.mkstemp(prefix=f".{target.name}.", suffix=".tmp", dir=target.parent)
+        try:
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temporary_name, target)
+            try:
+                dir_fd = os.open(target.parent, os.O_RDONLY)
+                try: os.fsync(dir_fd)
+                finally: os.close(dir_fd)
+            except OSError:
+                pass
+        finally:
+            try: os.unlink(temporary_name)
+            except FileNotFoundError: pass
 
     @classmethod
     def load(cls, path: str | Path) -> "CurationRun":

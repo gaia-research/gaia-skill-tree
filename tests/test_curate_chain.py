@@ -84,6 +84,52 @@ def test_retry_reprocesses_only_failed_candidate_and_preserves_prior_checkpoint(
     assert len(run.checkpoint["results"]) == 3
 
 
+@pytest.mark.parametrize("count", [1, 5])
+def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, monkeypatch, count):
+    import gaia_cli.prefill as prefill
+    from gaia_cli.curation.orchestrator import CurationOrchestrator
+    source_text = "---\nname: Actual Source Skill\ndescription: A realistic source description for processing.\n---\nbody\n"
+    monkeypatch.setattr(prefill, "fetchCandidateSource", lambda url, fetcher=None: (
+        "https://github.com/owner/repo", "https://raw.invalid/SKILL.md", source_text,
+        __import__("hashlib").sha256(source_text.encode()).hexdigest()))
+    monkeypatch.setattr(prefill, "embeddingStatus", lambda **kwargs: {"status": "fresh"})
+    monkeypatch.setattr(prefill, "load_embeddings", lambda _path: {
+        "model": "test", "dimensions": 2, "entries": [{"id": "generic-skill", "vector": [1.0, 0.0]}]})
+    monkeypatch.setattr(prefill, "embed_query", lambda *args, **kwargs: [1.0, 0.0])
+    monkeypatch.setattr(prefill, "search_precomputed", lambda *args, **kwargs: [{"id": "generic-skill", "score": 0.9}])
+    # Required artifact presence is mocked, while the default processor, command,
+    # packet construction, persistence and reconciliation all execute normally.
+    reg = tmp_path / "repo"
+    (reg / "graph").mkdir(parents=True)
+    (reg / "graph/embeddings.json").write_text("{}")
+    (reg / "registry/nodes").mkdir(parents=True)
+    (reg / "registry/nodes/generic.json").write_text(json.dumps({"id": "generic-skill", "name": "Generic Skill"}))
+    candidates = [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"Owner/Skill {i}",
+                  "sourceUrl": f"https://github.com/owner/repo/blob/main/skills/{i}/SKILL.md"}
+                 for i in range(count)]
+    run = CurationRun(run_id=f"real-{count}", inventory=candidates)
+    orchestrator = CurationOrchestrator(run, registry_path=str(reg), save_path=tmp_path / f"{count}.json")
+    orchestrator.run_to_next_gate()
+    assert run.current_state == "AWAITING_L4_REVIEW"
+    assert len(run.checkpoint["results"]) == count
+    assert run.checkpoint["reconciliation"]["accounted"] is True
+    assert run.checkpoint["reconciliation"]["humanApproved"] is False
+    assert all(r["packetSha256"] and r["assessmentSha256"] for r in run.checkpoint["results"])
+
+
+def test_candidate_retry_limit_is_bounded(tmp_path):
+    def fail(candidate, _registry):
+        raise RuntimeError("persistent stage failure")
+    run = CurationRun(run_id="bounded", inventory=inventory(1))
+    worker = CurationOrchestrator(run, save_path=tmp_path / "state.json", processor=fail)
+    for attempt in range(3):
+        with pytest.raises(RuntimeError, match="persistent stage failure"):
+            worker.run_to_next_gate() if attempt == 0 else worker.retry_candidate()
+    with pytest.raises(RuntimeError, match="retry budget exhausted"):
+        worker.retry_candidate()
+    assert run.checkpoint["attempts"]["0"] == 3
+
+
 def test_local_decision_json_never_crosses_l4_gate(tmp_path):
     run = CurationRun(run_id="gate", current_state="AWAITING_L4_REVIEW", inventory=inventory(1))
     run.decisions["l4_resolution"] = {"approved": True, "target": "pretend"}
@@ -104,5 +150,5 @@ def test_resume_with_packet_fails_closed_if_freshness_interface_unavailable(tmp_
     command.configure(parser)
     assert command.execute(parser.parse_args(["--resume", "fresh"])) == 0
     loaded = CurationRun.load(run.run_dir)
-    assert any("freshness verifier is unavailable" in row["summary"] for row in loaded.checkpoint["blockers"])
+    assert any("verification failed" in row["summary"] for row in loaded.checkpoint["blockers"])
     assert loaded.current_state == "AWAITING_L4_REVIEW"
