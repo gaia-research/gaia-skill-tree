@@ -466,6 +466,43 @@ def test_skipped_dependency_alone_is_clean_not_an_error(tmp_path: Path) -> None:
     assert DependencyAdvisorySensor().scan(root, NOW) == []
 
 
+def test_unaudited_third_party_package_is_a_reported_skip(tmp_path: Path) -> None:
+    # A package vulnerable yesterday and unauditable today must not be swept as fixed.
+    root = make_repo(tmp_path / "repo", {"README.md": "x\n", "pyproject.toml": '[project]\nname = "Own_Pkg"\n'})
+    _write_inputs(
+        root,
+        "advisories.json",
+        {
+            "dependencies": [
+                {"name": "own-pkg", "skip_reason": "editable"},
+                {"name": "jinja2", "skip_reason": "Dependency not found on PyPI"},
+            ],
+            "fixes": [],
+        },
+    )
+    result = DependencyAdvisorySensor().scan_detailed(root, NOW)
+    assert result.observations == ()
+    assert [entry["subjectId"] for entry in result.skipped] == ["jinja2"]
+
+
+def test_own_editable_project_skip_keeps_the_sweep_exhaustive(tmp_path: Path) -> None:
+    root = make_repo(tmp_path / "repo", {"README.md": "x\n", "pyproject.toml": '[project]\nname = "gaia-cli"\n'})
+    _write_inputs(root, "advisories.json", {"dependencies": [{"name": "gaia_cli", "skip_reason": "editable"}], "fixes": []})
+    assert DependencyAdvisorySensor().scan_detailed(root, NOW).skipped == ()
+
+
+def test_registry_schema_violation_never_echoes_the_value() -> None:
+    from jsonschema import Draft7Validator
+
+    from gaia_cli.steward.sensors import schemaViolation
+
+    planted = "AKIA" + "Q" * 16
+    (error,) = Draft7Validator({"properties": {"id": {"type": "integer"}}}).iter_errors({"id": planted})
+    described = schemaViolation(error)
+    assert described == "schema /id: type violation"
+    assert planted not in described
+
+
 @pytest.mark.parametrize(
     "dependency",
     [

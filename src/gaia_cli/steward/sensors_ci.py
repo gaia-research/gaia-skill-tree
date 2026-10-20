@@ -23,7 +23,7 @@ from typing import Any, Iterator
 
 import yaml
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorNotEvaluated,
     SensorUnavailable,
@@ -619,7 +619,10 @@ class DependencyAdvisorySensor:
     no timestamp, so the file's modification time is the freshness clock unless
     the driver added ``collectedAt``. Dependencies pip-audit skipped (``name``
     plus ``skip_reason``) were not audited: they are recorded in provenance and
-    never counted as clean or as findings.
+    never counted as clean or as findings. A skipped third-party package is a
+    reported skip, so the run never sweeps advisory debt as resolved while some
+    dependency went unaudited; only the checkout's own project (pip-audit always
+    skips the editable install) is exempt.
     """
 
     id = "dependency-advisory"
@@ -629,10 +632,19 @@ class DependencyAdvisorySensor:
     driver_inputs = (_ADVISORIES_INPUT.as_posix(),)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         root = git_root(repo_root)
         document = _load_optional_json(root, _ADVISORIES_INPUT)
         dependencies, not_audited = _validate_advisories(document)
         freshness = require_fresh(document, root / _ADVISORIES_INPUT, observed_at, label="advisories")
+        own = _own_project_names(root)
+        skipped = tuple(
+            {"subjectType": "python-package", "subjectId": entry["name"], "reason": "not audited by pip-audit"}
+            for entry in not_audited
+            if _normalize_package(entry["name"]) not in own
+        )
 
         grouped: dict[str, dict[str, Any]] = {}
         for dependency in dependencies:
@@ -681,7 +693,22 @@ class DependencyAdvisorySensor:
                     },
                 )
             )
-        return observations
+        return SensorScan(observations, skipped)
+
+
+def _normalize_package(name: str) -> str:
+    return re.sub(r"[-_.]+", "-", name).lower()
+
+
+def _own_project_names(root: Path) -> set[str]:
+    """The checkout's own distribution name(s), which pip-audit never resolves."""
+
+    try:
+        project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8")).get("project")
+    except (OSError, UnicodeDecodeError, tomllib.TOMLDecodeError):
+        return set()
+    name = project.get("name") if isinstance(project, dict) else None
+    return {_normalize_package(name)} if isinstance(name, str) and name else set()
 
 
 def _validate_advisories(document: Any) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
