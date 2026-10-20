@@ -55,7 +55,8 @@ class CurateCommand(Command):
     @staticmethod
     def _freshness(run: CurationRun, registry: str) -> list[str]:
         results = run.checkpoint.get("results", [])
-        if not results:
+        envelope = run.checkpoint.get("inventoryEnvelope")
+        if not results and not envelope:
             return []
         try:
             from gaia_cli.curation.freshness import verifyPacketFreshness
@@ -63,8 +64,31 @@ class CurateCommand(Command):
             return ["packet freshness verifier is unavailable; resume is fail-closed"]
         errors: list[str] = []
         import hashlib
-        from gaia_cli.prefill import fetchCandidateSource
+        from gaia_cli.prefill import buildGenericSnapshot, fetchCandidateSource, parseFrontmatter
         frozen = {row.get("candidateId"): row for row in run.inventory if isinstance(row, dict)}
+        if envelope:
+            try:
+                live_snapshot = buildGenericSnapshot(registry)
+                if not live_snapshot or live_snapshot != run.checkpoint.get("genericSnapshot"):
+                    errors.append("live generic catalog differs from frozen source preparation")
+            except Exception as exc:
+                errors.append(f"live generic catalog verification failed: {exc}")
+            for cid, row in frozen.items():
+                packet_input = row.get("packetInput")
+                content = packet_input.get("sourceContent") if isinstance(packet_input, dict) else None
+                expected = row.get("sourceDigest")
+                if not isinstance(content, str) or hashlib.sha256(content.encode("utf-8")).hexdigest() != expected:
+                    errors.append(f"{cid}: frozen source bytes do not match source digest")
+                    continue
+                metadata = parseFrontmatter(content)
+                if metadata.get("name") != packet_input.get("name") or metadata.get("description") != packet_input.get("description"):
+                    errors.append(f"{cid}: frozen packet metadata differs from source bytes")
+                try:
+                    _, _, _live_content, digest = fetchCandidateSource(row.get("canonicalUrl", ""))
+                    if digest is None or digest != expected:
+                        errors.append(f"{cid}: source bytes no longer match frozen digest")
+                except Exception as exc:
+                    errors.append(f"{cid}: live source verification failed: {exc}")
         for result in results:
             cid = result.get("candidateId")
             for path_key, hash_key in (("packetPath", "packetSha256"), ("assessmentPath", "assessmentSha256")):

@@ -15,6 +15,12 @@ from gaia_cli.curation.state import CurationRun
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.parametrize("run_id", ["../escape", "a/b", ".", "bad\\\\id", "x" * 65])
+def test_curation_run_rejects_unsafe_run_ids(run_id):
+    with pytest.raises(ValueError, match="run_id"):
+        CurationRun(run_id=run_id)
+
+
 def test_curate_command_name_and_help_are_stable():
     command = CurateCommand()
 
@@ -169,6 +175,46 @@ def test_resume_resolved_blockers_do_not_cross_human_gates(tmp_path, monkeypatch
     command.configure(parser)
     assert command.execute(parser.parse_args(["--resume", run.run_id])) == 0
     assert CurationRun.load(run.run_dir) == run
+
+
+def test_status_does_not_run_freshness_network_or_write(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="status-prepared")
+    run.checkpoint = {"inventoryEnvelope": {"candidates": []}, "results": []}
+    run.save(run.run_dir)
+    before = (run.run_dir / "state.json").read_bytes()
+    monkeypatch.setattr(CurateCommand, "_freshness", staticmethod(lambda *_: pytest.fail("status must not verify")))
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+    assert command.execute(parser.parse_args(["--resume", run.run_id, "--status"])) == 0
+    assert (run.run_dir / "state.json").read_bytes() == before
+
+
+def test_resume_without_packet_validates_frozen_source_and_live_catalog(tmp_path, monkeypatch):
+    import hashlib
+    import gaia_cli.prefill as prefill
+    from gaia_cli.commands.curate import CurateCommand
+    content = "---\nname: Frozen\ndescription: A frozen source description.\n---\n"
+    digest = hashlib.sha256(content.encode()).hexdigest()
+    snapshot = {"generics": []}
+    candidate = {"candidateId": "owner/repo/skill", "namedIdentity": "owner/skill",
+                 "sourceRevision": None, "freshnessRequired": True, "sourceDigest": digest,
+                 "canonicalUrl": "https://github.com/owner/repo/blob/main/SKILL.md",
+                 "packetInput": {"sourceContent": content, "name": "Frozen",
+                                 "description": "A frozen source description."}}
+    run = CurationRun(run_id="prepared-resume", inventory=[candidate])
+    run.checkpoint = {"inventoryEnvelope": {"persisted": True}, "genericSnapshot": snapshot, "results": []}
+    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: snapshot)
+    monkeypatch.setattr(prefill, "fetchCandidateSource", lambda *_args, **_kwargs: ("", "", content, digest))
+    assert CurateCommand._freshness(run, str(tmp_path)) == []
+    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: {"generics": ["changed"]})
+    errors = CurateCommand._freshness(run, str(tmp_path))
+    assert any("generic catalog differs" in error for error in errors)
+    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: snapshot)
+    monkeypatch.setattr(prefill, "fetchCandidateSource", lambda *_args, **_kwargs: ("", "", "changed", "bad-digest"))
+    errors = CurateCommand._freshness(run, str(tmp_path))
+    assert any("source bytes no longer match" in error for error in errors)
 
 
 def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):

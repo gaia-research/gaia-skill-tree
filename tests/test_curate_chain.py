@@ -116,9 +116,62 @@ def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, m
     assert run.checkpoint["reconciliation"]["accounted"] is True
     assert run.checkpoint["reconciliation"]["humanApproved"] is False
     assert all(r["packetSha256"] and r["assessmentSha256"] for r in run.checkpoint["results"])
+    for result in run.checkpoint["results"]:
+        receipt = result["receipt"]
+        assert receipt["assessmentSha256"] == result["assessmentSha256"]
+        assert receipt["assessmentPath"]
+        assessment_bytes = (reg / receipt["assessmentPath"]).read_bytes()
+        assert __import__("hashlib").sha256(assessment_bytes).hexdigest() == receipt["assessmentSha256"]
     report = run.checkpoint["reconciliation"]
     assert report["counts"]["deferred"] == count  # Honest prefill, awaiting semantic/human review.
     assert all(row["reason"] == "PREFILL_AWAITING_WORKER" for row in report["decisions"])
+    if count == 1:
+        from gaia_cli.commands.curate import CurateCommand
+        result = run.checkpoint["results"][0]
+        packet_path, assessment_path = Path(result["packetPath"]), reg / result["receipt"]["assessmentPath"]
+        original_packet, original_assessment = packet_path.read_bytes(), assessment_path.read_bytes()
+        packet_path.write_bytes(original_packet + b" ")
+        assert any("digest mismatch" in error for error in CurateCommand._freshness(run, str(reg)))
+        packet_path.write_bytes(original_packet)
+        assessment_path.write_bytes(original_assessment + b" ")
+        assert any("digest mismatch" in error for error in CurateCommand._freshness(run, str(reg)))
+        assessment_path.write_bytes(original_assessment)
+        run.inventory[0]["packetInput"]["sourceContent"] += "tampered"
+        assert any("frozen source bytes" in error for error in CurateCommand._freshness(run, str(reg)))
+
+
+def test_partial_source_preparation_resume_does_not_refetch_completed_candidate(tmp_path, monkeypatch):
+    import hashlib
+    import gaia_cli.prefill as prefill
+    source = "---\nname: Prepared\ndescription: A source description with enough detail.\n---\nbody\n"
+    digest = hashlib.sha256(source.encode()).hexdigest()
+    calls = []
+    fail_second = True
+    def fetch(url, fetcher=None):
+        nonlocal fail_second
+        calls.append(url)
+        if url.endswith("/1/SKILL.md") and fail_second:
+            return "", "", None, None
+        return "https://github.com/owner/repo", "https://raw.invalid/SKILL.md", source, digest
+    monkeypatch.setattr(prefill, "fetchCandidateSource", fetch)
+    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: {"generics": []})
+    monkeypatch.setattr(prefill, "parseFrontmatter", lambda _content: {
+        "name": "Prepared", "description": "A source description with enough detail."})
+    run = CurationRun(run_id="partial-prep", inventory=inventory(2))
+    worker = CurationOrchestrator(run, save_path=tmp_path / "state.json")
+    processed = []
+    worker._process = lambda candidate: (processed.append(candidate["candidateId"]) or {
+        "candidateId": candidate["candidateId"], "packetSha256": "packet"})
+    with pytest.raises(ValueError, match="source fetch unavailable"):
+        worker.run_to_next_gate()
+    assert run.checkpoint["preparationAttempts"] == {"owner/repo/skill-0": 1, "owner/repo/skill-1": 1}
+    assert len(run.checkpoint["preparedSources"]) == 1
+    fail_second = False
+    worker.retry_candidate()
+    assert calls.count(inventory(2)[0]["sourceUrl"]) == 1
+    assert calls.count(inventory(2)[1]["sourceUrl"]) == 2
+    assert processed == [row["candidateId"] for row in inventory(2)]
+    assert run.current_state == "AWAITING_L4_REVIEW"
 
 
 def test_candidate_retry_limit_is_bounded(tmp_path):
@@ -132,6 +185,25 @@ def test_candidate_retry_limit_is_bounded(tmp_path):
     with pytest.raises(RuntimeError, match="retry budget exhausted"):
         worker.retry_candidate()
     assert run.checkpoint["attempts"]["0"] == 3
+
+
+def test_global_processing_attempt_budget_stops_dispatch(tmp_path, monkeypatch):
+    import gaia_cli.curation.orchestrator as module
+    monkeypatch.setattr(module, "MAX_PROCESSING_ATTEMPTS", 2)
+    calls = []
+    def fail(candidate, _registry):
+        calls.append(candidate["candidateId"])
+        raise RuntimeError("bounded failure")
+    run = CurationRun(run_id="global-budget", inventory=inventory(2))
+    worker = CurationOrchestrator(run, save_path=tmp_path / "state.json", processor=fail)
+    with pytest.raises(RuntimeError, match="bounded failure"):
+        worker.run_to_next_gate()
+    with pytest.raises(RuntimeError, match="bounded failure"):
+        worker.retry_candidate()
+    worker.retry_candidate()
+    assert calls == [inventory(2)[0]["candidateId"]] * 2
+    assert run.current_state == "AWAITING_L4_REVIEW"
+    assert run.checkpoint["budgetExhausted"] is True
 
 
 def test_local_decision_json_never_crosses_l4_gate(tmp_path):

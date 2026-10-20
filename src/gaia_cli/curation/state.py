@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -129,6 +130,10 @@ class CurationRun:
     rollback: dict[str, Any] = field(default_factory=_default_rollback)
     # Current blocker records are separate from the append-only historical ledger.
     checkpoint: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.run_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", self.run_id):
+            raise ValueError("run_id must be 1–64 ASCII letters, digits, underscores, or hyphens")
 
     @property
     def run_dir(self) -> Path:

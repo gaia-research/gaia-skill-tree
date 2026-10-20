@@ -52,6 +52,7 @@ class CurationOrchestrator:
             reconcileInventory(envelope, [])  # Verify the persisted envelope digest.
             if self.run.inventory != envelope["candidates"]:
                 raise ValueError("durable inventory differs from its frozen envelope")
+            self._validate_frozen_inventory(envelope["candidates"])
             return self.run.inventory
         declared = checkpoint.setdefault("declaredInventory", copy.deepcopy(self.run.inventory or [self._single_candidate()]))
         if not 1 <= len(declared) <= MAX_CANDIDATES:
@@ -69,9 +70,17 @@ class CurationOrchestrator:
                 raise ValueError("each candidate requires candidateId and exact sourceUrl")
             _candidate_id_from_url(url)  # Validate exact source URL before fetching.
             if cid not in prepared:
+                prep_attempts = checkpoint.setdefault("preparationAttempts", {})
+                attempts = int(prep_attempts.get(cid, 0))
+                if attempts >= MAX_ATTEMPTS or sum(prep_attempts.values()) >= MAX_PROCESSING_ATTEMPTS:
+                    checkpoint["budgetExhausted"] = True
+                    self._save()
+                    raise ValueError(f"source preparation retry budget exhausted for {cid}")
+                prep_attempts[cid] = attempts + 1
+                self._save()  # Charge preparation before fetching, including failed attempts.
                 _, _, content, digest = fetchCandidateSource(url)
                 if content is None or digest is None:
-                    checkpoint["lastError"] = {"candidateId": cid, "stage": "fetch-source", "message": "source fetch unavailable"}
+                    checkpoint["lastError"] = {"candidateId": cid, "stage": "fetch-source", "attempt": attempts + 1, "message": "source fetch unavailable"}
                     # The declared inventory is durable even when a fetch fails.
                     self._save()
                     raise ValueError(f"source fetch unavailable for {cid}; resume retries this source only")
@@ -104,6 +113,29 @@ class CurationOrchestrator:
         self.run.inventory = copy.deepcopy(envelope["candidates"])
         self._save()
         return self.run.inventory
+
+    def _validate_frozen_inventory(self, candidates):
+        from gaia_cli.prefill import buildGenericSnapshot, fetchCandidateSource, parseFrontmatter
+        live_snapshot = buildGenericSnapshot(self.registry_path)
+        if not live_snapshot:
+            raise ValueError("canonical generic snapshot unavailable; prepared inventory cannot resume")
+        expected_snapshot = self.run.checkpoint.get("genericSnapshot")
+        if expected_snapshot != live_snapshot:
+            raise ValueError("live generic catalog differs from frozen source preparation")
+        for candidate in candidates:
+            packet_input = candidate.get("packetInput")
+            content = packet_input.get("sourceContent") if isinstance(packet_input, dict) else None
+            if not isinstance(content, str):
+                raise ValueError(f"frozen source bytes missing for {candidate.get('candidateId')}")
+            digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
+            if digest != candidate.get("sourceDigest"):
+                raise ValueError(f"frozen source bytes changed for {candidate.get('candidateId')}")
+            _, _, live_content, live_digest = fetchCandidateSource(candidate["canonicalUrl"])
+            if live_content is None or live_digest != digest:
+                raise ValueError(f"live source differs from frozen source for {candidate.get('candidateId')}")
+            metadata = parseFrontmatter(content)
+            if metadata.get("name") != packet_input.get("name") or metadata.get("description") != packet_input.get("description"):
+                raise ValueError(f"frozen packet metadata differs from source bytes for {candidate.get('candidateId')}")
 
     def run_to_next_gate(self):
         if self.dry_run or self.run.dry_run:
@@ -179,6 +211,9 @@ class CurationOrchestrator:
         packet_path = Path(writePacket(packet, self.registry_path))
         assessment = buildAssessment(packet, self.registry_path)
         assessment_path = Path(writeAssessmentReceipt(packet, assessment, self.registry_path))
+        assessment_bytes = assessment_path.read_bytes()
+        assessment_hash = hashlib.sha256(assessment_bytes).hexdigest()
+        assessment_relative = assessment_path.resolve().relative_to(Path(self.registry_path).resolve()).as_posix()
         decision = packet["decision"]
         proposal = {"decision": decision["value"]}
         if decision["value"] == "MAP":
@@ -190,6 +225,7 @@ class CurationOrchestrator:
         receipt = {"candidateId": candidate["candidateId"], "taskId": candidate["taskId"],
             "attempt": 1, "inputDigest": candidate["inputDigest"], "outputDigest": packet_hash,
             "packetHash": packet_hash, "packetPath": str(packet_path.relative_to(Path(self.registry_path).resolve())),
+            "assessmentPath": assessment_relative, "assessmentSha256": assessment_hash,
             "proposedGeneric": proposal, "outcome": outcome, "reason": decision.get("reasonCode")}
         if outcome == "proven-duplicate":
             dedupe = packet["exactDedupe"]
