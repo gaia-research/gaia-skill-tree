@@ -518,6 +518,11 @@ class Receipt:
     result_status: str
     repairs: tuple[Mapping[str, Any], ...] = ()
     blocked: tuple[Mapping[str, Any], ...] = ()
+    # Sensors that observed nothing this run because an optional external input
+    # was not supplied: ``{"sensor": id, "reason": str}``. Distinct from
+    # ``coverage_unknown`` (a required input failed) and defaulted so a receipt
+    # written before this field existed still loads.
+    not_evaluated: tuple[Mapping[str, str], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -535,6 +540,7 @@ class Receipt:
             "dispatches": [],
             "repairs": [dict(item) for item in self.repairs],
             "blocked": [dict(item) for item in self.blocked],
+            "notEvaluated": [dict(item) for item in self.not_evaluated],
             "founderEscalations": [],
             "models": [],
             "result": {"status": self.result_status},
