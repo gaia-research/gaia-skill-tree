@@ -9,6 +9,7 @@ from typing import Callable, Iterable
 
 from gaia_cli.steward.debt import reconcile_debt
 from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, Subject
+from gaia_cli.steward.primitives.files import SensorNotEvaluated
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
@@ -38,6 +39,17 @@ def _timestamp(value: datetime) -> str:
     if value.tzinfo is None:
         raise ValueError("Steward clock must return a timezone-aware datetime")
     return value.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+@dataclass(frozen=True)
+class _Collection:
+    """Everything one pass over the sensors produced."""
+
+    observations: list[Observation]
+    # Exhaustive sensors that completed this run; only these may sweep debt.
+    exhaustive_sources: frozenset[str]
+    # Sensors whose optional external input was not supplied this run.
+    not_evaluated: tuple[dict[str, str], ...]
 
 
 @dataclass(frozen=True)
@@ -100,7 +112,7 @@ class StewardController:
         root = repo_root.resolve()
         policy = StewardPolicy.load(root)
         observed_at = _timestamp(self.clock())
-        observations = self._collect_observations(root, policy, observed_at)
+        collection = self._collect_observations(root, policy, observed_at)
 
         state_directory = root / policy.state_directory
         debt_state_path = state_directory / "debt.json"
@@ -118,7 +130,9 @@ class StewardController:
                 root=root,
                 policy=policy,
                 observed_at=observed_at,
-                observations=observations,
+                observations=collection.observations,
+                exhaustive_sources=collection.exhaustive_sources,
+                not_evaluated=collection.not_evaluated,
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
@@ -132,7 +146,9 @@ class StewardController:
                 root=root,
                 policy=policy,
                 observed_at=observed_at,
-                observations=observations,
+                observations=collection.observations,
+                exhaustive_sources=collection.exhaustive_sources,
+                not_evaluated=collection.not_evaluated,
                 state_directory=state_directory,
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
@@ -209,7 +225,7 @@ class StewardController:
 
             try:
                 finished_at = _timestamp(self.clock())
-                observations = self._collect_observations(root, policy, finished_at)
+                collection = self._collect_observations(root, policy, finished_at)
                 repair_records: list[dict[str, object]] = []
                 for debt, transaction in prepared:
                     record = transaction.receipt()
@@ -227,7 +243,9 @@ class StewardController:
                     root=root,
                     policy=policy,
                     observed_at=finished_at,
-                    observations=observations,
+                    observations=collection.observations,
+                    exhaustive_sources=collection.exhaustive_sources,
+                    not_evaluated=collection.not_evaluated,
                     state_directory=state_directory,
                     debt_state_path=initial.debt_state_path,
                     receipts_directory=receipts_directory,
@@ -288,7 +306,8 @@ class StewardController:
         repairs: tuple[dict[str, object], ...] = (), blocked: tuple[dict[str, object], ...] = (),
     ) -> RunResult:
         finished_at = _timestamp(self.clock())
-        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "result": result_status}
+        not_evaluated = initial.receipt.not_evaluated + (final.receipt.not_evaluated if final else ())
+        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "notEvaluated": not_evaluated, "result": result_status}
         receipt = Receipt(
             run_id=make_run_id(finished_at, payload), started_at=initial.receipt.started_at,
             finished_at=finished_at, observations_collected=initial.receipt.observations_collected + (final.receipt.observations_collected if final else 0),
@@ -297,6 +316,7 @@ class StewardController:
             debt_resolved=final.receipt.debt_resolved if final else (), open_debt=final.receipt.open_debt if final else initial.receipt.open_debt,
             authority_counts=final.receipt.authority_counts if final else initial.receipt.authority_counts,
             result_status=result_status, repairs=repairs, blocked=blocked,
+            not_evaluated=not_evaluated,
         )
         path, _created = write_immutable_receipt(receipts_directory, receipt, repo_root=root, state_root=state_directory)
         return RunResult(initial=initial, final=final, receipt=receipt, receipt_path=path)
@@ -311,6 +331,8 @@ class StewardController:
         state_directory: Path,
         debt_state_path: Path,
         receipts_directory: Path,
+        exhaustive_sources: frozenset[str] = frozenset(),
+        not_evaluated: tuple[dict[str, str], ...] = (),
         cycle_start: Receipt | None = None,
         repairs: tuple[dict[str, object], ...] = (),
         blocked: tuple[dict[str, object], ...] = (),
@@ -323,7 +345,13 @@ class StewardController:
             repo_root=root,
             state_root=state_directory,
         )
-        reconciliation = reconcile_debt(observations, existing, policy)
+        reconciliation = reconcile_debt(
+            observations,
+            existing,
+            policy,
+            exhaustive_sources=exhaustive_sources,
+            observed_at=observed_at,
+        )
         open_debts = tuple(debt for debt in reconciliation.debts if debt.status == "open")
         coverage_unknown = tuple(
             sorted(
@@ -366,6 +394,7 @@ class StewardController:
             "openDebt": [debt.id for debt in open_debts],
             "repairs": repairs,
             "blocked": blocked,
+            "notEvaluated": not_evaluated,
             "result": resolved_status,
         }
         run_id = make_run_id(observed_at, receipt_payload)
@@ -385,6 +414,7 @@ class StewardController:
             result_status=resolved_status,
             repairs=repairs,
             blocked=blocked,
+            not_evaluated=not_evaluated,
         )
 
         # The receipt is the audit precondition for committing current state.
@@ -433,10 +463,12 @@ class StewardController:
         root: Path,
         policy: StewardPolicy,
         observed_at: str,
-    ) -> list[Observation]:
+    ) -> _Collection:
         """Collect sensor output without reading or writing Steward state."""
 
         observations: list[Observation] = []
+        exhaustive_sources: set[str] = set()
+        not_evaluated: list[dict[str, str]] = []
         for sensor in self.sensors:
             try:
                 sensor_observations = sensor.scan(root, observed_at)
@@ -450,6 +482,13 @@ class StewardController:
                 observations.append(
                     self._coverage_observation(sensor.id, observed_at, healthy=True)
                 )
+                if getattr(sensor, "resolution_scope", None) == "exhaustive":
+                    exhaustive_sources.add(sensor.id)
+            except SensorNotEvaluated as exc:
+                # An optional external input was not supplied: the sensor saw
+                # nothing, so there is no coverage mark either way, nothing to
+                # sweep, and no reason to block a repair elsewhere.
+                not_evaluated.append({"sensor": sensor.id, "reason": str(exc)})
             except Exception as exc:
                 observations.append(
                     self._coverage_observation(
@@ -465,7 +504,11 @@ class StewardController:
                 f"Steward observation budget exceeded: {len(observations)} > "
                 f"{policy.max_observations_per_run}"
             )
-        return observations
+        return _Collection(
+            observations=observations,
+            exhaustive_sources=frozenset(exhaustive_sources),
+            not_evaluated=tuple(not_evaluated),
+        )
 
     @staticmethod
     def _coverage_observation(
