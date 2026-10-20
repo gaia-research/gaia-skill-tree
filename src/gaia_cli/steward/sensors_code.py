@@ -29,7 +29,6 @@ from typing import Any, Iterable
 
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.primitives import (
-    SensorUnavailable,
     finding_payload,
     parse_python,
     read_text_bounded,
