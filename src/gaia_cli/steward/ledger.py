@@ -35,6 +35,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 import os
 import random
 import subprocess
@@ -42,7 +43,7 @@ import tempfile
 import threading
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping, Protocol, TypeVar
 
@@ -57,7 +58,7 @@ from gaia_cli.steward.lane import LANE_SCHEMA
 LEDGER_SCHEMA = "steward-ledger-v1"
 LEDGER_FILENAME = "ledger.json"
 DEFAULT_REF = "steward/ledger"
-LOCAL_TRACKING_REF = "refs/steward/remote-ledger"
+LOCAL_TRACKING_PREFIX = "refs/steward/remote-ledger"
 
 # A ledger larger than this is refused on load and write. Nothing is pruned
 # silently: hitting the bound is a signal that retention needs a decision.
@@ -89,18 +90,18 @@ COMMIT_IDENTITY = {
     "GIT_COMMITTER_EMAIL": "steward@gaiaskilltree.invalid",
 }
 
-# Substrings of git's push output that mean "someone else moved the ref".
-# Everything else (network, auth, protected branch, hook decline) is
-# unavailability, not a conflict, and must not be retried as one.
-PUSH_CONFLICT_MARKERS = (
-    "non-fast-forward",
-    "fetch first",
-    "stale info",
-    "cannot lock ref",
-    "failed to update ref",
-    "reference already exists",
-    "already exists",
+# `git push --porcelain` status reasons that mean "someone else moved the ref".
+# Only these are conflicts. A `[remote rejected]` status is ambiguous (a lost
+# ref-lock race and a permanent hook/protection/D-F rejection look alike), so
+# it is resolved by asking the remote where the ref now is; see
+# `GitRefLedgerStore.classifyPushFailure`. Everything else is unavailability.
+PUSH_CONFLICT_REASONS = (
+    "[rejected] (non-fast-forward)",
+    "[rejected] (fetch first)",
+    "[rejected] (stale info)",
 )
+MAX_LEASE_TTL_SECONDS = 30 * 24 * 3600
+REF_PREFIX = "steward/"
 FETCH_LOCK_MARKERS = ("cannot lock ref", "unable to update local ref", ".lock")
 
 T = TypeVar("T")
@@ -244,8 +245,11 @@ def serialize(document: Mapping[str, Any]) -> bytes:
     """Deterministic, diffable bytes. Raises LedgerUnavailable if oversized."""
 
     try:
-        text = json.dumps(document, sort_keys=True, indent=1, ensure_ascii=False) + "\n"
-    except (TypeError, ValueError) as exc:
+        text = (
+            json.dumps(document, sort_keys=True, indent=1, ensure_ascii=False, allow_nan=False)
+            + "\n"
+        )
+    except (TypeError, ValueError, RecursionError) as exc:
         raise LedgerUnavailable(f"ledger is not JSON-serializable: {exc}") from exc
     data = text.encode("utf-8")
     if len(data) > MAX_LEDGER_BYTES:
@@ -262,17 +266,30 @@ def deserialize(data: bytes) -> dict[str, Any]:
             f"ledger is {len(data)} bytes, over the {MAX_LEDGER_BYTES} byte bound"
         )
     try:
-        document = json.loads(data.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        document = json.loads(data.decode("utf-8"), parse_constant=rejectConstant)
+    except (UnicodeDecodeError, ValueError) as exc:  # JSONDecodeError is a ValueError
         raise malformed(f"not valid JSON: {exc}") from exc
+    except RecursionError:
+        raise malformed("nesting is too deep") from None
     return validate_ledger(document)
+
+
+def rejectConstant(name: str) -> Any:
+    raise ValueError(f"non-finite number {name} is not valid in a ledger")
+
+
+def safeCopy(value: Any) -> Any:
+    try:
+        return copy.deepcopy(value)
+    except RecursionError:
+        raise malformed("nesting is too deep") from None
 
 
 def nextGeneration(document: Mapping[str, Any]) -> dict[str, Any]:
     """Validated copy of `document` with generation advanced by one."""
 
     validate_ledger(document)
-    result = copy.deepcopy(dict(document))
+    result = safeCopy(dict(document))
     result["generation"] = document["generation"] + 1
     return result
 
@@ -280,6 +297,39 @@ def nextGeneration(document: Mapping[str, Any]) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Git-ref store
 # ---------------------------------------------------------------------------
+
+
+def validateRemote(remote: Any) -> str:
+    if not isinstance(remote, str) or not remote.strip():
+        raise ValueError("ledger remote must be a non-empty string")
+    if remote.startswith("-") or any(ch.isspace() or ord(ch) < 32 for ch in remote):
+        raise ValueError(f"unsafe ledger remote name: {remote!r}")
+    return remote
+
+
+def validateRef(ref: Any) -> str:
+    """Accept only `steward/...` branch names that git itself considers valid.
+
+    The ledger ref is pushed to and fetched from with a forced tracking
+    refspec; it must never be able to name `main`, a release branch, or a
+    malformed ref.
+    """
+
+    if not isinstance(ref, str) or not ref.startswith(REF_PREFIX) or len(ref) == len(REF_PREFIX):
+        raise ValueError(f"ledger ref must be a branch under {REF_PREFIX!r}: {ref!r}")
+    try:
+        result = subprocess.run(
+            ["git", "check-ref-format", f"refs/heads/{ref}"],
+            capture_output=True,
+            stdin=subprocess.DEVNULL,
+            timeout=LOCAL_GIT_TIMEOUT,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise LedgerUnavailable(f"git could not validate the ledger ref: {exc}") from exc
+    if result.returncode != 0:
+        raise ValueError(f"invalid ledger ref name: {ref!r}")
+    return ref
 
 
 class GitRefLedgerStore:
@@ -298,11 +348,16 @@ class GitRefLedgerStore:
         remoteTimeout: float = REMOTE_GIT_TIMEOUT,
     ) -> None:
         self.repo_root = Path(repo_root)
-        self.remote = remote
-        self.ref = ref
+        self.remote = validateRemote(remote)
+        self.ref = validateRef(ref)
         self.localTimeout = localTimeout
         self.remoteTimeout = remoteTimeout
         self.fetchGuard = threading.Lock()
+        # One tracking ref per (remote, ref): two stores in one clone must not
+        # read each other's fetch results.
+        digest = hashlib.sha256(f"{self.remote}\0{self.ref}".encode("utf-8")).hexdigest()[:12]
+        self.trackingRef = f"{LOCAL_TRACKING_PREFIX}-{digest}"
+        self.urls: tuple[str, str] | None = None
 
     # -- subprocess plumbing ------------------------------------------------
 
@@ -319,13 +374,30 @@ class GitRefLedgerStore:
             for key, value in os.environ.items()
             if key not in {"GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY"}
         }
-        env.update({"LC_ALL": "C", "GIT_TERMINAL_PROMPT": "0", "GIT_OPTIONAL_LOCKS": "0"})
+        env.update(
+            {
+                "LC_ALL": "C",
+                "GIT_TERMINAL_PROMPT": "0",
+                "GIT_OPTIONAL_LOCKS": "0",
+                "GIT_ASKPASS": "true",
+                "GCM_INTERACTIVE": "never",
+            }
+        )
+        # An unattended run must fail, never wait on a credential or host-key prompt.
+        env.setdefault("GIT_SSH_COMMAND", "ssh -o BatchMode=yes")
         if identity:
             env.update(COMMIT_IDENTITY)
+        feed: dict[str, Any] = (
+            {"stdin": subprocess.DEVNULL} if stdin is None else {"input": stdin}
+        )
         try:
             return subprocess.run(
-                ["git", "-C", str(self.repo_root), *args],
-                input=stdin,
+                [
+                    "git", "-C", str(self.repo_root),
+                    "-c", "gc.auto=0", "-c", "maintenance.auto=0",
+                    *args,
+                ],
+                **feed,
                 capture_output=True,
                 timeout=timeout,
                 env=env,
@@ -352,15 +424,47 @@ class GitRefLedgerStore:
 
     # -- load ---------------------------------------------------------------
 
+    def resolveUrls(self) -> tuple[str, str]:
+        """Fetch and push URLs of the configured remote.
+
+        Fetching and pushing by URL instead of by remote name keeps git from
+        opportunistically creating `refs/remotes/<remote>/<ref>` in the
+        caller's clone: the ledger must leave no trace outside `refs/steward/`.
+        """
+
+        if self.urls is None:
+            fetchUrl = self.plumb(["remote", "get-url", self.remote])
+            pushUrl = self.plumb(["remote", "get-url", "--push", self.remote])
+            if not fetchUrl or not pushUrl:
+                raise LedgerUnavailable(f"remote {self.remote!r} has no URL")
+            self.urls = (fetchUrl, pushUrl)
+        return self.urls
+
+    def remoteTip(self) -> str | None:
+        """Current tip of the ledger ref on the remote, or None if it is absent."""
+
+        _, pushUrl = self.resolveUrls()
+        result = self.git(
+            ["ls-remote", pushUrl, f"refs/heads/{self.ref}"], timeout=self.remoteTimeout
+        )
+        if result.returncode != 0:
+            raise LedgerUnavailable(f"ledger ls-remote failed: {self.outputText(result).strip()[:400]}")
+        for line in result.stdout.decode("utf-8", "replace").splitlines():
+            sha, _, name = line.partition("\t")
+            if name.strip() == f"refs/heads/{self.ref}" and sha:
+                return sha
+        return None
+
     def fetchRemote(self) -> str | None:
         """Fetch the remote ledger ref; return its commit sha, or None if absent."""
 
-        refspec = f"+refs/heads/{self.ref}:{LOCAL_TRACKING_REF}"
+        fetchUrl, _ = self.resolveUrls()
+        refspec = f"+refs/heads/{self.ref}:{self.trackingRef}"
         with self.fetchGuard:
             result = None
             for attempt in range(6):
                 result = self.git(
-                    ["fetch", "--no-tags", "--quiet", self.remote, refspec],
+                    ["fetch", "--no-tags", "--quiet", fetchUrl, refspec],
                     timeout=self.remoteTimeout,
                 )
                 if result.returncode == 0:
@@ -373,7 +477,7 @@ class GitRefLedgerStore:
                     time.sleep(0.05 * (attempt + 1) + random.random() * 0.05)
                     continue
                 raise LedgerUnavailable(f"ledger fetch failed: {text.strip()[:400]}")
-            return self.plumb(["rev-parse", "--verify", f"{LOCAL_TRACKING_REF}^{{commit}}"])
+            return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
     def load(self) -> tuple[dict[str, Any], str | None]:
         commit = self.fetchRemote()
@@ -421,20 +525,62 @@ class GitRefLedgerStore:
         commitArgs += ["-m", full]
         commit = self.plumb(commitArgs, identity=True)
 
+        # A non-root commit pushed to an ABSENT ref is simply accepted, which
+        # would resurrect a deleted ledger from a stale parent. So when we
+        # expected an existing ref, confirm it is still there. This narrows the
+        # window but cannot close it: a deletion landing between this ls-remote
+        # and the push below still recreates the ref (git has no atomic
+        # "update only if exists" for a fast-forward push). Deleting
+        # `steward/ledger` is an operator action, never a Steward one.
+        _, pushUrl = self.resolveUrls()
+        if expected is not None and self.remoteTip() is None:
+            raise LedgerConflict(
+                f"ledger ref refs/heads/{self.ref} no longer exists on the remote; "
+                f"refusing to resurrect it from version {expected}"
+            )
+
         # No --force, no --force-with-lease. For a non-root commit the remote
         # accepts the push only if its current tip is an ancestor of `commit`,
         # i.e. is `expected`. A root commit (expected None) is a descendant of
         # nothing, so it cannot replace an existing ref.
         result = self.git(
-            ["push", "--no-verify", "--porcelain", self.remote, f"{commit}:refs/heads/{self.ref}"],
+            ["push", "--no-verify", "--porcelain", pushUrl, f"{commit}:refs/heads/{self.ref}"],
             timeout=self.remoteTimeout,
         )
         if result.returncode == 0:
             return commit
+        self.classifyPushFailure(result, expected)
+        raise AssertionError("classifyPushFailure always raises")  # pragma: no cover
+
+    def classifyPushFailure(
+        self, result: subprocess.CompletedProcess, expected: str | None
+    ) -> None:
+        """Raise LedgerConflict or LedgerUnavailable for a failed push.
+
+        Only a porcelain status of non-fast-forward / fetch-first / stale-info is
+        a conflict outright. A `[remote rejected]` status could be a lost
+        ref-lock race (retry will succeed) or a permanent refusal (a hook, branch
+        protection, or a `steward` branch blocking `steward/ledger`); it is a
+        conflict only if the remote ref has demonstrably moved off `expected`.
+        """
+
         text = self.outputText(result)
-        lowered = text.lower()
-        if any(marker in lowered for marker in PUSH_CONFLICT_MARKERS):
+        reasons = [
+            line.split("\t")[-1].strip()
+            for line in result.stdout.decode("utf-8", "replace").splitlines()
+            if line.startswith("!")
+        ]
+        if any(reason.startswith(known) for reason in reasons for known in PUSH_CONFLICT_REASONS):
             raise LedgerConflict(f"ledger moved since version {expected}: {text.strip()[:300]}")
+        if any(reason.startswith("[remote rejected]") for reason in reasons):
+            try:
+                tip = self.remoteTip()
+            except LedgerUnavailable:
+                tip = None
+            if tip is not None and tip != expected:
+                raise LedgerConflict(
+                    f"ledger moved to {tip} since version {expected}: {text.strip()[:300]}"
+                )
         raise LedgerUnavailable(f"ledger push failed: {text.strip()[:400]}")
 
 
@@ -524,7 +670,7 @@ def update(
     clock: Callable[[], datetime] = utcNow,
     sleep: Callable[[float], None] = time.sleep,
     message: str = "steward ledger update",
-) -> tuple[T, str | None]:
+) -> tuple[T, str]:
     """Load, mutate a deep copy, compare-and-swap; on conflict re-apply.
 
     `mutate` must be a function of the document it is handed (it is re-run on a
@@ -535,10 +681,12 @@ def update(
     last `LedgerConflict`.
     """
 
+    if not isinstance(retries, int) or isinstance(retries, bool) or retries < 0:
+        raise ValueError(f"retries must be a non-negative integer, got {retries!r}")
     lastConflict: LedgerConflict | None = None
     for attempt in range(retries + 1):
         document, version = store.load()
-        working = copy.deepcopy(document)
+        working = safeCopy(document)
         result = mutate(working)
         if working == document and version is not None:
             return result, version
@@ -571,10 +719,22 @@ def acquire_lease(
 
     if not holder:
         raise ValueError("lease holder must be non-empty")
-    if ttl_seconds <= 0:
-        raise ValueError("lease ttl must be positive")
+    if (
+        isinstance(ttl_seconds, bool)
+        or not isinstance(ttl_seconds, (int, float))
+        or not math.isfinite(ttl_seconds)
+        or ttl_seconds <= 0
+        or ttl_seconds > MAX_LEASE_TTL_SECONDS
+    ):
+        raise ValueError(
+            f"lease ttl must be a finite number of seconds in (0, {MAX_LEASE_TTL_SECONDS}], "
+            f"got {ttl_seconds!r}"
+        )
     current = parseTime(now)
-    expiry = datetime.fromtimestamp(current.timestamp() + ttl_seconds, tz=timezone.utc)
+    try:
+        expiry = current + timedelta(seconds=ttl_seconds)
+    except OverflowError as exc:
+        raise ValueError(f"lease expiry overflows for now={now!r}") from exc
     lease = doc["leases"].get(key)
     if lease is not None:
         live = parseTime(lease["expiresAt"]) > current

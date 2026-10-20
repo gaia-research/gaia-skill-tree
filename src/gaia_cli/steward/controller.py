@@ -317,6 +317,7 @@ class StewardController:
             authority_counts=final.receipt.authority_counts if final else initial.receipt.authority_counts,
             result_status=result_status, repairs=repairs, blocked=blocked,
             not_evaluated=not_evaluated,
+            coverage_known=tuple(sorted(set(initial.receipt.coverage_known) | set(final.receipt.coverage_known if final else ()))),
         )
         path, _created = write_immutable_receipt(receipts_directory, receipt, repo_root=root, state_root=state_directory)
         return RunResult(initial=initial, final=final, receipt=receipt, receipt_path=path)
@@ -359,6 +360,14 @@ class StewardController:
                 for observation in observations
                 if observation.kind == "sensor_coverage_unknown"
                 and observation.status == "drift"
+            )
+        )
+        coverage_known = tuple(
+            sorted(
+                observation.subject.id
+                for observation in observations
+                if observation.kind == "sensor_coverage_unknown"
+                and observation.status == "healthy"
             )
         )
         authority_counts = {
@@ -415,6 +424,7 @@ class StewardController:
             repairs=repairs,
             blocked=blocked,
             not_evaluated=not_evaluated,
+            coverage_known=coverage_known,
         )
 
         # The receipt is the audit precondition for committing current state.

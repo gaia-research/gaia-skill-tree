@@ -69,6 +69,18 @@ COMMANDS_INIT = (
     "        importlib.import_module(f\"gaia_cli.commands.{name}\")\n"
 )
 
+# Evidence types shared by the fixture meta.json and trustMagnitude.TYPE_WEIGHTS,
+# so the taxonomy sensor has a real canonical list to compare against.
+FIXTURE_EVIDENCE_TYPES = (
+    "github-stars-own", "repo-own", "social-signal", "benchmark-result",
+    "peer-review", "arxiv", "self-attestation", "fusion-recipe",
+    "verifier-attestation", "proxy-containment",
+)
+FIXTURE_EVIDENCE_META = {"evidence": {"types": [{"id": item} for item in FIXTURE_EVIDENCE_TYPES]}}
+TRUST_MAGNITUDE_STUB = "TYPE_WEIGHTS = {\n" + "".join(
+    f"    {item!r}: 1.0,\n" for item in FIXTURE_EVIDENCE_TYPES
+) + "}\n"
+
 MINIMAL_GAIA_DOMAINS: dict[str, str] = {
     "pyproject.toml": (
         "[project]\n"
@@ -87,7 +99,11 @@ MINIMAL_GAIA_DOMAINS: dict[str, str] = {
     "packages/cli-npm/package.json": '{"name": "fixture", "version": "1.0.0", "license": "MIT"}\n',
     "src/gaia_cli/__init__.py": "",
     "src/gaia_cli/impl.py": 'MUTATING_DEV_COMMANDS = frozenset({"add"})\n',
-    "src/gaia_cli/main.py": "from gaia_cli import impl\n\n\ndef main():\n    return impl\n",
+    "src/gaia_cli/main.py": (
+        "from gaia_cli import impl, trustMagnitude\n\n\n"
+        "def main():\n    return impl, trustMagnitude\n"
+    ),
+    "src/gaia_cli/trustMagnitude.py": TRUST_MAGNITUDE_STUB,
     "src/gaia_cli/commands/__init__.py": COMMANDS_INIT,
     "src/gaia_cli/commands/dev/__init__.py": (
         "MUTATING_DEV_COMMANDS = {\"add\"}\n\n\n"
