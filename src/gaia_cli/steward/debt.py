@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import Iterable, Mapping
+from typing import Collection, Iterable, Mapping
 
 from gaia_cli.steward.models import AuthorityClass, Debt, Observation, stable_json
 from gaia_cli.steward.policy import StewardPolicy
@@ -48,14 +48,32 @@ def reconcile_debt(
     observations: Iterable[Observation],
     existing: Mapping[str, Debt],
     policy: StewardPolicy,
+    *,
+    exhaustive_sources: Collection[str] = (),
+    observed_at: str | None = None,
 ) -> Reconciliation:
+    """Fold one run's observations into the debt ledger.
+
+    ``exhaustive_sources`` names the sensors that *completed* this run and
+    declared ``resolution_scope = "exhaustive"``: their scan enumerates their
+    whole domain and emits drift for every bad subject, so an open debt of
+    theirs that was not re-observed as drift no longer holds. Each is resolved
+    with ``condition_not_reobserved`` at ``observed_at``. The caller must pass
+    only sensors that did not raise; a sensor that failed resolves nothing.
+    """
+
+    if exhaustive_sources and observed_at is None:
+        raise ValueError("observed_at is required to sweep exhaustive sources")
     debts = dict(existing)
     created: list[str] = []
     updated: list[str] = []
     resolved: list[str] = []
+    reobserved: set[str] = set()
 
     for observation in _deduplicate(observations):
         debt_id = observation.debt_id
+        if observation.status == "drift":
+            reobserved.add(debt_id)
         previous = debts.get(debt_id)
         configured_authority = policy.authority_for(observation.kind)
         authority = _authority_ceiling(
@@ -132,6 +150,24 @@ def reconcile_debt(
             resolution=None,
         )
         updated.append(debt_id)
+
+    sweep = frozenset(exhaustive_sources)
+    if sweep:
+        for debt_id in sorted(debts):
+            previous = debts[debt_id]
+            if (
+                previous.status != "open"
+                or previous.source not in sweep
+                or debt_id in reobserved
+            ):
+                continue
+            debts[debt_id] = replace(
+                previous,
+                status="resolved",
+                last_observed_at=observed_at,
+                resolution="condition_not_reobserved",
+            )
+            resolved.append(debt_id)
 
     return Reconciliation(
         debts=tuple(debts[key] for key in sorted(debts)),
