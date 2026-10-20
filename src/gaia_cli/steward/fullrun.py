@@ -1345,6 +1345,10 @@ class FullRunner:
                 self._emitPullRequestAction(runId, item, branch)
                 outcomes.append({"debtId": item["debtId"], "result": "adopted", "branch": item.get("branch")})
 
+        if not floor["ok"] and (sets["classA"] or any(
+                i["state"] == "proposed" and i.get("authority") == "A" and i.get("pushed") and not i.get("pullRequest")
+                for i in doc["work"].values())):
+            self._refusedByFloor(runId, floor)
         for debtId in sets["classA"]:
             debt = sets["debts"][debtId]
             if not floor["ok"]:
@@ -1408,17 +1412,28 @@ class FullRunner:
 
         def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
             record["floor"] = result
-            if not result["ok"]:
-                decision = {
-                    "type": "landing-target", "reason": result["reason"],
-                    "question": "Choose the integration branch Steward work lands on "
-                                "(--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
-                }
-                if decision not in record["decisions"]:
-                    record["decisions"].append(decision)
 
         self._mutateRun(runId, apply, message="steward full floor")
         return result
+
+    def _refusedByFloor(self, runId: str, floor: dict[str, Any]) -> None:
+        """Put the landing-target decision in the run record, because work was actually refused.
+
+        A clean repository with no target configured has nothing to land, so it asks
+        the founder nothing; the decision exists only when the floor stopped real work.
+        """
+
+        decision = {
+            "type": "landing-target", "reason": floor["reason"],
+            "question": "Choose the integration branch Steward work lands on "
+                        "(--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+        }
+
+        def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
+            if decision not in record["decisions"]:
+                record["decisions"].append(decision)
+
+        self._mutateRun(runId, apply, message="steward full landing-target decision")
 
     def _blockWork(self, runId: str, debt: Debt, reason: str, decision: dict[str, Any] | None = None) -> None:
         now = self._now()
@@ -1578,6 +1593,11 @@ class FullRunner:
                 "coverageUnknown": unknown}, refuse)
         floor = self._floorStatus(runId)
         if not floor["ok"]:
+            doc = self._load()
+            sets = self._triageSets(scan, run, doc["work"])
+            if sets["classB"] or any(i.get("authority") == "B" and i["state"] in {"building", "verified"}
+                                     for i in doc["work"].values()):
+                self._refusedByFloor(runId, floor)
             return self._finish(runId, "class_b", {
                 "status": "blocked", "reason": floor["reason"], "floor": False,
                 "detail": "no Class B action is emitted without a valid integration branch"})
@@ -1745,6 +1765,9 @@ class FullRunner:
     def _phaseVerify(self, runId: str) -> bool:
         floor = self._floorStatus(runId)
         if not floor["ok"]:
+            if any(i.get("authority") == "B" and i["state"] in {"building", "verified"}
+                   for i in self._load()["work"].values()):
+                self._refusedByFloor(runId, floor)
             return self._finish(runId, "verify", {
                 "status": "blocked", "reason": floor["reason"], "floor": False,
                 "detail": "no verification or integration action is emitted without a valid integration branch"})

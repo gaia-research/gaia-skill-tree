@@ -636,6 +636,7 @@ def test_scenario_c_no_change_build_is_confirmed_by_an_independent_verifier(tmp_
     # A no_change item is held out of re-dispatch even while the sensor keeps reporting it,
     # and resolves only once the sensor reports the condition healthy.
     held = runner.start("full")
+    assert held.status == "completed", held.to_dict()
     assert held.actions == []
     sensor.heal("leaked-artifact")
     runner.start("verify")
