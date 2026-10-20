@@ -441,11 +441,15 @@ def live_states(root: Path, receipt: dict[str, Any], catalog_path: Path | None =
     known = set(receipt.get("coverageKnown") or ())
     unknown = set(receipt.get("coverageUnknown") or ())
     not_evaluated = {item.get("sensor") for item in receipt.get("notEvaluated") or () if isinstance(item, dict)}
+    partial = {item.get("sensor") for item in receipt.get("partialCoverage") or () if isinstance(item, dict)}
     states: dict[str, list[str]] = {}
     for detector in data["detectors"]:
         sid = detector["id"]
-        live = "actively-observed" if sid in known and sid not in unknown and sid not in not_evaluated else "unknown-unavailable"
-        states[sid] = sorted(set(detector["coverageStatus"]["static"]) | {live})
+        live = {"actively-observed" if sid in known and sid not in unknown and sid not in not_evaluated else "unknown-unavailable"}
+        if sid in partial and "actively-observed" in live:
+            # Observed, but some subjects were skipped: nothing it owns was swept.
+            live.add("partially-covered")
+        states[sid] = sorted(set(detector["coverageStatus"]["static"]) | live)
     return states
 
 
