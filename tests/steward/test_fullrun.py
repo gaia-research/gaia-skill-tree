@@ -591,3 +591,13 @@ def test_a_clean_repository_without_a_landing_target_asks_the_founder_nothing(tm
     assert view.status == "completed" and view.desk["decisions"] == []
     assert ledgerDoc(store)["runs"][view.runId]["decisions"] == []
     assert ledgerDoc(store)["runs"][view.runId]["floor"]["ok"] is False
+
+
+def test_handoff_is_replaced_not_stacked_when_a_build_is_re_emitted() -> None:
+    from gaia_cli.steward.fullrun import withHandoff
+
+    first = withHandoff("# packet\n", base="dev/x", branch="steward/b/k-1", diffPath="a.diff", proofPath="a.json")
+    second = withHandoff(first, base="dev/x", branch="steward/b/k-1", diffPath="b.diff", proofPath="b.json")
+    assert second.count("## Steward hand-off") == 1
+    assert "b.diff" in second and "b.json" in second and "a.diff" not in second
+    assert second.startswith("# packet\n")

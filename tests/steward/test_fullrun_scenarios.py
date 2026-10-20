@@ -180,6 +180,12 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert set(params["outputs"]) == {"diffPath", "proofPath"}
     prompt = (repo / params["promptPath"]).read_text()
     assert "Tree Keeper" in prompt
+    # The builder is told what to hand back and where, in the shape verification reads.
+    handoff = prompt.split("## Steward hand-off", 1)[1]
+    assert "steward-proof-transcript-v1" in handoff and "contractIndex" in handoff
+    assert params["outputs"]["diffPath"] in handoff and params["outputs"]["proofPath"] in handoff
+    assert f"`{params['branch']}`, created from `{INTEGRATION}`" in handoff
+    assert "Independent review is not yours to obtain" in handoff
     doc = ledgerOf(store)
     debtId = params["debtId"]
     assert doc["work"][debtId]["state"] == "building"

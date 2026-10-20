@@ -137,6 +137,44 @@ def _utcNow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+HANDOFFHEADING = "\n## Steward hand-off\n"
+
+
+def withHandoff(prompt: str, *, base: str, branch: str, diffPath: str, proofPath: str) -> str:
+    """Append the full runner's output contract to a rendered dispatch prompt.
+
+    The routing prompt states the work; this section states what the builder
+    hands back and where, so mechanical verification can read it. Re-rendering
+    replaces any earlier hand-off, so an adopted build points at its own run.
+    """
+
+    body = prompt.split(HANDOFFHEADING, 1)[0].rstrip("\n")
+    return body + "\n" + HANDOFFHEADING + f"""
+This dispatch is driven by `gaia steward full`. Hand back exactly these, and
+nothing else:
+
+1. Commit the correction on branch `{branch}`, created from `{base}`. Do not
+   push, open a pull request, or merge; the lead integrates after review.
+2. Write the unified diff of that commit (`git diff {base}...HEAD`) to
+   `{diffPath}`. If you changed nothing, write no diff and say so.
+3. Write the proof transcript to `{proofPath}` as JSON in this exact shape:
+
+   ```json
+   {{"schemaVersion": "steward-proof-transcript-v1",
+    "entries": [{{"contractIndex": 1, "command": "the exact command you ran",
+                 "exitCode": 0, "output": "its captured output"}}]}}
+   ```
+
+   One entry per command you ran, where `contractIndex` is the 1-based number
+   of the proof-contract item above that the command proves. A transcript in
+   any other shape is rejected mechanically and costs an attempt.
+
+Independent review is not yours to obtain: Steward hands your diff and
+transcript to a different agent after you report. Do not escalate because that
+review has not happened yet; leave that proof item out of the transcript.
+"""
+
+
 def _hash12(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
 
@@ -1651,8 +1689,10 @@ class FullRunner:
         _checkpoint("class_b.rendered")
         slug = _hash12(debt.id)
         promptPath = self._runDirectory(runId) / f"build-{slug}.prompt.md"
-        promptPath.write_text(prompt, encoding="utf-8")
         branchName = f"steward/b/{debt.kind.replace('_', '-')}-{slug}"
+        outputs = self._buildOutputs(runId, slug)
+        promptPath.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
+                                          branch=branchName, **outputs), encoding="utf-8")
         attempt = candidate.attempts + 1
         outcome: dict[str, Any] = {}
 
@@ -1677,8 +1717,7 @@ class FullRunner:
                 "debtId": debt.id, "dispatchId": packet.dispatch_id,
                 "promptPath": self._relative(promptPath), "base": record["integrationBranch"],
                 "attempt": attempt, "branch": branchName, "allowedModels": list(BUILDERMODELS), "effortRequired": True,
-                "outputs": {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
-                            "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"},
+                "outputs": dict(outputs),
             }, now)
             outcome.update(dispatched=debt.id, dispatchId=packet.dispatch_id, stepId=stepId)
 
@@ -1694,22 +1733,32 @@ class FullRunner:
         _checkpoint("class_b.dispatched")
         return outcome.get("dispatched") is None
 
+    def _buildOutputs(self, runId: str, slug: str) -> dict[str, str]:
+        return {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
+                "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"}
+
     def _reemitBuild(self, runId: str, item: dict[str, Any]) -> None:
         now = self._now()
         slug = _hash12(item["debtId"])
-        promptPath = item.get("promptPath")
-        if not promptPath or not (self.root / promptPath).is_file():
+        previous = item.get("promptPath")
+        prompt: str | None = None
+        if previous and (self.root / previous).is_file():
+            prompt = (self.root / previous).read_text(encoding="utf-8")
+        else:
             from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
 
             try:
                 _result, prompt = render_dispatch_prompt(self.root, item["debtId"], controller=self._controllerInstance())
             except RoutingError:
                 prompt = None
-            if prompt is None:
-                return
-            path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
-            path.write_text(prompt, encoding="utf-8")
-            promptPath = self._relative(path)
+        if prompt is None:
+            return
+        outputs = self._buildOutputs(runId, slug)
+        path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
+        path.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
+                                    branch=item.get("branch") or f"steward/b/{item['kind'].replace('_', '-')}-{slug}",
+                                    **outputs), encoding="utf-8")
+        promptPath = self._relative(path)
 
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
             self._addAction(run, f"build:{slug}:{item.get('attempt', 1)}", "agent.build", item["debtId"],
@@ -1717,8 +1766,7 @@ class FullRunner:
                 "debtId": item["debtId"], "dispatchId": item["dispatchId"], "promptPath": promptPath,
                 "base": run["integrationBranch"], "attempt": item.get("attempt", 1), "branch": item.get("branch"),
                 "allowedModels": list(BUILDERMODELS), "effortRequired": True,
-                "outputs": {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
-                            "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"},
+                "outputs": dict(outputs),
             }, now)
             run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": item["debtId"], "adopted": True}
             doc["work"][item["debtId"]]["runId"] = runId
