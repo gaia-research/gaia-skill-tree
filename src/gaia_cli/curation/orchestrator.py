@@ -1,172 +1,196 @@
-"""State-machine scaffold for `gaia curate`."""
+"""Sequential discovery-to-packet curation workflow; always stops at L4."""
 
 from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any, Callable
 
 from gaia_cli.curation.state import CurationRun, STATE_NAMES
 from gaia_cli.curationCheckpoint import compactCheckpoint
 
-
-GATE_STATES = frozenset(
-    {
-        "AWAITING_L4_REVIEW",
-        "AWAITING_EVIDENCE_APPROVAL",
-        "AWAITING_CALIBRATION_APPROVAL",
-    }
-)
+GATE_STATES = frozenset({"AWAITING_L4_REVIEW", "AWAITING_EVIDENCE_APPROVAL", "AWAITING_CALIBRATION_APPROVAL"})
 TERMINAL_STATES = frozenset({"DONE"})
-
-# The curate command is currently an orchestration scaffold: only the run ledger
-# and gates exist, while workflow transitions are deliberately stubbed.  Pause
-# fresh runs here so `gaia curate <url>` persists state and reports scaffold
-# status instead of invoking the unimplemented INITIALIZED transition.
-SCAFFOLD_PAUSE_STATES = frozenset({"INITIALIZED"})
 
 
 class CurationOrchestrator:
-    """Drive a :class:`CurationRun` through the curate workflow."""
+    """Drive the executable discovery portion of a curation run.
 
-    def __init__(self, run: CurationRun, dry_run: bool = False):
+    ``processor`` is an optional test/integration hook accepting a candidate and
+    registry path, returning packet/assessment paths and hashes. The normal CLI
+    uses Gaia's actual prefill and assessment primitives.
+    """
+
+    def __init__(self, run: CurationRun, dry_run: bool = False, *, registry_path: str = ".",
+                 save_path: str | Path | None = None,
+                 processor: Callable[[dict[str, Any], str], dict[str, Any]] | None = None):
         self.run = run
         self.dry_run = dry_run
+        self.registry_path = registry_path
+        self.save_path = Path(save_path) if save_path else run.run_dir / "state.json"
+        self.processor = processor
+
+    def _save(self):
+        self.run.save(self.save_path)
 
     def run_to_next_gate(self):
-        """Advance the run until a human gate or terminal state is reached."""
+        """Advance sequentially through discovery and stop at the human L4 gate."""
         if compactCheckpoint(self.run.checkpoint)["activeBlockers"]:
             return self.run
-        pause_states = GATE_STATES | TERMINAL_STATES | SCAFFOLD_PAUSE_STATES
-        while self.run.current_state not in pause_states:
-            method = getattr(self, f"transition_{self.run.current_state.lower()}", None)
-            if method is None:
-                raise NotImplementedError(
-                    f"No transition stub for state {self.run.current_state!r}."
-                )
-            method()
+        if self.run.current_state in GATE_STATES | TERMINAL_STATES:
+            return self.run
+        if self.run.current_state == "INITIALIZED":
+            self.run.current_state = "RESOLVING_URL"
+            self._record("resolved input", {"inputUrl": self.run.input_url})
+        candidates = self.run.inventory or [self._single_candidate()]
+        while self.run.current_state != "AWAITING_L4_REVIEW":
+            index = int(self.run.checkpoint.get("inventoryIndex", 0))
+            if index >= len(candidates):
+                self.run.current_state = "AWAITING_L4_REVIEW"
+                self.run.checkpoint["handoff"] = self._handoff()
+                self._record("discovery complete; awaiting human L4 review", self.run.checkpoint["handoff"])
+                self._save()
+                break
+            candidate = candidates[index]
+            self.run.current_state = "FETCHING_SOURCE"
+            self._save()
+            try:
+                result = self._process(candidate)
+            except Exception as exc:
+                attempts = self.run.checkpoint.setdefault("attempts", {}).setdefault(str(index), 0) + 1
+                self.run.checkpoint["attempts"][str(index)] = attempts
+                self.run.checkpoint["lastError"] = {"candidateId": candidate.get("candidateId"), "message": str(exc)}
+                self._save()
+                raise
+            self.run.checkpoint.pop("lastError", None)
+            self.run.checkpoint["inventoryIndex"] = index + 1
+            self.run.checkpoint.setdefault("results", []).append(result)
+            self._record("candidate packet created", result)
+            # Atomic checkpoint after each candidate: restart never reprocesses completed rows.
+            self.run.current_state = "BUILDING_DISCOVERY_PACKET"
+            self._save()
         return self.run
+
+    def retry_candidate(self):
+        """Retry only the failed inventory item; completed candidates remain frozen."""
+        if not self.run.checkpoint.get("lastError"):
+            raise ValueError("There is no failed candidate stage to retry")
+        self.run.checkpoint.pop("lastError", None)
+        self.run.current_state = "FETCHING_SOURCE"
+        self._save()
+        return self.run_to_next_gate()
+
+    def _single_candidate(self):
+        source_url = self.run.input_url
+        candidate_id = self.run.candidate_id or _candidate_id_from_url(source_url)
+        return {"candidateId": candidate_id, "namedIdentity": candidate_id,
+                "sourceUrl": source_url, "name": self.run.candidate_name or candidate_id.rsplit("/", 1)[-1],
+                "description": self.run.candidate_description or f"Candidate discovered from {source_url}"}
+
+    def _process(self, candidate):
+        if self.processor:
+            return self.processor(candidate, self.registry_path)
+        from gaia_cli.prefill import fetchCandidateSource, parseFrontmatter, prefillCommand
+        source_url = candidate.get("sourceUrl") or candidate.get("skillFileUrl")
+        if not source_url:
+            raise ValueError("candidate is missing sourceUrl")
+        _, _, content, source_digest = fetchCandidateSource(source_url)
+        if content is None:
+            raise ValueError(f"Unable to fetch source skill file: {source_url}")
+        expected_digest = candidate.get("sourceSha256") or candidate.get("sourceDigest")
+        if expected_digest and expected_digest != source_digest:
+            raise ValueError(f"Frozen source digest changed for {candidate.get('candidateId')}")
+        meta = parseFrontmatter(content)
+        name = candidate.get("name") or meta.get("name") or candidate.get("candidateId")
+        description = candidate.get("description") or meta.get("description")
+        if not isinstance(description, str) or len(description.strip()) < 10:
+            raise ValueError("source SKILL.md must provide a description of at least 10 characters")
+        args = type("PrefillArgs", (), {})()
+        args.candidate_id = candidate.get("candidateId")
+        args.name, args.description, args.url = name, description, source_url
+        args.source_lane, args.registry = "curate", self.registry_path
+        args.allow_stale, args.json, args.stdout = False, False, False
+        args.vector = args.suite_role = args.suite_id = args.component_ids = args.fetcher = None
+        if prefillCommand(args) != 0:
+            raise RuntimeError(f"Gaia prefill failed for {args.candidate_id}")
+        slug = args.candidate_id.replace("/", "-")
+        packet_path = Path(self.registry_path) / "registry-for-review" / "discovery-packets" / f"{slug}.json"
+        packet_bytes = packet_path.read_bytes()
+        packet = json.loads(packet_bytes)
+        assessment_path = Path(self.registry_path) / "generated-output" / "curation" / f"{slug}.assessment.json"
+        if not assessment_path.exists():
+            raise RuntimeError(f"Assessment receipt was not created for {args.candidate_id}")
+        return {"candidateId": args.candidate_id, "namedIdentity": candidate.get("namedIdentity", args.candidate_id),
+                "sourceUrl": source_url, "sourceSha256": source_digest,
+                "packetPath": str(packet_path), "packetSha256": hashlib.sha256(packet_bytes).hexdigest(),
+                "assessmentPath": str(assessment_path),
+                "assessmentSha256": hashlib.sha256(assessment_path.read_bytes()).hexdigest(),
+                "genericProposal": packet.get("proposedDisposition")}
+
+    def _handoff(self):
+        return {"status": "AWAITING_L4_REVIEW", "batchId": self.run.external_refs.get("batch_id"),
+                "intakeIssueNumber": self.run.external_refs.get("intake_issue_number"),
+                "intakeIssueUrl": self.run.external_refs.get("intake_issue_url"),
+                "downstream": "existing intake only" if self.run.external_refs.get("intake_issue_number") else "human review; no submission"}
+
+    def _record(self, message, details):
+        self.run.ledger.append({"state": self.run.current_state, "message": message, "details": details})
+        self._save()
 
     @classmethod
     def print_status(cls, run: CurationRun) -> None:
-        """Print a compact, human-readable status summary for *run*."""
-        print(f"Run: {run.run_id}")
-        print(f"State: {run.current_state}")
-        print(f"URL: {run.input_url or '(none)'}")
-        print(f"Dry run: {run.dry_run}")
+        print(f"Run: {run.run_id}\nState: {run.current_state}\nURL: {run.input_url or '(none)'}\nDry run: {run.dry_run}")
         checkpoint = compactCheckpoint(run.checkpoint)
         print("Active blockers:")
         for blocker in checkpoint["activeBlockers"]:
-            print(f"  {blocker.get('checkId', '(unnamed)')}: {blocker['currentStatus']}"
-                  f" — {blocker.get('summary', '')}")
-        if not checkpoint["activeBlockers"]:
-            print("  (none)")
+            print(f"  {blocker.get('checkId', '(unnamed)')}: {blocker['currentStatus']} — {blocker.get('summary', '')}")
+        if not checkpoint["activeBlockers"]: print("  (none)")
         print("Resolved blockers (with evidence):")
-        for blocker in checkpoint["resolvedBlockers"]:
-            print(f"  {blocker['checkId']}: {blocker['resolutionEvidence']}")
+        for blocker in checkpoint["resolvedBlockers"]: print(f"  {blocker['checkId']}: {blocker['resolutionEvidence']}")
         print("Source revisions:")
-        for source, revision in sorted(checkpoint["sourceRevisions"].items()):
-            print(f"  {source}: {revision}")
+        for source, revision in sorted(checkpoint["sourceRevisions"].items()): print(f"  {source}: {revision}")
 
-    def transition_initialized(self):
-        """Move INITIALIZED runs into URL resolution after validating inputs."""
-        raise NotImplementedError("INITIALIZED transition is not implemented yet.")
+    # Preserve the old public transition methods. Only INITIALIZED/discovery are
+    # executable; all post-L4 operations remain deliberately unavailable.
+    def transition_initialized(self): return self.run_to_next_gate()
+    def transition_resolving_url(self): return self.run_to_next_gate()
+    def transition_finding_skill_files(self): return self.run_to_next_gate()
+    def transition_fetching_source(self): return self.run_to_next_gate()
+    def transition_snapshotting_generic(self): return self.run_to_next_gate()
+    def transition_prefilling_mapping(self): return self.run_to_next_gate()
+    def transition_building_discovery_packet(self): return self.run_to_next_gate()
+    def transition_awaiting_l4_review(self): return self.run
 
-    def transition_resolving_url(self):
-        """Resolve the input URL into a canonical GitHub repository or blob URL."""
-        raise NotImplementedError("RESOLVING_URL transition is not implemented yet.")
+    def _blocked(self, state):
+        raise RuntimeError(f"{state} is outside the discovery-only curation boundary")
 
-    def transition_finding_skill_files(self):
-        """Find candidate SKILL.md files when the input URL names a repository."""
-        raise NotImplementedError("FINDING_SKILL_FILES transition is not implemented yet.")
-
-    def transition_fetching_source(self):
-        """Fetch the selected source skill file and record immutable provenance."""
-        raise NotImplementedError("FETCHING_SOURCE transition is not implemented yet.")
-
-    def transition_snapshotting_generic(self):
-        """Snapshot the suggested or matched generic registry node for L4 review."""
-        raise NotImplementedError("SNAPSHOTTING_GENERIC transition is not implemented yet.")
-
-    def transition_prefilling_mapping(self):
-        """Run deterministic prefill to rank candidate generic mappings."""
-        raise NotImplementedError("PREFILLING_MAPPING transition is not implemented yet.")
-
-    def transition_building_discovery_packet(self):
-        """Build and persist the discovery packet that human L4 reviews."""
-        raise NotImplementedError("BUILDING_DISCOVERY_PACKET transition is not implemented yet.")
-
-    def transition_awaiting_l4_review(self):
-        """Resume from the L4 mapping/topology gate once a decision is present."""
-        raise NotImplementedError("AWAITING_L4_REVIEW transition is not implemented yet.")
-
-    def transition_applying_l4_resolution(self):
-        """Apply the approved L4 resolution without ingesting evidence yet."""
-        raise NotImplementedError("APPLYING_L4_RESOLUTION transition is not implemented yet.")
-
-    def transition_discovering_evidence(self):
-        """Optionally discover higher-quality evidence for the candidate."""
-        raise NotImplementedError("DISCOVERING_EVIDENCE transition is not implemented yet.")
-
-    def transition_compiling_evidence_lake(self):
-        """Compile known evidence rows into the evidence data lake artifact."""
-        raise NotImplementedError("COMPILING_EVIDENCE_LAKE transition is not implemented yet.")
-
-    def transition_verifying_stars(self):
-        """Verify live GitHub stargazer evidence before audit."""
-        raise NotImplementedError("VERIFYING_STARS transition is not implemented yet.")
-
-    def transition_verifying_benchmarks(self):
-        """Verify benchmark-result rows against registered benchmark sources."""
-        raise NotImplementedError("VERIFYING_BENCHMARKS transition is not implemented yet.")
-
-    def transition_auditing_evidence(self):
-        """Run adversarial evidence quality checks over the lake."""
-        raise NotImplementedError("AUDITING_EVIDENCE transition is not implemented yet.")
-
-    def transition_validating_links(self):
-        """Validate source URL liveness for all evidence rows."""
-        raise NotImplementedError("VALIDATING_LINKS transition is not implemented yet.")
-
-    def transition_building_ingest_plan(self):
-        """Create the proposed evidence ingest plan for human approval."""
-        raise NotImplementedError("BUILDING_INGEST_PLAN transition is not implemented yet.")
-
-    def transition_awaiting_evidence_approval(self):
-        """Resume from the evidence approval gate once approval is recorded."""
-        raise NotImplementedError("AWAITING_EVIDENCE_APPROVAL transition is not implemented yet.")
-
-    def transition_opening_review_branch(self):
-        """Create or switch to the review branch for registry mutations."""
-        raise NotImplementedError("OPENING_REVIEW_BRANCH transition is not implemented yet.")
-
-    def transition_ingesting_evidence(self):
-        """Ingest approved evidence rows through the Gaia CLI mutation path."""
-        raise NotImplementedError("INGESTING_EVIDENCE transition is not implemented yet.")
-
-    def transition_appraising_trust(self):
-        """Run Trust Magnitude appraisal for affected named skills."""
-        raise NotImplementedError("APPRAISING_TRUST transition is not implemented yet.")
-
-    def transition_proposing_calibration(self):
-        """Propose star calibration based on Trust Magnitude output."""
-        raise NotImplementedError("PROPOSING_CALIBRATION transition is not implemented yet.")
-
-    def transition_awaiting_calibration_approval(self):
-        """Resume from calibration approval once an explicit decision exists."""
-        raise NotImplementedError("AWAITING_CALIBRATION_APPROVAL transition is not implemented yet.")
-
-    def transition_applying_calibration(self):
-        """Apply the approved calibration to registry metadata."""
-        raise NotImplementedError("APPLYING_CALIBRATION transition is not implemented yet.")
-
-    def transition_validating_registry(self):
-        """Run registry validation and generated-artifact checks."""
-        raise NotImplementedError("VALIDATING_REGISTRY transition is not implemented yet.")
-
-    def transition_done(self):
-        """No-op terminal transition for completed curation runs."""
-        return self.run
+    def transition_applying_l4_resolution(self): return self._blocked("APPLYING_L4_RESOLUTION")
+    def transition_discovering_evidence(self): return self._blocked("DISCOVERING_EVIDENCE")
+    def transition_compiling_evidence_lake(self): return self._blocked("COMPILING_EVIDENCE_LAKE")
+    def transition_verifying_stars(self): return self._blocked("VERIFYING_STARS")
+    def transition_verifying_benchmarks(self): return self._blocked("VERIFYING_BENCHMARKS")
+    def transition_auditing_evidence(self): return self._blocked("AUDITING_EVIDENCE")
+    def transition_validating_links(self): return self._blocked("VALIDATING_LINKS")
+    def transition_building_ingest_plan(self): return self._blocked("BUILDING_INGEST_PLAN")
+    def transition_awaiting_evidence_approval(self): return self._blocked("AWAITING_EVIDENCE_APPROVAL")
+    def transition_opening_review_branch(self): return self._blocked("OPENING_REVIEW_BRANCH")
+    def transition_ingesting_evidence(self): return self._blocked("INGESTING_EVIDENCE")
+    def transition_appraising_trust(self): return self._blocked("APPRAISING_TRUST")
+    def transition_proposing_calibration(self): return self._blocked("PROPOSING_CALIBRATION")
+    def transition_awaiting_calibration_approval(self): return self._blocked("AWAITING_CALIBRATION_APPROVAL")
+    def transition_applying_calibration(self): return self._blocked("APPLYING_CALIBRATION")
+    def transition_validating_registry(self): return self._blocked("VALIDATING_REGISTRY")
+    def transition_done(self): return self.run
 
 
-_missing = [
-    state for state in STATE_NAMES if not hasattr(CurationOrchestrator, f"transition_{state.lower()}")
-]
-if _missing:
-    raise RuntimeError(f"Missing curation transition stubs: {_missing}")
+def _candidate_id_from_url(url):
+    from urllib.parse import urlparse
+    path = [part for part in urlparse(url).path.split("/") if part]
+    if len(path) < 5 or path[2] != "blob":
+        raise ValueError("source URL must identify a GitHub blob file; use --inventory for a frozen batch")
+    return f"{path[0]}/{path[1]}/{Path(path[-1]).stem}"
+
+
+_missing = [state for state in STATE_NAMES if not hasattr(CurationOrchestrator, f"transition_{state.lower()}")]
+if _missing: raise RuntimeError(f"Missing curation transition methods: {_missing}")

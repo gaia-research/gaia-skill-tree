@@ -111,6 +111,10 @@ class CurationRun:
     current_state: str = "INITIALIZED"
     input_url: str = ""
     suggested_generic_id: Optional[str] = None
+    candidate_id: Optional[str] = None
+    candidate_name: Optional[str] = None
+    candidate_description: Optional[str] = None
+    inventory: list[dict[str, Any]] = field(default_factory=list)
     discover: bool = False
     dry_run: bool = False
     source: dict[str, Any] = field(default_factory=_default_source)
@@ -138,7 +142,9 @@ class CurationRun:
         if target.suffix == "":
             target = target / "state.json"
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
+        temporary = target.with_name(target.name + ".tmp")
+        temporary.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
+        temporary.replace(target)
 
     @classmethod
     def load(cls, path: str | Path) -> "CurationRun":
@@ -151,4 +157,5 @@ class CurationRun:
         if target.suffix == "":
             target = target / "state.json"
         data = json.loads(target.read_text(encoding="utf-8"))
-        return cls(**data)
+        # Keep old ledgers loadable as fields are added to the local workflow.
+        return cls(**{key: value for key, value in data.items() if key in cls.__dataclass_fields__})

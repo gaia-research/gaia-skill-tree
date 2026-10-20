@@ -19,7 +19,7 @@ def test_curate_command_name_and_help_are_stable():
     command = CurateCommand()
 
     assert command.name == "curate"
-    assert command.help == "Initialize or inspect a paused Gaia curation ledger"
+    assert command.help == "Discover candidates and prepare packets for human L4 review"
 
 
 def test_curate_command_configure_runs_without_error():
@@ -61,8 +61,9 @@ def test_curate_command_help_text_renders():
     assert "--resume" in help_text
     assert "--status" in help_text
     assert "--dry-run" in help_text
-    assert "discovery does not run" in normalized_help
-    assert "no curation workflow transitions run" in normalized_help
+    assert "Frozen JSON candidate array/envelope" in normalized_help
+    assert "maximum five candidates" in normalized_help
+    assert "Existing intake issue number" in normalized_help
 
 
 def test_dynamic_curate_help_does_not_promise_workflow_execution(monkeypatch, capsys):
@@ -75,9 +76,9 @@ def test_dynamic_curate_help_does_not_promise_workflow_execution(monkeypatch, ca
     assert exc_info.value.code == 0
     help_text = capsys.readouterr().out
     normalized_help = " ".join(help_text.split())
-    assert "new runs pause at INITIALIZED" in normalized_help
-    assert "discovery does not run" in normalized_help
-    assert "drive it through the gated Gaia curation workflow" not in normalized_help
+    assert "sequential source discovery and packet prefill" in normalized_help
+    assert "always stop at AWAITING_L4_REVIEW" in normalized_help
+    assert "submission" not in normalized_help
 
 
 def test_curate_execute_persists_an_initialized_paused_ledger(tmp_path, monkeypatch, capsys):
@@ -180,5 +181,5 @@ def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     command = CurateCommand()
     parser = argparse.ArgumentParser()
     command.configure(parser)
-    assert command.execute(parser.parse_args(["--resume", "legacy"])) == 0
+    assert command.execute(parser.parse_args(["--resume", "legacy"])) == 1
     assert CurationRun.load(run.run_dir).checkpoint == {}
