@@ -20,7 +20,9 @@ from gaia_cli.steward.mirrors import (
     MirrorSpec,
     is_ignored as _is_ignored,
 )
+from gaia_cli.registryMaps import buildMergedSkillMap
 from gaia_cli.steward.models import Observation, Subject, stable_json
+from gaia_cli.steward.primitives.files import SensorUnavailable
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
 from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
@@ -1624,62 +1626,118 @@ class EvidenceLinkHealthSensor:
 
 
 class TrustCalibrationDriftSensor:
-    """Report named skills whose stored level disagrees with computed TM grade."""
+    """Report named skills whose stored level disagrees with computed TM grade.
+
+    Trust Magnitude is scored against the same effective-evidence context the
+    canonical inspector uses (``buildMergedSkillMap``), so evidence a named
+    skill inherits from its generic parent counts. Scoring against an empty
+    context would compare the stored level with an own-evidence-only number and
+    propose false demotions (#2114). When that context cannot be built the
+    sensor is unavailable rather than guessing.
+
+    """
 
     id = "trust-calibration-drift"
+    # The scan enumerates every named skill each run and emits drift for every
+    # one whose level disagrees with its computed grade; an unparseable record
+    # or an unresolvable generic parent makes the scan raise instead of skip.
+    resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
     _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        import yaml
+
         observations: list[Observation] = []
         named_root = repo_root / self._NAMED_ROOT
         if not named_root.is_dir():
+            # A tree with no named-skill registry has no trust subjects.
             return observations
+        try:
+            context = buildMergedSkillMap(repo_root)
+        except Exception as exc:
+            raise SensorUnavailable(
+                f"effective-evidence context could not be built: {type(exc).__name__}: {exc}"
+            ) from exc
+
+        unreadable: list[str] = []
+        unresolved: list[str] = []
         for path in sorted(named_root.rglob("*.md")):
+            relative = str(path.relative_to(repo_root))
             try:
                 parts = path.read_text(encoding="utf-8").split("---", 2)
                 if len(parts) < 3:
                     continue
-                import yaml
                 skill = yaml.safe_load(parts[1]) or {}
-                skill_id = skill.get("id")
-                current_level = skill.get("level")
-                # Only an explicit upstream_deprecated lifecycle event freezes
-                # the historical rank. installable: false also covers skills
-                # that remain reviewable, so it is not an exemption by itself.
-                timeline = skill.get("timeline", [])
-                is_frozen = any(
-                    isinstance(event, dict) and event.get("action") == "upstream_deprecated"
-                    for event in timeline
-                ) if isinstance(timeline, list) else False
-                if is_frozen:
-                    continue
-                if not skill_id or current_level not in self._TARGET_LEVEL.values():
-                    continue
-                tm = computeTrustMagnitude(skill, {})
-                grade = computeOverallTrustGradeFromSkill(skill, {})
-                target_level = self._TARGET_LEVEL[grade]
-                if current_level == target_level:
-                    continue
-                observations.append(Observation(
-                    kind="trust_calibration_drift",
-                    subject=Subject(type="named-skill", id=skill_id),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="drift",
-                    current_state={"level": current_level},
-                    observed_state={
-                        "trustMagnitude": round(tm, 2),
-                        "trustGrade": grade,
-                        "targetLevel": target_level,
-                        "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
-                    },
-                    confidence=1.0,
-                    provenance={"path": str(path.relative_to(repo_root))},
-                ))
-            except (OSError, ValueError, TypeError, yaml.YAMLError):
-                # Malformed records belong to registry-integrity, not this sensor.
+            except (OSError, ValueError, yaml.YAMLError):
+                unreadable.append(relative)
                 continue
+            if not isinstance(skill, dict):
+                unreadable.append(relative)
+                continue
+            skill_id = skill.get("id")
+            if not skill_id:
+                continue
+            parent = skill.get("genericSkillRef")
+            if parent and parent not in context:
+                # Inherited evidence would silently be dropped: an own-only
+                # number must never drive a confident demotion.
+                unresolved.append(f"{skill_id} -> {parent}")
+                continue
+            try:
+                tm = computeTrustMagnitude(skill, context)
+                grade = computeOverallTrustGradeFromSkill(skill, context)
+            except (ValueError, TypeError, KeyError, AttributeError):
+                unreadable.append(relative)
+                continue
+
+            current_level = skill.get("level")
+            # Only an explicit upstream_deprecated lifecycle event freezes
+            # the historical rank. installable: false also covers skills
+            # that remain reviewable, so it is not an exemption by itself.
+            timeline = skill.get("timeline", [])
+            is_frozen = any(
+                isinstance(event, dict) and event.get("action") == "upstream_deprecated"
+                for event in timeline
+            ) if isinstance(timeline, list) else False
+            if is_frozen:
+                continue
+            if current_level not in self._TARGET_LEVEL.values():
+                continue
+            target_level = self._TARGET_LEVEL[grade]
+            if current_level == target_level:
+                continue
+            observations.append(Observation(
+                kind="trust_calibration_drift",
+                subject=Subject(type="named-skill", id=skill_id),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift",
+                current_state={"level": current_level},
+                observed_state={
+                    "trustMagnitude": round(tm, 2),
+                    "trustGrade": grade,
+                    "targetLevel": target_level,
+                    "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+                },
+                confidence=1.0,
+                provenance={"path": relative},
+            ))
+        if unreadable or unresolved:
+            # Skipping would let an exhaustive sweep resolve debt for subjects
+            # this run never evaluated; fail closed instead.
+            detail = []
+            if unreadable:
+                detail.append(
+                    f"{len(unreadable)} unreadable named-skill record(s): "
+                    + ", ".join(unreadable[:5])
+                )
+            if unresolved:
+                detail.append(
+                    f"{len(unresolved)} named skill(s) with unresolvable genericSkillRef: "
+                    + ", ".join(unresolved[:5])
+                )
+            raise SensorUnavailable("; ".join(detail))
         return observations
 
 
