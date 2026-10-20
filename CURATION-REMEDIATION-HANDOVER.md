@@ -8,7 +8,7 @@ Continue the founder's implementation/security/E2E request for #2089/#2088, NOT 
 
 - Worktree: `/data/data/com.termux/files/home/.gaia-worktrees/curation-remediation`
 - Branch: `dev/curation-secure-reconciliation`
-- Latest committed HEAD before this handover: `7624ed445`.
+- Code checkpoint committed as `3e0641e3e` after `7624ed445`; source/tests were clean when independent review launched. Review source is frozen: do not mutate reviewed code/tests until retrieval.
 - Original session cwd remains `/data/data/com.termux/files/home/gaia-skill-tree` on main with preexisting untracked `.pi/*` and emilkowalski discovery packets. Preserve them. Every bash edit/test/commit must `cd` to the remediation worktree or use absolute paths.
 - A `subagent action:apply` attempted to use original root, failed and rolled back (original tracked main stayed clean). All reviewed subagent commits were instead cherry-picked `-x` into the correct remediation worktree. Do not reapply them.
 - No remote push or remediation PR exists yet.
@@ -73,7 +73,7 @@ Potential next checks: source prep partial failure retry/resume tests; run_id/pa
 - f51ca596-82ee-4ed7-9a4d-2626d29ca361: initial A/B/C/D, all diffs inspected and imported (commits above).
 - 6516da5f-fb43-47dd-840a-95456ba2d44c: C/D follow-up, all diffs inspected and imported.
 - a7a822ea-7729-4272-89fc-5394ffd18120: B full freshness, diff inspected and imported.
-No agent currently owns files. Fresh independent reviewers NOT dispatched yet; must use two new Luna High review agents after integration stabilizes (no implementation ownership).
+No implementation agent owns files. TWO FRESH read-only independent GPT-6-Luna High reviewers are now RUNNING in `08c3a6da-744b-4f93-88e3-1f9ab3f9e1a4` against source SHA `3e0641e3e`: index 0 L4/security/governance and index 1 conservation/collision/idempotency. They have no implementation ownership and no write permission. Source/test scope is FROZEN until results are retrieved; parent may collect evidence and write report docs meanwhile. Use subagent action:wait to collect (not polling).
 
 ## Background commands and evidence — notifications only, never poll
 
@@ -88,7 +88,7 @@ All tasks use default durable terminal notifications. Call bg_logs only AFTER ma
 Task output files under original cwd `.pi/tasks/01a15932-8e8f-7677-af72-c4ac8ccfe524-23602/<taskid>.output`.
 Latest short checks after user compaction request: compileall relevant source/tests PASSED, git diff --check PASSED, skill mirror parity PASSED, git diff against origin/main showed NO registry/skill-trees/docs/graph changes.
 
-## Uncommitted changes at checkpoint (must preserve)
+## Changes checkpointed in 3e0641e3e (preserve; only this handover update follows)
 
 1. Mirrored gaia-quick-curate SKILL.md rewritten truthful executable pre-L4 docs, no scaffold or auto-merge promise.
 2. commands/curate.py status no live checks/mutations, named flag already committed.
@@ -108,7 +108,7 @@ Latest short checks after user compaction request: compileall relevant source/te
 3. Refresh canonical docs command examples if needed, keep .agents/.claude mirrors; schema need not change, do not mutate canonical registry.
 4. Run focused full matrix at a stable committed SHA, exact224 baseline comparison, existing mainline identity/recovery/provenance suite. Then applicable repository-wide tests (enumerate skips/offline/model-download constraints; don't claim full suite if not run). Run skill validators and diff check.
 5. Commit checkpointed changes, push dedicated dev branch (no force). Prepare/open ONE draft remediation PR against current main, explicit #2089/#2088/audit references, no issue comments/closure.
-6. Dispatch TWO FRESH Luna High review agents read-only: (a) security L4/negative auth/governance, (b) candidate conservation/collision/idempotency. Explicit supported effort, no turn cap, only Luna. They must reproduce old cases on current code; not implementer self-review. Freeze their scope while they inspect. Repair findings and rerun proportionately, re-review required blockers.
+6. Retrieve RUNNING independent review `08c3a6da-744b-4f93-88e3-1f9ab3f9e1a4` with action:wait. It has two fresh Luna High reviewers (security and conservation) against frozen code 3e0641e3e. Do not mutate source/tests while they inspect. After retrieval repair findings and diagnostic test failures, rerun proportionately, and re-review required blockers. Do not confuse existing implementer self-tests with these independent reviewers.
 7. Deliver CURATION-REMEDIATION-REPORT.md with file summary, all 26 matrix rows PASS/FAIL/SKIP, exact test logs/SHA, original attacks repaired at real boundaries, honest mocked-vs-real ceremony distinctions, reports, compatibility #2093/current main, remaining human actions and NO-GO for original #2089 and protected activation until independent ceremony exists. No production merge/deploy/intake.
 
 Definition of done is not met yet. Do not claim completion from these edits or preliminary tests. Founder explicitly permits leaving protected flow blocked if independent human authority cannot be established; that does not make a mocked ceremony production success.
