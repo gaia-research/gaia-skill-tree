@@ -356,7 +356,6 @@
         2001
       ],
       "tests": [
-        "tests/steward/test_repairs.py",
         "tests/steward/test_sensors.py",
         "tests/steward/test_sensors_contracts.py"
       ]
@@ -431,12 +430,8 @@
         2114
       ],
       "tests": [
-        "tests/steward/test_knowledge_contracts.py",
         "tests/steward/test_sensors.py",
-        "tests/steward/test_trust_calibration_regression.py",
-        "tests/test_curation_checkpoint.py",
-        "tests/test_curation_evaluation.py",
-        "tests/test_installability.py"
+        "tests/steward/test_trust_calibration_regression.py"
       ]
     },
     {
@@ -576,8 +571,6 @@
         2042
       ],
       "tests": [
-        "tests/steward/test_repairs.py",
-        "tests/steward/test_repository_hygiene.py",
         "tests/steward/test_sensors.py"
       ]
     },
@@ -827,9 +820,6 @@
         2052
       ],
       "tests": [
-        "tests/steward/test_knowledge_contracts.py",
-        "tests/steward/test_repairs.py",
-        "tests/steward/test_repository_hygiene.py",
         "tests/steward/test_sensors.py"
       ]
     }
@@ -875,8 +865,7 @@
         "bundled_schema_mirror_drift": "gaia-steward-land"
       },
       "proof": [
-        "tests/steward/test_sensors.py",
-        "tests/steward/test_repairs.py"
+        "tests/steward/test_sensors.py"
       ],
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
@@ -924,8 +913,7 @@
         "agent_skill_mirror_drift": "gaia-steward-land"
       },
       "proof": [
-        "tests/steward/test_sensors.py",
-        "tests/steward/test_repairs.py"
+        "tests/steward/test_sensors.py"
       ],
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
@@ -998,7 +986,7 @@
           "required": true
         },
         {
-          "path": "src/gaia_cli/main.py",
+          "path": "src/gaia_cli/impl.py",
           "required": true
         }
       ],
@@ -1209,7 +1197,6 @@
         "knowledge_contradiction": "gaia-steward-lane"
       },
       "proof": [
-        "tests/steward/test_knowledge_contracts.py",
         "tests/steward/test_sensors.py"
       ],
       "failureBehavior": {
@@ -1771,7 +1758,7 @@
         "flaky_test": "B"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
-      "resolutionScope": "observed-only",
+      "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
         "flaky_test": "gaia-steward-lane"
@@ -1990,7 +1977,7 @@
         "ci_failure": "B"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
-      "resolutionScope": "observed-only",
+      "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
         "ci_failure": "gaia-steward-lane"
@@ -2084,7 +2071,7 @@
         "dependency_advisory": "B"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
-      "resolutionScope": "observed-only",
+      "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
         "dependency_advisory": "gaia-steward-lane"

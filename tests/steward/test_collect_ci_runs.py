@@ -66,3 +66,20 @@ def test_cli_writes_the_driver_input(tmp_path: Path) -> None:
     assert json.loads(output.read_text())["schemaVersion"] == "steward-ci-runs-v1"
     source.write_text("{", encoding="utf-8")
     assert main([str(source), "--repository", "o/r", "--branch", "main", "--output", str(output)]) == 1
+
+
+def test_workflow_identity_is_carried_through_when_gh_supplies_it(tmp_path: Path) -> None:
+    runs = [
+        {**_run("failure"), "workflowDatabaseId": 42},
+        {**_run("success"), "workflowDatabaseId": True},
+    ]
+    document = convert(runs, repository="o/r", branch="main", collected_at=NOW)
+    assert document["runs"][0]["workflowId"] == 42
+    # A bool is not an id: it is dropped, never coerced.
+    assert "workflowId" not in document["runs"][1]
+
+    root = make_repo(tmp_path / "repo", {"README.md": "x"})
+    target = root / ".gaia/steward/inputs/ci-runs.json"
+    target.parent.mkdir(parents=True)
+    target.write_text(json.dumps(document), encoding="utf-8")
+    assert [o.subject.id for o in CiHealthSensor().scan(root, NOW)] == ["id:42"]

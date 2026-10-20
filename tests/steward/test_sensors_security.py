@@ -118,8 +118,18 @@ def listCommand(args):
 '''
 
 
+# The legacy dispatcher only matters when an installed entry point can run it.
+LEGACY_ENTRY = {
+    "pyproject.toml": '[project]\nname = "x"\n\n[project.scripts]\ngaia = "gaia_cli.impl:main"\n',
+}
+LIVE_ENTRY = {
+    "pyproject.toml": '[project]\nname = "x"\n\n[project.scripts]\ngaia = "gaia_cli.main:main"\n',
+}
+
+
 def _mutation_files(**overrides: str) -> dict[str, str]:
     files = {
+        **LEGACY_ENTRY,
         "src/gaia_cli/impl.py": IMPL,
         "src/gaia_cli/commands/dev/__init__.py": _dev_init(),
         "src/gaia_cli/commands/dev/writer.py": WRITER,
@@ -296,6 +306,48 @@ class TestUngatedMutation:
         write_files(root, {"src/gaia_cli/impl.py": IMPL})
         commit_all(root)
         assert MutationBoundarySensor().scan(root, NOW) == []
+
+    DIVERGED = {"src/gaia_cli/impl.py": 'MUTATING_DEV_COMMANDS = frozenset({"add"})\n'}
+
+    def test_dead_legacy_dispatcher_is_not_compared(self, tmp_path: Path) -> None:
+        # pyproject routes gaia to gaia_cli.main:main, whose own main never calls
+        # impl.main, so the legacy set disagreeing with the live one is unreachable.
+        main = "import gaia_cli.impl as _impl\n\n\ndef main():\n    return _impl.MUTATING_DEV_COMMANDS\n"
+        _, observations = _mutation(
+            tmp_path, **LIVE_ENTRY, **self.DIVERGED, **{"src/gaia_cli/main.py": main}
+        )
+        assert _gating(observations) == []
+
+    def test_dead_legacy_dispatcher_may_be_absent(self, tmp_path: Path) -> None:
+        files = _mutation_files(**LIVE_ENTRY)
+        del files["src/gaia_cli/impl.py"]
+        root = make_repo(tmp_path / "repo", files)
+        assert _gating(MutationBoundarySensor().scan(root, NOW)) == []
+
+    def test_dead_legacy_still_reports_a_real_ungated_writer(self, tmp_path: Path) -> None:
+        # `rm` writes and is absent from the live gate: a true positive that the
+        # legacy comparison never owned.
+        init = _dev_init(live='"add"', parsers="add rm list")
+        _, observations = _mutation(tmp_path, **LIVE_ENTRY, **{"src/gaia_cli/commands/dev/__init__.py": init})
+        assert [item.subject.id for item in _gating(observations)] == ["dev:rm"]
+
+    @pytest.mark.parametrize(
+        "main_source",
+        [
+            "from gaia_cli.impl import main\n",
+            "from gaia_cli.impl import main as legacy\n\n\ndef main():\n    return legacy()\n",
+            "import gaia_cli.impl as _impl\n\n\ndef main():\n    return _impl.main()\n",
+            "from gaia_cli import impl\n\n\ndef helper():\n    return impl.main()\n\n\ndef main():\n    return helper()\n",
+        ],
+    )
+    def test_legacy_dispatcher_reachable_through_the_entry_point_is_compared(
+        self, tmp_path: Path, main_source: str
+    ) -> None:
+        _, observations = _mutation(
+            tmp_path, **LIVE_ENTRY, **self.DIVERGED, **{"src/gaia_cli/main.py": main_source}
+        )
+        (item,) = _gating(observations)
+        assert item.subject.id == "mutating-dev-commands"
 
     def test_sensor_writes_nothing(self, tmp_path: Path) -> None:
         root, _ = _mutation(tmp_path)

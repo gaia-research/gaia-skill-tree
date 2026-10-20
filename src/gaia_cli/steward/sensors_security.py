@@ -32,6 +32,7 @@ from __future__ import annotations
 import ast
 import hashlib
 import re
+import tomllib
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -43,8 +44,10 @@ from gaia_cli.steward.primitives import (
     finding_payload,
     git_root,
     parse_python,
+    read_text_bounded,
     tracked_files,
 )
+from gaia_cli.steward.primitives.redact import CREDENTIAL_PATTERNS
 
 _IMPL_PATH = "src/gaia_cli/impl.py"
 _DEV_COMMAND_PATH = "src/gaia_cli/commands/dev/__init__.py"
@@ -384,6 +387,103 @@ def _conditionally_gated(tree: ast.Module) -> frozenset[str]:
     return frozenset(names)
 
 
+_LEGACY_MODULE = "gaia_cli.impl"
+_PYPROJECT = "pyproject.toml"
+_ENTRY_HOPS = 3
+
+
+def _entry_points(root: Path) -> list[tuple[str, str]]:
+    """Return ``(module, callable)`` for every ``[project.scripts]`` entry; empty when unknown."""
+
+    if _PYPROJECT not in tracked_files(root, [_PYPROJECT], require_any=False):
+        return []
+    try:
+        data = tomllib.loads(read_text_bounded(root / _PYPROJECT))
+    except tomllib.TOMLDecodeError as exc:
+        raise SensorUnavailable(f"{_PYPROJECT} is not valid TOML") from exc
+    scripts = data.get("project", {}).get("scripts", {})
+    entries: list[tuple[str, str]] = []
+    if isinstance(scripts, dict):
+        for target in scripts.values():
+            if isinstance(target, str) and ":" in target:
+                module, _, function = target.partition(":")
+                entries.append((module.strip(), function.strip().split("[", 1)[0].strip()))
+    return sorted(entries)
+
+
+def _module_tree(root: Path, dotted: str) -> ast.Module | None:
+    base = Path(*dotted.split("."))
+    for candidate in (root / "src" / base.with_suffix(".py"), root / "src" / base / "__init__.py",
+                      root / base.with_suffix(".py"), root / base / "__init__.py"):
+        if candidate.is_file():
+            tree, error = parse_python(candidate)
+            return tree if error is None else None
+    return None
+
+
+def _calls_legacy_main(tree: ast.Module, function: str) -> bool:
+    """Whether ``function`` is, or (through same-module calls) calls, the legacy ``main``."""
+
+    legacy_aliases: set[str] = set()
+    legacy_mains: set[str] = set()
+    package, _, leaf = _LEGACY_MODULE.rpartition(".")
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.name == _LEGACY_MODULE and alias.asname:
+                    legacy_aliases.add(alias.asname)
+        elif isinstance(node, ast.ImportFrom) and node.level == 0:
+            for alias in node.names:
+                if node.module == package and alias.name == leaf:
+                    legacy_aliases.add(alias.asname or alias.name)
+                elif node.module == _LEGACY_MODULE and alias.name == "main":
+                    legacy_mains.add(alias.asname or alias.name)
+    functions = {
+        node.name: node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    if function in legacy_mains and function not in functions:
+        return True
+    pending, seen = [function], set()
+    while pending:
+        name = pending.pop()
+        if name in seen or name not in functions:
+            continue
+        seen.add(name)
+        for node in ast.walk(functions[name]):
+            if not isinstance(node, ast.Call):
+                continue
+            dotted = _dotted(node.func)
+            if dotted == f"{_LEGACY_MODULE}.main" or (
+                isinstance(node.func, ast.Attribute)
+                and node.func.attr == "main"
+                and _dotted(node.func.value) in legacy_aliases
+            ):
+                return True
+            if isinstance(node.func, ast.Name):
+                if node.func.id in legacy_mains:
+                    return True
+                pending.append(node.func.id)
+    return False
+
+
+def _legacy_dispatcher_reachable(root: Path) -> bool:
+    """True when a ``[project.scripts]`` entry point runs ``gaia_cli.impl.main``.
+
+    The legacy ``MUTATING_DEV_COMMANDS`` set only matters if its dispatcher can
+    run. When every entry point routes elsewhere, the legacy module is dead code
+    (the dead-code detector's concern) and comparing its set to the live gate
+    would report a disagreement nobody can reach.
+    """
+
+    for module, function in _entry_points(root):
+        if module == _LEGACY_MODULE:
+            return True
+        tree = _module_tree(root, module)
+        if tree is not None and _calls_legacy_main(tree, function):
+            return True
+    return False
+
+
 class MutationBoundarySensor:
     """Detect ungated ``gaia dev`` mutations and unsafe Python execution."""
 
@@ -401,21 +501,28 @@ class MutationBoundarySensor:
     # -- ungated_mutation -------------------------------------------------
 
     def _gating_observations(self, root: Path, observed_at: str) -> list[Observation]:
-        for required in (_IMPL_PATH, _DEV_COMMAND_PATH):
-            tracked_files(root, [required], require_any=True)
-        impl_tree = self._parse_required(root / _IMPL_PATH, _IMPL_PATH)
+        tracked_files(root, [_DEV_COMMAND_PATH], require_any=True)
+        reachable = _legacy_dispatcher_reachable(root)
+        legacy_present = bool(tracked_files(root, [_IMPL_PATH], require_any=False))
+        if reachable and not legacy_present:
+            raise SensorUnavailable(f"{_IMPL_PATH} is an entry point's dispatcher but is not tracked")
+        legacy = (
+            _gating_set(self._parse_required(root / _IMPL_PATH, _IMPL_PATH), _IMPL_PATH)
+            if legacy_present
+            else frozenset()
+        )
         dev_tree = self._parse_required(root / _DEV_COMMAND_PATH, _DEV_COMMAND_PATH)
-        legacy = _gating_set(impl_tree, _IMPL_PATH)
         live = _gating_set(dev_tree, _DEV_COMMAND_PATH)
         conditional = _conditionally_gated(dev_tree)
         registered = _registered_commands(dev_tree)
         dispatch = _dispatch_table(dev_tree)
 
         observations: list[Observation] = []
+        # The two sets are compared only when the legacy dispatcher can run.
         disagreements = [
             {"command": name, "inLive": name in live, "inLegacy": name in legacy}
             for name in sorted(live ^ legacy)
-        ]
+        ] if reachable else []
         if disagreements:
             observations.append(
                 Observation(
@@ -838,18 +945,7 @@ _SYNTHETIC_MARKERS = re.compile(r"EXAMPLE|FAKE|dummy|xxxx|canary|placeholder|not
 # Hand-typed placeholders climb the alphabet or digits; a real secret does not.
 _ASCENDING_RUN = re.compile(r"abcdef|ABCDEF|012345|123456|234567|345678|456789", re.IGNORECASE)
 
-# (pattern name, compiled regex). Each regex is anchored against alphanumeric
-# neighbours so a run inside a longer base64 blob does not match.
-_SECRET_PATTERNS: tuple[tuple[str, "re.Pattern[str]"], ...] = (
-    ("aws-access-key-id", re.compile(r"(?<![A-Za-z0-9])AKIA[0-9A-Z]{16}(?![A-Za-z0-9])")),
-    ("github-token", re.compile(r"(?<![A-Za-z0-9])gh[pousr]_[A-Za-z0-9]{36,255}(?![A-Za-z0-9])")),
-    ("github-fine-grained-token", re.compile(r"(?<![A-Za-z0-9])github_pat_[A-Za-z0-9_]{82,}")),
-    ("anthropic-api-key", re.compile(r"(?<![A-Za-z0-9])sk-ant-[A-Za-z0-9_-]{20,}")),
-    ("openai-api-key", re.compile(r"(?<![A-Za-z0-9_-])sk-(?!ant-)(?:proj-)?[A-Za-z0-9_-]{40,}")),
-    ("slack-token", re.compile(r"(?<![A-Za-z0-9])xox[baprs]-[A-Za-z0-9-]{10,}")),
-    ("private-key-block", re.compile(r"-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----")),
-    ("google-api-key", re.compile(r"(?<![A-Za-z0-9_-])AIza[0-9A-Za-z_-]{35}(?![0-9A-Za-z_-])")),
-)
+_SECRET_PATTERNS = CREDENTIAL_PATTERNS
 
 
 def _synthetic_match(rel: str, matched: str, line_text: str) -> bool:
