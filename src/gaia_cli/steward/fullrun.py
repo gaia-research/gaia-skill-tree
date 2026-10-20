@@ -863,6 +863,10 @@ class FullRunner:
     @staticmethod
     def _setState(doc: dict[str, Any], debtId: str, to: str, now: str, reason: str) -> None:
         item = doc["work"][debtId]
+        if to == "blocked":
+            item["blockedReason"] = reason
+        else:
+            item.pop("blockedReason", None)
         if item["state"] == to:
             FullRunner._note(item, now, reason)
             return
@@ -1851,8 +1855,7 @@ class FullRunner:
         observed = self._observationOf(run)
         records = list(load_decision_records(self.root))
         landing = sorted(i["debtId"] for i in doc["work"].values()
-                         if i["state"] == "blocked" and any(
-                             n["note"] == "landing target not configured" for n in i.get("notes", [])))
+                         if i["state"] == "blocked" and i.get("blockedReason") == "landing target not configured")
         if landing:
             records.append({
                 "schemaVersion": "steward-decision-v1", "id": "landing-target-not-configured", "status": "open",
@@ -1866,7 +1869,7 @@ class FullRunner:
                 "links": [],
             })
         failed = [
-            {"subject": i["debtId"], "detail": (i.get("notes") or [{"note": "blocked"}])[-1]["note"]}
+            {"subject": i["debtId"], "detail": i.get("blockedReason") or "blocked"}
             for i in sorted(doc["work"].values(), key=lambda value: value["debtId"])
             if i["state"] == "blocked" and i["debtId"] not in landing
         ]
