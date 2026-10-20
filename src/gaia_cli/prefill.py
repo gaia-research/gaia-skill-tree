@@ -616,7 +616,7 @@ def buildPrefillPacket(
             )
 
             # Advance lifecycle based on artifactGate
-            if artifactGate == "valid-skill":
+            if artifactGate == "valid-skill" and exactDedupe.get("checked") is True:
                 lifecycle = [
                     "discovered",
                     "fetched",
@@ -626,6 +626,9 @@ def buildPrefillPacket(
                     "mapped",
                     "deferred",
                 ]
+            elif artifactGate == "valid-skill":
+                # An attempted but unavailable lookup is not a completed stage.
+                lifecycle = ["discovered", "fetched", "parsed", "normalized", "deferred"]
             else:
                 # Short-circuit to rejected for non-skill artifacts
                 lifecycle = ["discovered", "fetched", "rejected"]
@@ -652,6 +655,9 @@ def buildPrefillPacket(
         },
         "flags": flags,
     }
+
+    if artifactGate == "valid-skill" and exactDedupe.get("checked") is not True:
+        packet["decision"]["reasonCode"] = "EXACT_DEDUPE_UNVERIFIED"
 
     # Add retrieval provenance metadata
     # Never infer revision for legacy unmanifested artifacts

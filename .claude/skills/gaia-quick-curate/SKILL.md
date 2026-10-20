@@ -1,92 +1,71 @@
 ---
 name: gaia-quick-curate
 description: >-
-  Inspect or exercise the paused gaia curate orchestration scaffold for one
-  source URL. The command currently persists an INITIALIZED run ledger and
-  reports status; its 25 named workflow states and transition methods are a
-  design skeleton, not an implemented automated curation or merge pipeline.
-  Use only for scaffold development, status inspection, or dry-run contract
-  work. For live curation, use gaia-full-pipeline or gaia-consult. Trigger
-  phrases: "/gaia-quick-curate", "inspect gaia curate", "curate scaffold",
-  "quick curate status". For batch/multi-page runs use gaia-curate-dynamic;
-  for crawler branches use gaia-bot-curate; for pending intake proposals use
-  gaia-draft-curate.
-version: 1.0.1
-argument-hint: "<url> [--generic <id>] [--discover] [--dry-run] [--resume <run-id>] [--status]"
+  Execute checkpointed pre-L4 CHAIN discovery for one exact SKILL.md URL or a
+  declared inventory of one to five candidates. Produces discovery-packet-v2
+  packets, advisory assessments and shared reconciliation, then stops for human
+  L4 review. Does not submit, ingest, calibrate, promote or merge.
+version: 1.1.0
+argument-hint: "<blob-url> --named-identity <contributor/slug> | --inventory <path> | --resume <run-id> [--status]"
 ---
 
 # gaia-quick-curate
 
-`gaia curate` is currently a **paused orchestration scaffold**. It can create
-and persist a run ledger, reload one with `--resume`, and print status. A fresh
-run deliberately pauses at `INITIALIZED`; the transition methods beyond that
-point raise `NotImplementedError` and do not perform discovery, evidence
-verification, ingest, calibration, GitHub issue/PR work, or merging.
+Read [CURATION-CORE.md](../gaia-curate/CURATION-CORE.md). CHAIN uses the existing
+source fetch, prefill, packet and assessment primitives with atomic local
+checkpoints. This is **pre-L4 discovery execution**, not an automated downstream
+curation or merge engine. Repository-wide source enumeration is not implemented;
+provide an exact GitHub `SKILL.md` blob URL or an explicit bounded inventory.
 
-Do not describe this skill as an automated two-gate pipeline, claim that it
-will advance through all 25 states, or promise "one URL in, one merged PR out."
-The state names record the intended workflow shape only.
+## Commands
 
-> For an implemented, human-directed curation workflow, use
-> [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) for phase routing or
-> [/gaia-consult](../gaia-consult/SKILL.md) for command guidance.
-
-## Current command surface
-
-```text
-gaia curate <url> [--generic <id>] [--discover] [--dry-run]
-gaia curate --resume <run-id> [--status]
+```bash
+gaia curate <blob-url> --named-identity contributor/skill-name
+gaia curate --inventory candidates.json
+gaia curate --resume <run-id> --status
+gaia curate --resume <run-id>
 ```
 
-| Input | Current behavior |
-|---|---|
-| `<url>` | Creates a run ledger, pauses at `INITIALIZED`, and prints status. |
-| `--generic <id>` | Records a suggested generic ID; it does not apply a mapping. |
-| `--discover` | Records discovery intent; it does not run discovery yet. |
-| `--dry-run` | Records dry-run intent; no curation transitions are implemented. |
-| `--resume <run-id>` | Loads an existing ledger by run ID. |
-| `--status` | Prints the loaded or newly created run's status. |
+A declared inventory is a JSON array of one to five rows containing
+`candidateId`, exact lowercase `namedIdentity` (`contributor/slug`), and
+`sourceUrl`. Candidate identity is not the named identity or generic ID.
+Immutable source revisions are retained when independently available; branch
+URLs remain explicitly unresolved and require live freshness checks.
 
-Run state is stored at:
+The runtime fetches and checkpoints source bytes, freezes the inventory and
+generic snapshot before semantic processing, executes candidates sequentially,
+persists owned digest-named packets and assessments, and reconciles the complete
+inventory. Default prefill remains advisory: deferred packets are honestly shown
+as deferred, never silently relabeled as approved mappings. Configured semantic
+workers remain model-neutral.
 
-```text
-.gaia/curation/runs/<run-id>/state.json
-```
+## Recovery and L4
 
-The ledger currently starts in `INITIALIZED`. Although
-`src/gaia_cli/curation/state.py` declares 25 intended state names, that list is
-not evidence that the workflow exists. `SCAFFOLD_PAUSE_STATES` in the
-orchestrator prevents a fresh run from entering the unimplemented transitions.
+State lives at `.gaia/curation/runs/<run-id>/state.json`. Attempts are charged
+before execution. Retries target the failed candidate; completed packets are
+reused only after source, catalog, packet and assessment freshness checks.
+Budget exhaustion preserves every remaining candidate as an explicit deferral.
+Status inspection does not execute freshness checks or advance the workflow.
 
-## Safety and merge authority
+The complete L4 inventory includes review-ready, deferred, rejected and proven
+duplicate outcomes. **Review-ready is not human-approved.** The runtime always
+stops at `AWAITING_L4_REVIEW`; a local decision field cannot advance it.
+Independent protected human authorization is required at the ratify/submission
+boundary. If that ceremony is unavailable, the workflow remains pending; flags,
+comments, reviewer metadata and operator override are not substitutes.
 
-The scaffold has no authority to mutate the registry or GitHub today. If its
-runtime is implemented later, all registry writes must still use the canonical
-Gaia CLI mutation path, approval gates must be explicit and resumable, and the
-final merge to `main` must remain founder-gated. This skill must never merge the
-final PR to `main`; a human founder makes that decision after reviewing the
-evidence, diff, and CI state.
+For an existing intake, supply `--batch-id`, `--intake-issue-number` and
+`--intake-issue-url` when creating the run. Resume preserves these references.
+Continue its existing evidence route; do not open another intake.
 
-## Live source locations
+## Boundaries and related workflows
 
-| Concern | Path |
-|---|---|
-| CLI command entry | `src/gaia_cli/commands/curate.py` |
-| Run ledger and 25-state design skeleton | `src/gaia_cli/curation/state.py` |
-| Pause guard and unimplemented transition stubs | `src/gaia_cli/curation/orchestrator.py` |
-| URL-resolution helper | `src/gaia_cli/curation/url_resolver.py` |
-| Run state | `.gaia/curation/runs/<run-id>/state.json` |
+Neither CHAIN nor FAN-OUT mutates canonical registry data or creates intake
+issues, promotion PRs, evidence rows, grades or calibration decisions.
+FAN-OUT uses `curation/fanout.py` callable workers and the same
+`curation/reconciliation.py` envelope; see
+[gaia-curate-dynamic](../gaia-curate-dynamic/SKILL.md).
 
-There is no live `src/gaia/curate/state_machine.py`, gate UI, or control-panel
-comment renderer. Do not invent those paths or report future components as
-implemented.
-
-## When to use another skill
-
-| Need | Use |
-|---|---|
-| Implemented phase-by-phase curation | [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) |
-| Curation command/reference lookup | [/gaia-consult](../gaia-consult/SKILL.md) |
-| Batch or multi-source discovery | [/gaia-curate-dynamic](../gaia-curate-dynamic/SKILL.md) |
-| Crawler `bot/*` branches | [/gaia-bot-curate](../gaia-bot-curate/SKILL.md) |
-| Pending intake proposals | [/gaia-draft-curate](../gaia-draft-curate/SKILL.md) |
+After authorized L4, the existing
+[full pipeline](../gaia-full-pipeline/SKILL.md) controls intake, evidence
+verification, ingestion and calibration. Final merge remains founder-gated.

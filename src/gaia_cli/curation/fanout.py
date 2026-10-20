@@ -32,7 +32,7 @@ def _is_valid_prior(envelope: Mapping[str, Any], receipt: Mapping[str, Any], pac
     try:
         probe = reconcileInventory(envelope, [receipt], packetRoot=packetRoot)
         row = next(item for item in probe["decisions"] if item["candidateId"] == cid)
-        return row["outcome"] in {"review-ready", "rejected", "proven-duplicate"}
+        return row.get("receiptValid") is True
     except (ValueError, StopIteration):
         return False
 
@@ -72,12 +72,13 @@ def runFanout(envelope: Mapping[str, Any], worker: Callable[[Mapping[str, Any], 
                 if not isinstance(returned, Mapping):
                     return None, "worker returned a non-mapping receipt"
                 captured = copy.deepcopy(dict(returned))
-                # Dispatch is authoritative for all attempt/task/input bindings.
-                captured.update({"candidateId": row["candidateId"], "taskId": row["taskId"],
-                                 "attempt": attempt, "inputDigest": row["inputDigest"]})
+                expected = {"candidateId": row["candidateId"], "taskId": row["taskId"],
+                            "attempt": attempt, "inputDigest": row["inputDigest"]}
+                if any(captured.get(key) != value for key, value in expected.items()):
+                    return None, "worker receipt task/attempt/input binding mismatch"
                 check = reconcileInventory(envelope, [captured], packetRoot=packetRoot)
                 decision = next(d for d in check["decisions"] if d["candidateId"] == row["candidateId"])
-                if decision["outcome"] == "deferred" and decision.get("reason") != captured.get("reason"):
+                if decision.get("receiptValid") is not True:
                     # Packet/digest/binding failures are deterministic; do not retry.
                     return None, decision.get("reason") or "receipt validation failed"
                 return captured, None

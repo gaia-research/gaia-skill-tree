@@ -102,19 +102,20 @@ def test_curate_execute_persists_an_initialized_paused_ledger(tmp_path, monkeypa
     assert "State: INITIALIZED" in output
 
 
-def test_quick_curate_skill_describes_the_paused_scaffold_truthfully():
+def test_quick_curate_skill_describes_executable_pre_l4_boundary_truthfully():
     skill_text = (
         REPO_ROOT / ".agents" / "skills" / "gaia-quick-curate" / "SKILL.md"
     ).read_text(encoding="utf-8")
     frontmatter = skill_text.split("---", 2)[1]
 
-    assert "paused orchestration scaffold" in skill_text
+    assert "pre-L4 discovery execution" in skill_text
     assert ".gaia/curation/runs/<run-id>/state.json" in skill_text
-    assert "src/gaia_cli/curation/orchestrator.py" in skill_text
-    assert "final merge to `main` must remain founder-gated" in skill_text
+    assert "curation/reconciliation.py" in skill_text
+    assert "Final merge remains founder-gated" in skill_text
     assert "Fully automated" not in frontmatter
-    assert "PR merge as a 25-state machine" not in frontmatter
-    assert "Do not describe this skill as an automated two-gate pipeline" in skill_text
+    assert "always" in skill_text and "AWAITING_L4_REVIEW" in skill_text
+    assert "Review-ready is not human-approved" in skill_text
+    assert "exact lowercase" in skill_text
 
 
 @pytest.mark.parametrize("status_only", [False, True])

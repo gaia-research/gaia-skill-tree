@@ -94,14 +94,14 @@ class CurateCommand(Command):
         if args.resume:
             run = CurationRun.load(CurationRun(run_id=args.resume).run_dir)
             # Resume arguments cannot replace durable external references/inventory.
-            freshness_errors = self._freshness(run, args.registry)
+            freshness_errors = self._freshness(run, args.registry) if not args.status else []
             # Replace only current packet-resume blockers; old resolved/history entries
             # remain historical and are never resurrected.
             blockers = [item for item in run.checkpoint.get("blockers", [])
                         if not str(item.get("checkId", "")).startswith("packet-freshness-")]
             blockers.extend({"checkId": f"packet-freshness-{i}", "status": "open", "summary": error}
                             for i, error in enumerate(freshness_errors))
-            if blockers != run.checkpoint.get("blockers", []):
+            if not args.status and blockers != run.checkpoint.get("blockers", []):
                 run.checkpoint["blockers"] = blockers
                 run.save(run.run_dir)
         else:

@@ -19,7 +19,7 @@ from gaia_cli.commands.dev.ratify import ratifyCommand
 from gaia_cli.curation.assessment import assessCommand, buildAssessment, validateAssessment
 from gaia_cli.curation.retrieval import saveEmbeddingsAtomic, semanticFingerprint
 from gaia_cli.impl import embed_command
-from gaia_cli.prefill import prefillCommand
+from gaia_cli.prefill import prefillCommand, safeCandidateSlug
 
 
 @pytest.fixture
@@ -260,7 +260,7 @@ class TestDevPrefillCommand:
         assert "Wrote advisory assessment receipt" in captured.out
 
         # Verify receipt exists on disk
-        assessment_file = test_registry / "generated-output" / "curation" / "tester-unit-runner.assessment.json"
+        assessment_file = test_registry / "generated-output" / "curation" / f"{safeCandidateSlug('tester/unit-runner')}.assessment.json"
         assert assessment_file.is_file()
 
     def test_prefill_stdout_json_is_packet_only(self, test_registry, capsys):
@@ -360,7 +360,7 @@ class TestDevPrefillCommand:
         captured = capsys.readouterr()
         assert "Wrote prefilled discovery-packet-v2" in captured.out
 
-        packet_path = tmp_path / "registry-for-review" / "discovery-packets" / "tester-unit-runner.json"
+        packet_path = tmp_path / "registry-for-review" / "discovery-packets" / f"{safeCandidateSlug('tester/unit-runner')}.json"
         assert packet_path.is_file()
         packet = json.loads(packet_path.read_text(encoding="utf-8"))
         snapshot = packet.get("genericSnapshot")
@@ -379,7 +379,7 @@ class TestDevPrefillCommand:
         # Pre-create an existing assessment receipt file
         curation_dir = test_registry / "generated-output" / "curation"
         curation_dir.mkdir(parents=True, exist_ok=True)
-        assessment_file = curation_dir / "tester-unit-runner.assessment.json"
+        assessment_file = curation_dir / f"{safeCandidateSlug('tester/unit-runner')}.assessment.json"
         original_content = {"contractVersion": "pre-existing", "preserved": True}
         assessment_file.write_text(json.dumps(original_content, indent=2), encoding="utf-8")
 
@@ -556,14 +556,14 @@ class TestDevPrefillCommand:
         code = prefillCommand(args)
         assert code == 0
 
-        packet_path = test_registry / "registry-for-review" / "discovery-packets" / "tester-unit-runner.json"
+        packet_path = test_registry / "registry-for-review" / "discovery-packets" / f"{safeCandidateSlug('tester/unit-runner')}.json"
         packet = json.loads(packet_path.read_text(encoding="utf-8"))
         retrieval = packet["retrieval"]
         assert retrieval["provenance"] == "stale/unverified"
         assert retrieval["stale"] is True
         assert retrieval["revision"] is None
 
-        assessment_file = test_registry / "generated-output" / "curation" / "tester-unit-runner.assessment.json"
+        assessment_file = test_registry / "generated-output" / "curation" / f"{safeCandidateSlug('tester/unit-runner')}.assessment.json"
         receipt = json.loads(assessment_file.read_text(encoding="utf-8"))
         assert receipt["retrieval"]["provenance"] == "stale/unverified"
         assert receipt["retrieval"]["revision"] is None
@@ -600,7 +600,7 @@ class TestDevAssessCommand:
             test_registry
             / "registry-for-review"
             / "discovery-packets"
-            / "tester-unit-runner.json"
+            / f"{safeCandidateSlug('tester/unit-runner')}.json"
         )
         assert packet_path.is_file()
 
@@ -694,13 +694,13 @@ class TestDevRatifyCommand:
             test_registry
             / "registry-for-review"
             / "discovery-packets"
-            / "tester-unit-runner.json"
+            / f"{safeCandidateSlug('tester/unit-runner')}.json"
         )
         assessment_path = (
             test_registry
             / "generated-output"
             / "curation"
-            / "tester-unit-runner.assessment.json"
+            / f"{safeCandidateSlug('tester/unit-runner')}.assessment.json"
         )
         assert packet_path.is_file()
         assert assessment_path.is_file()

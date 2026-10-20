@@ -136,6 +136,8 @@ def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Map
     if target_row is None or target == row["namedIdentity"]:
         return False
     source = proof.get("source") if isinstance(proof.get("source"), Mapping) else proof
+    if row.get("sourceDigest") and target_row.get("sourceDigest") and row["sourceDigest"] != target_row["sourceDigest"]:
+        return False
     return any(
         bool(row.get(frozenKey)) and row.get(frozenKey) == target_row.get(frozenKey)
         and source.get(proofKey) == row.get(frozenKey)
@@ -296,6 +298,13 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
     for gid in conflicts:
         for cid, _digest in proposals[gid]:
             rejected[cid] = f"conflicting full definitions for genericId {gid}"
+    target_candidates = {row["namedIdentity"]: cid for cid, row in rows.items()}
+    for cid, (receipt, _, _) in validated.items():
+        if receipt.get("outcome") == "proven-duplicate":
+            target_id = target_candidates.get((receipt.get("duplicateProof") or {}).get("targetNamedIdentity"))
+            target = validated.get(target_id)
+            if target_id in failures or target_id in rejected or target is None or target[0].get("outcome") in {"proven-duplicate", "rejected"}:
+                failures[cid] = "duplicate target is not a surviving accounted candidate"
     decisions = []
     for cid, row in sorted(rows.items()):
         item = validated.get(cid)
@@ -322,6 +331,7 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             "proposedGeneric": raw.get("proposedGeneric") if raw else None,
             "duplicateProof": copy.deepcopy(raw.get("duplicateProof")) if raw else None,
             "outcome": outcome, "reason": reason,
+            "receiptValid": cid in validated and cid not in failures and cid not in rejected,
         })
     counts = {outcome: sum(row["outcome"] == outcome for row in decisions) for outcome in sorted(OUTCOMES)}
     return {
