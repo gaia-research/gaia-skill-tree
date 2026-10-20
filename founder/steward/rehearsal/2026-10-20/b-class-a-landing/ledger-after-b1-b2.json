@@ -1,4 +1,5 @@
 {
+ "_truncated": "receipt >200KB: run.steps arrays collapsed to a count; all other keys verbatim",
  "generation": 44,
  "lane": null,
  "leases": {},
@@ -2634,99 +2635,7 @@
    "sourceHead": "87e1876842835c054c13b878baad56a66e2418e6",
    "startedAt": "2026-10-20T21:05:08.837276Z",
    "status": "completed",
-   "steps": [
-    {
-     "at": "2026-10-20T21:05:08.837276Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:recover"
-    },
-    {
-     "at": "2026-10-20T21:05:09.303481Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:reconcile"
-    },
-    {
-     "at": "2026-10-20T21:06:44.452542Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:observe"
-    },
-    {
-     "at": "2026-10-20T21:06:44.969608Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:triage"
-    },
-    {
-     "at": "2026-10-20T21:06:48.600223Z",
-     "base": "dev/rehearsal",
-     "branch": "steward/a/agent-skill-mirror-drift-0aee04a4316a",
-     "debtId": "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311",
-     "idempotencyKey": "steward/a/agent-skill-mirror-drift-0aee04a4316a",
-     "kind": "landing",
-     "result": {
-      "baseHead": "cc2edfa00bce1c1fea3f1a39972f2211306ad3a9",
-      "commit": null,
-      "plan": {
-       "baseBranch": "dev/rehearsal",
-       "branch": "steward/a/agent-skill-mirror-drift-0aee04a4316a",
-       "debtId": "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311",
-       "debtKind": "agent_skill_mirror_drift",
-       "executorId": "agent-skill-mirror",
-       "fingerprint": "0aee04a4316ac554da491d37004362479c69ff2c2d56e1da928221359d2b20d0",
-       "remote": "origin",
-       "writablePath": ".claude/skills"
-      },
-      "reason": "mirror already matches canonical on the base branch",
-      "repairedPaths": [],
-      "status": "no_change",
-      "verification": {
-       "executor": "agent-skill-mirror",
-       "parity": true
-      }
-     },
-     "status": "done",
-     "stepId": "landing:steward/a/agent-skill-mirror-drift-0aee04a4316a"
-    },
-    {
-     "at": "2026-10-20T21:06:48.758729Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:class_a"
-    },
-    {
-     "at": "2026-10-20T21:06:49.207782Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:class_b"
-    },
-    {
-     "at": "2026-10-20T21:06:49.823424Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:verify"
-    },
-    {
-     "at": "2026-10-20T21:06:50.321269Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:reobserve"
-    },
-    {
-     "at": "2026-10-20T21:06:50.803394Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:retro"
-    },
-    {
-     "at": "2026-10-20T21:06:51.237883Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:report"
-    }
-   ],
+   "steps": "<11 steps omitted; ids: phase:recover, phase:reconcile, phase:observe, phase:triage, landing:steward/a/agent-skill-mirror-drift-0aee04a4316a, phase:class_a, phase:class_b, phase:verify ...>",
    "thinkingEfforts": [],
    "tokensIn": 0,
    "tokensOut": 0,
@@ -5360,68 +5269,7 @@
    "sourceHead": "87e1876842835c054c13b878baad56a66e2418e6",
    "startedAt": "2026-10-20T21:07:47.732190Z",
    "status": "completed",
-   "steps": [
-    {
-     "at": "2026-10-20T21:07:47.732190Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:recover"
-    },
-    {
-     "at": "2026-10-20T21:07:48.298497Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:reconcile"
-    },
-    {
-     "at": "2026-10-20T21:09:20.148083Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:observe"
-    },
-    {
-     "at": "2026-10-20T21:09:20.707934Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:triage"
-    },
-    {
-     "at": "2026-10-20T21:09:21.432535Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:class_a"
-    },
-    {
-     "at": "2026-10-20T21:09:21.974545Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:class_b"
-    },
-    {
-     "at": "2026-10-20T21:09:22.707717Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:verify"
-    },
-    {
-     "at": "2026-10-20T21:09:23.168675Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:reobserve"
-    },
-    {
-     "at": "2026-10-20T21:09:23.667569Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:retro"
-    },
-    {
-     "at": "2026-10-20T21:09:24.119428Z",
-     "kind": "phase",
-     "status": "done",
-     "stepId": "phase:report"
-    }
-   ],
+   "steps": "<10 steps omitted; ids: phase:recover, phase:reconcile, phase:observe, phase:triage, phase:class_a, phase:class_b, phase:verify, phase:reobserve ...>",
    "thinkingEfforts": [],
    "tokensIn": 0,
    "tokensOut": 0,
