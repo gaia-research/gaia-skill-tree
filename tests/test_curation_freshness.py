@@ -13,10 +13,12 @@ def _fixture(tmp_path):
     root = tmp_path
     nodes = root / "registry" / "nodes" / "basic"
     nodes.mkdir(parents=True)
-    (nodes / "generic.json").write_text(json.dumps({"id": "generic", "name": "Generic"}), encoding="utf-8")
+    definition = {"id": "generic", "name": "Generic", "description": "A generic capability.", "type": "basic", "prerequisites": []}
+    (nodes / "generic.json").write_text(json.dumps(definition), encoding="utf-8")
     gaia = root / "registry" / "gaia.json"
     gaia.parent.mkdir(exist_ok=True)
-    gaia.write_text(json.dumps({"skills": [{"id": "generic", "name": "Generic"}]}), encoding="utf-8")
+    gaia.write_text(json.dumps({"skills": [definition]}), encoding="utf-8")
+    (root / "registry" / "named").mkdir()
     generics = [{"id": "generic", "name": "Generic", "kind": "generic"}]
     content = b"---\nname: Candidate\ndescription: Source.\n---\n"
     packet = {
@@ -32,6 +34,8 @@ def _fixture(tmp_path):
         "genericSnapshot": {
             "generics": generics,
             "contentSha256": _canonicalDigest(generics),
+            "semanticGenerics": {"generic": definition},
+            "semanticCatalogSha256": _canonicalDigest({"generic": definition}),
         },
         "exactDedupe": {"matched": False, "checked": True},
     }
@@ -50,6 +54,29 @@ def test_verify_packet_freshness_rejects_stale_generic_snapshot(tmp_path):
     packet["genericSnapshot"]["contentSha256"] = _canonicalDigest(packet["genericSnapshot"]["generics"])
     errors = verifyPacketFreshness(packet, root, fetcher=lambda _url: content)
     assert "generic snapshot is stale" in errors
+
+
+def test_verify_packet_freshness_rejects_description_only_snapshot_drift(tmp_path):
+    root, packet, content = _fixture(tmp_path)
+    packet["genericSnapshot"]["generics"][0]["name"] = "Changed"
+    packet["genericSnapshot"]["contentSha256"] = _canonicalDigest(packet["genericSnapshot"]["generics"])
+    errors = verifyPacketFreshness(packet, root, fetcher=lambda _url: content)
+    assert "generic snapshot is stale" in errors
+
+
+def test_verify_packet_freshness_rejects_description_only_selected_definition_drift(tmp_path):
+    root, packet, content = _fixture(tmp_path)
+    packet["mappingOptions"] = [{"genericId": "generic"}]
+    packet["genericSnapshot"]["semanticGenerics"]["generic"]["description"] = "Changed meaning."
+    errors = verifyPacketFreshness(packet, root, fetcher=lambda _url: content)
+    assert "selected generic semantic definition is stale" in errors
+
+
+def test_verify_packet_freshness_fails_closed_on_canonical_parse_failure(tmp_path):
+    root, packet, content = _fixture(tmp_path)
+    (root / "registry/nodes/basic/generic.json").write_text("{")
+    errors = verifyPacketFreshness(packet, root, fetcher=lambda _url: content)
+    assert any("unavailable or malformed" in error for error in errors)
 
 
 def test_verify_packet_freshness_rejects_stale_source_digest(tmp_path):

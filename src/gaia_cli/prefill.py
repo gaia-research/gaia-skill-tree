@@ -67,13 +67,14 @@ SAFE_CANDIDATE_RE = re.compile(r"^[a-zA-Z0-9_.-]+(/[a-zA-Z0-9_.-]+)*$")
 
 def safeCandidateSlug(candidateId: str) -> str:
     """Validate identity and return a readable, collision-resistant filename."""
-    if not isinstance(candidateId, str) or not candidateId.strip():
+    if not isinstance(candidateId, str) or not candidateId:
         raise ValueError("Candidate ID must be a non-empty string")
-    cleanId = candidateId.strip()
-    if not SAFE_CANDIDATE_RE.fullmatch(cleanId) or ".." in cleanId:
+    if candidateId != candidateId.strip():
+        raise ValueError("Unsafe or invalid candidateId: leading/trailing whitespace")
+    if not SAFE_CANDIDATE_RE.fullmatch(candidateId) or ".." in candidateId:
         raise ValueError(f"Unsafe or invalid candidateId: {candidateId!r}")
-    readable = re.sub(r"[^A-Za-z0-9_.-]+", "-", cleanId).strip(".-") or "candidate"
-    digest = hashlib.sha256(cleanId.encode("utf-8")).hexdigest()[:12]
+    readable = re.sub(r"[^A-Za-z0-9_.-]+", "-", candidateId).strip(".-") or "candidate"
+    digest = hashlib.sha256(candidateId.encode("utf-8")).hexdigest()
     return f"{readable[:80]}-{digest}"
 
 
@@ -209,7 +210,7 @@ def buildGenericSnapshot(registryPath):
                         "kind": "generic",
                     })
             except (OSError, json.JSONDecodeError):
-                continue
+                return None
         seen = set()
         unique_generics = []
         for g in generics:
@@ -241,11 +242,20 @@ def buildGenericSnapshot(registryPath):
     if not generics:
         return None
 
+    from gaia_cli.curation.assessment import loadGenericSemantics
+    try:
+        semantics = loadGenericSemantics(registryPath)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return None
+    generic_ids = {row["id"] for row in generics}
+    semantic_generics = {key: value for key, value in semantics.items() if key in generic_ids}
     return {
         "capturedAt": datetime.now(timezone.utc).isoformat(),
         "command": "gaia dev list --generic --json",
         "generics": generics,
         "contentSha256": _canonicalDigest(generics),
+        "semanticGenerics": semantic_generics,
+        "semanticCatalogSha256": _canonicalDigest(semantics),
     }
 
 
@@ -289,7 +299,7 @@ def _proveExactNamedDuplicate(registryPath, candidateId, canonicalUrl, hostRepos
 
     proof = {
         "matched": False,
-        "checked": True,
+        "checked": False,
         "candidateId": candidateId,
         "canonicalUrl": canonicalUrl,
         "contentSha256": contentSha256,
@@ -298,10 +308,14 @@ def _proveExactNamedDuplicate(registryPath, candidateId, canonicalUrl, hostRepos
     root = Path(named_skills_dir(registryPath))
     if not root.is_dir() or not isinstance(contentSha256, str):
         return proof
-    for path in sorted(root.rglob("*.md")):
+    paths = sorted(root.rglob("*.md"))
+    proof["checked"] = True
+    unreadable = False
+    for path in paths:
         try:
             text = path.read_text(encoding="utf-8")
         except OSError:
+            unreadable = True
             continue
         metadata = parseFrontmatter(text)
         skill_id = metadata.get("id")
@@ -317,6 +331,8 @@ def _proveExactNamedDuplicate(registryPath, candidateId, canonicalUrl, hostRepos
         ):
             proof.update({"matched": True, "namedIdentity": skill_id})
             return proof
+    if unreadable:
+        proof["checked"] = False
     return proof
 
 
@@ -808,19 +824,22 @@ def writePacket(packet, registryPath):
     """Atomically write a packet after verifying any existing file's owner."""
     candidateId = packet.get("candidateId", "")
     slug = safeCandidateSlug(candidateId)
-    outDir = Path(discoveryPacketsDir(registryPath)).resolve()
+    outDir = Path(discoveryPacketsDir(registryPath))
     outDir.mkdir(parents=True, exist_ok=True)
-    outPath = (outDir / f"{slug}.json").resolve()
-    if not str(outPath).startswith(str(outDir) + os.sep):
+    outDir = outDir.resolve()
+    outPath = outDir / f"{slug}.json"
+    if outPath.is_symlink() or not outPath.resolve().is_relative_to(outDir):
         raise ValueError(f"Candidate path escapes target directory: {outPath}")
-    if outPath.exists():
-        try:
-            existing = json.loads(outPath.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise ValueError(f"Refusing to replace unreadable packet file: {outPath}") from exc
-        if not isinstance(existing, dict) or existing.get("candidateId") != candidateId:
-            raise ValueError(f"Refusing to replace packet owned by a different candidate: {outPath}")
-    _atomic_write_json(outPath, packet)
+    from gaia_cli.curation.submission import advisoryLock
+    with advisoryLock(f"{outPath}.lock"):
+        if outPath.exists():
+            try:
+                existing = json.loads(outPath.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError(f"Refusing to replace unreadable packet file: {outPath}") from exc
+            if not isinstance(existing, dict) or existing.get("candidateId") != candidateId:
+                raise ValueError(f"Refusing to replace packet owned by a different candidate: {outPath}")
+        _atomic_write_json(outPath, packet)
     return str(outPath)
 
 
@@ -831,17 +850,19 @@ def writeAssessmentReceipt(packet, receipt, registryPath):
     outputDir = Path(generated_output_dir(registryPath)) / "curation"
     outputDir.mkdir(parents=True, exist_ok=True)
     outputDir = outputDir.resolve()
-    receiptPath = (outputDir / f"{slug}.assessment.json").resolve()
-    if not str(receiptPath).startswith(str(outputDir) + os.sep):
+    receiptPath = outputDir / f"{slug}.assessment.json"
+    if receiptPath.is_symlink() or not receiptPath.resolve().is_relative_to(outputDir):
         raise ValueError(f"Assessment path escapes target directory: {receiptPath}")
-    if receiptPath.exists():
-        try:
-            prior = json.loads(receiptPath.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise ValueError(f"Refusing to replace unreadable assessment receipt: {receiptPath}") from exc
-        if not isinstance(prior, dict) or prior.get("candidateId") != candidateId:
-            raise ValueError(f"Refusing to replace assessment receipt owned by another candidate: {receiptPath}")
-    _atomic_write_json(receiptPath, receipt)
+    from gaia_cli.curation.submission import advisoryLock
+    with advisoryLock(f"{receiptPath}.lock"):
+        if receiptPath.exists():
+            try:
+                prior = json.loads(receiptPath.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError(f"Refusing to replace unreadable assessment receipt: {receiptPath}") from exc
+            if not isinstance(prior, dict) or prior.get("candidateId") != candidateId:
+                raise ValueError(f"Refusing to replace assessment receipt owned by another candidate: {receiptPath}")
+        _atomic_write_json(receiptPath, receipt)
     return str(receiptPath)
 
 

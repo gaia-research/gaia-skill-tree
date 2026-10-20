@@ -518,6 +518,18 @@ class TestSafeCandidateSlug:
             prefill.writeAssessmentReceipt(packet, {"candidateId": "a/b"}, tmp_path)
         assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
 
+    def test_write_packet_uses_process_lock_for_owner_check_and_replace(self, tmp_path):
+        from gaia_cli.curation.submission import advisoryLock
+        candidate = "locked/candidate"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        path = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        path.write_text(json.dumps({"candidateId": candidate, "sentinel": True}), encoding="utf-8")
+        with advisoryLock(f"{path}.lock"):
+            with pytest.raises(ValueError, match="already in progress"):
+                prefill.writePacket({"candidateId": candidate, "sentinel": False}, tmp_path)
+        assert json.loads(path.read_text(encoding="utf-8"))["sentinel"] is True
+
     def test_reject_unsafe_path_traversal(self):
         with pytest.raises(ValueError, match="Unsafe or invalid"):
             prefill.safeCandidateSlug("../traversal")
@@ -527,3 +539,7 @@ class TestSafeCandidateSlug:
             prefill.safeCandidateSlug("")
         with pytest.raises(ValueError, match="Unsafe or invalid"):
             prefill.safeCandidateSlug("bad space/id")
+        with pytest.raises(ValueError, match="leading/trailing whitespace"):
+            prefill.safeCandidateSlug(" a/b")
+        with pytest.raises(ValueError, match="leading/trailing whitespace"):
+            prefill.safeCandidateSlug("a/b ")
