@@ -137,7 +137,7 @@ def runFanout(envelope: Mapping[str, Any], worker: Callable[[Mapping[str, Any], 
                 errors[cid] = f"{type(exc).__name__}: {exc}"
     finally:
         executor.shutdown(wait=False, cancel_futures=True)
-    receipts.sort(key=lambda r: (str(r.get("candidateId")), int(r.get("attempt", 0))))
+    receipts.sort(key=lambda r: (str(r.get("candidateId")), str(r.get("attempt", ""))))
     return {"receipts": receipts, "errors": dict(sorted(errors.items())), "dispatched": len(selected),
             "attemptBudget": len(selected) * maxAttempts, "budgetUnit": "candidate-tasks", "priorReceiptErrors": prior_errors,
             "shards": {r["candidateId"]: shardFor(r["candidateId"], max(1, len(rows))) for r in rows}}
