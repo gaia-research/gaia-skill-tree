@@ -523,6 +523,10 @@ class Receipt:
     # ``coverage_unknown`` (a required input failed) and defaulted so a receipt
     # written before this field existed still loads.
     not_evaluated: tuple[Mapping[str, str], ...] = ()
+    # Sensors whose scan completed this run (coverage known). Only these may be
+    # reported as actively observed; a registered sensor absent from both this
+    # list and ``coverage_unknown`` did not run and proves nothing.
+    coverage_known: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -531,6 +535,7 @@ class Receipt:
             "startedAt": self.started_at,
             "finishedAt": self.finished_at,
             "observationsCollected": self.observations_collected,
+            "coverageKnown": list(self.coverage_known),
             "coverageUnknown": list(self.coverage_unknown),
             "debtCreated": list(self.debt_created),
             "debtUpdated": list(self.debt_updated),

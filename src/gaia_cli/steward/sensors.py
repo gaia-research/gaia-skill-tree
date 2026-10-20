@@ -637,6 +637,8 @@ class TaxonomyScriptDriftSensor:
 
         self._check_trust_magnitude_evidence_types(repo_root, canonical_types, violations)
         scanned_files_count = self._scan_scripts_and_src(repo_root, canonical_types, violations)
+        if scanned_files_count == 0:
+            raise SensorUnavailable("no Python sources under scripts/ or src/ to compare")
 
         violations.sort(
             key=lambda item: (
@@ -681,24 +683,27 @@ class TaxonomyScriptDriftSensor:
         if not meta_path.is_file():
             meta_path = repo_root / "src/gaia_cli/data/registry/schema/meta.json"
         if not meta_path.is_file():
-            return set()
+            raise SensorUnavailable("canonical evidence types are unavailable: registry/schema/meta.json")
         try:
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
             types = meta.get("evidence", {}).get("types", [])
-            return {
+            canonical = {
                 item["id"]
                 for item in types
                 if isinstance(item, dict) and isinstance(item.get("id"), str)
             }
-        except Exception:
-            return set()
+        except (OSError, ValueError, AttributeError) as exc:
+            raise SensorUnavailable(f"canonical evidence types are unreadable: {exc}") from exc
+        if not canonical:
+            raise SensorUnavailable("canonical evidence type list is empty")
+        return canonical
 
     def _check_trust_magnitude_evidence_types(
         self, repo_root: Path, canonical_types: set[str], violations: list[dict[str, Any]]
     ) -> None:
         tm_path = repo_root / "src/gaia_cli/trustMagnitude.py"
         if not tm_path.is_file():
-            return
+            raise SensorUnavailable("required input is missing: src/gaia_cli/trustMagnitude.py")
         try:
             tree = ast.parse(tm_path.read_text(encoding="utf-8"))
         except Exception as exc:
@@ -721,6 +726,8 @@ class TaxonomyScriptDriftSensor:
                                 if isinstance(k, ast.Constant) and isinstance(k.value, str):
                                     type_weights_keys.add(k.value)
 
+        if not type_weights_keys:
+            raise SensorUnavailable("TYPE_WEIGHTS is not a literal dict in src/gaia_cli/trustMagnitude.py")
         if canonical_types and type_weights_keys:
             missing = sorted(canonical_types - type_weights_keys)
             extra = sorted(type_weights_keys - canonical_types)
@@ -843,7 +850,7 @@ class UpstreamWatcherSensor:
         tracked_skills: list[str] = []
         manifest: dict[str, str] = {}
 
-        named_dir = repo_root / self._NAMED_ROOT
+        named_dir = _require_named_records(repo_root, self._NAMED_ROOT)
         if named_dir.is_dir():
             for path in sorted(named_dir.rglob("*.md")):
                 relative = path.relative_to(repo_root).as_posix()
@@ -1459,27 +1466,7 @@ class EvidenceLinkHealthSensor:
     _LINK_FIELDS = ("source", "url", "harnessUrl", "artifact")
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        named_dir = repo_root / self._NAMED_ROOT
-        if not named_dir.is_dir():
-            return [
-                Observation(
-                    kind="evidence_link_drift",
-                    subject=Subject(type="repository-surface", id="named-evidence-links"),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="healthy",
-                    current_state={"healthy": True},
-                    observed_state={
-                        "healthy": True,
-                        "scannedFiles": 0,
-                        "checkedLinks": 0,
-                        "violationCount": 0,
-                        "violations": [],
-                    },
-                    confidence=1.0,
-                    provenance={"namedRoot": self._NAMED_ROOT},
-                )
-            ]
+        named_dir = _require_named_records(repo_root, self._NAMED_ROOT)
 
         violations: list[dict[str, str]] = []
         scanned_files = 0
@@ -1662,10 +1649,9 @@ class TrustCalibrationDriftSensor:
         import yaml
 
         observations: list[Observation] = []
-        named_root = repo_root / self._NAMED_ROOT
-        if not named_root.is_dir():
-            # A tree with no named-skill registry has no trust subjects.
-            return observations
+        # A missing registry is blindness, not "no subjects": this sensor is
+        # exhaustive, so an empty result would sweep every open trust debt.
+        named_root = _require_named_records(repo_root, self._NAMED_ROOT)
         try:
             context = buildMergedSkillMap(repo_root)
         except Exception as exc:
@@ -1789,9 +1775,7 @@ class FrozenSkillIntegritySensor:
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         observations: list[Observation] = []
-        named_root = repo_root / self._NAMED_ROOT
-        if not named_root.is_dir():
-            return observations
+        named_root = _require_named_records(repo_root, self._NAMED_ROOT)
 
         for path in sorted(named_root.rglob("*.md")):
             try:
@@ -2513,6 +2497,20 @@ def default_sensors() -> tuple[Sensor, ...]:
 
 # The controller emits this kind itself when a sensor cannot observe.
 CONTROLLER_DEBT_KINDS = ("sensor_coverage_unknown",)
+
+
+def _require_named_records(repo_root: Path, named_root: str) -> Path:
+    """Return the named-skill root, or raise when the domain is missing.
+
+    A sensor whose whole subject domain is absent did not observe anything; an
+    empty result there would read as "every named skill is healthy" and, for
+    an exhaustive sensor, sweep its open debt as resolved.
+    """
+
+    directory = repo_root / named_root
+    if not directory.is_dir() or not any(directory.rglob("*.md")):
+        raise SensorUnavailable(f"required named-skill records are missing: {named_root}")
+    return directory
 
 
 def registered_debt_kinds() -> frozenset[str]:

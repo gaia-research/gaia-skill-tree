@@ -200,10 +200,13 @@ def test_unreadable_named_record_is_unavailable_not_skipped(tmp_path: Path, brok
         TrustCalibrationDriftSensor().scan(repo, NOW)
 
 
-def test_tree_without_named_registry_has_no_subjects(tmp_path: Path) -> None:
+def test_tree_without_named_registry_is_unavailable_not_empty(tmp_path: Path) -> None:
+    # The sensor is exhaustive: an empty result would sweep every open trust
+    # debt as resolved, so a missing registry must be reported as blindness.
     repo = make_repo(tmp_path, {"README.md": "no registry here\n"})
 
-    assert TrustCalibrationDriftSensor().scan(repo, NOW) == []
+    with pytest.raises(SensorUnavailable, match="named-skill records are missing"):
+        TrustCalibrationDriftSensor().scan(repo, NOW)
 
 
 def test_trust_sensor_declares_exhaustive_resolution() -> None:

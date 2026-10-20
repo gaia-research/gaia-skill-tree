@@ -12,7 +12,7 @@ from gaia_cli.commands import discover_commands
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser, main
 from gaia_cli.steward.knowledge_contracts import AUTHORITY_MAP, TRUST_SURFACES
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
-from tests.steward.sensor_fixtures import COMMANDS_INIT, write_minimal_gaia_domains
+from tests.steward.sensor_fixtures import COMMANDS_INIT, FIXTURE_EVIDENCE_META, write_minimal_gaia_domains
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -54,7 +54,7 @@ def _clean_cli_repo(root: Path) -> None:
     schema_text = json.dumps(schema, sort_keys=True)
     _write(root / "registry/schema/skill.schema.json", schema_text)
     _write(root / "src/gaia_cli/data/registry/schema/skill.schema.json", schema_text)
-    meta_text = json.dumps({"types": {"minPrereqs": {"basic": 0, "fusion": 1}}})
+    meta_text = json.dumps({"types": {"minPrereqs": {"basic": 0, "fusion": 1}}, **FIXTURE_EVIDENCE_META})
     _write(root / "registry/schema/meta.json", meta_text)
     _write(root / "src/gaia_cli/data/registry/schema/meta.json", meta_text)
     node = {"id": "example", "type": "basic", "prerequisites": [], "derivatives": []}
