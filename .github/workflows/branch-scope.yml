@@ -65,6 +65,9 @@ jobs:
             fix/*)              PREFIX="unrestricted" ;;
             chore/*)            PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
+            # Gaia Steward Class A landings (src/gaia_cli/steward/landing.py):
+            # mechanical mirror repairs, scoped to the mirror surfaces only.
+            steward/a/*)        PREFIX="steward-a" ;;
             *)                  PREFIX="other" ;;
           esac
 
@@ -215,6 +218,17 @@ jobs:
                   # this arm — the pairing is deliberate, not scope creep.
                   .github/*|scripts/*|tests/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html|docs/badges/*) ;; # allowed
                   *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, tests/, .claude/skills/, .agents/skills/, *.md, docs/*.html, or docs/badges/ files)" ;;
+                esac
+                ;;
+              steward-a)
+                # The Class A executors' writable mirrors, plus the canonical
+                # agent-skill tree. Deliberately NOT registry/schema/: the
+                # canonical schemas are never a Steward write target, and the
+                # reverse check below (anchored on registry/schema/*) does not
+                # match the bundled mirror under src/gaia_cli/data/.
+                case "$file" in
+                  .claude/skills/*|.agents/skills/*|src/gaia_cli/data/registry/schema/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/a/ branches may only touch .claude/skills/, .agents/skills/, or src/gaia_cli/data/registry/schema/)" ;;
                 esac
                 ;;
               other)
