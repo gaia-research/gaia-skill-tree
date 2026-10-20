@@ -165,17 +165,24 @@ nothing else:
                  "exitCode": 0, "output": "its captured output"}}]}}
    ```
 
-   One entry per command you ran, where `contractIndex` is the 1-based number
-   of the proof-contract item above that the command proves. A transcript in
-   any other shape is rejected mechanically and costs an attempt.
+   `contractIndex` is the 1-based number of the proof-contract item above that
+   the entry proves. Mechanical verification rejects the build (and it costs an
+   attempt) unless every item has at least one entry and every entry exited 0:
+
+   - To prove a failure reproduces, record a command that succeeds when it
+     does, e.g. `! python -m pytest tests/x.py -q`, not the bare failing run.
+   - An item that asks you to state something (what you left unfixed and why)
+     is one entry with command `statement`, exit code 0, and the statement as
+     its output.
 
 Both paths are relative to the Steward checkout's root. They are hand-off
 slots, not part of the correction: writing them is allowed even where the
 forbidden paths above cover them, and they never belong in the commit.
 
 Independent review is not yours to obtain: Steward hands your diff and
-transcript to a different agent after you report. Do not escalate because that
-review has not happened yet; leave that proof item out of the transcript.
+transcript to a different agent after you report, and that step discharges the
+proof item. Do not escalate because it has not happened yet, and do not write
+an entry for it.
 """
 
 
