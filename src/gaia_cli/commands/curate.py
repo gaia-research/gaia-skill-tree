@@ -59,7 +59,7 @@ class CurateCommand(Command):
         if not results and not envelope:
             return []
         try:
-            from gaia_cli.curation.freshness import verifyPacketFreshness
+            from gaia_cli.curation.freshness import sameGenericSnapshot, verifyPacketFreshness
         except ImportError:
             return ["packet freshness verifier is unavailable; resume is fail-closed"]
         errors: list[str] = []
@@ -69,7 +69,7 @@ class CurateCommand(Command):
         if envelope:
             try:
                 live_snapshot = buildGenericSnapshot(registry)
-                if not live_snapshot or live_snapshot != run.checkpoint.get("genericSnapshot"):
+                if not live_snapshot or not sameGenericSnapshot(live_snapshot, run.checkpoint.get("genericSnapshot")):
                     errors.append("live generic catalog differs from frozen source preparation")
             except Exception as exc:
                 errors.append(f"live generic catalog verification failed: {exc}")

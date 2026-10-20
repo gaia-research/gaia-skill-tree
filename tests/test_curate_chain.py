@@ -130,6 +130,7 @@ def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, m
         result = run.checkpoint["results"][0]
         packet_path, assessment_path = Path(result["packetPath"]), reg / result["receipt"]["assessmentPath"]
         original_packet, original_assessment = packet_path.read_bytes(), assessment_path.read_bytes()
+        assert CurateCommand._freshness(run, str(reg)) == []
         packet_path.write_bytes(original_packet + b" ")
         assert any("digest mismatch" in error for error in CurateCommand._freshness(run, str(reg)))
         packet_path.write_bytes(original_packet)

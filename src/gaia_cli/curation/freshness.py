@@ -47,6 +47,14 @@ def _live_catalog_paths(registry_path):
     return paths
 
 
+def sameGenericSnapshot(left, right) -> bool:
+    """Compare catalog substance, not capture timestamps or retrieval metadata."""
+    return isinstance(left, dict) and isinstance(right, dict) and all(
+        left.get(key) == right.get(key)
+        for key in ("command", "generics", "contentSha256", "semanticGenerics", "semanticCatalogSha256")
+    )
+
+
 def verifyPacketFreshness(packet, registryPath='.', fetcher=None) -> list[str]:
     """Independently verify live generic catalog and source freshness."""
     import json

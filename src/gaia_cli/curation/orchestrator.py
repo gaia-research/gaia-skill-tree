@@ -115,12 +115,13 @@ class CurationOrchestrator:
         return self.run.inventory
 
     def _validate_frozen_inventory(self, candidates):
+        from gaia_cli.curation.freshness import sameGenericSnapshot
         from gaia_cli.prefill import buildGenericSnapshot, fetchCandidateSource, parseFrontmatter
         live_snapshot = buildGenericSnapshot(self.registry_path)
         if not live_snapshot:
             raise ValueError("canonical generic snapshot unavailable; prepared inventory cannot resume")
         expected_snapshot = self.run.checkpoint.get("genericSnapshot")
-        if expected_snapshot != live_snapshot:
+        if not sameGenericSnapshot(expected_snapshot, live_snapshot):
             raise ValueError("live generic catalog differs from frozen source preparation")
         for candidate in candidates:
             packet_input = candidate.get("packetInput")
