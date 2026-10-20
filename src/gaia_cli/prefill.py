@@ -66,13 +66,15 @@ SAFE_CANDIDATE_RE = re.compile(r"^[a-zA-Z0-9_.-]+(/[a-zA-Z0-9_.-]+)*$")
 
 
 def safeCandidateSlug(candidateId: str) -> str:
-    """Validate candidateId format and convert to safe filename slug."""
+    """Validate identity and return a readable, collision-resistant filename."""
     if not isinstance(candidateId, str) or not candidateId.strip():
         raise ValueError("Candidate ID must be a non-empty string")
     cleanId = candidateId.strip()
     if not SAFE_CANDIDATE_RE.fullmatch(cleanId) or ".." in cleanId:
         raise ValueError(f"Unsafe or invalid candidateId: {candidateId!r}")
-    return cleanId.replace("/", "-")
+    readable = re.sub(r"[^A-Za-z0-9_.-]+", "-", cleanId).strip(".-") or "candidate"
+    digest = hashlib.sha256(cleanId.encode("utf-8")).hexdigest()[:12]
+    return f"{readable[:80]}-{digest}"
 
 
 # GitHub blob URL pattern for extracting owner/repo/branch/path
@@ -279,6 +281,43 @@ def loadPrefillThresholds(registryPath):
         "weakMap": DEFAULT_WEAK_MAP,
         "topK": DEFAULT_TOP_K,
     }
+
+
+def _proveExactNamedDuplicate(registryPath, candidateId, canonicalUrl, hostRepository, contentSha256, fetcher=None):
+    """Match only a canonical named identity with exact URL, origin and bytes."""
+    from gaia_cli.registry import named_skills_dir
+
+    proof = {
+        "matched": False,
+        "checked": True,
+        "candidateId": candidateId,
+        "canonicalUrl": canonicalUrl,
+        "contentSha256": contentSha256,
+        "hostRepository": hostRepository,
+    }
+    root = Path(named_skills_dir(registryPath))
+    if not root.is_dir() or not isinstance(contentSha256, str):
+        return proof
+    for path in sorted(root.rglob("*.md")):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        metadata = parseFrontmatter(text)
+        skill_id = metadata.get("id")
+        link = (metadata.get("links") or {}).get("github") if isinstance(metadata.get("links"), dict) else None
+        if not isinstance(skill_id, str) or not isinstance(link, str) or link != canonicalUrl:
+            continue
+        named_host, _, _, named_hash = fetchCandidateSource(link, fetcher=fetcher)
+        if (
+            named_host is not None
+            and hostRepository is not None
+            and named_host.casefold() == hostRepository.casefold()
+            and named_hash == contentSha256
+        ):
+            proof.update({"matched": True, "namedIdentity": skill_id})
+            return proof
+    return proof
 
 
 def deriveMatchTier(similarity, thresholds):
@@ -519,6 +558,7 @@ def buildPrefillPacket(
     frontmatter = None
     artifactGate = None
     genericSnapshot = None
+    exactDedupe = {"matched": False}
     lifecycle = ["discovered", "deferred"]
 
     if registryPath is not None:
@@ -553,6 +593,12 @@ def buildPrefillPacket(
                 snapshot["mappingOptionsSha256"] = _canonicalDigest(options)
                 genericSnapshot = snapshot
 
+            # Execute exact identity/source dedupe before stamping its lifecycle step.
+            exactDedupe = _proveExactNamedDuplicate(
+                registryPath, candidateId, canonicalUrl, hostRepository,
+                contentSha256, fetcher=fetcher,
+            )
+
             # Advance lifecycle based on artifactGate
             if artifactGate == "valid-skill":
                 lifecycle = [
@@ -580,7 +626,7 @@ def buildPrefillPacket(
             "name": name,
             "description": description,
         },
-        "exactDedupe": {"matched": False},
+        "exactDedupe": exactDedupe,
         "mappingOptions": options,
         "decision": {
             "value": "DEFER" if artifactGate == "valid-skill" or artifactGate is None else "NOT_A_SKILL",
@@ -616,6 +662,9 @@ def buildPrefillPacket(
     # Add source fields when fetched
     if hostRepository is not None:
         packet["source"]["hostRepository"] = hostRepository
+        match = GITHUB_BLOB_RE.match(canonicalUrl or "")
+        if match and re.fullmatch(r"[0-9a-fA-F]{7,40}", match.group("branch")):
+            packet["source"]["revision"] = match.group("branch")
     if fetchedAt is not None:
         packet["source"]["fetchedAt"] = fetchedAt
     if contentSha256 is not None:
@@ -756,15 +805,44 @@ def validateDiscoveryPackets(registryPath, trustedGenerics=None):
 
 
 def writePacket(packet, registryPath):
-    """Write a packet to registry-for-review/discovery-packets/<candidateId>.json atomically."""
-    slug = safeCandidateSlug(packet.get("candidateId", ""))
+    """Atomically write a packet after verifying any existing file's owner."""
+    candidateId = packet.get("candidateId", "")
+    slug = safeCandidateSlug(candidateId)
     outDir = Path(discoveryPacketsDir(registryPath)).resolve()
     outDir.mkdir(parents=True, exist_ok=True)
     outPath = (outDir / f"{slug}.json").resolve()
     if not str(outPath).startswith(str(outDir) + os.sep):
         raise ValueError(f"Candidate path escapes target directory: {outPath}")
+    if outPath.exists():
+        try:
+            existing = json.loads(outPath.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError(f"Refusing to replace unreadable packet file: {outPath}") from exc
+        if not isinstance(existing, dict) or existing.get("candidateId") != candidateId:
+            raise ValueError(f"Refusing to replace packet owned by a different candidate: {outPath}")
     _atomic_write_json(outPath, packet)
     return str(outPath)
+
+
+def writeAssessmentReceipt(packet, receipt, registryPath):
+    """Atomically persist an assessment under the candidate's owned digest path."""
+    candidateId = packet.get("candidateId", "")
+    slug = safeCandidateSlug(candidateId)
+    outputDir = Path(generated_output_dir(registryPath)) / "curation"
+    outputDir.mkdir(parents=True, exist_ok=True)
+    outputDir = outputDir.resolve()
+    receiptPath = (outputDir / f"{slug}.assessment.json").resolve()
+    if not str(receiptPath).startswith(str(outputDir) + os.sep):
+        raise ValueError(f"Assessment path escapes target directory: {receiptPath}")
+    if receiptPath.exists():
+        try:
+            prior = json.loads(receiptPath.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError(f"Refusing to replace unreadable assessment receipt: {receiptPath}") from exc
+        if not isinstance(prior, dict) or prior.get("candidateId") != candidateId:
+            raise ValueError(f"Refusing to replace assessment receipt owned by another candidate: {receiptPath}")
+    _atomic_write_json(receiptPath, receipt)
+    return str(receiptPath)
 
 
 def prefillCommand(args):
@@ -925,18 +1003,11 @@ def prefillCommand(args):
     print(f"  flags: {len(packet['flags'])}")
 
     # Automatic advisory assessment receipt generation for disk writes
-    curation_out_dir = Path(generated_output_dir(registryPath)) / "curation"
-    curation_out_dir.mkdir(parents=True, exist_ok=True)
-    curation_out_dir_resolved = curation_out_dir.resolve()
-    assessment_path = (curation_out_dir / f"{slug}.assessment.json").resolve()
-    if not str(assessment_path).startswith(str(curation_out_dir_resolved) + os.sep):
-        print(f"Warning: Assessment path escapes target directory: {assessment_path}", file=sys.stderr)
-    else:
-        try:
-            receipt = buildAssessment(packet, registryPath=registryPath, client=None)
-            _atomic_write_json(assessment_path, receipt)
-            print(f"Wrote advisory assessment receipt to {assessment_path}")
-        except Exception as exc:
-            print(f"Warning: Failed to generate advisory assessment receipt: {exc}", file=sys.stderr)
+    try:
+        receipt = buildAssessment(packet, registryPath=registryPath, client=None)
+        assessment_path = writeAssessmentReceipt(packet, receipt, registryPath)
+        print(f"Wrote advisory assessment receipt to {assessment_path}")
+    except Exception as exc:
+        print(f"Warning: Failed to generate advisory assessment receipt: {exc}", file=sys.stderr)
 
     return 0

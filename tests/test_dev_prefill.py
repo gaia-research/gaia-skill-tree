@@ -447,11 +447,76 @@ class TestGenericSnapshot:
         assert snapshot["generics"][0]["id"] == "legacy-generic"
 
 
+class TestExactDedupe:
+    def test_exact_source_and_canonical_named_identity_produce_proof(self, tmp_path):
+        source_url = "https://github.com/owner/repo/blob/main/SKILL.md"
+        content = b"---\nname: Same Skill\ndescription: Exact source.\n---\nbody\n"
+        named = tmp_path / "registry" / "named" / "owner" / "repo.md"
+        named.parent.mkdir(parents=True)
+        named.write_text(
+            "---\nid: owner/repo\nname: Same Skill\nlinks:\n  github: " + source_url + "\n---\n",
+            encoding="utf-8",
+        )
+        packet = prefill.buildPrefillPacket(
+            candidateId="owner/repo", name="Same Skill", description="Exact source.",
+            canonicalUrl=source_url, sourceLane="source-repository",
+            embeddings=makeEmbeddings(), thresholds=THRESHOLDS, registryPath=tmp_path,
+            fetcher=lambda _url: content, precomputedVector=[1.0, 0.0, 0.0],
+        )
+        assert packet["exactDedupe"]["matched"] is True
+        assert packet["exactDedupe"]["namedIdentity"] == "owner/repo"
+        assert "deduped" in packet["lifecycle"]
+
+    def test_semantic_or_shared_generic_similarity_is_not_duplicate_proof(self, tmp_path):
+        source_url = "https://github.com/new/repo/blob/main/SKILL.md"
+        other_url = "https://github.com/existing/repo/blob/main/SKILL.md"
+        named = tmp_path / "registry" / "named" / "existing" / "repo.md"
+        named.parent.mkdir(parents=True)
+        named.write_text(
+            "---\nid: existing/repo\nname: Similar\nlinks:\n  github: " + other_url + "\n---\n",
+            encoding="utf-8",
+        )
+        packet = prefill.buildPrefillPacket(
+            candidateId="new/repo", name="Similar", description="Same generic mapping.",
+            canonicalUrl=source_url, sourceLane="source-repository",
+            embeddings=makeEmbeddings(), thresholds=THRESHOLDS, registryPath=tmp_path,
+            fetcher=lambda _url: b"---\nname: Skill\ndescription: Source.\n---\nbody",
+            precomputedVector=[1.0, 0.0, 0.0],
+        )
+        assert packet["exactDedupe"]["matched"] is False
+        assert "deduped" in packet["lifecycle"]
+
+
 class TestSafeCandidateSlug:
-    def test_valid_slugs(self):
-        assert prefill.safeCandidateSlug("owner/repo") == "owner-repo"
-        assert prefill.safeCandidateSlug("org/sub-team/repo") == "org-sub-team-repo"
-        assert prefill.safeCandidateSlug("simple-id") == "simple-id"
+    def test_valid_slugs_are_readable_and_collision_resistant(self):
+        assert prefill.safeCandidateSlug("owner/repo").startswith("owner-repo-")
+        assert prefill.safeCandidateSlug("org/sub-team/repo").startswith("org-sub-team-repo-")
+        assert prefill.safeCandidateSlug("simple-id").startswith("simple-id-")
+
+    def test_a_b_and_a_slash_b_have_distinct_slugs(self):
+        assert prefill.safeCandidateSlug("a-b") != prefill.safeCandidateSlug("a/b")
+        assert prefill.safeCandidateSlug("Owner/repo") != prefill.safeCandidateSlug("owner/repo")
+
+    def test_write_packet_refuses_poisoned_owner(self, tmp_path):
+        candidate = "a/b"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        poisoned = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        poisoned.write_text(json.dumps({"candidateId": "someone/else", "sentinel": True}), encoding="utf-8")
+        with pytest.raises(ValueError, match="different candidate"):
+            prefill.writePacket({"candidateId": candidate, "value": "replacement"}, tmp_path)
+        assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_assessment_write_uses_digest_slug_and_owner_guard(self, tmp_path):
+        packet = {"candidateId": "a/b"}
+        target = tmp_path / "generated-output" / "curation"
+        target.mkdir(parents=True)
+        slug = prefill.safeCandidateSlug("a/b")
+        poisoned = target / f"{slug}.assessment.json"
+        poisoned.write_text(json.dumps({"candidateId": "a-b", "sentinel": True}), encoding="utf-8")
+        with pytest.raises(ValueError, match="owned by another candidate"):
+            prefill.writeAssessmentReceipt(packet, {"candidateId": "a/b"}, tmp_path)
+        assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
 
     def test_reject_unsafe_path_traversal(self):
         with pytest.raises(ValueError, match="Unsafe or invalid"):
