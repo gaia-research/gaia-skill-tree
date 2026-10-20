@@ -217,6 +217,17 @@ def test_workflow_on_key_parsed_as_boolean_is_handled(tmp_path: Path) -> None:
     assert [f["rule"] for f in findings] == ["pull-request-target-checkout"]
 
 
+def test_workflow_nested_inert_directory_is_out_of_scope(tmp_path: Path) -> None:
+    root = make_repo(
+        tmp_path / "repo",
+        {
+            ".github/workflows/_disabled/old.yml": "on: push\njobs:\n  t:\n    runs-on: x\n",
+            ".github/workflows/ci.yml": CLEAN_WORKFLOW,
+        },
+    )
+    assert CiWorkflowSensor().scan(root, NOW) == []
+
+
 def test_workflow_read_only(tmp_path: Path) -> None:
     root = _workflow_repo(tmp_path, "on: push\njobs: {}\n")
     before = tree_digest(root)

@@ -86,7 +86,13 @@ class CiWorkflowSensor:
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         root = git_root(repo_root)
-        workflows = tracked_files(root, [".github/workflows"], suffixes=(".yml", ".yaml"))
+        # Only direct children run on GitHub. Nested trees such as
+        # .github/workflows/_disabled/ are tracked but inert, so they are out of scope.
+        workflows = [
+            path
+            for path in tracked_files(root, [".github/workflows"], suffixes=(".yml", ".yaml"))
+            if path.count("/") == 2
+        ]
         observations: list[Observation] = []
         for relative in workflows:
             findings = _workflow_findings(root / relative)
