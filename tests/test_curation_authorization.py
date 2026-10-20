@@ -7,6 +7,8 @@ import copy
 import hashlib
 import json
 
+import pytest
+
 from gaia_cli.curation.authorization import (
     _digest,
     buildReviewPayload,
@@ -100,6 +102,38 @@ def test_mocked_authenticated_success_is_unit_only_and_rejects_revocation(tmp_pa
     assert verifyPacketAuthorization(row, registryPath=str(tmp_path), envelope=envelope) == [
         "authorization was revoked or is stale"
     ]
+
+
+def test_authorization_carriers_do_not_create_digest_cycle(tmp_path):
+    original = packet()
+    before = buildReviewPayload(original, registryPath=str(tmp_path))
+    original["authorizationEnvelope"] = {"reviewPayloadSha256": _digest(before)}
+    original["l4Resolution"]["humanReview"] = {"reviewedBy": "fabricated", "reviewedAt": "invented"}
+    after = buildReviewPayload(original, registryPath=str(tmp_path))
+    assert before == after
+
+
+@pytest.mark.parametrize("field", ["identity", "source", "definition", "snapshot", "assessment", "route", "manifest"])
+def test_every_reviewed_security_input_changes_payload_digest(tmp_path, field):
+    row = packet()
+    options = {"registryPath": str(tmp_path), "assessments": {row["candidateId"]: {"source": "initial"}}}
+    before = buildReviewPayload(row, **options)
+    if field == "identity":
+        row["l4Resolution"]["named"]["skillName"] = "changed"
+    elif field == "source":
+        row["source"]["contentSha256"] = "b" * 64
+    elif field == "definition":
+        row["l4Resolution"]["generic"]["description"] = "Changed full definition."
+    elif field == "snapshot":
+        row["genericSnapshot"]["generics"].append({"id": "new-generic"})
+    elif field == "assessment":
+        options["assessments"][row["candidateId"]] = {"source": "changed"}
+    elif field == "route":
+        options["submissionRoute"] = "existing-intake"
+        options["continuation"] = {"batchId": "old", "issue": "42"}
+    elif field == "manifest":
+        options.update(submissionRoute="manifest", manifestDigest="c" * 64, inventory=[row])
+    assert _digest(buildReviewPayload(row, **options)) != _digest(before)
 
 
 def test_unconfigured_production_trust_seam_fails_closed(tmp_path):

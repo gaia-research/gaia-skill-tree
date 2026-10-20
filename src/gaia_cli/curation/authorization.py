@@ -12,6 +12,7 @@ must not pass a verifier or trust policy through user-controlled input.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -51,6 +52,22 @@ def _liveContext(registryPath: str) -> dict[str, Any]:
     }
 
 
+def _proposalPacket(packet: dict) -> dict:
+    """Exclude authorization carriers from the independently hashed proposal.
+
+    Local humanReview prose is display metadata, not an input that can grant or
+    alter authority. Selected identity/definition/decision/source remain bound.
+    """
+    proposal = copy.deepcopy(packet)
+    for key in ("authorization", "authorizationEnvelope"):
+        proposal.pop(key, None)
+    resolution = proposal.get("l4Resolution")
+    if isinstance(resolution, dict):
+        for key in ("authorization", "authorizationEnvelope", "humanReview"):
+            resolution.pop(key, None)
+    return proposal
+
+
 def _reviewRow(packet: dict, registryPath: str, assessment: dict | None) -> dict:
     resolution = packet.get("l4Resolution")
     resolution = resolution if isinstance(resolution, dict) else {}
@@ -68,18 +85,15 @@ def _reviewRow(packet: dict, registryPath: str, assessment: dict | None) -> dict
             "contributor": named.get("contributor"),
             "skillName": named.get("skillName"),
         },
-        "generic": {
-            "id": generic.get("id"), "name": generic.get("name"),
-            "description": generic.get("description"), "type": generic.get("type"),
-            "prerequisites": generic.get("prerequisites"),
-        },
+        "generic": copy.deepcopy(generic),
         "decision": packet.get("decision"),
         "suite": packet.get("suite"),
         "source": {
-            "url": source.get("canonicalUrl"), "revision": source.get("commitSha"),
+            "url": source.get("canonicalUrl"),
+            "revision": source.get("commitSha") or source.get("revision") or source.get("resolvedCommit"),
             "sha256": source.get("contentSha256"),
         },
-        "packetSha256": _digest(packet),
+        "packetSha256": _digest(_proposalPacket(packet)),
         "assessmentSha256": _digest(assessment) if isinstance(assessment, dict) else None,
         "genericSnapshot": packet.get("genericSnapshot"),
         "liveContext": _liveContext(registryPath),
@@ -87,7 +101,8 @@ def _reviewRow(packet: dict, registryPath: str, assessment: dict | None) -> dict
 
 
 def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-packet",
-                       manifestDigest=None, inventory=None, assessments=None) -> dict:
+                       manifestDigest=None, inventory=None, assessments=None,
+                       reviewInventory=None, continuation=None) -> dict:
     """Build the canonical review payload; authorization envelope is never input.
 
     ``manifestDigest`` is SHA-256 of the exact original manifest bytes, not a
@@ -98,7 +113,9 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
     rows = list(packets) if isinstance(packets, (list, tuple)) else [packets]
     if not rows or any(not isinstance(row, dict) for row in rows):
         raise ValueError("review inventory must contain packet objects")
-    isManifest = submissionRoute in {"manifest", "multi-packet-manifest"}
+    if submissionRoute not in {"single-packet", "manifest", "multi-packet-manifest", "existing-intake", "existing-intake-manifest"}:
+        raise ValueError("unsupported submission route")
+    isManifest = submissionRoute in {"manifest", "multi-packet-manifest", "existing-intake-manifest"}
     if isManifest and (not isinstance(inventory, (list, tuple)) or not inventory
                        or not isinstance(manifestDigest, str)):
         raise ValueError("manifest authorization requires the full inventory and exact manifest byte digest")
@@ -112,6 +129,27 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
     assessments = assessments or {}
     if not isinstance(assessments, dict):
         raise ValueError("assessments must map candidate IDs to validated receipt objects")
+    identities = [packet.get("candidateId") for packet in inventoryRows]
+    if any(not isinstance(cid, str) or not cid for cid in identities) or len(identities) != len(set(identities)):
+        raise ValueError("review inventory requires unique exact candidate IDs")
+    if reviewInventory is not None:
+        frozen = reviewInventory.get("inventory", {})
+        report = reviewInventory.get("reconciliation", {})
+        expected = frozen.get("candidates", [])
+        outcomes = report.get("decisions", [])
+        expectedIds = [row["candidateId"] for row in expected]
+        outcomeIds = [row["candidateId"] for row in outcomes]
+        if len(set(expectedIds)) != len(expectedIds) or sorted(expectedIds) != sorted(outcomeIds) or len(set(outcomeIds)) != len(outcomeIds):
+            raise ValueError("review accounting must contain every expected candidate exactly once")
+        ready = [row["candidateId"] for row in outcomes if row.get("outcome") == "review-ready"]
+        if sorted(ready) != sorted(identities):
+            raise ValueError("submitted packets must equal all review-ready accounted candidates")
+        from gaia_cli.curation.reconciliation import canonicalJson as inventoryJson, sha256 as inventoryHash, OUTCOMES
+        unsigned = {key: value for key, value in frozen.items() if key != "inventoryDigest"}
+        if frozen.get("inventoryDigest") != inventoryHash(inventoryJson(unsigned)) or report.get("inventoryDigest") != frozen.get("inventoryDigest"):
+            raise ValueError("review inventory/reconciliation digest mismatch")
+        if any(row.get("outcome") not in OUTCOMES for row in outcomes):
+            raise ValueError("unaccounted review outcome")
     reviewRows = []
     for packet in inventoryRows:
         candidateId = packet.get("candidateId")
@@ -123,6 +161,8 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
         "manifestSha256": manifestDigest,
         "inventory": reviewRows,
         "inventorySha256": _digest(reviewRows),
+        "completeAccounting": copy.deepcopy(reviewInventory),
+        "continuation": copy.deepcopy(continuation),
     }
 
 
@@ -144,7 +184,7 @@ def _verifyTrustedEnvelope(payload: dict, envelope: dict | None, *, registryPath
 
 def verifyPacketAuthorization(packet, *, registryPath=".", submissionRoute="single-packet",
                               manifestDigest=None, inventory=None, assessments=None,
-                              envelope=None) -> list[str]:
+                              envelope=None, reviewInventory=None, continuation=None) -> list[str]:
     """Recompute review bindings and authenticate an external authorization.
 
     ``envelope`` is only a pointer/data carrier; its contents are not trusted.
@@ -156,10 +196,15 @@ def verifyPacketAuthorization(packet, *, registryPath=".", submissionRoute="sing
             packet if isinstance(packet, (list, tuple)) else [packet],
             registryPath=registryPath, submissionRoute=submissionRoute,
             manifestDigest=manifestDigest, inventory=inventory,
-            assessments=assessments,
+            assessments=assessments, reviewInventory=reviewInventory,
+            continuation=continuation,
         )
     except Exception as exc:
         return [f"could not independently build authorization payload: {exc}"]
+    if submissionRoute in {"manifest", "multi-packet-manifest", "existing-intake-manifest"} and reviewInventory is None:
+        return ["trusted manifest authorization requires complete frozen inventory and reconciliation accounting"]
+    if submissionRoute.startswith("existing-intake") and not isinstance(continuation, dict):
+        return ["existing-intake authorization requires exact original batch and issue references"]
     if not isinstance(envelope, dict):
         return _verifyTrustedEnvelope(payload, None, registryPath=registryPath)
     claimedDigest = envelope.get("reviewPayloadSha256")

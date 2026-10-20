@@ -31,6 +31,7 @@ Schema summary (top-level):
 All fields not recognised by the schema are silently passed through into the
 batch JSON as extra metadata so reviewers can see them.
 """
+import hashlib
 import json
 import os
 import re
@@ -302,7 +303,8 @@ def build_from_file_batch(
 MAX_MANIFEST_PACKETS = 50
 
 
-def _loadPacketManifest(data, yamlLoader):
+def _loadPacketManifest(data, yamlLoader, *, manifestDigest=None, authorizationEnvelope=None,
+                        reviewInventory=None, continuation=None):
     """Adapt an explicit discovery-packet-manifest-v1, all-or-nothing.
 
     Shape: ``contractVersion: discovery-packet-manifest-v1`` and
@@ -325,9 +327,8 @@ def _loadPacketManifest(data, yamlLoader):
     packetRoot = os.path.abspath("registry-for-review/discovery-packets")
     resolvedPaths = set()
     candidates = set()
-    combined = {"skills": [], "curationHandoff": {
-        "contractVersion": "curation-handoff-v1", "packetRefs": [],
-    }}
+    packets = []
+    packetPaths = {}
     snapshot = buildGenericSnapshot(".")
     trustedGenerics = snapshot["generics"] if snapshot else []
     for path in paths:
@@ -354,17 +355,26 @@ def _loadPacketManifest(data, yamlLoader):
             if not isinstance(candidateId, str) or not candidateId.strip() or candidateId in candidates:
                 return None, f"Manifest entry '{path}' requires a unique non-empty candidateId"
             candidates.add(candidateId)
-            intake = buildIntakeYaml(
-                packet, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics
-            )
+            packets.append(packet)
+            packetPaths[candidateId] = path
         except (OSError, ValueError, yamlLoader.YAMLError) as exc:
             return None, f"Cannot adapt manifest packet '{path}': {exc}"
-        combined["skills"].extend(intake["skills"])
-        combined["curationHandoff"]["packetRefs"].extend(intake["curationHandoff"]["packetRefs"])
+    try:
+        combined = buildIntakeYaml(
+            packets, requireHumanReview=True, trustedGenerics=trustedGenerics,
+            submissionRoute="existing-intake-manifest" if continuation else "manifest",
+            manifestDigest=manifestDigest, inventory=packets, registryPath=".",
+            authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+            continuation=continuation,
+        )
+    except (OSError, ValueError) as exc:
+        return None, f"Cannot authorize complete discovery manifest: {exc}"
+    for ref in combined["curationHandoff"]["packetRefs"]:
+        ref["packetPath"] = packetPaths[ref["candidateId"]]
     return combined, None
 
 
-def _load_yaml_file(path):
+def _load_yaml_file(path, *, authorizationEnvelope=None, reviewInventory=None, continuation=None):
     """Load and parse a YAML file; return (data, error_message)."""
     # Import yaml lazily so the module can be imported without PyYAML installed.
     # The ImportError only surfaces when --from-file is actually used.
@@ -376,9 +386,10 @@ def _load_yaml_file(path):
             "Fix: pip install pyyaml"
         )
     try:
-        with open(path, encoding="utf-8") as f:
-            raw = f.read()
-    except OSError as exc:
+        with open(path, "rb") as f:
+            rawBytes = f.read()
+        raw = rawBytes.decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
         return None, f"Cannot read file '{path}': {exc}"
     try:
         data = _yaml.safe_load(raw)
@@ -393,7 +404,11 @@ def _load_yaml_file(path):
     from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
 
     if data.get("contractVersion") == "discovery-packet-manifest-v1":
-        return _loadPacketManifest(data, _yaml)
+        return _loadPacketManifest(
+            data, _yaml, manifestDigest=hashlib.sha256(rawBytes).hexdigest(),
+            authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+            continuation=continuation,
+        )
 
     if isDiscoveryPacket(data):
         from gaia_cli.prefill import buildGenericSnapshot
@@ -401,7 +416,10 @@ def _load_yaml_file(path):
         trustedGenerics = snapshot["generics"] if snapshot else []
         try:
             data = buildIntakeYaml(
-                data, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics
+                data, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics,
+                submissionRoute="existing-intake" if continuation else "single-packet",
+                authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+                continuation=continuation, registryPath=".",
             )
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
@@ -439,7 +457,19 @@ def push_from_file_command(args):
 
     # ── load and parse YAML ────────────────────────────────────────────────
     filePath = args.fromFile
-    yamlData, loadErr = _load_yaml_file(filePath)
+    context = {}
+    try:
+        for argument, key in (("authorization_envelope", "authorizationEnvelope"), ("review_inventory", "reviewInventory")):
+            carrier = getattr(args, argument, None)
+            if carrier:
+                with open(carrier, encoding="utf-8") as stream:
+                    context[key] = json.load(stream)
+        if getattr(args, "existing_intake", None):
+            context["continuation"] = {"issue": str(args.existing_intake), "batchId": getattr(args, "existing_batch_id", None)}
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: Cannot read external review context: {exc}", file=sys.stderr)
+        return 1
+    yamlData, loadErr = _load_yaml_file(filePath, **context)
     if loadErr:
         print(f"ERROR: {loadErr}", file=sys.stderr)
         return 1

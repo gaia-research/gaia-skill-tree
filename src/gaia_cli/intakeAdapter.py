@@ -105,7 +105,7 @@ def _isExactSkillBlob(url):
     )
 
 
-def validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=None):
+def validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=None, *, authorizationContext=None):
     """Validate the explicit human-ratified packet -> intake handoff.
 
     Discovery fields are never reinterpreted here. The resolution must name the
@@ -192,7 +192,6 @@ def validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=None)
             ):
                 errors.append("MAP decision.genericId is absent from mappingOptions")
             else:
-                requireHumanReview = True
                 if (
                     not isinstance(trustedGenerics, list)
                     or genericId not in {
@@ -322,6 +321,9 @@ def validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=None)
             elif requireHumanReview:
                 errors.append("humanReview.assessmentPath is required and must be a non-empty string")
 
+    if requireHumanReview:
+        context = authorizationContext or {}
+        errors.extend(verifyPacketAuthorization(packet, **context))
     return errors
 
 
@@ -473,7 +475,7 @@ def validateIntakeIdentities(proposals):
 def buildIntakeYaml(
     packets, packetPath=None, requireHumanReview=False, trustedGenerics=None, *,
     submissionRoute="single-packet", manifestDigest=None, inventory=None,
-    authorizationEnvelope=None, registryPath=".",
+    authorizationEnvelope=None, registryPath=".", reviewInventory=None, continuation=None,
 ):
     """Build the intake mapping (``{'skills': [...]}``) from packet dict(s).
 
@@ -494,6 +496,15 @@ def buildIntakeYaml(
         assessments = {}
         from gaia_cli.curation.assessment import validateAssessment
         for packet in fullInventory:
+            shapeErrors = validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=trustedGenerics)
+            if shapeErrors:
+                raise ValueError("invalid post-L4 packet structure: " + "; ".join(shapeErrors))
+            if not isinstance((packet.get("l4Resolution") or {}).get("humanReview"), dict):
+                raise ValueError("legacy packet must be human-ratified with gaia dev ratify")
+            from gaia_cli.prefill import selfValidatePacket
+            validationErrors = selfValidatePacket(packet, trustedGenerics=trustedGenerics)
+            if validationErrors:
+                raise ValueError("packet validation against the current catalog failed: " + "; ".join(validationErrors))
             freshnessErrors = verifyFreshness(packet, registryPath=registryPath)
             if freshnessErrors:
                 raise ValueError("packet freshness verification failed: " + "; ".join(freshnessErrors))
@@ -516,11 +527,15 @@ def buildIntakeYaml(
             fullInventory, registryPath=registryPath, submissionRoute=submissionRoute,
             manifestDigest=manifestDigest, inventory=fullInventory,
             assessments=assessments, envelope=authorizationEnvelope,
+            reviewInventory=reviewInventory, continuation=continuation,
         )
         if authErrors:
             raise ValueError("human authorization failed closed: " + "; ".join(authErrors))
     skills = [
-        buildIntakeSkill(p, requireHumanReview=requireHumanReview, trustedGenerics=trustedGenerics)
+        # The complete inventory was authenticated above. Leaf adaptation is
+        # structural only: it must not substitute a single-packet approval for
+        # the exact manifest authorization already checked.
+        buildIntakeSkill(p, requireHumanReview=False, trustedGenerics=trustedGenerics)
         for p in packets
     ]
     refs = []

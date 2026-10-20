@@ -281,6 +281,10 @@ class DevCommand(Command):
             help="Rationale for ratification",
         )
         dev_ratify.add_argument(
+            "--authorization-envelope", metavar="PATH",
+            help="External authorization carrier; never trusted without independent verification (currently pending protected human ceremony)",
+        )
+        dev_ratify.add_argument(
             "--acknowledge-human-review",
             action="store_true",
             default=False,

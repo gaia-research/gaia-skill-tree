@@ -424,7 +424,7 @@ def ratifyCommand(args):
     liveSnapshot = buildGenericSnapshot(registry_path)
     liveGenerics = liveSnapshot["generics"] if liveSnapshot else []
     resolutionErrors = validateL4Resolution(
-        testPacket, requireHumanReview=True, trustedGenerics=liveGenerics
+        testPacket, requireHumanReview=False, trustedGenerics=liveGenerics
     )
     if resolutionErrors:
         print("Ratification validation failed:", file=sys.stderr)
