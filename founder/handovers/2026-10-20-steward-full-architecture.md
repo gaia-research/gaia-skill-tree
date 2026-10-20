@@ -84,6 +84,14 @@ gaia steward full …   (deterministic, zero-model runner; emits actions)
   - optional external input absent → `raise SensorNotEvaluated(reason)`
   - a malformed *subject* (e.g. one file with a syntax error) is a finding or
     a skip with a counted reason, never a whole-sensor crash.
+  - a skipped subject is *reported*, never silent: the sensor returns
+    `SensorScan(observations, skipped)` from `scan_detailed()` (helper:
+    `SkipLog` in `primitives/files.py`). Any skip removes the sensor from the
+    exhaustive sweep for that run and lands it in the receipt's
+    `partialCoverage`; when every subject is skipped, `require_coverage`
+    raises `SensorUnavailable`.
+  - a sensor that would cross `maxObservationsPerRun` becomes coverage-unknown
+    for that run (reason names the budget); the other sensors keep theirs.
 - Confidence: `1.0` only for exact facts; heuristics `0.5–0.8`.
 - Read-only: never write anything. Never fetch the network.
 - Never print secrets: credential findings carry `sha256(match)[:12]` and a line number only.
