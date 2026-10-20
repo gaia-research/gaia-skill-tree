@@ -11,9 +11,12 @@ fingerprint (``primitives.redact``), because anything printed here reaches
 ``debt.json``, receipts and stdout.
 
 Skip accounting: a subject that cannot be interpreted at all (undecodable text,
-unparseable frontmatter) is skipped and counted, never silently treated as
-healthy. ``scan_with_stats`` returns those counts; ``scan`` returns only the
-observations and is what the controller calls.
+unparseable frontmatter, a parser failure) is recorded in a ``SkipLog`` and
+returned by ``scan_detailed``; the controller then sweeps nothing the sensor
+owns and lists it under ``partialCoverage``, because a subject nobody evaluated
+is unknown, never healthy. If every subject is skipped the sensor is blind and
+raises ``SensorUnavailable``. ``scan_with_stats`` also returns the counts;
+``scan`` returns only the observations.
 """
 
 from __future__ import annotations
@@ -31,9 +34,10 @@ from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError
 from jsonschema.validators import validator_for
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorUnavailable,
+    SkipLog,
     finding_payload,
     git_root,
     read_text_bounded,
@@ -377,13 +381,20 @@ class TimelineCausalitySensor:
     _prefix = "registry/named/"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        observations, _stats = self.scan_with_stats(repo_root, observed_at)
-        return observations
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        return self._run(repo_root, observed_at)[0]
 
     def scan_with_stats(
         self, repo_root: Path, observed_at: str
     ) -> tuple[list[Observation], dict[str, int]]:
+        scan, stats = self._run(repo_root, observed_at)
+        return list(scan.observations), stats
+
+    def _run(self, repo_root: Path, observed_at: str) -> tuple[SensorScan, dict[str, int]]:
         root = git_root(repo_root)
+        skips = SkipLog()
         now = _parse_instant(observed_at)
         if now is None:
             raise SensorUnavailable("observed_at is not a parseable timestamp")
@@ -399,23 +410,29 @@ class TimelineCausalitySensor:
         }
         pending: list[tuple[str, list[dict[str, Any]], int]] = []
         for relative in inventory:
+            subject_id = relative[len(self._prefix):-len(".md")]
             text = _read_subject(root / relative)
             if text is None:
                 stats["skippedUndecodable"] += 1
+                skips.add("named-skill", subject_id, "file is not valid UTF-8")
                 continue
             frontmatter = _frontmatter(text)
             if frontmatter is None:
                 stats["skippedUnparseableFrontmatter"] += 1
+                skips.add("named-skill", subject_id, "frontmatter is missing or not a parseable YAML mapping")
                 continue
             events = frontmatter.get("timeline")
             if events is None:
                 continue
             if not isinstance(events, list):
                 stats["skippedUnsupportedTimeline"] += 1
+                skips.add("named-skill", subject_id, "timeline is not a list of events")
                 continue
             pending.append((relative, events, len(events)))
             stats["skillsWithTimeline"] += 1
             stats["events"] += len(events)
+
+        skips.require_coverage(len(inventory), "named-skill files")
 
         # One observation per subject, keyed on the file's path. A frontmatter
         # ``id`` is author-controlled and can be duplicated or edited, which
@@ -446,7 +463,7 @@ class TimelineCausalitySensor:
                     },
                 )
             )
-        return observations, stats
+        return SensorScan(tuple(observations), skips.entries()), stats
 
     @staticmethod
     def _check_events(events: list[Any], now: tuple[_dt.datetime, bool]) -> list[dict[str, Any]]:
@@ -549,13 +566,20 @@ class FrontendContractSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        observations, _stats = self.scan_with_stats(repo_root, observed_at)
-        return observations
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        return self._run(repo_root, observed_at)[0]
 
     def scan_with_stats(
         self, repo_root: Path, observed_at: str
     ) -> tuple[list[Observation], dict[str, int]]:
+        scan, stats = self._run(repo_root, observed_at)
+        return list(scan.observations), stats
+
+    def _run(self, repo_root: Path, observed_at: str) -> tuple[SensorScan, dict[str, int]]:
         root = git_root(repo_root)
+        skips = SkipLog()
         inventory = tracked_files(
             root,
             ["docs/"],
@@ -568,17 +592,21 @@ class FrontendContractSensor:
             text = _read_subject(root / relative)
             if text is None:
                 stats["skippedUndecodable"] += 1
+                skips.add("html-page", relative, "file is not valid UTF-8")
                 continue
             parser = _ContractParser()
             try:
                 parser.feed(text)
                 parser.close()
-            except Exception:  # HTMLParser is lenient; anything escaping it is a malformed subject.
+            except Exception as exc:  # HTMLParser is lenient; anything escaping it is a malformed subject.
                 stats["skippedUndecodable"] += 1
+                skips.add("html-page", relative, f"HTML parser failed: {type(exc).__name__}")
                 continue
             if parser.html_line is None:
                 # A partial or fragment has no document element; it is a
-                # component of another page, not a page with a contract.
+                # component of another page, not a page with a contract. That
+                # is a legitimate input, not a failure to evaluate, so it is
+                # counted but never a skip.
                 stats["skippedFragment"] += 1
                 continue
             found = self._findings(parser)
@@ -602,7 +630,8 @@ class FrontendContractSensor:
                     },
                 )
             )
-        return observations, stats
+        skips.require_coverage(len(inventory), "HTML pages")
+        return SensorScan(tuple(observations), skips.entries()), stats
 
     @staticmethod
     def _findings(parser: _ContractParser) -> list[dict[str, Any]]:
