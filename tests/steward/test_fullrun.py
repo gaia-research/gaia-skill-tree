@@ -543,3 +543,51 @@ def test_an_abandoned_runs_pending_actions_are_superseded_at_adoption(tmp_path: 
     runner.record(second.runId, new["stepId"], {**BUILD, "noChange": True, "summary": "re-recorded on the live step"})
     resumed = runner.resume(second.runId)
     assert [a["type"] for a in resumed.actions] == ["agent.verify"]
+
+
+# --- partial coverage, and a missing target that blocks nothing -----------------------------
+
+
+class PartialSensor(StubSensor):
+    """A sensor that completed but could not evaluate some subjects (`SensorScan.skipped`)."""
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> Any:
+        from gaia_cli.steward.models import SensorScan
+
+        return SensorScan(
+            observations=tuple(self.scan(repo_root, observed_at)),
+            skipped=({"subjectType": "file", "subjectId": "src/odd.py", "reason": "syntax error"},
+                     {"subjectType": "file", "subjectId": "src/odder.py", "reason": "too large"}),
+        )
+
+
+def test_partial_coverage_is_reported_never_healthy_and_does_not_block_class_a(tmp_path: Path) -> None:
+    from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+
+    repo, _bare = makeFixture(tmp_path, mirrorDrift=True)
+    partial = PartialSensor("code-ish", "repository_hygiene", routines=(1,))
+
+    view = makeRunner(repo, fileStore(tmp_path), [AgentSkillMirrorSensor(), partial]).start("full")
+
+    assert view.status == "awaiting-action" and actionTypes(view) == ["forge.open_pr"], "Class A still lands"
+    assert view.coverageUnknown == []
+    observed = view.summary["reobserve"]
+    assert [p["sensor"] for p in observed["partialCoverage"]] == ["code-ish"]
+    assert observed["partialCoverage"][0]["skippedCount"] == 2
+    retro = {s["id"]: s for s in view.summary["retro"]["sensors"]}
+    assert retro["code-ish"]["state"] == "partially-covered" and retro["code-ish"]["executed"] is False
+    assert retro["agent-skill-mirror"]["state"] == "executed"
+    routine1 = next(r for r in view.summary["retro"]["routines"] if r["routine"] == 1)
+    assert routine1["state"] == "partial", "partial coverage is never reported as observed"
+    assert any(op["kind"] == "not_evaluated" and op["subject"] == "code-ish" and "partially covered" in op["detail"]
+               for op in view.desk["operations"])
+
+
+def test_a_clean_repository_without_a_landing_target_asks_the_founder_nothing(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    view = makeRunner(repo, store, [StubSensor("repository-hygiene", "repository_hygiene")],
+                      integration_branch=None).start("full")
+    assert view.status == "completed" and view.desk["decisions"] == []
+    assert ledgerDoc(store)["runs"][view.runId]["decisions"] == []
+    assert ledgerDoc(store)["runs"][view.runId]["floor"]["ok"] is False

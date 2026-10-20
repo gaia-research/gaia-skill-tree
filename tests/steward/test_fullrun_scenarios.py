@@ -23,6 +23,7 @@ from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.sensors import AgentSkillMirrorSensor, TrustCalibrationDriftSensor
 from gaia_cli.steward.primitives import SensorUnavailable
 
+from tests.steward.sensor_fixtures import make_repo
 from tests.steward.test_fullrun import (
     BUILD,
     Clock,
@@ -540,8 +541,9 @@ def sensorStillUsesEmptyContext() -> bool:
     """True while TrustCalibrationDriftSensor scores against an empty context map (#2114)."""
 
     with tempfile.TemporaryDirectory() as scratch:
-        root = Path(scratch)
+        root = make_repo(Path(scratch) / "probe", {"README.md": "probe\n"})  # sensors read git's inventory
         writeInheritedEvidenceRegistry(root)
+        commitAll(root, "registry with inherited evidence")
         return bool(TrustCalibrationDriftSensor().scan(root, "2026-10-20T00:00:00Z"))
 
 

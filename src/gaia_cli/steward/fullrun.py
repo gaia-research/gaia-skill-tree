@@ -662,7 +662,8 @@ class FullRunner:
                 return phases[name]
         retro = phases.get("retro")
         if retro:
-            return {"coverageUnknown": retro.get("unknown", []), "notEvaluated": retro.get("notEvaluated", [])}
+            return {"coverageUnknown": retro.get("unknown", []), "notEvaluated": retro.get("notEvaluated", []),
+                    "partialCoverage": retro.get("partiallyCovered", [])}
         return {}
 
     def status(self) -> StatusView:
@@ -1201,6 +1202,15 @@ class FullRunner:
             counts[observation.status] += 1
         receipt = scan.receipt
         notEvaluated = self._normNotEvaluated(getattr(receipt, "not_evaluated", ()))
+        # A sensor that completed but skipped subjects is partially covered: its findings
+        # count, but nothing it did not evaluate is healthy, and it never sweeps. It is
+        # reported like not-evaluated and, unlike coverage-unknown, does not block Class A.
+        partial = sorted(
+            ({"sensor": str(item.get("sensor")), "skippedCount": int(item.get("skippedCount", 0)),
+              "reasons": sorted({str(row.get("reason")) for row in item.get("skipped", ())})[:3]}
+             for item in getattr(receipt, "partial_coverage", ())),
+            key=lambda value: value["sensor"],
+        )
         fresh = sorted(scan.fresh_open_debt_ids & {d.id for d in scan.open_debts})
         wanted = set(workIds)
         debtStatus = {d.id: d.status for d in scan.debts if d.id in wanted}
@@ -1216,6 +1226,7 @@ class FullRunner:
             "authorityCounts": dict(receipt.authority_counts),
             "coverageUnknown": list(receipt.coverage_unknown),
             "notEvaluated": notEvaluated,
+            "partialCoverage": partial,
             "observationsBySensor": dict(sorted(bySensor.items())),
         }
 
@@ -2003,6 +2014,7 @@ class FullRunner:
         executed = True
         unknown = set(observed["coverageUnknown"])
         notEvaluated = {item["sensor"]: item["reason"] for item in observed["notEvaluated"]}
+        partial = {item["sensor"]: item for item in observed.get("partialCoverage", [])}
         counts = observed["observationsBySensor"]
         sensors = []
         for sensor in self._controllerInstance().sensors:
@@ -2010,6 +2022,8 @@ class FullRunner:
                 state = "unknown"
             elif sensor.id in notEvaluated:
                 state = "not-evaluated"
+            elif sensor.id in partial:
+                state = "partially-covered"
             elif executed:
                 state = "executed"
             else:
@@ -2023,6 +2037,10 @@ class FullRunner:
             }
             if state == "not-evaluated":
                 entry["reason"] = notEvaluated[sensor.id]
+            if state == "partially-covered":
+                entry["partial"] = True
+                entry["skippedCount"] = partial[sensor.id]["skippedCount"]
+                entry["reason"] = "; ".join(partial[sensor.id]["reasons"]) or "some subjects were not evaluated"
             sensors.append(entry)
         byId = {entry["id"]: entry for entry in sensors}
         routines = []
@@ -2035,7 +2053,7 @@ class FullRunner:
                 state = "no-detector"
             elif all(d["state"] == "executed" for d in detectors):
                 state = "observed"
-            elif any(d["state"] == "executed" for d in detectors):
+            elif any(d["state"] in {"executed", "partially-covered"} for d in detectors):
                 state = "partial"
             elif any(d["state"] == "unknown" for d in detectors):
                 state = "unknown"
@@ -2046,6 +2064,7 @@ class FullRunner:
             "sensors": sensors, "routines": routines,
             "registered": len(sensors), "executed": sum(1 for e in sensors if e["executed"]),
             "unknown": sorted(unknown), "notEvaluated": [{"sensor": k, "reason": v} for k, v in sorted(notEvaluated.items())],
+            "partiallyCovered": [partial[k] for k in sorted(partial)],
         }
 
         return self._finish(runId, "retro", summary)
@@ -2171,7 +2190,12 @@ class FullRunner:
             founder_queue=self._founderQueue(scan.open_debts),
             lane=load_lane(doc["lane"], policy.lane) if doc["lane"] is not None else None,
             coverage_unknown=observed.get("coverageUnknown", []),
-            not_evaluated=observed.get("notEvaluated", []),
+            not_evaluated=list(observed.get("notEvaluated", [])) + [
+                {"sensor": item["sensor"],
+                 "reason": f"partially covered: {item['skippedCount']} subject(s) not evaluated"
+                           + (f" ({'; '.join(item['reasons'])})" if item.get("reasons") else "")}
+                for item in observed.get("partialCoverage", [])
+            ],
             decision_records=records,
             ledger_shared=bool(self.config.store.shared),
             last_scheduled_run_at=max(scheduled) if scheduled else None,

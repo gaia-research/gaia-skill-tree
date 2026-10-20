@@ -578,7 +578,8 @@ class StewardCommand(Command):
                 f"Observed             {observe.get('observations', 0)} observations, "
                 f"{observe.get('openDebt', 0)} open debt, "
                 f"coverage unknown {len(observe.get('coverageUnknown', []))}, "
-                f"not evaluated {len(observe.get('notEvaluated', []))}"
+                f"not evaluated {len(observe.get('notEvaluated', []))}, "
+                f"partially covered {len(observe.get('partialCoverage', []))}"
             )
         triage = summary.get("triage")
         if triage:
@@ -624,7 +625,8 @@ class StewardCommand(Command):
     def _printRetro(retro: dict, *, table: bool) -> None:
         print(
             f"Coverage             {retro['registered']} registered, {retro['executed']} executed, "
-            f"{len(retro['unknown'])} unknown, {len(retro['notEvaluated'])} not evaluated"
+            f"{len(retro['unknown'])} unknown, {len(retro['notEvaluated'])} not evaluated, "
+            f"{len(retro['partiallyCovered'])} partially covered"
         )
         if not table:
             return
