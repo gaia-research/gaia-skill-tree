@@ -15,7 +15,7 @@
     },
     "partially-covered": {
       "evaluation": "static",
-      "meaning": "The routine has at least one detector but declared remainingGaps the detectors cannot see."
+      "meaning": "The routine has at least one detector but declared remainingGaps the detectors cannot see. A receipt also adds it live to a detector it lists under partialCoverage: the scan completed but skipped subjects, so nothing the detector owns was swept."
     },
     "unknown-unavailable": {
       "evaluation": "live",

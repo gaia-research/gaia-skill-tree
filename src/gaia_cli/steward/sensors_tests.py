@@ -14,10 +14,11 @@ import tomllib
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives.files import (
     SensorNotEvaluated,
     SensorUnavailable,
+    SkipLog,
     finding_payload,
     git_root,
     parse_python,
@@ -103,22 +104,32 @@ def _skip_note(skipped: Mapping[str, int]) -> dict[str, int]:
 
 
 def _load_trees(
-    repo_root: Path, paths: Iterable[str]
+    repo_root: Path, paths: Iterable[str], skips: SkipLog
 ) -> tuple[dict[str, ast.Module], dict[str, int]]:
-    """Parse files; a bad subject is a counted skip, never a sensor crash."""
+    """Parse files; a bad subject is a reported skip, never a sensor crash.
+
+    Each skipped file is recorded in ``skips`` (so the controller reports
+    partial coverage and sweeps nothing) and counted by reason for provenance.
+    If every file is bad the scan observed nothing and is unavailable.
+    """
 
     trees: dict[str, ast.Module] = {}
     skipped: dict[str, int] = {}
+    inventory = 0
     for relative in paths:
+        inventory += 1
         try:
             tree, error = parse_python(repo_root / relative)
-        except SensorUnavailable:
+        except SensorUnavailable as exc:
             skipped["unreadable"] = skipped.get("unreadable", 0) + 1
+            skips.add("test-file", relative, str(exc))
             continue
         if tree is None or error:
             skipped["syntax-error"] = skipped.get("syntax-error", 0) + 1
+            skips.add("test-file", relative, error or "unparseable Python source")
             continue
         trees[relative] = tree
+    skips.require_coverage(inventory, "test files")
     return trees, skipped
 
 
@@ -248,10 +259,14 @@ class TestPortfolioSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         root = git_root(repo_root)
         files = tracked_files(root, ["tests"], suffixes=[".py"])
-        registered = self._registered_markers(root, files)
-        trees, skipped = _load_trees(root, files)
+        skips = SkipLog()
+        registered = self._registered_markers(root, files, skips)
+        trees, skipped = _load_trees(root, files, skips)
         provenance = {
             "inventory": "git ls-files tests/**/*.py",
             "filesInspected": len(trees),
@@ -300,10 +315,10 @@ class TestPortfolioSensor:
                             provenance=provenance,
                         )
                     )
-        return observations
+        return SensorScan(tuple(observations), skips.entries())
 
     @staticmethod
-    def _registered_markers(root: Path, test_files: list[str]) -> set[str]:
+    def _registered_markers(root: Path, test_files: list[str], skips: SkipLog) -> set[str]:
         pyproject = root / "pyproject.toml"
         if not pyproject.is_file():
             raise SensorUnavailable("pyproject.toml is required to resolve registered pytest markers")
@@ -322,11 +337,14 @@ class TestPortfolioSensor:
         conftests |= set(tracked_files(root, ["conftest.py"], require_any=False))
         for relative in sorted(conftests):
             try:
-                tree, _ = parse_python(root / relative)
-            except SensorUnavailable:
+                tree, error = parse_python(root / relative)
+            except SensorUnavailable as exc:
+                skips.add("test-file", relative, str(exc))
                 continue
-            if tree is not None:
-                registered |= _conftest_markers(tree)
+            if tree is None:
+                skips.add("test-file", relative, error or "unparseable Python source")
+                continue
+            registered |= _conftest_markers(tree)
         return registered
 
 
@@ -589,12 +607,16 @@ class TestIsolationSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
         root = git_root(repo_root)
         files = [
             path for path in tracked_files(root, ["tests"], suffixes=[".py"])
             if _is_test_module(path)
         ]
-        trees, skipped = _load_trees(root, files)
+        skips = SkipLog()
+        trees, skipped = _load_trees(root, files, skips)
         provenance = {
             "inventory": "git ls-files tests/**/test_*.py",
             "filesInspected": len(trees),
@@ -613,7 +635,7 @@ class TestIsolationSensor:
                         findings=findings, confidence=0.6, provenance=provenance,
                     )
                 )
-        return observations
+        return SensorScan(tuple(observations), skips.entries())
 
 
 # --------------------------------------------------------------------------

@@ -38,9 +38,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorUnavailable,
+    SkipLog,
     finding_payload,
     git_root,
     parse_python,
@@ -182,8 +183,9 @@ class _ModuleInfo:
 
 
 class _ModuleLoader:
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, skips: SkipLog | None = None) -> None:
         self._root = root
+        self._skips = skips
         self._cache: dict[str, _ModuleInfo | None] = {}
 
     def load(self, dotted: str) -> _ModuleInfo | None:
@@ -198,6 +200,10 @@ class _ModuleLoader:
                 tree, error = parse_python(candidate)
                 if tree is not None and error is None:
                     info = _ModuleInfo(_rel(self._root, candidate), tree)
+                elif self._skips is not None:
+                    self._skips.add(
+                        "source-file", _rel(self._root, candidate), error or "unparseable Python source"
+                    )
                 break
         self._cache[dotted] = info
         return info
@@ -493,14 +499,27 @@ class MutationBoundarySensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        """Observations plus the subjects this scan could not evaluate.
+
+        A dev command whose handler cannot be analysed, or a Python file with a
+        syntax error, is unknown rather than clean: the controller must not
+        sweep this sensor's debt while any such subject exists.
+        """
+
         root = git_root(repo_root)
-        observations = self._gating_observations(root, observed_at)
-        observations.extend(self._execution_observations(root, observed_at))
-        return observations
+        skips = SkipLog()
+        observations = self._gating_observations(root, observed_at, skips)
+        observations.extend(self._execution_observations(root, observed_at, skips))
+        return SensorScan(tuple(observations), skips.entries())
 
     # -- ungated_mutation -------------------------------------------------
 
-    def _gating_observations(self, root: Path, observed_at: str) -> list[Observation]:
+    def _gating_observations(
+        self, root: Path, observed_at: str, skips: SkipLog
+    ) -> list[Observation]:
         tracked_files(root, [_DEV_COMMAND_PATH], require_any=True)
         reachable = _legacy_dispatcher_reachable(root)
         legacy_present = bool(tracked_files(root, [_IMPL_PATH], require_any=False))
@@ -547,7 +566,7 @@ class MutationBoundarySensor:
                 )
             )
 
-        loader = _ModuleLoader(root)
+        loader = _ModuleLoader(root, skips)
         unanalysed: list[str] = []
         for name in registered:
             if name in live or name in conditional:
@@ -555,10 +574,12 @@ class MutationBoundarySensor:
             handler = dispatch.get(name)
             if handler is None:
                 unanalysed.append(name)
+                skips.add("cli-surface", f"dev:{name}", "no analysable dispatch handler for this registered dev command")
                 continue
             module = loader.load(handler[0])
             if module is None:
                 unanalysed.append(name)
+                skips.add("cli-surface", f"dev:{name}", "handler module could not be loaded or parsed")
                 continue
             sites = _reachable_write_sites(loader, module, handler[1])
             if not sites:
@@ -605,7 +626,9 @@ class MutationBoundarySensor:
 
     # -- unsafe_execution -------------------------------------------------
 
-    def _execution_observations(self, root: Path, observed_at: str) -> list[Observation]:
+    def _execution_observations(
+        self, root: Path, observed_at: str, skips: SkipLog
+    ) -> list[Observation]:
         paths = tracked_files(root, _PYTHON_ROOTS, suffixes=(".py",))
         observations: list[Observation] = []
         syntax_errors = 0
@@ -613,6 +636,7 @@ class MutationBoundarySensor:
             tree, error = parse_python(root / rel)
             if tree is None:
                 syntax_errors += 1
+                skips.add("source-file", rel, error or "unparseable Python source")
                 continue
             findings = _UnsafeVisitor(tree).findings()
             if not findings:
@@ -837,16 +861,21 @@ class BrowserSinkSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        """Observations plus the files that were not valid, bounded UTF-8 text."""
+
         root = git_root(repo_root)
         paths = tracked_files(root, ["docs"], suffixes=(".js", ".html"), exclude=_BROWSER_EXCLUDE)
+        skips = SkipLog()
         observations: list[Observation] = []
         for rel in paths:
             try:
-                text = (root / rel).read_text(encoding="utf-8")
-            except UnicodeDecodeError:
+                text = read_text_bounded(root / rel)
+            except SensorUnavailable as exc:
+                skips.add("source-file", rel, str(exc))
                 continue
-            except OSError as exc:
-                raise SensorUnavailable(f"cannot read {rel}: {exc}") from exc
             findings = self._findings(text)
             if not findings:
                 continue
@@ -872,7 +901,8 @@ class BrowserSinkSensor:
                     },
                 )
             )
-        return observations
+        skips.require_coverage(len(paths), "browser files")
+        return SensorScan(tuple(observations), skips.entries())
 
     @staticmethod
     def _line(text: str, offset: int) -> int:
@@ -939,7 +969,9 @@ class BrowserSinkSensor:
 # Secret scan
 # --------------------------------------------------------------------------
 
-_SECRET_MAX_BYTES = 1024 * 1024
+# A file larger than this is not read at all and is reported as a skipped
+# subject. Large generated text (embeddings, graph dumps) is well inside it.
+_SECRET_MAX_BYTES = 32 * 1024 * 1024
 _SECRET_MAX_FILES = 50000
 _SYNTHETIC_MARKERS = re.compile(r"EXAMPLE|FAKE|dummy|xxxx|canary|placeholder|not[-_ ]?real", re.IGNORECASE)
 # Hand-typed placeholders climb the alphabet or digits; a real secret does not.
@@ -962,7 +994,9 @@ def _synthetic_match(rel: str, matched: str, line_text: str) -> bool:
 @dataclass
 class _SecretTally:
     scanned: int = 0
-    binary: int = 0
+    # Files that are not valid UTF-8 are still scanned (credential patterns are
+    # ASCII), so a stray byte cannot hide a secret; this only counts them.
+    nonUtf8: int = 0
     oversize: int = 0
     synthetic: int = 0
     reasons: dict[str, int] = field(default_factory=dict)
@@ -977,9 +1011,20 @@ class SecretScanSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        """Observations plus the files too large to read.
+
+        Every readable file is scanned, binary or not: a leak must not be
+        hidden by appending a non-UTF-8 byte. Only a file above the size
+        ceiling is unevaluated, and it is reported rather than dropped.
+        """
+
         root = git_root(repo_root)
         paths = tracked_files(root, ["."], max_files=_SECRET_MAX_FILES)
         tally = _SecretTally()
+        skips = SkipLog()
         per_file: list[tuple[str, list[dict[str, Any]]]] = []
         for rel in paths:
             full = root / rel
@@ -987,6 +1032,7 @@ class SecretScanSensor:
                 size = full.stat().st_size
                 if size > _SECRET_MAX_BYTES:
                     tally.oversize += 1
+                    skips.add("source-file", rel, f"larger than the {_SECRET_MAX_BYTES}-byte read limit")
                     continue
                 data = full.read_bytes()
             except OSError as exc:
@@ -994,8 +1040,8 @@ class SecretScanSensor:
             try:
                 text = data.decode("utf-8")
             except UnicodeDecodeError:
-                tally.binary += 1
-                continue
+                tally.nonUtf8 += 1
+                text = data.decode("utf-8", errors="replace")
             tally.scanned += 1
             findings = self._findings(rel, text, tally)
             if findings:
@@ -1003,7 +1049,7 @@ class SecretScanSensor:
 
         summary = {
             "filesScanned": tally.scanned,
-            "skippedBinary": tally.binary,
+            "scannedNonUtf8": tally.nonUtf8,
             "skippedOversize": tally.oversize,
             "skippedSyntheticTestFixture": tally.synthetic,
         }
@@ -1029,7 +1075,8 @@ class SecretScanSensor:
                     },
                 )
             )
-        return observations
+        skips.require_coverage(len(paths), "tracked files")
+        return SensorScan(tuple(observations), skips.entries())
 
     @staticmethod
     def _findings(rel: str, text: str, tally: _SecretTally) -> list[dict[str, Any]]:

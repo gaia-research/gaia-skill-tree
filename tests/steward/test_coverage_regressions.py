@@ -18,6 +18,7 @@ from gaia_cli.trustMagnitude import (
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitudeInputHash,
 )
+from tests.steward.sensor_fixtures import track_all
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -113,6 +114,7 @@ def test_issue_1642_rank_sensor_does_not_prove_cached_tm_input_freshness(tmp_pat
     skill["overallTrustGrade"] = original_grade
     path.write_text("---\n" + yaml.safe_dump(skill, sort_keys=False) + "---\n", encoding="utf-8")
 
+    track_all(tmp_path)
     observations = TrustCalibrationDriftSensor().scan(tmp_path, "2026-10-15T00:00:00Z")
 
     # The sensor compares current level to computed target grade; it does not
