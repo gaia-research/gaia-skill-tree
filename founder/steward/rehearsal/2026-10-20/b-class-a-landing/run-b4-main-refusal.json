@@ -1,0 +1,19 @@
+{
+  "actions": [],
+  "coverageUnknown": [],
+  "holder": "run-20261020T210947Z-dfee4290",
+  "holderPhase": "done",
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "mode": "full",
+  "nextAction": "run run-20261020T210947Z-dfee4290 (phase done) holds the run lease until 2026-10-20T21:43:03.385747Z; nothing was started. Watch it with `gaia steward full status`, or resume it with `gaia steward full run --resume run-20261020T210947Z-dfee4290` if it is yours.",
+  "notEvaluated": [],
+  "phase": null,
+  "runId": null,
+  "schemaVersion": "steward-full-run-view-v1",
+  "status": "observing-existing",
+  "summary": {},
+  "unresolvedWork": []
+}
