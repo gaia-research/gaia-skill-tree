@@ -185,12 +185,26 @@ def _conftest_markers(tree: ast.Module) -> set[str]:
     return found
 
 
+def _module_statements(body: list[ast.stmt]) -> Iterable[ast.stmt]:
+    """Yield module-level statements, descending into if/try/with blocks."""
+
+    for statement in body:
+        yield statement
+        if isinstance(statement, (ast.If, ast.For, ast.While, ast.With, ast.AsyncWith)):
+            yield from _module_statements(statement.body)
+            yield from _module_statements(getattr(statement, "orelse", []))
+        elif isinstance(statement, ast.Try):
+            for block in (statement.body, statement.orelse, statement.finalbody,
+                          *[h.body for h in statement.handlers]):
+                yield from _module_statements(block)
+
+
 def _detectable_tests(tree: ast.Module) -> tuple[int, bool]:
     """Return (static test count, dynamic-generation hint)."""
 
     count = 0
     dynamic = False
-    for statement in tree.body:
+    for statement in _module_statements(tree.body):
         if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
             if statement.name.startswith("test"):
                 count += 1
