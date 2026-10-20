@@ -7,7 +7,7 @@ or an operator) collects CI history and hands it over as
 that hand-over: a pure transform with no network access of its own.
 
     gh run list --branch main --limit 200 \
-      --json workflowName,conclusion,headSha,createdAt,url,attempt,status > runs.json
+      --json workflowName,workflowDatabaseId,conclusion,headSha,createdAt,url,attempt,status > runs.json
     python scripts/steward_collect_ci_runs.py runs.json \
       --repository gaia-research/gaia-skill-tree --branch main
 
@@ -59,6 +59,14 @@ def convert(raw: Any, *, repository: str, branch: str, collected_at: str) -> dic
             if not isinstance(value, str) or not value:
                 raise InputError(f"run {index} is missing {source}")
             entry[target] = value
+        # Optional stable workflow identity: two workflows can share a display
+        # name, a path or numeric id cannot. The sensor groups on it when present.
+        path = item.get("workflowPath")
+        if isinstance(path, str) and path:
+            entry["workflowPath"] = path
+        identifier = item.get("workflowDatabaseId")
+        if isinstance(identifier, int) and not isinstance(identifier, bool):
+            entry["workflowId"] = identifier
         runs.append(entry)
     return {
         "schemaVersion": SCHEMA,

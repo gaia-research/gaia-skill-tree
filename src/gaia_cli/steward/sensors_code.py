@@ -38,6 +38,7 @@ from gaia_cli.steward.primitives import (
     read_text_bounded,
     tracked_files,
 )
+from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.primitives.pyast import (
     ImportRef,
     comment_map,
@@ -327,7 +328,7 @@ def _scan_dynamic(file: SourceFile, result: _Dynamic, in_package_root: bool) -> 
             package = prefix[:-1] if prefix.endswith(".") else prefix.rpartition(".")[0]
             if package:
                 result.exempt_packages.setdefault(
-                    package, f"non-literal {name} with prefix {prefix!r} ({file.path}:{node.lineno})"
+                    package, f"non-literal {name} with prefix {scrub(prefix)[:120]!r} ({file.path}:{node.lineno})"
                 )
                 result.recursive.add(package)
             elif in_package_root and _owning_package(file):
@@ -922,7 +923,7 @@ def swallowed_handlers(file: SourceFile) -> list[dict[str, Any]]:
         findings.append(
             {
                 "line": node.lineno,
-                "handler": "except" if node.type is None else f"except {ast.unparse(node.type)}",
+                "handler": "except" if node.type is None else f"except {scrub(ast.unparse(node.type))[:120]}",
                 "body": "; ".join(label for label in labels if label),
             }
         )

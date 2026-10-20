@@ -25,6 +25,8 @@ from gaia_cli.steward.primitives.files import (
     read_text_bounded,
     tracked_files,
 )
+from gaia_cli.steward.primitives.inputs import require_fresh
+from gaia_cli.steward.primitives.redact import describe_value, scrub
 
 _BUILTIN_MARKERS = frozenset(
     {"parametrize", "skip", "skipif", "xfail", "usefixtures", "filterwarnings", "timeout"}
@@ -453,10 +455,98 @@ def _walk_scope(scope: ast.AST) -> Iterable[ast.AST]:
             stack.extend(ast.iter_child_nodes(node))
 
 
+_TEARDOWN_NAMES = frozenset(
+    {
+        "tearDown", "tearDownClass", "tearDownModule", "doCleanups",
+        "teardown", "teardown_method", "teardown_class", "teardown_function", "teardown_module",
+    }
+)
+_CLEANUP_REGISTRARS = frozenset({"addCleanup", "addClassCleanup", "addfinalizer", "callback"})
+
+
+def _is_chdir(node: ast.AST, aliases: Mapping[str, str]) -> bool:
+    return isinstance(node, ast.Call) and _dotted(node.func, aliases) == "os.chdir"
+
+
+def _contains_chdir(node: ast.AST, aliases: Mapping[str, str]) -> bool:
+    return any(_is_chdir(child, aliases) for child in ast.walk(node))
+
+
+def _yield_lines(function: ast.AST) -> list[int]:
+    return [child.lineno for child in ast.walk(function) if isinstance(child, (ast.Yield, ast.YieldFrom))]
+
+
+def _is_fixture(function: ast.FunctionDef | ast.AsyncFunctionDef, aliases: Mapping[str, str]) -> bool:
+    for decorator in function.decorator_list:
+        target = decorator.func if isinstance(decorator, ast.Call) else decorator
+        name = _dotted(target, aliases) or ""
+        if name.rsplit(".", 1)[-1] == "fixture":
+            return True
+    return False
+
+
+def _restored_chdirs(tree: ast.Module, aliases: Mapping[str, str]) -> set[int]:
+    """Return ``id`` of every ``os.chdir`` call whose effect is undone or is the undoing.
+
+    A chdir is restored (or is itself the restoration) when it sits in a
+    ``finally`` block, in a ``try`` whose ``finally`` chdirs back, in a
+    teardown/cleanup function, in a method whose class tears the cwd back down,
+    in a fixture that chdirs again after its ``yield``, or beside an
+    ``addCleanup``/``addfinalizer`` that registers ``os.chdir``. An unrestored
+    chdir leaks the working directory into every later test and stays a finding.
+    """
+
+    parents: dict[int, ast.AST] = {}
+    for parent in ast.walk(tree):
+        for child in ast.iter_child_nodes(parent):
+            parents[id(child)] = parent
+
+    restored: set[int] = set()
+    for call in (node for node in ast.walk(tree) if _is_chdir(node, aliases)):
+        child: ast.AST = call
+        node = parents.get(id(call))
+        while node is not None and id(call) not in restored:
+            if isinstance(node, ast.Try):
+                if any(child is item for item in node.finalbody):
+                    restored.add(id(call))
+                elif any(child is item for item in node.body) and any(
+                    _contains_chdir(item, aliases) for item in node.finalbody
+                ):
+                    restored.add(id(call))
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if node.name in _TEARDOWN_NAMES:
+                    restored.add(id(call))
+                elif _is_fixture(node, aliases):
+                    yields = _yield_lines(node)
+                    chdirs = [c.lineno for c in ast.walk(node) if _is_chdir(c, aliases)]
+                    if yields and (call.lineno > min(yields) or any(line > min(yields) for line in chdirs)):
+                        restored.add(id(call))
+                registered = any(
+                    isinstance(c, ast.Call)
+                    and isinstance(c.func, ast.Attribute)
+                    and c.func.attr in _CLEANUP_REGISTRARS
+                    and any(_dotted(arg, aliases) == "os.chdir" for arg in c.args)
+                    for c in ast.walk(node)
+                )
+                if registered:
+                    restored.add(id(call))
+            elif isinstance(node, ast.ClassDef):
+                if any(
+                    isinstance(member, (ast.FunctionDef, ast.AsyncFunctionDef))
+                    and member.name in _TEARDOWN_NAMES
+                    and _contains_chdir(member, aliases)
+                    for member in node.body
+                ):
+                    restored.add(id(call))
+            child, node = node, parents.get(id(node))
+    return restored
+
+
 def _isolation_findings(tree: ast.Module) -> list[dict[str, Any]]:
     aliases = _aliases(tree)
     mocked = _uses_mocking(tree, aliases)
     home_redirected = _redirects_home(tree)
+    restored = _restored_chdirs(tree, aliases)
     findings: list[dict[str, Any]] = []
 
     for node in ast.walk(tree):
@@ -476,6 +566,8 @@ def _isolation_findings(tree: ast.Module) -> list[dict[str, Any]]:
                 findings.append({"line": node.lineno, "pattern": "network",
                                  "detail": f"{name} with no monkeypatch/mock/responses/respx in the file"})
             elif name == "os.chdir":
+                if id(node) in restored:
+                    continue
                 findings.append({"line": node.lineno, "pattern": "chdir",
                                  "detail": "os.chdir changes process-global cwd; use monkeypatch.chdir"})
             elif name == "os.environ.update":
@@ -550,7 +642,7 @@ class TestIsolationSensor:
 # 3. test history
 # --------------------------------------------------------------------------
 
-def _load_history(root: Path) -> list[dict[str, Any]]:
+def _load_history(root: Path, observed_at: str) -> tuple[list[dict[str, Any]], dict[str, str]]:
     path = root / _HISTORY_PATH
     if not path.is_file():
         raise SensorNotEvaluated(
@@ -560,7 +652,7 @@ def _load_history(root: Path) -> list[dict[str, Any]]:
     try:
         document = json.loads(text)
     except json.JSONDecodeError as exc:
-        raise SensorUnavailable(f"test history is not valid JSON: {exc}") from exc
+        raise SensorUnavailable(f"test history is not valid JSON: {exc.msg}") from exc
     if not isinstance(document, dict) or document.get("schemaVersion") != _HISTORY_SCHEMA:
         raise SensorUnavailable(f"test history must declare schemaVersion {_HISTORY_SCHEMA}")
     runs = document.get("runs")
@@ -577,40 +669,46 @@ def _load_history(root: Path) -> list[dict[str, Any]]:
         if not isinstance(run_id, str) or not run_id or not isinstance(sha, str) or not sha:
             raise SensorUnavailable("test history run needs non-empty string runId and sha")
         if run_id in seen:
-            raise SensorUnavailable(f"test history repeats runId {run_id}")
+            raise SensorUnavailable(f"test history repeats a runId {describe_value(run_id)}")
         seen.add(run_id)
         if not isinstance(results, dict):
-            raise SensorUnavailable(f"test history run {run_id} results must be an object")
+            raise SensorUnavailable(f"test history run {describe_value(run_id)} results must be an object")
         total += len(results)
         if total > _HISTORY_MAX_RESULTS:
             raise SensorUnavailable("test history exceeds the bounded result count")
         for nodeid, status in results.items():
             if not isinstance(nodeid, str) or status not in _HISTORY_STATUSES:
-                raise SensorUnavailable(f"test history run {run_id} has an invalid result entry")
-    return runs
+                raise SensorUnavailable(
+                    f"test history run {describe_value(run_id)} has an invalid result entry"
+                )
+    freshness = require_fresh(document, path, observed_at, label="test history")
+    return runs, freshness
 
 
 class TestHistorySensor:
-    """Report tests that both passed and failed on the same commit (optional input)."""
+    """Report tests that both passed and failed on the same commit (optional input).
+
+    Exhaustive whenever the history is present, valid and fresh; an absent or
+    stale history is ``SensorNotEvaluated`` and sweeps nothing.
+    """
 
     __test__ = False
     id = "test-history"
     debt_kinds = ("flaky_test",)
     routine_ids = (5,)
+    resolution_scope = "exhaustive"
+    driver_inputs = (_HISTORY_PATH,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        try:
-            root = repo_root.resolve(strict=True)
-        except (OSError, RuntimeError) as exc:
-            raise SensorUnavailable(f"repository root is unavailable: {exc}") from exc
-        runs = _load_history(root)
+        root = git_root(repo_root)
+        runs, freshness = _load_history(root, observed_at)
         by_node: dict[str, dict[str, list[tuple[str, str]]]] = {}
         for run in runs:
             for nodeid, status in run["results"].items():
                 if status == "skipped":
                     continue
                 by_node.setdefault(nodeid, {}).setdefault(run["sha"], []).append((run["runId"], status))
-        provenance = {"input": _HISTORY_PATH, "schema": _HISTORY_SCHEMA, "runs": len(runs)}
+        provenance = {"input": _HISTORY_PATH, "schema": _HISTORY_SCHEMA, "runs": len(runs), **freshness}
         observations: list[Observation] = []
         for nodeid in sorted(by_node):
             findings: list[dict[str, Any]] = []
@@ -623,12 +721,21 @@ class TestHistorySensor:
                     if status in {"failed", "error"}
                 ]
                 if passed and failed:
-                    findings.append({"sha": sha, "passedRuns": passed, "failedRuns": failed})
+                    findings.append(
+                        {
+                            "sha": scrub(sha)[:80],
+                            "passedRuns": [scrub(run_id)[:80] for run_id in passed],
+                            "failedRuns": [
+                                {"runId": scrub(item["runId"])[:80], "status": item["status"]}
+                                for item in failed
+                            ],
+                        }
+                    )
             if findings:
                 observations.append(
                     _observation(
                         kind="flaky_test",
-                        subject=Subject(type="test-node", id=nodeid),
+                        subject=Subject(type="test-node", id=scrub(nodeid)[:400]),
                         source=self.id, observed_at=observed_at,
                         findings=findings, confidence=0.9, provenance=provenance,
                     )

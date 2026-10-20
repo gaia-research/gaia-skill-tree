@@ -5,10 +5,18 @@ emits only ``drift`` observations (one per subject), and reports findings in a
 stable order. Coverage is exhaustive over its domain, so a completed scan may
 resolve debt that it no longer re-observes.
 
+Findings never echo a value read from the repository: a timestamp or a schema
+instance that fails a check is reported by type, length and a short sha256
+fingerprint (``primitives.redact``), because anything printed here reaches
+``debt.json``, receipts and stdout.
+
 Skip accounting: a subject that cannot be interpreted at all (undecodable text,
-unparseable frontmatter) is skipped and counted, never silently treated as
-healthy. ``scan_with_stats`` returns those counts; ``scan`` returns only the
-observations and is what the controller calls.
+unparseable frontmatter, a parser failure) is recorded in a ``SkipLog`` and
+returned by ``scan_detailed``; the controller then sweeps nothing the sensor
+owns and lists it under ``partialCoverage``, because a subject nobody evaluated
+is unknown, never healthy. If every subject is skipped the sensor is blind and
+raises ``SensorUnavailable``. ``scan_with_stats`` also returns the counts;
+``scan`` returns only the observations.
 """
 
 from __future__ import annotations
@@ -26,14 +34,16 @@ from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError
 from jsonschema.validators import validator_for
 
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorUnavailable,
+    SkipLog,
     finding_payload,
     git_root,
     read_text_bounded,
     tracked_files,
 )
+from gaia_cli.steward.primitives.redact import describe_value, scrub
 
 _SUBJECT_LIMIT_BYTES = 2 * 1024 * 1024
 _UTC = _dt.timezone.utc
@@ -97,6 +107,18 @@ def _iter_refs(node: Any) -> Iterator[str]:
     elif isinstance(node, list):
         for item in node:
             yield from _iter_refs(item)
+
+
+def _keyword(error: SchemaError) -> str:
+    keyword = error.validator
+    return keyword if isinstance(keyword, str) and keyword.isidentifier() else "unknown"
+
+
+def _json_path(error: SchemaError) -> str:
+    """Render the failing location as a JSON pointer, with keys scrubbed and bounded."""
+
+    parts = [str(part).replace("~", "~0").replace("/", "~1") for part in error.absolute_path]
+    return scrub("/" + "/".join(parts))[:160] if parts else "/"
 
 
 def _pointer_resolves(document: Any, fragment: str) -> bool:
@@ -209,7 +231,14 @@ class SchemaValiditySensor:
         try:
             validator_cls.check_schema(document)
         except SchemaError as exc:
-            found.append({"rule": "invalid-schema", "detail": exc.message.splitlines()[0][:240]})
+            # exc.message embeds the offending value. Report the meta-schema
+            # keyword that failed and where in the document, never the value.
+            found.append(
+                {
+                    "rule": "invalid-schema",
+                    "detail": f"keyword {_keyword(exc)} fails at {_json_path(exc)}",
+                }
+            )
 
         schema_dir = (root / relative).parent
         for ref in _iter_refs(document):
@@ -223,7 +252,7 @@ class SchemaValiditySensor:
                     found.append(
                         {
                             "rule": "unresolved-local-ref",
-                            "detail": f"$ref {ref!r} does not resolve inside the document",
+                            "detail": f"$ref {scrub(ref)[:160]!r} does not resolve inside the document",
                         }
                     )
                 continue
@@ -233,7 +262,10 @@ class SchemaValiditySensor:
                 found.append(
                     {
                         "rule": "unresolved-local-ref",
-                        "detail": f"$ref {ref!r} names no file {base!r} beside this schema",
+                        "detail": (
+                            f"$ref {scrub(ref)[:160]!r} names no file {scrub(base)[:160]!r} "
+                            "beside this schema"
+                        ),
                     }
                 )
         return found
@@ -254,7 +286,9 @@ class SchemaValiditySensor:
                 result.setdefault(owner, []).append(
                     {
                         "rule": "duplicate-id",
-                        "detail": f"$id {identity!r} is also declared by {', '.join(others)}",
+                        "detail": (
+                            f"$id {scrub(identity)[:160]!r} is also declared by {', '.join(others)}"
+                        ),
                     }
                 )
         return result
@@ -330,14 +364,11 @@ def _compare(
     return (left_key > right_key) - (left_key < right_key)
 
 
-def _describe(value: Any) -> str:
-    """Render a timestamp for a finding detail, bounded and unquoted."""
+def _normalized(instant: tuple[_dt.datetime, bool]) -> str:
+    """Render a *parsed* instant. It is derived from the value, never the raw text."""
 
-    if isinstance(value, str):
-        return value[:64]
-    if hasattr(value, "isoformat"):
-        return value.isoformat()[:64]
-    return repr(value)[:64]
+    moment, day_precision = instant
+    return moment.date().isoformat() if day_precision else moment.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class TimelineCausalitySensor:
@@ -350,13 +381,20 @@ class TimelineCausalitySensor:
     _prefix = "registry/named/"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        observations, _stats = self.scan_with_stats(repo_root, observed_at)
-        return observations
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        return self._run(repo_root, observed_at)[0]
 
     def scan_with_stats(
         self, repo_root: Path, observed_at: str
     ) -> tuple[list[Observation], dict[str, int]]:
+        scan, stats = self._run(repo_root, observed_at)
+        return list(scan.observations), stats
+
+    def _run(self, repo_root: Path, observed_at: str) -> tuple[SensorScan, dict[str, int]]:
         root = git_root(repo_root)
+        skips = SkipLog()
         now = _parse_instant(observed_at)
         if now is None:
             raise SensorUnavailable("observed_at is not a parseable timestamp")
@@ -370,38 +408,38 @@ class TimelineCausalitySensor:
             "skillsWithTimeline": 0,
             "events": 0,
         }
-        pending: list[tuple[str, str, list[dict[str, Any]], int]] = []
+        pending: list[tuple[str, list[dict[str, Any]], int]] = []
         for relative in inventory:
+            subject_id = relative[len(self._prefix):-len(".md")]
             text = _read_subject(root / relative)
             if text is None:
                 stats["skippedUndecodable"] += 1
+                skips.add("named-skill", subject_id, "file is not valid UTF-8")
                 continue
             frontmatter = _frontmatter(text)
             if frontmatter is None:
                 stats["skippedUnparseableFrontmatter"] += 1
+                skips.add("named-skill", subject_id, "frontmatter is missing or not a parseable YAML mapping")
                 continue
             events = frontmatter.get("timeline")
             if events is None:
                 continue
             if not isinstance(events, list):
                 stats["skippedUnsupportedTimeline"] += 1
+                skips.add("named-skill", subject_id, "timeline is not a list of events")
                 continue
-            identity = frontmatter.get("id")
-            subject_id = identity.strip() if isinstance(identity, str) and identity.strip() else relative
-            pending.append((relative, subject_id, events, len(events)))
+            pending.append((relative, events, len(events)))
             stats["skillsWithTimeline"] += 1
             stats["events"] += len(events)
 
-        # One observation per subject: an id shared by two files falls back to
-        # each file's path, so neither is silently merged into the other.
-        counts: dict[str, int] = {}
-        for _relative, subject_id, _events, _count in pending:
-            counts[subject_id] = counts.get(subject_id, 0) + 1
+        skips.require_coverage(len(inventory), "named-skill files")
 
+        # One observation per subject, keyed on the file's path. A frontmatter
+        # ``id`` is author-controlled and can be duplicated or edited, which
+        # would silently re-key (and so re-open) debt; the path cannot collide.
         observations: list[Observation] = []
-        for relative, subject_id, events, count in pending:
-            if counts[subject_id] > 1:
-                subject_id = relative
+        for relative, events, count in pending:
+            subject_id = relative[len(self._prefix):-len(".md")]
             found = _sort_findings(self._check_events(events, now))
             if not found:
                 continue
@@ -425,12 +463,12 @@ class TimelineCausalitySensor:
                     },
                 )
             )
-        return observations, stats
+        return SensorScan(tuple(observations), skips.entries()), stats
 
     @staticmethod
     def _check_events(events: list[Any], now: tuple[_dt.datetime, bool]) -> list[dict[str, Any]]:
         found: list[dict[str, Any]] = []
-        previous: tuple[int, tuple[_dt.datetime, bool], Any] | None = None
+        previous: tuple[int, tuple[_dt.datetime, bool]] | None = None
         for index, event in enumerate(events):
             if not isinstance(event, dict):
                 found.append(
@@ -443,7 +481,10 @@ class TimelineCausalitySensor:
                 found.append(
                     {
                         "rule": "unparseable-timestamp",
-                        "detail": f"event {index} has no parseable timestamp: {_describe(raw)!r}",
+                        "detail": (
+                            f"event {index} has no parseable timestamp: "
+                            f"{describe_value(raw) if raw is not None else 'missing'}"
+                        ),
                     }
                 )
                 continue
@@ -451,7 +492,7 @@ class TimelineCausalitySensor:
                 found.append(
                     {
                         "rule": "future-timestamp",
-                        "detail": f"event {index} at {_describe(raw)} is after observed_at",
+                        "detail": f"event {index} at {_normalized(instant)} is after observed_at",
                     }
                 )
             if previous is not None and _compare(instant, previous[1]) < 0:
@@ -459,12 +500,12 @@ class TimelineCausalitySensor:
                     {
                         "rule": "out-of-order",
                         "detail": (
-                            f"event {index} at {_describe(raw)} precedes event {previous[0]} "
-                            f"at {_describe(previous[2])}"
+                            f"event {index} at {_normalized(instant)} precedes event {previous[0]} "
+                            f"at {_normalized(previous[1])}"
                         ),
                     }
                 )
-            previous = (index, instant, raw)
+            previous = (index, instant)
         return found
 
 
@@ -525,13 +566,20 @@ class FrontendContractSensor:
     resolution_scope = "exhaustive"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        observations, _stats = self.scan_with_stats(repo_root, observed_at)
-        return observations
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        return self._run(repo_root, observed_at)[0]
 
     def scan_with_stats(
         self, repo_root: Path, observed_at: str
     ) -> tuple[list[Observation], dict[str, int]]:
+        scan, stats = self._run(repo_root, observed_at)
+        return list(scan.observations), stats
+
+    def _run(self, repo_root: Path, observed_at: str) -> tuple[SensorScan, dict[str, int]]:
         root = git_root(repo_root)
+        skips = SkipLog()
         inventory = tracked_files(
             root,
             ["docs/"],
@@ -544,17 +592,21 @@ class FrontendContractSensor:
             text = _read_subject(root / relative)
             if text is None:
                 stats["skippedUndecodable"] += 1
+                skips.add("html-page", relative, "file is not valid UTF-8")
                 continue
             parser = _ContractParser()
             try:
                 parser.feed(text)
                 parser.close()
-            except Exception:  # HTMLParser is lenient; anything escaping it is a malformed subject.
+            except Exception as exc:  # HTMLParser is lenient; anything escaping it is a malformed subject.
                 stats["skippedUndecodable"] += 1
+                skips.add("html-page", relative, f"HTML parser failed: {type(exc).__name__}")
                 continue
             if parser.html_line is None:
                 # A partial or fragment has no document element; it is a
-                # component of another page, not a page with a contract.
+                # component of another page, not a page with a contract. That
+                # is a legitimate input, not a failure to evaluate, so it is
+                # counted but never a skip.
                 stats["skippedFragment"] += 1
                 continue
             found = self._findings(parser)
@@ -578,7 +630,8 @@ class FrontendContractSensor:
                     },
                 )
             )
-        return observations, stats
+        skips.require_coverage(len(inventory), "HTML pages")
+        return SensorScan(tuple(observations), skips.entries()), stats
 
     @staticmethod
     def _findings(parser: _ContractParser) -> list[dict[str, Any]]:

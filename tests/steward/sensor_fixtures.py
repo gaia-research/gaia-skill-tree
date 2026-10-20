@@ -8,7 +8,9 @@ worktree. ``make_repo`` writes files, commits them, and returns the root;
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
+from datetime import datetime
 from pathlib import Path
 from typing import Mapping
 
@@ -43,6 +45,13 @@ def make_repo(root: Path, files: Mapping[str, str]) -> Path:
 def commit_all(root: Path, message: str = "update") -> None:
     _git(root, "add", "-A")
     _git(root, "commit", "-q", "--allow-empty", "-m", message)
+
+
+def set_mtime(path: Path, instant: str) -> None:
+    """Date a driver input. Freshness of an untimestamped input is its mtime."""
+
+    seconds = datetime.fromisoformat(instant.replace("Z", "+00:00")).timestamp()
+    os.utime(path, (seconds, seconds))
 
 
 def tree_digest(root: Path) -> str:
