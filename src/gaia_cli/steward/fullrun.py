@@ -524,15 +524,18 @@ class FullRunner:
         try:
             while True:
                 run = self._loadRun(runId)
+                if run["status"] not in OPENRUNSTATES:
+                    break
+                self._supersede(runId)
+                run = self._loadRun(runId)
                 if run["phase"] == "done" and run["status"] == "awaiting-action":
                     self._settleDone(runId)
                     break
-                if run["status"] not in OPENRUNSTATES or run["phase"] == "done":
+                if run["phase"] == "done":
                     break
                 handler = self._handlers.get(run["phase"])
                 if handler is None:
                     raise FullRunError(f"run {runId} is at unknown phase {run['phase']!r}")
-                self._supersede(runId)
                 if run["status"] != "active":
                     self._setStatus(runId, "active", "")
                 _checkpoint(f"phase:{run['phase']}")
@@ -596,10 +599,17 @@ class FullRunner:
         """A finished run that was waiting on the driver completes once nothing is pending."""
 
         now = self._now()
+        current = self._loadRun(runId)
+        desk = None
+        if current["status"] == "awaiting-action" and not self._pending(current):
+            # The driver's outcomes changed what the founder should see (an escalation, a landing).
+            desk = self._buildDesk(runId, self._load(), current, now)
 
         def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
             if run["status"] != "awaiting-action" or self._pending(run):
                 return
+            if desk is not None:
+                run["desk"] = desk
             if run.get("deferred"):
                 # Deferred verification is never "nothing further": stay awaiting-action, but do
                 # not hold the lease for work no driver can finish.

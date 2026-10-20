@@ -324,3 +324,76 @@ def test_the_runner_never_touches_a_real_ledger_ref(tmp_path: Path) -> None:
     makeRunner(repo, store, [StubSensor("repository-hygiene", "repository_hygiene")]).start("observe")
     refs = git(bare, "for-each-ref", "--format=%(refname:short)", "refs/heads").split()
     assert not [r for r in refs if r.startswith("steward/")]
+
+
+# --- D10: distinct exit codes, documented where an operator looks -------------------------
+
+
+def test_run_help_documents_every_exit_code(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    repo, _ = makeFixture(tmp_path)
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--help")
+    assert code == 0
+    assert "exit codes:" in out
+    for line in ("0  completed", "1  failed", "2  refused input", "3  blocked", "4  observing-existing"):
+        assert line in out, line
+
+
+def test_exit_codes_are_distinct_for_every_outcome() -> None:
+    from gaia_cli.steward.fullrun import RunView
+
+    codes = {
+        status: RunView(runId="r", mode="full", status=status, phase="done", nextAction="").exitCode
+        for status in ("completed", "awaiting-action", "failed", "abandoned", "blocked", "observing-existing")
+    }
+    assert codes == {"completed": 0, "awaiting-action": 0, "failed": 1, "abandoned": 1,
+                     "blocked": 3, "observing-existing": 4}
+
+
+def test_conflicting_integration_branch_on_resume_exits_two(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    repo, _ = makeFixture(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    view = makeRunner(repo, StewardCommand._fullStore(repo, "local", "origin"), [sensor]).start("full")
+    useSensors(monkeypatch, [sensor])
+    code, _out, err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--resume", view.runId,
+                             "--integration-branch", "dev/elsewhere")
+    assert code == 2 and "refusing to resume" in err
+
+
+def test_routine_placeholder_parses_but_a_non_number_is_refused_at_run_time(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    parser, _ = get_parser()
+    args = parser.parse_args(["--registry", ".", "steward", "full", "run", "--triage", "--routine", "N", "--json"])
+    assert args.routine == "N"
+    repo, _ = makeFixture(tmp_path)
+    useSensors(monkeypatch, [])
+    code, _out, err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--triage", "--routine", "N")
+    assert code == 2 and "must be a number" in err
+
+
+# --- D11: --retro prints the routine and sensor table for a person ----------------------------
+
+
+def test_retro_human_output_prints_the_sensor_and_routine_tables(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    repo, _ = makeFixture(tmp_path)
+    useSensors(monkeypatch, [
+        StubSensor("detector-ok", "repository_hygiene", routines=(3,)),
+        StubSensor("detector-dark", "registry_integrity_failed", routines=(3,), raises=SensorUnavailable("dark")),
+        StubSensor("detector-solo", "repository_hygiene", routines=(5,)),
+    ])
+
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--retro", "--ledger", "local")
+
+    assert code == 3, "unknown coverage blocks, in every mode"
+    lines = out.splitlines()
+    assert "Sensors" in lines and "Routines" in lines
+    assert any(l.strip().startswith("detector-dark") and "unknown" in l for l in lines)
+    assert any(l.strip().startswith("detector-ok") and "executed" in l for l in lines)
+    three = next(l for l in lines if l.strip().startswith("3 ") and "detector-ok" in l)
+    assert "partial" in three and "observed" not in three
+    five = next(l for l in lines if l.strip().startswith("5 ") and "detector-solo" in l)
+    assert "observed" in five
+    routineRows = [l for l in lines if l.startswith("  ") and l.split()[:1] and l.split()[0].isnumeric()]
+    assert len(routineRows) == 17
