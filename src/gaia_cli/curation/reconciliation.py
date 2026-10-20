@@ -1,34 +1,32 @@
 """Deterministic inventory freeze and reconciliation for discovery-packet-v2.
 
-Lane C API for the chain/orchestrator: ``freezeInventory(candidates)`` freezes
-candidate IDs, exact named identities, source revision/hash, and stable task IDs
-before any dispatch. ``reconcileInventory(envelope, receipts, ...)`` verifies
-receipts against that freeze and returns exactly one disposition per candidate.
-This is an outer control envelope only; packet payloads remain discovery-packet-v2
-and no alternate ontology or human approval is represented here.
-
-Receipt contract: candidateId, taskId, attempt, inputDigest, outputDigest,
-packetPath, packetHash, proposedGeneric, outcome; optionally packet (mapping) or
-packetBytes (bytes). The actual packet bytes are independently hashed. A path is
-read only beneath packetRoot (default current directory), and its bytes are the
-authoritative output. Exact duplicates require explicit source proof matching a
-frozen candidate's source URL, cited origin, or source SHA-256.
+The frozen inventory binds candidate and exact named identity independently,
+source URL/revision/digest, and a detached packet input. ``sourceRevision`` may
+be null only when ``freshnessRequired`` is true; no branch or commit is inferred.
+Receipts are untrusted claims: actual packet bytes are validated and bound to
+all frozen facts before a row can be review-ready. Review-ready means L4
+presentation only, never human approval.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
+from gaia_cli.namedIdentity import NAMED_SLUG_RE, validateContributor
+
 ENVELOPE_VERSION = "curation-inventory-v1"
 OUTCOMES = {"review-ready", "deferred", "rejected", "proven-duplicate"}
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def canonicalJson(value: Any) -> bytes:
     """Serialize JSON deterministically (UTF-8, sorted keys, compact form)."""
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")
 
 
 def sha256(value: bytes) -> str:
@@ -41,51 +39,62 @@ def _nonempty(value: Any, label: str) -> str:
     return value
 
 
-def freezeInventory(candidates: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
-    """Freeze a candidate inventory into deterministic, dispatch-ready rows.
+def _valid_identity(value: Any, label: str) -> str:
+    identity = _nonempty(value, label)
+    if identity.count("/") != 1:
+        raise ValueError(f"{label} must be exact contributor/slug identity")
+    contributor, slug = identity.split("/")
+    problem = validateContributor(contributor)
+    if problem or not NAMED_SLUG_RE.fullmatch(slug):
+        raise ValueError(f"{label} is not a valid lowercase named identity" + (f": {problem}" if problem else ""))
+    return identity
 
-    Each candidate must contain candidateId, namedIdentity, sourceRevision,
-    sourceDigest, and packetInput (the immutable worker input). Optional source
-    proof fields (canonicalUrl/citedOrigin) are retained. Duplicate candidate
-    IDs are rejected rather than collapsed. Identity and source facts are copied
-    into the envelope before workers can run.
-    """
+
+def freezeInventory(candidates: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
+    """Freeze validated candidate rows before dispatch; detach all JSON inputs."""
     rows = []
     seen: set[str] = set()
     for item in candidates:
         if not isinstance(item, Mapping):
             raise ValueError("each inventory candidate must be a mapping")
-        candidate_id = _nonempty(item.get("candidateId"), "candidateId")
-        if candidate_id in seen:
-            raise ValueError(f"duplicate candidateId: {candidate_id}")
-        seen.add(candidate_id)
-        identity = _nonempty(item.get("namedIdentity"), f"{candidate_id}.namedIdentity")
+        cid = _nonempty(item.get("candidateId"), "candidateId")
+        if cid in seen:
+            raise ValueError(f"duplicate candidateId: {cid}")
+        seen.add(cid)
+        identity = _valid_identity(item.get("namedIdentity"), f"{cid}.namedIdentity")
         revision = item.get("sourceRevision")
+        freshness_required = item.get("freshnessRequired", False)
+        if not isinstance(freshness_required, bool):
+            raise ValueError(f"{cid}.freshnessRequired must be boolean")
+        if revision is None:
+            if not freshness_required:
+                raise ValueError(f"{cid}.sourceRevision may be null only with freshnessRequired")
+        elif not isinstance(revision, str) or not revision.strip():
+            raise ValueError(f"{cid}.sourceRevision must be a non-empty string or null")
         digest = item.get("sourceDigest")
-        if not isinstance(revision, str) or not revision.strip():
-            raise ValueError(f"{candidate_id}.sourceRevision must be a non-empty string")
-        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest.lower()):
-            raise ValueError(f"{candidate_id}.sourceDigest must be a SHA-256 hex digest")
+        if not isinstance(digest, str) or not _SHA256.fullmatch(digest):
+            raise ValueError(f"{cid}.sourceDigest must be a lowercase SHA-256 digest")
+        source_url = _nonempty(item.get("canonicalUrl"), f"{cid}.canonicalUrl")
         if "packetInput" not in item:
-            raise ValueError(f"{candidate_id}.packetInput is required")
-        packet_input = item["packetInput"]
-        input_digest = sha256(canonicalJson(packet_input))
+            raise ValueError(f"{cid}.packetInput is required")
+        try:
+            packet_input = copy.deepcopy(item["packetInput"])
+            input_bytes = canonicalJson(packet_input)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{cid}.packetInput must be JSON-compatible") from exc
+        input_digest = sha256(input_bytes)
         task_id = "task-" + sha256(canonicalJson({
-            "candidateId": candidate_id, "namedIdentity": identity,
-            "sourceRevision": revision, "sourceDigest": digest.lower(),
-            "inputDigest": input_digest,
+            "candidateId": cid, "namedIdentity": identity,
+            "sourceRevision": revision, "sourceDigest": digest,
+            "canonicalUrl": source_url, "inputDigest": input_digest,
         }))[:24]
         rows.append({
-            "candidateId": candidate_id,
-            "namedIdentity": identity,
-            "sourceRevision": revision,
-            "sourceDigest": digest.lower(),
-            "canonicalUrl": item.get("canonicalUrl"),
-            "citedOrigin": item.get("citedOrigin"),
-            "packetInput": packet_input,
-            "inputDigest": input_digest,
-            "taskId": task_id,
-            "assignedAttempt": 1,
+            "candidateId": cid, "namedIdentity": identity,
+            "sourceRevision": revision, "freshnessRequired": freshness_required,
+            "sourceDigest": digest, "canonicalUrl": source_url,
+            "citedOrigin": copy.deepcopy(item.get("citedOrigin")),
+            "packetInput": packet_input, "inputDigest": input_digest,
+            "taskId": task_id, "assignedAttempt": 1,
         })
     rows.sort(key=lambda row: row["candidateId"])
     envelope = {"contractVersion": ENVELOPE_VERSION, "candidates": rows}
@@ -101,8 +110,8 @@ def _safe_packet_bytes(receipt: Mapping[str, Any], packet_root: Path) -> bytes:
         return data
     if "packet" in receipt:
         packet = receipt["packet"]
-        if not isinstance(packet, Mapping) or packet.get("contractVersion") != "discovery-packet-v2":
-            raise ValueError("packet must be a discovery-packet-v2 mapping")
+        if not isinstance(packet, Mapping):
+            raise ValueError("packet must be a mapping")
         return canonicalJson(packet)
     path_value = receipt.get("packetPath")
     if not isinstance(path_value, str) or not path_value:
@@ -117,22 +126,78 @@ def _safe_packet_bytes(receipt: Mapping[str, Any], packet_root: Path) -> bytes:
     return resolved.read_bytes()
 
 
-def _proof_matches(row: Mapping[str, Any], proof: Any) -> bool:
+def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Mapping[str, Any]]) -> bool:
     if not isinstance(proof, Mapping):
         return False
+    target = proof.get("targetNamedIdentity")
+    target_row = targets.get(target) if isinstance(target, str) else None
+    if target_row is None or target == row["namedIdentity"]:
+        return False
     source = proof.get("source") if isinstance(proof.get("source"), Mapping) else proof
-    return any((key in row and row.get(key) and source.get(key) == row.get(key)) for key in ("canonicalUrl", "citedOrigin")) or (
-        bool(row.get("sourceDigest")) and source.get("contentSha256") == row.get("sourceDigest")
-    )
+    return ((bool(target_row.get("canonicalUrl")) and source.get("canonicalUrl") == target_row.get("canonicalUrl"))
+            or (bool(target_row.get("citedOrigin")) and source.get("citedOrigin") == target_row.get("citedOrigin"))
+            or (bool(target_row.get("sourceDigest")) and source.get("contentSha256") == target_row.get("sourceDigest")))
+
+
+def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
+    if packet.get("candidateId") != row["candidateId"]:
+        return ["packet candidate identity mismatch"]
+    source = packet.get("source")
+    named = packet.get("namedIdentity")
+    if named is None:
+        named = (packet.get("l4Resolution") or {}).get("named") if isinstance(packet.get("l4Resolution"), Mapping) else None
+    if not isinstance(named, (Mapping, str)):
+        return ["packet is not bound to frozen named identity"]
+    packet_identity = f"{named.get('contributor', '')}/{named.get('slug', named.get('skillSlug', ''))}" if isinstance(named, Mapping) else named
+    # discovery-packet-v2's l4Resolution uses contributor/skillName for the
+    # exact contributor/slug identity; pre-L4 discovery may bind it explicitly.
+    if isinstance(named, Mapping) and named.get("namedIdentity") is not None:
+        packet_identity = named.get("namedIdentity")
+    elif isinstance(named, Mapping) and named.get("skillName") is not None and named.get("slug") is None and named.get("skillSlug") is None:
+        packet_identity = f"{named.get('contributor', '')}/{named.get('skillName')}"
+    if packet_identity != row["namedIdentity"]:
+        return ["packet named identity mismatch"]
+    if not isinstance(source, Mapping):
+        return ["packet source provenance missing"]
+    if source.get("canonicalUrl") != row["canonicalUrl"]:
+        return ["packet source URL mismatch"]
+    if source.get("contentSha256") != row["sourceDigest"]:
+        return ["packet source digest mismatch"]
+    revision = source.get("commitSha", source.get("revision"))
+    if row["sourceRevision"] is not None and revision != row["sourceRevision"]:
+        return ["packet source revision mismatch"]
+    if row["sourceRevision"] is None and not row["freshnessRequired"]:
+        return ["unresolved source revision lacks freshness requirement"]
+    frozen_input = row.get("packetInput")
+    input_packet = frozen_input.get("packet") if isinstance(frozen_input, Mapping) else None
+    expected_snapshot = input_packet.get("genericSnapshot") if isinstance(input_packet, Mapping) else None
+    if not isinstance(expected_snapshot, Mapping):
+        return ["frozen input lacks a trusted generic snapshot"]
+    if packet.get("genericSnapshot") != expected_snapshot:
+        return ["packet generic snapshot differs from frozen input"]
+    if packet.get("contractVersion") != "discovery-packet-v2":
+        return ["output is not discovery-packet-v2"]
+    try:
+        from gaia_cli.prefill import _importPacketValidator
+        validator = _importPacketValidator()
+        if validator is None:
+            return ["discovery-packet-v2 validator unavailable"]
+        snapshot = packet.get("genericSnapshot")
+        trusted = snapshot.get("generics") if isinstance(snapshot, Mapping) else None
+        errors = validator(packet, trusted_generics=trusted)
+    except Exception as exc:
+        return [f"packet validator failed: {type(exc).__name__}: {exc}"]
+    return [f"invalid discovery packet: {code}" for code in errors]
 
 
 def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[str, Any]], *, packetRoot: str | os.PathLike[str] = ".", genericDefinitions: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    """Verify worker receipts and conserve every frozen row exactly once.
+    """Reconcile all receipts independent of arrival order; retain one decision per row.
 
-    Invalid, absent, stale, or mismatched receipts become deferred rows. If
-    multiple NEW_GENERIC definitions share an ID but differ in full definition,
-    every proposer for that ID is rejected deterministically (never first-wins).
-    ``review-ready`` means ready for L4 presentation only, never approved.
+    Every unknown receipt is reported, never accepted. Multiple receipts for a
+    candidate are a deterministic conflict and defer that candidate even if one
+    receipt is valid. Exact-duplicate proof must identify a different surviving
+    frozen named identity and match source proof; shared generic mapping is not
+    a duplicate. ``review-ready`` does not mean human-approved.
     """
     if not isinstance(envelope, Mapping) or envelope.get("contractVersion") != ENVELOPE_VERSION:
         raise ValueError("unsupported inventory envelope")
@@ -145,16 +210,28 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
     rows = {row["candidateId"]: row for row in frozen_rows}
     if len(rows) != len(frozen_rows):
         raise ValueError("duplicate candidate in frozen inventory")
-    accepted: dict[str, tuple[Mapping[str, Any], bytes]] = {}
-    failures: dict[str, str] = {}
+    targets = {row["namedIdentity"]: row for row in frozen_rows}
+    grouped: dict[str, list[Mapping[str, Any]]] = {}
+    unknown = []
     for receipt in receipts:
-        cid = receipt.get("candidateId") if isinstance(receipt, Mapping) else None
-        row = rows.get(cid)
-        if row is None:
+        if not isinstance(receipt, Mapping):
+            unknown.append({"reason": "receipt is not a mapping"})
             continue
+        cid = receipt.get("candidateId")
+        if cid not in rows:
+            unknown.append({"candidateId": cid, "reason": "receipt references unknown candidate"})
+            continue
+        grouped.setdefault(cid, []).append(receipt)
+    validated: dict[str, tuple[Mapping[str, Any], bytes, str]] = {}
+    observed_digests: dict[str, str] = {}
+    failures: dict[str, str] = {}
+    for cid, candidates in grouped.items():
+        if len(candidates) != 1:
+            failures[cid] = "conflicting receipts: multiple attempts/receipts supplied"
+            continue
+        receipt = candidates[0]
+        row = rows[cid]
         try:
-            if cid in accepted:
-                raise ValueError("multiple accepted receipts for candidate")
             if receipt.get("taskId") != row["taskId"]:
                 raise ValueError("task binding mismatch")
             attempt = receipt.get("attempt")
@@ -164,61 +241,84 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
                 raise ValueError("input digest mismatch")
             data = _safe_packet_bytes(receipt, Path(packetRoot))
             actual_hash = sha256(data)
+            observed_digests[cid] = actual_hash
             if receipt.get("outputDigest") != actual_hash or receipt.get("packetHash") != actual_hash:
                 raise ValueError("actual packet output hash mismatch")
             packet = json.loads(data.decode("utf-8"))
-            if not isinstance(packet, dict) or packet.get("contractVersion") != "discovery-packet-v2":
-                raise ValueError("output is not discovery-packet-v2")
-            if packet.get("candidateId") != cid:
-                raise ValueError("packet candidate identity mismatch")
+            if not isinstance(packet, dict):
+                raise ValueError("packet must be a JSON object")
+            packet_errors = _packet_errors(packet, row)
+            if packet_errors:
+                raise ValueError("; ".join(packet_errors))
             if receipt.get("outcome") not in OUTCOMES:
                 raise ValueError("invalid outcome")
-            if receipt["outcome"] == "proven-duplicate" and not _proof_matches(row, receipt.get("duplicateProof")):
-                raise ValueError("exact duplicate lacks matching source proof")
-            accepted[cid] = (receipt, data)
+            if receipt["outcome"] == "proven-duplicate" and not _proof_matches(row, receipt.get("duplicateProof"), targets):
+                raise ValueError("exact duplicate proof must match source and a different surviving named identity")
+            validated[cid] = (receipt, data, actual_hash)
         except (ValueError, OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
             failures[cid] = str(exc)
-    proposals: dict[str, list[tuple[str, Any]]] = {}
+    proposals: dict[str, list[tuple[str, str]]] = {}
     rejected: dict[str, str] = {}
-    for cid, (receipt, _) in accepted.items():
+    for cid, (receipt, _, _) in validated.items():
         proposal = receipt.get("proposedGeneric")
-        if isinstance(proposal, Mapping) and proposal.get("decision") == "NEW_GENERIC":
-            generic_id = proposal.get("genericId")
-            definition = proposal.get("definition")
-            if isinstance(generic_id, str) and isinstance(definition, Mapping):
-                definition_digest = sha256(canonicalJson(definition))
-                canonical = (genericDefinitions or {}).get(generic_id)
+        # Proposal is bound to the actual packet decision below, not just the receipt.
+        data = validated[cid][1]
+        actual_packet = json.loads(data.decode("utf-8"))
+        decision = actual_packet.get("decision", {})
+        proposal_in_packet = decision.get("proposal") if isinstance(decision, Mapping) else None
+        expected = {"decision": decision.get("value")} if isinstance(decision, Mapping) else None
+        if decision.get("value") == "MAP":
+            expected["genericId"] = decision.get("genericId")
+        elif decision.get("value") == "NEW_GENERIC" and isinstance(proposal_in_packet, Mapping):
+            expected["proposal"] = dict(proposal_in_packet)
+        if proposal != expected:
+            failures[cid] = "receipt generic proposal does not match packet decision"
+            continue
+        if expected and expected.get("decision") == "NEW_GENERIC":
+            definition = expected.get("proposal")
+            if isinstance(definition, Mapping):
+                proposed_id = definition.get("genericId")
+                conflict_key = proposed_id if isinstance(proposed_id, str) else str(definition.get("name", "")).casefold()
+                digest = sha256(canonicalJson(definition))
+                canonical = (genericDefinitions or {}).get(conflict_key)
                 if canonical is not None and canonicalJson(canonical) != canonicalJson(definition):
                     rejected[cid] = "generic definition conflicts with supplied canonical definition"
-                proposals.setdefault(generic_id, []).append((cid, definition_digest))
-    conflicts = {gid for gid, items in proposals.items() if len({digest for _, digest in items}) > 1}
+                proposals.setdefault(conflict_key, []).append((cid, digest))
+    conflicts = {gid for gid, values in proposals.items() if len({digest for _, digest in values}) > 1}
     for gid in conflicts:
-        for cid, _ in proposals[gid]:
+        for cid, _digest in proposals[gid]:
             rejected[cid] = f"conflicting full definitions for genericId {gid}"
     decisions = []
     for cid, row in sorted(rows.items()):
-        pair = accepted.get(cid)
+        item = validated.get(cid)
+        raw = grouped.get(cid, [None])[0] if len(grouped.get(cid, [])) == 1 else None
         if cid in rejected:
             outcome, reason = "rejected", rejected[cid]
         elif cid in failures:
             outcome, reason = "deferred", failures[cid]
-        elif pair is None:
+        elif item is None:
             outcome, reason = "deferred", "missing worker receipt"
         else:
-            receipt = pair[0]
-            outcome, reason = receipt["outcome"], receipt.get("reason")
+            raw = item[0]
+            outcome = raw["outcome"]
+            packet_value = json.loads(item[1].decode("utf-8"))
+            reason = raw.get("reason") or (packet_value.get("decision", {}).get("reasonCode") if isinstance(packet_value.get("decision"), Mapping) else None)
         decisions.append({
             "candidateId": cid, "namedIdentity": row["namedIdentity"],
-            "taskId": row["taskId"], "inputDigest": row["inputDigest"],
+            "sourceUrl": row["canonicalUrl"], "citedOrigin": copy.deepcopy(row.get("citedOrigin")),
+            "sourceRevision": row["sourceRevision"], "sourceDigest": row["sourceDigest"],
+            "taskId": row["taskId"], "attempt": raw.get("attempt") if raw else None,
+            "inputDigest": row["inputDigest"], "outputDigest": item[2] if item else (observed_digests.get(cid) or (raw.get("outputDigest") if raw else None)),
+            "packetPath": raw.get("packetPath") if raw else None,
+            "packetDigest": item[2] if item else observed_digests.get(cid),
+            "proposedGeneric": raw.get("proposedGeneric") if raw else None,
+            "duplicateProof": copy.deepcopy(raw.get("duplicateProof")) if raw else None,
             "outcome": outcome, "reason": reason,
-            "proposedGeneric": pair[0].get("proposedGeneric") if pair and outcome == "review-ready" else None,
-            "packetPath": pair[0].get("packetPath") if pair and outcome in ("review-ready", "deferred", "rejected", "proven-duplicate") else None,
         })
-    counts = {outcome: sum(1 for item in decisions if item["outcome"] == outcome) for outcome in sorted(OUTCOMES)}
+    counts = {outcome: sum(row["outcome"] == outcome for row in decisions) for outcome in sorted(OUTCOMES)}
     return {
-        "contractVersion": "curation-reconciliation-report-v1",
-        "inventoryDigest": envelope["inventoryDigest"],
-        "humanApproved": False,
-        "accounted": len(decisions) == len(rows),
+        "contractVersion": "curation-reconciliation-report-v1", "inventoryDigest": envelope["inventoryDigest"],
+        "humanApproved": False, "accounted": len(decisions) == len(rows),
         "candidateCount": len(rows), "counts": counts, "decisions": decisions,
+        "unknownReceipts": sorted(unknown, key=lambda value: (str(value.get("candidateId")), value["reason"])),
     }
