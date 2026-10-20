@@ -7,3 +7,7 @@ $ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/r
 # exit 0 -> f3-resume.json
 $ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full run --resume run-20261020T212937Z-0747e399 --ledger git --json
 # exit 0 -> f4-second-resume-at-awaiting.json
+$ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full record run-20261020T212937Z-0747e399 build:0bdd26975824:1 --input /home/user/gaia-skill-tree/.claude/worktrees/rehearsal/founder/steward/rehearsal/2026-10-20/f-crash-resume/outcome-bad-effort.json --ledger git --json
+# exit 2 -> f5-record-bad-effort.txt
+$ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full record run-20261020T212937Z-0747e399 build:0bdd26975824:1 --input /home/user/gaia-skill-tree/.claude/worktrees/rehearsal/founder/steward/rehearsal/2026-10-20/f-crash-resume/outcome-forbidden-model.json --ledger git --json
+# exit 2 -> f5-record-forbidden-model.txt
