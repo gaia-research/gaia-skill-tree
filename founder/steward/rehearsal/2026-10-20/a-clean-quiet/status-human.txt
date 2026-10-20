@@ -1,0 +1,8 @@
+Gaia Steward full status
+Ledger               git-ref  shared
+Run lease            free
+Last scheduled run   never
+Work                 none
+Lane                 queued 0  dispatched 0  escalated 0  closed 0
+  run-20261020T210328Z-93e12fdc  full     completed
+  run-20261020T210325Z-ef3396f1  full     completed
