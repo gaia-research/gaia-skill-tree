@@ -30,6 +30,7 @@ from tests.steward.sensor_fixtures import (
     FIXTURE_EVIDENCE_TYPES,
     MINIMAL_GAIA_DOMAINS,
     TRUST_MAGNITUDE_STUB,
+    track_all,
 )
 
 
@@ -233,6 +234,8 @@ priority:
     _write(root / "docs/agents/curation-authority-map.md", "# Curation authority map\n")
     for surface in TRUST_SURFACES:
         _write(root / surface, "See [the curation authority map](curation-authority-map.md).\n")
+    # Sensors take their inventory from the index, so the fixture must be tracked.
+    track_all(root)
 
 
 def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
@@ -817,6 +820,7 @@ def test_trust_calibration_drift_sensor_reports_stale_levels(tmp_path: Path) -> 
     _write(tmp_path / "registry/named/owner/stale.md", "---\n" +
            "id: owner/stale\nname: Stale\nstatus: named\nlevel: 5★\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     observations = TrustCalibrationDriftSensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     observation = observations[0]
@@ -831,6 +835,7 @@ def test_trust_calibration_drift_sensor_ignores_explicitly_frozen_skills(tmp_pat
            "id: owner/frozen\nname: Frozen\nstatus: named\nlevel: 5★\n" +
            "installable: false\ntimeline:\n  - action: upstream_deprecated\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
 
 
@@ -838,6 +843,7 @@ def test_trust_calibration_drift_sensor_does_not_treat_noninstallable_as_frozen(
     _write(tmp_path / "registry/named/owner/reviewable.md", "---\n" +
            "id: owner/reviewable\nname: Reviewable\nstatus: named\nlevel: 5★\n" +
            "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     assert [o.subject.id for o in TrustCalibrationDriftSensor().scan(tmp_path, NOW)] == ["owner/reviewable"]
 
 
@@ -846,6 +852,7 @@ def test_trust_calibration_drift_sensor_ignores_aligned_levels(tmp_path: Path) -
            "id: owner/aligned\nname: Aligned\nstatus: named\nlevel: 5★\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 1000000\n" +
            "  - type: peer-review\n    source: https://example.com/review\n    reviewers: 2\n    grade: A\n  - type: social-signal\n    source: https://youtube.com/watch?v=x\n    views: 100000\n---\n")
+    track_all(tmp_path)
     assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
 
 
@@ -1535,6 +1542,7 @@ def test_evidence_link_health_reports_healthy_on_valid_evidence(tmp_path: Path) 
     )
     _write(tmp_path / "registry/named/author/tool.md", content)
 
+    track_all(tmp_path)
     observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
@@ -1727,6 +1735,7 @@ def test_taxonomy_sensor_is_unavailable_without_canonical_inputs(tmp_path: Path,
 def test_evidence_link_health_reports_malformed_frontmatter(tmp_path: Path) -> None:
     _write(tmp_path / "registry/named/broken/corrupt.md", "---not yaml---")
 
+    track_all(tmp_path)
     observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
     assert observation.status == "drift"
     assert observation.observed_state["violationCount"] == 1
@@ -2339,6 +2348,7 @@ def test_frozen_skill_integrity_sensor_clean_frozen_skill_healthy(tmp_path: Path
     )
     _write(tmp_path / "registry/named/owner/clean-frozen.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]
@@ -2378,6 +2388,7 @@ def test_frozen_skill_integrity_sensor_detects_post_freeze_demote_rank_up(tmp_pa
     )
     _write(tmp_path / "registry/named/owner/corrupted-events.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]
@@ -2407,6 +2418,7 @@ def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remed
     )
     _write(tmp_path / "registry/named/owner/mismatched-level.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]

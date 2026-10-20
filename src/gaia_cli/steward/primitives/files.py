@@ -26,6 +26,57 @@ class SensorNotEvaluated(RuntimeError):
     """An optional external input was not supplied; the sensor observed nothing."""
 
 
+# Skipped subjects shown on a receipt are capped like findings: the cap limits
+# what is displayed, never what is counted.
+SKIP_CAP = FINDING_CAP
+_SKIP_REASON_LIMIT = 200
+
+
+class SkipLog:
+    """The subjects one scan could not evaluate, and why.
+
+    An exhaustive sensor that silently passes over a corrupted subject turns
+    UNKNOWN into PASS: the controller would sweep that subject's open debt as
+    resolved. A sensor records each such subject here instead and returns the
+    log through ``SensorScan``; the controller then declines to sweep anything
+    the sensor owns and lists the sensor under ``partialCoverage``. The reason
+    must describe the failure, never echo the subject's content.
+    """
+
+    def __init__(self) -> None:
+        self._entries: dict[tuple[str, str], str] = {}
+
+    def add(self, subject_type: str, subject_id: str, reason: str) -> None:
+        self._entries.setdefault((subject_type, subject_id), reason[:_SKIP_REASON_LIMIT])
+
+    def __len__(self) -> int:
+        return len(self._entries)
+
+    def __bool__(self) -> bool:
+        return bool(self._entries)
+
+    def entries(self) -> tuple[dict[str, str], ...]:
+        """Sorted, de-duplicated ``{subjectType, subjectId, reason}`` records."""
+
+        return tuple(
+            {"subjectType": kind, "subjectId": identity, "reason": reason}
+            for (kind, identity), reason in sorted(self._entries.items())
+        )
+
+    def require_coverage(self, inventory: int, what: str) -> None:
+        """Raise when nothing at all could be evaluated.
+
+        A scan that skipped every subject observed nothing; reporting that as a
+        partial result would still claim coverage. It is a blind sensor.
+        """
+
+        if inventory > 0 and len(self._entries) >= inventory:
+            raise SensorUnavailable(
+                f"every one of the {inventory} {what} could not be evaluated "
+                f"(for example: {self.entries()[0]['reason']})"
+            )
+
+
 def _git(root: Path, arguments: Sequence[str], *, max_bytes: int) -> bytes:
     try:
         result = subprocess.run(
@@ -72,6 +123,7 @@ def tracked_files(
     exclude: Iterable[str] = (),
     max_files: int = _DEFAULT_MAX_FILES,
     require_any: bool = True,
+    require_present: bool = False,
 ) -> list[str]:
     """Return sorted tracked POSIX paths under ``prefixes`` that exist on disk.
 
@@ -80,6 +132,9 @@ def tracked_files(
     truncated observation and raises ``SensorUnavailable`` rather than silently
     scanning a prefix of the tree. ``require_any`` makes an empty inventory an
     unavailable input — a sensor whose whole domain vanished is blind, not clean.
+    ``require_present`` makes a tracked path that is missing from disk (a
+    truncated checkout, a deleted-but-unstaged record) an unavailable input
+    instead of silently narrowing the inventory.
     """
 
     root = git_root(repo_root)
@@ -95,14 +150,21 @@ def tracked_files(
         raise SensorUnavailable("git returned a truncated inventory")
     suffix_tuple = tuple(suffixes)
     exclude_tuple = tuple(exclude)
-    selected = sorted(
+    listed = sorted(
         path
         for path in paths[:-1]
         if path
         and (not suffix_tuple or path.endswith(suffix_tuple))
         and not any(path == item or path.startswith(item.rstrip("/") + "/") for item in exclude_tuple)
-        and (root / path).is_file()
     )
+    selected = [path for path in listed if (root / path).is_file()]
+    if require_present and len(selected) != len(listed):
+        present = set(selected)
+        absent = [path for path in listed if path not in present]
+        raise SensorUnavailable(
+            f"{len(absent)} tracked path(s) are missing from the checkout "
+            f"(for example {absent[0]}); the inventory is truncated"
+        )
     if len(selected) > max_files:
         raise SensorUnavailable(
             f"inventory of {len(selected)} files exceeds the bounded limit of {max_files}"
