@@ -1,0 +1,410 @@
+[
+ {
+  "skill": "addy-osmani/api-and-interface-design",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/browser-testing-with-devtools",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/ci-cd-and-automation",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/constraint-driven-development",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/context-engineering",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/deprecation-and-migration",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/documentation-and-adrs",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/doubt-driven-development",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/frontend-ui-engineering",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/observability-and-instrumentation",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/security-and-hardening",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "addy-osmani/source-driven-development",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "gaiabot/repo-docs-before-pr",
+  "sensorTM": 36.0,
+  "sensorGrade": "C",
+  "inspectorTM": 36.0,
+  "inspectorGrade": "C",
+  "match": true
+ },
+ {
+  "skill": "garrytan/academic-verify",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/archive-crawler",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/blog-ingest",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/book-mirror",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/bulk-ingestion",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/citation-graph-ingest",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/context-audit",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/conversation-archive",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/data-research",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/draft-in-voice",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/fact-check",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/functional-area-resolver",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/idea-lineage",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/measure-before-you-fix",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/meeting-ingestion",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/minion-orchestrator",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/remote-mcp",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/research-compendium",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/signal-detector",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/skill-autobench",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/skill-optimizer",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/strategic-reading",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "garrytan/two-tier-extraction",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "heygen-com/general-video",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/deepchem",
+  "sensorTM": 111.0,
+  "sensorGrade": "A",
+  "inspectorTM": 111.0,
+  "inspectorGrade": "A",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/pymc",
+  "sensorTM": 120.0,
+  "sensorGrade": "A",
+  "inspectorTM": 120.0,
+  "inspectorGrade": "A",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/pytorch-lightning",
+  "sensorTM": 41.0,
+  "sensorGrade": "C",
+  "inspectorTM": 41.0,
+  "inspectorGrade": "C",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/qiskit",
+  "sensorTM": 48.96,
+  "sensorGrade": "C",
+  "inspectorTM": 48.96,
+  "inspectorGrade": "C",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/scanpy",
+  "sensorTM": 50.0,
+  "sensorGrade": "B",
+  "inspectorTM": 50.0,
+  "inspectorGrade": "B",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/stable-baselines3",
+  "sensorTM": 50.0,
+  "sensorGrade": "B",
+  "inspectorTM": 50.0,
+  "inspectorGrade": "B",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/torch-geometric",
+  "sensorTM": 111.0,
+  "sensorGrade": "A",
+  "inspectorTM": 111.0,
+  "inspectorGrade": "A",
+  "match": true
+ },
+ {
+  "skill": "k-dense-ai/transformers",
+  "sensorTM": 50.0,
+  "sensorGrade": "B",
+  "inspectorTM": 50.0,
+  "inspectorGrade": "B",
+  "match": true
+ },
+ {
+  "skill": "latent-spaces/brag",
+  "sensorTM": 144.54,
+  "sensorGrade": "A",
+  "inspectorTM": 144.54,
+  "inspectorGrade": "A",
+  "match": true
+ },
+ {
+  "skill": "mattpocock/tdd",
+  "sensorTM": 50.0,
+  "sensorGrade": "B",
+  "inspectorTM": 50.0,
+  "inspectorGrade": "B",
+  "match": true
+ },
+ {
+  "skill": "obra/test-driven-development",
+  "sensorTM": 9.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 9.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "obra/writing-skills",
+  "sensorTM": 0.0,
+  "sensorGrade": "ungraded",
+  "inspectorTM": 0.0,
+  "inspectorGrade": "ungraded",
+  "match": true
+ },
+ {
+  "skill": "pexp13/sentiment-analysis",
+  "sensorTM": 126.07,
+  "sensorGrade": "A",
+  "inspectorTM": 126.07,
+  "inspectorGrade": "A",
+  "match": true
+ },
+ {
+  "skill": "xquik-dev/hermes-tweet",
+  "sensorTM": 42.47,
+  "sensorGrade": "C",
+  "inspectorTM": 42.47,
+  "inspectorGrade": "C",
+  "match": true
+ }
+]

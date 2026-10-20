@@ -1,0 +1,9 @@
+# F1: start run in background, SIGKILL once the run lease is visible on the remote ledger
+# argv: python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full run --ledger git --integration-branch dev/rehearsal --push --json  (pid 23898)
+# kill -9 23898 -> shell exit 137
+$ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full run --ledger git --integration-branch dev/rehearsal --push --json
+# exit 4 -> f2-fresh-run-while-lease-held.json
+$ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full run --resume run-20261020T212937Z-0747e399 --ledger git --json
+# exit 0 -> f3-resume.json
+$ (cd /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work) python -m gaia_cli --registry /tmp/claude-0/-home-user/85503e3d-464f-549f-8b48-a2d9a8e72a4c/scratchpad/rehearsal-w/F/work steward full run --resume run-20261020T212937Z-0747e399 --ledger git --json
+# exit 0 -> f4-second-resume-at-awaiting.json

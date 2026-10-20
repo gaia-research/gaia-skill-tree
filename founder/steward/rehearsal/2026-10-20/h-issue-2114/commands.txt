@@ -1,0 +1,4 @@
+# real-repo clone D/work (tip cc2edfa00): its `full run --triage` (scenario D) left the sensor's debts in .gaia/steward/debt.json
+python -m gaia_cli ... steward full run --triage --ledger git --json   (scenario D; debts -> sensor-trust-calibration-drift-debts.json)
+python h_compare.py <scratch>/D/work   # runs TrustCalibrationDriftSensor().scan_detailed(repo) directly (7.5 s, 73 observations: 51 trust_calibration_drift + 22 trust_stamp_stale, 0 skipped), then GAIA_OPERATOR_OVERRIDE=1 python scripts/inspectTrustMagnitude.py --skill <id> --json for 6 skills -> h-table.json
+python h_all.py                          # same inspector command for all 51 flagged skills -> h-all51-flagged-vs-inspector.json
