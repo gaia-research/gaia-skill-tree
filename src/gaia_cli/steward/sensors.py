@@ -101,6 +101,8 @@ class BundledSchemaMirrorSensor:
     """Compare both schema trees recursively and byte-for-byte."""
 
     id = BUNDLED_SCHEMA_MIRROR.id
+    debt_kinds = ("bundled_schema_mirror_drift",)
+    routine_ids = (8,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return [_mirror_observation(BUNDLED_SCHEMA_MIRROR, repo_root, observed_at)]
@@ -110,6 +112,8 @@ class AgentSkillMirrorSensor:
     """Compare the checked-in agent skill mirrors recursively."""
 
     id = AGENT_SKILL_MIRROR.id
+    debt_kinds = ("agent_skill_mirror_drift",)
+    routine_ids = (12, 17,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return [_mirror_observation(AGENT_SKILL_MIRROR, repo_root, observed_at)]
@@ -128,6 +132,8 @@ class DiscoveryGenericMappingSensor:
     """
 
     id = "discovery-generic-mapping"
+    debt_kinds = ("generic_mapping",)
+    routine_ids = (11,)
     _PACKETS_ROOT = "registry-for-review/discovery-packets"
     _LOCAL_INPUT = ".gaia/steward/discovery-mapping-input.json"
     _INPUT_SCHEMA = "steward-discovery-mapping-input-v1"
@@ -314,6 +320,8 @@ class RegistryIntegritySensor:
     """Validate generic nodes and their local graph references without mutation."""
 
     id = "registry-integrity"
+    debt_kinds = ("registry_integrity_failed",)
+    routine_ids = (7, 11,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         schema_path = repo_root / "registry/schema/skill.schema.json"
@@ -529,6 +537,8 @@ class CliContractSensor:
     """
 
     id = "cli-contract"
+    debt_kinds = ("cli_contract_drift",)
+    routine_ids = (6,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         from gaia_cli.steward.cli_contract import (
@@ -604,6 +614,8 @@ class TaxonomyScriptDriftSensor:
     """Verify rank mapping and evidence type lists across scripts/ and src/ use canonical sources."""
 
     id = "taxonomy-script-drift"
+    debt_kinds = ("taxonomy_script_drift",)
+    routine_ids = (9, 17,)
     _EXCLUDED_RELATIVE_PATHS = frozenset({
         "src/gaia_cli/taxonomy.py",
         "src/gaia_cli/steward/sensors.py",
@@ -812,6 +824,8 @@ class UpstreamWatcherSensor:
     """Validate upstream tracking configurations and detect un-synced upstream releases or drift."""
 
     id = "upstream-watcher"
+    debt_kinds = ("upstream_drift",)
+    routine_ids = (11, 14,)
     _NAMED_ROOT = "registry/named"
     _WATCHER_ROOT = ".gaia/upstream-watcher"
     _MAX_PACKET_BYTES = 2 * 1024 * 1024
@@ -1128,23 +1142,8 @@ class KnowledgeContradictionSensor:
     """Detect contradictions and policy inconsistencies across governance surfaces."""
 
     id = "knowledge-contradiction"
-    _REGISTERED_DEBT_KINDS = frozenset({
-        "bundled_schema_mirror_drift",
-        "agent_skill_mirror_drift",
-        "registry_integrity_failed",
-        "sensor_coverage_unknown",
-        "cli_contract_drift",
-        "generic_mapping",
-        "knowledge_contradiction",
-        "taxonomy_script_drift",
-        "upstream_drift",
-        "evidence_link_drift",
-        "generated_projection_drift",
-        "benchmark_source_drift",
-        "trust_calibration_drift",
-        "frozen_skill_drift",
-        "repository_hygiene",
-    })
+    debt_kinds = ("knowledge_contradiction",)
+    routine_ids = (17,)
     _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
@@ -1184,6 +1183,7 @@ class KnowledgeContradictionSensor:
         ]
 
     def _check_policy(self, repo_root: Path) -> list[dict[str, str]]:
+        registered_kinds = registered_debt_kinds()
         violations: list[dict[str, str]] = []
         policy_file = repo_root / "founder/steward/POLICY.yaml"
         if not policy_file.is_file():
@@ -1220,7 +1220,7 @@ class KnowledgeContradictionSensor:
             })
         else:
             for debt_kind, auth_val in sorted(authority_map.items()):
-                if debt_kind not in self._REGISTERED_DEBT_KINDS:
+                if debt_kind not in registered_kinds:
                     violations.append({
                         "source": "founder/steward/POLICY.yaml",
                         "rule": "registered-debt-kinds",
@@ -1452,6 +1452,8 @@ class EvidenceLinkHealthSensor:
     """Scan named skill evidence arrays for URL formats and link integrity."""
 
     id = "evidence-link-health"
+    debt_kinds = ("evidence_link_drift",)
+    routine_ids = (9,)
     _NAMED_ROOT = "registry/named"
     _MAX_FILE_BYTES = 2 * 1024 * 1024
     _LINK_FIELDS = ("source", "url", "harnessUrl", "artifact")
@@ -1641,6 +1643,8 @@ class TrustCalibrationDriftSensor:
     """
 
     id = "trust-calibration-drift"
+    debt_kinds = ("trust_calibration_drift", "trust_stamp_stale")
+    routine_ids = (9,)
     # The scan enumerates every named skill each run and emits drift for every
     # one whose level disagrees with its computed grade; an unparseable record
     # or an unresolvable generic parent makes the scan raise instead of skip.
@@ -1779,6 +1783,8 @@ class FrozenSkillIntegritySensor:
     """Report frozen named skills that suffered post-freeze rank mutations or recalibrations."""
 
     id = "frozen-skill-integrity"
+    debt_kinds = ("frozen_skill_drift",)
+    routine_ids = (7, 10,)
     _NAMED_ROOT = "registry/named"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
@@ -1926,6 +1932,8 @@ class GeneratedProjectionsSensor:
     """Verify Class S generated artifacts exist, are non-empty, and match canonical named skills."""
 
     id = "generated-projections"
+    debt_kinds = ("generated_projection_drift",)
+    routine_ids = (12, 15,)
     _REQUIRED_PROJECTIONS = (
         "docs/graph/gaia.json",
         "docs/graph/named/index.json",
@@ -2133,6 +2141,8 @@ class BenchmarkFreshnessSensor:
     """Validate benchmark source catalog schema and verify benchmark-result evidence rows."""
 
     id = "benchmark-freshness"
+    debt_kinds = ("benchmark_source_drift",)
+    routine_ids = (9,)
     _CATALOG_PATH = "registry/benchmark-sources.json"
     _SCHEMA_PATH = "registry/schema/benchmarkSourceCatalog.schema.json"
     _NAMED_ROOT = "registry/named"
@@ -2437,6 +2447,36 @@ class BenchmarkFreshnessSensor:
 
 
 def default_sensors() -> tuple[Sensor, ...]:
+    # Imported here: the routine-family modules import primitives and models
+    # only, but keeping the fleet assembly lazy means importing one sensor
+    # never drags in every other family.
+    from gaia_cli.steward.sensors_ci import (
+        CiHealthSensor,
+        CiWorkflowSensor,
+        DependencyAdvisorySensor,
+        SupplyChainSensor,
+    )
+    from gaia_cli.steward.sensors_code import (
+        CodeStructureSensor,
+        DeadCodeSensor,
+        ErrorHandlingSensor,
+    )
+    from gaia_cli.steward.sensors_contracts import (
+        FrontendContractSensor,
+        SchemaValiditySensor,
+        TimelineCausalitySensor,
+    )
+    from gaia_cli.steward.sensors_security import (
+        BrowserSinkSensor,
+        MutationBoundarySensor,
+        SecretScanSensor,
+    )
+    from gaia_cli.steward.sensors_tests import (
+        TestHistorySensor,
+        TestIsolationSensor,
+        TestPortfolioSensor,
+    )
+
     return (
         BundledSchemaMirrorSensor(),
         AgentSkillMirrorSensor(),
@@ -2452,4 +2492,37 @@ def default_sensors() -> tuple[Sensor, ...]:
         TrustCalibrationDriftSensor(),
         FrozenSkillIntegritySensor(),
         RepositoryHygieneSensor(),
+        DeadCodeSensor(),
+        CodeStructureSensor(),
+        ErrorHandlingSensor(),
+        TestPortfolioSensor(),
+        TestIsolationSensor(),
+        TestHistorySensor(),
+        MutationBoundarySensor(),
+        BrowserSinkSensor(),
+        SecretScanSensor(),
+        CiWorkflowSensor(),
+        CiHealthSensor(),
+        SupplyChainSensor(),
+        DependencyAdvisorySensor(),
+        SchemaValiditySensor(),
+        TimelineCausalitySensor(),
+        FrontendContractSensor(),
     )
+
+
+# The controller emits this kind itself when a sensor cannot observe.
+CONTROLLER_DEBT_KINDS = ("sensor_coverage_unknown",)
+
+
+def registered_debt_kinds() -> frozenset[str]:
+    """Every debt kind the registered fleet can emit, derived from the fleet.
+
+    This replaces a hand-kept list that had to be edited in lockstep with
+    POLICY.yaml and drifted whenever a sensor was added.
+    """
+
+    kinds = set(CONTROLLER_DEBT_KINDS)
+    for sensor in default_sensors():
+        kinds.update(getattr(sensor, "debt_kinds", ()))
+    return frozenset(kinds)
