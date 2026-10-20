@@ -18,6 +18,15 @@ from test_dev_ratify import _makeAssessmentReceipt, _makeDeferredMappedPacket, _
 SCHEMA = Path(__file__).resolve().parents[1] / "registry/schema/skillBatch.schema.json"
 
 
+@pytest.fixture(autouse=True)
+def unitOnlyAuthorizationAndFreshness(monkeypatch):
+    """Synthetic gates keep these mechanics tests explicitly unit-only."""
+    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.intakeAdapter.verifyFreshness", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.intakeAdapter.verifyPacketAuthorization", lambda *a, **k: [])
+
+
 def ratifiedPacket(tmp_path, target="other-skill", candidate="test/candidate", skillName="candidate", options=None, decision="MAP"):
     packet = _makeDeferredMappedPacket(candidate_id=candidate, mapping_options=options)
     packetPath = tmp_path / f"{skillName}.json"
@@ -36,6 +45,15 @@ def ratifiedPacket(tmp_path, target="other-skill", candidate="test/candidate", s
     return json.loads(packetPath.read_text(encoding="utf-8")), args.registry
 
 
+def test_trusted_intake_rejects_empty_assessment_object(tmp_path):
+    packet, registry = ratifiedPacket(tmp_path)
+    receiptPath = Path(packet["l4Resolution"]["humanReview"]["assessmentPath"])
+    receiptPath.write_text("{}", encoding="utf-8")
+    trusted = buildGenericSnapshot(registry)["generics"]
+    with pytest.raises(ValueError, match="non-empty object"):
+        buildIntakeYaml(packet, requireHumanReview=True, trustedGenerics=trusted, registryPath=registry)
+
+
 @pytest.mark.parametrize("options", [None, []])
 def test_ratify_outside_shortlist_preserves_retrieval(tmp_path, options):
     original = _makeDeferredMappedPacket(mapping_options=options)
@@ -45,7 +63,7 @@ def test_ratify_outside_shortlist_preserves_retrieval(tmp_path, options):
     assert packet["l4Resolution"]["humanReview"]["humanOverride"] is True
     trusted = buildGenericSnapshot(registry)["generics"]
     assert selfValidatePacket(packet, trustedGenerics=trusted) == []
-    intake = buildIntakeYaml(packet, requireHumanReview=True, trustedGenerics=trusted)
+    intake = buildIntakeYaml(packet, requireHumanReview=True, trustedGenerics=trusted, registryPath=registry)
     assert intake["skills"][0]["mapsToGeneric"] == "other-skill"
 
 

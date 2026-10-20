@@ -30,6 +30,7 @@ from gaia_cli.intakeAdapter import (
 from gaia_cli.namedIdentity import COLLISION_FIX, identityProblem, validateContributor
 from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket, _importPacketValidator
 from gaia_cli.curation.assessment import validateAssessment, loadGenericSemantics
+from gaia_cli.curation.authorization import verifyPacketAuthorization, verifyFreshness
 
 
 def _splitPrereqs(prereqs):
@@ -442,6 +443,34 @@ def ratifyCommand(args):
     if selfValidateErrors:
         print("Packet self-validation failed:", file=sys.stderr)
         for err in selfValidateErrors:
+            print(f"  - {err}", file=sys.stderr)
+        return 1
+
+    # Freshness and independent human authorization are separate gates. CLI
+    # flags/comments and the local humanReview prose above are not authority.
+    freshnessErrors = verifyFreshness(testPacket, registryPath=registry_path)
+    if freshnessErrors:
+        print("Ratification rejected: packet freshness verification failed:", file=sys.stderr)
+        for err in freshnessErrors:
+            print(f"  - {err}", file=sys.stderr)
+        return 1
+    authorizationEnvelope = None
+    envelopePath = getattr(args, "authorization_envelope", None)
+    if envelopePath:
+        try:
+            with open(envelopePath, "r", encoding="utf-8") as handle:
+                authorizationEnvelope = json.load(handle)
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"Ratification rejected: invalid authorization envelope: {exc}", file=sys.stderr)
+            return 1
+    authorizationErrors = verifyPacketAuthorization(
+        testPacket, registryPath=registry_path, submissionRoute="single-packet",
+        inventory=[testPacket], assessments={packet.get("candidateId"): receipt},
+        envelope=authorizationEnvelope,
+    )
+    if authorizationErrors:
+        print("Ratification rejected: independent human authorization failed:", file=sys.stderr)
+        for err in authorizationErrors:
             print(f"  - {err}", file=sys.stderr)
         return 1
 

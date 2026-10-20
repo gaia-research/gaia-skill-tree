@@ -654,6 +654,9 @@ class TestDevRatifyCommand:
         assert "--acknowledge-human-review is required" in captured.err
 
     def test_end_to_end_prefill_assess_ratify_flow(self, test_registry, monkeypatch):
+        # UNIT-ONLY gate stubs: this flow tests packet mechanics, not real human approval.
+        monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
+        monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
         # Allow operator override for ratify
         monkeypatch.setenv("GAIA_OPERATOR_OVERRIDE", "1")
 

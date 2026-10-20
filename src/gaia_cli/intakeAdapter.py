@@ -37,6 +37,10 @@ import re
 from urllib.parse import urlparse
 
 from gaia_cli.namedIdentity import validateContributor
+from gaia_cli.curation.authorization import (
+    verifyPacketAuthorization,
+    verifyFreshness,
+)
 
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
@@ -466,7 +470,11 @@ def validateIntakeIdentities(proposals):
     return errors
 
 
-def buildIntakeYaml(packets, packetPath=None, requireHumanReview=False, trustedGenerics=None):
+def buildIntakeYaml(
+    packets, packetPath=None, requireHumanReview=False, trustedGenerics=None, *,
+    submissionRoute="single-packet", manifestDigest=None, inventory=None,
+    authorizationEnvelope=None, registryPath=".",
+):
     """Build the intake mapping (``{'skills': [...]}``) from packet dict(s).
 
     Accepts a single packet dict or an iterable of packet dicts (e.g. a suite
@@ -479,6 +487,38 @@ def buildIntakeYaml(packets, packetPath=None, requireHumanReview=False, trustedG
     if isinstance(packets, dict):
         packets = [packets]
     packets = list(packets)
+    if requireHumanReview:
+        fullInventory = list(inventory) if inventory is not None else packets
+        if fullInventory != packets:
+            raise ValueError("authorized packets must equal the complete submission inventory")
+        assessments = {}
+        from gaia_cli.curation.assessment import validateAssessment
+        for packet in fullInventory:
+            freshnessErrors = verifyFreshness(packet, registryPath=registryPath)
+            if freshnessErrors:
+                raise ValueError("packet freshness verification failed: " + "; ".join(freshnessErrors))
+            humanReview = ((packet.get("l4Resolution") or {}).get("humanReview") or {})
+            assessmentPath = humanReview.get("assessmentPath") if isinstance(humanReview, dict) else None
+            if not isinstance(assessmentPath, str) or not assessmentPath.strip():
+                raise ValueError("a real, non-empty assessment receipt is required for trusted intake")
+            try:
+                with open(assessmentPath, "r", encoding="utf-8") as handle:
+                    assessment = json.load(handle)
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError(f"assessment receipt is unavailable or invalid: {exc}") from exc
+            if not isinstance(assessment, dict) or not assessment:
+                raise ValueError("assessment receipt must be a non-empty object")
+            assessmentErrors = validateAssessment(assessment, packet, registryPath)
+            if assessmentErrors:
+                raise ValueError("assessment validation failed: " + "; ".join(assessmentErrors))
+            assessments[packet.get("candidateId")] = assessment
+        authErrors = verifyPacketAuthorization(
+            fullInventory, registryPath=registryPath, submissionRoute=submissionRoute,
+            manifestDigest=manifestDigest, inventory=fullInventory,
+            assessments=assessments, envelope=authorizationEnvelope,
+        )
+        if authErrors:
+            raise ValueError("human authorization failed closed: " + "; ".join(authErrors))
     skills = [
         buildIntakeSkill(p, requireHumanReview=requireHumanReview, trustedGenerics=trustedGenerics)
         for p in packets
