@@ -561,3 +561,111 @@ def test_scenario_h_inherited_evidence_keeps_a_correct_stored_rank_unflagged(tmp
     state = json.loads((repo / ".gaia/steward/debt.json").read_text())
     assert [d for d in state["debts"] if d["kind"] == "trust_calibration_drift"] == []
     assert view.summary["triage"]["counts"]["B"] == 0
+
+
+# --- C (continued): the shared lane's caps hold across runs -----------------------------------
+
+
+def test_scenario_c_cooldown_then_attempt_ceiling_escalate_to_the_desk(tmp_path: Path) -> None:
+    clock = Clock()
+    repo, _bare, sensor, store, _ = hygieneRunner(tmp_path)
+    policy = StewardPolicy.load(repo)
+    attempts = []
+
+    def failingAttempt() -> Any:
+        runner = makeRunner(repo, store, [sensor], clock=clock)
+        view = runner.start("full")
+        attempts.append(view)
+        build = view.actions[0]
+        diff, proof = writeBuildArtifacts(repo, f"try{len(attempts)}", proofExit=1)
+        runner.record(view.runId, build["stepId"], {**BUILD, "agentId": f"builder-{len(attempts)}",
+                                                    "diffPath": str(diff), "proofPath": str(proof)})
+        return runner.resume(view.runId)
+
+    first = failingAttempt()
+    debtId = attempts[0].actions[0]["params"]["debtId"]
+    assert first.status == "completed"
+
+    # Inside the cooldown the lane hands out nothing, and says why.
+    clock.advance(minutes=5)
+    cooling = makeRunner(repo, store, [sensor], clock=clock).start("full")
+    assert cooling.status == "completed" and cooling.actions == []
+    assert "cooldown" in cooling.summary["class_b"]["reason"]
+
+    # After it, the second (last permitted) attempt is dispatched against the SAME shared lane...
+    clock.advance(hours=2)
+    second = failingAttempt()
+    entry = load_lane(ledgerOf(store)["lane"], policy.lane).by_id(debtId)
+    assert entry.attempts == 2 and entry.state == "escalated"
+    assert ledgerOf(store)["work"][debtId]["state"] == "escalated"
+    # ...and its rejection leaves the agent lane for the founder's desk.
+    assert second.desk is not None
+    assert any(d["source"] == "escalated-lane" and debtId in d["debtIds"] for d in second.desk["decisions"])
+
+    # Escalated work is never re-dispatched.
+    clock.advance(hours=5)
+    after = makeRunner(repo, store, [sensor], clock=clock).start("full")
+    assert after.actions == [] and ledgerOf(store)["work"][debtId]["state"] == "escalated"
+
+
+def test_scenario_c_no_change_build_is_confirmed_by_an_independent_verifier(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path)
+    view = runner.start("full")
+    build = view.actions[0]
+    debtId = build["params"]["debtId"]
+    runner.record(view.runId, build["stepId"], {**BUILD, "noChange": True, "summary": "BUILDER-NARRATIVE-ZZ"})
+
+    verifying = runner.resume(view.runId)
+
+    assert actionTypes(verifying) == ["agent.verify"]
+    prompt = (repo / verifying.actions[0]["params"]["verifierPromptPath"]).read_text()
+    assert "BUILDER-NARRATIVE-ZZ" not in prompt, "the verifier never sees the builder's narrative"
+    assert "leaked-artifact" in prompt, "but it does see the sensor's finding"
+    assert "no-change claim" in prompt
+    runner.record(view.runId, verifying.actions[0]["stepId"], VERIFY)
+    done = runner.resume(view.runId)
+    assert done.status == "completed" and done.actions == []
+    assert ledgerOf(store)["work"][debtId]["state"] == "no_change"
+
+    # A no_change item is held out of re-dispatch even while the sensor keeps reporting it,
+    # and resolves only once the sensor reports the condition healthy.
+    held = runner.start("full")
+    assert held.actions == []
+    sensor.heal("leaked-artifact")
+    runner.start("verify")
+    assert ledgerOf(store)["work"][debtId]["state"] == "resolved"
+
+
+def test_scenario_c_lead_hold_keeps_work_verified_and_reject_blocks_it(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path)
+    view = runner.start("full")
+    build = view.actions[0]
+    debtId = build["params"]["debtId"]
+    diff, proof = writeBuildArtifacts(repo)
+    runner.record(view.runId, build["stepId"], {**BUILD, "diffPath": str(diff), "proofPath": str(proof)})
+    verifying = runner.resume(view.runId)
+    runner.record(view.runId, verifying.actions[0]["stepId"], VERIFY)
+    integrating = runner.resume(view.runId)
+    step = integrating.actions[0]["stepId"]
+
+    runner.record(view.runId, step, {"decision": "hold", "by": "lead"})
+    held = runner.resume(view.runId)
+    assert held.status == "completed" and held.actions == []
+    assert ledgerOf(store)["work"][debtId]["state"] == "verified"
+
+    # The next run re-offers the integration decision rather than forgetting verified work.
+    again = runner.start("verify")
+    assert actionTypes(again) == ["lead.integrate"]
+    runner.record(again.runId, again.actions[0]["stepId"], {"decision": "reject", "by": "lead"})
+    assert ledgerOf(store)["work"][debtId]["state"] == "blocked"
+
+
+def test_scenario_c_verdicts_are_refused_for_the_wrong_step(tmp_path: Path) -> None:
+    repo, _bare, _sensor, _store, runner = hygieneRunner(tmp_path)
+    view = runner.start("full")
+    build = view.actions[0]
+    with pytest.raises(RecordRefused, match="no action"):
+        runner.record(view.runId, "verify:nothing", VERIFY)
+    # A verify outcome cannot be recorded against a build step's id.
+    with pytest.raises(RecordRefused):
+        runner.record(view.runId, build["stepId"], VERIFY)

@@ -493,6 +493,7 @@ class FullRunner:
                 handler = self._handlers.get(run["phase"])
                 if handler is None:
                     raise FullRunError(f"run {runId} is at unknown phase {run['phase']!r}")
+                self._supersede(runId)
                 if run["status"] != "active":
                     self._setStatus(runId, "active", "")
                 _checkpoint(f"phase:{run['phase']}")
@@ -511,6 +512,44 @@ class FullRunner:
         except Exception as exc:  # noqa: BLE001 - a failing phase fails the run, loudly
             self._failRun(runId, f"{type(exc).__name__}: {exc}")
         return self._view(self._load(), runId)
+
+    def _supersede(self, runId: str) -> None:
+        """Retire pending actions whose work moved on without them.
+
+        An adopted run re-offers an abandoned run's action; if the driver's
+        outcome then arrives against the old step, the new run's copy is stale
+        and must not hold the run open or be performed twice.
+        """
+
+        now = self._now()
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            for action in run["actions"]:
+                if action["status"] != "pending":
+                    continue
+                item = doc["work"].get(action["debtId"])
+                params = action["params"]
+                stale = False
+                if item is None:
+                    stale = True
+                elif action["type"] == "agent.build":
+                    built = item.get("build") or {}
+                    stale = item["state"] != "building" or built.get("dispatchId") == params["dispatchId"]
+                elif action["type"] == "agent.verify":
+                    judged = (item.get("verification") or {}).get("stage") == "judged"
+                    stale = item["state"] != "building" or judged or not item.get("build")
+                elif action["type"] == "lead.integrate":
+                    stale = item["state"] != "verified"
+                elif action["type"] == "forge.open_pr":
+                    stale = bool(item.get("pullRequest")) or item["state"] != "proposed"
+                if stale:
+                    action["status"] = "superseded"
+                    action["supersededAt"] = now
+                    for step in run["steps"]:
+                        if step["stepId"] == action["stepId"]:
+                            step["status"] = "done"
+
+        self._mutateRun(runId, apply, message="steward full supersede")
 
     def _settleDone(self, runId: str) -> None:
         """A finished run that was waiting on the driver completes once nothing is pending."""
@@ -1552,7 +1591,13 @@ class FullRunner:
         now = self._now()
         slug = _hash12(debtId)
         if build["noChange"]:
-            prompt = self._verifierPromptNoChange(item, None)
+            evidence = None
+            try:
+                receipts = self.root / policy.state_directory / policy.receipts_directory
+                evidence = dict(_latest_dispatch_receipt(receipts, debtId)["artifact"]["debt"])
+            except (RoutingError, KeyError, TypeError):
+                pass  # the prompt still names the debt id and kind
+            prompt = self._verifierPromptNoChange(item, evidence)
             return self._emitVerify(runId, item, prompt, slug, {"verdict": "pending", "mode": "no-change"})
         diff, proof = Path(build["diffPath"]), Path(build["proofPath"])
         if not diff.is_file() or not proof.is_file():

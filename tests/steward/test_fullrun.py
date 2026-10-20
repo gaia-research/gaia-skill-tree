@@ -30,6 +30,7 @@ from gaia_cli.steward.fullrun import (
 from gaia_cli.steward.ledger import FileLedgerStore
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
+from gaia_cli.steward.primitives import SensorUnavailable
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 INTEGRATION = "dev/integration"
@@ -266,3 +267,229 @@ def test_negative_cost_is_refused() -> None:
 
 def test_valid_agent_passes() -> None:
     validateAgent(BUILD, BUILDERMODELS, "builder")
+
+
+# --- landing target, idempotency keys, phases ---------------------------------------
+
+
+def ledgerDoc(store: Any) -> dict[str, Any]:
+    document, _version = store.load()
+    return document
+
+
+def test_class_a_is_refused_without_a_landing_target(tmp_path: Path) -> None:
+    from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    store = fileStore(tmp_path)
+    runner = makeRunner(repo, store, [AgentSkillMirrorSensor()], integration_branch=None)
+
+    view = runner.start("full")
+
+    assert view.status == "completed" and view.actions == []
+    doc = ledgerDoc(store)
+    (item,) = doc["work"].values()
+    assert item["state"] == "blocked" and item["blockedReason"] == "landing target not configured"
+    assert item.get("branch") is None
+    assert not [b for b in git(bare, "for-each-ref", "--format=%(refname:short)", "refs/heads").split()
+                if b.startswith("steward/")]
+    assert view.summary["reconcile"]["integrationHead"] == "unknown"
+    assert "not configured" in view.summary["reconcile"]["integrationHeadUnknown"]
+    assert [d["decisionId"] for d in view.desk["decisions"]] == ["landing-target-not-configured"]
+
+
+def test_class_a_never_targets_the_default_branch(tmp_path: Path) -> None:
+    from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    store = fileStore(tmp_path)
+    for target in ("main", "master"):
+        view = makeRunner(repo, store, [AgentSkillMirrorSensor()], integration_branch=target).start("full")
+        assert view.actions == [], view.to_dict()
+    doc = ledgerDoc(store)
+    (item,) = doc["work"].values()
+    assert item["state"] == "blocked" and "protected" in item["blockedReason"] or "default" in item["blockedReason"]
+    assert not [b for b in git(bare, "for-each-ref", "--format=%(refname:short)", "refs/heads").split()
+                if b.startswith("steward/a/")]
+
+
+def test_step_ids_and_idempotency_keys_are_deterministic_across_independent_runs(tmp_path: Path) -> None:
+    from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+
+    keys = []
+    for name in ("one", "two"):
+        base = tmp_path / name
+        base.mkdir()
+        repo, _bare = makeFixture(base, mirrorDrift=True)
+        view = makeRunner(repo, fileStore(base), [AgentSkillMirrorSensor()]).start("full")
+        (action,) = view.actions
+        keys.append((action["stepId"], action["idempotencyKey"], action["params"]["head"]))
+    assert keys[0] == keys[1]
+    stepId, key, head = keys[0]
+    assert stepId == f"open_pr:{head}" and key == head
+
+
+def test_build_idempotency_key_binds_dispatch_and_attempt(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    view = makeRunner(repo, fileStore(tmp_path), [sensor]).start("full")
+    (action,) = view.actions
+    assert action["idempotencyKey"] == f"{action['params']['dispatchId']}:1"
+    assert action["stepId"].startswith("build:") and action["stepId"].endswith(":1")
+
+
+def test_second_start_while_leased_does_nothing_at_all(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    holder = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    first = makeRunner(repo, store, [holder]).start("full")
+    assert first.status == "awaiting-action"
+    before = ledgerDoc(store)
+    watcher = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+
+    view = makeRunner(repo, store, [watcher]).start("full")
+
+    assert view.status == "observing-existing" and view.holder == first.runId
+    assert view.holderPhase == "class_b" and "gaia steward full status" in view.nextAction
+    assert watcher.scans == 0
+    assert ledgerDoc(store) == before, "not one byte of ledger state changed"
+
+
+def test_clean_repository_with_no_debt_creates_nothing(tmp_path: Path) -> None:
+    repo, bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    view = makeRunner(repo, store, [StubSensor("repository-hygiene", "repository_hygiene")]).start("full")
+    assert view.status == "completed" and view.actions == [] and view.unresolvedWork == []
+    doc = ledgerDoc(store)
+    assert doc["work"] == {} and doc["lane"] is not None or doc["lane"] is None
+    assert view.summary["triage"]["counts"] == {"A": 0, "B": 0, "B-report-only": 0, "C": 0}
+    assert view.summary["class_b"]["dispatched"] is None
+    assert view.summary["reobserve"]["reused"].startswith("no state-changing step")
+
+
+def test_no_agents_flag_means_no_dispatch(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    view = makeRunner(repo, store, [sensor], agents=False).start("full")
+    assert view.status == "completed" and view.actions == []
+    assert view.summary["class_b"]["status"] == "skipped"
+    assert ledgerDoc(store)["work"] == {}
+
+
+def test_triage_filters_by_debt_and_by_routine(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    hygiene = StubSensor("repository-hygiene", "repository_hygiene", ["a", "b"], routines=(12,))
+    mapping = StubSensor("discovery-generic-mapping", "generic_mapping", ["m"], routines=(11,),
+                         extra={"decisionTarget": "alpha"})
+    sensors = [hygiene, mapping]
+    everything = makeRunner(repo, fileStore(tmp_path / "x"), sensors).start("triage")
+    assert everything.summary["triage"]["counts"] == {"A": 0, "B": 2, "B-report-only": 0, "C": 1}
+    first = everything.summary["triage"]["classB"][0]
+
+    one = makeRunner(repo, fileStore(tmp_path / "y"), sensors).start("triage", debt=first)
+    assert one.summary["triage"]["classB"] == [first] and one.summary["triage"]["filtered"] == 2
+
+    eleven = makeRunner(repo, fileStore(tmp_path / "z"), sensors).start("triage", routine=11)
+    assert eleven.summary["triage"]["counts"] == {"A": 0, "B": 0, "B-report-only": 0, "C": 1}
+    twelve = makeRunner(repo, fileStore(tmp_path / "w"), sensors).start("triage", routine=12)
+    assert twelve.summary["triage"]["counts"]["B"] == 2 and twelve.summary["triage"]["counts"]["C"] == 0
+
+
+def test_triage_order_is_priority_then_id(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["c", "a", "b"])
+    ids = makeRunner(repo, fileStore(tmp_path), [sensor]).start("triage").summary["triage"]["classB"]
+    assert ids == sorted(ids), "equal-priority debts are ordered by id, deterministically"
+
+
+def test_not_evaluated_is_reported_without_blocking_anything(tmp_path: Path) -> None:
+    from gaia_cli.steward.primitives import SensorNotEvaluated
+
+    repo, _bare = makeFixture(tmp_path, mirrorDrift=True)
+    optional = StubSensor("optional-input", "ci_failure", raises=SensorNotEvaluated("no CI history supplied"))
+    from gaia_cli.steward.sensors import AgentSkillMirrorSensor
+
+    view = makeRunner(repo, fileStore(tmp_path), [AgentSkillMirrorSensor(), optional]).start("full")
+
+    assert view.status == "awaiting-action", "Class A still proceeds"
+    assert view.coverageUnknown == []
+    assert view.notEvaluated == [{"sensor": "optional-input", "reason": "no CI history supplied"}]
+    assert any(op["kind"] == "not_evaluated" for op in view.desk["operations"])
+
+
+def test_retro_never_counts_an_unexecuted_sensor_as_healthy(tmp_path: Path) -> None:
+    from gaia_cli.steward.primitives import SensorNotEvaluated
+
+    repo, _bare = makeFixture(tmp_path)
+    good = StubSensor("good", "repository_hygiene", routines=(12,))
+    broken = StubSensor("broken", "registry_integrity_failed", routines=(7,), raises=SensorUnavailable("unreadable"))
+    optional = StubSensor("optional", "ci_failure", routines=(13,), raises=SensorNotEvaluated("not supplied"))
+    view = makeRunner(repo, fileStore(tmp_path), [good, broken, optional]).start("retro")
+
+    retro = view.summary["retro"]
+    states = {s["id"]: s for s in retro["sensors"]}
+    assert (states["good"]["state"], states["good"]["executed"]) == ("executed", True)
+    assert (states["broken"]["state"], states["broken"]["executed"], states["broken"]["unknown"]) == ("unknown", False, True)
+    assert states["optional"]["state"] == "not-evaluated" and states["optional"]["reason"] == "not supplied"
+    assert states["broken"]["routine_ids"] == [7] and all(s["registered"] for s in states.values())
+    assert retro["registered"] == 3 and retro["executed"] == 1
+    byRoutine = {r["routine"]: r for r in retro["routines"]}
+    assert len(byRoutine) == 17
+    assert byRoutine[12]["state"] == "observed"
+    assert byRoutine[7]["state"] == "unknown", "an unknown detector is not coverage"
+    assert byRoutine[13]["state"] == "not-evaluated"
+    assert byRoutine[2]["state"] == "no-detector"
+    assert view.coverageUnknown == ["broken"]
+
+
+def test_old_terminal_runs_are_compacted_but_keep_their_summary() -> None:
+    document = {"runs": {}}
+    for index in range(fullrun.RETAINEDRUNS + 3):
+        document["runs"][f"run-{index:03d}"] = {
+            "runId": f"run-{index:03d}", "status": "completed", "startedAt": f"2026-10-{index % 28 + 1:02d}T00:00:00Z",
+            "steps": [{"stepId": "x"}], "actions": [], "phases": {"observe": {"openDebt": 1}}, "mode": "full",
+        }
+    document["runs"]["run-live"] = {"runId": "run-live", "status": "active", "startedAt": "2026-01-01T00:00:00Z",
+                                    "steps": [{"stepId": "x"}], "phases": {}}
+    FullRunner._compact(document)
+    compacted = [r for r in document["runs"].values() if r.get("compacted")]
+    assert len(compacted) == 3 and all(r["steps"] == [] and r["mode"] == "full" for r in compacted)
+    assert document["runs"]["run-live"]["steps"] == [{"stepId": "x"}]
+
+
+def test_status_reports_lease_work_and_last_scheduled_run(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    view = makeRunner(repo, store, [sensor], trigger="scheduled").start("full")
+
+    status = makeRunner(repo, store, [sensor]).status()
+
+    assert status.holder == view.runId and status.holderPhase == "class_b"
+    assert status.workCounts == {"building": 1}
+    assert status.lastScheduledRunAt is not None
+    assert status.activeRuns[0]["status"] == "awaiting-action"
+    assert status.ledger["shared"] is False
+    assert status.to_dict()["lane"]["counts"]["dispatched"] == 1
+
+
+def test_recording_after_the_run_was_abandoned_still_reaches_the_adopted_work(tmp_path: Path) -> None:
+    clock = Clock()
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    first = makeRunner(repo, store, [sensor], clock=clock).start("full")
+    build = first.actions[0]
+    clock.advance(hours=2)
+    second = makeRunner(repo, store, [sensor], clock=clock).start("full")
+    assert ledgerDoc(store)["runs"][first.runId]["status"] == "abandoned"
+
+    runner = makeRunner(repo, store, [sensor], clock=clock)
+    runner.record(first.runId, build["stepId"], {**BUILD, "noChange": True, "summary": "late but valid"})
+
+    item = ledgerDoc(store)["work"][build["params"]["debtId"]]
+    assert item["build"]["noChange"] is True and item["assignments"][0]["agentId"] == "builder-1"
+    # the adopting run (still holding the lease) carries on from the recorded build
+    resumed = runner.resume(second.runId)
+    assert [a["type"] for a in resumed.actions] == ["agent.verify"]
