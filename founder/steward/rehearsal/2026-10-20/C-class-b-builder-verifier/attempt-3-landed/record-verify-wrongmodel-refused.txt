@@ -1,0 +1,1 @@
+Steward full refused: verifier model 'haiku' is not permitted; allowed models: sonnet

@@ -1,0 +1,12 @@
+diff --git a/src/gaia_cli/impl.py b/src/gaia_cli/impl.py
+index 7921579..3a41464 100644
+--- a/src/gaia_cli/impl.py
++++ b/src/gaia_cli/impl.py
+@@ -219,7 +219,6 @@ Read-only (no Verifier required):
+ 
+ PUBLIC_COMMANDS = (
+     "help",
+-    "ghostverb",
+     "init",
+     "scan",
+     "steward",
