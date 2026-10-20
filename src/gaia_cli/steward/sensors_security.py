@@ -388,6 +388,7 @@ class MutationBoundarySensor:
     """Detect ungated ``gaia dev`` mutations and unsafe Python execution."""
 
     id = "mutation-boundary"
+    debt_kinds = ("ungated_mutation", "unsafe_execution")
     routine_ids = (7,)
     resolution_scope = "exhaustive"
 
@@ -724,6 +725,7 @@ class BrowserSinkSensor:
     """Lexical scan of hand-authored browser code for unsafe sinks."""
 
     id = "browser-sink"
+    debt_kinds = ("browser_sink_risk",)
     routine_ids = (16,)
     resolution_scope = "exhaustive"
 
@@ -874,6 +876,7 @@ class SecretScanSensor:
     """Find credential-shaped strings; store only a fingerprint, never the value."""
 
     id = "secret-scan"
+    debt_kinds = ("credential_leak",)
     routine_ids = (16, 14)
     resolution_scope = "exhaustive"
 

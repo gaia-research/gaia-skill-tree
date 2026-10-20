@@ -81,6 +81,7 @@ class CiWorkflowSensor:
     """Hygiene rules for tracked GitHub Actions workflow files."""
 
     id = "ci-workflow"
+    debt_kinds = ("workflow_hygiene",)
     routine_ids = (13,)
     resolution_scope = "exhaustive"
 
@@ -216,6 +217,7 @@ class CiHealthSensor:
     """Latest-run failures and retry churn from a driver-supplied run history."""
 
     id = "ci-health"
+    debt_kinds = ("ci_failure",)
     routine_ids = (13,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
@@ -301,6 +303,7 @@ class SupplyChainSensor:
     """Version lockstep, unpinned dependencies, and license metadata drift."""
 
     id = "supply-chain"
+    debt_kinds = ("version_lockstep_drift", "dependency_pin_drift", "license_metadata_drift")
     routine_ids = (14,)
     resolution_scope = "exhaustive"
 
@@ -511,6 +514,7 @@ class DependencyAdvisorySensor:
     """Known vulnerabilities from a driver-supplied ``pip-audit --format json`` run."""
 
     id = "dependency-advisory"
+    debt_kinds = ("dependency_advisory",)
     routine_ids = (14,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:

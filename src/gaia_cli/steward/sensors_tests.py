@@ -241,6 +241,7 @@ class TestPortfolioSensor:
 
     __test__ = False  # not a pytest class despite the name
     id = "test-portfolio"
+    debt_kinds = ("shadowed_test", "unregistered_marker", "empty_test_module")
     routine_ids = (4,)
     resolution_scope = "exhaustive"
 
@@ -491,6 +492,7 @@ class TestIsolationSensor:
 
     __test__ = False
     id = "test-isolation"
+    debt_kinds = ("test_isolation_risk",)
     routine_ids = (5,)
     resolution_scope = "exhaustive"
 
@@ -571,6 +573,7 @@ class TestHistorySensor:
 
     __test__ = False
     id = "test-history"
+    debt_kinds = ("flaky_test",)
     routine_ids = (5,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:

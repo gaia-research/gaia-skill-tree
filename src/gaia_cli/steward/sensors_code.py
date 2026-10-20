@@ -440,6 +440,7 @@ class DeadCodeSensor:
     """Report unused module-level imports and candidate orphan modules."""
 
     id = "dead-code"
+    debt_kinds = ("unused_import", "orphan_module")
     routine_ids = (1,)
     resolution_scope = "exhaustive"
 
@@ -687,6 +688,7 @@ class CodeStructureSensor:
     """Report import cycles (existence) and structurally duplicated functions."""
 
     id = "code-structure"
+    debt_kinds = ("import_cycle", "code_duplication")
     routine_ids = (2,)
     resolution_scope = "exhaustive"
 
@@ -908,6 +910,7 @@ class ErrorHandlingSensor:
     """Report broad exception handlers that silently discard the failure."""
 
     id = "error-handling"
+    debt_kinds = ("swallowed_exception",)
     routine_ids = (3,)
     resolution_scope = "exhaustive"
 

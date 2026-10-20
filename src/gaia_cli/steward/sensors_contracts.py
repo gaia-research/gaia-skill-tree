@@ -127,6 +127,7 @@ class SchemaValiditySensor:
     """Validate tracked top-level registry JSON Schemas."""
 
     id = "schema-validity"
+    debt_kinds = ("schema_contract_drift",)
     routine_ids = (8,)
     resolution_scope = "exhaustive"
     _prefix = "registry/schema/"
@@ -343,6 +344,7 @@ class TimelineCausalitySensor:
     """Check named-skill timeline timestamps for parseability and ordering."""
 
     id = "timeline-causality"
+    debt_kinds = ("timeline_causality_drift",)
     routine_ids = (10,)
     resolution_scope = "exhaustive"
     _prefix = "registry/named/"
@@ -518,6 +520,7 @@ class FrontendContractSensor:
     """Check hand-authored HTML pages for the baseline document contract."""
 
     id = "frontend-contract"
+    debt_kinds = ("frontend_contract_drift",)
     routine_ids = (15,)
     resolution_scope = "exhaustive"
 
