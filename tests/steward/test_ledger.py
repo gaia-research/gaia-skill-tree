@@ -12,6 +12,7 @@ import json
 import os
 import subprocess
 import threading
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -211,16 +212,17 @@ def test_round_trip_generation_and_untouched_working_tree(machines):
 
 
 def test_cas_conflict_and_update_reapplies_on_fresh_document(machines):
-    _, storeA, storeB = machines
+    remote, storeA, storeB = machines
     update(storeA, appendMarker("seed"))
     docB, versionB = storeB.load()
     assert "seed" in docB["runs"]
 
-    update(storeA, appendMarker("from-a"))
+    _, tipAfterA = update(storeA, appendMarker("from-a"))
     stale = copy.deepcopy(docB)
     stale["runs"]["from-b"] = {"runId": "from-b"}
     with pytest.raises(LedgerConflict):
         storeB.compare_and_swap(versionB, stale, "stale write")
+    assert remoteTip(remote) == tipAfterA  # the stale write changed nothing remotely
 
     # update() on B re-loads and re-applies, so both mutations survive.
     calls = []
@@ -350,7 +352,6 @@ def test_cas_with_none_when_ref_exists_conflicts_without_force(machines):
     remote, storeA, storeB = machines
     _, tip = update(storeA, appendMarker("existing"))
     assert remoteTip(remote) == tip
-    objectsBefore = git(remote, "count-objects", "-v")
 
     fresh = empty_ledger()
     fresh["runs"]["intruder"] = {"runId": "intruder"}
@@ -360,7 +361,6 @@ def test_cas_with_none_when_ref_exists_conflicts_without_force(machines):
     assert remoteTip(remote) == tip  # the ref did not move
     document, _ = storeA.load()
     assert "intruder" not in document["runs"] and "existing" in document["runs"]
-    assert objectsBefore  # remote stayed readable
 
 
 def test_simultaneous_creators_exactly_one_wins(machines):
@@ -675,3 +675,308 @@ def test_set_lane():
         set_lane(doc, {"schemaVersion": "wrong"})
     set_lane(doc, None)
     assert doc["lane"] is None
+
+
+# ---------------------------------------------------------------------------
+# Review fixes (S6 round 2)
+# ---------------------------------------------------------------------------
+
+
+def refNames(clone: Path) -> list[str]:
+    return git(clone, "for-each-ref", "--format=%(refname)").splitlines()
+
+
+def outsideSteward(names: list[str]) -> list[str]:
+    return sorted(name for name in names if not name.startswith("refs/steward/"))
+
+
+def test_ledger_leaves_no_refs_outside_refs_steward(machines):
+    _, storeA, storeB = machines
+    beforeA, beforeB = refNames(storeA.repo_root), refNames(storeB.repo_root)
+    update(storeA, appendMarker("one"))
+    update(storeA, appendMarker("two"))
+    update(storeB, appendMarker("three"))
+    storeA.load()
+    afterA, afterB = refNames(storeA.repo_root), refNames(storeB.repo_root)
+    assert outsideSteward(afterA) == outsideSteward(beforeA)
+    assert outsideSteward(afterB) == outsideSteward(beforeB)
+    assert not [n for n in afterA + afterB if n.startswith("refs/remotes/")]
+    assert [n for n in afterA if n.startswith("refs/steward/")] == [storeA.trackingRef]
+
+
+def test_tracking_ref_is_per_store(machines):
+    _, storeA, _ = machines
+    other = GitRefLedgerStore(storeA.repo_root, ref="steward/other-ledger")
+    third = GitRefLedgerStore(storeA.repo_root, ref="steward/ledger")
+    assert storeA.trackingRef != other.trackingRef
+    assert storeA.trackingRef == third.trackingRef
+    update(storeA, appendMarker("only-in-default"))
+    update(other, appendMarker("only-in-other"))
+    assert set(storeA.load()[0]["runs"]) == {"only-in-default"}
+    assert set(other.load()[0]["runs"]) == {"only-in-other"}
+    assert storeA.trackingRef in refNames(storeA.repo_root)
+    assert other.trackingRef in refNames(storeA.repo_root)
+
+
+def installHook(remote: Path, body: str) -> None:
+    hook = remote / "hooks" / "pre-receive"
+    hook.write_text(f"#!/bin/sh\n{body}\n")
+    hook.chmod(0o755)
+
+
+def test_directory_file_ref_collision_is_unavailable_not_conflict(machines):
+    remote, storeA, _ = machines
+    # A plain `steward` branch makes `steward/ledger` impossible to create.
+    git(storeA.repo_root, "push", "--quiet", str(remote), "HEAD:refs/heads/steward")
+    attempts = []
+
+    def mutate(doc):
+        attempts.append(1)
+        doc["runs"]["x"] = {"runId": "x"}
+
+    with pytest.raises(LedgerUnavailable):
+        update(storeA, mutate, retries=5, sleep=noSleep)
+    assert len(attempts) == 1  # a permanent rejection is not retried as a conflict
+    assert remoteTip(remote) is None
+
+
+@pytest.mark.parametrize("text", ["ref already exists", "cannot lock ref", "failed to update ref"])
+def test_hook_rejection_text_is_unavailable_not_conflict(machines, text):
+    remote, storeA, storeB = machines
+    _, tip = update(storeA, appendMarker("seed"))
+    storeB.load()
+    installHook(remote, f'echo "{text}" >&2\nexit 1')
+    attempts = []
+
+    def mutate(d):
+        attempts.append(1)
+        d["runs"]["y"] = {"runId": "y"}
+
+    with pytest.raises(LedgerUnavailable):
+        update(storeB, mutate, retries=5, sleep=noSleep)
+    assert len(attempts) == 1
+    assert remoteTip(remote) == tip
+
+
+def test_remote_rejection_after_ref_moved_is_a_conflict(machines, tmp_path):
+    """A lost ref-lock race surfaces as `[remote rejected] (failed to update ref)`.
+
+    The pre-receive hook parks B's push mid-flight; meanwhile the ref is moved
+    to v2 from outside (a hook cannot move refs itself, it runs in quarantine).
+    """
+
+    remote, storeA, storeB = machines
+    _, v1 = update(storeA, appendMarker("seed"))
+    doc, version = storeB.load()
+    assert version == v1
+    _, v2 = update(storeA, appendMarker("winner"))
+    git(remote, "update-ref", f"refs/heads/{REF}", v1)  # rewind: B now looks current
+    flag, go = tmp_path / "hook-entered", tmp_path / "hook-go"
+    installHook(
+        remote,
+        f'touch {flag}\nwhile [ ! -e {go} ]; do sleep 0.05; done\n'
+        'echo "failed to update ref" >&2\nexit 1',
+    )
+    doc["runs"]["loser"] = {"runId": "loser"}
+    outcome: list[BaseException] = []
+
+    def push():
+        try:
+            storeB.compare_and_swap(v1, doc, "lost race")
+        except BaseException as exc:
+            outcome.append(exc)
+
+    thread = threading.Thread(target=push)
+    thread.start()
+    for _ in range(400):
+        if flag.exists():
+            break
+        time.sleep(0.05)
+    assert flag.exists(), "hook never ran"
+    git(remote, "update-ref", f"refs/heads/{REF}", v2)
+    go.write_text("go")
+    thread.join(30)
+    assert len(outcome) == 1 and isinstance(outcome[0], LedgerConflict), outcome
+    assert remoteTip(remote) == v2
+
+
+@pytest.mark.parametrize(
+    "ref",
+    [
+        "main", "", "steward", "steward/", "steward/../x", "steward//x", "steward/x.lock",
+        "steward/a b", "steward/x~1", "steward/x^", "steward/x:y", "steward/.hidden",
+        "refs/heads/steward/x", "release/steward/x", "STEWARD/x", None, 5,
+    ],
+)
+def test_bad_ref_is_rejected(tmp_path, ref):
+    with pytest.raises(ValueError):
+        GitRefLedgerStore(tmp_path, ref=ref)
+
+
+@pytest.mark.parametrize("remote", ["", "  ", "-oBad", "--upload-pack=evil", "a b", "x\ny", None])
+def test_bad_remote_is_rejected(tmp_path, remote):
+    with pytest.raises(ValueError):
+        GitRefLedgerStore(tmp_path, remote=remote)
+
+
+def test_good_refs_are_accepted(tmp_path):
+    for ref in ("steward/ledger", "steward/a/b-c_d.e", "steward/ledger-test"):
+        assert GitRefLedgerStore(tmp_path, ref=ref).ref == ref
+
+
+def test_stale_cas_does_not_resurrect_a_deleted_ref(machines):
+    remote, storeA, storeB = machines
+    update(storeA, appendMarker("seed"))
+    doc, version = storeB.load()
+    git(remote, "update-ref", "-d", f"refs/heads/{REF}")
+    assert remoteTip(remote) is None
+
+    doc["runs"]["stale"] = {"runId": "stale"}
+    with pytest.raises(LedgerConflict):
+        storeB.compare_and_swap(version, doc, "stale after delete")
+    assert remoteTip(remote) is None  # still gone
+
+    # update() re-reads, sees an empty remote and recreates from a fresh root.
+    update(storeB, appendMarker("fresh"), sleep=noSleep)
+    document, _ = storeA.load()
+    assert set(document["runs"]) == {"fresh"}
+    assert git(remote, "rev-list", "--count", f"refs/heads/{REF}") == "1"
+
+
+def test_git_is_never_allowed_to_prompt_or_gc(machines, monkeypatch):
+    _, storeA, _ = machines
+    monkeypatch.delenv("GIT_SSH_COMMAND", raising=False)
+    seen = []
+    real = subprocess.run
+
+    def spy(command, **kwargs):
+        if command[0] == "git" and "-C" in command:
+            seen.append((command, kwargs))
+        return real(command, **kwargs)
+
+    monkeypatch.setattr(ledgerModule.subprocess, "run", spy)
+    update(storeA, appendMarker("one"))
+    assert seen
+    for command, kwargs in seen:
+        assert "gc.auto=0" in command
+        env = kwargs["env"]
+        assert env["GIT_ASKPASS"] == "true"
+        assert env["GCM_INTERACTIVE"] == "never"
+        assert env["GIT_TERMINAL_PROMPT"] == "0"
+        assert env["GIT_SSH_COMMAND"] == "ssh -o BatchMode=yes"
+        if kwargs.get("input") is None:
+            assert kwargs["stdin"] == subprocess.DEVNULL
+        else:
+            assert "stdin" not in kwargs
+
+
+def test_callers_ssh_command_is_respected(machines, monkeypatch):
+    _, storeA, _ = machines
+    monkeypatch.setenv("GIT_SSH_COMMAND", "ssh -i /custom/key")
+    seen = []
+    real = subprocess.run
+
+    def spy(command, **kwargs):
+        seen.append(kwargs.get("env", {}).get("GIT_SSH_COMMAND"))
+        return real(command, **kwargs)
+
+    monkeypatch.setattr(ledgerModule.subprocess, "run", spy)
+    storeA.load()
+    assert set(filter(None, seen)) == {"ssh -i /custom/key"}
+
+
+def test_identical_documents_from_two_clones_still_conflict(machines):
+    _, storeA, storeB = machines
+    _, seed = update(storeA, appendMarker("seed"), clock=lambda: T0)
+    docA, versionA = storeA.load()
+    docB, versionB = storeB.load()
+    assert versionA == versionB == seed and docA == docB
+    for doc in (docA, docB):
+        doc["runs"]["same"] = {"runId": "same"}
+        doc["updatedAt"] = "2026-10-20T12:00:00Z"
+    first = storeA.compare_and_swap(versionA, docA, "identical")
+    with pytest.raises(LedgerConflict):
+        storeB.compare_and_swap(versionB, docB, "identical")
+    assert storeB.load()[1] == first
+
+
+def test_inherited_git_dir_and_index_file_are_ignored(machines, tmp_path, monkeypatch):
+    remote, storeA, _ = machines
+    before = snapshot(storeA.repo_root)
+    with monkeypatch.context() as scoped:
+        scoped.setenv("GIT_DIR", str(tmp_path / "bogus.git"))
+        scoped.setenv("GIT_INDEX_FILE", str(tmp_path / "bogus-index"))
+        scoped.setenv("GIT_WORK_TREE", str(tmp_path / "bogus-tree"))
+        _, version = update(storeA, appendMarker("with-hostile-env"))
+        document, loaded = storeA.load()
+    assert loaded == version and "with-hostile-env" in document["runs"]
+    assert remoteTip(remote) == version
+    assert snapshot(storeA.repo_root) == before
+    assert not (tmp_path / "bogus-index").exists()
+
+
+def test_deeply_nested_ledger_is_malformed_not_a_crash(tmp_path):
+    path = tmp_path / "ledger.json"
+    path.write_bytes(b"[" * 200000 + b"]" * 200000)
+    with pytest.raises(LedgerUnavailable):
+        FileLedgerStore(path).load()
+
+
+@pytest.mark.parametrize("constant", ["NaN", "Infinity", "-Infinity"])
+def test_non_finite_numbers_are_rejected_on_load(tmp_path, constant):
+    path = tmp_path / "ledger.json"
+    path.write_text(
+        '{"schemaVersion":"steward-ledger-v1","generation":0,"runs":{"r":{"runId":"r","v":%s}},'
+        '"leases":{},"work":{},"lane":null}' % constant
+    )
+    with pytest.raises(LedgerUnavailable):
+        FileLedgerStore(path).load()
+
+
+def test_non_finite_numbers_are_rejected_on_write(tmp_path):
+    store = FileLedgerStore(tmp_path / "ledger.json")
+    for bad in (float("nan"), float("inf")):
+        with pytest.raises(LedgerUnavailable):
+            update(store, lambda doc, bad=bad: doc["runs"].update(r={"runId": "r", "v": bad}))
+    assert not (tmp_path / "ledger.json").exists()
+
+
+def test_deeply_nested_mutation_is_refused_on_write(tmp_path):
+    store = FileLedgerStore(tmp_path / "ledger.json")
+    nested: list = []
+    cursor = nested
+    for _ in range(5000):
+        child: list = []
+        cursor.append(child)
+        cursor = child
+    with pytest.raises(LedgerUnavailable):
+        update(store, lambda doc: doc["runs"].update(r={"runId": "r", "deep": nested}))
+
+
+@pytest.mark.parametrize("retries", [-1, -100, 1.5, "3", True, None])
+def test_bad_retries_are_rejected(tmp_path, retries):
+    with pytest.raises(ValueError):
+        update(FileLedgerStore(tmp_path / "ledger.json"), lambda doc: None, retries=retries)
+
+
+def test_zero_retries_is_allowed(tmp_path):
+    result, _ = update(FileLedgerStore(tmp_path / "ledger.json"), appendMarker("z"), retries=0)
+    assert result == "z"
+
+
+@pytest.mark.parametrize(
+    "ttl",
+    [float("nan"), float("inf"), float("-inf"), 0, -5, 31 * 24 * 3600, 1e30, True, "60", None],
+)
+def test_bad_lease_ttl_is_rejected(ttl):
+    doc = empty_ledger()
+    with pytest.raises(ValueError):
+        acquire_lease(doc, "run", "a", T0, ttl)
+    assert doc["leases"] == {}
+
+
+def test_lease_ttl_boundary_and_expiry_overflow():
+    doc = empty_ledger()
+    assert acquire_lease(doc, "run", "a", T0, 30 * 24 * 3600) is True
+    with pytest.raises(ValueError):
+        acquire_lease(doc, "other", "a", datetime(9999, 12, 31, 23, 59, 59, tzinfo=timezone.utc), 3600)
