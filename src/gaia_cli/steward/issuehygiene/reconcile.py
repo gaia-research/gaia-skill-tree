@@ -282,7 +282,9 @@ def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
     if record is not None and not failures:
         draft.a1Ok = True
         draft.proofRule = RULE_A1
-        draft.evidence.append(_ev("registry", record.path, record.sha256, "links.github equals the evidence URL" if draft.urlEqual else "upstream repo and path match the evidence URL"))
+        for entry in draft.evidence:
+            if entry["type"] == "registry" and entry["ref"] == record.path:
+                entry["detail"] = "links.github equals the evidence URL" if draft.urlEqual else "upstream repo and path match the evidence URL"
         if identity.evidenceUrl:
             draft.evidence.append(_ev("issue", f"#{draft.number}", None, f"evidence {identity.evidenceUrl}"))
         return
@@ -488,12 +490,12 @@ def _evaluateBot(ctx: _Context, draft: _Draft) -> None:
     if not runnables:
         failures.append("no-workflow-reference")
     for runnable in runnables:
-        if runnable not in ctx.policy.a5Disabled:
+        if f"{WORKFLOW_DIR}/{runnable}" not in ctx.policy.a5Disabled:
             failures.append(f"workflow-not-listed:{runnable}")
         probe = ctx.workflowDisabled.get(runnable)
         if probe is None or not probe.get("proven"):
             failures.append(f"workflow-not-proven-disabled:{runnable}")
-        elif runnable in ctx.policy.a5Disabled:
+        else:
             draft.evidence.append(_ev("workflow", f"{WORKFLOW_DIR}/{runnable}", probe.get("sha256"), ",".join(probe.get("reasons", []))))
     if draft.unknowns:
         failures.append("unknown-facts")
