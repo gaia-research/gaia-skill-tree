@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
@@ -26,6 +27,8 @@ _TOP_LEVEL_KEYS = {
     "repairs",
     "routing",
 }
+# Optional: an absent issueHygiene section means no closure authority at all.
+_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene"}
 _PRIORITY_KEYS = {
     "importance",
     "decisionImpact",
@@ -105,6 +108,11 @@ _PROTECTED_DISPATCH_PATHS = (
     "registry/schema/**",
     "skill-trees/**",
 )
+# Founder desk rules: each names the one Class C debt kind it decides.
+_FOUNDER_RULE_DEBT = {
+    "generic-mapping-decision": "generic_mapping",
+    "issue-founder-decision": "issue_founder_decision",
+}
 _FOUNDER_RULE_KEYS = {
     "debtKind",
     "authority",
@@ -203,6 +211,7 @@ class StewardPolicy:
     routing_budget: RoutingBudget
     dispatch_rules: Mapping[str, DispatchRulePolicy]
     founder_rules: Mapping[str, FounderRulePolicy]
+    issue_hygiene: HygienePolicy = HygienePolicy(writesEnabled=False, enabledRules=())
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -223,7 +232,7 @@ class StewardPolicy:
     def _from_mapping(cls, data: Any) -> "StewardPolicy":
         if not isinstance(data, dict):
             raise PolicyError("Steward policy must be a YAML mapping")
-        unknown = set(data) - _TOP_LEVEL_KEYS
+        unknown = set(data) - _TOP_LEVEL_KEYS - _OPTIONAL_TOP_LEVEL_KEYS
         missing = _TOP_LEVEL_KEYS - set(data)
         if unknown or missing:
             raise PolicyError(
@@ -491,8 +500,8 @@ class StewardPolicy:
             )
 
         founder_data = _mapping(routing["founderRules"], "routing.founderRules")
-        if set(founder_data) != {"generic-mapping-decision"}:
-            raise PolicyError("routing must define exactly generic-mapping-decision")
+        if set(founder_data) != set(_FOUNDER_RULE_DEBT):
+            raise PolicyError(f"routing must define exactly {sorted(_FOUNDER_RULE_DEBT)}")
         founder_rules: dict[str, FounderRulePolicy] = {}
         for rule_id, raw_rule in founder_data.items():
             rule = _mapping(raw_rule, f"routing.founderRules.{rule_id}")
@@ -504,13 +513,13 @@ class StewardPolicy:
             debt_kind = _nonempty_string(rule["debtKind"], f"routing.founderRules.{rule_id}.debtKind")
             rule_authority = _authority_value(rule["authority"], f"routing.founderRules.{rule_id}.authority")
             if (
-                debt_kind != "generic_mapping"
+                debt_kind != _FOUNDER_RULE_DEBT[rule_id]
                 or rule_authority is not AuthorityClass.C
                 or authority.get(debt_kind) is not AuthorityClass.C
                 or rule["decisionTargetField"] != "decisionTarget"
             ):
                 raise PolicyError(
-                    "generic-mapping-decision must require decisionTarget for Class C generic_mapping debt"
+                    f"{rule_id} must require decisionTarget for Class C {_FOUNDER_RULE_DEBT[rule_id]} debt"
                 )
             founder_rules[rule_id] = FounderRulePolicy(
                 id=rule_id,
@@ -535,6 +544,7 @@ class StewardPolicy:
             routing_budget=routing_budget,
             dispatch_rules=dispatch_rules,
             founder_rules=founder_rules,
+            issue_hygiene=loadHygienePolicy(data.get("issueHygiene")),
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:
