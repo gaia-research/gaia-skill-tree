@@ -95,11 +95,15 @@ HELDWORK = ("escalated", "no_change", "landed")
 OPENRUNSTATES = ("active", "awaiting-action")
 TERMINALRUNSTATES = ("completed", "blocked", "failed", "abandoned")
 
-# Model *families*, never version identifiers: the runner constrains who may
-# build and verify, not which release of a model answers. `outcome.model` is
-# matched against these tokens exactly.
-BUILDERMODELS = ("haiku", "sonnet")
-VERIFIERMODELS = ("sonnet",)
+# Agent *families*, never version identifiers: the runner constrains who may
+# build and verify, not which release of a model answers. For Claude these are
+# model families (haiku, sonnet); for other agents the token is the engine name
+# (copilot, codex, pi). `outcome.model` is matched against these tokens exactly.
+# Independence (verifier agentId != builder agentId, forbiddenAgentIds) is
+# enforced separately from the family check, so the family set is not a
+# separation mechanism.
+BUILDERMODELS = ("haiku", "sonnet", "copilot", "codex", "pi")
+VERIFIERMODELS = ("sonnet", "copilot", "codex", "pi")
 BADEFFORTS = frozenset({"", "default", "inherit"})
 
 # Lane limits live in policy (maxInFlight, maxAttempts, cooldownSeconds). This

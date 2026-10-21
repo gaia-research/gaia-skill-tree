@@ -40,7 +40,7 @@ from tests.steward.test_fullrun import (
     git,
     makeFixture,
     makeRunner,
-    useMaxInFlight,
+    pinMaxInFlight,
     write,
     writeBuildArtifacts,
 )
@@ -174,7 +174,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(view) == ["agent.build"]
     build = view.actions[0]
     params = build["params"]
-    assert params["allowedModels"] == ["haiku", "sonnet"]
+    assert params["allowedModels"] == ["haiku", "sonnet", "copilot", "codex", "pi"]
     assert params["effortRequired"] is True and params["base"] == INTEGRATION
     assert params["branch"].startswith("steward/b/repository-hygiene-")
     assert set(params["outputs"]) == {"diffPath", "proofPath"}
@@ -219,7 +219,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(verifying) == ["agent.verify"]
     verify = verifying.actions[0]
     assert verify["params"]["forbiddenAgentIds"] == ["builder-1"]
-    assert verify["params"]["allowedModels"] == ["sonnet"]
+    assert verify["params"]["allowedModels"] == ["sonnet", "copilot", "codex", "pi"]
     assert "scripts/fix.py" in (repo / verify["params"]["verifierPromptPath"]).read_text()
 
     # 5. the same agent may not judge its own work; a different one may.
@@ -622,6 +622,24 @@ def test_scenario_c_cooldown_then_attempt_ceiling_escalate_to_the_desk(tmp_path:
     assert after.actions == [] and ledgerOf(store)["work"][debtId]["state"] == "escalated"
 
 
+def test_scenario_c_verifier_sharing_the_builder_agent_id_is_refused_whatever_the_family(tmp_path: Path) -> None:
+    repo, bare, sensor, store, runner = hygieneRunner(tmp_path)
+    view = runner.start("full")
+    build = view.actions[0]
+    debtId = build["params"]["debtId"]
+    diff, proof = writeBuildArtifacts(repo)
+    # A non-Claude builder family is accepted on the build; its agent id is the independence key.
+    runner.record(view.runId, build["stepId"], {**BUILD, "model": "copilot", "diffPath": str(diff), "proofPath": str(proof)})
+    verify = runner.resume(view.runId).actions[0]
+    assert verify["params"]["forbiddenAgentIds"] == ["builder-1"]
+    # The same agent id is refused as verifier even under a family the verifier accepts.
+    with pytest.raises(RecordRefused, match="independent"):
+        runner.record(view.runId, verify["stepId"], {**VERIFY, "agentId": "builder-1", "model": "codex"})
+    assert ledgerOf(store)["work"][debtId]["state"] == "building"
+    runner.record(view.runId, verify["stepId"], {**VERIFY, "agentId": "verifier-1", "model": "codex"})
+    assert ledgerOf(store)["work"][debtId]["state"] == "verified"
+
+
 def test_scenario_c_no_change_build_is_confirmed_by_an_independent_verifier(tmp_path: Path) -> None:
     repo, _bare, sensor, store, runner = hygieneRunner(tmp_path)
     view = runner.start("full")
@@ -790,6 +808,7 @@ def test_scenario_d2_the_first_lead_rejection_requeues_with_a_cooldown(tmp_path:
 
 def test_scenario_d5_verified_but_unintegrated_work_holds_the_only_slot(tmp_path: Path) -> None:
     repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b"])
+    pinMaxInFlight(repo, 1)  # this scenario is about the single slot; the shipped lane has two
     first = drive(runner, runner.start("full"), repo, integrate="hold")
     assert first.status == "completed"
     (verified,) = [w for w in ledgerOf(store)["work"].values() if w["state"] == "verified"]
@@ -808,12 +827,44 @@ def test_scenario_d5_verified_but_unintegrated_work_holds_the_only_slot(tmp_path
     assert ledgerOf(store)["work"][verified["debtId"]]["state"] == "verified"
 
 
+def test_the_shipped_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_third(tmp_path: Path) -> None:
+    """Concurrency 2, end to end: each run still dispatches at most one build (maxDispatchesPerRun 1)."""
+
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
+    assert StewardPolicy.load(repo).lane.max_in_flight == 2, "this test is about the shipped two-slot lane"
+
+    first_view = runner.start("full")
+    assert actionTypes(first_view) == ["agent.build"], first_view.to_dict()
+    first_debt = first_view.actions[0]["params"]["debtId"]
+    drive(runner, first_view, repo, integrate="hold")  # verified, held by the lead: still in flight
+
+    second_runner = makeRunner(repo, store, [sensor])
+    second_view = second_runner.start("full")
+    assert actionTypes(second_view) == ["agent.build"], "the second slot is free, so the lane hands out a second debt"
+    second_debt = second_view.actions[0]["params"]["debtId"]
+    assert second_debt != first_debt
+    drive(second_runner, second_view, repo, integrate="hold")
+
+    doc = ledgerOf(store)
+    for run_id in (first_view.runId, second_view.runId):
+        runBuilds = [a for a in doc["runs"][run_id]["actions"] if a["type"] == "agent.build"]
+        assert len(runBuilds) == 1, "maxDispatchesPerRun is 1 for each run"
+    lane = load_lane(doc["lane"], StewardPolicy.load(repo).lane)
+    assert {first_debt, second_debt} == {e.debt_id for e in lane.in_flight}
+
+    third_view = makeRunner(repo, store, [sensor]).start("full")
+    assert "agent.build" not in actionTypes(third_view), third_view.to_dict()
+    assert "maxInFlight" in third_view.summary["class_b"]["reason"]
+    assert len(builds(ledgerOf(store))) == 2, "the refused third debt was never dispatched"
+
+
 # --- D3: a deferred verification is never "nothing further" and cannot deadlock the lane ------
 
 
 def test_scenario_d3_deferred_verification_is_awaiting_action_then_escalates_after_24h(tmp_path: Path) -> None:
     clock = Clock()
     repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b"], clock=clock)
+    pinMaxInFlight(repo, 1)  # one slot: the second debt must wait behind the stuck dispatch
     view = runner.start("full")
     first = view.actions[0]["params"]["debtId"]
     diff, proof = writeBuildArtifacts(repo, "d1")
@@ -1259,7 +1310,7 @@ def test_m03_held_work_is_never_chosen_by_the_lane(tmp_path: Path) -> None:
 
 def test_m01_m02_dispatch_cap_and_pending_build_guard(tmp_path: Path) -> None:
     repo, _bare, sensor, store, _ = hygieneRunner(tmp_path, ["a", "b"])
-    useMaxInFlight(repo, 2)  # the lane could take a second dispatch; only the per-run cap forbids it
+    pinMaxInFlight(repo, 2)  # the lane could take a second dispatch; only the per-run cap forbids it
     runner = makeRunner(repo, store, [sensor])
     view = runner.start("full")
     assert actionTypes(view) == ["agent.build"]

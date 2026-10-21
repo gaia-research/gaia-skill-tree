@@ -9,6 +9,7 @@ what the runner observes.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from datetime import datetime, timedelta
@@ -22,6 +23,7 @@ from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.fullrun import (
     BUILDERMODELS,
     MODEPHASES,
+    VERIFIERMODELS,
     FullRunConfig,
     FullRunner,
     RecordRefused,
@@ -237,13 +239,19 @@ def editLedger(store: Any, change: Any) -> None:
     update(store, change)
 
 
-def useMaxInFlight(repo: Path, value: int) -> None:
-    """Raise the lane's maxInFlight in the fixture's own policy file (policy allows 1-4)."""
+def pinMaxInFlight(repo: Path, value: int) -> None:
+    """Set the lane's maxInFlight in the fixture's own policy copy (policy allows 1-4).
+
+    The shipped policy may move (it is 2 as of 2026-10-21), so this rewrites whatever
+    value the fixture currently carries rather than assuming a particular one. Tests that
+    exercise the single-slot cap pin 1; tests that exercise concurrency pin 2.
+    """
 
     path = repo / POLICY_RELATIVE_PATH
     text = path.read_text(encoding="utf-8")
-    assert "maxInFlight: 1" in text
-    path.write_text(text.replace("maxInFlight: 1", f"maxInFlight: {value}"), encoding="utf-8")
+    updated, count = re.subn(r"maxInFlight: \d+", f"maxInFlight: {value}", text)
+    assert count == 1, "the fixture policy must declare exactly one routing.lane.maxInFlight"
+    path.write_text(updated, encoding="utf-8")
     commitAll(repo, f"maxInFlight {value}")
 
 
@@ -310,6 +318,29 @@ def test_negative_cost_is_refused() -> None:
 
 def test_valid_agent_passes() -> None:
     validateAgent(BUILD, BUILDERMODELS, "builder")
+
+
+@pytest.mark.parametrize("model", ["copilot", "codex", "pi"])
+def test_other_agent_engines_are_accepted_as_builders(model: str) -> None:
+    validateAgent({**BUILD, "model": model}, BUILDERMODELS, "builder")
+
+
+@pytest.mark.parametrize("model", ["copilot", "codex", "pi"])
+def test_other_agent_engines_are_accepted_as_verifiers(model: str) -> None:
+    validateAgent({**VERIFY, "model": model}, VERIFIERMODELS, "verifier")
+
+
+def test_haiku_is_not_a_verifier_family() -> None:
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**VERIFY, "model": "haiku"}, VERIFIERMODELS, "verifier")
+
+
+@pytest.mark.parametrize("model", ["opus", "gpt5"])
+def test_unlisted_families_are_refused_for_builders_and_verifiers(model: str) -> None:
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**BUILD, "model": model}, BUILDERMODELS, "builder")
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**VERIFY, "model": model}, VERIFIERMODELS, "verifier")
 
 
 # --- landing target, idempotency keys, phases ---------------------------------------

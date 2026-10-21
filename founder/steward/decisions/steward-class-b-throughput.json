@@ -1,7 +1,7 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-class-b-throughput",
-  "status": "open",
+  "status": "decided",
   "decision": "Amend the Class B lane throughput: raise routing.lane.maxInFlight from 1 to 2, keeping maxDispatchesPerRun 1, maxAttempts 2 and cooldownSeconds 3600?",
   "whyItMatters": "With maxInFlight 1 the lane advances one debt per verified review, so a backlog drains only as fast as a person closes each item. Raising it trades review load for throughput.",
   "evidence": [

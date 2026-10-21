@@ -1,0 +1,165 @@
+name: Gaia Steward Full
+
+# One click: Actions -> "Gaia Steward Full" -> Run workflow -> pick an agent.
+#
+#   Class A  detect -> repair -> verify -> land on dev/steward-integration -> record
+#   Class B  detect -> dispatch builder -> independent verifier -> land -> record
+#   Class C  detect -> escalate to the founder desk (nothing is dispatched)
+#
+# `gaia steward full run` makes zero model calls and decides every transition.
+# scripts/steward_drive.py performs the actions it emits. Agent work is not done
+# here: each builder and verifier is a fresh GitHub Agentic Workflow run
+# (.github/workflows/steward-{build,verify}-<engine>.lock.yml, compiled from the
+# gh-aw sources beside them) so the sandbox, authentication, network allowlist
+# and safe-output write boundary are gh-aw's, for any of Copilot, Claude, Codex
+# or Pi. The verifier is always a separate run from the builder, optionally on a
+# different engine. This job merges into the integration branch only; it never
+# writes to main, force-pushes, tags or releases, and the runner refuses main,
+# master and the default branch itself.
+#
+# Authentication is per engine and none is assumed: copilot and pi use the
+# repository's Copilot entitlement (permissions: copilot-requests), claude needs
+# ANTHROPIC_API_KEY, codex needs OPENAI_API_KEY or CODEX_API_KEY. The preflight
+# reports what it can see; a missing credential makes the agent run fail and the
+# step is reported failed. Class B is only ever claimed when an agent ran.
+#
+# Cadence: lane maxInFlight is 2 but maxDispatchesPerRun is pinned to 1 in code,
+# so a run dispatches at most one new Class B repair. Running every 4 hours
+# fills both slots within one run-gap and refills a freed slot at the next run.
+
+on:
+  schedule:
+    - cron: "40 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      agent:
+        description: "Coding agent that builds (and by default verifies)"
+        type: choice
+        options: [copilot, claude, codex, pi]
+        default: copilot
+      verifier:
+        description: "Agent that verifies; 'same' uses the builder's engine in a separate run"
+        type: choice
+        options: [same, copilot, claude, codex, pi]
+        default: same
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: gaia-steward-full
+  cancel-in-progress: false
+
+jobs:
+  drive:
+    name: Drive Class A and Class B
+    # STEWARD_LANDING_ENABLED=false stops the loop; unset means on.
+    if: vars.STEWARD_LANDING_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
+      GH_TOKEN: ${{ github.token }}
+      STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || 'copilot' }}
+      STEWARD_VERIFIER_AGENT: ${{ (inputs.verifier != 'same' && inputs.verifier) || vars.STEWARD_VERIFIER_AGENT || '' }}
+      STEWARD_AGENT_REF: ${{ github.event.repository.default_branch }}
+      STEWARD_BUILD_EFFORT: medium
+      STEWARD_VERIFY_EFFORT: high
+      HAS_ANTHROPIC: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+      HAS_OPENAI: ${{ secrets.OPENAI_API_KEY != '' || secrets.CODEX_API_KEY != '' }}
+      HAS_COPILOT_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install the CLI
+        run: python -m pip install --quiet -e .
+
+      - name: Commit identity for landing branches
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Prove what this run can actually do instead of assuming it.
+      - name: Preflight (branch, ref writes, agent workflows, credentials)
+        run: |
+          set +e
+          {
+            echo "### Steward drive preflight"
+            echo ""
+            echo "| Check | Result |"
+            echo "|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+          row() { echo "| $1 | $2 |" >> "$GITHUB_STEP_SUMMARY"; }
+          if git ls-remote --exit-code --heads origin "$INTEGRATION_BRANCH" >/dev/null 2>&1; then
+            row "integration branch $INTEGRATION_BRANCH exists" "yes"
+          else
+            row "integration branch $INTEGRATION_BRANCH exists" "**NO** - Class A landing will be refused; create it from main"
+            echo "::error title=steward integration branch missing::$INTEGRATION_BRANCH does not exist on the remote"
+          fi
+          probe="refs/heads/steward/probe-${GITHUB_RUN_ID}"
+          if git push -q origin "HEAD:${probe}" 2>/tmp/probe.err; then
+            git push -q origin ":${probe}" 2>/dev/null
+            row "GITHUB_TOKEN can create and delete steward/* refs" "yes"
+          else
+            row "GITHUB_TOKEN can create and delete steward/* refs" "**NO** - $(head -c 200 /tmp/probe.err | tr '\n' ' ')"
+            echo "::error title=steward cannot write refs::push of $probe was refused"
+          fi
+          for engine in "$STEWARD_AGENT" "${STEWARD_VERIFIER_AGENT:-$STEWARD_AGENT}"; do
+            for role in build verify; do
+              wf=".github/workflows/steward-${role}-${engine}.lock.yml"
+              if git ls-remote --exit-code --heads origin "$STEWARD_AGENT_REF" >/dev/null 2>&1 \
+                 && git cat-file -e "origin/${STEWARD_AGENT_REF}:${wf}" 2>/dev/null; then
+                row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "yes"
+              else
+                row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "**NO** - dispatch will fail until it is merged to $STEWARD_AGENT_REF"
+                echo "::error title=steward agent workflow missing::${wf##*/} is not on $STEWARD_AGENT_REF"
+              fi
+            done
+            case "$engine" in
+              copilot|pi) row "$engine credentials" "Copilot entitlement via copilot-requests (org billing); fallback secret COPILOT_GITHUB_TOKEN present: $HAS_COPILOT_TOKEN" ;;
+              claude) row "claude credentials" "ANTHROPIC_API_KEY present: $HAS_ANTHROPIC"
+                      [ "$HAS_ANTHROPIC" = true ] || echo "::warning title=steward claude agent unauthenticated::ANTHROPIC_API_KEY is not set; Claude agent runs will fail" ;;
+              codex) row "codex credentials" "OPENAI_API_KEY or CODEX_API_KEY present: $HAS_OPENAI"
+                     [ "$HAS_OPENAI" = true ] || echo "::warning title=steward codex agent unauthenticated::no OPENAI_API_KEY or CODEX_API_KEY; Codex agent runs will fail" ;;
+            esac
+          done
+          exit 0
+
+      - name: Drive the pipeline
+        run: |
+          python scripts/steward_drive.py \
+            --integration-branch "$INTEGRATION_BRANCH" \
+            --ledger git --trigger scheduled \
+            --report drive-report.json
+
+      - name: Founder desk
+        if: always()
+        run: |
+          {
+            echo "## Gaia Steward Full (drive)"
+            echo '```'
+            gaia steward full status --ledger git
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish the drive receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-full-drive
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            drive-report.json
+            .gaia/steward/receipts/
+            .gaia/steward/full/

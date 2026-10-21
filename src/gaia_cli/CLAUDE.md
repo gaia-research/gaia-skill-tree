@@ -208,7 +208,7 @@ Ranks `1★` through `6★` use colors defined in the registry palette (see `RAN
 ## Authorization / Verifier guardrail
 
 All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
-rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) are gated by
+rm-evidence, link, reclassify, update-named, timeline, timeline-resort, rm, verify, build) are gated by
 `require_operator()` in `authz.py` at the dispatch level in `main.py` (`MUTATING_DEV_COMMANDS`
 set).  Read-only subcommands (`list`, `audit`, `diff`) are intentionally ungated.
 

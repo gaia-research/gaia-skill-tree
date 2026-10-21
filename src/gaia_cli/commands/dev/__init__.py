@@ -81,6 +81,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev evidence <skillId> <source> [--type <type>] [--trust <number>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
+  gaia dev timeline-resort <contributor/skill_id> [--dry-run]
   gaia dev fuse <generic_id> [--name ...] [--prereqs a,b,c] \\
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
@@ -726,6 +727,21 @@ class DevCommand(Command):
         )
         _add_build_flags(dev_timeline, "appending event")
 
+        dev_timeline_resort = dev_sub.add_parser(
+            "timeline-resort",
+            help="Re-sort a named skill's frontmatter timeline into chronological order (no events added or changed)",
+        )
+        dev_timeline_resort.add_argument(
+            "skill_id",
+            help="Named skill ID (contributor/slug) whose timeline to re-sort",
+        )
+        dev_timeline_resort.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Print the current and proposed order and write nothing",
+        )
+        _add_build_flags(dev_timeline_resort, "re-sorting timeline")
+
         dev_evidence = dev_sub.add_parser("evidence", help="Add evidence to a skill")
         dev_evidence.add_argument("skill_id", help="Skill ID to add evidence to")
         dev_evidence.add_argument("source", help="URL to the evidence source")
@@ -1112,6 +1128,7 @@ class DevCommand(Command):
             "reclassify",
             "update-named",
             "timeline",
+            "timeline-resort",
             "rm",
             "verify",
             "verify-tier",
@@ -1122,6 +1139,8 @@ class DevCommand(Command):
             "freeze",
             "ratify",
             "embed",
+            "provenance",
+            "evidence-seed",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS or (
             dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
@@ -1189,6 +1208,9 @@ class DevCommand(Command):
         elif dev_cmd == "timeline":
             from gaia_cli.commands.dev.timeline import meta_timeline_command
             meta_timeline_command(args)
+        elif dev_cmd == "timeline-resort":
+            from gaia_cli.commands.dev.timelineResortCmd import timelineResortCommand
+            timelineResortCommand(args)
         elif dev_cmd == "evidence":
             from gaia_cli.commands.dev.evidence import meta_evidence_command
             meta_evidence_command(args)
