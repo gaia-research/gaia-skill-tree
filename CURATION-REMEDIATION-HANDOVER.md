@@ -80,7 +80,7 @@ No implementation agent owns files. TWO FRESH read-only independent GPT-6-Luna H
 All tasks use default durable terminal notifications. Call bg_logs only AFTER matching notification; do not bg_status merely to wait.
 - b3ef1f62f `Audited PR baseline tests`: terminal completed/exit0 collected: **179 passed in 5.07s**. This was a different focused subset, NOT exact224.
 - bedb8629e `Submission idempotency regression tests`: terminal completed/exit0 collected: **78 passed in 1.73s**. This was before final security integration; not final-SHA acceptance.
-- b37e8b928 `Exact 224 test baseline`: launched, terminal notification/result not yet collected. Exact nine-file audit command at isolated PR-head:
+- b37e8b928 `Exact 224 test baseline`: terminal completed/exit0 and logs collected: **224 passed in 8.59s**. Exact nine-file audit command at isolated PR-head:
   `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -p no:cacheprovider -q tests/test_intake_multi_packet_2088.py tests/test_intake_adapter.py tests/test_dev_ratify.py tests/test_push_from_file.py tests/test_intake.py tests/test_intake_approval_workflow.py tests/test_gaia_curate_discovery_packet.py tests/test_curate_command.py tests/test_curate_state.py`
 - b3bc10791 `Integrated curation focused regressions`: launched on intermediate code; result notification not yet collected. Diagnostic, not final.
 - b2469261a `Curation integration regression matrix`: launched on intermediate code including 24 focused files. Result notification not yet collected; source/test edits occurred after launch, so MUST rerun on frozen final code even if green.
@@ -110,5 +110,7 @@ Latest short checks after user compaction request: compileall relevant source/te
 5. Commit checkpointed changes, push dedicated dev branch (no force). Prepare/open ONE draft remediation PR against current main, explicit #2089/#2088/audit references, no issue comments/closure.
 6. Retrieve RUNNING independent review `08c3a6da-744b-4f93-88e3-1f9ab3f9e1a4` with action:wait. It has two fresh Luna High reviewers (security and conservation) against frozen code 3e0641e3e. Do not mutate source/tests while they inspect. After retrieval repair findings and diagnostic test failures, rerun proportionately, and re-review required blockers. Do not confuse existing implementer self-tests with these independent reviewers.
 7. Deliver CURATION-REMEDIATION-REPORT.md with file summary, all 26 matrix rows PASS/FAIL/SKIP, exact test logs/SHA, original attacks repaired at real boundaries, honest mocked-vs-real ceremony distinctions, reports, compatibility #2093/current main, remaining human actions and NO-GO for original #2089 and protected activation until independent ceremony exists. No production merge/deploy/intake.
+
+`CURATION-REMEDIATION-REPORT.md` is now a draft evidence ledger/matrix, not a completion report. Its PENDING cells must be replaced only after actual final-SHA tests and reviews. Baseline 224 result is recorded there.
 
 Definition of done is not met yet. Do not claim completion from these edits or preliminary tests. Founder explicitly permits leaving protected flow blocked if independent human authority cannot be established; that does not make a mocked ceremony production success.
