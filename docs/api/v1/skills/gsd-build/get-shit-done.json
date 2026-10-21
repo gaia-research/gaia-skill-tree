@@ -210,6 +210,12 @@
       "action": "note",
       "contributor": "unknown",
       "details": "Cleared GitHub link."
+    },
+    {
+      "timestamp": "2026-10-21T11:31:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 169.36 -> 169.31, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "suiteComponents": [

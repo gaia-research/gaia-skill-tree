@@ -10,7 +10,7 @@ description: 'Suite orchestrator and router for HyperFrames: programmatic video 
   framework compiling HTML, CSS, JavaScript, WebGL, WebGPU, and Canvas into production
   videos.'
 createdAt: '2026-09-06'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-21'
 title: HyperFrames
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
@@ -89,6 +89,11 @@ timeline:
   previousValue: v0.8.34
   newValue: v0.8.60
   details: synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60
+- timestamp: '2026-10-21T11:31:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 163.63 -> 166.92, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
   updatedAt: '2026-10-01'
@@ -136,9 +141,9 @@ suiteComponents:
 - heygen-com/remotion-to-hyperframes
 - heygen-com/slideshow
 - heygen-com/talking-head-recut
-trustMagnitude: 163.63
+trustMagnitude: 166.92
 overallTrustGrade: A
-trustMagnitudeInputHash: 121fc2097a60cc4a77facdf6a9cca5474518053ba003a0930980deade4d443f0
+trustMagnitudeInputHash: db32830b323d3998d9bdc26306e24d73b4a60d47ae7e8639b19ab1f9c039dadf
 upstream:
   mode: components
   releasedAt: '2026-09-22T07:50:15Z'

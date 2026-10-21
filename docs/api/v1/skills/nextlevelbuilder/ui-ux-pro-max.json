@@ -168,6 +168,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 5★ to 4★"
+    },
+    {
+      "timestamp": "2026-10-21T11:31:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 226.5 -> 227.51, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

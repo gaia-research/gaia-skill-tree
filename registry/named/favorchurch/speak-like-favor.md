@@ -9,7 +9,7 @@ level: 1★
 description: Draft, edit, or QA Favor Church Manila communication so it feels warm,
   clear, and authentic.
 createdAt: '2026-07-14'
-updatedAt: '2026-09-11'
+updatedAt: '2026-10-21'
 title: Speak Like Favor
 links:
   github: https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
@@ -36,6 +36,11 @@ timeline:
   action: evidence_added
   contributor: mbtiongson1
   details: Added backing repo-own evidence from https://github.com/favorchurch/favor-skills
+- timestamp: '2026-10-21T11:31:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 5.0 -> 6.28, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
   evaluator: favorchurch
@@ -49,15 +54,16 @@ evidence:
   date: '2026-09-11'
   type: repo-own
   trustNumber: 50.0
-  notes: Production Favor Church AI Skills repository hosting speak-like-favor, active since June 2026
+  notes: Production Favor Church AI Skills repository hosting speak-like-favor, active
+    since June 2026
   commits: 26
   contributors: 1
   source_started_at: '2026-06-22'
 verification:
   firstEvidenceAt: '2026-07-13T16:34:51Z'
-trustMagnitude: 5.0
+trustMagnitude: 6.28
 overallTrustGrade: ungraded
-trustMagnitudeInputHash: cdab2aac618974346bca85126ed6215981a5ae210988add84e6b64a3d101c5a8
+trustMagnitudeInputHash: 604c99dc811f4862c8de83749630d6015163c49ab0271ecc5fcf4353165e4b56
 ---
 
 # Speak Like Favor

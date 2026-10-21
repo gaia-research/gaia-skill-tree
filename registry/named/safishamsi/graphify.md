@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-10-11'
+updatedAt: '2026-10-21'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -113,9 +113,14 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py
-trustMagnitude: 316.88
+- timestamp: '2026-10-21T11:31:51Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 316.88 -> 318.14, grade S -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 318.14
 overallTrustGrade: S
-trustMagnitudeInputHash: b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908
+trustMagnitudeInputHash: 69748e24fa83b90d211e1aeb09bc0d1bd69985016489931669ff2c55b5be0266
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

@@ -9,7 +9,7 @@ level: 3★
 description: Walks through built work, diagnoses gaps, and fixes issues before completion
   is declared.
 createdAt: '2026-07-03'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-21'
 timeline:
 - timestamp: '2026-07-02T18:04:50Z'
   action: add
@@ -86,6 +86,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md
+- timestamp: '2026-10-21T11:31:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 50.0 -> 52.66, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
   updatedAt: '2026-10-01'
@@ -106,7 +111,7 @@ verification:
 title: GSD Verify Work
 installable: true
 suiteRef: gsd-build/get-shit-done
-trustMagnitude: 50.0
+trustMagnitude: 52.66
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -117,7 +122,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 29543ee7f8ca243279ba01b0c9510065adfa70c92adc39736d89fc2fac179291
+trustMagnitudeInputHash: 488e81e5ee951bbe04831cd48731b41866bdeacf1c0b015ef793a12095e0f296
 links:
   github: https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md
 ---

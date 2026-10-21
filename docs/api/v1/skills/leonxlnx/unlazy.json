@@ -107,6 +107,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 1★ to 3★"
+    },
+    {
+      "timestamp": "2026-10-21T11:31:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 65.81 -> 91.46, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

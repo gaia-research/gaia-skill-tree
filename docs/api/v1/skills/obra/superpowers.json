@@ -225,6 +225,12 @@
       "previousValue": "v6.3.0",
       "newValue": "v6.4.1",
       "details": "synced from https://github.com/obra/superpowers/releases/tag/v6.4.1"
+    },
+    {
+      "timestamp": "2026-10-21T11:31:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 220.81 -> 221.52, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

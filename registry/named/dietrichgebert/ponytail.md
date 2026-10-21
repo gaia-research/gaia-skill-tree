@@ -10,7 +10,7 @@ description: 'Forces the laziest solution that actually works: question whether 
   task should exist, prefer standard library and native features, and ship the smallest
   correct implementation.'
 createdAt: '2026-07-31'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-21'
 title: Ponytail
 links:
   github: https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md
@@ -48,6 +48,11 @@ timeline:
   contributor: unknown
   details: 'TM 329.28 -> 221.96, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-21T11:31:50Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 221.96 -> 225.42, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/DietrichGebert/ponytail
   evaluator: unknown
@@ -79,9 +84,9 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-31T14:20:37Z'
-trustMagnitude: 221.96
+trustMagnitude: 225.42
 overallTrustGrade: A
-trustMagnitudeInputHash: ba80d576568d9a0a266bb8d71cd5884a11a149390c543985cb4a55df91b8b6f1
+trustMagnitudeInputHash: 5601edf7b47017bc7aa31c18ad380d47b3d70366fd43632c9c6084bc28aa9472
 ---
 
 ## Installation
