@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-10-21 — Weekly Editor Pass (editor-063wk)
+
+**Branch:** `docs/routines/063`. No daily PR was open (routines 056–062 had all
+shipped), so this was a health audit of `main`'s `docs/en/`, v8.26.4.
+
+- **Checked, clean:** version chips match 8.26.4; no broken links or anchors
+  across the 13 pages; Page Map matches the files on disk.
+- **Fixed:** `gaia dev timeline-resort <contributor/slug> [--dry-run] [--build]`
+  shipped but was undocumented. Added its card to `cli-reference.html` (plus
+  both nav lists). Verifier-gated, order only, never edits an event.
+- **Cut / merged / deleted:** nothing this week.
+- **Open:** this file is ~4.6k lines. Pre-June entries (routines 001–007) are
+  pure history; compact them next pass.
+
+---
+
 ## 2026-10-08 to 2026-10-17 — Weekly Editor Pass (routines 056–062, editor-056wk)
 
 **Branch:** `docs/routines/056` (PR #2045). Seven dailies (056–062) accreted on
