@@ -35,7 +35,7 @@ OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked")
 DONE_OUTCOMES = ("closed", "already-closed")
 
 REASONS = {
-    RULE_A1: "The exact suggested-id registry record links to the same evidence URL, so the candidate is already curated.",
+    RULE_A1: "The exact suggested-id registry record links to the same repo and file as the evidence URL (git ref may differ), so the candidate is already curated.",
     RULE_A2: "The suite registry version (or a merged sync PR) matches the umbrella payload and no child intake remains open.",
     RULE_A3: "A newer open umbrella of the same suite carries the unresolved component adds and lists every remaining child.",
     RULE_A4: "A lower-numbered open child with the same key and evidence URL stays canonical.",

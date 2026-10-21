@@ -3,7 +3,15 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex, normalizeHandle, parseGithubUrl
+import pytest
+
+from gaia_cli.steward.issuehygiene.registryindex import (
+    buildRegistryIndex,
+    isSimpleRef,
+    normalizeHandle,
+    parseGithubUrl,
+    refSplitTrusted,
+)
 
 LIVE_ROOT = Path(__file__).resolve().parents[3]
 
@@ -103,6 +111,45 @@ def test_github_lookup_ignores_ref(tmp_path: Path):
     ref = parseGithubUrl("https://github.com/obra/superpowers/blob/main/skills/writing-skills/SKILL.md")
     assert [record.id for record in index.byGithub(ref)] == ["obra/writing-skills"]
     assert index.byGithub(parseGithubUrl("https://github.com/obra/superpowers/blob/main/other.md")) == []
+
+
+def test_github_lookup_matches_slash_ref_records_only_on_identical_urls(tmp_path: Path):
+    writeNamed(
+        tmp_path, "obra", "slash",
+        skillText("obra/slash", github="https://github.com/obra/superpowers/blob/feature/x/skills/a/SKILL.md"),
+    )
+    writeNamed(
+        tmp_path, "obra", "tagged",
+        skillText("obra/tagged", github="https://github.com/obra/superpowers/blob/v1.2.0/x/skills/a/SKILL.md"),
+    )
+    index = buildRegistryIndex(tmp_path)
+    # both records parse to path x/skills/a/SKILL.md, so the index keys them together
+    assert [record.id for record in index.byGithub(parseGithubUrl("https://github.com/obra/superpowers/blob/main/x/skills/a/SKILL.md"))] == ["obra/tagged"]
+    assert [record.id for record in index.byGithub(parseGithubUrl("https://github.com/obra/superpowers/blob/feature/x/skills/a/SKILL.md"))] == ["obra/slash"]
+    assert index.byGithub(parseGithubUrl("https://github.com/obra/superpowers/blob/release/x/skills/a/SKILL.md")) == []
+
+
+@pytest.mark.parametrize("ref", ["main", "master", "HEAD", "v6.4.1", "0.6.10", "v0.51.6.0", "1.2.3.4", "2.0.0-rc.1", "1.0.0+build.5", "7a2a691", "a" * 40])
+def test_simple_refs_are_accepted(ref: str):
+    assert isSimpleRef(ref)
+
+
+@pytest.mark.parametrize("ref", ["feature/x", "v1.0/x", "release-1.2", "Main", "head", "MAIN", "1.2.3.4.5", "7A2A691", "abc12", "a" * 41, "v", "x1.0", ""])
+def test_other_refs_are_not_simple(ref: str):
+    assert not isSimpleRef(ref)
+
+
+def test_ref_split_trust_requires_identical_urls_or_two_simple_refs():
+    simple = parseGithubUrl("https://github.com/o/r/blob/main/a/SKILL.md")
+    tag = parseGithubUrl("https://github.com/o/r/blob/v1.2.0/a/SKILL.md")
+    slash = parseGithubUrl("https://github.com/o/r/blob/feature/x/a/SKILL.md")
+    slashOther = parseGithubUrl("https://github.com/o/r/blob/release/x/a/SKILL.md")
+    slashFolded = parseGithubUrl("https://github.com/o/r/tree/feature/x/a/SKILL.md")
+    assert refSplitTrusted(simple, tag)
+    assert not refSplitTrusted(simple, slash)
+    assert not refSplitTrusted(slash, simple)
+    assert not refSplitTrusted(slash, slashOther)
+    assert refSplitTrusted(slash, slashFolded)
 
 
 def test_nodes_are_indexed_and_bad_json_is_unreadable(tmp_path: Path):

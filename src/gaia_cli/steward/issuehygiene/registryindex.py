@@ -26,6 +26,9 @@ from gaia_cli.frontmatter import split_frontmatter
 NAMED_DIR = "registry/named"
 NODES_DIR = "registry/nodes"
 GITHUB_BLOB_RE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/(?:blob|tree)/([^/]+)(?:/(.*))?$")
+SIMPLE_REF_NAMES = frozenset({"HEAD", "main", "master"})
+SEMVER_REF_RE = re.compile(r"v?[0-9]+(?:\.[0-9]+){0,3}(?:[-+][0-9A-Za-z.-]+)?")
+SHA_REF_RE = re.compile(r"[0-9a-f]{7,40}")
 
 
 @dataclass(frozen=True)
@@ -44,7 +47,9 @@ def parseGithubUrl(url: Any) -> GithubRef | None:
     """Parse a github.com ``blob`` or ``tree`` URL. ``tree`` is treated as ``blob``.
 
     Query strings and fragments are dropped and a trailing slash is stripped.
-    Anything that is not a github.com file or tree URL gives None.
+    Anything that is not a github.com file or tree URL gives None. The parser takes the
+    ref to be the single segment after ``blob/``, so a branch name containing ``/`` moves
+    the ref and path boundary. ``isSimpleRef`` says when that split can be trusted.
     """
     if not isinstance(url, str):
         return None
@@ -53,6 +58,30 @@ def parseGithubUrl(url: Any) -> GithubRef | None:
     if match is None:
         return None
     return GithubRef(f"{match.group(1)}/{match.group(2)}".lower(), match.group(3), match.group(4) or "")
+
+
+def isSimpleRef(ref: str) -> bool:
+    """Whether a parsed ref is one whose ``blob/<ref>/<path>`` split is trustworthy.
+
+    Simple refs are ``HEAD``, ``main``, ``master``, a semver-like tag, or a 7 to 40 character
+    lowercase hex commit. A ref outside that list may be the first part of a branch name with
+    slashes, so the path that follows it is not known.
+    """
+    if ref in SIMPLE_REF_NAMES:
+        return True
+    return SEMVER_REF_RE.fullmatch(ref) is not None or SHA_REF_RE.fullmatch(ref) is not None
+
+
+def refSplitTrusted(left: GithubRef, right: GithubRef) -> bool:
+    """Whether two parsed links that agree on repo and path name the same file at any ref.
+
+    Identical normalized URLs are the same file whatever their ref form. Otherwise both
+    sides must carry a simple ref, because a ref-ignoring comparison is only sound when
+    neither split can have moved the path boundary.
+    """
+    if left.blobUrl() == right.blobUrl():
+        return True
+    return isSimpleRef(left.ref) and isSimpleRef(right.ref)
 
 
 def normalizeHandle(handle: str) -> str:
@@ -109,8 +138,16 @@ class RegistryIndex:
         return self.named.get(identifier)
 
     def byGithub(self, ref: GithubRef) -> list[NamedRecord]:
-        """Every named record whose links.github points at this repo and path (any ref)."""
-        return list(self.githubIndex.get((ref.repo, ref.path), []))
+        """Named records whose links.github is the same file as ``ref``, ignoring the ref.
+
+        The index is keyed on repo and path, so a record counts only when ``refSplitTrusted``
+        holds for the pair. A slash-containing ref on either side therefore matches only an
+        identical URL, never another ref of the same path.
+        """
+        return [
+            record for record in self.githubIndex.get((ref.repo, ref.path), [])
+            if record.github is not None and refSplitTrusted(record.github, ref)
+        ]
 
     def aliasCandidates(self, identifier: str) -> list[NamedRecord]:
         """Records with the same slug under a different contributor handle, sorted by id."""
@@ -251,7 +288,9 @@ __all__ = [
     "RegistryIndex",
     "Unreadable",
     "buildRegistryIndex",
+    "isSimpleRef",
     "normalizeHandle",
     "parseGithubUrl",
+    "refSplitTrusted",
     "splitId",
 ]
