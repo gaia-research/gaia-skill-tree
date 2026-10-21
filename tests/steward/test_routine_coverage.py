@@ -41,11 +41,11 @@ def test_catalog_is_static_and_has_expected_routine_distribution() -> None:
     assert result["ok"], result["errors"]
     assert result["capabilityOnly"] is True
     assert result["liveHealth"] == "not-evaluated"
-    assert result["routineCount"] == 17
+    assert result["routineCount"] == 18
     # Every routine has at least one registered detector, and a static catalog
     # never claims full coverage.
-    assert result["statusCounts"] == {"absent": 0, "partially-covered": 17}
-    assert result["registeredSensorCount"] == result["accountedSensorCount"] == 30
+    assert result["statusCounts"] == {"absent": 0, "partially-covered": 18}
+    assert result["registeredSensorCount"] == result["accountedSensorCount"] == 31
     assert result["unaccountedSensors"] == []
 
 
@@ -193,7 +193,7 @@ def test_catalog_rejects_nonsequential_authoritative_heading_numbers(tmp_path: P
 
     result = validate(root, catalog)
 
-    assert any("heading numbers must be exactly 1..17" in error for error in result["errors"])
+    assert any("heading numbers must be exactly 1..18" in error for error in result["errors"])
 
 
 def test_catalog_rejects_fabricated_hook_health(tmp_path: Path) -> None:
@@ -399,6 +399,7 @@ def test_driver_inputs_come_from_the_sensor_not_the_catalog() -> None:
         "ci-health": (".gaia/steward/inputs/ci-runs.json",),
         "dependency-advisory": (".gaia/steward/inputs/advisories.json",),
         "test-history": (".gaia/steward/inputs/test-history.json",),
+        "issue-hygiene": (".gaia/steward/inputs/github-issues.json",),
     }
     data = json.loads(CATALOG.read_text(encoding="utf-8"))
     for sensor_id, paths in declared.items():

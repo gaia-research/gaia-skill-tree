@@ -179,7 +179,7 @@ class StewardCommand(Command):
         modes.add_argument("--triage", action="store_true", help="Observe and triage only")
         modes.add_argument("--verify", action="store_true", help="Verify recorded work and re-observe")
         modes.add_argument("--retro", action="store_true", help="Live sensor/routine coverage table only")
-        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-17)")
+        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-18)")
         run.add_argument("--debt", metavar="ID", help="Restrict triage to one debt id")
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
@@ -551,9 +551,9 @@ class StewardCommand(Command):
             try:
                 routine = int(args.routine)
             except ValueError:
-                raise _FullRefused(f"--routine must be a number between 1 and 17, not {args.routine!r}") from None
-            if not 1 <= routine <= 17:
-                raise _FullRefused("--routine must be between 1 and 17")
+                raise _FullRefused(f"--routine must be a number between 1 and 18, not {args.routine!r}") from None
+            if not 1 <= routine <= 18:
+                raise _FullRefused("--routine must be between 1 and 18")
         return runner.start(
             self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
         )
