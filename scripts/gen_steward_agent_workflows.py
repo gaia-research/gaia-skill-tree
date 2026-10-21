@@ -5,7 +5,9 @@ The agent body, tools and safe outputs live once in
 .github/workflows/shared/steward-{build,verify}.md. Each engine gets a thin
 wrapper that carries only its `engine:` and the dispatch inputs (gh-aw reads
 `on:` from the compiled workflow, not from an import). Run with --check to
-verify the wrappers are current; compile afterwards with `gh aw compile`.
+verify the wrappers are current; compile afterwards with a RELEASE build of gh-aw:
+`gh aw compile --action-mode action --action-tag vX.Y.Z`. A dev build emits local
+`./actions/setup` references that fail on a runner (tests/steward guards this).
 """
 
 from __future__ import annotations
