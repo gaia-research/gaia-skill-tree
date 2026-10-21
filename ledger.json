@@ -1,5 +1,5 @@
 {
- "generation": 30,
+ "generation": 31,
  "lane": {
   "entries": [
    {
@@ -1919,7 +1919,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-21T17:04:53.527758Z",
-   "expiresAt": "2026-10-21T17:36:39.874842Z",
+   "expiresAt": "2026-10-21T17:37:43.974117Z",
    "holder": "run-20261021T170453Z-b09d79f5"
   }
  },
@@ -3155,7 +3155,36 @@
    "unresolvedWork": []
   },
   "run-20261021T170453Z-b09d79f5": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "emittedAt": "2026-10-21T17:06:42.621063Z",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+      "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261021T170453Z-b09d79f5/build-0bdd26975824.diff",
+       "proofPath": ".gaia/steward/full/run-20261021T170453Z-b09d79f5/build-0bdd26975824.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261021T170453Z-b09d79f5/build-0bdd26975824.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:0bdd26975824:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -3193,6 +3222,11 @@
     "class_a": {
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "adopted": true,
+     "dispatched": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "status": "awaiting-build"
     },
     "observe": {
      "authorityCounts": {
@@ -4222,6 +4256,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-21T17:06:42.621063Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:0bdd26975824:1"
     }
    ],
    "thinkingEfforts": [],
@@ -4238,7 +4280,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T17:06:39.875344Z",
+ "updatedAt": "2026-10-21T17:07:43.974198Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261021T170453Z-b09d79f5",
@@ -4265,7 +4307,7 @@
    "promptPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
-   "runId": "run-20261021T162622Z-2b8067d3",
+   "runId": "run-20261021T170453Z-b09d79f5",
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-10-21T16:28:00.196543Z",
