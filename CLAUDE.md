@@ -310,7 +310,7 @@ All commands default to **local-first** output (user's own skill levels, detecte
 ## Authorization — Verifier Guardrail
 
 All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
-rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) require
+rm-evidence, link, reclassify, update-named, timeline, timeline-resort, rm, verify, build) require
 **Verifier authorization**.  Read-only subcommands (`list`, `audit`, `diff`) and all
 player-facing commands (`gaia fuse`, `gaia scan`, `gaia push`) are
 **never** gated.

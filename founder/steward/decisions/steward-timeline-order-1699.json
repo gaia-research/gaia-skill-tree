@@ -1,18 +1,20 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-timeline-order-1699",
-  "status": "decided",
-  "decision": "Correct the three named skills whose hand-authored #1699 demote event (2026-09-05) sits ahead of older events, or rule that order is not significant?",
+  "status": "open",
+  "decision": "Merge the reviewed chronological re-sort of the three #1699 timelines?",
   "whyItMatters": "Timeline arrays are canonical provenance and may not be hand-edited; the CLI auto-sorts backfilled events, so these three were written outside it.",
   "evidence": [
-    "gaiabot/repo-docs-before-pr, google-deepmind/workflow-skill-creator, xquik-dev/hermes-tweet: event 0 at 2026-09-05T00:00:00Z precedes event 1 in June 2026.",
-    "All 3689 other events across 398 named skills are chronological."
+    "Founder 2026-10-21: approved for investigation and preparation, not an unconditional rewrite. Confirm the issue association, decide whether a re-sort is factually justified, and if so run the canonical CLI re-sort on a review/meta branch, verify event identities, timestamps, content and meaning are unchanged, and leave the correction for founder review. Do not merge automatically.",
+    "State: investigation done (see docs below); no canonical re-sort verb existed, so one is being added (CLI gap); the re-sort itself is NOT yet executed.",
+    "gaiabot/repo-docs-before-pr, google-deepmind/workflow-skill-creator, xquik-dev/hermes-tweet: event 0 at 2026-09-05T00:00:00Z precedes events from June 2026. Issue association confirmed: each cites #1699, the awakened-skill 2-star-gate demotions; the event shape (author/notes keys) shows they were written outside the CLI.",
+    "Caveat for the founder: workflow-skill-creator event 0 says previousValue 4-star but the level was 3-star at that point in the log; a re-sort leaves that content as written."
   ],
-  "recommended": "Authorize a CLI-driven re-sort (no new events, no timestamp changes) on a review/meta branch.",
+  "recommended": "After the re-sort PR passes independent verification, review and merge it; the re-sort changes order only.",
   "alternative": "Rule that array order is display-only and exempt hand-authored demotes from the ordering check.",
   "unblocks": "Retiring three timeline_causality_drift debts.",
   "links": [
-    "src/gaia_cli/steward/sensors_contracts.py"
-  ],
-  "decidedBy": "founder authorization 2026-10-21"
+    "src/gaia_cli/steward/sensors_contracts.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1699"
+  ]
 }

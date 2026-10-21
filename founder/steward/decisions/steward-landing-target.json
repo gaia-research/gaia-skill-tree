@@ -16,6 +16,5 @@
     ".github/workflows/steward.yml",
     "src/gaia_cli/steward/landing.py",
     "founder/handovers/2026-10-20-steward-full-architecture.md"
-  ],
-  "decidedBy": "founder authorization 2026-10-21"
+  ]
 }

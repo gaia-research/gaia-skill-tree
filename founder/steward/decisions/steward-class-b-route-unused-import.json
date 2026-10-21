@@ -17,6 +17,5 @@
     "founder/steward/POLICY.yaml",
     "founder/steward/routines/README.md",
     "src/gaia_cli/steward/sensors_code.py"
-  ],
-  "decidedBy": "founder authorization 2026-10-21"
+  ]
 }

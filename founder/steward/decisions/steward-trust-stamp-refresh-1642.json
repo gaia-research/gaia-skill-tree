@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-trust-stamp-refresh-1642",
+  "status": "open",
+  "decision": "Merge the reviewed refresh of the 22 stale trust-magnitude stamps (#1642)?",
+  "whyItMatters": "22 named skills carry a cached trustMagnitude stamp more than 0.02 from the computed value; they sit on the desk as trust_stamp_stale Class C debt.",
+  "evidence": [
+    "Founder 2026-10-21: refresh mechanism approved with review - use the canonical gaia dev calibrate-trust-magnitude workflow in a reviewable PR; no grade, star-level or calibration-policy change; final governance-sensitive changes stay founder-gated.",
+    "State: approved; prepared in PR #2122 (draft, stacked on #2121); independent verification pending; awaiting founder review. Not merged.",
+    "Dry run and applied run: all 22 grades unchanged (A to A, S to S, B to B, C to C, ungraded to ungraded). The 51 trust_calibration_drift debts are out of scope and remain open."
+  ],
+  "recommended": "Review PR #2122 and merge it with a merge commit once independent verification passes.",
+  "alternative": "Leave the stamps stale and keep the 22 debts on the desk.",
+  "unblocks": "Retiring 22 trust_stamp_stale debts.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2122",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+  ]
+}

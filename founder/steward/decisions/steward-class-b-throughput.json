@@ -15,6 +15,5 @@
   "links": [
     "founder/steward/POLICY.yaml",
     "src/gaia_cli/steward/policy.py"
-  ],
-  "decidedBy": "founder authorization 2026-10-21"
+  ]
 }

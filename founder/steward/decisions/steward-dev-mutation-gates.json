@@ -17,6 +17,5 @@
     "src/gaia_cli/commands/dev/__init__.py",
     "src/gaia_cli/impl.py",
     "src/gaia_cli/steward/sensors_security.py"
-  ],
-  "decidedBy": "founder authorization 2026-10-21"
+  ]
 }
