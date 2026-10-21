@@ -15,6 +15,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any, Callable
@@ -23,8 +24,11 @@ DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 PER_PAGE = 100
 MAX_PAGES = 100
 CLOSED_WINDOW_DAYS = 30
-# gh prints "(HTTP 404)" / "(HTTP 410)" for a definitive absence (deleted or gone issue).
-_ABSENT_RE = re.compile(r"HTTP (404|410)\b")
+UMBRELLA_LABEL = "upstream:release"
+# gh prints "(HTTP 301)" for a transferred issue (its old number now redirects) and
+# "(HTTP 404)" / "(HTTP 410)" for a deleted or gone one. All three mean the number
+# no longer names a live issue. Every other failure stays a plain GhError.
+_ABSENT_RE = re.compile(r"HTTP (301|404|410)\b")
 
 
 class GhError(RuntimeError):
@@ -32,7 +36,11 @@ class GhError(RuntimeError):
 
 
 class GhNotFound(GhError):
-    """GitHub answered 404 or 410: the object is definitively absent (deleted or gone)."""
+    """GitHub answered 301 (transferred), 404 or 410: the number is definitively absent."""
+
+    def __init__(self, message: str, status: str):
+        super().__init__(message)
+        self.status = status
 
 
 def default_repo() -> str:
@@ -55,8 +63,9 @@ class LiveGh:
         if res.returncode != 0:
             stderr = str(res.stderr or "").strip()
             message = f"gh {' '.join(args[1:3])} exited {res.returncode}: {stderr}"
-            if _ABSENT_RE.search(stderr):
-                raise GhNotFound(message)
+            absent = _ABSENT_RE.search(stderr)
+            if absent:
+                raise GhNotFound(message, absent.group(1))
             raise GhError(message)
         return res.stdout
 
@@ -101,12 +110,19 @@ class LiveGh:
     def issue_state(self, number: int) -> str:
         """Return ``open``, ``closed`` or ``absent`` for one issue.
 
-        ``absent`` is returned only for a definitive HTTP 404/410. Any other
-        failure raises GhError, so callers treat it as unknown evidence.
+        ``absent`` is returned only for a definitive HTTP 301 (transferred), 404 or
+        410, and each such answer is announced with a ``::notice::`` naming the
+        number. Any other failure raises GhError, so callers treat it as unknown
+        evidence.
         """
         try:
             issue = self.get_issue(number)
-        except GhNotFound:
+        except GhNotFound as exc:
+            print(
+                f"::notice::child #{number} is absent (HTTP {exc.status}); "
+                "treated as unresolved, never as resolved",
+                file=sys.stderr,
+            )
             return "absent"
         return "closed" if issue.get("state") == "closed" else "open"
 

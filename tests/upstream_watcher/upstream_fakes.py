@@ -8,7 +8,7 @@ import re
 import subprocess
 
 from scripts.upstream_watcher import prechecks as pc
-from scripts.upstream_watcher.live import GhError
+from scripts.upstream_watcher.live import GhError, GhNotFound
 
 
 class FakeGh:
@@ -24,6 +24,9 @@ class FakeGh:
         # Issues GitHub still serves by number but the LIST snapshot omits (for example a
         # child closed longer ago than the recently-closed window).
         self.hidden_from_list: set[int] = set()
+        # Numbers GitHub answers with HTTP 301: the issue was transferred, so the old number
+        # no longer names a live issue (absent to the planner, never listed).
+        self.moved: set[int] = set()
         self.stale_on_get: dict[int, dict] = {}
         self.next_number = 5000
         for issue in issues or []:
@@ -55,6 +58,8 @@ class FakeGh:
             for row in self.issues.values()
             if (state == "all" or row["state"] == state)
             and row["number"] not in self.hidden_from_list
+            and row["number"] not in self.moved
+            and (not since or row["updated_at"] >= since)
             and wanted <= {label["name"] for label in row["labels"]}
         ]
         return sorted(rows, key=lambda row: row["number"])
@@ -64,13 +69,15 @@ class FakeGh:
         if self.fail_get:
             raise GhError("get failed (fake)")
         row = self.issues.get(number)
-        if row is None:
+        if row is None or number in self.moved:
             return "absent"
         return "closed" if row["state"] == "closed" else "open"
 
     def get_issue(self, number: int) -> dict:
         if self.fail_get:
             raise GhError("get failed (fake)")
+        if number in self.moved:
+            raise GhNotFound(f"gh issue #{number} exited 1: HTTP 301 (fake moved)", "301")
         if number in self.stale_on_get:
             # Simulates a racing writer: the live issue changed after our list snapshot.
             self.issues[number].update(self.stale_on_get.pop(number))
