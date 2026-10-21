@@ -1,10 +1,10 @@
 {
- "generation": 9,
+ "generation": 10,
  "lane": null,
  "leases": {
   "run": {
    "acquiredAt": "2026-10-21T16:26:22.255954Z",
-   "expiresAt": "2026-10-21T16:57:50.737295Z",
+   "expiresAt": "2026-10-21T16:57:52.666331Z",
    "holder": "run-20261021T162622Z-2b8067d3"
   }
  },
@@ -43,8 +43,12 @@
     "push": true,
     "routine": null
    },
-   "phase": "class_a",
+   "phase": "class_b",
    "phases": {
+    "class_a": {
+     "landings": [],
+     "status": "ok"
+    },
     "observe": {
      "authorityCounts": {
       "A": 0,
@@ -1064,6 +1068,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-21T16:27:52.413812Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
     }
    ],
    "thinkingEfforts": [],
@@ -1074,6 +1084,6 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T16:27:50.737325Z",
+ "updatedAt": "2026-10-21T16:27:52.666372Z",
  "work": {}
 }
