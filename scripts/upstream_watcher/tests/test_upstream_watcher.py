@@ -57,6 +57,22 @@ from scripts.upstream_watcher.name_drift import check_name_drift, sanitize_name
 # Fixtures / helpers
 # ---------------------------------------------------------------------------
 
+
+def _paged_gh_runner(pages, search_hits=()):
+    """Stand-in for subprocess.run: serves LIST pages by ``page=`` and search hits for ``--search``."""
+    calls: list[list[str]] = []
+
+    def run(args, capture_output=True, text=True, timeout=None):
+        calls.append(list(args))
+        if "--search" in args:
+            return subprocess.CompletedProcess(args, 0, stdout=json.dumps(list(search_hits)), stderr="")
+        page = int(next(a.split("=", 1)[1] for a in args if a.startswith("page=")))
+        rows = pages[page - 1] if page - 1 < len(pages) else []
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps(rows), stderr="")
+
+    return run, calls
+
+
 _SUITE_FM = {
     "id": "mattpocock/skills",
     "level": "5★",
@@ -387,6 +403,37 @@ class TestIdempotency:
             )
         assert result is None
         mock_run.assert_called_once()
+
+    def test_lookup_finds_a_child_the_search_index_would_miss(self):
+        """Search-lag simulation: the LIST reports the child, a search would not.
+
+        The lookup must answer from the deterministic LIST and never call
+        ``gh issue list --search``, so index lag cannot hide an existing child.
+        """
+        listed = [{"number": 77, "title": "[intake] garrytan/ask-user", "state": "open"}]
+        run, calls = _paged_gh_runner([listed], search_hits=[])
+        with patch("subprocess.run", side_effect=run):
+            result = _find_existing_issue("[intake] garrytan/ask-user", "intake")
+        assert result == 77
+        assert calls and not any("--search" in call for call in calls)
+        assert any("labels=intake" in call for call in calls)
+
+    def test_lookup_follows_every_list_page_before_answering(self):
+        """A match on page 2 is found; the lookup reads pages until one is short."""
+        filler = [{"number": n, "title": f"unrelated {n}", "state": "open"} for n in range(1, 101)]
+        second = [{"number": 205, "title": "[intake] garrytan/late-match", "state": "open"}]
+        run, calls = _paged_gh_runner([filler, second])
+        with patch("subprocess.run", side_effect=run):
+            result = _find_existing_issue("[intake] garrytan/late-match", "intake")
+        assert result == 205
+        pages = [next(a for a in call if a.startswith("page=")) for call in calls]
+        assert pages == ["page=1", "page=2"]
+
+    def test_lookup_skips_pull_requests_with_matching_titles(self):
+        listed = [{"number": 8, "title": "[intake] garrytan/x", "state": "open", "pull_request": {"url": "https://api.github.com/repos/x/y/pulls/8"}}]
+        run, _calls = _paged_gh_runner([listed])
+        with patch("subprocess.run", side_effect=run):
+            assert _find_existing_issue("[intake] garrytan/x", "intake") is None
 
     def test_same_repo_findings_create_one_umbrella_per_run(self):
         """Regression for the duplicate [upstream] storm (issues #1574-#1578).

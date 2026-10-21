@@ -13,6 +13,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import os
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -22,10 +23,16 @@ DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 PER_PAGE = 100
 MAX_PAGES = 100
 CLOSED_WINDOW_DAYS = 30
+# gh prints "(HTTP 404)" / "(HTTP 410)" for a definitive absence (deleted or gone issue).
+_ABSENT_RE = re.compile(r"HTTP (404|410)\b")
 
 
 class GhError(RuntimeError):
     """A GitHub CLI call failed or returned an unparseable response."""
+
+
+class GhNotFound(GhError):
+    """GitHub answered 404 or 410: the object is definitively absent (deleted or gone)."""
 
 
 def default_repo() -> str:
@@ -35,9 +42,10 @@ def default_repo() -> str:
 class LiveGh:
     """Thin wrapper over the ``gh`` CLI. All methods raise GhError on failure."""
 
-    def __init__(self, repo: str | None = None, runner: Callable[..., Any] = subprocess.run):
+    def __init__(self, repo: str | None = None, runner: Callable[..., Any] | None = None):
         self.repo = repo or default_repo()
-        self._runner = runner
+        # Resolved at construction, not at import, so a patched subprocess.run is honoured.
+        self._runner = runner or subprocess.run
 
     def _run(self, args: list[str], timeout: int = 60) -> str:
         try:
@@ -45,7 +53,11 @@ class LiveGh:
         except Exception as exc:  # noqa: BLE001 — missing gh binary, timeout, ...
             raise GhError(f"gh {args[1] if len(args) > 1 else ''} failed to run: {exc}") from exc
         if res.returncode != 0:
-            raise GhError(f"gh {' '.join(args[1:3])} exited {res.returncode}: {res.stderr.strip()}")
+            stderr = str(res.stderr or "").strip()
+            message = f"gh {' '.join(args[1:3])} exited {res.returncode}: {stderr}"
+            if _ABSENT_RE.search(stderr):
+                raise GhNotFound(message)
+            raise GhError(message)
         return res.stdout
 
     def _json(self, args: list[str]) -> Any:
@@ -55,11 +67,12 @@ class LiveGh:
         except json.JSONDecodeError as exc:
             raise GhError(f"unparseable JSON from gh {args[1:3]}: {exc}") from exc
 
-    def list_issues(self, state: str, since: str | None = None) -> list[dict]:
+    def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict]:
         """Return every issue (PRs included) in *state*, following explicit pages.
 
         A short page ends pagination. Reaching MAX_PAGES without a short page is
-        an error, never a silent truncation.
+        an error, never a silent truncation. *labels* is a comma-separated filter
+        applied by GitHub's list endpoint, not by search.
         """
         items: list[dict] = []
         for page in range(1, MAX_PAGES + 1):
@@ -69,6 +82,8 @@ class LiveGh:
             ]
             if since:
                 args += ["-f", f"since={since}"]
+            if labels:
+                args += ["-f", f"labels={labels}"]
             batch = self._json(args)
             if not isinstance(batch, list):
                 raise GhError(f"issue list page {page} is not an array")
@@ -82,6 +97,18 @@ class LiveGh:
         if not isinstance(data, dict) or "number" not in data:
             raise GhError(f"issue #{number} not returned")
         return data
+
+    def issue_state(self, number: int) -> str:
+        """Return ``open``, ``closed`` or ``absent`` for one issue.
+
+        ``absent`` is returned only for a definitive HTTP 404/410. Any other
+        failure raises GhError, so callers treat it as unknown evidence.
+        """
+        try:
+            issue = self.get_issue(number)
+        except GhNotFound:
+            return "absent"
+        return "closed" if issue.get("state") == "closed" else "open"
 
     def create_issue(self, title: str, labels: list[str], body: str) -> int:
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:

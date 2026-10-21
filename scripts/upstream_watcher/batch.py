@@ -41,6 +41,11 @@ PAYLOAD_VERSION = 2
 UNKNOWN_EXIT_CODE = 3
 PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\n(.*?)\n-->", re.DOTALL)
 ESCALATE_LABELS = ["intake", "needs-triage", "upstream:child"]
+# Row statuses (prechecks: new, tracked, present, rejected; escalate: escalated).
+# present and rejected are resolved. Every other row stays unresolved until its
+# child intake is closed. The approve workflow applies the same rule.
+RESOLVED_STATUSES = frozenset({"present", "rejected"})
+CHILD_UNKNOWN = "unknown"
 
 
 # ---------------------------------------------------------------------------
@@ -124,13 +129,94 @@ def adopted_child(precheck: dict) -> int | None:
     return int(tracked.split("#", 1)[1]) if tracked.startswith("child:#") else None
 
 
-def merge_rows(existing: list[dict], incoming: list[dict], version: str) -> tuple[list[dict], list[str]]:
+def child_state_lookup(live: dict, probe=None):
+    """Return ``state_of(number)`` -> ``open`` | ``closed`` | ``absent`` | ``unknown``.
+
+    The LIST snapshot answers first (open issues and those closed within the
+    recent window). A number the snapshot does not hold is asked of *probe*, a
+    single GET. Without a probe the answer is ``unknown``, which every caller
+    treats as "keep the link and never drop the row" (fail closed).
+    """
+    known = {issue["number"]: issue.get("state") for issue in live["issues"]}
+    cache: dict[int, str] = {}
+
+    def state_of(number: int) -> str:
+        if known.get(number) in ("open", "closed"):
+            return known[number]
+        if number not in cache:
+            cache[number] = probe(number) if probe is not None else CHILD_UNKNOWN
+        return cache[number]
+
+    return state_of
+
+
+def dead_children(rows: list[dict], state_of) -> frozenset[int]:
+    """Child numbers a row links to that GitHub reports as definitively absent (404/410)."""
+    return frozenset(
+        row["child"] for row in rows if row.get("child") is not None and state_of(row["child"]) == "absent"
+    )
+
+
+def row_is_unresolved(row: dict, state_of) -> bool:
+    """A row still owes a decision unless it is registry-present, rejected, or its child intake is closed."""
+    if row.get("status") in RESOLVED_STATUSES:
+        return False
+    child = row.get("child")
+    return not (child is not None and state_of(child) == "closed")
+
+
+def unresolved_row_ids(payload: dict, state_of) -> list[str]:
+    """Ids of the candidate rows in a v2 payload that are still unresolved. v1 has none."""
+    return [row["id"] for row in payload.get("candidates", []) if row_is_unresolved(row, state_of)]
+
+
+def carry_forward(live: dict, prefix: str, state_of) -> list[dict]:
+    """Unresolved rows of the newest closed umbrella for a suite, to seed a new umbrella.
+
+    Closed umbrellas come from the same recently-closed LIST window the prechecks
+    use. A carried row keeps its status, child link and firstSeenVersion, and
+    records ``carriedFrom`` as the umbrella it was last carried from.
+    """
+    closed = [
+        issue
+        for issue in live["issues"]
+        if issue.get("state") == "closed"
+        and "upstream:release" in label_names(issue)
+        and str(issue.get("title", "")).startswith(prefix)
+    ]
+    if not closed:
+        return []
+    newest = max(closed, key=lambda issue: issue["number"])
+    rows = (parse_payload(newest.get("body")) or {}).get("candidates", [])
+    return [
+        {**row, "carriedFrom": f"#{newest['number']}"}
+        for row in rows
+        if row_is_unresolved(row, state_of)
+    ]
+
+
+def merge_rows(
+    existing: list[dict],
+    incoming: list[dict],
+    version: str,
+    dead: frozenset[int] | set[int] = frozenset(),
+) -> tuple[list[dict], list[str]]:
     """Merge incoming candidate rows into existing ones, keyed by candidate id.
 
     Existing rows are never dropped. Escalated status and child links survive
-    version churn. Returns (rows sorted by id, ids of newly added rows).
+    version churn. A child link in *dead* (definitively 404/410) is cleared and
+    a row that was tracked or escalated goes back to ``new``, so it is visible
+    as an unresolved candidate again. Returns (rows sorted by id, ids of newly
+    added rows).
     """
     by_id = {row["id"]: dict(row) for row in existing}
+    for row in by_id.values():
+        if row.get("child") is not None and row["child"] in dead:
+            row["child"] = None
+            if row.get("status") in ("tracked", "escalated"):
+                row["status"] = "new"
+            if isinstance(row.get("precheck"), dict):
+                row["precheck"] = {**row["precheck"], "tracked": "none"}
     added: list[str] = []
     for fresh in incoming:
         row = dict(fresh)
@@ -191,6 +277,13 @@ def render_batch_body(payload: dict) -> str:
     )
     liveness = payload.get("linkLiveness") or []
     drift = payload.get("nameDrift") or []
+    carried_rows = [row for row in rows if row.get("carriedFrom")]
+    carried_note = (
+        f"\n\n_Carried forward from closed umbrella {', '.join(sorted({row['carriedFrom'] for row in carried_rows}))}: "
+        f"{len(carried_rows)} unresolved row(s) kept open._"
+        if carried_rows
+        else ""
+    )
     return f"""## Upstream release detected
 
 > Auto-generated by the Gaia upstream watcher. See [upstream-watcher.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/docs/agents/upstream-watcher.md) for the full design spec.
@@ -213,7 +306,7 @@ Source: {payload['sourceUrl']}
 
 Each row is addressable as `cand:<id>`. Rows are retained for the life of the suite and never removed; a row that is `present`, `tracked` or `rejected` is suppressed from new work but kept here. To give one row its own intake child, run the **Upstream Watcher** workflow with `escalate_candidate=<id>`.
 
-{batch_table}
+{batch_table}{carried_note}
 
 ---
 
@@ -248,13 +341,19 @@ def baseline_ids(previous_payload: dict | None, owner_repo: str) -> set[str]:
     return {f"{owner_repo}:{slug}" for slug in previous_payload.get("componentAdds", [])}
 
 
-def plan_suite(finding: dict, live: dict, index: dict) -> dict:
-    """Compute the umbrella action for one update finding. Performs no writes."""
+def plan_suite(finding: dict, live: dict, index: dict, probe=None) -> dict:
+    """Compute the umbrella action for one update finding. Performs no writes.
+
+    *probe* (``LiveGh.issue_state`` in a run) resolves child numbers the LIST
+    snapshot does not hold. Its GhError propagates: unknown evidence, no writes.
+    """
     owner_repo = owner_repo_of(finding)
     new_version = finding["newVersion"]
     title = umbrella_title(owner_repo, new_version)
-    existing = open_umbrellas(live["issues"], umbrella_prefix(owner_repo))
+    prefix = umbrella_prefix(owner_repo)
+    existing = open_umbrellas(live["issues"], prefix)
     umbrella = existing[-1] if existing else None
+    state_of = child_state_lookup(live, probe)
 
     open_children, rejected = prechecks.index_children(live["issues"])
     incoming = []
@@ -264,7 +363,13 @@ def plan_suite(finding: dict, live: dict, index: dict) -> dict:
 
     previous_payload = parse_payload(umbrella.get("body")) if umbrella else None
     prior_rows = (previous_payload or {}).get("candidates", [])
-    rows, added = merge_rows(prior_rows, incoming, new_version)
+    carried: list[dict] = []
+    if umbrella is None:
+        # A new umbrella starts from the closed one's unresolved rows, so closing an
+        # umbrella can never drop candidates.
+        carried = carry_forward(live, prefix, state_of)
+        prior_rows = carried
+    rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
     payload = build_payload(finding, rows, previous_version=None)
     if umbrella is None:
         action = "create"
@@ -291,6 +396,7 @@ def plan_suite(finding: dict, live: dict, index: dict) -> dict:
         "newRows": added,
         "resetRows": reset_rows,
         "suppressed": suppressed,
+        "carried": [row["id"] for row in carried],
         "totalRows": len(rows),
         "approvedVersion": (previous_payload or {}).get("newVersion") if approved else None,
         "reset": reset,
@@ -352,7 +458,7 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
 
 def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool) -> tuple[dict, dict]:
     """Plan and (when apply) write one suite. Returns (suite report row, live snapshot)."""
-    plan = plan_suite(finding, live, index)
+    plan = plan_suite(finding, live, index, probe=gh.issue_state)
     outcome = "planned"
     if plan["action"] == "noop":
         outcome = "noop"
@@ -363,14 +469,14 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                 fresh = read_live(gh)
                 if open_umbrellas(fresh["issues"], umbrella_prefix(plan["suite"])):
                     live = fresh
-                    plan = plan_suite(finding, live, index)
+                    plan = plan_suite(finding, live, index, probe=gh.issue_state)
                     continue
                 outcome = write_umbrella(plan, gh)
                 break
             current = gh.get_issue(plan["umbrella"])
             if snapshot_of(current) != plan["snapshot"]:
                 live = read_live(gh)
-                plan = plan_suite(finding, live, index)
+                plan = plan_suite(finding, live, index, probe=gh.issue_state)
                 if plan["action"] == "noop":
                     outcome = "noop"
                     break
@@ -385,6 +491,7 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         "newRows": plan["newRows"],
         "totalRows": plan["totalRows"],
         "suppressed": plan["suppressed"],
+        "carried": plan["carried"],
     }
     return row, live
 
@@ -396,6 +503,7 @@ def fill_report(report: dict, suite_row: dict) -> None:
             "umbrella": suite_row["umbrella"],
             "newRows": len(suite_row["newRows"]),
             "totalRows": suite_row["totalRows"],
+            "carriedForward": len(suite_row["carried"]),
             "outcome": suite_row["outcome"],
         }
     )
@@ -467,8 +575,14 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
                 umbrella, row, payload_now = issue, candidate, payload
     if row is None:
         return {**result, "outcome": "not-found"}, 2
-    if row.get("child"):
-        return {**result, "outcome": "already-child", "child": row["child"], "umbrella": umbrella["number"]}, 0
+    if row.get("child") is not None:
+        # A child link GitHub reports as definitively absent (404/410) must not block escalation.
+        try:
+            linked_state = child_state_lookup(live, gh.issue_state)(row["child"])
+        except GhError as exc:
+            return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
+        if linked_state != "absent":
+            return {**result, "outcome": "already-child", "child": row["child"], "umbrella": umbrella["number"]}, 0
 
     open_children, _ = prechecks.index_children(live["issues"])
     child_number = open_children.get(row["suggestedId"])
@@ -495,8 +609,11 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
     rows = []
     for candidate in payload_now["candidates"]:
         if candidate["id"] == candidate_id:
-            status = "escalated" if outcome == "created" else candidate["status"]
+            # An adopted child is tracked at once; a child created here is escalated.
+            status = "escalated" if outcome == "created" else "tracked"
             candidate = {**candidate, "child": child_number, "status": status}
+            if isinstance(candidate.get("precheck"), dict):
+                candidate["precheck"] = {**candidate["precheck"], "tracked": f"child:#{child_number}"}
         rows.append(candidate)
     rebuilt = build_payload(payload_now, rows, previous_version=payload_now.get("previousVersion"))
     body = render_batch_body(rebuilt)

@@ -22,6 +22,7 @@ WORKFLOW_PATH = (
     / "upstream-approve.yml"
 )
 CLOSE_CHILDREN_PATH = WORKFLOW_PATH.with_name("upstream-close-children.yml")
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
 def _load():
@@ -218,6 +219,7 @@ with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as fh:
 FAIL = WORLD.get("fail", {})
 ISSUES = {int(key): value for key, value in WORLD["issues"].items()}
 HIDDEN = set(WORLD.get("list_hidden", []))
+GONE = set(WORLD.get("gone", []))
 PAGE_SIZE = WORLD.get("page_size", 100)
 
 
@@ -269,6 +271,7 @@ if cmd == "issue" and ARGS[1] == "view":
         "body": issue.get("body", ""),
         "state": issue["state"].upper(),
         "labels": issue.get("labels", []),
+        "comments": [{"body": text} for text in issue.get("comments", [])],
     }
     emit({field: view[field] for field in flag("--json").split(",")}, flag("--jq"))
 elif cmd == "issue" and ARGS[1] == "list":
@@ -278,6 +281,14 @@ elif cmd == "issue":
     print("https://github.com/gaia-research/gaia-skill-tree/issues/1")
 elif cmd == "workflow":
     print("")
+elif cmd == "pr" and ARGS[1] == "list":
+    sys.stdout.write("")
+elif cmd == "pr" and ARGS[1] == "create":
+    with open(flag("--body-file"), encoding="utf-8") as fh:
+        body = fh.read()
+    with open(os.environ["FAKE_GH_PR_BODY"], "w", encoding="utf-8") as fh:
+        fh.write(body)
+    print("https://github.com/gaia-research/gaia-skill-tree/pull/7001")
 elif cmd == "api":
     url = urlsplit(ARGS[-1])
     parts = [part for part in url.path.split("/") if part]
@@ -292,8 +303,14 @@ elif cmd == "api":
         sys.stdout.write("".join(json.dumps(page) for page in pages))
     elif len(parts) == 5 and parts[3] == "issues" and parts[4].isdigit():
         number = int(parts[4])
-        if number in FAIL.get("get", []) or number not in ISSUES:
-            die(f"HTTP 404 issue #{number} (fake)")
+        if number in FAIL.get("get", []):
+            die(f"HTTP 502 issue #{number} (fake server failure)")
+        if number in FAIL.get("forbidden", []):
+            die(f"HTTP 403 issue #{number} (fake forbidden)")
+        if number in GONE:
+            die(f"HTTP 410 issue #{number} (fake gone)")
+        if number not in ISSUES:
+            die(f"HTTP 404 issue #{number} (fake not found)")
         row = dict(ISSUES[number])
         row["number"] = number
         sys.stdout.write(json.dumps(row))
@@ -305,11 +322,12 @@ else:
 
 
 class StepResult:
-    def __init__(self, code, output, outputs, calls):
+    def __init__(self, code, output, outputs, calls, pr_body=None):
         self.code = code
         self.output = output
         self.outputs = outputs
         self.calls = calls
+        self.pr_body = pr_body
 
     def comments(self):
         return [args[args.index("--body") + 1] for args in self.calls if args[:2] == ["issue", "comment"]]
@@ -324,7 +342,7 @@ class StepResult:
         return [args for args in self.calls if args[:2] == ["workflow", "run"]]
 
 
-def run_step(tmp_path, run_text, world_data, extra_env=None):
+def run_step(tmp_path, run_text, world_data, extra_env=None, cwd=None):
     bindir = tmp_path / "bin"
     bindir.mkdir()
     fake = tmp_path / "fake_gh.py"
@@ -340,6 +358,7 @@ def run_step(tmp_path, run_text, world_data, extra_env=None):
     output.write_text("", encoding="utf-8")
     script = tmp_path / "step.sh"
     script.write_text(run_text, encoding="utf-8")
+    pr_body_file = tmp_path / "pr_body.md"
     env = {
         "PATH": f"{bindir}{os.pathsep}{os.environ.get('PATH', '')}",
         "HOME": str(tmp_path),
@@ -347,14 +366,17 @@ def run_step(tmp_path, run_text, world_data, extra_env=None):
         "REPO": REPO,
         "FAKE_GH_WORLD": str(world_file),
         "FAKE_GH_LOG": str(log),
+        "FAKE_GH_PR_BODY": str(pr_body_file),
         "GITHUB_OUTPUT": str(output),
+        "RUNNER_TEMP": str(tmp_path),
         **(extra_env or {}),
     }
-    res = subprocess.run(["bash", str(script)], cwd=tmp_path, env=env,
+    res = subprocess.run(["bash", str(script)], cwd=cwd or tmp_path, env=env,
                          capture_output=True, text=True, timeout=120)
     outputs = dict(line.split("=", 1) for line in output.read_text(encoding="utf-8").splitlines() if "=" in line)
     calls = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines() if line]
-    return StepResult(res.returncode, res.stdout + res.stderr, outputs, calls)
+    pr_body = pr_body_file.read_text(encoding="utf-8") if pr_body_file.exists() else None
+    return StepResult(res.returncode, res.stdout + res.stderr, outputs, calls, pr_body)
 
 
 def _step_run(path, name):
@@ -522,6 +544,40 @@ def test_gate_candidate_get_failure_fails_closed(tmp_path):
     assert "gate_passed" not in result.outputs
 
 
+def test_gate_candidate_forbidden_get_fails_closed(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    data = world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001], fail={"forbidden": [5001]})
+    result = run_gate(tmp_path, data)
+    assert result.code != 0
+    assert "gate_passed" not in result.outputs
+
+
+def test_gate_candidate_child_deleted_404_is_absent_and_does_not_block(tmp_path):
+    # Child #5001 no longer exists (deleted). The gate must not be blocked forever by it.
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    result = run_gate(tmp_path, world(umbrella_issue(payload)))
+    assert result.code == 0
+    assert result.outputs == {"gate_passed": "true"}
+    assert "::notice::" in result.output and "#5001" in result.output
+    assert "absent" in result.output
+
+
+def test_gate_candidate_child_gone_410_is_absent_and_does_not_block(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    result = run_gate(tmp_path, world(umbrella_issue(payload), gone=[5001]))
+    assert result.outputs == {"gate_passed": "true"}
+    assert "#5001" in result.output
+
+
+def test_gate_absent_child_still_blocks_on_other_open_children(tmp_path):
+    # Only the dead link is skipped; a live open child elsewhere in the payload still gates.
+    payload = v2_payload(("ask-user", 5001), ("briefing", 5002))
+    data = world(umbrella_issue(payload), child_issue(5002, slug="briefing"))
+    result = run_gate(tmp_path, data)
+    assert result.outputs == {"gate_passed": "false"}
+    assert "#5002" in result.comments()[-1] and "#5001" not in result.comments()[-1]
+
+
 def _rejected_umbrella(payload):
     return umbrella_issue(payload, labels=("upstream:release", "upstream:rejected"))
 
@@ -583,3 +639,138 @@ def test_sibling_gate_never_refires_on_lookup_failure(tmp_path):
     result = _run_sibling_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), fail={"list": True}))
     assert result.code != 0
     assert not result.workflow_runs()
+
+
+# ---------------------------------------------------------------------------
+# Umbrella closure must not lose rows (#2131). The approve job counts the rows
+# still owed a decision, then closes the umbrella (Fixes) only when there are none.
+# Otherwise the PR references it (Refs) and says the umbrella stays open.
+# ---------------------------------------------------------------------------
+
+BRANCH = "review/meta/upstream-garrytan-gbrain-v1"
+
+
+def _open_pr(tmp_path, unresolved):
+    run_dir = tmp_path / f"pr-{unresolved}"
+    run_dir.mkdir()
+    env = {"BRANCH": BRANCH, "SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1",
+           "ISSUE_NUMBER": str(UMBRELLA), "UNRESOLVED": str(unresolved)}
+    return run_step(run_dir, _step_run(WORKFLOW_PATH, "Open draft PR"), world(umbrella_issue(LEGACY_PAYLOAD)), env)
+
+
+def test_pr_body_closes_the_umbrella_when_no_row_is_unresolved(tmp_path):
+    result = _open_pr(tmp_path, 0)
+    assert result.code == 0
+    assert f"Fixes #{UMBRELLA}" in result.pr_body
+    assert f"Refs #{UMBRELLA}" not in result.pr_body
+    assert "Umbrella stays open" not in result.pr_body
+
+
+def test_pr_body_references_and_keeps_open_when_rows_are_unresolved(tmp_path):
+    result = _open_pr(tmp_path, 2)
+    assert result.code == 0
+    assert f"Refs #{UMBRELLA}" in result.pr_body
+    assert f"Fixes #{UMBRELLA}" not in result.pr_body
+    assert "Umbrella stays open: 2 unresolved candidate row(s)" in result.pr_body
+
+
+def test_pr_body_keeps_version_bump_only_scope_in_both_branches(tmp_path):
+    for unresolved in (0, 3):
+        result = _open_pr(tmp_path, unresolved)
+        assert "Approval confirms the version bump to `v1` only" in result.pr_body
+        assert "does **not** accept any batch row" in result.pr_body
+
+
+def _umbrella_comment(tmp_path, unresolved):
+    env = {"ISSUE_NUMBER": str(UMBRELLA), "NEW_VERSION": "v1", "PR_NUMBER": "7001",
+           "PR_URL": "https://github.com/gaia-research/gaia-skill-tree/pull/7001", "UNRESOLVED": str(unresolved)}
+    return run_step(tmp_path, _step_run(WORKFLOW_PATH, "Comment PR link on umbrella"),
+                    world(umbrella_issue(LEGACY_PAYLOAD)), env)
+
+
+def test_umbrella_comment_says_it_stays_open_when_rows_are_unresolved(tmp_path):
+    result = _umbrella_comment(tmp_path, 2)
+    assert result.code == 0
+    body = result.comments()[-1]
+    assert "Umbrella stays open: 2 unresolved candidate row(s)" in body
+    assert "Auto-closes" not in body
+
+
+def test_umbrella_comment_keeps_auto_close_wording_when_nothing_is_unresolved(tmp_path):
+    result = _umbrella_comment(tmp_path, 0)
+    assert result.code == 0
+    assert "Auto-closes this umbrella on merge" in result.comments()[-1]
+
+
+def _row(slug, status, child=None):
+    return {"id": f"garrytan/gbrain:{slug}", "slug": slug, "suggestedId": f"garrytan/{slug}",
+            "status": status, "child": child}
+
+
+def _child_issue(number, state):
+    return {"number": number, "title": f"[intake] garrytan/c{number}", "state": state,
+            "labels": [{"name": "upstream:child"}], "body": ""}
+
+
+# Covers every status and child state the rule distinguishes.
+MIXED_ROWS = [
+    _row("ask-user", "escalated", 5001),      # open child: unresolved
+    _row("briefing", "new"),                  # never escalated: unresolved
+    _row("present-one", "present"),           # registry-present: resolved
+    _row("rejected-one", "rejected", 5004),   # rejected: resolved
+    _row("closed-one", "escalated", 5005),    # child closed: resolved
+    _row("gone-one", "escalated", 5006),      # child deleted (404, not in world): unresolved
+    _row("tracked-closed", "tracked", 5007),  # child closed: resolved
+]
+EXPECTED_UNRESOLVED = ["garrytan/gbrain:ask-user", "garrytan/gbrain:briefing", "garrytan/gbrain:gone-one"]
+
+
+def _count(tmp_path, rows, **extra):
+    payload = {"payloadVersion": 2, "skillId": "garrytan/gbrain", "newVersion": "v1", "candidates": rows}
+    data = world(
+        umbrella_issue(payload),
+        _child_issue(5001, "open"), _child_issue(5004, "closed"),
+        _child_issue(5005, "closed"), _child_issue(5007, "closed"),
+        **extra,
+    )
+    return run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
+                    {"PAYLOAD": json.dumps(payload), "ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
+
+
+def test_count_step_treats_only_open_absent_and_unlinked_rows_as_unresolved(tmp_path):
+    result = _count(tmp_path, MIXED_ROWS)
+    assert result.code == 0
+    assert result.outputs == {"count": "3"}
+    assert json.dumps(EXPECTED_UNRESOLVED) in result.output
+
+
+def test_count_step_is_zero_for_a_legacy_payload(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD))
+    result = run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
+                      {"PAYLOAD": json.dumps(LEGACY_PAYLOAD), "ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
+    assert result.code == 0 and result.outputs == {"count": "0"}
+
+
+def test_count_step_fails_closed_on_a_server_error(tmp_path):
+    result = _count(tmp_path, MIXED_ROWS, fail={"get": [5001]})
+    assert result.code != 0
+    assert "count" not in result.outputs
+    assert "Could not verify candidate rows" in result.comments()[-1]
+
+
+def test_count_step_fails_closed_on_forbidden(tmp_path):
+    result = _count(tmp_path, MIXED_ROWS, fail={"forbidden": [5001]})
+    assert result.code != 0
+    assert "count" not in result.outputs
+
+
+def test_every_write_step_after_the_gate_is_guarded_by_it():
+    # The exit step alone does not stop the job: a later unguarded step would still open the PR.
+    doc = _load()
+    steps = doc["jobs"]["approve"]["steps"]
+    names = [step.get("name") for step in steps]
+    guard = "steps.child_gate.outputs.gate_passed == 'true'"
+    after = steps[names.index("Exit if child gate failed") + 1:]
+    assert after, "expected steps after the gate"
+    for step in after:
+        assert guard in str(step.get("if", "")), step.get("name")

@@ -86,11 +86,18 @@ jobs:
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
+          class ChildAbsent(Exception):
+              """GitHub answered 404 or 410: the object is definitively gone."""
+
+
           def gh_api(path, paginate=False):
               args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
               res = subprocess.run(args, capture_output=True, text=True, timeout=120)
               if res.returncode != 0:
-                  raise RuntimeError(f"gh api {path} exited {res.returncode}: {res.stderr.strip()}")
+                  message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
+                  if re.search(r"HTTP (404|410)\b", res.stderr or ""):
+                      raise ChildAbsent(message)
+                  raise RuntimeError(message)
               return res.stdout
 
 
@@ -127,7 +134,12 @@ jobs:
                           continue
                       if not isinstance(number, int) or isinstance(number, bool):
                           raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
-                      live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      try:
+                          live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      except ChildAbsent:
+                          # Definitive 404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 404/410); not blocking the gate", file=sys.stderr)
+                          continue
                       if live.get("state") == "open" and not live.get("pull_request"):
                           children[number] = live.get("title", "")
               print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
@@ -216,11 +228,18 @@ jobs:
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
+          class ChildAbsent(Exception):
+              """GitHub answered 404 or 410: the object is definitively gone."""
+
+
           def gh_api(path, paginate=False):
               args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
               res = subprocess.run(args, capture_output=True, text=True, timeout=120)
               if res.returncode != 0:
-                  raise RuntimeError(f"gh api {path} exited {res.returncode}: {res.stderr.strip()}")
+                  message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
+                  if re.search(r"HTTP (404|410)\b", res.stderr or ""):
+                      raise ChildAbsent(message)
+                  raise RuntimeError(message)
               return res.stdout
 
 
@@ -257,7 +276,12 @@ jobs:
                           continue
                       if not isinstance(number, int) or isinstance(number, bool):
                           raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
-                      live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      try:
+                          live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      except ChildAbsent:
+                          # Definitive 404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 404/410); not blocking the gate", file=sys.stderr)
+                          continue
                       if live.get("state") == "open" and not live.get("pull_request"):
                           children[number] = live.get("title", "")
               print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
