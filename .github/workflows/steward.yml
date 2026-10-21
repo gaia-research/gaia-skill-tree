@@ -123,9 +123,9 @@ jobs:
             .gaia/steward/receipts/
 
   # The full pipeline in observe mode: every detector, the founder desk, and the
-  # CI history the ci-health detector needs. Read-only; its ledger is local to
-  # this runner, so the desk reports `ledger_local_only` until the founder
-  # enables the persistent job below.
+  # three driver inputs (CI runs, advisories, test history). Read-only; its ledger
+  # is local to this runner. The persistent ledger, Class A landing and the
+  # unattended Class B builder/verifier loop live in steward-drive.yml.
   full-observe:
     name: Full pipeline (observe)
     runs-on: ubuntu-latest
@@ -145,39 +145,77 @@ jobs:
       - name: Install the CLI
         run: python -m pip install --quiet -e .
 
+      # Each collector records its own outcome in $RUNNER_TEMP/inputs-*.txt so the
+      # report step can show exactly which input is missing, failed or partial.
       - name: Collect CI history for the ci-health detector
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run list --repo "$GITHUB_REPOSITORY" --branch main --limit 200 \
-            --json workflowName,conclusion,headSha,createdAt,url,attempt,status > gh-runs.json
-          python scripts/steward_collect_ci_runs.py gh-runs.json \
-            --repository "$GITHUB_REPOSITORY" --branch main
+          if gh run list --repo "$GITHUB_REPOSITORY" --branch main --limit 200 \
+               --json workflowName,conclusion,headSha,createdAt,url,attempt,status > gh-runs.json \
+             && python scripts/steward_collect_ci_runs.py gh-runs.json \
+               --repository "$GITHUB_REPOSITORY" --branch main; then
+            echo "ci-runs=ok" > "$RUNNER_TEMP/inputs-ci.txt"
+          else
+            echo "ci-runs=failed:collector exited non-zero; ci-health is NOT EVALUATED" > "$RUNNER_TEMP/inputs-ci.txt"
+          fi
 
       - name: Collect dependency advisories for the dependency-advisory detector
         run: |
           python -m pip install --quiet pip-audit
           # pip-audit exits non-zero when it finds vulnerabilities; that is data, not failure.
-          pip-audit -f json -o pip-audit.json || test -s pip-audit.json
-          python scripts/steward_collect_advisories.py pip-audit.json --repository "$GITHUB_REPOSITORY"
+          pip-audit -f json -o pip-audit.json || true
+          if [ -s pip-audit.json ] && python scripts/steward_collect_advisories.py pip-audit.json --repository "$GITHUB_REPOSITORY"; then
+            echo "advisories=ok" > "$RUNNER_TEMP/inputs-adv.txt"
+          else
+            echo "advisories=failed:pip-audit produced no usable report; dependency-advisory is NOT EVALUATED" > "$RUNNER_TEMP/inputs-adv.txt"
+          fi
 
       - name: Restore the previous test history
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p .gaia/steward/inputs prev
-          id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "Gaia Steward" --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty')
-          if [ -n "$id" ]; then
-            gh run download "$id" --repo "$GITHUB_REPOSITORY" --name steward-test-history --dir prev || true
-            [ -f prev/test-history.json ] && cp prev/test-history.json .gaia/steward/inputs/test-history.json || true
+          # Newest artifact of that name from any run, not only successful ones: a run that
+          # exits 3 (a blind detector) still produced a valid history.
+          rid=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-test-history&per_page=1" --jq '.artifacts[0].workflow_run.id // empty' 2>/dev/null || true)
+          if [ -z "$rid" ]; then
+            echo "test-history=missing:no earlier steward-test-history artifact (first run, or expired after 90 days); history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
+          elif gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-test-history --dir prev && [ -f prev/test-history.json ]; then
+            cp prev/test-history.json .gaia/steward/inputs/test-history.json
+            echo "test-history=ok:restored from run $rid" > "$RUNNER_TEMP/inputs-hist.txt"
+          else
+            echo "test-history=failed:artifact from run $rid could not be downloaded; history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
           fi
 
+      # A failing suite must stay visible but must not stop the observation: it is
+      # evidence for the flake detector, and it NEVER counts as a passed verification
+      # (Class B verification is the independent verifier plus the PR's own CI).
       - name: Run the steward suite and fold it into the test history
+        id: suite
+        continue-on-error: true
         run: |
           python -m pip install --quiet pytest pytest-xdist
-          python -m pytest tests/steward -q -p no:cacheprovider --junitxml=junit.xml || true
-          python scripts/steward_collect_test_history.py \
-            --run "$GITHUB_RUN_ID" "$GITHUB_SHA" junit.xml --repository "$GITHUB_REPOSITORY"
+          set +e
+          python -m pytest tests/steward -q -p no:cacheprovider --junitxml=junit.xml
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then echo "test-suite=ok" > "$RUNNER_TEMP/inputs-suite.txt"
+          else echo "test-suite=failed:pytest exit $code; failures are recorded in the history, not hidden" > "$RUNNER_TEMP/inputs-suite.txt"; fi
+          if [ -f junit.xml ]; then
+            python scripts/steward_collect_test_history.py \
+              --run "$GITHUB_RUN_ID" "$GITHUB_SHA" junit.xml --repository "$GITHUB_REPOSITORY"
+          else
+            echo "test-suite=failed:pytest produced no junit.xml; history NOT updated" > "$RUNNER_TEMP/inputs-suite.txt"
+          fi
+          exit "$code"
+
+      - name: Report driver inputs
+        if: always()
+        run: |
+          args=()
+          for f in "$RUNNER_TEMP"/inputs-*.txt; do [ -f "$f" ] && args+=(--item "$(cat "$f")"); done
+          python scripts/steward_report_inputs.py "${args[@]}" --history .gaia/steward/inputs/test-history.json
 
       # Exit 3 means a detector was blind: that fails the job on purpose.
       - name: Observe with every detector
@@ -213,65 +251,3 @@ jobs:
             steward-full.json
             .gaia/steward/receipts/
             .gaia/steward/full/
-
-  # Persistent ledger and Class A landing. On by default (founder authorization
-  # 2026-10-21, decision steward-landing-target); STEWARD_LANDING_ENABLED=false stops it,
-  # STEWARD_INTEGRATION_BRANCH retargets it (default dev/steward-integration).
-  # It may write only refs/heads/steward/ledger and steward/a/* branches; the
-  # runner refuses main, master and the default branch, never force-pushes and
-  # never merges. It dispatches no agents and opens no pull requests: those
-  # remain pending actions for a driver.
-  full-land:
-    name: Full pipeline (ledger and Class A landing)
-    if: vars.STEWARD_LANDING_ENABLED != 'false'
-    needs: full-observe
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: pyproject.toml
-
-      - name: Install the CLI
-        run: python -m pip install --quiet -e .
-
-      - name: Commit identity for landing branches
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Run the pipeline without agents
-        env:
-          INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
-        run: |
-          gaia steward full run --trigger scheduled --no-agents --ledger git \
-            --integration-branch "$INTEGRATION_BRANCH" --push --json > steward-full-land.json
-
-      - name: Founder desk
-        if: always()
-        run: |
-          {
-            echo "## Gaia Steward Full (landing)"
-            echo '```'
-            gaia steward full status --ledger git
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Publish the landing receipt
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: steward-full-land
-          if-no-files-found: ignore
-          retention-days: 30
-          path: |
-            steward-full-land.json
-            .gaia/steward/receipts/
