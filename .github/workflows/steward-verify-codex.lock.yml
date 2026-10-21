@@ -93,6 +93,7 @@ env:
 
 jobs:
   activation:
+    if: ${{ false }} # Founder pause: gh-aw agents disabled, use Claude routine instead
     name: activation
     runs-on: ubuntu-slim
     # Permissions for the activation job (workflow permissions default to none).
