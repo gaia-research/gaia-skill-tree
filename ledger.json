@@ -1,5 +1,5 @@
 {
- "generation": 18,
+ "generation": 19,
  "lane": {
   "entries": [
    {
@@ -1918,13 +1918,15 @@
  },
  "leases": {
   "run": {
-   "acquiredAt": "2026-10-21T16:26:22.255954Z",
-   "expiresAt": "2026-10-21T17:00:25.993012Z",
-   "holder": "run-20261021T162622Z-2b8067d3"
+   "acquiredAt": "2026-10-21T17:04:53.527758Z",
+   "expiresAt": "2026-10-21T17:34:53.527758Z",
+   "holder": "run-20261021T170453Z-b09d79f5"
   }
  },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
+   "abandonedAt": "2026-10-21T17:04:53.527758Z",
+   "abandonedBy": "run-20261021T170453Z-b09d79f5",
    "actions": [
     {
      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
@@ -1950,8 +1952,10 @@
       },
       "promptPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.prompt.md"
      },
-     "status": "pending",
+     "status": "superseded",
      "stepId": "build:0bdd26975824:1",
+     "supersededAt": "2026-10-21T17:04:53.527758Z",
+     "supersededBy": "run-20261021T170453Z-b09d79f5",
      "type": "agent.build"
     }
    ],
@@ -2089,7 +2093,7 @@
    "mode": "full",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261021T162622Z-2b8067d3 <stepId> --input FILE`, then `gaia steward full run --resume run-20261021T162622Z-2b8067d3`",
+   "nextAction": "abandoned: lease expired; its unfinished work was adopted",
    "options": {
     "afk": false,
     "agents": true,
@@ -3103,7 +3107,7 @@
    "runId": "run-20261021T162622Z-2b8067d3",
    "sourceHead": "057e208f0424b9605afc92417ff426fe7077e70d",
    "startedAt": "2026-10-21T16:26:22.255954Z",
-   "status": "awaiting-action",
+   "status": "abandoned",
    "steps": [
     {
      "at": "2026-10-21T16:26:22.255954Z",
@@ -3149,12 +3153,71 @@
    "tokensOut": 0,
    "trigger": "scheduled",
    "unresolvedWork": []
+  },
+  "run-20261021T170453Z-b09d79f5": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-integration",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-10-21T17:04:53.527758Z",
+     "holder": "run-20261021T170453Z-b09d79f5",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "reconcile",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261021T170453Z-b09d79f5",
+   "sourceHead": null,
+   "startedAt": "2026-10-21T17:04:53.527758Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-10-21T17:04:53.527758Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "scheduled",
+   "unresolvedWork": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "previousRun": "run-20261021T162622Z-2b8067d3",
+     "state": "building"
+    }
+   ]
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T16:30:25.993067Z",
+ "updatedAt": "2026-10-21T17:04:53.924312Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
+   "adoptedBy": "run-20261021T170453Z-b09d79f5",
    "assignments": [],
    "attempt": 1,
    "authority": "B",
