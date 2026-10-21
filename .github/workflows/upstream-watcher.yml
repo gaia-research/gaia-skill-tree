@@ -11,6 +11,10 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      escalate_candidate:
+        description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
+        required: false
+        default: ""
   schedule:
     - cron: '0 6 * * *'  # 06:00 UTC daily
 
@@ -51,14 +55,33 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GAIA_OPERATOR_OVERRIDE: "1"
+          INPUT_SKILL_ID: ${{ inputs.skill_id }}
+          INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
+          INPUT_APPLY: ${{ inputs.apply }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          ARGS=""
-          if [ -n "${{ inputs.skill_id }}" ]; then
-            ARGS="--skill ${{ inputs.skill_id }}"
+          set -euo pipefail
+          mkdir -p generated-output
+          APPLY_FLAG="--dry-run"
+          if [ "$INPUT_APPLY" = "true" ] || [ "$EVENT_NAME" = "schedule" ]; then
+            APPLY_FLAG="--apply"
           fi
-          if [ "${{ inputs.apply }}" = "true" ] || [ "${{ github.event_name }}" = "schedule" ]; then
-            ARGS="$ARGS --apply"
-          else
-            ARGS="$ARGS --dry-run"
+          if [ -n "$INPUT_ESCALATE" ]; then
+            # One child for one batch row; no polling, no umbrella rewrite beyond that row.
+            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" $APPLY_FLAG
+            exit 0
           fi
+          ARGS="--child-mode batch $APPLY_FLAG --report generated-output/upstream-watcher-report.json"
+          if [ -n "$INPUT_SKILL_ID" ]; then
+            ARGS="$ARGS --skill $INPUT_SKILL_ID"
+          fi
+          # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
           python scripts/upstream_watcher/watcher.py $ARGS
+
+      - name: Upload watcher report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-watcher-report
+          path: generated-output/upstream-watcher-report.json
+          if-no-files-found: ignore

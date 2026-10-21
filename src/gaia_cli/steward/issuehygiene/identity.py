@@ -246,7 +246,6 @@ def buildGraph(rows: Any, closedRows: Any = ()) -> Graph:
     for row in openRows:
         identity = classify(row)
         items[identity.number] = identity
-    openNumbers = set(items)
     closedNumbers = {row.get("number") for row in closedRows if isinstance(row, dict)}
     conflicts: list[str] = []
 

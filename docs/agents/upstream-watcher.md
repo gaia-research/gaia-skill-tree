@@ -92,17 +92,22 @@ Skills whose upstream never tags releases fall through V1's net. This is accepta
 
 ### F3. Issue shape — one issue vs fan-out
 
-**Decision: umbrella issue + fan-out only for genuinely new components.**
+**Decision (amended 2026-10-21, #2131): umbrella issue + lossless batch record by default. A per-candidate `[intake]` child exists only when a row is escalated.**
 
-- One `[upstream:release]` **umbrella** issue per release. Owns: version bump, component diff summary, link liveness report, deprecations.
-- One `[intake]` **child issue** per new component, populated by the crawler using the existing `.github/ISSUE_TEMPLATE/new_skill_intake.yml` template. Reviewed via the same intake protocol human proposers use — no parallel review path.
-- Removed components stay under the umbrella as checkbox entries; freezing them does not need a new issue.
+**Amendment record — 2026-10-21 (#2131; founder-authorized in the steward issue-hygiene campaign brief).**
 
-**Cross-linking.** Umbrella body enumerates child issues (`Child intakes: #123, #124, #125`). Each child intake references the umbrella (`Umbrella: #122`). If umbrella is closed as `upstream:rejected`, an `on: issues.closed` workflow auto-closes children.
+- *Superseded:* the original F3 decision was "umbrella + fan-out only for genuinely new components": one `[intake]` child per new component, cross-linked by `Child intakes: #…` on the umbrella and `Umbrella: #N` on each child, with a reject cascade. That default is superseded by the batch record below. Its rejection of a consolidated issue still stands for the reason it was given: the batch rows carry the full intake fields (suggested ID, contributor, attribution, evidence URL, description stub), so any row can be escalated to a full child on the standard template at any time. Full fan-out per release stays rejected as the default.
+- *Not rewritten:* existing `upstream:child` issues remain valid. The watcher adopts an open child for a suggested id (the row gets `child: #N`); it never migrates or duplicates one.
+- *Consequence for the approve gate:* an umbrella in batch mode has no children, so the child-resolution gate in `upstream-approve.yml` passes for it. Approving it confirms the version bump. It does **not** accept candidate rows. A row needs its own escalated child, and that child gates approval while it is open.
 
-**Rejected:**
-- *One consolidated issue* — new components need the full intake YAML schema. Cramming that into a "release delta" body means either reinventing the intake review protocol or losing the checklist. Both bad.
-- *Full fan-out* (separate issue per version, per component, per drift) — admin overhead; cross-referencing pain; rejecting the umbrella orphans N child issues.
+Current behaviour:
+
+- One `[upstream:release]` umbrella per suite, keyed `upstream-suite:{owner}/{repo}`. A new version updates that umbrella in place (title and payload) instead of opening a second one.
+- The umbrella payload is `payloadVersion: 2` with a `candidates[]` batch record. Rows are keyed by candidate id `{owner}/{repo}:{slug}` and carry `firstSeenVersion`, `lastSeenVersion`, `precheck`, `status` and `child`. Rows are never removed; a component dropped upstream stays visible.
+- Prechecks run before any write. They cover registry presence, alias suspicion, open children (read from a LIST snapshot, not search) and prior rejection. Rows that are `present`, `tracked` or `rejected` are suppressed from new work but retained.
+- A rerun with an unchanged payload hash performs zero writes. A changed approved umbrella loses `upstream:approved`, gains `upstream:needs-info`, and receives one comment (see Labels).
+- `--child-mode fanout` keeps the legacy one-child-per-component path for emergencies.
+- `--escalate <candidate-id>` (CLI, or the `escalate_candidate` input of `upstream-watcher.yml`) creates one `[intake]` child from a row on the standard template, or adopts the open child that already exists.
 
 ### F4. State storage — where does `upstream.version` live
 
@@ -204,16 +209,16 @@ Structural mirror of `.github/ISSUE_TEMPLATE/new_skill_intake.yml`: markdown int
 **Body sections** (in order):
 
 1. **Intro** (static markdown block explaining what an upstream issue is).
-2. **Machine-readable payload** — a JSON block inside `<!-- gaia-upstream-payload ... -->` HTML comments. Contains: `skillId`, `previousVersion`, `newVersion`, `releasedAt`, `sourceUrl`, `componentAdds[]`, `componentRemoves[]`, `linkLiveness[]` (component id → HTTP status). This is what the approval workflow reads to determine what to sync. Never edited by hand.
+2. **Machine-readable payload** — a JSON block inside `<!-- gaia-upstream-payload ... -->` HTML comments. Contains: `payloadVersion` (2), `skillId`, `previousVersion`, `newVersion`, `releasedAt`, `sourceUrl`, `componentAdds[]`, `componentRemoves[]`, `linkLiveness[]` (component id → HTTP status), `nameDrift[]`, `candidates[]` (the batch record, one row per added component) and `payloadSha256` (SHA-256 of the canonical payload without that field; equal hash = nothing changed). This is what the approval workflow reads to determine what to sync. Never edited by hand.
 3. **Version** — human-readable "was v1.0.3 → is v1.1.0; released 2026-07-05."
-4. **Components** — checkbox list: `+ new-component-a (child intake: #123)`, `+ new-component-b (#124)`, `- removed-old-component (freeze)`.
+4. **Batch review** — a table with one addressable row per candidate: `cand:<id>`, suggested ID, status (`new`, `tracked`, `present`, `rejected`, `escalated`), registry / tracked / prior-disposition prechecks, child link and seen versions. Removed components are listed as `- removed-old-component (freeze)`. Each row carries the full intake fields in the payload, so escalation needs no re-crawl.
 5. **Link liveness** — human-readable table of any 4xx/5xx responses with the specific broken paths.
 6. **Label vocab** — the [Labels](#labels) table copy-pasted verbatim into the body. Rationale: maintainers unfamiliar with the flow learn it in-context, not via a hunt for docs.
 7. **Reviewer actions** — 4-row action table (apply `upstream:approved`, `upstream:rejected`, `upstream:needs-info`, or `skip-child-gate` + `upstream:approved`).
 
 ### Child intake issue (`[intake]`)
 
-Created by the crawler for each **new component** added upstream. Populated from the crawler's best guess (id from upstream path, name from SKILL.md title if present, `links.github` blob URL, upstream author from repo owner, evidence entry pointing at the SKILL.md).
+Created by the watcher **only when a batch row is escalated** (`--escalate <candidate-id>` or the `escalate_candidate` workflow input), or in `--child-mode fanout`. An open child that already carries the suggested id is adopted, never duplicated. Populated from the crawler's best guess (id from upstream path, name from SKILL.md title if present, `links.github` blob URL, upstream author from repo owner, evidence entry pointing at the SKILL.md).
 
 Uses the existing intake template. Header note: `Auto-populated by upstream watcher. Umbrella: #122.` Labels: `intake`, `needs-triage`, `upstream:child`.
 
@@ -235,13 +240,13 @@ Add to `.github/labels.yml` (create the file — repo currently has none; use `g
 |---|---|---|---|
 | `intake` | crawler / human | new-skill intake issue creation | **Note: missing on repo today (latent bug); create alongside upstream labels.** |
 | `upstream:release` | crawler | umbrella creation | categorization |
-| `upstream:child` | crawler | child intake creation | links to umbrella |
+| `upstream:child` | crawler | escalation of a batch row, or fanout child creation | links to umbrella (`Umbrella: #N`) |
 | `upstream:bootstrap` | crawler | first-poll baselining | one-time; distinct workflow trigger |
 | `needs-triage` | crawler | any issue creation | standard triage flow |
 | `upstream:approved` | maintainer | after review | fires sync workflow (gated on child resolution) |
 | `upstream:rejected` | maintainer | after review | closes issue with sync-skipped comment |
-| `upstream:needs-info` | maintainer | after review | holds; no automation fires |
-| `skip-child-gate` | maintainer (rare) | with `upstream:approved` | bypasses child-resolution gate |
+| `upstream:needs-info` | maintainer; watcher on approved reset | after review, or when an approved umbrella moves to a new version or gains reviewable rows | holds; no automation fires. The watcher removes `upstream:approved`, adds this label and posts one comment naming the approved version, the new version and the added rows |
+| `skip-child-gate` | maintainer (rare) | with `upstream:approved` | bypasses the child-resolution gate only; never closes, accepts or rejects a child or the umbrella |
 
 Cross-link this table into `docs/agents/triage-labels.md`.
 
@@ -257,13 +262,13 @@ Cross-link this table into `docs/agents/triage-labels.md`.
 
 1. Guard: labeler must be a Verifier (reuse the meta-guard authorization check pattern from `.github/workflows/meta-guard.yml`).
 2. Parse machine-readable payload from the issue body.
-3. Check for open child intakes referenced in the payload. If any are open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state).
+3. Child gate. Find open child intakes with a paginated REST LIST of open `upstream:child` issues, keeping those whose body has the `Umbrella: #N` line for this umbrella (exact number match). For a `payloadVersion: 2` umbrella, also verify each `candidates[].child` number live by GET and count any that is open. The gate never uses `gh issue list --search`, because search lags issue creation and can hide a child. Batch rows without a child do not gate. If any child is open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state). If a list or get fails, or a candidate child link is malformed, comment on the umbrella and exit 1: the gate fails closed, so no sync branch or PR is created. `skip-child-gate` bypasses this gate only. It never closes, accepts or rejects a child or the umbrella.
 4. Checkout `main`, create branch `review/meta/upstream-<skill>-<version>`.
 5. Run `gaia dev sync-upstream <skill-id> --tag <tag> --source-url <url>` (writes frontmatter block + appends timeline event atomically).
 6. For each `componentRemoves[]`: run `gaia dev freeze <component-id> --reason "removed from <umbrella>@<version>"` (writes `installable: false` + timeline `upstream_deprecated`).
 7. Run `gaia dev docs` to regen Class S artifacts (per docs-cohesion Guard E).
-8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes.
-9. Comment on umbrella: `PR opened: #999. Auto-closes umbrella on merge (Fixes #<umbrella>).`
+8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes. The body's Scope section states that approval confirms the version bump only. It does not accept any batch row, and rows not escalated to a child stay open candidates in the umbrella.
+9. Comment on umbrella: `Draft PR #999 opened: <url> -- Approval confirms the version bump to <version> only. Batch rows not escalated to a child intake stay open candidates here and are not accepted. Auto-closes this umbrella on merge (Fixes #<umbrella>).`
 
 ### Workflow: `.github/workflows/upstream-close-children.yml`
 
@@ -271,29 +276,36 @@ Cross-link this table into `docs/agents/triage-labels.md`.
 
 Filters to issues labeled `upstream:child`, finds the umbrella (from body reference), checks if all siblings are now closed, and if the umbrella already has `upstream:approved` applied, re-fires the approve workflow via `gh workflow run upstream-approve.yml` targeting the umbrella. Small; ~30 lines.
 
-Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`, auto-closes any still-open `upstream:child` issues that reference it.
+Both the sibling check and the reject cascade use the same paginated LIST and `payloadVersion: 2` candidate verification as the approve gate, never search. A failed lookup fails the job. The sibling check then does not re-fire approve, and the cascade closes nothing.
+
+Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`, auto-closes any still-open `upstream:child` issues that reference it, and comments the batch row ids (`cand:<id>`) that the rejection covers. Rows are retained in the payload and never removed.
 
 ---
 
 ## Runtime — trigger, cadence, notifications
 
-### V1 trigger: manual dispatch only
+### Trigger and inputs
 
-`.github/workflows/upstream-watcher.yml` — copy-pasted from `stargazer-heartbeat.yml` boilerplate, swapped:
+`.github/workflows/upstream-watcher.yml` runs on manual dispatch and on a daily schedule (06:00 UTC, `--apply`). Dispatch inputs:
 
-```yaml
-on:
-  workflow_dispatch:
-    inputs:
-      skill_id:
-        description: "Optional: single skill to poll (default = all suites)"
-        required: false
-  # V1.1 TODO: enable daily cron once outputs are trusted
-  # schedule:
-  #   - cron: '0 6 * * *'   # 06:00 UTC daily
+- `skill_id` — poll one suite only.
+- `apply` — create or update issues (default dry-run).
+- `escalate_candidate` — create or adopt one intake child for a batch row (for example `garrytan/gbrain:foo`), then exit. Uses the `apply` flag.
 
-concurrency: upstream-watcher   # prevents overlap between manual + eventual cron
-```
+The run always uses `--child-mode batch` and writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact.
+
+### Run report and exit codes
+
+`--report FILE` writes JSON: `issuesCreated`, `issuesUpdated`, `suppressedDuplicates` (candidate rows suppressed as present, tracked or rejected), `retainedCandidates` (total rows kept across touched umbrellas), `unknownEvidence` and `suites[]` (`suite`, `umbrella`, `newRows`, `totalRows`, `outcome`). It is also written in dry-run.
+
+| Exit | Meaning |
+|---|---|
+| 0 | Success, including no findings and no-op reruns. |
+| 1 | Hard failure (import error, unrecoverable exception). |
+| 2 | `--escalate` target not found in any open umbrella. |
+| 3 | Unknown evidence: the registry is unreadable or empty, or a GitHub list or get failed. Zero issue writes were made; the report lists the failing source. |
+
+Fail closed is absolute: no source of unknown evidence is treated as "absent". Pagination follows explicit pages and refuses to truncate. Searches are never used to decide whether something is already tracked, because the search index lags creation.
 
 ### Notifications inbox as wake-up signal (optional cost optimization)
 
@@ -441,7 +453,7 @@ Each PR is scoped to be independently mergeable. CI must be green on each before
 | 3 | `infra/` | Rewrite `stargazerHeartbeat.py` to import from `lib/`; add tests confirming identical output on a known input set | Verify no monthly-heartbeat regression |
 | 4 | `schema/` | Extend `namedSkill.schema.json` — add `upstream` object property, extend `timelineEvent.action` enum with `upstream_synced` + `upstream_deprecated`; mirror to `src/gaia_cli/data/registry/schema/` | Two schema dirs must move in lockstep (branch-scope rule) |
 | 5 | `cli/` | New verbs: `gaia dev sync-upstream`, `gaia dev freeze`. Includes CLI pre-flight validation, `--dry-run`, `--bootstrap`, `--user` flags | Registry mutation atomic; no hand-edits |
-| 6 | `infra/` | `scripts/upstream_watcher/watcher.py`; `.github/workflows/upstream-watcher.yml` (manual dispatch only, cron block commented); `.github/workflows/upstream-approve.yml`; `.github/workflows/upstream-close-children.yml`; `scripts/upstream_watcher/README.md` | The functional core |
+| 6 | `infra/` | `scripts/upstream_watcher/watcher.py`; `.github/workflows/upstream-watcher.yml` (manual dispatch plus daily schedule; see Runtime); `.github/workflows/upstream-approve.yml`; `.github/workflows/upstream-close-children.yml`; `scripts/upstream_watcher/README.md` | The functional core |
 | 7 | `infra/` | Run watcher in dry-run mode against all suites; produce & commit the initial bootstrap issue list; open bootstrap issues | First real-world exercise; produces the intake/version list the maintainer requested |
 
 **PR cap on CI retries.** If a PR requires more than 2 rounds of "push a fix, wait for CI" iterations, stop and investigate — there is likely an underlying design issue, a broken test the PR didn't cause, or a schema-lockstep problem. Do not grind. Escalate.
