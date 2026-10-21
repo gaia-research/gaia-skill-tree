@@ -21,6 +21,9 @@ class FakeGh:
         self.list_calls: list[tuple] = []
         self.fail_list = False
         self.fail_get = False
+        # Issues GitHub still serves by number but the LIST snapshot omits (for example a
+        # child closed longer ago than the recently-closed window).
+        self.hidden_from_list: set[int] = set()
         self.stale_on_get: dict[int, dict] = {}
         self.next_number = 5000
         for issue in issues or []:
@@ -42,12 +45,28 @@ class FakeGh:
         return f"2026-10-21T19:{self.clock % 60:02d}:{self.clock // 60 % 60:02d}Z"
 
     # -- LiveGh surface ----------------------------------------------------
-    def list_issues(self, state: str, since: str | None = None) -> list[dict]:
+    def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict]:
         self.list_calls.append((state, since))
         if self.fail_list:
             raise GhError("list failed (fake)")
-        rows = [copy.deepcopy(row) for row in self.issues.values() if state == "all" or row["state"] == state]
+        wanted = set(filter(None, (labels or "").split(",")))
+        rows = [
+            copy.deepcopy(row)
+            for row in self.issues.values()
+            if (state == "all" or row["state"] == state)
+            and row["number"] not in self.hidden_from_list
+            and wanted <= {label["name"] for label in row["labels"]}
+        ]
         return sorted(rows, key=lambda row: row["number"])
+
+    def issue_state(self, number: int) -> str:
+        """Mirror LiveGh.issue_state: absent for a number GitHub does not hold, GhError on a fake failure."""
+        if self.fail_get:
+            raise GhError("get failed (fake)")
+        row = self.issues.get(number)
+        if row is None:
+            return "absent"
+        return "closed" if row["state"] == "closed" else "open"
 
     def get_issue(self, number: int) -> dict:
         if self.fail_get:
