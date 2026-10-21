@@ -1,1 +1,6 @@
-"""Steward issue-hygiene capability (contract: founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md)."""
+"""Steward issue hygiene: census input, semantic identity, reconciliation (#2130).
+
+Modules are added lane by lane; this package exports nothing yet.
+"""
+
+__all__ = []
