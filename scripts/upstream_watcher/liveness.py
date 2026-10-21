@@ -23,10 +23,10 @@ fetch_component_diff(owner, repo, tag, component_root, current_components)
 
 from __future__ import annotations
 
-import sys
 from typing import Any
 
-from scripts.lib.github_api import fetch_json, head_check, parse_owner_repo
+from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check, parse_owner_repo
+from scripts.upstream_watcher.live import UnknownEvidenceError
 
 # ---------------------------------------------------------------------------
 # URL conversion
@@ -138,8 +138,12 @@ def fetch_component_diff(
 
     Notes
     -----
-    - Returns ``([], [])`` if the tree API call fails or ``component_root``
-      is not present in the upstream tree (version-only fallback).
+    - Returns ``([], [])`` when ``component_root`` is not present in the upstream
+      tree (version-only fallback). That is a real layout, not missing data.
+    - Raises :class:`UnknownEvidenceError` when the tree cannot be read (any
+      failure, including a 404 on a tag the release endpoint just returned) or
+      is truncated. An unreadable or partial tree must never become an empty or
+      partial diff, because that would derive false componentRemoves.
     - Does NOT attempt to resolve ``contributor/`` for add proposals — that
       is the issuer's job (it knows the suite's contributor).
     """
@@ -148,20 +152,19 @@ def fetch_component_diff(
     tree_url = (
         f"https://api.github.com/repos/{owner}/{repo}/git/trees/{tag}?recursive=1"
     )
-    tree_data = fetch_json(tree_url)
-
-    if not tree_data:
-        print(
-            f"  [warn] Could not fetch tree for {owner}/{repo}@{tag}",
-            file=sys.stderr,
-        )
-        return ([], [])
+    try:
+        tree_data = fetch_json(tree_url, strict=True)
+    except GitHubFetchError as exc:
+        raise UnknownEvidenceError(
+            f"tree for {owner}/{repo}@{tag} could not be read: {exc}"
+        ) from exc
+    if not isinstance(tree_data, dict):
+        raise UnknownEvidenceError(f"tree for {owner}/{repo}@{tag} returned no usable data")
 
     if tree_data.get("truncated"):
-        print(
-            f"  [warn] Tree for {owner}/{repo}@{tag} was truncated by the "
-            "GitHub API; component diff may be incomplete.",
-            file=sys.stderr,
+        raise UnknownEvidenceError(
+            f"tree for {owner}/{repo}@{tag} was truncated by the GitHub API; "
+            "the component diff would be partial"
         )
 
     component_root_norm = component_root.strip("/")

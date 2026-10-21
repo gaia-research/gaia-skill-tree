@@ -43,6 +43,14 @@ class GhNotFound(GhError):
         self.status = status
 
 
+class UnknownEvidenceError(RuntimeError):
+    """A read the watcher needs to decide what to do failed or came back incomplete.
+
+    Raised on the poll path (release, tree) so the run can exit 3 with zero writes.
+    Never caught as "absent" and never turned into an empty result.
+    """
+
+
 def default_repo() -> str:
     return os.environ.get("GITHUB_REPOSITORY") or DEFAULT_REPO
 

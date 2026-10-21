@@ -40,7 +40,6 @@ from scripts.upstream_watcher.issuer import (
     _find_existing_issue,
     _find_existing_suite_issue,
     _update_issue,
-    _dispatch_upstream_approve,
     create_issues,
     _payload_block,
     render_bootstrap_body,
@@ -576,8 +575,8 @@ class TestIdempotency:
         assert summaries[0]["umbrella"] == 1775
         assert summaries[0].get("updated") is True
 
-    def test_bootstrap_finding_auto_approved_and_dispatched(self):
-        """New bootstrap issues are created with upstream:approved and dispatched."""
+    def test_bootstrap_finding_is_created_for_human_approval_and_not_dispatched(self):
+        """M3: a new bootstrap is created with upstream:bootstrap only. A human applies upstream:approved."""
         findings = [
             {
                 "finding_type": "bootstrap",
@@ -598,19 +597,14 @@ class TestIdempotency:
             created_labels.append(labels)
             return 1568
 
-        def fake_dispatch(issue_num, dry_run=False, verbose=False):
-            dispatched.append(issue_num)
-            return True
-
-        with patch("subprocess.run", return_value=gh_mock), patch(
+        with patch("subprocess.run", return_value=gh_mock) as run, patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
-        ), patch(
-            "scripts.upstream_watcher.issuer._dispatch_upstream_approve", side_effect=fake_dispatch
         ):
             summaries = create_issues(findings, apply=True)
 
-        assert created_labels == [["upstream:bootstrap", "upstream:approved"]]
-        assert dispatched == [1568]
+        assert not any("workflow" in call.args[0] for call in run.call_args_list)
+        assert created_labels == [["upstream:bootstrap"]]
+        assert dispatched == []
         assert summaries[0]["issue"] == 1568
 
     def test_bootstrap_finding_updates_existing_bootstrap_issue(self):
@@ -643,22 +637,17 @@ class TestIdempotency:
             updated.append((issue_num, title))
             return True
 
-        def fake_dispatch(issue_num, dry_run=False, verbose=False):
-            dispatched.append(issue_num)
-            return True
-
-        with patch("subprocess.run", return_value=gh_mock), patch(
+        with patch("subprocess.run", return_value=gh_mock) as run, patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch(
             "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
-        ), patch(
-            "scripts.upstream_watcher.issuer._dispatch_upstream_approve", side_effect=fake_dispatch
         ):
             summaries = create_issues(findings, apply=True)
+        assert not any("workflow" in call.args[0] for call in run.call_args_list)
 
         assert created == []  # No duplicate created!
         assert updated == [(1755, "[upstream:bootstrap] heygen-com/hyperframes → baseline at v0.8.34")]
-        assert dispatched == [1755]
+        assert dispatched == []  # M3: an update never dispatches upstream-approve.yml
         assert summaries[0]["issue"] == 1755
         assert summaries[0].get("updated") is True
 
@@ -902,16 +891,17 @@ class TestFetchComponentDiffNestedLayout:
         assert adds == []
         assert removes == []
 
-    def test_tree_fetch_failure_returns_empty_diff(self):
-        """fetch_json returning None (API error) → ([], []) gracefully."""
+    def test_tree_fetch_failure_is_unknown_evidence_not_an_empty_diff(self):
+        """M2: an unreadable tree is unknown evidence. It must not read as ([], []) and derive false removes."""
+        from scripts.upstream_watcher.live import UnknownEvidenceError
+
         with patch(
             "scripts.upstream_watcher.liveness.fetch_json", return_value=None
         ):
-            adds, removes = fetch_component_diff(
-                "mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman"]
-            )
-        assert adds == []
-        assert removes == []
+            with pytest.raises(UnknownEvidenceError):
+                fetch_component_diff(
+                    "mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman"]
+                )
 
 
 # ---------------------------------------------------------------------------
