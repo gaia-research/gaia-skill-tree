@@ -160,6 +160,8 @@ def test_comment_carries_marker_rule_proof_and_original_payload(tmp_path: Path):
     sha8 = manifest["manifestSha256"][:8]
     assert body.startswith(f"<!-- gaia-steward-closure:{child['key']}:{sha8} -->")
     assert "A1-child-curated" in body
+    assert "links to the same repo and file as the evidence URL (git ref may differ)" in body
+    assert "links to the same evidence URL" not in body
     assert "registry/named/obra/writing-skills.md" in body
     assert "[intake] obra/writing-skills" in body
     assert "Nothing was deleted" in body
