@@ -10,3 +10,8 @@ Contract (landing.py): the repair is computed in a throwaway worktree at the INT
 - B5 (fresh remote, `--integration-branch main --push`): exit 0, completed; landing `blocked` "landing target refused: refusing to land on protected branch 'main'"; work state `blocked`; no push; remote main 36aa8033 before and after; no steward/a/ branch exists; desk gains decision `landing-target-not-configured`. Refusal is per-debt, not exit 2.
 Files: run-b1..b5 json, b3-landing-proof.txt, ledger-after-b1-b2.json, commands.txt.
 - ledger-after-b1-b2.json was 295 KB; per-run phases/desk/steps collapsed to sizes (noted inside the file). Each real-repo run stores ~115 KB of `phases` payload in ledger.json (2 runs = 290 KB), i.e. ledger grows ~150 KB per run on the steward/ledger ref.
+
+## Follow-up (lead)
+
+- **Sticky `no_change`:** fixed in 482a3ba90. A Class A `no_change` is retried while its debt stays open; a Class B `no_change` stays held. Regression test: `tests/steward/test_fullrun_scenarios.py::test_class_a_no_change_is_retried_when_the_integration_base_later_gains_the_drift`. That test fails with the fix removed.
+- **Lease held while awaiting action:** kept as designed. It protects an in-flight builder, and adoption after the TTL covers the crash case (scenario F). It is now documented in the root `gaia-steward-full` skill.

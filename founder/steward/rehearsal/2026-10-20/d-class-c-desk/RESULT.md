@@ -7,3 +7,7 @@ Real-repo clone, `full run --triage --ledger git --json` then `--triage --afk`, 
 - `--afk`: exit 0, completed, no prompt (stdin was /dev/null), decisions identical to the non-afk run, Class A/B work not blocked. Caveat: the runner contains no prompting path at all; `--afk` is only recorded in run options (`afk: true` in the ledger), so the "queues without prompting" check cannot distinguish afk from non-afk behaviour.
 - Triage-only mode emits no Class A/B actions by design, so "no action for Class C" is also shown in a full run in scenario F (see there).
 Files: run-triage.json, run-triage-afk.json, run-triage-afk-human.txt, desk-full-fields.json, d-analysis.txt.
+
+## Follow-up (lead)
+
+`--afk` is driver-side by design. The runner never prompts in any mode; the flag is recorded on the run for audit and tells the driver to queue founder decisions instead of asking. This is now stated in the root `gaia-steward-full` skill.
