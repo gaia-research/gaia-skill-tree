@@ -1,0 +1,626 @@
+{
+ "_truncated": "receipt >200KB: per-run phases/desk payloads collapsed to sizes; other keys verbatim",
+ "generation": 105,
+ "lane": null,
+ "leases": {},
+ "runs": {
+  "run-20261020T213348Z-93bf9b86": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [
+    {
+     "question": "Choose the integration branch Steward work lands on (--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+     "reason": "landing target not configured",
+     "type": "landing-target"
+    }
+   ],
+   "desk": "<12570 bytes omitted>",
+   "finishedAt": "2026-10-20T21:35:38.985828Z",
+   "floor": {
+    "branch": null,
+    "ok": false,
+    "reason": "landing target not configured"
+   },
+   "integrationBranch": null,
+   "integrationHead": "unknown",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:33:48.968784Z",
+     "holder": "run-20261020T213348Z-93bf9b86",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<114840 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T213350Z-3ca68c5828cb6422",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T213348Z-93bf9b86",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:33:48.968784Z",
+   "status": "completed",
+   "steps": [
+    {
+     "at": "2026-10-20T21:33:48.968784Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:33:49.482787Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:35:35.011711Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:35:35.510712Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:35:36.385527Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:35:37.080448Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-20T21:35:37.580333Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
+    },
+    {
+     "at": "2026-10-20T21:35:38.041811Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-10-20T21:35:38.531094Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-20T21:35:38.985828Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261020T213540Z-a1105579": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [
+    {
+     "question": "Choose the integration branch Steward work lands on (--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+     "reason": "landing target not configured",
+     "type": "landing-target"
+    }
+   ],
+   "desk": "<12570 bytes omitted>",
+   "finishedAt": "2026-10-20T21:37:26.323928Z",
+   "floor": {
+    "branch": null,
+    "ok": false,
+    "reason": "landing target not configured"
+   },
+   "integrationBranch": null,
+   "integrationHead": "unknown",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:35:40.338916Z",
+     "holder": "run-20261020T213540Z-a1105579",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<114836 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T213541Z-6f2ac4db0ec4a5f6",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T213540Z-a1105579",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:35:40.338916Z",
+   "status": "completed",
+   "steps": [
+    {
+     "at": "2026-10-20T21:35:40.338916Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:35:40.917738Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:37:22.258200Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:37:22.762209Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:37:23.428395Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:37:24.196240Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-20T21:37:24.771800Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
+    },
+    {
+     "at": "2026-10-20T21:37:25.297656Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-10-20T21:37:25.831105Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-20T21:37:26.323928Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261020T213727Z-d6043280": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [
+    {
+     "question": "Choose the integration branch Steward work lands on (--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+     "reason": "landing target not configured",
+     "type": "landing-target"
+    }
+   ],
+   "desk": "<12570 bytes omitted>",
+   "finishedAt": "2026-10-20T21:39:11.203216Z",
+   "floor": {
+    "branch": null,
+    "ok": false,
+    "reason": "landing target not configured"
+   },
+   "integrationBranch": null,
+   "integrationHead": "unknown",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:37:27.103435Z",
+     "holder": "run-20261020T213727Z-d6043280",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<114836 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T213728Z-0891d3b6a5859e1b",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T213727Z-d6043280",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:37:27.103435Z",
+   "status": "completed",
+   "steps": [
+    {
+     "at": "2026-10-20T21:37:27.103435Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:37:27.784409Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:39:06.903731Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:39:07.445275Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:39:08.294231Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:39:09.159711Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-20T21:39:09.716388Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
+    },
+    {
+     "at": "2026-10-20T21:39:10.223441Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-10-20T21:39:10.677148Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-20T21:39:11.203216Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261020T214023Z-eaa6bae6": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [
+    {
+     "question": "Choose the integration branch Steward work lands on (--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+     "reason": "landing target not configured",
+     "type": "landing-target"
+    }
+   ],
+   "desk": "<12570 bytes omitted>",
+   "finishedAt": "2026-10-20T21:42:12.018164Z",
+   "floor": {
+    "branch": null,
+    "ok": false,
+    "reason": "landing target not configured"
+   },
+   "integrationBranch": null,
+   "integrationHead": "unknown",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:40:23.423778Z",
+     "holder": "run-20261020T214023Z-eaa6bae6",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<114836 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T214024Z-ab5c671bbf9e7bd0",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T214023Z-eaa6bae6",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:40:23.423778Z",
+   "status": "completed",
+   "steps": [
+    {
+     "at": "2026-10-20T21:40:23.423778Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:40:24.108977Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:42:07.371566Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:42:08.014462Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:42:08.840972Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:42:09.724728Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-20T21:42:10.334133Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
+    },
+    {
+     "at": "2026-10-20T21:42:10.890786Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-10-20T21:42:11.483741Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-20T21:42:12.018164Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261020T214215Z-b33d4738": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [
+    {
+     "question": "Choose the integration branch Steward work lands on (--integration-branch or GAIA_STEWARD_INTEGRATION_BRANCH).",
+     "reason": "landing target not configured",
+     "type": "landing-target"
+    }
+   ],
+   "desk": "<12570 bytes omitted>",
+   "finishedAt": "2026-10-20T21:43:57.380663Z",
+   "floor": {
+    "branch": null,
+    "ok": false,
+    "reason": "landing target not configured"
+   },
+   "integrationBranch": null,
+   "integrationHead": "unknown",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:42:15.753371Z",
+     "holder": "run-20261020T214215Z-b33d4738",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": false,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<114836 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T214217Z-f0ef84dcae6c9164",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T214215Z-b33d4738",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:42:15.753371Z",
+   "status": "completed",
+   "steps": [
+    {
+     "at": "2026-10-20T21:42:15.753371Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:42:16.410130Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:43:51.680138Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:43:52.411702Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:43:53.580869Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:43:54.612188Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-20T21:43:55.381499Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
+    },
+    {
+     "at": "2026-10-20T21:43:56.040593Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-10-20T21:43:56.748479Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-20T21:43:57.380663Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  }
+ },
+ "schemaVersion": "steward-ledger-v1",
+ "updatedAt": "2026-10-20T21:43:57.492665Z",
+ "work": {}
+}

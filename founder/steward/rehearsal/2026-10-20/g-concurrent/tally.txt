@@ -1,0 +1,8 @@
+final ledger runs: 5 [('2026-10-20T21:33:48.968784Z', 'run-20261020T213348Z-93bf9b86', 'completed', 'full'), ('2026-10-20T21:35:40.338916Z', 'run-20261020T213540Z-a1105579', 'completed', 'full'), ('2026-10-20T21:37:27.103435Z', 'run-20261020T213727Z-d6043280', 'completed', 'full'), ('2026-10-20T21:40:23.423778Z', 'run-20261020T214023Z-eaa6bae6', 'completed', 'full'), ('2026-10-20T21:42:15.753371Z', 'run-20261020T214215Z-b33d4738', 'completed', 'full')]
+leases: {}
+iter1: rc=[4, 0] status=['observing-existing', 'completed'] runIds=['run-20261020T213348Z-93bf9b86', 'run-20261020T213348Z-93bf9b86']
+iter2: rc=[4, 0] status=['observing-existing', 'completed'] runIds=['run-20261020T213540Z-a1105579', 'run-20261020T213540Z-a1105579']
+iter3: rc=[4, 0] status=['observing-existing', 'completed'] runIds=['run-20261020T213727Z-d6043280', 'run-20261020T213727Z-d6043280']
+iter4: rc=[4, 0] status=['observing-existing', 'completed'] runIds=['run-20261020T214023Z-eaa6bae6', 'run-20261020T214023Z-eaa6bae6']
+iter5: rc=[4, 0] status=['observing-existing', 'completed'] runIds=['run-20261020T214215Z-b33d4738', 'run-20261020T214215Z-b33d4738']
+exit-code tally over 10 invocations: {4: 5, 0: 5}

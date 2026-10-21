@@ -1,0 +1,563 @@
+{
+ "addy-osmani/api-and-interface-design": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/api-and-interface-design 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/browser-testing-with-devtools": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/browser-testing-with-devtools 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/ci-cd-and-automation": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/ci-cd-and-automation 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/constraint-driven-development": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/constraint-driven-development 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/context-engineering": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/context-engineering 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/deprecation-and-migration": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/deprecation-and-migration 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/documentation-and-adrs": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/documentation-and-adrs 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/doubt-driven-development": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/doubt-driven-development 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/frontend-ui-engineering": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/frontend-ui-engineering 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/observability-and-instrumentation": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/observability-and-instrumentation 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/security-and-hardening": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/security-and-hardening 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "addy-osmani/source-driven-development": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate addy-osmani/source-driven-development 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "gaiabot/repo-docs-before-pr": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate gaiabot/repo-docs-before-pr 2\u2605",
+   "targetLevel": "2\u2605",
+   "trustGrade": "C",
+   "trustMagnitude": 36.0
+  }
+ },
+ "garrytan/academic-verify": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/academic-verify 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/archive-crawler": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/archive-crawler 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/blog-ingest": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/blog-ingest 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/book-mirror": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/book-mirror 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/bulk-ingestion": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/bulk-ingestion 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/citation-graph-ingest": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/citation-graph-ingest 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/context-audit": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/context-audit 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/conversation-archive": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/conversation-archive 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/data-research": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/data-research 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/draft-in-voice": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/draft-in-voice 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/fact-check": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/fact-check 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/functional-area-resolver": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/functional-area-resolver 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/idea-lineage": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/idea-lineage 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/measure-before-you-fix": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/measure-before-you-fix 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/meeting-ingestion": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/meeting-ingestion 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/minion-orchestrator": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/minion-orchestrator 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/remote-mcp": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/remote-mcp 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/research-compendium": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/research-compendium 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/signal-detector": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/signal-detector 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/skill-autobench": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/skill-autobench 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/skill-optimizer": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/skill-optimizer 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/strategic-reading": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/strategic-reading 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "garrytan/two-tier-extraction": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate garrytan/two-tier-extraction 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "heygen-com/general-video": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate heygen-com/general-video 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "k-dense-ai/deepchem": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/deepchem 4\u2605",
+   "targetLevel": "4\u2605",
+   "trustGrade": "A",
+   "trustMagnitude": 111.0
+  }
+ },
+ "k-dense-ai/pymc": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/pymc 4\u2605",
+   "targetLevel": "4\u2605",
+   "trustGrade": "A",
+   "trustMagnitude": 120.0
+  }
+ },
+ "k-dense-ai/pytorch-lightning": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/pytorch-lightning 2\u2605",
+   "targetLevel": "2\u2605",
+   "trustGrade": "C",
+   "trustMagnitude": 41.0
+  }
+ },
+ "k-dense-ai/qiskit": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/qiskit 2\u2605",
+   "targetLevel": "2\u2605",
+   "trustGrade": "C",
+   "trustMagnitude": 48.96
+  }
+ },
+ "k-dense-ai/scanpy": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/scanpy 3\u2605",
+   "targetLevel": "3\u2605",
+   "trustGrade": "B",
+   "trustMagnitude": 50.0
+  }
+ },
+ "k-dense-ai/stable-baselines3": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/stable-baselines3 3\u2605",
+   "targetLevel": "3\u2605",
+   "trustGrade": "B",
+   "trustMagnitude": 50.0
+  }
+ },
+ "k-dense-ai/torch-geometric": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/torch-geometric 4\u2605",
+   "targetLevel": "4\u2605",
+   "trustGrade": "A",
+   "trustMagnitude": 111.0
+  }
+ },
+ "k-dense-ai/transformers": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate k-dense-ai/transformers 3\u2605",
+   "targetLevel": "3\u2605",
+   "trustGrade": "B",
+   "trustMagnitude": 50.0
+  }
+ },
+ "latent-spaces/brag": {
+  "level": {
+   "level": "3\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate latent-spaces/brag 4\u2605",
+   "targetLevel": "4\u2605",
+   "trustGrade": "A",
+   "trustMagnitude": 144.54
+  }
+ },
+ "mattpocock/tdd": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate mattpocock/tdd 3\u2605",
+   "targetLevel": "3\u2605",
+   "trustGrade": "B",
+   "trustMagnitude": 50.0
+  }
+ },
+ "obra/test-driven-development": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate obra/test-driven-development 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 9.0
+  }
+ },
+ "obra/writing-skills": {
+  "level": {
+   "level": "2\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate obra/writing-skills 1\u2605",
+   "targetLevel": "1\u2605",
+   "trustGrade": "ungraded",
+   "trustMagnitude": 0.0
+  }
+ },
+ "pexp13/sentiment-analysis": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate pexp13/sentiment-analysis 4\u2605",
+   "targetLevel": "4\u2605",
+   "trustGrade": "A",
+   "trustMagnitude": 126.07
+  }
+ },
+ "xquik-dev/hermes-tweet": {
+  "level": {
+   "level": "1\u2605"
+  },
+  "observed": {
+   "calibrationCommand": "gaia dev calibrate xquik-dev/hermes-tweet 2\u2605",
+   "targetLevel": "2\u2605",
+   "trustGrade": "C",
+   "trustMagnitude": 42.47
+  }
+ }
+}

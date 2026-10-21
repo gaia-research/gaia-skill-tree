@@ -1,0 +1,20 @@
+# F1: start run in background, SIGKILL once the run lease is visible on the remote ledger
+# argv: python -m gaia_cli --registry <scratch>/F/work steward full run --ledger git --integration-branch dev/rehearsal --push --json  (pid 23898)
+# kill -9 23898 -> shell exit 137
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full run --ledger git --integration-branch dev/rehearsal --push --json
+# exit 4 -> f2-fresh-run-while-lease-held.json
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full run --resume run-20261020T212937Z-0747e399 --ledger git --json
+# exit 0 -> f3-resume.json
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full run --resume run-20261020T212937Z-0747e399 --ledger git --json
+# exit 0 -> f4-second-resume-at-awaiting.json
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full record run-20261020T212937Z-0747e399 build:0bdd26975824:1 --input /home/user/gaia-skill-tree/.claude/worktrees/rehearsal/founder/steward/rehearsal/2026-10-20/f-crash-resume/outcome-bad-effort.json --ledger git --json
+# exit 2 -> f5-record-bad-effort.txt
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full record run-20261020T212937Z-0747e399 build:0bdd26975824:1 --input /home/user/gaia-skill-tree/.claude/worktrees/rehearsal/founder/steward/rehearsal/2026-10-20/f-crash-resume/outcome-forbidden-model.json --ledger git --json
+# exit 2 -> f5-record-forbidden-model.txt
+# lease expired naturally (expiresAt 2026-10-20T22:03:20Z; now 2026-10-21T07:05:31Z); new run adopts
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full run --ledger git --integration-branch dev/rehearsal --push --json
+# exit 0 -> f6-adopting-run.json
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full record run-20261020T212937Z-0747e399 build:0bdd26975824:1 --input /home/user/gaia-skill-tree/.claude/worktrees/rehearsal/founder/steward/rehearsal/2026-10-20/f-crash-resume/outcome-valid-shape-no-change.json --ledger git --json
+# exit 2 -> f7-record-against-superseded-step.txt
+$ (cd <scratch>/F/work) python -m gaia_cli --registry <scratch>/F/work steward full status --ledger git --json
+# exit 0 -> f8-status.json

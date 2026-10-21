@@ -1,0 +1,16 @@
+# setup: remote.git + clone 'work' + second clone 'work2' of the same bare remote (default branch main); real-repo content (tip cc2edfa00)
+# iterations 1-3 (race.sh): both started with '&' then 'wait':
+#   (cd work  && python -m gaia_cli --registry <scratch>/G/work  steward full run --ledger git --json) &
+#   (cd work2 && python -m gaia_cli --registry <scratch>/G/work2 steward full run --ledger git --json) &
+# iterations 4-5 (race2.sh): both processes spin on a barrier file; 'touch go' releases them; launch order swapped in iter4
+# exit codes: see iterN-<clone>.rc
+iter1-clone1.rc: 4
+iter1-clone2.rc: 0
+iter2-clone1.rc: 4
+iter2-clone2.rc: 0
+iter3-clone1.rc: 4
+iter3-clone2.rc: 0
+iter4-work.rc: 4
+iter4-work2.rc: 0
+iter5-work.rc: 4
+iter5-work2.rc: 0

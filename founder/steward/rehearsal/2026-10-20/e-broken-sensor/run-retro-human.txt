@@ -1,0 +1,70 @@
+Gaia Steward full
+Run                  run-20261020T212559Z-e0e96f3b  (mode retro)
+Status               blocked  (phase done)
+Ledger               git-ref  shared
+Coverage             30 registered, 22 executed, 5 unknown, 3 not evaluated, 0 partially covered
+Sensors
+  bundled-schema-mirror        executed       drift 0    healthy 1    routines 8
+  agent-skill-mirror           executed       drift 1    healthy 0    routines 12,17
+  registry-integrity           executed       drift 0    healthy 1    routines 7,11
+  cli-contract                 executed       drift 0    healthy 1    routines 6
+  discovery-generic-mapping    executed       drift 0    healthy 0    routines 11
+  taxonomy-script-drift        executed       drift 0    healthy 1    routines 9,17
+  upstream-watcher             unknown        drift 0    healthy 0    routines 11,14
+  knowledge-contradiction      executed       drift 0    healthy 1    routines 17
+  evidence-link-health         unknown        drift 0    healthy 0    routines 9
+  generated-projections        executed       drift 1    healthy 0    routines 12,15
+  benchmark-freshness          executed       drift 0    healthy 1    routines 9
+  trust-calibration-drift      unknown        drift 0    healthy 0    routines 9
+  frozen-skill-integrity       unknown        drift 0    healthy 0    routines 7,10
+  repository-hygiene           executed       drift 0    healthy 1    routines 12
+  dead-code                    executed       drift 49   healthy 0    routines 1
+  code-structure               executed       drift 5    healthy 0    routines 2
+  error-handling               executed       drift 40   healthy 0    routines 3
+  test-portfolio               executed       drift 0    healthy 0    routines 4
+  test-isolation               executed       drift 0    healthy 0    routines 5
+  test-history                 not-evaluated  drift 0    healthy 0    routines 5  (no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated)
+  mutation-boundary            executed       drift 5    healthy 0    routines 7
+  browser-sink                 executed       drift 56   healthy 0    routines 16
+  secret-scan                  executed       drift 0    healthy 0    routines 16,14
+  ci-workflow                  executed       drift 30   healthy 0    routines 13
+  ci-health                    not-evaluated  drift 0    healthy 0    routines 13  (no ci-runs.json supplied; a driver must collect it)
+  supply-chain                 executed       drift 0    healthy 0    routines 14
+  dependency-advisory          not-evaluated  drift 0    healthy 0    routines 14  (no advisories.json supplied; a driver must collect it)
+  schema-validity              executed       drift 0    healthy 0    routines 8
+  timeline-causality           unknown        drift 0    healthy 0    routines 10
+  frontend-contract            executed       drift 2    healthy 0    routines 15
+Routines
+   1  observed     dead-code:executed
+   2  observed     code-structure:executed
+   3  observed     error-handling:executed
+   4  observed     test-portfolio:executed
+   5  partial      test-history:not-evaluated, test-isolation:executed
+   6  observed     cli-contract:executed
+   7  partial      frozen-skill-integrity:unknown, mutation-boundary:executed, registry-integrity:executed
+   8  observed     bundled-schema-mirror:executed, schema-validity:executed
+   9  partial      benchmark-freshness:executed, evidence-link-health:unknown, taxonomy-script-drift:executed, trust-calibration-drift:unknown
+  10  unknown      frozen-skill-integrity:unknown, timeline-causality:unknown
+  11  partial      discovery-generic-mapping:executed, registry-integrity:executed, upstream-watcher:unknown
+  12  observed     agent-skill-mirror:executed, generated-projections:executed, repository-hygiene:executed
+  13  partial      ci-health:not-evaluated, ci-workflow:executed
+  14  partial      dependency-advisory:not-evaluated, secret-scan:executed, supply-chain:executed, upstream-watcher:unknown
+  15  observed     frontend-contract:executed, generated-projections:executed
+  16  observed     browser-sink:executed, secret-scan:executed
+  17  observed     agent-skill-mirror:executed, knowledge-contradiction:executed, taxonomy-script-drift:executed
+Desk                 5 decision(s), 9 operation(s)
+  decision  steward-class-b-route-unused-import
+  decision  steward-class-b-throughput
+  decision  steward-dev-mutation-gates
+  decision  steward-landing-target
+  decision  steward-timeline-order-1699
+  operation [coverage_unknown] evidence-link-health
+  operation [coverage_unknown] frozen-skill-integrity
+  operation [coverage_unknown] timeline-causality
+  operation [coverage_unknown] trust-calibration-drift
+  operation [coverage_unknown] upstream-watcher
+  operation [not_evaluated] ci-health
+  operation [not_evaluated] dependency-advisory
+  operation [not_evaluated] test-history
+  operation [stale_schedule] scheduled run
+Next                 sensor coverage is unknown (evidence-link-health, frozen-skill-integrity, timeline-causality, trust-calibration-drift, upstream-watcher); fix the failing sensor(s) and start a new run
