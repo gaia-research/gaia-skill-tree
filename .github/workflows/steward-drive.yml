@@ -1,0 +1,135 @@
+name: Gaia Steward Drive
+
+# The unattended Steward Full loop (founder authorization 2026-10-21):
+#
+#   Class A  detect -> repair -> verify -> land on dev/steward-integration -> record
+#   Class B  detect -> dispatch builder -> independent verifier -> land -> record
+#   Class C  detect -> escalate to the founder desk (nothing is dispatched)
+#
+# `gaia steward full run` makes zero model calls and decides every transition.
+# scripts/steward_drive.py performs the actions it emits: fresh builder and
+# verifier agents (Haiku builds, Sonnet verifies, explicit effort, no turn
+# limit), draft PRs to the integration branch, and merges into the integration
+# branch only. Nothing here writes to main, force-pushes, tags or releases, and
+# the runner refuses main, master and the default branch itself.
+#
+# Without ANTHROPIC_API_KEY the job still lands Class A (`--no-agents`) and says
+# so: "agents: NOT RUN" in the summary, never a silent pass.
+#
+# Cadence: lane maxInFlight is 2 but maxDispatchesPerRun is pinned to 1 in code,
+# so a run dispatches at most one new Class B repair. Running every 4 hours
+# fills both slots within one run-gap and refills a freed slot at the next run.
+
+on:
+  schedule:
+    - cron: "40 */4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: gaia-steward-drive
+  cancel-in-progress: false
+
+jobs:
+  drive:
+    name: Drive Class A and Class B
+    # STEWARD_LANDING_ENABLED=false stops the loop; unset means on.
+    if: vars.STEWARD_LANDING_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
+      GH_TOKEN: ${{ github.token }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      STEWARD_HAIKU_MODEL_ID: claude-haiku-5-5
+      STEWARD_SONNET_MODEL_ID: claude-sonnet-5-5
+      STEWARD_BUILD_EFFORT: medium
+      STEWARD_VERIFY_EFFORT: high
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install the CLI
+        run: python -m pip install --quiet -e .
+
+      - name: Commit identity for landing branches
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Prove what this run can actually do instead of assuming it.
+      - name: Preflight (branch, write permission, agent credentials)
+        run: |
+          set +e
+          {
+            echo "### Steward drive preflight"
+            echo ""
+            echo "| Check | Result |"
+            echo "|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+          row() { echo "| $1 | $2 |" >> "$GITHUB_STEP_SUMMARY"; }
+          if git ls-remote --exit-code --heads origin "$INTEGRATION_BRANCH" >/dev/null 2>&1; then
+            row "integration branch $INTEGRATION_BRANCH exists" "yes"
+          else
+            row "integration branch $INTEGRATION_BRANCH exists" "**NO** - Class A landing will be refused; create it from main"
+            echo "::error title=steward integration branch missing::$INTEGRATION_BRANCH does not exist on the remote"
+          fi
+          probe="refs/heads/steward/probe-${GITHUB_RUN_ID}"
+          if git push -q origin "HEAD:${probe}" 2>/tmp/probe.err; then
+            git push -q origin ":${probe}" 2>/dev/null
+            row "GITHUB_TOKEN can create and delete steward/* refs" "yes"
+          else
+            row "GITHUB_TOKEN can create and delete steward/* refs" "**NO** - $(head -c 200 /tmp/probe.err | tr '\n' ' ')"
+            echo "::error title=steward cannot write refs::push of $probe was refused"
+          fi
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            row "ANTHROPIC_API_KEY present" "yes (agents will run)"
+          else
+            row "ANTHROPIC_API_KEY present" "**NO** - Class B agents will NOT RUN; Class A landing only"
+            echo "::warning title=steward agents not run::ANTHROPIC_API_KEY secret is not set"
+          fi
+          exit 0
+
+      - name: Install the agent CLI
+        if: env.ANTHROPIC_API_KEY != ''
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Drive the pipeline
+        run: |
+          python scripts/steward_drive.py \
+            --integration-branch "$INTEGRATION_BRANCH" \
+            --ledger git --trigger scheduled \
+            --report drive-report.json
+
+      - name: Founder desk
+        if: always()
+        run: |
+          {
+            echo "## Gaia Steward Full (drive)"
+            echo '```'
+            gaia steward full status --ledger git
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish the drive receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-drive
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            drive-report.json
+            .gaia/steward/receipts/
+            .gaia/steward/full/
