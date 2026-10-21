@@ -1,10 +1,10 @@
 {
- "generation": 1,
+ "generation": 2,
  "lane": null,
  "leases": {
   "run": {
    "acquiredAt": "2026-10-21T16:26:22.255954Z",
-   "expiresAt": "2026-10-21T16:56:22.255954Z",
+   "expiresAt": "2026-10-21T16:56:24.592139Z",
    "holder": "run-20261021T162622Z-2b8067d3"
   }
  },
@@ -63,6 +63,6 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T16:26:22.535510Z",
+ "updatedAt": "2026-10-21T16:26:24.592172Z",
  "work": {}
 }
