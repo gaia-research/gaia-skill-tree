@@ -62,7 +62,7 @@ def _digest(manifest: Mapping[str, Any]) -> str:
     return hashlib.sha256(stable_json(stripped).encode("utf-8")).hexdigest()
 
 
-def _hygiene_policy(root: Path) -> HygienePolicy:
+def _hygienePolicy(root: Path) -> HygienePolicy:
     from gaia_cli.steward.policy import PolicyError, StewardPolicy
 
     try:
@@ -90,7 +90,7 @@ def _reconcile(census: Census, root: Path, hygiene: HygienePolicy, now: Any) -> 
     return manifest
 
 
-def _validate_manifest(manifest: Mapping[str, Any]) -> None:
+def _validateManifest(manifest: Mapping[str, Any]) -> None:
     if manifest.get("schemaVersion") != MANIFEST_SCHEMA:
         raise SensorUnavailable(f"reconciliation manifest does not declare {MANIFEST_SCHEMA}")
     coverage = manifest.get("coverage")
@@ -115,7 +115,7 @@ def _validate_manifest(manifest: Mapping[str, Any]) -> None:
             raise SensorUnavailable(f"reconciliation item {index} has no issue number")
 
 
-def _suite_of(manifest: Mapping[str, Any]) -> dict[str, str]:
+def _suiteOf(manifest: Mapping[str, Any]) -> dict[str, str]:
     """Map each batched item key to its suite. Unlisted items fall into ``unbatched``."""
 
     suites: dict[str, str] = {}
@@ -138,7 +138,7 @@ def _snapshot(item: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _closure_entry(item: Mapping[str, Any], census: Census) -> dict[str, Any]:
+def _closureEntry(item: Mapping[str, Any], census: Census) -> dict[str, Any]:
     row = census.byNumber().get(item["issue"], {})
     transition = item.get("proposedTransition") if isinstance(item.get("proposedTransition"), Mapping) else {}
     evidence = []
@@ -162,7 +162,7 @@ def _closure_entry(item: Mapping[str, Any], census: Census) -> dict[str, Any]:
     }
 
 
-def _provable_closure(item: Mapping[str, Any], hygiene: HygienePolicy) -> bool:
+def _provableClosure(item: Mapping[str, Any], hygiene: HygienePolicy) -> bool:
     """Class A only when the contract's proof conditions hold (contract 3.3); anything else is downgraded."""
 
     rule = item.get("ruleId")
@@ -207,13 +207,13 @@ class IssueHygieneSensor:
                 input_absent=True,
             )
         now = parse_instant(observed_at, "observed_at")
-        hygiene = _hygiene_policy(root)
+        hygiene = _hygienePolicy(root)
         census = loadCensus(path, now=now, maxAgeSeconds=hygiene.maxCensusAgeSeconds)
         if not census.status.complete:
             reasons = ", ".join(_text(reason, 80) for reason in census.status.reasons[:3]) or "no reason recorded"
             raise SensorUnavailable(f"issue census is {census.status.status}: {reasons}")
         manifest = _reconcile(census, root, hygiene, now)
-        _validate_manifest(manifest)
+        _validateManifest(manifest)
         return self._observations(manifest, census, hygiene, observed_at)
 
     def _observations(
@@ -231,7 +231,7 @@ class IssueHygieneSensor:
             "censusFetchedAt": _text(manifest.get("censusFetchedAt"), 40),
             "stats": {key: value for key, value in stats.items() if isinstance(value, int) and not isinstance(value, bool)},
         }
-        suites = _suite_of(manifest)
+        suites = _suiteOf(manifest)
         closures: dict[str, list[dict[str, Any]]] = {
             rule: [] for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule)
         }
@@ -241,8 +241,8 @@ class IssueHygieneSensor:
         for item in manifest["items"]:
             if item.get("authority") == "none":
                 continue
-            if _provable_closure(item, hygiene):
-                closures[item["ruleId"]].append(_closure_entry(item, census))
+            if _provableClosure(item, hygiene):
+                closures[item["ruleId"]].append(_closureEntry(item, census))
             elif item.get("authority") == "C":
                 founder_items.append(item)
             else:
