@@ -11,6 +11,11 @@ jobs:
   close-children:
     name: Handle upstream child/umbrella close events
     runs-on: ubuntu-latest
+    # M8: the Case 1 re-fire runs `gh workflow run`, which needs actions: write. The grant is
+    # scoped to this job only; issues: write is the workflow-level grant.
+    permissions:
+      issues: write
+      actions: write
     # Fire for upstream:child closes OR upstream:release closes
     if: >-
       contains(github.event.issue.labels.*.name, 'upstream:child') ||
@@ -160,9 +165,13 @@ jobs:
 
           if [ "$OPEN_SIBLINGS" = "0" ]; then
             echo "All siblings closed. Re-firing upstream-approve.yml for umbrella #${UMBRELLA_NUMBER}."
-            gh workflow run upstream-approve.yml \
-              -f issue_number="$UMBRELLA_NUMBER" || \
-              echo "::warning::Could not re-fire upstream-approve.yml. May need manual re-labeling of #${UMBRELLA_NUMBER}."
+            # M8: a failed re-fire is visible: an error annotation, a marker comment, and a failed job.
+            if ! gh workflow run upstream-approve.yml -f issue_number="$UMBRELLA_NUMBER"; then
+              echo "::error::Could not re-fire upstream-approve.yml for #${UMBRELLA_NUMBER}. Re-apply upstream:approved by hand."
+              gh issue comment "$UMBRELLA_NUMBER" \
+                --body "⚠️ **Re-fire failed.** All child intakes are closed, but upstream-approve.yml could not be dispatched automatically. Re-apply \`upstream:approved\` to continue." || true
+              exit 1
+            fi
           else
             echo "${OPEN_SIBLINGS} sibling(s) still open. Waiting."
           fi
@@ -305,11 +314,28 @@ jobs:
             exit 0
           fi
 
+          # M7 ownership proof: a child is closed only when its own body names THIS umbrella.
+          # A candidate link can point at a child that another umbrella now owns; that child is
+          # skipped and logged, never closed by this cascade.
+          CASCADE_FAILED=0
           while IFS= read -r child_num; do
             [ -z "$child_num" ] && continue
+            if ! CHILD_BODY=$(gh issue view "$child_num" --json body --jq '.body'); then
+              echo "::error::Could not read child #${child_num}. Not closing it."
+              CASCADE_FAILED=1
+              continue
+            fi
+            OWNER=$(printf '%s' "$CHILD_BODY" | python3 -c "import re, sys; m = re.search(r'Umbrella:\s*#(\d+)', sys.stdin.read()); print(m.group(1) if m else '')")
+            if [ "$OWNER" != "$UMBRELLA_NUMBER" ]; then
+              echo "Skipping child #${child_num}: its body names umbrella '${OWNER:-none}', not #${UMBRELLA_NUMBER}. Not closing it."
+              continue
+            fi
             echo "Closing child #${child_num}"
-            gh issue close "$child_num" \
+            if ! gh issue close "$child_num" \
               --reason "not planned" \
-              --comment "Umbrella #${UMBRELLA_NUMBER} was rejected. Auto-closing this child intake." \
-              || echo "::warning::Could not close child #${child_num}"
+              --comment "Umbrella #${UMBRELLA_NUMBER} was rejected. Auto-closing this child intake."; then
+              echo "::error::Could not close child #${child_num}."
+              CASCADE_FAILED=1
+            fi
           done <<< "$OPEN_CHILDREN"
+          [ "$CASCADE_FAILED" = "0" ] || exit 1

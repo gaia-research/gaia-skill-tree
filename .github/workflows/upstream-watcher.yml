@@ -21,11 +21,11 @@ on:
 # Prevent overlap between manual runs
 concurrency: upstream-watcher
 
+# L5: the watcher only reads the repo and writes issues. It never pushes, opens PRs or dispatches
+# workflows (batch mode creates no approved bootstrap, M3), so the other write scopes were dropped.
 permissions:
   issues: write
-  contents: write
-  pull-requests: write
-  actions: write
+  contents: read
 
 jobs:
   watcher:
