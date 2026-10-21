@@ -189,7 +189,6 @@ class Draft:
         self.proofRule: str | None = None
         self.forcedC = False
         self.a1Ok = False
-        self.urlEqual = False
         self.exact: NamedRecord | None = None
 
 
@@ -240,7 +239,45 @@ def addQuestion(ctx: Context, draft: Draft, text: str, options: tuple[str, ...],
 
 # ----------------------------------------------------------------- children
 
+def linkDifferences(record: NamedRecord, intake: GithubRef) -> list[str]:
+    """Which parts of the registry claim differ from the intake evidence. The git ref is ignored.
+
+    The repo the registry claims is ``upstream.repo`` when declared (a declared upstream must
+    agree with the evidence, so a contradiction is never proof), otherwise the ``links.github``
+    repo. The path always comes from ``links.github``. Repo and path are compared exactly once
+    ``parseGithubUrl`` has folded ``tree/`` to ``blob/`` and dropped a trailing slash, query and
+    fragment. An empty list means the same file in the same repo, at any ref.
+    """
+    claimedRepo = record.upstreamRepo if record.upstreamRepo is not None else record.github.repo
+    found: list[str] = []
+    if claimedRepo != intake.repo:
+        found.append("registry-repo-differs")
+    if record.github.path != intake.path:
+        found.append("registry-path-differs")
+    return found
+
+
+def linkProofDetail(record: NamedRecord, intake: GithubRef) -> str:
+    """Evidence detail for a proven A1 link. Called only when ``linkDifferences`` is empty."""
+    if record.github.blobUrl() == intake.blobUrl():
+        return "links.github equals the evidence URL"
+    parts: list[str] = []
+    if record.github.repo != intake.repo:
+        parts.append("upstream repo and path match the evidence URL")
+    if record.github.ref != intake.ref:
+        parts.append(f"ref-differs: registry={record.github.ref} intake={intake.ref}")
+    return "; ".join(parts)
+
+
 def evaluateChild(ctx: Context, draft: Draft) -> None:
+    """Rule A1 (``A1-child-curated``): the exact suggested-id record curates the same file as the intake.
+
+    Proof needs a readable, non-draft record under the same contributor handle whose registry
+    claim names the same repo and the same path as the intake evidence URL. The git ref is not
+    part of the match, so a pinned tag or commit against ``main`` still proves A1 and is recorded
+    as ``ref-differs``. Any other difference, a draft or missing status, or an unreadable record
+    keeps the child out of A (B, or C for an alias candidate).
+    """
     identity = draft.identity
     unknownReasons = [reason for reason in identity.reasons if reason not in ORPHAN_REASONS]
     orphanReasons = [reason for reason in identity.reasons if reason in ORPHAN_REASONS]
@@ -279,10 +316,10 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
         if record.github is None:
             failures.append("registry-link-missing")
         elif evidenceRef is not None:
-            draft.urlEqual = evidenceRef.blobUrl() == record.github.blobUrl()
-            upstreamMatch = record.upstreamRepo == evidenceRef.repo and record.github.path == evidenceRef.path
-            if not (draft.urlEqual or upstreamMatch):
+            differences = linkDifferences(record, evidenceRef)
+            if differences:
                 failures.append("registry-link-differs")
+                failures.extend(differences)
     if draft.unknowns:
         failures.append("unknown-facts")
     if orphanReasons:
@@ -293,7 +330,9 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
         draft.proofRule = RULE_A1
         for entry in draft.evidence:
             if entry["type"] == "registry" and entry["ref"] == record.path:
-                entry["detail"] = "links.github equals the evidence URL" if draft.urlEqual else "upstream repo and path match the evidence URL"
+                entry["detail"] = linkProofDetail(record, evidenceRef)
+        if record.github.blobUrl() != evidenceRef.blobUrl():
+            draft.evidence.append(ev("registry", record.github.blobUrl(), None, f"links.github of {record.path}"))
         if identity.evidenceUrl:
             draft.evidence.append(ev("issue", f"#{draft.number}", None, f"evidence {identity.evidenceUrl}"))
         return
