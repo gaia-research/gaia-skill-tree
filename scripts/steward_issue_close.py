@@ -35,10 +35,10 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, executeClosure  # noqa: E402
+from gaia_cli.steward.issuehygiene.outcomes import RECEIPTDIR  # noqa: E402
 from steward_issue_census import DEFAULT_REPO  # noqa: E402
 from steward_issue_reconcile import GhForge  # noqa: E402
 
-RECEIPTDIR = Path(".gaia/steward/issue-hygiene/receipts")
 REQUIRED = (
     "key", "issue", "ruleId", "authority", "state", "stateReason", "duplicateOf", "parent", "canonical",
     "reason", "expectedSnapshot", "original", "evidence", "comment", "receiptPath", "manifestSha256",

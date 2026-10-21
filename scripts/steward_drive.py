@@ -53,6 +53,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.fullrun import BADEFFORTS, agentIdentity
+from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
 
 EXITCOMPLETED = 0
 EXITSTOPPED = 1
@@ -71,7 +72,7 @@ ENGINES = ("copilot", "claude", "codex", "pi")
 ADAPTER = "scripts/steward_agent_dispatch.py"
 CLOSESCRIPT = "scripts/steward_issue_close.py"
 CENSUSSCRIPT = "scripts/steward_issue_census.py"
-CENSUSPATH = ".gaia/steward/inputs/github-issues.json"
+CENSUSPATH = CENSUS_INPUT.as_posix()
 CLOSUREDIR = ".gaia/steward/drive/closures"
 DEFAULTREPO = "gaia-research/gaia-skill-tree"
 DEFAULTREPORT = ".gaia/steward/drive-report.json"
