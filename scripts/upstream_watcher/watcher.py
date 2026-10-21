@@ -3,24 +3,36 @@ scripts.upstream_watcher.watcher — main entry point for the Gaia upstream watc
 
 Usage
 -----
-    python scripts/upstream_watcher/watcher.py [--dry-run] [--apply] [--skill <id>] [--verbose]
+    python scripts/upstream_watcher/watcher.py [--dry-run] [--apply] [--skill <id>]
+        [--child-mode batch|fanout] [--escalate <candidate-id>] [--report FILE] [--verbose]
 
 Flags
 -----
---dry-run     (default) Print findings as a markdown report; do NOT create issues.
---apply       Create GitHub issues (requires gh CLI + GH_TOKEN).
---skill <id>  Scope to a single suite skill-id (e.g. mattpocock/skills).
---verbose     Extra logging to stderr.
+--dry-run         (default) Print findings as a markdown report; do NOT create issues.
+--apply           Create GitHub issues (requires gh CLI + GH_TOKEN).
+--skill <id>      Scope to a single suite skill-id (e.g. mattpocock/skills).
+--child-mode M    batch (default): one umbrella per suite with a payloadVersion 2
+                  candidate batch record and no per-candidate children.
+                  fanout: legacy one-child-per-component behaviour.
+--escalate ID     Create (or adopt) ONE intake child for the batch row ``ID``
+                  (for example ``garrytan/gbrain:foo``) and exit.
+--report FILE     Write the JSON run report (issuesCreated, issuesUpdated,
+                  suppressedDuplicates, retainedCandidates, unknownEvidence, suites).
+--verbose         Extra logging to stderr.
 
 Exit codes
 ----------
 0  Success (even when some suites are skipped or have no findings).
 1  Hard failure (import error, unrecoverable exception).
+2  Escalation target not found in any open umbrella.
+3  Unknown evidence (registry unreadable or a GitHub list/get failed). Zero
+   issue writes were made; the report still lists unknownEvidence.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -33,7 +45,9 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.lib.github_api import fetch_json, parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
+from scripts.upstream_watcher.batch import escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import create_issues
+from scripts.upstream_watcher.live import LiveGh
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
 from scripts.upstream_watcher.name_drift import check_name_drift
 
@@ -195,8 +209,14 @@ def _poll_suite(
 # ---------------------------------------------------------------------------
 
 
+def _write_report(report: dict, path: str | None) -> None:
+    if not path:
+        return
+    Path(path).write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def main(argv: list[str] | None = None) -> int:
-    """Return exit code. 0 on success; 1 on hard failure."""
+    """Return exit code. 0 on success; 1 on hard failure; 2 escalation target missing; 3 unknown evidence."""
     parser = argparse.ArgumentParser(
         description="Gaia upstream watcher — poll suite skill repos for new releases."
     )
@@ -219,6 +239,24 @@ def main(argv: list[str] | None = None) -> int:
         help="Scope to a single suite skill-id (e.g. mattpocock/skills).",
     )
     parser.add_argument(
+        "--child-mode",
+        choices=("batch", "fanout"),
+        default="batch",
+        help="batch (default): umbrella batch record, no per-candidate children. fanout: legacy children.",
+    )
+    parser.add_argument(
+        "--escalate",
+        metavar="CANDIDATE_ID",
+        default=None,
+        help="Create or adopt one intake child for batch row CANDIDATE_ID, then exit.",
+    )
+    parser.add_argument(
+        "--report",
+        metavar="FILE",
+        default=None,
+        help="Write the JSON run report to FILE (also in dry-run).",
+    )
+    parser.add_argument(
         "--verbose",
         action="store_true",
         default=False,
@@ -230,11 +268,24 @@ def main(argv: list[str] | None = None) -> int:
     apply = args.apply
     verbose = args.verbose
 
+    if args.escalate:
+        result, code = escalate_candidate(args.escalate, LiveGh(), apply=apply)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return code
+
+    batch_mode = args.child_mode == "batch"
     try:
         registry_map = _build_registry_map()
     except Exception as exc:  # noqa: BLE001
         print(f"[error] Failed to build registry map: {exc}", file=sys.stderr)
-        return 1
+        if not batch_mode:
+            return 1
+        # Fail closed: registry unreadable => zero writes, unknown evidence, exit 3.
+        report = new_report()
+        report["dryRun"] = not apply
+        report["unknownEvidence"].append({"source": "registry", "detail": str(exc)})
+        _write_report(report, args.report)
+        return 3
 
     full_findings: list[dict] = []
     skipped = 0
@@ -268,13 +319,30 @@ def main(argv: list[str] | None = None) -> int:
 
     if not apply:
         # Dry-run: render markdown report to stdout
-        report = _render_report(full_findings)
-        print(report)
-    else:
-        summaries = create_issues(full_findings, apply=True, verbose=verbose)
-        print(f"[watcher] Issue creation complete. {len(summaries)} finding(s) processed.")
+        print(_render_report(full_findings))
 
-    return 0
+    if not batch_mode:
+        summaries = create_issues(full_findings, apply=True, verbose=verbose) if apply else []
+        report = new_report()
+        report["childMode"] = "fanout"
+        report["dryRun"] = not apply
+        report["issuesCreated"] = sum(1 for row in summaries if row.get("umbrella") and not row.get("updated"))
+        report["issuesUpdated"] = sum(1 for row in summaries if row.get("updated"))
+        _write_report(report, args.report)
+        if apply:
+            print(f"[watcher] Issue creation complete. {len(summaries)} finding(s) processed.")
+        return 0
+
+    report, code = run_batch(full_findings, LiveGh(), apply=apply)
+    if code == 0:
+        bootstrap = [finding for finding in full_findings if finding["finding_type"] == "bootstrap"]
+        if bootstrap:
+            create_issues(bootstrap, apply=apply, verbose=verbose)
+    _write_report(report, args.report)
+    print(json.dumps({k: report[k] for k in ("issuesCreated", "issuesUpdated", "suppressedDuplicates",
+                                             "retainedCandidates", "unknownEvidence")},
+                     ensure_ascii=False), file=sys.stderr)
+    return code
 
 
 if __name__ == "__main__":

@@ -5,8 +5,10 @@ Every candidate row in an umbrella's batch record is checked BEFORE any write:
 
 registry    absent | present | alias-suspect
               present        = registry id equals the suggested id AND the
-                               registry links.github (blob-normalized) equals the
-                               candidate evidence URL (blob-normalized).
+                               registry links.github equals the candidate evidence
+                               URL after blob normalization. The ref segment is
+                               ignored: registry records pin release tags while
+                               evidence URLs point at main.
               alias-suspect  = registry id differs but the slug matches another
                                record, or the id matches while the links differ.
                                Never reported as identical; a human decides.
@@ -42,12 +44,14 @@ class RegistryUnreadable(RuntimeError):
     """The named-skill registry could not be read or is empty (fail closed)."""
 
 
-def normalize_blob(url: str | None) -> str:
+def normalize_blob(url: str | None, ignore_ref: bool = False) -> str:
     """Return a comparable form of a GitHub URL.
 
     ``tree/`` is rewritten to ``blob/``, ``.git`` and trailing slashes are
     dropped, and host/owner/repo are lowercased. The path is kept case-sensitive.
-    Returns "" for anything that is not a GitHub owner/repo URL.
+    With ``ignore_ref`` the ``blob/<ref>/`` segment is dropped, so a registry
+    record pinned to a release tag matches the same file on ``main``. Returns ""
+    for anything that is not a GitHub owner/repo URL.
     """
     if not url:
         return ""
@@ -62,6 +66,8 @@ def normalize_blob(url: str | None) -> str:
     rest = segments[2:]
     if rest and rest[0] == "tree":
         rest[0] = "blob"
+    if ignore_ref and rest and rest[0] == "blob":
+        rest = rest[2:]
     tail = "/".join(rest).rstrip("/")
     base = f"{parts.netloc.lower()}/{owner}/{repo}"
     return f"{base}/{tail}" if tail else base
@@ -106,7 +112,7 @@ def load_registry_index(root: Path | None = None) -> dict:
             continue
         links = fm.get("links") or {}
         by_id[rid] = {
-            "links": normalize_blob(links.get("github")),
+            "links": normalize_blob(links.get("github"), ignore_ref=True),
             "status": fm.get("status"),
         }
         by_slug.setdefault(slug_key(rid.split("/")[-1]), []).append(rid)
@@ -118,7 +124,7 @@ def registry_state(row: dict, index: dict) -> str:
     suggested = row["suggestedId"]
     entry = index["byId"].get(suggested)
     if entry is not None:
-        if entry["links"] and entry["links"] == normalize_blob(row.get("evidenceUrl")):
+        if entry["links"] and entry["links"] == normalize_blob(row.get("evidenceUrl"), ignore_ref=True):
             return "present"
         return "alias-suspect"
     for other in index["bySlug"].get(slug_key(row["slug"]), []):

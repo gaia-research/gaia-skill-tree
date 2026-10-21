@@ -14,7 +14,7 @@ def _row(suggested="garrytan/foo", slug="foo", url=BLOB):
 def _index(entries):
     by_id, by_slug = {}, {}
     for rid, links in entries:
-        by_id[rid] = {"links": pc.normalize_blob(links), "status": "named"}
+        by_id[rid] = {"links": pc.normalize_blob(links, ignore_ref=True), "status": "named"}
         by_slug.setdefault(pc.slug_key(rid.split("/")[-1]), []).append(rid)
     return {"byId": by_id, "bySlug": by_slug}
 
@@ -35,6 +35,11 @@ def test_slug_key_ignores_case_hyphens_and_underscores():
 def test_registry_present_requires_id_and_matching_blob_link():
     idx = _index([("garrytan/foo", BLOB)])
     assert pc.registry_state(_row(), idx) == "present"
+
+
+def test_registry_present_ignores_ref_pinning():
+    pinned = "https://github.com/garrytan/gbrain/blob/0.6.10/skills/foo/SKILL.md"
+    assert pc.registry_state(_row(), _index([("garrytan/foo", pinned)])) == "present"
 
 
 def test_registry_same_id_different_link_is_alias_suspect_not_present():
