@@ -1,34 +1,35 @@
 """Durable closure outcomes for ``forge.close_issue`` (contract sections 3.4 and 3.5).
 
-The runner emits a closure action; a driver performs it and records one outcome
-with ``gaia steward full record``. The outcome lands in this store, which is the
-memory that makes closure exactly-once across runs: a semantic key that reached a
-terminal outcome is never emitted again, whatever the census says afterwards. A
-run record alone is not enough, because retained runs are compacted.
+The runner emits a closure action whose params are a plan from ``closure.planClosures``.
+A driver performs it and records one outcome with ``gaia steward full record``. The
+outcome lands in this store, which is the memory that makes closure exactly-once
+across runs. A run record alone is not enough, because retained runs are compacted.
 
-The store is local to the checkout (``.gaia/steward/issue-hygiene/``, ignored).
-An unreadable store is an error, not an empty store: an empty store would
-re-emit every closure already performed.
+Closure is keyed on the pair (semantic key, issue number), the same pair that lane B's
+receipts file records. ``donePairs`` therefore counts both this store and every
+receipts file under ``.gaia/steward/issue-hygiene/receipts/``, so a closure the
+driver script made directly is never repeated by the runner.
+
+The store is local to the checkout (``.gaia/steward/issue-hygiene/``, ignored). An
+unreadable store is an error, not an empty store: an empty store would re-emit every
+closure already performed.
 """
 
 from __future__ import annotations
 
 import json
 import os
-import re
 from pathlib import Path
 from typing import Any, Mapping
 
-from gaia_cli.steward.primitives.redact import scrub
+from gaia_cli.steward.issuehygiene.closure import resumeState
 
 STORE = Path(".gaia/steward/issue-hygiene/outcomes.json")
+RECEIPTDIR = Path(".gaia/steward/issue-hygiene/receipts")
 STORESCHEMA = "steward-issue-closure-outcomes-v1"
 OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked")
 TERMINALOUTCOMES = frozenset({"closed", "already-closed"})
 RETRYLIMIT = 3
-STATEREASONS = ("completed", "not_planned", "duplicate")
-MAXPAYLOADCHARS = 4000
-_PAYLOAD = re.compile(r"<!-- gaia-upstream-payload.*?-->", re.DOTALL)
 
 
 class OutcomeStoreError(RuntimeError):
@@ -39,8 +40,12 @@ def storePath(root: Path) -> Path:
     return root / STORE
 
 
+def pairKey(key: str, issue: int) -> str:
+    return f"{key}#{issue}"
+
+
 def loadOutcomes(root: Path) -> dict[str, dict[str, Any]]:
-    """Return ``{semantic key: entry}``. A missing store is empty; a malformed one raises."""
+    """Return ``{pair key: entry}``. A missing store is empty; a malformed one raises."""
 
     path = storePath(root)
     if not path.exists():
@@ -56,20 +61,45 @@ def loadOutcomes(root: Path) -> dict[str, dict[str, Any]]:
     entries = document.get("entries")
     if not isinstance(entries, dict):
         raise OutcomeStoreError(f"{STORE.as_posix()} entries must be an object")
-    return {str(key): dict(value) for key, value in entries.items() if isinstance(value, dict)}
+    return {str(name): dict(value) for name, value in entries.items() if isinstance(value, dict)}
 
 
-def closedKeys(entries: Mapping[str, Mapping[str, Any]]) -> frozenset[str]:
-    return frozenset(key for key, entry in entries.items() if entry.get("outcome") in TERMINALOUTCOMES)
+def closedPairs(entries: Mapping[str, Mapping[str, Any]]) -> frozenset[tuple[str, int]]:
+    """(key, issue) pairs this store records as done."""
+
+    done = set()
+    for entry in entries.values():
+        key, issue = entry.get("key"), entry.get("issue")
+        if entry.get("outcome") in TERMINALOUTCOMES and isinstance(key, str) and isinstance(issue, int):
+            done.add((key, issue))
+    return frozenset(done)
 
 
-def failedAttempts(entries: Mapping[str, Mapping[str, Any]], key: str) -> int:
-    entry = entries.get(key) or {}
+def receiptPairs(root: Path) -> frozenset[tuple[str, int]]:
+    """(key, issue) pairs recorded done in any receipts file, including the driver script's."""
+
+    directory = root / RECEIPTDIR
+    if not directory.is_dir():
+        return frozenset()
+    done: set[tuple[str, int]] = set()
+    for path in sorted(directory.glob("*.jsonl")):
+        done |= resumeState(path).done
+    return frozenset(done)
+
+
+def donePairs(root: Path) -> frozenset[tuple[str, int]]:
+    """Every (key, issue) pair already closed by any path. Raises ``OutcomeStoreError`` when unreadable."""
+
+    return closedPairs(loadOutcomes(root)) | receiptPairs(root)
+
+
+def failedAttempts(entries: Mapping[str, Mapping[str, Any]], key: str, issue: int) -> int:
+    entry = entries.get(pairKey(key, issue)) or {}
     return int(entry.get("attempts", 0)) if entry.get("outcome") in {"failed", "blocked"} else 0
 
 
-def writeOutcome(root: Path, key: str, entry: Mapping[str, Any]) -> str:
-    """Record one outcome for ``key``. Returns ``repeat`` when a terminal outcome already stands.
+def writeOutcome(root: Path, key: str, issue: int, entry: Mapping[str, Any]) -> str:
+    """Record one outcome for (key, issue). Returns ``repeat`` when a terminal outcome already stands.
 
     Terminal outcomes are never overwritten. A retryable outcome (``failed``,
     ``blocked``, ``stale-skip``) replaces the previous retryable one and counts attempts.
@@ -77,12 +107,15 @@ def writeOutcome(root: Path, key: str, entry: Mapping[str, Any]) -> str:
 
     path = storePath(root)
     entries = loadOutcomes(root)
-    previous = entries.get(key)
+    name = pairKey(key, issue)
+    previous = entries.get(name)
     if previous is not None and previous.get("outcome") in TERMINALOUTCOMES:
         return "repeat"
     stored = dict(entry)
-    stored["attempts"] = failedAttempts(entries, key) + 1 if stored.get("outcome") in {"failed", "blocked"} else 0
-    entries[key] = stored
+    stored["key"] = key
+    stored["issue"] = issue
+    stored["attempts"] = failedAttempts(entries, key, issue) + 1 if stored.get("outcome") in {"failed", "blocked"} else 0
+    entries[name] = stored
     document = {"schemaVersion": STORESCHEMA, "entries": {k: entries[k] for k in sorted(entries)}}
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
@@ -93,48 +126,3 @@ def writeOutcome(root: Path, key: str, entry: Mapping[str, Any]) -> str:
 
 def manifestEight(digest: str) -> str:
     return digest[:8]
-
-
-def closureMarker(key: str, digest: str) -> str:
-    return f"<!-- gaia-steward-closure:{key}:{manifestEight(digest)} -->"
-
-
-def payloadBlock(body: str | None) -> str | None:
-    """The candidate payload block of an upstream child body, scrubbed and bounded."""
-
-    if not isinstance(body, str):
-        return None
-    found = _PAYLOAD.search(body)
-    if found is None:
-        return None
-    return scrub(found.group(0))[:MAXPAYLOADCHARS]
-
-
-def closureComment(
-    *, key: str, ruleId: str, stateReason: str, title: str, labels: list[str], bodySha256: str,
-    evidence: list[Mapping[str, Any]], payload: str | None, digest: str, duplicateOf: int | None = None,
-) -> str:
-    """The closing comment: the proof, the original payload, and the marker a resumed driver looks for."""
-
-    lines = [
-        f"Closed by Steward issue hygiene rule `{ruleId}` (#2130). Reason: `{stateReason}`.",
-    ]
-    if duplicateOf is not None:
-        lines.append(f"Duplicate of #{duplicateOf}.")
-    lines.append("")
-    lines.append("Proof:")
-    for ref in evidence or [{"type": "policy", "ref": ruleId, "sha256": ""}]:
-        digestText = f" sha256:{str(ref.get('sha256', ''))[:12]}" if ref.get("sha256") else ""
-        lines.append(f"- {ref.get('type', 'evidence')}: {ref.get('ref', '')}{digestText}")
-    lines.extend([
-        "",
-        "Original payload (preserved for audit):",
-        f"- title: {scrub(title)[:200]}",
-        f"- labels: {', '.join(scrub(label) for label in labels) or 'none'}",
-        f"- bodySha256: {bodySha256}",
-        f"- semantic key: `{scrub(key)[:200]}`",
-    ])
-    lines.append("")
-    lines.append(payload if payload else "_No candidate payload block was present in the issue body._")
-    lines.extend(["", closureMarker(key, digest)])
-    return "\n".join(lines)

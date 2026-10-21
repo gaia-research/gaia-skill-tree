@@ -76,14 +76,12 @@ from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
     RETRYLIMIT,
-    STATEREASONS,
     OutcomeStoreError,
-    closedKeys,
-    closureComment,
+    donePairs,
     failedAttempts,
     loadOutcomes,
     manifestEight,
-    payloadBlock,
+    pairKey,
     writeOutcome,
 )
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
@@ -1539,10 +1537,11 @@ class FullRunner:
         return census if census.status.complete else None
 
     def _emitIssueClosures(self, runId: str, scan: ScanResult, policy: StewardPolicy) -> dict[str, Any]:
-        """Emit one ``forge.close_issue`` per proven, unclosed item, within the per-run cap.
+        """Emit one ``forge.close_issue`` per proven, unclosed plan, within the per-run cap.
 
-        Never zero-model and never networked: the action carries everything a driver
-        needs, and the driver's outcome is what makes the closure durable.
+        Each plan is lane B's closure plan (``closure.planClosures``), carried in the
+        debt. The action's params are that plan plus the receipt path, so a driver can
+        run ``closure.executeClosure`` on it. Zero-model and zero-network.
         """
 
         summary: dict[str, Any] = {"emitted": 0, "skipped": [], "deferred": [], "reason": None}
@@ -1553,6 +1552,7 @@ class FullRunner:
         if not ready:
             return summary
         try:
+            done = donePairs(self.root)
             entries = loadOutcomes(self.root)
         except OutcomeStoreError as exc:
             summary["reason"] = f"closure outcomes unreadable; emitting none: {exc}"
@@ -1561,9 +1561,8 @@ class FullRunner:
         if census is None:
             summary["reason"] = "issue census is not complete at closure time; emitting none"
             return summary
-        closed = closedKeys(entries)
         inFlight = {
-            action["params"].get("key")
+            (action["params"].get("key"), action["params"].get("issue"))
             for other in doc["runs"].values()
             for action in other["actions"]
             if action["type"] == CLOSEACTION and action["status"] == "pending"
@@ -1574,15 +1573,16 @@ class FullRunner:
         now = self._now()
         for debt in ready:
             digest = str(debt.observed_state.get("manifestDigest", ""))
-            for item in debt.observed_state.get("items", []):
-                key, number, snap = item["key"], item["issue"], item["snapshot"]
-                if key in closed:
+            for plan in debt.observed_state.get("plans", []):
+                key, number, expected = plan["key"], plan["issue"], plan["expectedSnapshot"]
+                pair = (key, number)
+                if pair in done:
                     summary["skipped"].append({"key": key, "reason": "already closed"})
                     continue
-                if key in inFlight:
+                if pair in inFlight:
                     summary["skipped"].append({"key": key, "reason": "closure already pending"})
                     continue
-                if failedAttempts(entries, key) >= RETRYLIMIT:
+                if failedAttempts(entries, key, number) >= RETRYLIMIT:
                     summary["skipped"].append({"key": key, "reason": "retry limit reached; needs a human"})
                     continue
                 row = rows.get(number)
@@ -1590,12 +1590,10 @@ class FullRunner:
                     "updatedAt": row.get("updatedAt"), "bodySha256": row.get("bodySha256"),
                     "labels": sorted(label for label in row.get("labels", []) if isinstance(label, str)),
                 }
-                if live is None or live != {"updatedAt": snap["updatedAt"], "bodySha256": snap["bodySha256"],
-                                            "labels": snap["labels"]}:
+                reconciled = {"updatedAt": expected.get("updatedAt"), "bodySha256": expected.get("bodySha256"),
+                              "labels": sorted(expected.get("labels") or [])}
+                if live != reconciled:
                     summary["skipped"].append({"key": key, "reason": "census snapshot moved; next scan re-observes"})
-                    continue
-                if item["stateReason"] not in STATEREASONS:
-                    summary["skipped"].append({"key": key, "reason": "no closure reason the proof allows"})
                     continue
                 stepId = f"close:{_hash12(key)}:{manifestEight(digest)}"
                 if any(a["stepId"] == stepId for a in run["actions"]):
@@ -1603,20 +1601,11 @@ class FullRunner:
                 if budget <= 0:
                     summary["deferred"].append({"key": key, "reason": "policy maxClosuresPerRun for this run is exhausted"})
                     continue
-                comment = closureComment(
-                    key=key, ruleId=item["ruleId"], stateReason=item["stateReason"],
-                    title=item.get("title", ""), labels=snap["labels"], bodySha256=snap["bodySha256"],
-                    evidence=item.get("evidence", []), payload=payloadBlock(row.get("body")),
-                    digest=digest, duplicateOf=item.get("duplicateOf"),
-                )
-                params = {
-                    "issue": number, "expectedSnapshot": dict(snap), "reason": item["stateReason"],
-                    "comment": comment, "key": key, "ruleId": item["ruleId"], "receiptPath": receiptPath,
-                    "manifestSha256": digest, "duplicateOf": item.get("duplicateOf"),
-                }
+                params = {**plan, "receiptPath": receiptPath, "manifestSha256": digest}
 
-                def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params, debtId=debt.id) -> None:
-                    self._addAction(record, stepId, CLOSEACTION, debtId, f"{key}@{manifestEight(digest)}", params, now)
+                def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params,
+                          debtId=debt.id, name=pairKey(key, number), eight=manifestEight(digest)) -> None:
+                    self._addAction(record, stepId, CLOSEACTION, debtId, f"{name}@{eight}", params, now)
 
                 self._mutateRun(runId, apply, message="steward full issue closure")
                 budget -= 1
@@ -1644,16 +1633,17 @@ class FullRunner:
         if result in ("failed", "blocked") and not (isinstance(outcome.get("failure"), str) and outcome["failure"].strip()):
             raise RecordRefused(f"a {result} outcome needs a failure reason")
         entry = {
-            "outcome": result, "issue": params["issue"], "ruleId": params["ruleId"],
+            "outcome": result, "ruleId": params["ruleId"],
             "manifestSha256": params["manifestSha256"], "runId": runId, "stepId": action["stepId"],
             "commentUrl": outcome.get("commentUrl"), "closedAt": outcome.get("closedAt"),
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
         }
+        key, issue = params["key"], params["issue"]
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
             try:
                 # Terminal outcomes are never overwritten: a repeat is a no-op, so exactly-once holds.
-                writeOutcome(self.root, params["key"], entry)
+                writeOutcome(self.root, key, issue, entry)
             except OutcomeStoreError as exc:
                 raise RecordRefused(str(exc)) from exc
 
@@ -2443,7 +2433,7 @@ class FullRunner:
             if action["type"] == CLOSEACTION and (action.get("outcome") or {}).get("outcome") in ("closed", "already-closed")
         )
         try:
-            closedTotal: int | None = len(closedKeys(loadOutcomes(self.root)))
+            closedTotal: int | None = len(donePairs(self.root))
         except OutcomeStoreError:
             closedTotal = None
         earlier = sorted(

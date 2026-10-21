@@ -40,9 +40,12 @@ def closureItems(rows: list[dict], start: int = 100) -> list[dict]:
     for index, row in enumerate(rows):
         items.append(makeItem(
             row["number"], f"upstream-candidate:o/r:c{index}", "A", ruleId="A1-child-curated",
-            evidence=[{"type": "registry", "ref": f"registry/named/o/c{index}.md", "sha256": "a" * 64}],
-            snapshot={"updatedAt": row["updatedAt"], "bodySha256": row["bodySha256"],
-                      "labels": sorted(row["labels"])},
+            evidence=[{"type": "registry", "ref": f"registry/named/o/c{index}.md", "sha256": "a" * 64,
+                       "detail": "exact candidate"}],
+            snapshot={"state": "open", "title": row["title"], "updatedAt": row["updatedAt"],
+                      "bodySha256": row["bodySha256"], "labels": sorted(row["labels"])},
+            original={"title": row["title"], "labels": sorted(row["labels"]), "bodySha256": row["bodySha256"],
+                      "candidate": {"suggestedId": f"c{index}"}},
         ))
     return items
 
@@ -81,7 +84,7 @@ def test_class_a_emits_at_most_ten_closures_then_waits_for_driver_outcomes(tmp_p
     assert params["expectedSnapshot"]["bodySha256"] == rows[0]["bodySha256"]
     assert params["receiptPath"].endswith(f"{view.runId}.jsonl")
     assert "<!-- gaia-steward-closure:" in params["comment"]
-    assert "gaia-upstream-payload" in params["comment"]  # the original payload travels with the closure
+    assert params["original"]["bodySha256"] == rows[0]["bodySha256"]  # the original payload travels with the plan
     assert all(action["type"] != "agent.build" for action in view.actions)
 
 
@@ -156,10 +159,11 @@ def test_invalid_outcomes_are_refused(tmp_path, monkeypatch, body) -> None:
 def test_failed_and_stale_outcomes_are_retryable_and_bounded(tmp_path) -> None:
     root = tmp_path
     for attempt in range(3):
-        assert writeOutcome(root, "key:x", {"outcome": "failed", "issue": 1, "failure": "403"}) == "recorded"
-    assert loadOutcomes(root)["key:x"]["attempts"] == 3
-    assert writeOutcome(root, "key:x", {"outcome": "closed", "issue": 1, "commentUrl": "u"}) == "recorded"
-    assert writeOutcome(root, "key:x", {"outcome": "failed", "issue": 1, "failure": "late"}) == "repeat"
+        assert writeOutcome(root, "key:x", 1, {"outcome": "failed", "failure": "403"}) == "recorded"
+    assert loadOutcomes(root)["key:x#1"]["attempts"] == 3
+    assert writeOutcome(root, "key:x", 1, {"outcome": "closed", "commentUrl": "u"}) == "recorded"
+    assert writeOutcome(root, "key:x", 1, {"outcome": "failed", "failure": "late"}) == "repeat"
+    assert writeOutcome(root, "key:x", 2, {"outcome": "closed", "commentUrl": "u"}) == "recorded"  # pair, not key
 
 
 def test_a_malformed_outcome_store_is_an_error_never_an_empty_store(tmp_path) -> None:
