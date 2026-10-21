@@ -99,6 +99,26 @@ jobs:
 
           echo "Umbrella #${UMBRELLA_NUMBER} was rejected. Closing open child intakes."
 
+          # Batch rows (payloadVersion 2) are never removed. Record which rows this
+          # rejection covers so the audit trail names them, even when no child exists.
+          ROW_IDS=$(printf '%s' "$UMBRELLA_BODY" | python3 -c "
+          import re, sys
+          match = re.search(r'<!-- gaia-upstream-payload\n(.*?)\n-->', sys.stdin.read(), re.S)
+          rows = []
+          if match:
+              import json
+              try:
+                  rows = [row['id'] for row in json.loads(match.group(1)).get('candidates', [])]
+              except (ValueError, AttributeError):
+                  rows = []
+          print(', '.join(f'\`cand:{row}\`' for row in rows))
+          " 2>/dev/null || true)
+          if [ -n "$ROW_IDS" ]; then
+            gh issue comment "$UMBRELLA_NUMBER" \
+              --body "Umbrella rejected. Batch rows covered by this rejection (retained, not removed): ${ROW_IDS}" \
+              || echo "::warning::Could not post row list on #${UMBRELLA_NUMBER}"
+          fi
+
           # Find open children referencing this umbrella
           OPEN_CHILDREN=$(gh issue list \
             --label "upstream:child" \
