@@ -1,7 +1,7 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-landing-target",
-  "status": "open",
+  "status": "decided",
   "decision": "Authorize Class A landing: which integration branch may Steward open repair PRs against, and may the scheduled workflow push steward/a/* branches and the steward/ledger ref?",
   "whyItMatters": "Class A repairs are proven in a throwaway checkout and stop there. Landing needs a target branch and contents/pull-requests write permission for the Steward workflow, which is a security-policy expansion only you can grant.",
   "evidence": [
@@ -16,5 +16,6 @@
     ".github/workflows/steward.yml",
     "src/gaia_cli/steward/landing.py",
     "founder/handovers/2026-10-20-steward-full-architecture.md"
-  ]
+  ],
+  "decidedBy": "founder authorization 2026-10-21"
 }

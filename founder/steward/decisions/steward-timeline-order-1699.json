@@ -1,7 +1,7 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-timeline-order-1699",
-  "status": "open",
+  "status": "decided",
   "decision": "Correct the three named skills whose hand-authored #1699 demote event (2026-09-05) sits ahead of older events, or rule that order is not significant?",
   "whyItMatters": "Timeline arrays are canonical provenance and may not be hand-edited; the CLI auto-sorts backfilled events, so these three were written outside it.",
   "evidence": [
@@ -13,5 +13,6 @@
   "unblocks": "Retiring three timeline_causality_drift debts.",
   "links": [
     "src/gaia_cli/steward/sensors_contracts.py"
-  ]
+  ],
+  "decidedBy": "founder authorization 2026-10-21"
 }

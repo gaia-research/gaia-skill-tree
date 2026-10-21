@@ -1,7 +1,7 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-class-b-route-unused-import",
-  "status": "open",
+  "status": "decided",
   "decision": "Add a Class B dispatch route `unused-import-cleanup` for debt kind unused_import, so the lane can hand one file's unused imports to a bounded builder and an independent verifier?",
   "whyItMatters": "Of the 22 newly registered Class B kinds, none has a dispatch rule yet: their debt is observed and reported but cannot reach the lane. unused_import is the narrowest of them (49 open findings, one file per subject, no behaviour change when the import is truly unused), so it is the safest first route to prove the full A/B loop on live debt.",
   "evidence": [
@@ -17,5 +17,6 @@
     "founder/steward/POLICY.yaml",
     "founder/steward/routines/README.md",
     "src/gaia_cli/steward/sensors_code.py"
-  ]
+  ],
+  "decidedBy": "founder authorization 2026-10-21"
 }

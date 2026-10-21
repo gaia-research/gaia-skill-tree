@@ -1,7 +1,7 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-dev-mutation-gates",
-  "status": "open",
+  "status": "decided",
   "decision": "Should gaia dev provenance, evidence-seed, assess and prefill require Verifier authorization like the other mutating dev verbs?",
   "whyItMatters": "Who may write registry-adjacent state is authorization policy. The mutation-boundary sensor found these verbs write files with no require_operator gate.",
   "evidence": [
@@ -17,5 +17,6 @@
     "src/gaia_cli/commands/dev/__init__.py",
     "src/gaia_cli/impl.py",
     "src/gaia_cli/steward/sensors_security.py"
-  ]
+  ],
+  "decidedBy": "founder authorization 2026-10-21"
 }

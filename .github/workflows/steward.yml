@@ -214,16 +214,16 @@ jobs:
             .gaia/steward/receipts/
             .gaia/steward/full/
 
-  # Persistent ledger and Class A landing. Off until the founder sets the
-  # repository variables STEWARD_LANDING_ENABLED=true and
-  # STEWARD_INTEGRATION_BRANCH=dev/<name> (decision steward-landing-target).
+  # Persistent ledger and Class A landing. On by default (founder authorization
+  # 2026-10-21, decision steward-landing-target); STEWARD_LANDING_ENABLED=false stops it,
+  # STEWARD_INTEGRATION_BRANCH retargets it (default dev/steward-integration).
   # It may write only refs/heads/steward/ledger and steward/a/* branches; the
   # runner refuses main, master and the default branch, never force-pushes and
   # never merges. It dispatches no agents and opens no pull requests: those
   # remain pending actions for a driver.
   full-land:
     name: Full pipeline (ledger and Class A landing)
-    if: vars.STEWARD_LANDING_ENABLED == 'true' && vars.STEWARD_INTEGRATION_BRANCH != ''
+    if: vars.STEWARD_LANDING_ENABLED != 'false'
     needs: full-observe
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -250,7 +250,7 @@ jobs:
 
       - name: Run the pipeline without agents
         env:
-          INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH }}
+          INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
         run: |
           gaia steward full run --trigger scheduled --no-agents --ledger git \
             --integration-branch "$INTEGRATION_BRANCH" --push --json > steward-full-land.json
