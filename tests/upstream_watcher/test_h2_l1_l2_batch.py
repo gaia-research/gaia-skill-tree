@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import pytest
 
-from scripts.upstream_watcher import batch
 from scripts.upstream_watcher.batch import plan_suite, process_suite, run_batch, write_umbrella
 from scripts.upstream_watcher.live import GhError, read_live
 from upstream_fakes import FakeGh, index_from_entries

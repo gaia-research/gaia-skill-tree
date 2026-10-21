@@ -9,11 +9,9 @@ the issue merely contained upstream:approved, meaning adding any later label
 import json
 import os
 import pathlib
-import re
 import subprocess
 import sys
 import yaml
-import pytest
 
 WORKFLOW_PATH = (
     pathlib.Path(__file__).resolve().parents[1]

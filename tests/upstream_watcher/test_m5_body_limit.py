@@ -11,17 +11,14 @@ from __future__ import annotations
 
 import json
 
-import pytest
 
 from scripts.upstream_watcher import records
 from scripts.upstream_watcher.batch import (
     BODY_LIMIT,
     escalate_candidate,
     load_rows,
-    plan_suite,
     run_batch,
 )
-from scripts.upstream_watcher.live import read_live
 from upstream_fakes import FakeGh, index_from_entries
 
 INDEX = index_from_entries([])

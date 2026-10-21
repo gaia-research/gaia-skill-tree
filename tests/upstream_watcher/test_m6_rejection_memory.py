@@ -9,12 +9,9 @@ on that read is unknown evidence (GhError), so the run writes nothing.
 from __future__ import annotations
 
 import datetime as dt
-import json
-import subprocess
 
 import pytest
 
-from scripts.upstream_watcher import batch
 from scripts.upstream_watcher.batch import plan_suite
 from scripts.upstream_watcher.live import GhError, LiveGh, read_live
 from upstream_fakes import FakeGh, RestGhRunner, index_from_entries

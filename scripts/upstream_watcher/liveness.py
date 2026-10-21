@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check, parse_owner_repo
+from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check
 from scripts.upstream_watcher.live import UnknownEvidenceError
 
 # ---------------------------------------------------------------------------
