@@ -1,0 +1,15 @@
+Gaia Steward full
+Run                  run-20261020T210328Z-93e12fdc  (mode full)
+Status               completed  (phase done)
+Ledger               git-ref  shared
+Observed             38 observations, 0 open debt, coverage unknown 0, not evaluated 3, partially covered 0
+Triage               A 0  B 0  B-report-only 0  C 0
+Coverage             30 registered, 27 executed, 0 unknown, 3 not evaluated, 0 partially covered
+Class A              ok  0 landing outcome(s)
+Class B              blocked  landing target not configured
+Desk                 0 decision(s), 4 operation(s)
+  operation [not_evaluated] ci-health
+  operation [not_evaluated] dependency-advisory
+  operation [not_evaluated] test-history
+  operation [stale_schedule] scheduled run
+Next                 nothing further for this run

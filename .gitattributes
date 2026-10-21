@@ -15,3 +15,5 @@ docs/okf/index.json text eol=lf
 
 # CLI retrieval artifact — machine-generated vectors plus semantic manifest.
 registry/embeddings.json linguist-generated=true
+
+.github/workflows/*.lock.yml linguist-generated=true

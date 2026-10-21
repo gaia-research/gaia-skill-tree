@@ -1,0 +1,193 @@
+{
+  "asOf": "2026-10-20T21:18:24.133050Z",
+  "decisions": [
+    {
+      "alternative": "Keep all new Class B kinds report-only and work them through ordinary issues until a quarter of detector precision data exists.",
+      "debtIds": [],
+      "decision": "Add a Class B dispatch route `unused-import-cleanup` for debt kind unused_import, so the lane can hand one file's unused imports to a bounded builder and an independent verifier?",
+      "decisionId": "steward-class-b-route-unused-import",
+      "evidence": [
+        "The dead-code detector reports only module-level imports with no in-module read; it skips __init__.py re-export surfaces, star imports, guarded (try/TYPE_CHECKING) imports and noqa-marked lines, honours explicit re-exports, and flags plain `import x` as sideEffectPossible for the builder to keep.",
+        "A route only renders a packet; the builder's envelope would be the one source file, the proof contract would be `python -m pytest` on the importing package plus `python -m compileall` of the file, and the verifier is a different agent.",
+        "Lane limits stay maxInFlight 1, maxAttempts 2, cooldownSeconds 3600, maxDispatchesPerRun 1, runtime modelCalls 0.",
+        "No route is added by this PR; POLICY.yaml is unchanged."
+      ],
+      "links": [
+        "founder/steward/POLICY.yaml",
+        "founder/steward/routines/README.md",
+        "src/gaia_cli/steward/sensors_code.py"
+      ],
+      "priority": 20,
+      "recommended": "Approve the route with a routine guide founder/steward/routines/unused-import-cleanup.md, writable path limited to the subject file, and the protected-path floor unchanged.",
+      "source": "decision-record",
+      "unblocks": "Live Class B dispatch for dead-code findings (routine 1) through /gaia-steward-full.",
+      "whyItMatters": "Of the 22 newly registered Class B kinds, none has a dispatch rule yet: their debt is observed and reported but cannot reach the lane. unused_import is the narrowest of them (49 open findings, one file per subject, no behaviour change when the import is truly unused), so it is the safest first route to prove the full A/B loop on live debt."
+    },
+    {
+      "alternative": "Keep maxInFlight 1 until a quarter of measured closure and no-op rates exists.",
+      "debtIds": [],
+      "decision": "Amend the Class B lane throughput: raise routing.lane.maxInFlight from 1 to 2, keeping maxDispatchesPerRun 1, maxAttempts 2 and cooldownSeconds 3600?",
+      "decisionId": "steward-class-b-throughput",
+      "evidence": [
+        "Code pins maxDispatchesPerRun to exactly 1 and caps maxInFlight at 4; policy can only narrow.",
+        "The shared ledger serializes dispatch through a fast-forward-only compare-and-swap; concurrency tests show exactly one lease winner and no duplicate work.",
+        "Independent verification is enforced: a verifier verdict from the builder's own agent id is refused."
+      ],
+      "links": [
+        "founder/steward/POLICY.yaml",
+        "src/gaia_cli/steward/policy.py"
+      ],
+      "priority": 20,
+      "recommended": "Raise maxInFlight to 2 after the first ten /gaia-steward-full runs show zero verifier overturns of accepted work.",
+      "source": "decision-record",
+      "unblocks": "Two concurrent bounded Class B repairs (builder plus independent verifier each).",
+      "whyItMatters": "With maxInFlight 1 the lane advances one debt per verified review, so a backlog drains only as fast as a person closes each item. Raising it trades review load for throughput."
+    },
+    {
+      "alternative": "Keep all four ungated and record each as an intentional exception.",
+      "debtIds": [],
+      "decision": "Should gaia dev provenance, evidence-seed, assess and prefill require Verifier authorization like the other mutating dev verbs?",
+      "decisionId": "steward-dev-mutation-gates",
+      "evidence": [
+        "dev provenance writes the provenance ledger via os.makedirs + write_text with no require_operator (confidence 0.7).",
+        "dev evidence-seed writes evidence/seeds/<skill>/<type>.jsonl.",
+        "dev assess and prefill write advisory receipts via _atomic_write_json; these may be intentionally ungated.",
+        "The legacy MUTATING_DEV_COMMANDS in impl.py lacks six verbs the live set gates (calibrate-trust-magnitude, embed, freeze, fuse, ratify, sync-upstream)."
+      ],
+      "links": [
+        "src/gaia_cli/commands/dev/__init__.py",
+        "src/gaia_cli/impl.py",
+        "src/gaia_cli/steward/sensors_security.py"
+      ],
+      "priority": 20,
+      "recommended": "Gate provenance and evidence-seed; keep assess/prefill ungated as advisory receipts and record that as intentional.",
+      "source": "decision-record",
+      "unblocks": "Closing the ungated_mutation debt either by a gate change (Class B proposal) or by recorded exemptions.",
+      "whyItMatters": "Who may write registry-adjacent state is authorization policy. The mutation-boundary sensor found these verbs write files with no require_operator gate."
+    },
+    {
+      "alternative": "Keep landing off: scheduled runs keep producing receipts and patches only, and a person applies Class A repairs by hand.",
+      "debtIds": [],
+      "decision": "Authorize Class A landing: which integration branch may Steward open repair PRs against, and may the scheduled workflow push steward/a/* branches and the steward/ledger ref?",
+      "decisionId": "steward-landing-target",
+      "evidence": [
+        "Landing refuses main/master/default branch in code; a target is configured only by GAIA_STEWARD_INTEGRATION_BRANCH or --integration-branch.",
+        "Without a target every Class A debt is recorded blocked: landing target not configured.",
+        "The shared ledger needs an unprotected refs/heads/steward/ledger that the Steward identity can fast-forward (never force)."
+      ],
+      "links": [
+        ".github/workflows/steward.yml",
+        "src/gaia_cli/steward/landing.py",
+        "founder/handovers/2026-10-20-steward-full-architecture.md"
+      ],
+      "priority": 20,
+      "recommended": "Set repository variable STEWARD_INTEGRATION_BRANCH to a long-lived steward integration branch, set STEWARD_LANDING_ENABLED=true, and leave steward/ledger and steward/a/* unprotected.",
+      "source": "decision-record",
+      "unblocks": "Unattended Class A detect-repair-verify-PR without founder involvement; shared ledger for scheduled runs.",
+      "whyItMatters": "Class A repairs are proven in a throwaway checkout and stop there. Landing needs a target branch and contents/pull-requests write permission for the Steward workflow, which is a security-policy expansion only you can grant."
+    },
+    {
+      "alternative": "Rule that array order is display-only and exempt hand-authored demotes from the ordering check.",
+      "debtIds": [],
+      "decision": "Correct the three named skills whose hand-authored #1699 demote event (2026-09-05) sits ahead of older events, or rule that order is not significant?",
+      "decisionId": "steward-timeline-order-1699",
+      "evidence": [
+        "gaiabot/repo-docs-before-pr, google-deepmind/workflow-skill-creator, xquik-dev/hermes-tweet: event 0 at 2026-09-05T00:00:00Z precedes event 1 in June 2026.",
+        "All 3689 other events across 398 named skills are chronological."
+      ],
+      "links": [
+        "src/gaia_cli/steward/sensors_contracts.py"
+      ],
+      "priority": 20,
+      "recommended": "Authorize a CLI-driven re-sort (no new events, no timestamp changes) on a review/meta branch.",
+      "source": "decision-record",
+      "unblocks": "Retiring three timeline_causality_drift debts.",
+      "whyItMatters": "Timeline arrays are canonical provenance and may not be hand-edited; the CLI auto-sorts backfilled events, so these three were written outside it."
+    },
+    {
+      "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
+      "debtIds": [
+        "debt:trust_stamp_stale:addy-osmani-agent-skills:32227faac781ea76",
+        "debt:trust_stamp_stale:anthropics-brand-guidelines:454534a009158ce2",
+        "debt:trust_stamp_stale:aplaceforallmystuff-log-to-daily:56eb41aef8d7e24f",
+        "debt:trust_stamp_stale:ayghri-i-have-adhd:e25ca806132d9199",
+        "debt:trust_stamp_stale:dietrichgebert-ponytail:8322967a69e8bfad",
+        "debt:trust_stamp_stale:favorchurch-speak-like-favor:0980c5b3057d2e61",
+        "debt:trust_stamp_stale:firecrawl-firecrawl-skills:cdf720aa0e1c09bb",
+        "debt:trust_stamp_stale:garrytan-gstack:7ab449246d9ccc16",
+        "debt:trust_stamp_stale:gsd-build-get-shit-done:c19cb1b0bc1dc867",
+        "debt:trust_stamp_stale:gsd-build-gsd-verify-work:7fa68b3fa17c3318",
+        "debt:trust_stamp_stale:heygen-com-hyperframes:7de0c77baaecda54",
+        "debt:trust_stamp_stale:leonxlnx-taste-skill:da5338a7133cfe2c",
+        "debt:trust_stamp_stale:leonxlnx-unlazy:fce3d2bea45b6bbf",
+        "debt:trust_stamp_stale:mattpocock-misc:2b158d43b32c7dc9",
+        "debt:trust_stamp_stale:mattpocock-skills:54a5385842b1acfb",
+        "debt:trust_stamp_stale:mvanhorn-last30days:82cdd6cde765a3e6",
+        "debt:trust_stamp_stale:nextlevelbuilder-ui-ux-pro-max:02cca773ebcfd2c9",
+        "debt:trust_stamp_stale:obra-superpowers:94400eaabf63c98e",
+        "debt:trust_stamp_stale:pbakaus-impeccable:97bf6eea6b4f4bba",
+        "debt:trust_stamp_stale:ruvnet-ruflo:386f6e3c31a1c946",
+        "debt:trust_stamp_stale:safishamsi-graphify:83b3205a3747669b",
+        "debt:trust_stamp_stale:vercel-labs-vercel-react-best-practices:d6eaa85bf0657184"
+      ],
+      "decision": "Decide the Trust Magnitude stamp refresh policy for stale stored stamps.",
+      "decisionId": "decision-bd6c25b50dfe8d0d3b4e",
+      "evidence": [
+        "addy-osmani/agent-skills - delta: 1.42; tolerance: 0.02; trustMagnitude: 176.04",
+        "anthropics/brand-guidelines - delta: 0.55; tolerance: 0.02; trustMagnitude: 184.87",
+        "aplaceforallmystuff/log-to-daily - delta: 1.16; tolerance: 0.02; trustMagnitude: 22.67",
+        "ayghri/i-have-adhd - delta: 10.57; tolerance: 0.02; trustMagnitude: 130.23",
+        "dietrichgebert/ponytail - delta: 3.46; tolerance: 0.02; trustMagnitude: 225.42",
+        "favorchurch/speak-like-favor - delta: 1.28; tolerance: 0.02; trustMagnitude: 6.28",
+        "firecrawl/firecrawl-skills - delta: 2.17; tolerance: 0.02; trustMagnitude: 72.86",
+        "garrytan/gstack - delta: 0.45; tolerance: 0.02; trustMagnitude: 356.11",
+        "gsd-build/get-shit-done - delta: 0.05; tolerance: 0.02; trustMagnitude: 169.31",
+        "gsd-build/gsd-verify-work - delta: 2.66; tolerance: 0.02; trustMagnitude: 52.66",
+        "heygen-com/hyperframes - delta: 3.29; tolerance: 0.02; trustMagnitude: 166.92",
+        "leonxlnx/taste-skill - delta: 2.25; tolerance: 0.02; trustMagnitude: 174.68",
+        "leonxlnx/unlazy - delta: 25.65; tolerance: 0.02; trustMagnitude: 91.46",
+        "mattpocock/misc - delta: 1.16; tolerance: 0.02; trustMagnitude: 200.29",
+        "mattpocock/skills - delta: 1.77; tolerance: 0.02; trustMagnitude: 374.99",
+        "mvanhorn/last30days - delta: 0.6; tolerance: 0.02; trustMagnitude: 205.75",
+        "nextlevelbuilder/ui-ux-pro-max - delta: 1.01; tolerance: 0.02; trustMagnitude: 227.51",
+        "obra/superpowers - delta: 0.71; tolerance: 0.02; trustMagnitude: 221.52",
+        "pbakaus/impeccable - delta: 1.93; tolerance: 0.02; trustMagnitude: 171.27",
+        "ruvnet/ruflo - delta: 0.75; tolerance: 0.02; trustMagnitude: 175.34",
+        "safishamsi/graphify - delta: 1.26; tolerance: 0.02; trustMagnitude: 318.14",
+        "vercel-labs/vercel-react-best-practices - delta: 0.53; tolerance: 0.02; trustMagnitude: 163.19"
+      ],
+      "links": [
+        "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
+      "priority": 30,
+      "recommended": "Choose one refresh mechanism in #1642 (for example a gated `gaia dev` command that restamps inside a reviewed PR) and record it as a decision.",
+      "source": "class-c-debt",
+      "unblocks": "22 open Class C debt item(s) of kind trust_stamp_stale; Steward takes no action until you rule.",
+      "whyItMatters": "Stored trustMagnitude stamps disagree with the computed effective value, so displayed trust and computed trust differ until a refresh policy exists. Steward measures this and never edits stamps."
+    }
+  ],
+  "operations": [
+    {
+      "detail": "not evaluated: no ci-runs.json supplied; a driver must collect it",
+      "kind": "not_evaluated",
+      "subject": "ci-health"
+    },
+    {
+      "detail": "not evaluated: no advisories.json supplied; a driver must collect it",
+      "kind": "not_evaluated",
+      "subject": "dependency-advisory"
+    },
+    {
+      "detail": "not evaluated: no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+      "kind": "not_evaluated",
+      "subject": "test-history"
+    },
+    {
+      "detail": "no scheduled run has ever been recorded.",
+      "kind": "stale_schedule",
+      "subject": "scheduled run"
+    }
+  ],
+  "quiet": false,
+  "schemaVersion": "steward-desk-v1"
+}

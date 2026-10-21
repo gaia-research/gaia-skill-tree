@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-class-b-route-unused-import",
+  "status": "decided",
+  "decision": "Add a Class B dispatch route `unused-import-cleanup` for debt kind unused_import, so the lane can hand one file's unused imports to a bounded builder and an independent verifier?",
+  "whyItMatters": "Of the 22 newly registered Class B kinds, none has a dispatch rule yet: their debt is observed and reported but cannot reach the lane. unused_import is the narrowest of them (49 open findings, one file per subject, no behaviour change when the import is truly unused), so it is the safest first route to prove the full A/B loop on live debt.",
+  "evidence": [
+    "The dead-code detector reports only module-level imports with no in-module read; it skips __init__.py re-export surfaces, star imports, guarded (try/TYPE_CHECKING) imports and noqa-marked lines, honours explicit re-exports, and flags plain `import x` as sideEffectPossible for the builder to keep.",
+    "A route only renders a packet; the builder's envelope would be the one source file, the proof contract would be `python -m pytest` on the importing package plus `python -m compileall` of the file, and the verifier is a different agent.",
+    "Lane limits stay maxInFlight 1, maxAttempts 2, cooldownSeconds 3600, maxDispatchesPerRun 1, runtime modelCalls 0.",
+    "No route is added by this PR; POLICY.yaml is unchanged."
+  ],
+  "recommended": "Approve the route with a routine guide founder/steward/routines/unused-import-cleanup.md, writable path limited to the subject file, and the protected-path floor unchanged.",
+  "alternative": "Keep all new Class B kinds report-only and work them through ordinary issues until a quarter of detector precision data exists.",
+  "unblocks": "Live Class B dispatch for dead-code findings (routine 1) through /gaia-steward-full.",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "founder/steward/routines/README.md",
+    "src/gaia_cli/steward/sensors_code.py"
+  ]
+}

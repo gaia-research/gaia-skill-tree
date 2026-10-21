@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-dev-mutation-gates",
+  "status": "decided",
+  "decision": "Should gaia dev provenance, evidence-seed, assess and prefill require Verifier authorization like the other mutating dev verbs?",
+  "whyItMatters": "Who may write registry-adjacent state is authorization policy. The mutation-boundary sensor found these verbs write files with no require_operator gate.",
+  "evidence": [
+    "dev provenance writes the provenance ledger via os.makedirs + write_text with no require_operator (confidence 0.7).",
+    "dev evidence-seed writes evidence/seeds/<skill>/<type>.jsonl.",
+    "dev assess and prefill write advisory receipts via _atomic_write_json; these may be intentionally ungated.",
+    "The legacy MUTATING_DEV_COMMANDS in impl.py lacks six verbs the live set gates (calibrate-trust-magnitude, embed, freeze, fuse, ratify, sync-upstream)."
+  ],
+  "recommended": "Gate provenance and evidence-seed; keep assess/prefill ungated as advisory receipts and record that as intentional.",
+  "alternative": "Keep all four ungated and record each as an intentional exception.",
+  "unblocks": "Closing the ungated_mutation debt either by a gate change (Class B proposal) or by recorded exemptions.",
+  "links": [
+    "src/gaia_cli/commands/dev/__init__.py",
+    "src/gaia_cli/impl.py",
+    "src/gaia_cli/steward/sensors_security.py"
+  ]
+}

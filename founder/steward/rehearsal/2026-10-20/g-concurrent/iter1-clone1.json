@@ -1,0 +1,19 @@
+{
+  "actions": [],
+  "coverageUnknown": [],
+  "holder": "run-20261020T213348Z-93bf9b86",
+  "holderPhase": "reconcile",
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "mode": "full",
+  "nextAction": "run run-20261020T213348Z-93bf9b86 (phase reconcile) holds the run lease until 2026-10-20T22:03:48.968784Z; nothing was started. Watch it with `gaia steward full status`, or resume it with `gaia steward full run --resume run-20261020T213348Z-93bf9b86` if it is yours.",
+  "notEvaluated": [],
+  "phase": null,
+  "runId": null,
+  "schemaVersion": "steward-full-run-view-v1",
+  "status": "observing-existing",
+  "summary": {},
+  "unresolvedWork": []
+}

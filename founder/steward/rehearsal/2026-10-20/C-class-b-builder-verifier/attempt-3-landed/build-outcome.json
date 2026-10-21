@@ -1,0 +1,9 @@
+{
+ "agentId": "builder-a622b1b5033b5f08c",
+ "model": "haiku",
+ "effort": "medium",
+ "noChange": false,
+ "diffPath": ".gaia/steward/full/run-20261020T213620Z-5bb2bc34/build-65e3ce0b5b00.diff",
+ "proofPath": ".gaia/steward/full/run-20261020T213620Z-5bb2bc34/build-65e3ce0b5b00.proof.json",
+ "summary": "Removed the phantom 'ghostverb' entry from PUBLIC_COMMANDS in src/gaia_cli/impl.py; reproduction inverted to exit 0; 137 targeted tests pass; rendered help unchanged (metavar suppressed)."
+}

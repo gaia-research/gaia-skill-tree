@@ -24,6 +24,14 @@ from gaia_cli.steward.sensors import (
     UpstreamWatcherSensor,
     default_sensors,
 )
+from gaia_cli.steward.primitives import SensorUnavailable
+from tests.steward.sensor_fixtures import (
+    FIXTURE_EVIDENCE_META,
+    FIXTURE_EVIDENCE_TYPES,
+    MINIMAL_GAIA_DOMAINS,
+    TRUST_MAGNITUDE_STUB,
+    track_all,
+)
 
 
 NOW = "2026-08-09T00:00:00Z"
@@ -59,7 +67,7 @@ def _named_skill_with_evidence(skill_id: str, evidence: list[dict[str, object]])
     return f"---\n{yaml.dump(fm, sort_keys=False)}---\n\n## Overview\n"
 
 
-def _make_clean_repo(root: Path) -> None:
+def _make_clean_repo(root: Path, *, named_fixture: bool = True) -> None:
     schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -79,11 +87,8 @@ def _make_clean_repo(root: Path) -> None:
         "levels": {"order": ["0★", "1★", "2★", "3★", "4★", "5★", "6★"], "labels": {
             "0★": "Seedling", "1★": "Sprout", "2★": "Established", "3★": "Deepened", "4★": "Advanced", "5★": "Apex", "6★": "Transcendent"
         }},
-        "evidenceTypes": [
-            "github-stars-own", "repo-own", "social-signal", "benchmark-result",
-            "peer-review", "arxiv", "self-attestation", "fusion-recipe",
-            "verifier-attestation", "proxy-containment"
-        ]
+        "evidenceTypes": list(FIXTURE_EVIDENCE_TYPES),
+        **FIXTURE_EVIDENCE_META,
     })
     _write(root / "registry/schema/meta.json", meta_text)
     _write(root / "src/gaia_cli/data/registry/schema/meta.json", meta_text)
@@ -92,7 +97,12 @@ def _make_clean_repo(root: Path) -> None:
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
     _write(root / "docs/graph/gaia.json", json.dumps({"nodes": [], "edges": []}))
-    _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {}}))
+    _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {"fixture": ["fixture/example"]}}))
+    # Domains every legacy sensor requires: a missing domain is blindness
+    # (coverage unknown), so "clean" must mean each sensor actually looked.
+    _write(root / "src/gaia_cli/trustMagnitude.py", TRUST_MAGNITUDE_STUB)
+    if named_fixture:
+        _write(root / "registry/named/fixture/example.md", MINIMAL_GAIA_DOMAINS["registry/named/fixture/example.md"])
     _write(root / "docs/api/v1/health.json", json.dumps({"status": "ok"}))
     catalog_schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -224,6 +234,8 @@ priority:
     _write(root / "docs/agents/curation-authority-map.md", "# Curation authority map\n")
     for surface in TRUST_SURFACES:
         _write(root / surface, "See [the curation authority map](curation-authority-map.md).\n")
+    # Sensors take their inventory from the index, so the fixture must be tracked.
+    track_all(root)
 
 
 def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
@@ -808,6 +820,7 @@ def test_trust_calibration_drift_sensor_reports_stale_levels(tmp_path: Path) -> 
     _write(tmp_path / "registry/named/owner/stale.md", "---\n" +
            "id: owner/stale\nname: Stale\nstatus: named\nlevel: 5★\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     observations = TrustCalibrationDriftSensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     observation = observations[0]
@@ -822,6 +835,7 @@ def test_trust_calibration_drift_sensor_ignores_explicitly_frozen_skills(tmp_pat
            "id: owner/frozen\nname: Frozen\nstatus: named\nlevel: 5★\n" +
            "installable: false\ntimeline:\n  - action: upstream_deprecated\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
 
 
@@ -829,6 +843,7 @@ def test_trust_calibration_drift_sensor_does_not_treat_noninstallable_as_frozen(
     _write(tmp_path / "registry/named/owner/reviewable.md", "---\n" +
            "id: owner/reviewable\nname: Reviewable\nstatus: named\nlevel: 5★\n" +
            "installable: false\nevidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 10000\n---\n")
+    track_all(tmp_path)
     assert [o.subject.id for o in TrustCalibrationDriftSensor().scan(tmp_path, NOW)] == ["owner/reviewable"]
 
 
@@ -837,6 +852,7 @@ def test_trust_calibration_drift_sensor_ignores_aligned_levels(tmp_path: Path) -
            "id: owner/aligned\nname: Aligned\nstatus: named\nlevel: 5★\n" +
            "evidence:\n  - type: github-stars-own\n    source: https://github.com/owner/repo\n    stars: 1000000\n" +
            "  - type: peer-review\n    source: https://example.com/review\n    reviewers: 2\n    grade: A\n  - type: social-signal\n    source: https://youtube.com/watch?v=x\n    views: 100000\n---\n")
+    track_all(tmp_path)
     assert TrustCalibrationDriftSensor().scan(tmp_path, NOW) == []
 
 
@@ -1188,11 +1204,26 @@ def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
     assert len(matching) == 1
 
 
-def test_default_sensor_fleet_has_fourteen_unique_ids_and_repository_hygiene_once() -> None:
+def test_default_sensor_fleet_has_thirty_unique_ids_and_repository_hygiene_once() -> None:
     sensors = default_sensors()
-    assert len(sensors) == 14
-    assert len({sensor.id for sensor in sensors}) == 14
+    assert len(sensors) == 30
+    assert len({sensor.id for sensor in sensors}) == 30
     assert sum(isinstance(sensor, RepositoryHygieneSensor) for sensor in sensors) == 1
+
+
+def test_every_sensor_declares_debt_kinds_and_routines() -> None:
+    from gaia_cli.steward.policy import StewardPolicy
+    from gaia_cli.steward.sensors import registered_debt_kinds
+
+    policy = StewardPolicy.load(Path(__file__).resolve().parents[2])
+    for sensor in default_sensors():
+        assert sensor.debt_kinds, sensor.id
+        assert sensor.routine_ids and all(1 <= n <= 17 for n in sensor.routine_ids), sensor.id
+        for kind in sensor.debt_kinds:
+            policy.authority_for(kind)
+            policy.priority_for(kind, 1.0)
+    # Policy may not classify a kind no registered sensor can emit.
+    assert set(policy.authority) == set(registered_debt_kinds())
 
 
 def test_knowledge_contradiction_requires_active_semantic_inputs(tmp_path: Path) -> None:
@@ -1485,7 +1516,7 @@ def test_default_sensors_contains_evidence_link_health_sensor() -> None:
 
 
 def test_evidence_link_health_reports_healthy_on_valid_evidence(tmp_path: Path) -> None:
-    _make_clean_repo(tmp_path)
+    _make_clean_repo(tmp_path, named_fixture=False)
     _write(tmp_path / "docs/evidence.json", "{}")
     content = _named_skill_with_evidence(
         "author/tool",
@@ -1511,6 +1542,7 @@ def test_evidence_link_health_reports_healthy_on_valid_evidence(tmp_path: Path) 
     )
     _write(tmp_path / "registry/named/author/tool.md", content)
 
+    track_all(tmp_path)
     observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
@@ -1661,11 +1693,41 @@ def test_evidence_link_health_checks_links_subdict(tmp_path: Path) -> None:
 
 
 
-def test_evidence_link_health_handles_empty_or_missing_named_directory(tmp_path: Path) -> None:
-    observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
-    assert observation.status == "healthy"
-    assert observation.observed_state["scannedFiles"] == 0
-    assert observation.observed_state["violationCount"] == 0
+@pytest.mark.parametrize("named_state", ["missing", "empty"])
+def test_evidence_link_health_is_unavailable_without_named_records(tmp_path: Path, named_state: str) -> None:
+    # No records is blindness, not "every link is healthy".
+    if named_state == "empty":
+        (tmp_path / "registry/named").mkdir(parents=True)
+    with pytest.raises(SensorUnavailable, match="named-skill records are missing"):
+        EvidenceLinkHealthSensor().scan(tmp_path, NOW)
+
+
+@pytest.mark.parametrize(
+    "sensor",
+    [UpstreamWatcherSensor, FrozenSkillIntegritySensor, TrustCalibrationDriftSensor],
+)
+def test_named_record_sensors_are_unavailable_without_records(tmp_path: Path, sensor) -> None:
+    _make_clean_repo(tmp_path, named_fixture=False)
+    with pytest.raises(SensorUnavailable, match="named-skill records are missing"):
+        sensor().scan(tmp_path, NOW)
+
+
+@pytest.mark.parametrize("damage", ["meta-missing", "types-empty", "weights-missing", "no-sources"])
+def test_taxonomy_sensor_is_unavailable_without_canonical_inputs(tmp_path: Path, damage: str) -> None:
+    _make_clean_repo(tmp_path)
+    if damage == "meta-missing":
+        (tmp_path / "registry/schema/meta.json").unlink()
+        (tmp_path / "src/gaia_cli/data/registry/schema/meta.json").unlink()
+    elif damage == "types-empty":
+        _write(tmp_path / "registry/schema/meta.json", json.dumps({"evidence": {"types": []}}))
+    elif damage == "weights-missing":
+        _write(tmp_path / "src/gaia_cli/trustMagnitude.py", "WEIGHTS = compute()\n")
+    else:
+        for path in sorted((tmp_path / "src").rglob("*.py")) + sorted((tmp_path / "scripts").rglob("*.py")):
+            path.unlink()
+        _write(tmp_path / "src/gaia_cli/trustMagnitude.txt", "")
+    with pytest.raises(SensorUnavailable):
+        TaxonomyScriptDriftSensor().scan(tmp_path, NOW)
 
 
 
@@ -1673,6 +1735,7 @@ def test_evidence_link_health_handles_empty_or_missing_named_directory(tmp_path:
 def test_evidence_link_health_reports_malformed_frontmatter(tmp_path: Path) -> None:
     _write(tmp_path / "registry/named/broken/corrupt.md", "---not yaml---")
 
+    track_all(tmp_path)
     observation = EvidenceLinkHealthSensor().scan(tmp_path, NOW)[0]
     assert observation.status == "drift"
     assert observation.observed_state["violationCount"] == 1
@@ -1698,15 +1761,15 @@ def test_generated_projections_reports_healthy_on_clean_fixture(tmp_path: Path) 
     assert obs.subject.id == "class-s-projections"
     assert obs.observed_state["consistent"] is True
     assert obs.observed_state["violationCount"] == 0
-    assert obs.observed_state["canonicalNamedCount"] == 0
-    assert obs.observed_state["indexedNamedCount"] == 0
+    assert obs.observed_state["canonicalNamedCount"] == 1
+    assert obs.observed_state["indexedNamedCount"] == 1
     assert obs.confidence == 1.0
 
 
 
 
 def test_generated_projections_with_matching_named_skills(tmp_path: Path) -> None:
-    _make_clean_repo(tmp_path)
+    _make_clean_repo(tmp_path, named_fixture=False)
     _write(
         tmp_path / "registry/named/alice/my-tool.md",
         _named_markdown("alice/my-tool", "example"),
@@ -1812,7 +1875,7 @@ def test_generated_projections_detects_non_object_json(tmp_path: Path) -> None:
 
 
 def test_generated_projections_detects_missing_from_index(tmp_path: Path) -> None:
-    _make_clean_repo(tmp_path)
+    _make_clean_repo(tmp_path, named_fixture=False)
     _write(
         tmp_path / "registry/named/alice/my-tool.md",
         _named_markdown("alice/my-tool", "example"),
@@ -1846,7 +1909,7 @@ def test_generated_projections_detects_missing_from_index(tmp_path: Path) -> Non
 
 
 def test_generated_projections_detects_extra_in_index(tmp_path: Path) -> None:
-    _make_clean_repo(tmp_path)
+    _make_clean_repo(tmp_path, named_fixture=False)
     _write(
         tmp_path / "registry/named/alice/my-tool.md",
         _named_markdown("alice/my-tool", "example"),
@@ -2285,6 +2348,7 @@ def test_frozen_skill_integrity_sensor_clean_frozen_skill_healthy(tmp_path: Path
     )
     _write(tmp_path / "registry/named/owner/clean-frozen.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]
@@ -2324,6 +2388,7 @@ def test_frozen_skill_integrity_sensor_detects_post_freeze_demote_rank_up(tmp_pa
     )
     _write(tmp_path / "registry/named/owner/corrupted-events.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]
@@ -2353,6 +2418,7 @@ def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remed
     )
     _write(tmp_path / "registry/named/owner/mismatched-level.md", content)
 
+    track_all(tmp_path)
     observations = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
     assert len(observations) == 1
     obs = observations[0]

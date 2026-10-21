@@ -26,6 +26,30 @@ authority:
   frozen_skill_drift: B
   repository_hygiene: B
   generic_mapping: C
+  unused_import: B
+  orphan_module: B
+  import_cycle: B
+  code_duplication: B
+  swallowed_exception: B
+  shadowed_test: B
+  unregistered_marker: B
+  empty_test_module: B
+  test_isolation_risk: B
+  flaky_test: B
+  ungated_mutation: B
+  unsafe_execution: B
+  browser_sink_risk: B
+  credential_leak: C
+  workflow_hygiene: B
+  ci_failure: B
+  version_lockstep_drift: B
+  dependency_pin_drift: B
+  license_metadata_drift: B
+  dependency_advisory: B
+  schema_contract_drift: B
+  timeline_causality_drift: B
+  frontend_contract_drift: B
+  trust_stamp_stale: C
 
 priority:
   bundled_schema_mirror_drift:
@@ -118,6 +142,150 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.5
     expectedCost: 0.8
+  unused_import:
+    importance: 0.3
+    decisionImpact: 0.3
+    exposure: 0.3
+    freshnessNeed: 0.4
+    expectedCost: 0.1
+  orphan_module:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.3
+    freshnessNeed: 0.3
+    expectedCost: 0.4
+  import_cycle:
+    importance: 0.5
+    decisionImpact: 0.6
+    exposure: 0.4
+    freshnessNeed: 0.4
+    expectedCost: 0.6
+  code_duplication:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.4
+    freshnessNeed: 0.3
+    expectedCost: 0.6
+  swallowed_exception:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.5
+    freshnessNeed: 0.5
+    expectedCost: 0.3
+  shadowed_test:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.6
+    freshnessNeed: 0.8
+    expectedCost: 0.1
+  unregistered_marker:
+    importance: 0.5
+    decisionImpact: 0.4
+    exposure: 0.4
+    freshnessNeed: 0.6
+    expectedCost: 0.1
+  empty_test_module:
+    importance: 0.4
+    decisionImpact: 0.3
+    exposure: 0.3
+    freshnessNeed: 0.4
+    expectedCost: 0.1
+  test_isolation_risk:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.5
+    freshnessNeed: 0.5
+    expectedCost: 0.4
+  flaky_test:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.7
+    freshnessNeed: 0.8
+    expectedCost: 0.4
+  ungated_mutation:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.4
+  unsafe_execution:
+    importance: 0.9
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.3
+  browser_sink_risk:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.9
+    freshnessNeed: 0.7
+    expectedCost: 0.4
+  credential_leak:
+    importance: 1.0
+    decisionImpact: 1.0
+    exposure: 1.0
+    freshnessNeed: 1.0
+    expectedCost: 0.3
+  workflow_hygiene:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.7
+    freshnessNeed: 0.6
+    expectedCost: 0.2
+  ci_failure:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 1.0
+    expectedCost: 0.3
+  version_lockstep_drift:
+    importance: 0.9
+    decisionImpact: 0.8
+    exposure: 0.9
+    freshnessNeed: 0.9
+    expectedCost: 0.2
+  dependency_pin_drift:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.6
+    freshnessNeed: 0.5
+    expectedCost: 0.2
+  license_metadata_drift:
+    importance: 0.5
+    decisionImpact: 0.6
+    exposure: 0.6
+    freshnessNeed: 0.4
+    expectedCost: 0.2
+  dependency_advisory:
+    importance: 0.9
+    decisionImpact: 0.8
+    exposure: 0.9
+    freshnessNeed: 1.0
+    expectedCost: 0.3
+  schema_contract_drift:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.3
+  timeline_causality_drift:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.7
+    freshnessNeed: 0.7
+    expectedCost: 0.3
+  frontend_contract_drift:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.7
+    freshnessNeed: 0.5
+    expectedCost: 0.2
+  trust_stamp_stale:
+    importance: 0.7
+    decisionImpact: 0.8
+    exposure: 0.7
+    freshnessNeed: 0.6
+    expectedCost: 0.3
 
 budgets:
   maxObservationsPerRun: 1000
@@ -157,8 +325,9 @@ routing:
   # makes it a lane rather than a loop, and code caps each of them independently
   # so editing this file can never grant unbounded autonomy.
   lane:
-    # Never more outstanding work than a human can actually review.
-    maxInFlight: 1
+    # Never more outstanding work than a human can actually review. Raised from
+    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput).
+    maxInFlight: 2
     # A debt that fails bounded repair this many times is not asking for another
     # attempt; it is evidence the envelope is wrong, which is a founder question.
     maxAttempts: 2
@@ -342,6 +511,46 @@ routing:
         - reproduce the finding using the read-only tracked-path inventory
         - show a diff confined to the allowed paths and preserve all policy floors
         - run the focused repository hygiene tests and report exact results
+        - obtain independent review before integration
+    unused-import-cleanup:
+      debtKind: unused_import
+      authority: B
+      routine: dead-code-gardener
+      promptGuide: founder/steward/routines/unused-import-cleanup.md
+      capability: >-
+        Remove module-level imports that the dead-code detector proved have no in-module read,
+        keeping side-effect imports, re-exports and guarded imports, and prove the package still
+        imports and its tests pass.
+      objective: >-
+        Reproduce the unused-import finding for the one subject file, remove only the imports the
+        packet names, and return the smallest diff with focused proof. Touch no other file.
+      allowedPaths:
+        - src/gaia_cli/**
+        - scripts/**
+        - tests/**
+      allowedCommands:
+        - python -m pytest
+        - python -m compileall
+        - gaia steward scan
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+      stopConditions:
+        - the diff touches any file other than the debt's subject file
+        - a flagged import is marked sideEffectPossible and its side effect is not proven absent
+        - the file is an __init__.py re-export surface, a star import or a guarded import
+        - tests or compileall of the file fail after the change
+        - the finding does not reproduce on the current head
+      proof:
+        - reproduce the finding for the subject file
+        - show a diff confined to the subject file
+        - run python -m pytest on the importing package and python -m compileall on the file
         - obtain independent review before integration
     knowledge-contradiction:
       debtKind: knowledge_contradiction

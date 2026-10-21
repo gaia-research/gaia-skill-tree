@@ -80,7 +80,11 @@ git diff > candidate.diff
 
 Write the proof transcript as `steward-proof-transcript-v1`, one or more entries
 per item in the packet's proof contract, numbered from 1 in the order the packet
-lists them:
+lists them. Every entry must exit 0: prove a reproduced failure with a command
+that succeeds when the failure occurs (`! python -m pytest …`), and evidence an
+item that asks for a statement with one entry whose command is `statement` and
+whose output is the statement. "Obtain independent review" needs no entry: the
+verifier step discharges it.
 
 ```json
 {

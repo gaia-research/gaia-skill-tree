@@ -1,0 +1,11 @@
+# steward head f40fb3ba6; setup: tests.steward.test_cli._clean_cli_repo fixture, bare remote with HEAD=main, clone to work
+$ gaia steward full run --trigger scheduled --ledger git --json
+# exit 0 -> run-scheduled.json
+$ gaia steward full run --trigger scheduled --ledger git
+# exit 0 -> run-scheduled-human.txt
+$ gaia steward full run --ledger git --json
+# exit 0 -> run-manual.json
+$ gaia steward full status --ledger git --json
+# exit 0 -> status.json
+$ gaia steward full status --ledger git
+# exit 0 -> status-human.txt

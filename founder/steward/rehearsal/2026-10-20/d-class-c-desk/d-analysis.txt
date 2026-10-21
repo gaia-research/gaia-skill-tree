@@ -1,0 +1,25 @@
+POLICY Class C kinds: ['credential_leak', 'generic_mapping', 'trust_stamp_stale']
+triage.classA: n=0 kinds={} policy_authority_of_kinds={}
+triage.classB: n=51 kinds={'trust_calibration_drift': 51} policy_authority_of_kinds={'trust_calibration_drift': 'B'}
+triage.classC: n=22 kinds={'trust_stamp_stale': 22} policy_authority_of_kinds={'trust_stamp_stale': 'C'}
+triage.reportOnly: n=199 kinds={'frozen_skill_drift': 8, 'unsafe_execution': 1, 'timeline_causality_drift': 3, 'ungated_mutation': 4, 'benchmark_source_drift': 1, 'workflow_hygiene': 30, 'browser_sink_risk': 56, 'frontend_contract_drift': 2, 'swallowed_exception': 40, 'unused_import': 49, 'code_duplication': 5} policy_authority_of_kinds={'frozen_skill_drift': 'B', 'unsafe_execution': 'B', 'timeline_causality_drift': 'B', 'ungated_mutation': 'B', 'benchmark_source_drift': 'B', 'workflow_hygiene': 'B', 'browser_sink_risk': 'B', 'frontend_contract_drift': 'B', 'swallowed_exception': 'B', 'unused_import': 'B', 'code_duplication': 'B'}
+triage.held: n=0 kinds={} policy_authority_of_kinds={}
+triage.skippedActive: n=0 kinds={} policy_authority_of_kinds={}
+triage.carried: 0
+emitted actions: [] | class_a summary: None | class_b summary: None
+
+FOUNDER DECISIONS (required fields: ('decision', 'whyItMatters', 'evidence', 'recommended', 'alternative', 'unblocks', 'links') )
+- steward-class-b-route-unused-import source= decision-record debtIds= 0 | missing: [] | empty: []
+- steward-class-b-throughput source= decision-record debtIds= 0 | missing: [] | empty: []
+- steward-dev-mutation-gates source= decision-record debtIds= 0 | missing: [] | empty: []
+- steward-landing-target source= decision-record debtIds= 0 | missing: [] | empty: []
+- steward-timeline-order-1699 source= decision-record debtIds= 0 | missing: [] | empty: []
+- decision-bd6c25b50dfe8d0d3b4e source= class-c-debt debtIds= 22 | missing: [] | empty: []
+
+OPERATIONAL (separate list):
+- not_evaluated ci-health | not evaluated: no ci-runs.json supplied; a driver must collect it
+- not_evaluated dependency-advisory | not evaluated: no advisories.json supplied; a driver must collect it
+- not_evaluated test-history | not evaluated: no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated
+- stale_schedule scheduled run | no scheduled run has ever been recorded.
+
+desk keys: ['asOf', 'decisions', 'operations', 'quiet', 'schemaVersion']

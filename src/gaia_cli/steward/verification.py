@@ -439,6 +439,17 @@ def _diff_header_path(line: str) -> str:
     return left
 
 
+
+# Proof items the process itself discharges. A builder cannot obtain its own
+# independent review; the verification step after mechanical checks *is* that
+# review, and a machine verdict never accepts. Requiring the builder to evidence
+# it only invited a fabricated entry or a spurious escalation.
+PROCESSOWNEDPROOF = frozenset({"obtain independent review before integration"})
+
+
+def processOwnedProof(item: str) -> bool:
+    return " ".join(str(item).split()).rstrip(".").casefold() in PROCESSOWNEDPROOF
+
 def parse_proof_transcript(raw: str, *, proof_contract_length: int) -> ProofTranscript:
     """Parse the builder's proof transcript into machine-checkable facts."""
 
@@ -538,7 +549,9 @@ def evaluate(
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.
-    required = frozenset(range(1, len(packet.proof) + 1))
+    required = frozenset(
+        index for index, item in enumerate(packet.proof, start=1) if not processOwnedProof(item)
+    )
     uncovered = sorted(required - transcript.covered())
     failed = transcript.failures()
     proof_valid = not uncovered and not failed

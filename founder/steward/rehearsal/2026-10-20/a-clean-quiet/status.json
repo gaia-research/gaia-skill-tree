@@ -1,0 +1,44 @@
+{
+  "activeRuns": [],
+  "holder": null,
+  "holderExpiresAt": null,
+  "holderPhase": null,
+  "lane": {
+    "capacity": 1,
+    "counts": {
+      "closed": 0,
+      "dispatched": 0,
+      "escalated": 0,
+      "queued": 0
+    },
+    "escalated": [],
+    "inFlight": [],
+    "policy": {
+      "cooldownSeconds": 3600,
+      "maxAttempts": 2,
+      "maxInFlight": 1
+    }
+  },
+  "lastScheduledRunAt": null,
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "recentRuns": [
+    {
+      "mode": "full",
+      "runId": "run-20261020T210328Z-93e12fdc",
+      "startedAt": "2026-10-20T21:03:28.731200Z",
+      "status": "completed"
+    },
+    {
+      "mode": "full",
+      "runId": "run-20261020T210325Z-ef3396f1",
+      "startedAt": "2026-10-20T21:03:25.074799Z",
+      "status": "completed"
+    }
+  ],
+  "schemaVersion": "steward-full-status-v1",
+  "work": [],
+  "workCounts": {}
+}

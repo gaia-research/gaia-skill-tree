@@ -1,0 +1,6 @@
+$ (cd <scratch>/D/work) python -m gaia_cli --registry <scratch>/D/work steward full run --triage --ledger git --json
+# exit 0 -> run-triage.json
+$ (cd <scratch>/D/work) python -m gaia_cli --registry <scratch>/D/work steward full run --triage --afk --ledger git --json
+# exit 0 -> run-triage-afk.json
+$ (cd <scratch>/D/work) python -m gaia_cli --registry <scratch>/D/work steward full run --triage --afk --ledger git
+# exit 0 -> run-triage-afk-human.txt

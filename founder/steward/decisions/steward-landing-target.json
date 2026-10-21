@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-landing-target",
+  "status": "decided",
+  "decision": "Authorize Class A landing: which integration branch may Steward open repair PRs against, and may the scheduled workflow push steward/a/* branches and the steward/ledger ref?",
+  "whyItMatters": "Class A repairs are proven in a throwaway checkout and stop there. Landing needs a target branch and contents/pull-requests write permission for the Steward workflow, which is a security-policy expansion only you can grant.",
+  "evidence": [
+    "Landing refuses main/master/default branch in code; a target is configured only by GAIA_STEWARD_INTEGRATION_BRANCH or --integration-branch.",
+    "Without a target every Class A debt is recorded blocked: landing target not configured.",
+    "The shared ledger needs an unprotected refs/heads/steward/ledger that the Steward identity can fast-forward (never force)."
+  ],
+  "recommended": "Set repository variable STEWARD_INTEGRATION_BRANCH to a long-lived steward integration branch, set STEWARD_LANDING_ENABLED=true, and leave steward/ledger and steward/a/* unprotected.",
+  "alternative": "Keep landing off: scheduled runs keep producing receipts and patches only, and a person applies Class A repairs by hand.",
+  "unblocks": "Unattended Class A detect-repair-verify-PR without founder involvement; shared ledger for scheduled runs.",
+  "links": [
+    ".github/workflows/steward.yml",
+    "src/gaia_cli/steward/landing.py",
+    "founder/handovers/2026-10-20-steward-full-architecture.md"
+  ]
+}

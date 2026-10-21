@@ -559,3 +559,19 @@ def test_a_harness_is_never_named_in_the_verifier_prompt(tmp_path: Path) -> None
 
     for name in ("claude", "hermes", "codex", "gpt", "gemini", "opus", "sonnet", "sol", "terra", "luna"):
         assert not re.search(rf"\b{name}\b", prompt, flags=re.IGNORECASE), name
+
+
+def test_independent_review_is_discharged_by_the_process_not_the_builder() -> None:
+    packet = _packet(proof=("reproduce the violation", "show a confined diff", "obtain independent review before integration"))
+    transcript = parse_proof_transcript(_transcript(items=2), proof_contract_length=3)
+    verdict = _evaluate(packet=packet, transcript=transcript)
+    # Still pending: the exemption never turns a machine verdict into acceptance.
+    assert verdict.verdict == "pending" and verdict.proof_valid and not verdict.decided
+
+
+def test_the_review_exemption_does_not_cover_any_other_proof_item() -> None:
+    packet = _packet(proof=("reproduce the violation", "show a confined diff", "obtain independent review before integration"))
+    transcript = parse_proof_transcript(_transcript(items=1), proof_contract_length=3)
+    verdict = _evaluate(packet=packet, transcript=transcript)
+    assert verdict.verdict == "reject"
+    assert "no evidence: 2" in " ".join(verdict.reasons)

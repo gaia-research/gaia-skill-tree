@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "8.25.1";</script>
+  <script>window.GAIA_VERSION = "8.26.5";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -16,9 +16,9 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/tokens.css?v=8.25.1">
-  <link rel="stylesheet" href="../css/styles.css?v=8.25.1">
-  <link rel="stylesheet" href="docs-en-shell.css?v=8.25.1">
+  <link rel="stylesheet" href="../css/tokens.css?v=8.26.5">
+  <link rel="stylesheet" href="../css/styles.css?v=8.26.5">
+  <link rel="stylesheet" href="docs-en-shell.css?v=8.26.5">
   <style>
     *,
     *::before,
@@ -815,9 +815,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=8.25.1"></script>
-  <script src="../js/site-nav.js?v=8.25.1"></script>
-  <script src="../js/ui.js?v=8.25.1"></script>
+  <script src="../js/mounts.js?v=8.26.5"></script>
+  <script src="../js/site-nav.js?v=8.26.5"></script>
+  <script src="../js/ui.js?v=8.26.5"></script>
 
 
 
@@ -829,7 +829,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v8.25.1</span>
+    <span class="nav-version">v8.26.5</span>
   </nav>
 
   <div class="page-layout">
@@ -899,6 +899,7 @@
           <li><a href="#dev-reclassify"><code>dev reclassify</code></a></li>
           <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
+          <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
           <li><a href="#dev-diff"><code>dev diff</code></a></li>
@@ -1002,6 +1003,7 @@
             <li><a href="#dev-reclassify"><code>dev reclassify</code> — Reclassify structural type</a></li>
             <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
+            <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code> — Re-sort timeline</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
             <li><a href="#dev-diff"><code>dev diff</code> — Diff registry vs main</a></li>
@@ -2971,6 +2973,31 @@
           </div>
         </div>
 
+        <!-- dev timeline-resort -->
+        <div class="cmd-card" id="dev-timeline-resort">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev timeline-resort</span>
+            <span class="cmd-signature">&lt;contributor/slug&gt; [--dry-run] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Puts one named skill's <code>timeline</code> in ascending UTC order.</li>
+              <li>Order only. It never adds, removes, or edits an event, and it checks that before it writes.</li>
+              <li>Use it when a hand-written event sits out of order. <a href="#dev-timeline"><code>dev timeline</code></a> only appends.</li>
+              <li>Skips the docs rebuild by default. Pass <code>--build</code> to regenerate.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview the current and proposed order</span>
+<span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search --dry-run</span>
+
+<span class="c"># Apply it</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
         <!-- dev list -->
         <div class="cmd-card" id="dev-list">
           <div class="cmd-card-header">
@@ -3325,7 +3352,7 @@
 
   <!-- footer -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=8.25.1"></script>
+  <script src="../js/site-footer.js?v=8.26.5"></script>
 
   <script>
     /* Sidebar scroll-spy */
@@ -3519,4 +3546,4 @@
 <!-- impeccable-live-end -->
 </body>
 
-</html>
+</html>

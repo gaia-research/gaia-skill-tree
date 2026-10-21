@@ -1,0 +1,11 @@
+# setup: python -I mk.py <scratch>/A/seed (tests.steward.test_cli._clean_cli_repo), bare clone with HEAD=main, clone to work
+$ (cd <scratch>/A/work) python -m gaia_cli --registry <scratch>/A/work steward full run --ledger git --json
+# exit 0 -> run.json
+$ (cd <scratch>/A/work) python -m gaia_cli --registry <scratch>/A/work steward full run --ledger git
+# exit 0 -> run-human.txt
+$ (cd <scratch>/A/work) python -m gaia_cli --registry <scratch>/A/work steward full status --ledger git --json
+# exit 0 -> status.json
+$ (cd <scratch>/A/work) python -m gaia_cli --registry <scratch>/A/work steward full status --ledger git
+# exit 0 -> status-human.txt
+$ (cd <scratch>/A/work) python -m gaia_cli --registry <scratch>/A/work steward full run --trigger scheduled --ledger git --json
+# exit 0 -> run-scheduled.json

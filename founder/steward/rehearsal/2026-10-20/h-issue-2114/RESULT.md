@@ -1,0 +1,8 @@
+# H - #2114 on live data: PASS
+
+Live tree (cc2edfa00), sensor `trust-calibration-drift` run directly and via the scenario-D full run's debts. No calibration, no registry write.
+- `hikari9/auto-office` (stored 3★, genericSkillRef autonomous-engineering-platform) is NOT flagged: absent from the 51 `trust_calibration_drift` debts and from the sensor's 51 live observations. Sensor effective TM 88.97 / grade B equals the canonical inspector's (88.97 / B), so target level 3★ == stored level. (Pre-fix, per the architecture doc, it was scored with an empty context map and proposed a false 2★ demotion.)
+- Table of 3 flagged + 3 unflagged skills (h-table.md): sensor TM and grade equal the inspector's in all 6, including two flagged skills whose TM is 0.0 / ungraded in BOTH (genuine under-evidenced 2★ skills, not an empty-context artefact) and latent-spaces/brag at 144.54 A vs stored 3★.
+- Wider check: all 51 flagged skills compared with `scripts/inspectTrustMagnitude.py --skill ID --json`: 51/51 TM and grade identical, 0 mismatches (h-all51-flagged-vs-inspector.json).
+- Caveat: the sensor emits nothing for unflagged skills, so their "sensor TM" was recomputed with the sensor's own calls (buildMergedSkillMap + computeTrustMagnitude); the unflagged side proves agreement of the computation, not an emitted observation. Flagged targets such as 2★ -> 1★ for TM 0.0 skills are real demotion proposals that remain Class B report-only/lane items; whether they are correct is a curation question, not an #2114 symptom.
+Files: h-table.md/.json, h-all51-flagged-vs-inspector.json, h-sensor-flagged-live.json, sensor-trust-calibration-drift-debts.json.

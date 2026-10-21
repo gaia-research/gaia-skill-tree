@@ -1,38 +1,119 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "stateVocabulary": {
+    "registered": {
+      "evaluation": "static",
+      "meaning": "The detector is in default_sensors() and declares its debt kinds and routines."
+    },
+    "executable": {
+      "evaluation": "static",
+      "meaning": "The detector has focused fixture tests listed under proof that exercise its scan."
+    },
+    "actively-observed": {
+      "evaluation": "live",
+      "meaning": "A specific receipt lists the detector under coverageKnown; never claimed by this catalog."
+    },
+    "partially-covered": {
+      "evaluation": "static",
+      "meaning": "The routine has at least one detector but declared remainingGaps the detectors cannot see. A receipt also adds it live to a detector it lists under partialCoverage: the scan completed but skipped subjects, so nothing the detector owns was swept."
+    },
+    "unknown-unavailable": {
+      "evaluation": "live",
+      "meaning": "A receipt lists the detector under coverageUnknown or notEvaluated, or does not list it at all. Never healthy."
+    },
+    "eligible-auto-remediation": {
+      "evaluation": "static",
+      "meaning": "A debt kind of the detector has a Class A repair executor in POLICY.yaml."
+    },
+    "human-gated": {
+      "evaluation": "static",
+      "meaning": "A debt kind of the detector is Class C and only a founder decision disposes of it."
+    }
+  },
   "routines": [
     {
       "number": 1,
       "title": "Dead-Code Gardener",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "dead-code"
+      ],
+      "bindings": [
+        {
+          "sensorId": "dead-code",
+          "debtKind": "unused_import",
+          "authority": "B",
+          "dispatchRule": "unused-import-cleanup",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "dead-code",
+          "debtKind": "orphan_module",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "Evidence identifies a stale path and proves no supported consumer remains.",
       "remainingGaps": [
-        "No dedicated automated detector; usage and external-contract review remain required."
+        "Findings are candidates: deletion still requires usage and external-contract evidence a static scan cannot see (docs, workflows, supported consumers)."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_code.py"
+      ]
     },
     {
       "number": 2,
       "title": "Architecture and Abstraction Doctor",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "code-structure"
+      ],
+      "bindings": [
+        {
+          "sensorId": "code-structure",
+          "debtKind": "import_cycle",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "code-structure",
+          "debtKind": "code_duplication",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "Observed coupling, duplication, or repeated defect justifies a bounded abstraction change.",
       "remainingGaps": [
-        "No automatic architecture judgment or topology detector."
+        "Cycles and duplication are structural signals only; abstraction quality and ownership remain judgment work."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_code.py"
+      ]
     },
     {
       "number": 3,
       "title": "Error, Diagnostics, and Incident Learner",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "error-handling"
+      ],
       "bindings": [
         {
           "sensorId": null,
@@ -42,51 +123,122 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "error-handling",
+          "debtKind": "swallowed_exception",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "A registered sensor failure becomes explicit coverage-unknown debt rather than a healthy observation.",
       "remainingGaps": [
-        "Controller-generated diagnostic only; it is not a registered sensor and does not cover general incident learning."
+        "Incident learning (post-incident reproduction and diagnostics review) has no detector; only swallowed exceptions and sensor coverage failures are observed."
       ],
       "owners": [
         2001
       ],
       "tests": [
-        "tests/steward/test_controller.py"
+        "tests/steward/test_controller.py",
+        "tests/steward/test_sensors_code.py"
       ]
     },
     {
       "number": 4,
       "title": "Test Portfolio Gardener",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "test-portfolio"
+      ],
+      "bindings": [
+        {
+          "sensorId": "test-portfolio",
+          "debtKind": "shadowed_test",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "test-portfolio",
+          "debtKind": "unregistered_marker",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "test-portfolio",
+          "debtKind": "empty_test_module",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "A behavior change or repeated regression reveals a missing, redundant, or mis-tiered test contract.",
       "remainingGaps": [
-        "No test portfolio inventory or cost/coverage assessment."
+        "Weak assertions and redundant coverage are not measured; only shadowed tests, unregistered markers and empty modules are."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_tests.py"
+      ]
     },
     {
       "number": 5,
       "title": "Flake and Isolation Hunter",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "test-isolation",
+        "test-history"
+      ],
+      "bindings": [
+        {
+          "sensorId": "test-isolation",
+          "debtKind": "test_isolation_risk",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "test-history",
+          "debtKind": "flaky_test",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "Observed nondeterminism is reproduced under controlled conditions and classified by source.",
       "remainingGaps": [
-        "No general flake classifier; diagnosis requires controlled test execution."
+        "Flake history depends on a driver-supplied test-history input; without it the sensor is not evaluated, never healthy."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_tests.py"
+      ]
     },
     {
       "number": 6,
       "title": "CLI and Runtime Contract Steward",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "cli-contract"
+      ],
       "bindings": [
         {
           "sensorId": "cli-contract",
@@ -100,7 +252,7 @@
       ],
       "predicate": "The CLI contract sensor detects declared command/contract drift and has a policy-backed Class B dispatch route.",
       "remainingGaps": [
-        "Dispatch is proposal-only; broader clean-install and performance proof remains case-specific."
+        "Runtime contract checks beyond the static command surface (exit codes, output formats) are not observed."
       ],
       "owners": [
         2001
@@ -112,7 +264,12 @@
     {
       "number": 7,
       "title": "Mutation, Authorization, and Abuse-Boundary Examiner",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "registry-integrity",
+        "frozen-skill-integrity",
+        "mutation-boundary"
+      ],
       "bindings": [
         {
           "sensorId": "registry-integrity",
@@ -131,24 +288,46 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "mutation-boundary",
+          "debtKind": "ungated_mutation",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "mutation-boundary",
+          "debtKind": "unsafe_execution",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "Registry integrity and frozen-record checks expose selected mutation-boundary violations.",
       "remainingGaps": [
-        "Coverage is not a general authorization, filesystem, provenance, or hostile-input audit.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): frozen_skill_drift."
+        "Authorization behaviour is checked statically; abuse paths needing runtime exercise remain manual."
       ],
       "owners": [
         2001
       ],
       "tests": [
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_sensors_security.py"
       ]
     },
     {
       "number": 8,
       "title": "Schema Evolution Steward",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "bundled-schema-mirror",
+        "schema-validity"
+      ],
       "bindings": [
         {
           "sensorId": "bundled-schema-mirror",
@@ -158,27 +337,61 @@
           "repairExecutor": "bundled-schema-mirror",
           "founderRule": null,
           "bindingStatus": "executor-bound"
+        },
+        {
+          "sensorId": "schema-validity",
+          "debtKind": "schema_contract_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "The bundled schema mirror is compared against its canonical source and a bounded Class A repair executor is registered.",
       "remainingGaps": [
-        "Schema evolution, migration, and compatibility decisions remain human-owned."
+        "Schema compatibility across versions (breaking-change detection) is not observed; only validity and mirror parity are."
       ],
       "owners": [
         2001
       ],
       "tests": [
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_sensors_contracts.py"
       ]
     },
     {
       "number": 9,
       "title": "Evidence and Trust Reconciler",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "taxonomy-script-drift",
+        "evidence-link-health",
+        "benchmark-freshness",
+        "trust-calibration-drift"
+      ],
       "bindings": [
+        {
+          "sensorId": "taxonomy-script-drift",
+          "debtKind": "taxonomy_script_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
         {
           "sensorId": "evidence-link-health",
           "debtKind": "evidence_link_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "benchmark-freshness",
+          "debtKind": "benchmark_source_drift",
           "authority": "B",
           "dispatchRule": null,
           "repairExecutor": null,
@@ -195,18 +408,9 @@
           "bindingStatus": "route-bound"
         },
         {
-          "sensorId": "benchmark-freshness",
-          "debtKind": "benchmark_source_drift",
-          "authority": "B",
-          "dispatchRule": null,
-          "repairExecutor": null,
-          "founderRule": null,
-          "bindingStatus": "unrouted"
-        },
-        {
-          "sensorId": "taxonomy-script-drift",
-          "debtKind": "taxonomy_script_drift",
-          "authority": "B",
+          "sensorId": "trust-calibration-drift",
+          "debtKind": "trust_stamp_stale",
+          "authority": "C",
           "dispatchRule": null,
           "repairExecutor": null,
           "founderRule": null,
@@ -215,30 +419,29 @@
       ],
       "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route.",
       "remainingGaps": [
-        "Evidence-link sensor validates URL structure and registry representation only; it does not establish external URL liveness.",
-        "Current rank sensor does not prove cache-hash freshness after evidence refresh (#1642).",
-        "Installability producer scripts/installability.py::build_installability_projection projects committed observations (checkedAt/runId/registryCommit/scope/tool versions and per-skill resolvedRevision/source/content hashes/health/cause); it is not fresh parity or independently verified current source. Owners #1445/#2063.",
-        "Curation source src/gaia_cli/curationCheckpoint.py::compactCheckpoint exposes sourceRevisions and blocker evidence; src/gaia_cli/steward/verification.py::evaluate verifies mechanical scope and proof completeness but cannot independently adjudicate whether proof is genuine. Assurance proof/provenance remains owner #1922; no runtime schema or adapter is justified.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): benchmark_source_drift, evidence_link_drift, taxonomy_script_drift."
+        "Hooks 1922, 1445 and 2063 remain unknown/not-evaluated until fresh independent verification.",
+        "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval."
       ],
       "owners": [
-        1922,
         1445,
+        1642,
+        1922,
         2063,
-        1642
+        2114
       ],
       "tests": [
-        "tests/test_installability.py",
-        "tests/test_curation_checkpoint.py",
-        "tests/test_curation_evaluation.py",
         "tests/steward/test_sensors.py",
-        "tests/steward/test_knowledge_contracts.py"
+        "tests/steward/test_trust_calibration_regression.py"
       ]
     },
     {
       "number": 10,
       "title": "Timeline Causality Keeper",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "frozen-skill-integrity",
+        "timeline-causality"
+      ],
       "bindings": [
         {
           "sensorId": "frozen-skill-integrity",
@@ -248,34 +451,39 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "timeline-causality",
+          "debtKind": "timeline_causality_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "Frozen skill integrity provides a limited frozen-state check, not a lifecycle event-chain audit.",
       "remainingGaps": [
-        "Timeline rank causality, missing events, and current tree reconciliation are not covered.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): frozen_skill_drift."
+        "Out-of-order events are detected; their correction is a curated, human-gated timeline decision (see steward-timeline-order-1699)."
       ],
       "owners": [
         2001
       ],
       "tests": [
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_sensors_contracts.py"
       ]
     },
     {
       "number": 11,
       "title": "Registry Structure and Installability Examiner",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "registry-integrity",
+        "discovery-generic-mapping",
+        "upstream-watcher"
+      ],
       "bindings": [
-        {
-          "sensorId": "discovery-generic-mapping",
-          "debtKind": "generic_mapping",
-          "authority": "C",
-          "dispatchRule": null,
-          "repairExecutor": null,
-          "founderRule": "generic-mapping-decision",
-          "bindingStatus": "founder-routed"
-        },
         {
           "sensorId": "registry-integrity",
           "debtKind": "registry_integrity_failed",
@@ -284,6 +492,15 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "discovery-generic-mapping",
+          "debtKind": "generic_mapping",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": "generic-mapping-decision",
+          "bindingStatus": "founder-routed"
         },
         {
           "sensorId": "upstream-watcher",
@@ -297,8 +514,7 @@
       ],
       "predicate": "Registry integrity, unresolved generic mapping, and upstream drift have narrow sensor coverage.",
       "remainingGaps": [
-        "Installability metadata and link checks do not establish executable compatibility or independent verification; see hooks for owners #1445/#2063.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): upstream_drift."
+        "Installability against live upstream repositories is not probed (no network)."
       ],
       "owners": [
         1445,
@@ -311,17 +527,13 @@
     {
       "number": 12,
       "title": "Artifact, Branch, and Repository Hygiene Sentinel",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "agent-skill-mirror",
+        "generated-projections",
+        "repository-hygiene"
+      ],
       "bindings": [
-        {
-          "sensorId": "repository-hygiene",
-          "debtKind": "repository_hygiene",
-          "authority": "B",
-          "dispatchRule": "repository-hygiene",
-          "repairExecutor": null,
-          "founderRule": null,
-          "bindingStatus": "route-bound"
-        },
         {
           "sensorId": "agent-skill-mirror",
           "debtKind": "agent_skill_mirror_drift",
@@ -339,40 +551,79 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "repository-hygiene",
+          "debtKind": "repository_hygiene",
+          "authority": "B",
+          "dispatchRule": "repository-hygiene",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
         }
       ],
       "predicate": "Repository hygiene, mirror parity, and selected generated projection drift are mapped to existing sensors and policy bindings.",
       "remainingGaps": [
-        "Class P hygiene allowlist only; no branch coverage, regeneration, source scan, or inference from unused/absent files.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): generated_projection_drift."
+        "Stale remote branches and large-artifact growth are not observed."
       ],
       "owners": [
-        2042,
-        2001
+        2001,
+        2042
       ],
       "tests": [
-        "tests/steward/test_repository_hygiene.py",
         "tests/steward/test_sensors.py"
       ]
     },
     {
       "number": 13,
       "title": "CI Architecture and Efficiency Steward",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "ci-workflow",
+        "ci-health"
+      ],
+      "bindings": [
+        {
+          "sensorId": "ci-workflow",
+          "debtKind": "workflow_hygiene",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "ci-health",
+          "debtKind": "ci_failure",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.",
       "remainingGaps": [
-        "No CI workflow health sensor or automatic churn measurement in Steward."
+        "CI health depends on a driver-supplied run history; without it ci-health is not evaluated, never healthy.",
+        "CI cost and cache efficiency are not measured."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_ci.py"
+      ]
     },
     {
       "number": 14,
       "title": "Release and Supply-Chain Examiner",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "upstream-watcher",
+        "secret-scan",
+        "supply-chain",
+        "dependency-advisory"
+      ],
       "bindings": [
         {
           "sensorId": "upstream-watcher",
@@ -382,24 +633,75 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_leak",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "supply-chain",
+          "debtKind": "version_lockstep_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "supply-chain",
+          "debtKind": "dependency_pin_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "supply-chain",
+          "debtKind": "license_metadata_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "dependency-advisory",
+          "debtKind": "dependency_advisory",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "Upstream watcher can identify a narrow local metadata/release-manifest drift predicate.",
       "remainingGaps": [
-        "No live release, dependency, advisory, license, package, action, or supply-chain health is established; release operations remain read-only by default.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): upstream_drift."
+        "Advisories depend on a driver-supplied pip-audit run; without it dependency-advisory is not evaluated.",
+        "Release artifact provenance (wheel contents, signatures) is not observed."
       ],
       "owners": [
         2001
       ],
       "tests": [
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_sensors_ci.py",
+        "tests/steward/test_sensors_security.py"
       ]
     },
     {
       "number": 15,
       "title": "Frontend Quality and Resilience Steward",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "generated-projections",
+        "frontend-contract"
+      ],
       "bindings": [
         {
           "sensorId": "generated-projections",
@@ -409,48 +711,78 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "frontend-contract",
+          "debtKind": "frontend_contract_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
       "predicate": "Selected generated frontend projections are checked for drift, not rendered browser quality.",
       "remainingGaps": [
-        "Responsive, accessibility, degraded-state, performance, and visual review are not sensor health claims.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): generated_projection_drift."
+        "Rendered behaviour (layout, accessibility in a browser) is not observed; frontend fixes are human-gated by CLAUDE.md."
       ],
       "owners": [
         2042
       ],
       "tests": [
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_sensors.py",
+        "tests/steward/test_sensors_contracts.py"
       ]
     },
     {
       "number": 16,
       "title": "Browser, Privacy, and External Trust Auditor",
-      "status": "absent",
-      "bindings": [],
+      "status": "partially-covered",
+      "detectorIds": [
+        "browser-sink",
+        "secret-scan"
+      ],
+      "bindings": [
+        {
+          "sensorId": "browser-sink",
+          "debtKind": "browser_sink_risk",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_leak",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        }
+      ],
       "predicate": "A change with an external data flow or browser sink receives an explicit security/privacy review.",
       "remainingGaps": [
-        "No general browser sink, privacy, or third-party data-flow sensor."
+        "Third-party script and privacy-policy review remain manual; sinks are lexical findings."
       ],
       "owners": [
         2001
       ],
-      "tests": []
+      "tests": [
+        "tests/steward/test_sensors_security.py"
+      ]
     },
     {
       "number": 17,
       "title": "Knowledge, Nomenclature, and Agent-Surface Editor",
-      "status": "partial",
+      "status": "partially-covered",
+      "detectorIds": [
+        "agent-skill-mirror",
+        "taxonomy-script-drift",
+        "knowledge-contradiction"
+      ],
       "bindings": [
-        {
-          "sensorId": "knowledge-contradiction",
-          "debtKind": "knowledge_contradiction",
-          "authority": "B",
-          "dispatchRule": "knowledge-contradiction",
-          "repairExecutor": null,
-          "founderRule": null,
-          "bindingStatus": "route-bound"
-        },
         {
           "sensorId": "agent-skill-mirror",
           "debtKind": "agent_skill_mirror_drift",
@@ -468,21 +800,1415 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "knowledge-contradiction",
+          "debtKind": "knowledge_contradiction",
+          "authority": "B",
+          "dispatchRule": "knowledge-contradiction",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
         }
       ],
       "predicate": "Knowledge contradictions, agent-skill mirror parity, and taxonomy script drift have limited coverage.",
       "remainingGaps": [
-        "Coverage does not imply all root docs, project skills, vocabulary, links, or generated references agree.",
-        "Unrouted binding kinds (no live dispatch rule, repair executor, or founder rule): taxonomy_script_drift."
+        "Banned-vocabulary and nomenclature checks run in their own CI gates, not as Steward detectors."
       ],
       "owners": [
         2001,
         2052
       ],
       "tests": [
-        "tests/steward/test_knowledge_contracts.py",
-        "tests/steward/test_repository_hygiene.py"
+        "tests/steward/test_sensors.py"
       ]
+    }
+  ],
+  "detectors": [
+    {
+      "id": "bundled-schema-mirror",
+      "routineIds": [
+        8
+      ],
+      "debtKinds": [
+        "bundled_schema_mirror_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/schema",
+          "required": true
+        },
+        {
+          "path": "src/gaia_cli/data/registry/schema",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "registry/schema/ (canonical); the bundled copy must be byte-identical",
+      "evidence": "per-file missing/extra/changed paths with content digests",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "eligible-auto-remediation"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "bundled_schema_mirror_drift": "A"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "bundled_schema_mirror_drift": "gaia-steward-land"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "agent-skill-mirror",
+      "routineIds": [
+        12,
+        17
+      ],
+      "debtKinds": [
+        "agent_skill_mirror_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": ".agents/skills",
+          "required": true
+        },
+        {
+          "path": ".claude/skills",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": ".agents/skills/ (canonical); .claude/skills/ must mirror it byte-for-byte",
+      "evidence": "per-path missing/extra/changed entries with content digests",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "eligible-auto-remediation"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "agent_skill_mirror_drift": "A"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "agent_skill_mirror_drift": "gaia-steward-land"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "registry-integrity",
+      "routineIds": [
+        7,
+        11
+      ],
+      "debtKinds": [
+        "registry_integrity_failed"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/nodes",
+          "required": true
+        },
+        {
+          "path": "registry/schema/skill.schema.json",
+          "required": true
+        },
+        {
+          "path": "registry/schema/meta.json",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "registry/schema/skill.schema.json and meta.json applied to registry/nodes/",
+      "evidence": "schema violations and dangling prerequisite/graph references per node",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "registry_integrity_failed": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "registry_integrity_failed": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "cli-contract",
+      "routineIds": [
+        6
+      ],
+      "debtKinds": [
+        "cli_contract_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli/commands",
+          "required": true
+        },
+        {
+          "path": "src/gaia_cli/impl.py",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "the dispatch loader, the help surface and the agent contract, read statically",
+      "evidence": "commands present in one declaration and absent from another",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "cli_contract_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "cli_contract_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_cli_contract.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "discovery-generic-mapping",
+      "routineIds": [
+        11
+      ],
+      "debtKinds": [
+        "generic_mapping"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "explicit current+unresolved mapping packets; optional local operator input",
+      "evidence": "one decision per unresolved candidate with packet digest",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "human-gated"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "generic_mapping": "C"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "generic_mapping": "gaia-steward-desk"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "taxonomy-script-drift",
+      "routineIds": [
+        9,
+        17
+      ],
+      "debtKinds": [
+        "taxonomy_script_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli/taxonomy.py",
+          "required": true
+        },
+        {
+          "path": "src/gaia_cli/trustMagnitude.py",
+          "required": true
+        },
+        {
+          "path": "registry/schema/meta.json",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "src/gaia_cli/taxonomy.py, trustMagnitude.py and meta.json",
+      "evidence": "scripts or modules that hard-code rank or evidence-type lists diverging from canon",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "taxonomy_script_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "taxonomy_script_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "upstream-watcher",
+      "routineIds": [
+        11,
+        14
+      ],
+      "debtKinds": [
+        "upstream_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "upstream: frontmatter blocks plus the ignored .gaia/upstream-watcher cache",
+      "evidence": "malformed tracking configuration and recorded un-synced upstream releases",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "upstream_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "upstream_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "knowledge-contradiction",
+      "routineIds": [
+        17
+      ],
+      "debtKinds": [
+        "knowledge_contradiction"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "founder/steward/POLICY.yaml",
+          "required": true
+        },
+        {
+          "path": "registry/schema/meta.json",
+          "required": true
+        },
+        {
+          "path": "registry/schema/skill.schema.json",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "POLICY.yaml, meta.json, skill.schema.json and the curation authority map",
+      "evidence": "pairs of governance statements that contradict each other, with locations",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "knowledge_contradiction": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "knowledge_contradiction": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "evidence-link-health",
+      "routineIds": [
+        9
+      ],
+      "debtKinds": [
+        "evidence_link_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "named-skill evidence arrays",
+      "evidence": "malformed, insecure or tree/-shaped evidence URLs per skill (format only, no network)",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "evidence_link_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "evidence_link_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "generated-projections",
+      "routineIds": [
+        12,
+        15
+      ],
+      "debtKinds": [
+        "generated_projection_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "docs/graph/gaia.json",
+          "required": true
+        },
+        {
+          "path": "docs/graph/named/index.json",
+          "required": true
+        },
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "registry/named/ versus the Class S projections in docs/graph/",
+      "evidence": "missing, empty or stale Class S artifacts and named skills absent from the index",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "generated_projection_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "generated_projection_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "benchmark-freshness",
+      "routineIds": [
+        9
+      ],
+      "debtKinds": [
+        "benchmark_source_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/benchmark-sources.json",
+          "required": true
+        },
+        {
+          "path": "registry/schema/benchmarkSourceCatalog.schema.json",
+          "required": true
+        },
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "registry/benchmark-sources.json and its schema",
+      "evidence": "catalog schema violations and benchmark-result rows lacking verified fields",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "benchmark_source_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "benchmark_source_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "trust-calibration-drift",
+      "routineIds": [
+        9
+      ],
+      "debtKinds": [
+        "trust_calibration_drift",
+        "trust_stamp_stale"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        },
+        {
+          "path": "registry/nodes",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "src/gaia_cli/trustMagnitude.py scored over buildMergedSkillMap (effective, inherited evidence)",
+      "evidence": "stored level versus computed grade per skill; stale trustMagnitude stamps against tolerance 0.02",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "human-gated"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "trust_calibration_drift": "B",
+        "trust_stamp_stale": "C"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "trust_calibration_drift": "gaia-steward-lane",
+        "trust_stamp_stale": "gaia-steward-desk"
+      },
+      "proof": [
+        "tests/steward/test_trust_calibration_regression.py",
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "frozen-skill-integrity",
+      "routineIds": [
+        7,
+        10
+      ],
+      "debtKinds": [
+        "frozen_skill_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "frozen named-skill frontmatter and its timeline",
+      "evidence": "rank or calibration events recorded after the freeze",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "frozen_skill_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "frozen_skill_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "repository-hygiene",
+      "routineIds": [
+        12
+      ],
+      "debtKinds": [
+        "repository_hygiene"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "the enumerated Class P path list (CLAUDE.md, Generated Artifacts)",
+      "evidence": "Class P paths present in Git's tracked index",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "repository_hygiene": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "observed-only",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "repository_hygiene": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_repository_hygiene.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "dead-code",
+      "routineIds": [
+        1
+      ],
+      "debtKinds": [
+        "unused_import",
+        "orphan_module"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli",
+          "required": true
+        },
+        {
+          "path": "scripts",
+          "required": true
+        },
+        {
+          "path": "tests",
+          "required": true
+        },
+        {
+          "path": "pyproject.toml",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked Python sources; entry points and dynamic discovery in pyproject and commands/",
+      "evidence": "unused module-level imports and candidate orphan modules with the evidence of absent consumers",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "unused_import": "B",
+        "orphan_module": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "unused_import": "gaia-steward-lane",
+        "orphan_module": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_code.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "code-structure",
+      "routineIds": [
+        2
+      ],
+      "debtKinds": [
+        "import_cycle",
+        "code_duplication"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli",
+          "required": true
+        },
+        {
+          "path": "scripts",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked Python sources",
+      "evidence": "import cycles (members) and structurally duplicated functions (fingerprint groups)",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "import_cycle": "B",
+        "code_duplication": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "import_cycle": "gaia-steward-lane",
+        "code_duplication": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_code.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "error-handling",
+      "routineIds": [
+        3
+      ],
+      "debtKinds": [
+        "swallowed_exception"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli",
+          "required": true
+        },
+        {
+          "path": "scripts",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked Python sources; 'steward: best-effort' marker opts a handler out",
+      "evidence": "broad handlers that discard the failure, per file and line",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "swallowed_exception": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "swallowed_exception": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_code.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "test-portfolio",
+      "routineIds": [
+        4
+      ],
+      "debtKinds": [
+        "shadowed_test",
+        "unregistered_marker",
+        "empty_test_module"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "tests",
+          "required": true
+        },
+        {
+          "path": "pyproject.toml",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked test modules and registered pytest markers",
+      "evidence": "shadowed test names, unregistered markers, statically empty test modules",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "shadowed_test": "B",
+        "unregistered_marker": "B",
+        "empty_test_module": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "shadowed_test": "gaia-steward-lane",
+        "unregistered_marker": "gaia-steward-lane",
+        "empty_test_module": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_tests.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "test-isolation",
+      "routineIds": [
+        5
+      ],
+      "debtKinds": [
+        "test_isolation_risk"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "tests",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked test modules",
+      "evidence": "heuristic clock/network/home/cwd/environment leaks per test",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "test_isolation_risk": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "test_isolation_risk": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_tests.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "test-history",
+      "routineIds": [
+        5
+      ],
+      "debtKinds": [
+        "flaky_test"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/test-history.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-supplied per-commit test outcomes",
+      "evidence": "tests that both passed and failed on one commit",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "flaky_test": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "flaky_test": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_tests.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
+      }
+    },
+    {
+      "id": "mutation-boundary",
+      "routineIds": [
+        7
+      ],
+      "debtKinds": [
+        "ungated_mutation",
+        "unsafe_execution"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "src/gaia_cli",
+          "required": true
+        },
+        {
+          "path": "scripts",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "MUTATING_DEV_COMMANDS in main.py and commands/dev, and the dev subparser registry",
+      "evidence": "registered dev verbs missing from the gate sets, set disagreement, unsafe exec/eval/shell",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "ungated_mutation": "B",
+        "unsafe_execution": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "ungated_mutation": "gaia-steward-lane",
+        "unsafe_execution": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_security.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "browser-sink",
+      "routineIds": [
+        16
+      ],
+      "debtKinds": [
+        "browser_sink_risk"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "docs",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "hand-authored docs/**/*.js and *.html (generated trees excluded)",
+      "evidence": "unsafe DOM sinks (innerHTML, document.write, eval-like) per file and line",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "browser_sink_risk": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "browser_sink_risk": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_security.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "secret-scan",
+      "routineIds": [
+        16,
+        14
+      ],
+      "debtKinds": [
+        "credential_leak"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": ".",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "every Git-tracked file",
+      "evidence": "credential-shaped strings stored only as a fingerprint, path and line",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "human-gated"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "credential_leak": "C"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "credential_leak": "gaia-steward-desk"
+      },
+      "proof": [
+        "tests/steward/test_sensors_security.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "ci-workflow",
+      "routineIds": [
+        13
+      ],
+      "debtKinds": [
+        "workflow_hygiene"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": ".github/workflows",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "Git-tracked GitHub Actions workflows",
+      "evidence": "missing permissions/timeouts and unpinned or unsafe workflow constructs",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "workflow_hygiene": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "workflow_hygiene": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_ci.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "ci-health",
+      "routineIds": [
+        13
+      ],
+      "debtKinds": [
+        "ci_failure"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/ci-runs.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-supplied workflow run history (headSha recorded per run)",
+      "evidence": "latest-run failures and retry churn per workflow",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "ci_failure": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "ci_failure": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_ci.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
+      }
+    },
+    {
+      "id": "supply-chain",
+      "routineIds": [
+        14
+      ],
+      "debtKinds": [
+        "version_lockstep_drift",
+        "dependency_pin_drift",
+        "license_metadata_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "pyproject.toml",
+          "required": true
+        },
+        {
+          "path": "packages/cli-npm/package.json",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "pyproject.toml, packages/cli-npm/package.json and the LICENSE file",
+      "evidence": "version lockstep drift, unpinned dependencies, license metadata disagreement",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "version_lockstep_drift": "B",
+        "dependency_pin_drift": "B",
+        "license_metadata_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "version_lockstep_drift": "gaia-steward-lane",
+        "dependency_pin_drift": "gaia-steward-lane",
+        "license_metadata_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_ci.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "dependency-advisory",
+      "routineIds": [
+        14
+      ],
+      "debtKinds": [
+        "dependency_advisory"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/advisories.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-supplied pip-audit --format json output",
+      "evidence": "known advisories per dependency with fix versions",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "dependency_advisory": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "dependency_advisory": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_ci.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
+      }
+    },
+    {
+      "id": "schema-validity",
+      "routineIds": [
+        8
+      ],
+      "debtKinds": [
+        "schema_contract_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/schema",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "tracked top-level registry JSON Schemas",
+      "evidence": "schemas that fail to parse or violate the draft meta-schema",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "schema_contract_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "schema_contract_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_contracts.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "timeline-causality",
+      "routineIds": [
+        10
+      ],
+      "debtKinds": [
+        "timeline_causality_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "registry/named",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "named-skill frontmatter timelines",
+      "evidence": "unparseable timestamps and out-of-order timeline events",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "timeline_causality_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "timeline_causality_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_contracts.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
+    },
+    {
+      "id": "frontend-contract",
+      "routineIds": [
+        15
+      ],
+      "debtKinds": [
+        "frontend_contract_drift"
+      ],
+      "trigger": "every-scan",
+      "inputs": [
+        {
+          "path": "docs",
+          "required": true
+        }
+      ],
+      "sourceOfTruth": "hand-authored docs/**/*.html pages",
+      "evidence": "pages missing the baseline document contract (doctype, lang, viewport, title)",
+      "freshness": "checkout-head",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "frontend_contract_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "frontend_contract_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_contracts.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": null
+      }
     }
   ],
   "hooks": [
