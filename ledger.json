@@ -1,16 +1,1960 @@
 {
- "generation": 12,
- "lane": null,
+ "generation": 13,
+ "lane": {
+  "entries": [
+   {
+    "attempts": 1,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     },
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-241305ea9ef1a8c1c959",
+      "to": "dispatched"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "dispatched"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-constraint-driven-development:d6c121b73376ffa8",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-context-engineering:38713424068efdc9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-deprecation-and-migration:e299b568ed7924f9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-documentation-and-adrs:71f59023d679c4f4",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-doubt-driven-development:1970cc947c1908ab",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-frontend-ui-engineering:7e570e8b5000a5f7",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-observability-and-instrumentation:5897ba0f51ffb5ea",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-security-and-hardening:fc8b041e6aaeb69f",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-source-driven-development:36d82ca1b3b2aefa",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-academic-verify:7d479bf3f545a339",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-archive-crawler:38c4539344a64cd4",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-blog-ingest:f9a97a581b8c3129",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-book-mirror:0020c93e4086667f",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-bulk-ingestion:386644ff6be51fae",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-citation-graph-ingest:28d55cbcaf06e32c",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-context-audit:78a1013ec973a6e1",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-conversation-archive:eb825b75fc8b06ae",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-data-research:c2b78eab9735e399",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-draft-in-voice:9f53cd3a05e0dde4",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-fact-check:4ddabf6f818df291",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-functional-area-resolver:e53d18d5fbcac226",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-idea-lineage:61c56154fa719625",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-measure-before-you-fix:a57561bbb0c85c83",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-meeting-ingestion:a9f7af12ef9aa0e7",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-minion-orchestrator:86b4dabbd31381af",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-remote-mcp:e7a866ed9c20fe7d",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-research-compendium:8cb3125974989d07",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-signal-detector:a051553ff5c2da0d",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-skill-autobench:cf98cc5c77520b9d",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-skill-optimizer:13c9a0aa0758b60d",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-strategic-reading:2c34cc6e179ada31",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-two-tier-extraction:c9dbe095f5c7dd44",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:heygen-com-general-video:87c519fd0ae0c4ea",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-pymc:6135d2b14d874005",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-pytorch-lightning:35a394d0963071f6",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-qiskit:db42d2b34f83058c",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-scanpy:c19b0c2690a0335a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-stable-baselines3:998a4027d59f8bf4",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-torch-geometric:240f8bd4f6a00434",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-transformers:93ddb238b71db84e",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:latent-spaces-brag:8aa4e69fd0964bb2",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:mattpocock-tdd:8c7e8383c78d4d98",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:obra-test-driven-development:b64ffeb35772ede5",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:obra-writing-skills:e7cdf3c4750a4353",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:pexp13-sentiment-analysis:37c1a81c50abd2fa",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:xquik-dev-hermes-tweet:826323c8dc248016",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-archive-add-hermes-skills-py:cfc59de80d8336a9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-assemble-gaia-py:3ceaff92911c2506",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-backfill-user-trees-py:38681ddeb0c94ef5",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-build-layouts-3d-py:860bb5f62bfae456",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-contentengine-generate-weekly-report-py:68cf95ea87816616",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-contentengine-synthesizer-py:41cd462c37553598",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-crawlers-npm-crawler-py:92d67b1f4f237223",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-crawlers-vscode-marketplace-crawler-py:6d2e9221511f5f68",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-environment-smoke-py:f810c27af56b9a3a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-generaterealskills-py:fd70cf958b814207",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-generatesitemap-py:e15267a441d28dc9",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-render-tui-preview-py:8931d02b92ae5539",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-trace-timeline-py:d16ccce81c57f34b",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-update-suite-instructions-py:d4a12c6511e3e0ad",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-upstream-watcher-issuer-py:604578aa61a55dac",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-upstream-watcher-liveness-py:b403a61fc3099efa",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-upstream-wat:df2774ffddd5b205",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-evidence-py:3eef9d839992e821",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-helpers-py:4b50d47543102bc8",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-ratify-py:c21826210ef534cf",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-misc-py:62763bd4d9621989",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-commands-pushfromfile-py:b220a8c2fa6ef1c2",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-jev-py:76ca4a2b41e40373",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-jevadvisory-py:3fa320656c91e7fb",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-prefill-py:fbfab197a7a9505c",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-steward-routing-py:9259e6dcd8820204",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-steward-sensors-py:55ff911be177f967",
+    "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
+    "history": [
+     {
+      "at": "2026-10-21T16:28:00.196543Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   }
+  ],
+  "policy": {
+   "cooldownSeconds": 3600,
+   "maxAttempts": 2,
+   "maxInFlight": 2
+  },
+  "schemaVersion": "steward-lane-v1"
+ },
  "leases": {
   "run": {
    "acquiredAt": "2026-10-21T16:26:22.255954Z",
-   "expiresAt": "2026-10-21T16:57:58.211954Z",
+   "expiresAt": "2026-10-21T16:59:07.751021Z",
    "holder": "run-20261021T162622Z-2b8067d3"
   }
  },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "emittedAt": "2026-10-21T16:28:00.196543Z",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+      "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.diff",
+       "proofPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:0bdd26975824:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -48,6 +1992,12 @@
     "class_a": {
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+     "dispatched": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "status": "awaiting-build",
+     "stepId": "build:0bdd26975824:1"
     },
     "observe": {
      "authorityCounts": {
@@ -1074,6 +3024,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-21T16:28:00.196543Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:0bdd26975824:1"
     }
    ],
    "thinkingEfforts": [],
@@ -1084,6 +3042,37 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T16:27:58.211995Z",
- "work": {}
+ "updatedAt": "2026-10-21T16:29:07.754468Z",
+ "work": {
+  "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-integration",
+   "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+   "build": null,
+   "createdAt": "2026-10-21T16:28:00.196543Z",
+   "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+   "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+   "dispatchedAt": "2026-10-21T16:28:00.196543Z",
+   "history": [
+    {
+     "at": "2026-10-21T16:28:00.196543Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-241305ea9ef1a8c1c959 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261021T162622Z-2b8067d3",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-10-21T16:28:00.196543Z",
+   "verification": null
+  }
+ }
 }
