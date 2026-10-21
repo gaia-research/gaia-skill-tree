@@ -133,6 +133,8 @@ jobs:
     permissions:
       contents: read
       actions: read
+      issues: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v4
 
@@ -186,6 +188,23 @@ jobs:
             echo "test-history=ok:restored from run $rid" > "$RUNNER_TEMP/inputs-hist.txt"
           else
             echo "test-history=failed:artifact from run $rid could not be downloaded; history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
+          fi
+
+      # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
+      # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
+      - name: Collect the GitHub issue census for the issue-hygiene sensor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          code=0
+          python scripts/steward_issue_census.py --repo "$GITHUB_REPOSITORY" \
+            --out .gaia/steward/inputs/github-issues.json || code=$?
+          if [ "$code" -eq 0 ]; then
+            echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
+          elif [ "$code" -eq 3 ]; then
+            echo "issue-census=partial:a page failed or was short; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
+          else
+            echo "issue-census=failed:collector exited $code; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
           fi
 
       # A failing suite must stay visible but must not stop the observation: it is
