@@ -1,0 +1,68 @@
+{
+ "generation": 1,
+ "lane": null,
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-10-21T16:26:22.255954Z",
+   "expiresAt": "2026-10-21T16:56:22.255954Z",
+   "holder": "run-20261021T162622Z-2b8067d3"
+  }
+ },
+ "runs": {
+  "run-20261021T162622Z-2b8067d3": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-integration",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-10-21T16:26:22.255954Z",
+     "holder": "run-20261021T162622Z-2b8067d3",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "reconcile",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261021T162622Z-2b8067d3",
+   "sourceHead": null,
+   "startedAt": "2026-10-21T16:26:22.255954Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-10-21T16:26:22.255954Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "scheduled",
+   "unresolvedWork": []
+  }
+ },
+ "schemaVersion": "steward-ledger-v1",
+ "updatedAt": "2026-10-21T16:26:22.535510Z",
+ "work": {}
+}
