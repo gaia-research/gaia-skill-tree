@@ -93,7 +93,7 @@ class Census:
         return found
 
 
-def _rowReasons(row: dict, label: str) -> list[str]:
+def rowProblems(row: dict, label: str) -> list[str]:
     reasons = []
     number = row.get("number", "?")
     if "body" not in row:
@@ -151,7 +151,7 @@ def validateCensus(raw: Any, now: Any, maxAgeSeconds: int) -> CensusStatus:
                 reasons.append(f"{field}-row-not-an-object")
                 level = INCOMPLETE
                 continue
-            rowReasons = _rowReasons(row, field)
+            rowReasons = rowProblems(row, field)
             if rowReasons:
                 reasons.extend(rowReasons)
                 level = INCOMPLETE
