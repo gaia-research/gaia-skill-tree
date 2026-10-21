@@ -39,6 +39,9 @@ from scripts.upstream_watcher.live import GhError, LiveGh, open_umbrellas, read_
 
 PAYLOAD_VERSION = 2
 UNKNOWN_EXIT_CODE = 3
+# H2: a label reset is retried this many times before the run gives up. Giving up leaves the
+# body untouched, so the next run still sees a payload change (non-noop) and retries.
+RESET_ATTEMPTS = 3
 PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\n(.*?)\n-->", re.DOTALL)
 ESCALATE_LABELS = ["intake", "needs-triage", "upstream:child"]
 # Row statuses (prechecks: new, tracked, present, rejected; escalate: escalated).
@@ -239,6 +242,23 @@ def merge_rows(
     return [by_id[key] for key in sorted(by_id)], added
 
 
+def settle_liveness(finding: dict, previous_payload: dict | None) -> dict:
+    """L2: a component whose head check hit a transient network error is not a broken link.
+
+    Such a component is kept out of the hashed linkLiveness, and its previous recorded state
+    (if the umbrella already holds one) is carried forward. A transient error never creates a
+    new row, so it cannot churn the umbrella.
+    """
+    unknown = set(finding.get("linkLivenessUnknown") or [])
+    if not unknown:
+        return finding
+    kept = list(finding.get("linkLiveness") or [])
+    fresh_ids = {row["skillId"] for row in kept}
+    prior = {row["skillId"]: row for row in (previous_payload or {}).get("linkLiveness", [])}
+    carried = [prior[sid] for sid in sorted(unknown) if sid in prior and sid not in fresh_ids]
+    return {**finding, "linkLiveness": kept + carried}
+
+
 def build_payload(finding: dict, rows: list[dict], previous_version: str | None) -> dict:
     payload = {
         "payloadVersion": PAYLOAD_VERSION,
@@ -364,6 +384,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None) -> dict:
         incoming.append({**row, **checked})
 
     previous_payload = parse_payload(umbrella.get("body")) if umbrella else None
+    finding = settle_liveness(finding, previous_payload)
     prior_rows = (previous_payload or {}).get("candidates", [])
     carried: list[dict] = []
     if umbrella is None:
@@ -443,18 +464,35 @@ def new_report() -> dict:
     }
 
 
+def _retry(action):
+    """Run *action*, retrying a GhError up to RESET_ATTEMPTS times. The last error is raised."""
+    last: GhError | None = None
+    for _attempt in range(RESET_ATTEMPTS):
+        try:
+            return action()
+        except GhError as exc:
+            last = exc
+    raise last  # type: ignore[misc]
+
+
 def write_umbrella(plan: dict, gh: LiveGh) -> str:
-    """Execute a create/update plan. Returns the outcome label."""
+    """Execute a create/update plan. Returns the outcome label.
+
+    Order matters (H2). The reviewer note is posted first, then the approval is reset
+    (labels), and only then is the body replaced. Any failure before the body write
+    leaves the body unchanged, so the next run still sees a payload change and retries.
+    The label reset is retried; a comment is not, because a retry could duplicate it.
+    """
     if plan["action"] == "create":
         number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], plan["body"])
         plan["umbrella"] = number
         return "created"
-    gh.edit_issue(plan["umbrella"], plan["title"], plan["body"])
-    if plan["reset"]:
-        gh.edit_labels(plan["umbrella"], add=["upstream:needs-info"], remove=["upstream:approved"])
     note = comment_for(plan)
     if note:
         gh.comment(plan["umbrella"], note)
+    if plan["reset"]:
+        _retry(lambda: gh.edit_labels(plan["umbrella"], add=["upstream:needs-info"], remove=["upstream:approved"]))
+    _retry(lambda: gh.edit_issue(plan["umbrella"], plan["title"], plan["body"]))
     return "updated"
 
 
@@ -467,6 +505,10 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
     elif apply:
         outcome = "raced-skip"
         for _attempt in range(2):
+            if plan["action"] == "noop":
+                # L1: a racing run already wrote this exact umbrella. Nothing to write.
+                outcome = "noop"
+                break
             if plan["action"] == "create":
                 fresh = read_live(gh)
                 if open_umbrellas(fresh["issues"], umbrella_prefix(plan["suite"])):
