@@ -76,10 +76,10 @@ class ResumeState:
         return (key, issue) in self.done
 
     def keys(self) -> frozenset:
-        return frozenset(key for key, _issue in self.done)
+        return frozenset(key for key, issue in self.done)
 
 
-def _iso(now: Any) -> str:
+def isoTime(now: Any) -> str:
     if isinstance(now, datetime):
         moment = now if now.tzinfo is not None else now.replace(tzinfo=timezone.utc)
         return moment.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -211,7 +211,7 @@ def appendReceipt(receiptsPath: Path | str, receipt: dict) -> None:
         os.fsync(handle.fileno())
 
 
-def _receipt(plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | None, failure: str | None) -> dict:
+def buildReceipt(plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | None, failure: str | None) -> dict:
     assert outcome in OUTCOMES, outcome
     return {
         "schemaVersion": RECEIPT_SCHEMA,
@@ -228,14 +228,14 @@ def _receipt(plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | N
         "before": {"snapshot": plan["expectedSnapshot"]},
         "originalPayload": plan["original"],
         "commentUrl": commentUrl,
-        "closedAt": _iso(now) if outcome == "closed" else None,
-        "recordedAt": _iso(now),
+        "closedAt": isoTime(now) if outcome == "closed" else None,
+        "recordedAt": isoTime(now),
         "outcome": outcome,
         "failure": failure,
     }
 
 
-def _differences(plan: dict, live: dict) -> list[str]:
+def diffFields(plan: dict, live: dict) -> list[str]:
     snapshot = plan["expectedSnapshot"]
     found = []
     if live.get("updatedAt") != snapshot.get("updatedAt"):
@@ -249,7 +249,7 @@ def _differences(plan: dict, live: dict) -> list[str]:
     return found
 
 
-def _findMarker(comments: list[dict], key: str) -> dict | None:
+def findMarker(comments: list[dict], key: str) -> dict | None:
     prefix = f"{MARKER_PREFIX}{key}:"
     for comment in comments:
         if isinstance(comment, dict) and isinstance(comment.get("body"), str) and prefix in comment["body"]:
@@ -264,7 +264,7 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
     issue = plan["issue"]
 
     def finish(outcome: str, commentUrl: str | None = None, failure: str | None = None) -> dict:
-        receipt = _receipt(plan, runId, outcome, now, commentUrl, failure)
+        receipt = buildReceipt(plan, runId, outcome, now, commentUrl, failure)
         appendReceipt(receiptsPath, receipt)
         return receipt
 
@@ -277,7 +277,7 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
 
     if live.get("state") == "closed":
         return finish("already-closed")
-    differences = _differences(plan, live)
+    differences = diffFields(plan, live)
     if live.get("state") != "open":
         differences.insert(0, "state")
     if differences:
@@ -285,7 +285,7 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
 
     commentUrl = None
     try:
-        existing = _findMarker(forge.listComments(issue), plan["key"])
+        existing = findMarker(forge.listComments(issue), plan["key"])
         if existing is None:
             commentUrl = forge.addComment(issue, plan["comment"])
         else:

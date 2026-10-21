@@ -83,31 +83,31 @@ MISMATCH_OPTIONS = ("title-suite", "payload-suite", "defer")
 ALIAS_OPTIONS = ("same-skill", "different-skill", "defer")
 
 
-def _sha256Text(text: str) -> str:
+def sha256Text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def questionId(text: str) -> str:
-    return "Q-" + _sha256Text(text)[:8]
+    return "Q-" + sha256Text(text)[:8]
 
 
 def manifestDigest(manifest: Mapping[str, Any]) -> str:
     body = {key: value for key, value in manifest.items() if key != "manifestSha256"}
     canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    return _sha256Text(canonical)
+    return sha256Text(canonical)
 
 
-def _ev(kind: str, ref: str, sha: str | None, detail: str) -> dict:
+def ev(kind: str, ref: str, sha: str | None, detail: str) -> dict:
     return {"type": kind, "ref": ref, "sha256": sha, "detail": detail}
 
 
-def _suiteRepo(suite: str | None) -> str | None:
+def suiteRepo(suite: str | None) -> str | None:
     if suite is None:
         return None
     return suite[len(SUITE_PREFIX):] if suite.startswith(SUITE_PREFIX) else suite
 
 
-def _isConstantFalse(value: Any) -> bool:
+def isConstantFalse(value: Any) -> bool:
     if value is False:
         return True
     return isinstance(value, str) and value.strip() in ("false", "${{ false }}", "${{false}}")
@@ -138,7 +138,7 @@ def probeWorkflow(root: Path, relPath: str) -> dict:
     if not isinstance(jobs, dict) or not jobs:
         result["reasons"].append("no-jobs")
         return result
-    if all(isinstance(job, dict) and _isConstantFalse(job.get("if")) for job in jobs.values()):
+    if all(isinstance(job, dict) and isConstantFalse(job.get("if")) for job in jobs.values()):
         result["proven"] = True
         result["reasons"].append("every-job-gated-false")
     else:
@@ -154,7 +154,7 @@ def workflowRunnables(body: str) -> list[str]:
     return sorted(names)
 
 
-class _Draft:
+class Draft:
     """Working state for one census item before it becomes a manifest entry."""
 
     def __init__(self, identity: Identity, row: dict):
@@ -184,20 +184,20 @@ class _Draft:
         self.exact: NamedRecord | None = None
 
 
-class _Context:
+class Context:
     def __init__(self, census: Census, registry: RegistryIndex, policy: HygienePolicy, workflowDisabled: Mapping[str, dict] | None):
         self.census = census
         self.registry = registry
         self.policy = policy
         self.workflowDisabled = dict(workflowDisabled or {})
-        self.drafts: dict[int, _Draft] = {}
+        self.drafts: dict[int, Draft] = {}
         self.questions: dict[str, dict] = {}
         self.graph: Graph | None = None
         self.closedSuite: dict[int, str] = {}
         self.mergedSyncs: list[dict] = []
 
 
-def _snapshot(row: dict) -> dict:
+def snapshot(row: dict) -> dict:
     return {
         "state": row.get("state"),
         "title": row.get("title"),
@@ -207,13 +207,13 @@ def _snapshot(row: dict) -> dict:
     }
 
 
-def _original(identity: Identity, row: dict) -> dict:
+def original(identity: Identity, row: dict) -> dict:
     candidate: dict[str, Any] = {}
     if identity.kind == "child":
         candidate = {"suggestedId": identity.candidateId, "evidenceUrl": identity.evidenceUrl, "umbrella": identity.parent}
     elif identity.kind in ("umbrella", "bootstrap"):
         candidate = {
-            "skillId": _suiteRepo(identity.suite),
+            "skillId": suiteRepo(identity.suite),
             "newVersion": identity.version,
             "componentAdds": list((identity.payload or {}).get("componentAdds") or []),
         }
@@ -222,7 +222,7 @@ def _original(identity: Identity, row: dict) -> dict:
     return {"title": row.get("title"), "labels": sorted(labelNames(row)), "bodySha256": row.get("bodySha256"), "candidate": candidate}
 
 
-def _addQuestion(ctx: _Context, draft: _Draft, text: str, options: tuple[str, ...], recommendation: str | None = None, basis: str = "no basis for an opinion", kind: str = "generic", urlEqual: bool = False) -> None:
+def addQuestion(ctx: Context, draft: Draft, text: str, options: tuple[str, ...], recommendation: str | None = None, basis: str = "no basis for an opinion", kind: str = "generic", urlEqual: bool = False) -> None:
     meta = ctx.questions.setdefault(text, {"options": list(options), "affected": set(), "kind": kind, "allUrlEqual": True, "recommendation": recommendation, "basis": basis})
     meta["affected"].add(draft.number)
     meta["allUrlEqual"] = meta["allUrlEqual"] and urlEqual
@@ -231,7 +231,7 @@ def _addQuestion(ctx: _Context, draft: _Draft, text: str, options: tuple[str, ..
 
 # ----------------------------------------------------------------- children
 
-def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
+def evaluateChild(ctx: Context, draft: Draft) -> None:
     identity = draft.identity
     unknownReasons = [reason for reason in identity.reasons if reason not in ORPHAN_REASONS]
     orphanReasons = [reason for reason in identity.reasons if reason in ORPHAN_REASONS]
@@ -260,7 +260,7 @@ def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
     if record is None:
         failures.append("no-exact-registry-record")
     else:
-        draft.evidence.append(_ev("registry", record.path, record.sha256, "exact suggested-id record"))
+        draft.evidence.append(ev("registry", record.path, record.sha256, "exact suggested-id record"))
         if record.status is None:
             failures.append("registry-status-missing")
         elif record.status == "draft":
@@ -286,7 +286,7 @@ def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
             if entry["type"] == "registry" and entry["ref"] == record.path:
                 entry["detail"] = "links.github equals the evidence URL" if draft.urlEqual else "upstream repo and path match the evidence URL"
         if identity.evidenceUrl:
-            draft.evidence.append(_ev("issue", f"#{draft.number}", None, f"evidence {identity.evidenceUrl}"))
+            draft.evidence.append(ev("issue", f"#{draft.number}", None, f"evidence {identity.evidenceUrl}"))
         return
     draft.notProven.extend(failures)
     if record is not None:
@@ -299,7 +299,7 @@ def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
         draft.authority = AUTH_C
         draft.confidence = "medium"
         for alias in aliases:
-            draft.evidence.append(_ev("registry", alias.path, alias.sha256, "alias candidate: same slug under another handle"))
+            draft.evidence.append(ev("registry", alias.path, alias.sha256, "alias candidate: same slug under another handle"))
             sameHandle = normalizeHandle(alias.contributor) == normalizeHandle(owner)
             aliasRef = alias.github
             urlMatch = bool(aliasRef and evidenceRef and aliasRef.blobUrl() == evidenceRef.blobUrl())
@@ -308,15 +308,15 @@ def _evaluateChild(ctx: _Context, draft: _Draft) -> None:
                     f'Do child intakes under the contributor handle "{owner}" name the same skills as the registry '
                     f'records under the handle "{alias.contributor}"? Rule on this handle pair.'
                 )
-                _addQuestion(ctx, draft, text, ALIAS_OPTIONS, kind="alias", urlEqual=urlMatch)
+                addQuestion(ctx, draft, text, ALIAS_OPTIONS, kind="alias", urlEqual=urlMatch)
             else:
                 text = f"Is the registry record {alias.id} the same skill as the child intake candidate {candidate}?"
-                _addQuestion(ctx, draft, text, ALIAS_OPTIONS, kind="alias", urlEqual=urlMatch)
+                addQuestion(ctx, draft, text, ALIAS_OPTIONS, kind="alias", urlEqual=urlMatch)
         return
     draft.state = STATE_ACTIONABLE
 
 
-def _resolveDuplicates(ctx: _Context) -> None:
+def resolveDuplicates(ctx: Context) -> None:
     for key, numbers in sorted(ctx.graph.duplicates.items()):
         members = [ctx.drafts[number] for number in numbers if number in ctx.drafts and ctx.drafts[number].kind == "child"]
         if len(members) < 2:
@@ -339,13 +339,13 @@ def _resolveDuplicates(ctx: _Context) -> None:
             member.proofRule = RULE_A4
             member.canonical = canonical.number
             member.duplicateOf = canonical.number
-            member.evidence.append(_ev("issue", f"#{canonical.number}", None, "lower-numbered open child with the same key and evidence URL stays canonical"))
+            member.evidence.append(ev("issue", f"#{canonical.number}", None, "lower-numbered open child with the same key and evidence URL stays canonical"))
             member.confidence = "proven"
 
 
 # ----------------------------------------------------------------- umbrellas and bootstrap
 
-def _mergedSyncFor(ctx: _Context, repoId: str, version: str) -> dict | None:
+def mergedSyncFor(ctx: Context, repoId: str, version: str) -> dict | None:
     for row in ctx.mergedSyncs:
         title = row.get("title") if isinstance(row.get("title"), str) else ""
         if title.startswith("[upstream sync]") and repoId in title and version in title:
@@ -353,7 +353,7 @@ def _mergedSyncFor(ctx: _Context, repoId: str, version: str) -> dict | None:
     return None
 
 
-def _evaluateUmbrella(ctx: _Context, draft: _Draft) -> None:
+def evaluateUmbrella(ctx: Context, draft: Draft) -> None:
     identity = draft.identity
     draft.dependencies = sorted(ctx.graph.children.get(draft.number, ()))
     draft.unknowns.extend(sorted(identity.reasons))
@@ -364,16 +364,16 @@ def _evaluateUmbrella(ctx: _Context, draft: _Draft) -> None:
                 f'The umbrella title names suite "{titled}" but its payload names suite "{payloaded}". '
                 "Which suite key is canonical for this umbrella?"
             )
-            _addQuestion(ctx, draft, text, MISMATCH_OPTIONS)
+            addQuestion(ctx, draft, text, MISMATCH_OPTIONS)
             draft.forcedC = True
     labels = labelNames(draft.row)
     if "skip-child-gate" in labels and draft.dependencies:
-        repo = _suiteRepo(identity.suite) or "unknown"
+        repo = suiteRepo(identity.suite) or "unknown"
         text = (
             f'An umbrella for suite "{repo}" was approved with skip-child-gate while child intakes remain open. '
             "Accept that approval as recorded, reject it, or defer?"
         )
-        _addQuestion(ctx, draft, text, GATE_OPTIONS)
+        addQuestion(ctx, draft, text, GATE_OPTIONS)
         draft.forcedC = True
     if draft.forcedC:
         draft.state = STATE_AWAITING
@@ -383,7 +383,7 @@ def _evaluateUmbrella(ctx: _Context, draft: _Draft) -> None:
 
     umbrellas = ctx.graph.suites.get(identity.suite or "", ())
     newest = umbrellas[-1] if umbrellas else None
-    repoId = _suiteRepo(identity.suite)
+    repoId = suiteRepo(identity.suite)
     failures: list[str] = []
     if draft.unknowns:
         failures.append("unknown-facts")
@@ -403,13 +403,13 @@ def _evaluateUmbrella(ctx: _Context, draft: _Draft) -> None:
     if record is None:
         failures.append("suite-record-missing")
     else:
-        draft.evidence.append(_ev("registry", record.path, record.sha256, "suite record"))
+        draft.evidence.append(ev("registry", record.path, record.sha256, "suite record"))
         if record.installable is False:
             failures.append("suite-frozen")
         versionMatch = record.upstreamVersion is not None and record.upstreamVersion == identity.version
-        sync = _mergedSyncFor(ctx, repoId, identity.version) if repoId and identity.version else None
+        sync = mergedSyncFor(ctx, repoId, identity.version) if repoId and identity.version else None
         if sync is not None:
-            draft.evidence.append(_ev("pr", f"#{sync['number']}", sync.get("bodySha256"), "merged upstream sync PR for this version"))
+            draft.evidence.append(ev("pr", f"#{sync['number']}", sync.get("bodySha256"), "merged upstream sync PR for this version"))
         if not (versionMatch or sync is not None):
             failures.append("registry-version-differs")
 
@@ -419,17 +419,17 @@ def _evaluateUmbrella(ctx: _Context, draft: _Draft) -> None:
         return
     draft.notProven.extend(failures)
 
-    if newest is not None and newest != draft.number and _a3Ok(ctx, draft, umbrellas):
+    if newest is not None and newest != draft.number and a3Ok(ctx, draft, umbrellas):
         draft.proofRule = RULE_A3
         draft.canonical = newest
         draft.confidence = "proven"
-        draft.evidence.append(_ev("issue", f"#{newest}", ctx.drafts[newest].row.get("bodySha256"), "newer open umbrella of the same suite lists every open child"))
+        draft.evidence.append(ev("issue", f"#{newest}", ctx.drafts[newest].row.get("bodySha256"), "newer open umbrella of the same suite lists every open child"))
         return
     draft.state = STATE_AMBIGUOUS if draft.unknowns else STATE_ACTIONABLE
     draft.confidence = "medium" if draft.unknowns else "high"
 
 
-def _a3Ok(ctx: _Context, draft: _Draft, umbrellas: tuple[int, ...]) -> bool:
+def a3Ok(ctx: Context, draft: Draft, umbrellas: tuple[int, ...]) -> bool:
     newestNumber = umbrellas[-1]
     newer = ctx.drafts[newestNumber]
     reasons: list[str] = []
@@ -460,11 +460,11 @@ def _a3Ok(ctx: _Context, draft: _Draft, umbrellas: tuple[int, ...]) -> bool:
     if reasons:
         draft.notProven.extend(reasons)
         return False
-    draft.evidence.append(_ev("policy", "founder/steward/POLICY.yaml", None, "issueHygiene.enabledRules"))
+    draft.evidence.append(ev("policy", "founder/steward/POLICY.yaml", None, "issueHygiene.enabledRules"))
     return True
 
 
-def _evaluateBootstrap(ctx: _Context, draft: _Draft) -> None:
+def evaluateBootstrap(ctx: Context, draft: Draft) -> None:
     draft.unknowns.extend(sorted(draft.identity.reasons))
     draft.state = STATE_AMBIGUOUS if draft.unknowns else STATE_ACTIONABLE
     draft.authority = AUTH_NONE
@@ -473,7 +473,7 @@ def _evaluateBootstrap(ctx: _Context, draft: _Draft) -> None:
 
 # ----------------------------------------------------------------- bot reports
 
-def _evaluateBot(ctx: _Context, draft: _Draft) -> None:
+def evaluateBot(ctx: Context, draft: Draft) -> None:
     row = draft.row
     title = row.get("title") if isinstance(row.get("title"), str) else ""
     body = row.get("body") if isinstance(row.get("body"), str) else ""
@@ -496,7 +496,7 @@ def _evaluateBot(ctx: _Context, draft: _Draft) -> None:
         if probe is None or not probe.get("proven"):
             failures.append(f"workflow-not-proven-disabled:{runnable}")
         else:
-            draft.evidence.append(_ev("workflow", f"{WORKFLOW_DIR}/{runnable}", probe.get("sha256"), ",".join(probe.get("reasons", []))))
+            draft.evidence.append(ev("workflow", f"{WORKFLOW_DIR}/{runnable}", probe.get("sha256"), ",".join(probe.get("reasons", []))))
     if draft.unknowns:
         failures.append("unknown-facts")
     if not failures:
@@ -508,12 +508,12 @@ def _evaluateBot(ctx: _Context, draft: _Draft) -> None:
     draft.state = STATE_AWAITING
     draft.authority = AUTH_C
     draft.confidence = "medium"
-    _addQuestion(ctx, draft, QUESTION_GH_AW, QUESTION_GH_AW_OPTIONS)
+    addQuestion(ctx, draft, QUESTION_GH_AW, QUESTION_GH_AW_OPTIONS)
 
 
 # ----------------------------------------------------------------- finalize
 
-def _finalize(ctx: _Context, draft: _Draft) -> None:
+def finalize(ctx: Context, draft: Draft) -> None:
     if draft.state == STATE_NOT_EVALUATED:
         draft.authority = AUTH_NONE
         return
@@ -542,7 +542,7 @@ def _finalize(ctx: _Context, draft: _Draft) -> None:
 
 # ----------------------------------------------------------------- batches and questions
 
-def _batches(ctx: _Context) -> list[dict]:
+def batches(ctx: Context) -> list[dict]:
     bySuite: dict[str, list[str]] = {}
     unbatched: list[str] = []
     for number in sorted(ctx.drafts):
@@ -559,14 +559,14 @@ def _batches(ctx: _Context) -> list[dict]:
     for suite in sorted(bySuite):
         umbrellas = ctx.graph.suites.get(suite, ())
         classB = sorted(bySuite[suite])
-        batches.append({"suite": _suiteRepo(suite), "umbrella": umbrellas[-1] if umbrellas else None, "classB": classB, "size": len(classB)})
+        batches.append({"suite": suiteRepo(suite), "umbrella": umbrellas[-1] if umbrellas else None, "classB": classB, "size": len(classB)})
     if unbatched:
         classB = sorted(unbatched)
         batches.append({"suite": None, "umbrella": None, "classB": classB, "size": len(classB)})
     return batches
 
 
-def _questionList(ctx: _Context) -> list[dict]:
+def questionList(ctx: Context) -> list[dict]:
     out = []
     for text, meta in ctx.questions.items():
         recommendation = meta["recommendation"]
@@ -585,7 +585,7 @@ def _questionList(ctx: _Context) -> list[dict]:
     return sorted(out, key=lambda item: (item["id"], item["question"]))
 
 
-def _itemOut(ctx: _Context, draft: _Draft) -> dict:
+def itemOut(ctx: Context, draft: Draft) -> dict:
     closable = draft.state in CLOSABLE_STATES and draft.proofRule is not None
     stateReason = RULE_STATE_REASON[draft.proofRule] if closable else None
     action = "close" if closable else "keep"
@@ -609,15 +609,15 @@ def _itemOut(ctx: _Context, draft: _Draft) -> dict:
         "unknowns": sorted(set(draft.unknowns)),
         "notProven": sorted(set(draft.notProven)),
         "dependencies": sorted(draft.dependencies) if draft.kind == "umbrella" else ([draft.parent] if draft.parent is not None else []),
-        "suite": _suiteRepo(draft.suite),
+        "suite": suiteRepo(draft.suite),
         "questions": sorted(questionId(text) for text in set(draft.questions)),
-        "snapshot": _snapshot(draft.row),
-        "original": _original(draft.identity, draft.row),
+        "snapshot": snapshot(draft.row),
+        "original": original(draft.identity, draft.row),
     }
 
 
-def _unevaluatedDraft(identity: Identity, row: dict, reasons: list[str]) -> _Draft:
-    draft = _Draft(identity, row)
+def unevaluatedDraft(identity: Identity, row: dict, reasons: list[str]) -> Draft:
+    draft = Draft(identity, row)
     draft.state = STATE_NOT_EVALUATED
     draft.authority = AUTH_NONE
     draft.unknowns.extend(reasons)
@@ -643,7 +643,7 @@ def reconcile(
 
     rowsOpen = [row for row in census.openIssues() if isinstance(row.get("number"), int)] if document is not None else []
     rowsClosed = census.rows("recentlyClosed") if document is not None else []
-    ctx = _Context(census, registryIndex, policy, workflowDisabled)
+    ctx = Context(census, registryIndex, policy, workflowDisabled)
     ctx.graph = buildGraph(rowsOpen, rowsClosed)
     ctx.mergedSyncs = [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None else []
     for row in rowsClosed:
@@ -656,28 +656,28 @@ def reconcile(
     if not complete:
         reasons = [f"census:{status.status}"] + list(status.reasons)
         ctx.drafts = {
-            number: _unevaluatedDraft(identity, rowByNumber.get(number, {}), reasons)
+            number: unevaluatedDraft(identity, rowByNumber.get(number, {}), reasons)
             for number, identity in ctx.graph.items.items()
         }
     else:
-        ctx.drafts = {number: _Draft(identity, rowByNumber.get(number, {})) for number, identity in ctx.graph.items.items()}
+        ctx.drafts = {number: Draft(identity, rowByNumber.get(number, {})) for number, identity in ctx.graph.items.items()}
         for number in sorted(ctx.drafts):
             draft = ctx.drafts[number]
             if draft.kind == "child":
-                _evaluateChild(ctx, draft)
+                evaluateChild(ctx, draft)
             elif draft.kind == "bootstrap":
-                _evaluateBootstrap(ctx, draft)
+                evaluateBootstrap(ctx, draft)
             elif draft.kind == "botreport":
-                _evaluateBot(ctx, draft)
-        _resolveDuplicates(ctx)
+                evaluateBot(ctx, draft)
+        resolveDuplicates(ctx)
         for number in sorted(ctx.drafts):
             draft = ctx.drafts[number]
             if draft.kind == "umbrella":
-                _evaluateUmbrella(ctx, draft)
+                evaluateUmbrella(ctx, draft)
         for number in sorted(ctx.drafts):
-            _finalize(ctx, ctx.drafts[number])
+            finalize(ctx, ctx.drafts[number])
 
-    items = [_itemOut(ctx, ctx.drafts[number]) for number in sorted(ctx.drafts)]
+    items = [itemOut(ctx, ctx.drafts[number]) for number in sorted(ctx.drafts)]
     unknownCoverage = [f"census:{status.status}"] + list(status.reasons) if not complete else []
     unknownCoverage += [f"registry-unreadable:{entry.path}:{entry.reason}" for entry in registryIndex.unreadable]
     counts = {"A": 0, "B": 0, "C": 0}
@@ -714,8 +714,8 @@ def reconcile(
         },
         "stats": stats,
         "items": items,
-        "batches": _batches(ctx) if complete else [],
-        "founderQuestions": _questionList(ctx) if complete else [],
+        "batches": batches(ctx) if complete else [],
+        "founderQuestions": questionList(ctx) if complete else [],
     }
     manifest["manifestSha256"] = manifestDigest(manifest)
     return manifest

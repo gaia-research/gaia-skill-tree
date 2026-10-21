@@ -25,7 +25,7 @@ from gaia_cli.frontmatter import split_frontmatter
 
 NAMED_DIR = "registry/named"
 NODES_DIR = "registry/nodes"
-_GITHUB_BLOB_RE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/(?:blob|tree)/([^/]+)(?:/(.*))?$")
+GITHUB_BLOB_RE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/(?:blob|tree)/([^/]+)(?:/(.*))?$")
 
 
 @dataclass(frozen=True)
@@ -49,7 +49,7 @@ def parseGithubUrl(url: Any) -> GithubRef | None:
     if not isinstance(url, str):
         return None
     text = re.split(r"[?#]", url.strip(), maxsplit=1)[0].rstrip("/")
-    match = _GITHUB_BLOB_RE.match(text)
+    match = GITHUB_BLOB_RE.match(text)
     if match is None:
         return None
     return GithubRef(f"{match.group(1)}/{match.group(2)}".lower(), match.group(3), match.group(4) or "")
@@ -102,15 +102,15 @@ class RegistryIndex:
     named: dict[str, NamedRecord] = field(default_factory=dict)
     nodes: dict[str, NodeRecord] = field(default_factory=dict)
     unreadable: tuple[Unreadable, ...] = ()
-    _bySlug: dict[str, list[NamedRecord]] = field(default_factory=dict, repr=False)
-    _byGithub: dict[tuple[str, str], list[NamedRecord]] = field(default_factory=dict, repr=False)
+    slugIndex: dict[str, list[NamedRecord]] = field(default_factory=dict, repr=False)
+    githubIndex: dict[tuple[str, str], list[NamedRecord]] = field(default_factory=dict, repr=False)
 
     def byId(self, identifier: str) -> NamedRecord | None:
         return self.named.get(identifier)
 
     def byGithub(self, ref: GithubRef) -> list[NamedRecord]:
         """Every named record whose links.github points at this repo and path (any ref)."""
-        return list(self._byGithub.get((ref.repo, ref.path), []))
+        return list(self.githubIndex.get((ref.repo, ref.path), []))
 
     def aliasCandidates(self, identifier: str) -> list[NamedRecord]:
         """Records with the same slug under a different contributor handle, sorted by id."""
@@ -118,7 +118,7 @@ class RegistryIndex:
         if parts is None:
             return []
         owner, slug = parts
-        found = [record for record in self._bySlug.get(slug, []) if record.contributor != owner]
+        found = [record for record in self.slugIndex.get(slug, []) if record.contributor != owner]
         return sorted(found, key=lambda record: record.id)
 
     def unreadableNear(self, identifier: str) -> list[Unreadable]:
@@ -131,7 +131,7 @@ class RegistryIndex:
         ]
 
 
-def _sha256(raw: bytes) -> str:
+def sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
@@ -139,7 +139,7 @@ def relParts(relPath: str) -> tuple[str, ...]:
     return tuple(relPath.split("/"))
 
 
-def _readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable | None]:
+def readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable | None]:
     below = relPath[len(NAMED_DIR) + 1:] if relPath.startswith(NAMED_DIR + "/") else ""
     parts = below.split("/") if below else []
     if len(parts) != 2 or not parts[0] or not parts[1].endswith(".md"):
@@ -155,7 +155,7 @@ def _readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable
         text = raw.decode("utf-8")
     except UnicodeDecodeError:
         return None, Unreadable(relPath, "utf8-error", pathId, slug)
-    fence, frontmatter, _body = split_frontmatter(text)
+    fence, frontmatter, body = split_frontmatter(text)
     if not fence:
         return None, Unreadable(relPath, "no-frontmatter", pathId, slug)
     try:
@@ -185,14 +185,14 @@ def _readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable
     status = data.get("status") if isinstance(data.get("status"), str) else None
     installable = data["installable"] if isinstance(data.get("installable"), bool) else None
     record = NamedRecord(
-        id=identifier, contributor=contributor, slug=slug, path=relPath, sha256=_sha256(raw),
+        id=identifier, contributor=contributor, slug=slug, path=relPath, sha256=sha256(raw),
         status=status, installable=installable, github=github,
         upstreamRepo=upstreamRepo, upstreamVersion=upstreamVersion,
     )
     return record, None
 
 
-def _readNode(path: Path, relPath: str) -> tuple[NodeRecord | None, Unreadable | None]:
+def readNode(path: Path, relPath: str) -> tuple[NodeRecord | None, Unreadable | None]:
     try:
         raw = path.read_bytes()
     except OSError:
@@ -203,7 +203,7 @@ def _readNode(path: Path, relPath: str) -> tuple[NodeRecord | None, Unreadable |
         return None, Unreadable(relPath, "json-error", None, None)
     if not isinstance(data, dict) or not isinstance(data.get("id"), str):
         return None, Unreadable(relPath, "node-id-missing", None, None)
-    return NodeRecord(id=data["id"], path=relPath, sha256=_sha256(raw)), None
+    return NodeRecord(id=data["id"], path=relPath, sha256=sha256(raw)), None
 
 
 def buildRegistryIndex(root: Path) -> RegistryIndex:
@@ -218,7 +218,7 @@ def buildRegistryIndex(root: Path) -> RegistryIndex:
             if not path.is_file():
                 continue
             relPath = path.relative_to(root).as_posix()
-            record, problem = _readNamed(path, relPath)
+            record, problem = readNamed(path, relPath)
             if problem is not None:
                 unreadable.append(problem)
                 continue
@@ -230,7 +230,7 @@ def buildRegistryIndex(root: Path) -> RegistryIndex:
             if not path.is_file():
                 continue
             relPath = path.relative_to(root).as_posix()
-            node, problem = _readNode(path, relPath)
+            node, problem = readNode(path, relPath)
             if problem is not None:
                 unreadable.append(problem)
                 continue
@@ -238,9 +238,9 @@ def buildRegistryIndex(root: Path) -> RegistryIndex:
 
     index = RegistryIndex(named=dict(sorted(named.items())), nodes=nodes, unreadable=tuple(sorted(unreadable, key=lambda item: item.path)))
     for record in index.named.values():
-        index._bySlug.setdefault(record.slug, []).append(record)
+        index.slugIndex.setdefault(record.slug, []).append(record)
         if record.github is not None:
-            index._byGithub.setdefault((record.github.repo, record.github.path), []).append(record)
+            index.githubIndex.setdefault((record.github.repo, record.github.path), []).append(record)
     return index
 
 
