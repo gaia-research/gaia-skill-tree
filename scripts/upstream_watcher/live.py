@@ -135,6 +135,36 @@ class LiveGh:
             return "absent"
         return "closed" if issue.get("state") == "closed" else "open"
 
+    def list_comments(self, number: int) -> list[dict]:
+        """Return every comment on *number*, following explicit pages (M5 record comments).
+
+        Any failure raises GhError. A short page ends the walk; reaching MAX_PAGES is an error.
+        """
+        items: list[dict] = []
+        for page in range(1, MAX_PAGES + 1):
+            batch = self._json(
+                ["gh", "api", "--method", "GET", f"repos/{self.repo}/issues/{number}/comments",
+                 "-f", f"per_page={PER_PAGE}", "-f", f"page={page}"]
+            )
+            if not isinstance(batch, list):
+                raise GhError(f"comment page {page} of #{number} is not an array")
+            items.extend(batch)
+            if len(batch) < PER_PAGE:
+                return items
+        raise GhError(f"comment list of #{number} exceeded {MAX_PAGES} pages; refusing to truncate")
+
+    def edit_comment(self, comment_id: int, body: str) -> None:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:
+            handle.write(body)
+            body_file = handle.name
+        try:
+            self._run(
+                ["gh", "api", "--method", "PATCH", f"repos/{self.repo}/issues/comments/{comment_id}",
+                 "-F", f"body=@{body_file}"]
+            )
+        finally:
+            Path(body_file).unlink(missing_ok=True)
+
     def create_issue(self, title: str, labels: list[str], body: str) -> int:
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:
             handle.write(body)

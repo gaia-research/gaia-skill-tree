@@ -30,6 +30,9 @@ class FakeGh:
         self.moved: set[int] = set()
         self.stale_on_get: dict[int, dict] = {}
         self.next_number = 5000
+        # Issue comments by issue number (M5 record comments). Each comment is {id, body, user}.
+        self.comments: dict[int, list[dict]] = {}
+        self.next_comment_id = 9000
         for issue in issues or []:
             self.add(issue)
 
@@ -107,7 +110,23 @@ class FakeGh:
         self.writes.append(("labels", number, tuple(add), tuple(remove)))
 
     def comment(self, number: int, body: str) -> None:
+        self.next_comment_id += 1
+        self.comments.setdefault(number, []).append(
+            {"id": self.next_comment_id, "body": body, "user": {"login": "github-actions[bot]"}}
+        )
         self.writes.append(("comment", number, body))
+
+    def list_comments(self, number: int) -> list[dict]:
+        return [dict(row) for row in self.comments.get(number, [])]
+
+    def edit_comment(self, comment_id: int, body: str) -> None:
+        for rows in self.comments.values():
+            for row in rows:
+                if row["id"] == comment_id:
+                    row["body"] = body
+                    self.writes.append(("edit_comment", comment_id))
+                    return
+        raise GhError(f"comment {comment_id} missing (fake)")
 
     # -- helpers -----------------------------------------------------------
     def write_count(self) -> int:

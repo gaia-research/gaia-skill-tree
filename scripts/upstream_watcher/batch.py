@@ -26,22 +26,34 @@ import datetime as dt
 import hashlib
 import json
 import re
+from collections import Counter
 from typing import Any
 
 from scripts.lib.github_api import parse_owner_repo
-from scripts.upstream_watcher import prechecks
+from scripts.upstream_watcher import prechecks, records
 from scripts.upstream_watcher.issuer import (
     _LABEL_VOCAB,
     _REVIEWER_ACTIONS,
     render_child_body,
 )
 from scripts.upstream_watcher.live import GhError, LiveGh, open_umbrellas, read_live
+from scripts.upstream_watcher.records import RecordError
 
 PAYLOAD_VERSION = 2
 UNKNOWN_EXIT_CODE = 3
 # H2: a label reset is retried this many times before the run gives up. Giving up leaves the
 # body untouched, so the next run still sees a payload change (non-noop) and retries.
 RESET_ATTEMPTS = 3
+# M5: GitHub's body limit is 65,536 characters. A suite whose full inline payload renders above
+# BODY_BUDGET is written in records mode (compact index in the body, full rows in record
+# comments). BODY_LIMIT is the hard ceiling: a body that still exceeds it fails closed.
+BODY_LIMIT = 65_536
+BODY_BUDGET = 60_000
+PLACEHOLDER_BODY = (
+    "## Upstream release detected\n\n"
+    "Writing the batch record. The full rows are attached as record comments on this issue, "
+    "and this body is replaced once they are written."
+)
 PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\n(.*?)\n-->", re.DOTALL)
 ESCALATE_LABELS = ["intake", "needs-triage", "upstream:child"]
 # Row statuses (prechecks: new, tracked, present, rejected; escalate: escalated).
@@ -80,7 +92,12 @@ def body_hash(body: str) -> str:
 
 
 def payload_block(payload: dict) -> str:
-    return "<!-- gaia-upstream-payload\n" + json.dumps(payload, indent=2, ensure_ascii=False) + "\n-->"
+    if "candidateRecords" in payload:
+        # Records mode keeps the index on one line so the index itself stays well under the limit.
+        encoded = json.dumps(payload, separators=(",", ":"), ensure_ascii=False)
+    else:
+        encoded = json.dumps(payload, indent=2, ensure_ascii=False)
+    return "<!-- gaia-upstream-payload\n" + encoded + "\n-->"
 
 
 def label_names(issue: dict) -> list[str]:
@@ -173,14 +190,15 @@ def unresolved_row_ids(payload: dict, state_of) -> list[str]:
     return [row["id"] for row in payload.get("candidates", []) if row_is_unresolved(row, state_of)]
 
 
-def carry_forward(live: dict, prefix: str, state_of) -> list[dict]:
+def carry_forward(live: dict, prefix: str, state_of, gh=None) -> list[dict]:
     """Unresolved rows of the newest closed umbrella for a suite, to seed a new umbrella.
 
     The source is the full closed ``upstream:release`` history (``closedUmbrellas``),
     never the 30-day window: an umbrella closed months ago still carries its
     unresolved rows, so closing an umbrella can never drop candidates. A carried
     row keeps its status, child link and firstSeenVersion, and records
-    ``carriedFrom`` as the umbrella it was last carried from.
+    ``carriedFrom`` as the umbrella it was last carried from. Records-mode umbrellas are
+    read back through their record comments (M5).
     """
     closed = [
         issue
@@ -192,7 +210,7 @@ def carry_forward(live: dict, prefix: str, state_of) -> list[dict]:
     if not closed:
         return []
     newest = max(closed, key=lambda issue: issue["number"])
-    rows = (parse_payload(newest.get("body")) or {}).get("candidates", [])
+    rows = load_rows(gh, newest["number"], parse_payload(newest.get("body")))
     return [
         {**row, "carriedFrom": f"#{newest['number']}"}
         for row in rows
@@ -259,7 +277,28 @@ def settle_liveness(finding: dict, previous_payload: dict | None) -> dict:
     return {**finding, "linkLiveness": kept + carried}
 
 
-def build_payload(finding: dict, rows: list[dict], previous_version: str | None) -> dict:
+def load_rows(gh, number: int, payload: dict | None) -> list[dict]:
+    """Full candidate rows of an umbrella.
+
+    Inline payloads hold them in ``candidates``. Records-mode payloads hold an index there, and
+    the full rows are read back from the umbrella's record comments and verified against the
+    body digest. Any failure raises GhError (fail closed).
+    """
+    if payload is None:
+        return []
+    meta = payload.get("candidateRecords")
+    if meta is None:
+        return list(payload.get("candidates", []))
+    if gh is None:
+        raise RecordError(f"#{number} holds records and no GitHub client was given to read them")
+    try:
+        comments = gh.list_comments(number)
+    except GhError as exc:
+        raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
+    return records.read_rows(comments, meta)
+
+
+def build_payload(finding: dict, rows: list[dict], previous_version: str | None, records_meta: dict | None = None) -> dict:
     payload = {
         "payloadVersion": PAYLOAD_VERSION,
         "skillId": finding["skillId"],
@@ -274,15 +313,53 @@ def build_payload(finding: dict, rows: list[dict], previous_version: str | None)
         "nameDrift": list(finding.get("nameDrift", [])),
         "candidates": rows,
     }
+    if records_meta is not None:
+        payload["candidateRecords"] = records_meta
     payload["payloadSha256"] = canonical_hash(payload)
     return payload
+
+
+def layout(finding: dict, rows: list[dict], previous_version: str | None) -> tuple[dict, str, list[dict] | None]:
+    """Choose inline or records mode for *rows*. Returns (payload, body, record rows or None).
+
+    Inline (the default, unchanged) when the full rendering fits BODY_BUDGET. Otherwise the body
+    carries an index and the full rows go to record comments. A body that still exceeds
+    BODY_LIMIT in records mode raises RecordError, so nothing over the limit is ever written.
+    """
+    inline = build_payload(finding, rows, previous_version)
+    inline_body = render_batch_body(inline)
+    if len(inline_body) <= BODY_BUDGET:
+        return inline, inline_body, None
+    index = [{"id": row["id"], "status": row["status"], "child": row.get("child")} for row in rows]
+    meta = {"chunks": len(records.chunk_rows(rows)), "rows": len(rows), "sha256": records.rows_digest(rows)}
+    payload = build_payload(finding, index, previous_version, records_meta=meta)
+    body = render_batch_body(payload)
+    if len(body) > BODY_LIMIT:
+        raise RecordError(
+            f"{len(rows)} candidate rows leave an umbrella index of {len(body)} characters, "
+            f"over GitHub's {BODY_LIMIT}-character body limit; the suite needs a curation decision"
+        )
+    return payload, body, rows
+
+
+def _records_summary(payload: dict) -> str:
+    """Batch-review text for a records-mode umbrella: the rows live in its record comments."""
+    meta = payload["candidateRecords"]
+    counts = Counter(row["status"] for row in payload["candidates"])
+    status_line = ", ".join(f"`{name}` {count}" for name, count in sorted(counts.items()))
+    return (
+        f"**{meta['rows']} candidate row(s)** are kept losslessly in {meta['chunks']} record comment(s) "
+        "on this umbrella, because they do not fit in the body. The body holds an index only, "
+        f"so it stays under GitHub's body limit. Status counts: {status_line}."
+    )
 
 
 def render_batch_body(payload: dict) -> str:
     """Human-readable umbrella body with an independently addressable batch table."""
     rows = payload["candidates"]
+    records_summary = _records_summary(payload) if "candidateRecords" in payload else None
     table_rows = []
-    for row in rows:
+    for row in rows if records_summary is None else []:
         precheck = row.get("precheck", {})
         child = f"#{row['child']}" if row.get("child") else "—"
         table_rows.append(
@@ -291,7 +368,7 @@ def render_batch_body(payload: dict) -> str:
             f"`{precheck.get('priorDisposition', 'none')}` | {child} | "
             f"{row['firstSeenVersion']} → {row['lastSeenVersion']} |"
         )
-    batch_table = (
+    batch_table = records_summary if records_summary is not None else (
         "| Row | Suggested ID | Status | Registry | Tracked | Prior | Child | Seen |\n"
         "|---|---|---|---|---|---|---|---|\n" + "\n".join(table_rows)
         if table_rows
@@ -299,7 +376,7 @@ def render_batch_body(payload: dict) -> str:
     )
     liveness = payload.get("linkLiveness") or []
     drift = payload.get("nameDrift") or []
-    carried_rows = [row for row in rows if row.get("carriedFrom")]
+    carried_rows = [] if records_summary is not None else [row for row in rows if row.get("carriedFrom")]
     carried_note = (
         f"\n\n_Carried forward from closed umbrella {', '.join(sorted({row['carriedFrom'] for row in carried_rows}))}: "
         f"{len(carried_rows)} unresolved row(s) kept open._"
@@ -363,11 +440,22 @@ def baseline_ids(previous_payload: dict | None, owner_repo: str) -> set[str]:
     return {f"{owner_repo}:{slug}" for slug in previous_payload.get("componentAdds", [])}
 
 
-def plan_suite(finding: dict, live: dict, index: dict, probe=None) -> dict:
+def _comments(gh, number: int) -> list[dict]:
+    """Every comment on *number*, or RecordError. Used only when record comments are in play."""
+    if gh is None:
+        raise RecordError(f"#{number} needs its record comments and no GitHub client was given to read them")
+    try:
+        return gh.list_comments(number)
+    except GhError as exc:
+        raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
+
+
+def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> dict:
     """Compute the umbrella action for one update finding. Performs no writes.
 
-    *probe* (``LiveGh.issue_state`` in a run) resolves child numbers the LIST
-    snapshot does not hold. Its GhError propagates: unknown evidence, no writes.
+    *probe* (``LiveGh.issue_state`` in a run) resolves child numbers the LIST snapshot does not
+    hold. *gh* reads the record comments of a records-mode umbrella (M5). A GhError from either
+    propagates: unknown evidence, no writes.
     """
     owner_repo = owner_repo_of(finding)
     new_version = finding["newVersion"]
@@ -385,18 +473,30 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None) -> dict:
 
     previous_payload = parse_payload(umbrella.get("body")) if umbrella else None
     finding = settle_liveness(finding, previous_payload)
-    prior_rows = (previous_payload or {}).get("candidates", [])
-    carried: list[dict] = []
-    if umbrella is None:
-        # A new umbrella starts from the closed one's unresolved rows, so closing an
-        # umbrella can never drop candidates.
-        carried = carry_forward(live, prefix, state_of)
+    if umbrella is not None and previous_payload is not None:
+        prior_rows = load_rows(gh, umbrella["number"], previous_payload)
+        carried: list[dict] = []
+    else:
+        # A new umbrella, or one whose body was never written (a create that stopped part way),
+        # starts from the closed umbrella's unresolved rows, so closing an umbrella never drops
+        # candidates.
+        carried = carry_forward(live, prefix, state_of, gh)
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
-    payload = build_payload(finding, rows, previous_version=None)
+    payload, body, record_rows = layout(finding, rows, previous_version=None)
+
+    record_writes: list[tuple[str, int | None, str]] = []
+    if record_rows is not None:
+        comments = [] if umbrella is None else _comments(gh, umbrella["number"])
+        record_writes = records.plan_writes(comments, record_rows)
+
     if umbrella is None:
         action = "create"
-    elif (previous_payload or {}).get("payloadSha256") == payload["payloadSha256"] and umbrella["title"] == title:
+    elif (
+        (previous_payload or {}).get("payloadSha256") == payload["payloadSha256"]
+        and umbrella["title"] == title
+        and not record_writes
+    ):
         action = "noop"
     else:
         action = "update"
@@ -415,7 +515,9 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None) -> dict:
         "umbrella": umbrella["number"] if umbrella else None,
         "umbrellaTitle": umbrella["title"] if umbrella else None,
         "payload": payload,
-        "body": render_batch_body(payload),
+        "body": body,
+        "records": record_rows,
+        "recordWrites": record_writes,
         "newRows": added,
         "resetRows": reset_rows,
         "suppressed": suppressed,
@@ -475,30 +577,47 @@ def _retry(action):
     raise last  # type: ignore[misc]
 
 
+def _write_records(gh, number: int, writes: list[tuple[str, int | None, str]]) -> None:
+    """Apply record comment writes. Retried: a repeated create only duplicates identical content, which readers accept."""
+    for kind, comment_id, text in writes:
+        if kind == "create":
+            _retry(lambda text=text: gh.comment(number, text))
+        else:
+            _retry(lambda comment_id=comment_id, text=text: gh.edit_comment(comment_id, text))
+
+
 def write_umbrella(plan: dict, gh: LiveGh) -> str:
     """Execute a create/update plan. Returns the outcome label.
 
-    Order matters (H2). The reviewer note is posted first, then the approval is reset
-    (labels), and only then is the body replaced. Any failure before the body write
-    leaves the body unchanged, so the next run still sees a payload change and retries.
-    The label reset is retried; a comment is not, because a retry could duplicate it.
+    Order (H2, M5): the reviewer note, then the approval reset (labels), then the record
+    comments, and the body last. A failure before the body write leaves the body unchanged, so
+    the next run still sees a payload change and retries. Label, record and body writes are
+    retried. The note is not, because a retry could duplicate it.
     """
     if plan["action"] == "create":
-        number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], plan["body"])
+        if plan["records"] is None:
+            number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], plan["body"])
+            plan["umbrella"] = number
+            return "created"
+        # Records mode: create with a placeholder, attach the record comments, then write the index body.
+        number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], PLACEHOLDER_BODY)
         plan["umbrella"] = number
+        _write_records(gh, number, plan["recordWrites"])
+        _retry(lambda: gh.edit_issue(number, plan["title"], plan["body"]))
         return "created"
     note = comment_for(plan)
     if note:
         gh.comment(plan["umbrella"], note)
     if plan["reset"]:
         _retry(lambda: gh.edit_labels(plan["umbrella"], add=["upstream:needs-info"], remove=["upstream:approved"]))
+    _write_records(gh, plan["umbrella"], plan["recordWrites"])
     _retry(lambda: gh.edit_issue(plan["umbrella"], plan["title"], plan["body"]))
     return "updated"
 
 
 def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool) -> tuple[dict, dict]:
     """Plan and (when apply) write one suite. Returns (suite report row, live snapshot)."""
-    plan = plan_suite(finding, live, index, probe=gh.issue_state)
+    plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
     outcome = "planned"
     if plan["action"] == "noop":
         outcome = "noop"
@@ -513,14 +632,14 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                 fresh = read_live(gh)
                 if open_umbrellas(fresh["issues"], umbrella_prefix(plan["suite"])):
                     live = fresh
-                    plan = plan_suite(finding, live, index, probe=gh.issue_state)
+                    plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
                     continue
                 outcome = write_umbrella(plan, gh)
                 break
             current = gh.get_issue(plan["umbrella"])
             if snapshot_of(current) != plan["snapshot"]:
                 live = read_live(gh)
-                plan = plan_suite(finding, live, index, probe=gh.issue_state)
+                plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
                 if plan["action"] == "noop":
                     outcome = "noop"
                     break
@@ -607,16 +726,22 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
         return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
 
     umbrella = None
-    row = None
+    payload_now = None
     for issue in live["issues"]:
         if issue.get("state") != "open" or "upstream:release" not in label_names(issue):
             continue
         payload = parse_payload(issue.get("body"))
         if not payload:
             continue
-        for candidate in payload.get("candidates", []):
-            if candidate["id"] == candidate_id:
-                umbrella, row, payload_now = issue, candidate, payload
+        if any(candidate.get("id") == candidate_id for candidate in payload.get("candidates", [])):
+            umbrella, payload_now = issue, payload
+    if umbrella is None:
+        return {**result, "outcome": "not-found"}, 2
+    try:
+        rows = load_rows(gh, umbrella["number"], payload_now)
+    except GhError as exc:
+        return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
+    row = next((candidate for candidate in rows if candidate["id"] == candidate_id), None)
     if row is None:
         return {**result, "outcome": "not-found"}, 2
     if row.get("child") is not None:
@@ -650,16 +775,24 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
     current = gh.get_issue(umbrella["number"])
     if snapshot_of(current) != snapshot_of(umbrella):
         return {**result, "outcome": "raced-skip"}, 0
-    rows = []
-    for candidate in payload_now["candidates"]:
+    updated_rows = []
+    for candidate in rows:
         if candidate["id"] == candidate_id:
             # An adopted child is tracked at once; a child created here is escalated.
             status = "escalated" if outcome == "created" else "tracked"
             candidate = {**candidate, "child": child_number, "status": status}
             if isinstance(candidate.get("precheck"), dict):
                 candidate["precheck"] = {**candidate["precheck"], "tracked": f"child:#{child_number}"}
-        rows.append(candidate)
-    rebuilt = build_payload(payload_now, rows, previous_version=payload_now.get("previousVersion"))
-    body = render_batch_body(rebuilt)
+        updated_rows.append(candidate)
+    try:
+        _payload, body, record_rows = layout(payload_now, updated_rows, previous_version=payload_now.get("previousVersion"))
+        record_writes = (
+            records.plan_writes(_comments(gh, umbrella["number"]), record_rows) if record_rows is not None else []
+        )
+    except GhError as exc:
+        return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
+    _write_records(gh, umbrella["number"], record_writes)
     gh.edit_issue(umbrella["number"], umbrella["title"], body)
     return result, 0
+
+
