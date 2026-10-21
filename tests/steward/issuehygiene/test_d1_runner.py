@@ -137,6 +137,9 @@ def test_repeat_record_is_a_noop_and_a_different_outcome_is_refused(tmp_path, mo
     {"outcome": "inherit"},
     {"outcome": "closed", "commentUrl": "https://example.invalid/c"},  # wrong issue or key below
     {"outcome": "closed"},  # no closing comment recorded
+    {"outcome": "closed", "markerVerified": False},  # a false marker is not proof
+    {"outcome": "closed", "commentId": True},  # a boolean is not a comment id
+    {"outcome": "closed", "commentId": "4567"},  # a comment id is an integer
     {"outcome": "failed"},  # no failure reason
 ])
 def test_invalid_outcomes_are_refused(tmp_path, monkeypatch, body) -> None:
@@ -154,6 +157,26 @@ def test_invalid_outcomes_are_refused(tmp_path, monkeypatch, body) -> None:
     with pytest.raises(RecordRefused):
         runner.record(view.runId, action["stepId"], payload)
     assert loadOutcomes(repo) == {}
+
+
+@pytest.mark.parametrize("proof", [
+    {"commentUrl": "https://example.invalid/issues/10#issuecomment-99"},
+    {"commentId": 99},
+    {"markerVerified": True},
+])
+def test_closed_outcome_is_accepted_with_any_one_proof(tmp_path, monkeypatch, proof) -> None:
+    repo, store, runner = runnerFor(tmp_path)
+    rows = closureRows(1)
+    writeCensus(repo, makeCensus(rows))
+    stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
+    view = runner.start("full")
+    (action,) = closeActions(view)
+    payload = {"outcome": "closed", "issue": action["params"]["issue"], "key": action["params"]["key"], **proof}
+    runner.record(view.runId, action["stepId"], payload)
+    entry = loadOutcomes(repo)[f"{action['params']['key']}#{action['params']['issue']}"]
+    assert entry["outcome"] == "closed"
+    assert entry["commentId"] == proof.get("commentId")
+    assert entry["markerVerified"] is (proof.get("markerVerified") is True)
 
 
 def test_failed_and_stale_outcomes_are_retryable_and_bounded(tmp_path) -> None:

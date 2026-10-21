@@ -132,6 +132,18 @@ def _provableClosure(item: Mapping[str, Any], hygiene: HygienePolicy) -> bool:
     )
 
 
+def _observedPlan(plan: Mapping[str, Any], manifest: Mapping[str, Any]) -> dict[str, Any]:
+    """A closure plan as debt state: without its closing comment, which the emitter rebuilds.
+
+    The comment is roughly as large as the original payload it quotes, and every debt row keeps
+    its plans, so it is dropped here. ``reconciliationSha256`` keeps the rebuild byte-identical.
+    """
+
+    observed = {key: value for key, value in plan.items() if key != "comment"}
+    observed["reconciliationSha256"] = manifest["manifestSha256"]
+    return observed
+
+
 def _closurePlans(manifest: Mapping[str, Any], hygiene: HygienePolicy) -> list[dict]:
     """Closure plans from lane B's planner, restricted to items whose proof still holds."""
 
@@ -141,7 +153,7 @@ def _closurePlans(manifest: Mapping[str, Any], hygiene: HygienePolicy) -> list[d
     for plan in planClosures(dict(manifest), everything):
         item = items.get(plan["issue"])
         if item is not None and _provableClosure(item, hygiene):
-            plans.append(plan)
+            plans.append(_observedPlan(plan, manifest))
     return sorted(plans, key=lambda plan: plan["issue"])
 
 

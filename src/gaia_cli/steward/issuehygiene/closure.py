@@ -13,10 +13,11 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Mapping, Protocol
 
 from gaia_cli.steward.issuehygiene.census import bodySha256
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, KNOWN_RULE_IDS
@@ -171,6 +172,47 @@ def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
     return plans
 
 
+def closureCommentFor(plan: Mapping[str, Any]) -> str:
+    """Rebuild a plan's closing comment from its observed fields.
+
+    The sensor keeps debt state small by dropping ``comment`` and keeping the manifest's own
+    digest as ``reconciliationSha256``. Rebuilt this way the comment is byte-identical to the
+    one ``planClosures`` writes from the full manifest, so the marker still matches.
+    """
+    item = {
+        "key": plan["key"],
+        "ruleId": plan["ruleId"],
+        "proposedTransition": {"stateReason": plan["stateReason"], "duplicateOf": plan.get("duplicateOf")},
+        "parent": plan.get("parent"),
+        "canonical": plan.get("canonical"),
+        "evidence": plan["evidence"],
+        "original": plan["original"],
+    }
+    return buildClosureComment(item, {"manifestSha256": plan["reconciliationSha256"]})
+
+
+COMMENT_ID = re.compile(r"issuecomment-(\d+)")
+
+
+def commentIdFromUrl(url: Any) -> int | None:
+    """The numeric id in a GitHub comment URL (``...#issuecomment-123``), or None."""
+    if not isinstance(url, str):
+        return None
+    match = COMMENT_ID.search(url)
+    return int(match.group(1)) if match else None
+
+
+def closureProven(outcome: Mapping[str, Any]) -> bool:
+    """A closed outcome must prove its closing comment: a URL, a positive id, or a verified marker."""
+    url = outcome.get("commentUrl")
+    commentId = outcome.get("commentId")
+    return (
+        (isinstance(url, str) and bool(url.strip()))
+        or (isinstance(commentId, int) and not isinstance(commentId, bool) and commentId > 0)
+        or outcome.get("markerVerified") is True
+    )
+
+
 def resumeState(receiptsPath: Path | str) -> ResumeState:
     """Read a receipts file and report which (key, issue) pairs are already done. Never raises."""
     path = Path(receiptsPath)
@@ -211,7 +253,10 @@ def appendReceipt(receiptsPath: Path | str, receipt: dict) -> None:
         os.fsync(handle.fileno())
 
 
-def buildReceipt(plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | None, failure: str | None) -> dict:
+def buildReceipt(
+    plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | None, failure: str | None,
+    commentId: int | None = None, markerVerified: bool = False,
+) -> dict:
     assert outcome in OUTCOMES, outcome
     return {
         "schemaVersion": RECEIPT_SCHEMA,
@@ -228,6 +273,8 @@ def buildReceipt(plan: dict, runId: str, outcome: str, now: Any, commentUrl: str
         "before": {"snapshot": plan["expectedSnapshot"]},
         "originalPayload": plan["original"],
         "commentUrl": commentUrl,
+        "commentId": commentId,
+        "markerVerified": markerVerified,
         "closedAt": isoTime(now) if outcome == "closed" else None,
         "recordedAt": isoTime(now),
         "outcome": outcome,
@@ -263,8 +310,10 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         raise ValueError("closure plans must carry authority A and a registered rule")
     issue = plan["issue"]
 
-    def finish(outcome: str, commentUrl: str | None = None, failure: str | None = None) -> dict:
-        receipt = buildReceipt(plan, runId, outcome, now, commentUrl, failure)
+    def finish(outcome: str, commentUrl: str | None = None, failure: str | None = None,
+               commentId: int | None = None, markerVerified: bool = False) -> dict:
+        receipt = buildReceipt(plan, runId, outcome, now, commentUrl, failure,
+                               commentId=commentId, markerVerified=markerVerified)
         appendReceipt(receiptsPath, receipt)
         return receipt
 
@@ -283,19 +332,30 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
     if differences:
         return finish("stale-skip", failure=",".join(differences))
 
+    # Proof before close: the closing comment must be identified by URL, by id, or by a marker
+    # found on re-read. A forge that reports neither leaves the issue open.
     commentUrl = None
+    commentId = None
+    markerVerified = False
     try:
         existing = findMarker(forge.listComments(issue), plan["key"])
         if existing is None:
             commentUrl = forge.addComment(issue, plan["comment"])
+            commentId = commentIdFromUrl(commentUrl)
+            if commentUrl is None:
+                markerVerified = findMarker(forge.listComments(issue), plan["key"]) is not None
+                if not markerVerified:
+                    return finish("failed", failure="write: closing comment posted but not verifiable; issue left open")
         else:
             commentUrl = existing.get("url")
+            commentId = commentIdFromUrl(commentUrl)
+            markerVerified = True
         forge.closeIssue(issue, plan["stateReason"], plan["duplicateOf"])
     except ForgeBlockedError as exc:
-        return finish("blocked", commentUrl, f"write: {exc}")
+        return finish("blocked", commentUrl, f"write: {exc}", commentId, markerVerified)
     except Exception as exc:  # item-local
-        return finish("failed", commentUrl, f"write: {exc}")
-    return finish("closed", commentUrl)
+        return finish("failed", commentUrl, f"write: {exc}", commentId, markerVerified)
+    return finish("closed", commentUrl, None, commentId, markerVerified)
 
 
 def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "") -> list[dict]:
@@ -325,6 +385,9 @@ __all__ = [
     "ResumeState",
     "appendReceipt",
     "buildClosureComment",
+    "closureCommentFor",
+    "closureProven",
+    "commentIdFromUrl",
     "executeClosure",
     "executeClosures",
     "planClosures",
