@@ -36,6 +36,13 @@ from typing import Any
 
 from scripts.upstream_watcher.live import GhError, LiveGh
 
+# Labels whose open issues the fanout idempotency checks read, once, before the first write.
+IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
+
+
+class IdempotencyLookupError(RuntimeError):
+    """A fanout idempotency LIST failed. The outcome is unknown, so the fanout writes nothing."""
+
 # ---------------------------------------------------------------------------
 # Label vocab table (embedded in issue bodies, per design §5)
 # ---------------------------------------------------------------------------
@@ -335,14 +342,40 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 # ---------------------------------------------------------------------------
 
 
+def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, list[dict]]:
+    """Read every open issue carrying each label, following all pages.
+
+    Raises IdempotencyLookupError on any list failure. The fanout calls this before
+    its first write, so a failed lookup can never leave a half-written run behind.
+    """
+    gh = LiveGh()
+    snapshot: dict[str, list[dict]] = {}
+    for label in labels:
+        try:
+            snapshot[label] = gh.list_issues("open", labels=label)
+        except GhError as exc:
+            raise IdempotencyLookupError(f"open {label} issue list failed: {exc}") from exc
+    return snapshot
+
+
+def _listed_open(label: str, snapshot: dict[str, list[dict]] | None) -> list[dict]:
+    """Open issues for *label* from the run snapshot, or a fresh fail-closed list when none was taken."""
+    if snapshot is not None and label in snapshot:
+        return snapshot[label]
+    return _open_snapshot((label,))[label]
+
+
 def _find_existing_suite_issue(
     prefix: str,
     label: str,
     run_cache: dict[tuple[str, str], Any] | None = None,
+    snapshot: dict[str, list[dict]] | None = None,
 ) -> tuple[int, str] | None:
     """Return (issue_number, current_title) of an open issue matching *prefix* under *label*, or None.
 
-    Consults *run_cache* first, then queries GitHub for open issues carrying *label*.
+    Consults *run_cache* first, then the paginated open LIST for *label* (the run
+    *snapshot* when given). A failed list raises IdempotencyLookupError; it is never
+    read as "no such umbrella", which would create a duplicate.
     """
     if run_cache is not None:
         cached = run_cache.get((label, prefix))
@@ -350,28 +383,12 @@ def _find_existing_suite_issue(
             if isinstance(cached, tuple):
                 return cached
             return (cached, f"{prefix}...")
-    try:
-        result = subprocess.run(
-            [
-                "gh", "issue", "list",
-                "--label", label,
-                "--state", "open",
-                "--limit", "100",
-                "--json", "number,title",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if result.returncode != 0:
-            return None
-        issues = json.loads(result.stdout or "[]")
-        for issue in issues:
-            title = issue.get("title", "")
-            if prefix in title:
-                return issue["number"], title
-    except Exception as exc:  # noqa: BLE001
-        print(f"  [warn] suite issue lookup failed: {exc}", file=sys.stderr)
+    for issue in _listed_open(label, snapshot):
+        if issue.get("pull_request"):
+            continue
+        title = issue.get("title", "")
+        if prefix in title:
+            return issue["number"], title
     return None
 
 
@@ -450,6 +467,7 @@ def _find_existing_issue(
     search_str: str,
     label: str,
     run_cache: dict[tuple[str, str], int] | None = None,
+    snapshot: dict[str, list[dict]] | None = None,
 ) -> int | None:
     """Return the number of an open issue matching *search_str* and *label*, or None.
 
@@ -458,18 +476,14 @@ def _find_existing_issue(
     so an issue created seconds ago could be invisible to it. A single watcher
     run also routinely emits several findings that collapse onto the same
     umbrella, so *run_cache* remembers what this process already created and is
-    consulted first.
+    consulted first. A failed list raises IdempotencyLookupError (fail closed):
+    returning None there would let the caller create a duplicate.
     """
     if run_cache is not None:
         cached = run_cache.get((label, search_str))
         if cached is not None:
             return cached
-    try:
-        issues = LiveGh().list_issues("open", labels=label)
-    except GhError as exc:
-        print(f"  [warn] idempotency check failed: {exc}", file=sys.stderr)
-        return None
-    for issue in issues:
+    for issue in _listed_open(label, snapshot):
         if issue.get("pull_request"):
             continue
         if search_str in issue.get("title", ""):
@@ -582,8 +596,20 @@ def create_issues(
     -------
     list[dict]
         Summary records per finding.
+
+    Raises
+    ------
+    IdempotencyLookupError
+        A duplicate check could not read GitHub. The open-issue snapshot is read
+        before the first write, so this is raised with zero writes made.
     """
     summaries: list[dict] = []
+    if not full_findings:
+        return summaries
+    # Every duplicate check reads this one snapshot, taken before any write. A
+    # failed list therefore stops the run with nothing written, instead of
+    # creating an issue whose existence it could not rule out.
+    snapshot = _open_snapshot()
     # Issues created by *this* run, keyed (label, title-fragment).  GitHub's
     # search index lags creation by seconds, so this is the only reliable
     # dedup for findings that collapse onto one issue within a single run.
@@ -600,7 +626,7 @@ def create_issues(
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
             suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
             existing_suite = _find_existing_suite_issue(
-                suite_prefix, "upstream:bootstrap", run_cache
+                suite_prefix, "upstream:bootstrap", run_cache, snapshot
             )
             if existing_suite:
                 existing_num, existing_title = existing_suite
@@ -663,7 +689,7 @@ def create_issues(
         umbrella_title = f"[upstream] {owner_repo_str} → {new_version}"
         suite_prefix = f"[upstream] {owner_repo_str} → "
         existing_suite = _find_existing_suite_issue(
-            suite_prefix, "upstream:release", run_cache
+            suite_prefix, "upstream:release", run_cache, snapshot
         )
 
         component_adds = finding.get("componentAdds", [])
@@ -732,7 +758,7 @@ def create_issues(
         for slug in component_adds:
             child_title = f"[intake] {contributor}/{slug}"
             child_key = f"[intake] {contributor}/{slug}"
-            existing_child = _find_existing_issue(child_key, "intake", run_cache)
+            existing_child = _find_existing_issue(child_key, "intake", run_cache, snapshot)
             if existing_child:
                 print(
                     f"  Child intake for {contributor}/{slug} already exists as #{existing_child}; skipping.",
