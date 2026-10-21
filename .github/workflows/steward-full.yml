@@ -137,10 +137,19 @@ jobs:
 
       - name: Drive the pipeline
         run: |
+          set +e
           python scripts/steward_drive.py \
             --integration-branch "$INTEGRATION_BRANCH" \
             --ledger git --trigger scheduled \
             --report drive-report.json
+          rc=$?
+          # Exit 4: another run holds the ledger lease (30 min TTL). Nothing is
+          # lost and nothing was done; the next run adopts any unfinished work.
+          if [ "$rc" -eq 4 ]; then
+            echo "::warning title=steward run skipped::another run holds the ledger lease; nothing was done"
+            exit 0
+          fi
+          exit "$rc"
 
       - name: Founder desk
         if: always()
