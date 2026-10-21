@@ -246,7 +246,7 @@ Add to `.github/labels.yml` (create the file — repo currently has none; use `g
 | `upstream:approved` | maintainer | after review | fires sync workflow (gated on child resolution) |
 | `upstream:rejected` | maintainer | after review | closes issue with sync-skipped comment |
 | `upstream:needs-info` | maintainer; watcher on approved reset | after review, or when an approved umbrella moves to a new version or gains reviewable rows | holds; no automation fires. The watcher removes `upstream:approved`, adds this label and posts one comment naming the approved version, the new version and the added rows |
-| `skip-child-gate` | maintainer (rare) | with `upstream:approved` | bypasses child-resolution gate |
+| `skip-child-gate` | maintainer (rare) | with `upstream:approved` | bypasses the child-resolution gate only; never closes, accepts or rejects a child or the umbrella |
 
 Cross-link this table into `docs/agents/triage-labels.md`.
 
@@ -262,19 +262,21 @@ Cross-link this table into `docs/agents/triage-labels.md`.
 
 1. Guard: labeler must be a Verifier (reuse the meta-guard authorization check pattern from `.github/workflows/meta-guard.yml`).
 2. Parse machine-readable payload from the issue body.
-3. Check for open child intakes (escalated batch rows, or fanout children) referenced in the payload. Batch rows without a child do not gate. If any child is open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state).
+3. Child gate. Find open child intakes with a paginated REST LIST of open `upstream:child` issues, keeping those whose body has the `Umbrella: #N` line for this umbrella (exact number match). For a `payloadVersion: 2` umbrella, also verify each `candidates[].child` number live by GET and count any that is open. The gate never uses `gh issue list --search`, because search lags issue creation and can hide a child. Batch rows without a child do not gate. If any child is open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state). If a list or get fails, or a candidate child link is malformed, comment on the umbrella and exit 1: the gate fails closed, so no sync branch or PR is created. `skip-child-gate` bypasses this gate only. It never closes, accepts or rejects a child or the umbrella.
 4. Checkout `main`, create branch `review/meta/upstream-<skill>-<version>`.
 5. Run `gaia dev sync-upstream <skill-id> --tag <tag> --source-url <url>` (writes frontmatter block + appends timeline event atomically).
 6. For each `componentRemoves[]`: run `gaia dev freeze <component-id> --reason "removed from <umbrella>@<version>"` (writes `installable: false` + timeline `upstream_deprecated`).
 7. Run `gaia dev docs` to regen Class S artifacts (per docs-cohesion Guard E).
-8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes.
-9. Comment on umbrella: `PR opened: #999. Auto-closes umbrella on merge (Fixes #<umbrella>).`
+8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes. The body's Scope section states that approval confirms the version bump only. It does not accept any batch row, and rows not escalated to a child stay open candidates in the umbrella.
+9. Comment on umbrella: `Draft PR #999 opened: <url> -- Approval confirms the version bump to <version> only. Batch rows not escalated to a child intake stay open candidates here and are not accepted. Auto-closes this umbrella on merge (Fixes #<umbrella>).`
 
 ### Workflow: `.github/workflows/upstream-close-children.yml`
 
 **Trigger:** `issues.closed`.
 
 Filters to issues labeled `upstream:child`, finds the umbrella (from body reference), checks if all siblings are now closed, and if the umbrella already has `upstream:approved` applied, re-fires the approve workflow via `gh workflow run upstream-approve.yml` targeting the umbrella. Small; ~30 lines.
+
+Both the sibling check and the reject cascade use the same paginated LIST and `payloadVersion: 2` candidate verification as the approve gate, never search. A failed lookup fails the job. The sibling check then does not re-fire approve, and the cascade closes nothing.
 
 Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`, auto-closes any still-open `upstream:child` issues that reference it, and comments the batch row ids (`cand:<id>`) that the rejection covers. Rows are retained in the payload and never removed.
 

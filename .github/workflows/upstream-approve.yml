@@ -184,38 +184,113 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
-          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
 
-          # Skip gate if skip-child-gate label is applied
+          # Skip gate if skip-child-gate label is applied. This bypasses the gate only:
+          # it never closes, accepts or rejects a child intake or the umbrella.
           HAS_SKIP=$(gh issue view "$ISSUE_NUMBER" --json labels \
             --jq '[.labels[].name] | contains(["skip-child-gate"])')
           if [ "$HAS_SKIP" = "true" ]; then
-            echo "skip-child-gate label present — bypassing child resolution check."
+            echo "skip-child-gate label present: bypassing the child-resolution gate only."
+            echo "skip-child-gate does not close, accept or reject any child intake or the umbrella."
             echo "gate_passed=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          # Find open child issues referencing this umbrella
-          OPEN_CHILDREN=$(gh issue list \
-            --label "upstream:child" \
-            --state open \
-            --search "Umbrella: #${ISSUE_NUMBER}" \
-            --json number,title \
-            --jq 'length')
+          # Fail closed: a lookup error is never read as "no open children".
+          fail_closed() {
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Child gate could not verify child intakes.** $1 No sync was attempted and no PR was opened. Re-apply upstream:approved to retry, or add skip-child-gate to bypass the gate (the bypass never closes or accepts children)." || true
+            echo "::error::Child gate could not verify child intakes: $1"
+            exit 1
+          }
 
-          if [ "$OPEN_CHILDREN" = "0" ] || [ -z "$OPEN_CHILDREN" ]; then
+          UMBRELLA_BODY=$(gh issue view "$ISSUE_NUMBER" --json body --jq '.body') || fail_closed "Could not read the umbrella body."
+
+          # Deterministic lookup (no search). Same block as upstream-close-children.yml.
+          LOOKUP_RC=0
+          OPEN_JSON=$(UMBRELLA_BODY="$UMBRELLA_BODY" REPO="$REPO" ISSUE_NUMBER="$ISSUE_NUMBER" python3 - <<'PY'
+          # shared-child-lookup v1 (identical in upstream-approve.yml and upstream-close-children.yml; parity-tested)
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from urllib.parse import urlencode
+
+          REPO = os.environ["REPO"]
+          UMBRELLA = int(os.environ["ISSUE_NUMBER"])
+          BODY = os.environ.get("UMBRELLA_BODY", "")
+          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)-->", re.DOTALL)
+          UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+
+
+          def gh_api(path, paginate=False):
+              args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
+              res = subprocess.run(args, capture_output=True, text=True, timeout=120)
+              if res.returncode != 0:
+                  raise RuntimeError(f"gh api {path} exited {res.returncode}: {res.stderr.strip()}")
+              return res.stdout
+
+
+          def decode_pages(text):
+              # gh api --paginate prints one JSON array per page, back to back. Read every page.
+              decoder = json.JSONDecoder()
+              items, pos = [], 0
+              while True:
+                  while pos < len(text) and text[pos].isspace():
+                      pos += 1
+                  if pos >= len(text):
+                      return items
+                  page, pos = decoder.raw_decode(text, pos)
+                  if not isinstance(page, list):
+                      raise RuntimeError("issue list page is not a JSON array")
+                  items.extend(page)
+
+
+          def main():
+              children = {}
+              query = urlencode({"state": "open", "labels": "upstream:child", "per_page": 100})
+              for issue in decode_pages(gh_api(f"repos/{REPO}/issues?{query}", paginate=True)):
+                  if issue.get("pull_request") or issue.get("state") != "open":
+                      continue
+                  found = UMBRELLA_RE.search(issue.get("body") or "")
+                  if found and int(found.group(1)) == UMBRELLA:
+                      children[issue["number"]] = issue.get("title", "")
+              match = PAYLOAD_RE.search(BODY)
+              payload = json.loads(match.group(1)) if match else {}
+              if payload.get("payloadVersion") == 2:
+                  for row in payload.get("candidates", []):
+                      number = row.get("child")
+                      if number is None:
+                          continue
+                      if not isinstance(number, int) or isinstance(number, bool):
+                          raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
+                      live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      if live.get("state") == "open" and not live.get("pull_request"):
+                          children[number] = live.get("title", "")
+              print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
+
+
+          try:
+              main()
+          except Exception as exc:  # any list, get or parse failure is unknown evidence
+              print(f"child lookup failed: {exc}", file=sys.stderr)
+              sys.exit(1)
+          PY
+          ) || LOOKUP_RC=$?
+          if [ "$LOOKUP_RC" -ne 0 ]; then
+            fail_closed "The child list or a payload candidate lookup failed (see the job log)."
+          fi
+
+          OPEN_COUNT=$(echo "$OPEN_JSON" | jq 'length')
+          if [ "$OPEN_COUNT" = "0" ]; then
             echo "All child intakes are resolved."
             echo "gate_passed=true" >> $GITHUB_OUTPUT
           else
-            CHILD_LIST=$(gh issue list \
-              --label "upstream:child" \
-              --state open \
-              --search "Umbrella: #${ISSUE_NUMBER}" \
-              --json number,title \
-              --jq '.[] | "#\(.number) \(.title)"')
-            gh issue comment "$ISSUE_NUMBER" --body "Cannot sync yet: ${OPEN_CHILDREN} child intake(s) open. ${CHILD_LIST} -- Close all child intakes then re-apply upstream:approved. Or add skip-child-gate label to bypass."
+            CHILD_LIST=$(echo "$OPEN_JSON" | jq -r '[.[] | "#\(.number) \(.title)"] | join("; ")')
+            gh issue comment "$ISSUE_NUMBER" --body "Cannot sync yet: ${OPEN_COUNT} child intake(s) open: ${CHILD_LIST}. Close all child intakes then re-apply upstream:approved. Or add skip-child-gate label to bypass (the bypass never closes or accepts children)."
             echo "gate_passed=false" >> $GITHUB_OUTPUT
           fi
 
@@ -350,8 +425,8 @@ jobs:
             PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
             echo "created=false" >> $GITHUB_OUTPUT
           else
-            printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\nFixes #%s\n\n### Changes\n- Updated `upstream:` frontmatter block\n- Froze removed components (see payload in #%s)\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
-              "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$ISSUE_NUMBER" "$ISSUE_NUMBER" > /tmp/pr_body.md
+            printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\nFixes #%s\n\n### Scope\nApproval confirms the version bump to `%s` only (and freezes removed components). It does **not** accept any batch row. Rows from #%s that were not escalated to a child intake remain open candidates in that umbrella.\n\n### Changes\n- Updated `upstream:` frontmatter block\n- Froze removed components (see payload in #%s)\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
+              "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$ISSUE_NUMBER" "$NEW_VERSION" "$ISSUE_NUMBER" "$ISSUE_NUMBER" > /tmp/pr_body.md
             PR_URL=$(gh pr create \
               --draft \
               --title "[upstream sync] ${SKILL_ID} -> ${NEW_VERSION}" \
@@ -369,6 +444,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
           PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
           PR_URL: ${{ steps.pr.outputs.pr_url }}
         run: |
@@ -380,4 +456,4 @@ jobs:
             exit 0
           fi
           gh issue comment "$ISSUE_NUMBER" \
-            --body "Draft PR #${PR_NUMBER} opened: ${PR_URL} -- Auto-closes this umbrella on merge (Fixes #${ISSUE_NUMBER} is in the PR body)."
+            --body "Draft PR #${PR_NUMBER} opened: ${PR_URL} -- Approval confirms the version bump to ${NEW_VERSION} only. Batch rows not escalated to a child intake stay open candidates here and are not accepted. Auto-closes this umbrella on merge (Fixes #${ISSUE_NUMBER} is in the PR body)."

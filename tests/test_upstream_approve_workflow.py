@@ -6,8 +6,12 @@ the issue merely contained upstream:approved, meaning adding any later label
 (such as skip-child-gate) retriggered approval.
 """
 
+import json
+import os
 import pathlib
 import re
+import subprocess
+import sys
 import yaml
 import pytest
 
@@ -17,6 +21,7 @@ WORKFLOW_PATH = (
     / "workflows"
     / "upstream-approve.yml"
 )
+CLOSE_CHILDREN_PATH = WORKFLOW_PATH.with_name("upstream-close-children.yml")
 
 
 def _load():
@@ -175,3 +180,406 @@ def test_comment_pr_link_prevents_duplicates():
     run_script = comment_step.get("run", "")
     assert "Draft PR #${PR_NUMBER} opened" in run_script
     assert "ALREADY_COMMENTED" in run_script
+
+
+def test_approval_wording_says_version_bump_only():
+    doc = _load()
+    steps = {s.get("name"): s for s in doc["jobs"]["approve"]["steps"]}
+    pr_body = steps["Open draft PR"]["run"]
+    comment = steps["Comment PR link on umbrella"]["run"]
+    assert "Approval confirms the version bump" in pr_body
+    assert "does **not** accept any batch row" in pr_body
+    assert "remain open candidates" in pr_body
+    assert "Approval confirms the version bump to ${NEW_VERSION} only" in comment
+    assert "are not accepted" in comment
+
+
+# ---------------------------------------------------------------------------
+# Child lookup (#2131). The workflow steps run for real under bash, with a fake
+# `gh` on PATH that serves world state from a JSON file. That exercises the
+# embedded python (paginated LIST, v2 candidate verification, fail-closed exits)
+# the way GitHub would answer it, with no network access.
+# ---------------------------------------------------------------------------
+
+REPO = "gaia-research/gaia-skill-tree"
+UMBRELLA = 5000
+LOOKUP_MARK = "# shared-child-lookup v1"
+
+FAKE_GH = r'''
+import json, os, subprocess, sys
+from urllib.parse import parse_qs, urlsplit
+
+with open(os.environ["FAKE_GH_WORLD"], encoding="utf-8") as fh:
+    WORLD = json.load(fh)
+ARGS = sys.argv[1:]
+with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as fh:
+    fh.write(json.dumps(ARGS) + "\n")
+
+FAIL = WORLD.get("fail", {})
+ISSUES = {int(key): value for key, value in WORLD["issues"].items()}
+HIDDEN = set(WORLD.get("list_hidden", []))
+PAGE_SIZE = WORLD.get("page_size", 100)
+
+
+def die(message):
+    sys.stderr.write(message + "\n")
+    sys.exit(1)
+
+
+def flag(name):
+    return ARGS[ARGS.index(name) + 1] if name in ARGS else None
+
+
+def emit(value, jq=None):
+    if jq is None:
+        sys.stdout.write(json.dumps(value))
+        return
+    res = subprocess.run(["jq", "-r", jq], input=json.dumps(value), capture_output=True, text=True)
+    sys.stdout.write(res.stdout)
+    sys.stderr.write(res.stderr)
+    sys.exit(res.returncode)
+
+
+def list_rows(query):
+    wanted_state = query.get("state", ["open"])[0]
+    wanted_labels = set(filter(None, query.get("labels", [""])[0].split(",")))
+    rows = []
+    for number in sorted(ISSUES):
+        issue = ISSUES[number]
+        labels = {label["name"] for label in issue.get("labels", [])}
+        if issue["state"] != wanted_state or not wanted_labels <= labels or number in HIDDEN:
+            continue
+        row = dict(issue)
+        row["number"] = number
+        rows.append(row)
+    return rows
+
+
+cmd = ARGS[0] if ARGS else ""
+if cmd == "issue" and ARGS[1] == "view":
+    if FAIL.get("issue_view"):
+        die("HTTP 500 (fake)")
+    number = int(ARGS[2])
+    if number not in ISSUES:
+        die(f"issue #{number} not found (fake)")
+    issue = ISSUES[number]
+    view = {
+        "number": number,
+        "title": issue.get("title", ""),
+        "body": issue.get("body", ""),
+        "state": issue["state"].upper(),
+        "labels": issue.get("labels", []),
+    }
+    emit({field: view[field] for field in flag("--json").split(",")}, flag("--jq"))
+elif cmd == "issue" and ARGS[1] == "list":
+    # Search-lag stand-in: a list through the issue search path never reports a child.
+    emit([], flag("--jq"))
+elif cmd == "issue":
+    print("https://github.com/gaia-research/gaia-skill-tree/issues/1")
+elif cmd == "workflow":
+    print("")
+elif cmd == "api":
+    url = urlsplit(ARGS[-1])
+    parts = [part for part in url.path.split("/") if part]
+    if len(parts) == 4 and parts[3] == "issues":
+        if FAIL.get("list"):
+            die("HTTP 502 (fake list failure)")
+        rows = list_rows(parse_qs(url.query))
+        if "--paginate" in ARGS:
+            pages = [rows[i:i + PAGE_SIZE] for i in range(0, len(rows), PAGE_SIZE)] or [[]]
+        else:
+            pages = [rows[:PAGE_SIZE]]
+        sys.stdout.write("".join(json.dumps(page) for page in pages))
+    elif len(parts) == 5 and parts[3] == "issues" and parts[4].isdigit():
+        number = int(parts[4])
+        if number in FAIL.get("get", []) or number not in ISSUES:
+            die(f"HTTP 404 issue #{number} (fake)")
+        row = dict(ISSUES[number])
+        row["number"] = number
+        sys.stdout.write(json.dumps(row))
+    else:
+        die(f"unsupported api path {ARGS[-1]}")
+else:
+    die(f"unsupported gh command {ARGS}")
+'''
+
+
+class StepResult:
+    def __init__(self, code, output, outputs, calls):
+        self.code = code
+        self.output = output
+        self.outputs = outputs
+        self.calls = calls
+
+    def comments(self):
+        return [args[args.index("--body") + 1] for args in self.calls if args[:2] == ["issue", "comment"]]
+
+    def closes(self):
+        return [args[2] for args in self.calls if args[:2] == ["issue", "close"]]
+
+    def api_calls(self):
+        return [args[-1] for args in self.calls if args[:1] == ["api"]]
+
+    def workflow_runs(self):
+        return [args for args in self.calls if args[:2] == ["workflow", "run"]]
+
+
+def run_step(tmp_path, run_text, world_data, extra_env=None):
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    fake = tmp_path / "fake_gh.py"
+    fake.write_text(FAKE_GH, encoding="utf-8")
+    gh = bindir / "gh"
+    gh.write_text(f'#!/bin/sh\nexec "{sys.executable}" "{fake}" "$@"\n', encoding="utf-8")
+    gh.chmod(0o755)
+    world_file = tmp_path / "world.json"
+    world_file.write_text(json.dumps(world_data), encoding="utf-8")
+    log = tmp_path / "gh-calls.jsonl"
+    log.write_text("", encoding="utf-8")
+    output = tmp_path / "github_output.txt"
+    output.write_text("", encoding="utf-8")
+    script = tmp_path / "step.sh"
+    script.write_text(run_text, encoding="utf-8")
+    env = {
+        "PATH": f"{bindir}{os.pathsep}{os.environ.get('PATH', '')}",
+        "HOME": str(tmp_path),
+        "GH_TOKEN": "test-token",
+        "REPO": REPO,
+        "FAKE_GH_WORLD": str(world_file),
+        "FAKE_GH_LOG": str(log),
+        "GITHUB_OUTPUT": str(output),
+        **(extra_env or {}),
+    }
+    res = subprocess.run(["bash", str(script)], cwd=tmp_path, env=env,
+                         capture_output=True, text=True, timeout=120)
+    outputs = dict(line.split("=", 1) for line in output.read_text(encoding="utf-8").splitlines() if "=" in line)
+    calls = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines() if line]
+    return StepResult(res.returncode, res.stdout + res.stderr, outputs, calls)
+
+
+def _step_run(path, name):
+    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+    job = next(iter(doc["jobs"].values()))
+    return next(step["run"] for step in job["steps"] if step.get("name") == name)
+
+
+def child_issue(number, umbrella=UMBRELLA, state="open", slug="ask-user", labels=("upstream:child",)):
+    return {
+        "number": number,
+        "title": f"[intake] garrytan/{slug}",
+        "state": state,
+        "labels": [{"name": name} for name in labels],
+        "body": f"> Auto-populated by upstream watcher. Umbrella: #{umbrella}.\n\n**Suggested ID:** `garrytan/{slug}`\n",
+    }
+
+
+def umbrella_issue(payload=None, labels=("upstream:release", "upstream:approved"), extra=()):
+    body = "## Upstream release detected\n\n"
+    if payload is not None:
+        body += "<!-- gaia-upstream-payload\n" + json.dumps(payload) + "\n-->\n"
+    return {
+        "number": UMBRELLA,
+        "title": "[upstream] garrytan/gbrain → v1",
+        "state": "open",
+        "labels": [{"name": name} for name in (*labels, *extra)],
+        "body": body,
+    }
+
+
+def world(*issues, **extra):
+    data = {"issues": {str(issue["number"]): issue for issue in issues}}
+    data.update(extra)
+    return data
+
+
+LEGACY_PAYLOAD = {"skillId": "garrytan/gbrain", "newVersion": "v1", "componentAdds": ["ask-user"]}
+
+
+def v2_payload(*children):
+    rows = [
+        {"id": f"garrytan/gbrain:{slug}", "slug": slug, "suggestedId": f"garrytan/{slug}",
+         "status": "escalated" if number else "new", "child": number}
+        for slug, number in children
+    ]
+    return {"payloadVersion": 2, "skillId": "garrytan/gbrain", "newVersion": "v1",
+            "componentAdds": [slug for slug, _ in children], "candidates": rows}
+
+
+def run_gate(tmp_path, world_data):
+    return run_step(tmp_path, _step_run(WORKFLOW_PATH, "Check child gate"), world_data,
+                    {"ISSUE_NUMBER": str(UMBRELLA)})
+
+
+def _lookup_blocks():
+    blocks = []
+    for path, job in ((WORKFLOW_PATH, "approve"), (CLOSE_CHILDREN_PATH, "close-children")):
+        doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+        for step in doc["jobs"][job]["steps"]:
+            run = step.get("run", "")
+            if LOOKUP_MARK in run:
+                blocks.append(run.split(LOOKUP_MARK, 1)[1].split("\nPY\n", 1)[0])
+    return blocks
+
+
+def test_no_search_based_child_lookup_in_either_workflow():
+    for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH):
+        text = path.read_text(encoding="utf-8")
+        assert "--search" not in text, path.name
+        assert "gh issue list" not in text, path.name
+
+
+def test_shared_lookup_block_is_identical_in_every_embedding():
+    blocks = _lookup_blocks()
+    assert len(blocks) == 3  # approve gate, sibling re-fire, rejection cascade
+    assert len(set(blocks)) == 1
+
+
+def test_skip_child_gate_is_described_as_bypass_only():
+    run = _step_run(WORKFLOW_PATH, "Check child gate")
+    assert "does not close, accept or reject any child intake or the umbrella" in run
+
+
+def test_gate_passes_with_no_open_children(tmp_path):
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001, state="closed")))
+    assert result.code == 0
+    assert result.outputs == {"gate_passed": "true"}
+
+
+def test_gate_blocks_on_open_child_and_names_it(tmp_path):
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001)))
+    assert result.code == 0 and result.outputs == {"gate_passed": "false"}
+    assert "Cannot sync yet: 1 child intake(s) open: #5001" in result.comments()[-1]
+
+
+def test_gate_reads_every_list_page_and_finds_child_on_second_page(tmp_path):
+    data = world(
+        umbrella_issue(LEGACY_PAYLOAD),
+        child_issue(5001, umbrella=999, slug="other-a"),
+        child_issue(5002, umbrella=999, slug="other-b"),
+        child_issue(5003),
+        page_size=2,
+    )
+    result = run_gate(tmp_path, data)
+    assert result.outputs == {"gate_passed": "false"}
+    assert "#5003" in result.comments()[-1] and "#5001" not in result.comments()[-1]
+    paginated = [args for args in result.calls if args[:1] == ["api"] and "--paginate" in args]
+    assert len(paginated) == 1 and "state=open" in paginated[0][-1] and "labels=upstream%3Achild" in paginated[0][-1]
+
+
+def test_gate_matches_umbrella_number_exactly(tmp_path):
+    # Child for umbrella #500 must not block umbrella #5000 (search matched loosely; the body line does not).
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5010, umbrella=500, slug="near-miss")))
+    assert result.outputs == {"gate_passed": "true"}
+
+
+def test_gate_does_not_depend_on_search_so_index_lag_cannot_hide_a_child(tmp_path):
+    # The fake answers every `gh issue list` (the search path) with no rows, as a lagging index would.
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001)))
+    assert result.outputs == {"gate_passed": "false"}
+    assert not [args for args in result.calls if args[:2] == ["issue", "list"]]
+
+
+def test_skip_child_gate_bypasses_the_gate_only(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001))
+    result = run_gate(tmp_path, data)
+    assert result.code == 0 and result.outputs == {"gate_passed": "true"}
+    assert "does not close, accept or reject any child intake or the umbrella" in result.output
+    assert not result.closes() and not result.comments() and not result.api_calls()
+
+
+def test_v2_adopted_child_blocks_even_when_the_list_does_not_return_it(tmp_path):
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    result = run_gate(tmp_path, world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001]))
+    assert result.outputs == {"gate_passed": "false"}
+    assert "#5001" in result.comments()[-1]
+    assert f"repos/{REPO}/issues/5001" in result.api_calls()
+
+
+def test_v2_candidate_child_that_is_closed_does_not_block(tmp_path):
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    result = run_gate(tmp_path, world(umbrella_issue(payload), child_issue(5001, state="closed")))
+    assert result.outputs == {"gate_passed": "true"}
+
+
+def test_v1_payload_makes_no_per_child_lookups(tmp_path):
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001, state="closed")))
+    assert result.outputs == {"gate_passed": "true"}
+    assert not [call for call in result.api_calls() if "?" not in call]
+
+
+def test_gate_list_failure_fails_closed(tmp_path):
+    result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), fail={"list": True}))
+    assert result.code != 0
+    assert "gate_passed" not in result.outputs
+    assert "could not verify child intakes" in result.comments()[-1]
+
+
+def test_gate_candidate_get_failure_fails_closed(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    data = world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001], fail={"get": [5001]})
+    result = run_gate(tmp_path, data)
+    assert result.code != 0
+    assert "gate_passed" not in result.outputs
+
+
+def _rejected_umbrella(payload):
+    return umbrella_issue(payload, labels=("upstream:release", "upstream:rejected"))
+
+
+def _run_cascade(tmp_path, data):
+    body = data["issues"][str(UMBRELLA)]["body"]
+    return run_step(tmp_path, _step_run(CLOSE_CHILDREN_PATH, "Cascade close children on umbrella rejection"),
+                    data, {"UMBRELLA_NUMBER": str(UMBRELLA), "UMBRELLA_BODY": body})
+
+
+def test_rejected_cascade_closes_every_open_child_across_pages(tmp_path):
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    data = world(
+        _rejected_umbrella(payload),
+        child_issue(5001),
+        child_issue(5002, slug="briefing"),
+        child_issue(5003, slug="third"),
+        page_size=2,
+    )
+    result = _run_cascade(tmp_path, data)
+    assert result.code == 0
+    assert result.closes() == ["5001", "5002", "5003"]
+    assert any("retained, not removed" in body for body in result.comments())
+
+
+def test_rejected_cascade_closes_nothing_when_the_lookup_fails(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    result = _run_cascade(tmp_path, world(_rejected_umbrella(payload), child_issue(5001), fail={"list": True}))
+    assert result.code != 0
+    assert result.closes() == []
+
+
+def _run_sibling_gate(tmp_path, data):
+    closed_sibling = child_issue(5009, state="closed", slug="done-one")
+    data["issues"][str(closed_sibling["number"])] = closed_sibling
+    return run_step(tmp_path, _step_run(CLOSE_CHILDREN_PATH, "Re-fire approve workflow if all siblings closed"),
+                    data, {"CLOSED_ISSUE_NUMBER": "5009",
+                           "CLOSED_ISSUE_BODY": "> Auto-populated by upstream watcher. Umbrella: #5000.\n"})
+
+
+def test_sibling_gate_refires_approve_when_no_child_is_open(tmp_path):
+    result = _run_sibling_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD)))
+    assert result.code == 0
+    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}"]]
+
+
+def test_sibling_gate_waits_while_a_child_is_open(tmp_path):
+    result = _run_sibling_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001)))
+    assert result.code == 0 and not result.workflow_runs()
+
+
+def test_sibling_gate_waits_for_a_v2_adopted_child_the_list_omits(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    result = _run_sibling_gate(tmp_path, world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001]))
+    assert result.code == 0 and not result.workflow_runs()
+
+
+def test_sibling_gate_never_refires_on_lookup_failure(tmp_path):
+    result = _run_sibling_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), fail={"list": True}))
+    assert result.code != 0
+    assert not result.workflow_runs()

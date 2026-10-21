@@ -276,6 +276,43 @@ def test_escalate_adopts_a_child_created_after_the_umbrella_was_written():
     assert sum(1 for w in gh.writes if w[0] == "create") == 1
 
 
+def _row(gh, slug="ask-user"):
+    return next(r for r in parse_payload(umbrellas(gh)[0]["body"])["candidates"] if r["slug"] == slug)
+
+
+def test_escalate_child_created_then_row_update_loses_race_next_run_adopts_without_duplicate():
+    gh = FakeGh()
+    run(gh, [finding("v1", ["ask-user"])])
+    gh.stale_on_get[umbrellas(gh)[0]["number"]] = {"updated_at": "racer-1"}
+    raced, code = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
+    assert code == 0 and raced["outcome"] == "raced-skip"
+    child = raced["child"]
+    assert gh.issues[child]["title"] == "[intake] garrytan/ask-user"
+    assert _row(gh)["child"] is None  # the child exists but the umbrella row update lost the race
+    creates = sum(1 for w in gh.writes if w[0] == "create")
+    assert creates == 2  # umbrella + the one child created before the race
+
+    again, code = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
+    assert code == 0 and again["outcome"] == "adopted" and again["child"] == child
+    assert sum(1 for w in gh.writes if w[0] == "create") == creates  # no duplicate child
+    assert _row(gh)["child"] == child
+    open_intakes = [r["number"] for r in gh.issues.values()
+                    if r["state"] == "open" and r["title"] == "[intake] garrytan/ask-user"]
+    assert open_intakes == [child]
+
+
+def test_poll_after_lost_escalation_race_links_the_existing_child_without_duplicate():
+    gh = FakeGh()
+    run(gh, [finding("v1", ["ask-user"])])
+    gh.stale_on_get[umbrellas(gh)[0]["number"]] = {"updated_at": "racer-1"}
+    raced, _ = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
+    assert raced["outcome"] == "raced-skip"
+    report, code = run(gh, [finding("v1", ["ask-user"])])
+    assert code == 0 and report["suites"][0]["outcome"] == "updated"
+    assert _row(gh)["child"] == raced["child"] and _row(gh)["status"] == "tracked"
+    assert sum(1 for w in gh.writes if w[0] == "create") == 2  # no second child from the poll
+
+
 def test_escalate_unknown_candidate_exits_two():
     gh = FakeGh()
     run(gh, [finding("v1", ["ask-user"])])
