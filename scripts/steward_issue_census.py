@@ -10,10 +10,11 @@ The HTTPS proxy comes from the environment, as urllib normally honors it. Pagina
 follows REST `Link: rel="next"` to the end, and the expected page count comes from
 `rel="last"` when present.
 
-Fail closed: any HTTP error, rate limit, unparsable page, page cap or short pagination
-writes a census with `completeness.*.complete = false` and the reason, then exits 3.
-A file that looks complete is never written for a partial fetch. The token is never
-printed.
+Fail closed: any HTTP error, rate limit, unparsable page, page cap, short pagination,
+`unlinked-continuation` (a page with no next or last link that is followed by rows) or
+`mutated-during-walk` (a second walk of the open listing disagrees with the first) writes a
+census with `completeness.*.complete = false` and the reason, then exits 3. A file that looks
+complete is never written for a partial fetch. The token is never printed.
 """
 
 from __future__ import annotations
@@ -126,14 +127,37 @@ def httpFetch(url: str, token: str | None) -> Response:
         raise FetchError(f"transport-{type(error).__name__}") from None
 
 
+def withPage(url: str, page: int) -> str:
+    """The same listing URL asking for ``page`` in place of whatever page it names."""
+    parts = urllib.parse.urlsplit(url)
+    query = [(key, value) for key, value in urllib.parse.parse_qsl(parts.query, keep_blank_values=True) if key != "page"]
+    query.append(("page", str(page)))
+    return urllib.parse.urlunsplit(parts._replace(query=urllib.parse.urlencode(query)))
+
+
+def numbersOf(rows: list) -> list:
+    """Issue numbers in listing order; ``None`` for a malformed row."""
+    return [row.get("number") if isinstance(row, dict) else None for row in rows]
+
+
 def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
-    """Follow ``rel="next"`` to the end. Never returns partial rows as complete."""
+    """Follow ``rel="next"`` to the end. Never returns partial rows as complete.
+
+    The end of a listing is proven two ways only. A ``rel="last"`` link must match the number
+    of pages fetched. Without ``next`` or ``last``, a non-empty page is followed by a probe of
+    the next page, and the walk ends only if that probe is empty. Page length is not evidence:
+    ``per_page`` is a request the server may not honour, so a full page with no Link header is
+    not the last page. A non-empty probe means the listing continued without a link. The walk
+    then fails closed, and the probe rows are not adopted.
+    """
     listing = Listing()
     url: str | None = start
+    probing = False
     while url:
         if listing.pagesFetched >= MAX_PAGES:
             listing.reason = "page-cap-exceeded"
             return listing
+        requested = url
         try:
             response = fetch(url)
         except FetchError as error:
@@ -150,6 +174,9 @@ def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
         if not isinstance(page, list):
             listing.reason = "unexpected-page-shape"
             return listing
+        if probing and page:
+            listing.reason = "unlinked-continuation"
+            return listing
         listing.rows.extend(page)
         listing.pagesFetched += 1
         links = parseLinks(response.headers.get("link", ""))
@@ -160,6 +187,9 @@ def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
                 listing.reason = "last-page-unparsable"
                 return listing
         url = links.get("next")
+        probing = url is None and "last" not in links and bool(page)
+        if probing:
+            url = withPage(requested, (pageNumber(requested) or 1) + 1)
     if listing.expectedPages is None:
         listing.expectedPages = listing.pagesFetched
     if listing.expectedPages != listing.pagesFetched:
@@ -210,6 +240,18 @@ def collectCensus(
         f"&since={urllib.parse.quote(isoZ(cutoff))}"
     )
     openListing = listAll(openStart, fetch)
+    confirmPages = 0
+    if openListing.reason is None:
+        # A close or create between pages shifts every later page, and a shifted page can skip an
+        # open issue while each page still looks present. Page counts cannot see that. The open
+        # listing therefore counts only if an identical second walk returns the same numbers in
+        # the same order. Re-fetching page 1 alone would miss a shift that starts on a later page.
+        confirm = listAll(openStart, fetch)
+        confirmPages = confirm.pagesFetched
+        if confirm.reason is not None:
+            openListing.reason = confirm.reason
+        elif numbersOf(confirm.rows) != numbersOf(openListing.rows):
+            openListing.reason = "mutated-during-walk"
     closedListing = listAll(closedStart, fetch) if openListing.reason is None else Listing(reason="skipped")
 
     reasons = [item.reason for item in (openListing, closedListing) if item.reason and item.reason != "skipped"]
@@ -246,11 +288,13 @@ def collectCensus(
     completeness = {
         "issues": {
             "complete": complete, "pagesFetched": pagesFetched, "expectedPages": expectedPages,
+            "confirmPagesFetched": confirmPages,
             "itemCount": sum(1 for row in rows if not row["isPullRequest"]),
             "lastLink": openListing.lastLink,
         },
         "pulls": {
             "complete": complete, "pagesFetched": pagesFetched, "expectedPages": expectedPages,
+            "confirmPagesFetched": confirmPages,
             "itemCount": len(pulls), "lastLink": openListing.lastLink,
         },
     }

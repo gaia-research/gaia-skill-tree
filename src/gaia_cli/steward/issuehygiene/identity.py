@@ -239,14 +239,21 @@ def classify(row: dict) -> Identity:
     return replace(identity, reasons=tuple(reasons))
 
 
-def buildGraph(rows: Any, closedRows: Any = ()) -> Graph:
-    """Classify open rows and link them. ``closedRows`` lets a child report a closed parent."""
+def buildGraph(rows: Any, closedRows: Any = (), pulls: Any = ()) -> Graph:
+    """Classify open rows and link them. ``closedRows`` lets a child report a closed parent.
+
+    ``pulls`` are the open pull requests. A number an umbrella body lists is known to be not an
+    open child when it is an open pull request, an open issue of another kind, or any recently
+    closed row. A listed number the census holds no row for is an unknown listed child, and the
+    listing umbrella records it as ``listed-child-unknown`` so it cannot be A2-closed.
+    """
     openRows = [row for row in rows if isinstance(row, dict) and not row.get("isPullRequest")]
     items = {}
     for row in openRows:
         identity = classify(row)
         items[identity.number] = identity
     closedNumbers = {row.get("number") for row in closedRows if isinstance(row, dict)}
+    knownNumbers = closedNumbers | {row.get("number") for row in pulls if isinstance(row, dict)}
     conflicts: list[str] = []
 
     children: dict[int, list[int]] = {}
@@ -273,19 +280,30 @@ def buildGraph(rows: Any, closedRows: Any = ()) -> Graph:
         children.setdefault(parent, []).append(number)
         items[number] = replace(identity, suite=parentItem.suite)
 
+    unknownListed: dict[int, list[int]] = {}
     for number in sorted(items):
         identity = items[number]
         if identity.kind != "umbrella":
             continue
         for ref in identity.childRefs:
             child = items.get(ref)
-            if child is None or child.kind != "child":
+            if child is None:
+                if ref not in knownNumbers:
+                    unknownListed.setdefault(number, []).append(ref)
+                continue
+            if child.kind != "child":
                 continue
             if child.parent is not None and child.parent != number:
+                # The listing umbrella names an open child that another umbrella owns. The listed
+                # child is still an open dependency of the listing umbrella, so the listing umbrella
+                # cannot be A2-closed while it lists the child. It is not an unknown, because a
+                # reparenting listing is exactly the lossless path that A3 (superseded umbrella) relies on.
                 conflicts.append(f"child-ref-parent-mismatch:{number}->{ref}")
-                continue
             if ref not in children.get(number, []):
                 children.setdefault(number, []).append(ref)
+    for number, refs in unknownListed.items():
+        reasons = tuple(f"listed-child-unknown:{ref}" for ref in refs)
+        items[number] = replace(items[number], reasons=items[number].reasons + reasons)
 
     groups: dict[str, list[int]] = {}
     for number, identity in items.items():

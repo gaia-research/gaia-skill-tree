@@ -1,6 +1,6 @@
 """Adversarial lane E, scenarios 1 and 15: pagination, missing pages, stale census, auth failure.
 
-Every test here fails closed or documents a defect. Nothing touches the network: the collector
+Every test here asserts a fail-closed outcome (lane E defects 1 and 2 are fixed and pinned here). Nothing touches the network: the collector
 is driven through ``FakeGitHub.fetch`` and ``httpFetch`` is driven through a patched
 ``urllib.request.urlopen``.
 """
@@ -129,40 +129,26 @@ def test_a_failure_on_the_open_listing_never_lets_the_closed_listing_mark_it_com
     assert [row for row in doc["recentlyClosed"]] == []  # the closed listing was never walked
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DEFECT (fail-open): a full first page with no Link header is taken as the whole listing. "
-        "collectCensus accepts expectedPages = pagesFetched when rel=last is absent, so a degraded "
-        "response that drops every Link header yields complete:true with 2 of 5 rows. A full page "
-        "(len == per_page) without rel=next must not terminate the walk as complete."
-    ),
-)
 def test_full_page_without_any_link_header_is_not_reported_complete() -> None:
+    """Fixed: a full page with no Link header is not the end. The probe of the next page finds rows."""
+
     gh = FakeGitHub(pageSize=2, linkMode="none")
     openRows(gh, 5)
     doc = gh.census(NOW)
     assert len(doc["issues"]) == 2  # the walk stopped after one page; the census must say so
     assert doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["reason"] == "unlinked-continuation"
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DEFECT (fail-open under concurrent mutation): an issue closed after page 1 is served shifts the "
-        "remaining open rows left, so page 2 skips one open issue while every page is present. The collector "
-        "verifies page counts only, so complete:true is reported without an open issue. Completeness must "
-        "survive a mid-walk close (for example a confirming second walk or a per-row cross-check)."
-    ),
-)
-def test_an_open_issue_shifted_past_a_page_boundary_by_a_concurrent_close_is_not_silently_dropped() -> None:
-    gh = FakeGitHub(pageSize=2)
-    openRows(gh, 5)  # numbers 1001 to 1005, newest first on the listing
-    gh.pageHooks[("open", 2)] = lambda g: g.close(max(g.issues), "completed")  # 1005 closes after page 1 was served
+def test_a_linkless_listing_that_ends_on_a_full_page_is_complete_once_the_probe_is_empty() -> None:
+    """The probe removes the liveness hazard: an exact multiple of the page size still completes."""
+
+    gh = FakeGitHub(pageSize=2, linkMode="none")
+    openRows(gh, 2)
     doc = gh.census(NOW)
-    present = {row["number"] for row in doc["issues"]}
-    stillOpen = {number for number, row in gh.issues.items() if row["state"] == "open"}
-    assert stillOpen <= present or doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["complete"] is True
+    assert sorted(row["number"] for row in doc["issues"]) == sorted(gh.issues)
+    assert gh.listCalls[:2] == [("open", 1), ("open", 2)]  # page 1, then the empty probe that proves the end
 
 
 def test_a_single_short_page_with_no_link_header_is_complete() -> None:
@@ -171,6 +157,43 @@ def test_a_single_short_page_with_no_link_header_is_complete() -> None:
     doc = gh.census(NOW)
     assert doc["completeness"]["issues"]["complete"] is True
     assert len(doc["issues"]) == 2
+
+
+def test_an_open_issue_shifted_past_a_page_boundary_by_a_concurrent_close_is_not_silently_dropped() -> None:
+    """Fixed: the confirming second walk sees the shifted listing, so the first walk cannot stand."""
+
+    gh = FakeGitHub(pageSize=2)
+    openRows(gh, 5)  # numbers 1001 to 1005, newest first on the listing
+    gh.pageHooks[("open", 2)] = lambda g: g.close(max(g.issues), "completed")  # 1005 closes after page 1 was served
+    doc = gh.census(NOW)
+    present = {row["number"] for row in doc["issues"]}
+    stillOpen = {number for number, row in gh.issues.items() if row["state"] == "open"}
+    assert stillOpen <= present or doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["reason"] == "mutated-during-walk"
+
+
+def test_a_close_on_a_later_already_served_page_is_detected_by_the_confirming_walk() -> None:
+    """Re-fetching page 1 alone would miss this: the shift starts on page 2 and page 1 never changes."""
+
+    gh = FakeGitHub(pageSize=2)
+    openRows(gh, 6)  # 1006 to 1001; pages [1006,1005] [1004,1003] [1002,1001]
+    gh.pageHooks[("open", 3)] = lambda g: g.close(1003, "completed")  # 1003 closes after page 2 was served
+    doc = gh.census(NOW)
+    present = {row["number"] for row in doc["issues"]}
+    stillOpen = {number for number, row in gh.issues.items() if row["state"] == "open"}
+    assert 1002 in stillOpen and 1002 not in present  # the shift really skips an open issue
+    assert doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["reason"] == "mutated-during-walk"
+
+
+def test_an_unchanged_listing_is_complete_and_records_the_confirming_walk() -> None:
+    gh = FakeGitHub(pageSize=2)
+    openRows(gh, 5)
+    doc = gh.census(NOW)
+    assert doc["completeness"]["issues"]["complete"] is True
+    assert doc["completeness"]["issues"]["confirmPagesFetched"] == 3  # the second walk, not counted in pagesFetched
+    assert doc["completeness"]["issues"]["pagesFetched"] == 4  # three open pages plus the empty closed walk
 
 
 # --- scenario 15: stale census and auth failure fail closed -----------------------------------

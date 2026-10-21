@@ -153,6 +153,11 @@ def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
             canonical = byIssue.get(item["canonical"])
             if canonical is None or canonical["authority"] == "A":
                 continue
+        if item["ruleId"] == RULE_A3:
+            # A3 needs its superseder open after the pass; a superseder closed by this plan is a refusal.
+            superseder = byIssue.get(item["canonical"])
+            if superseder is None or superseder["authority"] == "A":
+                continue
         plans.append({
             "key": item["key"],
             "issue": item["issue"],

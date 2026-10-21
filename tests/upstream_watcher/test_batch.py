@@ -331,6 +331,17 @@ def test_pagination_follows_three_pages_and_never_searches():
     assert not any(arg.startswith("search") or "/search/" in arg for call in runner.calls for arg in call)
 
 
+def test_a_full_page_is_never_the_end_of_the_listing_even_without_link_headers():
+    """A full page continues to the next request; only a short or empty page ends the walk (#2130)."""
+
+    rows = [{"number": n, "state": "open", "title": "t", "labels": [], "body": ""} for n in range(1, 101)]
+    runner = FakeRunner({"open": [rows, []], "closed": []})
+    gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
+    listed = gh.list_issues("open")
+    assert len(listed) == 100
+    assert len(runner.calls) == 2
+
+
 def test_pagination_refuses_silent_truncation():
     full = [{"number": n} for n in range(100)]
     runner = FakeRunner({"open": [full] * 200})
