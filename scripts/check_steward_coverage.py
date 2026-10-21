@@ -23,6 +23,9 @@ ROUTINECOUNT = 18
 # Forge-executed repair actions: runner-emitted, driver-performed, never a local executor.
 # Each maps to the one debt kind it closes; the runner must emit the literal (checked below).
 FORGE_ACTIONS = {"forge.close_issue": ("issue_closure_ready", "A")}
+# The atomic skill that performs each forge action. A forge-bound debt kind is dispositioned by it,
+# not by its authority's default skill (A -> land), because no land step ever runs for it.
+FORGE_SKILLS = {"forge.close_issue": "gaia-steward-issue-hygiene"}
 FORGE_SOURCE = Path("src/gaia_cli/steward/fullrun.py")
 STATE_VOCABULARY = {
     "registered": "static",
@@ -384,7 +387,8 @@ def _check_detector(
             errors.append(f"{label}: static coverage must be {expected_static!r}")
     if detector["owningSkill"] != OBSERVE_SKILL or not _skill_exists(root, OBSERVE_SKILL):
         errors.append(f"{label}: owningSkill must be the existing {OBSERVE_SKILL!r} skill")
-    expected_skills = {kind: DISPOSITION_SKILL.get(authority.get(kind, ""), "") for kind in kinds}
+    forge_kind_skill = {FORGE_ACTIONS[name][0]: skill for name, skill in FORGE_SKILLS.items() if name in FORGE_ACTIONS}
+    expected_skills = {kind: forge_kind_skill.get(kind) or DISPOSITION_SKILL.get(authority.get(kind, ""), "") for kind in kinds}
     if detector["dispositionSkills"] != expected_skills:
         errors.append(f"{label}: dispositionSkills must route each kind by authority {expected_skills!r}")
     else:
@@ -398,6 +402,18 @@ def _check_detector(
         for test in detector["proof"]:
             if not _imports_class(root, test, class_name):
                 errors.append(f"{label}: proof test {test} does not import {class_name}")
+
+
+def _forge_skill_errors(root: Path) -> list[str]:
+    """Every forge action names an existing atomic skill that documents the action it performs."""
+
+    errors = []
+    for name, skill in FORGE_SKILLS.items():
+        if not _skill_exists(root, skill):
+            errors.append(f"forge action {name!r}: owning skill {skill!r} does not exist under .agents/skills")
+        elif name not in (root / ".agents/skills" / skill / "SKILL.md").read_text(encoding="utf-8"):
+            errors.append(f"forge action {name!r}: owning skill {skill!r} does not document it")
+    return errors
 
 
 def _live_forge_actions(root: Path) -> dict[str, tuple[str, str]]:
@@ -522,6 +538,7 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
     ownership = _sensor_ownership(root)
     authority, dispatch_rules, repair_executors, registered, founder_rules = _live_policy(root)
     forge_actions = _live_forge_actions(root)
+    errors.extend(_forge_skill_errors(root))
 
     detectors = data["detectors"]
     detector_by_id: dict[str, dict] = {}

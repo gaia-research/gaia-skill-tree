@@ -49,6 +49,17 @@ If you want to see the state before asking for work:
 gaia steward lane status
 ```
 
+### Issue suite review (routine 18)
+
+A `issue-suite-review` dispatch asks for one written disposition proposal for one
+GitHub issue batch (one suite of upstream candidates). Its guide is
+`founder/steward/routines/issue-hygiene.md`. The envelope is narrow: write only
+`docs/agents/issue-hygiene/**` and `tests/steward/**`; run the focused issue-hygiene
+tests and the coverage checker; read issues with `gh issue view`. You propose. You
+never close an issue, comment on one, accept a candidate, or edit the registry. Those
+belong to the rule-bound closure path or to a founder ruling. A batch that names more
+than one suite is a stop condition: report it and do not split it yourself.
+
 ## Doing the work
 
 The rendered prompt carries everything that binds you: allowed paths, allowed

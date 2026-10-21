@@ -73,6 +73,7 @@ from gaia_cli.steward.models import AuthorityClass, Debt, stable_json
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
+from gaia_cli.steward.issuehygiene.closure import closureCommentFor, closureProven
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
     RETRYLIMIT,
@@ -1601,7 +1602,9 @@ class FullRunner:
                 if budget <= 0:
                     summary["deferred"].append({"key": key, "reason": "policy maxClosuresPerRun for this run is exhausted"})
                     continue
-                params = {**plan, "receiptPath": receiptPath, "manifestSha256": digest}
+                # The comment is rebuilt here, not stored in debt state (see sensor._observedPlan).
+                params = {**plan, "comment": closureCommentFor(plan), "receiptPath": receiptPath,
+                          "manifestSha256": digest}
 
                 def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params,
                           debtId=debt.id, name=pairKey(key, number), eight=manifestEight(digest)) -> None:
@@ -1628,14 +1631,19 @@ class FullRunner:
         params = action["params"]
         if outcome.get("key") != params["key"] or outcome.get("issue") != params["issue"]:
             raise RecordRefused("forge.close_issue outcome names a different issue or key than its action")
-        if result == "closed" and not (isinstance(outcome.get("commentUrl"), str) and outcome["commentUrl"].strip()):
-            raise RecordRefused("a closed outcome needs commentUrl, the closing comment it posted")
+        commentId = outcome.get("commentId")
+        if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
+            raise RecordRefused("commentId, when given, must be a positive integer")
+        if result == "closed" and not closureProven(outcome):
+            raise RecordRefused(
+                "a closed outcome must prove its closing comment: commentUrl, commentId, or markerVerified true")
         if result in ("failed", "blocked") and not (isinstance(outcome.get("failure"), str) and outcome["failure"].strip()):
             raise RecordRefused(f"a {result} outcome needs a failure reason")
         entry = {
             "outcome": result, "ruleId": params["ruleId"],
             "manifestSha256": params["manifestSha256"], "runId": runId, "stepId": action["stepId"],
-            "commentUrl": outcome.get("commentUrl"), "closedAt": outcome.get("closedAt"),
+            "commentUrl": outcome.get("commentUrl"), "commentId": commentId,
+            "markerVerified": outcome.get("markerVerified") is True, "closedAt": outcome.get("closedAt"),
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
         }
         key, issue = params["key"], params["issue"]
