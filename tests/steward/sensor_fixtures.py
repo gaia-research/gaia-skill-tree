@@ -44,7 +44,15 @@ def make_repo(root: Path, files: Mapping[str, str]) -> Path:
 
 def commit_all(root: Path, message: str = "update") -> None:
     _git(root, "add", "-A")
-    _git(root, "commit", "-q", "--allow-empty", "-m", message)
+    # An explicit identity: callers may hand in a tree they initialised without one,
+    # and CI runners have no global git identity.
+    _git(
+        root,
+        "-c", "user.email=steward-fixture@example.invalid",
+        "-c", "user.name=Steward Fixture",
+        "-c", "commit.gpgsign=false",
+        "commit", "-q", "--allow-empty", "-m", message,
+    )
 
 
 def set_mtime(path: Path, instant: str) -> None:

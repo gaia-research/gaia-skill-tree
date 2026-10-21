@@ -74,8 +74,14 @@ def test_schema_invalid_json_exact_finding(tmp_path: Path) -> None:
     assert obs.observed_state["findingCount"] == 1
     finding = obs.observed_state["findings"][0]
     assert finding["rule"] == "invalid-json"
-    # The stdlib wording varies by Python release; the position is the contract.
-    assert finding["detail"].endswith("at line 1 column 18")
+    # Wording and the reported column both vary by Python release (3.12 says 19,
+    # 3.13 says 18 for this input); the contract is that the sensor reports the
+    # interpreter's own position.
+    try:
+        json.loads('{"type": "object",}\n')
+    except json.JSONDecodeError as exc:
+        expected = f"at line {exc.lineno} column {exc.colno}"
+    assert finding["detail"].endswith(expected)
 
 
 def test_schema_invalid_schema_exact_finding(tmp_path: Path) -> None:

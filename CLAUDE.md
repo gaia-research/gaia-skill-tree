@@ -362,13 +362,13 @@ Rank/level is assigned ONLY by canon curation (dev-gated). The non-dev CLI's job
 
 ## Versioning
 
-The pre-commit hook keeps these in lockstep:
+CI keeps these in lockstep (`scripts/verify_lockstep.py`, the "Verify Version Lockstep" step in `validate.yml`; the local `.githooks/pre-commit` is a no-op stub since artifact sync moved to CI):
 
 - `pyproject.toml`
 - `packages/cli-npm/package.json`
 - `registry/gaia.json`
 
-If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
+If they disagree, that CI step fails loudly; run `python scripts/verify_lockstep.py` locally to check first. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
 
 > **Retired (v7.0.0):** the top-level `gaia release` shim is gone — use `gaia dev release` directly. Likewise `gaia mcp`, `gaia validate`, `gaia test`, `gaia docs build`, and `gaia _hook` were removed; their canonical forms live under `gaia dev`.
 
