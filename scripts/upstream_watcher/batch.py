@@ -173,13 +173,15 @@ def unresolved_row_ids(payload: dict, state_of) -> list[str]:
 def carry_forward(live: dict, prefix: str, state_of) -> list[dict]:
     """Unresolved rows of the newest closed umbrella for a suite, to seed a new umbrella.
 
-    Closed umbrellas come from the same recently-closed LIST window the prechecks
-    use. A carried row keeps its status, child link and firstSeenVersion, and
-    records ``carriedFrom`` as the umbrella it was last carried from.
+    The source is the full closed ``upstream:release`` history (``closedUmbrellas``),
+    never the 30-day window: an umbrella closed months ago still carries its
+    unresolved rows, so closing an umbrella can never drop candidates. A carried
+    row keeps its status, child link and firstSeenVersion, and records
+    ``carriedFrom`` as the umbrella it was last carried from.
     """
     closed = [
         issue
-        for issue in live["issues"]
+        for issue in live["closedUmbrellas"]
         if issue.get("state") == "closed"
         and "upstream:release" in label_names(issue)
         and str(issue.get("title", "")).startswith(prefix)

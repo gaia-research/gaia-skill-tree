@@ -24,7 +24,7 @@ DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 PER_PAGE = 100
 MAX_PAGES = 100
 CLOSED_WINDOW_DAYS = 30
-UMBRELLA_LABEL = "upstream:release"
+UMBRELLA_LABEL = "upstream:release"  # the closed-umbrella history is LISTed with this label
 # gh prints "(HTTP 301)" for a transferred issue (its old number now redirects) and
 # "(HTTP 404)" / "(HTTP 410)" for a deleted or gone one. All three mean the number
 # no longer names a live issue. Every other failure stays a plain GhError.
@@ -180,15 +180,21 @@ def closed_since(now: dt.datetime | None = None, days: int = CLOSED_WINDOW_DAYS)
 
 
 def read_live(gh: LiveGh, now: dt.datetime | None = None) -> dict:
-    """Snapshot open issues plus recently closed ones, excluding pull requests.
+    """Snapshot open issues, recently closed ones, and the full closed umbrella history.
 
-    Returns ``{"issues": [...]}`` with raw REST dicts. Raises GhError on any
-    list failure, which the caller must treat as unknown evidence.
+    ``issues`` holds open issues plus those closed inside the recent window.
+    ``closedUmbrellas`` holds every closed ``upstream:release`` issue with no
+    window, because carry-forward must find a suite's newest closed umbrella however
+    long ago it closed. Pull requests are excluded from both. Returns raw REST dicts.
+    Raises GhError on any list failure (including an incomplete page walk), which
+    the caller must treat as unknown evidence.
     """
     open_items = gh.list_issues("open")
     closed_items = gh.list_issues("closed", since=closed_since(now))
+    umbrella_items = gh.list_issues("closed", labels=UMBRELLA_LABEL)
     issues = [item for item in open_items + closed_items if not item.get("pull_request")]
-    return {"issues": issues}
+    closed_umbrellas = [item for item in umbrella_items if not item.get("pull_request")]
+    return {"issues": issues, "closedUmbrellas": closed_umbrellas}
 
 
 def open_umbrellas(issues: list[dict], prefix: str) -> list[dict]:
