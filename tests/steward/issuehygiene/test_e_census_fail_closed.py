@@ -1,6 +1,6 @@
 """Adversarial lane E, scenarios 1 and 15: pagination, missing pages, stale census, auth failure.
 
-Every test here fails closed or documents a defect. Nothing touches the network: the collector
+Every test here asserts a fail-closed outcome (lane E defects 1 and 2 are fixed and pinned here). Nothing touches the network: the collector
 is driven through ``FakeGitHub.fetch`` and ``httpFetch`` is driven through a patched
 ``urllib.request.urlopen``.
 """

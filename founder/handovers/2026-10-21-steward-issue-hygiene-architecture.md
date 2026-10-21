@@ -84,6 +84,24 @@ Written to `.gaia/steward/inputs/github-issues.json` (ignored path) by the colle
 mismatch, or `fetchedAt` older than the policy age => census status `incomplete`/`stale`.
 Merged PR evidence comes from `isPullRequest:true` rows with `mergedAt`.
 
+**Collector completeness (fixed under lane E defects 1 and 2, 2026-10-21).** These rules
+are in `scripts/steward_issue_census.py` and are binding on every collector:
+
+* *End of a listing is proven two ways only.* A `rel="last"` link must equal the pages
+  fetched. Without `next` or `last`, a non-empty page is followed by a probe of the next
+  page, and the walk ends only when that probe is empty. The probe replaces a page-length
+  test: `per_page` is a request the server may not honour, so a full page with no Link header
+  is never the end. A non-empty probe fails closed as `unlinked-continuation`, and its rows are
+  not adopted. An exact multiple of the page size still completes, because its probe is empty.
+* *Mutation during the walk.* The open listing is walked twice. Completeness needs the same
+  ordered numbers in both walks, else `mutated-during-walk`. Re-fetching page 1 alone is not
+  enough: a close on a later page, already served, shifts the rest of the listing and skips one
+  open issue while page 1 stays unchanged. The confirming walk is recorded as
+  `completeness.*.confirmPagesFetched` and is not counted in `pagesFetched`. Residual, accepted:
+  a mutation that repeats identically in both walks is not detected. The closed window is not
+  re-walked. It is used only as positive evidence of closure, so a skipped closed row can only
+  downgrade an item.
+
 ### 3.2 Semantic identity (`identity.py`)
 Keys are stable across reruns and independent of issue number:
 
@@ -98,6 +116,22 @@ Keys are stable across reruns and independent of issue number:
 Parents: child body `Umbrella: #N`; umbrella `Child intakes:` list / checkbox lines; payload block
 `<!-- gaia-upstream-payload ... -->`. A child whose parent number is absent from the census is an
 `orphan-child` (=> Class B, never A).
+
+**Listed numbers on an umbrella (fixed under lane E defects 3 and 4, 2026-10-21).** Every number
+the umbrella body lists is classified, and the umbrella's A2 proof depends on the result:
+
+| Listed number is | Result | Effect on the listing umbrella |
+|---|---|---|
+| an open child owned by this umbrella | dependency | open child, so not A2 |
+| an open child owned by another umbrella (`child-ref-parent-mismatch`) | dependency | `listed-child-owned-elsewhere:N`, so not A2. It is **not** an unknown: a reparenting listing is the lossless path A3 relies on, and an unknown would block that A3 |
+| any other open issue, or an open pull request | known, not a child | none |
+| any row in the recently-closed window | known closed | none (closed-window evidence) |
+| none of the above (the census holds no row) | unknown `listed-child-unknown:N` | unknown, so B and never A |
+
+Residual, recorded for the owners: the watcher writes umbrella listings as a *comment*
+(`Child intakes: #N`, `scripts/upstream_watcher/issuer.py::_edit_umbrella_body`), and the census reads
+bodies only. Such listings are invisible to the census. The per-child `Umbrella: #N` body line
+therefore remains the only listing-independent proof of ownership.
 
 ### 3.3 Reconciliation manifest — `steward-issue-reconciliation-v1`
 Pure output of `reconcile()`; deterministic key order; no timestamps except `censusFetchedAt`.
@@ -134,8 +168,8 @@ unresolved dependency (e.g. umbrella with open children) is never A.
 | Rule | Closes | Hard proof |
 |---|---|---|
 | `A1-child-curated` | `upstream:child` | exact suggested ID has a readable registry record, status not draft, same contributor handle, whose registry repo and file path equal the child's evidence URL. Repo (case-insensitive) is `upstream.repo` when declared, else the `links.github` repo; path is `links.github`'s path. `tree/` vs `blob/`, a trailing slash, query and fragment are not differences. The git ref is not matched: a ref-only difference is still A and is recorded as `ref-differs: registry=<ref> intake=<ref>` with both full URLs. The ref-free comparison is trusted only when both refs are "simple" (`HEAD`, `main`, `master`, a semver-like tag, or a 7-40 char lowercase hex sha) or the normalized URLs are identical; otherwise `ref-split-ambiguous` => B. Known bounded residual (accepted 2026-10-21): a branch whose first segment looks simple (e.g. `v2/docs`) cannot be told from ref `v2` + path `docs/...` without a branch listing; the closure comment carries both full URLs and a closure is reopenable. Any repo or path difference, draft or missing status, or unreadable record => B (never A). Alias/near-match => B/C, never A |
-| `A2-umbrella-synced` | `upstream:release` umbrella | registry suite record `upstream.version` == payload `newVersion` (or a merged `[upstream sync]` PR for it is in census) AND zero open children AND parent suite not frozen |
-| `A3-umbrella-superseded` | older `upstream:release` of the same suite | a newer umbrella of the same suite is open and its payload `componentAdds` ⊇ the older's still-unresolved adds, older's open children reparented/listed in newer body (lossless) |
+| `A2-umbrella-synced` | `upstream:release` umbrella | registry suite record `upstream.version` == payload `newVersion` (or a merged `[upstream sync]` PR for it is in census) AND zero open children AND parent suite not frozen AND every body-listed number is known (§3.2: an unknown listed child, or an open child owned by another umbrella, is B) AND no unknown facts on the umbrella itself |
+| `A3-umbrella-superseded` | older `upstream:release` of the same suite | a newer umbrella of the same suite is open and its payload `componentAdds` ⊇ the older's still-unresolved adds, older's open children reparented/listed in newer body (lossless). The superseder must carry no unknown facts and no identity reasons (checked from identity, because a higher-numbered superseder is evaluated later). The superseder must stay open after the pass: if it is A-closed in the same pass (for example by A2), the older umbrella is downgraded to B with `superseder-closed-in-pass:#N`, its A3 evidence is dropped and the planner refuses it too. The older umbrella then waits for a founder decision. Closing the superseder first is not done automatically |
 | `A4-duplicate-child` | `upstream:child` | same candidate key + same evidence URL as a lower-numbered open child that stays canonical; closure `duplicate`, `duplicateOf` set |
 | `A5-botreport-superseded` | `github-actions[bot]` gh-aw report | the failing automation is verifiably disabled in repo files (workflow has `if: ${{ false }}`/no active trigger, per policy list of paths), no `security` label, body not a security finding; otherwise B/C |
 
