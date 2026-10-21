@@ -44,12 +44,6 @@ evidence:
   views: 35000
   sourceStartedAt: '2025-01-01'
 timeline:
-- timestamp: '2026-09-05T00:00:00Z'
-  action: demote
-  author: mbtiongson1
-  notes: "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
-  previousValue: 3★
-  newValue: 1★
 - timestamp: '2026-06-14T12:33:03Z'
   action: evidence_graded
   contributor: unknown
@@ -84,6 +78,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
+  previousValue: 3★
+  newValue: 1★
 trustMagnitude: 42.47
 overallTrustGrade: C
 apexGateStatus:
