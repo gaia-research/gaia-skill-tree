@@ -12,5 +12,6 @@ Nothing below is marked landed: no PR in this table is merged.
 | 4 | Lane `maxInFlight` 2 | yes | PR #2121 | unit and scenario tests pass; no live concurrency run yet | no | decided |
 | 5 | Gate `provenance` and `evidence-seed` | yes | PR #2121 | `ungated_mutation` findings 4 to 2 on live scan | no | decided |
 | 6 | Timeline causality (#1699) | yes, for investigation and preparation only | PR #2123 (verb in #2121; 3 timelines re-sorted, stacked on #2121) | independent Sonnet verifier: PASS (one noise file reverted afterwards); open content issue on workflow-skill-creator | no | open (awaiting founder review) |
+| 7 | Agent-agnostic one-click execution via gh-aw | yes (founder directive 2026-10-21) | PR #2121: `steward-full.yml`, 8 compiled gh-aw agent workflows, `steward_agent_dispatch.py` | unit tests and local `gh aw compile` only; no agent has run on GitHub yet | no | decided |
 
 Decision 6 is conditional by the founder's ruling: re-sort only if factually justified, with identities, timestamps, content and meaning unchanged, and never merged automatically.

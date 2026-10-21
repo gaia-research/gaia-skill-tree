@@ -59,6 +59,8 @@ AGENTTYPES = ("agent.build", "agent.verify")
 KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate")
 VERDICTS = ("accept", "reject", "escalate")
 BUILDFAMILIES = ("haiku", "sonnet")
+ENGINES = ("copilot", "claude", "codex", "pi")
+ADAPTER = "scripts/steward_agent_dispatch.py"
 DEFAULTREPORT = ".gaia/steward/drive-report.json"
 DEFAULTOUTCOMEDIR = ".gaia/steward/drive/outcomes"
 DEFAULTAGENTCMD = (
@@ -165,6 +167,15 @@ def baseRefusal(base: Any, integrationBranch: str | None) -> str | None:
 def agentReadiness(env: Mapping[str, str], which: Callable[[str], str | None]) -> tuple[bool, str]:
     """Whether agent outcomes can honestly be produced in this environment."""
 
+    engine = (env.get("STEWARD_AGENT") or "").strip().lower()
+    if engine:
+        if engine not in ENGINES:
+            return False, f"STEWARD_AGENT {engine!r} is not one of {', '.join(ENGINES)}"
+        if which("gh") is None:
+            return False, "gh is not on PATH (needed to dispatch the agent workflow)"
+        if not (env.get("GH_TOKEN") or env.get("GITHUB_TOKEN")):
+            return False, "no GH_TOKEN or GITHUB_TOKEN (needed to dispatch the agent workflow)"
+        return True, ""
     if not (env.get("STEWARD_SONNET_MODEL_ID") or "").strip():
         return False, "no agent credentials (STEWARD_SONNET_MODEL_ID unset: the verifier must be Sonnet)"
     if (env.get("STEWARD_AGENT_CMD") or "").strip():
@@ -227,11 +238,18 @@ class Driver:
         self.buildEffort = self.effortFrom("STEWARD_BUILD_EFFORT", DEFAULTBUILDEFFORT)
         self.verifyEffort = self.effortFrom("STEWARD_VERIFY_EFFORT", DEFAULTVERIFYEFFORT)
         self.builderFamily = (self.env.get("STEWARD_BUILDER_MODEL") or "haiku").strip().lower()
-        if self.builderFamily not in BUILDFAMILIES:
+        self.engine = (self.env.get("STEWARD_AGENT") or "").strip().lower() or None
+        self.verifierEngine = (self.env.get("STEWARD_VERIFIER_AGENT") or "").strip().lower() or self.engine
+        for name, value in (("STEWARD_AGENT", self.engine), ("STEWARD_VERIFIER_AGENT", self.verifierEngine)):
+            if value is not None and value not in ENGINES:
+                raise DriverConfigError(f"{name} must be one of {', '.join(ENGINES)}, not {value!r}")
+        if self.engine is not None and self.engine != "claude":
+            self.builderFamily = self.engine
+        if self.builderFamily not in BUILDFAMILIES and self.builderFamily not in ENGINES:
             raise DriverConfigError(f"STEWARD_BUILDER_MODEL must be haiku or sonnet, not {self.builderFamily!r}")
         self.haikuId = (self.env.get("STEWARD_HAIKU_MODEL_ID") or DEFAULTHAIKUID).strip()
         self.sonnetId = (self.env.get("STEWARD_SONNET_MODEL_ID") or "").strip() or None
-        if self.builderFamily == "sonnet" and self.sonnetId is None:
+        if self.builderFamily == "sonnet" and self.sonnetId is None and self.engine is None:
             raise DriverConfigError("STEWARD_BUILDER_MODEL=sonnet needs STEWARD_SONNET_MODEL_ID")
         self.ready, self.notReadyReason = agentReadiness(self.env, self.which)
         self.failures: dict[str, int] = {}
@@ -256,6 +274,13 @@ class Driver:
         if not value or value.lower() in BADEFFORTS:
             raise DriverConfigError(f"{name} must be an explicit thinking effort, not {value!r}")
         return value
+
+    def verifierFamily(self) -> str:
+        """Claude verifies as Sonnet; every other agent is recorded under its engine name."""
+
+        if self.verifierEngine is None or self.verifierEngine == "claude":
+            return "sonnet"
+        return self.verifierEngine
 
     def builderModelId(self) -> str:
         return self.haikuId if self.builderFamily == "haiku" else str(self.sonnetId)
@@ -296,6 +321,20 @@ class Driver:
     def runGh(self, args: Sequence[str]) -> CommandResult:
         return self.runner(["gh", *args], cwd=self.options.root, env=self.env)
 
+    def spawnEngine(self, role: str, engine: str, promptPath: Path,
+                    params: Mapping[str, Any]) -> tuple[CommandResult, dict[str, Any] | None]:
+        """Run one agent through the engine-agnostic adapter (a gh-aw workflow run)."""
+
+        argv = [self.options.python, str(self.options.root / ADAPTER), "--role", role, "--engine", engine,
+                "--prompt-path", str(promptPath), "--dispatch-id", str(params.get("dispatchId") or self.newId(role)),
+                "--timeout", str(int(self.options.agentTimeout))]
+        if role == "build":
+            argv += ["--base", str(params.get("base") or ""), "--branch", str(params.get("branch") or "")]
+        result = self.runner(argv, cwd=self.options.root, timeout=self.options.agentTimeout + 120, env=self.env)
+        if result.timedOut or result.returncode != 0:
+            return result, None
+        return result, lastJsonObject(result.stdout)
+
     def spawn(self, modelId: str, effort: str, promptPath: Path) -> tuple[CommandResult, dict[str, Any] | None]:
         template = shlex.split(self.env.get("STEWARD_AGENT_CMD") or DEFAULTAGENTCMD)
         values = {"model": modelId, "effort": effort, "prompt_path": str(promptPath)}
@@ -316,7 +355,8 @@ class Driver:
         if result.timedOut:
             return f"{role} agent timed out"
         if result.returncode != 0:
-            return f"{role} agent exited {result.returncode}"
+            tail = (result.stderr or "").strip().splitlines()[-1:] or [""]
+            return f"{role} agent exited {result.returncode}" + (f": {tail[0][:300]}" if tail[0] else "")
         return f"{role} agent printed no JSON outcome"
 
     def numberOrNone(self, value: Any) -> float | int | None:
@@ -340,7 +380,10 @@ class Driver:
             return Handled(reason="promptPath is missing or not a file")
         agentId = self.newId("builder")
         self.builderIds.add(agentId)
-        result, out = self.spawn(self.builderModelId(), self.buildEffort, promptPath)
+        if self.engine is not None:
+            result, out = self.spawnEngine("build", self.engine, promptPath, params)
+        else:
+            result, out = self.spawn(self.builderModelId(), self.buildEffort, promptPath)
         if out is None:
             return Handled(reason=self.failureText("builder", result))
         noChange = out.get("noChange")
@@ -362,8 +405,16 @@ class Driver:
             if not diffRel or not proofRel:
                 return Handled(reason="build params name no diffPath or proofPath")
             diffAbs = self.options.root / diffRel
+            proofAbs = self.options.root / proofRel
+            if self.engine is not None and not proofAbs.is_file() and isinstance(out.get("proof"), dict):
+                proofAbs.parent.mkdir(parents=True, exist_ok=True)
+                proofAbs.write_text(json.dumps(out["proof"], indent=2, sort_keys=True), encoding="utf-8")
             if not diffAbs.is_file():
                 base, branch = params.get("base"), params.get("branch")
+                if base and branch and self.engine is not None:
+                    self.runner(["git", "fetch", "origin", str(base), str(branch)],
+                                cwd=self.options.root, env=self.env)
+                    base, branch = f"origin/{base}", f"origin/{branch}"
                 if base and branch:
                     captured = self.runner(["git", "diff", f"{base}...{branch}"],
                                            cwd=self.options.root, env=self.env)
@@ -384,12 +435,15 @@ class Driver:
         promptPath = self.resolveFile(params.get("verifierPromptPath"))
         if promptPath is None:
             return Handled(reason="verifierPromptPath is missing or not a file")
-        if self.sonnetId is None:
+        if self.verifierEngine is None and self.sonnetId is None:
             return Handled(reason="no Sonnet model is configured for the verifier")
         agentId = self.newId("verifier")
         if agentIdentity(agentId) in forbidden or agentIdentity(agentId) in {agentIdentity(b) for b in self.builderIds}:
             return Handled(reason=f"verifier id {agentId!r} belongs to a builder; refusing to spawn it")
-        result, out = self.spawn(self.sonnetId, self.verifyEffort, promptPath)
+        if self.verifierEngine is not None:
+            result, out = self.spawnEngine("verify", self.verifierEngine, promptPath, params)
+        else:
+            result, out = self.spawn(str(self.sonnetId), self.verifyEffort, promptPath)
         if out is None:
             return Handled(reason=self.failureText("verifier", result))
         verdict = out.get("verdict")
@@ -399,7 +453,7 @@ class Driver:
         if not isinstance(rationale, str) or not rationale.strip():
             return Handled(reason="verifier output needs a non-empty rationale")
         return Handled(outcome={
-            "agentId": agentId, "model": "sonnet", "effort": self.verifyEffort,
+            "agentId": agentId, "model": self.verifierFamily(), "effort": self.verifyEffort,
             "verdict": verdict, "rationale": rationale.strip(),
             "tokensIn": self.numberOrNone(out.get("tokensIn")),
             "tokensOut": self.numberOrNone(out.get("tokensOut")),

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-agent-agnostic-execution",
+  "status": "decided",
+  "decision": "Run Gaia Steward Full as one click in GitHub Actions with any authenticated coding agent (Copilot, Claude, Codex or Pi), executing builder and verifier agents as GitHub Agentic Workflows?",
+  "whyItMatters": "A single vendor key must not gate the steward. gh-aw is a maintained execution layer that supplies the engine abstraction, supported authentication, sandbox, network allowlist and a safe-output write boundary, so the repo keeps only the deterministic runner and a thin dispatch adapter.",
+  "evidence": [
+    "gh-aw engines: copilot (copilot-requests permission or COPILOT_GITHUB_TOKEN), claude (ANTHROPIC_API_KEY or WIF; subscription OAuth is not supported), codex (OPENAI_API_KEY or CODEX_API_KEY), pi (Copilot auth by default).",
+    "Founder directive 2026-10-21: execution is agent-agnostic; no ANTHROPIC_API_KEY assumption; Class B is not claimed operational until an agent actually runs.",
+    "The runner stays zero-model and unchanged in its governance: 30 detectors, maxInFlight 2, maxDispatchesPerRun 1, independent verification by a separate agent id, merges into the integration branch only."
+  ],
+  "recommended": "Dispatch 'Gaia Steward Full' with agent=copilot first (no secret needed where the organisation has Copilot billing), then prove a second engine.",
+  "alternative": "A single vendor CLI driven by an API key in the drive job.",
+  "unblocks": "One-click unattended Class B on any supported agent.",
+  "links": [
+    ".github/workflows/steward-full.yml",
+    ".github/workflows/shared/steward-build.md",
+    ".github/workflows/shared/steward-verify.md",
+    "scripts/steward_agent_dispatch.py"
+  ]
+}

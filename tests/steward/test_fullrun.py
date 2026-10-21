@@ -23,6 +23,7 @@ from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.fullrun import (
     BUILDERMODELS,
     MODEPHASES,
+    VERIFIERMODELS,
     FullRunConfig,
     FullRunner,
     RecordRefused,
@@ -317,6 +318,29 @@ def test_negative_cost_is_refused() -> None:
 
 def test_valid_agent_passes() -> None:
     validateAgent(BUILD, BUILDERMODELS, "builder")
+
+
+@pytest.mark.parametrize("model", ["copilot", "codex", "pi"])
+def test_other_agent_engines_are_accepted_as_builders(model: str) -> None:
+    validateAgent({**BUILD, "model": model}, BUILDERMODELS, "builder")
+
+
+@pytest.mark.parametrize("model", ["copilot", "codex", "pi"])
+def test_other_agent_engines_are_accepted_as_verifiers(model: str) -> None:
+    validateAgent({**VERIFY, "model": model}, VERIFIERMODELS, "verifier")
+
+
+def test_haiku_is_not_a_verifier_family() -> None:
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**VERIFY, "model": "haiku"}, VERIFIERMODELS, "verifier")
+
+
+@pytest.mark.parametrize("model", ["opus", "gpt5"])
+def test_unlisted_families_are_refused_for_builders_and_verifiers(model: str) -> None:
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**BUILD, "model": model}, BUILDERMODELS, "builder")
+    with pytest.raises(RecordRefused, match="not permitted"):
+        validateAgent({**VERIFY, "model": model}, VERIFIERMODELS, "verifier")
 
 
 # --- landing target, idempotency keys, phases ---------------------------------------

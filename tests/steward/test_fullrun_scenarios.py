@@ -174,7 +174,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(view) == ["agent.build"]
     build = view.actions[0]
     params = build["params"]
-    assert params["allowedModels"] == ["haiku", "sonnet"]
+    assert params["allowedModels"] == ["haiku", "sonnet", "copilot", "codex", "pi"]
     assert params["effortRequired"] is True and params["base"] == INTEGRATION
     assert params["branch"].startswith("steward/b/repository-hygiene-")
     assert set(params["outputs"]) == {"diffPath", "proofPath"}
@@ -219,7 +219,7 @@ def test_scenario_c_class_b_build_verify_integrate_land_and_resolve(tmp_path: Pa
     assert actionTypes(verifying) == ["agent.verify"]
     verify = verifying.actions[0]
     assert verify["params"]["forbiddenAgentIds"] == ["builder-1"]
-    assert verify["params"]["allowedModels"] == ["sonnet"]
+    assert verify["params"]["allowedModels"] == ["sonnet", "copilot", "codex", "pi"]
     assert "scripts/fix.py" in (repo / verify["params"]["verifierPromptPath"]).read_text()
 
     # 5. the same agent may not judge its own work; a different one may.
@@ -620,6 +620,24 @@ def test_scenario_c_cooldown_then_attempt_ceiling_escalate_to_the_desk(tmp_path:
     clock.advance(hours=5)
     after = makeRunner(repo, store, [sensor], clock=clock).start("full")
     assert after.actions == [] and ledgerOf(store)["work"][debtId]["state"] == "escalated"
+
+
+def test_scenario_c_verifier_sharing_the_builder_agent_id_is_refused_whatever_the_family(tmp_path: Path) -> None:
+    repo, bare, sensor, store, runner = hygieneRunner(tmp_path)
+    view = runner.start("full")
+    build = view.actions[0]
+    debtId = build["params"]["debtId"]
+    diff, proof = writeBuildArtifacts(repo)
+    # A non-Claude builder family is accepted on the build; its agent id is the independence key.
+    runner.record(view.runId, build["stepId"], {**BUILD, "model": "copilot", "diffPath": str(diff), "proofPath": str(proof)})
+    verify = runner.resume(view.runId).actions[0]
+    assert verify["params"]["forbiddenAgentIds"] == ["builder-1"]
+    # The same agent id is refused as verifier even under a family the verifier accepts.
+    with pytest.raises(RecordRefused, match="independent"):
+        runner.record(view.runId, verify["stepId"], {**VERIFY, "agentId": "builder-1", "model": "codex"})
+    assert ledgerOf(store)["work"][debtId]["state"] == "building"
+    runner.record(view.runId, verify["stepId"], {**VERIFY, "agentId": "verifier-1", "model": "codex"})
+    assert ledgerOf(store)["work"][debtId]["state"] == "verified"
 
 
 def test_scenario_c_no_change_build_is_confirmed_by_an_independent_verifier(tmp_path: Path) -> None:

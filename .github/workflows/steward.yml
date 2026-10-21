@@ -125,7 +125,7 @@ jobs:
   # The full pipeline in observe mode: every detector, the founder desk, and the
   # three driver inputs (CI runs, advisories, test history). Read-only; its ledger
   # is local to this runner. The persistent ledger, Class A landing and the
-  # unattended Class B builder/verifier loop live in steward-drive.yml.
+  # unattended Class B builder/verifier loop live in steward-full.yml.
   full-observe:
     name: Full pipeline (observe)
     runs-on: ubuntu-latest
