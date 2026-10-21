@@ -41,4 +41,4 @@ def test_lock_files_reference_released_actions_not_local_paths():
     for lock in (ROOT / ".github/workflows").glob("steward-*-*.lock.yml"):
         text = lock.read_text(encoding="utf-8")
         assert "./actions/setup" not in text, f"{lock.name} was compiled by a dev build of gh-aw"
-        assert "github/gh-aw-actions/setup@v" in text
+        assert "github/gh-aw-actions/setup@v0.92.6" in text
