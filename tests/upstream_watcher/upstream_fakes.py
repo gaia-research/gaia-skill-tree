@@ -1,0 +1,131 @@
+"""In-memory GitHub fake for the upstream batch planner (#2131)."""
+
+from __future__ import annotations
+
+import copy
+import json
+import re
+import subprocess
+
+from scripts.upstream_watcher import prechecks as pc
+from scripts.upstream_watcher.live import GhError
+
+
+class FakeGh:
+    """Implements the LiveGh surface over a dict of REST-shaped issues."""
+
+    def __init__(self, issues: list[dict] | None = None):
+        self.issues: dict[int, dict] = {}
+        self.clock = 1000
+        self.writes: list[tuple] = []
+        self.list_calls: list[tuple] = []
+        self.fail_list = False
+        self.fail_get = False
+        self.stale_on_get: dict[int, dict] = {}
+        self.next_number = 5000
+        for issue in issues or []:
+            self.add(issue)
+
+    # -- seeding -----------------------------------------------------------
+    def add(self, issue: dict) -> dict:
+        row = copy.deepcopy(issue)
+        row.setdefault("state", "open")
+        row.setdefault("updated_at", self.stamp())
+        row.setdefault("body", "")
+        row["labels"] = [{"name": label} if isinstance(label, str) else label for label in row.get("labels", [])]
+        self.issues[row["number"]] = row
+        self.next_number = max(self.next_number, row["number"] + 1)
+        return row
+
+    def stamp(self) -> str:
+        self.clock += 1
+        return f"2026-10-21T19:{self.clock % 60:02d}:{self.clock // 60 % 60:02d}Z"
+
+    # -- LiveGh surface ----------------------------------------------------
+    def list_issues(self, state: str, since: str | None = None) -> list[dict]:
+        self.list_calls.append((state, since))
+        if self.fail_list:
+            raise GhError("list failed (fake)")
+        rows = [copy.deepcopy(row) for row in self.issues.values() if state == "all" or row["state"] == state]
+        return sorted(rows, key=lambda row: row["number"])
+
+    def get_issue(self, number: int) -> dict:
+        if self.fail_get:
+            raise GhError("get failed (fake)")
+        if number in self.stale_on_get:
+            # Simulates a racing writer: the live issue changed after our list snapshot.
+            self.issues[number].update(self.stale_on_get.pop(number))
+        if number not in self.issues:
+            raise GhError(f"issue #{number} missing (fake)")
+        return copy.deepcopy(self.issues[number])
+
+    def create_issue(self, title: str, labels: list[str], body: str) -> int:
+        number = self.next_number
+        self.next_number += 1
+        self.issues[number] = {
+            "number": number, "title": title, "state": "open", "body": body,
+            "labels": [{"name": label} for label in labels], "updated_at": self.stamp(),
+        }
+        self.writes.append(("create", number, title))
+        return number
+
+    def edit_issue(self, number: int, title: str, body: str) -> None:
+        self.issues[number].update({"title": title, "body": body, "updated_at": self.stamp()})
+        self.writes.append(("edit", number))
+
+    def edit_labels(self, number, add=(), remove=()) -> None:
+        names = [label["name"] for label in self.issues[number]["labels"]]
+        names = [name for name in names if name not in remove] + [name for name in add if name not in names]
+        self.issues[number]["labels"] = [{"name": name} for name in names]
+        self.writes.append(("labels", number, tuple(add), tuple(remove)))
+
+    def comment(self, number: int, body: str) -> None:
+        self.writes.append(("comment", number, body))
+
+    # -- helpers -----------------------------------------------------------
+    def write_count(self) -> int:
+        return len(self.writes)
+
+    def by_title(self, prefix: str) -> list[dict]:
+        return [row for row in self.issues.values() if row["title"].startswith(prefix)]
+
+
+def index_from_entries(entries: list[dict]) -> dict:
+    """Build a registry index from ``{"id", "github"}`` records, as load_registry_index does."""
+    by_id, by_slug = {}, {}
+    for entry in entries:
+        by_id[entry["id"]] = {"links": pc.normalize_blob(entry.get("github", ""), ignore_ref=True), "status": "named"}
+        by_slug.setdefault(pc.slug_key(entry["id"].split("/")[-1]), []).append(entry["id"])
+    return {"byId": by_id, "bySlug": by_slug}
+
+
+class FakeRunner:
+    """Stands in for subprocess.run for LiveGh pagination tests."""
+
+    def __init__(self, pages_by_state: dict[str, list[list[dict]]]):
+        self.pages = pages_by_state
+        self.calls: list[list[str]] = []
+
+    def __call__(self, args, capture_output=True, text=True, timeout=None):
+        self.calls.append(list(args))
+        state = next(a.split("=", 1)[1] for a in args if a.startswith("state="))
+        page = int(next(a.split("=", 1)[1] for a in args if a.startswith("page=")))
+        pages = self.pages.get(state, [])
+        body = pages[page - 1] if page - 1 < len(pages) else []
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps(body), stderr="")
+
+
+def fixture_issue_rows(families: dict) -> list[dict]:
+    rows = []
+    for umbrella in families["umbrellas"]:
+        rows.append({k: umbrella[k] for k in ("number", "title", "state", "labels", "body", "updated_at")})
+    for child in families["children"]:
+        rows.append({k: child[k] for k in ("number", "title", "state", "labels", "body", "updated_at")})
+    return rows
+
+
+def fixture_registry_entries(families: dict) -> list[dict]:
+    return [{"id": entry["id"], "github": entry["github"]} for entry in families["registry"]]
+
+
+SUGGESTED_RE = re.compile(r"Suggested ID:\*\*\s*`([^`]+)`")
