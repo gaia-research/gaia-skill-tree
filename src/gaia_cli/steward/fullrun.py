@@ -44,6 +44,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
+from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.controller import ScanResult, StewardController
 from gaia_cli.steward.ledger import (
     LedgerConflict,
@@ -109,6 +110,10 @@ STUCKBUILDINGSECONDS = 24 * 3600
 
 RUNLEASE = "run"
 RETAINEDRUNS = 25
+# Of the retained terminal runs, only the newest keep their full phase payloads
+# and desk; the rest keep scalar headlines and list sizes (a real-repo run's
+# phases are ~100 KB, and the ledger is rewritten on every compare-and-swap).
+DETAILEDRUNS = 5
 CONTENDEDRETRIES = 80
 STATEDIRECTORY = Path(".gaia/steward/full")
 
@@ -185,6 +190,17 @@ proof item. Do not escalate because it has not happened yet, and do not write
 an entry for it.
 """
 
+
+
+def _headline(value: Any) -> Any:
+    """A phase summary reduced to its scalars, with every list or map replaced by its size."""
+
+    if not isinstance(value, Mapping):
+        return value
+    return {
+        key: (len(item) if isinstance(item, (list, tuple, dict)) else item)
+        for key, item in value.items()
+    }
 
 def _hash12(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
@@ -291,10 +307,14 @@ class StatusView:
     lane: dict[str, Any] | None
     lastScheduledRunAt: str | None
     recentRuns: list[dict[str, Any]]
+    desk: dict[str, Any] | None = None
+    deskRunId: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "schemaVersion": "steward-full-status-v1",
+            "desk": self.desk,
+            "deskRunId": self.deskRunId,
             "ledger": self.ledger,
             "holder": self.holder,
             "holderPhase": self.holderPhase,
@@ -731,7 +751,10 @@ class FullRunner:
             lane = None
         runs = sorted(doc["runs"].values(), key=lambda value: value["startedAt"], reverse=True)
         scheduled = [r["startedAt"] for r in runs if r.get("trigger") == "scheduled" and r.get("status") != "abandoned"]
+        latestDesk = next((r for r in runs if r.get("desk") is not None), None)
         return StatusView(
+            desk=copy.deepcopy(latestDesk["desk"]) if latestDesk else None,
+            deskRunId=latestDesk["runId"] if latestDesk else None,
             ledger=self._ledgerInfo(),
             holder=held,
             holderPhase=holderRun.get("phase"),
@@ -1117,6 +1140,12 @@ class FullRunner:
             (r for r in doc["runs"].values() if r.get("status") in TERMINALRUNSTATES),
             key=lambda value: value["startedAt"], reverse=True,
         )
+        for run in terminal[DETAILEDRUNS:RETAINEDRUNS]:
+            if run.get("trimmed") or run.get("compacted"):
+                continue
+            run["phases"] = {name: _headline(value) for name, value in (run.get("phases") or {}).items()}
+            run.pop("desk", None)
+            run["trimmed"] = True
         for run in terminal[RETAINEDRUNS:]:
             for key in ("steps", "actions", "phases", "proofArtifacts", "ciResults", "agentAssignments"):
                 if run.get(key):
@@ -1234,7 +1263,10 @@ class FullRunner:
         result = []
         for item in raw or ():
             if isinstance(item, Mapping):
-                result.append({"sensor": str(item.get("sensor")), "reason": str(item.get("reason", ""))})
+                entry = {"sensor": str(item.get("sensor")), "reason": str(item.get("reason", ""))}
+                if item.get("inputAbsent") is True:
+                    entry["inputAbsent"] = True
+                result.append(entry)
             elif hasattr(item, "sensor"):
                 result.append({"sensor": str(item.sensor), "reason": str(getattr(item, "reason", ""))})
             else:
@@ -1261,6 +1293,11 @@ class FullRunner:
             key=lambda value: value["sensor"],
         )
         fresh = sorted(scan.fresh_open_debt_ids & {d.id for d in scan.open_debts})
+        unknownWhy = {
+            o.subject.id: scrub(f"{o.observed_state.get('errorType', 'error')}: {o.observed_state.get('error', '')}")[:300]
+            for o in scan.observations
+            if o.kind == "sensor_coverage_unknown" and o.status == "drift"
+        }
         wanted = set(workIds)
         debtStatus = {d.id: d.status for d in scan.debts if d.id in wanted}
         return {
@@ -1274,6 +1311,7 @@ class FullRunner:
             "resolved": list(receipt.debt_resolved),
             "authorityCounts": dict(receipt.authority_counts),
             "coverageUnknown": list(receipt.coverage_unknown),
+            "coverageUnknownReasons": {s: unknownWhy[s] for s in receipt.coverage_unknown if s in unknownWhy},
             "notEvaluated": notEvaluated,
             "partialCoverage": partial,
             "observationsBySensor": dict(sorted(bySensor.items())),
@@ -1338,7 +1376,13 @@ class FullRunner:
                 result["filtered"] += 1
                 continue
             state = work.get(debt.id, {}).get("state")
-            if state in HELDWORK:
+            # A Class A no_change only says the integration base matched canonical
+            # when it was tried. The landing is zero-model and idempotent, so it is
+            # retried while the debt stays open: a base that later gains the drift
+            # must not be ignored. Class B no_change stays held (a re-dispatch costs
+            # a builder).
+            retryA = state == "no_change" and debt.authority is AuthorityClass.A
+            if state in HELDWORK and not retryA:
                 result["held"].append(debt.id)
                 continue
             # `queued` is a Class A landing whose intent was recorded but never
@@ -2249,6 +2293,7 @@ class FullRunner:
             founder_queue=self._founderQueue(scan.open_debts),
             lane=load_lane(doc["lane"], policy.lane) if doc["lane"] is not None else None,
             coverage_unknown=observed.get("coverageUnknown", []),
+            coverage_unknown_reasons=observed.get("coverageUnknownReasons", {}),
             not_evaluated=list(observed.get("notEvaluated", [])) + [
                 {"sensor": item["sensor"],
                  "reason": f"partially covered: {item['skippedCount']} subject(s) not evaluated"

@@ -652,3 +652,18 @@ def test_the_record_size_cap_is_inclusive_at_64_kib(tmp_path: Path) -> None:
     desk = _desk(decision_records=tuple(by_name.values()))
     assert [item.decision_id for item in desk.decisions] == ["exact"]
     assert [op.subject for op in desk.operations] == [f"{DECISIONS_RELATIVE_DIR}/over.json"]
+
+
+def test_an_absent_driver_input_is_not_a_desk_operation_but_a_stale_one_is() -> None:
+    desk = _desk(not_evaluated=(
+        {"sensor": "ci-health", "reason": "no ci-runs.json supplied", "inputAbsent": True},
+        {"sensor": "test-history", "reason": "stale input: test-history is 9 days old"},
+    ))
+    assert [(op.kind, op.subject) for op in desk.operations] == [("not_evaluated", "test-history")]
+
+
+def test_desk_round_trips_through_its_stored_form() -> None:
+    desk = _desk(decision_records=(_record(),), coverage_unknown=("broken",),
+                 coverage_unknown_reasons={"broken": "SensorUnavailable: gone"})
+    assert Desk.from_dict(desk.to_dict()) == desk
+    assert "Cause: SensorUnavailable: gone" in " ".join(render_desk(desk).split())

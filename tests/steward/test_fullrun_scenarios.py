@@ -1276,3 +1276,27 @@ def test_m01_m02_dispatch_cap_and_pending_build_guard(tmp_path: Path) -> None:
     assert len(builds(doc)) == 1
     assert sum(e["attempts"] for e in doc["lane"]["entries"]) == 1
     assert verifying.summary["class_b"]["status"] == "ok" and "maxDispatchesPerRun" in verifying.summary["class_b"]["reason"]
+
+
+def test_class_a_no_change_is_retried_when_the_integration_base_later_gains_the_drift(tmp_path: Path) -> None:
+    # Rehearsal B: the drift reached main, the integration branch already matched canonical,
+    # so the landing was no_change. When the integration branch later gains the drift, the
+    # next run must land it instead of holding the stale no_change forever.
+    repo, bare = makeFixture(tmp_path, mirrorDrift=True)
+    fixer = cloneOf(bare, tmp_path / "fixer")
+    git(fixer, "checkout", "-q", INTEGRATION)
+    write(fixer / ".claude/skills/x/SKILL.md", "# x canonical\n")
+    commitAll(fixer, "integration already canonical")
+    git(fixer, "push", "-q", "origin", INTEGRATION)
+    store = fileStore(tmp_path)
+
+    first = makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
+    (item,) = ledgerOf(store)["work"].values()
+    assert item["state"] == "no_change", first.to_dict()
+    assert stewardRefs(bare) == []
+
+    git(bare, "update-ref", f"refs/heads/{INTEGRATION}", "refs/heads/main")
+    second = makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
+    (item,) = ledgerOf(store)["work"].values()
+    assert item["state"] == "proposed", second.to_dict()
+    assert len(stewardRefs(bare)) == 1

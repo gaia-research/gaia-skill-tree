@@ -397,3 +397,46 @@ def test_retro_human_output_prints_the_sensor_and_routine_tables(
     assert "observed" in five
     routineRows = [l for l in lines if l.startswith("  ") and l.split()[:1] and l.split()[0].isnumeric()]
     assert len(routineRows) == 17
+
+
+def test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    from gaia_cli.steward.desk import QUIET_LINE
+    from gaia_cli.steward.primitives import SensorNotEvaluated
+
+    repo, _bare = makeFixture(tmp_path)
+    # A clean tree plus a driver input nobody supplied: shown in the receipt, nothing to act on.
+    absent = StubSensor("ci-health", "ci_failure", raises=SensorNotEvaluated("no ci-runs.json supplied", input_absent=True))
+    useSensors(monkeypatch, [StubSensor("repository-hygiene", "repository_hygiene"), absent])
+
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "git", "--trigger", "scheduled")
+    assert code == 0, out
+    assert QUIET_LINE in out.splitlines()
+
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--observe", "--ledger", "git", "--trigger", "scheduled", "--json")
+    view = json.loads(out)
+    assert view["desk"]["quiet"] is True
+    assert view["summary"]["observe"]["notEvaluated"] == [
+        {"sensor": "ci-health", "reason": "no ci-runs.json supplied", "inputAbsent": True}
+    ]
+
+    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "git", "--json")
+    status = json.loads(out)
+    assert code == 0 and status["desk"]["quiet"] is True and status["deskRunId"] == view["runId"]
+    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "git")
+    assert out.rstrip("\n").endswith(QUIET_LINE)
+
+
+def test_unknown_coverage_names_its_cause_in_the_run_and_on_the_desk(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    repo, _ = makeFixture(tmp_path)
+    useSensors(monkeypatch, [StubSensor("broken", "repository_hygiene", raises=SensorUnavailable("required inventory is empty: registry/named"))])
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--json")
+    view = json.loads(out)
+    assert code == 3
+    why = view["summary"]["observe"]["coverageUnknownReasons"]["broken"]
+    assert why == "SensorUnavailable: required inventory is empty: registry/named"
+    (operation,) = [op for op in view["desk"]["operations"] if op["kind"] == "coverage_unknown"]
+    assert operation["detail"].endswith("Cause: " + why)

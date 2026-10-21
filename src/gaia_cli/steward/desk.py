@@ -148,6 +148,29 @@ class Desk:
     def quiet(self) -> bool:
         return not self.decisions and not self.operations
 
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "Desk":
+        """Rebuild a desk from its ``to_dict`` form (as stored on a run record)."""
+
+        return cls(
+            decisions=tuple(
+                DeskDecision(
+                    decision_id=item["decisionId"], decision=item["decision"],
+                    why_it_matters=item["whyItMatters"], evidence=tuple(item.get("evidence", ())),
+                    recommended=item["recommended"], alternative=item["alternative"],
+                    unblocks=item["unblocks"], links=tuple(item.get("links", ())),
+                    debt_ids=tuple(item.get("debtIds", ())), source=item["source"],
+                    priority=item.get("priority", _PRIORITY_CLASS_C),
+                )
+                for item in data.get("decisions", ())
+            ),
+            operations=tuple(
+                DeskOperation(kind=item["kind"], subject=item["subject"], detail=item["detail"])
+                for item in data.get("operations", ())
+            ),
+            as_of=str(data.get("asOf", "")),
+        )
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "schemaVersion": DESK_SCHEMA,
@@ -524,17 +547,22 @@ def _operations(
     not_evaluated: Sequence[Mapping[str, Any]],
     failed_dispatches: Sequence[Mapping[str, Any]],
     ledger_shared: bool,
+    coverage_unknown_reasons: Mapping[str, str] | None = None,
     last_scheduled_run_at: str | None,
     now: str,
     stale_after_hours: int,
 ) -> list[DeskOperation]:
     operations: list[DeskOperation] = []
+    reasons = coverage_unknown_reasons or {}
     for sensor in sorted(set(coverage_unknown)):
+        why = f" Cause: {reasons[sensor]}" if reasons.get(sensor) else ""
         operations.append(DeskOperation(
             "coverage_unknown", str(sensor),
-            "Steward could not observe this surface, so it refuses Class A repair and dispatch until it can.",
+            "Steward could not observe this surface, so it refuses Class A repair and dispatch until it can." + why,
         ))
     for item in sorted(not_evaluated, key=lambda row: str(row.get("sensor", ""))):
+        if item.get("inputAbsent") is True:
+            continue  # no driver supplied it: shown in the receipt and retro, nothing to act on
         operations.append(DeskOperation(
             "not_evaluated", str(item.get("sensor", "unknown")),
             f"not evaluated: {item.get('reason', 'no reason given')}",
@@ -595,6 +623,7 @@ def build_desk(
     now: str,
     stale_after_hours: int = 48,
     failed_dispatches: Sequence[Mapping[str, Any]] = (),
+    coverage_unknown_reasons: Mapping[str, str] | None = None,
 ) -> Desk:
     """Assemble the desk from already-computed inputs. Pure: no I/O, no clock."""
 
@@ -631,6 +660,7 @@ def build_desk(
     operations = _operations(
         lane=lane,
         coverage_unknown=coverage_unknown,
+        coverage_unknown_reasons=coverage_unknown_reasons,
         not_evaluated=not_evaluated,
         failed_dispatches=failed_dispatches,
         ledger_shared=ledger_shared,

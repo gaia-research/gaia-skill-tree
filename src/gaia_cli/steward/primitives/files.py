@@ -23,7 +23,18 @@ class SensorUnavailable(RuntimeError):
 
 
 class SensorNotEvaluated(RuntimeError):
-    """An optional external input was not supplied; the sensor observed nothing."""
+    """An optional external input was not supplied; the sensor observed nothing.
+
+    ``input_absent`` marks the plain case: no driver handed the input over at
+    all. That is a deployment fact (a local run has no CI history), shown in
+    the receipt and the retro, but not something the founder desk asks a person
+    to act on. A stale, foreign or future-dated input is a broken driver and
+    keeps ``input_absent`` false.
+    """
+
+    def __init__(self, reason: str, *, input_absent: bool = False) -> None:
+        super().__init__(reason)
+        self.input_absent = input_absent
 
 
 # Skipped subjects shown on a receipt are capped like findings: the cap limits

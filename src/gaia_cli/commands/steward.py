@@ -610,7 +610,9 @@ class StewardCommand(Command):
         desk = view.desk
         if desk is not None:
             if desk.get("quiet"):
-                print("Desk                 nothing needs you")
+                from gaia_cli.steward.desk import QUIET_LINE
+
+                print(QUIET_LINE)
             else:
                 print(f"Desk                 {len(desk['decisions'])} decision(s), {len(desk['operations'])} operation(s)")
                 for item in desk["decisions"]:
@@ -660,6 +662,11 @@ class StewardCommand(Command):
                   f"escalated {lane['escalated']}  closed {lane['closed']}")
         for run in view.recentRuns[:5]:
             print(f"  {run['runId']}  {run['mode']:<8} {run['status']}")
+        if view.desk is not None:
+            from gaia_cli.steward.desk import Desk, render_desk
+
+            print(f"\nDesk from {view.deskRunId}:")
+            print(render_desk(Desk.from_dict(view.desk)), end="")
 
 
 EXITCODES = """\

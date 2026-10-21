@@ -646,7 +646,8 @@ def _load_history(root: Path, observed_at: str) -> tuple[list[dict[str, Any]], d
     path = root / _HISTORY_PATH
     if not path.is_file():
         raise SensorNotEvaluated(
-            f"no test history supplied at {_HISTORY_PATH}; flake detection was not evaluated"
+            f"no test history supplied at {_HISTORY_PATH}; flake detection was not evaluated",
+            input_absent=True,
         )
     text = read_text_bounded(path, limit=_HISTORY_LIMIT_BYTES)
     try:

@@ -33,6 +33,10 @@ to a skill, and states the rules that hold across all of them.
 | `--resume RUN` | `gaia steward full run --resume RUN --json` | this loop |
 | `--afk` | add `--afk` to any `run` | this loop |
 
+The runner itself never prompts in any mode; `--afk` is recorded on the run for audit and
+tells the driver to queue founder decisions instead of asking. An `awaiting-action` run keeps
+the run lease until its TTL, so a second invocation meanwhile exits 4 (observing-existing).
+
 Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 `--integration-branch dev/<name> --push` (or `GAIA_STEWARD_INTEGRATION_BRANCH`);
 the runner refuses `main`, `master` and the remote default branch.

@@ -528,7 +528,10 @@ class StewardController:
                 # An optional external input was not supplied: the sensor saw
                 # nothing, so there is no coverage mark either way, nothing to
                 # sweep, and no reason to block a repair elsewhere.
-                not_evaluated.append({"sensor": sensor.id, "reason": str(exc)})
+                entry = {"sensor": sensor.id, "reason": str(exc)}
+                if getattr(exc, "input_absent", False):
+                    entry["inputAbsent"] = True
+                not_evaluated.append(entry)
             except Exception as exc:
                 observations.append(
                     self._coverage_observation(

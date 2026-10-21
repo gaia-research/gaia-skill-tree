@@ -601,3 +601,19 @@ def test_handoff_is_replaced_not_stacked_when_a_build_is_re_emitted() -> None:
     assert second.count("## Steward hand-off") == 1
     assert "b.diff" in second and "b.json" in second and "a.diff" not in second
     assert second.startswith("# packet\n")
+
+
+def test_retained_runs_beyond_the_newest_keep_headlines_not_payloads() -> None:
+    document = {"runs": {}}
+    for index in range(fullrun.DETAILEDRUNS + 2):
+        document["runs"][f"run-{index:03d}"] = {
+            "runId": f"run-{index:03d}", "status": "completed", "startedAt": f"2026-10-{index + 1:02d}T00:00:00Z",
+            "steps": [{"stepId": "x"}], "actions": [], "mode": "full", "desk": {"quiet": True},
+            "phases": {"observe": {"status": "ok", "openDebt": 3, "openDebtIds": ["a", "b", "c"]}},
+        }
+    FullRunner._compact(document)
+    oldest = document["runs"]["run-000"]
+    assert oldest["trimmed"] and "desk" not in oldest and not oldest.get("compacted")
+    assert oldest["phases"]["observe"] == {"status": "ok", "openDebt": 3, "openDebtIds": 3}
+    newest = document["runs"][f"run-{fullrun.DETAILEDRUNS + 1:03d}"]
+    assert newest["phases"]["observe"]["openDebtIds"] == ["a", "b", "c"] and newest["desk"] == {"quiet": True}

@@ -63,7 +63,7 @@ def _load_optional_json(root: Path, relative: Path) -> Any:
 
     path = root / relative
     if not path.exists() and not path.is_symlink():
-        raise SensorNotEvaluated(f"no {relative.name} supplied; a driver must collect it")
+        raise SensorNotEvaluated(f"no {relative.name} supplied; a driver must collect it", input_absent=True)
     if not path.is_file():
         raise SensorUnavailable(f"{relative.as_posix()} is not a regular file")
     text = read_text_bounded(path)
