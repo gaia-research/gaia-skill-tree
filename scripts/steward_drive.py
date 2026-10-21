@@ -373,7 +373,7 @@ class Driver:
     def handleBuild(self, action: Mapping[str, Any]) -> Handled:
         params = action.get("params") or {}
         allowed = params.get("allowedModels") or []
-        if self.builderFamily not in allowed:
+        if self.builderFamily in BUILDFAMILIES and self.builderFamily not in allowed:
             return Handled(reason=f"builder family {self.builderFamily!r} not in allowedModels {allowed}")
         promptPath = self.resolveFile(params.get("promptPath"))
         if promptPath is None:

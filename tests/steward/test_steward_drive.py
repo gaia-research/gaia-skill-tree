@@ -432,3 +432,151 @@ def test_integration_branch_must_be_dev(tmp_path, monkeypatch):
     code = drive.main(["--root", str(tmp_path), "--integration-branch", "main",
                        "--report", str(tmp_path / "r.json")])
     assert code == drive.EXITREFUSEDINPUT == 2
+
+
+# -- engine mode (STEWARD_AGENT / STEWARD_VERIFIER_AGENT) ----------------------
+
+ENGINEENV = {**AGENTENV, "GH_TOKEN": "token-test", "STEWARD_AGENT": "copilot"}
+
+
+def readyWhich(name: str) -> str:
+    return f"/usr/bin/{name}"
+
+
+def adapterCalls(world: FakeWorld) -> list[list[str]]:
+    return [c for c in world.agentCalls if "--engine" in c]
+
+
+def dispatchOf(argv: list[str]) -> str:
+    return argv[argv.index("--dispatch-id") + 1]
+
+
+def gitCalls(world: FakeWorld) -> list[list[str]]:
+    return [c for c in world.calls if c and c[0] == "git"]
+
+
+def test_engine_copilot_builder_then_verifier_through_adapter(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env=ENGINEENV, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITCOMPLETED
+
+    builder, verifier = world.recorded[0][1], world.recorded[1][1]
+    assert [step for step, _ in world.recorded] == ["build:abc:1", "verify:abc:1"]
+    assert builder["model"] == "copilot" and verifier["model"] == "copilot"
+    assert builder["agentId"] != verifier["agentId"]
+    buildCall, verifyCall = adapterCalls(world)
+    adapter = str(root / "scripts" / "steward_agent_dispatch.py")
+    timeout = str(int(driver.options.agentTimeout))
+    assert dispatchOf(buildCall).startswith("build-") and dispatchOf(verifyCall).startswith("verify-")
+    assert buildCall == [PY, adapter, "--role", "build", "--engine", "copilot",
+                         "--prompt-path", str(root / ".gaia/steward/full/R1/build-abc.prompt.md"),
+                         "--dispatch-id", dispatchOf(buildCall), "--timeout", timeout,
+                         "--base", BASE, "--branch", "steward/b/x-abc"]
+    assert verifyCall == [PY, adapter, "--role", "verify", "--engine", "copilot",
+                          "--prompt-path", str(root / ".gaia/steward/full/R1/verify-abc.prompt.md"),
+                          "--dispatch-id", dispatchOf(verifyCall), "--timeout", timeout]
+
+
+def test_engine_codex_builder_and_pi_verifier_recorded_by_engine(tmp_path):
+    root = makeRoot(tmp_path)
+    env = {**ENGINEENV, "STEWARD_AGENT": "codex", "STEWARD_VERIFIER_AGENT": "pi"}
+    world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env=env, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITCOMPLETED
+
+    assert world.recorded[0][1]["model"] == "codex"
+    assert world.recorded[1][1]["model"] == "pi"
+    buildCall, verifyCall = adapterCalls(world)
+    assert buildCall[buildCall.index("--engine") + 1] == "codex"
+    assert verifyCall[verifyCall.index("--engine") + 1] == "pi"
+
+
+def test_engine_claude_keeps_sonnet_verifier_and_haiku_builder(tmp_path):
+    root = makeRoot(tmp_path)
+    env = {**ENGINEENV, "STEWARD_AGENT": "claude"}
+    world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env=env, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITCOMPLETED
+
+    assert world.recorded[0][1]["model"] == "haiku"
+    assert world.recorded[1][1]["model"] == "sonnet"
+
+
+def test_engine_builder_proof_is_written_and_diff_fetched_via_git(tmp_path):
+    root = makeRoot(tmp_path)
+
+    def agent(argv, cwd):
+        if argv[argv.index("--role") + 1] == "build":
+            return ok(json.dumps({"noChange": False, "summary": "fixed", "proof": {"transcript": "ran it"}}))
+        return ok(json.dumps({"verdict": "accept", "rationale": "reproduces and is in scope"}))
+
+    world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")],
+                      agent=agent)
+    driver = makeDriver(tmp_path, world, env=ENGINEENV, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITCOMPLETED
+
+    proof = json.loads((root / ".gaia/steward/full/R1/build-abc.proof.json").read_text(encoding="utf-8"))
+    assert proof == {"transcript": "ran it"}
+    assert (root / ".gaia/steward/full/R1/build-abc.diff").read_text(encoding="utf-8").startswith("diff --git")
+    fetch = ["git", "fetch", "origin", BASE, "steward/b/x-abc"]
+    diff = ["git", "diff", f"origin/{BASE}...origin/steward/b/x-abc"]
+    assert fetch in gitCalls(world) and diff in gitCalls(world)
+    assert gitCalls(world).index(fetch) < gitCalls(world).index(diff)
+    assert world.recorded[0][1]["proofPath"] == ".gaia/steward/full/R1/build-abc.proof.json"
+
+
+def test_engine_adapter_refusal_records_nothing_and_reports_stderr(tmp_path):
+    root = makeRoot(tmp_path)
+
+    def agent(argv, cwd):
+        return drive.CommandResult(3, "", "gh: starting\ndispatch refused: 404\n")
+
+    world = FakeWorld(root, [view("R1", [buildAction()])], agent=agent)
+    driver = makeDriver(tmp_path, world, env=ENGINEENV, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITSTOPPED
+    assert world.recorded == [] and driver.handled == []
+    assert driver.failures == {"build:abc:1": 2}
+    assert "dispatch refused: 404" in driver.stopReason
+    assert not (root / ".gaia/steward/full/R1/build-abc.diff").exists()
+    assert not (root / ".gaia/steward/full/R1/build-abc.proof.json").exists()
+
+
+def test_unknown_engine_is_a_config_error(tmp_path):
+    root = makeRoot(tmp_path)
+    with pytest.raises(drive.DriverConfigError):
+        makeDriver(tmp_path, FakeWorld(root, []), env={**ENGINEENV, "STEWARD_AGENT": "gemini"},
+                   ready_which=readyWhich)
+    with pytest.raises(drive.DriverConfigError):
+        makeDriver(tmp_path, FakeWorld(root, []), env={**ENGINEENV, "STEWARD_AGENT": "copilot",
+                                                        "STEWARD_VERIFIER_AGENT": "gemini"},
+                   ready_which=readyWhich)
+
+
+def test_engine_mode_without_gh_token_is_not_ready_and_runs_no_agents(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()])])
+    driver = makeDriver(tmp_path, world, env={**AGENTENV, "STEWARD_AGENT": "copilot"}, ready_which=readyWhich)
+
+    assert driver.drive() == drive.EXITNOTRUN == 5
+    assert "--no-agents" in next(c for c in world.calls if isRun(c))
+    assert world.agentCalls == [] and world.recorded == []
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert report["agents"]["state"] == "NOT RUN"
+    assert "GH_TOKEN" in report["agents"]["reason"]
+
+
+def test_engine_adapter_argv_never_carries_a_turn_limit(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")])
+    makeDriver(tmp_path, world, env=ENGINEENV, ready_which=readyWhich).drive()
+    calls = adapterCalls(world)
+    assert len(calls) == 2
+    for argv in calls:
+        flags = [t for t in argv if t.startswith("--")]
+        assert not any("turn" in f or "max" in f for f in flags), flags
