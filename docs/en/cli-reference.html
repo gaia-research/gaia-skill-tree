@@ -899,6 +899,7 @@
           <li><a href="#dev-reclassify"><code>dev reclassify</code></a></li>
           <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
+          <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
           <li><a href="#dev-diff"><code>dev diff</code></a></li>
@@ -1002,6 +1003,7 @@
             <li><a href="#dev-reclassify"><code>dev reclassify</code> — Reclassify structural type</a></li>
             <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
+            <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code> — Re-sort timeline</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
             <li><a href="#dev-diff"><code>dev diff</code> — Diff registry vs main</a></li>
@@ -2971,6 +2973,31 @@
           </div>
         </div>
 
+        <!-- dev timeline-resort -->
+        <div class="cmd-card" id="dev-timeline-resort">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev timeline-resort</span>
+            <span class="cmd-signature">&lt;contributor/slug&gt; [--dry-run] [--build]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Puts one named skill's <code>timeline</code> in ascending UTC order.</li>
+              <li>Order only. It never adds, removes, or edits an event, and it checks that before it writes.</li>
+              <li>Use it when a hand-written event sits out of order. <a href="#dev-timeline"><code>dev timeline</code></a> only appends.</li>
+              <li>Skips the docs rebuild by default. Pass <code>--build</code> to regenerate.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview the current and proposed order</span>
+<span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search --dry-run</span>
+
+<span class="c"># Apply it</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
         <!-- dev list -->
         <div class="cmd-card" id="dev-list">
           <div class="cmd-card-header">
@@ -3519,4 +3546,4 @@
 <!-- impeccable-live-end -->
 </body>
 
-</html>
+</html>
