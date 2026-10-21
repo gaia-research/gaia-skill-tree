@@ -220,6 +220,7 @@ FAIL = WORLD.get("fail", {})
 ISSUES = {int(key): value for key, value in WORLD["issues"].items()}
 HIDDEN = set(WORLD.get("list_hidden", []))
 GONE = set(WORLD.get("gone", []))
+MOVED = set(WORLD.get("moved", []))
 PAGE_SIZE = WORLD.get("page_size", 100)
 
 
@@ -309,6 +310,8 @@ elif cmd == "api":
             die(f"HTTP 403 issue #{number} (fake forbidden)")
         if number in GONE:
             die(f"HTTP 410 issue #{number} (fake gone)")
+        if number in MOVED:
+            die(f"gh: Moved Permanently (HTTP 301) issue #{number} (fake transferred)")
         if number not in ISSUES:
             die(f"HTTP 404 issue #{number} (fake not found)")
         row = dict(ISSUES[number])
@@ -569,6 +572,16 @@ def test_gate_candidate_child_gone_410_is_absent_and_does_not_block(tmp_path):
     assert "#5001" in result.output
 
 
+def test_gate_candidate_child_transferred_301_is_absent_and_does_not_block(tmp_path):
+    # Child #5001 was transferred: its old number answers HTTP 301. It cannot block the gate.
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    result = run_gate(tmp_path, world(umbrella_issue(payload), moved=[5001]))
+    assert result.code == 0
+    assert result.outputs == {"gate_passed": "true"}
+    assert "::notice::" in result.output and "#5001" in result.output
+    assert "absent (HTTP 301/404/410)" in result.output
+
+
 def test_gate_absent_child_still_blocks_on_other_open_children(tmp_path):
     # Only the dead link is skipped; a live open child elsewhere in the payload still gates.
     payload = v2_payload(("ask-user", 5001), ("briefing", 5002))
@@ -603,6 +616,14 @@ def test_rejected_cascade_closes_every_open_child_across_pages(tmp_path):
     assert any("retained, not removed" in body for body in result.comments())
 
 
+def test_rejected_cascade_closes_open_children_and_skips_a_transferred_one(tmp_path):
+    payload = v2_payload(("ask-user", 5001), ("briefing", 5002))
+    data = world(_rejected_umbrella(payload), child_issue(5002, slug="briefing"), moved=[5001])
+    result = _run_cascade(tmp_path, data)
+    assert result.code == 0
+    assert result.closes() == ["5002"]
+
+
 def test_rejected_cascade_closes_nothing_when_the_lookup_fails(tmp_path):
     payload = v2_payload(("ask-user", 5001))
     result = _run_cascade(tmp_path, world(_rejected_umbrella(payload), child_issue(5001), fail={"list": True}))
@@ -633,6 +654,13 @@ def test_sibling_gate_waits_for_a_v2_adopted_child_the_list_omits(tmp_path):
     payload = v2_payload(("ask-user", 5001))
     result = _run_sibling_gate(tmp_path, world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001]))
     assert result.code == 0 and not result.workflow_runs()
+
+
+def test_sibling_gate_does_not_wait_on_a_transferred_child(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    result = _run_sibling_gate(tmp_path, world(umbrella_issue(payload), moved=[5001]))
+    assert result.code == 0
+    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}"]]
 
 
 def test_sibling_gate_never_refires_on_lookup_failure(tmp_path):
@@ -749,6 +777,14 @@ def test_count_step_is_zero_for_a_legacy_payload(tmp_path):
     result = run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
                       {"PAYLOAD": json.dumps(LEGACY_PAYLOAD), "ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
     assert result.code == 0 and result.outputs == {"count": "0"}
+
+
+def test_count_step_treats_a_transferred_child_as_unresolved(tmp_path):
+    rows = [_row("moved-one", "escalated", 5008)]
+    result = _count(tmp_path, rows, moved=[5008])
+    assert result.code == 0
+    assert result.outputs == {"count": "1"}
+    assert json.dumps(["garrytan/gbrain:moved-one"]) in result.output
 
 
 def test_count_step_fails_closed_on_a_server_error(tmp_path):

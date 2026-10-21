@@ -41,6 +41,23 @@ Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 `--integration-branch dev/<name> --push` (or `GAIA_STEWARD_INTEGRATION_BRANCH`);
 the runner refuses `main`, `master` and the remote default branch.
 
+`--routine` takes 1 to 18. Routine 18 is GitHub issue hygiene (`issue-hygiene`).
+
+## Step 0: refresh the issue census
+
+Before the first `run` of any mode that observes or triages, refresh the GitHub issue
+census that routine 18 reads:
+
+```bash
+python scripts/steward_issue_census.py --repo gaia-research/gaia-skill-tree --out .gaia/steward/inputs/github-issues.json
+```
+
+Exit 0 is complete. Exit 3 is incomplete: the file is written with its completeness
+flags false, and routine 18 reports not evaluated. Any other exit: delete the file, so
+the sensor reports its input missing. The unattended driver `python scripts/steward_drive.py`
+runs this step itself; `--no-census` skips it. A census older than the policy's
+`maxCensusAgeSeconds` is never used.
+
 ## The driver loop
 
 The runner makes zero model calls. Whatever needs a model or a forge comes back
@@ -54,6 +71,7 @@ as a pending action. Drive it like this, and nothing else:
    | `agent.build` | a fresh builder agent following `gaia-steward-lane`, given only `params.promptPath` |
    | `agent.verify` | a different, fresh agent following `gaia-steward-verify` |
    | `forge.open_pr` | `gaia-steward-land` (draft PR to the integration branch) |
+   | `forge.close_issue` | `gaia-steward-issue-hygiene` (one proven closure, performed by `scripts/steward_issue_close.py`) |
    | `lead.integrate` | the orchestrator, merging into the integration branch only |
 
 3. Record each outcome: `gaia steward full record RUN STEP --input outcome.json`.
@@ -96,6 +114,7 @@ Steward finds and bounds the work; existing skills do the specialised parts.
 | any Class B dispatch | `gaia-steward-lane` (the builder's contract) |
 | `trust_calibration_drift`, `trust_stamp_stale` | `gaia-tm-inspect` first: verify the effective-evidence context before any calibration |
 | `timeline_causality_drift` | `gaia-trace-timeline` to reconstruct the order; the fix stays human-gated |
+| `issue_closure_ready`, `issue_suite_review`, `issue_founder_decision` (routine 18) | `gaia-steward-issue-hygiene` (A closures), `gaia-steward-lane` (B suite review), `gaia-steward-desk` (C questions) |
 | `generated_projection_drift` | `gaia-docs-sync` |
 | `ci_failure`, CI churn | `ci-churn` |
 | escalated work too large for one dispatch | `gaia-triage`, then `gaia-issue-resolver` or `feature-pipeline` on its own PR |
@@ -103,11 +122,13 @@ Steward finds and bounds the work; existing skills do the specialised parts.
 ## Stop conditions
 
 Stop and report when the run is `completed` or `blocked`, a step is refused twice,
-a lease is lost, or an action asks for anything outside the table above.
+a lease is lost, a forge closure comes back `blocked` (the driver halts; no further
+closures this run), or an action asks for anything outside the table above.
 
 ## Where the rest lives
 
-- Architecture contract: `founder/handovers/2026-10-20-steward-full-architecture.md`
+- Architecture contract: `founder/handovers/2026-10-20-steward-full-architecture.md`;
+  issue hygiene: `founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md`
 - Coverage catalog and checker: `founder/steward/routine-coverage.json`,
-  `scripts/check_steward_coverage.py`
+  `scripts/check_steward_coverage.py`; routine 18 guide: `founder/steward/routines/issue-hygiene.md`
 - Policy: `founder/steward/POLICY.yaml`; decisions: `founder/steward/decisions/`

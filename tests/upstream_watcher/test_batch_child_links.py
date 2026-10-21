@@ -1,12 +1,18 @@
 """Dead and absent child links for the batch planner (#2131).
 
-A definitive 404/410 clears the link and returns the row to visible unresolved
-work (nothing is dropped). A live child that the LIST snapshot omits keeps its
-link. Any other lookup failure fails closed with zero writes.
+A definitive 301 (transferred), 404 or 410 clears the link and returns the row
+to visible unresolved work (nothing is dropped). A live child that the LIST
+snapshot omits keeps its link. Any other lookup failure fails closed with zero
+writes.
 """
+
+import subprocess
+
+import pytest
 
 from scripts.upstream_watcher import batch as bt
 from scripts.upstream_watcher.batch import escalate_candidate, parse_payload, run_batch
+from scripts.upstream_watcher.live import GhError, LiveGh
 from upstream_fakes import FakeGh, index_from_entries
 
 PREFIX = "[upstream] garrytan/gbrain → "
@@ -196,3 +202,70 @@ def test_unknown_probe_result_keeps_the_row_unresolved_and_its_link():
     state_of = bt.child_state_lookup({"issues": []})
     assert bt.dead_children(rows, state_of) == frozenset()
     assert bt.row_is_unresolved(rows[0], state_of) is True
+
+
+def test_transferred_escalated_child_301_clears_link_and_row_is_unresolved_again():
+    # The child was transferred: its old number answers HTTP 301, so it is absent.
+    gh = FakeGh()
+    child = escalated_child(gh)
+    gh.moved.add(child)
+    report, code = run(gh, [finding("v2", ["ask-user", "briefing"], previous="v1")])
+    assert code == 0 and report["unknownEvidence"] == []
+    row = row_of(gh)
+    assert row["child"] is None
+    assert row["status"] == "new"
+    assert row["precheck"]["tracked"] == "none"
+    assert row["id"] == "garrytan/gbrain:ask-user"  # retained, never dropped
+
+
+def test_transferred_child_301_is_absent_to_escalation_which_creates_a_replacement():
+    gh = FakeGh()
+    child = escalated_child(gh)
+    gh.moved.add(child)
+    result, code = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
+    assert code == 0 and result["outcome"] == "created"
+    assert result["child"] != child
+    assert row_of(gh)["child"] == result["child"]
+
+
+@pytest.mark.parametrize(
+    ("stderr", "expected"),
+    [
+        ("gh: Moved Permanently (HTTP 301)", "absent"),
+        ("gh: Not Found (HTTP 404)", "absent"),
+        ("gh: Gone (HTTP 410)", "absent"),
+        ("gh: Forbidden (HTTP 403)", "error"),
+        ("gh: Server Error (HTTP 502)", "error"),
+        ("gh: Moved Permanently (HTTP 3011)", "error"),  # 301 must be the whole status, not a prefix
+        ("gh: something went wrong", "error"),
+    ],
+)
+def test_only_301_404_410_are_absent_every_other_failure_is_unknown(stderr, expected, capsys):
+    def runner(args, capture_output=True, text=True, timeout=None):
+        return subprocess.CompletedProcess(args, 1, stdout="", stderr=stderr)
+
+    gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
+    if expected == "absent":
+        assert gh.issue_state(5001) == "absent"
+        notice = capsys.readouterr().err
+        assert "::notice::child #5001 is absent" in notice
+    else:
+        with pytest.raises(GhError):
+            gh.issue_state(5001)
+
+
+def test_transferred_child_is_never_a_list_answer_so_a_list_301_fails_closed():
+    # A 301 on the LIST endpoint is not an absent child: the snapshot is unknown evidence.
+    def runner(args, capture_output=True, text=True, timeout=None):
+        return subprocess.CompletedProcess(args, 1, stdout="", stderr="gh: Moved Permanently (HTTP 301)")
+
+    with pytest.raises(GhError):
+        LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner).list_issues("open")
+
+
+def test_unparseable_child_answer_is_unknown_not_absent():
+    def runner(args, capture_output=True, text=True, timeout=None):
+        return subprocess.CompletedProcess(args, 0, stdout="<html>proxy</html>", stderr="")
+
+    with pytest.raises(GhError):
+        LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner).issue_state(5001)

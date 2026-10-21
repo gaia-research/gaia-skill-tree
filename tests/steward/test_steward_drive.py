@@ -40,17 +40,23 @@ class FakeWorld:
 
     def __init__(self, root: Path, runs: list[tuple[int, Any]], *, records=None, status=None,
                  agent: Callable[..., drive.CommandResult] | None = None,
-                 gh: Callable[[list[str]], drive.CommandResult] | None = None) -> None:
+                 gh: Callable[[list[str]], drive.CommandResult] | None = None,
+                 close: Callable[[list[str]], drive.CommandResult] | None = None,
+                 census: Callable[[list[str]], drive.CommandResult] | None = None) -> None:
         self.root = root
         self.runs = list(runs)
         self.recordReplies = list(records or [])
         self.statusPayload = status or {}
         self.agentFn = agent or defaultAgent
         self.ghFn = gh or (lambda args: ok("[]"))
+        self.closeFn = close or closedOutcome
+        self.censusFn = census or (lambda argv: ok("census complete"))
         self.calls: list[list[str]] = []
         self.recorded: list[tuple[str, dict[str, Any]]] = []
         self.agentCalls: list[list[str]] = []
         self.ghCalls: list[list[str]] = []
+        self.closeCalls: list[list[str]] = []
+        self.censusCalls: list[list[str]] = []
 
     def __call__(self, argv, *, cwd, timeout=None, env=None):
         argv = list(argv)
@@ -76,8 +82,34 @@ class FakeWorld:
             return self.ghFn(argv[1:])
         if argv[0] == "git":
             return ok("diff --git a/x b/x\n+fix\n")
+        if len(argv) > 1 and str(argv[1]).endswith("steward_issue_close.py"):
+            self.closeCalls.append(argv)
+            return self.closeFn(argv)
+        if len(argv) > 1 and str(argv[1]).endswith("steward_issue_census.py"):
+            self.censusCalls.append(argv)
+            return self.censusFn(argv)
         self.agentCalls.append(argv)
         return self.agentFn(argv, cwd)
+
+
+def closedOutcome(argv: list[str]) -> drive.CommandResult:
+    """The stdout a successful scripts/steward_issue_close.py run prints."""
+
+    outcome = {"outcome": "closed", "key": "upstream-candidate:o/r:foo", "issue": 10,
+               "commentUrl": "https://github.test/o/r/issues/10#issuecomment-55", "commentId": 55,
+               "markerVerified": False, "closedAt": "2026-10-21T20:00:00Z", "failure": None}
+    return ok(json.dumps(outcome))
+
+
+def closeAction(stepId: str = "close:abc:abcd1234", issue: int = 10) -> dict[str, Any]:
+    return {"stepId": stepId, "type": "forge.close_issue", "debtId": "d3", "status": "pending", "params": {
+        "key": "upstream-candidate:o/r:foo", "issue": issue, "ruleId": "A1-child-curated", "authority": "A",
+        "state": "resolved", "stateReason": "completed", "duplicateOf": None, "parent": 1835, "canonical": None,
+        "reason": "curated", "expectedSnapshot": {"updatedAt": "t", "bodySha256": "b", "labels": []},
+        "original": {"title": "[intake] o/r foo"}, "evidence": [],
+        "comment": "<!-- gaia-steward-closure:upstream-candidate:o/r:foo:abcd1234 -->\nclosing",
+        "receiptPath": ".gaia/steward/issue-hygiene/receipts/R1.jsonl", "manifestSha256": "abcd1234" + "0" * 56,
+    }}
 
 
 def defaultAgent(argv, cwd):

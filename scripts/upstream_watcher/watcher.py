@@ -46,7 +46,7 @@ from scripts.lib.github_api import fetch_json, parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.batch import escalate_candidate, new_report, run_batch
-from scripts.upstream_watcher.issuer import create_issues
+from scripts.upstream_watcher.issuer import IdempotencyLookupError, create_issues
 from scripts.upstream_watcher.live import LiveGh
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
 from scripts.upstream_watcher.name_drift import check_name_drift
@@ -322,10 +322,19 @@ def main(argv: list[str] | None = None) -> int:
         print(_render_report(full_findings))
 
     if not batch_mode:
-        summaries = create_issues(full_findings, apply=True, verbose=verbose) if apply else []
         report = new_report()
         report["childMode"] = "fanout"
         report["dryRun"] = not apply
+        summaries: list[dict] = []
+        if apply:
+            try:
+                summaries = create_issues(full_findings, apply=True, verbose=verbose)
+            except IdempotencyLookupError as exc:
+                # Fail closed: every duplicate check ran before the first write, so nothing was created.
+                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc)})
+                _write_report(report, args.report)
+                print(f"[watcher] Unknown evidence, no issues written: {exc}", file=sys.stderr)
+                return 3
         report["issuesCreated"] = sum(1 for row in summaries if row.get("umbrella") and not row.get("updated"))
         report["issuesUpdated"] = sum(1 for row in summaries if row.get("updated"))
         _write_report(report, args.report)
@@ -337,7 +346,11 @@ def main(argv: list[str] | None = None) -> int:
     if code == 0:
         bootstrap = [finding for finding in full_findings if finding["finding_type"] == "bootstrap"]
         if bootstrap:
-            create_issues(bootstrap, apply=apply, verbose=verbose)
+            try:
+                create_issues(bootstrap, apply=apply, verbose=verbose)
+            except IdempotencyLookupError as exc:
+                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc)})
+                code = 3
     _write_report(report, args.report)
     print(json.dumps({k: report[k] for k in ("issuesCreated", "issuesUpdated", "suppressedDuplicates",
                                              "retainedCandidates", "unknownEvidence")},

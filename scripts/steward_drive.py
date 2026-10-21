@@ -12,6 +12,12 @@ Owners
   agent.verify     a fresh verifier agent, Sonnet only, never a forbidden id
   forge.open_pr    gh: draft PR into a dev/* integration branch (idempotent)
   lead.integrate   gh: merge commit into a dev/* integration branch, never main
+  forge.close_issue  scripts/steward_issue_close.py: one proven closure (#2130)
+
+Before the first run the driver refreshes the GitHub issue census that the
+issue-hygiene sensor reads (scripts/steward_issue_census.py, REST, fail closed).
+A census that cannot be trusted is removed, so the sensor reports its input
+missing rather than reconciling against stale rows. `--no-census` skips this.
 
 Anything else is reported and not executed. Nothing is faked: an agent that
 produces no usable outcome is not recorded.
@@ -47,6 +53,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.fullrun import BADEFFORTS, agentIdentity
+from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
 
 EXITCOMPLETED = 0
 EXITSTOPPED = 1
@@ -56,11 +63,18 @@ EXITOBSERVING = 4
 EXITNOTRUN = 5
 
 AGENTTYPES = ("agent.build", "agent.verify")
-KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate")
+CLOSETYPE = "forge.close_issue"
+KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate", CLOSETYPE)
+CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked")
 VERDICTS = ("accept", "reject", "escalate")
 BUILDFAMILIES = ("haiku", "sonnet")
 ENGINES = ("copilot", "claude", "codex", "pi")
 ADAPTER = "scripts/steward_agent_dispatch.py"
+CLOSESCRIPT = "scripts/steward_issue_close.py"
+CENSUSSCRIPT = "scripts/steward_issue_census.py"
+CENSUSPATH = CENSUS_INPUT.as_posix()
+CLOSUREDIR = ".gaia/steward/drive/closures"
+DEFAULTREPO = "gaia-research/gaia-skill-tree"
 DEFAULTREPORT = ".gaia/steward/drive-report.json"
 DEFAULTOUTCOMEDIR = ".gaia/steward/drive/outcomes"
 DEFAULTAGENTCMD = (
@@ -76,6 +90,8 @@ BRANCHPATTERN = re.compile(r"^dev/[A-Za-z0-9._/-]+$")
 PROTECTEDBASES = ("main", "master")
 DRIVERACTOR = "steward-drive"
 MAXFAILURESPERSTEP = 2
+CENSUSTIMEOUT = 900.0
+CLOSETIMEOUT = 300.0
 
 
 class DriverRefusal(Exception):
@@ -209,6 +225,8 @@ class DriveOptions:
     reportPath: Path = Path(DEFAULTREPORT)
     python: str = sys.executable
     agentTimeout: float = DEFAULTAGENTTIMEOUT
+    census: bool = False
+    repo: str = DEFAULTREPO
 
 
 @dataclass
@@ -216,6 +234,7 @@ class Handled:
     outcome: dict[str, Any] | None = None
     reason: str = ""
     skip: bool = False
+    halt: bool = False
 
 
 @dataclass
@@ -264,6 +283,7 @@ class Driver:
         self.tokensOut = 0
         self.stopReason: str | None = None
         self.lastStatus: str | None = None
+        self.censusReport: dict[str, Any] | None = None
         self.startedAt = self.clock()
 
     # -- configuration -----------------------------------------------
@@ -550,6 +570,46 @@ class Driver:
             "pullRequest": {"number": pr.get("number"), "url": pr.get("url")}, "mergedSha": mergeSha,
         })
 
+    def forgeToken(self) -> str | None:
+        return (self.env.get("GH_TOKEN") or self.env.get("GITHUB_TOKEN") or "").strip() or None
+
+    def refreshCensus(self) -> dict[str, Any]:
+        """Collect the issue census the sensor reads. Fail closed: an untrusted file is removed."""
+
+        o = self.options
+        target = o.root / CENSUSPATH
+        argv = [o.python, str(o.root / CENSUSSCRIPT), "--repo", o.repo, "--out", str(target)]
+        result = self.runner(argv, cwd=o.root, timeout=CENSUSTIMEOUT, env=self.env)
+        if result.returncode == 0:
+            return {"state": "complete", "detail": f"{o.repo} census collected"}
+        if result.returncode == 3:
+            # The collector writes the file with its completeness flags false, so the sensor reports it not evaluated.
+            return {"state": "incomplete", "detail": "a page failed or was short; issue hygiene is not evaluated"}
+        if target.is_file():
+            target.unlink()
+        return {"state": "failed", "detail": f"census collector exited {result.returncode}; input removed"}
+
+    def handleClose(self, action: Mapping[str, Any], runId: str) -> Handled:
+        """One proven closure, performed by scripts/steward_issue_close.py. Its stdout is the outcome."""
+
+        params = action.get("params") or {}
+        stepId = str(action.get("stepId"))
+        if not isinstance(params.get("comment"), str) or not params["comment"].strip():
+            return Handled(reason="closure action carries no closing comment")
+        directory = self.options.root / CLOSUREDIR
+        directory.mkdir(parents=True, exist_ok=True)
+        path = directory / f"{safeName(runId)}--{safeName(stepId)}.json"
+        path.write_text(json.dumps(dict(params), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        o = self.options
+        argv = [o.python, str(o.root / CLOSESCRIPT), "--root", str(o.root), "--action", str(path),
+                "--repo", o.repo, "--run-id", runId]
+        result = self.runner(argv, cwd=o.root, timeout=CLOSETIMEOUT, env=self.env)
+        outcome = lastJsonObject(result.stdout)
+        if outcome is None or outcome.get("outcome") not in CLOSEOUTCOMES:
+            return Handled(reason=f"closure script printed no outcome (exit {result.returncode})")
+        reason = str(outcome.get("failure") or outcome["outcome"])
+        return Handled(outcome=outcome, reason=reason, halt=outcome["outcome"] == "blocked")
+
     def recordOutcome(self, runId: str, stepId: str, outcome: Mapping[str, Any]) -> tuple[bool, str]:
         directory = self.options.root / DEFAULTOUTCOMEDIR
         directory.mkdir(parents=True, exist_ok=True)
@@ -574,6 +634,10 @@ class Driver:
             if kind in AGENTTYPES and not self.ready:
                 self.unperformed.append({"stepId": stepId, "type": kind, "reason": self.notReadyReason})
                 continue
+            if kind == CLOSETYPE and not self.forgeToken():
+                self.unperformed.append({"stepId": stepId, "type": kind,
+                                         "reason": "no GH_TOKEN or GITHUB_TOKEN (needed to close issues)"})
+                continue
             try:
                 if kind == "agent.build":
                     handled = self.handleBuild(action)
@@ -581,6 +645,8 @@ class Driver:
                     handled = self.handleVerify(action)
                 elif kind == "forge.open_pr":
                     handled = self.handleForge(action)
+                elif kind == CLOSETYPE:
+                    handled = self.handleClose(action, runId)
                 else:
                     handled = self.handleIntegrate(action)
             except DriverRefusal as exc:
@@ -605,6 +671,10 @@ class Driver:
             result.progressed = True
             self.addTokens(handled.outcome)
             self.handled.append(self.handledEntry(stepId, kind, handled.outcome, detail))
+            if handled.halt:
+                # Auth, rate or transport failure: the forge is not trustworthy for the rest of this run.
+                self.stopReason = f"{kind} blocked at {stepId}: {handled.reason}"
+                return result
         return result
 
     def registerFailure(self, stepId: str, kind: str, reason: str) -> bool:
@@ -619,7 +689,8 @@ class Driver:
     @staticmethod
     def handledEntry(stepId: str, kind: str, outcome: Mapping[str, Any], status: str) -> dict[str, Any]:
         entry: dict[str, Any] = {"stepId": stepId, "type": kind, "recordedStatus": status}
-        for key in ("agentId", "model", "effort", "verdict", "decision", "noChange", "tokensIn", "tokensOut"):
+        for key in ("agentId", "model", "effort", "verdict", "decision", "noChange", "tokensIn", "tokensOut",
+                    "outcome", "issue"):
             if key in outcome:
                 entry[key] = outcome[key]
         if isinstance(outcome.get("pullRequest"), dict):
@@ -646,6 +717,8 @@ class Driver:
     def drive(self) -> int:
         if not self.ready:
             self.checkEarlierAgentActions()
+        if self.options.census:
+            self.censusReport = self.refreshCensus()
         code, view, err = self.gaia(self.runTail(noAgents=not self.ready))
         while True:
             if view is None:
@@ -710,6 +783,7 @@ class Driver:
                 "buildEffort": self.buildEffort,
                 "verifyEffort": self.verifyEffort,
             },
+            "census": self.censusReport or {"state": "skipped", "detail": "census refresh disabled for this run"},
             "options": {"integrationBranch": self.options.integrationBranch,
                         "ledger": self.options.ledger, "push": self.options.push},
             "handled": self.handled,
@@ -740,6 +814,7 @@ def renderMarkdown(report: Mapping[str, Any]) -> str:
         f"- Final run status: {report['status'] or 'none'}",
         f"- Runs: {', '.join(report['runIds']) or 'none'}",
         f"- {agentLine}",
+        f"- Issue census: {report['census']['state']} ({report['census']['detail']})",
     ]
     if report["stopReason"]:
         lines.append(f"- Stopped: {report['stopReason']}")
@@ -775,6 +850,10 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--afk", action="store_true", help="Queue founder decisions instead of prompting")
     parser.add_argument("--report", default=DEFAULTREPORT, metavar="PATH",
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
+    parser.add_argument("--no-census", action="store_true",
+                        help="Do not refresh the GitHub issue census before the run (issue hygiene then reports not evaluated)")
+    parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY") or DEFAULTREPO, metavar="OWNER/NAME",
+                        help="repository whose issue census is collected (default: $GITHUB_REPOSITORY)")
     return parser
 
 
@@ -784,6 +863,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     options = DriveOptions(
         root=root, integrationBranch=args.integration_branch, ledger=args.ledger,
         push=not args.no_push, trigger=args.trigger, afk=args.afk, reportPath=Path(args.report),
+        census=not args.no_census, repo=args.repo,
     )
     if options.integrationBranch:
         refusal = baseRefusal(options.integrationBranch, None)

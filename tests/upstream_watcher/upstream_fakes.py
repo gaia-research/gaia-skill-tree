@@ -6,9 +6,10 @@ import copy
 import json
 import re
 import subprocess
+from pathlib import Path
 
 from scripts.upstream_watcher import prechecks as pc
-from scripts.upstream_watcher.live import GhError
+from scripts.upstream_watcher.live import GhError, GhNotFound
 
 
 class FakeGh:
@@ -24,6 +25,9 @@ class FakeGh:
         # Issues GitHub still serves by number but the LIST snapshot omits (for example a
         # child closed longer ago than the recently-closed window).
         self.hidden_from_list: set[int] = set()
+        # Numbers GitHub answers with HTTP 301: the issue was transferred, so the old number
+        # no longer names a live issue (absent to the planner, never listed).
+        self.moved: set[int] = set()
         self.stale_on_get: dict[int, dict] = {}
         self.next_number = 5000
         for issue in issues or []:
@@ -55,6 +59,8 @@ class FakeGh:
             for row in self.issues.values()
             if (state == "all" or row["state"] == state)
             and row["number"] not in self.hidden_from_list
+            and row["number"] not in self.moved
+            and (not since or row["updated_at"] >= since)
             and wanted <= {label["name"] for label in row["labels"]}
         ]
         return sorted(rows, key=lambda row: row["number"])
@@ -64,13 +70,15 @@ class FakeGh:
         if self.fail_get:
             raise GhError("get failed (fake)")
         row = self.issues.get(number)
-        if row is None:
+        if row is None or number in self.moved:
             return "absent"
         return "closed" if row["state"] == "closed" else "open"
 
     def get_issue(self, number: int) -> dict:
         if self.fail_get:
             raise GhError("get failed (fake)")
+        if number in self.moved:
+            raise GhNotFound(f"gh issue #{number} exited 1: HTTP 301 (fake moved)", "301")
         if number in self.stale_on_get:
             # Simulates a racing writer: the live issue changed after our list snapshot.
             self.issues[number].update(self.stale_on_get.pop(number))
@@ -148,3 +156,60 @@ def fixture_registry_entries(families: dict) -> list[dict]:
 
 
 SUGGESTED_RE = re.compile(r"Suggested ID:\*\*\s*`([^`]+)`")
+
+
+class RestGhRunner:
+    """A ``subprocess.run`` stand-in for LiveGh that serves REST LIST pages as GitHub does.
+
+    LIST calls are answered page by page from ``issues`` (state, label, ``since`` and
+    ``per_page`` honoured), so the real pagination loop in LiveGh is what gets tested.
+    ``fail_pages`` holds ``(state, labels, page)`` triples that answer with a gh failure.
+    Writes (``issue create/edit/comment``) are recorded in ``writes`` with their body text.
+    """
+
+    def __init__(self, issues: list[dict], fail_pages=()):
+        self.issues = [copy.deepcopy(row) for row in issues]
+        self.fail_pages = set(fail_pages)
+        self.calls: list[list[str]] = []
+        self.writes: list[tuple] = []
+        self.next_number = 5000
+
+    def __call__(self, args, capture_output=True, text=True, timeout=None):
+        self.calls.append(list(args))
+        if args[1] == "api":
+            return self._list(args)
+        if args[1:3] == ["issue", "create"]:
+            body = Path(args[args.index("--body-file") + 1]).read_text(encoding="utf-8")
+            self.next_number += 1
+            self.writes.append(("create", args[args.index("--title") + 1], body))
+            url = f"https://github.com/gaia-research/gaia-skill-tree/issues/{self.next_number}\n"
+            return subprocess.CompletedProcess(args, 0, stdout=url, stderr="")
+        if args[1:3] in (["issue", "edit"], ["issue", "comment"]):
+            self.writes.append((args[2], int(args[3])))
+            return subprocess.CompletedProcess(args, 0, stdout="", stderr="")
+        return subprocess.CompletedProcess(args, 1, stdout="", stderr="unsupported (fake)")
+
+    def _list(self, args) -> subprocess.CompletedProcess:
+        fields: dict[str, str] = {}
+        for flag, pair in zip(args, args[1:]):
+            if flag == "-f":
+                key, _, value = pair.partition("=")
+                fields[key] = value
+        state = fields["state"]
+        labels = fields.get("labels", "")
+        page, per_page = int(fields["page"]), int(fields["per_page"])
+        if (state, labels, page) in self.fail_pages:
+            return subprocess.CompletedProcess(args, 1, stdout="", stderr="gh: Bad Gateway (HTTP 502)")
+        wanted = set(filter(None, labels.split(",")))
+        since = fields.get("since")
+        rows = sorted(
+            (
+                row for row in self.issues
+                if (state == "all" or row["state"] == state)
+                and wanted <= {label["name"] for label in row["labels"]}
+                and (not since or row["updated_at"] >= since)
+            ),
+            key=lambda row: row["number"],
+        )
+        chunk = rows[(page - 1) * per_page: page * per_page]
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps(chunk), stderr="")

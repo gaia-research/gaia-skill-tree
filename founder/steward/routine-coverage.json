@@ -2301,7 +2301,7 @@
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
-        "issue_closure_ready": "gaia-steward-land",
+        "issue_closure_ready": "gaia-steward-issue-hygiene",
         "issue_suite_review": "gaia-steward-lane",
         "issue_founder_decision": "gaia-steward-desk"
       },

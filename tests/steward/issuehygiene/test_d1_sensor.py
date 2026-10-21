@@ -17,6 +17,7 @@ import pytest
 
 from gaia_cli.steward.issuehygiene import sensor as sensorModule
 from gaia_cli.steward.issuehygiene.census import bodySha256
+from gaia_cli.steward.issuehygiene.closure import closureCommentFor
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, MANIFEST_SCHEMA, IssueHygieneSensor
 from gaia_cli.steward.primitives import SensorNotEvaluated, SensorUnavailable
 from gaia_cli.steward.sensors import default_sensors, registered_debt_kinds
@@ -194,7 +195,10 @@ def test_proven_closure_becomes_a_plan_and_batch_items_group_by_suite(repo: Path
     assert rules["A1-child-curated"].status == "drift"
     assert rules["A1-child-curated"].observed_state["count"] == 1
     plan = rules["A1-child-curated"].observed_state["plans"][0]
-    assert plan["issue"] == 10 and "<!-- gaia-steward-closure:" in plan["comment"]
+    # Debt state carries no closing comment; the emitter rebuilds it from this plan.
+    assert plan["issue"] == 10 and "comment" not in plan
+    assert plan["reconciliationSha256"] == "f" * 64  # the manifest's own digest, for the rebuild
+    assert "<!-- gaia-steward-closure:" in closureCommentFor(plan)
     assert rules["A2-umbrella-synced"].status == "healthy"  # enabled, nothing ready: resolves, never invented
     suites = {o.subject.id: o for o in byKind(scan.observations, "issue_suite_review")}
     assert set(suites) == {"o/r", "x/y"}
@@ -315,7 +319,8 @@ def test_end_to_end_real_reconcile_on_the_four_family_fixture(repo: Path) -> Non
             assert plan["issue"] in openNumbers
             row = next(r for r in openIssues if r["number"] == plan["issue"])
             assert plan["expectedSnapshot"]["bodySha256"] == row["bodySha256"]
-            assert "<!-- gaia-steward-closure:" in plan["comment"]
+            assert "comment" not in plan and len(plan["reconciliationSha256"]) == 64
+            assert "<!-- gaia-steward-closure:" in closureCommentFor(plan)
     assert {entry["subjectId"] for entry in first.skipped} <= {"unevaluated-issues"}
 
 
