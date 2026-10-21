@@ -1,10 +1,10 @@
 {
- "generation": 2,
+ "generation": 3,
  "lane": null,
  "leases": {
   "run": {
    "acquiredAt": "2026-10-21T16:26:22.255954Z",
-   "expiresAt": "2026-10-21T16:56:24.592139Z",
+   "expiresAt": "2026-10-21T16:56:27.992963Z",
    "holder": "run-20261021T162622Z-2b8067d3"
   }
  },
@@ -19,7 +19,7 @@
    "decisions": [],
    "finishedAt": null,
    "integrationBranch": "dev/steward-integration",
-   "integrationHead": null,
+   "integrationHead": "8ffdd668775abf261b0dd581f6acf2e3672188cd",
    "leases": [
     {
      "acquiredAt": "2026-10-21T16:26:22.255954Z",
@@ -38,13 +38,20 @@
     "push": true,
     "routine": null
    },
-   "phase": "reconcile",
-   "phases": {},
+   "phase": "observe",
+   "phases": {
+    "reconcile": {
+     "integrationBranch": "dev/steward-integration",
+     "integrationHead": "8ffdd668775abf261b0dd581f6acf2e3672188cd",
+     "sourceHead": "057e208f0424b9605afc92417ff426fe7077e70d",
+     "unresolvedWork": 0
+    }
+   },
    "proofArtifacts": [],
    "pullRequests": [],
    "receipts": [],
    "runId": "run-20261021T162622Z-2b8067d3",
-   "sourceHead": null,
+   "sourceHead": "057e208f0424b9605afc92417ff426fe7077e70d",
    "startedAt": "2026-10-21T16:26:22.255954Z",
    "status": "active",
    "steps": [
@@ -53,6 +60,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-21T16:26:27.690819Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
     }
    ],
    "thinkingEfforts": [],
@@ -63,6 +76,6 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-21T16:26:24.592172Z",
+ "updatedAt": "2026-10-21T16:26:27.993000Z",
  "work": {}
 }
