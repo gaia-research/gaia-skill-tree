@@ -27,21 +27,10 @@ name: Gaia Steward Full
 # so a run dispatches at most one new Class B repair. Running every 4 hours
 # fills both slots within one run-gap and refills a freed slot at the next run.
 
+# Paused by founder: subscription-driven Claude routine replaces gh-aw GitHub inference.
+# No scheduled or manual dispatch here until explicitly reauthorized.
 on:
-  schedule:
-    - cron: "40 */4 * * *"
   workflow_dispatch:
-    inputs:
-      agent:
-        description: "Coding agent that builds (and by default verifies)"
-        type: choice
-        options: [copilot, claude, codex, pi]
-        default: copilot
-      verifier:
-        description: "Agent that verifies; 'same' uses the builder's engine in a separate run"
-        type: choice
-        options: [same, copilot, claude, codex, pi]
-        default: same
 
 permissions:
   contents: write
@@ -56,7 +45,7 @@ jobs:
   drive:
     name: Drive Class A and Class B
     # STEWARD_LANDING_ENABLED=false stops the loop; unset means on.
-    if: vars.STEWARD_LANDING_ENABLED != 'false'
+    if: ${{ false }} # Founder pause: do not invoke gh-aw agents
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
