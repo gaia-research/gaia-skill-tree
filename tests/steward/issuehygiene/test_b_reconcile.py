@@ -230,6 +230,81 @@ def test_a1_negative_different_path_stays_b_even_with_a_pinned_ref(tmp_path: Pat
     child = item(manifest, 10)
     assert child["authority"] == "B"
     assert "registry-path-differs" in child["notProven"]
+
+
+# ------------------------------------------------------------------ A1 ref/path split trust
+
+SLASH_BRANCH = "https://github.com/obra/superpowers/blob/feature/x/skills/writing-skills/SKILL.md"
+SLASH_AT_MAIN = "https://github.com/obra/superpowers/blob/main/x/skills/writing-skills/SKILL.md"
+RELEASE_BRANCH = "https://github.com/obra/superpowers/blob/release/x/skills/writing-skills/SKILL.md"
+
+
+def test_a1_negative_slash_branch_in_evidence_is_ref_split_ambiguous(tmp_path: Path):
+    # The evidence splits as ref "feature" with path "x/skills/...". The registry splits as ref "main"
+    # with that same path. Ignoring the ref would call them one file, but "feature/x" may be the branch.
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=SLASH_AT_MAIN), childUrl=SLASH_BRANCH), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert child["ruleId"] is None
+    assert child["state"] == "ambiguous"
+    assert child["proposedTransition"]["action"] == "keep"
+    assert "ref-split-ambiguous" in child["notProven"]
+    assert "registry-path-differs" not in child["notProven"]
+    assert "registry-link-differs" not in child["notProven"]
+    assert ("registry", SLASH_AT_MAIN, f"ref split ambiguous against evidence {SLASH_BRANCH}") in proofOf(child)
+    assert ("issue", "#10", f"evidence {SLASH_BRANCH}") in proofOf(child)
+
+
+@pytest.mark.parametrize("registryUrl, childUrl", [
+    (SLASH_AT_MAIN, SLASH_BRANCH),
+    (SLASH_BRANCH, SLASH_AT_MAIN),
+    (RELEASE_BRANCH, SLASH_BRANCH),
+])
+def test_a1_negative_slash_branch_on_either_side_is_ref_split_ambiguous(tmp_path: Path, registryUrl: str, childUrl: str):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=registryUrl), childUrl=childUrl), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert child["state"] == "ambiguous"
+    assert "ref-split-ambiguous" in child["notProven"]
+
+
+@pytest.mark.parametrize("spelling", [
+    SLASH_BRANCH,
+    SLASH_BRANCH.replace("/blob/", "/tree/"),
+    SLASH_BRANCH + "/",
+])
+def test_a1_positive_identical_slash_ref_urls_still_prove_the_same_file(tmp_path: Path, spelling: str):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=spelling), childUrl=SLASH_BRANCH), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert child["ruleId"] == "A1-child-curated"
+    assert child["notProven"] == []
+    assert ("registry", REGISTRY_PATH, "links.github equals the evidence URL") in proofOf(child)
+
+
+@pytest.mark.parametrize("registryRef, evidenceRef", [
+    ("v6.4.1", "main"),
+    ("7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd", "main"),
+    ("0.6.10", "v0.51.6.0"),
+    ("HEAD", "master"),
+    ("2.0.0-rc.1", "1.0.0+build.5"),
+])
+def test_a1_positive_simple_refs_on_both_sides_stay_a(tmp_path: Path, registryRef: str, evidenceRef: str):
+    registry = BLOB.replace("/main/", f"/{registryRef}/")
+    childUrl = BLOB.replace("/main/", f"/{evidenceRef}/")
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=registry), childUrl=childUrl), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert child["ruleId"] == "A1-child-curated"
+    assert child["notProven"] == []
+
+
+def test_a1_negative_non_simple_ref_without_a_slash_is_ambiguous(tmp_path: Path):
+    registry = BLOB.replace("/main/", "/release-1.2/")
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=registry)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert "ref-split-ambiguous" in child["notProven"]
     assert "registry-repo-differs" not in child["notProven"]
 
 
@@ -470,6 +545,20 @@ def test_a4_negative_evidence_url_differs(tmp_path: Path):
 def test_a4_negative_rule_disabled(tmp_path: Path):
     manifest = run(censusOf(dupRows()), tmp_path, policyFor(enabledRules=[rule for rule in KNOWN_RULE_IDS if rule != "A4-duplicate-child"]))
     assert item(manifest, 51)["authority"] == "B"
+
+
+def test_a4_positive_identical_slash_ref_evidence_still_duplicates(tmp_path: Path):
+    # A4 compares full blob URLs with the ref included, so a slash-containing ref needs no split check.
+    slash = SLASH_BRANCH.replace("writing-skills", "dup")
+    rows = [
+        umbrellaRow(60, "obra/superpowers", "v7.0.0"),
+        childRow(50, "obra/dup", slash, parent=60),
+        childRow(51, "obra/dup", slash, parent=60),
+    ]
+    manifest = run(censusOf(rows), tmp_path)
+    duplicate = item(manifest, 51)
+    assert duplicate["authority"] == "A"
+    assert duplicate["ruleId"] == "A4-duplicate-child"
 
 
 # ------------------------------------------------------------------ A5 bot-report superseded
@@ -727,6 +816,7 @@ def test_fixture_census_reconciles_to_known_counts():
     children = {entry["issue"]: entry for entry in manifest["items"] if entry["kind"] == "child"}
     assert {number for number, entry in children.items() if entry["authority"] == "A"} == LIVE_A1_CHILDREN
     assert all(children[number]["ruleId"] == "A1-child-curated" for number in LIVE_A1_CHILDREN)
+    assert not any("ref-split-ambiguous" in entry["notProven"] for entry in manifest["items"])
     for number in LIVE_PATH_ONLY_CHILDREN:
         assert children[number]["authority"] == "B"
         assert "registry-path-differs" in children[number]["notProven"]

@@ -151,7 +151,7 @@ def child_state_lookup(live: dict, probe=None):
 
 
 def dead_children(rows: list[dict], state_of) -> frozenset[int]:
-    """Child numbers a row links to that GitHub reports as definitively absent (404/410)."""
+    """Child numbers a row links to that GitHub reports as definitively absent (301 transferred, 404 or 410)."""
     return frozenset(
         row["child"] for row in rows if row.get("child") is not None and state_of(row["child"]) == "absent"
     )
@@ -173,13 +173,15 @@ def unresolved_row_ids(payload: dict, state_of) -> list[str]:
 def carry_forward(live: dict, prefix: str, state_of) -> list[dict]:
     """Unresolved rows of the newest closed umbrella for a suite, to seed a new umbrella.
 
-    Closed umbrellas come from the same recently-closed LIST window the prechecks
-    use. A carried row keeps its status, child link and firstSeenVersion, and
-    records ``carriedFrom`` as the umbrella it was last carried from.
+    The source is the full closed ``upstream:release`` history (``closedUmbrellas``),
+    never the 30-day window: an umbrella closed months ago still carries its
+    unresolved rows, so closing an umbrella can never drop candidates. A carried
+    row keeps its status, child link and firstSeenVersion, and records
+    ``carriedFrom`` as the umbrella it was last carried from.
     """
     closed = [
         issue
-        for issue in live["issues"]
+        for issue in live["closedUmbrellas"]
         if issue.get("state") == "closed"
         and "upstream:release" in label_names(issue)
         and str(issue.get("title", "")).startswith(prefix)
@@ -204,7 +206,7 @@ def merge_rows(
     """Merge incoming candidate rows into existing ones, keyed by candidate id.
 
     Existing rows are never dropped. Escalated status and child links survive
-    version churn. A child link in *dead* (definitively 404/410) is cleared and
+    version churn. A child link in *dead* (definitively 301/404/410) is cleared and
     a row that was tracked or escalated goes back to ``new``, so it is visible
     as an unresolved candidate again. Returns (rows sorted by id, ids of newly
     added rows).
@@ -576,7 +578,7 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
     if row is None:
         return {**result, "outcome": "not-found"}, 2
     if row.get("child") is not None:
-        # A child link GitHub reports as definitively absent (404/410) must not block escalation.
+        # A child link GitHub reports as definitively absent (301/404/410) must not block escalation.
         try:
             linked_state = child_state_lookup(live, gh.issue_state)(row["child"])
         except GhError as exc:

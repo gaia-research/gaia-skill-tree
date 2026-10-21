@@ -26,6 +26,8 @@ from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
 from tests.steward.issuehygiene.test_b_reconcile import (
     BLOB,
     NOW,
+    SLASH_AT_MAIN,
+    SLASH_BRANCH,
     childRow,
     censusOf,
     dupRows,
@@ -114,6 +116,14 @@ def planFor(manifest: dict, policy=None) -> dict:
     return plans[0]
 
 
+def test_ref_split_ambiguous_child_gets_no_closure_plan(tmp_path: Path):
+    rows = [umbrellaRow(20, "obra/superpowers", "v7.0.0"), childRow(10, "obra/writing-skills", SLASH_BRANCH)]
+    writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=SLASH_AT_MAIN))
+    manifest = reconcile(censusOf(rows), buildRegistryIndex(tmp_path), policyFor(), NOW)
+    assert item(manifest, 10)["authority"] == "B"
+    assert planClosures(manifest, policyFor()) == []
+
+
 def test_plans_only_for_authority_a_under_enabled_rule_with_writes_and_complete_census(tmp_path: Path):
     manifest, _census = a1Scenario(tmp_path)
     plans = planClosures(manifest, policyFor())
@@ -163,6 +173,8 @@ def test_comment_carries_marker_rule_proof_and_original_payload(tmp_path: Path):
     sha8 = manifest["manifestSha256"][:8]
     assert body.startswith(f"<!-- gaia-steward-closure:{child['key']}:{sha8} -->")
     assert "A1-child-curated" in body
+    assert "links to the same repo and file as the evidence URL (git ref may differ)" in body
+    assert "links to the same evidence URL" not in body
     assert "registry/named/obra/writing-skills.md" in body
     assert "[intake] obra/writing-skills" in body
     assert "Nothing was deleted" in body

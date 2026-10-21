@@ -36,6 +36,7 @@ from scripts.upstream_watcher.finder import (
     detect_mode,
 )
 from scripts.upstream_watcher.issuer import (
+    IdempotencyLookupError,
     _find_existing_issue,
     _find_existing_suite_issue,
     _update_issue,
@@ -363,21 +364,72 @@ class TestIdempotency:
             )
         assert result is None
 
-    def test_find_existing_issue_returns_none_on_gh_error(self):
-        """gh non-zero exit → None (graceful degradation)."""
+    def test_find_existing_issue_fails_closed_on_gh_error(self):
+        """gh non-zero exit raises: None would read as "no duplicate" and let the caller create one."""
         mock_result = MagicMock()
         mock_result.returncode = 1
         mock_result.stdout = ""
 
         with patch("subprocess.run", return_value=mock_result):
-            result = _find_existing_issue("anything", "upstream:release")
-        assert result is None
+            with pytest.raises(IdempotencyLookupError):
+                _find_existing_issue("anything", "upstream:release")
 
-    def test_find_existing_issue_returns_none_on_subprocess_exception(self):
-        """subprocess.run raises → None (does not propagate)."""
+    def test_find_existing_issue_fails_closed_on_subprocess_exception(self):
+        """subprocess.run raises: the lookup is unknown evidence, not an empty list."""
         with patch("subprocess.run", side_effect=subprocess.TimeoutExpired("gh", 30)):
-            result = _find_existing_issue("anything", "upstream:release")
-        assert result is None
+            with pytest.raises(IdempotencyLookupError):
+                _find_existing_issue("anything", "upstream:release")
+
+    def test_find_existing_suite_issue_fails_closed_on_gh_error(self):
+        mock_result = MagicMock()
+        mock_result.returncode = 1
+        mock_result.stdout = ""
+
+        with patch("subprocess.run", return_value=mock_result):
+            with pytest.raises(IdempotencyLookupError):
+                _find_existing_suite_issue("[upstream] ruvnet/ruflo → ", "upstream:release")
+
+    def test_lookup_failure_on_a_later_page_fails_closed(self):
+        """A full first page with no match is not an answer: a failing second page raises, not None."""
+        filler = [{"number": n, "title": f"unrelated {n}", "state": "open"} for n in range(1, 101)]
+        run, _calls = _paged_gh_runner([filler])
+
+        def failing_second_page(args, capture_output=True, text=True, timeout=None):
+            if any(a == "page=2" for a in args):
+                return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 502")
+            return run(args)
+
+        with patch("subprocess.run", side_effect=failing_second_page):
+            with pytest.raises(IdempotencyLookupError):
+                _find_existing_issue("[intake] garrytan/never-listed", "intake")
+
+    def test_fanout_list_failure_writes_no_umbrella_when_a_child_list_fails(self):
+        """The child-list lookup fails for the first finding; the umbrella must not be created first."""
+        findings = [
+            {
+                "finding_type": "update",
+                "skillId": "ruvnet/ruflo",
+                "newVersion": "v3.41.2",
+                "sourceUrl": "https://github.com/ruvnet/ruflo/releases/tag/v3.41.2",
+                "componentAdds": ["ask-user"],
+                "componentRemoves": [],
+                "linkLiveness": [],
+                "mode": "components",
+            }
+        ]
+
+        def intake_list_fails(args, capture_output=True, text=True, timeout=None):
+            if "labels=intake" in args:
+                return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 502")
+            return subprocess.CompletedProcess(args, 0, stdout="[]", stderr="")
+
+        with patch("subprocess.run", side_effect=intake_list_fails), patch(
+            "scripts.upstream_watcher.issuer._create_issue"
+        ) as create, patch("scripts.upstream_watcher.issuer._edit_umbrella_body") as edit:
+            with pytest.raises(IdempotencyLookupError):
+                create_issues(findings, apply=True)
+        create.assert_not_called()
+        edit.assert_not_called()
 
     def test_run_cache_hit_short_circuits_gh(self):
         """A title already created this run resolves from the cache, never calling gh."""

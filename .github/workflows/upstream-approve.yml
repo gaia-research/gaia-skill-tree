@@ -227,7 +227,7 @@ jobs:
 
 
           class ChildAbsent(Exception):
-              """GitHub answered 404 or 410: the object is definitively gone."""
+              """GitHub answered 301 (transferred), 404 or 410: the number no longer names a live issue."""
 
 
           def gh_api(path, paginate=False):
@@ -235,7 +235,7 @@ jobs:
               res = subprocess.run(args, capture_output=True, text=True, timeout=120)
               if res.returncode != 0:
                   message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
-                  if re.search(r"HTTP (404|410)\b", res.stderr or ""):
+                  if re.search(r"HTTP (301|404|410)\b", res.stderr or ""):
                       raise ChildAbsent(message)
                   raise RuntimeError(message)
               return res.stdout
@@ -277,8 +277,8 @@ jobs:
                       try:
                           live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
                       except ChildAbsent:
-                          # Definitive 404/410: the child was deleted or transferred. It cannot block.
-                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 404/410); not blocking the gate", file=sys.stderr)
+                          # Definitive 301/404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 301/404/410); not blocking the gate", file=sys.stderr)
                           continue
                       if live.get("state") == "open" and not live.get("pull_request"):
                           children[number] = live.get("title", "")
@@ -314,7 +314,7 @@ jobs:
 
       # ── Umbrella closure must not lose rows (#2131) ────────────────────────
       # A row stays unresolved unless it is registry-present, rejected, or linked to a
-      # closed child intake. A definitive 404/410 child is unresolved, never resolved.
+      # closed child intake. A definitive 301/404/410 child is unresolved, never resolved.
       - name: Count unresolved candidate rows
         id: unresolved
         if: steps.child_gate.outputs.gate_passed == 'true'
