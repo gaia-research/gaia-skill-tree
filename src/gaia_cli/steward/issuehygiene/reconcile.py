@@ -30,6 +30,7 @@ from gaia_cli.steward.issuehygiene.registryindex import (
     RegistryIndex,
     normalizeHandle,
     parseGithubUrl,
+    refSplitTrusted,
     splitId,
 )
 
@@ -246,7 +247,8 @@ def linkDifferences(record: NamedRecord, intake: GithubRef) -> list[str]:
     agree with the evidence, so a contradiction is never proof), otherwise the ``links.github``
     repo. The path always comes from ``links.github``. Repo and path are compared exactly once
     ``parseGithubUrl`` has folded ``tree/`` to ``blob/`` and dropped a trailing slash, query and
-    fragment. An empty list means the same file in the same repo, at any ref.
+    fragment. An empty list means the same repo and path at any ref. It does not mean the same
+    file: the ref/path split must also pass ``refSplitTrusted``, which the caller checks.
     """
     claimedRepo = record.upstreamRepo if record.upstreamRepo is not None else record.github.repo
     found: list[str] = []
@@ -258,7 +260,7 @@ def linkDifferences(record: NamedRecord, intake: GithubRef) -> list[str]:
 
 
 def linkProofDetail(record: NamedRecord, intake: GithubRef) -> str:
-    """Evidence detail for a proven A1 link. Called only when ``linkDifferences`` is empty."""
+    """Evidence detail for a proven A1 link. Called only when the A1 proof holds (no differences, trusted ref split)."""
     if record.github.blobUrl() == intake.blobUrl():
         return "links.github equals the evidence URL"
     parts: list[str] = []
@@ -275,8 +277,10 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
     Proof needs a readable, non-draft record under the same contributor handle whose registry
     claim names the same repo and the same path as the intake evidence URL. The git ref is not
     part of the match, so a pinned tag or commit against ``main`` still proves A1 and is recorded
-    as ``ref-differs``. Any other difference, a draft or missing status, or an unreadable record
-    keeps the child out of A (B, or C for an alias candidate).
+    as ``ref-differs``. That ref-free match is sound only when both ref/path splits are trusted
+    (``refSplitTrusted``): a slash-containing branch ref on either side leaves ``ref-split-ambiguous``
+    and the child falls to B. Any other difference, a draft or missing status, or an unreadable
+    record keeps the child out of A (B, or C for an alias candidate).
     """
     identity = draft.identity
     unknownReasons = [reason for reason in identity.reasons if reason not in ORPHAN_REASONS]
@@ -320,6 +324,10 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
             if differences:
                 failures.append("registry-link-differs")
                 failures.extend(differences)
+            if not refSplitTrusted(record.github, evidenceRef):
+                failures.append("ref-split-ambiguous")
+                draft.evidence.append(ev("registry", record.github.blobUrl(), None, f"ref split ambiguous against evidence {identity.evidenceUrl}"))
+                draft.evidence.append(ev("issue", f"#{draft.number}", None, f"evidence {identity.evidenceUrl}"))
     if draft.unknowns:
         failures.append("unknown-facts")
     if orphanReasons:
