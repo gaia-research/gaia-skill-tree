@@ -132,9 +132,9 @@ def test_a_second_run_after_the_first_drained_its_closures_emits_nothing_and_its
     third = runner.start("full")
     assert closeActions(second) == [] and closeActions(third) == []
     assert [a for a in second.actions if a["type"] == "agent.build"] == []
-    debtsSecond = sorted(d.get("debtId", "") for d in second.unresolvedWork)
-    debtsThird = sorted(d.get("debtId", "") for d in third.unresolvedWork)
-    assert debtsSecond == debtsThird
+    desk2 = sorted((op["kind"], op["detail"]) for op in (second.desk or {}).get("operations", []))
+    desk3 = sorted((op["kind"], op["detail"]) for op in (third.desk or {}).get("operations", []))
+    assert desk2 and desk2 == desk3  # non-empty, and the second and third runs post identical desk noise
     assert len(operationsOf(second, "issue_backlog")) == len(operationsOf(third, "issue_backlog")) == 1
 
 
