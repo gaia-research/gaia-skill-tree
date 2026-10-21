@@ -142,7 +142,7 @@ def test_the_lane_bounds_are_capped_in_code_not_only_in_policy(tmp_path: Path) -
 
 def test_the_shipped_policy_declares_a_conservative_lane() -> None:
     lane = StewardPolicy.load(REPO_ROOT).lane
-    assert lane.max_in_flight == 1
+    assert lane.max_in_flight == 2  # founder-authorized 1 -> 2 on 2026-10-21 (steward-class-b-throughput)
     assert lane.max_attempts == 2
     assert lane.cooldown_seconds == 3600
 
@@ -199,6 +199,39 @@ def test_dispatch_is_refused_beyond_the_ceiling_and_from_the_wrong_state() -> No
     escalated = _lane(_entry("debt:c", state="escalated"))
     with pytest.raises(LaneError, match="only queued debt may be dispatched"):
         mark_dispatched(escalated, escalated.by_id("debt:c"), dispatch_id="dispatch-x", now=NOW)
+
+
+TWO_SLOTS = LanePolicy(max_in_flight=2, max_attempts=2, cooldown_seconds=3600)
+
+
+def test_the_lane_runs_two_debts_in_flight_at_once_and_refuses_the_third() -> None:
+    lane = _lane(_entry("debt:a"), _entry("debt:b"), _entry("debt:c"), policy=TWO_SLOTS)
+
+    first, _reason = next_dispatchable(lane, now=NOW)
+    assert first is not None
+    lane = mark_dispatched(lane, first, dispatch_id="dispatch-1", now=NOW)
+
+    second, _reason = next_dispatchable(lane, now=NOW)
+    assert second is not None and second.debt_id != first.debt_id, "the second slot is usable"
+    lane = mark_dispatched(lane, second, dispatch_id="dispatch-2", now=NOW)
+    assert len(lane.in_flight) == 2
+
+    third, reason = next_dispatchable(lane, now=NOW)
+    assert third is None
+    assert "2 dispatch(es) already in flight" in reason and "maxInFlight ceiling of 2" in reason
+    with pytest.raises(LaneError, match="maxInFlight ceiling"):
+        mark_dispatched(lane, lane.by_id("debt:c"), dispatch_id="dispatch-3", now=NOW)
+
+
+def test_a_verdict_on_one_of_two_in_flight_debts_frees_exactly_one_slot() -> None:
+    lane = _lane(_entry("debt:a"), _entry("debt:b"), _entry("debt:c"), policy=TWO_SLOTS)
+    lane = mark_dispatched(lane, lane.by_id("debt:a"), dispatch_id="dispatch-1", now=NOW)
+    lane = mark_dispatched(lane, lane.by_id("debt:b"), dispatch_id="dispatch-2", now=NOW)
+
+    closed = record_verdict(lane, "debt:a", "accept", now=NOW, note="verified")
+    chosen, reason = next_dispatchable(closed, now=NOW)
+    assert chosen is not None and chosen.debt_id == "debt:c"
+    assert len(closed.in_flight) == 1
 
 
 # --- verdicts ----------------------------------------------------------------
@@ -323,8 +356,14 @@ def test_debt_with_no_dispatch_rule_never_enters_the_lane() -> None:
 # --- the rolling lane end to end ---------------------------------------------
 
 
+def _pinned_repo(tmp_path: Path, max_in_flight: int) -> Path:
+    """A fixture whose own policy copy pins routing.lane.maxInFlight to `max_in_flight`."""
+
+    return _repo(tmp_path, lambda data: data["routing"]["lane"].update({"maxInFlight": max_in_flight}))
+
+
 def test_the_lane_hands_out_one_dispatch_then_reports_itself_at_capacity(tmp_path: Path) -> None:
-    root = _repo(tmp_path)
+    root = _pinned_repo(tmp_path, 1)
     controller = _controller(LaneSensor(count=2))
 
     result, prompt = render_lane_next(root, controller=controller, prompt=True)
@@ -344,6 +383,23 @@ def test_the_lane_hands_out_one_dispatch_then_reports_itself_at_capacity(tmp_pat
     lane_state = json.loads((root / ".gaia/steward/lane.json").read_text(encoding="utf-8"))
     assert lane_state["schemaVersion"] == "steward-lane-v1"
     assert len(lane_state["entries"]) == 2
+
+
+def test_the_shipped_lane_hands_out_two_dispatches_then_refuses_the_third(tmp_path: Path) -> None:
+    root = _repo(tmp_path)  # the shipped policy, unmodified: maxInFlight 2
+    controller = _controller(LaneSensor(count=3))
+
+    first, _prompt = render_lane_next(root, controller=controller)
+    second, _prompt = render_lane_next(root, controller=controller)
+    assert first.artifact.debt["id"] != second.artifact.debt["id"]
+
+    summary = render_lane(root, controller=controller).artifact.lane.summary()
+    assert summary["counts"]["dispatched"] == 2
+    assert summary["counts"]["queued"] == 1
+    assert summary["capacity"] == 0
+
+    with pytest.raises(LaneEmpty, match="maxInFlight ceiling of 2"):
+        render_lane_next(root, controller=controller)
 
 
 def test_an_empty_lane_is_a_healthy_outcome_distinguishable_from_a_broken_one(tmp_path: Path) -> None:

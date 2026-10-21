@@ -1122,6 +1122,8 @@ class DevCommand(Command):
             "freeze",
             "ratify",
             "embed",
+            "provenance",
+            "evidence-seed",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS or (
             dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}

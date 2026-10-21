@@ -43,10 +43,10 @@
           "sensorId": "dead-code",
           "debtKind": "unused_import",
           "authority": "B",
-          "dispatchRule": null,
+          "dispatchRule": "unused-import-cleanup",
           "repairExecutor": null,
           "founderRule": null,
-          "bindingStatus": "unrouted"
+          "bindingStatus": "route-bound"
         },
         {
           "sensorId": "dead-code",

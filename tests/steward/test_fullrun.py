@@ -9,6 +9,7 @@ what the runner observes.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from datetime import datetime, timedelta
@@ -237,13 +238,19 @@ def editLedger(store: Any, change: Any) -> None:
     update(store, change)
 
 
-def useMaxInFlight(repo: Path, value: int) -> None:
-    """Raise the lane's maxInFlight in the fixture's own policy file (policy allows 1-4)."""
+def pinMaxInFlight(repo: Path, value: int) -> None:
+    """Set the lane's maxInFlight in the fixture's own policy copy (policy allows 1-4).
+
+    The shipped policy may move (it is 2 as of 2026-10-21), so this rewrites whatever
+    value the fixture currently carries rather than assuming a particular one. Tests that
+    exercise the single-slot cap pin 1; tests that exercise concurrency pin 2.
+    """
 
     path = repo / POLICY_RELATIVE_PATH
     text = path.read_text(encoding="utf-8")
-    assert "maxInFlight: 1" in text
-    path.write_text(text.replace("maxInFlight: 1", f"maxInFlight: {value}"), encoding="utf-8")
+    updated, count = re.subn(r"maxInFlight: \d+", f"maxInFlight: {value}", text)
+    assert count == 1, "the fixture policy must declare exactly one routing.lane.maxInFlight"
+    path.write_text(updated, encoding="utf-8")
     commitAll(repo, f"maxInFlight {value}")
 
 

@@ -154,6 +154,31 @@ jobs:
           python scripts/steward_collect_ci_runs.py gh-runs.json \
             --repository "$GITHUB_REPOSITORY" --branch main
 
+      - name: Collect dependency advisories for the dependency-advisory detector
+        run: |
+          python -m pip install --quiet pip-audit
+          # pip-audit exits non-zero when it finds vulnerabilities; that is data, not failure.
+          pip-audit -f json -o pip-audit.json || test -s pip-audit.json
+          python scripts/steward_collect_advisories.py pip-audit.json --repository "$GITHUB_REPOSITORY"
+
+      - name: Restore the previous test history
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .gaia/steward/inputs prev
+          id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "Gaia Steward" --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty')
+          if [ -n "$id" ]; then
+            gh run download "$id" --repo "$GITHUB_REPOSITORY" --name steward-test-history --dir prev || true
+            [ -f prev/test-history.json ] && cp prev/test-history.json .gaia/steward/inputs/test-history.json || true
+          fi
+
+      - name: Run the steward suite and fold it into the test history
+        run: |
+          python -m pip install --quiet pytest pytest-xdist
+          python -m pytest tests/steward -q -p no:cacheprovider --junitxml=junit.xml || true
+          python scripts/steward_collect_test_history.py \
+            --run "$GITHUB_RUN_ID" "$GITHUB_SHA" junit.xml --repository "$GITHUB_REPOSITORY"
+
       # Exit 3 means a detector was blind: that fails the job on purpose.
       - name: Observe with every detector
         run: gaia steward full run --observe --trigger scheduled --ledger local --json > steward-full.json
@@ -167,6 +192,15 @@ jobs:
             gaia steward full status --ledger local
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Persist the test history for the next run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-test-history
+          if-no-files-found: ignore
+          retention-days: 90
+          path: .gaia/steward/inputs/test-history.json
 
       - name: Publish the full-run receipt
         if: always()

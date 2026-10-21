@@ -325,8 +325,9 @@ routing:
   # makes it a lane rather than a loop, and code caps each of them independently
   # so editing this file can never grant unbounded autonomy.
   lane:
-    # Never more outstanding work than a human can actually review.
-    maxInFlight: 1
+    # Never more outstanding work than a human can actually review. Raised from
+    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput).
+    maxInFlight: 2
     # A debt that fails bounded repair this many times is not asking for another
     # attempt; it is evidence the envelope is wrong, which is a founder question.
     maxAttempts: 2
@@ -510,6 +511,46 @@ routing:
         - reproduce the finding using the read-only tracked-path inventory
         - show a diff confined to the allowed paths and preserve all policy floors
         - run the focused repository hygiene tests and report exact results
+        - obtain independent review before integration
+    unused-import-cleanup:
+      debtKind: unused_import
+      authority: B
+      routine: dead-code-gardener
+      promptGuide: founder/steward/routines/unused-import-cleanup.md
+      capability: >-
+        Remove module-level imports that the dead-code detector proved have no in-module read,
+        keeping side-effect imports, re-exports and guarded imports, and prove the package still
+        imports and its tests pass.
+      objective: >-
+        Reproduce the unused-import finding for the one subject file, remove only the imports the
+        packet names, and return the smallest diff with focused proof. Touch no other file.
+      allowedPaths:
+        - src/gaia_cli/**
+        - scripts/**
+        - tests/**
+      allowedCommands:
+        - python -m pytest
+        - python -m compileall
+        - gaia steward scan
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+      stopConditions:
+        - the diff touches any file other than the debt's subject file
+        - a flagged import is marked sideEffectPossible and its side effect is not proven absent
+        - the file is an __init__.py re-export surface, a star import or a guarded import
+        - tests or compileall of the file fail after the change
+        - the finding does not reproduce on the current head
+      proof:
+        - reproduce the finding for the subject file
+        - show a diff confined to the subject file
+        - run python -m pytest on the importing package and python -m compileall on the file
         - obtain independent review before integration
     knowledge-contradiction:
       debtKind: knowledge_contradiction
