@@ -203,7 +203,7 @@ def test_second_invocation_while_a_run_is_live_exits_four_and_names_the_holder(
 # --- refusals (exit 2) -------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("extra", [["--routine", "0"], ["--routine", "18"], ["--resume", "run-x", "--observe"],
+@pytest.mark.parametrize("extra", [["--routine", "0"], ["--routine", "19"], ["--resume", "run-x", "--observe"],
                                    ["--resume", "run-x", "--debt", "debt:x"]])
 def test_bad_run_arguments_exit_two(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys, extra: list[str]) -> None:
     repo, _ = makeFixture(tmp_path)

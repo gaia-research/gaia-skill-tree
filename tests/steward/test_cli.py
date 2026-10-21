@@ -142,12 +142,12 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    # 30 registered sensors: 27 observe (one coverage mark each) plus 11
-    # single-subject healthy observations; the 3 optional-input sensors are
+    # 31 registered sensors: 27 observe (one coverage mark each) plus 11
+    # single-subject healthy observations; the 4 optional-input sensors are
     # not evaluated and add no coverage mark.
     assert payload["receipt"]["observationsCollected"] == 38
     assert sorted(item["sensor"] for item in payload["receipt"]["notEvaluated"]) == [
-        "ci-health", "dependency-advisory", "test-history",
+        "ci-health", "dependency-advisory", "issue-hygiene", "test-history",
     ]
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []

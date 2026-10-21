@@ -2323,7 +2323,7 @@ class FullRunner:
         byId = {entry["id"]: entry for entry in sensors}
         routines = []
         bindings = self._routineBindings()
-        for number in range(1, 18):
+        for number in range(1, 19):
             ids = {e["id"] for e in sensors if number in e["routine_ids"]} | {
                 s for s in bindings.get(number, {"sensors": set()})["sensors"] if s in byId}
             detectors = [{"sensor": s, "state": byId[s]["state"]} for s in sorted(ids)]

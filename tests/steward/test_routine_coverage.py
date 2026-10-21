@@ -399,6 +399,7 @@ def test_driver_inputs_come_from_the_sensor_not_the_catalog() -> None:
         "ci-health": (".gaia/steward/inputs/ci-runs.json",),
         "dependency-advisory": (".gaia/steward/inputs/advisories.json",),
         "test-history": (".gaia/steward/inputs/test-history.json",),
+        "issue-hygiene": (".gaia/steward/inputs/github-issues.json",),
     }
     data = json.loads(CATALOG.read_text(encoding="utf-8"))
     for sensor_id, paths in declared.items():
