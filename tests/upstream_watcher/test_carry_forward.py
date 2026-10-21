@@ -5,12 +5,24 @@ seeded with the unresolved rows of the newest closed one: status, child link and
 firstSeenVersion are kept, and carriedFrom records the umbrella they came from.
 """
 
+import datetime as dt
+
+import pytest
+
 from scripts.upstream_watcher import batch as bt
+from scripts.upstream_watcher import live
 from scripts.upstream_watcher.batch import parse_payload, run_batch
-from upstream_fakes import FakeGh, index_from_entries
+from scripts.upstream_watcher.live import LiveGh, read_live
+from upstream_fakes import FakeGh, RestGhRunner, index_from_entries
 
 PREFIX = "[upstream] garrytan/gbrain → "
+REPO = "gaia-research/gaia-skill-tree"
 BLOB = "https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md"
+
+
+def days_ago(days):
+    now = dt.datetime.now(dt.timezone.utc)
+    return (now - dt.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def finding(version, adds, previous="v0"):
@@ -184,3 +196,60 @@ def test_no_carried_note_when_nothing_was_carried():
     gh = FakeGh()
     run(gh, [finding("v1", ["ask-user"])])
     assert "Carried forward" not in open_umbrella(gh)["body"]
+
+
+# ---------------------------------------------------------------------------
+# The source is the full closed umbrella history, not the 30-day window (#2131).
+# ---------------------------------------------------------------------------
+
+
+def _other_suite_umbrella(number):
+    return {**closed_umbrella(number, "v1", []), "title": f"[upstream] other/suite{number} → v1",
+            "updated_at": days_ago(90)}
+
+
+def test_an_umbrella_closed_ninety_days_ago_still_carries_its_unresolved_rows():
+    old = closed_umbrella(10, "v1", [row("ask-user"), row("briefing")])
+    old["updated_at"] = days_ago(90)
+    gh = FakeGh([old])
+    # The recently-closed window cannot see it, so only the full history can carry it.
+    assert 10 not in {issue["number"] for issue in read_live(gh)["issues"]}
+    report, code = run(gh, [finding("v2", ["fresh"], previous="v1")])
+    assert code == 0
+    rows = rows_of(gh)
+    assert sorted(rows) == ["garrytan/gbrain:ask-user", "garrytan/gbrain:briefing", "garrytan/gbrain:fresh"]
+    assert rows["garrytan/gbrain:ask-user"]["carriedFrom"] == "#10"
+    assert report["suites"][0]["carriedForward"] == 2
+
+
+def test_carry_walks_every_page_of_the_closed_umbrella_history_to_find_the_newest(monkeypatch):
+    monkeypatch.setattr(live, "PER_PAGE", 2)
+    old = closed_umbrella(10, "v1", [row("ask-user")])
+    old["updated_at"] = days_ago(90)
+    world = RestGhRunner([_other_suite_umbrella(n) for n in (1, 2, 3, 4)] + [old])
+    gh = LiveGh(repo=REPO, runner=world)
+    # Five closed umbrellas over three pages of two: #10 sits on the last, short page.
+    assert {issue["number"] for issue in read_live(gh)["closedUmbrellas"]} == {1, 2, 3, 4, 10}
+    report, code = run(gh, [finding("v2", ["fresh"], previous="v1")])
+    assert code == 0 and report["unknownEvidence"] == []
+    creates = [write for write in world.writes if write[0] == "create"]
+    assert len(creates) == 1
+    payload = parse_payload(creates[0][2])
+    assert sorted(row["id"] for row in payload["candidates"]) == ["garrytan/gbrain:ask-user", "garrytan/gbrain:fresh"]
+    assert next(row for row in payload["candidates"] if row["slug"] == "ask-user")["carriedFrom"] == "#10"
+
+
+@pytest.mark.parametrize("failing_page", [1, 2])
+def test_an_incomplete_closed_umbrella_walk_is_unknown_evidence_with_zero_writes(monkeypatch, failing_page):
+    monkeypatch.setattr(live, "PER_PAGE", 2)
+    old = closed_umbrella(10, "v1", [row("ask-user")])
+    old["updated_at"] = days_ago(90)
+    world = RestGhRunner(
+        [_other_suite_umbrella(n) for n in (1, 2, 3, 4)] + [old],
+        fail_pages={("closed", "upstream:release", failing_page)},
+    )
+    report, code = run(LiveGh(repo=REPO, runner=world), [finding("v2", ["fresh"], previous="v1")])
+    assert code == 3
+    assert report["unknownEvidence"] and report["unknownEvidence"][0]["source"] == "github-list"
+    assert world.writes == []
+    assert report["issuesCreated"] == 0

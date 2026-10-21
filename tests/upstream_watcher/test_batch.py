@@ -2,6 +2,7 @@
 
 import json
 import pathlib
+import subprocess
 
 import pytest
 
@@ -9,8 +10,8 @@ from scripts.upstream_watcher import batch as bt
 from scripts.upstream_watcher import prechecks as pc
 from scripts.upstream_watcher import watcher
 from scripts.upstream_watcher.live import GhError, LiveGh, read_live
-from scripts.upstream_watcher.batch import canonical_hash, parse_payload, plan_suite, run_batch, escalate_candidate
-from upstream_fakes import FakeGh, FakeRunner, fixture_issue_rows, fixture_registry_entries, index_from_entries
+from scripts.upstream_watcher.batch import canonical_hash, new_report, parse_payload, plan_suite, run_batch, escalate_candidate
+from upstream_fakes import FakeGh, FakeRunner, RestGhRunner, fixture_issue_rows, fixture_registry_entries, index_from_entries
 
 FIXTURE = json.loads(
     (pathlib.Path(__file__).parent / "fixtures" / "live_families.json").read_text(encoding="utf-8")
@@ -367,6 +368,59 @@ def test_fanout_mode_uses_legacy_create_issues(monkeypatch):
     monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: calls["batch"].append(1) or ({}, 0))
     assert watcher.main(["--apply", "--child-mode", "fanout"]) == 0
     assert calls["create"] == [(1, True)] and calls["batch"] == []
+
+
+def _fanout_finding(version="v1"):
+    return {**finding(version, ["ask-user"]), "mode": "components"}
+
+
+def test_fanout_github_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
+    # The open umbrella LIST fails on its first page. The fanout must exit 3 and create nothing.
+    world = RestGhRunner([], fail_pages={("open", "upstream:release", 1)})
+    monkeypatch.setattr(subprocess, "run", world)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
+    monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: _fanout_finding())
+    report_path = tmp_path / "report.json"
+    code = watcher.main(["--apply", "--child-mode", "fanout", "--report", str(report_path)])
+    assert code == 3
+    assert world.writes == []
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["unknownEvidence"][0]["source"] == "github-list"
+    assert report["issuesCreated"] == 0
+
+
+def test_fanout_child_list_failure_creates_no_umbrella_either(monkeypatch, tmp_path):
+    # Only the intake LIST fails. Its lookup comes after the umbrella lookup, yet it must
+    # still stop the run before the umbrella is written.
+    world = RestGhRunner([], fail_pages={("open", "intake", 1)})
+    monkeypatch.setattr(subprocess, "run", world)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
+    monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: _fanout_finding())
+    code = watcher.main(["--apply", "--child-mode", "fanout", "--report", str(tmp_path / "r.json")])
+    assert code == 3
+    assert world.writes == []
+
+
+def test_batch_mode_bootstrap_lookup_failure_exits_3(monkeypatch, tmp_path):
+    bootstrap = {
+        "finding_type": "bootstrap", "skillId": "garrytan/gbrain", "newVersion": "v1",
+        "releasedAt": "2026-10-21T10:00:00Z",
+        "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v1",
+        "mode": "bootstrap", "componentAdds": [], "componentRemoves": [], "linkLiveness": [], "nameDrift": [],
+    }
+    world = RestGhRunner([], fail_pages={("open", "upstream:bootstrap", 1)})
+    monkeypatch.setattr(subprocess, "run", world)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
+    monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: bootstrap)
+    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: (new_report(), 0))
+    report_path = tmp_path / "report.json"
+    code = watcher.main(["--apply", "--report", str(report_path)])
+    assert code == 3
+    assert world.writes == []
+    assert json.loads(report_path.read_text(encoding="utf-8"))["unknownEvidence"][0]["source"] == "github-list"
 
 
 def test_batch_mode_is_default_and_fails_closed_on_registry(monkeypatch, tmp_path):
