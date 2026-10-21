@@ -611,3 +611,15 @@ def test_fixture_census_reconciles_to_known_counts():
     questions = {tuple(q["affected"]) for q in manifest["founderQuestions"]}
     assert (2126, 2127) in questions
     assert (1835,) in questions and (1823,) in questions
+
+
+def test_workflow_probes_cover_policy_entries_and_open_gh_aw_reports(tmp_path: Path):
+    from gaia_cli.steward.issuehygiene.reconcile import workflowProbesFor
+
+    workflows = tmp_path / '.github' / 'workflows'
+    workflows.mkdir(parents=True)
+    (workflows / 'steward-build-copilot.lock.yml').write_text("on: push\njobs:\n  a:\n    if: ${{ false }}\n", encoding='utf-8')
+    census = censusOf([botRow(2127, '[aw] Steward Build Copilot: billing', COPILOT_BODY)])
+    probes = workflowProbesFor(tmp_path, census, policyFor(**A5_POLICY))
+    assert set(probes) == {'steward-build-copilot.lock.yml'}
+    assert probes['steward-build-copilot.lock.yml']['proven'] is True

@@ -36,7 +36,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     planClosures,
 )
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
-from gaia_cli.steward.issuehygiene.reconcile import probeWorkflow, reconcile, workflowRunnables
+from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
 from gaia_cli.steward.policy import StewardPolicy
 
@@ -135,14 +135,6 @@ def loadPolicy(root: Path, policyPath: Path | None) -> HygienePolicy:
     if not isinstance(raw, dict):
         raise ValueError(f"{policyPath} is not a YAML mapping")
     return loadHygienePolicy(raw.get("issueHygiene"))
-
-
-def probesFor(root: Path, census: Any, policy: HygienePolicy) -> dict[str, dict]:
-    names = {Path(entry).name for entry in policy.a5Disabled}
-    for row in census.openIssues():
-        if isinstance(row.get("title"), str) and row["title"].startswith("[aw]"):
-            names.update(name for name in workflowRunnables(row.get("body") or ""))
-    return {name: probeWorkflow(root, name) for name in sorted(names)}
 
 
 def cell(text: Any) -> str:
@@ -267,7 +259,7 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
 
     census = loadCensus(censusPath, now=now, maxAgeSeconds=policy.maxCensusAgeSeconds)
     registry = buildRegistryIndex(root)
-    probes = probesFor(root, census, policy)
+    probes = workflowProbesFor(root, census, policy)
     manifest = reconcile(census, registry, policy, now, workflowDisabled=probes)
 
     if args.out is not None:

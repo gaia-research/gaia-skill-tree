@@ -146,6 +146,15 @@ def probeWorkflow(root: Path, relPath: str) -> dict:
     return result
 
 
+def workflowProbesFor(root: Path, census: Census, policy: HygienePolicy) -> dict[str, dict]:
+    """Probe every workflow that policy or an open gh-aw report names, keyed by bare file name."""
+    names = {entry.rsplit("/", 1)[-1] for entry in policy.a5Disabled}
+    for row in census.openIssues():
+        if isinstance(row.get("title"), str) and row["title"].startswith("[aw]"):
+            names.update(workflowRunnables(row.get("body") or ""))
+    return {name: probeWorkflow(root, name) for name in sorted(names)}
+
+
 def workflowRunnables(body: str) -> list[str]:
     """Runnable workflow files named by a report body. A gh-aw ``.md`` source maps to its ``.lock.yml``."""
     names = set()
@@ -737,5 +746,6 @@ __all__ = [
     "probeWorkflow",
     "questionId",
     "reconcile",
+    "workflowProbesFor",
     "workflowRunnables",
 ]
