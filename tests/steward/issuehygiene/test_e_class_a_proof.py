@@ -2,7 +2,9 @@
 
 Built on the reconciler helpers of test_b_reconcile. Each rule gets a positive control and a
 table of missing-proof negatives. Authority may only be downgraded (A -> B -> C -> none), never
-raised by added doubt. Three defects found while writing these are strict xfails with repro.
+raised by added doubt. The three defects these tests first pinned as strict xfails (A2 owned-
+elsewhere child, A2 unknown listed child, A3 superseder closed in the same pass) are fixed and
+their xfail markers removed.
 """
 
 from __future__ import annotations
@@ -156,57 +158,96 @@ def test_a2_missing_suite_record_is_never_a(tmp_path: Path) -> None:
     assert authorityOf(run(a2Census(), tmp_path), 20) != "A"
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DEFECT (A2 proof gap): child #30 is listed in newer umbrella #21's body but its Umbrella is #20. "
-        "buildGraph records a child-ref-parent-mismatch conflict and drops it, so #21 has zero dependencies "
-        "and is A2-closed as completed while #30 is still open. A parent conflict must make the item unknown (B)."
-    ),
-)
 def test_a2_umbrella_listing_an_open_child_owned_elsewhere_is_not_a(tmp_path: Path) -> None:
+    """Child #30 is open, listed by newer #21 and owned by #20: #21 keeps it as an open dependency."""
+
     writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
     older = umbrellaRow(20, "obra/superpowers", "v6.0.0")
     newer = umbrellaRow(21, "obra/superpowers", "v7.0.0", extraBody="Child intakes:\n- [ ] #30 writing-skills\n")
     child = childRow(30, "obra/writing-skills", BLOB, parent=20)
     manifest = run(censusOf([older, newer, child]), tmp_path)
     assert authorityOf(manifest, 21) != "A"
+    assert item(manifest, 21)["authority"] == "B"
+    assert item(manifest, 21)["dependencies"] == [30]
+    assert "listed-child-owned-elsewhere:30" in item(manifest, 21)["notProven"]
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DEFECT (A2 proof gap): umbrella #20 lists child #10 in its Child intakes, but the census holds no row "
-        "for #10 (absent from open and recentlyClosed). It is A2-closed as completed with dependencies []. "
-        "Openness of #10 is unknown, so zero open children is not proven and the umbrella must be B."
-    ),
-)
 def test_a2_umbrella_listing_a_child_the_census_does_not_hold_is_not_a(tmp_path: Path) -> None:
+    """Listed #10 has no row (not open, not in the closed window), so its openness is unknown: B."""
+
     writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
     listed = umbrellaRow(20, "obra/superpowers", "v7.0.0", extraBody="Child intakes:\n- [ ] #10 writing-skills\n")
-    assert authorityOf(run(censusOf([listed]), tmp_path), 20) != "A"
+    manifest = run(censusOf([listed]), tmp_path)
+    assert authorityOf(manifest, 20) != "A"
+    assert "listed-child-unknown:10" in item(manifest, 20)["unknowns"]
+
+
+def test_a2_umbrella_listing_a_child_known_closed_in_the_window_stays_a(tmp_path: Path) -> None:
+    """Closed-window evidence proves the listed child is closed, so the listing adds no dependency."""
+
+    writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
+    listed = umbrellaRow(20, "obra/superpowers", "v7.0.0", extraBody="Child intakes:\n- [ ] #10 writing-skills\n")
+    closedChild = closedCopy(childRow(10, "obra/writing-skills", BLOB))
+    manifest = run(censusOf([listed], closed=[closedChild]), tmp_path)
+    assert authorityOf(manifest, 20) == "A"
+    assert item(manifest, 20)["dependencies"] == []
+
+
+def test_a2_umbrella_listing_an_open_pull_request_is_not_a_child_and_stays_a(tmp_path: Path) -> None:
+    """A listed number that the census holds as an open pull request is known, and is not an open child."""
+
+    writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
+    listed = umbrellaRow(20, "obra/superpowers", "v7.0.0", extraBody="Child intakes:\n- [ ] #40 sync pull\n")
+    openPull = mkRow(40, "[upstream sync] obra/superpowers v6.0.0", "", isPullRequest=True, mergedAt=None, state="open")
+    manifest = run(censusOf([listed, openPull]), tmp_path)
+    assert authorityOf(manifest, 20) == "A"
+
+
+def test_a2_umbrella_listing_an_untracked_open_issue_is_known_and_stays_a(tmp_path: Path) -> None:
+    writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
+    listed = umbrellaRow(20, "obra/superpowers", "v7.0.0", extraBody="Child intakes:\n- [ ] #50 unrelated\n")
+    other = mkRow(50, "Human question about the release", "no intake here", labels=())
+    assert authorityOf(run(censusOf([listed, other]), tmp_path), 20) == "A"
 
 
 # ------------------------------------------------------------------ rule A3 (superseded umbrellas)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DEFECT (A3 superseder): older umbrella #20 is A3-closed as superseded by #21, while #21 is A2-closed "
-        "as completed in the same pass (its registry is at v7 and it has no dependencies). The superseder is "
-        "not open afterwards, so #20's unresolved child #30 loses its parent. Contract 3.4 A3 requires an OPEN "
-        "superseder; a superseder planned for closure in the same pass must not justify the older closure."
-    ),
-)
 def test_a3_superseder_is_not_closed_in_the_same_pass_as_the_umbrella_it_supersedes(tmp_path: Path) -> None:
+    """Newer #21 is A2-closable this pass (registry at v7, no dependencies). Older #20 may not be A3 on it.
+
+    Child #30 is A1-curated, so it adds no listing requirement, and #21 is closed as completed in the
+    same pass. A3 then rests on a superseder that is closed, so #20 is downgraded to B and not closed.
+    """
+
     writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
+    writeNamed(tmp_path, "obra/writing-skills", GOOD_RECORD)
+    older = umbrellaRow(20, "obra/superpowers", "v6.0.0", adds=["writing-skills"])
+    newer = umbrellaRow(21, "obra/superpowers", "v7.0.0", adds=["writing-skills"])
+    child = childRow(30, "obra/writing-skills", BLOB, parent=20)
+    manifest = run(censusOf([older, newer, child]), tmp_path)
+    assert plannedIssues(manifest) == {21: "A2-umbrella-synced", 30: "A1-child-curated"}
+    assert authorityOf(manifest, 20) == "B"
+    assert "superseder-closed-in-pass:#21" in item(manifest, 20)["notProven"]
+    assert item(manifest, 20)["canonical"] is None
+    assert not any(entry["type"] == "policy" for entry in item(manifest, 20)["evidence"])
+
+
+def test_a3_superseder_with_an_identity_conflict_is_never_relied_on_even_when_numbered_after_the_older(tmp_path: Path) -> None:
+    """Newer #21's title disagrees with its payload, so it has identity reasons and cannot be a superseder.
+
+    The superseder is evaluated after #20, so only its identity reasons (not yet its unknowns) can stop A3.
+    """
+
+    writeNamed(tmp_path, "obra/superpowers", SUITE_V6)
     older = umbrellaRow(20, "obra/superpowers", "v6.0.0", adds=["writing-skills"])
     newer = umbrellaRow(21, "obra/superpowers", "v7.0.0", adds=["writing-skills"],
-                        extraBody="Child intakes:\n- [ ] #30 writing-skills\n")
+                        title="[upstream] obra/other-suite → v7.0.0", extraBody="Child intakes:\n- [ ] #30 writing-skills\n")
     child = childRow(30, "obra/writing-skills", BLOB, parent=20)
-    planned = plannedIssues(run(censusOf([older, newer, child]), tmp_path))
-    assert not (20 in planned and 21 in planned)
+    manifest = run(censusOf([older, newer, child]), tmp_path)
+    assert item(manifest, 21)["unknowns"]  # the identity conflict is recorded on the superseder
+    assert item(manifest, 20)["ruleId"] != "A3-umbrella-superseded"
+    assert authorityOf(manifest, 20) != "A"
 
 
 def test_a3_positive_superseded_umbrella_closes_while_the_open_superseder_stays_open(tmp_path: Path) -> None:

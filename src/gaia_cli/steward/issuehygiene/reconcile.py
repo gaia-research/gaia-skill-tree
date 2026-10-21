@@ -191,6 +191,8 @@ class Draft:
         self.forcedC = False
         self.a1Ok = False
         self.exact: NamedRecord | None = None
+        # Evidence for an A3 proof. It joins ``evidence`` only if the superseder stays open after the pass.
+        self.pendingEvidence: list[dict] = []
 
 
 class Context:
@@ -449,6 +451,9 @@ def evaluateUmbrella(ctx: Context, draft: Draft) -> None:
         failures.append("newer-umbrella-open")
     if identity.version is None or repoId is None:
         failures.append("version-or-suite-unknown")
+    for childNumber in draft.dependencies:
+        if ctx.graph.items[childNumber].parent != draft.number:
+            failures.append(f"listed-child-owned-elsewhere:{childNumber}")
 
     suiteRecords = [entry for entry in ctx.registry.unreadable if entry.pathId == repoId]
     if repoId and suiteRecords:
@@ -479,7 +484,8 @@ def evaluateUmbrella(ctx: Context, draft: Draft) -> None:
         draft.proofRule = RULE_A3
         draft.canonical = newest
         draft.confidence = "proven"
-        draft.evidence.append(ev("issue", f"#{newest}", ctx.drafts[newest].row.get("bodySha256"), "newer open umbrella of the same suite lists every open child"))
+        draft.pendingEvidence.append(ev("policy", "founder/steward/POLICY.yaml", None, "issueHygiene.enabledRules"))
+        draft.pendingEvidence.append(ev("issue", f"#{newest}", ctx.drafts[newest].row.get("bodySha256"), "newer open umbrella of the same suite lists every open child"))
         return
     draft.state = STATE_AMBIGUOUS if draft.unknowns else STATE_ACTIONABLE
     draft.confidence = "medium" if draft.unknowns else "high"
@@ -489,7 +495,8 @@ def a3Ok(ctx: Context, draft: Draft, umbrellas: tuple[int, ...]) -> bool:
     newestNumber = umbrellas[-1]
     newer = ctx.drafts[newestNumber]
     reasons: list[str] = []
-    if newer.unknowns:
+    # Identity reasons are read directly: a higher-numbered superseder has not been evaluated yet.
+    if newer.unknowns or newer.identity.reasons:
         reasons.append("superseder-unknown-facts")
     if draft.identity.version is None or newer.identity.version is None:
         reasons.append("version-unknown")
@@ -516,7 +523,6 @@ def a3Ok(ctx: Context, draft: Draft, umbrellas: tuple[int, ...]) -> bool:
     if reasons:
         draft.notProven.extend(reasons)
         return False
-    draft.evidence.append(ev("policy", "founder/steward/POLICY.yaml", None, "issueHygiene.enabledRules"))
     return True
 
 
@@ -575,6 +581,19 @@ def finalize(ctx: Context, draft: Draft) -> None:
         return
     if draft.forcedC:
         return
+    if draft.proofRule == RULE_A3 and not draft.unknowns:
+        superseder = ctx.drafts[draft.canonical]
+        if superseder.authority == AUTH_A:
+            # A3 needs its superseder open after the pass. A superseder A-closed in this same pass
+            # would leave the older umbrella superseded by a closed item, so the older one is downgraded.
+            draft.notProven.append(f"superseder-closed-in-pass:#{superseder.number}")
+            draft.proofRule = None
+            draft.canonical = None
+            draft.state = STATE_ACTIONABLE
+            draft.confidence = "high"
+            draft.pendingEvidence = []
+        else:
+            draft.evidence.extend(draft.pendingEvidence)
     if draft.proofRule is not None and not draft.unknowns:
         rule = draft.proofRule
         draft.ruleId = rule
@@ -700,7 +719,8 @@ def reconcile(
     rowsOpen = [row for row in census.openIssues() if isinstance(row.get("number"), int)] if document is not None else []
     rowsClosed = census.rows("recentlyClosed") if document is not None else []
     ctx = Context(census, registryIndex, policy, workflowDisabled)
-    ctx.graph = buildGraph(rowsOpen, rowsClosed)
+    openPulls = census.openPulls() if document is not None else []
+    ctx.graph = buildGraph(rowsOpen, rowsClosed, openPulls)
     ctx.mergedSyncs = [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None else []
     for row in rowsClosed:
         if isinstance(row.get("number"), int) and not row.get("isPullRequest"):
@@ -730,8 +750,13 @@ def reconcile(
             draft = ctx.drafts[number]
             if draft.kind == "umbrella":
                 evaluateUmbrella(ctx, draft)
+        # A3 reads its superseder's final authority, so superseded umbrellas are finalized after all others.
         for number in sorted(ctx.drafts):
-            finalize(ctx, ctx.drafts[number])
+            if ctx.drafts[number].proofRule != RULE_A3:
+                finalize(ctx, ctx.drafts[number])
+        for number in sorted(ctx.drafts):
+            if ctx.drafts[number].proofRule == RULE_A3:
+                finalize(ctx, ctx.drafts[number])
 
     items = [itemOut(ctx, ctx.drafts[number]) for number in sorted(ctx.drafts)]
     unknownCoverage = [f"census:{status.status}"] + list(status.reasons) if not complete else []
