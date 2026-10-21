@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-class-b-throughput",
+  "status": "open",
+  "decision": "Amend the Class B lane throughput: raise routing.lane.maxInFlight from 1 to 2, keeping maxDispatchesPerRun 1, maxAttempts 2 and cooldownSeconds 3600?",
+  "whyItMatters": "With maxInFlight 1 the lane advances one debt per verified review, so a backlog drains only as fast as a person closes each item. Raising it trades review load for throughput.",
+  "evidence": [
+    "Code pins maxDispatchesPerRun to exactly 1 and caps maxInFlight at 4; policy can only narrow.",
+    "The shared ledger serializes dispatch through a fast-forward-only compare-and-swap; concurrency tests show exactly one lease winner and no duplicate work.",
+    "Independent verification is enforced: a verifier verdict from the builder's own agent id is refused."
+  ],
+  "recommended": "Raise maxInFlight to 2 after the first ten /gaia-steward-full runs show zero verifier overturns of accepted work.",
+  "alternative": "Keep maxInFlight 1 until a quarter of measured closure and no-op rates exists.",
+  "unblocks": "Two concurrent bounded Class B repairs (builder plus independent verifier each).",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "src/gaia_cli/steward/policy.py"
+  ]
+}

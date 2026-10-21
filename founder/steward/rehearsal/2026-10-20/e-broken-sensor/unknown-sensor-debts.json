@@ -1,0 +1,172 @@
+[
+ {
+  "authority": {
+   "class": "B"
+  },
+  "confidence": 1.0,
+  "currentState": {
+   "coverage": "known"
+  },
+  "firstObservedAt": "2026-10-20T21:22:24Z",
+  "id": "debt:sensor_coverage_unknown:evidence-link-health:32fd203c1fe62646",
+  "kind": "sensor_coverage_unknown",
+  "lastObservedAt": "2026-10-20T21:25:59Z",
+  "observationCount": 4,
+  "observedState": {
+   "coverage": "unknown",
+   "error": "required named-skill records are missing: registry/named (required inventory is empty: registry/named)",
+   "errorType": "SensorUnavailable"
+  },
+  "priority": {
+   "decisionImpact": 0.8,
+   "expectedCost": 0.3,
+   "exposure": 0.8,
+   "freshnessNeed": 1.0,
+   "importance": 0.8,
+   "score": 1.706667
+  },
+  "schemaVersion": "steward-debt-v1",
+  "source": "steward-controller",
+  "status": "open",
+  "subject": {
+   "id": "evidence-link-health",
+   "type": "sensor"
+  }
+ },
+ {
+  "authority": {
+   "class": "B"
+  },
+  "confidence": 1.0,
+  "currentState": {
+   "coverage": "known"
+  },
+  "firstObservedAt": "2026-10-20T21:22:24Z",
+  "id": "debt:sensor_coverage_unknown:frozen-skill-integrity:d7f875f0062c1f8d",
+  "kind": "sensor_coverage_unknown",
+  "lastObservedAt": "2026-10-20T21:25:59Z",
+  "observationCount": 4,
+  "observedState": {
+   "coverage": "unknown",
+   "error": "required named-skill records are missing: registry/named (required inventory is empty: registry/named)",
+   "errorType": "SensorUnavailable"
+  },
+  "priority": {
+   "decisionImpact": 0.8,
+   "expectedCost": 0.3,
+   "exposure": 0.8,
+   "freshnessNeed": 1.0,
+   "importance": 0.8,
+   "score": 1.706667
+  },
+  "schemaVersion": "steward-debt-v1",
+  "source": "steward-controller",
+  "status": "open",
+  "subject": {
+   "id": "frozen-skill-integrity",
+   "type": "sensor"
+  }
+ },
+ {
+  "authority": {
+   "class": "B"
+  },
+  "confidence": 1.0,
+  "currentState": {
+   "coverage": "known"
+  },
+  "firstObservedAt": "2026-10-20T21:22:24Z",
+  "id": "debt:sensor_coverage_unknown:timeline-causality:28ab70ee85b089c4",
+  "kind": "sensor_coverage_unknown",
+  "lastObservedAt": "2026-10-20T21:25:59Z",
+  "observationCount": 4,
+  "observedState": {
+   "coverage": "unknown",
+   "error": "required inventory is empty: registry/named/",
+   "errorType": "SensorUnavailable"
+  },
+  "priority": {
+   "decisionImpact": 0.8,
+   "expectedCost": 0.3,
+   "exposure": 0.8,
+   "freshnessNeed": 1.0,
+   "importance": 0.8,
+   "score": 1.706667
+  },
+  "schemaVersion": "steward-debt-v1",
+  "source": "steward-controller",
+  "status": "open",
+  "subject": {
+   "id": "timeline-causality",
+   "type": "sensor"
+  }
+ },
+ {
+  "authority": {
+   "class": "B"
+  },
+  "confidence": 1.0,
+  "currentState": {
+   "coverage": "known"
+  },
+  "firstObservedAt": "2026-10-20T21:22:24Z",
+  "id": "debt:sensor_coverage_unknown:trust-calibration-drift:0902d5d2c4a819a7",
+  "kind": "sensor_coverage_unknown",
+  "lastObservedAt": "2026-10-20T21:25:59Z",
+  "observationCount": 4,
+  "observedState": {
+   "coverage": "unknown",
+   "error": "required named-skill records are missing: registry/named (required inventory is empty: registry/named)",
+   "errorType": "SensorUnavailable"
+  },
+  "priority": {
+   "decisionImpact": 0.8,
+   "expectedCost": 0.3,
+   "exposure": 0.8,
+   "freshnessNeed": 1.0,
+   "importance": 0.8,
+   "score": 1.706667
+  },
+  "schemaVersion": "steward-debt-v1",
+  "source": "steward-controller",
+  "status": "open",
+  "subject": {
+   "id": "trust-calibration-drift",
+   "type": "sensor"
+  }
+ },
+ {
+  "authority": {
+   "class": "B"
+  },
+  "confidence": 1.0,
+  "currentState": {
+   "coverage": "known"
+  },
+  "firstObservedAt": "2026-10-20T21:22:24Z",
+  "id": "debt:sensor_coverage_unknown:upstream-watcher:afd1b3cc14e0d7ca",
+  "kind": "sensor_coverage_unknown",
+  "lastObservedAt": "2026-10-20T21:25:59Z",
+  "observationCount": 4,
+  "observedState": {
+   "coverage": "unknown",
+   "error": "required named-skill records are missing: registry/named (required inventory is empty: registry/named)",
+   "errorType": "SensorUnavailable"
+  },
+  "priority": {
+   "decisionImpact": 0.8,
+   "expectedCost": 0.3,
+   "exposure": 0.8,
+   "freshnessNeed": 1.0,
+   "importance": 0.8,
+   "score": 1.706667
+  },
+  "schemaVersion": "steward-debt-v1",
+  "source": "steward-controller",
+  "status": "open",
+  "subject": {
+   "id": "upstream-watcher",
+   "type": "sensor"
+  }
+ }
+]

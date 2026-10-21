@@ -1,0 +1,95 @@
+== landing branch log (oneline, with parents)
+53207e5e0cf2d7dcfc2d441cbad26c23628921c5 parents=bbc02ba8236fc34899c8de5d9200df6fa9dbd345 Gaia Steward <steward@gaiaskilltree.invalid> chore(steward): repair agent_skill_mirror_drift (agent-skill-mirror)
+bbc02ba8236fc34899c8de5d9200df6fa9dbd345 parents=cc2edfa00bce1c1fea3f1a39972f2211306ad3a9 Rehearsal <rehearsal@example.invalid> seed mirror drift (claude copy only)
+cc2edfa00bce1c1fea3f1a39972f2211306ad3a9 parents=70ca86e9696e051edd1e105f46736b32d157e67f Claude <noreply@anthropic.com> rehearsal(steward-full): scenario A clean run receipts
+== merge-base with dev/rehearsal and main
+bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+== commits on branch not on dev/rehearsal
+1
+== commits on dev/rehearsal not on branch
+0
+== is dev/rehearsal an ancestor of branch?
+yes
+== diff dev/rehearsal..branch --stat
+ .claude/skills/gaia-steward-desk/SKILL.md | 1 -
+ 1 file changed, 1 deletion(-)
+== blob ids: branch .claude vs dev/rehearsal .agents
+75c6ecfd816793e7f57fe705011fdb22dc967915
+75c6ecfd816793e7f57fe705011fdb22dc967915
+== tree ids of mirror dir: branch .claude/skills vs .agents/skills
+c5b992207252de311f901d8b4de0bae28dd57449
+c5b992207252de311f901d8b4de0bae28dd57449
+== full commit message
+chore(steward): repair agent_skill_mirror_drift (agent-skill-mirror)
+
+Class A mechanical mirror repair on origin/dev/rehearsal.
+Changed paths (1):
+- .claude/skills/gaia-steward-desk/SKILL.md
+
+Steward-Debt: debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311
+Steward-Executor: agent-skill-mirror
+
+== main sha
+bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+== is landing branch on main?
+no
+== branch list (heads only; tags omitted)
+refs/heads/dev/rehearsal bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+refs/heads/main bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+refs/heads/steward/a/agent-skill-mirror-drift-0aee04a4316a 53207e5e0cf2d7dcfc2d441cbad26c23628921c5
+refs/heads/steward/ledger 640035703b947a3f6e511c532642ff626c3f0531
+== ledger work item
+{
+ "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311": {
+  "assignments": [],
+  "authority": "A",
+  "baseBranch": "dev/rehearsal",
+  "branch": "steward/a/agent-skill-mirror-drift-0aee04a4316a",
+  "branchHead": "53207e5e0cf2d7dcfc2d441cbad26c23628921c5",
+  "build": null,
+  "createdAt": "2026-10-20T21:11:27.150096Z",
+  "debtId": "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311",
+  "history": [
+   {
+    "at": "2026-10-20T21:11:31.068843Z",
+    "from": "queued",
+    "reason": "branch steward/a/agent-skill-mirror-drift-0aee04a4316a pushed",
+    "to": "proposed"
+   }
+  ],
+  "kind": "agent_skill_mirror_drift",
+  "notes": [
+   {
+    "at": "2026-10-20T21:13:01.911493Z",
+    "note": "awaiting merge of the proposed branch; debt still open"
+   }
+  ],
+  "pullRequest": null,
+  "pushed": true,
+  "routine": "agent-skill-mirror",
+  "runId": "run-20261020T210947Z-dfee4290",
+  "source": "agent-skill-mirror",
+  "state": "proposed",
+  "updatedAt": "2026-10-20T21:11:31.068843Z",
+  "verification": null
+ }
+}
+{
+ "runId": "run-20261020T210947Z-dfee4290",
+ "status": "awaiting-action",
+ "phase": "done",
+ "branches": [
+  {
+   "branch": "steward/a/agent-skill-mirror-drift-0aee04a4316a",
+   "commit": "53207e5e0cf2d7dcfc2d441cbad26c23628921c5",
+   "debtId": "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311",
+   "pushed": true
+  }
+ ],
+ "integrationBranch": "dev/rehearsal",
+ "integrationHead": "bbc02ba8236fc34899c8de5d9200df6fa9dbd345",
+ "sourceHead": "bbc02ba8236fc34899c8de5d9200df6fa9dbd345",
+ "nextAction": "perform 1 pending action(s) (forge.open_pr), record each with `gaia steward full record run-20261020T210947Z-dfee4290 <stepId> --input FILE`, then `gaia steward full run --resume run-20261020T210947Z-dfee4290`"
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-timeline-order-1699",
+  "status": "open",
+  "decision": "Correct the three named skills whose hand-authored #1699 demote event (2026-09-05) sits ahead of older events, or rule that order is not significant?",
+  "whyItMatters": "Timeline arrays are canonical provenance and may not be hand-edited; the CLI auto-sorts backfilled events, so these three were written outside it.",
+  "evidence": [
+    "gaiabot/repo-docs-before-pr, google-deepmind/workflow-skill-creator, xquik-dev/hermes-tweet: event 0 at 2026-09-05T00:00:00Z precedes event 1 in June 2026.",
+    "All 3689 other events across 398 named skills are chronological."
+  ],
+  "recommended": "Authorize a CLI-driven re-sort (no new events, no timestamp changes) on a review/meta branch.",
+  "alternative": "Rule that array order is display-only and exempt hand-authored demotes from the ordering check.",
+  "unblocks": "Retiring three timeline_causality_drift debts.",
+  "links": [
+    "src/gaia_cli/steward/sensors_contracts.py"
+  ]
+}

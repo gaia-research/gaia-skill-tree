@@ -34,6 +34,8 @@ class RepositoryHygieneSensor:
     """Report enumerated Class P paths present in Git's tracked index."""
 
     id = "repository-hygiene"
+    debt_kinds = ("repository_hygiene",)
+    routine_ids = (12,)
     debt_kind = "repository_hygiene"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:

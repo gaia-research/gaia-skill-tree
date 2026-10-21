@@ -1,0 +1,81 @@
+{
+ "generation": 3,
+ "lane": null,
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-10-20T21:29:37.204245Z",
+   "expiresAt": "2026-10-20T21:59:37.763300Z",
+   "holder": "run-20261020T212937Z-0747e399"
+  }
+ },
+ "runs": {
+  "run-20261020T212937Z-0747e399": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/rehearsal",
+   "integrationHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:29:37.204245Z",
+     "holder": "run-20261020T212937Z-0747e399",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "observe",
+   "phases": {
+    "reconcile": {
+     "integrationBranch": "dev/rehearsal",
+     "integrationHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+     "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+     "unresolvedWork": 0
+    }
+   },
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261020T212937Z-0747e399",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:29:37.204245Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-10-20T21:29:37.204245Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:29:37.721701Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  }
+ },
+ "schemaVersion": "steward-ledger-v1",
+ "updatedAt": "2026-10-20T21:29:37.763426Z",
+ "work": {}
+}

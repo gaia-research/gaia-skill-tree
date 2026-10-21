@@ -1,0 +1,1285 @@
+{
+ "_truncated": "receipt >200KB: per-run phases/desk payloads collapsed to sizes; other keys verbatim",
+ "generation": 33,
+ "lane": {
+  "entries": [
+   {
+    "attempts": 1,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     },
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-241305ea9ef1a8c1c959",
+      "to": "dispatched"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "dispatched"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-constraint-driven-development:d6c121b73376ffa8",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-context-engineering:38713424068efdc9",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-deprecation-and-migration:e299b568ed7924f9",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-documentation-and-adrs:71f59023d679c4f4",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-doubt-driven-development:1970cc947c1908ab",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-frontend-ui-engineering:7e570e8b5000a5f7",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-observability-and-instrumentation:5897ba0f51ffb5ea",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-security-and-hardening:fc8b041e6aaeb69f",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:addy-osmani-source-driven-development:36d82ca1b3b2aefa",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-academic-verify:7d479bf3f545a339",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-archive-crawler:38c4539344a64cd4",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-blog-ingest:f9a97a581b8c3129",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-book-mirror:0020c93e4086667f",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-bulk-ingestion:386644ff6be51fae",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-citation-graph-ingest:28d55cbcaf06e32c",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-context-audit:78a1013ec973a6e1",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-conversation-archive:eb825b75fc8b06ae",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-data-research:c2b78eab9735e399",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-draft-in-voice:9f53cd3a05e0dde4",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-fact-check:4ddabf6f818df291",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-functional-area-resolver:e53d18d5fbcac226",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-idea-lineage:61c56154fa719625",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-measure-before-you-fix:a57561bbb0c85c83",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-meeting-ingestion:a9f7af12ef9aa0e7",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-minion-orchestrator:86b4dabbd31381af",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-remote-mcp:e7a866ed9c20fe7d",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-research-compendium:8cb3125974989d07",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-signal-detector:a051553ff5c2da0d",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-skill-autobench:cf98cc5c77520b9d",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-skill-optimizer:13c9a0aa0758b60d",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-strategic-reading:2c34cc6e179ada31",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:garrytan-two-tier-extraction:c9dbe095f5c7dd44",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:heygen-com-general-video:87c519fd0ae0c4ea",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-pymc:6135d2b14d874005",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-pytorch-lightning:35a394d0963071f6",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-qiskit:db42d2b34f83058c",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-scanpy:c19b0c2690a0335a",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-stable-baselines3:998a4027d59f8bf4",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-torch-geometric:240f8bd4f6a00434",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:k-dense-ai-transformers:93ddb238b71db84e",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:latent-spaces-brag:8aa4e69fd0964bb2",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:mattpocock-tdd:8c7e8383c78d4d98",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:obra-test-driven-development:b64ffeb35772ede5",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:obra-writing-skills:e7cdf3c4750a4353",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:pexp13-sentiment-analysis:37c1a81c50abd2fa",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:trust_calibration_drift:xquik-dev-hermes-tweet:826323c8dc248016",
+    "firstQueuedAt": "2026-10-20T21:31:24.923709Z",
+    "history": [
+     {
+      "at": "2026-10-20T21:31:24.923709Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-20T21:31:24.923709Z",
+    "lastVerdict": null,
+    "priority": 2.916,
+    "rule": "trust-calibration-drift",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   }
+  ],
+  "policy": {
+   "cooldownSeconds": 3600,
+   "maxAttempts": 2,
+   "maxInFlight": 1
+  },
+  "schemaVersion": "steward-lane-v1"
+ },
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-10-21T07:05:33.188940Z",
+   "expiresAt": "2026-10-21T07:37:16.585374Z",
+   "holder": "run-20261021T070533Z-37db101a"
+  }
+ },
+ "runs": {
+  "run-20261020T212937Z-0747e399": {
+   "abandonedAt": "2026-10-21T07:05:33.188940Z",
+   "abandonedBy": "run-20261021T070533Z-37db101a",
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "emittedAt": "2026-10-20T21:31:24.923709Z",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet"
+      ],
+      "attempt": 1,
+      "base": "dev/rehearsal",
+      "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+      "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261020T212937Z-0747e399/build-0bdd26975824.diff",
+       "proofPath": ".gaia/steward/full/run-20261020T212937Z-0747e399/build-0bdd26975824.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261020T212937Z-0747e399/build-0bdd26975824.prompt.md"
+     },
+     "status": "superseded",
+     "stepId": "build:0bdd26975824:1",
+     "supersededAt": "2026-10-21T07:05:33.188940Z",
+     "supersededBy": "run-20261021T070533Z-37db101a",
+     "type": "agent.build"
+    }
+   ],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "desk": "<11854 bytes omitted>",
+   "finishedAt": null,
+   "floor": {
+    "branch": "dev/rehearsal",
+    "ok": true,
+    "reason": null
+   },
+   "integrationBranch": "dev/rehearsal",
+   "integrationHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:29:37.204245Z",
+     "holder": "run-20261020T212937Z-0747e399",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "abandoned: lease expired; its unfinished work was adopted",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "class_b",
+   "phases": "<62989 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T212944Z-673ed688211dc2d2",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T212937Z-0747e399",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-20T21:29:37.204245Z",
+   "status": "abandoned",
+   "steps": [
+    {
+     "at": "2026-10-20T21:29:37.204245Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-20T21:29:37.721701Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-20T21:31:22.992685Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-20T21:31:23.477730Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-20T21:31:24.235095Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-20T21:31:24.923709Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:0bdd26975824:1"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261021T070533Z-37db101a": {
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "emittedAt": "2026-10-21T07:07:16.290313Z",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet"
+      ],
+      "attempt": 1,
+      "base": "dev/rehearsal",
+      "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+      "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261021T070533Z-37db101a/build-0bdd26975824.diff",
+       "proofPath": ".gaia/steward/full/run-20261021T070533Z-37db101a/build-0bdd26975824.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261020T212937Z-0747e399/build-0bdd26975824.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:0bdd26975824:1",
+     "type": "agent.build"
+    }
+   ],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "desk": "<11854 bytes omitted>",
+   "finishedAt": null,
+   "floor": {
+    "branch": "dev/rehearsal",
+    "ok": true,
+    "reason": null
+   },
+   "integrationBranch": "dev/rehearsal",
+   "integrationHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-21T07:05:33.188940Z",
+     "holder": "run-20261021T070533Z-37db101a",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261021T070533Z-37db101a <stepId> --input FILE`, then `gaia steward full run --resume run-20261021T070533Z-37db101a`",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "class_b",
+   "phases": "<63013 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261021T070535Z-406a1302d6b35160",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261021T070533Z-37db101a",
+   "sourceHead": "6d0097d7405dc40d6b1d5d5af5a4e41c7fb590d0",
+   "startedAt": "2026-10-21T07:05:33.188940Z",
+   "status": "awaiting-action",
+   "steps": [
+    {
+     "at": "2026-10-21T07:05:33.188940Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-21T07:05:34.741417Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
+    },
+    {
+     "at": "2026-10-21T07:07:14.460615Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-21T07:07:14.902165Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-10-21T07:07:15.568085Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-21T07:07:16.290313Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:0bdd26975824:1"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+     "previousRun": "run-20261020T212937Z-0747e399",
+     "state": "building"
+    }
+   ]
+  }
+ },
+ "schemaVersion": "steward-ledger-v1",
+ "updatedAt": "2026-10-21T07:07:16.585489Z",
+ "work": {
+  "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
+   "adoptedBy": "run-20261021T070533Z-37db101a",
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/rehearsal",
+   "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+   "build": null,
+   "createdAt": "2026-10-20T21:31:24.923709Z",
+   "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+   "dispatchId": "dispatch-241305ea9ef1a8c1c959",
+   "dispatchedAt": "2026-10-20T21:31:24.923709Z",
+   "history": [
+    {
+     "at": "2026-10-20T21:31:24.923709Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-241305ea9ef1a8c1c959 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261020T212937Z-0747e399/build-0bdd26975824.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261021T070533Z-37db101a",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-10-20T21:31:24.923709Z",
+   "verification": null
+  }
+ }
+}

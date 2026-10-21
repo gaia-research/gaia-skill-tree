@@ -20,17 +20,38 @@ from gaia_cli.steward.mirrors import (
     MirrorSpec,
     is_ignored as _is_ignored,
 )
-from gaia_cli.steward.models import Observation, Subject, stable_json
+from gaia_cli.registryMaps import buildMergedSkillMap
+from gaia_cli.steward.models import Observation, SensorScan, Subject, stable_json
+from gaia_cli.steward.primitives.files import SensorUnavailable, SkipLog, tracked_files
+from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
 from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
 from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
 
 
+
+def schemaViolation(error: Any) -> str:
+    """Describe a jsonschema error by keyword and location, never by the offending value.
+
+    ``error.message`` embeds the instance (``'x' is not of type ...``), which
+    can carry a credential or private text into debt and receipts.
+    """
+
+    keyword = error.validator if isinstance(error.validator, str) and error.validator.isidentifier() else "unknown"
+    parts = [str(part).replace("~", "~0").replace("/", "~1") for part in error.absolute_path]
+    pointer = scrub("/" + "/".join(parts))[:160] if parts else "/"
+    return f"schema {pointer}: {keyword} violation"
+
 class Sensor(Protocol):
     id: str
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        """Return observations without changing repository state."""
+        """Return observations without changing repository state.
+
+        A sensor that can fail to evaluate individual subjects (not just fail
+        outright) also defines ``scan_detailed`` returning a ``SensorScan``;
+        the controller prefers it so the skipped subjects reach the receipt.
+        """
 
 
 @dataclass(frozen=True)
@@ -99,6 +120,8 @@ class BundledSchemaMirrorSensor:
     """Compare both schema trees recursively and byte-for-byte."""
 
     id = BUNDLED_SCHEMA_MIRROR.id
+    debt_kinds = ("bundled_schema_mirror_drift",)
+    routine_ids = (8,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return [_mirror_observation(BUNDLED_SCHEMA_MIRROR, repo_root, observed_at)]
@@ -108,6 +131,8 @@ class AgentSkillMirrorSensor:
     """Compare the checked-in agent skill mirrors recursively."""
 
     id = AGENT_SKILL_MIRROR.id
+    debt_kinds = ("agent_skill_mirror_drift",)
+    routine_ids = (12, 17,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return [_mirror_observation(AGENT_SKILL_MIRROR, repo_root, observed_at)]
@@ -126,6 +151,8 @@ class DiscoveryGenericMappingSensor:
     """
 
     id = "discovery-generic-mapping"
+    debt_kinds = ("generic_mapping",)
+    routine_ids = (11,)
     _PACKETS_ROOT = "registry-for-review/discovery-packets"
     _LOCAL_INPUT = ".gaia/steward/discovery-mapping-input.json"
     _INPUT_SCHEMA = "steward-discovery-mapping-input-v1"
@@ -312,6 +339,8 @@ class RegistryIntegritySensor:
     """Validate generic nodes and their local graph references without mutation."""
 
     id = "registry-integrity"
+    debt_kinds = ("registry_integrity_failed",)
+    routine_ids = (7, 11,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         schema_path = repo_root / "registry/schema/skill.schema.json"
@@ -361,16 +390,13 @@ class RegistryIntegritySensor:
                 violations.append({"path": relative, "error": "node must be a JSON object"})
                 continue
             for error in sorted(validator.iter_errors(node), key=lambda item: list(item.path)):
-                pointer = "/" + "/".join(str(part) for part in error.path)
-                violations.append(
-                    {"path": relative, "error": f"schema {pointer}: {error.message}"}
-                )
+                violations.append({"path": relative, "error": schemaViolation(error)})
             skill_id = node.get("id")
             if not isinstance(skill_id, str) or not skill_id:
                 continue
             if path.stem != skill_id:
                 violations.append(
-                    {"path": relative, "error": f"filename does not match id {skill_id!r}"}
+                    {"path": relative, "error": f"filename does not match id {scrub(repr(skill_id))[:160]}"}
                 )
             if skill_id in nodes:
                 first_path = nodes[skill_id][0].relative_to(repo_root).as_posix()
@@ -527,6 +553,8 @@ class CliContractSensor:
     """
 
     id = "cli-contract"
+    debt_kinds = ("cli_contract_drift",)
+    routine_ids = (6,)
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         from gaia_cli.steward.cli_contract import (
@@ -602,6 +630,8 @@ class TaxonomyScriptDriftSensor:
     """Verify rank mapping and evidence type lists across scripts/ and src/ use canonical sources."""
 
     id = "taxonomy-script-drift"
+    debt_kinds = ("taxonomy_script_drift",)
+    routine_ids = (9, 17,)
     _EXCLUDED_RELATIVE_PATHS = frozenset({
         "src/gaia_cli/taxonomy.py",
         "src/gaia_cli/steward/sensors.py",
@@ -623,6 +653,8 @@ class TaxonomyScriptDriftSensor:
 
         self._check_trust_magnitude_evidence_types(repo_root, canonical_types, violations)
         scanned_files_count = self._scan_scripts_and_src(repo_root, canonical_types, violations)
+        if scanned_files_count == 0:
+            raise SensorUnavailable("no Python sources under scripts/ or src/ to compare")
 
         violations.sort(
             key=lambda item: (
@@ -667,24 +699,27 @@ class TaxonomyScriptDriftSensor:
         if not meta_path.is_file():
             meta_path = repo_root / "src/gaia_cli/data/registry/schema/meta.json"
         if not meta_path.is_file():
-            return set()
+            raise SensorUnavailable("canonical evidence types are unavailable: registry/schema/meta.json")
         try:
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
             types = meta.get("evidence", {}).get("types", [])
-            return {
+            canonical = {
                 item["id"]
                 for item in types
                 if isinstance(item, dict) and isinstance(item.get("id"), str)
             }
-        except Exception:
-            return set()
+        except (OSError, ValueError, AttributeError) as exc:
+            raise SensorUnavailable(f"canonical evidence types are unreadable: {exc}") from exc
+        if not canonical:
+            raise SensorUnavailable("canonical evidence type list is empty")
+        return canonical
 
     def _check_trust_magnitude_evidence_types(
         self, repo_root: Path, canonical_types: set[str], violations: list[dict[str, Any]]
     ) -> None:
         tm_path = repo_root / "src/gaia_cli/trustMagnitude.py"
         if not tm_path.is_file():
-            return
+            raise SensorUnavailable("required input is missing: src/gaia_cli/trustMagnitude.py")
         try:
             tree = ast.parse(tm_path.read_text(encoding="utf-8"))
         except Exception as exc:
@@ -707,6 +742,8 @@ class TaxonomyScriptDriftSensor:
                                 if isinstance(k, ast.Constant) and isinstance(k.value, str):
                                     type_weights_keys.add(k.value)
 
+        if not type_weights_keys:
+            raise SensorUnavailable("TYPE_WEIGHTS is not a literal dict in src/gaia_cli/trustMagnitude.py")
         if canonical_types and type_weights_keys:
             missing = sorted(canonical_types - type_weights_keys)
             extra = sorted(type_weights_keys - canonical_types)
@@ -782,6 +819,21 @@ class TaxonomyScriptDriftSensor:
                 if canonical_types:
                     try:
                         tree = ast.parse(text)
+                    except Exception as exc:
+                        # An unparseable file cannot be checked for evidence
+                        # type lists. Dropping it silently would let this
+                        # single aggregate observation read healthy. Like the
+                        # trustMagnitude.py parse failure above, it is a
+                        # finding: the surface is not consistent while a
+                        # script in it cannot be verified.
+                        violations.append({
+                            "path": relative,
+                            "line": 1,
+                            "kind": "parse-error",
+                            "detail": f"cannot parse AST, evidence type lists not checked: {type(exc).__name__}",
+                            "error": f"cannot parse AST, evidence type lists not checked: {type(exc).__name__}",
+                        })
+                    else:
                         for node in ast.walk(tree):
                             if isinstance(node, ast.Assign):
                                 for target in node.targets:
@@ -801,8 +853,6 @@ class TaxonomyScriptDriftSensor:
                                                             "detail": f"unknown evidence type '{elt.value}' in {target.id}",
                                                             "error": f"unknown evidence type '{elt.value}' in {target.id}",
                                                         })
-                    except Exception:
-                        pass
         return scanned_files_count
 
 
@@ -810,6 +860,8 @@ class UpstreamWatcherSensor:
     """Validate upstream tracking configurations and detect un-synced upstream releases or drift."""
 
     id = "upstream-watcher"
+    debt_kinds = ("upstream_drift",)
+    routine_ids = (11, 14,)
     _NAMED_ROOT = "registry/named"
     _WATCHER_ROOT = ".gaia/upstream-watcher"
     _MAX_PACKET_BYTES = 2 * 1024 * 1024
@@ -827,7 +879,7 @@ class UpstreamWatcherSensor:
         tracked_skills: list[str] = []
         manifest: dict[str, str] = {}
 
-        named_dir = repo_root / self._NAMED_ROOT
+        named_dir = _require_named_records(repo_root, self._NAMED_ROOT)
         if named_dir.is_dir():
             for path in sorted(named_dir.rglob("*.md")):
                 relative = path.relative_to(repo_root).as_posix()
@@ -1126,23 +1178,8 @@ class KnowledgeContradictionSensor:
     """Detect contradictions and policy inconsistencies across governance surfaces."""
 
     id = "knowledge-contradiction"
-    _REGISTERED_DEBT_KINDS = frozenset({
-        "bundled_schema_mirror_drift",
-        "agent_skill_mirror_drift",
-        "registry_integrity_failed",
-        "sensor_coverage_unknown",
-        "cli_contract_drift",
-        "generic_mapping",
-        "knowledge_contradiction",
-        "taxonomy_script_drift",
-        "upstream_drift",
-        "evidence_link_drift",
-        "generated_projection_drift",
-        "benchmark_source_drift",
-        "trust_calibration_drift",
-        "frozen_skill_drift",
-        "repository_hygiene",
-    })
+    debt_kinds = ("knowledge_contradiction",)
+    routine_ids = (17,)
     _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
@@ -1182,6 +1219,7 @@ class KnowledgeContradictionSensor:
         ]
 
     def _check_policy(self, repo_root: Path) -> list[dict[str, str]]:
+        registered_kinds = registered_debt_kinds()
         violations: list[dict[str, str]] = []
         policy_file = repo_root / "founder/steward/POLICY.yaml"
         if not policy_file.is_file():
@@ -1218,7 +1256,7 @@ class KnowledgeContradictionSensor:
             })
         else:
             for debt_kind, auth_val in sorted(authority_map.items()):
-                if debt_kind not in self._REGISTERED_DEBT_KINDS:
+                if debt_kind not in registered_kinds:
                     violations.append({
                         "source": "founder/steward/POLICY.yaml",
                         "rule": "registered-debt-kinds",
@@ -1450,32 +1488,14 @@ class EvidenceLinkHealthSensor:
     """Scan named skill evidence arrays for URL formats and link integrity."""
 
     id = "evidence-link-health"
+    debt_kinds = ("evidence_link_drift",)
+    routine_ids = (9,)
     _NAMED_ROOT = "registry/named"
     _MAX_FILE_BYTES = 2 * 1024 * 1024
     _LINK_FIELDS = ("source", "url", "harnessUrl", "artifact")
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        named_dir = repo_root / self._NAMED_ROOT
-        if not named_dir.is_dir():
-            return [
-                Observation(
-                    kind="evidence_link_drift",
-                    subject=Subject(type="repository-surface", id="named-evidence-links"),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="healthy",
-                    current_state={"healthy": True},
-                    observed_state={
-                        "healthy": True,
-                        "scannedFiles": 0,
-                        "checkedLinks": 0,
-                        "violationCount": 0,
-                        "violations": [],
-                    },
-                    confidence=1.0,
-                    provenance={"namedRoot": self._NAMED_ROOT},
-                )
-            ]
+        named_dir = _require_named_records(repo_root, self._NAMED_ROOT)
 
         violations: list[dict[str, str]] = []
         scanned_files = 0
@@ -1624,76 +1644,175 @@ class EvidenceLinkHealthSensor:
 
 
 class TrustCalibrationDriftSensor:
-    """Report named skills whose stored level disagrees with computed TM grade."""
+    """Report named skills whose stored level disagrees with computed TM grade.
+
+    Trust Magnitude is scored against the same effective-evidence context the
+    canonical inspector uses (``buildMergedSkillMap``), so evidence a named
+    skill inherits from its generic parent counts. Scoring against an empty
+    context would compare the stored level with an own-evidence-only number and
+    propose false demotions (#2114). When that context cannot be built the
+    sensor is unavailable rather than guessing.
+
+    It also measures (never repairs) stale frontmatter ``trustMagnitude``
+    stamps as ``trust_stamp_stale`` (#1642); how to refresh stamps is an open
+    founder decision, so this only reports.
+    """
 
     id = "trust-calibration-drift"
+    debt_kinds = ("trust_calibration_drift", "trust_stamp_stale")
+    routine_ids = (9,)
+    # The scan enumerates every named skill each run and emits drift for every
+    # one whose level disagrees with its computed grade; an unparseable record
+    # or an unresolvable generic parent makes the scan raise. A record with a
+    # broken frontmatter fence or no id cannot be scored: it is reported as a
+    # skipped subject (partial coverage), never silently passed over.
+    resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
     _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
+    # Stamps are written as round(computeTrustMagnitude(...), 2) (calibrate.py,
+    # generateNamedIndex.py), so a fresh stamp is within 0.005 of the computed
+    # value; the repo's own scripts/check_trust_magnitude_consistency.py allows
+    # 0.02. On the live tree 325 of 347 stamps sit inside 0.005 and the next
+    # step is 0.046, so 0.02 separates rounding noise from real movement.
+    _STAMP_TOLERANCE = 0.02
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        return list(self.scan_detailed(repo_root, observed_at).observations)
+
+    def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+        import yaml
+
         observations: list[Observation] = []
-        named_root = repo_root / self._NAMED_ROOT
-        if not named_root.is_dir():
-            return observations
+        skips = SkipLog()
+        # A missing registry is blindness, not "no subjects": this sensor is
+        # exhaustive, so an empty result would sweep every open trust debt.
+        named_root = _require_named_records(repo_root, self._NAMED_ROOT)
+        try:
+            context = buildMergedSkillMap(repo_root)
+        except Exception as exc:
+            raise SensorUnavailable(
+                f"effective-evidence context could not be built: {type(exc).__name__}: {exc}"
+            ) from exc
+
+        unreadable: list[str] = []
+        unresolved: list[str] = []
         for path in sorted(named_root.rglob("*.md")):
+            relative = str(path.relative_to(repo_root))
             try:
                 parts = path.read_text(encoding="utf-8").split("---", 2)
                 if len(parts) < 3:
+                    skips.add("named-skill-record", relative, "no closed frontmatter fence")
                     continue
-                import yaml
                 skill = yaml.safe_load(parts[1]) or {}
-                skill_id = skill.get("id")
-                current_level = skill.get("level")
-                # Only an explicit upstream_deprecated lifecycle event freezes
-                # the historical rank. installable: false also covers skills
-                # that remain reviewable, so it is not an exemption by itself.
-                timeline = skill.get("timeline", [])
-                is_frozen = any(
-                    isinstance(event, dict) and event.get("action") == "upstream_deprecated"
-                    for event in timeline
-                ) if isinstance(timeline, list) else False
-                if is_frozen:
-                    continue
-                if not skill_id or current_level not in self._TARGET_LEVEL.values():
-                    continue
-                tm = computeTrustMagnitude(skill, {})
-                grade = computeOverallTrustGradeFromSkill(skill, {})
-                target_level = self._TARGET_LEVEL[grade]
-                if current_level == target_level:
-                    continue
+            except (OSError, ValueError, yaml.YAMLError):
+                unreadable.append(relative)
+                continue
+            if not isinstance(skill, dict):
+                unreadable.append(relative)
+                continue
+            skill_id = skill.get("id")
+            if not skill_id:
+                skips.add("named-skill-record", relative, "frontmatter declares no skill id")
+                continue
+            parent = skill.get("genericSkillRef")
+            if parent and parent not in context:
+                # Inherited evidence would silently be dropped: an own-only
+                # number must never drive a confident demotion.
+                unresolved.append(f"{skill_id} -> {parent}")
+                continue
+            try:
+                tm = computeTrustMagnitude(skill, context)
+                grade = computeOverallTrustGradeFromSkill(skill, context)
+            except (ValueError, TypeError, KeyError, AttributeError):
+                unreadable.append(relative)
+                continue
+
+            # #1642 detection only: a live star/evidence refresh moves the
+            # computed TM without re-stamping the frontmatter. This is a
+            # separate finding; it never feeds the calibration logic below.
+            stored_tm = skill.get("trustMagnitude")
+            if (
+                isinstance(stored_tm, (int, float))
+                and not isinstance(stored_tm, bool)
+                and abs(float(stored_tm) - tm) > self._STAMP_TOLERANCE
+            ):
                 observations.append(Observation(
-                    kind="trust_calibration_drift",
+                    kind="trust_stamp_stale",
                     subject=Subject(type="named-skill", id=skill_id),
                     observed_at=observed_at,
                     source=self.id,
                     status="drift",
-                    current_state={"level": current_level},
+                    current_state={"trustMagnitude": round(float(stored_tm), 2)},
                     observed_state={
                         "trustMagnitude": round(tm, 2),
-                        "trustGrade": grade,
-                        "targetLevel": target_level,
-                        "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+                        "delta": round(abs(float(stored_tm) - tm), 2),
+                        "tolerance": self._STAMP_TOLERANCE,
                     },
                     confidence=1.0,
-                    provenance={"path": str(path.relative_to(repo_root))},
+                    provenance={"path": relative},
                 ))
-            except (OSError, ValueError, TypeError, yaml.YAMLError):
-                # Malformed records belong to registry-integrity, not this sensor.
+
+            current_level = skill.get("level")
+            # Only an explicit upstream_deprecated lifecycle event freezes
+            # the historical rank. installable: false also covers skills
+            # that remain reviewable, so it is not an exemption by itself.
+            timeline = skill.get("timeline", [])
+            is_frozen = any(
+                isinstance(event, dict) and event.get("action") == "upstream_deprecated"
+                for event in timeline
+            ) if isinstance(timeline, list) else False
+            if is_frozen:
                 continue
-        return observations
+            if current_level not in self._TARGET_LEVEL.values():
+                continue
+            target_level = self._TARGET_LEVEL[grade]
+            if current_level == target_level:
+                continue
+            observations.append(Observation(
+                kind="trust_calibration_drift",
+                subject=Subject(type="named-skill", id=skill_id),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift",
+                current_state={"level": current_level},
+                observed_state={
+                    "trustMagnitude": round(tm, 2),
+                    "trustGrade": grade,
+                    "targetLevel": target_level,
+                    "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+                },
+                confidence=1.0,
+                provenance={"path": relative},
+            ))
+        if unreadable or unresolved:
+            # Skipping would let an exhaustive sweep resolve debt for subjects
+            # this run never evaluated; fail closed instead.
+            detail = []
+            if unreadable:
+                detail.append(
+                    f"{len(unreadable)} unreadable named-skill record(s): "
+                    + ", ".join(unreadable[:5])
+                )
+            if unresolved:
+                detail.append(
+                    f"{len(unresolved)} named skill(s) with unresolvable genericSkillRef: "
+                    + ", ".join(unresolved[:5])
+                )
+            raise SensorUnavailable("; ".join(detail))
+        return SensorScan(tuple(observations), skips.entries())
 
 
 class FrozenSkillIntegritySensor:
     """Report frozen named skills that suffered post-freeze rank mutations or recalibrations."""
 
     id = "frozen-skill-integrity"
+    debt_kinds = ("frozen_skill_drift",)
+    routine_ids = (7, 10,)
     _NAMED_ROOT = "registry/named"
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         observations: list[Observation] = []
-        named_root = repo_root / self._NAMED_ROOT
-        if not named_root.is_dir():
-            return observations
+        named_root = _require_named_records(repo_root, self._NAMED_ROOT)
 
         for path in sorted(named_root.rglob("*.md")):
             try:
@@ -1834,6 +1953,8 @@ class GeneratedProjectionsSensor:
     """Verify Class S generated artifacts exist, are non-empty, and match canonical named skills."""
 
     id = "generated-projections"
+    debt_kinds = ("generated_projection_drift",)
+    routine_ids = (12, 15,)
     _REQUIRED_PROJECTIONS = (
         "docs/graph/gaia.json",
         "docs/graph/named/index.json",
@@ -2041,6 +2162,8 @@ class BenchmarkFreshnessSensor:
     """Validate benchmark source catalog schema and verify benchmark-result evidence rows."""
 
     id = "benchmark-freshness"
+    debt_kinds = ("benchmark_source_drift",)
+    routine_ids = (9,)
     _CATALOG_PATH = "registry/benchmark-sources.json"
     _SCHEMA_PATH = "registry/schema/benchmarkSourceCatalog.schema.json"
     _NAMED_ROOT = "registry/named"
@@ -2163,15 +2286,11 @@ class BenchmarkFreshnessSensor:
                 Draft7Validator.check_schema(schema)
                 validator = Draft7Validator(schema)
                 for error in sorted(validator.iter_errors(catalog_data), key=lambda e: list(e.path)):
-                    pointer = "/" + "/".join(str(p) for p in error.path)
-                    violations.append({
-                        "path": self._CATALOG_PATH,
-                        "error": f"schema {pointer}: {error.message}",
-                    })
+                    violations.append({"path": self._CATALOG_PATH, "error": schemaViolation(error)})
             except Exception as exc:
                 violations.append({
                     "path": self._CATALOG_PATH,
-                    "error": f"schema validation error: {exc}",
+                    "error": f"schema validation error: {type(exc).__name__}",
                 })
 
         benchmarks = catalog_data.get("benchmarks")
@@ -2345,6 +2464,36 @@ class BenchmarkFreshnessSensor:
 
 
 def default_sensors() -> tuple[Sensor, ...]:
+    # Imported here: the routine-family modules import primitives and models
+    # only, but keeping the fleet assembly lazy means importing one sensor
+    # never drags in every other family.
+    from gaia_cli.steward.sensors_ci import (
+        CiHealthSensor,
+        CiWorkflowSensor,
+        DependencyAdvisorySensor,
+        SupplyChainSensor,
+    )
+    from gaia_cli.steward.sensors_code import (
+        CodeStructureSensor,
+        DeadCodeSensor,
+        ErrorHandlingSensor,
+    )
+    from gaia_cli.steward.sensors_contracts import (
+        FrontendContractSensor,
+        SchemaValiditySensor,
+        TimelineCausalitySensor,
+    )
+    from gaia_cli.steward.sensors_security import (
+        BrowserSinkSensor,
+        MutationBoundarySensor,
+        SecretScanSensor,
+    )
+    from gaia_cli.steward.sensors_tests import (
+        TestHistorySensor,
+        TestIsolationSensor,
+        TestPortfolioSensor,
+    )
+
     return (
         BundledSchemaMirrorSensor(),
         AgentSkillMirrorSensor(),
@@ -2360,4 +2509,54 @@ def default_sensors() -> tuple[Sensor, ...]:
         TrustCalibrationDriftSensor(),
         FrozenSkillIntegritySensor(),
         RepositoryHygieneSensor(),
+        DeadCodeSensor(),
+        CodeStructureSensor(),
+        ErrorHandlingSensor(),
+        TestPortfolioSensor(),
+        TestIsolationSensor(),
+        TestHistorySensor(),
+        MutationBoundarySensor(),
+        BrowserSinkSensor(),
+        SecretScanSensor(),
+        CiWorkflowSensor(),
+        CiHealthSensor(),
+        SupplyChainSensor(),
+        DependencyAdvisorySensor(),
+        SchemaValiditySensor(),
+        TimelineCausalitySensor(),
+        FrontendContractSensor(),
     )
+
+
+# The controller emits this kind itself when a sensor cannot observe.
+CONTROLLER_DEBT_KINDS = ("sensor_coverage_unknown",)
+
+
+def _require_named_records(repo_root: Path, named_root: str) -> Path:
+    """Return the named-skill root, or raise when the domain is missing.
+
+    The inventory is the version-control index: a tracked record that is absent
+    from the checkout (a truncated checkout, a deleted-but-unstaged file) makes
+    the sensor blind, and one surviving ``.md`` file does not make the domain
+    look present. An empty result there would read as "every named skill is
+    healthy" and, for an exhaustive sensor, sweep its open debt as resolved.
+    """
+
+    try:
+        tracked_files(repo_root, [named_root], suffixes=[".md"], require_present=True)
+    except SensorUnavailable as exc:
+        raise SensorUnavailable(f"required named-skill records are missing: {named_root} ({exc})") from exc
+    return repo_root / named_root
+
+
+def registered_debt_kinds() -> frozenset[str]:
+    """Every debt kind the registered fleet can emit, derived from the fleet.
+
+    This replaces a hand-kept list that had to be edited in lockstep with
+    POLICY.yaml and drifted whenever a sensor was added.
+    """
+
+    kinds = set(CONTROLLER_DEBT_KINDS)
+    for sensor in default_sensors():
+        kinds.update(getattr(sensor, "debt_kinds", ()))
+    return frozenset(kinds)

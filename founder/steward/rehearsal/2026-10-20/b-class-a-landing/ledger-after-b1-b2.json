@@ -1,0 +1,153 @@
+{
+ "_truncated": "receipt >200KB: per-run phases/desk payloads and steps collapsed to sizes; other keys verbatim",
+ "generation": 44,
+ "lane": null,
+ "leases": {},
+ "runs": {
+  "run-20261020T210508Z-40d6b4ca": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "deferred": [],
+   "desk": "<11854 bytes omitted>",
+   "finishedAt": "2026-10-20T21:06:51.237883Z",
+   "floor": {
+    "branch": "dev/rehearsal",
+    "ok": true,
+    "reason": null
+   },
+   "integrationBranch": "dev/rehearsal",
+   "integrationHead": "cc2edfa00bce1c1fea3f1a39972f2211306ad3a9",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:05:08.837276Z",
+     "holder": "run-20261020T210508Z-40d6b4ca",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": false,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<115206 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T210509Z-57e0d594c0f2c1de",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T210508Z-40d6b4ca",
+   "sourceHead": "87e1876842835c054c13b878baad56a66e2418e6",
+   "startedAt": "2026-10-20T21:05:08.837276Z",
+   "status": "completed",
+   "steps": "<11 steps omitted; ids: phase:recover, phase:reconcile, phase:observe, phase:triage, landing:steward/a/agent-skill-mirror-drift-0aee04a4316a, phase:class_a, phase:class_b, phase:verify ...>",
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  },
+  "run-20261020T210747Z-52e44e9d": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "deferred": [],
+   "desk": "<11854 bytes omitted>",
+   "finishedAt": "2026-10-20T21:09:24.119428Z",
+   "floor": {
+    "branch": "dev/rehearsal",
+    "ok": true,
+    "reason": null
+   },
+   "integrationBranch": "dev/rehearsal",
+   "integrationHead": "87e1876842835c054c13b878baad56a66e2418e6",
+   "leases": [
+    {
+     "acquiredAt": "2026-10-20T21:07:47.732190Z",
+     "holder": "run-20261020T210747Z-52e44e9d",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "nothing further for this run",
+   "options": {
+    "afk": false,
+    "agents": false,
+    "debt": null,
+    "push": true,
+    "routine": null
+   },
+   "phase": "done",
+   "phases": "<115109 bytes omitted>",
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [
+    {
+     "id": "steward-20261020T210748Z-216c8076e656cfb5",
+     "kind": "scan"
+    }
+   ],
+   "runId": "run-20261020T210747Z-52e44e9d",
+   "sourceHead": "87e1876842835c054c13b878baad56a66e2418e6",
+   "startedAt": "2026-10-20T21:07:47.732190Z",
+   "status": "completed",
+   "steps": "<10 steps omitted; ids: phase:recover, phase:reconcile, phase:observe, phase:triage, phase:class_a, phase:class_b, phase:verify, phase:reobserve ...>",
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
+  }
+ },
+ "schemaVersion": "steward-ledger-v1",
+ "updatedAt": "2026-10-20T21:09:24.209203Z",
+ "work": {
+  "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311": {
+   "assignments": [],
+   "authority": "A",
+   "baseBranch": "dev/rehearsal",
+   "branch": null,
+   "build": null,
+   "createdAt": "2026-10-20T21:06:45.861834Z",
+   "debtId": "debt:agent_skill_mirror_drift:agent-skill-mirrors:ff2e5958e1212311",
+   "history": [
+    {
+     "at": "2026-10-20T21:06:48.600223Z",
+     "from": "queued",
+     "reason": "mirror already matches canonical on the base branch; this checkout lags dev/rehearsal or already matches canonical",
+     "to": "no_change"
+    }
+   ],
+   "kind": "agent_skill_mirror_drift",
+   "notes": [],
+   "pullRequest": null,
+   "pushed": false,
+   "routine": "agent-skill-mirror",
+   "runId": "run-20261020T210508Z-40d6b4ca",
+   "source": "agent-skill-mirror",
+   "state": "no_change",
+   "updatedAt": "2026-10-20T21:06:48.600223Z",
+   "verification": null
+  }
+ }
+}

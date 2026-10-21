@@ -1,0 +1,20 @@
+# remote main sha before: 87e1876842835c054c13b878baad56a66e2418e6; dev/rehearsal: cc2edfa00bce1c1fea3f1a39972f2211306ad3a9
+$ (cd <scratch>/B/work) python -m gaia_cli --registry <scratch>/B/work steward full run --no-agents --ledger git --integration-branch dev/rehearsal --push --json
+# exit 0 -> run-b1-drift-on-main-only.json
+# fast-forwarded remote dev/rehearsal to main (so the integration branch carries the drift): git push origin main:dev/rehearsal
+# before B2: main=87e1876842835c054c13b878baad56a66e2418e6 dev/rehearsal=87e1876842835c054c13b878baad56a66e2418e6
+$ (cd <scratch>/B/work) python -m gaia_cli --registry <scratch>/B/work steward full run --no-agents --ledger git --integration-branch dev/rehearsal --push --json
+# exit 0 -> run-b2-dev-rehearsal.json
+# after B2: main=87e1876842835c054c13b878baad56a66e2418e6 dev/rehearsal=87e1876842835c054c13b878baad56a66e2418e6
+# B3 (fresh remote B2: drift committed to remote main, then dev/rehearsal fast-forwarded to main): main=bbc02ba8236fc34899c8de5d9200df6fa9dbd345 dev/rehearsal=bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+$ (cd <scratch>/B2/work) python -m gaia_cli --registry <scratch>/B2/work steward full run --no-agents --ledger git --integration-branch dev/rehearsal --push --json
+# exit 0 -> run-b3-landing.json
+# after B3: main=bbc02ba8236fc34899c8de5d9200df6fa9dbd345 dev/rehearsal=bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+# main-refusal: main before=bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+$ (cd <scratch>/B2/work) python -m gaia_cli --registry <scratch>/B2/work steward full run --no-agents --ledger git --integration-branch main --push --json
+# exit 4 -> run-b4-main-refusal.json
+# main-refusal: main after=bbc02ba8236fc34899c8de5d9200df6fa9dbd345
+# B5 (fresh remote): main before=36aa8033cf6c1f471155e77ff2b5cf0663cc526f
+$ (cd <scratch>/B5/work) python -m gaia_cli --registry <scratch>/B5/work steward full run --no-agents --ledger git --integration-branch main --push --json
+# exit 0 -> run-b5-main-refusal-fresh.json
+# B5: main after=36aa8033cf6c1f471155e77ff2b5cf0663cc526f

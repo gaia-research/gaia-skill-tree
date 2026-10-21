@@ -1,0 +1,58 @@
+{
+  "activeRuns": [],
+  "desk": {
+    "asOf": "2026-10-21T07:20:50.728831Z",
+    "decisions": [],
+    "operations": [],
+    "quiet": true,
+    "schemaVersion": "steward-desk-v1"
+  },
+  "deskRunId": "run-20261021T072047Z-0464c822",
+  "holder": null,
+  "holderExpiresAt": null,
+  "holderPhase": null,
+  "lane": {
+    "capacity": 1,
+    "counts": {
+      "closed": 0,
+      "dispatched": 0,
+      "escalated": 0,
+      "queued": 0
+    },
+    "escalated": [],
+    "inFlight": [],
+    "policy": {
+      "cooldownSeconds": 3600,
+      "maxAttempts": 2,
+      "maxInFlight": 1
+    }
+  },
+  "lastScheduledRunAt": "2026-10-21T07:20:44.092933Z",
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "recentRuns": [
+    {
+      "mode": "full",
+      "runId": "run-20261021T072047Z-0464c822",
+      "startedAt": "2026-10-21T07:20:47.664552Z",
+      "status": "completed"
+    },
+    {
+      "mode": "full",
+      "runId": "run-20261021T072044Z-a7f99f6f",
+      "startedAt": "2026-10-21T07:20:44.092933Z",
+      "status": "completed"
+    },
+    {
+      "mode": "full",
+      "runId": "run-20261021T072040Z-f3922df4",
+      "startedAt": "2026-10-21T07:20:40.547873Z",
+      "status": "completed"
+    }
+  ],
+  "schemaVersion": "steward-full-status-v1",
+  "work": [],
+  "workCounts": {}
+}

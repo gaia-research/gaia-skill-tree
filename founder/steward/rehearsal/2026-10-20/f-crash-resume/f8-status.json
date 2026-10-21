@@ -1,0 +1,63 @@
+{
+  "activeRuns": [
+    {
+      "mode": "full",
+      "phase": "class_b",
+      "runId": "run-20261021T070533Z-37db101a",
+      "status": "awaiting-action"
+    }
+  ],
+  "holder": "run-20261021T070533Z-37db101a",
+  "holderExpiresAt": "2026-10-21T07:37:16.585374Z",
+  "holderPhase": "class_b",
+  "lane": {
+    "capacity": 0,
+    "counts": {
+      "closed": 0,
+      "dispatched": 1,
+      "escalated": 0,
+      "queued": 50
+    },
+    "escalated": [],
+    "inFlight": [
+      "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811"
+    ],
+    "policy": {
+      "cooldownSeconds": 3600,
+      "maxAttempts": 2,
+      "maxInFlight": 1
+    }
+  },
+  "lastScheduledRunAt": null,
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "recentRuns": [
+    {
+      "mode": "full",
+      "runId": "run-20261021T070533Z-37db101a",
+      "startedAt": "2026-10-21T07:05:33.188940Z",
+      "status": "awaiting-action"
+    },
+    {
+      "mode": "full",
+      "runId": "run-20261020T212937Z-0747e399",
+      "startedAt": "2026-10-20T21:29:37.204245Z",
+      "status": "abandoned"
+    }
+  ],
+  "schemaVersion": "steward-full-status-v1",
+  "work": [
+    {
+      "authority": "B",
+      "branch": "steward/b/trust-calibration-drift-0bdd26975824",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+      "runId": "run-20261021T070533Z-37db101a",
+      "state": "building"
+    }
+  ],
+  "workCounts": {
+    "building": 1
+  }
+}

@@ -12,6 +12,7 @@ from gaia_cli.commands import discover_commands
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser, main
 from gaia_cli.steward.knowledge_contracts import AUTHORITY_MAP, TRUST_SURFACES
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
+from tests.steward.sensor_fixtures import COMMANDS_INIT, FIXTURE_EVIDENCE_META, write_minimal_gaia_domains
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -20,6 +21,16 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 def _write(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
+
+
+def _github_files(root: Path) -> list[str]:
+    """Files under .github/; the fixture ships exactly one workflow."""
+
+    return sorted(
+        path.relative_to(root).as_posix()
+        for path in (root / ".github").rglob("*")
+        if path.is_file()
+    )
 
 
 def _clean_cli_repo(root: Path) -> None:
@@ -43,7 +54,7 @@ def _clean_cli_repo(root: Path) -> None:
     schema_text = json.dumps(schema, sort_keys=True)
     _write(root / "registry/schema/skill.schema.json", schema_text)
     _write(root / "src/gaia_cli/data/registry/schema/skill.schema.json", schema_text)
-    meta_text = json.dumps({"types": {"minPrereqs": {"basic": 0, "fusion": 1}}})
+    meta_text = json.dumps({"types": {"minPrereqs": {"basic": 0, "fusion": 1}}, **FIXTURE_EVIDENCE_META})
     _write(root / "registry/schema/meta.json", meta_text)
     _write(root / "src/gaia_cli/data/registry/schema/meta.json", meta_text)
     node = {"id": "example", "type": "basic", "prerequisites": [], "derivatives": []}
@@ -51,7 +62,7 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
     _write(root / "docs/graph/gaia.json", json.dumps({"nodes": [], "edges": []}))
-    _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {}}))
+    _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {"fixture": ["fixture/example"]}}))
     _write(root / "docs/api/v1/health.json", json.dumps({"status": "ok"}))
     _write(root / AUTHORITY_MAP, "# Active curation authority map\n")
     for surface in TRUST_SURFACES:
@@ -82,14 +93,20 @@ def _clean_cli_repo(root: Path) -> None:
     # something to observe. A checkout with no CLI is genuinely a checkout
     # Steward cannot observe, and it reports that as unknown coverage rather
     # than as a clean bill of health.
-    _write(root / "src/gaia_cli/commands/__init__.py", "")
+    _write(root / "src/gaia_cli/commands/__init__.py", COMMANDS_INIT)
     _write(root / "src/gaia_cli/commands/base.py", "class Command:\n    name = 'base'\n")
     _write(
         root / "src/gaia_cli/commands/example_cmd.py",
         'class ExampleCommand(Command):\n    name = "example"\n\n\nCOMMAND = ExampleCommand()\n',
     )
-    _write(root / "src/gaia_cli/impl.py", 'PUBLIC_COMMANDS = ("help", "example")\n')
+    _write(
+        root / "src/gaia_cli/impl.py",
+        'PUBLIC_COMMANDS = ("help", "example")\nMUTATING_DEV_COMMANDS = frozenset({"add"})\n',
+    )
     _write(root / "CLAUDE.md", "Top-level (lifecycle-oriented): `example`, `help`.\n| **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` |\n")
+    # Every registered sensor family needs its domain, or "clean" would only
+    # mean "nobody looked".
+    write_minimal_gaia_domains(root)
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(
@@ -125,7 +142,13 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 25  # 14 sensors + coverage marks
+    # 30 registered sensors: 27 observe (one coverage mark each) plus 11
+    # single-subject healthy observations; the 3 optional-input sensors are
+    # not evaluated and add no coverage mark.
+    assert payload["receipt"]["observationsCollected"] == 38
+    assert sorted(item["sensor"] for item in payload["receipt"]["notEvaluated"]) == [
+        "ci-health", "dependency-advisory", "test-history",
+    ]
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))
@@ -213,7 +236,7 @@ def test_steward_founder_cli_outputs_controlled_current_nonempty_report_only_que
     assert decisions[0]["decisionTarget"] == "generic-mapping/example/open-candidate"
     assert len(decisions[0]["debtIds"]) == 1
     assert payload["receipt"]["result"]["status"] == "reported"
-    assert not (tmp_path / ".github").exists()
+    assert _github_files(tmp_path) == [".github/workflows/ci.yml"]
 
 
 @pytest.mark.parametrize("candidate_id", ["zzreview/ſ", "owner/K", "owner/ß"])
@@ -341,4 +364,4 @@ def test_steward_dispatch_prompt_json_carries_packet_receipt_and_prompt(
     assert payload["artifact"]["dispatchId"] in payload["prompt"]
     # Rendering a prompt must not create a second dispatch surface.
     assert payload["receipt"]["repairs"] == []
-    assert not (tmp_path / ".github").exists()
+    assert _github_files(tmp_path) == [".github/workflows/ci.yml"]

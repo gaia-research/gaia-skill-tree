@@ -1,0 +1,979 @@
+{
+  "actions": [],
+  "coverageUnknown": [],
+  "desk": {
+    "asOf": "2026-10-21T07:20:43.564382Z",
+    "decisions": [],
+    "operations": [],
+    "quiet": true,
+    "schemaVersion": "steward-desk-v1"
+  },
+  "ledger": {
+    "shared": true,
+    "transport": "git-ref"
+  },
+  "mode": "full",
+  "nextAction": "nothing further for this run",
+  "notEvaluated": [
+    {
+      "inputAbsent": true,
+      "reason": "no ci-runs.json supplied; a driver must collect it",
+      "sensor": "ci-health"
+    },
+    {
+      "inputAbsent": true,
+      "reason": "no advisories.json supplied; a driver must collect it",
+      "sensor": "dependency-advisory"
+    },
+    {
+      "inputAbsent": true,
+      "reason": "no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+      "sensor": "test-history"
+    }
+  ],
+  "phase": "done",
+  "runId": "run-20261021T072040Z-f3922df4",
+  "schemaVersion": "steward-full-run-view-v1",
+  "status": "completed",
+  "summary": {
+    "class_a": {
+      "landings": [],
+      "status": "ok"
+    },
+    "class_b": {
+      "detail": "no Class B action is emitted without a valid integration branch",
+      "floor": false,
+      "reason": "landing target not configured",
+      "status": "blocked"
+    },
+    "observe": {
+      "authorityCounts": {
+        "A": 0,
+        "B": 0,
+        "C": 0
+      },
+      "coverageUnknown": [],
+      "coverageUnknownReasons": {},
+      "created": 0,
+      "debtStatus": {},
+      "freshOpenDebt": [],
+      "notEvaluated": [
+        {
+          "inputAbsent": true,
+          "reason": "no ci-runs.json supplied; a driver must collect it",
+          "sensor": "ci-health"
+        },
+        {
+          "inputAbsent": true,
+          "reason": "no advisories.json supplied; a driver must collect it",
+          "sensor": "dependency-advisory"
+        },
+        {
+          "inputAbsent": true,
+          "reason": "no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+          "sensor": "test-history"
+        }
+      ],
+      "observations": 38,
+      "observationsBySensor": {
+        "agent-skill-mirror": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "benchmark-freshness": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "bundled-schema-mirror": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "cli-contract": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "evidence-link-health": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "generated-projections": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "knowledge-contradiction": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "registry-integrity": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "repository-hygiene": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "taxonomy-script-drift": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "upstream-watcher": {
+          "drift": 0,
+          "healthy": 1
+        }
+      },
+      "openDebt": 0,
+      "openDebtIds": [],
+      "partialCoverage": [],
+      "resolved": [],
+      "scanReceiptId": "steward-20261021T072041Z-8470a493a7152044"
+    },
+    "reconcile": {
+      "integrationBranch": null,
+      "integrationHead": "unknown",
+      "integrationHeadUnknown": "integration branch not configured",
+      "sourceHead": "bdadd5b70c5eb7a6ac4ce3357a6f71eebfb7c124",
+      "unresolvedWork": 0
+    },
+    "reobserve": {
+      "authorityCounts": {
+        "A": 0,
+        "B": 0,
+        "C": 0
+      },
+      "coverageUnknown": [],
+      "coverageUnknownReasons": {},
+      "created": 0,
+      "debtStatus": {},
+      "freshOpenDebt": [],
+      "notEvaluated": [
+        {
+          "inputAbsent": true,
+          "reason": "no ci-runs.json supplied; a driver must collect it",
+          "sensor": "ci-health"
+        },
+        {
+          "inputAbsent": true,
+          "reason": "no advisories.json supplied; a driver must collect it",
+          "sensor": "dependency-advisory"
+        },
+        {
+          "inputAbsent": true,
+          "reason": "no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+          "sensor": "test-history"
+        }
+      ],
+      "notes": [],
+      "observations": 38,
+      "observationsBySensor": {
+        "agent-skill-mirror": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "benchmark-freshness": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "bundled-schema-mirror": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "cli-contract": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "evidence-link-health": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "generated-projections": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "knowledge-contradiction": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "registry-integrity": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "repository-hygiene": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "taxonomy-script-drift": {
+          "drift": 0,
+          "healthy": 1
+        },
+        "upstream-watcher": {
+          "drift": 0,
+          "healthy": 1
+        }
+      },
+      "openDebt": 0,
+      "openDebtIds": [],
+      "partialCoverage": [],
+      "resolved": [],
+      "resolvedWork": [],
+      "reused": "no state-changing step ran this run; the observe scan is the re-observation",
+      "scanReceiptId": "steward-20261021T072041Z-8470a493a7152044"
+    },
+    "retro": {
+      "executed": 27,
+      "notEvaluated": [
+        {
+          "reason": "no ci-runs.json supplied; a driver must collect it",
+          "sensor": "ci-health"
+        },
+        {
+          "reason": "no advisories.json supplied; a driver must collect it",
+          "sensor": "dependency-advisory"
+        },
+        {
+          "reason": "no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+          "sensor": "test-history"
+        }
+      ],
+      "partiallyCovered": [],
+      "registered": 30,
+      "routines": [
+        {
+          "detectors": [
+            {
+              "sensor": "dead-code",
+              "state": "executed"
+            }
+          ],
+          "routine": 1,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "code-structure",
+              "state": "executed"
+            }
+          ],
+          "routine": 2,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "error-handling",
+              "state": "executed"
+            }
+          ],
+          "routine": 3,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "test-portfolio",
+              "state": "executed"
+            }
+          ],
+          "routine": 4,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "test-history",
+              "state": "not-evaluated"
+            },
+            {
+              "sensor": "test-isolation",
+              "state": "executed"
+            }
+          ],
+          "routine": 5,
+          "state": "partial"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "cli-contract",
+              "state": "executed"
+            }
+          ],
+          "routine": 6,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "frozen-skill-integrity",
+              "state": "executed"
+            },
+            {
+              "sensor": "mutation-boundary",
+              "state": "executed"
+            },
+            {
+              "sensor": "registry-integrity",
+              "state": "executed"
+            }
+          ],
+          "routine": 7,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "bundled-schema-mirror",
+              "state": "executed"
+            },
+            {
+              "sensor": "schema-validity",
+              "state": "executed"
+            }
+          ],
+          "routine": 8,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "benchmark-freshness",
+              "state": "executed"
+            },
+            {
+              "sensor": "evidence-link-health",
+              "state": "executed"
+            },
+            {
+              "sensor": "taxonomy-script-drift",
+              "state": "executed"
+            },
+            {
+              "sensor": "trust-calibration-drift",
+              "state": "executed"
+            }
+          ],
+          "routine": 9,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "frozen-skill-integrity",
+              "state": "executed"
+            },
+            {
+              "sensor": "timeline-causality",
+              "state": "executed"
+            }
+          ],
+          "routine": 10,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "discovery-generic-mapping",
+              "state": "executed"
+            },
+            {
+              "sensor": "registry-integrity",
+              "state": "executed"
+            },
+            {
+              "sensor": "upstream-watcher",
+              "state": "executed"
+            }
+          ],
+          "routine": 11,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "agent-skill-mirror",
+              "state": "executed"
+            },
+            {
+              "sensor": "generated-projections",
+              "state": "executed"
+            },
+            {
+              "sensor": "repository-hygiene",
+              "state": "executed"
+            }
+          ],
+          "routine": 12,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "ci-health",
+              "state": "not-evaluated"
+            },
+            {
+              "sensor": "ci-workflow",
+              "state": "executed"
+            }
+          ],
+          "routine": 13,
+          "state": "partial"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "dependency-advisory",
+              "state": "not-evaluated"
+            },
+            {
+              "sensor": "secret-scan",
+              "state": "executed"
+            },
+            {
+              "sensor": "supply-chain",
+              "state": "executed"
+            },
+            {
+              "sensor": "upstream-watcher",
+              "state": "executed"
+            }
+          ],
+          "routine": 14,
+          "state": "partial"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "frontend-contract",
+              "state": "executed"
+            },
+            {
+              "sensor": "generated-projections",
+              "state": "executed"
+            }
+          ],
+          "routine": 15,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "browser-sink",
+              "state": "executed"
+            },
+            {
+              "sensor": "secret-scan",
+              "state": "executed"
+            }
+          ],
+          "routine": 16,
+          "state": "observed"
+        },
+        {
+          "detectors": [
+            {
+              "sensor": "agent-skill-mirror",
+              "state": "executed"
+            },
+            {
+              "sensor": "knowledge-contradiction",
+              "state": "executed"
+            },
+            {
+              "sensor": "taxonomy-script-drift",
+              "state": "executed"
+            }
+          ],
+          "routine": 17,
+          "state": "observed"
+        }
+      ],
+      "sensors": [
+        {
+          "executed": true,
+          "id": "bundled-schema-mirror",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            8
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "agent-skill-mirror",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            12,
+            17
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "registry-integrity",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            7,
+            11
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "cli-contract",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            6
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "discovery-generic-mapping",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            11
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "taxonomy-script-drift",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            9,
+            17
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "upstream-watcher",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            11,
+            14
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "knowledge-contradiction",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            17
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "evidence-link-health",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            9
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "generated-projections",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            12,
+            15
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "benchmark-freshness",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            9
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "trust-calibration-drift",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            9
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "frozen-skill-integrity",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            7,
+            10
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "repository-hygiene",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 1
+          },
+          "registered": true,
+          "routine_ids": [
+            12
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "dead-code",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            1
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "code-structure",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            2
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "error-handling",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            3
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "test-portfolio",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            4
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "test-isolation",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            5
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": false,
+          "id": "test-history",
+          "notEvaluated": true,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "reason": "no test history supplied at .gaia/steward/inputs/test-history.json; flake detection was not evaluated",
+          "registered": true,
+          "routine_ids": [
+            5
+          ],
+          "state": "not-evaluated",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "mutation-boundary",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            7
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "browser-sink",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            16
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "secret-scan",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            16,
+            14
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "ci-workflow",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            13
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": false,
+          "id": "ci-health",
+          "notEvaluated": true,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "reason": "no ci-runs.json supplied; a driver must collect it",
+          "registered": true,
+          "routine_ids": [
+            13
+          ],
+          "state": "not-evaluated",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "supply-chain",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            14
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": false,
+          "id": "dependency-advisory",
+          "notEvaluated": true,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "reason": "no advisories.json supplied; a driver must collect it",
+          "registered": true,
+          "routine_ids": [
+            14
+          ],
+          "state": "not-evaluated",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "schema-validity",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            8
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "timeline-causality",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            10
+          ],
+          "state": "executed",
+          "unknown": false
+        },
+        {
+          "executed": true,
+          "id": "frontend-contract",
+          "notEvaluated": false,
+          "observations": {
+            "drift": 0,
+            "healthy": 0
+          },
+          "registered": true,
+          "routine_ids": [
+            15
+          ],
+          "state": "executed",
+          "unknown": false
+        }
+      ],
+      "unknown": []
+    },
+    "triage": {
+      "carried": 0,
+      "classA": [],
+      "classB": [],
+      "classC": [],
+      "counts": {
+        "A": 0,
+        "B": 0,
+        "B-report-only": 0,
+        "C": 0
+      },
+      "filtered": 0,
+      "held": [],
+      "reportOnly": [],
+      "skippedActive": []
+    },
+    "verify": {
+      "detail": "no verification or integration action is emitted without a valid integration branch",
+      "floor": false,
+      "reason": "landing target not configured",
+      "status": "blocked"
+    }
+  },
+  "unresolvedWork": []
+}
