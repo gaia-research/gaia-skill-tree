@@ -265,3 +265,23 @@ def test_backlog_line_reports_closures_and_the_change_since_the_previous_run(tmp
     detail = operationsOf(later, "issue_backlog")[0]["detail"]
     assert "net change +0 since the previous run" in detail
     assert "closed this run 0 of 2 total" in detail
+
+
+def test_class_b_suite_review_dispatches_at_most_one_build_per_run(tmp_path, monkeypatch) -> None:
+    repo, store, runner = runnerFor(tmp_path, agents=True)
+    rows = [makeRow(300, "[intake] one"), makeRow(301, "[intake] two")]
+    writeCensus(repo, makeCensus(rows))
+    items = [
+        makeItem(300, "upstream-candidate:o/r:one", "B", state="actionable"),
+        makeItem(301, "upstream-candidate:x/y:two", "B", state="actionable"),
+    ]
+    batches = [
+        {"suite": "o/r", "umbrella": 1835, "classB": ["upstream-candidate:o/r:one"], "size": 1},
+        {"suite": "x/y", "umbrella": 2002, "classB": ["upstream-candidate:x/y:two"], "size": 1},
+    ]
+    stubReconcile(monkeypatch, makeManifest(items, batches=batches))
+    view = runner.start("full")
+    builds = [action for action in view.actions if action["type"] == "agent.build"]
+    assert len(builds) == 1
+    assert builds[0]["debtId"].startswith("debt:issue_suite_review:")
+    assert closeActions(view) == []

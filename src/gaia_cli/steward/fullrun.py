@@ -505,8 +505,8 @@ class FullRunner:
     ) -> RunView:
         if mode not in MODEPHASES:
             raise FullRunError(f"unknown mode {mode!r}; choose from {', '.join(MODEPHASES)}")
-        if routine is not None and not 1 <= int(routine) <= 17:
-            raise FullRunError("routine must be between 1 and 17")
+        if routine is not None and not 1 <= int(routine) <= 18:
+            raise FullRunError("routine must be between 1 and 18")
         now = self._now()
         runId = f"run-{self.config.clock().astimezone(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
         phases = MODEPHASES[mode]
