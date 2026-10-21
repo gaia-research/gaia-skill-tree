@@ -1,0 +1,10 @@
+# F - crash and resume: PASS
+
+Real-repo clone, `--integration-branch dev/rehearsal --push`, agents enabled (real tree has 50+ trust_calibration_drift Class B debt and a dispatch rule, so a genuine `agent.build` action is produced; no agent was run and no outcome fabricated).
+- Crash: run started in the background; `kill -9` sent 2 s later, as soon as the `run` lease appeared on refs/heads/steward/ledger. Ledger after kill (f1-ledger-after-kill.json): run run-20261020T212937Z-0747e399 `active`, phase `observe`, steps recover+reconcile `done`, lease still held (30 min TTL).
+- A fresh `run` during the TTL: exit 4 observing-existing, holder = the killed run (f2).
+- `run --resume RUN`: exit 0, finished observe/triage/class_a, reached awaiting-action with one `agent.build` (stepId build:0bdd26975824:1, idempotencyKey dispatch-241305ea9ef1a8c1c959:1, branch steward/b/..., allowedModels haiku/sonnet, effortRequired). Steps recover and reconcile are byte-identical (same status and `at` timestamps) before and after: not repeated. Class C (22 trust_stamp_stale) produced no action; the only action type in the run is agent.build.
+- Stopped at awaiting-action and resumed again (f4): identical action list, identical step table, same run status/phase, lane attempts stay 1: no second dispatch.
+- Record validation: effort `default` and builder family `opus` both refused, exit 2, nothing recorded (f5). No outcome was recorded for the build.
+- Adoption/supersede: after the lease expired on its own (22:03Z; next run at 07:05Z), a new `run` (exit 0, awaiting-action) marked the old run `abandoned` ("lease expired; its unfinished work was adopted"), set the old pending action `superseded` (supersededBy new run), listed the work in `unresolvedWork` (previousRun = old), and re-offered the SAME dispatch (same stepId and idempotencyKey, attempts still 1, same branch name) under the new run. `record` against the old superseded step: exit 2 "already superseded", work stays `building`, 0 assignments (f7). `status` shows one active run and one abandoned run (f8).
+Files: f1..f8 receipts, f*-ledger-*.json, outcome-*.json, commands.txt.
