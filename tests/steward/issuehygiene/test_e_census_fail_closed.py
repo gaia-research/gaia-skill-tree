@@ -146,6 +146,25 @@ def test_full_page_without_any_link_header_is_not_reported_complete() -> None:
     assert doc["completeness"]["issues"]["complete"] is False
 
 
+@pytest.mark.xfail(
+    strict=True,
+    reason=(
+        "DEFECT (fail-open under concurrent mutation): an issue closed after page 1 is served shifts the "
+        "remaining open rows left, so page 2 skips one open issue while every page is present. The collector "
+        "verifies page counts only, so complete:true is reported without an open issue. Completeness must "
+        "survive a mid-walk close (for example a confirming second walk or a per-row cross-check)."
+    ),
+)
+def test_an_open_issue_shifted_past_a_page_boundary_by_a_concurrent_close_is_not_silently_dropped() -> None:
+    gh = FakeGitHub(pageSize=2)
+    openRows(gh, 5)  # numbers 1001 to 1005, newest first on the listing
+    gh.pageHooks[("open", 2)] = lambda g: g.close(max(g.issues), "completed")  # 1005 closes after page 1 was served
+    doc = gh.census(NOW)
+    present = {row["number"] for row in doc["issues"]}
+    stillOpen = {number for number, row in gh.issues.items() if row["state"] == "open"}
+    assert stillOpen <= present or doc["completeness"]["issues"]["complete"] is False
+
+
 def test_a_single_short_page_with_no_link_header_is_complete() -> None:
     gh = FakeGitHub(pageSize=100, linkMode="none")
     openRows(gh, 2)
