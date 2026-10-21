@@ -285,3 +285,20 @@ def test_class_b_suite_review_dispatches_at_most_one_build_per_run(tmp_path, mon
     assert len(builds) == 1
     assert builds[0]["debtId"].startswith("debt:issue_suite_review:")
     assert closeActions(view) == []
+
+
+def test_digest_and_desk_show_the_exact_question_with_its_affected_issues() -> None:
+    from gaia_cli.steward.digest import ISSUE_FOUNDER_RULE, issueQuestion
+    from gaia_cli.steward.models import FounderDecision
+
+    decision = FounderDecision.create(
+        rule=ISSUE_FOUNDER_RULE, decision_target="issue-question/q-1", objective="generic objective",
+        debt_ids=("debt:issue_founder_decision:q-1:abc",),
+        evidence=({"observedState": {"question": "Accept the family?", "affected": [5, 6]}},),
+    )
+    assert issueQuestion(decision) == "Accept the family? Affected issues: #5, #6."
+    other = FounderDecision.create(
+        rule="generic-mapping-decision", decision_target="generic-mapping/x", objective="map it",
+        debt_ids=("debt:generic_mapping:x:abc",), evidence=({"observedState": {"question": "no"}},),
+    )
+    assert issueQuestion(other) is None
