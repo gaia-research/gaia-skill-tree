@@ -233,6 +233,24 @@ def test_a3_superseder_is_not_closed_in_the_same_pass_as_the_umbrella_it_superse
     assert not any(entry["type"] == "policy" for entry in item(manifest, 20)["evidence"])
 
 
+def test_a3_listed_superseder_owned_child_cannot_close_both_umbrellas(tmp_path: Path) -> None:
+    """The reparenting shape: #21 lists #30 (owned by #20) and is itself not A2-closable.
+
+    #21 keeps #30 as an open dependency, so it stays open and #20 may be A3-superseded by it. The
+    older umbrella is closed, but the superseder is never closed in the same pass.
+    """
+
+    writeNamed(tmp_path, "obra/superpowers", SUITE_V7)
+    older = umbrellaRow(20, "obra/superpowers", "v6.0.0", adds=["writing-skills"])
+    newer = umbrellaRow(21, "obra/superpowers", "v7.0.0", adds=["writing-skills"],
+                        extraBody="Child intakes:\n- [ ] #30 writing-skills\n")
+    child = childRow(30, "obra/writing-skills", BLOB, parent=20)
+    planned = plannedIssues(run(censusOf([older, newer, child]), tmp_path))
+    assert not (20 in planned and 21 in planned)
+    assert planned == {20: "A3-umbrella-superseded"}
+    assert authorityOf(run(censusOf([older, newer, child]), tmp_path), 21) == "B"
+
+
 def test_a3_superseder_with_an_identity_conflict_is_never_relied_on_even_when_numbered_after_the_older(tmp_path: Path) -> None:
     """Newer #21's title disagrees with its payload, so it has identity reasons and cannot be a superseder.
 
