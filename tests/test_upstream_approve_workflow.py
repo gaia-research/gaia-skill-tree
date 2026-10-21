@@ -218,6 +218,7 @@ with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as fh:
 FAIL = WORLD.get("fail", {})
 ISSUES = {int(key): value for key, value in WORLD["issues"].items()}
 HIDDEN = set(WORLD.get("list_hidden", []))
+GONE = set(WORLD.get("gone", []))
 PAGE_SIZE = WORLD.get("page_size", 100)
 
 
@@ -292,8 +293,14 @@ elif cmd == "api":
         sys.stdout.write("".join(json.dumps(page) for page in pages))
     elif len(parts) == 5 and parts[3] == "issues" and parts[4].isdigit():
         number = int(parts[4])
-        if number in FAIL.get("get", []) or number not in ISSUES:
-            die(f"HTTP 404 issue #{number} (fake)")
+        if number in FAIL.get("get", []):
+            die(f"HTTP 502 issue #{number} (fake server failure)")
+        if number in FAIL.get("forbidden", []):
+            die(f"HTTP 403 issue #{number} (fake forbidden)")
+        if number in GONE:
+            die(f"HTTP 410 issue #{number} (fake gone)")
+        if number not in ISSUES:
+            die(f"HTTP 404 issue #{number} (fake not found)")
         row = dict(ISSUES[number])
         row["number"] = number
         sys.stdout.write(json.dumps(row))
@@ -520,6 +527,40 @@ def test_gate_candidate_get_failure_fails_closed(tmp_path):
     result = run_gate(tmp_path, data)
     assert result.code != 0
     assert "gate_passed" not in result.outputs
+
+
+def test_gate_candidate_forbidden_get_fails_closed(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    data = world(umbrella_issue(payload), child_issue(5001), list_hidden=[5001], fail={"forbidden": [5001]})
+    result = run_gate(tmp_path, data)
+    assert result.code != 0
+    assert "gate_passed" not in result.outputs
+
+
+def test_gate_candidate_child_deleted_404_is_absent_and_does_not_block(tmp_path):
+    # Child #5001 no longer exists (deleted). The gate must not be blocked forever by it.
+    payload = v2_payload(("ask-user", 5001), ("briefing", None))
+    result = run_gate(tmp_path, world(umbrella_issue(payload)))
+    assert result.code == 0
+    assert result.outputs == {"gate_passed": "true"}
+    assert "::notice::" in result.output and "#5001" in result.output
+    assert "absent" in result.output
+
+
+def test_gate_candidate_child_gone_410_is_absent_and_does_not_block(tmp_path):
+    payload = v2_payload(("ask-user", 5001))
+    result = run_gate(tmp_path, world(umbrella_issue(payload), gone=[5001]))
+    assert result.outputs == {"gate_passed": "true"}
+    assert "#5001" in result.output
+
+
+def test_gate_absent_child_still_blocks_on_other_open_children(tmp_path):
+    # Only the dead link is skipped; a live open child elsewhere in the payload still gates.
+    payload = v2_payload(("ask-user", 5001), ("briefing", 5002))
+    data = world(umbrella_issue(payload), child_issue(5002, slug="briefing"))
+    result = run_gate(tmp_path, data)
+    assert result.outputs == {"gate_passed": "false"}
+    assert "#5002" in result.comments()[-1] and "#5001" not in result.comments()[-1]
 
 
 def _rejected_umbrella(payload):
