@@ -1,6 +1,6 @@
 # Upstream Watcher — Design
 
-**Status:** V1 design (2026-07-08), pre-implementation.
+**Status:** V1 design (2026-07-08). Behaviour below is current as of the #2131 fail-closed remediation (2026-10-21), which closed the verifier findings H1-H2, M1-M10 and L1-L7. Where this document and the live workflow disagree, the disagreement is named explicitly (see [Runtime](#runtime--trigger-cadence-notifications) and [Open questions](#open-questions-curation-policy-not-infra)).
 **Owner:** infra.
 **Related:** [issue-tracker.md](issue-tracker.md), [triage-labels.md](triage-labels.md), [domain.md](domain.md).
 
@@ -105,10 +105,15 @@ Current behaviour:
 - One `[upstream:release]` umbrella per suite, keyed `upstream-suite:{owner}/{repo}`. A new version updates that umbrella in place (title and payload) instead of opening a second one.
 - The umbrella payload is `payloadVersion: 2` with a `candidates[]` batch record. Rows are keyed by candidate id `{owner}/{repo}:{slug}` and carry `firstSeenVersion`, `lastSeenVersion`, `precheck`, `status` and `child`. Rows are never removed; a component dropped upstream stays visible.
 - Prechecks run before any write. They cover registry presence, alias suspicion, open children (read from a LIST snapshot, not search) and prior rejection. Rows that are `present`, `tracked` or `rejected` are suppressed from new work but retained.
+- **Rejection memory does not expire (M6).** The closed `upstream:child` history is read in full, with list pagination and no 30-day window, so a candidate rejected months ago is still suppressed. A failed page is unknown evidence.
+- **Body limit (M5).** GitHub caps an issue body at 65,536 characters. A suite whose full inline payload renders above 60,000 characters is written in **records mode**: the body keeps a compact index (`id`, `status`, `child`) in `candidates[]` and `candidateRecords: {chunks, rows, sha256}`, and the full rows live in numbered `<!-- gaia-upstream-record ... -->` comments, 50 rows each. Each record comment's header carries the SHA-256 of its own text, so an edited comment fails closed. The body commits to the ordered rows by digest. A changed row rewrites only its chunk; an unchanged rerun writes nothing. Carry-forward and escalation read the records back. Ceiling: about 900 candidate rows per suite before the index itself would exceed the body limit. Past that the run stops with exit 3 and writes nothing; it never writes a body over the limit. Residual: two writers that run outside the watcher's `upstream-watcher` concurrency group in the same window, or a hand edit, can leave two different copies of one chunk. The reader then fails closed (exit 3) until the stale copy is deleted. The workflow's own runs are serialized by that group.
+- **Reset before body (H2).** When an approved umbrella moves to a new payload, the reviewer note and the `upstream:approved` to `upstream:needs-info` reset are written **before** the body changes. The label reset is retried three times. If it still fails, the body is left alone, so the next run is non-noop and tries again. Approval never survives a payload change.
+- **Create race (L1).** A create that lands on an identical umbrella written by a racing run is a noop with zero writes.
+- **Transient link errors (L2).** A component whose HEAD check hits a network error is not a broken link. It is left out of the hashed `linkLiveness`, and its previous recorded state, if any, is carried forward.
 - A rerun with an unchanged payload hash performs zero writes. A changed approved umbrella loses `upstream:approved`, gains `upstream:needs-info`, and receives one comment (see Labels).
 - Carry-forward: a new umbrella for a suite starts from the unresolved rows of the newest closed umbrella. That umbrella is found in the full closed `upstream:release` history (a labels-filtered LIST with no `since`, every page read), not the 30-day window that the prechecks use, so an umbrella closed months ago still carries its rows. A carried row keeps its `status`, `child` and `firstSeenVersion` and records `carriedFrom: "#N"`. A row is unresolved unless it is `present`, `rejected`, or linked to a closed child intake. Closing an umbrella therefore never drops candidates. A failed or incomplete history read is unknown evidence: zero writes, exit 3.
 - Dead child links: a `candidates[].child` that GitHub answers with HTTP 301 (transferred), 404 or 410 is absent. The planner clears the link and returns the row to `new`, so it is visible as unresolved again. A `::notice::` names the number. Any other lookup failure (5xx, 403, timeout, parse) is unknown evidence: zero writes, exit 3, and the link is kept.
-- Legacy fanout (`--child-mode fanout`): every duplicate check (umbrella, bootstrap and intake) reads one paginated open-issue snapshot taken before the first write. A failed list raises and the run exits 3 with `unknownEvidence` and zero writes. A failed lookup is never read as "no existing issue".
+- Legacy fanout (`--child-mode fanout`): every duplicate check (umbrella, bootstrap and intake) reads one paginated open-issue snapshot taken before the first write. A failed list raises and the run exits 3 with `unknownEvidence` and zero writes. A failed lookup is never read as "no existing issue". A failed umbrella create or update writes no child intake for that suite and exits 3 (M10).
 - `--escalate` on a row whose child is adopted marks the row `tracked` at once. A child it creates marks the row `escalated`. An absent child is replaced rather than reported as `already-child`.
 - `--child-mode fanout` keeps the legacy one-child-per-component path for emergencies.
 - `--escalate <candidate-id>` (CLI, or the `escalate_candidate` input of `upstream-watcher.yml`) creates one `[intake]` child from a row on the standard template, or adopts the open child that already exists.
@@ -123,7 +128,7 @@ See [Data model](#data-model) for exact schema.
 
 ### F5. Cadence & trigger
 
-**Decision: `workflow_dispatch` manual only for V1. Daily cron block written but commented out with V1.1 sunset TODO.**
+**Decision: `workflow_dispatch` manual only for V1. Daily cron block written but commented out with V1.1 sunset TODO.** *Not the live state: the schedule is uncommented in `upstream-watcher.yml`. See [Runtime](#runtime--trigger-cadence-notifications) and [Open questions](#open-questions-curation-policy-not-infra).*
 
 Why manual first: control, verify outputs are useful before making it ambient. Enabling cron is a one-line change once trusted.
 
@@ -232,6 +237,8 @@ Reviewed via the standard intake protocol. Acceptance triggers a `gaia dev add` 
 
 Fired once per suite on the crawler's first ever run. Body: "We've never tracked this suite. Approve to baseline at current upstream version `v1.0.3`." No component diff, no proposal — just a one-time human confirmation that the derived `owner/repo` is correct before the crawler starts baselining. Applying `upstream:approved` writes the initial `upstream:` frontmatter block via `gaia dev sync-upstream --bootstrap`.
 
+**The watcher never applies `upstream:approved` to a bootstrap (M3).** It creates the issue with `upstream:bootstrap` only and never dispatches `upstream-approve.yml`, in either mode. A human reads the proposed baseline and applies the label. An existing bootstrap updated to a newer version keeps whatever label a human left on it; the watcher does not re-approve it.
+
 Alternative implementation: a single consolidated bootstrap issue listing all suites. Faster to close, less audit granularity — implementer's call.
 
 ---
@@ -247,7 +254,7 @@ Add to `.github/labels.yml` (create the file — repo currently has none; use `g
 | `upstream:child` | crawler | escalation of a batch row, or fanout child creation | links to umbrella (`Umbrella: #N`) |
 | `upstream:bootstrap` | crawler | first-poll baselining | one-time; distinct workflow trigger |
 | `needs-triage` | crawler | any issue creation | standard triage flow |
-| `upstream:approved` | maintainer | after review | fires sync workflow (gated on child resolution) |
+| `upstream:approved` | maintainer (never the watcher) | after review | fires sync workflow (gated on child resolution). Required on an open issue; the workflow refuses a closed or unapproved one (L3) |
 | `upstream:rejected` | maintainer | after review | closes issue with sync-skipped comment |
 | `upstream:needs-info` | maintainer; watcher on approved reset | after review, or when an approved umbrella moves to a new version or gains reviewable rows | holds; no automation fires. The watcher removes `upstream:approved`, adds this label and posts one comment naming the approved version, the new version and the added rows |
 | `skip-child-gate` | maintainer (rare) | with `upstream:approved` | bypasses the child-resolution gate only; never closes, accepts or rejects a child or the umbrella |
@@ -260,19 +267,21 @@ Cross-link this table into `docs/agents/triage-labels.md`.
 
 ### Workflow: `.github/workflows/upstream-approve.yml`
 
-**Trigger:** `issues.labeled` filtered to `upstream:approved`.
+**Trigger:** `issues.labeled` filtered to `upstream:approved`. Issue numbers from `workflow_dispatch` must be digits and reach the shell only through `env:` (M9). No workflow input is interpolated into a `run:` block.
 
 **Steps:**
 
-1. Guard: labeler must be a Verifier (reuse the meta-guard authorization check pattern from `.github/workflows/meta-guard.yml`).
+0. Build the base `registry/named-skills.json` index (`scripts/assemble_gaia.py`, `scripts/generateNamedIndex.py`). The file is gitignored, so it is absent from a fresh checkout (H1, same fix as #1815 in `meta-guard.yml`).
+1. Guard: labeler must be a Verifier. A missing or unparseable index is a **denial**. Bootstrap (zero Verifiers) is granted only when the freshly built index parses and holds no Verifier. The bot allowlist is unchanged.
+1a. Verify the issue is open and still carries `upstream:approved`, on every trigger including `workflow_dispatch` (L3). A closed issue or one whose approval was withdrawn syncs nothing.
 2. Parse machine-readable payload from the issue body.
 3. Child gate. Find open child intakes with a paginated REST LIST of open `upstream:child` issues, keeping those whose body has the `Umbrella: #N` line for this umbrella (exact number match). For a `payloadVersion: 2` umbrella, also verify each `candidates[].child` number live by GET and count any that is open. The gate never uses `gh issue list --search`, because search lags issue creation and can hide a child. Batch rows without a child do not gate. If any child is open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state). A candidate child that answers HTTP 404 or 410 is absent: it does not block, and the job prints a notice naming the number. If a list or any other get fails, or a candidate child link is malformed, comment on the umbrella and exit 1: the gate fails closed, so no sync branch or PR is created. Once the gate blocks, every later step is skipped (each is guarded by `gate_passed == 'true'`). `skip-child-gate` bypasses this gate only. It never closes, accepts or rejects a child or the umbrella.
 3a. Count unresolved candidate rows (same rule as carry-forward). When the count is above zero, the draft PR body uses `Refs #<umbrella>` and states `Umbrella stays open: N unresolved candidate row(s).` When it is zero, the body uses `Fixes #<umbrella>`. A v1 payload has no rows and keeps `Fixes`.
 4. Checkout `main`, create branch `review/meta/upstream-<skill>-<version>`.
 5. Run `gaia dev sync-upstream <skill-id> --tag <tag> --source-url <url>` (writes frontmatter block + appends timeline event atomically).
-6. For each `componentRemoves[]`: run `gaia dev freeze <component-id> --reason "removed from <umbrella>@<version>"` (writes `installable: false` + timeline `upstream_deprecated`).
-7. Run `gaia dev docs` to regen Class S artifacts (per docs-cohesion Guard E).
-8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes. The body's Scope section states that approval confirms the version bump only. It does not accept any batch row, and rows not escalated to a child stay open candidates in the umbrella. The closing line is `Fixes #<umbrella>` only when no row is unresolved (step 3a); otherwise it is `Refs #<umbrella>` with the `Umbrella stays open` line.
+6. For each `componentRemoves[]`: run `gaia dev freeze <component-id> --reason "removed from <umbrella>@<version>"` (writes `installable: false` + timeline `upstream_deprecated`). A failed freeze fails the job, comments on the umbrella and opens no PR (L4).
+7. Run `gaia dev docs` to regen Class S artifacts (per docs-cohesion Guard E). A failure fails the job and opens no PR (L4).
+8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes. The body states the freeze count that actually happened (L4). The body's Scope section states that approval confirms the version bump only. It does not accept any batch row, and rows not escalated to a child stay open candidates in the umbrella. The closing line is `Fixes #<umbrella>` only when no row is unresolved (step 3a); otherwise it is `Refs #<umbrella>` with the `Umbrella stays open` line.
 9. Comment on umbrella: `Draft PR #999 opened: <url> -- Approval confirms the version bump to <version> only. Batch rows not escalated to a child intake stay open candidates here and are not accepted. Auto-closes this umbrella on merge (Fixes #<umbrella>).` When rows are unresolved, the last sentence reads `Umbrella stays open: N unresolved candidate row(s)` instead.
 
 ### Workflow: `.github/workflows/upstream-close-children.yml`
@@ -284,6 +293,10 @@ Filters to issues labeled `upstream:child`, finds the umbrella (from body refere
 Both the sibling check and the reject cascade use the same paginated LIST and `payloadVersion: 2` candidate verification as the approve gate, never search. A failed lookup fails the job. The sibling check then does not re-fire approve, and the cascade closes nothing.
 
 Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`, auto-closes any still-open `upstream:child` issues that reference it, and comments the batch row ids (`cand:<id>`) that the rejection covers. Rows are retained in the payload and never removed.
+
+**Ownership proof (M7).** A candidate row's `child` link can point at a child that another umbrella now owns. The cascade therefore closes a child only when that child's own body names `Umbrella: #<this umbrella>`. Any other child is skipped and logged, and a child whose body cannot be read is not closed and fails the job.
+
+**Re-fire (M8).** The job holds `actions: write` (job scope only) so `gh workflow run` can re-fire approve. A failed dispatch is an `::error::`, a marker comment on the umbrella, and a failed job. It is never a silent warning.
 
 ---
 
@@ -299,6 +312,10 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 
 The run always uses `--child-mode batch` and writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact.
 
+The workflow's token scope is `issues: write` and `contents: read` (L5). The watcher never pushes, opens PRs or dispatches workflows.
+
+> **Live state versus the decision above (M4, founder call).** Section [F5](#f5-cadence--trigger) records the decision as manual dispatch only, with the daily cron "written but commented out". That is **not** the live state. `upstream-watcher.yml` has the `schedule` (`0 6 * * *`) uncommented, and every scheduled run passes `--apply`, so the watcher creates and updates issues daily. This change does not alter the schedule. Keeping it live, or commenting it out, is a founder decision. Until the founder rules, treat the schedule as live.
+
 ### Run report and exit codes
 
 `--report FILE` writes JSON: `issuesCreated`, `issuesUpdated`, `suppressedDuplicates` (candidate rows suppressed as present, tracked or rejected), `retainedCandidates` (total rows kept across touched umbrellas), `unknownEvidence` and `suites[]` (`suite`, `umbrella`, `newRows`, `totalRows`, `outcome`). It is also written in dry-run.
@@ -308,9 +325,20 @@ The run always uses `--child-mode batch` and writes `generated-output/upstream-w
 | 0 | Success, including no findings and no-op reruns. |
 | 1 | Hard failure (import error, unrecoverable exception). |
 | 2 | `--escalate` target not found in any open umbrella. |
-| 3 | Unknown evidence: the registry is unreadable or empty, or a GitHub list or get failed. Zero issue writes were made; the report lists the failing source. |
+| 3 | Unknown evidence or an incomplete write stage. The report lists the failing source (`unknownEvidence`). **Poll-stage** failures (a release or tree read, M1-M2) and registry failures make **zero writes for the whole run**. **Write-stage** failures (a list, a get, an umbrella write, a record write, M5-M10) stop the run at that point. Suites written earlier in that run are complete and idempotent, so a rerun is a noop for them. |
 
 Fail closed is absolute: no source of unknown evidence is treated as "absent". Pagination follows explicit pages and refuses to truncate. Searches are never used to decide whether something is already tracked, because the search index lags creation.
+
+### Fail-closed reads (#2131 remediation)
+
+| Read | Failure | Result |
+|---|---|---|
+| `GET /releases/latest` (M1) | HTTP 404 | "no releases tagged": the suite is skipped |
+| `GET /releases/latest` (M1) | 403, 5xx, network, unparseable, or no tag | unknown evidence: zero writes for the run, exit 3. Never "skipped, exit 0" |
+| Component tree (M2) | any failure, a 404 on the tag, or `truncated` | unknown evidence: no `componentRemoves` derived, exit 3. A missing `skills/` root is a legitimate version-only layout, not unknown |
+| Head check (L2) | network error | not a broken link: left out of the hash, previous state carried forward |
+| Closed `upstream:child` history (M6) | any page failure | unknown evidence (`GhError`), zero writes |
+| Record comments (M5) | missing, duplicated, edited, or unlisted | unknown evidence, zero writes (`RecordError` is a `GhError`) |
 
 ### Notifications inbox as wake-up signal (optional cost optimization)
 
@@ -433,6 +461,8 @@ The component's badge, TM leaderboard entry, and `gaia tree` display all survive
 ---
 
 ## Open questions (curation-policy, not infra)
+
+0. **Daily schedule (M4, founder decision).** The live workflow runs daily at 06:00 UTC with `--apply`, which contradicts the F5 decision above. Options: keep it live, or comment out the `schedule` block as F5 describes. Disabling it is a founder call. This remediation changed no schedule.
 
 These deliberately do NOT block V1 implementation. They are questions the maintainer team resolves through curation practice, not infra design.
 

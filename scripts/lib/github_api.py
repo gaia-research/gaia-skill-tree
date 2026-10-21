@@ -83,10 +83,24 @@ _API_BASE = "https://api.github.com"
 _CACHE: dict[str, dict | None] = {}  # URL -> parsed JSON or None on error
 
 
+class GitHubFetchError(RuntimeError):
+    """A strict GitHub GET failed: any status other than a definitive 404, a network error, or an unparseable body."""
+
+    def __init__(self, message: str, status: int | None = None):
+        super().__init__(message)
+        self.status = status
+
+
+class GitHubNotFound(GitHubFetchError):
+    """A strict GitHub GET answered HTTP 404: the resource is definitively absent."""
+
+
 def fetch_json(
     endpoint: str,
     token: str | None = None,
     timeout: int = 10,
+    *,
+    strict: bool = False,
 ) -> dict | None:
     """Fetch *endpoint* and return the parsed JSON dict.
 
@@ -105,6 +119,11 @@ def fetch_json(
 
     Returns ``None`` on ``HTTPError``, timeout, or any network error; emits a
     warning to ``stderr``.
+
+    With ``strict=True`` nothing is swallowed and nothing is cached: an HTTP 404
+    raises :class:`GitHubNotFound`, and every other failure raises
+    :class:`GitHubFetchError`. Callers that treat an error as unknown evidence
+    (the upstream watcher) must use strict mode.
     """
     # Normalise to a full URL
     if endpoint.startswith("/"):
@@ -113,6 +132,9 @@ def fetch_json(
         url = f"{_API_BASE}/{endpoint}"
     else:
         url = endpoint
+
+    if strict:
+        return _fetch_strict(url, token, timeout)
 
     if url in _CACHE:
         return _CACHE[url]
@@ -144,6 +166,32 @@ def fetch_json(
         return None
     finally:
         time.sleep(0.1)  # 100 ms throttle — same as heartbeat
+
+
+def _fetch_strict(url: str, token: str | None, timeout: int) -> dict:
+    """Strict GET: return parsed JSON, or raise. Never cached, never swallowed."""
+    resolved_token = token or os.environ.get("GH_TOKEN", "")
+    req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
+    if resolved_token:
+        req.add_header("Authorization", f"token {resolved_token}")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read().decode()
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            raise GitHubNotFound(f"GitHub API HTTP 404 for {url}", status=404) from exc
+        raise GitHubFetchError(f"GitHub API HTTP {exc.code} for {url}: {exc.reason}", status=exc.code) from exc
+    except Exception as exc:  # noqa: BLE001 — timeouts, resets, DNS: all unknown evidence
+        raise GitHubFetchError(f"GitHub API request failed for {url}: {exc}") from exc
+    finally:
+        time.sleep(0.1)  # 100 ms throttle, as in the legacy path
+    try:
+        data = json.loads(raw)
+    except ValueError as exc:
+        raise GitHubFetchError(f"unparseable JSON from {url}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise GitHubFetchError(f"unexpected JSON shape from {url}: expected an object")
+    return data
 
 
 # ---------------------------------------------------------------------------

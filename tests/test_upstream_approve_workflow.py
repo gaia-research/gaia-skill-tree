@@ -9,11 +9,9 @@ the issue merely contained upstream:approved, meaning adding any later label
 import json
 import os
 import pathlib
-import re
 import subprocess
 import sys
 import yaml
-import pytest
 
 WORKFLOW_PATH = (
     pathlib.Path(__file__).resolve().parents[1]
@@ -281,6 +279,8 @@ elif cmd == "issue" and ARGS[1] == "list":
 elif cmd == "issue":
     print("https://github.com/gaia-research/gaia-skill-tree/issues/1")
 elif cmd == "workflow":
+    if FAIL.get("workflow"):
+        die("HTTP 403 (fake workflow dispatch refused)")
     print("")
 elif cmd == "pr" and ARGS[1] == "list":
     sys.stdout.write("")
@@ -345,7 +345,7 @@ class StepResult:
         return [args for args in self.calls if args[:2] == ["workflow", "run"]]
 
 
-def run_step(tmp_path, run_text, world_data, extra_env=None, cwd=None):
+def run_step(tmp_path, run_text, world_data, extra_env=None, cwd=None, shims=None):
     bindir = tmp_path / "bin"
     bindir.mkdir()
     fake = tmp_path / "fake_gh.py"
@@ -353,6 +353,11 @@ def run_step(tmp_path, run_text, world_data, extra_env=None, cwd=None):
     gh = bindir / "gh"
     gh.write_text(f'#!/bin/sh\nexec "{sys.executable}" "{fake}" "$@"\n', encoding="utf-8")
     gh.chmod(0o755)
+    # Optional stand-ins for other commands the step runs (for example `python -m gaia_cli`).
+    for name, body in (shims or {}).items():
+        shim = bindir / name
+        shim.write_text(f"#!/bin/sh\n{body}\n", encoding="utf-8")
+        shim.chmod(0o755)
     world_file = tmp_path / "world.json"
     world_file.write_text(json.dumps(world_data), encoding="utf-8")
     log = tmp_path / "gh-calls.jsonl"
@@ -810,3 +815,238 @@ def test_every_write_step_after_the_gate_is_guarded_by_it():
     assert after, "expected steps after the gate"
     for step in after:
         assert guard in str(step.get("if", "")), step.get("name")
+
+
+# ---------------------------------------------------------------------------
+# #2131 verifier FAIL. H1 (guard), M9 (no inputs in run blocks), L3 (approve state),
+# L4 (freeze, docs and PR body), M7 and M8 (close-children), L5 (watcher permissions).
+# Every run block executes under bash with the fake gh (and a python shim where it runs gaia).
+# ---------------------------------------------------------------------------
+
+BUILD_STEP = "Build the base named-skills index"
+GUARD = "Check labeler is a Verifier"
+RESOLVE = "Resolve issue number and actor"
+VERIFY_STEP = "Verify the issue is open and approved"
+FREEZE_STEP = "Freeze removed components"
+DOCS_STEP = "Regenerate Class S artifacts"
+PR_STEP = "Open draft PR"
+CASCADE_STEP = "Cascade close children on umbrella rejection"
+REFIRE_STEP = "Re-fire approve workflow if all siblings closed"
+WATCHER_PATH = REPO_ROOT / ".github" / "workflows" / "upstream-watcher.yml"
+
+VERIFIER_INDEX = {"buckets": {"stars": [{"contributor": "alice", "level": "4★"}]}}
+NO_VERIFIER_INDEX = {"buckets": {"stars": [{"contributor": "bob", "level": "2★"}]}}
+
+# A stand-in for `python -m gaia_cli ...` in the freeze and docs steps.
+GAIA_SHIM = r'''
+case "$*" in
+  *"dev freeze"*)
+    case "$*" in *"${FAKE_FREEZE_FAIL:-__never__}"*) exit 1 ;; esac
+    exit 0 ;;
+  *"dev docs"*)
+    if [ -n "${FAKE_DOCS_FAIL:-}" ]; then exit 1; fi
+    exit 0 ;;
+esac
+exit 0
+'''
+
+
+def _fresh(tmp_path, name):
+    path = tmp_path / name
+    path.mkdir(parents=True)
+    return path
+
+
+def _guard(tmp_path, actor, index=None):
+    """Run the Verifier guard in a checkout whose registry/named-skills.json is *index* (or absent)."""
+    repo = _fresh(tmp_path, "repo")
+    (repo / "registry").mkdir()
+    if index is not None:
+        text = index if isinstance(index, str) else json.dumps(index)
+        (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
+    return run_step(tmp_path, _step_run(WORKFLOW_PATH, GUARD), world(umbrella_issue(LEGACY_PAYLOAD)),
+                    {"LABELER": actor, "ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo)
+
+
+def test_guard_denies_when_the_index_is_missing(tmp_path):
+    result = _guard(tmp_path, "mallory", index=None)
+    assert result.code == 1
+    assert "deny-missing-index" in result.output
+
+
+def test_guard_denies_an_unparseable_index(tmp_path):
+    result = _guard(tmp_path, "mallory", index="{not json")
+    assert result.code == 1
+    assert "deny-unparseable-index" in result.output
+
+
+def test_guard_denies_an_index_without_buckets(tmp_path):
+    result = _guard(tmp_path, "mallory", index=[])
+    assert result.code == 1
+    assert "deny-unparseable-index" in result.output
+
+
+def test_guard_grants_bootstrap_only_for_a_parseable_index_with_no_verifiers(tmp_path):
+    result = _guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX)
+    assert result.code == 0
+    assert "bootstrap" in result.output
+
+
+def test_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
+    assert _guard(_fresh(tmp_path, "a"), "alice", index=VERIFIER_INDEX).code == 0
+    refused = _guard(_fresh(tmp_path, "b"), "mallory", index=VERIFIER_INDEX)
+    assert refused.code == 1
+    assert refused.comments() and "does not hold a 4★+ named skill" in refused.comments()[0]
+
+
+def test_bot_allowlist_still_passes_without_any_index(tmp_path):
+    assert _guard(tmp_path, "github-actions[bot]", index=None).code == 0
+
+
+def test_the_index_is_built_before_the_guard_runs():
+    names = _step_names(_load()["jobs"]["approve"]["steps"])
+    assert names.index(BUILD_STEP) < names.index(GUARD)
+    build = _step_run(WORKFLOW_PATH, BUILD_STEP)
+    assert "scripts/assemble_gaia.py" in build and "scripts/generateNamedIndex.py" in build
+
+
+def test_no_run_block_interpolates_workflow_inputs_or_event_fields():
+    for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH, WATCHER_PATH):
+        doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+        for job in doc["jobs"].values():
+            for step in job["steps"]:
+                assert "${{" not in step.get("run", ""), f"{path.name}: {step.get('name')}"
+
+
+def test_resolve_step_refuses_a_non_numeric_issue_number(tmp_path):
+    marker = tmp_path / "pwned"
+    result = run_step(_fresh(tmp_path, "inj"), _step_run(WORKFLOW_PATH, RESOLVE), world(), {
+        "EVENT_NAME": "workflow_dispatch", "INPUT_ISSUE_NUMBER": f"5; touch {marker}",
+        "ACTOR_LOGIN": "alice", "EVENT_ISSUE_NUMBER": "", "SENDER_LOGIN": "",
+    })
+    assert result.code == 1
+    assert "must be digits only" in result.output
+    assert not marker.exists()
+
+
+def test_resolve_step_reads_a_numeric_dispatch_input_from_env(tmp_path):
+    result = run_step(_fresh(tmp_path, "ok"), _step_run(WORKFLOW_PATH, RESOLVE), world(), {
+        "EVENT_NAME": "workflow_dispatch", "INPUT_ISSUE_NUMBER": "5000", "ACTOR_LOGIN": "alice",
+        "EVENT_ISSUE_NUMBER": "", "SENDER_LOGIN": "",
+    })
+    assert result.code == 0
+    assert result.outputs == {"number": "5000", "actor": "alice"}
+
+
+def _verify(tmp_path, issue):
+    return run_step(_fresh(tmp_path, "verify"), _step_run(WORKFLOW_PATH, VERIFY_STEP), world(issue),
+                    {"ISSUE_NUMBER": str(UMBRELLA)})
+
+
+def test_verify_step_passes_an_open_approved_umbrella(tmp_path):
+    assert _verify(tmp_path, umbrella_issue(LEGACY_PAYLOAD)).code == 0
+
+
+def test_verify_step_refuses_a_closed_umbrella(tmp_path):
+    result = _verify(tmp_path, {**umbrella_issue(LEGACY_PAYLOAD), "state": "closed"})
+    assert result.code == 1
+    assert "not open" in result.output
+
+
+def test_verify_step_refuses_an_umbrella_whose_approval_was_withdrawn(tmp_path):
+    result = _verify(tmp_path, umbrella_issue(LEGACY_PAYLOAD, labels=("upstream:release",)))
+    assert result.code == 1
+    assert "upstream:approved" in result.output
+
+
+def _freeze(tmp_path, removes, fail=None):
+    env = {"PAYLOAD": json.dumps({"componentRemoves": removes}), "ISSUE_NUMBER": str(UMBRELLA),
+           "NEW_VERSION": "v2", "GAIA_OPERATOR_OVERRIDE": "1"}
+    if fail:
+        env["FAKE_FREEZE_FAIL"] = fail
+    return run_step(_fresh(tmp_path, "freeze"), _step_run(WORKFLOW_PATH, FREEZE_STEP),
+                    world(umbrella_issue(LEGACY_PAYLOAD)), env, shims={"python": GAIA_SHIM})
+
+
+def test_a_failed_freeze_fails_the_job_and_names_the_component(tmp_path):
+    result = _freeze(tmp_path, ["garrytan/old-one"], fail="garrytan/old-one")
+    assert result.code == 1
+    assert "Freeze failed for" in result.output
+    assert any("freeze failed" in body for body in result.comments())
+    assert result.outputs.get("frozen_count") == "0"
+
+
+def test_a_successful_freeze_reports_how_many_components_it_froze(tmp_path):
+    result = _freeze(tmp_path, ["garrytan/a", "garrytan/b"])
+    assert result.code == 0
+    assert result.outputs["frozen_count"] == "2"
+
+
+def test_a_failed_class_s_regeneration_fails_the_job_and_says_so(tmp_path):
+    result = run_step(_fresh(tmp_path, "docs"), _step_run(WORKFLOW_PATH, DOCS_STEP),
+                      world(umbrella_issue(LEGACY_PAYLOAD)),
+                      {"ISSUE_NUMBER": str(UMBRELLA), "GAIA_OPERATOR_OVERRIDE": "1", "FAKE_DOCS_FAIL": "1"},
+                      shims={"python": GAIA_SHIM})
+    assert result.code == 1
+    assert "gaia dev docs failed" in result.output
+    assert any("Class S regeneration failed" in body for body in result.comments())
+
+
+def _pr_body(tmp_path, frozen):
+    return run_step(_fresh(tmp_path, "pr"), _step_run(WORKFLOW_PATH, PR_STEP),
+                    world(umbrella_issue(LEGACY_PAYLOAD)),
+                    {"BRANCH": BRANCH, "SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1",
+                     "ISSUE_NUMBER": str(UMBRELLA), "UNRESOLVED": "0", "FROZEN": str(frozen)})
+
+
+def test_pr_body_reports_the_actual_freeze_count(tmp_path):
+    result = _pr_body(tmp_path, 2)
+    assert result.code == 0
+    assert "Froze 2 removed component(s)" in result.pr_body
+
+
+def test_pr_body_says_nothing_was_frozen_when_nothing_was(tmp_path):
+    result = _pr_body(tmp_path, 0)
+    assert result.code == 0
+    assert "No components were removed upstream" in result.pr_body
+    assert "Froze " not in result.pr_body
+
+
+def test_cascade_closes_only_children_whose_own_body_names_this_umbrella(tmp_path):
+    umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
+    data = world(umbrella, child_issue(5001), child_issue(5002, umbrella=9999))
+    result = run_step(_fresh(tmp_path, "cascade"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
+                      {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
+    assert result.code == 0, result.output
+    assert result.closes() == ["5001"]
+    assert "not #5000" in result.output
+
+
+def test_a_failed_refire_is_an_error_and_leaves_a_marker_comment(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD), fail={"workflow": True})
+    result = run_step(_fresh(tmp_path, "refire-fail"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
+                      {"CLOSED_ISSUE_BODY": f"Umbrella: #{UMBRELLA}", "CLOSED_ISSUE_NUMBER": "5001"})
+    assert result.code == 1
+    assert "::error::Could not re-fire" in result.output
+    assert any("Re-fire failed" in body for body in result.comments())
+
+
+def test_a_successful_refire_dispatches_the_approve_workflow(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD))
+    result = run_step(_fresh(tmp_path, "refire-ok"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
+                      {"CLOSED_ISSUE_BODY": f"Umbrella: #{UMBRELLA}", "CLOSED_ISSUE_NUMBER": "5001"})
+    assert result.code == 0
+    assert len(result.workflow_runs()) == 1
+
+
+def test_close_children_grants_actions_write_to_its_own_job_only():
+    doc = yaml.safe_load(CLOSE_CHILDREN_PATH.read_text(encoding="utf-8"))
+    assert doc["permissions"] == {"issues": "write"}
+    assert doc["jobs"]["close-children"]["permissions"] == {"issues": "write", "actions": "write"}
+
+
+def test_watcher_workflow_drops_unused_write_scopes_and_keeps_its_schedule():
+    doc = yaml.safe_load(WATCHER_PATH.read_text(encoding="utf-8"))
+    assert doc["permissions"] == {"issues": "write", "contents": "read"}
+    triggers = doc.get("on") or doc.get(True)
+    assert triggers["schedule"] == [{"cron": "0 6 * * *"}]

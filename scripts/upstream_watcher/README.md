@@ -59,7 +59,7 @@ python scripts/upstream_watcher/watcher.py --apply
 3. Optionally fill in `skill_id` to scope to one suite.
 4. Set `apply` to `true` to create issues (default is dry-run).
 
-> **Note:** PR 6 ships this code but PR 7 will perform the first real dry-run against the live registry. Do not enable the cron schedule until outputs are verified for 2+ weeks.
+> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` is live (06:00 UTC, `--apply`). That contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
 
 ---
 

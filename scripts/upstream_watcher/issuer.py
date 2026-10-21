@@ -26,7 +26,6 @@ create_issues(findings, apply, verbose)
 from __future__ import annotations
 
 import json
-import os
 import re
 import subprocess
 import sys
@@ -38,6 +37,10 @@ from scripts.upstream_watcher.live import GhError, LiveGh
 
 # Labels whose open issues the fanout idempotency checks read, once, before the first write.
 IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
+
+
+class UmbrellaWriteError(RuntimeError):
+    """A legacy fanout umbrella could not be created or updated. Its children are never written (M10)."""
 
 
 class IdempotencyLookupError(RuntimeError):
@@ -433,36 +436,6 @@ def _update_issue(
         Path(body_file).unlink(missing_ok=True)
 
 
-def _dispatch_upstream_approve(
-    issue_number: int,
-    dry_run: bool = False,
-    verbose: bool = False,
-) -> bool:
-    """Dispatch the upstream-approve workflow for an auto-approved bootstrap issue."""
-    if dry_run:
-        if verbose:
-            print(f"  [dry-run] Would dispatch upstream-approve for #{issue_number}", file=sys.stderr)
-        return True
-
-    try:
-        cmd = [
-            "gh", "workflow", "run", "upstream-approve.yml",
-            "-f", f"issue_number={issue_number}",
-        ]
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if res.returncode == 0:
-            if verbose:
-                print(f"  [auto-bootstrap] Dispatched upstream-approve for #{issue_number}", file=sys.stderr)
-            return True
-        if verbose:
-            print(f"  [auto-bootstrap] Note: gh workflow run returned {res.returncode}: {res.stderr.strip()}", file=sys.stderr)
-        return False
-    except Exception as exc:  # noqa: BLE001
-        if verbose:
-            print(f"  [auto-bootstrap] Could not dispatch upstream-approve for #{issue_number}: {exc}", file=sys.stderr)
-        return False
-
-
 def _find_existing_issue(
     search_str: str,
     label: str,
@@ -602,6 +575,9 @@ def create_issues(
     IdempotencyLookupError
         A duplicate check could not read GitHub. The open-issue snapshot is read
         before the first write, so this is raised with zero writes made.
+    UmbrellaWriteError
+        An apply-mode umbrella create or update failed. No child intake is written
+        for that suite, and the run stops (M10).
     """
     summaries: list[dict] = []
     if not full_findings:
@@ -654,25 +630,23 @@ def create_issues(
                     verbose=verbose,
                 )
                 run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
-                if apply:
-                    _dispatch_upstream_approve(existing_num, dry_run=False, verbose=verbose)
                 summaries.append(
                     {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}
                 )
                 continue
 
             body = render_bootstrap_body(finding)
+            # M3: a bootstrap is never created with upstream:approved and never dispatches
+            # upstream-approve.yml. A human reads the proposed baseline and applies the label.
             issue_num = _create_issue(
                 title,
-                ["upstream:bootstrap", "upstream:approved"],
+                ["upstream:bootstrap"],
                 body,
                 dry_run=not apply,
                 verbose=verbose,
             )
             if issue_num:
                 run_cache[("upstream:bootstrap", suite_prefix)] = (issue_num, title)
-                if apply:
-                    _dispatch_upstream_approve(issue_num, dry_run=False, verbose=verbose)
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -725,7 +699,7 @@ def create_issues(
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
                 "Payload, component diff, and link-liveness refreshed."
             )
-            _update_issue(
+            updated_ok = _update_issue(
                 existing_num,
                 umbrella_title,
                 umbrella_body,
@@ -733,6 +707,10 @@ def create_issues(
                 dry_run=not apply,
                 verbose=verbose,
             )
+            if apply and not updated_ok:
+                raise UmbrellaWriteError(
+                    f"could not update umbrella #{existing_num} for {skill_id}; no child intakes were written"
+                )
             umbrella_num = existing_num
             run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
             is_update = True
@@ -747,6 +725,10 @@ def create_issues(
                 dry_run=not apply,
                 verbose=verbose,
             )
+            if apply and not umbrella_num:
+                raise UmbrellaWriteError(
+                    f"could not create umbrella {umbrella_title!r}; no child intakes were written for {skill_id}"
+                )
             if umbrella_num:
                 run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
             is_update = False

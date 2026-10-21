@@ -42,12 +42,12 @@ _REPO_ROOT = _HERE.parent.parent.parent
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.lib.github_api import fetch_json, parse_owner_repo
+from scripts.lib.github_api import GitHubFetchError, GitHubNotFound, fetch_json, parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.batch import escalate_candidate, new_report, run_batch
-from scripts.upstream_watcher.issuer import IdempotencyLookupError, create_issues
-from scripts.upstream_watcher.live import LiveGh
+from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
+from scripts.upstream_watcher.live import LiveGh, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
 from scripts.upstream_watcher.name_drift import check_name_drift
 
@@ -153,16 +153,25 @@ def _poll_suite(
     if verbose:
         print(f"  Polling {owner}/{repo} for {skill_id} ...", file=sys.stderr)
 
-    release_data = fetch_json(
-        f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-    )
-
-    if not release_data:
+    # Fail closed (M1). Only a definitive HTTP 404 means "no releases tagged" and is
+    # skipped. Any other failure (403, 5xx, network, unparseable body) is unknown
+    # evidence, so the run writes nothing and exits 3.
+    try:
+        release_data = fetch_json(
+            f"https://api.github.com/repos/{owner}/{repo}/releases/latest", strict=True
+        )
+    except GitHubNotFound:
         print(
-            f"  [skip] {skill_id} — no release data from {owner}/{repo} (no releases tagged or API error).",
+            f"  [skip] {skill_id} — {owner}/{repo} has no releases tagged (HTTP 404).",
             file=sys.stderr,
         )
         return None
+    except GitHubFetchError as exc:
+        raise UnknownEvidenceError(
+            f"releases/latest for {owner}/{repo} could not be read: {exc}"
+        ) from exc
+    if not isinstance(release_data, dict) or not release_data.get("tag_name"):
+        raise UnknownEvidenceError(f"releases/latest for {owner}/{repo} returned no tag")
 
     finding = compute_finding(fm, release_data)
     if finding is None:
@@ -188,7 +197,12 @@ def _poll_suite(
         finding["componentRemoves"] = removes
 
         liveness = check_component_liveness(components, registry_map)
-        finding["linkLiveness"] = liveness
+        # L2: a transient network error is not a broken link. It stays out of the
+        # hashed linkLiveness; the planner carries the previous state for it.
+        finding["linkLiveness"] = [row for row in liveness if row["status"] != "network_error"]
+        finding["linkLivenessUnknown"] = sorted(
+            row["skillId"] for row in liveness if row["status"] == "network_error"
+        )
 
         # Issue #1457: compare each tracked component's registry slug against
         # its sanitized upstream SKILL.md frontmatter `name` — catches
@@ -199,6 +213,7 @@ def _poll_suite(
         finding["componentAdds"] = []
         finding["componentRemoves"] = []
         finding["linkLiveness"] = []
+        finding["linkLivenessUnknown"] = []
         finding["nameDrift"] = []
 
     return finding
@@ -288,7 +303,7 @@ def main(argv: list[str] | None = None) -> int:
         return 3
 
     full_findings: list[dict] = []
-    skipped = 0
+    unknown: list[dict] = []
     up_to_date = 0
 
     suite_iter = (
@@ -301,9 +316,13 @@ def main(argv: list[str] | None = None) -> int:
         skill_id = fm.get("id", "?")
         try:
             finding = _poll_suite(fm, registry_map, verbose)
-        except Exception as exc:  # noqa: BLE001
-            print(f"  [error] Unexpected error polling {skill_id}: {exc}", file=sys.stderr)
-            skipped += 1
+        except UnknownEvidenceError as exc:
+            print(f"  [unknown] {skill_id} — {exc}", file=sys.stderr)
+            unknown.append({"source": "github-poll", "suite": skill_id, "detail": str(exc)})
+            continue
+        except Exception as exc:  # noqa: BLE001 — fail closed: an unexpected failure is unknown evidence, never "skipped"
+            print(f"  [unknown] {skill_id} — unexpected error while polling: {exc}", file=sys.stderr)
+            unknown.append({"source": "github-poll", "suite": skill_id, "detail": f"unexpected error: {exc}"})
             continue
 
         if finding is None:
@@ -312,10 +331,24 @@ def main(argv: list[str] | None = None) -> int:
             full_findings.append(finding)
 
     print(
-        f"\n[watcher] Polled suites: {len(full_findings) + up_to_date + skipped} total, "
-        f"{len(full_findings)} finding(s), {up_to_date} up-to-date, {skipped} skipped.",
+        f"\n[watcher] Polled suites: {len(full_findings) + up_to_date + len(unknown)} total, "
+        f"{len(full_findings)} finding(s), {up_to_date} up-to-date, {len(unknown)} unknown.",
         file=sys.stderr,
     )
+
+    if unknown:
+        # M1: one unreadable poll makes the whole run unknown. Nothing is written, not
+        # even for suites that polled cleanly, so the next run starts from the same state.
+        report = new_report()
+        report["childMode"] = args.child_mode
+        report["dryRun"] = not apply
+        report["unknownEvidence"] = unknown
+        _write_report(report, args.report)
+        print(
+            f"[watcher] Unknown evidence on {len(unknown)} suite(s); zero issues written this run.",
+            file=sys.stderr,
+        )
+        return 3
 
     if not apply:
         # Dry-run: render markdown report to stdout
@@ -334,6 +367,12 @@ def main(argv: list[str] | None = None) -> int:
                 report["unknownEvidence"].append({"source": "github-list", "detail": str(exc)})
                 _write_report(report, args.report)
                 print(f"[watcher] Unknown evidence, no issues written: {exc}", file=sys.stderr)
+                return 3
+            except UmbrellaWriteError as exc:
+                # M10: an umbrella write failed. Its children were not written, and later suites stop.
+                report["unknownEvidence"].append({"source": "github-write", "detail": str(exc)})
+                _write_report(report, args.report)
+                print(f"[watcher] Umbrella write failed, run stopped: {exc}", file=sys.stderr)
                 return 3
         report["issuesCreated"] = sum(1 for row in summaries if row.get("umbrella") and not row.get("updated"))
         report["issuesUpdated"] = sum(1 for row in summaries if row.get("updated"))

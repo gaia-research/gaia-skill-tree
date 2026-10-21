@@ -25,6 +25,7 @@ PER_PAGE = 100
 MAX_PAGES = 100
 CLOSED_WINDOW_DAYS = 30
 UMBRELLA_LABEL = "upstream:release"  # the closed-umbrella history is LISTed with this label
+CHILD_LABEL = "upstream:child"  # the closed-child history is LISTed with this label (rejection memory, M6)
 # gh prints "(HTTP 301)" for a transferred issue (its old number now redirects) and
 # "(HTTP 404)" / "(HTTP 410)" for a deleted or gone one. All three mean the number
 # no longer names a live issue. Every other failure stays a plain GhError.
@@ -41,6 +42,14 @@ class GhNotFound(GhError):
     def __init__(self, message: str, status: str):
         super().__init__(message)
         self.status = status
+
+
+class UnknownEvidenceError(RuntimeError):
+    """A read the watcher needs to decide what to do failed or came back incomplete.
+
+    Raised on the poll path (release, tree) so the run can exit 3 with zero writes.
+    Never caught as "absent" and never turned into an empty result.
+    """
 
 
 def default_repo() -> str:
@@ -126,6 +135,36 @@ class LiveGh:
             return "absent"
         return "closed" if issue.get("state") == "closed" else "open"
 
+    def list_comments(self, number: int) -> list[dict]:
+        """Return every comment on *number*, following explicit pages (M5 record comments).
+
+        Any failure raises GhError. A short page ends the walk; reaching MAX_PAGES is an error.
+        """
+        items: list[dict] = []
+        for page in range(1, MAX_PAGES + 1):
+            batch = self._json(
+                ["gh", "api", "--method", "GET", f"repos/{self.repo}/issues/{number}/comments",
+                 "-f", f"per_page={PER_PAGE}", "-f", f"page={page}"]
+            )
+            if not isinstance(batch, list):
+                raise GhError(f"comment page {page} of #{number} is not an array")
+            items.extend(batch)
+            if len(batch) < PER_PAGE:
+                return items
+        raise GhError(f"comment list of #{number} exceeded {MAX_PAGES} pages; refusing to truncate")
+
+    def edit_comment(self, comment_id: int, body: str) -> None:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:
+            handle.write(body)
+            body_file = handle.name
+        try:
+            self._run(
+                ["gh", "api", "--method", "PATCH", f"repos/{self.repo}/issues/comments/{comment_id}",
+                 "-F", f"body=@{body_file}"]
+            )
+        finally:
+            Path(body_file).unlink(missing_ok=True)
+
     def create_issue(self, title: str, labels: list[str], body: str) -> int:
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:
             handle.write(body)
@@ -180,19 +219,28 @@ def closed_since(now: dt.datetime | None = None, days: int = CLOSED_WINDOW_DAYS)
 
 
 def read_live(gh: LiveGh, now: dt.datetime | None = None) -> dict:
-    """Snapshot open issues, recently closed ones, and the full closed umbrella history.
+    """Snapshot open issues, recently closed ones, and the full closed history that must not expire.
 
-    ``issues`` holds open issues plus those closed inside the recent window.
-    ``closedUmbrellas`` holds every closed ``upstream:release`` issue with no
-    window, because carry-forward must find a suite's newest closed umbrella however
-    long ago it closed. Pull requests are excluded from both. Returns raw REST dicts.
+    ``issues`` holds open issues, those closed inside the recent window, and every closed
+    ``upstream:child`` issue with no window (M6). Rejection memory must survive longer than
+    30 days, or a candidate rejected months ago would be proposed again.
+    ``closedUmbrellas`` holds every closed ``upstream:release`` issue with no window,
+    because carry-forward must find a suite's newest closed umbrella however long ago it
+    closed. Pull requests are excluded from both. Returns raw REST dicts.
     Raises GhError on any list failure (including an incomplete page walk), which
     the caller must treat as unknown evidence.
     """
     open_items = gh.list_issues("open")
     closed_items = gh.list_issues("closed", since=closed_since(now))
+    closed_children = gh.list_issues("closed", labels=CHILD_LABEL)
     umbrella_items = gh.list_issues("closed", labels=UMBRELLA_LABEL)
-    issues = [item for item in open_items + closed_items if not item.get("pull_request")]
+    seen: set[int] = set()
+    issues = []
+    for item in open_items + closed_items + closed_children:
+        if item.get("pull_request") or item["number"] in seen:
+            continue
+        seen.add(item["number"])
+        issues.append(item)
     closed_umbrellas = [item for item in umbrella_items if not item.get("pull_request")]
     return {"issues": issues, "closedUmbrellas": closed_umbrellas}
 

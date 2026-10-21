@@ -35,18 +35,34 @@ jobs:
       || github.event_name == 'workflow_dispatch'
 
     steps:
+      # M9: no ${{ }} expression inside a run block. Every value reaches the shell through env,
+      # and the issue number is validated as digits before any step uses it.
       - name: Resolve issue number and actor
         id: issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_ISSUE_NUMBER: ${{ inputs.issue_number }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ACTOR_LOGIN: ${{ github.actor }}
+          SENDER_LOGIN: ${{ github.event.sender.login }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            NUMBER="$INPUT_ISSUE_NUMBER"
+            ACTOR="$ACTOR_LOGIN"
           else
-            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
-            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+            NUMBER="$EVENT_ISSUE_NUMBER"
+            ACTOR="$SENDER_LOGIN"
           fi
+          case "$NUMBER" in
+            ''|*[!0-9]*)
+              echo "::error::Issue number must be digits only; got: ${NUMBER}"
+              exit 1
+              ;;
+          esac
+          echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
+          echo "actor=$ACTOR" >> "$GITHUB_OUTPUT"
 
       - name: Checkout main
         uses: actions/checkout@v4
@@ -68,7 +84,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      # registry/named-skills.json is a gitignored Class P artifact, so it never exists in a fresh
+      # checkout. Without this build the guard below read a missing index as "bootstrap" and
+      # authorized every actor. Same fix as meta-guard.yml (#1815).
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
+      # H1: fail closed. A missing or unparseable index is a denial, never bootstrap. Bootstrap
+      # (zero Verifiers) is granted only when the freshly built index parses and holds none.
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ steps.issue.outputs.actor }}
@@ -91,19 +118,24 @@ jobs:
           actor = sys.argv[1]
           index_path = "registry/named-skills.json"
 
-          if not os.path.exists(index_path):
-              print("bootstrap")
+          if not os.path.isfile(index_path):
+              print("deny-missing-index")
               sys.exit(0)
 
           try:
               with open(index_path, "r", encoding="utf-8") as f:
                   idx = json.load(f)
           except Exception:
-              print("bootstrap")
+              print("deny-unparseable-index")
+              sys.exit(0)
+
+          buckets = idx.get("buckets") if isinstance(idx, dict) else None
+          if not isinstance(buckets, dict):
+              print("deny-unparseable-index")
               sys.exit(0)
 
           has_any_verifier = False
-          for entries in idx.get("buckets", {}).values():
+          for entries in buckets.values():
               for e in entries:
                   lvl = e.get("level", "")
                   if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
@@ -120,14 +152,46 @@ jobs:
           )
 
           echo "Labeler authorization: $AUTHORIZED"
-          if [ "$AUTHORIZED" = "yes" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
-            echo "✓ $LABELER is authorized to approve upstream issues."
-          else
-            echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:approved."
-            gh issue comment "$ISSUE_NUMBER" \
-              --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
+          case "$AUTHORIZED" in
+            yes|bootstrap)
+              echo "✓ $LABELER is authorized to approve upstream issues ($AUTHORIZED)."
+              ;;
+            deny-missing-index|deny-unparseable-index)
+              echo "::error::The Verifier index could not be read ($AUTHORIZED). Refusing to authorize $LABELER."
+              exit 1
+              ;;
+            *)
+              echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:approved."
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
+              exit 1
+              ;;
+          esac
+
+      # ── L3: the issue must be open and still carry upstream:approved ──────────
+      # Every path (labeled, opened, workflow_dispatch) is checked, so a manual re-run cannot
+      # sync a closed umbrella or one whose approval was already withdrawn.
+      - name: Verify the issue is open and approved
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          ISSUE_JSON=$(gh issue view "$ISSUE_NUMBER" --json state,labels) || {
+            echo "::error::Could not read issue #${ISSUE_NUMBER}. Nothing was synced."
+            exit 1
+          }
+          STATE=$(echo "$ISSUE_JSON" | jq -r '.state')
+          APPROVED=$(echo "$ISSUE_JSON" | jq -r '[.labels[].name] | contains(["upstream:approved"])')
+          if [ "$STATE" != "OPEN" ]; then
+            echo "::error::Issue #${ISSUE_NUMBER} is ${STATE}, not open. Nothing was synced."
             exit 1
           fi
+          if [ "$APPROVED" != "true" ]; then
+            echo "::error::Issue #${ISSUE_NUMBER} does not carry upstream:approved. Nothing was synced."
+            exit 1
+          fi
+          echo "Issue #${ISSUE_NUMBER} is open and approved."
 
       # ── Parse machine-readable payload from issue body ─────────────────────
       - name: Extract payload from issue body
@@ -399,32 +463,57 @@ jobs:
               --user "github-actions[bot]"
           fi
 
+      # L4: a failed freeze or docs regeneration fails the job. Nothing is committed and no PR is
+      # opened, and the PR body reports what was actually frozen, never a claim that did not happen.
       - name: Freeze removed components
+        id: freeze
         if: steps.child_gate.outputs.gate_passed == 'true'
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PAYLOAD: ${{ steps.payload.outputs.payload }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
         run: |
           set -euo pipefail
           REMOVES=$(echo "$PAYLOAD" | jq -r '.componentRemoves[]? // empty')
-          if [ -z "$REMOVES" ]; then
+          FROZEN=0
+          FAILED=""
+          if [ -n "$REMOVES" ]; then
+            while IFS= read -r comp_id; do
+              echo "Freezing: $comp_id"
+              if python -m gaia_cli dev freeze "$comp_id" \
+                  --reason "removed from umbrella #${ISSUE_NUMBER}@${NEW_VERSION}"; then
+                FROZEN=$((FROZEN + 1))
+              else
+                FAILED="${FAILED} ${comp_id}"
+              fi
+            done <<< "$REMOVES"
+          else
             echo "No components to freeze."
-            exit 0
           fi
-          while IFS= read -r comp_id; do
-            echo "Freezing: $comp_id"
-            python -m gaia_cli dev freeze "$comp_id" \
-              --reason "removed from umbrella #${ISSUE_NUMBER}@${NEW_VERSION}" || true
-          done <<< "$REMOVES"
+          echo "frozen_count=${FROZEN}" >> "$GITHUB_OUTPUT"
+          if [ -n "$FAILED" ]; then
+            echo "::error::Freeze failed for:${FAILED}. Sync aborted; no PR was opened."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: freeze failed** for${FAILED}. Nothing was committed and no draft PR was opened. Re-apply upstream:approved after the cause is fixed." || true
+            exit 1
+          fi
 
       - name: Regenerate Class S artifacts
         if: steps.child_gate.outputs.gate_passed == 'true'
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
         run: |
-          python -m gaia_cli dev docs || true
+          set -euo pipefail
+          if ! python -m gaia_cli dev docs; then
+            echo "::error::gaia dev docs failed. Sync aborted; no PR was opened."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: Class S regeneration failed** (\`gaia dev docs\`). Nothing was committed and no draft PR was opened. Re-apply upstream:approved after the cause is fixed." || true
+            exit 1
+          fi
 
       # ── Hotfix 2: abort if sync produced no real registry changes ──────────
       - name: Verify sync produced real changes
@@ -475,8 +564,15 @@ jobs:
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           UNRESOLVED: ${{ steps.unresolved.outputs.count }}
+          FROZEN: ${{ steps.freeze.outputs.frozen_count }}
         run: |
           set -euo pipefail
+          # L4: the PR body states what the freeze step actually did.
+          if [ "${FROZEN:-0}" -gt 0 ]; then
+            FREEZE_LINE="- Froze ${FROZEN} removed component(s) (see payload in #${ISSUE_NUMBER})"
+          else
+            FREEZE_LINE="- No components were removed upstream, so none were frozen"
+          fi
           # Re-use existing open draft PR if one already exists for this branch (idempotency)
           PR_URL=$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // empty' 2>/dev/null || true)
           if [ -n "$PR_URL" ]; then
@@ -494,8 +590,8 @@ jobs:
               CLOSE_BLOCK="Fixes #${ISSUE_NUMBER}"
             fi
             BODY_FILE="${RUNNER_TEMP:-/tmp}/upstream-pr-body.md"
-            printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\n%s\n\n### Scope\nApproval confirms the version bump to `%s` only (and freezes removed components). It does **not** accept any batch row. Rows from #%s that were not escalated to a child intake remain open candidates in that umbrella.\n\n### Changes\n- Updated `upstream:` frontmatter block\n- Froze removed components (see payload in #%s)\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
-              "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$CLOSE_BLOCK" "$NEW_VERSION" "$ISSUE_NUMBER" "$ISSUE_NUMBER" > "$BODY_FILE"
+            printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\n%s\n\n### Scope\nApproval confirms the version bump to `%s` only (and freezes removed components). It does **not** accept any batch row. Rows from #%s that were not escalated to a child intake remain open candidates in that umbrella.\n\n### Changes\n- Updated `upstream:` frontmatter block\n%s\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
+              "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$CLOSE_BLOCK" "$NEW_VERSION" "$ISSUE_NUMBER" "$FREEZE_LINE" > "$BODY_FILE"
             PR_URL=$(gh pr create \
               --draft \
               --title "[upstream sync] ${SKILL_ID} -> ${NEW_VERSION}" \
