@@ -50,6 +50,9 @@ authority:
   timeline_causality_drift: B
   frontend_contract_drift: B
   trust_stamp_stale: C
+  issue_closure_ready: A
+  issue_suite_review: B
+  issue_founder_decision: C
 
 priority:
   bundled_schema_mirror_drift:
@@ -286,6 +289,24 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.6
     expectedCost: 0.3
+  issue_closure_ready:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.7
+    freshnessNeed: 0.8
+    expectedCost: 0.3
+  issue_suite_review:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.6
+    freshnessNeed: 0.6
+    expectedCost: 0.4
+  issue_founder_decision:
+    importance: 0.5
+    decisionImpact: 0.8
+    exposure: 0.5
+    freshnessNeed: 0.5
+    expectedCost: 0.4
 
 budgets:
   maxObservationsPerRun: 1000
@@ -592,9 +613,76 @@ routing:
         - show a diff confined to docs/agents/** and tests/steward/**
         - run the applicable focused read-only checks and report exact results
         - obtain independent review before integration
+    issue-suite-review:
+      debtKind: issue_suite_review
+      authority: B
+      routine: issue-hygiene
+      promptGuide: founder/steward/routines/issue-hygiene.md
+      capability: >-
+        Careful reading of one batch of related GitHub issues against the registry
+        records they claim to duplicate, superseded or curated, distinguishing a
+        provably preserved payload from a similar title, and expressing each
+        disposition as a reviewable proposal rather than an action.
+      objective: >-
+        Review exactly one suite batch named by the packet, check every row against
+        its registry evidence, and return a disposition proposal file that marks each
+        item as proven, needing curation, or a founder question. Closing issues and
+        accepting candidates are never part of this work.
+      allowedPaths:
+        - docs/agents/issue-hygiene/**
+        - tests/steward/**
+      allowedCommands:
+        - python -m pytest tests/steward/issuehygiene
+        - python scripts/check_steward_coverage.py --check
+        - gh issue view <number> --json number,title,state,labels,body
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/graph/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+        - src/**
+      stopConditions:
+        - the packet names more than one suite batch
+        - a row's registry evidence cannot be read from local repository state
+        - a disposition would close an issue or accept a candidate
+        - the correction requires a registry mutation outside gaia dev verbs
+        - the payload preservation proof for a row is incomplete
+      proof:
+        - reproduce every disposition from the census and local registry state
+        - show a diff confined to docs/agents/issue-hygiene and tests/steward
+        - run the focused issue-hygiene tests and report exact results
+        - obtain independent review before integration
   founderRules:
+    issue-founder-decision:
+      debtKind: issue_founder_decision
+      authority: C
+      decisionTargetField: decisionTarget
+      objective: >-
+        Decide one exact issue-hygiene question shared by the affected issues, such as
+        whether a family of upstream candidates is accepted, rejected or deferred.
     generic-mapping-decision:
       debtKind: generic_mapping
       authority: C
       decisionTargetField: decisionTarget
       objective: Decide the canonical generic mapping for the explicit normalized target.
+
+# Issue hygiene (#2130). Policy may narrow this section; code caps and rule ids are pinned in
+# src/gaia_cli/steward/issuehygiene/hygienepolicy.py. Absent section => no closure authority.
+issueHygiene:
+  maxClosuresPerRun: 10
+  maxCensusAgeSeconds: 21600
+  closedWindowDays: 30
+  writesEnabled: true
+  enabledRules:
+    - A1-child-curated
+    - A2-umbrella-synced
+    - A3-umbrella-superseded
+    - A4-duplicate-child
+    - A5-botreport-superseded
+  # Workflow files whose disabled state proves a bot family is no longer running (A5).
+  # Empty = A5 can never be proven, so it stays Class B/C.
+  a5Disabled: []
