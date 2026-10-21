@@ -5,6 +5,8 @@ import random
 from datetime import datetime, timezone
 from pathlib import Path
 
+import pytest
+
 from gaia_cli.steward.issuehygiene.census import SCHEMA_VERSION as CENSUS_SCHEMA, Census, bodySha256, loadCensus, validateCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.issuehygiene.reconcile import (
@@ -126,6 +128,15 @@ def test_a1_positive_closes_child_with_exact_registry_and_equal_link(tmp_path: P
     assert len(registryEntries) == 1 and registryEntries[0]["sha256"]
 
 
+PINNED = BLOB.replace("/main/", "/v6.4.1/")
+SHA_PINNED = BLOB.replace("/main/", "/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/")
+REGISTRY_PATH = "registry/named/obra/writing-skills.md"
+
+
+def proofOf(child: dict) -> list[tuple[str, str, str]]:
+    return [(entry["type"], entry["ref"], entry["detail"]) for entry in child["evidence"]]
+
+
 def test_a1_negative_url_differs(tmp_path: Path):
     other = BLOB.replace("writing-skills/SKILL.md", "writing-skills/README.md")
     manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=other)), tmp_path)
@@ -133,6 +144,8 @@ def test_a1_negative_url_differs(tmp_path: Path):
     assert child["authority"] == "B"
     assert child["state"] == "ambiguous"
     assert "registry-link-differs" in child["notProven"]
+    assert "registry-path-differs" in child["notProven"]
+    assert "registry-repo-differs" not in child["notProven"]
 
 
 def test_a1_negative_draft_status(tmp_path: Path):
@@ -141,11 +154,101 @@ def test_a1_negative_draft_status(tmp_path: Path):
     assert "registry-draft" in item(manifest, 10)["notProven"]
 
 
-def test_a1_negative_ref_mismatch_is_not_proof_without_upstream(tmp_path: Path):
-    pinned = BLOB.replace("/main/", "/v6.4.1/")
-    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=pinned)), tmp_path)
-    assert item(manifest, 10)["authority"] == "B"
-    assert "registry-link-differs" in item(manifest, 10)["notProven"]
+def test_a1_positive_ref_only_tag_vs_main_is_a1_with_ref_differs(tmp_path: Path):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=PINNED)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert child["ruleId"] == "A1-child-curated"
+    assert child["state"] == "resolved"
+    assert child["notProven"] == []
+    assert child["proposedTransition"] == {"action": "close", "stateReason": "completed", "duplicateOf": None}
+    proof = proofOf(child)
+    assert ("registry", REGISTRY_PATH, "ref-differs: registry=v6.4.1 intake=main") in proof
+    assert ("registry", PINNED, f"links.github of {REGISTRY_PATH}") in proof
+    assert ("issue", "#10", f"evidence {BLOB}") in proof
+
+
+def test_a1_positive_ref_only_commit_sha_vs_main_is_a1_with_ref_differs(tmp_path: Path):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=SHA_PINNED)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert child["ruleId"] == "A1-child-curated"
+    assert ("registry", REGISTRY_PATH, "ref-differs: registry=7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd intake=main") in proofOf(child)
+
+
+def test_a1_positive_exact_link_adds_no_second_registry_url(tmp_path: Path):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=BLOB)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert [entry for entry in proofOf(child) if entry[0] == "registry"] == [("registry", REGISTRY_PATH, "links.github equals the evidence URL")]
+
+
+@pytest.mark.parametrize("spelling", [
+    BLOB.replace("/blob/", "/tree/"),
+    BLOB + "/",
+    BLOB + "?plain=1",
+])
+def test_a1_positive_tree_trailing_slash_and_query_fold_to_the_same_file(tmp_path: Path, spelling: str):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=spelling)), tmp_path)
+    assert item(manifest, 10)["authority"] == "A"
+    assert item(manifest, 10)["notProven"] == []
+
+
+def test_a1_positive_fork_link_closes_when_declared_upstream_repo_and_path_match(tmp_path: Path):
+    extra = "upstream:\n  repo: obra/superpowers\n  version: v6.4.1\n"
+    fork = "https://github.com/garrytan/gstack/blob/main/skills/writing-skills/SKILL.md"
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=fork, extra=extra)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "A"
+    assert ("registry", REGISTRY_PATH, "upstream repo and path match the evidence URL") in proofOf(child)
+
+
+@pytest.mark.parametrize("registryUrl", [
+    BLOB.replace("obra/superpowers", "obra/other-repo"),
+    BLOB.replace("obra/superpowers", "obra/other-repo").replace("/main/", "/v6.4.1/"),
+])
+def test_a1_negative_different_repo_is_never_a_even_when_ref_is_ignored(tmp_path: Path, registryUrl: str):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=registryUrl)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert child["ruleId"] is None
+    assert "registry-repo-differs" in child["notProven"]
+    assert "registry-path-differs" not in child["notProven"]
+
+
+def test_a1_negative_different_file_name_is_not_the_same_file(tmp_path: Path):
+    rootSkill = "https://github.com/obra/superpowers/blob/main/SKILL.md"
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=rootSkill)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert "registry-path-differs" in child["notProven"]
+
+
+def test_a1_negative_different_path_stays_b_even_with_a_pinned_ref(tmp_path: Path):
+    readme = PINNED.replace("writing-skills/SKILL.md", "writing-skills/README.md")
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=readme)), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert "registry-path-differs" in child["notProven"]
+    assert "registry-repo-differs" not in child["notProven"]
+
+
+def test_a1_negative_ref_only_difference_is_not_proof_when_draft(tmp_path: Path):
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=PINNED, status="draft")), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "B"
+    assert "registry-draft" in child["notProven"]
+    assert "registry-link-differs" not in child["notProven"]
+
+
+def test_a1_negative_ref_only_alias_handle_is_never_a(tmp_path: Path):
+    rows = [umbrellaRow(20, "obra/superpowers", "v7.0.0"), childRow(10, "addyosmani/writing-skills", BLOB)]
+    writeNamed(tmp_path, "addy-osmani/writing-skills", skill("addy-osmani/writing-skills", github=PINNED))
+    manifest = run(censusOf(rows), tmp_path)
+    child = item(manifest, 10)
+    assert child["authority"] == "C"
+    assert child["ruleId"] is None
+    assert "no-exact-registry-record" in child["notProven"]
 
 
 def test_a1_positive_via_upstream_repo_and_path_when_ref_differs(tmp_path: Path):
@@ -160,6 +263,7 @@ def test_a1_negative_upstream_repo_differs(tmp_path: Path):
     extra = "upstream:\n  repo: obra/other\n  version: v6.4.1\n"
     manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=pinned, extra=extra)), tmp_path)
     assert item(manifest, 10)["authority"] == "B"
+    assert "registry-repo-differs" in item(manifest, 10)["notProven"]
 
 
 def test_a1_negative_contributor_field_disagrees_with_path_is_unreadable(tmp_path: Path):
@@ -595,6 +699,18 @@ def test_workflow_runnables_maps_md_to_lock_yml():
 
 # ------------------------------------------------------------------ fixture and live registry cross-check
 
+# Live cross-check after the 2026-10-21 ruling (A1 ignores the git ref). Sixteen children were
+# blocked only by a ref (registry pins a tag or commit, intake points at main). 1995 was already A
+# through upstream.repo. 1984 differs by repo and path. The other 22 differ only by path
+# (registry plugin/skills/<name>/SKILL.md, intake skills/<name>/SKILL.md) and stay B.
+LIVE_A1_CHILDREN = {1981, 1994, 1995, 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2022, 2024}
+LIVE_PATH_ONLY_CHILDREN = {
+    1923, 1924, 1927, 1928, 1934, 1937, 1940, 1941, 1948, 1950, 1953,
+    1955, 1960, 1963, 1965, 1967, 1972, 1975, 1980, 1983, 1989, 1991,
+}
+LIVE_REPO_AND_PATH_CHILDREN = {1984}
+
+
 def test_fixture_census_reconciles_to_known_counts():
     census = loadCensus(FIXTURE, now=NOW, maxAgeSeconds=21600)
     manifest = reconcile(census, buildRegistryIndex(REPO_ROOT), policyFor(), NOW)
@@ -604,10 +720,20 @@ def test_fixture_census_reconciles_to_known_counts():
     assert stats["upstreamChildOpen"] == 96
     assert stats["umbrellaOpen"] == 6
     assert stats["botOpen"] == 2
-    assert stats["classA"] == 1
-    assert stats["classB"] == 96
+    assert stats["classA"] == 17
+    assert stats["classB"] == 80
     assert stats["classC"] == 7
     assert stats["notEvaluated"] == 0
+    children = {entry["issue"]: entry for entry in manifest["items"] if entry["kind"] == "child"}
+    assert {number for number, entry in children.items() if entry["authority"] == "A"} == LIVE_A1_CHILDREN
+    assert all(children[number]["ruleId"] == "A1-child-curated" for number in LIVE_A1_CHILDREN)
+    for number in LIVE_PATH_ONLY_CHILDREN:
+        assert children[number]["authority"] == "B"
+        assert "registry-path-differs" in children[number]["notProven"]
+        assert "registry-repo-differs" not in children[number]["notProven"]
+    for number in LIVE_REPO_AND_PATH_CHILDREN:
+        assert children[number]["authority"] == "B"
+        assert {"registry-repo-differs", "registry-path-differs"} <= set(children[number]["notProven"])
     questions = {tuple(q["affected"]) for q in manifest["founderQuestions"]}
     assert (2126, 2127) in questions
     assert (1835,) in questions and (1823,) in questions
