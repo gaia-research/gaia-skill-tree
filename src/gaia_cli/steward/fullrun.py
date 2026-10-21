@@ -1442,7 +1442,7 @@ class FullRunner:
         sets = self._triageSets(scan, doc["runs"][runId], doc["work"])
         summary = {key: value for key, value in sets.items() if key != "debts"}
         summary["counts"] = {
-            "A": len(sets["classA"]), "A-forge": len(sets["issueClosure"]), "B": len(sets["classB"]),
+            "A": len(sets["classA"]), "B": len(sets["classB"]),
             "B-report-only": len(sets["reportOnly"]), "C": len(sets["classC"]),
         }
         return self._finish(runId, "triage", summary)
@@ -2354,10 +2354,14 @@ class FullRunner:
         doc = self._load()
         run = doc["runs"][runId]
         desk = self._buildDesk(runId, doc, run, now)
+        backlog = self._issueBacklog(runId, doc, run)
 
         def apply(d: dict[str, Any], record: dict[str, Any]) -> None:
             if record["phase"] != "report":
                 return
+            if backlog is not None:
+                # Persisted so the next run can report the net change against this one.
+                record["issueBacklog"] = {key: value for key, value in backlog.items() if key != "netChange"}
             pending = self._pending(record)
             unknown = self._observationOf(record).get("coverageUnknown", [])
             deferred = record.get("deferred") or []
@@ -2426,6 +2430,39 @@ class FullRunner:
             ))
         return FounderQueue.create(tuple(decisions))
 
+    def _issueBacklog(self, runId: str, doc: dict[str, Any], run: dict[str, Any]) -> dict[str, Any] | None:
+        """Backlog numbers for the desk: open issues, closures this run and in total, and the change since the last run."""
+
+        scan = self._scanFor(runId)
+        stats = next((o.provenance.get("stats") for o in scan.observations
+                      if o.source == "issue-hygiene" and isinstance(o.provenance.get("stats"), Mapping)), None)
+        if stats is None or "openIssues" not in stats:
+            return None
+        closedThisRun = sum(
+            1 for action in run["actions"]
+            if action["type"] == CLOSEACTION and (action.get("outcome") or {}).get("outcome") in ("closed", "already-closed")
+        )
+        try:
+            closedTotal: int | None = len(closedKeys(loadOutcomes(self.root)))
+        except OutcomeStoreError:
+            closedTotal = None
+        earlier = sorted(
+            (other for other in doc["runs"].values()
+             if other["runId"] != runId and isinstance(other.get("issueBacklog"), dict)
+             and other.get("startedAt", "") < run.get("startedAt", "")),
+            key=lambda other: other["startedAt"],
+        )
+        previous = earlier[-1]["issueBacklog"]["openIssues"] if earlier else None
+        openNow = stats["openIssues"]
+        return {
+            "openIssues": openNow,
+            "botOpen": stats.get("botOpen"),
+            "upstreamChildOpen": stats.get("upstreamChildOpen"),
+            "closedThisRun": closedThisRun,
+            "closedTotal": closedTotal,
+            "netChange": (openNow - previous) if isinstance(previous, int) else None,
+        }
+
     def _buildDesk(self, runId: str, doc: dict[str, Any], run: dict[str, Any], now: str) -> dict[str, Any]:
         from gaia_cli.steward.desk import build_desk, load_decision_records
 
@@ -2480,5 +2517,6 @@ class FullRunner:
             last_scheduled_run_at=max(scheduled) if scheduled else None,
             now=now,
             failed_dispatches=failed,
+            backlog=self._issueBacklog(runId, doc, run),
         )
         return desk.to_dict()

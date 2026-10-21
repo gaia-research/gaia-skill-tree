@@ -225,3 +225,43 @@ def test_forge_closure_needs_no_local_repair_executor(tmp_path, monkeypatch) -> 
 
     policy = StewardPolicy.load(Path(__file__).resolve().parents[3])
     assert policy.executor_for("issue_closure_ready") is None  # closure never routes through repairs.executors
+
+
+def operationsOf(view, kind: str) -> list[dict]:
+    return [op for op in view.desk["operations"] if op["kind"] == kind]
+
+
+def test_founder_question_reaches_the_desk_as_an_exact_decision_with_affected_issues(tmp_path, monkeypatch) -> None:
+    repo, store, runner = runnerFor(tmp_path)
+    rows = closureRows(2, start=200)
+    writeCensus(repo, makeCensus(rows))
+    items = closureItems(rows, start=200)
+    for item in items:
+        item.update(authority="C", ruleId=None, state="awaiting-founder")
+    question = {"id": "Q-cafe0001", "question": "Accept the o/r family of candidates?", "affected": [200, 201],
+                "options": ["accept", "reject", "defer"], "recommendation": None, "basis": "two candidates"}
+    stubReconcile(monkeypatch, makeManifest(items, founderQuestions=[question]))
+    view = runner.start("full")
+    matching = [d for d in view.desk["decisions"] if "Accept the o/r family" in d["decision"]]
+    assert len(matching) == 1
+    assert "#200, #201" in matching[0]["decision"]
+    assert len(matching[0]["debtIds"]) == 1
+
+
+def test_backlog_line_reports_closures_and_the_change_since_the_previous_run(tmp_path, monkeypatch) -> None:
+    repo, store, runner = runnerFor(tmp_path)
+    rows = closureRows(2)
+    writeCensus(repo, makeCensus(rows))
+    stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
+    view = runner.start("full")
+    for action in closeActions(view):
+        runner.record(view.runId, action["stepId"], outcomeFor(action))
+    view = runner.resume(view.runId)
+    lines = operationsOf(view, "issue_backlog")
+    assert len(lines) == 1
+    assert "closed this run 2 of 2 total" in lines[0]["detail"]
+    assert "no previous run recorded" in lines[0]["detail"]
+    later = runner.start("full")
+    detail = operationsOf(later, "issue_backlog")[0]["detail"]
+    assert "net change +0 since the previous run" in detail
+    assert "closed this run 0 of 2 total" in detail

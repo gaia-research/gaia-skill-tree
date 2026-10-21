@@ -302,6 +302,8 @@ class IssueHygieneSensor:
                 kind="issue_founder_decision", subject=Subject(type="issue-question", id=qid),
                 observed_at=observed_at, provenance=provenance, status="drift",
                 observed={
+                    # The founder queue groups by this exact target: one decision per question.
+                    "decisionTarget": f"issue-question/{qid}".lower(),
                     "question": _text(question.get("question")),
                     "affected": affected[:MAX_ITEMS_PER_DEBT],
                     "affectedCount": len(affected),
@@ -317,7 +319,8 @@ class IssueHygieneSensor:
             observations.append(_observation(
                 kind="issue_founder_decision", subject=Subject(type="issue-question", id=UNQUESTIONED),
                 observed_at=observed_at, provenance=provenance, status="drift",
-                observed={"question": "Issues await a founder decision that no founder question names.",
+                observed={"decisionTarget": "issue-question/unquestioned",
+                          "question": "Issues await a founder decision that no founder question names.",
                           "affected": orphans[:MAX_ITEMS_PER_DEBT], "affectedCount": len(orphans),
                           "options": [], "recommendation": None, "basis": "", "manifestDigest": digest},
             ))

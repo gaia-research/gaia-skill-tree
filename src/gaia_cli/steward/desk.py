@@ -69,6 +69,7 @@ OPERATION_KINDS = (
     "stale_schedule",
     "ledger_local_only",
     "invalid_decision_record",
+    "issue_backlog",
 )
 
 _RECORD_KEYS = frozenset({
@@ -457,12 +458,34 @@ _NO_OPINION = (
     "None. This turns on product, ontology, or prestige judgment, which Steward has "
     "no basis to hold an opinion about."
 )
+ISSUE_FOUNDER_RULE = "issue-founder-decision"
+_RULE_WHY[ISSUE_FOUNDER_RULE] = (
+    "Steward can prove which upstream candidates are curated, but whether a family of them is "
+    "accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
+)
+_RULE_ALTERNATIVE[ISSUE_FOUNDER_RULE] = (
+    "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them."
+)
 
 
 def _flatten_evidence(evidence: Mapping[str, Any]) -> str:
     lines = _evidence_lines(evidence)
     head, rest = lines[0].strip(), [item.strip() for item in lines[1:]]
     return head + (" - " + "; ".join(rest) if rest else "")
+
+
+def _issueQuestion(decision: FounderDecision) -> str | None:
+    """The exact issue-hygiene question and its affected issues, when this decision is one."""
+
+    if decision.rule != ISSUE_FOUNDER_RULE or not decision.evidence:
+        return None
+    observed = decision.evidence[0].get("observedState") or {}
+    question = observed.get("question")
+    if not isinstance(question, str) or not question:
+        return None
+    affected = observed.get("affected") or []
+    numbers = ", ".join(f"#{number}" for number in affected if isinstance(number, int)) or "none listed"
+    return f"{question} Affected issues: {numbers}."
 
 
 def _from_founder_decision(decision: FounderDecision, source: str) -> DeskDecision:
@@ -473,7 +496,7 @@ def _from_founder_decision(decision: FounderDecision, source: str) -> DeskDecisi
     )
     return DeskDecision(
         decision_id=decision.decision_id,
-        decision=decision.objective,
+        decision=_issueQuestion(decision) or decision.objective,
         why_it_matters=_RULE_WHY.get(
             decision.rule,
             f"{count} open Class C debt item(s) are blocked on this ruling; Steward will not act on them.",
@@ -538,6 +561,21 @@ def _aligned(decision: FounderDecision) -> list[Mapping[str, Any]]:
 
 
 # --- operations ------------------------------------------------------------------------
+
+
+def _backlogLine(backlog: Mapping[str, Any]) -> str:
+    """One line of issue backlog: counts, closures this run and total, and the change since the last run."""
+
+    net = backlog.get("netChange")
+    change = "no previous run recorded" if not isinstance(net, int) else f"net change {net:+d} since the previous run"
+    total = backlog.get("closedTotal")
+    closedTotal = str(total) if isinstance(total, int) else "unknown"
+    return (
+        f"open issues {backlog.get('openIssues')} (bot {backlog.get('botOpen')}, upstream children "
+        f"{backlog.get('upstreamChildOpen')}); closed this run {backlog.get('closedThisRun', 0)} of "
+        f"{closedTotal} total; {change}"
+    )
+
 
 
 def _operations(
@@ -624,6 +662,7 @@ def build_desk(
     stale_after_hours: int = 48,
     failed_dispatches: Sequence[Mapping[str, Any]] = (),
     coverage_unknown_reasons: Mapping[str, str] | None = None,
+    backlog: Mapping[str, Any] | None = None,
 ) -> Desk:
     """Assemble the desk from already-computed inputs. Pure: no I/O, no clock."""
 
@@ -668,6 +707,8 @@ def build_desk(
         now=now,
         stale_after_hours=stale_after_hours,
     ) + record_operations
+    if backlog:
+        operations.append(DeskOperation("issue_backlog", "issue backlog", _backlogLine(backlog)))
     operations.sort(key=lambda op: (OPERATION_KINDS.index(op.kind), op.subject, op.detail))
     return Desk(decisions=ordered, operations=tuple(operations), as_of=now)
 
