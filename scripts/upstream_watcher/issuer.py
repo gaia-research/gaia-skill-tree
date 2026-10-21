@@ -34,6 +34,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from scripts.upstream_watcher.live import GhError, LiveGh
+
 # ---------------------------------------------------------------------------
 # Label vocab table (embedded in issue bodies, per design §5)
 # ---------------------------------------------------------------------------
@@ -451,38 +453,27 @@ def _find_existing_issue(
 ) -> int | None:
     """Return the number of an open issue matching *search_str* and *label*, or None.
 
-    GitHub's issue search index is eventually consistent: an issue created
-    seconds ago is not yet findable by ``gh issue list --search``.  A single
-    watcher run routinely emits several findings that collapse onto the same
-    umbrella (one per skill in a multi-skill upstream repo), so relying on the
-    index alone let identical issues through in the same run.  *run_cache*
-    remembers what this process already created and is consulted first.
+    The match comes from a paginated LIST of open issues carrying *label*, never
+    from ``gh issue list --search``: GitHub's search index lags issue creation,
+    so an issue created seconds ago could be invisible to it. A single watcher
+    run also routinely emits several findings that collapse onto the same
+    umbrella, so *run_cache* remembers what this process already created and is
+    consulted first.
     """
     if run_cache is not None:
         cached = run_cache.get((label, search_str))
         if cached is not None:
             return cached
     try:
-        result = subprocess.run(
-            [
-                "gh", "issue", "list",
-                "--label", label,
-                "--state", "open",
-                "--search", search_str,
-                "--json", "number,title",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if result.returncode != 0:
-            return None
-        issues = json.loads(result.stdout or "[]")
-        for issue in issues:
-            if search_str in issue.get("title", ""):
-                return issue["number"]
-    except Exception as exc:  # noqa: BLE001
+        issues = LiveGh().list_issues("open", labels=label)
+    except GhError as exc:
         print(f"  [warn] idempotency check failed: {exc}", file=sys.stderr)
+        return None
+    for issue in issues:
+        if issue.get("pull_request"):
+            continue
+        if search_str in issue.get("title", ""):
+            return issue["number"]
     return None
 
 
