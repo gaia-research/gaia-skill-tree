@@ -168,6 +168,10 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
             raise ValueError("review accounting receipts do not reconcile the frozen inventory")
         if recomputed.get("humanApproved") is not False:
             raise ValueError("review accounting must not claim human approval")
+        if report.get("counts") != recomputed.get("counts"):
+            raise ValueError("review accounting counts disagree with the receipts")
+        if report.get("candidateCount") != recomputed.get("candidateCount"):
+            raise ValueError("review accounting candidate count disagrees with the receipts")
         claimedById = {row["candidateId"]: row for row in outcomes}
         for row in recomputed.get("decisions", []):
             claimed = claimedById.get(row["candidateId"])
@@ -177,13 +181,12 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
                 raise ValueError(f"review accounting outcome disagrees with the receipts for {row['candidateId']}")
             if claimed.get("receiptValid") is not True or row.get("receiptValid") is not True:
                 raise ValueError(f"review accounting has an invalid receipt for {row['candidateId']}")
-            # The report's artifact claims must equal the recomputed ones: a
-            # report may not describe a different artifact than the receipts
-            # actually produced.
-            for field in ("packetArtifactSha256", "assessmentArtifactSha256",
-                          "packetDigest", "assessmentSha256", "packetProposalSha256"):
-                if claimed.get(field) != row.get(field):
-                    raise ValueError(f"review accounting {field} disagrees with the receipts for {row['candidateId']}")
+            # The claimed row must BE the recomputed row, not merely agree with
+            # it on a hand-listed set of fields. Comparing the whole mapping
+            # means a field added to the report later is bound automatically,
+            # and a report may not carry an extra claim of its own.
+            if dict(claimed) != dict(row):
+                raise ValueError(f"review accounting row disagrees with the receipts for {row['candidateId']}")
         packetsById = {packet["candidateId"]: packet for packet in inventoryRows}
         frozenById = {row["candidateId"]: row for row in expected}
         outcomesById = {row["candidateId"]: row for row in outcomes}

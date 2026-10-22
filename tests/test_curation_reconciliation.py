@@ -375,6 +375,16 @@ def test_packet_identity_resolves_by_one_rule_everywhere(registry):
     assert result["decisions"][0]["outcome"] == "deferred"
     assert "identity" in result["decisions"][0]["reason"]
 
+    # A named block that expresses the identity two ways and disagrees with
+    # itself asserts no identity at all.
+    from gaia_cli.curation.reconciliation import identityFromNamedBlock
+
+    selfContradicting = {"contributor": "test-contributor", "skillName": "legit",
+                         "namedIdentity": "someone-else/other"}
+    assert identityFromNamedBlock(selfContradicting) is None
+    assert identityFromNamedBlock({"contributor": "owner", "skillName": "exact-name"}) == "owner/exact-name"
+    assert identityFromNamedBlock({"namedIdentity": "owner/exact-name"}) == "owner/exact-name"
+
     # The same attack in mapping form must be refused too.
     mappingPacket = packet(row)
     mappingPacket["namedIdentity"] = {"contributor": "forged", "slug": "spoofed"}

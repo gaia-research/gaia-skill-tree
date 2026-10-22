@@ -167,20 +167,30 @@ def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Map
 
 
 def identityFromNamedBlock(named: Any) -> str | None:
-    """Resolve an identity from a named block (string or mapping form)."""
+    """Resolve an identity from a named block (string or mapping form).
+
+    A block may express the identity as a plain string, as an explicit
+    "namedIdentity", or as contributor + slug. It may not express it two ways
+    at once and disagree: a block that contradicts itself asserts no identity
+    at all, so the packet is refused rather than silently resolved.
+    """
     if named is None:
         return None
     if isinstance(named, str):
-        return named
+        return named if named.strip() == named and named else None
     if not isinstance(named, Mapping):
         return None
-    if named.get("namedIdentity") is not None:
-        return named.get("namedIdentity")
     contributor = named.get("contributor")
     slug = named.get("slug") or named.get("skillSlug") or named.get("skillName")
-    if contributor and slug:
-        return f"{contributor}/{slug}"
-    return None
+    composed = f"{contributor}/{slug}" if contributor and slug else None
+    explicit = named.get("namedIdentity")
+    if explicit is not None:
+        if not isinstance(explicit, str) or not explicit:
+            return None
+        if composed is not None and composed != explicit:
+            return None  # The block contradicts itself.
+        return explicit
+    return composed
 
 
 def packetNamedIdentity(packet: Mapping[str, Any]) -> str | None:
