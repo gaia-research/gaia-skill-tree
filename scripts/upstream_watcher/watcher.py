@@ -45,7 +45,7 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.lib.github_api import GitHubFetchError, GitHubNotFound, fetch_json, parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
-from scripts.upstream_watcher.batch import escalate_candidate, new_report, run_batch
+from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
 from scripts.upstream_watcher.live import LiveGh, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
@@ -382,13 +382,19 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     report, code = run_batch(full_findings, LiveGh(), apply=apply)
-    if code == 0:
+    # The bootstrap pass runs unless a GitHub read or write stopped the batch. A record-level failure on one
+    # suite does not stop it (H2), and the exit code is still 3 at the end.
+    if not batch_stopped(report):
         bootstrap = [finding for finding in full_findings if finding["finding_type"] == "bootstrap"]
         if bootstrap:
             try:
                 create_issues(bootstrap, apply=apply, verbose=verbose)
             except IdempotencyLookupError as exc:
-                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc)})
+                report["unknownEvidence"].append({"source": "github-list", "detail": str(exc), "stopped": True})
+                code = 3
+            except UmbrellaWriteError as exc:
+                # L4: a bootstrap write GitHub refused is unknown evidence, not an uncaught crash.
+                report["unknownEvidence"].append({"source": "github-write", "detail": str(exc), "stopped": True})
                 code = 3
     _write_report(report, args.report)
     print(json.dumps({k: report[k] for k in ("issuesCreated", "issuesUpdated", "suppressedDuplicates",

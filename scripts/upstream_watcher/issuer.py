@@ -37,6 +37,8 @@ from scripts.upstream_watcher.live import GhError, LiveGh
 
 # Labels whose open issues the fanout idempotency checks read, once, before the first write.
 IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
+# Snapshot key for the closed upstream:bootstrap history, read in full (H3 rejection memory).
+CLOSED_BOOTSTRAP_KEY = "closed:upstream:bootstrap"
 
 
 class UmbrellaWriteError(RuntimeError):
@@ -71,6 +73,7 @@ _REVIEWER_ACTIONS = """
 _BOOTSTRAP_REVIEWER_ACTIONS = """
 | Action | How |
 |---|---|
+| Approve baseline | A human applies `upstream:approved`. The watcher never applies it. |
 | Reject | Apply `upstream:rejected` label |
 | Hold | Apply `upstream:needs-info` label |
 """.strip()
@@ -248,9 +251,9 @@ def render_bootstrap_body(finding: dict) -> str:
 > The Gaia upstream watcher has encountered **`{skill_id}`** for the first time.
 > No `upstream:` block exists in its frontmatter yet.
 >
-> This baseline proposal is **automatically approved** (`upstream:approved`) to baseline
-> at the current upstream release `{new_version}`. The sync workflow opens a draft PR
-> to write the initial `upstream:` block.
+> This is a proposed baseline at the current upstream release `{new_version}`. Approving it is a
+> human decision: a reviewer applies `upstream:approved`, which opens a draft PR that writes the
+> initial `upstream:` block. The watcher never applies `upstream:approved`.
 
 {_payload_block(payload)}
 
@@ -346,10 +349,11 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 
 
 def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, list[dict]]:
-    """Read every open issue carrying each label, following all pages.
+    """Read every open issue carrying each label, following all pages, and the closed bootstrap history.
 
-    Raises IdempotencyLookupError on any list failure. The fanout calls this before
-    its first write, so a failed lookup can never leave a half-written run behind.
+    H3: the closed ``upstream:bootstrap`` history is read in full (no window), because a closed bootstrap
+    for a version is rejection memory. Raises IdempotencyLookupError on any list failure. The fanout
+    calls this before its first write, so a failed lookup can never leave a half-written run behind.
     """
     gh = LiveGh()
     snapshot: dict[str, list[dict]] = {}
@@ -358,7 +362,34 @@ def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, li
             snapshot[label] = gh.list_issues("open", labels=label)
         except GhError as exc:
             raise IdempotencyLookupError(f"open {label} issue list failed: {exc}") from exc
+    if "upstream:bootstrap" in labels:
+        try:
+            snapshot[CLOSED_BOOTSTRAP_KEY] = gh.list_issues("closed", labels="upstream:bootstrap")
+        except GhError as exc:
+            raise IdempotencyLookupError(f"closed upstream:bootstrap issue list failed: {exc}") from exc
     return snapshot
+
+
+def _closed_bootstrap_for(title: str, snapshot: dict[str, list[dict]] | None) -> int | None:
+    """The number of a closed upstream:bootstrap for exactly *title* (rejected, or closed as completed), or None.
+
+    H3 rejection memory is per (suite, version): a version is suppressed once it has a closed bootstrap.
+    A different version is not suppressed.
+    """
+    for issue in (snapshot or {}).get(CLOSED_BOOTSTRAP_KEY, []):
+        if issue.get("pull_request") or issue.get("state") != "closed":
+            continue
+        if issue.get("title") == title:
+            return issue["number"]
+    return None
+
+
+def _open_bootstrap_labels(number: int, snapshot: dict[str, list[dict]] | None) -> set[str]:
+    """Label names of the open bootstrap *number* as the run snapshot holds it (empty when unknown)."""
+    for issue in (snapshot or {}).get("upstream:bootstrap", []):
+        if issue.get("number") == number:
+            return {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
+    return set()
 
 
 def _listed_open(label: str, snapshot: dict[str, list[dict]] | None) -> list[dict]:
@@ -402,8 +433,14 @@ def _update_issue(
     comment: str | None = None,
     dry_run: bool = False,
     verbose: bool = False,
+    add_labels: tuple[str, ...] | list[str] = (),
+    remove_labels: tuple[str, ...] | list[str] = (),
 ) -> bool:
-    """Update an existing issue's title, body, and optionally post an update comment."""
+    """Update an existing issue's title, body and labels, and optionally post an update comment.
+
+    Returns False when GitHub refused the edit. The caller decides what that means: a bootstrap
+    update treats it as unknown evidence (L4).
+    """
     if dry_run:
         if verbose:
             print(f"  [dry-run] Would update issue #{issue_number}: {new_title!r}", file=sys.stderr)
@@ -421,6 +458,10 @@ def _update_issue(
             "--title", new_title,
             "--body-file", body_file,
         ]
+        for label in add_labels:
+            cmd += ["--add-label", label]
+        for label in remove_labels:
+            cmd += ["--remove-label", label]
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
         if res.returncode != 0:
             print(f"  [error] gh issue edit failed for #{issue_number}: {res.stderr}", file=sys.stderr)
@@ -601,6 +642,18 @@ def create_issues(
         if finding_type == "bootstrap":
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
             suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
+            # H3: rejection memory per (suite, version). A closed bootstrap for this version, rejected or
+            # closed as completed, is never recreated. A different version is not suppressed.
+            closed_same = _closed_bootstrap_for(title, snapshot)
+            if closed_same is not None:
+                print(
+                    f"  Bootstrap for {skill_id}@{new_version} is closed as #{closed_same}; not recreated.",
+                    file=sys.stderr,
+                )
+                summaries.append(
+                    {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": closed_same, "closed": True}
+                )
+                continue
             existing_suite = _find_existing_suite_issue(
                 suite_prefix, "upstream:bootstrap", run_cache, snapshot
             )
@@ -621,14 +674,31 @@ def create_issues(
                 body = render_bootstrap_body(finding)
                 prev_v = existing_title.removeprefix(suite_prefix)
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
-                _update_issue(
+                # Approval never survives a version change (H1): a baseline a human approved for the old
+                # version loses the approval, so the new version is reviewed before it can sync.
+                approved = "upstream:approved" in _open_bootstrap_labels(existing_num, snapshot)
+                if approved:
+                    comment += (
+                        f" Approval reset: `upstream:approved` was on `{prev_v}`, and the baseline moved to "
+                        f"`{new_version}`. A reviewer re-applies `upstream:approved` after review."
+                    )
+                label_edit = (
+                    {"add_labels": ["upstream:needs-info"], "remove_labels": ["upstream:approved"]} if approved else {}
+                )
+                updated_ok = _update_issue(
                     existing_num,
                     title,
                     body,
                     comment=comment,
                     dry_run=not apply,
                     verbose=verbose,
+                    **label_edit,
                 )
+                # L4: a bootstrap update GitHub refused is unknown evidence. The run exits 3.
+                if apply and not updated_ok:
+                    raise UmbrellaWriteError(
+                        f"could not update bootstrap #{existing_num} for {skill_id}@{new_version}; the run stops"
+                    )
                 run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
                 summaries.append(
                     {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}

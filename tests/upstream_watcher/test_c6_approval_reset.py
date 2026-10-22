@@ -145,25 +145,40 @@ def test_a_timestamp_only_change_keeps_the_approval_and_writes_nothing():
     assert reset_notes(gh, number) == []
 
 
-def test_converting_a_legacy_approved_umbrella_resets_it_once_because_its_hashed_payload_changed():
+def legacy_approved(**approved_fields):
+    """An approved legacy (pre-v2) umbrella whose v1 fields are *approved_fields* over the v1 defaults."""
     import json
 
-    legacy_body = (
-        "## legacy\n\n<!-- gaia-upstream-payload\n"
-        + json.dumps({"skillId": SUITE, "previousVersion": "v0", "newVersion": "v1", "releasedAt": "",
-                      "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v1",
-                      "mode": "components", "componentAdds": ["ask-user", "briefing"]}, indent=2)
-        + "\n-->\n"
-    )
-    gh = FakeGh([{"number": 77, "title": PREFIX + "v1", "state": "open",
-                  "labels": [{"name": "upstream:release"}, {"name": "upstream:approved"}],
-                  "body": legacy_body}])
+    legacy = {"skillId": SUITE, "previousVersion": "v0", "newVersion": "v1",
+              "releasedAt": "2026-10-21T00:00:00Z",
+              "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v1",
+              "mode": "components", "componentAdds": ["ask-user", "briefing"]}
+    legacy.update(approved_fields)
+    body = "## legacy\n\n<!-- gaia-upstream-payload\n" + json.dumps(legacy, indent=2) + "\n-->\n"
+    return FakeGh([{"number": 77, "title": PREFIX + "v1", "state": "open",
+                    "labels": [{"name": "upstream:release"}, {"name": "upstream:approved"}], "body": body}])
+
+
+def test_converting_a_legacy_approved_umbrella_keeps_the_approval_when_every_approved_field_is_unchanged():
+    # The live approved umbrellas are legacy payloads. Converting one to v2 changes its representation,
+    # not the approved content, so the approval survives (and the components are not counted as new).
+    gh = legacy_approved()
 
     report, code = run(gh, [finding("v1")])
 
     assert code == 0
-    assert_reset(gh, 77, "candidates")
+    assert "upstream:approved" in {label["name"] for label in gh.issues[77]["labels"]}
+    assert reset_notes(gh, 77) == []
     assert len(parse_payload(gh.issues[77]["body"])["candidates"]) == 2
+
+
+def test_converting_a_legacy_approved_umbrella_resets_it_when_an_approved_field_changed():
+    gh = legacy_approved()
+
+    report, code = run(gh, [finding("v1", componentRemoves=["old-one"])])
+
+    assert code == 0
+    assert_reset(gh, 77, "componentRemoves")
 
 
 def test_escalating_a_row_of_an_approved_umbrella_resets_its_approval():

@@ -70,9 +70,10 @@ Issues are created with labels `upstream:release` (umbrella), `upstream:bootstra
 For the full review protocol — label vocab, approval mechanics, child gate — see [upstream-watcher.md §7 Approval mechanics](../../docs/agents/upstream-watcher.md#approval-mechanics).
 
 **Short version:**
-- Apply `upstream:approved` to open a draft sync PR (gated on child intakes being closed first).
-- Apply `upstream:rejected` to close without syncing (auto-closes child intakes).
+- Apply `upstream:approved` to open a draft sync PR (gated on child intakes being closed first). A human applies it, including to a bootstrap baseline: the watcher never does.
+- Apply `upstream:rejected` to close without syncing. The umbrella's open child intakes are closed too, and each one is labelled `upstream:rejected` so the rejection stays on record.
 - Apply `upstream:needs-info` to hold without automating anything.
+- If an approved umbrella's payload changes (a new version, a removed component, a new broken link, a changed candidate row), the watcher removes `upstream:approved`, applies `upstream:needs-info` and posts one note. Re-apply `upstream:approved` after review.
 
 ---
 
@@ -84,7 +85,11 @@ scripts/upstream_watcher/
 ├── finder.py           # Suite enumeration, mode detection, finding computation
 ├── liveness.py         # Link liveness checks, blob→raw URL conversion, component diff
 ├── name_drift.py       # SKILL.md frontmatter name-drift detection (issue #1457)
-├── issuer.py           # Issue body renderers, idempotency checks, gh issue create
+├── issuer.py           # Issue body renderers, idempotency checks, gh issue create, bootstrap memory
+├── batch.py            # Umbrella batch planner (payloadVersion 2): prechecks, approval reset, writes
+├── records.py          # Records mode: full batch rows in watcher-authored record comments
+├── prechecks.py        # Registry, tracked and prior-disposition checks for candidate rows
+├── live.py             # GitHub access for the planner: paginated LISTs, comments, fail-closed errors
 ├── tests/
 │   └── test_upstream_watcher.py  # Unit tests (all API calls mocked)
 └── README.md           # This file
