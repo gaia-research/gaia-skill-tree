@@ -8,10 +8,10 @@ newest closed umbrella's rows, as carry-forward does, so a settled rejection sur
 from __future__ import annotations
 
 import pytest
+from upstream_fakes import FakeGh, index_from_entries
 
 from scripts.upstream_watcher import batch as bt
 from scripts.upstream_watcher.batch import parse_payload, run_batch
-from upstream_fakes import FakeGh, index_from_entries
 
 SUITE = "garrytan/gbrain"
 INDEX = index_from_entries([])
@@ -111,5 +111,5 @@ def test_a_reset_for_another_suite_is_not_a_reset_of_this_one(reset):
     close_rejected(gh, 5000)
     run(gh, finding(BIG, "v2"))
     delete_chunk(gh, 5001, 1)
-    report, code = run(gh, finding(BIG, "v2"), reset=reset)
+    code = run(gh, finding(BIG, "v2"), reset=reset)[1]
     assert code == 3

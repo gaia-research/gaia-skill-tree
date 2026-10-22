@@ -13,9 +13,10 @@ umbrella history is unknown evidence: exit 3, zero writes.
 
 from __future__ import annotations
 
+from upstream_fakes import FakeGh, RestGhRunner, index_from_entries
+
 from scripts.upstream_watcher.batch import run_batch
 from scripts.upstream_watcher.live import LiveGh
-from upstream_fakes import FakeGh, RestGhRunner, index_from_entries
 
 SUITE = "garrytan/gbrain"
 PREFIX = "[upstream] garrytan/gbrain → "

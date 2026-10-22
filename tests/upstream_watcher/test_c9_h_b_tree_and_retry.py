@@ -262,6 +262,7 @@ def test_the_release_read_is_retried_too(monkeypatch):
     monkeypatch.setattr(liveness, "fetch_json", fetch)
     finding = watcher._poll_suite(fm, {}, verbose=False)
     assert finding is not None and finding["newVersion"] == "v1"
+    assert len(calls) == 2, "the release read was retried once; a version-only suite reads no tree"
     assert sleeps == [1]
 
 
@@ -295,7 +296,10 @@ def route(big_tree, healthy_suite_tag):
 
 def test_a_truncated_suite_is_skipped_and_the_other_suites_proceed(tmp_path, monkeypatch, capsys):
     big = FakeTree(slugs_files(250), truncated=True)
-    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: {})
+    # The component must sit in the suite's own repository for the suite to be in components mode, so the tree is read.
+    # It has no links.github of its own after this entry, so no HEAD request is made.
+    registry = {"o/s000": {"id": "o/s000", "links": {"github": "https://github.com/o/big/blob/main/skills/s000/SKILL.md"}}}
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: registry)
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([
         (None, suite_fm("o/big", "v0")),
         (None, suite_fm("o/small", "v1")),

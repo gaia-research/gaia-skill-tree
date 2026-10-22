@@ -7,9 +7,9 @@ rerun with unchanged input must write nothing. Covers 96 (inline), 250 and 600 (
 from __future__ import annotations
 
 import pytest
+from upstream_fakes import FakeGh, index_from_entries
 
 from scripts.upstream_watcher.batch import parse_payload, run_batch
-from upstream_fakes import FakeGh, index_from_entries
 
 SUITE = "garrytan/gbrain"
 INDEX = index_from_entries([])

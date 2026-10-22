@@ -3,9 +3,10 @@
 M1. Bootstrap-by-absence is gone. An index with no authorised Verifier is a denial, whatever its rows say.
     Star levels are normalised (int 4, '4', '4★' are all 4-star), so an index that stores levels as numbers
     is not read as having no Verifiers.
-M2. The allowlist needs the sender's user type. A name ending in '[bot]' is trusted only for a Bot; the
-    bot-named entries (codex, jules, claude-bot, gemini-bot, github-actions) only for a Bot with that exact
-    login; mbtiongson1 only for a User with the known id. A human account called 'codex' is not trusted.
+M2. The allowlist needs the sender's user type. The bot logins (github-actions[bot] and codex, jules,
+    claude-bot, gemini-bot, github-actions) are trusted only for a Bot with that exact login; mbtiongson1 only
+    for a User with the known id. A human account called 'codex' is not trusted.
+    C9 M-1 supersedes the old suffix rule: a name merely ending in '[bot]' (dependabot[bot]) is NOT trusted.
 L3. One definition of the payload block regex, imported by every consumer (approval, batch, records and the
     workflows). A parity test fails if any copy reappears.
 L5. The skip-child-gate label is honoured only when its most recent labeling was by an authorised actor.
@@ -101,7 +102,6 @@ def test_a_different_handle_is_still_refused(tmp_path):
     ("login", "sender_type", "sender_id"),
     [
         ("github-actions[bot]", "Bot", 41898282),
-        ("dependabot[bot]", "Bot", 49699333),
         ("codex", "Bot", 1),
         ("jules", "Bot", 2),
         ("claude-bot", "Bot", 3),
@@ -127,6 +127,7 @@ def test_allowlisted_senders_pass(login, sender_type, sender_id):
         ("mbtiongson1", None, None),
         ("Codex", "Bot", 1),  # the bot names are exact
         ("alice", "User", 7),  # an ordinary verifier is not allowlisted here (the index decides)
+        ("dependabot[bot]", "Bot", 49699333),  # C9 M-1: a '[bot]' suffix alone is not a trusted login
         ("", "Bot", 1),
         (None, "Bot", 1),
     ],

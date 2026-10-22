@@ -10,12 +10,18 @@ the child that is already open.
 from __future__ import annotations
 
 import pytest
+from upstream_fakes import FakeGh, index_from_entries
 
 from scripts.upstream_watcher import batch as bt
-from scripts.upstream_watcher.batch import canonical_hash, escalate_candidate, parse_payload, plan_suite, run_batch
+from scripts.upstream_watcher.batch import (
+    canonical_hash,
+    escalate_candidate,
+    parse_payload,
+    plan_suite,
+    run_batch,
+)
 from scripts.upstream_watcher.live import read_live
 from scripts.upstream_watcher.markers import PAYLOAD_RE
-from upstream_fakes import FakeGh, index_from_entries
 
 SUITE = "garrytan/gbrain"
 INDEX = index_from_entries([])

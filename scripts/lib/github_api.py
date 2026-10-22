@@ -97,8 +97,13 @@ class GitHubFetchError(RuntimeError):
         self.body = body or ""
 
 
-# H2: statuses that say the resource is unavailable for good. 403 is permanent only without a rate-limit signal.
+# H2: statuses that say the resource is unavailable for good.
 PERMANENT_UNAVAILABLE_STATUSES = frozenset({451, 410})
+# M-4 (C9): a 403 is a permanent refusal only when the repository's own message says so (a DMCA takedown, a blocked
+# or disabled repository). It is matched against the response body GitHub returned, never against the URL.
+PERMANENT_REFUSAL_RE = re.compile(r"access blocked|dmca|takedown|repository (?:was )?disabled|blocked by", re.IGNORECASE)
+# M-4 (C9): a token or App permission problem. Never permanent: it is a visible hard error that names the permission.
+PERMISSION_PROBLEM_RE = re.compile(r"resource not accessible by integration", re.IGNORECASE)
 
 
 def is_rate_limited(exc: GitHubFetchError) -> bool:
@@ -110,16 +115,26 @@ def is_rate_limited(exc: GitHubFetchError) -> bool:
     return "rate limit" in text or "secondary rate" in text or "abuse detection" in text
 
 
-def is_permanent_unavailable(exc: GitHubFetchError) -> bool:
-    """H2: True when retrying cannot help and the suite must be skipped (not treated as unknown evidence).
+def is_permission_problem(exc: GitHubFetchError) -> bool:
+    """M-4 (C9): True for a 403 that says the token or App may not read the resource ("Resource not accessible by
+    integration"). It is not permanent: the operator grants the permission and the next run reads the suite."""
+    return getattr(exc, "status", None) == 403 and bool(PERMISSION_PROBLEM_RE.search(getattr(exc, "body", "") or ""))
 
-    451 (blocked) and 410 (gone) are permanent. A 403 is permanent only when it is not a rate limit. Everything
-    else (5xx, 429, a rate-limited 403, a timeout, a network error, an unparseable body) is transient.
+
+def is_permanent_unavailable(exc: GitHubFetchError) -> bool:
+    """H2 and M-4 (C9): True when retrying cannot help and the suite must be skipped (not treated as unknown evidence).
+
+    Only these are permanent: 451 (blocked), 410 (gone), and a 403 whose body is the repository's own refusal
+    (a DMCA takedown, a blocked or disabled repository). A 403 is never permanent when it is a rate limit or a
+    permission problem, and a bare 403 is not permanent either: it says nothing about the repository, so it stays
+    unknown evidence (exit 3). 5xx, 429, a timeout and a network error are transient, never permanent.
     """
     status = getattr(exc, "status", None)
     if status in PERMANENT_UNAVAILABLE_STATUSES:
         return True
-    return status == 403 and not is_rate_limited(exc)
+    if status != 403 or is_rate_limited(exc) or is_permission_problem(exc):
+        return False
+    return bool(PERMANENT_REFUSAL_RE.search(getattr(exc, "body", "") or ""))
 
 
 class GitHubNotFound(GitHubFetchError):
