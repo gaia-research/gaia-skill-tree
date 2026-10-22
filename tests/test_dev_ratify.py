@@ -16,9 +16,9 @@ from gaia_cli.curation.assessment import buildAssessment
 
 @pytest.fixture(autouse=True)
 def unitOnlyAuthorizationAndFreshness(monkeypatch):
-    """Legacy command behavior tests use synthetic gates, never real approval."""
+    """UNIT-ONLY trust/freshness stubs; real payload reconstruction still runs."""
     monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
-    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.curation.authorization._verifyTrustedEnvelope", lambda *a, **k: [])
 
 # Matches the generics frozen into _makeDeferredMappedPacket()'s genericSnapshot.
 # Ratify validates the packet against the LIVE registry (not the packet's own

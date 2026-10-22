@@ -141,15 +141,57 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
         outcomeIds = [row["candidateId"] for row in outcomes]
         if len(set(expectedIds)) != len(expectedIds) or sorted(expectedIds) != sorted(outcomeIds) or len(set(outcomeIds)) != len(outcomeIds):
             raise ValueError("review accounting must contain every expected candidate exactly once")
-        ready = [row["candidateId"] for row in outcomes if row.get("outcome") == "review-ready"]
-        if sorted(ready) != sorted(identities):
-            raise ValueError("submitted packets must equal all review-ready accounted candidates")
         from gaia_cli.curation.reconciliation import canonicalJson as inventoryJson, sha256 as inventoryHash, OUTCOMES
         unsigned = {key: value for key, value in frozen.items() if key != "inventoryDigest"}
         if frozen.get("inventoryDigest") != inventoryHash(inventoryJson(unsigned)) or report.get("inventoryDigest") != frozen.get("inventoryDigest"):
             raise ValueError("review inventory/reconciliation digest mismatch")
         if any(row.get("outcome") not in OUTCOMES for row in outcomes):
             raise ValueError("unaccounted review outcome")
+        packetsById = {packet["candidateId"]: packet for packet in inventoryRows}
+        frozenById = {row["candidateId"]: row for row in expected}
+        outcomesById = {row["candidateId"]: row for row in outcomes}
+        outcomeForDecision = {
+            "MAP": "review-ready", "NEW_GENERIC": "review-ready",
+            "DEFER": "deferred", "NOT_A_SKILL": "rejected",
+            "DUPLICATE": "proven-duplicate",
+        }
+        for candidateId, frozenRow in frozenById.items():
+            packet = packetsById.get(candidateId)
+            if packet is None:
+                continue
+            source = packet.get("source") if isinstance(packet.get("source"), dict) else {}
+            named = packet.get("l4Resolution", {}).get("named", {})
+            identity = f"{named.get('contributor', '')}/{named.get('skillName', '')}"
+            if identity != frozenRow.get("namedIdentity"):
+                raise ValueError(f"review inventory named identity mismatch for {candidateId}")
+            packetRevision = source.get("commitSha") or source.get("revision") or source.get("resolvedCommit")
+            if (source.get("canonicalUrl") != frozenRow.get("canonicalUrl")
+                    or packetRevision != frozenRow.get("sourceRevision")
+                    or source.get("contentSha256") != frozenRow.get("sourceDigest")):
+                raise ValueError(f"review inventory source provenance mismatch for {candidateId}")
+            reportRow = outcomesById[candidateId]
+            decision = packet.get("decision") if isinstance(packet.get("decision"), dict) else {}
+            proposed = {"decision": decision.get("value")}
+            if decision.get("value") == "MAP":
+                proposed["genericId"] = decision.get("genericId")
+            elif decision.get("value") == "NEW_GENERIC" and isinstance(decision.get("proposal"), dict):
+                proposed["proposal"] = decision["proposal"]
+            if (reportRow.get("outcome") != outcomeForDecision.get(decision.get("value"))
+                    or reportRow.get("proposedGeneric") != proposed):
+                raise ValueError(f"reconciliation decision disagrees with packet for {candidateId}")
+            assessment = assessments.get(candidateId)
+            expectedPacketDigest = inventoryHash(inventoryJson(packet))
+            expectedProposalDigest = inventoryHash(inventoryJson(_proposalPacket(packet)))
+            if reportRow.get("packetDigest") is not None and reportRow["packetDigest"] != expectedPacketDigest:
+                raise ValueError(f"reconciliation packet digest mismatch for {candidateId}")
+            if reportRow.get("packetProposalSha256") is not None and reportRow["packetProposalSha256"] != expectedProposalDigest:
+                raise ValueError(f"reconciliation packet proposal digest mismatch for {candidateId}")
+            if reportRow.get("assessmentSha256") is not None:
+                if not isinstance(assessment, dict) or reportRow["assessmentSha256"] != _digest(assessment):
+                    raise ValueError(f"reconciliation assessment digest mismatch for {candidateId}")
+        ready = [row["candidateId"] for row in outcomes if row.get("outcome") == "review-ready"]
+        if sorted(ready) != sorted(identities):
+            raise ValueError("submitted packets must equal all review-ready accounted candidates")
     reviewRows = []
     for packet in inventoryRows:
         candidateId = packet.get("candidateId")

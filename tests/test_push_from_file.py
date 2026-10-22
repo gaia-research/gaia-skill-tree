@@ -487,7 +487,8 @@ class TestPushFromFilePacketAuthority(unittest.TestCase):
         import contextlib, io, json, tempfile
         from types import SimpleNamespace
         packet = self._make_packet(with_human_review=True)
-        assessment = {"localTestFixture": True}
+        from gaia_cli.curation.assessment import buildAssessment
+        assessment = buildAssessment(packet)
         import hashlib
         assessment_bytes = json.dumps(assessment, sort_keys=True, separators=(",", ":")).encode()
         packet["l4Resolution"]["humanReview"]["assessmentReceiptDigest"] = hashlib.sha256(assessment_bytes).hexdigest()
@@ -506,9 +507,13 @@ class TestPushFromFilePacketAuthority(unittest.TestCase):
             from unittest.mock import patch
             with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr), patch(
                 "gaia_cli.scanner.load_config", return_value={"gaiaUser": "fixture-user"}
-            ), patch("gaia_cli.prefill.selfValidatePacket", return_value=[]), patch(
+            ), patch(
+                # UNIT-ONLY: this legacy fixture is not a complete discovery packet;
+                # let the test reach the production fail-closed authorization boundary.
+                "gaia_cli.prefill.selfValidatePacket", return_value=[]
+            ), patch(
                 "gaia_cli.intakeAdapter.verifyFreshness", return_value=[]
-            ), patch("gaia_cli.curation.assessment.validateAssessment", return_value=[]), patch("gaia_cli.push.write_skill_batch"
+            ), patch("gaia_cli.push.write_skill_batch"
             ) as writer, patch(
                 "gaia_cli.prWriter.open_intake_issue"
             ) as opener:

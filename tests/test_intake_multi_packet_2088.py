@@ -149,10 +149,25 @@ def test_ratify_override_failure_never_writes(tmp_path, mutation):
 def reviewAccounting(packets):
     from gaia_cli.curation.reconciliation import canonicalJson, sha256
 
-    candidates = [{"candidateId": packet["candidateId"]} for packet in packets]
+    candidates = [{
+        "candidateId": packet["candidateId"],
+        "namedIdentity": f"{packet['l4Resolution']['named']['contributor']}/{packet['l4Resolution']['named']['skillName']}",
+        "canonicalUrl": packet["source"]["canonicalUrl"],
+        "sourceRevision": packet["source"].get("commitSha") or packet["source"].get("revision"),
+        "sourceDigest": packet["source"]["contentSha256"],
+    } for packet in packets]
     frozen = {"candidates": candidates}
     frozen["inventoryDigest"] = sha256(canonicalJson(frozen))
-    decisions = [{"candidateId": packet["candidateId"], "outcome": "review-ready"} for packet in packets]
+    decisions = []
+    for packet in packets:
+        decision = packet["decision"]
+        proposed = {"decision": decision["value"]}
+        if decision["value"] == "MAP":
+            proposed["genericId"] = decision["genericId"]
+        elif decision["value"] == "NEW_GENERIC":
+            proposed["proposal"] = decision["proposal"]
+        decisions.append({"candidateId": packet["candidateId"], "outcome": "review-ready",
+                          "proposedGeneric": proposed})
     return {
         "inventory": frozen,
         "reconciliation": {"inventoryDigest": frozen["inventoryDigest"], "decisions": decisions},
