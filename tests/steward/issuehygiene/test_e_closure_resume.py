@@ -199,9 +199,9 @@ def test_crash_after_the_close_is_never_closed_again_when_the_old_plan_is_replay
     assert commentsOn(gh, 30) == 1
 
 
-def test_an_old_plan_replayed_after_our_own_comment_is_a_stale_skip_and_never_a_second_comment(tmp_path: Path) -> None:
-    """Our comment bumps updated_at, so the pre-crash snapshot no longer matches. A fresh census is needed to
-    finish; until then the old plan must stop, not post a second marker."""
+def test_an_old_plan_replayed_after_our_own_comment_completes_with_one_comment(tmp_path: Path) -> None:
+    """Our comment bumps updated_at. That drift is explained by our own marker for this closure, so the same
+    plan completes: no second comment is posted and the issue closes (D7). Any other edit still stale-skips."""
 
     gh = FakeGitHub()
     root = familyCheckout(tmp_path, gh)
@@ -214,10 +214,9 @@ def test_an_old_plan_replayed_after_our_own_comment_is_a_stale_skip_and_never_a_
     replay = CountingForge(gh)
     results = executeClosures(plans, replay, receipts, NOW, "run-2")
     (row30,) = [row for row in results if row["issue"] == 30]
-    assert row30["outcome"] == "stale-skip"
-    assert "updatedAt" in row30["failure"]
+    assert row30["outcome"] == "closed"
     assert ("addComment", 30) not in replay.calls
-    assert commentsOn(gh, 30) == 1 and gh.issues[30]["state"] == "open"
+    assert commentsOn(gh, 30) == 1 and gh.issues[30]["state"] == "closed"
 
 
 def test_a_repeated_round_after_full_success_performs_no_forge_write_and_leaves_receipts_byte_identical(tmp_path: Path) -> None:
@@ -317,6 +316,6 @@ def test_every_planned_closure_carries_the_snapshot_it_will_be_compared_against(
     assert {plan["issue"] for plan in plans} == {30, 31, 32}
     for plan in plans:
         snapshot = plan["expectedSnapshot"]
-        assert set(snapshot) == {"state", "title", "updatedAt", "bodySha256", "labels"}
+        assert set(snapshot) == {"state", "title", "titleSha256", "updatedAt", "bodySha256", "labels"}
         assert snapshot["bodySha256"] == bodySha256(gh.issues[plan["issue"]]["body"])
         assert snapshot["updatedAt"] == gh.issues[plan["issue"]]["updated_at"]

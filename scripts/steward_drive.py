@@ -65,7 +65,8 @@ EXITNOTRUN = 5
 AGENTTYPES = ("agent.build", "agent.verify")
 CLOSETYPE = "forge.close_issue"
 KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate", CLOSETYPE)
-CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked")
+CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked", "blocked-identity")
+CLOSEREFUSED = 2
 VERDICTS = ("accept", "reject", "escalate")
 BUILDFAMILIES = ("haiku", "sonnet")
 ENGINES = ("copilot", "claude", "codex", "pi")
@@ -570,6 +571,15 @@ class Driver:
             "pullRequest": {"number": pr.get("number"), "url": pr.get("url")}, "mergedSha": mergeSha,
         })
 
+    def closuresEnabled(self) -> bool:
+        """Re-read at every closure: flipping writesEnabled off stops pending closures on the next pass."""
+        from gaia_cli.steward.policy import PolicyError, StewardPolicy
+
+        try:
+            return StewardPolicy.load(self.options.root).issue_hygiene.writesEnabled is True
+        except PolicyError:
+            return False
+
     def forgeToken(self) -> str | None:
         return (self.env.get("GH_TOKEN") or self.env.get("GITHUB_TOKEN") or "").strip() or None
 
@@ -604,6 +614,11 @@ class Driver:
         argv = [o.python, str(o.root / CLOSESCRIPT), "--root", str(o.root), "--action", str(path),
                 "--repo", o.repo, "--run-id", runId]
         result = self.runner(argv, cwd=o.root, timeout=CLOSETIMEOUT, env=self.env)
+        if result.returncode == CLOSEREFUSED:
+            # The executor's gate refused: writes off, rule off, cap reached, or the checkout no longer proves
+            # the action. That is a fact about the action, not a failure to retry, so the runner skips it.
+            detail = (result.stderr or "").strip().splitlines()
+            return Handled(skip=True, reason=f"closure refused by the executor gate: {(detail[-1] if detail else 'no reason')[:200]}")
         outcome = lastJsonObject(result.stdout)
         if outcome is None or outcome.get("outcome") not in CLOSEOUTCOMES:
             return Handled(reason=f"closure script printed no outcome (exit {result.returncode})")
@@ -633,6 +648,10 @@ class Driver:
                 continue
             if kind in AGENTTYPES and not self.ready:
                 self.unperformed.append({"stepId": stepId, "type": kind, "reason": self.notReadyReason})
+                continue
+            if kind == CLOSETYPE and not self.closuresEnabled():
+                self.skipped.append({"stepId": stepId, "type": kind,
+                                     "reason": "issueHygiene.writesEnabled is false; closure not performed"})
                 continue
             if kind == CLOSETYPE and not self.forgeToken():
                 self.unperformed.append({"stepId": stepId, "type": kind,

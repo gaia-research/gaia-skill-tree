@@ -91,9 +91,13 @@ def makeManifest(items: list[dict], **extra) -> dict:
 
 @pytest.fixture
 def repo(tmp_path: Path) -> Path:
+    """A checkout whose POLICY is explicitly writable (the shipped policy is dry-run, B5)."""
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
     (tmp_path / "founder/steward").mkdir(parents=True)
-    shutil.copy(REPO_ROOT / "founder/steward/POLICY.yaml", tmp_path / "founder/steward/POLICY.yaml")
+    text = (REPO_ROOT / "founder/steward/POLICY.yaml").read_text(encoding="utf-8")
+    assert "writesEnabled: false" in text
+    (tmp_path / "founder/steward/POLICY.yaml").write_text(
+        text.replace("writesEnabled: false", "writesEnabled: true", 1), encoding="utf-8")
     return tmp_path
 
 

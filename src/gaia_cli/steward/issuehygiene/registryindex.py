@@ -24,6 +24,7 @@ import yaml
 from gaia_cli.frontmatter import split_frontmatter
 
 NAMED_DIR = "registry/named"
+WHOLE_TREE = "*"
 NODES_DIR = "registry/nodes"
 GITHUB_BLOB_RE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/(?:blob|tree)/([^/]+)(?:/(.*))?$")
 SIMPLE_REF_NAMES = frozenset({"HEAD", "main", "master"})
@@ -109,6 +110,8 @@ class NamedRecord:
     github: GithubRef | None
     upstreamRepo: str | None
     upstreamVersion: str | None
+    # True when the record declares an upstream repo that is not a non-empty string (L3). Never A.
+    upstreamRepoInvalid: bool = False
 
 
 @dataclass(frozen=True)
@@ -159,12 +162,16 @@ class RegistryIndex:
         return sorted(found, key=lambda record: record.id)
 
     def unreadableNear(self, identifier: str) -> list[Unreadable]:
-        """Unreadable files that could be this id: same path, or same slug under any handle."""
+        """Unreadable files that could be this id: same path, same slug under any handle, or the whole tree.
+
+        An entry with pathId ``*`` is a directory-level failure (for example a missing ``registry/named``),
+        so every lookup that depends on the registry reports it.
+        """
         parts = splitId(identifier)
         slug = parts[1] if parts else None
         return [
             entry for entry in self.unreadable
-            if entry.pathId == identifier or (slug is not None and entry.slug == slug)
+            if entry.pathId in (identifier, WHOLE_TREE) or (slug is not None and entry.slug == slug)
         ]
 
 
@@ -212,11 +219,15 @@ def readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable 
     upstream = data.get("upstream")
     upstreamRepo = None
     upstreamVersion = None
+    upstreamRepoInvalid = False
     if upstream is not None:
         if not isinstance(upstream, dict):
             return None, Unreadable(relPath, "upstream-malformed", pathId, slug)
-        if isinstance(upstream.get("repo"), str):
-            upstreamRepo = upstream["repo"].lower()
+        if "repo" in upstream:
+            if isinstance(upstream["repo"], str) and upstream["repo"].strip():
+                upstreamRepo = upstream["repo"].strip().lower()
+            else:
+                upstreamRepoInvalid = True
         if isinstance(upstream.get("version"), str):
             upstreamVersion = upstream["version"]
     status = data.get("status") if isinstance(data.get("status"), str) else None
@@ -224,7 +235,7 @@ def readNamed(path: Path, relPath: str) -> tuple[NamedRecord | None, Unreadable 
     record = NamedRecord(
         id=identifier, contributor=contributor, slug=slug, path=relPath, sha256=sha256(raw),
         status=status, installable=installable, github=github,
-        upstreamRepo=upstreamRepo, upstreamVersion=upstreamVersion,
+        upstreamRepo=upstreamRepo, upstreamVersion=upstreamVersion, upstreamRepoInvalid=upstreamRepoInvalid,
     )
     return record, None
 
@@ -250,6 +261,9 @@ def buildRegistryIndex(root: Path) -> RegistryIndex:
     unreadable: list[Unreadable] = []
 
     namedRoot = root / NAMED_DIR
+    if not namedRoot.is_dir():
+        # A missing directory is not an empty registry: every registry-dependent lookup is unknown (L4).
+        unreadable.append(Unreadable(NAMED_DIR, "dir-missing", WHOLE_TREE, None))
     if namedRoot.is_dir():
         for path in sorted(namedRoot.rglob("*.md")):
             if not path.is_file():

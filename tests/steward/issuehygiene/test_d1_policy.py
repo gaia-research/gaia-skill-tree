@@ -82,7 +82,8 @@ def test_repository_policy_wires_issue_debt_authority_and_routes() -> None:
     assert policy.authority_for("issue_founder_decision") is AuthorityClass.C
     assert policy.dispatch_rule_for("issue_suite_review").routine == "issue-hygiene"
     assert policy.founder_rule_for("issue_founder_decision") is not None
-    assert policy.issue_hygiene.writesEnabled is True
+    # B5: the shipped policy is dry-run (contract section 6). The pilot runs through explicit flags, not this policy.
+    assert policy.issue_hygiene.writesEnabled is False
     assert policy.issue_hygiene.maxClosuresPerRun == 10
     assert policy.issue_hygiene.enabledRules == KNOWN_RULE_IDS
 

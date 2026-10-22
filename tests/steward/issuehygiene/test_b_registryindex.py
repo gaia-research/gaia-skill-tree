@@ -153,6 +153,7 @@ def test_ref_split_trust_requires_identical_urls_or_two_simple_refs():
 
 
 def test_nodes_are_indexed_and_bad_json_is_unreadable(tmp_path: Path):
+    (tmp_path / "registry" / "named").mkdir(parents=True)  # a checkout always has the directory (L4)
     nodes = tmp_path / "registry" / "nodes" / "basic"
     nodes.mkdir(parents=True)
     (nodes / "good.json").write_text(json.dumps({"id": "good-node"}), encoding="utf-8")

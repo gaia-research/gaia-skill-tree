@@ -95,7 +95,7 @@ second concurrent invocation loses the lease and refuses cleanly.
 ## Hard limits (enforced in code, repeated here)
 
 - Never merge into `main`, push to `main`, force-push, tag, release or publish.
-- Class B: maxInFlight 1, maxAttempts 2, cooldown 3600 s, one dispatch per run.
+- Class B: maxInFlight 2, maxAttempts 2, cooldown 3600 s, one dispatch per run.
   Need more throughput? File a founder-reviewable amendment
   (`founder/steward/decisions/`); never loop the CLI to get around the cap.
 - Unknown coverage blocks Class A for the run. A not-evaluated sensor is never

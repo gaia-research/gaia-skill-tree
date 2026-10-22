@@ -73,7 +73,7 @@ from gaia_cli.steward.models import AuthorityClass, Debt, stable_json
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
-from gaia_cli.steward.issuehygiene.closure import closureCommentFor, closureProven
+from gaia_cli.steward.issuehygiene.closure import closureCommentsFor, closureProven
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
     RETRYLIMIT,
@@ -1546,6 +1546,10 @@ class FullRunner:
         """
 
         summary: dict[str, Any] = {"emitted": 0, "skipped": [], "deferred": [], "reason": None}
+        if not policy.issue_hygiene.writesEnabled:
+            # Re-checked at emission: with writes off, proven closures stay debt and no action is recorded.
+            summary["reason"] = "issueHygiene.writesEnabled is false; no closure is emitted"
+            return summary
         doc = self._load()
         run = doc["runs"][runId]
         sets = self._triageSets(scan, run, doc["work"])
@@ -1570,6 +1574,7 @@ class FullRunner:
         }
         budget = policy.issue_hygiene.maxClosuresPerRun - sum(1 for a in run["actions"] if a["type"] == CLOSEACTION)
         rows = census.byNumber()
+        repo = census.document.get("repo") if isinstance(census.document, dict) else None
         receiptPath = (RECEIPTDIRECTORY / f"{runId}.jsonl").as_posix()
         now = self._now()
         for debt in ready:
@@ -1603,8 +1608,9 @@ class FullRunner:
                     summary["deferred"].append({"key": key, "reason": "policy maxClosuresPerRun for this run is exhausted"})
                     continue
                 # The comment is rebuilt here, not stored in debt state (see sensor._observedPlan).
-                params = {**plan, "comment": closureCommentFor(plan), "receiptPath": receiptPath,
-                          "manifestSha256": digest}
+                comments = closureCommentsFor(plan)
+                params = {**plan, "comment": comments[0], "comments": comments, "receiptPath": receiptPath,
+                          "manifestSha256": digest, "repo": repo}
 
                 def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params,
                           debtId=debt.id, name=pairKey(key, number), eight=manifestEight(digest)) -> None:
@@ -1634,9 +1640,10 @@ class FullRunner:
         commentId = outcome.get("commentId")
         if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
             raise RecordRefused("commentId, when given, must be a positive integer")
-        if result == "closed" and not closureProven(outcome):
+        if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
             raise RecordRefused(
-                "a closed outcome must prove its closing comment: commentUrl, commentId, or markerVerified true")
+                "a closed outcome must carry exactly one proof of its closing comment: a commentUrl on this issue, "
+                "a commentId, or markerVerified true")
         if result in ("failed", "blocked") and not (isinstance(outcome.get("failure"), str) and outcome["failure"].strip()):
             raise RecordRefused(f"a {result} outcome needs a failure reason")
         entry = {

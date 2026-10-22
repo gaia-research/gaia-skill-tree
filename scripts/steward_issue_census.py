@@ -5,16 +5,27 @@ Writes `steward-github-census-v1` to `.gaia/steward/inputs/github-issues.json`:
 
     python scripts/steward_issue_census.py --repo gaia-research/gaia-skill-tree
 
-Stdlib only. Uses GH_TOKEN or GITHUB_TOKEN when set, otherwise talks unauthenticated.
-The HTTPS proxy comes from the environment, as urllib normally honors it. Pagination
-follows REST `Link: rel="next"` to the end, and the expected page count comes from
-`rel="last"` when present.
+Stdlib plus the repo's own policy loader. Uses GH_TOKEN or GITHUB_TOKEN when set, otherwise
+talks unauthenticated. The HTTPS proxy comes from the environment, as urllib normally honors
+it. Pagination follows REST `Link: rel="next"`. The end of a listing is proven by a
+`rel="last"` link that matches the pages fetched, or by an empty probe page after a final page
+that has no `next` link. GitHub omits `last` on its final page, so the probe is the usual proof.
+
+The closed window defaults to `issueHygiene.closedWindowDays` in `founder/steward/POLICY.yaml`
+(read under `--root`); `--closed-window-days` overrides it. An unreadable policy refuses the run
+with exit 2 and writes nothing.
 
 Fail closed: any HTTP error, rate limit, unparsable page, page cap, short pagination,
-`unlinked-continuation` (a page with no next or last link that is followed by rows) or
-`mutated-during-walk` (a second walk of the open listing disagrees with the first) writes a
+`unlinked-continuation` (a non-empty probe after a page with no next link), `empty-linked-page`
+or `mutated-during-walk` (a second walk of the open listing disagrees with the first) writes a
 census with `completeness.*.complete = false` and the reason, then exits 3. A file that looks
-complete is never written for a partial fetch. The token is never printed.
+complete is never written for a partial fetch. The workflow listing is a separate section: if it
+fails, only `workflows.complete` is false, and closures that depend on it stay Class B or C. The
+token is never printed.
+
+This collector writes only the census. Removing a stale census is the driver's job
+(`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
+for the sensor to report as incomplete).
 """
 
 from __future__ import annotations
@@ -31,12 +42,14 @@ import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 SCHEMA = "steward-github-census-v1"
 DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 DEFAULT_OUT = Path(".gaia/steward/inputs/github-issues.json")
 DEFAULT_CLOSED_WINDOW_DAYS = 30
+REPO_ROOT = Path(__file__).resolve().parents[1]
+POLICY_RELATIVE = Path("founder/steward/POLICY.yaml")
 PER_PAGE = 100
 MAX_PAGES = 200
 TIMEOUT_SECONDS = 30
@@ -63,7 +76,11 @@ class Response:
 
 @dataclass
 class Listing:
-    """Rows from one paginated listing plus what the pagination proved about it."""
+    """Rows from one paginated listing plus what the pagination proved about it.
+
+    ``pagesFetched`` counts linked pages only. The empty probe that proves the end of an
+    unlinked final page is not a page of the listing, so it is never counted.
+    """
 
     rows: list[dict] = field(default_factory=list)
     pagesFetched: int = 0
@@ -140,19 +157,21 @@ def numbersOf(rows: list) -> list:
     return [row.get("number") if isinstance(row, dict) else None for row in rows]
 
 
-def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
+def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any], Any] | None = None) -> Listing:
     """Follow ``rel="next"`` to the end. Never returns partial rows as complete.
 
-    The end of a listing is proven two ways only. A ``rel="last"`` link must match the number
-    of pages fetched. Without ``next`` or ``last``, a non-empty page is followed by a probe of
-    the next page, and the walk ends only if that probe is empty. Page length is not evidence:
-    ``per_page`` is a request the server may not honour, so a full page with no Link header is
-    not the last page. A non-empty probe means the listing continued without a link. The walk
-    then fails closed, and the probe rows are not adopted.
+    The end of a listing is proven two ways. A ``rel="last"`` link names the expected page
+    count, and the walk must have fetched exactly that many linked pages. A page that has no
+    ``next`` link and no ``last`` link is followed by one probe of the next page. The probe must be
+    empty, and it is not counted. A non-empty probe means the listing continued without a link,
+    so the walk fails closed as ``unlinked-continuation`` and its rows are not adopted. Page length
+    is never evidence: ``per_page`` is a request the server may not honour. A linked page that
+    comes back empty fails closed as ``empty-linked-page``.
     """
     listing = Listing()
     url: str | None = start
     probing = False
+    viaNext = False
     while url:
         if listing.pagesFetched >= MAX_PAGES:
             listing.reason = "page-cap-exceeded"
@@ -167,15 +186,20 @@ def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
             listing.reason = f"http-{response.status}"
             return listing
         try:
-            page = json.loads(response.body)
+            decoded = json.loads(response.body)
         except ValueError:
             listing.reason = "unparsable-page"
             return listing
+        page = extract(decoded) if extract is not None else decoded
         if not isinstance(page, list):
             listing.reason = "unexpected-page-shape"
             return listing
-        if probing and page:
-            listing.reason = "unlinked-continuation"
+        if probing:
+            if page:
+                listing.reason = "unlinked-continuation"
+            break
+        if viaNext and not page:
+            listing.reason = "empty-linked-page"
             return listing
         listing.rows.extend(page)
         listing.pagesFetched += 1
@@ -186,14 +210,19 @@ def listAll(start: str, fetch: Callable[[str], Response]) -> Listing:
             if listing.expectedPages is None:
                 listing.reason = "last-page-unparsable"
                 return listing
-        url = links.get("next")
-        probing = url is None and "last" not in links and bool(page)
-        if probing:
-            url = withPage(requested, (pageNumber(requested) or 1) + 1)
-    if listing.expectedPages is None:
-        listing.expectedPages = listing.pagesFetched
-    if listing.expectedPages != listing.pagesFetched:
-        listing.reason = f"pagination-short:{listing.pagesFetched}/{listing.expectedPages}"
+        if "next" in links:
+            url = links["next"]
+            viaNext = True
+            continue
+        if "last" in links or not page:
+            break
+        probing = True
+        url = withPage(requested, (pageNumber(requested) or 1) + 1)
+    if listing.reason is None:
+        if listing.expectedPages is None:
+            listing.expectedPages = listing.pagesFetched
+        if listing.expectedPages != listing.pagesFetched:
+            listing.reason = f"pagination-short:{listing.pagesFetched}/{listing.expectedPages}"
     return listing
 
 
@@ -226,6 +255,39 @@ def isoZ(moment: datetime) -> str:
     return moment.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def collectWorkflows(repo: str, fetch: Callable[[str], Response]) -> dict:
+    """The workflow listing with each workflow's state (read-only REST, Class A evidence for A5).
+
+    The response wraps the array as ``{"workflows": [...]}``. A failure here is recorded in this
+    section only and never makes the issue census incomplete.
+    """
+    start = f"{API}/repos/{repo}/actions/workflows?per_page={PER_PAGE}"
+    listing = listAll(start, fetch, extract=lambda body: body.get("workflows") if isinstance(body, dict) else None)
+    items: list[dict] = []
+    malformed = 0
+    for raw in listing.rows:
+        if not isinstance(raw, dict) or not isinstance(raw.get("path"), str) or not isinstance(raw.get("state"), str):
+            malformed += 1
+            continue
+        items.append({
+            "id": raw["id"] if isinstance(raw.get("id"), int) and not isinstance(raw.get("id"), bool) else None,
+            "name": raw.get("name") if isinstance(raw.get("name"), str) else "",
+            "path": raw["path"],
+            "state": raw["state"],
+        })
+    reason = listing.reason or (f"malformed-rows:{malformed}" if malformed else None)
+    section: dict[str, Any] = {
+        "complete": reason is None,
+        "pagesFetched": listing.pagesFetched,
+        "expectedPages": listing.expectedPages if listing.expectedPages is not None else listing.pagesFetched,
+        "itemCount": len(items),
+        "items": items,
+    }
+    if reason:
+        section["reason"] = reason
+    return section
+
+
 def collectCensus(
     repo: str,
     now: datetime,
@@ -253,6 +315,7 @@ def collectCensus(
         elif numbersOf(confirm.rows) != numbersOf(openListing.rows):
             openListing.reason = "mutated-during-walk"
     closedListing = listAll(closedStart, fetch) if openListing.reason is None else Listing(reason="skipped")
+    workflows = collectWorkflows(repo, fetch)
 
     reasons = [item.reason for item in (openListing, closedListing) if item.reason and item.reason != "skipped"]
     rows: list[dict] = []
@@ -289,7 +352,7 @@ def collectCensus(
         "issues": {
             "complete": complete, "pagesFetched": pagesFetched, "expectedPages": expectedPages,
             "confirmPagesFetched": confirmPages,
-            "itemCount": sum(1 for row in rows if not row["isPullRequest"]),
+            "itemCount": len(rows),
             "lastLink": openListing.lastLink,
         },
         "pulls": {
@@ -308,9 +371,24 @@ def collectCensus(
         "source": "rest",
         "closedWindowDays": closedWindowDays,
         "completeness": completeness,
+        "workflows": workflows,
         "issues": rows,
         "recentlyClosed": recent,
     }
+
+
+def closedWindowDaysFromPolicy(root: Path) -> int:
+    """``issueHygiene.closedWindowDays`` from the checkout's POLICY.yaml. Raises when unreadable."""
+    import yaml
+
+    sourcePath = str(root / "src")
+    if sourcePath not in sys.path:
+        sys.path.insert(0, sourcePath)
+    from gaia_cli.steward.issuehygiene.hygienepolicy import loadHygienePolicy
+
+    raw = yaml.safe_load((root / POLICY_RELATIVE).read_text(encoding="utf-8"))
+    section = raw.get("issueHygiene") if isinstance(raw, dict) else None
+    return loadHygienePolicy(section).closedWindowDays
 
 
 def writeAtomic(path: Path, document: dict) -> None:
@@ -331,21 +409,28 @@ def writeAtomic(path: Path, document: dict) -> None:
 def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--repo", default=DEFAULT_REPO, help="owner/name (default %(default)s)")
+    parser.add_argument("--root", type=Path, default=REPO_ROOT, help="checkout whose POLICY.yaml sets the closed window")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="census file to write")
-    parser.add_argument("--closed-window-days", type=int, default=DEFAULT_CLOSED_WINDOW_DAYS)
+    parser.add_argument("--closed-window-days", type=int, default=None,
+                        help="override issueHygiene.closedWindowDays from the policy")
     parser.add_argument("--now", default=None, help="RFC 3339 fetchedAt override (tests and replays)")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None = None) -> int:
     args = parseArgs(argv)
-    if "/" not in args.repo or args.closed_window_days < 0:
+    if "/" not in args.repo or (args.closed_window_days is not None and args.closed_window_days < 0):
         print("error: --repo must be owner/name and --closed-window-days non-negative", file=sys.stderr)
+        return EXIT_USAGE
+    try:
+        closedWindow = args.closed_window_days if args.closed_window_days is not None else closedWindowDaysFromPolicy(args.root)
+    except Exception as error:  # noqa: BLE001 - an unreadable policy refuses the run; nothing is written
+        print(f"error: issueHygiene policy unreadable: {type(error).__name__}", file=sys.stderr)
         return EXIT_USAGE
     now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or None
     transport = fetch or (lambda url: httpFetch(url, token))
-    document = collectCensus(args.repo, now, transport, args.closed_window_days)
+    document = collectCensus(args.repo, now, transport, closedWindow)
     writeAtomic(args.out, document)
     complete = document["completeness"]["issues"]["complete"]
     counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"

@@ -94,6 +94,8 @@ class FakeGitHub:
         self.hiddenFromSearch: set[int] = set()
         self.listCalls: list[tuple[str, int]] = []
         self.searchCalls: list[str] = []
+        self.workflows: list[dict] = []
+        self.login = "steward-bot"
 
     # -- clock and identity -------------------------------------------------
 
@@ -159,8 +161,11 @@ class FakeGitHub:
         links = []
         if self.linkMode in ("full", "no-last") and page < total:
             links.append(f'<{base}&page={page + 1}>; rel="next"')
-        if self.linkMode == "full" and total > 0:
+        if self.linkMode == "full" and page < total:
             links.append(f'<{base}&page={total}>; rel="last"')
+        if self.linkMode == "full" and page > 1:
+            links.append(f'<{base}&page={page - 1}>; rel="prev"')
+            links.append(f'<{base}&page=1>; rel="first"')
         if links:
             headers["link"] = ", ".join(links)
         return 200, headers, json.dumps(body)
@@ -168,6 +173,8 @@ class FakeGitHub:
     def fetch(self, url: str) -> Response:
         """The ``fetch`` seam of ``scripts.steward_issue_census.collectCensus``."""
 
+        if "/actions/workflows" in url:
+            return Response(200, {}, json.dumps({"total_count": len(self.workflows), "workflows": self.workflows}))
         query = parse_qs(urlparse(url).query)
         state = query["state"][0]
         page = int(query["page"][0]) if "page" in query else 1
@@ -243,9 +250,16 @@ class FakeForge:
             raise ForgeItemError("not-an-issue")
         return {
             "number": number, "title": row["title"], "state": row["state"], "stateReason": row.get("state_reason"),
-            "updatedAt": row["updated_at"], "body": row["body"],
+            "updatedAt": row["updated_at"], "body": row["body"], "locked": False,
+            "htmlUrl": f"https://github.com/{self.gh.repo}/issues/{number}",
             "labels": sorted(label["name"] for label in row["labels"]),
         }
+
+    def whoami(self) -> str:
+        self._enter("whoami", 0)
+        if self.gh.login is None:
+            raise ForgeItemError("whoami: no login")
+        return self.gh.login
 
     def listComments(self, number: int) -> list[dict]:
         self._enter("listComments", number)
@@ -254,8 +268,8 @@ class FakeForge:
     def addComment(self, number: int, body: str) -> str | None:
         self._enter("addComment", number)
         comments = self.gh.comments.setdefault(number, [])
-        url = f"https://github.test/{self.gh.repo}/issues/{number}#issuecomment-{len(comments) + 1}"
-        comments.append({"body": body, "url": url})
+        url = f"https://github.com/{self.gh.repo}/issues/{number}#issuecomment-{number * 100 + len(comments) + 1}"
+        comments.append({"body": body, "url": url, "author": self.gh.login})
         self.gh.issues[number]["comments"] = len(comments)
         self.gh.issues[number]["updated_at"] = self.gh.tick()
         self.writes.append(("comment", number))
@@ -300,8 +314,11 @@ def makeCheckout(
 ) -> Path:
     """A temporary git checkout with the real POLICY.yaml and the given census and registry.
 
-    ``census`` may be a document (written as JSON) or a raw string (written verbatim, for
-    truncated or corrupt files). ``named`` maps ``contributor/slug`` to file text.
+    A test checkout is a writable fixture by default: ``writesEnabled`` is set to true, because the
+    shipped policy is dry-run (B5). Pass ``policy={"writesEnabled": False}`` to test the dry-run.
+    ``census`` may be a document (written as JSON) or a raw string (written verbatim, for truncated or
+    corrupt files). ``named`` maps ``contributor/slug`` to file text. ``registry/named`` always exists,
+    as it does in a real checkout.
     """
 
     root = tmp / "checkout"
@@ -309,8 +326,8 @@ def makeCheckout(
     subprocess.run(["git", "init", "-q", str(root)], check=True)
     (root / "founder" / "steward").mkdir(parents=True)
     shutil.copy(REPO_ROOT / "founder" / "steward" / "POLICY.yaml", root / "founder" / "steward" / "POLICY.yaml")
-    if policy:
-        editPolicy(root, policy)
+    editPolicy(root, {"writesEnabled": True, **(policy or {})})
+    (root / "registry" / "named").mkdir(parents=True, exist_ok=True)
     if census is not None:
         target = root / CENSUS_INPUT
         target.parent.mkdir(parents=True, exist_ok=True)

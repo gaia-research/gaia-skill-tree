@@ -9,6 +9,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
 from tests.steward.test_steward_drive import (
     FakeWorld,
     closeAction,
@@ -20,12 +22,26 @@ from tests.steward.test_steward_drive import (
 )
 
 
+def closeRoot(tmp_path):
+    """A driver checkout whose POLICY is explicitly writable (the shipped policy is dry-run, B5).
+
+    The driver checks ``issueHygiene.writesEnabled`` before each closure and fails closed without a policy.
+    """
+    root = makeRoot(tmp_path)
+    policy = REPO_ROOT / "founder" / "steward" / "POLICY.yaml"
+    target = root / "founder" / "steward" / "POLICY.yaml"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    text = policy.read_text(encoding="utf-8")
+    target.write_text(text.replace("writesEnabled: false", "writesEnabled: true", 1), encoding="utf-8")
+    return root
+
+
 def closeRecords(world: FakeWorld) -> list[dict]:
     return [payload for step, payload in world.recorded if step.startswith("close:")]
 
 
 def test_closure_runs_the_script_and_records_its_outcome(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     runs = [view("R1", [closeAction()]), view("R1", [], "completed")]
     world = FakeWorld(root, runs)
     driver = makeDriver(tmp_path, world, env={"GH_TOKEN": "t"})
@@ -45,7 +61,7 @@ def test_closure_runs_the_script_and_records_its_outcome(tmp_path):
 
 
 def test_closure_without_a_token_is_not_run_and_exits_not_run(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     world = FakeWorld(root, [view("R1", [closeAction()])])
     driver = makeDriver(tmp_path, world, env={})
 
@@ -57,7 +73,7 @@ def test_closure_without_a_token_is_not_run_and_exits_not_run(tmp_path):
 
 
 def test_blocked_closure_is_recorded_once_and_halts_the_run(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     blocked = ok(json.dumps({"outcome": "blocked", "key": "upstream-candidate:o/r:foo", "issue": 10,
                              "commentUrl": None, "commentId": None, "markerVerified": False,
                              "closedAt": None, "failure": "http-403"}))
@@ -74,7 +90,7 @@ def test_blocked_closure_is_recorded_once_and_halts_the_run(tmp_path):
 
 
 def test_closure_script_without_an_outcome_is_a_failed_step_not_a_record(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     world = FakeWorld(root, [view("R1", [closeAction()])],
                       close=lambda argv: drive.CommandResult(3, "", "steward issue close blocked: no-token"))
     driver = makeDriver(tmp_path, world, env={"GH_TOKEN": "t"})
@@ -88,7 +104,7 @@ def test_closure_script_without_an_outcome_is_a_failed_step_not_a_record(tmp_pat
 
 
 def test_census_is_refreshed_before_the_run_when_enabled(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     runs = [view("R1", [], "completed")]
     world = FakeWorld(root, runs)
     driver = makeDriver(tmp_path, world, census=True, repo="gaia-research/gaia-skill-tree")
@@ -105,7 +121,7 @@ def test_census_is_refreshed_before_the_run_when_enabled(tmp_path):
 
 
 def test_census_is_not_collected_by_default(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     world = FakeWorld(root, [view("R1", [], "completed")])
     driver = makeDriver(tmp_path, world)
 
@@ -116,7 +132,7 @@ def test_census_is_not_collected_by_default(tmp_path):
 
 
 def test_failed_census_removes_the_stale_input(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     target = root / ".gaia/steward/inputs/github-issues.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text("{}", encoding="utf-8")
@@ -131,7 +147,7 @@ def test_failed_census_removes_the_stale_input(tmp_path):
 
 
 def test_incomplete_census_keeps_its_file_for_the_sensor_to_refuse(tmp_path):
-    root = makeRoot(tmp_path)
+    root = closeRoot(tmp_path)
     target = root / ".gaia/steward/inputs/github-issues.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text('{"completeness": {}}', encoding="utf-8")

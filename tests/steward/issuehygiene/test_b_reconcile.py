@@ -11,9 +11,9 @@ from gaia_cli.steward.issuehygiene.census import SCHEMA_VERSION as CENSUS_SCHEMA
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.issuehygiene.reconcile import (
     manifestDigest,
-    probeWorkflow,
     questionId,
     reconcile,
+    workflowProbesFor,
     workflowRunnables,
 )
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
@@ -69,11 +69,13 @@ def botRow(number, title, body, labels=("agentic-workflows",)):
 
 
 def censusOf(rows, closed=(), complete=True, fetchedAt=FETCHED):
+    issueRows = [row for row in rows if not row.get("isPullRequest")]
+    pullRows = [row for row in rows if row.get("isPullRequest")]
     issuesDone = {"complete": complete, "pagesFetched": 1, "expectedPages": 1, "itemCount": len(rows), "lastLink": None}
     document = {
         "schemaVersion": CENSUS_SCHEMA, "repo": "gaia-research/gaia-skill-tree", "fetchedAt": fetchedAt,
         "source": "rest",
-        "completeness": {"issues": issuesDone, "pulls": {"complete": True, "pagesFetched": 1, "expectedPages": 1, "itemCount": 0, "lastLink": None}},
+        "completeness": {"issues": issuesDone, "pulls": {"complete": True, "pagesFetched": 1, "expectedPages": 1, "itemCount": len(pullRows), "lastLink": None}},
         "issues": list(rows), "recentlyClosed": list(closed),
     }
     status = validateCensus(document, NOW, 21600)
@@ -94,6 +96,7 @@ def skill(identifier, github="", status="named", extra=""):
 
 
 def run(census, root: Path, policy=None, workflowDisabled=None):
+    (root / "registry" / "named").mkdir(parents=True, exist_ok=True)  # a checkout always has the directory (L4)
     return reconcile(census, buildRegistryIndex(root), policy or policyFor(), NOW, workflowDisabled)
 
 
@@ -770,15 +773,20 @@ def test_manifest_has_no_wall_clock_fields(tmp_path: Path):
 
 # ------------------------------------------------------------------ workflow probe
 
-def test_probe_workflow_proves_only_literal_false_gates(tmp_path: Path):
+def test_workflow_probe_reads_the_census_listing_not_the_checkout(tmp_path: Path):
+    """Superseded by B5 (M6): a workflow file with a literal-false gate in the checkout proves nothing.
+
+    Only the census workflow listing (GitHub API state) can prove a workflow disabled.
+    """
+    policy = policyFor(a5Disabled=[".github/workflows/gated.lock.yml"])
     workflows = tmp_path / ".github" / "workflows"
     workflows.mkdir(parents=True)
     (workflows / "gated.lock.yml").write_text("on: schedule\njobs:\n  a:\n    if: ${{ false }}\n    runs-on: x\n", encoding="utf-8")
-    (workflows / "live.lock.yml").write_text("on: push\njobs:\n  a:\n    runs-on: x\n", encoding="utf-8")
-    assert probeWorkflow(tmp_path, "gated.lock.yml")["proven"] is True
-    assert probeWorkflow(tmp_path, "live.lock.yml")["proven"] is False
-    assert probeWorkflow(tmp_path, "missing.lock.yml")["reasons"] == ["file-missing"]
-    assert probeWorkflow(tmp_path, "../escape.yml")["proven"] is False
+    census = censusOf([])
+    assert workflowProbesFor(census, policy)["gated.lock.yml"]["proven"] is False
+    census.document["workflows"] = {"complete": True, "items": [
+        {"path": ".github/workflows/gated.lock.yml", "state": "disabled_manually"}]}
+    assert workflowProbesFor(census, policy)["gated.lock.yml"]["proven"] is True
 
 
 def test_workflow_runnables_maps_md_to_lock_yml():
@@ -832,10 +840,10 @@ def test_fixture_census_reconciles_to_known_counts():
 def test_workflow_probes_cover_policy_entries_and_open_gh_aw_reports(tmp_path: Path):
     from gaia_cli.steward.issuehygiene.reconcile import workflowProbesFor
 
-    workflows = tmp_path / '.github' / 'workflows'
-    workflows.mkdir(parents=True)
-    (workflows / 'steward-build-copilot.lock.yml').write_text("on: push\njobs:\n  a:\n    if: ${{ false }}\n", encoding='utf-8')
     census = censusOf([botRow(2127, '[aw] Steward Build Copilot: billing', COPILOT_BODY)])
-    probes = workflowProbesFor(tmp_path, census, policyFor(**A5_POLICY))
+    # A5 facts come from the census workflow listing (GitHub API state), never from the checkout (M6).
+    census.document['workflows'] = {'complete': True, 'items': [
+        {'path': '.github/workflows/steward-build-copilot.lock.yml', 'state': 'disabled_manually'}]}
+    probes = workflowProbesFor(census, policyFor(**A5_POLICY))
     assert set(probes) == {'steward-build-copilot.lock.yml'}
     assert probes['steward-build-copilot.lock.yml']['proven'] is True

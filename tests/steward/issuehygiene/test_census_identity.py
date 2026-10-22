@@ -258,6 +258,8 @@ def fakeListing(pages: list[list[dict]], failPage: int | None = None, status: in
     total = len(pages)
 
     def fetch(url: str) -> Response:
+        if "actions/workflows" in url:
+            return Response(200, {}, json.dumps({"total_count": 0, "workflows": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         query = parse_qs(urlparse(url).query)
@@ -266,10 +268,15 @@ def fakeListing(pages: list[list[dict]], failPage: int | None = None, status: in
             if status == 200:
                 raise FetchError("rate-limited")
             return Response(status, {}, "{}")
+        if number > total:
+            return Response(200, {}, "[]")
         links = []
         if number < total:
             links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={number + 1}>; rel="next"')
-        links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={total}>; rel="last"')
+            links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={total}>; rel="last"')
+        if number > 1:
+            links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={number - 1}>; rel="prev"')
+            links.append('<https://api.example/repos/o/r/issues?state=open&per_page=100&page=1>; rel="first"')
         return Response(200, {"link": ", ".join(links)}, json.dumps(pages[number - 1]))
 
     return fetch
