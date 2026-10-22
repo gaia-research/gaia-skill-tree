@@ -577,6 +577,63 @@ def _comments(gh, number: int) -> list[dict]:
         raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
 
 
+def closed_umbrella_for(live: dict, title: str) -> dict | None:
+    """C9 (H-A): the newest closed ``upstream:release`` umbrella whose title is *title* (suite and version), or None.
+
+    ``live["closedUmbrellas"]`` is the full closed history (read_live, no window), so a version whose umbrella was
+    closed months ago still suppresses its own re-creation. Only the exact title counts: a new version has a new
+    title, and that creates normally.
+    """
+    matches = [
+        issue for issue in live.get("closedUmbrellas", [])
+        if issue.get("state") == "closed" and "upstream:release" in label_names(issue) and issue.get("title") == title
+    ]
+    return max(matches, key=lambda issue: issue["number"]) if matches else None
+
+
+def closed_disposition(issue: dict) -> str:
+    """How a closed umbrella ended: ``rejected`` (upstream:rejected), ``completed`` (closed by the approve flow's
+    Fixes line, or closed as completed), or ``closed-unresolved`` (closed with no disposition)."""
+    if "upstream:rejected" in label_names(issue):
+        return "rejected"
+    if issue.get("state_reason") == "completed":
+        return "completed"
+    return "closed-unresolved"
+
+
+def suppressed_plan(owner_repo: str, title: str, version: str, closed: dict) -> dict:
+    """The plan for a suite whose version already has a closed umbrella: nothing is created (C9 H-A)."""
+    return {
+        "suite": owner_repo,
+        "title": title,
+        "action": "suppressed",
+        "umbrella": None,
+        "umbrellaTitle": None,
+        "payload": None,
+        "body": None,
+        "records": None,
+        "recordPlan": None,
+        "newRows": [],
+        "resetRows": [],
+        "changedFields": [],
+        "suppressed": [],
+        "carried": [],
+        "totalRows": 0,
+        "approvedVersion": None,
+        "reset": False,
+        "prevVersion": None,
+        "snapshot": None,
+        "recordsReset": False,
+        "tampered": False,
+        "suppressedClosed": {
+            "suite": owner_repo,
+            "version": version,
+            "umbrella": closed["number"],
+            "closedAs": closed_disposition(closed),
+        },
+    }
+
+
 def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, reset_records: bool = False) -> dict:
     """Compute the umbrella action for one update finding. Performs no writes.
 
@@ -593,6 +650,13 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     prefix = umbrella_prefix(owner_repo)
     existing = open_umbrellas(live["issues"], prefix)
     umbrella = existing[-1] if existing else None
+    if umbrella is None:
+        # C9 (H-A): a closed umbrella for this suite and version settles it. Recreating it on every run was the
+        # daily flood. Closed as rejected, completed or with no disposition, it suppresses the create, and the
+        # report names its number so a human can reopen or re-label it. A new version creates normally.
+        closed = closed_umbrella_for(live, title)
+        if closed is not None:
+            return suppressed_plan(owner_repo, title, new_version, closed)
     state_of = child_state_lookup(live, probe)
 
     open_children, rejected = prechecks.index_children(live["issues"])
@@ -605,21 +669,23 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     # D1a: the stored digest is recomputed on every read. A mismatch means the body was edited, so the
     # approval resets and the body is repaired from the fresh plan (its child links are not trusted).
     tampered = payload_tampered(previous_payload)
+    # C9 (M-3): an OPEN umbrella whose payload block is missing or unparseable was edited or never finished. It is
+    # tampered too: its body is repaired from the plan, an approval is reset, and its child links are re-adopted
+    # from the live list lookup (open children are matched by suggested id), never duplicated.
+    headless = umbrella is not None and previous_payload is None
+    tampered = tampered or headless
     finding = settle_liveness(finding, previous_payload)
     discarding = bool(reset_records) and previous_payload is not None and "candidateRecords" in previous_payload
-    if umbrella is not None and previous_payload is not None:
-        if discarding:
-            # M4: the record state is discarded, so nothing is read from the lost comments.
-            prior_rows: list[dict] = []
-        else:
-            prior_rows = load_rows(gh, umbrella["number"], previous_payload)
-            if tampered:
-                prior_rows = [detached(row) for row in prior_rows]
+    if umbrella is not None and previous_payload is not None and not discarding:
+        prior_rows = load_rows(gh, umbrella["number"], previous_payload)
+        if tampered:
+            prior_rows = [detached(row) for row in prior_rows]
         carried: list[dict] = []
     else:
-        # A new umbrella, or one whose body was never written (a create that stopped part way),
-        # starts from the closed umbrella's unresolved rows, so closing an umbrella never drops
-        # candidates.
+        # A new umbrella, a body that was never written or has no payload (M-3), or a records reset (M-2)
+        # starts from the closed umbrella's unresolved rows, so closing an umbrella never drops candidates. A
+        # reset therefore keeps what the closed umbrella settled, such as a rejection (M3), and only the open
+        # umbrella's own record state is rebuilt from the fresh poll.
         carried = carry_forward(live, prefix, state_of, gh)
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
@@ -656,7 +722,9 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     # (for example an updated_at timestamp) does not. D1a: a tampered stored digest always resets it.
     reset = action == "update" and approved and (tampered or payload_changed(previous_payload, payload))
     changed = changed_fields(previous_payload, payload)
-    if tampered and not changed:
+    if headless:
+        changed = ["payload block (missing or unparseable in the umbrella body)"]
+    elif tampered and not changed:
         changed = ["payloadSha256 (the stored digest does not match the payload)"]
     # Suppression counts every retained row (a settled rejection from M3 included), not only the fresh poll.
     suppressed = [row["id"] for row in rows if row["status"] in prechecks.SUPPRESSED_STATUSES]
@@ -681,6 +749,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         "prevVersion": (previous_payload or {}).get("newVersion"),
         "snapshot": snapshot_of(umbrella) if umbrella else None,
         "recordsReset": discarding,
+        "tampered": tampered,
     }
 
 
@@ -725,6 +794,9 @@ def new_report() -> dict:
         "unavailable": [],
         # M4: the suites whose record state was rebuilt from the fresh poll by --reset-records.
         "recordsReset": [],
+        # C9 (H-A): suites whose version already has a closed umbrella, so no umbrella is created. Each entry names
+        # the closed umbrella's number and how it ended, so a human can reopen or re-label it.
+        "suppressedClosedUmbrella": [],
         "suites": [],
     }
 
@@ -832,6 +904,9 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
     outcome = "planned"
     if plan["action"] == "noop":
         outcome = "noop"
+    elif plan["action"] == "suppressed":
+        # C9 (H-A): nothing to write, in dry-run or apply. The closed umbrella is reported instead.
+        outcome = "suppressed-closed"
     elif apply:
         outcome = "raced-skip"
         for _attempt in range(2):
@@ -866,11 +941,20 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         "totalRows": plan["totalRows"],
         "suppressed": plan["suppressed"],
         "carried": plan["carried"],
+        "suppressedClosed": plan.get("suppressedClosed"),
     }
     return row, live
 
 
 def fill_report(report: dict, suite_row: dict) -> None:
+    if suite_row.get("suppressedClosed"):
+        closed = suite_row["suppressedClosed"]
+        report["suppressedClosedUmbrella"].append(closed)
+        print(
+            f"::notice::{closed['suite']} {closed['version']}: closed umbrella #{closed['umbrella']} "
+            f"({closed['closedAs']}) suppresses re-creating it. Reopen it or re-label it to resume.",
+            file=sys.stderr,
+        )
     report["suites"].append(
         {
             "suite": suite_row["suite"],

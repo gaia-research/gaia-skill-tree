@@ -4,8 +4,9 @@ M1: a GitHub GET failure (403, 5xx, network, unparseable body) on the release or
     poll path is unknown evidence. The run exits 3 with ZERO writes; it never reads
     as "skipped, exit 0". Only a definitive HTTP 404 on /releases/latest means
     "no releases tagged" and is skipped.
-M2: a component tree that cannot be read, or is truncated, is unknown evidence.
-    It derives no componentRemoves and never silently becomes an empty or partial diff.
+M2: a component tree that cannot be read is unknown evidence. It derives no componentRemoves and never silently
+    becomes an empty or partial diff. C9 (H-B): a truncated tree is read one directory at a time within a budget,
+    and when that fails the suite is unavailable (tree-truncated), not a whole-run stop.
 """
 
 from __future__ import annotations
@@ -22,7 +23,7 @@ from scripts.lib import github_api
 from scripts.lib.github_api import GitHubFetchError, GitHubNotFound, fetch_json
 from scripts.upstream_watcher import liveness, watcher
 from scripts.upstream_watcher.batch import new_report
-from scripts.upstream_watcher.live import UnknownEvidenceError
+from scripts.upstream_watcher.live import SuiteUnavailable, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import fetch_component_diff
 
 SUITE_FM = {
@@ -223,7 +224,9 @@ def test_tree_not_found_is_also_unknown_evidence(monkeypatch):
         fetch_component_diff("mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman"])
 
 
-def test_truncated_tree_is_unknown_evidence_not_a_partial_diff(monkeypatch):
+def test_truncated_tree_is_never_a_partial_diff_and_never_a_whole_run_stop(monkeypatch):
+    # C9 (H-B) replaces the old whole-run unknown evidence. This listing has no sha for its directories, so the
+    # directory walk cannot finish, and the suite is unavailable (tree-truncated): no componentRemoves at all.
     tree = {
         "truncated": True,
         "tree": [
@@ -232,8 +235,9 @@ def test_truncated_tree_is_unknown_evidence_not_a_partial_diff(monkeypatch):
         ],
     }
     monkeypatch.setattr(liveness, "fetch_json", lambda endpoint, **kwargs: tree)
-    with pytest.raises(UnknownEvidenceError, match="truncated"):
+    with pytest.raises(SuiteUnavailable) as info:
         fetch_component_diff("mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman", "mattpocock/gone"])
+    assert info.value.reason == "tree-truncated"
 
 
 def test_missing_component_root_is_still_version_only_not_unknown(monkeypatch):

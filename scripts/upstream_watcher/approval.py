@@ -124,8 +124,11 @@ def decode_pages(text: str) -> list:
 
 
 SKIP_LABEL = "skip-child-gate"
-# M2: bot-named accounts. A login that ends in '[bot]' and these exact names are trusted only for a Bot sender.
+# M2: bot-named accounts. These exact logins are trusted only for a Bot sender.
 BOT_NAMES = frozenset({"github-actions", "codex", "jules", "claude-bot", "gemini-bot"})
+# C9 (M-1): the explicit set of trusted bot logins. A login is NOT trusted because it ends in '[bot]': any GitHub App
+# can have that suffix (dependabot[bot], renovate[bot], an arbitrary app). Only these names count, and only for a Bot.
+TRUSTED_BOT_LOGINS = frozenset({"github-actions[bot]"} | BOT_NAMES)
 # M2: the human escape hatch. The handle is trusted only for the User account with this id.
 HUMAN_ALLOWLIST_LOGIN = "mbtiongson1"
 HUMAN_ALLOWLIST_ID = 153011150
@@ -162,15 +165,16 @@ def _as_int(value) -> int | None:
 
 
 def allowlisted(login: str | None, sender_type: str | None, sender_id) -> bool:
-    """M2: True when *login* is an allowlisted actor for a sender of this *sender_type* and *sender_id*.
+    """M2 and C9 (M-1): True when *login* is an allowlisted actor for a sender of this *sender_type* and *sender_id*.
 
-    - a login ending in ``[bot]``, and the bot names in BOT_NAMES, are trusted only when the sender is a Bot;
+    - the bot logins in TRUSTED_BOT_LOGINS (github-actions[bot] and the named bots) are trusted only when the sender
+      is a Bot. No other '[bot]' login is trusted, whatever its suffix;
     - the human handle is trusted only when the sender is a User with HUMAN_ALLOWLIST_ID;
     - anything else is not allowlisted here. The Verifier index decides it.
     """
     if not isinstance(login, str) or not login:
         return False
-    if login.endswith("[bot]") or login in BOT_NAMES:
+    if login in TRUSTED_BOT_LOGINS:
         return sender_type == "Bot"
     if login == HUMAN_ALLOWLIST_LOGIN:
         return sender_type == "User" and _as_int(sender_id) == HUMAN_ALLOWLIST_ID

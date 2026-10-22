@@ -4,7 +4,7 @@ Before this change every poll failure was unknown evidence, so a single HTTP 451
 403 that is not rate limiting stopped every suite, every run, forever.
 
 The fix classifies per suite.
-- Permanent (451, 410, and 403 with no rate-limit headers or message) => the suite is SKIPPED with a
+- Permanent (451, 410, and a repo-refusal 403) => the suite is SKIPPED with a
   ::notice::, listed under ``unavailable`` in the run report, and it neither blocks nor changes the exit code.
   Other suites proceed and write. A skipped suite has no finding, so it can never produce a removal or an
   approval change.
@@ -115,7 +115,6 @@ def test_strict_fetch_451_is_a_permanent_unavailable():
     [
         GitHubFetchError("HTTP 451 (fake blocked)", status=451),
         GitHubFetchError("HTTP 410 (fake gone)", status=410),
-        GitHubFetchError("HTTP 403 (fake forbidden)", status=403),
         GitHubFetchError("HTTP 403 (fake)", status=403, headers={}, body="Repository access blocked"),
     ],
 )
@@ -130,6 +129,7 @@ def test_permanent_poll_errors_skip_the_suite(monkeypatch, exc):
         GitHubFetchError("HTTP 500 (fake)", status=500),
         GitHubFetchError("HTTP 502 (fake)", status=502),
         GitHubFetchError("HTTP 429 (fake)", status=429),
+        GitHubFetchError("HTTP 403 (fake forbidden)", status=403),  # C9 M-4: a bare 403 is not a repository refusal
         GitHubFetchError("HTTP 403 (fake)", status=403, headers=RATE_HEADERS),
         GitHubFetchError("HTTP 403 (fake)", status=403, headers={"Retry-After": "60"}),
         GitHubFetchError("HTTP 403 (fake)", status=403, body="API rate limit exceeded for 1.2.3.4"),

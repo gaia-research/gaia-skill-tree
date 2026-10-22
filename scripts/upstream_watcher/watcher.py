@@ -27,6 +27,10 @@ Exit codes
 2  Escalation target not found in any open umbrella.
 3  Unknown evidence (registry unreadable or a GitHub list/get failed). Zero
    issue writes were made; the report still lists unknownEvidence.
+
+A suite that is permanently refused, or whose truncated tree cannot be walked within budget, is skipped for the
+run and listed under ``unavailable`` (its ``reason`` is ``permanent`` or ``tree-truncated``). It never blocks the
+other suites and never produces a finding.
 """
 
 from __future__ import annotations
@@ -53,7 +57,13 @@ from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
-from scripts.upstream_watcher.live import LiveGh, SuiteUnavailable, UnknownEvidenceError
+from scripts.upstream_watcher.live import (
+    LiveGh,
+    SuiteUnavailable,
+    UnknownEvidenceError,
+    retry_transient,
+    unknown_read_detail,
+)
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
 from scripts.upstream_watcher.name_drift import check_name_drift
 
@@ -166,10 +176,10 @@ def _poll_suite(
     # Fail closed (M1). Only a definitive HTTP 404 means "no releases tagged" and is
     # skipped. Any other failure (403, 5xx, network, unparseable body) is unknown
     # evidence, so the run writes nothing and exits 3.
+    release_url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
     try:
-        release_data = fetch_json(
-            f"https://api.github.com/repos/{owner}/{repo}/releases/latest", strict=True
-        )
+        # C9 (H-B): a transient failure gets three attempts before it is unknown evidence.
+        release_data = retry_transient(lambda: fetch_json(release_url, strict=True))
     except GitHubNotFound:
         print(
             f"  [skip] {skill_id} — {owner}/{repo} has no releases tagged (HTTP 404).",
@@ -183,7 +193,7 @@ def _poll_suite(
                 f"releases/latest for {owner}/{repo} is unavailable (HTTP {exc.status}): {exc}"
             ) from exc
         raise UnknownEvidenceError(
-            f"releases/latest for {owner}/{repo} could not be read: {exc}"
+            f"releases/latest for {owner}/{repo} could not be read: {exc}{unknown_read_detail(exc)}"
         ) from exc
     if not isinstance(release_data, dict) or not release_data.get("tag_name"):
         raise UnknownEvidenceError(f"releases/latest for {owner}/{repo} returned no tag")
@@ -345,9 +355,14 @@ def main(argv: list[str] | None = None) -> int:
         try:
             finding = _poll_suite(fm, registry_map, verbose)
         except SuiteUnavailable as exc:
-            # H2: skipped, listed, and never blocking. The suite has no finding, so it cannot change anything.
-            print(f"::notice::{skill_id} skipped: upstream is permanently unavailable ({exc})", file=sys.stderr)
-            unavailable.append({"suite": skill_id, "detail": str(exc), "status": _status_of(exc)})
+            # H2 and C9 (H-B): skipped, listed, and never blocking. The suite has no finding, so it cannot change anything.
+            if exc.reason == "tree-truncated":
+                print(f"::notice::{skill_id} skipped: unavailable: tree-truncated ({exc})", file=sys.stderr)
+            else:
+                print(f"::notice::{skill_id} skipped: upstream is permanently unavailable ({exc})", file=sys.stderr)
+            unavailable.append(
+                {"suite": skill_id, "detail": str(exc), "status": _status_of(exc), "reason": exc.reason}
+            )
             continue
         except UnknownEvidenceError as exc:
             print(f"  [unknown] {skill_id} — {exc}", file=sys.stderr)

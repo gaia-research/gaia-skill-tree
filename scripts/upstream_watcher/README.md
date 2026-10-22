@@ -52,7 +52,10 @@ python scripts/upstream_watcher/watcher.py --apply
 
 ### Recovery and skipped suites (#2131 round 4)
 
-- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 with no rate-limit signal) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report, and writes the other suites as usual. To bring it back, repair or remove its `links.github` entry in the registry.
+- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 whose body is the repository's own refusal, such as a DMCA takedown or a blocked or disabled repository) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report with `reason: "permanent"`, and writes the other suites as usual. To bring it back, repair or remove its `links.github` entry in the registry. A 403 that names a token or App permission problem, and a bare 403, are not skips: they stop the run with exit 3 and a message that names the permission.
+- A truncated component tree is read one directory at a time, within 200 requests for the suite. If that budget runs out, the suite is skipped with `reason: "tree-truncated"` and the other suites proceed.
+- A transient GitHub read (no response, 5xx, 429, a rate-limited 403) gets three attempts, with waits of 1s and then 2s, before it counts as unknown evidence.
+- A suite whose version already has a closed umbrella is not re-created for it. The run report lists it under `suppressedClosedUmbrella` with the closed umbrella's number. Reopen or re-label that umbrella to resume the suite.
 - A suite whose record comments are damaged or deleted fails closed with exit 3, and its message names the recovery flag. Rebuild that suite's record state from the fresh poll with `--apply --reset-records <suite>`. The flag is apply-only. See `docs/agents/upstream-watcher.md` (Records, M4) for what a reset does and does not recover.
 
 ---

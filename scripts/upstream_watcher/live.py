@@ -17,8 +17,17 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import Any, Callable
+
+from scripts.lib.github_api import (
+    GitHubFetchError,
+    GitHubNotFound,
+    is_permanent_unavailable,
+    is_permission_problem,
+    is_rate_limited,
+)
 
 DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 PER_PAGE = 100
@@ -45,12 +54,63 @@ class GhNotFound(GhError):
 
 
 class SuiteUnavailable(RuntimeError):
-    """H2: a suite's upstream is permanently unavailable (HTTP 451, 410, or a 403 with no rate-limit signal).
+    """A suite is skipped for this run and cannot block the others (H2, C9 H-B).
+
+    ``reason="permanent"`` (H2): the upstream refuses the suite for good (HTTP 451, 410, or a repo-refusal 403).
+    ``reason="tree-truncated"`` (C9 H-B): the component tree is truncated and the directory walk could not finish
+    within its budget, or a sub-call failed after its retries.
 
     The watcher skips that suite and lists it under ``unavailable``. It is deliberately NOT an
     UnknownEvidenceError: the run is not blocked, and the skipped suite produces no finding, so it can
     never produce a removal or an approval change.
     """
+
+    def __init__(self, message: str, reason: str = "permanent"):
+        super().__init__(message)
+        self.reason = reason
+
+
+# C9 (H-B): a transient GitHub read is retried before it is unknown evidence. Three attempts in all, so two waits:
+# 1s after the first failure and 2s after the second. The sleep is looked up at call time so a test can replace it.
+RETRY_DELAYS = (1, 2)
+RETRY_SLEEP = time.sleep
+
+
+def is_transient(exc: GitHubFetchError) -> bool:
+    """True for a failure that may clear on its own: no response, a 429, a 5xx, or a rate-limited 403.
+
+    A 404, a permanent refusal (451, 410, a repo-refusal 403) and a permission 403 are not transient: retrying
+    cannot change them.
+    """
+    if isinstance(exc, GitHubNotFound) or is_permanent_unavailable(exc):
+        return False
+    status = exc.status
+    if status is None or status == 429 or status >= 500:
+        return True
+    return status == 403 and is_rate_limited(exc)
+
+
+def retry_transient(action: Callable[[], Any]) -> Any:
+    """Run *action*, retrying a transient GitHub failure with the RETRY_DELAYS backoff. The last error is raised."""
+    attempts = len(RETRY_DELAYS) + 1
+    for attempt in range(attempts):
+        try:
+            return action()
+        except GitHubFetchError as exc:
+            if attempt == attempts - 1 or not is_transient(exc):
+                raise
+            RETRY_SLEEP(RETRY_DELAYS[attempt])
+    raise AssertionError("unreachable: the loop always returns or raises")  # pragma: no cover
+
+
+def unknown_read_detail(exc: GitHubFetchError) -> str:
+    """M-4 (C9): the suffix that makes an unknown-evidence message name a token or App permission problem."""
+    if is_permission_problem(exc):
+        return (
+            " (a permission problem: GitHub answered 'Resource not accessible by integration'; grant the watcher "
+            "token or App read access to this repository, then re-run)"
+        )
+    return ""
 
 
 class UnknownEvidenceError(RuntimeError):
