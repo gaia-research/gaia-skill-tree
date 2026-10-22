@@ -9,7 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
-from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
+from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, HygienePolicyError, loadHygienePolicy
 from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
@@ -121,6 +121,14 @@ _FOUNDER_RULE_KEYS = {
 }
 
 
+def _issueHygieneOf(data: Mapping[str, Any]) -> tuple[HygienePolicy, str | None]:
+    """The issueHygiene block, or the disabled default and the reason when that block is malformed (B7 D8)."""
+    try:
+        return loadHygienePolicy(data.get("issueHygiene")), None
+    except HygienePolicyError as exc:
+        return HygienePolicy(writesEnabled=False, enabledRules=()), f"issueHygiene is malformed: {exc}"
+
+
 class PolicyError(ValueError):
     """Raised when the repository's machine policy is absent or unsafe."""
 
@@ -212,6 +220,8 @@ class StewardPolicy:
     dispatch_rules: Mapping[str, DispatchRulePolicy]
     founder_rules: Mapping[str, FounderRulePolicy]
     issue_hygiene: HygienePolicy = HygienePolicy(writesEnabled=False, enabledRules=())
+    # A malformed issueHygiene block disables only the issue-hygiene surface (B7 D8). The rest of the policy still loads.
+    issue_hygiene_error: str | None = None
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -529,6 +539,7 @@ class StewardPolicy:
                 objective=_nonempty_string(rule["objective"], f"routing.founderRules.{rule_id}.objective"),
             )
 
+        hygiene, hygieneError = _issueHygieneOf(data)
         return cls(
             version=1,
             state_directory=state_directory,
@@ -544,7 +555,8 @@ class StewardPolicy:
             routing_budget=routing_budget,
             dispatch_rules=dispatch_rules,
             founder_rules=founder_rules,
-            issue_hygiene=loadHygienePolicy(data.get("issueHygiene")),
+            issue_hygiene=hygiene,
+            issue_hygiene_error=hygieneError,
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:

@@ -555,10 +555,12 @@ def _backlogLine(backlog: Mapping[str, Any]) -> str:
     change = "no previous run recorded" if not isinstance(net, int) else f"net change {net:+d} since the previous run"
     total = backlog.get("closedTotal")
     closedTotal = str(total) if isinstance(total, int) else "unknown"
+    ready = backlog.get("readyWritesDisabled")
+    readyText = f"; ready (writes disabled): {ready} proven closures" if isinstance(ready, int) and ready > 0 else ""
     return (
         f"open issues {backlog.get('openIssues')} (bot {backlog.get('botOpen')}, upstream children "
         f"{backlog.get('upstreamChildOpen')}); closed this run {backlog.get('closedThisRun', 0)} of "
-        f"{closedTotal} total; {change}"
+        f"{closedTotal} total; {change}{readyText}"
     )
 
 

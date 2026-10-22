@@ -117,7 +117,10 @@ def writePolicy(path: Path, writes: bool = True) -> Path:
 
 
 def fakeRoot(tmp_path: Path) -> Path:
+    from tests.steward.issuehygiene.e_fakes import copySchema
+
     root = tmp_path / "repo"
+    copySchema(root)
     (root / "registry" / "named" / "obra").mkdir(parents=True)
     (root / "registry" / "named" / "obra" / "writing-skills.md").write_text(
         "---\nid: obra/writing-skills\ncontributor: obra\nstatus: named\n"

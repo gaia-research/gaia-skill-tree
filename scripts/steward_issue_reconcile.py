@@ -337,9 +337,12 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
     except ActionRefused as exc:
         return refuse(str(exc))
     try:
-        policy = StewardPolicy.load(root).issue_hygiene
+        loaded = StewardPolicy.load(root)
     except PolicyError as exc:
         return refuse(f"steward policy unreadable: {exc}")
+    if loaded.issue_hygiene_error:
+        return refuse(loaded.issue_hygiene_error)
+    policy = loaded.issue_hygiene
     if not policy.writesEnabled:
         return refuse("issueHygiene.writesEnabled is false; no closure is performed")
     now = utcNow()

@@ -70,9 +70,10 @@ from gaia_cli.steward.lane import (
     record_verdict,
 )
 from gaia_cli.steward.models import AuthorityClass, Debt, stable_json
-from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
+from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
 from gaia_cli.steward.issuehygiene.closure import closureProven
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
@@ -699,6 +700,8 @@ class FullRunner:
         """A finished run that was waiting on the driver completes once nothing is pending."""
 
         now = self._now()
+        # Writes switched off (or a rule disabled) since the closures were emitted: the runner ends them here (B7 D3).
+        self._cancelClosuresWhenDisabled(runId)
         current = self._loadRun(runId)
         desk = None
         if current["status"] == "awaiting-action" and not self._pending(current):
@@ -803,7 +806,8 @@ class FullRunner:
             lane=lane,
             lastScheduledRunAt=max(scheduled) if scheduled else None,
             recentRuns=[
-                {"runId": r["runId"], "mode": r["mode"], "status": r["status"], "startedAt": r["startedAt"]}
+                {"runId": r["runId"], "mode": r["mode"], "status": r["status"], "startedAt": r["startedAt"],
+                 "readyWritesDisabled": (r.get("issueBacklog") or {}).get("readyWritesDisabled")}
                 for r in runs[:10]
             ],
         )
@@ -1472,7 +1476,7 @@ class FullRunner:
 
         # Forge-executed closures first. While any closure awaits its driver outcome the
         # phase waits, so nothing is repeated or lost on resume.
-        self._cancelClosuresWhenDisabled(runId, policy)
+        self._cancelClosuresWhenDisabled(runId)
         doc = self._load()
         run = doc["runs"][runId]
         if self._pending(run, CLOSEACTION):
@@ -1665,13 +1669,18 @@ class FullRunner:
         if not matches:
             raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
 
-    def _cancelClosuresWhenDisabled(self, runId: str, policy: StewardPolicy) -> int:
+    def _cancelClosuresWhenDisabled(self, runId: str) -> int:
         """Writes switched off, or a rule disabled, ends pending closures here, so the run can settle (B7 D3).
 
         A cancelled closure is not performed and writes nothing. Its debt is re-observed by the next scan, and it
         is emitted again only when writes are back on. Cancelling releases the run's wait for the driver.
         """
-        hygiene = policy.issue_hygiene
+        # Re-read the policy: the runner object may outlive an edit, and a stale "enabled" must not keep a closure alive.
+        # An unreadable policy fails closed, so every pending closure is cancelled.
+        try:
+            hygiene: HygienePolicy | None = StewardPolicy.load(self.root).issue_hygiene
+        except PolicyError:
+            hygiene = None
         now = self._now()
         cancelled = [0]
 
@@ -1680,7 +1689,7 @@ class FullRunner:
                 if action["status"] != "pending" or action["type"] != CLOSEACTION:
                     continue
                 ruleId = action["params"].get("ruleId")
-                if hygiene.writesEnabled and isinstance(ruleId, str) and hygiene.ruleEnabled(ruleId):
+                if hygiene is not None and hygiene.writesEnabled and isinstance(ruleId, str) and hygiene.ruleEnabled(ruleId):
                     continue
                 action["status"] = "cancelled"
                 action["outcome"] = {"outcome": "cancelled", "reason": "writes-disabled", "at": now}

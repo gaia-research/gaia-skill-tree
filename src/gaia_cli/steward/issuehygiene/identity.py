@@ -28,7 +28,10 @@ SUGGESTED_RE = re.compile(r"\*\*Suggested ID:\*\*\s*`([^`]+)`")
 EVIDENCE_URL_RE = re.compile(r"\*\*url:\*\*\s*(\S+)")
 GITHUB_REPO_RE = re.compile(r"github\.com/([^/\s]+)/([^/\s#?]+)")
 UMBRELLA_REF_RE = re.compile(r"Umbrella:\s*#(\d+)")
-CHILD_LINE_RE = re.compile(r"child intake", re.IGNORECASE)
+# A child is listed on a markdown list or checklist item (contract 3.2, B7 M2) or on a line that starts with
+# "Child intake:" / "Child intakes:" (an optional list bullet first). Prose that mentions a child mid-sentence lists nothing.
+LIST_ITEM_RE = re.compile(r"^\s*[-*]\s")
+CHILD_PREFIX_RE = re.compile(r"^\s*(?:[-*]\s+)?Child intakes?:", re.IGNORECASE)
 HASH_REF_RE = re.compile(r"#(\d+)")
 
 KINDS = ("child", "umbrella", "bootstrap", "botreport", "untracked")
@@ -145,7 +148,7 @@ def childLines(body: str) -> tuple[int, ...]:
     """Issue numbers named on checklist or 'child intake' lines of an umbrella body."""
     found = []
     for line in body.splitlines():
-        if CHILD_LINE_RE.search(line) or re.match(r"^\s*-\s*\[[ xX]\]", line):
+        if LIST_ITEM_RE.match(line) or CHILD_PREFIX_RE.match(line):
             found.extend(int(number) for number in HASH_REF_RE.findall(line))
     return tuple(dict.fromkeys(found))
 

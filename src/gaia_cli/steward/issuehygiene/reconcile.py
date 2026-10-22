@@ -341,12 +341,17 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
         draft.evidence.append(ev("registry", record.path, record.sha256, "exact suggested-id record"))
         if record.status is None:
             failures.append("registry-status-missing")
-        elif record.status in ("draft", "deprecated"):
-            failures.append("registry-" + record.status)
+        elif ctx.registry.statusAllowed is None or record.status not in ctx.registry.statusAllowed:
+            # An allowlist of the schema's values, never a blocklist: archived and any future value are not A (B7 M4).
+            failures.append("registry-status-not-allowed")
         if record.contributor != owner:
             failures.append("contributor-handle-differs")
         if record.upstreamRepoInvalid:
             failures.append("registry-upstream-repo-invalid")
+        if record.upstreamRepo is not None and record.github is not None \
+                and record.upstreamRepo.strip().lower() != record.github.repo.strip().lower():
+            # links.github must not name another repository than the declared upstream (B7 L1).
+            failures.append("links-repo-contradicts-upstream")
         if record.github is None:
             failures.append("registry-link-missing")
         elif evidenceRef is not None:

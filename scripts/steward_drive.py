@@ -58,6 +58,7 @@ from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
 EXITCOMPLETED = 0
 EXITSTOPPED = 1
 EXITREFUSEDINPUT = 2
+WRITESOFFREASON = "issueHygiene.writesEnabled is false"
 EXITBLOCKED = 3
 EXITOBSERVING = 4
 EXITNOTRUN = 5
@@ -604,8 +605,10 @@ class Driver:
 
         params = action.get("params") or {}
         stepId = str(action.get("stepId"))
-        if not isinstance(params.get("comment"), str) or not params["comment"].strip():
-            return Handled(reason="closure action carries no closing comment")
+        # The action is compact (B7 D5): identifiers, digests and the receipt path. The executor rebuilds the comments.
+        if not isinstance(params.get("issue"), int) or not isinstance(params.get("key"), str) \
+                or not isinstance(params.get("receiptPath"), str):
+            return Handled(reason="closure action names no issue, key or receipt")
         directory = self.options.root / CLOSUREDIR
         directory.mkdir(parents=True, exist_ok=True)
         path = directory / f"{safeName(runId)}--{safeName(stepId)}.json"
@@ -650,8 +653,7 @@ class Driver:
                 self.unperformed.append({"stepId": stepId, "type": kind, "reason": self.notReadyReason})
                 continue
             if kind == CLOSETYPE and not self.closuresEnabled():
-                self.skipped.append({"stepId": stepId, "type": kind,
-                                     "reason": "issueHygiene.writesEnabled is false; closure not performed"})
+                self.skipped.append({"stepId": stepId, "type": kind, "reason": WRITESOFFREASON + "; closure not performed"})
                 continue
             if kind == CLOSETYPE and not self.forgeToken():
                 self.unperformed.append({"stepId": stepId, "type": kind,
@@ -764,6 +766,10 @@ class Driver:
             if self.stopReason:
                 return self.settle(EXITSTOPPED)
             if not (passResult.progressed or passResult.failed):
+                if any(str(entry.get("reason", "")).startswith(WRITESOFFREASON) for entry in self.skipped):
+                    # Writes are off, so the runner cancels the pending closures (B7 D3). Ask it to, then report it.
+                    self.gaia(self.runTail(runId=runId, noAgents=not self.ready))
+                    return self.stop(EXITSTOPPED, "writes disabled: pending closures were cancelled by the runner; nothing was written")
                 return self.stop(EXITSTOPPED, "stalled: the remaining pending actions are not ones this driver performs")
             code, view, err = self.gaia(self.runTail(runId=runId, noAgents=not self.ready))
 

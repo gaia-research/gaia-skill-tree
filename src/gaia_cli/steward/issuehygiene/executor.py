@@ -198,9 +198,12 @@ def gateClosure(root: Path, action: Mapping[str, Any], receipt: Path, runId: str
     if action.get("authority") != "A":
         raise ActionRefused("only authority A closures are performed")
     try:
-        policy = StewardPolicy.load(root).issue_hygiene
+        loaded = StewardPolicy.load(root)
     except PolicyError as exc:
         raise ActionRefused(f"steward policy unreadable: {exc}") from exc
+    if loaded.issue_hygiene_error:
+        raise ActionRefused(loaded.issue_hygiene_error)
+    policy = loaded.issue_hygiene
     if not policy.writesEnabled:
         raise ActionRefused("issueHygiene.writesEnabled is false; closures are not performed")
     if action["ruleId"] not in policy.enabledRules:

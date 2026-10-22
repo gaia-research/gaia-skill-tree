@@ -149,8 +149,12 @@ def fencedText(text: str) -> str:
 
 
 def preservedTextOf(original: Mapping[str, Any]) -> str:
-    """The preserved candidate information: the original payload as pretty-printed, sorted JSON."""
-    return json.dumps(original, indent=2, sort_keys=True, ensure_ascii=False)
+    """The preserved candidate information: the original payload as pretty-printed, sorted JSON.
+
+    Scrubbed again here, as a second line of defence (B7 M3): the comments, the receipts and the digests all
+    derive from this text, so no stored copy can hold a credential-shaped substring.
+    """
+    return scrub(json.dumps(original, indent=2, sort_keys=True, ensure_ascii=False))
 
 
 def chunked(text: str, size: int) -> list[str]:
@@ -287,7 +291,7 @@ def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
             "reason": REASONS[item["ruleId"]],
             "expectedSnapshot": item["snapshot"],
             "original": item["original"],
-            "evidence": item["evidence"],
+            "evidence": [dict(entry, detail=scrub(str(entry.get("detail", "")))[:EVIDENCE_DETAIL_LIMIT]) for entry in item["evidence"]],
             "closureSha8": closureSha8(item),
             "preservedSha256": preservedSha256Of(item["original"]),
             "comment": comments[0],

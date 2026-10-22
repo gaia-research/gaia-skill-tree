@@ -31,6 +31,20 @@ CREDENTIAL_PATTERNS: tuple[tuple[str, "re.Pattern[str]"], ...] = (
     ("slack-token", re.compile(r"(?<![A-Za-z0-9])xox[baprs]-[A-Za-z0-9-]{10,}")),
     ("private-key-block", re.compile(r"-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----")),
     ("google-api-key", re.compile(r"(?<![A-Za-z0-9_-])AIza[0-9A-Za-z_-]{35}(?![0-9A-Za-z_-])")),
+    # B7 M3: the shapes the round-2 verifier found unscrubbed. Each is fail-closed: over-matching is acceptable.
+    ("huggingface-token", re.compile(r"(?<![A-Za-z0-9])hf_[A-Za-z0-9]{30,}(?![A-Za-z0-9])")),
+    ("npm-token", re.compile(r"(?<![A-Za-z0-9])npm_[A-Za-z0-9]{30,}(?![A-Za-z0-9])")),
+    ("gitlab-token", re.compile(r"(?<![A-Za-z0-9])glpat-[A-Za-z0-9_-]{20,}")),
+    ("jwt", re.compile(r"(?<![A-Za-z0-9_-])eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}(?![A-Za-z0-9_-])")),
+    ("bearer-token", re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]{8,}")),
+    ("credential-assignment", re.compile(
+        r"(?i)\b(?:password|passwd|secret|token|api[_-]?key)\\?[\"']?\s*[=:]\s*\\?[\"']?"
+        r"(?![A-Za-z_][A-Za-z0-9_]*[.\[(])[^\s\\\"',;&\[\]()]{6,}")),
+    # A 40-character base64 string next to an aws or secret keyword (the AWS secret access key shape).
+    ("aws-secret-access-key", re.compile(
+        r"(?i:aws|secret)[^\n]{0,40}?(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])")),
+    ("aws-secret-access-key", re.compile(
+        r"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])[^\n]{0,40}?(?i:aws|secret)")),
 )
 
 

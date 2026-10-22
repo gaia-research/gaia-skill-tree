@@ -662,6 +662,10 @@ class StewardCommand(Command):
                   f"escalated {lane['escalated']}  closed {lane['closed']}")
         for run in view.recentRuns[:5]:
             print(f"  {run['runId']}  {run['mode']:<8} {run['status']}")
+        ready = next((run["readyWritesDisabled"] for run in view.recentRuns
+                      if isinstance(run.get("readyWritesDisabled"), int) and run["readyWritesDisabled"] > 0), None)
+        if ready:
+            print(f"Issue closures       ready (writes disabled): {ready} proven closures")
         if view.desk is not None:
             from gaia_cli.steward.desk import Desk, render_desk
 

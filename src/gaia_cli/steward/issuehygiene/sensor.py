@@ -73,9 +73,12 @@ def _hygienePolicy(root: Path) -> HygienePolicy:
     from gaia_cli.steward.policy import PolicyError, StewardPolicy
 
     try:
-        return StewardPolicy.load(root).issue_hygiene
+        policy = StewardPolicy.load(root)
     except PolicyError as exc:
         raise SensorUnavailable(f"steward policy is unreadable for issue hygiene: {exc}") from exc
+    if policy.issue_hygiene_error:
+        raise SensorUnavailable(f"steward policy is unreadable for issue hygiene: {policy.issue_hygiene_error}")
+    return policy.issue_hygiene
 
 
 def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any) -> Mapping[str, Any]:

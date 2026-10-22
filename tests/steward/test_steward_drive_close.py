@@ -177,3 +177,34 @@ def test_incomplete_census_keeps_its_file_for_the_sensor_to_refuse(tmp_path):
 
     assert target.is_file()
     assert driver.censusReport["state"] == "incomplete"
+
+
+def test_a_compact_closure_action_without_a_comment_is_performed(tmp_path):
+    """B7 D5: actions carry identifiers and digests, not the closing comment; the driver must still perform them."""
+    root = closeRoot(tmp_path)
+    compact = closeAction()
+    compact["params"] = {k: v for k, v in compact["params"].items() if k not in ("comment", "comments", "original")}
+    runs = [view("R1", [compact]), view("R1", [], "completed")]
+    world = FakeWorld(root, runs)
+    driver = makeDriver(tmp_path, world, env={"GH_TOKEN": "t"})
+
+    code = driver.drive()
+
+    assert code == drive.EXITCOMPLETED
+    assert len(world.closeCalls) == 1
+
+
+def test_writes_off_at_closure_time_is_reported_as_writes_disabled_not_as_a_stall(tmp_path):
+    """B7 D3: the runner cancels the pending closures and the driver says so."""
+    root = closeRoot(tmp_path)
+    target = root / "founder" / "steward" / "POLICY.yaml"
+    target.write_text(target.read_text(encoding="utf-8").replace("writesEnabled: true", "writesEnabled: false", 1), encoding="utf-8")
+    world = FakeWorld(root, [view("R1", [closeAction()]), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env={"GH_TOKEN": "t"})
+
+    code = driver.drive()
+
+    assert world.closeCalls == []
+    assert code == drive.EXITSTOPPED
+    assert driver.stopReason.startswith("writes disabled")
+    assert "stalled" not in driver.stopReason
