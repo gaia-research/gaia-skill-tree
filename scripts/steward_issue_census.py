@@ -334,7 +334,8 @@ def numbersOf(rows: list) -> list:
     return [row.get("number") if isinstance(row, dict) else None for row in rows]
 
 
-def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any], Any] | None = None) -> Listing:
+def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any], Any] | None = None,
+            expectedItems: int | None = None) -> Listing:
     """Follow the server's ``rel="next"`` links to the end. Never returns partial rows as complete.
 
     Each next request is the URL the server named, cursor included. Pages are never renumbered to reach
@@ -369,6 +370,11 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
             return failListing(listing, got.reason, url, got.location)
         page = got.page
         if viaNext and not page:
+            # GitHub keeps a ``next`` link on a full last page and names an empty page after it. That page is the end
+            # only when the repository's own count (read before the walk) equals the rows already listed exactly. Any
+            # other empty linked page is a false empty and fails closed.
+            if expectedItems is not None and expectedItems == len(listing.rows):
+                break
             return failListing(listing, "empty-linked-page", url)
         listing.rows.extend(page)
         listing.pagesFetched += 1
@@ -490,6 +496,44 @@ def collectWorkflows(repo: str, fetch: Callable[[str], Response]) -> dict:
     return section
 
 
+def openIssuesCountOf(repo: str, fetch: Callable[[str], Response]) -> int | None:
+    """GitHub's ``open_issues_count`` for the repository (issues and pull requests), or None when it cannot be read.
+
+    A lower-confidence sanity signal, never an exact expectation: the count can lag the listing by a few items. It is
+    read once per census.
+    """
+    try:
+        response = fetch(f"{API}/repos/{repo}")
+    except FetchError:
+        return None
+    if response.status != 200:
+        return None
+    try:
+        data = json.loads(response.body)
+    except ValueError:
+        return None
+    count = data.get("open_issues_count") if isinstance(data, dict) else None
+    return count if isinstance(count, int) and not isinstance(count, bool) and count >= 0 else None
+
+
+def metadataSanity(listed: int, count: int | None) -> str | None:
+    """Why an open listing that walked to its end contradicts the repository's own count, or None.
+
+    - Listed 0 while the count is above 0: a false empty.
+    - Listed 0 and the count unreadable: an empty listing that nothing confirms.
+    - Listed and counted differ by more than the tolerance (a tenth of the count, at least 5): the listing is short or
+      stale. Small gaps are normal while issues open and close between the two reads.
+    An empty repository (listed 0, counted 0) is complete. An unreadable count on a non-empty listing is accepted.
+    """
+    if count is None:
+        return "empty-unverified" if listed == 0 else None
+    if listed == 0 and count > 0:
+        return "false-empty-suspect"
+    if abs(listed - count) > max(5, count // 10):
+        return "metadata-count-mismatch"
+    return None
+
+
 def collectCensus(
     repo: str,
     now: datetime,
@@ -503,20 +547,26 @@ def collectCensus(
         f"{API}/repos/{repo}/issues?state=closed&per_page={PER_PAGE}"
         f"&since={urllib.parse.quote(isoZ(cutoff))}"
     )
-    openListing = listAll(openStart, fetch)
+    openCount = openIssuesCountOf(repo, fetch)
+    openListing = listAll(openStart, fetch, expectedItems=openCount)
     confirmPages = 0
     if openListing.reason is None:
         # A close or create between pages shifts every later page, and a shifted page can skip an
         # open issue while each page still looks present. Page counts cannot see that. The open
         # listing therefore counts only if an identical second walk returns the same numbers in
         # the same order. Re-fetching page 1 alone would miss a shift that starts on a later page.
-        confirm = listAll(openStart, fetch)
+        confirm = listAll(openStart, fetch, expectedItems=openCount)
         confirmPages = confirm.pagesFetched
         if confirm.reason is not None:
             openListing.reason = confirm.reason
             openListing.adoptFailure(confirm)
         elif numbersOf(confirm.rows) != numbersOf(openListing.rows):
             openListing.reason = "mutated-during-walk"
+    metadata = {"openIssuesCount": openCount, "listedItems": len(openListing.rows)}
+    if openListing.reason is None:
+        sanity = metadataSanity(len(openListing.rows), openCount)
+        if sanity is not None:
+            openListing.reason = sanity
     closedListing = listAll(closedStart, fetch) if openListing.reason is None else Listing(reason="skipped")
     workflows = collectWorkflows(repo, fetch)
 
@@ -557,6 +607,7 @@ def collectCensus(
             "confirmPagesFetched": confirmPages,
             "itemCount": len(rows),
             "lastLink": openListing.lastLink,
+            "metadata": metadata,
         },
         "pulls": {
             "complete": complete, "pagesFetched": pagesFetched, "expectedPages": expectedPages,

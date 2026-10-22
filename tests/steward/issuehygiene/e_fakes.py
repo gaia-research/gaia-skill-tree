@@ -224,6 +224,9 @@ class FakeGitHub:
 
         if "/actions/workflows" in url:
             return Response(200, {}, json.dumps({"total_count": len(self.workflows), "workflows": self.workflows}))
+        if urlparse(url).path == f"/repos/{self.repo}":
+            # The repository's own metadata: open_issues_count counts issues and pull requests alike.
+            return Response(200, {}, json.dumps({"open_issues_count": len(self.rowsFor("open"))}))
         query = parse_qs(urlparse(url).query)
         state = query["state"][0]
         page = servedPage(query)
