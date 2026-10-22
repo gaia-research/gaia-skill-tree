@@ -195,8 +195,20 @@ def walkthrough_small_batch() -> None:
         # The protected L4 gate must REFUSE locally authored approval.
         from gaia_cli.intakeAdapter import validateL4Resolution
 
+        # A complete, realistic ratified packet: valid artifact gate, real
+        # assessment receipt, real decision, and a locally authored review block.
+        # Only the INDEPENDENT human ceremony is missing, so the refusal must
+        # come from the authorization seam itself.
         packet = build_packet(rows["suite/motion/0"])
+        packet["artifactGate"] = "valid-skill"
+        packet["decision"] = {"value": "MAP", "reasonCode": "L4_RATIFIED_MAP",
+                              "genericId": "animation-design"}
+        assessment = buildAssessment(packet, registryPath=str(registry))
+        assessment_path = registry / "generated-output" / "curation" / "walkthrough.assessment.json"
+        assessment_path.parent.mkdir(parents=True, exist_ok=True)
+        assessment_path.write_text(json.dumps(assessment, indent=2), encoding="utf-8")
         packet["l4Resolution"] = {
+            "status": "approved",
             "generic": {"id": "animation-design", "name": "Animation Design",
                         "description": "Designs motion, transitions and animation systems.",
                         "type": "basic", "prerequisites": []},
@@ -205,12 +217,20 @@ def walkthrough_small_batch() -> None:
             "humanReview": {"humanOverride": True, "reviewedBy": "curator",
                             "approvalRef": "https://github.com/gaia-research/gaia-skill-tree/issues/1",
                             "reviewedAt": "2026-10-20T00:00:00Z", "rationale": "looks right",
-                            "attestation": "I approve this"},
+                            "attestation": "I approve this",
+                            "assessmentPath": str(assessment_path),
+                            "assessmentReceiptDigest": sha256(canonicalJson(assessment))},
         }
         errors = validateL4Resolution(packet, requireHumanReview=True,
                                       trustedGenerics=generic_snapshot(registry)["generics"])
+        # The refusal must come from the AUTHORIZATION seam, not from an earlier
+        # structural check, otherwise this proves nothing about human authority.
         check("locally authored humanReview does NOT authorize",
-              bool(errors), "; ".join(errors)[:120])
+              any("protected human authorization is not configured" in error for error in errors),
+              "; ".join(errors)[:160])
+        check("the refusal is the independent-authorization gate, not a shape error",
+              errors == ["independent protected human authorization is not configured; L4 remains pending"],
+              "; ".join(errors)[:160])
 
 
 def walkthrough_suite() -> None:
