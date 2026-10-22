@@ -582,7 +582,9 @@ The watcher explicitly does not:
 
 ## Known limits
 
-Recorded in the round-5 remediation (C9, 2026-10-22). None of these is coded in that change. Each is a boundary an operator should know, not a defect that blocks a run.
+Recorded in the round-5 remediation (C9, 2026-10-22). None of these is coded in that change.
+
+- **Short or empty list page is trusted as the end of the list (audit, PR #2133).** `LiveGh.list_issues` stops at the first page shorter than `per_page`, and no total is checked. A page that comes back empty while more issues exist returns a truncated list without error. Consequences: a missing open canonical umbrella can lead to a duplicate create, and missing closed history can lead to a re-create. `tests/upstream_watcher/test_list_truncation.py` pins the defect as a strict xfail. Fix: continue on `rel="next"` and cross-check the total, as the census does. Each is a boundary an operator should know, not a defect that blocks a run.
 
 - **L-1. The child gate counts only open children that carry `upstream:child`.** `upstream-approve.yml` step 3 lists open `upstream:child` issues and checks the candidate children that rows link to. An intake child without that label does not hold the umbrella's approval. The watcher and `--escalate` always apply the label, so this matters only for a child a human created by hand.
 - **L-2. A name-drift check skips a component it cannot read, and does so silently.** `check_name_drift` skips a component whose SKILL.md cannot be fetched, or whose frontmatter has no `name`, because absence of a signal is not evidence of drift. Drift in that component is then missed for this release. The check runs only on an update finding, so it is not revisited until the next release.

@@ -207,9 +207,11 @@ class RestGhRunner:
     Writes (``issue create/edit/comment``) are recorded in ``writes`` with their body text.
     """
 
-    def __init__(self, issues: list[dict], fail_pages=()):
+    def __init__(self, issues: list[dict], fail_pages=(), empty_pages=()):
         self.issues = [copy.deepcopy(row) for row in issues]
         self.fail_pages = set(fail_pages)
+        # (state, labels, page) triples that answer 200 with an empty array, as a short or dropped page does.
+        self.empty_pages = set(empty_pages)
         self.calls: list[list[str]] = []
         self.writes: list[tuple] = []
         self.next_number = 5000
@@ -263,6 +265,8 @@ class RestGhRunner:
         page, per_page = int(fields["page"]), int(fields["per_page"])
         if (state, labels, page) in self.fail_pages:
             return subprocess.CompletedProcess(args, 1, stdout="", stderr="gh: Bad Gateway (HTTP 502)")
+        if (state, labels, page) in self.empty_pages:
+            return subprocess.CompletedProcess(args, 0, stdout="[]", stderr="")
         wanted = set(filter(None, labels.split(",")))
         since = fields.get("since")
         rows = sorted(
