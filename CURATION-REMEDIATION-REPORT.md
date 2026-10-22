@@ -93,7 +93,7 @@ the 25 originally failing assertions was:
 | GENUINE DEFECT | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | **Fixed** in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
 
 **Totals:** 25 = 17 obsolete fixtures + 6 obsolete contracts + 2 genuine defects.
-All 25 are resolved. The focused curation suite now reports **667 passed** with
+All 25 are resolved. The focused curation suite now reports **671 passed** with
 no remaining failures. No failing test was deleted to make the suite green, and
 no security assertion was weakened.
 
@@ -111,8 +111,8 @@ frozen row to its packet.
 | `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
 | Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
-| Focused curation suite (23 files) on this branch | **667 passed** |
-| Focused suite after the three P2 repairs | **667 passed** (no regression) |
+| Focused curation suite (23 files) on this branch | **671 passed** |
+| Focused suite after every repair round | **671 passed** (no regression) |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
 | Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
 | `python -m compileall` on changed modules | Pass |
@@ -134,6 +134,12 @@ frozen row to its packet.
 | Review accounting accepted a report that was **not** a real reconciliation (receipt marked invalid, batch not accounted, claiming human approval, digests stripped) | P2, latent accounting gap — found by the final independent review | `85ce78416` — the payload builder now requires positive accounting: the report must be fully accounted, must not claim human approval, every row must carry a valid receipt, and the packet/proposal/assessment digests must be **present and equal** to the actual artifacts rather than checked only when present | Regression test `test_forged_review_accounting_is_rejected`; the independent reviewer's own probe now raises `review accounting must be a fully accounted reconciliation` |
 | Test-quality: `test_dev_ratify.py` and `test_push_from_file.py` mocked whole validators rather than the private trust seam | — | `a0c2fe6a2` — the ratify tests now mock only `_verifyTrustedEnvelope`, so real payload reconstruction and binding execute; the push test exercises real assessment validation | Reviewer-confirmed; no test claims human approval |
 | Walkthrough asserted only "some error", not the authorization refusal | — | `7999ee8a6` — the walkthrough now builds a complete, realistic ratified packet and asserts the refusal is exactly the independent-authorization refusal | 17/17 |
+| Review accounting accepted a report that was **not** a real reconciliation (receipt marked invalid, batch not accounted, claiming human approval, digests stripped) | P2, latent accounting gap | `85ce78416` — the payload builder now requires positive accounting: fully accounted, not claiming human approval, every row `receiptValid`, and digests present and equal | `test_forged_review_accounting_is_rejected` |
+| A report could be **fabricated** because the builder trusted the caller's report instead of recomputing it | P2, latent accounting gap | `85ce78416`/`a12aa07e6` — the review inventory must carry the receipts that produced it; the builder **recomputes** the reconciliation and requires the claimed report to agree | `test_forged_reconciliation_report_is_rejected_against_genuine_receipts`; the independent probe's forged report is refused |
+| The report carried **file-bytes** digests while the payload builder compared **canonical content** digests, so a legitimate pretty-printed production artifact was rejected | P1, functional regression | `5cbafe9c0` — the report now carries canonical content digests and separately the artifact digests; the receipt keeps the artifact digests | `test_report_digests_describe_content_not_artifact_bytes`; the CLI fixture now writes production-shaped artifacts |
+| Reconciliation and the payload builder resolved a packet's named identity by **different rules** | P1, functional regression | `5cbafe9c0` — one shared resolver (`packetNamedIdentity`) is used by both | `test_packet_identity_resolves_by_one_rule_everywhere` |
+| A **mapping-form** top-level identity binding bypassed the double-binding consistency check | P1, latent boundary defect | `83f97019d` — the top-level binding is accepted only as an exact identity string; any other shape is unbound and refused | Independent reproduction: reconciliation defers and the payload build is refused |
+| The payload builder did not bind the report's **artifact-digest claims** to the recomputed report | P2, report-integrity defect | `83f97019d` — the report's artifact and content digest claims must equal the recomputed reconciliation's | `test_forged_artifact_digest_claims_in_the_report_are_rejected`; independent reproduction refused |
 
 **No finding was closed by weakening an assertion, and no test claims a real human approval.**
 
