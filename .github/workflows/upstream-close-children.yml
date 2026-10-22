@@ -90,7 +90,7 @@ jobs:
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)-->", re.DOTALL)
+          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
@@ -169,7 +169,9 @@ jobs:
           if [ "$OPEN_SIBLINGS" = "0" ]; then
             echo "All siblings closed. Re-firing upstream-approve.yml for umbrella #${UMBRELLA_NUMBER}."
             # M8: a failed re-fire is visible: an error annotation, a marker comment, and a failed job.
-            if ! gh workflow run upstream-approve.yml -f issue_number="$UMBRELLA_NUMBER"; then
+            # D3: refire=true is the explicit signal that this is a bot re-fire of an existing approval. The
+            # approve guard then checks the labeler of that approval, not this bot actor.
+            if ! gh workflow run upstream-approve.yml -f issue_number="$UMBRELLA_NUMBER" -f refire=true; then
               echo "::error::Could not re-fire upstream-approve.yml for #${UMBRELLA_NUMBER}. Re-apply upstream:approved by hand."
               gh issue comment "$UMBRELLA_NUMBER" \
                 --body "⚠️ **Re-fire failed.** All child intakes are closed, but upstream-approve.yml could not be dispatched automatically. Re-apply \`upstream:approved\` to continue." || true
@@ -240,7 +242,7 @@ jobs:
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)-->", re.DOTALL)
+          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 

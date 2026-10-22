@@ -29,8 +29,19 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      # D2: the reject guard reads the same freshly built index as upstream-approve. Without it the index is
+      # absent on a fresh checkout and every labeler would be denied (or, before this change, granted bootstrap).
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
       # L2: no ${{ }} inside a run block. Every event value reaches the shell through env.
+      # D2: the decision is the shared approval.verifier_status, as in upstream-approve. A missing, empty or
+      # unparseable index is a denial, never bootstrap. Bootstrap is granted only for a parseable, non-empty
+      # index that holds no Verifier.
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ github.event.sender.login }}
@@ -48,36 +59,10 @@ jobs:
           esac
 
           AUTHORIZED=$(python3 - "$LABELER" <<'PY'
-          import json, sys, os
-
-          actor = sys.argv[1]
-          index_path = "registry/named-skills.json"
-
-          if not os.path.exists(index_path):
-              print("bootstrap")
-              sys.exit(0)
-
-          try:
-              with open(index_path, "r", encoding="utf-8") as f:
-                  idx = json.load(f)
-          except Exception:
-              print("bootstrap")
-              sys.exit(0)
-
-          has_any_verifier = False
-          for entries in idx.get("buckets", {}).values():
-              for e in entries:
-                  lvl = e.get("level", "")
-                  if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
-                      has_any_verifier = True
-                      if e.get("contributor") == actor:
-                          print("yes")
-                          sys.exit(0)
-
-          if not has_any_verifier:
-              print("bootstrap")
-          else:
-              print("no")
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import verifier_status
+          print(verifier_status("registry/named-skills.json", sys.argv[1]))
           PY
           )
 

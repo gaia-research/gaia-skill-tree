@@ -26,11 +26,20 @@ import datetime as dt
 import hashlib
 import json
 import re
+import sys
 from collections import Counter
 from typing import Any
 
 from scripts.lib.github_api import parse_owner_repo
-from scripts.upstream_watcher import prechecks, records
+from scripts.upstream_watcher import approval, prechecks, records
+from scripts.upstream_watcher.approval import (  # noqa: F401  (re-exported for callers and tests)
+    APPROVAL_RESET_MARKER,
+    canonical_hash,
+    changed_fields,
+    payload_tampered,
+    reset_marker,
+    reset_note,
+)
 from scripts.upstream_watcher.issuer import (
     _LABEL_VOCAB,
     _REVIEWER_ACTIONS,
@@ -61,8 +70,6 @@ ESCALATE_LABELS = ["intake", "needs-triage", "upstream:child"]
 # child intake is closed. The approve workflow applies the same rule.
 RESOLVED_STATUSES = frozenset({"present", "rejected"})
 CHILD_UNKNOWN = "unknown"
-# L3: one reviewer note per payload. The marker names the payload hash the reset moved the umbrella to.
-APPROVAL_RESET_MARKER = "gaia-upstream-approval-reset"
 
 
 # ---------------------------------------------------------------------------
@@ -80,13 +87,6 @@ def parse_payload(body: str | None) -> dict | None:
     except json.JSONDecodeError:
         return None
     return data if isinstance(data, dict) else None
-
-
-def canonical_hash(payload: dict) -> str:
-    """SHA-256 over canonical JSON, excluding the hash field itself."""
-    data = {key: value for key, value in payload.items() if key != "payloadSha256"}
-    encoded = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
 def body_hash(body: str) -> str:
@@ -257,6 +257,18 @@ def carry_forward(live: dict, prefix: str, state_of, gh=None) -> list[dict]:
         for row in rows
         if row_is_unresolved(row, state_of)
     ]
+
+
+def detached(row: dict) -> dict:
+    """A row read from a tampered payload keeps no child link (D1a). Fresh prechecks re-adopt open children.
+
+    A forged link can then only make a row unresolved, never resolved. The status of a row whose link is
+    dropped falls back to ``new``, so the reviewer sees it again.
+    """
+    if row.get("child") is None:
+        return row
+    status = "new" if row.get("status") in ("escalated", "tracked") else row.get("status")
+    return {**row, "child": None, "status": status}
 
 
 def merge_rows(
@@ -515,9 +527,14 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
         incoming.append({**row, **checked})
 
     previous_payload = parse_payload(umbrella.get("body")) if umbrella else None
+    # D1a: the stored digest is recomputed on every read. A mismatch means the body was edited, so the
+    # approval resets and the body is repaired from the fresh plan (its child links are not trusted).
+    tampered = payload_tampered(previous_payload)
     finding = settle_liveness(finding, previous_payload)
     if umbrella is not None and previous_payload is not None:
         prior_rows = load_rows(gh, umbrella["number"], previous_payload)
+        if tampered:
+            prior_rows = [detached(row) for row in prior_rows]
         carried: list[dict] = []
     else:
         # A new umbrella, or one whose body was never written (a create that stopped part way),
@@ -528,20 +545,22 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
     payload, body, record_rows = layout(finding, rows, previous_version=None)
 
-    # M7: a records-mode umbrella, or one leaving records mode, is reconciled against its record
-    # comments: the current chunk set is written and every surplus comment is deleted.
-    record_writes: list[tuple[str, int | None, str]] = []
+    # D4 / M7: a records-mode umbrella, or one leaving records mode, is moved to its target generation with
+    # the two-phase plan. Nothing here writes; the plan is executed by write_umbrella.
+    record_plan = None
     had_records = previous_payload is not None and "candidateRecords" in previous_payload
     if record_rows is not None or had_records:
         comments = [] if umbrella is None else _comments(gh, umbrella["number"])
-        record_writes = records.plan_writes(comments, record_rows or [])
+        record_plan = records.plan_generation(comments, record_rows)
+    record_pending = record_plan is not None and bool(record_plan.prewrites or record_plan.cleanup)
 
     if umbrella is None:
         action = "create"
     elif (
         (previous_payload or {}).get("payloadSha256") == payload["payloadSha256"]
         and umbrella["title"] == title
-        and not record_writes
+        and not tampered
+        and not record_pending
     ):
         action = "noop"
     else:
@@ -553,8 +572,11 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
     # H1: approval never survives a change to the hashed payload. The hash covers every payload field
     # (versions, component adds and removes, liveness, name drift, every candidate row and its
     # precheck, and the records digest), so any such change resets it. Metadata outside the hash
-    # (for example an updated_at timestamp) does not.
-    reset = action == "update" and approved and payload_changed(previous_payload, payload)
+    # (for example an updated_at timestamp) does not. D1a: a tampered stored digest always resets it.
+    reset = action == "update" and approved and (tampered or payload_changed(previous_payload, payload))
+    changed = changed_fields(previous_payload, payload)
+    if tampered and not changed:
+        changed = ["payloadSha256 (the stored digest does not match the payload)"]
     suppressed = [row["id"] for row in incoming if row["status"] in prechecks.SUPPRESSED_STATUSES]
     return {
         "suite": owner_repo,
@@ -565,10 +587,10 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
         "payload": payload,
         "body": body,
         "records": record_rows,
-        "recordWrites": record_writes,
+        "recordPlan": record_plan,
         "newRows": added,
         "resetRows": reset_rows,
-        "changedFields": changed_fields(previous_payload, payload),
+        "changedFields": changed,
         "suppressed": suppressed,
         "carried": [row["id"] for row in carried],
         "totalRows": len(rows),
@@ -583,47 +605,14 @@ def snapshot_of(issue: dict) -> dict:
     return {"updatedAt": issue.get("updated_at"), "bodySha256": body_hash(issue.get("body") or "")}
 
 
-def reset_marker(payload_hash: str) -> str:
-    """The hidden marker that identifies the approval-reset note for one payload hash (L3)."""
-    return f"<!-- {APPROVAL_RESET_MARKER} payload={payload_hash} -->"
-
-
-def changed_fields(previous: dict | None, payload: dict) -> list[str]:
-    """Names of the hashed payload fields that differ from *previous*, for the reviewer note."""
-    if previous is None:
-        return ["payload (no readable previous payload)"]
-    names: list[str] = []
-    for key in sorted((set(previous) | set(payload)) - {"payloadSha256"}):
-        if key == "candidates":
-            before = {row["id"]: row for row in previous.get("candidates", [])}
-            after = {row["id"]: row for row in payload.get("candidates", [])}
-            added = sorted(set(after) - set(before))
-            removed = sorted(set(before) - set(after))
-            changed = sorted(rid for rid in set(after) & set(before) if before[rid] != after[rid])
-            if added or removed or changed:
-                names.append(
-                    "candidates (added: "
-                    f"{', '.join(f'cand:{r}' for r in added) or 'none'}; changed: "
-                    f"{', '.join(f'cand:{r}' for r in changed) or 'none'}; removed: "
-                    f"{', '.join(f'cand:{r}' for r in removed) or 'none'})"
-                )
-        elif previous.get(key) != payload.get(key):
-            names.append(key)
-    return names
-
-
 def approval_reset_note(plan: dict) -> str:
-    """The one reviewer note an approval reset posts. It names the versions, the changed fields and the marker."""
-    approved = plan.get("approvedVersion") or "unknown"
-    fields = ", ".join(f"`{name}`" for name in plan.get("changedFields", [])) or "none"
-    added = ", ".join(f"`cand:{rid}`" for rid in plan.get("resetRows", [])) or "none"
-    return (
-        f"Approval reset: `{approved}` was approved, but the umbrella payload changed "
-        f"(upstream is now `{plan['payload']['newVersion']}`). Changed fields: {fields}. "
-        f"Added rows: {added}.\n\n"
-        "`upstream:approved` was removed and `upstream:needs-info` applied. "
-        "Re-apply `upstream:approved` after review.\n\n"
-        f"{reset_marker(plan['payload']['payloadSha256'])}"
+    """The one reviewer note an approval reset posts (approval.reset_note, fed from a plan)."""
+    return reset_note(
+        plan.get("approvedVersion") or "unknown",
+        plan["payload"]["newVersion"],
+        plan.get("changedFields", []),
+        plan.get("resetRows", []),
+        plan["payload"]["payloadSha256"],
     )
 
 
@@ -663,31 +652,59 @@ def _retry(action):
     raise last  # type: ignore[misc]
 
 
-def _write_records(gh, number: int, writes: list[tuple[str, int | None, str]]) -> None:
-    """Apply record comment writes in order (M7: edits, then creates, then deletes, as planned).
+def _run_prewrites(gh, number: int, writes: list[tuple[str, int | None, str]]) -> None:
+    """Run the prewrites of a generation plan, before the body switch (D4).
 
-    Edits and deletes are idempotent and retried. A create is not retried: a create that landed
-    before its error would leave a second trusted copy of the chunk, and readers fail closed on that
-    (H2). A failed create stops the run instead, and the next run creates the chunk.
+    A create is not retried: a create that landed before its error is reused by the next run, because the
+    planner finds the chunk by its generation and index, so no second copy is ever made. A delete is retried.
     """
     for kind, comment_id, text in writes:
         if kind == "create":
             gh.comment(number, text)
-        elif kind == "edit":
-            _retry(lambda comment_id=comment_id, text=text: gh.edit_comment(comment_id, text))
         else:
             _retry(lambda comment_id=comment_id: gh.delete_comment(comment_id))
+
+
+def _run_cleanup(gh, number: int, writes: list[tuple[str, int, str]]) -> None:
+    """Delete the superseded generations, after the body switch (D4). Best effort.
+
+    The body already names a complete generation, so a failed delete changes no reader's result. It is
+    reported as a warning and the next run deletes it again.
+    """
+    for _kind, comment_id, _text in writes:
+        try:
+            _retry(lambda comment_id=comment_id: gh.delete_comment(comment_id))
+        except GhError as exc:
+            print(f"::warning::could not delete superseded record comment {comment_id} on #{number}: {exc}",
+                  file=sys.stderr)
+
+
+def _switch_records(gh, number: int, title: str, body: str, record_plan) -> None:
+    """Write an umbrella's records and body in the order that keeps a complete generation readable (D4).
+
+    1. prewrites: the target generation's missing chunks (new comments; nothing existing is edited);
+    2. the body, which now names the target generation (the switch);
+    3. cleanup: the superseded generations (best effort).
+    A failure before step 2 leaves the body naming the old, complete generation. A failure after it leaves
+    the new one complete. Only the cleanup can leave garbage, and readers ignore garbage.
+    """
+    if record_plan is not None:
+        _run_prewrites(gh, number, record_plan.prewrites)
+    _retry(lambda: gh.edit_issue(number, title, body))
+    if record_plan is not None:
+        _run_cleanup(gh, number, record_plan.cleanup)
 
 
 def _approval_reset(gh, number: int, plan: dict) -> None:
     """Reset an approved umbrella whose hashed payload changed (H1).
 
-    The reviewer note is posted once per payload hash (L3): a marker in the note lets a retried reset
-    recognise a note it already posted. The labels are then reset, retried. A reset that still fails
-    raises GhError, so the body is never written and the next run still sees a payload change.
+    The reviewer note is posted once per payload hash (L3). The marker counts only when the watcher wrote
+    it (D9): a human quoting the marker must not suppress the note. The labels are then reset, retried.
+    A reset that still fails raises GhError, so the body is never written and the next run still sees a change.
     """
     marker = reset_marker(plan["payload"]["payloadSha256"])
-    if not any(marker in (row.get("body") or "") for row in gh.list_comments(number)):
+    watcher_bodies = [row.get("body") or "" for row in gh.list_comments(number) if records.is_watcher_comment(row)]
+    if not any(marker in text for text in watcher_bodies):
         gh.comment(number, approval_reset_note(plan))
     _retry(lambda: gh.edit_labels(number, add=["upstream:needs-info"], remove=["upstream:approved"]))
 
@@ -695,10 +712,10 @@ def _approval_reset(gh, number: int, plan: dict) -> None:
 def write_umbrella(plan: dict, gh: LiveGh) -> str:
     """Execute a create/update plan. Returns the outcome label.
 
-    Order (H1, H2, M5): the approval reset (note, then labels) when an approved umbrella's payload
-    changed, then the record comments, and the body last. A failure before the body write leaves the
-    body unchanged, so the next run still sees a payload change and retries. Label, record and body
-    edits are retried. A plain update note is not, because a retry could duplicate it.
+    Order (H1, H2, D4): the approval reset (note, then labels) when an approved umbrella's payload
+    changed, then the records and body (see _switch_records). A failure before the body write leaves the
+    body unchanged, so the next run still sees a payload change and retries. A plain update note is not
+    retried, because a retry could duplicate it.
     """
     if plan["action"] == "create":
         if plan["records"] is None:
@@ -708,8 +725,7 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
         # Records mode: create with a placeholder, attach the record comments, then write the index body.
         number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], PLACEHOLDER_BODY)
         plan["umbrella"] = number
-        _write_records(gh, number, plan["recordWrites"])
-        _retry(lambda: gh.edit_issue(number, plan["title"], plan["body"]))
+        _switch_records(gh, number, plan["title"], plan["body"], plan["recordPlan"])
         return "created"
     if plan["reset"]:
         _approval_reset(gh, plan["umbrella"], plan)
@@ -717,8 +733,7 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
         note = comment_for(plan)
         if note:
             gh.comment(plan["umbrella"], note)
-    _write_records(gh, plan["umbrella"], plan["recordWrites"])
-    _retry(lambda: gh.edit_issue(plan["umbrella"], plan["title"], plan["body"]))
+    _switch_records(gh, plan["umbrella"], plan["title"], plan["body"], plan["recordPlan"])
     return "updated"
 
 
@@ -908,20 +923,20 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
             payload_now, updated_rows, previous_version=payload_now.get("previousVersion")
         )
         touches_records = record_rows is not None or "candidateRecords" in payload_now
-        record_writes = (
-            records.plan_writes(_comments(gh, umbrella["number"]), record_rows or []) if touches_records else []
-        )
+        record_plan = records.plan_generation(_comments(gh, umbrella["number"]), record_rows) if touches_records else None
         # H1: an approved umbrella whose hashed payload changes is reset, exactly as the watcher's own
-        # writes do. The reset lands before the body write.
-        if "upstream:approved" in label_names(umbrella) and payload_changed(payload_now, new_payload):
+        # writes do. D1a: so is one whose stored digest does not match its payload. The reset lands before
+        # the body write.
+        if "upstream:approved" in label_names(umbrella) and (
+            payload_tampered(payload_now) or payload_changed(payload_now, new_payload)
+        ):
             _approval_reset(gh, umbrella["number"], {
                 "payload": new_payload,
                 "approvedVersion": payload_now.get("newVersion"),
                 "changedFields": changed_fields(payload_now, new_payload),
                 "resetRows": [],
             })
-        _write_records(gh, umbrella["number"], record_writes)
-        gh.edit_issue(umbrella["number"], umbrella["title"], body)
+        _switch_records(gh, umbrella["number"], umbrella["title"], body, record_plan)
     except GhError as exc:
         return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
     return result, 0

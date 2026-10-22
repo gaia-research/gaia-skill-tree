@@ -33,6 +33,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from scripts.upstream_watcher import approval, records
 from scripts.upstream_watcher.live import GhError, LiveGh
 
 # Labels whose open issues the fanout idempotency checks read, once, before the first write.
@@ -94,6 +95,29 @@ def _payload_block(payload: dict) -> str:
     )
 
 
+def fanout_payload(
+    finding: dict,
+    mode: str,
+    component_adds: list[str],
+    component_removes: list[str],
+    link_liveness: list[dict],
+    name_drift: list[dict] | None = None,
+) -> dict:
+    """The legacy (fanout) umbrella payload. The same dict feeds the body and the approval-reset comparison."""
+    return {
+        "skillId": finding["skillId"],
+        "previousVersion": finding.get("currentVersion", "none"),
+        "newVersion": finding["newVersion"],
+        "releasedAt": finding.get("releasedAt", ""),
+        "sourceUrl": finding.get("sourceUrl", ""),
+        "mode": mode,
+        "componentAdds": component_adds,
+        "componentRemoves": component_removes,
+        "linkLiveness": link_liveness,
+        "nameDrift": name_drift or [],
+    }
+
+
 def render_umbrella_body(
     finding: dict,
     mode: str,
@@ -111,18 +135,7 @@ def render_umbrella_body(
     name_drift = name_drift or []
 
     # Machine-readable payload
-    payload = {
-        "skillId": skill_id,
-        "previousVersion": prev_version,
-        "newVersion": new_version,
-        "releasedAt": released_at,
-        "sourceUrl": source_url,
-        "mode": mode,
-        "componentAdds": component_adds,
-        "componentRemoves": component_removes,
-        "linkLiveness": link_liveness,
-        "nameDrift": name_drift,
-    }
+    payload = fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift)
 
     # Human-readable sections
     adds_section = ""
@@ -384,12 +397,64 @@ def _closed_bootstrap_for(title: str, snapshot: dict[str, list[dict]] | None) ->
     return None
 
 
-def _open_bootstrap_labels(number: int, snapshot: dict[str, list[dict]] | None) -> set[str]:
-    """Label names of the open bootstrap *number* as the run snapshot holds it (empty when unknown)."""
-    for issue in (snapshot or {}).get("upstream:bootstrap", []):
-        if issue.get("number") == number:
-            return {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
-    return set()
+def _label_names(issue: dict) -> set[str]:
+    return {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
+
+
+def _live_issue(number: int) -> dict:
+    """The live issue *number* as GitHub holds it now. Any failure is unknown evidence (UmbrellaWriteError).
+
+    D8: a reset decision reads the live labels at reset time. The run-start snapshot can be stale, so an
+    approval applied after it must still be seen.
+    """
+    try:
+        return LiveGh().get_issue(number)
+    except GhError as exc:
+        raise UmbrellaWriteError(f"could not read #{number} before its update; the run stops ({exc})") from exc
+
+
+def _fanout_approval_reset(number: int, payload: dict) -> None:
+    """D10: reset an approved legacy umbrella whose payload changed. One note per payload, then the labels.
+
+    The live labels and body are read here, so the decision is made on the state GitHub holds now. A failed
+    read, note or label edit raises UmbrellaWriteError: the body is then left alone and the run stops.
+    """
+    live = _live_issue(number)
+    if "upstream:approved" not in _label_names(live):
+        return
+    previous = _payload_of_body(live.get("body"))
+    if previous is not None and previous == {k: v for k, v in payload.items() if k != "payloadSha256"}:
+        return
+    payload_hash = approval.canonical_hash(payload)
+    marker = approval.reset_marker(payload_hash)
+    gh = LiveGh()
+    try:
+        watcher_bodies = [row.get("body") or "" for row in gh.list_comments(number) if records.is_watcher_comment(row)]
+        if not any(marker in text for text in watcher_bodies):
+            gh.comment(
+                number,
+                approval.reset_note(
+                    (previous or {}).get("newVersion", "unknown"),
+                    payload["newVersion"],
+                    approval.changed_fields(previous, payload),
+                    [],
+                    payload_hash,
+                ),
+            )
+        gh.edit_labels(number, add=["upstream:needs-info"], remove=["upstream:approved"])
+    except GhError as exc:
+        raise UmbrellaWriteError(f"could not reset the approval of #{number}; the body is left alone ({exc})") from exc
+
+
+def _payload_of_body(body: str | None) -> dict | None:
+    match = approval.PAYLOAD_RE.search(body or "")
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group(1))
+    except ValueError:
+        return None
+    return data if isinstance(data, dict) else None
 
 
 def _listed_open(label: str, snapshot: dict[str, list[dict]] | None) -> list[dict]:
@@ -675,8 +740,9 @@ def create_issues(
                 prev_v = existing_title.removeprefix(suite_prefix)
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
                 # Approval never survives a version change (H1): a baseline a human approved for the old
-                # version loses the approval, so the new version is reviewed before it can sync.
-                approved = "upstream:approved" in _open_bootstrap_labels(existing_num, snapshot)
+                # version loses the approval, so the new version is reviewed before it can sync. D8: the
+                # labels are read live, so an approval applied after the run snapshot is seen.
+                approved = "upstream:approved" in _label_names(_live_issue(existing_num))
                 if approved:
                     comment += (
                         f" Approval reset: `upstream:approved` was on `{prev_v}`, and the baseline moved to "
@@ -764,6 +830,12 @@ def create_issues(
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            if apply:
+                # D10: the same approval reset as the batch path (H1). It lands before the body write.
+                _fanout_approval_reset(
+                    existing_num,
+                    fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift),
+                )
             prev_v = existing_title.removeprefix(suite_prefix)
             comment = (
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "

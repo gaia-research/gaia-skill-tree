@@ -24,6 +24,7 @@ fetch_component_diff(owner, repo, tag, component_root, current_components)
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import quote
 
 from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check
 from scripts.upstream_watcher.live import UnknownEvidenceError
@@ -149,8 +150,11 @@ def fetch_component_diff(
     """
     # Fetch the whole tree recursively in one call so nested component
     # directories at any depth are visible.
+    # D11: the tag is percent-encoded whole. An unencoded '#' (or '?') cut the URL before ?recursive=1, and a
+    # non-recursive tree then looked like removed components.
     tree_url = (
-        f"https://api.github.com/repos/{owner}/{repo}/git/trees/{tag}?recursive=1"
+        f"https://api.github.com/repos/{quote(owner, safe='')}/{quote(repo, safe='')}"
+        f"/git/trees/{quote(tag, safe='')}?recursive=1"
     )
     try:
         tree_data = fetch_json(tree_url, strict=True)
