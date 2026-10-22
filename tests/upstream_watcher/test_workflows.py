@@ -41,4 +41,5 @@ def test_close_children_cascade_lists_covered_rows():
     doc = _load("upstream-close-children.yml")
     run = _run_script(doc, "Cascade close children on umbrella rejection")
     assert "retained, not removed" in run
-    assert "gaia-upstream-payload" in run
+    # L3: the payload block is read through the one shared regex, not a copy of it.
+    assert "from scripts.upstream_watcher.markers import PAYLOAD_RE" in run

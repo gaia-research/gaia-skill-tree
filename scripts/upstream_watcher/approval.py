@@ -13,7 +13,11 @@ digest it approved as a bot-authored comment (``<!-- gaia-upstream-approval payl
 later run (a re-fire, or a manual dispatch) syncs only when the payload it extracted still hashes to
 that digest (D1b, D6). Only comments from the watcher's own login with the Bot user type count (I3).
 
-Verifier. ``verifier_status`` is the labeler check the workflows run against the freshly built index.
+Verifier. ``verifier_status`` is the labeler check the workflows run against the freshly built index. There is
+no bootstrap grant (M1): an index with no authorised Verifier denies everyone. The allowlist (``allowlisted``)
+is the lockout escape hatch, and it needs the sender's user type (M2). Handles match case-insensitively (L9).
+
+Skip. ``skip_label_authorized`` decides whether an applied ``skip-child-gate`` label is honoured (L5).
 """
 
 from __future__ import annotations
@@ -24,10 +28,9 @@ import os
 import re
 
 from scripts.upstream_watcher import records
+# L3: the one definition of the payload block regex. Every reader imports it from here.
+from scripts.upstream_watcher.markers import PAYLOAD_RE  # noqa: F401  (re-exported)
 
-# D7: the payload ends at the first newline + '-->'. Every writer emits the terminator on its own line,
-# and JSON never contains a raw newline, so '-->' inside a string cannot end the block early.
-PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
 APPROVAL_RE = re.compile(r"<!-- gaia-upstream-approval payload=([0-9a-f]{64}) -->")
 APPROVAL_RESET_MARKER = "gaia-upstream-approval-reset"
 LEGACY_KEYS = frozenset({
@@ -120,8 +123,16 @@ def decode_pages(text: str) -> list:
         items.extend(page)
 
 
-def latest_labeler(events: list[dict], label: str = "upstream:approved") -> str | None:
-    """Login of the actor behind the most recent ``labeled`` event for *label*, or None (fail closed)."""
+SKIP_LABEL = "skip-child-gate"
+# M2: bot-named accounts. A login that ends in '[bot]' and these exact names are trusted only for a Bot sender.
+BOT_NAMES = frozenset({"github-actions", "codex", "jules", "claude-bot", "gemini-bot"})
+# M2: the human escape hatch. The handle is trusted only for the User account with this id.
+HUMAN_ALLOWLIST_LOGIN = "mbtiongson1"
+HUMAN_ALLOWLIST_ID = 153011150
+
+
+def latest_labeler_actor(events: list[dict], label: str = "upstream:approved") -> dict | None:
+    """The actor object (login, type, id) of the most recent ``labeled`` event for *label*, or None (fail closed)."""
     labeled = [
         event for event in events
         if event.get("event") == "labeled" and (event.get("label") or {}).get("name") == label
@@ -129,15 +140,78 @@ def latest_labeler(events: list[dict], label: str = "upstream:approved") -> str 
     if not labeled:
         return None
     newest = max(labeled, key=lambda event: int(event.get("id") or 0))
-    login = (newest.get("actor") or {}).get("login")
-    return login or None
+    actor = newest.get("actor")
+    if not isinstance(actor, dict) or not actor.get("login"):
+        return None
+    return actor
+
+
+def latest_labeler(events: list[dict], label: str = "upstream:approved") -> str | None:
+    """Login of the actor behind the most recent ``labeled`` event for *label*, or None (fail closed)."""
+    actor = latest_labeler_actor(events, label)
+    return actor["login"] if actor else None
+
+
+def _as_int(value) -> int | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def allowlisted(login: str | None, sender_type: str | None, sender_id) -> bool:
+    """M2: True when *login* is an allowlisted actor for a sender of this *sender_type* and *sender_id*.
+
+    - a login ending in ``[bot]``, and the bot names in BOT_NAMES, are trusted only when the sender is a Bot;
+    - the human handle is trusted only when the sender is a User with HUMAN_ALLOWLIST_ID;
+    - anything else is not allowlisted here. The Verifier index decides it.
+    """
+    if not isinstance(login, str) or not login:
+        return False
+    if login.endswith("[bot]") or login in BOT_NAMES:
+        return sender_type == "Bot"
+    if login == HUMAN_ALLOWLIST_LOGIN:
+        return sender_type == "User" and _as_int(sender_id) == HUMAN_ALLOWLIST_ID
+    return False
+
+
+def star_level(value) -> int | None:
+    """M1: the star level of an index entry as an int, or None. 4, '4', '4★', '4 ★' and '★★★★' are all 4-star."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        match = re.match(r"(\d+)", text)
+        if match:
+            return int(match.group(1))
+        return text.count("★") or None
+    return None
+
+
+def skip_label_authorized(events: list[dict], index_path: str) -> bool:
+    """L5: True when the most recent ``skip-child-gate`` labeling was by an allowlisted actor or a Verifier.
+
+    Fail closed: no labeling event, an unreadable index, or any other labeler means the label is not honoured.
+    """
+    actor = latest_labeler_actor(events, SKIP_LABEL)
+    if actor is None:
+        return False
+    login = actor.get("login")
+    if allowlisted(login, actor.get("type"), actor.get("id")):
+        return True
+    return verifier_status(index_path, login) == "yes"
 
 
 def verifier_status(index_path: str, actor: str | None) -> str:
-    """``yes``, ``bootstrap``, ``no`` or a ``deny-*`` reason, for *actor* against the built index.
+    """``yes``, ``no`` or a ``deny-*`` reason, for *actor* against the built index.
 
-    A missing, unparseable or empty index is a denial (H1, M1). Bootstrap (zero 4-star Verifiers) is
-    granted only for a parseable, non-empty index that holds no Verifier at all.
+    A missing, unparseable or empty index is a denial (H1, M1). There is no bootstrap grant (M1): an index that
+    names no authorised Verifier denies every actor, and only the allowlist (allowlisted) can authorize one.
+    Handles match case-insensitively (L9).
     """
     if not os.path.isfile(index_path):
         return "deny-missing-index"
@@ -154,15 +228,15 @@ def verifier_status(index_path: str, actor: str | None) -> str:
             return "deny-unparseable-index"
     if not any(entries for entries in buckets.values()):
         return "deny-empty-index"
-    has_any_verifier = False
+    wanted = actor.lower() if isinstance(actor, str) and actor else ""
     for entries in buckets.values():
         for entry in entries:
-            level = entry.get("level", "")
-            if isinstance(level, str) and level[:1].isdigit() and int(level[0]) >= 4:
-                has_any_verifier = True
-                if actor and entry.get("contributor") == actor:
+            level = star_level(entry.get("level"))
+            contributor = entry.get("contributor")
+            if level is not None and level >= 4 and wanted and isinstance(contributor, str):
+                if contributor.lower() == wanted:
                     return "yes"
-    return "no" if has_any_verifier else "bootstrap"
+    return "no"
 
 
 def changed_fields(previous: dict | None, payload: dict) -> list[str]:

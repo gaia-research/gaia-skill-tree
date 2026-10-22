@@ -39,6 +39,7 @@ import sys
 from dataclasses import dataclass, field
 
 from scripts.upstream_watcher.live import GhError
+from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
 
 ROWS_PER_CHUNK = 50
 COMMENT_LIMIT = 65_536  # GitHub's limit for one comment, as for the body
@@ -47,7 +48,6 @@ COMMENT_LIMIT = 65_536  # GitHub's limit for one comment, as for the body
 # write identity changes.
 WATCHER_LOGIN = "github-actions[bot]"
 WATCHER_USER_TYPE = "Bot"
-PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\n(.*?)\n-->", re.DOTALL)
 HEADER_RE = re.compile(
     r"<!-- gaia-upstream-record gen=([0-9a-f]{64}) chunk=(\d+) of=(\d+) sha256=([0-9a-f]{64}) -->"
 )
@@ -232,7 +232,7 @@ def read_rows(comments: list[dict], meta: dict) -> list[dict]:
     return ordered
 
 
-def plan_generation(comments: list[dict], rows: list[dict] | None) -> GenerationPlan:
+def plan_generation(comments: list[dict], rows: list[dict] | None, discard: bool = False) -> GenerationPlan:
     """Plan the record writes that move an umbrella to *rows* (D4). Performs no writes.
 
     With *rows* None (an inline umbrella) every record comment is for cleanup. Otherwise the target
@@ -246,6 +246,35 @@ def plan_generation(comments: list[dict], rows: list[dict] | None) -> Generation
         header = parse_header(comment.get("body"))
         if header is not None:
             owned.append((comment, header[0], header[1], header[2]))
+    if discard and rows is not None:
+        # M4 (--reset-records). The rebuilt rows are written as the target generation. A target chunk that is
+        # present once and intact is kept, so a converged reset writes nothing. A chunk that is missing, damaged
+        # or duplicated is replaced: its comments are deleted after the body switch and a fresh chunk is created.
+        # Every comment of another generation is deleted. A reset rerun after a partial failure plans the same
+        # way, so it converges.
+        target = rows_digest(rows)
+        chunks = chunk_rows(rows)
+        total = len(chunks)
+        prewrites: list[tuple[str, int | None, str]] = []
+        cleanup: list[tuple[str, int, str]] = []
+        for index, chunk in enumerate(chunks, start=1):
+            current = [comment for comment, gen, i, of in owned if gen == target and i == index and of == total]
+            intact = False
+            if len(current) == 1:
+                try:
+                    parse_chunk(current[0].get("body"))
+                    intact = True
+                except RecordError:
+                    intact = False
+            if not intact:
+                cleanup.extend(("delete", comment["id"], "") for comment in current)
+                prewrites.append(("create", None, render_chunk(target, index, total, chunk)))
+        cleanup.extend(
+            ("delete", comment["id"], "")
+            for comment, gen, _index, of in owned
+            if gen != target or of != total
+        )
+        return GenerationPlan(generation=target, prewrites=prewrites, cleanup=cleanup)
     if rows is None:
         return GenerationPlan(
             generation=None,

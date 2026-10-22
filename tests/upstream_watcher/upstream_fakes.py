@@ -77,6 +77,18 @@ class FakeGh:
             return "absent"
         return "closed" if row["state"] == "closed" else "open"
 
+    def child_state(self, number: int) -> str:
+        """Mirror LiveGh.child_state: open, closed-rejected, closed, or absent."""
+        if self.fail_get:
+            raise GhError("get failed (fake)")
+        row = self.issues.get(number)
+        if row is None or number in self.moved:
+            return "absent"
+        if row["state"] != "closed":
+            return "open"
+        labels = {label["name"] for label in row["labels"]}
+        return "closed-rejected" if "upstream:rejected" in labels else "closed"
+
     def get_issue(self, number: int) -> dict:
         if self.fail_get:
             raise GhError("get failed (fake)")

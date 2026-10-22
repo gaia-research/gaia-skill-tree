@@ -87,10 +87,12 @@ jobs:
           import sys
           from urllib.parse import urlencode
 
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
@@ -210,8 +212,10 @@ jobs:
           # Batch rows (payloadVersion 2) are never removed. Record which rows this
           # rejection covers so the audit trail names them, even when no child exists.
           ROW_IDS=$(printf '%s' "$UMBRELLA_BODY" | python3 -c "
-          import re, sys
-          match = re.search(r'<!-- gaia-upstream-payload\n(.*?)\n-->', sys.stdin.read(), re.S)
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+          match = PAYLOAD_RE.search(sys.stdin.read())
           rows = []
           if match:
               import json
@@ -239,10 +243,12 @@ jobs:
           import sys
           from urllib.parse import urlencode
 
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 

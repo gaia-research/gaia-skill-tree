@@ -58,7 +58,8 @@ def test_concurrency_is_issue_scoped():
     group = concurrency.get("group", "")
     assert "github.event.issue.number" in group
     assert "inputs.issue_number" in group
-    assert concurrency.get("cancel-in-progress") is True
+    # L4: a denied run must not cancel an in-flight Verifier sync, so the group never cancels.
+    assert concurrency.get("cancel-in-progress") is False
 
 
 def test_approve_job_if_condition_syntax():
@@ -402,9 +403,13 @@ def run_step(tmp_path, run_text, world_data, extra_env=None, cwd=None, shims=Non
 
 
 def _step_run(path, name):
+    # Search every job: a workflow may hold more than one (the skip-child-gate guard job comes first, L5).
     doc = yaml.safe_load(path.read_text(encoding="utf-8"))
-    job = next(iter(doc["jobs"].values()))
-    return next(step["run"] for step in job["steps"] if step.get("name") == name)
+    for job in doc["jobs"].values():
+        for step in job["steps"]:
+            if step.get("name") == name:
+                return step["run"]
+    raise KeyError(name)
 
 
 def child_issue(number, umbrella=UMBRELLA, state="open", slug="ask-user", labels=("upstream:child",)):
@@ -450,8 +455,9 @@ def v2_payload(*children):
 
 
 def run_gate(tmp_path, world_data):
+    # The workflow runs from the repo root, where the shared lookup imports scripts/upstream_watcher/markers.
     return run_step(tmp_path, _step_run(WORKFLOW_PATH, "Check child gate"), world_data,
-                    {"ISSUE_NUMBER": str(UMBRELLA)})
+                    {"ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
 
 
 def _lookup_blocks():
@@ -524,11 +530,15 @@ def test_gate_does_not_depend_on_search_so_index_lag_cannot_hide_a_child(tmp_pat
 
 
 def test_skip_child_gate_bypasses_the_gate_only(tmp_path):
-    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001))
-    result = run_gate(tmp_path, data)
+    # L5: the bypass is honoured only from a labeler who may approve (here a Verifier).
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001),
+                 events={str(UMBRELLA): [_labeled(7, "alice", label="skip-child-gate")]})
+    result = _gate_in_repo(tmp_path, data)
     assert result.code == 0 and result.outputs == {"gate_passed": "true"}
     assert "does not close, accept or reject any child intake or the umbrella" in result.output
-    assert not result.closes() and not result.comments() and not result.api_calls()
+    assert not result.closes() and not result.comments()
+    assert not any("issues/" + str(UMBRELLA) + "/" in call[-1] and "events" not in call[-1]
+                   for call in result.api_calls())
 
 
 def test_v2_adopted_child_blocks_even_when_the_list_does_not_return_it(tmp_path):
@@ -614,10 +624,15 @@ def _rejected_umbrella(payload):
     return umbrella_issue(payload, labels=("upstream:release", "upstream:rejected"))
 
 
+def run_step_repo(*args, **kwargs):
+    """run_step from the repo root, where the shared lookup imports scripts/upstream_watcher/markers."""
+    return run_step(*args, **{"cwd": REPO_ROOT, **kwargs})
+
+
 def _run_cascade(tmp_path, data):
     body = data["issues"][str(UMBRELLA)]["body"]
     return run_step(tmp_path, _step_run(CLOSE_CHILDREN_PATH, "Cascade close children on umbrella rejection"),
-                    data, {"UMBRELLA_NUMBER": str(UMBRELLA), "UMBRELLA_BODY": body})
+                    data, {"UMBRELLA_NUMBER": str(UMBRELLA), "UMBRELLA_BODY": body}, cwd=REPO_ROOT)
 
 
 def test_rejected_cascade_closes_every_open_child_across_pages(tmp_path):
@@ -655,7 +670,8 @@ def _run_sibling_gate(tmp_path, data):
     data["issues"][str(closed_sibling["number"])] = closed_sibling
     return run_step(tmp_path, _step_run(CLOSE_CHILDREN_PATH, "Re-fire approve workflow if all siblings closed"),
                     data, {"CLOSED_ISSUE_NUMBER": "5009",
-                           "CLOSED_ISSUE_BODY": "> Auto-populated by upstream watcher. Umbrella: #5000.\n"})
+                           "CLOSED_ISSUE_BODY": "> Auto-populated by upstream watcher. Umbrella: #5000.\n"},
+                    cwd=REPO_ROOT)
 
 
 def test_sibling_gate_refires_approve_when_no_child_is_open(tmp_path):
@@ -756,9 +772,9 @@ def _row(slug, status, child=None):
             "status": status, "child": child}
 
 
-def _child_issue(number, state):
+def _child_issue(number, state, labels=("upstream:child",)):
     return {"number": number, "title": f"[intake] garrytan/c{number}", "state": state,
-            "labels": [{"name": "upstream:child"}], "body": ""}
+            "labels": [{"name": name} for name in labels], "body": ""}
 
 
 # Covers every status and child state the rule distinguishes.
@@ -778,8 +794,9 @@ def _count(tmp_path, rows, **extra):
     payload = {"payloadVersion": 2, "skillId": "garrytan/gbrain", "newVersion": "v1", "candidates": rows}
     data = world(
         umbrella_issue(payload),
-        _child_issue(5001, "open"), _child_issue(5004, "closed"),
-        _child_issue(5005, "closed"), _child_issue(5007, "closed"),
+        _child_issue(5001, "open"), _child_issue(5004, "closed", ("upstream:child", "upstream:rejected")),
+        _child_issue(5005, "closed", ("upstream:child", "upstream:rejected")),
+        _child_issue(5007, "closed", ("upstream:child", "upstream:rejected")),
         **extra,
     )
     return run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
@@ -873,7 +890,7 @@ def _fresh(tmp_path, name):
     return path
 
 
-def _guard(tmp_path, actor, index=None):
+def _guard(tmp_path, actor, index=None, actor_type="User", actor_id="1"):
     """Run the Verifier guard in a checkout whose registry/named-skills.json is *index* (or absent)."""
     repo = _fresh(tmp_path, "repo")
     (repo / "registry").mkdir()
@@ -882,7 +899,8 @@ def _guard(tmp_path, actor, index=None):
         text = index if isinstance(index, str) else json.dumps(index)
         (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
     return run_step(tmp_path, _step_run(WORKFLOW_PATH, GUARD), world(umbrella_issue(LEGACY_PAYLOAD)),
-                    {"LABELER": actor, "ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo)
+                    {"LABELER": actor, "LABELER_TYPE": actor_type, "LABELER_ID": actor_id,
+                     "ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo)
 
 
 def test_guard_denies_when_the_index_is_missing(tmp_path):
@@ -903,10 +921,11 @@ def test_guard_denies_an_index_without_buckets(tmp_path):
     assert "deny-unparseable-index" in result.output
 
 
-def test_guard_grants_bootstrap_only_for_a_parseable_index_with_no_verifiers(tmp_path):
+def test_guard_denies_a_parseable_index_with_no_verifiers_because_bootstrap_is_gone(tmp_path):
+    # M1: bootstrap-by-absence is removed. Only the allowlist can authorize an index with no Verifier.
     result = _guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX)
-    assert result.code == 0
-    assert "bootstrap" in result.output
+    assert result.code == 1
+    assert "bootstrap" not in result.output
 
 
 def test_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
@@ -917,7 +936,7 @@ def test_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
 
 
 def test_bot_allowlist_still_passes_without_any_index(tmp_path):
-    assert _guard(tmp_path, "github-actions[bot]", index=None).code == 0
+    assert _guard(tmp_path, "github-actions[bot]", index=None, actor_type="Bot").code == 0
 
 
 def test_the_index_is_built_before_the_guard_runs():
@@ -952,7 +971,8 @@ def test_resolve_step_reads_a_numeric_dispatch_input_from_env(tmp_path):
         "EVENT_ISSUE_NUMBER": "", "SENDER_LOGIN": "",
     })
     assert result.code == 0
-    assert result.outputs == {"number": "5000", "actor": "alice"}
+    assert result.outputs["number"] == "5000" and result.outputs["actor"] == "alice"
+    assert result.outputs["actor_type"] == "" and result.outputs["actor_id"] == ""
 
 
 def _verify(tmp_path, issue):
@@ -1032,7 +1052,7 @@ def test_pr_body_says_nothing_was_frozen_when_nothing_was(tmp_path):
 def test_cascade_closes_only_children_whose_own_body_names_this_umbrella(tmp_path):
     umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
     data = world(umbrella, child_issue(5001), child_issue(5002, umbrella=9999))
-    result = run_step(_fresh(tmp_path, "cascade"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
+    result = run_step_repo(_fresh(tmp_path, "cascade"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
                       {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
     assert result.code == 0, result.output
     assert result.closes() == ["5001"]
@@ -1041,7 +1061,7 @@ def test_cascade_closes_only_children_whose_own_body_names_this_umbrella(tmp_pat
 
 def test_a_failed_refire_is_an_error_and_leaves_a_marker_comment(tmp_path):
     data = world(umbrella_issue(LEGACY_PAYLOAD), fail={"workflow": True})
-    result = run_step(_fresh(tmp_path, "refire-fail"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
+    result = run_step_repo(_fresh(tmp_path, "refire-fail"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
                       {"CLOSED_ISSUE_BODY": f"Umbrella: #{UMBRELLA}", "CLOSED_ISSUE_NUMBER": "5001"})
     assert result.code == 1
     assert "::error::Could not re-fire" in result.output
@@ -1050,7 +1070,7 @@ def test_a_failed_refire_is_an_error_and_leaves_a_marker_comment(tmp_path):
 
 def test_a_successful_refire_dispatches_the_approve_workflow(tmp_path):
     data = world(umbrella_issue(LEGACY_PAYLOAD))
-    result = run_step(_fresh(tmp_path, "refire-ok"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
+    result = run_step_repo(_fresh(tmp_path, "refire-ok"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
                       {"CLOSED_ISSUE_BODY": f"Umbrella: #{UMBRELLA}", "CLOSED_ISSUE_NUMBER": "5001"})
     assert result.code == 0
     assert len(result.workflow_runs()) == 1
@@ -1150,7 +1170,7 @@ def test_the_cascade_fails_closed_when_the_rejected_label_lookup_fails(tmp_path)
 def test_the_cascade_labels_each_child_rejected_before_it_closes_the_child(tmp_path):
     umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
     data = world(umbrella, child_issue(5001))
-    result = run_step(_fresh(tmp_path, "cascade-label"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
+    result = run_step_repo(_fresh(tmp_path, "cascade-label"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
                       {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
     assert result.code == 0, result.output
     label_at = next(i for i, call in enumerate(result.calls)
@@ -1509,7 +1529,8 @@ def test_extract_still_reads_a_legacy_payload_that_has_no_stored_digest(tmp_path
 
 def _marker_run(tmp_path, event, sha, comment_rows=None, env_extra=None):
     data = world(umbrella_issue(LEGACY_PAYLOAD), comment_rows={str(UMBRELLA): comment_rows or []})
-    env = {"EVENT_NAME": event, "ISSUE_NUMBER": str(UMBRELLA), "PAYLOAD_SHA": sha}
+    env = {"EVENT_NAME": event, "ISSUE_NUMBER": str(UMBRELLA), "PAYLOAD_SHA": sha,
+           "EVENT_BODY": _body_of(SIGNED)}
     env.update(env_extra or {})
     return run_step(_fresh(tmp_path, "marker"), _step_run(WORKFLOW_PATH, APPROVAL_STEP), data, env, cwd=REPO_ROOT)
 
@@ -1616,12 +1637,18 @@ def _guard_run(tmp_path, *, event, actor, labels_events=None, refire="", index=V
         text = index if isinstance(index, str) else json.dumps(index)
         (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
     data = world(umbrella_issue(LEGACY_PAYLOAD), events={str(UMBRELLA): labels_events or []}, fail=fail or {})
-    env = {"LABELER": actor, "ISSUE_NUMBER": str(UMBRELLA), "EVENT_NAME": event, "INPUT_REFIRE": refire}
+    actor_type = "Bot" if actor.endswith("[bot]") else "User"
+    env = {"LABELER": actor, "LABELER_TYPE": actor_type, "LABELER_ID": "1", "ISSUE_NUMBER": str(UMBRELLA),
+           "EVENT_NAME": event, "INPUT_REFIRE": refire}
     return run_step(_fresh(scratch, "guard-run"), _step_run(WORKFLOW_PATH, GUARD), data, env, cwd=repo)
 
 
 def _labeled(event_id, actor, label="upstream:approved"):
-    return {"id": event_id, "event": "labeled", "label": {"name": label}, "actor": {"login": actor}}
+    # The issue-events actor carries its type and id (M2). The known human handle has its real id.
+    actor_id = 153011150 if actor == "mbtiongson1" else 1
+    actor_type = "Bot" if actor.endswith("[bot]") else "User"
+    return {"id": event_id, "event": "labeled", "label": {"name": label},
+            "actor": {"login": actor, "type": actor_type, "id": actor_id}}
 
 
 def test_guard_labeled_by_a_verifier_passes(tmp_path):
@@ -1749,8 +1776,9 @@ def test_reject_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
     assert _reject_guard(_fresh(tmp_path, "b"), "mallory", index=VERIFIER_INDEX).code == 1
 
 
-def test_reject_guard_grants_bootstrap_only_for_a_parseable_non_empty_index_with_no_verifier(tmp_path):
-    assert _reject_guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX).code == 0
+def test_reject_guard_denies_a_parseable_index_with_no_verifier_because_bootstrap_is_gone(tmp_path):
+    # M1: no bootstrap grant in the reject guard either.
+    assert _reject_guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX).code == 1
 
 
 def test_reject_workflow_builds_the_index_before_its_guard():
@@ -1793,3 +1821,266 @@ def test_a_branch_commit_with_no_committer_object_is_refused(tmp_path):
                                                  "commit": {"author": {"name": BOT_LOGIN}}}]}
     result, _origin, _before = _branch_with(tmp_path, compare)
     assert result.code == 1
+
+
+# ---------------------------------------------------------------------------
+# #2131 round-4 verifier FAIL (C8): H1 (TOCTOU), L1, L5, M1, M2 and M6 at the workflow level.
+# Each step runs under bash with the fake gh, as the other tests here do.
+# ---------------------------------------------------------------------------
+
+SKIP_JOB = "skip-child-gate-guard"
+SKIP_STEP = "Check skip-child-gate labeler"
+REJECT_GUARD = "Check labeler is a Verifier"
+NO_TYPE = {"LABELER_TYPE": "", "LABELER_ID": ""}
+
+
+def _signed(payload):
+    from scripts.upstream_watcher.approval import canonical_hash
+
+    payload = dict(payload)
+    payload["payloadSha256"] = canonical_hash(payload)
+    return payload
+
+
+def _body_of(payload):
+    return "## Upstream release detected\n\n<!-- gaia-upstream-payload\n" + json.dumps(payload) + "\n-->\n"
+
+
+def _v2(version):
+    return _signed({"payloadVersion": 2, "skillId": "garrytan/gbrain", "previousVersion": "v0",
+                    "newVersion": version, "componentAdds": ["ask-user"], "componentRemoves": [],
+                    "linkLiveness": [], "nameDrift": [], "candidates": []})
+
+
+def _approval_run(tmp_path, *, event_body, live_body, event_name="issues", comment_rows=None):
+    from scripts.upstream_watcher.approval import extract_payload
+
+    _payload, live_sha = extract_payload(live_body)
+    data = {"issues": {str(UMBRELLA): {"number": UMBRELLA, "title": "t", "state": "open", "labels": [],
+                                       "body": live_body}},
+            "comment_rows": {str(UMBRELLA): comment_rows or []}}
+    env = {"EVENT_NAME": event_name, "EVENT_BODY": event_body, "PAYLOAD_SHA": live_sha,
+           "ISSUE_NUMBER": str(UMBRELLA)}
+    return run_step(_fresh(tmp_path, "approval"), _step_run(WORKFLOW_PATH, APPROVAL_STEP), data, env,
+                    cwd=REPO_ROOT)
+
+
+# H1: the approval marker covers the body the Verifier labelled, not the body read at extract time.
+
+
+def test_h1_probe_event_body_v1_and_live_body_v2_is_refused_with_no_marker(tmp_path):
+    v1, v2 = _body_of(_v2("v1")), _body_of(_v2("v2"))
+    result = _approval_run(tmp_path, event_body=v1, live_body=v2)
+    assert result.code == 1, result.output
+    assert any("payload changed after approval; re-apply the label" in text for text in result.comments())
+    assert not any("gaia-upstream-approval payload=" in text for text in result.comments()), \
+        "no marker may be minted for a body the Verifier did not label"
+
+
+def test_h1_the_labelled_body_matches_the_live_body_so_the_marker_is_minted(tmp_path):
+    body = _body_of(_v2("v2"))
+    result = _approval_run(tmp_path, event_body=body, live_body=body)
+    assert result.code == 0, result.output
+    assert any("gaia-upstream-approval payload=" in text for text in result.comments())
+
+
+def test_h1_an_event_body_with_no_payload_is_refused(tmp_path):
+    result = _approval_run(tmp_path, event_body="no payload here", live_body=_body_of(_v2("v2")))
+    assert result.code == 1
+    assert any("payload changed after approval" in text for text in result.comments())
+
+
+def test_h1_a_dispatch_still_reads_the_recorded_marker_and_ignores_the_event_body(tmp_path):
+    body = _body_of(_v2("v2"))
+    result = _approval_run(tmp_path, event_body="ignored", live_body=body, event_name="workflow_dispatch")
+    assert result.code == 1
+    assert any("does not cover this payload" in text for text in result.comments())
+
+
+def test_h1_the_event_body_reaches_the_step_through_env_only():
+    step = next(s for s in _load()["jobs"]["approve"]["steps"] if s.get("name") == APPROVAL_STEP)
+    assert step["env"]["EVENT_BODY"] == "${{ github.event.issue.body }}"
+    assert "${{" not in step["run"]
+
+
+# L1: a denied approval removes upstream:approved, as reject does.
+
+
+def test_l1_a_denied_labeler_loses_the_approval_label(tmp_path):
+    result = _guard(tmp_path, "mallory", index=VERIFIER_INDEX)
+    assert result.code == 1
+    assert ["issue", "edit", str(UMBRELLA), "--remove-label", "upstream:approved"] in result.calls
+
+
+def test_l1_a_missing_index_denial_also_removes_the_label(tmp_path):
+    result = _guard(tmp_path, "mallory", index=None)
+    assert result.code == 1
+    assert ["issue", "edit", str(UMBRELLA), "--remove-label", "upstream:approved"] in result.calls
+
+
+# M1: no bootstrap in either guard.
+
+
+def test_m1_a_parseable_index_with_no_verifier_denies_the_labeler(tmp_path):
+    result = _guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX)
+    assert result.code == 1
+    assert "does not hold a 4★+ named skill" in result.comments()[0]
+
+
+def test_m1_the_reject_guard_denies_a_parseable_index_with_no_verifier(tmp_path):
+    repo = _repo_with_index(tmp_path, NO_VERIFIER_INDEX)
+    result = run_step(_fresh(tmp_path, "rj"), _step_run(REJECT_PATH, REJECT_GUARD), world(),
+                      {"LABELER": "mallory", "LABELER_TYPE": "User", "LABELER_ID": "2",
+                       "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "mallory"}, cwd=repo)
+    assert result.code == 1, result.output
+    assert "bootstrap" not in result.output
+
+
+# M2: the allowlist needs the sender type. A human account named codex is not a bot.
+
+
+def test_m2_a_human_account_named_codex_is_refused_and_loses_the_label(tmp_path):
+    result = _guard(tmp_path, "codex", index=VERIFIER_INDEX, actor_type="User", actor_id="99")
+    assert result.code == 1
+    assert "does not hold a 4★+" in result.comments()[0]
+    assert ["issue", "edit", str(UMBRELLA), "--remove-label", "upstream:approved"] in result.calls
+
+
+def test_m2_the_codex_bot_is_still_allowlisted(tmp_path):
+    assert _guard(tmp_path, "codex", index=None, actor_type="Bot", actor_id="7").code == 0
+
+
+def test_m2_the_bot_suffix_needs_a_bot_sender(tmp_path):
+    assert _guard(tmp_path, BOT_ACTOR, index=None, actor_type="User", actor_id="8").code == 1
+
+
+def test_m2_the_human_handle_needs_its_user_type_and_known_id(tmp_path):
+    assert _guard(_fresh(tmp_path, "ok"), "mbtiongson1", index=None,
+                  actor_type="User", actor_id="153011150").code == 0
+    assert _guard(_fresh(tmp_path, "wrong-id"), "mbtiongson1", index=None,
+                  actor_type="User", actor_id="1").code == 1
+    assert _guard(_fresh(tmp_path, "wrong-type"), "mbtiongson1", index=None,
+                  actor_type="Bot", actor_id="153011150").code == 1
+
+
+def test_m2_reject_refuses_a_human_named_codex_and_removes_the_label(tmp_path):
+    repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
+    result = run_step(_fresh(tmp_path, "rj2"), _step_run(REJECT_PATH, REJECT_GUARD), world(),
+                      {"LABELER": "codex", "LABELER_TYPE": "User", "LABELER_ID": "99",
+                       "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "codex"}, cwd=repo)
+    assert result.code == 1
+    assert ["issue", "remove-label", str(UMBRELLA), "upstream:rejected"] in result.calls
+
+
+def test_m2_reject_accepts_the_codex_bot(tmp_path):
+    result = run_step(_fresh(tmp_path, "rj3"), _step_run(REJECT_PATH, REJECT_GUARD), world(),
+                      {"LABELER": "codex", "LABELER_TYPE": "Bot", "LABELER_ID": "7",
+                       "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "codex"}, cwd=REPO_ROOT)
+    assert result.code == 0, result.output
+
+
+def _repo_with_index(tmp_path, index):
+    repo = _fresh(tmp_path, "repo")
+    (repo / "registry").mkdir()
+    (repo / "scripts").symlink_to(REPO_ROOT / "scripts")
+    text = index if isinstance(index, str) else json.dumps(index)
+    (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
+    return repo
+
+
+# L5: skip-child-gate is gated by its own labeler check, and the child gate ignores an unauthorized one.
+
+
+def _job_step_run(path, job, name):
+    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return next(step["run"] for step in doc["jobs"][job]["steps"] if step.get("name") == name)
+
+
+def test_l5_a_job_runs_the_labeler_check_when_skip_child_gate_is_applied():
+    doc = _load()
+    assert SKIP_JOB in doc["jobs"]
+    condition = str(doc["jobs"][SKIP_JOB]["if"])
+    assert "labeled" in condition and "skip-child-gate" in condition
+
+
+def test_l5_a_non_verifier_applying_skip_child_gate_loses_the_label_with_a_comment(tmp_path):
+    repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
+    result = run_step(_fresh(tmp_path, "skip-deny"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(),
+                      {"LABELER": "mallory", "LABELER_TYPE": "User", "LABELER_ID": "2",
+                       "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "mallory"}, cwd=repo)
+    assert result.code == 1, result.output
+    assert ["issue", "edit", str(UMBRELLA), "--remove-label", "skip-child-gate"] in result.calls
+    assert result.comments()
+
+
+def test_l5_a_verifier_applying_skip_child_gate_keeps_it(tmp_path):
+    repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
+    result = run_step(_fresh(tmp_path, "skip-ok"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(),
+                      {"LABELER": "alice", "LABELER_TYPE": "User", "LABELER_ID": "1",
+                       "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "alice"}, cwd=repo)
+    assert result.code == 0, result.output
+    assert not any(call[:3] == ["issue", "edit", str(UMBRELLA)] for call in result.calls)
+
+
+def _gate_in_repo(tmp_path, world_data, index=VERIFIER_INDEX):
+    repo = _repo_with_index(tmp_path, index) if index is not None else _fresh(tmp_path, "norepo")
+    return run_step(_fresh(tmp_path, "gate"), _step_run(WORKFLOW_PATH, "Check child gate"), world_data,
+                    {"ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo)
+
+
+def test_l5_the_child_gate_ignores_a_skip_label_applied_by_a_non_verifier(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001),
+                 events={str(UMBRELLA): [_labeled(7, "mallory", label="skip-child-gate")]})
+    result = _gate_in_repo(tmp_path, data)
+    assert result.outputs == {"gate_passed": "false"}, result.output
+    assert any("Cannot sync yet" in text for text in result.comments())
+
+
+def test_l5_the_child_gate_ignores_a_skip_label_with_no_labeling_event(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001))
+    assert _gate_in_repo(tmp_path, data).outputs == {"gate_passed": "false"}
+
+
+def test_l5_the_child_gate_honours_a_skip_label_applied_by_a_verifier(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001),
+                 events={str(UMBRELLA): [_labeled(7, "alice", label="skip-child-gate")]})
+    result = _gate_in_repo(tmp_path, data)
+    assert result.code == 0 and result.outputs == {"gate_passed": "true"}, result.output
+
+
+def test_l5_the_child_gate_fails_closed_when_the_labeling_history_cannot_be_read(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD, extra=("skip-child-gate",)), child_issue(5001),
+                 events={str(UMBRELLA): [_labeled(7, "alice", label="skip-child-gate")]}, fail={"events": True})
+    result = _gate_in_repo(tmp_path, data)
+    assert result.code != 0 and "gate_passed" not in result.outputs
+
+
+# M6 (count step): a closed child without a disposition is unresolved; a closed rejected child is resolved.
+
+
+def test_m6_count_step_counts_a_child_closed_without_a_disposition(tmp_path):
+    rows = [_row("undisposed", "escalated", 5009)]
+    data = world(umbrella_issue({"payloadVersion": 2, "candidates": rows}), _child_issue(5009, "closed"))
+    payload = {"payloadVersion": 2, "skillId": "garrytan/gbrain", "newVersion": "v1", "candidates": rows}
+    result = run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
+                      {"PAYLOAD": json.dumps(payload), "ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
+    assert result.code == 0 and result.outputs == {"count": "1"}, result.output
+
+
+def test_m6_count_step_resolves_a_child_closed_with_a_rejection(tmp_path):
+    rows = [_row("rejected-child", "escalated", 5010)]
+    payload = {"payloadVersion": 2, "skillId": "garrytan/gbrain", "newVersion": "v1", "candidates": rows}
+    data = world(umbrella_issue(payload),
+                 {**_child_issue(5010, "closed"), "labels": [{"name": "upstream:child"},
+                                                              {"name": "upstream:rejected"}]})
+    result = run_step(tmp_path, _step_run(WORKFLOW_PATH, "Count unresolved candidate rows"), data,
+                      {"PAYLOAD": json.dumps(payload), "ISSUE_NUMBER": str(UMBRELLA)}, cwd=REPO_ROOT)
+    assert result.code == 0 and result.outputs == {"count": "0"}, result.output
+
+
+# L4 and L3 at the workflow level.
+
+
+def test_l4_a_denied_or_in_flight_approve_is_never_cancelled():
+    concurrency = _load()["concurrency"]
+    assert concurrency["cancel-in-progress"] is False

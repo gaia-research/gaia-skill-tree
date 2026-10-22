@@ -40,23 +40,29 @@ jobs:
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
       # L2: no ${{ }} inside a run block. Every event value reaches the shell through env.
       # D2: the decision is the shared approval.verifier_status, as in upstream-approve. A missing, empty or
-      # unparseable index is a denial, never bootstrap. Bootstrap is granted only for a parseable, non-empty
-      # index that holds no Verifier.
+      # unparseable index is a denial. M1: there is no bootstrap grant; an index with no authorised Verifier denies
+      # everyone. M2: the allowlist needs the sender's type and id (approval.allowlisted).
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ github.event.sender.login }}
+          LABELER_TYPE: ${{ github.event.sender.type }}
+          LABELER_ID: ${{ github.event.sender.id }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
-          # Bot actors are always allowed
-          case "$LABELER" in
-            *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot|mbtiongson1)
-              echo "✓ $LABELER is an allowlisted actor."
-              exit 0
-              ;;
-          esac
+          # M2: an allowlisted actor (login, sender type and id) is authorized.
+          if python3 - "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted
+          sys.exit(0 if allowlisted(sys.argv[1], sys.argv[2], sys.argv[3]) else 1)
+          PY
+          then
+            echo "✓ $LABELER is an allowlisted actor."
+            exit 0
+          fi
 
           AUTHORIZED=$(python3 - "$LABELER" <<'PY'
           import os, sys
@@ -67,10 +73,10 @@ jobs:
           )
 
           echo "Labeler authorization: $AUTHORIZED"
-          if [ "$AUTHORIZED" = "yes" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
+          if [ "$AUTHORIZED" = "yes" ]; then
             echo "✓ $LABELER is authorized to reject upstream issues."
           else
-            echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:rejected."
+            echo "::error::$LABELER is not an authorized Verifier ($AUTHORIZED). Only Verifiers may apply upstream:rejected."
             gh issue remove-label "$ISSUE_NUMBER" "upstream:rejected" || true
             gh issue comment "$ISSUE_NUMBER" \
               --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot reject upstream syncs. The \`upstream:rejected\` label has been removed. Please have a Verifier apply the label."

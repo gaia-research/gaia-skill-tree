@@ -119,7 +119,10 @@ def test_a_row_the_new_release_also_lists_is_not_duplicated_and_keeps_its_first_
 
 def test_resolved_rows_are_not_carried():
     gh = FakeGh([
-        child_issue(41, "closed", slug="done-one"),
+        # Closed WITH upstream:rejected: a disposition, so its row resolves. (A closed child without one keeps its
+        # row; test_c8_m3_m6_rows.py covers that rule.)
+        {**child_issue(41, "closed", slug="done-one"),
+         "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}]},
         closed_umbrella(10, "v1", [
             row("present-one", status="present"),
             row("rejected-one", status="rejected"),

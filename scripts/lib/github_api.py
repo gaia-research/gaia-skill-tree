@@ -84,11 +84,42 @@ _CACHE: dict[str, dict | None] = {}  # URL -> parsed JSON or None on error
 
 
 class GitHubFetchError(RuntimeError):
-    """A strict GitHub GET failed: any status other than a definitive 404, a network error, or an unparseable body."""
+    """A strict GitHub GET failed: any status other than a definitive 404, a network error, or an unparseable body.
 
-    def __init__(self, message: str, status: int | None = None):
+    ``headers`` (a mapping, case-insensitive for lookups) and ``body`` (text) carry what the response said, so a
+    caller can tell a rate limit from a permanent refusal (H2). Both are optional.
+    """
+
+    def __init__(self, message: str, status: int | None = None, headers=None, body: str = ""):
         super().__init__(message)
         self.status = status
+        self.headers = {str(k).lower(): str(v) for k, v in (headers or {}).items()}
+        self.body = body or ""
+
+
+# H2: statuses that say the resource is unavailable for good. 403 is permanent only without a rate-limit signal.
+PERMANENT_UNAVAILABLE_STATUSES = frozenset({451, 410})
+
+
+def is_rate_limited(exc: GitHubFetchError) -> bool:
+    """H2: True when a failed GET carries a rate-limit signal (a spent quota, Retry-After, or a rate-limit message)."""
+    headers = getattr(exc, "headers", {}) or {}
+    if headers.get("x-ratelimit-remaining") == "0" or "retry-after" in headers:
+        return True
+    text = f"{getattr(exc, 'body', '') or ''} {exc}".lower()
+    return "rate limit" in text or "secondary rate" in text or "abuse detection" in text
+
+
+def is_permanent_unavailable(exc: GitHubFetchError) -> bool:
+    """H2: True when retrying cannot help and the suite must be skipped (not treated as unknown evidence).
+
+    451 (blocked) and 410 (gone) are permanent. A 403 is permanent only when it is not a rate limit. Everything
+    else (5xx, 429, a rate-limited 403, a timeout, a network error, an unparseable body) is transient.
+    """
+    status = getattr(exc, "status", None)
+    if status in PERMANENT_UNAVAILABLE_STATUSES:
+        return True
+    return status == 403 and not is_rate_limited(exc)
 
 
 class GitHubNotFound(GitHubFetchError):
@@ -180,7 +211,14 @@ def _fetch_strict(url: str, token: str | None, timeout: int) -> dict:
     except urllib.error.HTTPError as exc:
         if exc.code == 404:
             raise GitHubNotFound(f"GitHub API HTTP 404 for {url}", status=404) from exc
-        raise GitHubFetchError(f"GitHub API HTTP {exc.code} for {url}: {exc.reason}", status=exc.code) from exc
+        try:
+            body = exc.read().decode("utf-8", errors="replace")
+        except Exception:  # noqa: BLE001 — the body is evidence for the classifier, never a reason to fail differently
+            body = ""
+        raise GitHubFetchError(
+            f"GitHub API HTTP {exc.code} for {url}: {exc.reason}", status=exc.code,
+            headers=dict(exc.headers.items()) if exc.headers is not None else None, body=body,
+        ) from exc
     except Exception as exc:  # noqa: BLE001 — timeouts, resets, DNS: all unknown evidence
         raise GitHubFetchError(f"GitHub API request failed for {url}: {exc}") from exc
     finally:
