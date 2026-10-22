@@ -180,12 +180,15 @@ def reviewAccounting(packets, packetRoot):
         packetRelative = f"registry-for-review/discovery-packets/{index}.json"
         packetPath = root / packetRelative
         packetPath.parent.mkdir(parents=True, exist_ok=True)
-        packetBytes = canonicalJson(packet)
+        # Write the artifact exactly as production writes it (indented JSON).
+        # Its BYTES differ from the canonical content bytes; the receipt must
+        # still attest to the artifact while the report attests to the content.
+        packetBytes = json.dumps(packet, indent=2).encode("utf-8")
         packetPath.write_bytes(packetBytes)
         assessmentRelative = packet["l4Resolution"]["humanReview"]["assessmentPath"]
         assessmentPath = root / assessmentRelative
         receipt = json.loads(assessmentPath.read_text(encoding="utf-8"))
-        assessmentBytes = canonicalJson(receipt)
+        assessmentBytes = json.dumps(receipt, indent=2).encode("utf-8")
         assessmentPath.write_bytes(assessmentBytes)
         decision = packet["decision"]
         proposed = {"decision": decision["value"]}
