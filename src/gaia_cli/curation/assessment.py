@@ -371,7 +371,9 @@ def assessCommand(args):
         if packetPath.stat().st_size > MAX_PACKET_BYTES:
             raise ValueError("Packet exceeds size limit")
         packet = json.loads(packetPath.read_text(encoding="utf-8"))
-        if not isinstance(packet, dict):
+        if not isinstance(packet, dict) or not re.fullmatch(
+            r"[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+", str(packet.get("candidateId", ""))
+        ):
             raise ValueError("Invalid candidate identity")
         from gaia_cli.prefill import safeCandidateSlug
         slug = safeCandidateSlug(packet.get("candidateId", ""))

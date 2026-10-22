@@ -85,12 +85,19 @@ def verifyPacketFreshness(packet, registryPath='.', fetcher=None) -> list[str]:
         if snapshot.get("contentSha256") != _canonical_digest(generics):
             errors.append("generic snapshot digest mismatch")
         if semantics is not None:
-            ids = {row["id"] for row in generics if isinstance(row, dict) and isinstance(row.get("id"), str)}
-            live_ids = {key for key, row in semantics.items() if "/" not in key}
-            expected_generics = [{"id": key, "name": semantics[key].get("name"), "kind": "generic"} for key in sorted(live_ids)]
-            # Compare exact canonical projection, not only identity membership.
-            if generics != expected_generics:
-                errors.append("generic snapshot is stale")
+            # Compare against the LIVE snapshot built by the same builder that
+            # produced the frozen one. Re-deriving the expectation from a
+            # different node-discovery rule yields false "stale" verdicts.
+            from gaia_cli.prefill import buildGenericSnapshot
+            live_snapshot = buildGenericSnapshot(registryPath)
+            if not live_snapshot:
+                errors.append("live generic catalog unavailable")
+            else:
+                live_generics = live_snapshot.get("generics")
+                if generics != live_generics:
+                    errors.append("generic snapshot is stale")
+                elif snapshot.get("contentSha256") != live_snapshot.get("contentSha256"):
+                    errors.append("generic snapshot digest mismatch")
             selected = {str(item.get("genericId")) for item in packet.get("mappingOptions", []) if isinstance(item, dict)}
             semantic_snapshot = snapshot.get("semanticGenerics")
             if not isinstance(semantic_snapshot, dict):

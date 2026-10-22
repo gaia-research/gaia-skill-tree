@@ -102,9 +102,12 @@ def test_default_processor_uses_real_prefill_path_with_frozen_source(tmp_path, m
     reg = tmp_path / "repo"
     (reg / "graph").mkdir(parents=True)
     (reg / "graph/embeddings.json").write_text("{}")
-    (reg / "registry/nodes").mkdir(parents=True)
+    # Canonical layout is registry/nodes/<type>/<id>.json.
+    (reg / "registry/nodes/basic").mkdir(parents=True)
     (reg / "registry/named").mkdir()  # Complete, explicitly empty named catalog.
-    (reg / "registry/nodes/generic.json").write_text(json.dumps({"id": "generic-skill", "name": "Generic Skill"}))
+    (reg / "registry/nodes/basic/generic-skill.json").write_text(
+        json.dumps({"id": "generic-skill", "name": "Generic Skill", "description": "A generic capability.",
+                    "type": "basic", "prerequisites": []}))
     candidates = [{"candidateId": f"owner/repo/skill-{i}", "namedIdentity": f"owner/skill-{i}",
                   "sourceUrl": f"https://github.com/owner/repo/blob/main/skills/{i}/SKILL.md"}
                  for i in range(count)]
