@@ -55,7 +55,7 @@ def _text(value: Any, limit: int = _TEXT_LIMIT) -> str:
     return scrub(value)[:limit] if isinstance(value, str) else ""
 
 
-def _digest(manifest: Mapping[str, Any]) -> str:
+def observedDigest(manifest: Mapping[str, Any]) -> str:
     """Content digest of the manifest with its fetch time removed.
 
     ``censusFetchedAt`` changes on every collection even when no issue did;
@@ -64,6 +64,9 @@ def _digest(manifest: Mapping[str, Any]) -> str:
 
     stripped = {key: value for key, value in manifest.items() if key not in ("censusFetchedAt", "manifestSha256")}
     return hashlib.sha256(stable_json(stripped).encode("utf-8")).hexdigest()
+
+
+_digest = observedDigest
 
 
 def _hygienePolicy(root: Path) -> HygienePolicy:
@@ -84,7 +87,7 @@ def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any
 
     try:
         index = buildRegistryIndex(root)
-        probes = workflowProbesFor(root, census, hygiene)
+        probes = workflowProbesFor(census, hygiene)
         manifest = reconcile(census, index, hygiene, now, workflowDisabled=probes)
     except Exception as exc:  # noqa: BLE001 - any reconciliation failure is coverage unknown
         raise SensorUnavailable(f"issue reconciliation failed: {type(exc).__name__}") from exc
@@ -139,7 +142,7 @@ def _observedPlan(plan: Mapping[str, Any], manifest: Mapping[str, Any]) -> dict[
     its plans, so it is dropped here. ``reconciliationSha256`` keeps the rebuild byte-identical.
     """
 
-    observed = {key: value for key, value in plan.items() if key != "comment"}
+    observed = {key: value for key, value in plan.items() if key not in ("comment", "comments")}
     observed["reconciliationSha256"] = manifest["manifestSha256"]
     return observed
 
@@ -237,12 +240,19 @@ class IssueHygieneSensor:
         observations: list[Observation] = []
         for rule in sorted(rule for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule)):
             rows = [plan for plan in plans if plan["ruleId"] == rule]
+            if hygiene.writesEnabled:
+                observed = {"ruleId": rule, "count": len(rows), "plans": rows[:MAX_ITEMS_PER_DEBT],
+                            "truncated": len(rows) > MAX_ITEMS_PER_DEBT, "manifestDigest": digest,
+                            "writesEnabled": True}
+            else:
+                # Proven, but nothing is emit-able while writes are off: no plan is presented to the runner.
+                observed = {"ruleId": rule, "count": len(rows), "plans": [], "truncated": False,
+                            "manifestDigest": digest, "writesEnabled": False,
+                            "status": "ready (writes disabled)" if rows else "healthy"}
             observations.append(_observation(
                 kind="issue_closure_ready", subject=Subject(type="issue-rule", id=rule),
                 observed_at=observed_at, provenance=provenance,
-                status="drift" if rows else "healthy",
-                observed={"ruleId": rule, "count": len(rows), "plans": rows[:MAX_ITEMS_PER_DEBT],
-                          "truncated": len(rows) > MAX_ITEMS_PER_DEBT, "manifestDigest": digest},
+                status="drift" if rows else "healthy", observed=observed,
             ))
         for suite in sorted(suite_rows):
             rows = sorted(suite_rows[suite], key=lambda row: row["issue"])

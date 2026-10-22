@@ -139,6 +139,14 @@ def validateCensus(raw: Any, now: Any, maxAgeSeconds: int) -> CensusStatus:
         if fetched != expected or not isinstance(fetched, int):
             reasons.append(f"{section}-pages-mismatch:{fetched}/{expected}")
             level = INCOMPLETE
+        # itemCount is what the listing returned: "issues" counts every open row (pull requests included,
+        # as GitHub's issues endpoint lists them) and "pulls" counts the pull-request rows.
+        openRows = raw.get("issues") if isinstance(raw.get("issues"), list) else []
+        openRows = [row for row in openRows if isinstance(row, dict)]
+        wanted = len(openRows) if section == "issues" else sum(1 for row in openRows if row.get("isPullRequest"))
+        if info.get("itemCount") != wanted:
+            reasons.append(f"{section}-item-count-mismatch:{info.get('itemCount')}/{wanted}")
+            level = INCOMPLETE
 
     for field in ("issues", "recentlyClosed"):
         value = raw.get(field, [])

@@ -115,7 +115,7 @@ def test_endless_next_links_hit_the_page_cap_and_are_incomplete() -> None:
         return Response(200, {"link": f'<{url}&page={len(calls) + 1}>; rel="next"'}, json.dumps([fakeRow(len(calls))]))
 
     doc = collectCensus(REPO, NOW, fetch)
-    assert len(calls) == MAX_PAGES
+    assert len([call for call in calls if "state=open" in call]) == MAX_PAGES
     assert doc["completeness"]["issues"]["complete"] is False
     assert doc["completeness"]["issues"]["reason"].startswith("page-cap-exceeded")
 
@@ -170,7 +170,9 @@ def test_an_open_issue_shifted_past_a_page_boundary_by_a_concurrent_close_is_not
     stillOpen = {number for number, row in gh.issues.items() if row["state"] == "open"}
     assert stillOpen <= present or doc["completeness"]["issues"]["complete"] is False
     assert doc["completeness"]["issues"]["complete"] is False
-    assert doc["completeness"]["issues"]["reason"] == "mutated-during-walk"
+    # The shrunken listing is caught by whichever check runs first: the first walk ends short of its
+    # promised last page, or the confirming walk differs. Both are fail-closed.
+    assert doc["completeness"]["issues"]["reason"] in ("mutated-during-walk", "pagination-short:2/3")
 
 
 def test_a_close_on_a_later_already_served_page_is_detected_by_the_confirming_walk() -> None:

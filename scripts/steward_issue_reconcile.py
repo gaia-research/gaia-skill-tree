@@ -22,6 +22,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -31,6 +32,7 @@ import yaml
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.closure import (
     ForgeBlockedError,
+    ForgeIdentityError,
     ForgeItemError,
     executeClosures,
     planClosures,
@@ -45,6 +47,7 @@ DEFAULT_CENSUS = Path(".gaia/steward/inputs/github-issues.json")
 DEFAULT_POLICY = Path("founder/steward/POLICY.yaml")
 GITHUB_API = "https://api.github.com"
 EXIT_OK = 0
+PLAN_CEILING = 1_000_000
 EXIT_USAGE = 2
 EXIT_REFUSED = 3
 PAGE_SIZE = 100
@@ -77,7 +80,8 @@ class GhForge:
         self.token = token
         self.transport = transport or urllibTransport
 
-    def call(self, method: str, path: str, payload: dict | None = None) -> tuple[dict, Any]:
+    def call(self, method: str, path: str, payload: dict | None = None, scoped: bool = True) -> tuple[dict, Any]:
+        """One REST call. Anything but a 2xx answer is an error; an unfollowed 3xx is never success (M1)."""
         headers = {
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
@@ -88,19 +92,47 @@ class GhForge:
         if payload is not None:
             headers["Content-Type"] = "application/json"
             body = json.dumps(payload).encode("utf-8")
-        status, responseHeaders, text = self.transport(method, f"{GITHUB_API}/repos/{self.repo}{path}", headers, body)
+        url = f"{GITHUB_API}/repos/{self.repo}{path}" if scoped else f"{GITHUB_API}{path}"
+        status, responseHeaders, text = self.transport(method, url, headers, body)
         if status in (401, 403, 429):
             raise ForgeBlockedError(f"http-{status}")
-        if status >= 400:
-            raise ForgeItemError(f"http-{status}")
-        return responseHeaders, (json.loads(text) if text else None)
+        if not 200 <= status < 300:
+            suffix = " unfollowed-redirect" if 300 <= status < 400 else ""
+            raise ForgeItemError(f"http-{status}{suffix}")
+        try:
+            return responseHeaders, (json.loads(text) if text else None)
+        except ValueError as exc:
+            raise ForgeItemError("unparsable-response") from exc
+
+    def whoami(self) -> str:
+        """The login our comments are written as. Raises when it cannot be read."""
+        _, data = self.call("GET", "/user", scoped=False)
+        login = data.get("login") if isinstance(data, dict) else None
+        if not isinstance(login, str) or not login.strip():
+            raise ForgeItemError("whoami: no login")
+        return login
 
     def getIssue(self, number: int) -> dict:
-        headers, data = self.call("GET", f"/issues/{number}")
-        if not isinstance(data, dict) or "pull_request" in data:
+        """The live issue, with the identity fields the closure checks. Locked, renumbered, transferred or a
+        pull request raise ForgeIdentityError: the plan names a different thing, so nothing may be written."""
+        _, data = self.call("GET", f"/issues/{number}")
+        if not isinstance(data, dict):
             raise ForgeItemError("not-an-issue")
+        if "pull_request" in data:
+            raise ForgeIdentityError("row is a pull request")
+        if data.get("number") != number:
+            raise ForgeIdentityError(f"live number {data.get('number')} is not {number}")
+        htmlUrl = data.get("html_url") if isinstance(data.get("html_url"), str) else ""
+        expected = f"https://github.com/{self.repo}/issues/{number}"
+        if htmlUrl.split("#", 1)[0].rstrip("/").lower() != expected.lower():
+            raise ForgeIdentityError("issue is no longer at the expected repository (transferred)")
+        if data.get("locked") is True:
+            raise ForgeIdentityError("issue is locked")
         return {
             "number": number,
+            "nodeId": data.get("node_id"),
+            "htmlUrl": htmlUrl,
+            "locked": False,
             "title": data.get("title"),
             "state": data.get("state"),
             "stateReason": data.get("state_reason"),
@@ -114,7 +146,11 @@ class GhForge:
         for page in range(1, MAX_COMMENT_PAGES + 1):
             headers, data = self.call("GET", f"/issues/{number}/comments?per_page={PAGE_SIZE}&page={page}")
             rows = data if isinstance(data, list) else []
-            found += [{"body": row.get("body") or "", "url": row.get("html_url")} for row in rows if isinstance(row, dict)]
+            for row in rows:
+                if isinstance(row, dict):
+                    author = row.get("user") if isinstance(row.get("user"), dict) else {}
+                    found.append({"body": row.get("body") or "", "url": row.get("html_url"),
+                                  "author": author.get("login")})
             if len(rows) < PAGE_SIZE:
                 return found
         raise ForgeBlockedError("comment-pagination-cap")
@@ -124,7 +160,10 @@ class GhForge:
         return data.get("html_url") if isinstance(data, dict) else None
 
     def closeIssue(self, number: int, stateReason: str, duplicateOf: int | None = None) -> None:
-        self.call("PATCH", f"/issues/{number}", {"state": "closed", "state_reason": stateReason})
+        """Close, then confirm from the response that the issue is closed with the reason we asked for (M1)."""
+        _, data = self.call("PATCH", f"/issues/{number}", {"state": "closed", "state_reason": stateReason})
+        if not isinstance(data, dict) or data.get("state") != "closed" or data.get("state_reason") != stateReason:
+            raise ForgeItemError("close-not-confirmed")
 
 
 def loadPolicy(root: Path, policyPath: Path | None) -> HygienePolicy:
@@ -185,7 +224,7 @@ def renderMatrix(manifest: dict) -> str:
     return "\n".join(lines)
 
 
-def renderSummary(manifest: dict, plannedClosures: int | None = None) -> str:
+def renderSummary(manifest: dict, plannedClosures: int | None = None, writesEnabled: bool = True) -> str:
     byFamily: dict[str, dict[str, int]] = {family: {"total": 0, "A": 0, "B": 0, "C": 0, "none": 0, "not-evaluated": 0} for family in FAMILIES}
     rules: dict[str, int] = {}
     for item in manifest["items"]:
@@ -221,8 +260,10 @@ def renderSummary(manifest: dict, plannedClosures: int | None = None) -> str:
             lines.append(f"  #{item['issue']} {item['kind']} {label}: {item['authority']} {item['state']}" + (f" ({item['ruleId']})" if item["ruleId"] else ""))
     lines += ["", f"batches: {len(manifest['batches'])} (B children {sum(batch['size'] for batch in manifest['batches'])})"]
     lines.append(f"founder questions: {len(manifest['founderQuestions'])}")
-    if plannedClosures is not None:
+    if plannedClosures is not None and writesEnabled:
         lines.append(f"closure plans: {plannedClosures}")
+    elif plannedClosures is not None:
+        lines.append(f"closure plans: 0 (issueHygiene.writesEnabled is false; {plannedClosures} proven closure(s) held as debt)")
     return "\n".join(lines)
 
 
@@ -240,6 +281,8 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--i-understand-writes", action="store_true", help="required with --apply-closures")
     parser.add_argument("--repo", default=None, help="owner/repo (default: the census repo)")
     parser.add_argument("--run-id", default=None, help="receipt run id (default: receipts file stem)")
+    parser.add_argument("--max-closures", type=int, default=None,
+                        help="pilot cap for this run (1 to the policy maxClosuresPerRun; default: the policy value)")
     return parser.parse_args(argv)
 
 
@@ -259,7 +302,7 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
 
     census = loadCensus(censusPath, now=now, maxAgeSeconds=policy.maxCensusAgeSeconds)
     registry = buildRegistryIndex(root)
-    probes = workflowProbesFor(root, census, policy)
+    probes = workflowProbesFor(census, policy)
     manifest = reconcile(census, registry, policy, now, workflowDisabled=probes)
 
     if args.out is not None:
@@ -269,9 +312,14 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
         args.matrix.parent.mkdir(parents=True, exist_ok=True)
         args.matrix.write_text(renderMatrix(manifest), encoding="utf-8")
 
-    plans = planClosures(manifest, policy) if args.apply_closures else None
+    # The explicit flags are the authority for this path, so planning here does not read writesEnabled.
+    # The policy's cap still bounds it, and --max-closures may only lower it (the pilot runs at most 5).
+    cap = policy.maxClosuresPerRun if args.max_closures is None else max(1, min(args.max_closures, policy.maxClosuresPerRun))
+    planPolicy = replace(policy, writesEnabled=True, maxClosuresPerRun=cap)
+    plans = planClosures(manifest, planPolicy) if args.apply_closures else None
     if args.summary:
-        print(renderSummary(manifest, len(planClosures(manifest, policy))))
+        proven = len(planClosures(manifest, replace(policy, writesEnabled=True, maxClosuresPerRun=PLAN_CEILING)))
+        print(renderSummary(manifest, proven, writesEnabled=policy.writesEnabled))
 
     if args.apply_closures:
         if manifest["censusStatus"] != "complete":

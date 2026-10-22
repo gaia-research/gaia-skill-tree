@@ -14,8 +14,10 @@ such as `addyosmani` vs `addy-osmani` are NOT resolved by exact ID and must not 
    (census, registry index, PR evidence, policy). It never writes. Writes are a separate step that
    re-reads live state and compares it with the manifest snapshot.
 2. **Fail closed.** Missing/truncated pages, auth failure, stale census (older than
-   `maxCensusAgeSeconds`), unreadable registry => the affected scope is `not-evaluated`, Class A is
-   blocked for the run, and the sensor reports `coverageUnknown`. A not-evaluated sensor is never healthy.
+   `maxCensusAgeSeconds`), an unreadable registry, or a missing `registry/named` directory => the affected
+   scope is `not-evaluated` and Class A is blocked for the run. A missing census file is `notEvaluated`
+   (SensorNotEvaluated): no closure is emitted. An incomplete or stale census is coverage unknown
+   (SensorUnavailable): no closure is emitted either. A not-evaluated sensor is never healthy.
 3. **Stale != resolved. Skip-child-gate != accepted. Similar title != same skill.**
 4. **No work is discarded to make a counter go down.** Closing is allowed only when the underlying
    work is proven preserved (registry record, merged PR, or a still-open canonical item that carries the
@@ -247,3 +249,79 @@ Realistic fixture: all four families trimmed from the live 2026-10-21 census (st
 ## 6. Rollout order
 dry-run manifest on live census -> watcher fix + dry-run proof (no recreation) -> pilot closure of a small
 eligible A batch (<=5) -> re-read/replay idempotency check -> expand in checkpointed batches of <=10.
+
+Status (lane B5, 2026-10-21): the shipped `issueHygiene.writesEnabled` is `false`. The pilot runs only through
+`scripts/steward_issue_reconcile.py --apply-closures --receipts PATH --i-understand-writes` with explicit flags.
+Test checkouts that exercise writes set `writesEnabled: true` explicitly.
+
+## 7. Lane B5 amendments (verifier blockers, binding)
+
+These amend §§3.1 to 3.6 and are implemented in the code they name.
+
+* **Census pagination (B1, §3.1).** GitHub omits `rel="last"` and `rel="next"` on the final page. The
+  collector counts linked pages only. The end of a listing is proven by a `last` link that matches the
+  pages fetched, or by an empty probe after a page with no `next` link. The probe is not a page. A linked
+  page that comes back empty fails closed (`empty-linked-page`). Fakes answer as GitHub does.
+* **Census shape (L8, §3.1).** `completeness.issues.itemCount` counts every open listing row, pull requests
+  included (as GitHub's issues endpoint lists them). `completeness.pulls.itemCount` counts the pull-request
+  rows. `validateCensus` checks both against the rows.
+* **Workflow listing (M6, §3.1, §3.4 A5).** The collector writes `workflows` (GitHub's workflow listing with
+  each state) as its own section. A failure there sets only `workflows.complete` to false and never fails the
+  issue census. A5 is proven only by a complete listing that reports the named workflow in a `disabled_*` state.
+  The checkout's workflow files are never trusted (`workflowProbesFor(census, policy)`).
+* **Closed window (L5).** `issueHygiene.closedWindowDays` from POLICY is the collector's default. An unreadable
+  policy refuses the collector with exit 2 and writes nothing.
+* **Sync evidence (B2, §3.4 A2).** A merged sync PR proves A2 only when its title parses, exactly, to the suite
+  and version: `[upstream sync] <owner>/<repo> -> <version>` (the arrow optional). Substrings never match
+  (`v1.2` is not `v1.2.3`, `o/r` is not `o/r-fork`). The census carries no branch name or body for this check.
+* **Listed children (M5, §3.2).** A child counts as listed in a superseder only on a markdown list or checklist
+  item line (`- `, `* `, `- [ ] `, `- [x] `). Prose containing `+ slug` never lists a child.
+* **Contributor aliases (B3, §3.4 A4).** A4 requires the exact candidate id (owner and slug) and the same evidence
+  URL. A pair whose handles differ only by punctuation or case is alias-suspect: Class C, one question, never A.
+* **Registry status and identity (L2, L3, L4, §3.4 A1).** A `draft` or `deprecated` record is never A. A
+  declared `upstream.repo` that is not a non-empty string is never A. A missing `registry/named` directory is
+  unknown coverage, never an empty registry.
+* **v2 candidate rows (D4, §3.4 A2).** An umbrella with a `payloadVersion: 2` payload is A2 only when every
+  candidate row is resolved: status `present` or `rejected`, or a child intake already closed. An unresolved
+  `new` row, or a child the census does not hold, is Class B (`candidate-unresolved:<id>`).
+* **Executor gate (B4, §3.5, §3.6).** `scripts/steward_issue_close.py` refuses (exit 2, no forge built, no write)
+  unless writes are enabled, the rule is enabled, A5 names only listed workflows, the run is under
+  `maxClosuresPerRun`, the receipts store is not a symlink, the census is complete and fresh, and the
+  reconciled manifest reproduces the action's digest and still proves the same closure with the same comments.
+  The driver treats exit 2 as a non-retryable skip and checks `writesEnabled` before each closure.
+* **Emission with writes off (L6, §3.6).** With `writesEnabled: false`, a proven closure is reported as
+  `issue_closure_ready` debt with status `ready (writes disabled)` and no plan. The runner emits nothing.
+* **Proof of the closing comment (D3, §3.5).** A `closed` outcome carries exactly one proof: `commentUrl` that is a
+  GitHub comment URL naming this issue and repo (`https://github.com/<owner>/<repo>/issues/<n>#issuecomment-<id>`),
+  or `commentId`, or `markerVerified: true`. Two or more proofs are refused.
+* **Closing marker (M3, §3.5). Deviation, flagged for review.** A closing comment is ours only when it carries
+  the full marker and its author is the closer identity (`forge.whoami()`). The marker's digest is
+  `closureSha8`: eight hex digits over the closure decision (key, rule, issue, transition, evidence and the
+  preserved payload). It is not the manifest digest. The manifest digest includes the census fetch time and the
+  issue's `updatedAt`, and our own comment changes `updatedAt`. Keyed on the manifest digest, a crash followed by a
+  census refresh would post a second comment. A marker for another closure decision, a foreign author, or any
+  marker when the closer is unknown is not proof, and we post our own comment.
+* **Concurrency (M4, §3.5).** Each (key, issue) pair is serialized by an exclusive lock file under `receipts/.locks/`
+  (POSIX `fcntl`; the Steward runs on Linux). Under the lock the closer re-reads the receipts and the live issue. Two
+  closers produce one comment and one close.
+* **Identity (M2, §3.5).** A locked issue, a pull request, a renumbered issue, or one no longer at the expected
+  repository (transferred) is `blocked-identity`: nothing is written, and it is item-local (exit 1).
+* **Close confirmation (M1, §3.5).** Any non-2xx answer, and any unfollowed 3xx, is an error. A close counts only
+  when the response says `closed` with the requested `state_reason`. Otherwise no `closed` receipt is written.
+* **Preservation (M7, D9, §3.5).** The closing comments carry the full original candidate information: the body,
+  and for a v2 umbrella every `candidates[]` row. Titles and text are scrubbed of credential-shaped substrings and
+  the title is capped at 200 characters. Preserved text above 30,000 characters is split across marker-linked part
+  comments, each under 60,000 characters. The receipt records `preservedSha256` (over the preserved text) and
+  `preservedParts`.
+* **Diff tolerance (D7, §3.5).** `updatedAt` drift is ignored only when our own marker comment for this closure
+  explains it. Title, body, labels and state drift still stop the closure as `stale-skip`. A crash between the
+  comment and the close therefore completes on the same closure.
+* **Receipts and already-closed (L7, D13).** A pair the receipts file already records as done is skipped with no
+  forge call and no new receipt. An `already-closed` receipt is written only when a live re-read finds the issue
+  closed without our receipt (for example, a concurrent closer or a person).
+* **Sensor snapshot (§3.5).** The snapshot stores the title scrubbed and capped, with `titleSha256` for drift.
+* **Coverage checker (D12).** A forge action is live only when its literal is the kind argument of an `_addAction`
+  call site in `fullrun.py`.
+* **Residual, accepted.** Our closer identity comes from `GET /user`. A GitHub App or Actions token cannot read it,
+  so markers are never proof for it: a crash after our comment then posts a second comment before the close.
+  Closures still happen once. The census collector cannot detect a mutation that repeats identically in both walks.

@@ -417,14 +417,32 @@ def _forge_skill_errors(root: Path) -> list[str]:
 
 
 def _live_forge_actions(root: Path) -> dict[str, tuple[str, str]]:
-    """Forge actions whose literal the runner really emits; a catalog cannot name one that is not emitted."""
+    """Forge actions the runner really emits: the kind argument of an ``_addAction`` call site.
+
+    A literal that appears anywhere else (a docstring, a constant nothing emits) does not count.
+    The kind is read as a string literal or as a module-level string constant passed by name.
+    """
 
     try:
         tree = ast.parse((root / FORGE_SOURCE).read_text(encoding="utf-8"))
     except (OSError, SyntaxError):
         return {}
-    literals = {node.value for node in ast.walk(tree) if isinstance(node, ast.Constant) and isinstance(node.value, str)}
-    return {name: value for name, value in FORGE_ACTIONS.items() if name in literals}
+    constants: dict[str, str] = {}
+    for node in tree.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)):
+            constants[node.targets[0].id] = node.value.value
+    emitted: set[str] = set()
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "_addAction" and len(node.args) >= 3):
+            continue
+        kind = node.args[2]
+        if isinstance(kind, ast.Constant) and isinstance(kind.value, str):
+            emitted.add(kind.value)
+        elif isinstance(kind, ast.Name) and kind.id in constants:
+            emitted.add(constants[kind.id])
+    return {name: value for name, value in FORGE_ACTIONS.items() if name in emitted}
 
 
 OPTIONAL_BINDING_FIELDS = {"forgeAction"}

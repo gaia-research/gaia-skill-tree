@@ -27,8 +27,9 @@ from gaia_cli.steward.issuehygiene.closure import resumeState
 STORE = Path(".gaia/steward/issue-hygiene/outcomes.json")
 RECEIPTDIR = Path(".gaia/steward/issue-hygiene/receipts")
 STORESCHEMA = "steward-issue-closure-outcomes-v1"
-OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked")
+OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked", "blocked-identity")
 TERMINALOUTCOMES = frozenset({"closed", "already-closed"})
+RETRYABLE = frozenset({"failed", "blocked", "blocked-identity"})
 RETRYLIMIT = 3
 
 
@@ -95,7 +96,7 @@ def donePairs(root: Path) -> frozenset[tuple[str, int]]:
 
 def failedAttempts(entries: Mapping[str, Mapping[str, Any]], key: str, issue: int) -> int:
     entry = entries.get(pairKey(key, issue)) or {}
-    return int(entry.get("attempts", 0)) if entry.get("outcome") in {"failed", "blocked"} else 0
+    return int(entry.get("attempts", 0)) if entry.get("outcome") in RETRYABLE else 0
 
 
 def writeOutcome(root: Path, key: str, issue: int, entry: Mapping[str, Any]) -> str:
@@ -114,7 +115,7 @@ def writeOutcome(root: Path, key: str, issue: int, entry: Mapping[str, Any]) -> 
     stored = dict(entry)
     stored["key"] = key
     stored["issue"] = issue
-    stored["attempts"] = failedAttempts(entries, key, issue) + 1 if stored.get("outcome") in {"failed", "blocked"} else 0
+    stored["attempts"] = failedAttempts(entries, key, issue) + 1 if stored.get("outcome") in RETRYABLE else 0
     entries[name] = stored
     document = {"schemaVersion": STORESCHEMA, "entries": {k: entries[k] for k in sorted(entries)}}
     path.parent.mkdir(parents=True, exist_ok=True)

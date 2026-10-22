@@ -31,7 +31,7 @@ class SilentForge(FakeForge):
 
     def addComment(self, number: int, body: str):
         self.calls.append(("comment", number))
-        self.comments.setdefault(number, []).append({"body": body, "url": None})
+        self.comments.setdefault(number, []).append({"body": body, "url": None, "author": self.login})
         return None
 
 
@@ -62,9 +62,9 @@ def test_forge_url_closure_is_recorded_with_its_proof(tmp_path: Path) -> None:
     forge = FakeForge({10: liveOf(scenarioRow(10))})
     receipt = executeClosure(planFor(manifest), forge, tmp_path / "r.jsonl", NOW, "run-1")
     assert receipt["outcome"] == "closed"
-    assert receipt["commentUrl"].startswith("https://github.test/10/comment/")
-    assert receipt["commentId"] is None and receipt["markerVerified"] is False
-    assert closureProven(receipt)
+    assert receipt["commentUrl"].startswith("https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-")
+    assert receipt["commentId"] == int(receipt["commentUrl"].rsplit("-", 1)[1]) and receipt["markerVerified"] is False
+    assert closureProven({"outcome": "closed", "commentUrl": receipt["commentUrl"]}, 10, "gaia-research/gaia-skill-tree")
 
 
 def test_url_less_comment_is_verified_by_rereading_the_marker_before_closing(tmp_path: Path) -> None:
@@ -90,7 +90,7 @@ def test_unverifiable_comment_leaves_the_issue_open(tmp_path: Path) -> None:
 def test_resumed_marker_without_url_still_counts_as_proof(tmp_path: Path) -> None:
     manifest, _ = a1Scenario(tmp_path)
     plan = planFor(manifest)
-    marker = {"body": plan["comment"], "url": None}
+    marker = {"body": plan["comment"], "url": None, "author": "steward-bot"}
     forge = FakeForge({10: liveOf(scenarioRow(10))}, comments={10: [marker]})
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "run-1")
     assert receipt["outcome"] == "closed"
@@ -101,12 +101,23 @@ def test_resumed_marker_without_url_still_counts_as_proof(tmp_path: Path) -> Non
 @pytest.mark.parametrize("outcome, proven", [
     ({"outcome": "closed"}, False),
     ({"outcome": "closed", "commentUrl": "  "}, False),
-    ({"outcome": "closed", "commentUrl": "https://example.invalid/c"}, True),
+    ({"outcome": "closed", "commentUrl": "https://example.invalid/c"}, False),
+    ({"outcome": "closed", "commentUrl": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-5"}, True),
+    ({"outcome": "closed", "commentUrl": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-5",
+      "commentId": 5}, False),
+    ({"outcome": "closed", "commentUrl": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-5",
+      "markerVerified": True}, False),
     ({"outcome": "closed", "commentId": 5}, True),
     ({"outcome": "closed", "commentId": True}, False),
     ({"outcome": "closed", "commentId": 0}, False),
     ({"outcome": "closed", "markerVerified": True}, True),
     ({"outcome": "closed", "markerVerified": "yes"}, False),
 ])
-def test_closed_outcome_proof_accepts_one_of_url_id_or_marker(outcome: dict, proven: bool) -> None:
+def test_closed_outcome_proof_accepts_exactly_one_of_url_id_or_marker(outcome: dict, proven: bool) -> None:
     assert closureProven(outcome) is proven
+
+
+def test_a_proof_naming_another_issue_or_repo_is_refused() -> None:
+    url = "https://github.com/gaia-research/gaia-skill-tree/issues/11#issuecomment-5"
+    assert not closureProven({"outcome": "closed", "commentUrl": url}, 10, "gaia-research/gaia-skill-tree")
+    assert not closureProven({"outcome": "closed", "commentUrl": url.replace("gaia-research", "other")}, 11, "gaia-research/gaia-skill-tree")

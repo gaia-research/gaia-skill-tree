@@ -676,7 +676,9 @@ issueHygiene:
   maxClosuresPerRun: 10
   maxCensusAgeSeconds: 21600
   closedWindowDays: 30
-  writesEnabled: true
+  # Rollout (contract section 6): dry-run first. Pilot closures run only through
+  # scripts/steward_issue_reconcile.py --apply-closures with explicit flags, never via this policy.
+  writesEnabled: false
   enabledRules:
     - A1-child-curated
     - A2-umbrella-synced

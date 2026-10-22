@@ -43,11 +43,13 @@ def test_gh_forge_fails_closed_without_token():
 
 def test_gh_forge_get_issue_normalizes_and_sends_bearer_token():
     transport = FakeTransport([jsonResponse(200, {
+        "number": 10, "node_id": "I_kw1", "locked": False, "html_url": "https://github.com/owner/repo/issues/10",
         "title": "[intake] x", "state": "open", "state_reason": None, "updated_at": "2026-10-21T10:00:00Z",
         "body": "hello", "labels": [{"name": "upstream:child"}],
     })])
     live = GhForge("owner/repo", TOKEN, transport).getIssue(10)
-    assert live == {"number": 10, "title": "[intake] x", "state": "open", "stateReason": None,
+    assert live == {"number": 10, "nodeId": "I_kw1", "htmlUrl": "https://github.com/owner/repo/issues/10",
+                    "locked": False, "title": "[intake] x", "state": "open", "stateReason": None,
                     "updatedAt": "2026-10-21T10:00:00Z", "body": "hello", "labels": ["upstream:child"]}
     method, url, headers, _body = transport.requests[0]
     assert method == "GET" and url == "https://api.github.com/repos/owner/repo/issues/10"
@@ -80,12 +82,13 @@ def test_gh_forge_lists_all_comment_pages():
     transport = FakeTransport([jsonResponse(200, first), jsonResponse(200, second)])
     comments = GhForge("o/r", TOKEN, transport).listComments(9)
     assert len(comments) == 101
-    assert comments[-1] == {"body": "last", "url": "ulast"}
+    assert comments[-1] == {"body": "last", "url": "ulast", "author": None}
     assert "page=2" in transport.requests[1][1]
 
 
 def test_gh_forge_close_sends_state_reason_and_comment_returns_url():
-    transport = FakeTransport([jsonResponse(201, {"html_url": "https://github.com/o/r/issues/3#c1"}), jsonResponse(200, {})])
+    transport = FakeTransport([jsonResponse(201, {"html_url": "https://github.com/o/r/issues/3#c1"}),
+                               jsonResponse(200, {"state": "closed", "state_reason": "not_planned"})])
     forge = GhForge("o/r", TOKEN, transport)
     assert forge.addComment(3, "body") == "https://github.com/o/r/issues/3#c1"
     forge.closeIssue(3, "not_planned")

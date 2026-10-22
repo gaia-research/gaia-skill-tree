@@ -11,6 +11,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     RECEIPT_SCHEMA,
     appendReceipt,
     buildClosureComment,
+    closureSha8,
     closureCommentFor,
     closureProven,
     commentIdFromUrl,
@@ -40,14 +41,26 @@ from tests.steward.issuehygiene.test_b_reconcile import (
 )
 
 
+def registryIndex(tmp_path: Path):
+    """A checkout always has ``registry/named``; a missing directory is unknown coverage (L4)."""
+    (tmp_path / "registry" / "named").mkdir(parents=True, exist_ok=True)
+    return buildRegistryIndex(tmp_path)
+
+
 class FakeForge:
     """Records every call. ``failures`` maps (method, issue) to an exception to raise once."""
 
-    def __init__(self, issues: dict, comments: dict | None = None, failures: dict | None = None):
+    def __init__(self, issues: dict, comments: dict | None = None, failures: dict | None = None, login: str | None = "steward-bot"):
         self.issues = {number: dict(value) for number, value in issues.items()}
         self.comments = {number: list(value) for number, value in (comments or {}).items()}
         self.failures = dict(failures or {})
+        self.login = login
         self.calls: list[tuple] = []
+
+    def whoami(self) -> str:
+        if self.login is None:
+            raise ForgeItemError("whoami: no login")
+        return self.login
 
     def _maybeFail(self, method: str, number: int) -> None:
         exc = self.failures.pop((method, number), None)
@@ -66,8 +79,8 @@ class FakeForge:
     def addComment(self, number: int, body: str):
         self.calls.append(("comment", number))
         self._maybeFail("comment", number)
-        url = f"https://github.test/{number}/comment/{len(self.comments.get(number, [])) + 1}"
-        self.comments.setdefault(number, []).append({"body": body, "url": url})
+        url = f"https://github.com/gaia-research/gaia-skill-tree/issues/{number}#issuecomment-{number * 100 + len(self.comments.get(number, [])) + 1}"
+        self.comments.setdefault(number, []).append({"body": body, "url": url, "author": self.login})
         return url
 
     def closeIssue(self, number: int, stateReason: str, duplicateOf: int | None = None) -> None:
@@ -92,7 +105,7 @@ def a1Scenario(tmp_path: Path, policy=None):
     child = childRow(10, "obra/writing-skills", BLOB)
     writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=BLOB))
     census = censusOf([umbrella, child])
-    manifest = reconcile(census, buildRegistryIndex(tmp_path), policy or policyFor(), NOW)
+    manifest = reconcile(census, registryIndex(tmp_path), policy or policyFor(), NOW)
     return manifest, census
 
 
@@ -107,7 +120,7 @@ def twoPlanScenario(tmp_path: Path):
     writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=BLOB))
     writeNamed(tmp_path, "obra/other-skill", skill("obra/other-skill", github=second))
     census = censusOf(rows)
-    return reconcile(census, buildRegistryIndex(tmp_path), policyFor(), NOW)
+    return reconcile(census, registryIndex(tmp_path), policyFor(), NOW)
 
 
 def planFor(manifest: dict, policy=None) -> dict:
@@ -119,7 +132,7 @@ def planFor(manifest: dict, policy=None) -> dict:
 def test_ref_split_ambiguous_child_gets_no_closure_plan(tmp_path: Path):
     rows = [umbrellaRow(20, "obra/superpowers", "v7.0.0"), childRow(10, "obra/writing-skills", SLASH_BRANCH)]
     writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=SLASH_AT_MAIN))
-    manifest = reconcile(censusOf(rows), buildRegistryIndex(tmp_path), policyFor(), NOW)
+    manifest = reconcile(censusOf(rows), registryIndex(tmp_path), policyFor(), NOW)
     assert item(manifest, 10)["authority"] == "B"
     assert planClosures(manifest, policyFor()) == []
 
@@ -140,10 +153,10 @@ def test_no_plans_when_writes_disabled(tmp_path: Path):
 def test_no_plans_when_census_incomplete_or_stale(tmp_path: Path):
     writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=BLOB))
     census = censusOf([umbrellaRow(20, "obra/superpowers", "v7.0.0"), childRow(10, "obra/writing-skills", BLOB)], complete=False)
-    manifest = reconcile(census, buildRegistryIndex(tmp_path), policyFor(), NOW)
+    manifest = reconcile(census, registryIndex(tmp_path), policyFor(), NOW)
     assert planClosures(manifest, policyFor()) == []
     stale = censusOf([childRow(10, "obra/writing-skills", BLOB)], fetchedAt="2026-09-01T00:00:00Z")
-    stale_manifest = reconcile(stale, buildRegistryIndex(tmp_path), policyFor(), NOW)
+    stale_manifest = reconcile(stale, registryIndex(tmp_path), policyFor(), NOW)
     assert planClosures(stale_manifest, policyFor()) == []
 
 
@@ -161,7 +174,7 @@ def test_cap_is_respected(tmp_path: Path):
 
 
 def test_a4_plan_names_its_canonical_as_duplicate_of(tmp_path: Path):
-    manifest = reconcile(censusOf(dupRows()), buildRegistryIndex(tmp_path), policyFor(), NOW)
+    manifest = reconcile(censusOf(dupRows()), registryIndex(tmp_path), policyFor(), NOW)
     plans = planClosures(manifest, policyFor())
     assert [(plan["issue"], plan["duplicateOf"]) for plan in plans] == [(51, 50)]
 
@@ -170,7 +183,7 @@ def test_comment_carries_marker_rule_proof_and_original_payload(tmp_path: Path):
     manifest, _ = a1Scenario(tmp_path)
     child = item(manifest, 10)
     body = buildClosureComment(child, manifest)
-    sha8 = manifest["manifestSha256"][:8]
+    sha8 = closureSha8(child)
     assert body.startswith(f"<!-- gaia-steward-closure:{child['key']}:{sha8} -->")
     assert "A1-child-curated" in body
     assert "links to the same repo and file as the evidence URL (git ref may differ)" in body
@@ -236,22 +249,24 @@ def test_crash_resume_skips_comment_when_marker_exists_and_only_closes(tmp_path:
     manifest, _ = a1Scenario(tmp_path)
     plan = planFor(manifest)
     live = liveOf(scenarioRow(10))
-    marker = {"body": plan["comment"], "url": "https://github.test/10/comment/prior"}
+    marker = {"body": plan["comment"], "url": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-1001",
+              "author": "steward-bot"}
     forge = FakeForge({10: live}, comments={10: [marker]})
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW)
     assert receipt["outcome"] == "closed"
-    assert receipt["commentUrl"] == "https://github.test/10/comment/prior"
+    assert receipt["commentUrl"] == marker["url"]
     assert [call[0] for call in forge.writes()] == ["close"]
 
 
-def test_marker_from_an_earlier_manifest_still_counts_as_our_comment(tmp_path: Path):
+def test_marker_from_an_earlier_manifest_is_not_proof_and_we_post_our_own(tmp_path: Path):
     manifest, _ = a1Scenario(tmp_path)
     plan = planFor(manifest)
-    earlier = {"body": f"<!-- gaia-steward-closure:{plan['key']}:00000000 -->\nold", "url": "https://github.test/10/old"}
+    earlier = {"body": f"<!-- gaia-steward-closure:{plan['key']}:00000000 -->\nold",
+               "url": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-900", "author": "steward-bot"}
     forge = FakeForge({10: liveOf(scenarioRow(10))}, comments={10: [earlier]})
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW)
     assert receipt["outcome"] == "closed"
-    assert [call[0] for call in forge.writes()] == ["close"]
+    assert [call[0] for call in forge.writes()] == ["comment", "close"]
 
 
 def test_item_local_failure_is_recorded_and_batch_continues(tmp_path: Path):
@@ -335,7 +350,7 @@ def test_refuses_plans_that_are_not_authority_a(tmp_path: Path):
 
 
 def test_duplicate_closure_passes_duplicate_of_to_forge(tmp_path: Path):
-    manifest = reconcile(censusOf(dupRows()), buildRegistryIndex(tmp_path), policyFor(), NOW)
+    manifest = reconcile(censusOf(dupRows()), registryIndex(tmp_path), policyFor(), NOW)
     plan = planClosures(manifest, policyFor())[0]
     rows = {row["number"]: row for row in dupRows()}
     forge = FakeForge({51: liveOf(rows[51])})
@@ -345,7 +360,7 @@ def test_duplicate_closure_passes_duplicate_of_to_forge(tmp_path: Path):
 
 
 def test_superseded_umbrella_plan_closes_not_planned(tmp_path: Path):
-    manifest = reconcile(censusOf(supersedeRows()), buildRegistryIndex(tmp_path), policyFor(), NOW)
+    manifest = reconcile(censusOf(supersedeRows()), registryIndex(tmp_path), policyFor(), NOW)
     plans = planClosures(manifest, policyFor())
     assert [plan["issue"] for plan in plans] == [30]
     rows = {row["number"]: row for row in supersedeRows()}

@@ -19,10 +19,9 @@ import re
 from pathlib import Path
 from typing import Any, Mapping
 
-import yaml
-
 from gaia_cli.steward.issuehygiene.census import COMPLETE, Census, validateCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
+from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.issuehygiene.identity import Graph, Identity, buildGraph, classify, compareVersions, labelNames
 from gaia_cli.steward.issuehygiene.registryindex import (
     GithubRef,
@@ -68,7 +67,16 @@ RULE_STATE = {RULE_A1: STATE_RESOLVED, RULE_A2: STATE_RESOLVED, RULE_A3: STATE_S
 ORPHAN_REASONS = frozenset({"no-parent-reference", "parent-closed", "parent-not-open", "parent-not-umbrella"})
 SUITE_PREFIX = "upstream-suite:"
 MISMATCH_PREFIX = "title-payload-suite-mismatch:"
-PAYLOAD_LIST_RE = re.compile(r"(?:^|[\s`])\+\s*([A-Za-z][A-Za-z0-9._-]*)", re.MULTILINE)
+# A child is listed only by a markdown list or checklist item line: "- ", "* ", "- [ ] " or "- [x] ".
+LIST_ITEM_RE = re.compile(
+    r"^[ \t]{0,3}[-*](?:[ \t]+\[[ xX]\])?[ \t]+`?(?:\+[ \t]+)?([A-Za-z][A-Za-z0-9._-]*)`?(?=$|[\s:(,.;])",
+    re.MULTILINE,
+)
+# "[upstream sync] <owner>/<repo> -> <version>" (the workflow form), with the arrow optional for older titles.
+SYNC_TITLE_RE = re.compile(
+    r"\[upstream sync\][ \t]+([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)[ \t]+(?:(?:->|\u2192)[ \t]+)?([A-Za-z0-9][A-Za-z0-9._+-]*)",
+)
+TITLE_CAP = 200
 WORKFLOW_REF_RE = re.compile(r"\.github/workflows/([A-Za-z0-9._-]+\.(?:md|ya?ml))")
 SECURITY_RE = re.compile(r"\bsecurity\b|\bthreat\b|prompt injection|secret leak", re.IGNORECASE)
 GH_AW_TRACKER = "detection runs"
@@ -108,52 +116,46 @@ def suiteRepo(suite: str | None) -> str | None:
     return suite[len(SUITE_PREFIX):] if suite.startswith(SUITE_PREFIX) else suite
 
 
-def isConstantFalse(value: Any) -> bool:
-    if value is False:
-        return True
-    return isinstance(value, str) and value.strip() in ("false", "${{ false }}", "${{false}}")
+def workflowProbesFor(census: Census, policy: HygienePolicy) -> dict[str, dict]:
+    """Decide the A5 workflow facts from the census workflow listing (GitHub API state), never the checkout.
 
-
-def probeWorkflow(root: Path, relPath: str) -> dict:
-    """Read one workflow file from the checkout and decide whether it provably cannot run.
-
-    Provable means every job carries a literal-false ``if:`` gate. Anything else, including
-    a missing file, is unproven. Read-only.
+    Each workflow file that policy or an open gh-aw report names gets one probe. ``proven`` is true only
+    when the complete census listing reports that exact file in a ``disabled_*`` state. A missing entry,
+    an incomplete listing or any other state is unproven. The checkout's workflow files are not read.
     """
-    result: dict[str, Any] = {"path": relPath, "sha256": None, "proven": False, "reasons": []}
-    if "/" in relPath or not relPath.endswith((".yml", ".yaml")):
-        result["reasons"].append("not-a-runnable-yaml-name")
-        return result
-    target = root / WORKFLOW_DIR / relPath
-    if not target.is_file():
-        result["reasons"].append("file-missing")
-        return result
-    raw = target.read_bytes()
-    result["sha256"] = hashlib.sha256(raw).hexdigest()
-    try:
-        data = yaml.safe_load(raw.decode("utf-8"))
-    except (UnicodeDecodeError, yaml.YAMLError):
-        result["reasons"].append("yaml-error")
-        return result
-    jobs = data.get("jobs") if isinstance(data, dict) else None
-    if not isinstance(jobs, dict) or not jobs:
-        result["reasons"].append("no-jobs")
-        return result
-    if all(isinstance(job, dict) and isConstantFalse(job.get("if")) for job in jobs.values()):
-        result["proven"] = True
-        result["reasons"].append("every-job-gated-false")
-    else:
-        result["reasons"].append("job-may-run")
-    return result
 
-
-def workflowProbesFor(root: Path, census: Census, policy: HygienePolicy) -> dict[str, dict]:
-    """Probe every workflow that policy or an open gh-aw report names, keyed by bare file name."""
     names = {entry.rsplit("/", 1)[-1] for entry in policy.a5Disabled}
     for row in census.openIssues():
         if isinstance(row.get("title"), str) and row["title"].startswith("[aw]"):
             names.update(workflowRunnables(row.get("body") or ""))
-    return {name: probeWorkflow(root, name) for name in sorted(names)}
+    section = census.document.get("workflows") if isinstance(census.document, dict) else None
+    complete = isinstance(section, dict) and section.get("complete") is True
+    states: dict[str, str] = {}
+    if complete:
+        prefix = WORKFLOW_DIR + "/"
+        for item in section.get("items") or []:
+            if not isinstance(item, dict) or not isinstance(item.get("path"), str) or not isinstance(item.get("state"), str):
+                continue
+            path = item["path"]
+            if path.startswith(prefix) and "/" not in path[len(prefix):]:
+                states[path[len(prefix):]] = item["state"]
+    probes: dict[str, dict] = {}
+    for name in sorted(names):
+        state = states.get(name) if complete else None
+        if not complete:
+            reasons = ["census-workflows-incomplete"]
+        elif name not in states:
+            reasons = ["workflow-not-in-census"]
+        else:
+            reasons = [f"census-state:{state}"]
+        probes[name] = {
+            "path": f"{WORKFLOW_DIR}/{name}",
+            "sha256": None,
+            "state": state,
+            "proven": state is not None and state.startswith("disabled_"),
+            "reasons": reasons,
+        }
+    return probes
 
 
 def workflowRunnables(body: str) -> list[str]:
@@ -206,31 +208,55 @@ class Context:
         self.graph: Graph | None = None
         self.closedSuite: dict[int, str] = {}
         self.mergedSyncs: list[dict] = []
+        self.closedNumbers: set[int] = set()
 
 
 def snapshot(row: dict) -> dict:
+    """The live fields a closure compares against. The title is stored scrubbed and capped; drift is judged on its sha256."""
+    title = row.get("title") if isinstance(row.get("title"), str) else ""
     return {
         "state": row.get("state"),
-        "title": row.get("title"),
+        "title": scrub(title)[:TITLE_CAP],
+        "titleSha256": sha256Text(title),
         "updatedAt": row.get("updatedAt"),
         "bodySha256": row.get("bodySha256"),
         "labels": sorted(labelNames(row)),
     }
 
 
+def scrubbedJson(value: Any) -> Any:
+    """The value with credential-shaped substrings replaced, as the JSON a closing comment will quote."""
+    return json.loads(scrub(json.dumps(value, sort_keys=True, ensure_ascii=False)))
+
+
 def original(identity: Identity, row: dict) -> dict:
+    """What a closure must preserve: title, labels, body digest and the full candidate information.
+
+    The candidate keeps the full original body and, for a v2 batch umbrella, every candidate row. Text
+    is scrubbed of credential-shaped substrings and the title is capped, so nothing secret is posted or stored.
+    """
+    body = row.get("body") if isinstance(row.get("body"), str) else ""
     candidate: dict[str, Any] = {}
     if identity.kind == "child":
-        candidate = {"suggestedId": identity.candidateId, "evidenceUrl": identity.evidenceUrl, "umbrella": identity.parent}
+        candidate = {"suggestedId": identity.candidateId, "evidenceUrl": identity.evidenceUrl,
+                     "umbrella": identity.parent, "body": body}
     elif identity.kind in ("umbrella", "bootstrap"):
+        payload = identity.payload or {}
         candidate = {
             "skillId": suiteRepo(identity.suite),
             "newVersion": identity.version,
-            "componentAdds": list((identity.payload or {}).get("componentAdds") or []),
+            "componentAdds": list(payload.get("componentAdds") or []),
+            "payloadVersion": payload.get("payloadVersion"),
+            "candidates": list(payload.get("candidates") or []) if payload.get("payloadVersion") == 2 else [],
+            "body": body,
         }
     elif identity.kind == "botreport":
-        candidate = {"titleHash": identity.titleHash}
-    return {"title": row.get("title"), "labels": sorted(labelNames(row)), "bodySha256": row.get("bodySha256"), "candidate": candidate}
+        candidate = {"titleHash": identity.titleHash, "body": body}
+    title = row.get("title") if isinstance(row.get("title"), str) else ""
+    preserved = scrubbedJson({"title": title, "labels": sorted(labelNames(row)), "bodySha256": row.get("bodySha256"),
+                              "candidate": candidate})
+    preserved["title"] = preserved["title"][:TITLE_CAP]
+    return preserved
 
 
 def addQuestion(ctx: Context, draft: Draft, text: str, options: tuple[str, ...], recommendation: str | None = None, basis: str = "no basis for an opinion", kind: str = "generic", urlEqual: bool = False) -> None:
@@ -315,10 +341,12 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
         draft.evidence.append(ev("registry", record.path, record.sha256, "exact suggested-id record"))
         if record.status is None:
             failures.append("registry-status-missing")
-        elif record.status == "draft":
-            failures.append("registry-draft")
+        elif record.status in ("draft", "deprecated"):
+            failures.append("registry-" + record.status)
         if record.contributor != owner:
             failures.append("contributor-handle-differs")
+        if record.upstreamRepoInvalid:
+            failures.append("registry-upstream-repo-invalid")
         if record.github is None:
             failures.append("registry-link-missing")
         elif evidenceRef is not None:
@@ -374,6 +402,30 @@ def evaluateChild(ctx: Context, draft: Draft) -> None:
     draft.state = STATE_ACTIONABLE
 
 
+def handleAliasDuplicate(ctx: Context, member: Draft, canonical: Draft) -> None:
+    """Same skill key under different contributor handles is never A4 (contract 3.2 and 3.4).
+
+    When the handles differ only by punctuation or case, the pair is alias-suspect: one Class C question.
+    Any other handle difference is simply not proven.
+    """
+    memberParts = splitId(member.identity.candidateId or "")
+    canonicalParts = splitId(canonical.identity.candidateId or "")
+    member.notProven.append("candidate-id-differs")
+    if memberParts is None or canonicalParts is None or memberParts[1] != canonicalParts[1]:
+        return
+    if normalizeHandle(memberParts[0]) != normalizeHandle(canonicalParts[0]):
+        return
+    text = (
+        f'The child intakes "{canonical.identity.candidateId}" and "{member.identity.candidateId}" differ only by '
+        "contributor handle punctuation or case. Are they the same skill? Rule on this handle pair."
+    )
+    addQuestion(ctx, member, text, ALIAS_OPTIONS, kind="alias", urlEqual=False)
+    member.state = STATE_AWAITING
+    member.authority = AUTH_C
+    member.forcedC = True
+    member.confidence = "medium"
+
+
 def resolveDuplicates(ctx: Context) -> None:
     for key, numbers in sorted(ctx.graph.duplicates.items()):
         members = [ctx.drafts[number] for number in numbers if number in ctx.drafts and ctx.drafts[number].kind == "child"]
@@ -387,6 +439,9 @@ def resolveDuplicates(ctx: Context) -> None:
                 continue
             if canonical.unknowns or canonicalClosable:
                 member.notProven.append("canonical-not-stable")
+                continue
+            if member.identity.candidateId != canonical.identity.candidateId:
+                handleAliasDuplicate(ctx, member, canonical)
                 continue
             evidenceMember = parseGithubUrl(member.identity.evidenceUrl)
             evidenceCanon = parseGithubUrl(canonical.identity.evidenceUrl)
@@ -403,12 +458,28 @@ def resolveDuplicates(ctx: Context) -> None:
 
 # ----------------------------------------------------------------- umbrellas and bootstrap
 
+def syncTokens(title: Any) -> tuple[str, str] | None:
+    """The ``(repoId, version)`` a sync PR title names, or None. The whole title must match, exactly."""
+    if not isinstance(title, str):
+        return None
+    match = SYNC_TITLE_RE.fullmatch(title.strip())
+    return (match.group(1), match.group(2)) if match else None
+
+
 def mergedSyncFor(ctx: Context, repoId: str, version: str) -> dict | None:
+    """A merged sync PR for exactly this suite and version. Substrings never match (v1.2 is not v1.2.3)."""
     for row in ctx.mergedSyncs:
-        title = row.get("title") if isinstance(row.get("title"), str) else ""
-        if title.startswith("[upstream sync]") and repoId in title and version in title:
+        if syncTokens(row.get("title")) == (repoId, version):
             return row
     return None
+
+
+def candidateResolved(ctx: Context, row: dict) -> bool:
+    """A v2 batch row is resolved when it is present or rejected, or when its child intake is closed (D4)."""
+    if row.get("status") in ("present", "rejected"):
+        return True
+    child = row.get("child")
+    return isinstance(child, int) and not isinstance(child, bool) and child in ctx.closedNumbers and child not in ctx.graph.items
 
 
 def evaluateUmbrella(ctx: Context, draft: Draft) -> None:
@@ -454,8 +525,15 @@ def evaluateUmbrella(ctx: Context, draft: Draft) -> None:
     for childNumber in draft.dependencies:
         if ctx.graph.items[childNumber].parent != draft.number:
             failures.append(f"listed-child-owned-elsewhere:{childNumber}")
+    payload = identity.payload if isinstance(identity.payload, dict) else None
+    if payload is not None and payload.get("payloadVersion") == 2:
+        rows = payload.get("candidates")
+        if not isinstance(rows, list) or not all(isinstance(row, dict) and isinstance(row.get("id"), str) for row in rows):
+            failures.append("candidates-malformed")
+        else:
+            failures.extend(f"candidate-unresolved:{row['id']}" for row in rows if not candidateResolved(ctx, row))
 
-    suiteRecords = [entry for entry in ctx.registry.unreadable if entry.pathId == repoId]
+    suiteRecords = ctx.registry.unreadableNear(repoId) if repoId else []
     if repoId and suiteRecords:
         draft.state = STATE_NOT_EVALUATED
         draft.unknowns.append("registry-unreadable:" + repoId)
@@ -513,7 +591,7 @@ def a3Ok(ctx: Context, draft: Draft, umbrellas: tuple[int, ...]) -> bool:
         missing = sorted(set(unresolved) - newerAdds)
         if missing:
             reasons.append("superseder-lacks-adds:" + ",".join(missing))
-    listed = set(PAYLOAD_LIST_RE.findall(newer.row.get("body") or ""))
+    listed = set(LIST_ITEM_RE.findall(newer.row.get("body") or ""))
     refs = set(newer.identity.childRefs)
     for child in children:
         if child.a1Ok:
@@ -719,6 +797,7 @@ def reconcile(
     rowsOpen = [row for row in census.openIssues() if isinstance(row.get("number"), int)] if document is not None else []
     rowsClosed = census.rows("recentlyClosed") if document is not None else []
     ctx = Context(census, registryIndex, policy, workflowDisabled)
+    ctx.closedNumbers = {row["number"] for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")}
     openPulls = census.openPulls() if document is not None else []
     ctx.graph = buildGraph(rowsOpen, rowsClosed, openPulls)
     ctx.mergedSyncs = [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None else []
@@ -815,9 +894,9 @@ __all__ = [
     "SCHEMA_VERSION",
     "WORKFLOW_DIR",
     "manifestDigest",
-    "probeWorkflow",
     "questionId",
     "reconcile",
+    "syncTokens",
     "workflowProbesFor",
     "workflowRunnables",
 ]

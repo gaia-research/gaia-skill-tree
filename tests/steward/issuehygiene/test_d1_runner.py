@@ -58,13 +58,18 @@ def outcomeFor(action: dict, result: str = "closed", **extra) -> dict:
     params = action["params"]
     body = {"outcome": result, "issue": params["issue"], "key": params["key"]}
     if result == "closed":
-        body["commentUrl"] = f"https://example.invalid/issues/{params['issue']}#closure"
+        # One GitHub-shaped comment URL on this issue and repo: exactly one proof (D3).
+        body["commentUrl"] = f"https://github.com/gaia-research/gaia-skill-tree/issues/{params['issue']}#issuecomment-{1000 + params['issue']}"
     body.update(extra)
     return body
 
 
 def runnerFor(tmp_path: Path, *extra_sensors, agents: bool = False):
     repo, _bare = makeFixture(tmp_path)
+    # The shipped policy is dry-run (B5). These runner tests exercise the writable path explicitly.
+    policyFile = repo / "founder/steward/POLICY.yaml"
+    policyFile.write_text(policyFile.read_text(encoding="utf-8").replace("writesEnabled: false", "writesEnabled: true", 1),
+                          encoding="utf-8")
     store = fileStore(tmp_path)
     sensors = [IssueHygieneSensor(), *extra_sensors]
     return repo, store, makeRunner(repo, store, sensors, agents=agents)
@@ -137,6 +142,8 @@ def test_repeat_record_is_a_noop_and_a_different_outcome_is_refused(tmp_path, mo
     {"outcome": "inherit"},
     {"outcome": "closed", "commentUrl": "https://example.invalid/c"},  # wrong issue or key below
     {"outcome": "closed"},  # no closing comment recorded
+    {"outcome": "closed", "commentUrl": "ISSUE_URL", "commentId": 5},  # two proofs: exactly one is required (D3)
+    {"outcome": "closed", "commentUrl": "ISSUE_URL", "markerVerified": True},  # two proofs (D3)
     {"outcome": "closed", "markerVerified": False},  # a false marker is not proof
     {"outcome": "closed", "commentId": True},  # a boolean is not a comment id
     {"outcome": "closed", "commentId": "4567"},  # a comment id is an integer
@@ -154,13 +161,15 @@ def test_invalid_outcomes_are_refused(tmp_path, monkeypatch, body) -> None:
     payload.setdefault("key", action["params"]["key"])
     if body.get("outcome") == "closed" and "commentUrl" in body:
         payload["issue"] = action["params"]["issue"] + 1
+    if payload.get("commentUrl") == "ISSUE_URL":
+        payload["commentUrl"] = f"https://github.com/gaia-research/gaia-skill-tree/issues/{action['params']['issue']}#issuecomment-7"
     with pytest.raises(RecordRefused):
         runner.record(view.runId, action["stepId"], payload)
     assert loadOutcomes(repo) == {}
 
 
 @pytest.mark.parametrize("proof", [
-    {"commentUrl": "https://example.invalid/issues/10#issuecomment-99"},
+    {"commentUrl": "ISSUE_URL"},
     {"commentId": 99},
     {"markerVerified": True},
 ])
@@ -171,6 +180,8 @@ def test_closed_outcome_is_accepted_with_any_one_proof(tmp_path, monkeypatch, pr
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     view = runner.start("full")
     (action,) = closeActions(view)
+    proof = {key: (f"https://github.com/gaia-research/gaia-skill-tree/issues/{action['params']['issue']}#issuecomment-99"
+                   if value == "ISSUE_URL" else value) for key, value in proof.items()}
     payload = {"outcome": "closed", "issue": action["params"]["issue"], "key": action["params"]["key"], **proof}
     runner.record(view.runId, action["stepId"], payload)
     entry = loadOutcomes(repo)[f"{action['params']['key']}#{action['params']['issue']}"]
