@@ -96,6 +96,8 @@ class Listing:
 
     rows: list[dict] = field(default_factory=list)
     pagesFetched: int = 0
+    # The row count of each linked page, in walk order. The watcher reads it to refuse a short page in the middle.
+    pageSizes: list[int] = field(default_factory=list)
     expectedPages: int | None = None
     lastLink: str | None = None
     reason: str | None = None
@@ -335,7 +337,7 @@ def numbersOf(rows: list) -> list:
 
 
 def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any], Any] | None = None,
-            expectedItems: int | None = None) -> Listing:
+            expectedItems: int | Callable[[], int | None] | None = None) -> Listing:
     """Follow the server's ``rel="next"`` links to the end. Never returns partial rows as complete.
 
     Each next request is the URL the server named, cursor included. Pages are never renumbered to reach
@@ -373,11 +375,14 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
             # GitHub keeps a ``next`` link on a full last page and names an empty page after it. That page is the end
             # only when the repository's own count (read before the walk) equals the rows already listed exactly. Any
             # other empty linked page is a false empty and fails closed.
-            if expectedItems is not None and expectedItems == len(listing.rows):
+            # The count is evaluated only here, so a walk that never meets this case reads no count.
+            expected = expectedItems() if callable(expectedItems) else expectedItems
+            if expected is not None and expected == len(listing.rows):
                 break
             return failListing(listing, "empty-linked-page", url)
         listing.rows.extend(page)
         listing.pagesFetched += 1
+        listing.pageSizes.append(len(page))
         listing.lastLinkHeader = headerValue(got.response.headers, "link")
         links = parseLinks(listing.lastLinkHeader)
         if not viaNext:
