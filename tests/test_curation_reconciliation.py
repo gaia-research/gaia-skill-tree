@@ -362,12 +362,25 @@ def test_packet_identity_resolves_by_one_rule_everywhere(registry):
     conflicting = {"namedIdentity": identity,
                    "l4Resolution": {"named": {"contributor": "someone-else", "skillName": "other"}}}
     assert packetNamedIdentity(conflicting) == identity
+
+    # A MAPPING-form top-level binding is an unsupported form and must not be
+    # able to assert an identity the consistency check does not compare.
+    mappingForm = {"namedIdentity": {"contributor": "forged", "slug": "spoofed"},
+                   "l4Resolution": {"named": {"contributor": "test-contributor", "skillName": "legit"}}}
+    assert packetNamedIdentity(mappingForm) is None
     conflictingPacket = packet(row)
     conflictingPacket["namedIdentity"] = identity
     conflictingPacket["l4Resolution"] = conflicting["l4Resolution"]
     result = reconcileInventory(frozen, [receipt(row, registry, packet_value=conflictingPacket)])
     assert result["decisions"][0]["outcome"] == "deferred"
     assert "identity" in result["decisions"][0]["reason"]
+
+    # The same attack in mapping form must be refused too.
+    mappingPacket = packet(row)
+    mappingPacket["namedIdentity"] = {"contributor": "forged", "slug": "spoofed"}
+    mappingResult = reconcileInventory(frozen, [receipt(row, registry, packet_value=mappingPacket)])
+    assert mappingResult["decisions"][0]["outcome"] == "deferred"
+    assert "identity" in mappingResult["decisions"][0]["reason"]
 
 
 def test_exact_duplicate_requires_different_surviving_target_and_source_proof(registry):

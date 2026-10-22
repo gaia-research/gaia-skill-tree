@@ -231,19 +231,19 @@ def test_forged_review_accounting_is_rejected(tmp_path):
     for key in ("packetDigest", "packetProposalSha256", "assessmentSha256"):
         stripped = copy.deepcopy(_reviewAccounting(row, tmp_path))
         stripped["reconciliation"]["decisions"][0].pop(key, None)
-        with pytest.raises(ValueError, match="mismatch|real assessment|invalid receipt|outcome disagrees"):
+        with pytest.raises(ValueError, match="mismatch|disagrees with the receipts|real assessment|invalid receipt|outcome disagrees"):
             buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=stripped,
                                assessments=assessments)
 
     missingAssessment = copy.deepcopy(_reviewAccounting(row, tmp_path))
     missingAssessment["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
-    with pytest.raises(ValueError, match="assessment digest mismatch"):
+    with pytest.raises(ValueError, match="assessment digest mismatch|disagrees with the receipts"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=missingAssessment,
                            assessments=assessments)
 
     noAssessmentAtAll = copy.deepcopy(_reviewAccounting(row, tmp_path))
     noAssessmentAtAll["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
-    with pytest.raises(ValueError, match="real assessment"):
+    with pytest.raises(ValueError, match="real assessment|disagrees with the receipts"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=noAssessmentAtAll,
                            assessments={})
 
@@ -291,7 +291,7 @@ def test_review_report_must_match_packet_decision_and_packet_digest(tmp_path):
 
     accounting = _reviewAccounting(row, tmp_path)
     accounting["reconciliation"]["decisions"][0]["packetDigest"] = "0" * 64
-    with pytest.raises(ValueError, match="packet digest mismatch"):
+    with pytest.raises(ValueError, match="packet digest mismatch|disagrees with the receipts"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                                 assessments={row["candidateId"]: ASSESSMENT})
 
@@ -318,13 +318,36 @@ def test_report_binds_assessment_digest_and_outside_top_k_mapping_is_allowed(tmp
     accounting = _reviewAccounting(row, tmp_path)
     assessment = ASSESSMENT
     accounting["reconciliation"]["decisions"][0]["assessmentSha256"] = _digest({"receipt": "wrong"})
-    with pytest.raises(ValueError, match="assessment digest mismatch|invalid receipt|outcome disagrees"):
+    with pytest.raises(ValueError, match="assessment digest mismatch|disagrees with the receipts|invalid receipt|outcome disagrees"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                            assessments={row["candidateId"]: assessment})
     accounting["reconciliation"]["decisions"][0]["assessmentSha256"] = _digest(assessment)
     payload = buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                                  assessments={row["candidateId"]: assessment})
     assert payload["inventory"][0]["generic"]["id"] == "outside-top-k"
+
+
+def test_forged_artifact_digest_claims_in_the_report_are_rejected(tmp_path):
+    """The report may not describe a different artifact than the receipts made.
+
+    Found by an independent runtime review: the payload builder compared the
+    content digests but not the artifact (file-bytes) digests, so a report could
+    claim an artifact digest that no receipt ever observed.
+    """
+    row = packet()
+    accounting = _reviewAccounting(row, tmp_path)
+    assessments = {row["candidateId"]: ASSESSMENT}
+
+    # Positive control: the genuine receipt-backed report binds.
+    assert buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
+                              assessments=assessments)
+
+    for field in ("packetArtifactSha256", "assessmentArtifactSha256"):
+        forged = copy.deepcopy(accounting)
+        forged["reconciliation"]["decisions"][0][field] = "0" * 64
+        with pytest.raises(ValueError, match="disagrees with the receipts"):
+            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=forged,
+                               assessments=assessments)
 
 
 def test_forged_reconciliation_report_is_rejected_against_genuine_receipts(tmp_path):

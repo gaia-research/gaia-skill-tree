@@ -166,18 +166,8 @@ def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Map
     )
 
 
-def packetNamedIdentity(packet: Mapping[str, Any]) -> str | None:
-    """Resolve the exact named identity a packet asserts.
-
-    ONE rule, used by reconciliation and by the authorization payload builder.
-    A packet may bind the identity explicitly (pre-L4 discovery) or carry it in
-    its l4Resolution (post-ratification). Two different rules previously made
-    the same packet look like two different identities to the two modules.
-    """
-    named = packet.get("namedIdentity")
-    if named is None:
-        resolution = packet.get("l4Resolution")
-        named = resolution.get("named") if isinstance(resolution, Mapping) else None
+def identityFromNamedBlock(named: Any) -> str | None:
+    """Resolve an identity from a named block (string or mapping form)."""
     if named is None:
         return None
     if isinstance(named, str):
@@ -186,13 +176,32 @@ def packetNamedIdentity(packet: Mapping[str, Any]) -> str | None:
         return None
     if named.get("namedIdentity") is not None:
         return named.get("namedIdentity")
-    # discovery-packet-v2's l4Resolution uses contributor/skillName for the
-    # exact contributor/slug identity.
     contributor = named.get("contributor")
     slug = named.get("slug") or named.get("skillSlug") or named.get("skillName")
     if contributor and slug:
         return f"{contributor}/{slug}"
     return None
+
+
+def packetNamedIdentity(packet: Mapping[str, Any]) -> str | None:
+    """Resolve the exact named identity a packet asserts.
+
+    ONE rule, used by reconciliation and by the authorization payload builder.
+    A packet may bind the identity explicitly (pre-L4 discovery) or carry it in
+    its l4Resolution (post-ratification). Two different rules previously made
+    the same packet look like two different identities to the two modules.
+    """
+    explicit = packet.get("namedIdentity")
+    if explicit is not None:
+        # The top-level binding is an EXACT identity string. Any other shape is
+        # an unsupported form: accepting it would let a packet assert an
+        # identity in a way the consistency check does not compare.
+        return explicit if isinstance(explicit, str) else None
+    resolution = packet.get("l4Resolution")
+    named = resolution.get("named") if isinstance(resolution, Mapping) else None
+    # discovery-packet-v2's l4Resolution uses contributor/skillName for the
+    # exact contributor/slug identity.
+    return identityFromNamedBlock(named)
 
 
 def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
@@ -208,8 +217,8 @@ def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
     explicit = packet.get("namedIdentity")
     resolution = packet.get("l4Resolution")
     resolved = resolution.get("named") if isinstance(resolution, Mapping) else None
-    if isinstance(explicit, str) and isinstance(resolved, Mapping):
-        resolvedIdentity = packetNamedIdentity({"namedIdentity": resolved})
+    if isinstance(explicit, str):
+        resolvedIdentity = identityFromNamedBlock(resolved)
         if resolvedIdentity and resolvedIdentity != explicit:
             return ["packet named identity is bound inconsistently"]
     if packet_identity != row["namedIdentity"]:

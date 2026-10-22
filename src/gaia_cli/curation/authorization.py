@@ -177,6 +177,13 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
                 raise ValueError(f"review accounting outcome disagrees with the receipts for {row['candidateId']}")
             if claimed.get("receiptValid") is not True or row.get("receiptValid") is not True:
                 raise ValueError(f"review accounting has an invalid receipt for {row['candidateId']}")
+            # The report's artifact claims must equal the recomputed ones: a
+            # report may not describe a different artifact than the receipts
+            # actually produced.
+            for field in ("packetArtifactSha256", "assessmentArtifactSha256",
+                          "packetDigest", "assessmentSha256", "packetProposalSha256"):
+                if claimed.get(field) != row.get(field):
+                    raise ValueError(f"review accounting {field} disagrees with the receipts for {row['candidateId']}")
         packetsById = {packet["candidateId"]: packet for packet in inventoryRows}
         frozenById = {row["candidateId"]: row for row in expected}
         outcomesById = {row["candidateId"]: row for row in outcomes}
