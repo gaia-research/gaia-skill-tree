@@ -1,167 +1,129 @@
-# Gaia curation remediation — verification report
+# Curation remediation — reconciliation receipt
 
-**Status: IN PROGRESS. Not a completion or merge approval.**
+**Base:** `origin/main` @ `e1a870579` (contains #2097, #2093, #2099, #2035).
+**Head:** `dev/curation-secure-reconciliation` (see `git rev-parse HEAD`).
+**Related:** #2088, PR #2089 (open, unmerged @ `32ecd0df7`), #2118, #2117, original architecture audit.
 
-Code under independent review: `3e0641e3e` on `dev/curation-secure-reconciliation`.
-The following record distinguishes verified results, diagnostic runs, and missing
-production ceremonies. Update it with final-SHA evidence before requesting merge.
+Two verdicts are reported separately and are **not** the same claim:
 
-## Scope and preserved governance
+- **Code-merge verdict: NOT READY — draft.** A scoped fail-closed safety repair
+  pending the targeted test repairs, the two bounded walkthroughs, and an
+  independent Luna runtime review. Main's paused `gaia curate` behavior is
+  preserved.
+- **Protected-flow activation verdict: NO-GO.** The production trusted-envelope
+  verifier intentionally rejects every request because an independently
+  authenticated, protected human L4 ceremony is not demonstrably available.
+  Locally authored `humanReview` metadata and unit-test mocks are **not**
+  approval authority, and neither curation lane may use them to authorize a
+  protected handoff or a canonical mutation.
 
-The remediation imports #2089's two CLI commits with `cherry-pick -x` attribution
-onto main `f77e4daf89992b2131ce628a1519ff859682c299`. That main already contains
-#2093 (`cddb09ce9b230dd0187ccebe091b88cab2d67b5b`). #2089 remains OPEN and its actual
-base is `dev/emilkowalski-intake-2026-10-13`, not main. No change to its status or
-target branch has been made.
+## 1. What is already on main (not contributed by this branch)
 
-This work implements pre-L4 discovery, shared candidate accounting, persistence,
-freshness, submission idempotency, and fail-closed authorization boundaries.
-It does not authorize real intake, registry mutation, evidence ingestion,
-calibration, deployment, or merge. Ordinary YAML/issue-form intake remains an
-**unreviewed proposal**, never trusted post-L4 approval.
+| Item | State on main | Disposition |
+|---|---|---|
+| #2093 lowercase contributor identity + collision protection | merged `cddb09ce` | **Preserved.** Branch keeps it; branch's identity work adds collision-resistant *filenames* on top. |
+| #2099 curation checkpoint reconciler (`gaia_cli/curationCheckpoint.py`), `gaia curate --resume` active/resolved blockers, source revisions, legacy ledger → empty checkpoint | merged `7d405ad6` | **Preserved.** `commands/curate.py` and `tests/test_curate_command.py` are restored byte-identical to main. |
+| #2097 fleet integration (incl. #2095 authenticated issue-backed intake recovery + immutable Actions handoff) | merged `8285da49` | **Preserved.** No workflow, recovery, or provenance change. |
+| #2035 trust freshness / API projection repair | merged `40b5800e` | Out of scope; untouched. |
+| #2088's broader multi-packet implementation | owned by #2088 / PR #2089 | **Not duplicated.** Branch aligns the intake seam to the #2089 CLI commits already cherry-picked, and does not take ownership of broader multi-packet scope. |
 
-The original architecture audit and its reproduction scripts were recovered and
-read; implementation targets those confirmed findings rather than restarting
-architecture discovery.
+Main's `src/gaia_cli/curation/` was **not modified** by main's 113 commits since
+the merge base, so the branch's overlap with main is limited to
+`src/gaia_cli/commands/dev/__init__.py`, which merged without conflict and
+preserves main's `timeline-resort`, `provenance`, and `evidence-seed` commands
+alongside the branch's `--authorization-envelope` flag.
 
-## Critical authorization limitation
+## 2. What this branch uniquely contributes
 
-`curation/authorization.py::_verifyTrustedEnvelope` deliberately denies every
-production request. An independently authenticated, protected human L4 ceremony
-covering the complete bound payload is **not configured or verified**. Names,
-timestamps, comments, references, local decisions, flags, envelopes, agent-owned
-credentials and environment metadata are not substitutes for that authority.
+Aligned to #2118's five proven invariants:
 
-Ratification and trusted single/manifest submission therefore remain blocked.
-Tests replacing the private verifier are explicitly **unit-only**. They do not
-establish protected Actions provenance, real human authority, revocation, or a
-successful outside-top-K production approval. Structural outside-top-K choices
-are preserved and payload-bound; the missing ceremony must not be bypassed by
-permanently banning legitimate choices or by accepting local attestations.
+| #2118 invariant | Branch contribution | File |
+|---|---|---|
+| Authenticated L4 for the **exact reviewed payload and revision**; fail closed on missing/stale proof; genuine outside-top-K still possible; required for **both** lanes | Independent review payload binding (candidate ID, exact named identity, full selected generic definition + prerequisites, source URL/revision/digest, packet digest, assessment digest, live catalog + rubric digests, exact route, exact manifest-byte digest, complete inventory accounting, continuation references). Authorization envelope and display-only `humanReview` are excluded from the hashed proposal, so a carrier cannot alter what was reviewed. Production verifier **denies all** requests pending a real ceremony. | `curation/authorization.py`, `intakeAdapter.py`, `commands/dev/ratify.py`, `commands/pushFromFile.py` |
+| Lossless candidate identity; collision-resistant persistence with explicit ownership and safe failure | Digest-owned filenames (readable prefix + full SHA-256 of the exact candidate ID) so `synthetic/a-b` and `synthetic/a/b` cannot collide; ownership checked under a process lock before replacement; symlink escapes rejected; exact lowercase `contributor/slug` identity separate from candidate locator and generic ID. | `prefill.py`, `curation/assessment.py`, `curation/reconciliation.py` |
+| Complete inventory accounting: every expected candidate exactly one of review-ready / deferred / rejected / proven duplicate; six named skills on one generic stay six rows; **no giant fan-out runtime** | Frozen inventory (candidate ID, exact named identity, source revision/digest, detached packet input, stable task ID) + deterministic reconciliation independent of arrival order; exactly one final outcome per candidate; shared generic never collapses named rows; conflicting generic definitions defer deterministically; missing/failed candidates remain explicit deferrals. | `curation/reconciliation.py` |
+| Consistent fresh current-catalog validation; truthful exact-dedupe; content-derived idempotent submission and continue-existing-intake | Live catalog comparison against the **same builder** that produced the frozen snapshot (one discovery rule, no false "stale" verdicts); full selected-definition and catalog-wide semantic drift detection; unreadable canonical files fail closed; exact-dedupe executed rather than asserted; content-derived batch IDs and receipts; uncertain issue creation fails closed and requires explicit `--existing-intake` recovery; original batch/issue references preserved for continuation. | `curation/freshness.py`, `prefill.py`, `curation/submission.py`, `push.py`, `prWriter.py`, `commands/push.py` |
+| Preserve #2093 protections and immutable Actions handoff/recovery | No change to lowercase enforcement, provenance verification, or recovery semantics; intake continuation reuses the original issue/batch. | verified by the retained #2093/#2050/#2055 test suites |
 
-**Current recommendation: NO-GO for activating protected submission; no production
-merge recommendation until the independent reviews, final tests, and remaining
-human authorization requirements have been resolved.**
+## 3. Retained / simplified / dropped
 
-## File-level implementation map
+| Area | Verdict | Rationale | Action |
+|---|---|---|---|
+| `curation/authorization.py` + intake/ratify seam | **RETAIN** | Directly implements #2118 invariant 1. | Unchanged. |
+| `curation/reconciliation.py` (shared accounting contract) | **RETAIN** | The shared contract both lanes use; #2118 invariant 3. | Kept; narrowed so a plain DEFER does not require a fabricated assessment (see below). |
+| `curation/freshness.py`, `prefill.py` identity/ownership | **RETAIN** | #2118 invariants 2 and 4. | Kept, with the catalog comparison fixed to one builder and main's assessment candidate-ID guard restored. |
+| `curation/submission.py` | **RETAIN (narrow)** | Replay-safe identity + uncertain-create recovery + continuation. Not expanded into #2088's broader multi-packet scope. | Kept. |
+| `curation/fanout.py` (bounded, model-neutral callable workers) | **RETAIN as optional assisted-lane support** | #2117 allows "bounded fan-out as needed"; it is not a shared contract and confers no authority, no canonical mutation, and no separate workflow state machine. Cooperative cancellation is honestly disclosed. | Kept, explicitly optional. |
+| Branch's executing `curation/orchestrator.py` CHAIN engine (375 lines) + `commands/curate.py` rewrite + its 234-line test file | **DROP** | With main's canonical `gaia curate` restored, the engine had **no entry point**; it was the "new orchestration framework" #2117 forbids and it broke 5 of main's own canonical tests. The invariants it provided (identity, accounting, freshness) live in the shared seam, which both lanes use. CHAIN *support* is preserved as sequential use of the existing preparation primitives plus shared reconciliation — no second workflow product. | Deleted; main's `orchestrator.py`, `commands/curate.py`, `tests/test_curate_command.py` restored byte-identical. |
+| Branch's `gaia-quick-curate` skill doc rewrite claiming an executable CLI | **DROP** | It would have been untruthful once the engine was dropped, and it broke main's "scaffold truthfulness" test. | Restored byte-identical to main. |
+| `curation/state.py` | **SIMPLIFY** | Kept the atomic write and the run-ID validation (real safety wins); removed the engine-only fields that no longer have a consumer. | Trimmed. |
+| Mirrored curation skills (chain / dynamic / CURATION-CORE / full-pipeline) | **RETAIN (updated)** | They now state the accounting invariant, the fail-closed L4 boundary, and existing-intake continuation truthfully. | Kept, `.agents`/`.claude` mirrors in sync. |
 
-| Files | Change and boundary |
+### The single most valuable deletion
+The branch's executing curation engine. It was the largest new surface, it had
+no entry point after main's CLI was restored, and every invariant it provided is
+enforced in the shared seam that both lanes call. Removing it also removed the
+expansion of the mandatory curation path.
+
+## 4. Narrow product relaxation (deliberate, reviewed)
+
+A receipt whose outcome is `deferred` no longer requires an assessment receipt
+to exist. It must still be inside the frozen inventory, match task/attempt/input
+binding, carry real matching packet bytes, and state a **non-empty reason**. A
+DEFER is never review-ready and never authorizes, so this cannot create
+eligibility; requiring an assessment there would pressure fabrication for
+candidates whose source could not even be fetched. Every other outcome
+(review-ready / rejected / proven-duplicate) still requires a real,
+`validateAssessment`-passing assessment with a matching digest.
+
+## 5. Remaining test failures (reconciled)
+
+The earlier "25 vs 26" discrepancy is resolved: the counts were measured at
+different commits and against different file sets. The authoritative breakdown is
+below, measured on the current head.
+
+| Class | Count | Meaning | Resolution |
+|---|---|---|---|
+| OBSOLETE FIXTURE | 17 | `tests/test_curation_reconciliation.py` fixtures predate the hardened contract (no real source content, no assessment bytes, stale outcome/target assumptions). | Rebuild against the real contract; do not relax product code. |
+| OBSOLETE CONTRACT | 6 | Tests asserting that a **locally authored** `humanReview` makes trusted intake **succeed** — the exact vulnerability #2118 targets. | Migrate to fail-closed assertions, and preserve the mechanics coverage in explicitly unit-only tests that mock only the private trust hook. |
+| GENUINE DEFECT (fixed) | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | Fixed in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
+
+**Totals:** 25 originally failing assertions = 17 obsolete fixtures + 6 obsolete
+contracts + 2 genuine defects. The 2 genuine defects are now fixed; the 23
+obsolete ones are being migrated to the current contract. No failing test is
+being deleted to make the suite green, and no security assertion is weakened.
+
+## 6. Verification performed
+
+| Check | Result |
 |---|---|
-| `commands/pushFromFile.py`, `commands/push.py`, `intakeAdapter.py`, `commands/dev/ratify.py`, `commands/dev/__init__.py` | Preserve v2 and multi-packet adaptation; bind exact manifest bytes, complete inventory, route, assessment and continuation; external authorization carriers; ratify and trusted submission separately fail closed. |
-| `curation/authorization.py` | Canonical independently computed full review payload, authorization-carrier cycle exclusion, whole-manifest accounting and review membership, deny-all production trust seam pending real human ceremony. |
-| `prefill.py`, `curation/freshness.py` | Digest-owned filenames; exact candidate identity; locked atomic ownership checks; actual named/source dedupe; truthful lifecycle when lookup unavailable; canonical full-definition/catalog/source freshness. |
-| `curation/assessment.py` | Digest-owned default assessment filenames and locked ownership checks, not slash-to-dash collision overwrites. Actual assessment is mandatory at trusted boundary. |
-| `curation/reconciliation.py`, `curation/fanout.py` | Frozen inventory; distinct candidate/named/generic keys; task/input/attempt/packet/proposal binding; exact duplicate target proof; deterministic conflict handling; complete final outcomes; bounded callable workers, retry and explicit exhaustion/defer. |
-| `curation/orchestrator.py`, `curation/state.py`, `commands/curate.py` | Actual sequential 1–5 candidate execution through source fetch/prefill/assessment/reconciliation; atomic checkpoints; real named identity; targeted retry and preserved external intake references; always stop pre-L4. |
-| `curation/submission.py`, `push.py`, `prWriter.py` | Content-derived batch IDs, local process locking, atomic receipts, remote content-marker lookup, uncertain-create fail closed, explicit original-intake continuation. Operational state never grants approval. |
-| `scripts/validate_intake.py`, mirrored `validate_discovery_packet.py` | #2089's multi-packet/N:1 support retained with current-main lowercase and collision protections. |
-| `CONTRIBUTING.md`, mirrored curation core/CHAIN/FAN-OUT/full-pipeline/quick-curate skills | Truthful pre-L4 executable capabilities and pending authority, no auto-merge or local-attestation-as-human-approval claims. |
-| `tests/test_curation_*`, `test_curate_chain.py`, related ratify/push/intake tests | Synthetic boundary attacks, accounting/provenance, freshness, collision, retries, idempotency, compatibility and explicitly unit-only trust-hook tests. |
+| `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
+| Exact audit baseline at the isolated #2089 head | 224 passed (historical baseline, `b37e8b928`) |
+| Focused suite on the branch at the current head | See `tests/` results recorded in the PR; targeted migrations in progress |
+| `python -m compileall` on changed modules | Pass |
+| `git diff --check` | Clean |
+| `python scripts/sync_agent_skill_mirror.py --check` | In sync |
+| Independent Luna review round 1 (static) | 5 findings, all fixed (`4ac765dfc`, `62f351509`, `d5ced24d8`, `cc99e75c4`) |
+| Independent Luna review round 2 (with runtime probes) | **PENDING** — required at the final SHA |
+| Small-batch walkthrough | **PENDING** |
+| Suite walkthrough (six named rows → one generic) | **PENDING** |
+| Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
-## Runtime contracts and honest limits
+## 7. Remaining human actions
 
-- Both topologies feed `freezeInventory` → `reconcileInventory`; neither is a
-  replacement packet schema or a canonical registry writer.
-- CHAIN remains sequential; FAN-OUT uses bounded model-neutral callable workers
-  with deterministic reconciliation. Worker model/routing is external policy.
-- Every expected row has exactly one final outcome: review-ready, deferred,
-  rejected, or proven duplicate. **Review-ready is not human-approved.**
-- Default prefill is advisory and explicitly deferred; synthetic default-path
-  execution must not be reported as completed semantic/human review.
-- Exact duplicate proof must relate the current candidate to a different,
-  surviving target with matching source evidence. Shared generic or semantic
-  similarity alone never removes a named row.
-- Thread cancellation is cooperative. The scheduler discards late returns; it
-  cannot kill arbitrary worker code or promise that worker-side external effects
-  are cancellable.
-- Submission locking is checkout-local, not a distributed transaction. A remote
-  lookup reduces repeats but does not establish global exactly-once creation
-  across independent simultaneous clones. An uncertain local creation window
-  requires explicit recovery and never blind retry.
-- Source URLs on branches are explicitly unresolved revisions and need live
-  freshness verification. No immutable revision is fabricated.
+1. Founder review of this draft PR and the reconciliation receipt.
+2. An independent, protected human approval ceremony must be designed,
+   implemented, and verified before trusted ratification or trusted submission
+   can be activated. The current deny-all verifier is deliberate containment,
+   not that ceremony.
+3. #2089 remains **NO-MERGE** until repaired and approved; this branch does not
+   close #2118, #2117, #2088, or #2089.
 
-## Recorded verification
+## 8. Compatibility statement
 
-| Run | Code/environment | Observed result | Meaning |
-|---|---|---|---|
-| Original exact nine-file baseline | Isolated #2089 head `32ecd0df7c0683167e2d9dfacf6ecbb4481cb453` | **224 passed in 8.59s** | Reproduced audit baseline, not repaired-code acceptance. |
-| Additional isolated focused subset | Same isolated baseline | **179 passed in 5.07s** | Different subset; not a substitute for exact224. |
-| Submission/idempotency intermediate regression | Earlier intermediate remediation code | **78 passed in 1.73s** | Historical integration evidence; must rerun after final changes. |
-| Latest compileall, `git diff --check`, skill mirror check | Code checkpoint `3e0641e3e` | **PASS** | Syntax, whitespace and mirrored instructions only; not behavioral/security completion. |
-| Registry/site drift check | Diff against recorded origin/main | No `registry/`, `skill-trees/`, or `docs/graph/` changes | Confirms no canonical/source/generated registry change at checkpoint. |
-| Intermediate focused integration tasks | Logs awaiting durable notification/retrieval | **PENDING** | Diagnostic only: code changed after launch. |
-| Final stable-SHA regression and applicable wider suite | Not yet run | **PENDING** | Required before any final recommendation. |
-| Real independent protected human approval | Unavailable | **SKIP / BLOCKED** | Mandatory missing human ceremony; no success claim. |
-
-Exact isolated baseline command:
-
-```bash
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -p no:cacheprovider -q \
-  tests/test_intake_multi_packet_2088.py tests/test_intake_adapter.py \
-  tests/test_dev_ratify.py tests/test_push_from_file.py tests/test_intake.py \
-  tests/test_intake_approval_workflow.py tests/test_gaia_curate_discovery_packet.py \
-  tests/test_curate_command.py tests/test_curate_state.py
-```
-
-## Required 26-case matrix
-
-**PENDING** below means an assertion exists or is planned, but final-SHA execution
-and independent review are not yet recorded. It is not a pass. Negative tests
-blocked by the deny-all production seam prove containment only; real post-approval
-staleness/revocation still requires an actual protected ceremony.
-
-| # | Scenario | Current evidence target | Final status |
-|---|---|---|---|
-| 1 | Default CHAIN, one candidate | `test_default_processor_uses_real_prefill_path_with_frozen_source[1]`, honest deferred outcome | PENDING |
-| 2 | Default CHAIN, five candidates | Same default primitive test `[5]`, frozen sources and full accounting | PENDING |
-| 3 | FAN-OUT, 12 candidates | Reconciliation fixture and bounded callable worker execution | PENDING |
-| 4 | Six distinct named implementations on one generic | `test_conserves_named_rows_with_shared_generic_and_retains_provenance` | PENDING |
-| 5 | `a-b` vs `a/b` filename ownership | Prefill, assessment and shard collision checks | PENDING |
-| 6 | Valid exact duplicate with surviving source-matched target | Reconciliation proof and target accounting | PENDING |
-| 7 | Semantic/shared-generic similarity is not exact duplicate | Negative duplicate proof and distinct named conservation | PENDING |
-| 8 | Competing full definitions of the same generic | Deterministic conflicting-proposal rejection in every receipt permutation | PENDING |
-| 9 | Fabricated reviewer identity | Real trusted adapter/submission negative boundary | PENDING |
-| 10 | Plausible but forged approval reference | Same negative production boundary, no metadata authority | PENDING |
-| 11 | Empty `{}` assessment with matching digest | Real assessment validation and authorization failure | PENDING |
-| 12 | Fabricated outside-top-K approval | Direct validator, ratify/trusted single/manifest boundaries | PENDING |
-| 13 | Legitimate independently protected outside-top-K decision | Production ceremony unavailable; unit hook is not evidence | **SKIP / BLOCKED** |
-| 14 | Identity changed after reviewed payload | Payload changes and old envelope fails; real approved ceremony absent | PENDING (containment/unit binding only) |
-| 15 | Source/revision changed after reviewed payload | Source digest/live freshness and old payload rejection | PENDING (no real approved ceremony) |
-| 16 | Selected generic definition/topology changed | Full definition/prerequisites payload and freshness binding | PENDING (no real approved ceremony) |
-| 17 | Stale catalog, including same-ID semantic drift | `test_curation_freshness.py` canonical snapshots and read failures | PENDING |
-| 18 | Worker failure and targeted bounded retry | CHAIN and FAN-OUT attempt/error tests | PENDING |
-| 19 | Interrupted partial resume with prior completed rows | Persisted owned packet/assessment/source hashes and refs | PENDING |
-| 20 | Task/attempt/time budget exhaustion | Missing candidates explicitly deferred and late results discarded | PENDING |
-| 21 | Identical submission repeated | Content key and existing operational receipt, no second issue | PENDING |
-| 22 | Existing-intake continuation | Original batch/issue verified and preserved | PENDING |
-| 23 | #2093 exact lowercase/collision protections | `test_named_identity_case_2055.py`, intake/push tests | PENDING |
-| 24 | Immutable Actions provenance/recovery retained | Existing intake recovery/approval workflow regression | PENDING |
-| 25 | Unauthorized registry mutation attempt | Discovery and forged submission never enter canonical mutation; diff evidence | PENDING |
-| 26 | Evidence handoff without duplicate intake | Original issue/batch continuation and unchanged downstream gates | PENDING |
-
-## Independent review
-
-Two fresh read-only GPT-6-Luna High reviewers with no implementation ownership
-were launched against code checkpoint `3e0641e3e`:
-
-1. L4 authority, authorization binding, stale/fabricated artifacts and governance.
-2. Candidate conservation, collision resistance, actual execution, idempotency
-   and continuation.
-
-Run: `08c3a6da-744b-4f93-88e3-1f9ab3f9e1a4`. **Results pending.** No reviewer approval
-is inferred from launch or implementer self-tests. Reviewed source/test scope is
-frozen until their findings are retrieved.
-
-## Remaining gates
-
-- Collect diagnostic results, repair verified failures after independent review
-  retrieval, and rerun at a stable final code SHA.
-- Record independent findings and their repair/re-review dispositions.
-- Complete this matrix with actual PASS/FAIL/SKIP evidence and applicable wider
-  test results; enumerate environment limitations rather than silently skip.
-- Refresh main and verify retained #2093 and immutable provenance protections.
-- Open one draft development PR with attribution, evidence, and explicit missing
-  human actions. Do not merge, deploy, submit real intakes or close issues.
-- Independently establish and verify the protected human ceremony before enabling
-  trusted ratification/submission. The present deny-all seam is not that ceremony.
+Preserved and re-verified: #2093 lowercase/collision protections, #2099
+checkpoint-resume semantics and legacy-ledger handling, the immutable Actions
+handoff and #2050 authenticated recovery path, the `discovery-packet-v2` packet
+contract, canonical downstream governance, named identity accounting, and
+existing-intake continuation. `gaia curate` on this branch behaves exactly as on
+`main`.
