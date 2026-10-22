@@ -700,8 +700,27 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         except Exception as exc:  # item-local
             return finish("failed", failure=f"list-comments: {exc}")
 
+        # A matching marker belongs to this closure decision even when the token's
+        # identity changed or cannot be read. Never post a second closing comment.
+        markerNeedle = markerLine(key, sha8)
+        markerPositions = [index for index, comment in enumerate(listed)
+                           if isinstance(comment, dict) and isinstance(comment.get("body"), str)
+                           and markerNeedle in comment["body"]]
+        if markerPositions and (not closer or any(
+                listed[index].get("author") != closer for index in markerPositions)):
+            return finish("blocked-identity", failure="existing closure marker has an unknown or different author",
+                          closer=closer)
+        if not closer:
+            return finish("blocked-identity", failure="closer identity unavailable; refusing comment write")
         ownMarker = findOwnMarker(listed, key, sha8, closer)
+        # GitHub lists issue comments oldest first. Our prior marker explains its
+        # own updatedAt drift, but no later maintainer comment can be ignored.
+        laterForeignComment = bool(markerPositions) and any(
+            not isinstance(comment, dict) or comment.get("author") != closer
+            for comment in listed[markerPositions[-1] + 1:])
         differences = diffFields(plan, live, ownMarker=ownMarker is not None)
+        if laterForeignComment:
+            differences.append("comment-after-closure-marker")
         if live.get("state") != "open":
             differences.insert(0, "state")
         if differences:
