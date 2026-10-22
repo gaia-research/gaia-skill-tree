@@ -147,6 +147,13 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
             raise ValueError("review inventory/reconciliation digest mismatch")
         if any(row.get("outcome") not in OUTCOMES for row in outcomes):
             raise ValueError("unaccounted review outcome")
+        # The report must be a genuine reconciliation of the frozen inventory:
+        # every candidate accounted for, no receipt left invalid, and no claim
+        # of human approval (approval is exactly what is still missing here).
+        if report.get("accounted") is not True:
+            raise ValueError("review accounting must be a fully accounted reconciliation")
+        if report.get("humanApproved") is not False:
+            raise ValueError("review accounting must not claim human approval")
         packetsById = {packet["candidateId"]: packet for packet in inventoryRows}
         frozenById = {row["candidateId"]: row for row in expected}
         outcomesById = {row["candidateId"]: row for row in outcomes}
@@ -182,13 +189,16 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
             assessment = assessments.get(candidateId)
             expectedPacketDigest = inventoryHash(inventoryJson(packet))
             expectedProposalDigest = inventoryHash(inventoryJson(_proposalPacket(packet)))
-            if reportRow.get("packetDigest") is not None and reportRow["packetDigest"] != expectedPacketDigest:
+            if reportRow.get("receiptValid") is not True:
+                raise ValueError(f"review accounting has an invalid receipt for {candidateId}")
+            if reportRow.get("packetDigest") != expectedPacketDigest:
                 raise ValueError(f"reconciliation packet digest mismatch for {candidateId}")
-            if reportRow.get("packetProposalSha256") is not None and reportRow["packetProposalSha256"] != expectedProposalDigest:
+            if reportRow.get("packetProposalSha256") != expectedProposalDigest:
                 raise ValueError(f"reconciliation packet proposal digest mismatch for {candidateId}")
-            if reportRow.get("assessmentSha256") is not None:
-                if not isinstance(assessment, dict) or reportRow["assessmentSha256"] != _digest(assessment):
-                    raise ValueError(f"reconciliation assessment digest mismatch for {candidateId}")
+            if not isinstance(assessment, dict):
+                raise ValueError(f"review accounting requires a real assessment for {candidateId}")
+            if reportRow.get("assessmentSha256") != _digest(assessment):
+                raise ValueError(f"reconciliation assessment digest mismatch for {candidateId}")
         ready = [row["candidateId"] for row in outcomes if row.get("outcome") == "review-ready"]
         if sorted(ready) != sorted(identities):
             raise ValueError("submitted packets must equal all review-ready accounted candidates")

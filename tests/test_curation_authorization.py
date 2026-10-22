@@ -11,9 +11,13 @@ import pytest
 
 from gaia_cli.curation.authorization import (
     _digest,
+    _proposalPacket,
     buildReviewPayload,
     verifyPacketAuthorization,
 )
+
+
+ASSESSMENT = {"receipt": "valid synthetic"}
 
 
 def packet(candidate="upstream/tool"):
@@ -154,20 +158,81 @@ def _reviewAccounting(row):
     frozen["inventoryDigest"] = sha256(canonicalJson(frozen))
     decision = row["decision"]
     proposed = {"decision": decision["value"], "genericId": decision["genericId"]}
+    # A real reconciliation report carries positive accounting: the batch is
+    # accounted for, no receipt is invalid, nothing claims human approval, and
+    # each row states the packet/proposal/assessment digests it observed.
     report = {
         "inventoryDigest": frozen["inventoryDigest"],
+        "accounted": True,
+        "humanApproved": False,
         "decisions": [{
             "candidateId": row["candidateId"], "outcome": "review-ready",
             "proposedGeneric": proposed,
+            "receiptValid": True,
+            "packetDigest": sha256(canonicalJson(row)),
+            "packetProposalSha256": sha256(canonicalJson(_proposalPacket(row))),
+            "assessmentSha256": sha256(canonicalJson(ASSESSMENT)),
         }],
     }
     return {"inventory": frozen, "reconciliation": report}
 
 
+def test_forged_review_accounting_is_rejected(tmp_path):
+    """A report that does not attest a real reconciliation must not be bindable.
+
+    Found by an independent runtime review: the payload builder accepted a report
+    whose receipt was marked invalid, whose batch was not accounted for, which
+    claimed human approval, and whose digests had been stripped. The production
+    verifier still refused it, so this was a latent accounting gap rather than an
+    active bypass - but a future verifier that checks only the payload digest
+    could otherwise authenticate inconsistent accounting.
+    """
+    row = packet()
+    assessments = {row["candidateId"]: ASSESSMENT}
+
+    notAccounted = copy.deepcopy(_reviewAccounting(row))
+    notAccounted["reconciliation"]["accounted"] = False
+    with pytest.raises(ValueError, match="fully accounted reconciliation"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=notAccounted,
+                           assessments=assessments)
+
+    claimsApproval = copy.deepcopy(_reviewAccounting(row))
+    claimsApproval["reconciliation"]["humanApproved"] = True
+    with pytest.raises(ValueError, match="must not claim human approval"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=claimsApproval,
+                           assessments=assessments)
+
+    invalidReceipt = copy.deepcopy(_reviewAccounting(row))
+    invalidReceipt["reconciliation"]["decisions"][0]["receiptValid"] = False
+    with pytest.raises(ValueError, match="invalid receipt"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=invalidReceipt,
+                           assessments=assessments)
+
+    for key in ("packetDigest", "packetProposalSha256", "assessmentSha256"):
+        stripped = copy.deepcopy(_reviewAccounting(row))
+        stripped["reconciliation"]["decisions"][0].pop(key, None)
+        with pytest.raises(ValueError, match="mismatch|real assessment"):
+            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=stripped,
+                               assessments=assessments)
+
+    missingAssessment = copy.deepcopy(_reviewAccounting(row))
+    missingAssessment["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
+    with pytest.raises(ValueError, match="assessment digest mismatch"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=missingAssessment,
+                           assessments=assessments)
+
+    noAssessmentAtAll = copy.deepcopy(_reviewAccounting(row))
+    noAssessmentAtAll["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
+    with pytest.raises(ValueError, match="real assessment"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=noAssessmentAtAll,
+                           assessments={})
+
+
 def test_review_inventory_binds_exact_named_identity_and_source(tmp_path):
     row = packet()
     accounting = _reviewAccounting(row)
-    assert buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting)
+    assert buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
+                                assessments={row["candidateId"]: ASSESSMENT})
 
     badIdentity = copy.deepcopy(accounting)
     badIdentity["inventory"]["candidates"][0]["namedIdentity"] = "Owner/inventory-name"
@@ -177,7 +242,8 @@ def test_review_inventory_binds_exact_named_identity_and_source(tmp_path):
     frozen["inventoryDigest"] = sha256(canonicalJson(unsigned))
     badIdentity["reconciliation"]["inventoryDigest"] = frozen["inventoryDigest"]
     with pytest.raises(ValueError, match="named identity mismatch"):
-        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badIdentity)
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badIdentity,
+                                assessments={row["candidateId"]: ASSESSMENT})
 
     for field, value in (("sourceDigest", "b" * 64), ("sourceRevision", "different"),
                          ("canonicalUrl", "https://github.com/other/tool/blob/abc/SKILL.md")):
@@ -189,7 +255,8 @@ def test_review_inventory_binds_exact_named_identity_and_source(tmp_path):
         frozen["inventoryDigest"] = sha256(canonicalJson(unsigned))
         badSource["reconciliation"]["inventoryDigest"] = frozen["inventoryDigest"]
         with pytest.raises(ValueError, match="source provenance mismatch"):
-            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badSource)
+            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badSource,
+                                assessments={row["candidateId"]: ASSESSMENT})
 
 
 def test_review_report_must_match_packet_decision_and_packet_digest(tmp_path):
@@ -199,12 +266,14 @@ def test_review_report_must_match_packet_decision_and_packet_digest(tmp_path):
         accounting = _reviewAccounting(row)
         accounting["reconciliation"]["decisions"][0][key] = value
         with pytest.raises(ValueError, match="reconciliation decision disagrees"):
-            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting)
+            buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
+                                assessments={row["candidateId"]: ASSESSMENT})
 
     accounting = _reviewAccounting(row)
     accounting["reconciliation"]["decisions"][0]["packetDigest"] = "0" * 64
     with pytest.raises(ValueError, match="packet digest mismatch"):
-        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting)
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
+                                assessments={row["candidateId"]: ASSESSMENT})
 
 
 def test_report_binds_assessment_digest_and_outside_top_k_mapping_is_allowed(tmp_path):

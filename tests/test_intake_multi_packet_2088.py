@@ -147,6 +147,7 @@ def test_ratify_override_failure_never_writes(tmp_path, mutation):
 
 
 def reviewAccounting(packets):
+    from gaia_cli.curation.authorization import _proposalPacket
     from gaia_cli.curation.reconciliation import canonicalJson, sha256
 
     candidates = [{
@@ -166,11 +167,26 @@ def reviewAccounting(packets):
             proposed["genericId"] = decision["genericId"]
         elif decision["value"] == "NEW_GENERIC":
             proposed["proposal"] = decision["proposal"]
-        decisions.append({"candidateId": packet["candidateId"], "outcome": "review-ready",
-                          "proposedGeneric": proposed})
+        # A real reconciliation report carries positive accounting: the batch is
+        # accounted for, no receipt is invalid, nothing claims human approval,
+        # and each row states the packet/proposal digests it observed.
+        assessmentPath = packet.get("l4Resolution", {}).get("humanReview", {}).get("assessmentPath")
+        assessment = json.loads(Path(assessmentPath).read_text(encoding="utf-8"))
+        decisions.append({
+            "candidateId": packet["candidateId"], "outcome": "review-ready",
+            "proposedGeneric": proposed, "receiptValid": True,
+            "packetDigest": sha256(canonicalJson(packet)),
+            "packetProposalSha256": sha256(canonicalJson(_proposalPacket(packet))),
+            "assessmentSha256": sha256(canonicalJson(assessment)),
+        })
     return {
         "inventory": frozen,
-        "reconciliation": {"inventoryDigest": frozen["inventoryDigest"], "decisions": decisions},
+        "reconciliation": {
+            "inventoryDigest": frozen["inventoryDigest"],
+            "accounted": True,
+            "humanApproved": False,
+            "decisions": decisions,
+        },
     }
 
 
