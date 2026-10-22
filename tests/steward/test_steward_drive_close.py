@@ -89,6 +89,24 @@ def test_blocked_closure_is_recorded_once_and_halts_the_run(tmp_path):
     assert closeRecords(world)[0]["outcome"] == "blocked"
 
 
+def test_executor_refusal_is_a_non_retryable_skip_and_the_run_continues(tmp_path):
+    """B4: exit 2 from the executor gate means the action no longer proves; it is skipped, never recorded."""
+    root = closeRoot(tmp_path)
+    refused = drive.CommandResult(2, "", "steward issue close refused: maxClosuresPerRun reached for run R1")
+    actions = [closeAction("close:abc:abcd1234", 10), closeAction("close:abc:abcd1234b", 11)]
+    world = FakeWorld(root, [view("R1", actions), view("R1", [], "completed")], close=lambda argv: refused)
+    driver = makeDriver(tmp_path, world, env={"GH_TOKEN": "t"})
+
+    code = driver.drive()
+
+    assert len(world.closeCalls) == 2  # a refusal does not stop the pass
+    assert world.recorded == []
+    assert {entry["stepId"] for entry in driver.skipped} == {"close:abc:abcd1234", "close:abc:abcd1234b"}
+    assert all("refused" in entry["reason"] for entry in driver.skipped)
+    # Nothing progressed, so the driver reports a stall instead of looping; the next scan re-observes the debt.
+    assert code == drive.EXITSTOPPED and "stalled" in driver.stopReason
+
+
 def test_closure_script_without_an_outcome_is_a_failed_step_not_a_record(tmp_path):
     root = closeRoot(tmp_path)
     world = FakeWorld(root, [view("R1", [closeAction()])],
