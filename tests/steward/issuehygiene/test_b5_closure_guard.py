@@ -416,14 +416,15 @@ def ownMarkerPlan(tmp_path: Path):
     return manifest, plan
 
 
-def test_a_foreign_marker_is_not_proof_and_we_post_our_own(tmp_path: Path) -> None:
+def test_a_foreign_marker_blocks_the_closure_and_no_second_marker_is_posted(tmp_path: Path) -> None:
     manifest, plan = ownMarkerPlan(tmp_path)
     forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [markerFor(plan, plan["closureSha8"], author="someone")]})
 
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
 
-    assert receipt["outcome"] == "closed"
-    assert [call for call in forge.writes() if call[0] == "comment"], "our own comment must be posted"
+    assert receipt["outcome"] == "blocked-identity"
+    assert forge.writes() == [], "a marker by another author is neither proof nor a reason to post a second one"
+    assert forge.issues[10]["state"] == "open"
 
 
 def test_a_marker_for_another_manifest_is_not_proof(tmp_path: Path) -> None:
@@ -447,15 +448,16 @@ def test_our_own_marker_is_proof_and_a_resume_posts_no_second_comment(tmp_path: 
     assert not any(call[0] == "comment" for call in forge.writes())
 
 
-def test_when_the_closer_identity_is_unknown_no_marker_is_proof(tmp_path: Path) -> None:
+def test_when_the_closer_identity_is_unknown_an_existing_marker_blocks_and_nothing_is_written(tmp_path: Path) -> None:
     manifest, plan = ownMarkerPlan(tmp_path)
     forge = Forge({10: liveOf(scenarioRow(10))}, login=None,
                   comments={10: [markerFor(plan, plan["closureSha8"], author=CLOSER)]})
 
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
 
-    assert receipt["outcome"] == "closed"
-    assert any(call[0] == "comment" for call in forge.writes())
+    assert receipt["outcome"] == "blocked-identity"
+    assert forge.writes() == []
+    assert forge.issues[10]["state"] == "open"
 
 
 def plan_sha8(manifest: dict) -> str:

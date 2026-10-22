@@ -221,6 +221,9 @@ def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp
         def listComments(self, number):
             return []
 
+        def whoami(self):
+            return "steward-bot"
+
         def addComment(self, number, body):
             self.comments.append(number)
             return f"https://github.com/gaia-research/gaia-skill-tree/issues/{number}#issuecomment-{9000 + number}"
