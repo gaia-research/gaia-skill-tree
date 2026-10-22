@@ -1,17 +1,16 @@
-"""#2131 round-5 verifier FAIL, H-A: a closed umbrella suppresses recreating its own suite and version.
+"""#2131 round-5 H-A, superseded by the founder's canonical-issue correction (PR #2133).
 
-Before this change ``plan_suite`` created an umbrella whenever no OPEN umbrella with the suite prefix existed.
-A rejected umbrella was therefore re-created every day for the same version: day 1 #5000, rejected and closed,
-then day 2 #5001 for the same version, and every day after.
-
-Now the newest closed ``upstream:release`` umbrella whose title names the same suite and version suppresses the
-create. It is reported under ``suppressedClosedUmbrella`` with its issue number, whatever its disposition:
-``rejected`` (upstream:rejected), ``completed`` (closed as completed by the approve flow) or
-``closed-unresolved`` (closed with no disposition). A NEW version creates normally. A failed page of the closed
-umbrella history is unknown evidence: exit 3, zero writes.
+Round 5 suppressed the create when the newest closed umbrella had the same suite and version, so a rejected
+umbrella was never re-created. The founder reversed that: Steward owns closure, the watcher never reopens or edits a
+closed issue, and when no OPEN canonical umbrella exists it creates a new one, even if closed ones exist for the same
+suite. So a closed umbrella no longer blocks a create. The closed history is still read, because carry-forward keeps
+the unresolved rows of the newest closed umbrella. A failed page of that history is unknown evidence: exit 3, zero
+writes.
 """
 
 from __future__ import annotations
+
+import pytest
 
 from upstream_fakes import FakeGh, RestGhRunner, index_from_entries
 
@@ -56,45 +55,49 @@ def close(gh, number, label="upstream:rejected", state_reason=None):
         gh.issues[number]["state_reason"] = state_reason
 
 
-def test_day_one_creates_then_a_rejected_closed_umbrella_is_never_recreated_for_the_same_version():
+def test_a_closed_umbrella_never_blocks_a_new_open_one_for_the_same_version():
     gh = FakeGh()
-    report, code = run(gh)
-    assert code == 0 and [w[0] for w in gh.writes] == ["create"]
-    assert umbrella_numbers(gh) == [5000]
+    run(gh)
     close(gh, 5000)
-    for day in range(2, 6):
-        before = gh.write_count()
+    before = gh.write_count()
+
+    report, code = run(gh)
+
+    assert code == 0, report
+    assert [w[0] for w in gh.writes[before:]] == ["create"]
+    assert report["issuesCreated"] == 1
+    assert umbrella_numbers(gh) == [5000, 5001]
+    assert all(w[1] != 5000 for w in gh.writes[before:] if w[0] in ("edit", "labels", "comment")), \
+        "the closed umbrella is never edited, commented on or relabelled"
+    assert gh.issues[5000]["state"] == "closed"
+
+
+def test_the_new_open_umbrella_is_then_left_alone_by_later_daily_runs():
+    gh = FakeGh()
+    run(gh)
+    close(gh, 5000)
+    run(gh)
+    before = gh.write_count()
+    for _day in range(3):
         report, code = run(gh)
         assert code == 0, report
-        assert gh.write_count() == before, f"day {day} must write nothing for a version already closed"
-        assert report["issuesCreated"] == 0
-        assert report["suppressedClosedUmbrella"] == [
-            {"suite": SUITE, "version": "v1", "umbrella": 5000, "closedAs": "rejected"}
-        ]
-    assert umbrella_numbers(gh) == [5000]
+    assert gh.write_count() == before, "findings unchanged against the open canonical issue: no writes"
+    assert umbrella_numbers(gh) == [5000, 5001]
 
 
-def test_a_closed_umbrella_without_a_label_is_suppressed_and_reported_as_closed_unresolved():
+@pytest.mark.parametrize("label, state_reason", [
+    (None, None),
+    (None, "completed"),
+])
+def test_a_closed_umbrella_with_no_rejection_label_also_opens_a_new_one(label, state_reason):
     gh = FakeGh()
     run(gh)
-    close(gh, 5000, label=None)
-    before = gh.write_count()
-    report, code = run(gh)
-    assert code == 0 and gh.write_count() == before
-    assert report["suppressedClosedUmbrella"] == [
-        {"suite": SUITE, "version": "v1", "umbrella": 5000, "closedAs": "closed-unresolved"}
-    ]
+    close(gh, 5000, label=label, state_reason=state_reason)
 
-
-def test_an_umbrella_closed_as_completed_by_the_approve_flow_is_suppressed_too():
-    gh = FakeGh()
     run(gh)
-    close(gh, 5000, label=None, state_reason="completed")
-    before = gh.write_count()
-    report, code = run(gh)
-    assert code == 0 and gh.write_count() == before
-    assert report["suppressedClosedUmbrella"][0]["closedAs"] == "completed"
-    assert report["suppressedClosedUmbrella"][0]["umbrella"] == 5000
+
+    assert umbrella_numbers(gh) == [5000, 5001]
+    assert gh.issues[5000]["state"] == "closed"
 
 
 def test_a_new_version_creates_once_and_a_rerun_of_it_writes_nothing():
@@ -106,20 +109,19 @@ def test_a_new_version_creates_once_and_a_rerun_of_it_writes_nothing():
     assert code == 0
     assert [w[0] for w in gh.writes[before:]] == ["create"]
     assert gh.writes[before][2] == PREFIX + "v2"
-    assert report["issuesCreated"] == 1 and report["suppressedClosedUmbrella"] == []
+    assert report["issuesCreated"] == 1
     before = gh.write_count()
     report, code = run(gh, [finding("v2")])
     assert code == 0 and gh.write_count() == before
 
 
-def test_a_closed_umbrella_for_another_suite_with_the_same_version_does_not_suppress():
+def test_a_closed_umbrella_for_another_suite_with_the_same_version_does_not_matter():
     gh = FakeGh()
     run(gh, [finding("v1", skill="addyosmani/agent-skills")])
     close(gh, 5000)
     report, code = run(gh, [finding("v1")])
     assert code == 0
     assert [w[0] for w in gh.writes].count("create") == 2
-    assert report["suppressedClosedUmbrella"] == []
 
 
 def closed_umbrella_rows(count):
@@ -153,4 +155,3 @@ def test_a_complete_closed_history_read_of_the_same_size_is_not_an_error():
     report, code = run_batch([finding("v1")], gh, apply=True, index_loader=lambda: INDEX)
     assert code == 0, report
     assert [w[0] for w in runner.writes] == ["create"]
-    assert report["suppressedClosedUmbrella"] == []

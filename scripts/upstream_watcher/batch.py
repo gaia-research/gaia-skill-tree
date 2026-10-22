@@ -46,7 +46,14 @@ from scripts.upstream_watcher.issuer import (
     _REVIEWER_ACTIONS,
     render_child_body,
 )
-from scripts.upstream_watcher.live import GhError, LiveGh, open_umbrellas, read_live
+from scripts.upstream_watcher.live import (
+    GhError,
+    LiveGh,
+    canonical_umbrellas,
+    read_live,
+    suite_key,
+    umbrella_suite,
+)
 from scripts.upstream_watcher.records import RecordError
 
 PAYLOAD_VERSION = 2
@@ -163,10 +170,6 @@ def umbrella_title(owner_repo: str, version: str) -> str:
     return f"[upstream] {owner_repo} → {version}"
 
 
-def umbrella_prefix(owner_repo: str) -> str:
-    return f"[upstream] {owner_repo} → "
-
-
 # ---------------------------------------------------------------------------
 # Candidate rows
 # ---------------------------------------------------------------------------
@@ -265,7 +268,7 @@ def unresolved_row_ids(payload: dict, state_of) -> list[str]:
     return [row["id"] for row in payload.get("candidates", []) if row_is_unresolved(row, state_of)]
 
 
-def carry_forward(live: dict, prefix: str, state_of, gh=None) -> list[dict]:
+def carry_forward(live: dict, owner_repo: str, state_of, gh=None) -> list[dict]:
     """Unresolved rows of the newest closed umbrella for a suite, to seed a new umbrella.
 
     The source is the full closed ``upstream:release`` history (``closedUmbrellas``),
@@ -280,7 +283,7 @@ def carry_forward(live: dict, prefix: str, state_of, gh=None) -> list[dict]:
         for issue in live["closedUmbrellas"]
         if issue.get("state") == "closed"
         and "upstream:release" in label_names(issue)
-        and str(issue.get("title", "")).startswith(prefix)
+        and umbrella_suite(issue.get("title", "")) == suite_key(owner_repo)
     ]
     if not closed:
         return []
@@ -577,36 +580,12 @@ def _comments(gh, number: int) -> list[dict]:
         raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
 
 
-def closed_umbrella_for(live: dict, title: str) -> dict | None:
-    """C9 (H-A): the newest closed ``upstream:release`` umbrella whose title is *title* (suite and version), or None.
-
-    ``live["closedUmbrellas"]`` is the full closed history (read_live, no window), so a version whose umbrella was
-    closed months ago still suppresses its own re-creation. Only the exact title counts: a new version has a new
-    title, and that creates normally.
-    """
-    matches = [
-        issue for issue in live.get("closedUmbrellas", [])
-        if issue.get("state") == "closed" and "upstream:release" in label_names(issue) and issue.get("title") == title
-    ]
-    return max(matches, key=lambda issue: issue["number"]) if matches else None
-
-
-def closed_disposition(issue: dict) -> str:
-    """How a closed umbrella ended: ``rejected`` (upstream:rejected), ``completed`` (closed by the approve flow's
-    Fixes line, or closed as completed), or ``closed-unresolved`` (closed with no disposition)."""
-    if "upstream:rejected" in label_names(issue):
-        return "rejected"
-    if issue.get("state_reason") == "completed":
-        return "completed"
-    return "closed-unresolved"
-
-
-def suppressed_plan(owner_repo: str, title: str, version: str, closed: dict) -> dict:
-    """The plan for a suite whose version already has a closed umbrella: nothing is created (C9 H-A)."""
+def blocked_plan(owner_repo: str, title: str, ambiguous: list[dict]) -> dict:
+    """The plan for a suite whose open umbrella identity is ambiguous: nothing is written, the run exits 3."""
     return {
         "suite": owner_repo,
         "title": title,
-        "action": "suppressed",
+        "action": "blocked-identity",
         "umbrella": None,
         "umbrellaTitle": None,
         "payload": None,
@@ -625,12 +604,8 @@ def suppressed_plan(owner_repo: str, title: str, version: str, closed: dict) -> 
         "snapshot": None,
         "recordsReset": False,
         "tampered": False,
-        "suppressedClosed": {
-            "suite": owner_repo,
-            "version": version,
-            "umbrella": closed["number"],
-            "closedAs": closed_disposition(closed),
-        },
+        "duplicates": [],
+        "ambiguous": [{"number": issue["number"], "title": issue.get("title", "")} for issue in ambiguous],
     }
 
 
@@ -647,16 +622,12 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     owner_repo = owner_repo_of(finding)
     new_version = finding["newVersion"]
     title = umbrella_title(owner_repo, new_version)
-    prefix = umbrella_prefix(owner_repo)
-    existing = open_umbrellas(live["issues"], prefix)
-    umbrella = existing[-1] if existing else None
-    if umbrella is None:
-        # C9 (H-A): a closed umbrella for this suite and version settles it. Recreating it on every run was the
-        # daily flood. Closed as rejected, completed or with no disposition, it suppresses the create, and the
-        # report names its number so a human can reopen or re-label it. A new version creates normally.
-        closed = closed_umbrella_for(live, title)
-        if closed is not None:
-            return suppressed_plan(owner_repo, title, new_version, closed)
+    # One OPEN canonical umbrella per suite: the lowest-numbered exact match. Closed umbrellas never block a
+    # create and are never edited, so a closed issue is preserved and a new one opens when none is open.
+    found = canonical_umbrellas(live["issues"], owner_repo)
+    if found.ambiguous:
+        return blocked_plan(owner_repo, title, found.ambiguous)
+    umbrella = found.canonical
     state_of = child_state_lookup(live, probe)
 
     open_children, rejected = prechecks.index_children(live["issues"])
@@ -686,7 +657,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         # starts from the closed umbrella's unresolved rows, so closing an umbrella never drops candidates. A
         # reset therefore keeps what the closed umbrella settled, such as a rejection (M3), and only the open
         # umbrella's own record state is rebuilt from the fresh poll.
-        carried = carry_forward(live, prefix, state_of, gh)
+        carried = carry_forward(live, owner_repo, state_of, gh)
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
     rows = annotate_rows(rows, state_of)
@@ -750,6 +721,9 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         "snapshot": snapshot_of(umbrella) if umbrella else None,
         "recordsReset": discarding,
         "tampered": tampered,
+        # Other open umbrellas for this suite. Never written or closed here: Steward reconciles them.
+        "duplicates": [{"number": issue["number"], "title": issue.get("title", "")} for issue in found.duplicates],
+        "ambiguous": [],
     }
 
 
@@ -794,9 +768,9 @@ def new_report() -> dict:
         "unavailable": [],
         # M4: the suites whose record state was rebuilt from the fresh poll by --reset-records.
         "recordsReset": [],
-        # C9 (H-A): suites whose version already has a closed umbrella, so no umbrella is created. Each entry names
-        # the closed umbrella's number and how it ended, so a human can reopen or re-label it.
-        "suppressedClosedUmbrella": [],
+        # Open umbrellas beyond the canonical one, per suite. Listed for Steward reconciliation. The watcher never
+        # edits, comments on or closes them.
+        "duplicateOpenUmbrellas": [],
         "suites": [],
     }
 
@@ -904,9 +878,9 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
     outcome = "planned"
     if plan["action"] == "noop":
         outcome = "noop"
-    elif plan["action"] == "suppressed":
-        # C9 (H-A): nothing to write, in dry-run or apply. The closed umbrella is reported instead.
-        outcome = "suppressed-closed"
+    elif plan["action"] == "blocked-identity":
+        # The suite's open identity is ambiguous: nothing is written in dry-run or apply, and the run exits 3.
+        outcome = "blocked-identity"
     elif apply:
         outcome = "raced-skip"
         for _attempt in range(2):
@@ -916,7 +890,10 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                 break
             if plan["action"] == "create":
                 fresh = read_live(gh)
-                if open_umbrellas(fresh["issues"], umbrella_prefix(plan["suite"])):
+                # A concurrent run may have opened the canonical umbrella since the first read. Re-plan against
+                # it, so the suite is updated in place rather than given a second open umbrella.
+                found = canonical_umbrellas(fresh["issues"], plan["suite"])
+                if found.canonical is not None or found.ambiguous:
                     live = fresh
                     plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
                     continue
@@ -941,20 +918,32 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         "totalRows": plan["totalRows"],
         "suppressed": plan["suppressed"],
         "carried": plan["carried"],
-        "suppressedClosed": plan.get("suppressedClosed"),
+        "duplicates": plan["duplicates"],
+        "ambiguous": plan["ambiguous"],
     }
     return row, live
 
 
 def fill_report(report: dict, suite_row: dict) -> None:
-    if suite_row.get("suppressedClosed"):
-        closed = suite_row["suppressedClosed"]
-        report["suppressedClosedUmbrella"].append(closed)
+    if suite_row["duplicates"]:
+        numbers = ", ".join(f"#{row['number']}" for row in suite_row["duplicates"])
+        report["duplicateOpenUmbrellas"].append(
+            {"suite": suite_row["suite"], "canonical": suite_row["umbrella"], "duplicates": suite_row["duplicates"]}
+        )
         print(
-            f"::notice::{closed['suite']} {closed['version']}: closed umbrella #{closed['umbrella']} "
-            f"({closed['closedAs']}) suppresses re-creating it. Reopen it or re-label it to resume.",
+            f"::warning::{suite_row['suite']}: canonical open umbrella #{suite_row['umbrella']}; duplicate open "
+            f"umbrella(s) {numbers} left untouched for Steward reconciliation.",
             file=sys.stderr,
         )
+    if suite_row["outcome"] == "blocked-identity":
+        numbers = ", ".join(f"#{row['number']}" for row in suite_row["ambiguous"])
+        report["unknownEvidence"].append(
+            {"source": "github-identity", "suite": suite_row["suite"],
+             "detail": f"open umbrella title(s) {numbers} name this suite but do not parse; no write made",
+             "stopped": False}
+        )
+        print(f"::error::{suite_row['suite']}: ambiguous open umbrella identity {numbers}; no write (exit 3).",
+              file=sys.stderr)
     report["suites"].append(
         {
             "suite": suite_row["suite"],

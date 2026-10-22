@@ -39,7 +39,6 @@ from scripts.upstream_watcher.live import GhError, LiveGh
 # Labels whose open issues the fanout idempotency checks read, once, before the first write.
 IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
 # Snapshot key for the closed upstream:bootstrap history, read in full (H3 rejection memory).
-CLOSED_BOOTSTRAP_KEY = "closed:upstream:bootstrap"
 
 
 class UmbrellaWriteError(RuntimeError):
@@ -375,26 +374,7 @@ def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, li
             snapshot[label] = gh.list_issues("open", labels=label)
         except GhError as exc:
             raise IdempotencyLookupError(f"open {label} issue list failed: {exc}") from exc
-    if "upstream:bootstrap" in labels:
-        try:
-            snapshot[CLOSED_BOOTSTRAP_KEY] = gh.list_issues("closed", labels="upstream:bootstrap")
-        except GhError as exc:
-            raise IdempotencyLookupError(f"closed upstream:bootstrap issue list failed: {exc}") from exc
     return snapshot
-
-
-def _closed_bootstrap_for(title: str, snapshot: dict[str, list[dict]] | None) -> int | None:
-    """The number of a closed upstream:bootstrap for exactly *title* (rejected, or closed as completed), or None.
-
-    H3 rejection memory is per (suite, version): a version is suppressed once it has a closed bootstrap.
-    A different version is not suppressed.
-    """
-    for issue in (snapshot or {}).get(CLOSED_BOOTSTRAP_KEY, []):
-        if issue.get("pull_request") or issue.get("state") != "closed":
-            continue
-        if issue.get("title") == title:
-            return issue["number"]
-    return None
 
 
 def _label_names(issue: dict) -> set[str]:
@@ -470,11 +450,12 @@ def _find_existing_suite_issue(
     run_cache: dict[tuple[str, str], Any] | None = None,
     snapshot: dict[str, list[dict]] | None = None,
 ) -> tuple[int, str] | None:
-    """Return (issue_number, current_title) of an open issue matching *prefix* under *label*, or None.
+    """Return (issue_number, current_title) of the canonical open issue whose title starts with *prefix*, or None.
 
-    Consults *run_cache* first, then the paginated open LIST for *label* (the run
-    *snapshot* when given). A failed list raises IdempotencyLookupError; it is never
-    read as "no such umbrella", which would create a duplicate.
+    The canonical issue is the lowest-numbered open match. Any other open match is reported as a duplicate for
+    Steward reconciliation and never edited here. Consults *run_cache* first, then the paginated open LIST for
+    *label* (the run *snapshot* when given). A failed list raises IdempotencyLookupError; it is never read as "no
+    such issue", which would create a duplicate.
     """
     if run_cache is not None:
         cached = run_cache.get((label, prefix))
@@ -482,13 +463,21 @@ def _find_existing_suite_issue(
             if isinstance(cached, tuple):
                 return cached
             return (cached, f"{prefix}...")
-    for issue in _listed_open(label, snapshot):
-        if issue.get("pull_request"):
-            continue
-        title = issue.get("title", "")
-        if prefix in title:
-            return issue["number"], title
-    return None
+    matches = [
+        issue for issue in _listed_open(label, snapshot)
+        if not issue.get("pull_request") and issue.get("title", "").lower().startswith(prefix.lower())
+    ]
+    if not matches:
+        return None
+    matches.sort(key=lambda issue: issue["number"])
+    if len(matches) > 1:
+        numbers = ", ".join(f"#{issue['number']}" for issue in matches[1:])
+        print(
+            f"::warning::{prefix.strip()}: canonical open #{matches[0]['number']}; duplicate open issue(s) "
+            f"{numbers} left untouched for Steward reconciliation.",
+            file=sys.stderr,
+        )
+    return matches[0]["number"], matches[0].get("title", "")
 
 
 def _update_issue(
@@ -562,12 +551,14 @@ def _find_existing_issue(
         cached = run_cache.get((label, search_str))
         if cached is not None:
             return cached
-    for issue in _listed_open(label, snapshot):
-        if issue.get("pull_request"):
-            continue
-        if search_str in issue.get("title", ""):
-            return issue["number"]
-    return None
+    matches = sorted(
+        (
+            issue for issue in _listed_open(label, snapshot)
+            if not issue.get("pull_request") and issue.get("title", "").strip().lower() == search_str.strip().lower()
+        ),
+        key=lambda issue: issue["number"],
+    )
+    return matches[0]["number"] if matches else None
 
 
 # ---------------------------------------------------------------------------
@@ -707,18 +698,8 @@ def create_issues(
         if finding_type == "bootstrap":
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
             suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
-            # H3: rejection memory per (suite, version). A closed bootstrap for this version, rejected or
-            # closed as completed, is never recreated. A different version is not suppressed.
-            closed_same = _closed_bootstrap_for(title, snapshot)
-            if closed_same is not None:
-                print(
-                    f"  Bootstrap for {skill_id}@{new_version} is closed as #{closed_same}; not recreated.",
-                    file=sys.stderr,
-                )
-                summaries.append(
-                    {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": closed_same, "closed": True}
-                )
-                continue
+            # A closed bootstrap never blocks a create: when no baseline is open, a new one opens and the closed issue
+            # stays as it was. Only an open baseline is reused or updated.
             existing_suite = _find_existing_suite_issue(
                 suite_prefix, "upstream:bootstrap", run_cache, snapshot
             )
@@ -771,6 +752,12 @@ def create_issues(
                 )
                 continue
 
+            # Re-read the open list right before the create: a concurrent run may have opened this baseline.
+            if _find_existing_suite_issue(suite_prefix, "upstream:bootstrap") is not None:
+                print(f"  Bootstrap for {skill_id} was opened by a concurrent run; not creating a second.",
+                      file=sys.stderr)
+                summaries.append({"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": None})
+                continue
             body = render_bootstrap_body(finding)
             # M3: a bootstrap is never created with upstream:approved and never dispatches
             # upstream-approve.yml. A human reads the proposed baseline and applies the label.

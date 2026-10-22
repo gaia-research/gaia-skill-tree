@@ -149,7 +149,7 @@ def test_a_rejection_does_not_touch_a_row_that_has_a_child():
     child(gh, 41, "ask-user", "open")
     closed_umbrella(gh, 10, "v1", [row("ask-user", "tracked", child=41), row("briefing", "new")],
                     labels=("upstream:rejected",))
-    carried = carry_forward(live_of(gh), PREFIX, child_state_lookup(live_of(gh), gh.child_state), gh)
+    carried = carry_forward(live_of(gh), GBRAIN, child_state_lookup(live_of(gh), gh.child_state), gh)
     by_slug = {r["slug"]: r for r in carried}
     assert by_slug["ask-user"]["status"] == "tracked", "the child link keeps the row's own status"
     assert by_slug["briefing"]["status"] == "rejected"
@@ -222,7 +222,7 @@ def test_an_undispositioned_closed_child_is_carried_forward_not_dropped():
     gh = FakeGh()
     child(gh, 41, "ask-user", "closed")
     closed_umbrella(gh, 10, "v1", [row("ask-user", "escalated", child=41)], labels=())
-    carried = carry_forward(live_of(gh), PREFIX, child_state_lookup(live_of(gh), gh.child_state), gh)
+    carried = carry_forward(live_of(gh), GBRAIN, child_state_lookup(live_of(gh), gh.child_state), gh)
     assert [r["slug"] for r in carried] == ["ask-user"], "closing an umbrella never drops the row"
 
 

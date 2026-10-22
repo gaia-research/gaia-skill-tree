@@ -2,9 +2,9 @@
 unknown evidence), M4 (no "automatically approved" claim) and the approval reset on a bootstrap
 whose version moves while a human holds upstream:approved.
 
-H3 ruling: a bootstrap for (suite, version) is never recreated once a closed upstream:bootstrap for that
-    version exists (rejected, or closed as completed). The closed history is read in full, and a failed
-    page is unknown evidence (exit 3, zero writes). A different version is not suppressed.
+Canonical-issue ruling (founder correction, PR #2133): a closed upstream:bootstrap never blocks a new one. When
+    no baseline for the suite is open, a new one is created, and the closed issue is never edited, commented on or
+    reopened. An open list that fails is unknown evidence (exit 3, zero writes).
 """
 
 from __future__ import annotations
@@ -55,28 +55,29 @@ def created_titles(world):
 
 
 # ---------------------------------------------------------------------------
-# H3: rejection memory per (suite, version)
+# Canonical issue: a closed baseline never blocks the next one, and is never touched
 # ---------------------------------------------------------------------------
 
 
-def test_a_closed_and_rejected_bootstrap_for_the_same_version_is_not_recreated(monkeypatch):
+def test_a_closed_and_rejected_bootstrap_for_the_same_version_is_recreated_and_left_alone(monkeypatch):
     rejected = bootstrap_issue(1700, TITLE_V211, "closed", ["upstream:bootstrap", "upstream:rejected"])
     world = world_for(monkeypatch, [rejected])
 
     summaries = create_issues([BOOTSTRAP], apply=True)
 
-    assert world.writes == []
-    assert summaries[0]["skipped"] is True and summaries[0]["issue"] == 1700
+    assert [w[0] for w in world.writes] == ["create"], "the closed issue is never edited or commented on"
+    assert created_titles(world) == [TITLE_V211]
+    assert summaries[0]["skipped"] is False
 
 
-def test_a_bootstrap_closed_as_completed_for_the_same_version_is_not_recreated(monkeypatch):
+def test_a_bootstrap_closed_as_completed_for_the_same_version_is_recreated_and_left_alone(monkeypatch):
     completed = bootstrap_issue(1701, TITLE_V211, "closed", ["upstream:bootstrap"])
     world = world_for(monkeypatch, [completed])
 
-    summaries = create_issues([BOOTSTRAP], apply=True)
+    create_issues([BOOTSTRAP], apply=True)
 
-    assert world.writes == []
-    assert summaries[0]["skipped"] is True and summaries[0]["issue"] == 1701
+    assert [w[0] for w in world.writes] == ["create"]
+    assert created_titles(world) == [TITLE_V211]
 
 
 def test_a_closed_bootstrap_for_an_older_version_does_not_suppress_the_new_version(monkeypatch):
@@ -88,8 +89,8 @@ def test_a_closed_bootstrap_for_an_older_version_does_not_suppress_the_new_versi
     assert created_titles(world) == [TITLE_V211]
 
 
-def test_a_failed_page_of_the_closed_bootstrap_history_is_unknown_evidence(monkeypatch):
-    world = world_for(monkeypatch, [], fail_pages=[("closed", "upstream:bootstrap", 1)])
+def test_a_failed_open_bootstrap_list_is_unknown_evidence_with_zero_writes(monkeypatch):
+    world = world_for(monkeypatch, [], fail_pages=[("open", "upstream:bootstrap", 1)])
 
     with pytest.raises(IdempotencyLookupError):
         create_issues([BOOTSTRAP], apply=True)
@@ -97,8 +98,8 @@ def test_a_failed_page_of_the_closed_bootstrap_history_is_unknown_evidence(monke
     assert world.writes == []
 
 
-def test_batch_mode_closed_history_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
-    world = world_for(monkeypatch, [], fail_pages=[("closed", "upstream:bootstrap", 1)])
+def test_batch_mode_open_bootstrap_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
+    world = world_for(monkeypatch, [], fail_pages=[("open", "upstream:bootstrap", 1)])
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": SUITE})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, registry_map, verbose: BOOTSTRAP)

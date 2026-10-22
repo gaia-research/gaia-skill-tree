@@ -19,7 +19,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, NamedTuple
 
 from scripts.lib.github_api import (
     GitHubFetchError,
@@ -339,13 +339,58 @@ def read_live(gh: LiveGh, now: dt.datetime | None = None) -> dict:
     return {"issues": issues, "closedUmbrellas": closed_umbrellas}
 
 
-def open_umbrellas(issues: list[dict], prefix: str) -> list[dict]:
-    """Open ``upstream:release`` issues whose title starts with *prefix*."""
-    found = []
+UMBRELLA_TITLE = re.compile(r"^\[upstream\] (?P<repo>[^\s/]+/\S+) → ")
+
+
+class Umbrellas(NamedTuple):
+    """The open umbrellas of one suite. ``canonical`` is the lowest-numbered exact match, or None.
+
+    ``duplicates`` are the other exact matches: they are never written, and Steward reconciles them.
+    ``ambiguous`` are open ``upstream:release`` titles that name the suite but do not parse to its identity.
+    """
+
+    canonical: dict | None
+    duplicates: list[dict]
+    ambiguous: list[dict]
+
+
+def suite_key(owner_repo: str) -> str:
+    """A suite's stable identity: owner/repo, lower-cased. GitHub owner and repository names are case-insensitive."""
+    return owner_repo.strip().lower()
+
+
+def umbrella_suite(title: str) -> str | None:
+    """The suite key an umbrella title names, or None when the title is not in the umbrella form."""
+    match = UMBRELLA_TITLE.match(title or "")
+    return suite_key(match.group("repo")) if match else None
+
+
+def mentions_suite(title: str, key: str) -> bool:
+    """Whether *title* names the suite *key* as a whole token: ``gbrain`` does not match ``gbrain-extra``."""
+    return re.search(rf"(?<![\w/.-]){re.escape(key)}(?![\w.-])", title.lower()) is not None
+
+
+def canonical_umbrellas(issues: list[dict], owner_repo: str) -> Umbrellas:
+    """Classify the open ``upstream:release`` issues that belong to *owner_repo*.
+
+    Identity is parsed from the title, never matched as a substring, so ``obra/superpowers`` does not claim
+    ``obra/superpowers-extra``. A title that contains the suite but does not parse is ambiguous, and the caller
+    must refuse to write for that suite rather than guess.
+    """
+    key = suite_key(owner_repo)
+    exact: list[dict] = []
+    ambiguous: list[dict] = []
     for issue in issues:
         if issue.get("state") != "open" or issue.get("pull_request"):
             continue
         labels = {label["name"] for label in issue.get("labels", [])}
-        if "upstream:release" in labels and issue.get("title", "").startswith(prefix):
-            found.append(issue)
-    return sorted(found, key=lambda issue: issue["number"])
+        if "upstream:release" not in labels:
+            continue
+        title = issue.get("title") or ""
+        parsed = umbrella_suite(title)
+        if parsed == key:
+            exact.append(issue)
+        elif parsed is None and mentions_suite(title, key):
+            ambiguous.append(issue)
+    exact.sort(key=lambda issue: issue["number"])
+    return Umbrellas(exact[0] if exact else None, exact[1:], sorted(ambiguous, key=lambda issue: issue["number"]))

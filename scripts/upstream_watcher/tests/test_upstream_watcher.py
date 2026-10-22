@@ -344,7 +344,7 @@ class TestIdempotency:
 
         with patch("subprocess.run", return_value=mock_result) as mock_run:
             result = _find_existing_issue(
-                "mattpocock/skills → v1.2.0", "upstream:release"
+                "[upstream] mattpocock/skills → v1.2.0", "upstream:release"
             )
         assert result == 123
         mock_run.assert_called_once()
