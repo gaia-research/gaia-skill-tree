@@ -224,8 +224,8 @@ failed page leaves `completeness` false. The unattended driver refreshes it befo
 each run (`--no-census` skips it), and `steward.yml` collects it in the observe job.
 A missing census reports the routine not evaluated (`notEvaluated`) and no closure is
 emitted. An incomplete or stale one reports coverage unknown, which blocks Class A for the run.
-The driver deletes a census whose collector failed (exit 1); an exit 3 file is kept so the
-sensor reports it incomplete. The collector itself only writes.
+The driver deletes a census whose collector exited with any code other than 0 or 3 (exit 1, exit 2, or a
+crash), so a stale file cannot pass as current. An exit 3 file is kept so the sensor reports it incomplete. The collector itself only writes.
 
 | Debt kind | Class | Who acts |
 |---|---|---|

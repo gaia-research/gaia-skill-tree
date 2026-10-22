@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from gaia_cli.steward.issuehygiene.census import Census, loadCensus
-from gaia_cli.steward.issuehygiene.closure import planClosures
+from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
 from gaia_cli.steward.issuehygiene.reconcile import SCHEMA_VERSION as MANIFEST_SCHEMA
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
@@ -73,9 +73,12 @@ def _hygienePolicy(root: Path) -> HygienePolicy:
     from gaia_cli.steward.policy import PolicyError, StewardPolicy
 
     try:
-        return StewardPolicy.load(root).issue_hygiene
+        policy = StewardPolicy.load(root)
     except PolicyError as exc:
         raise SensorUnavailable(f"steward policy is unreadable for issue hygiene: {exc}") from exc
+    if policy.issue_hygiene_error:
+        raise SensorUnavailable(f"steward policy is unreadable for issue hygiene: {policy.issue_hygiene_error}")
+    return policy.issue_hygiene
 
 
 def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any) -> Mapping[str, Any]:
@@ -142,7 +145,7 @@ def _observedPlan(plan: Mapping[str, Any], manifest: Mapping[str, Any]) -> dict[
     its plans, so it is dropped here. ``reconciliationSha256`` keeps the rebuild byte-identical.
     """
 
-    observed = {key: value for key, value in plan.items() if key not in ("comment", "comments")}
+    observed = compactPlan(plan)
     observed["reconciliationSha256"] = manifest["manifestSha256"]
     return observed
 

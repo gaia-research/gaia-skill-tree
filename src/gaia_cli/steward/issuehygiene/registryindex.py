@@ -134,6 +134,8 @@ class RegistryIndex:
     named: dict[str, NamedRecord] = field(default_factory=dict)
     nodes: dict[str, NodeRecord] = field(default_factory=dict)
     unreadable: tuple[Unreadable, ...] = ()
+    # The lifecycle values the checkout's namedSkill schema defines (B7 M4). None when the schema is unreadable.
+    statusAllowed: frozenset | None = None
     slugIndex: dict[str, list[NamedRecord]] = field(default_factory=dict, repr=False)
     githubIndex: dict[tuple[str, str], list[NamedRecord]] = field(default_factory=dict, repr=False)
 
@@ -254,6 +256,21 @@ def readNode(path: Path, relPath: str) -> tuple[NodeRecord | None, Unreadable | 
     return NodeRecord(id=data["id"], path=relPath, sha256=sha256(raw)), None
 
 
+SCHEMA_PATH = Path("registry/schema/namedSkill.schema.json")
+
+
+def schemaStatusValues(root: Path) -> frozenset | None:
+    """The status values namedSkill.schema.json defines. Anything else, a missing file included, is not proof (B7 M4)."""
+    try:
+        document = json.loads((root / SCHEMA_PATH).read_text(encoding="utf-8"))
+        values = document["properties"]["status"]["enum"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
+        return None
+    return frozenset(values)
+
+
 def buildRegistryIndex(root: Path) -> RegistryIndex:
     """Index ``registry/named`` and ``registry/nodes`` under ``root``. Read-only."""
     named: dict[str, NamedRecord] = {}
@@ -287,7 +304,8 @@ def buildRegistryIndex(root: Path) -> RegistryIndex:
                 continue
             nodes[node.id] = node
 
-    index = RegistryIndex(named=dict(sorted(named.items())), nodes=nodes, unreadable=tuple(sorted(unreadable, key=lambda item: item.path)))
+    index = RegistryIndex(named=dict(sorted(named.items())), nodes=nodes, unreadable=tuple(sorted(unreadable, key=lambda item: item.path)),
+                          statusAllowed=schemaStatusValues(root))
     for record in index.named.values():
         index.slugIndex.setdefault(record.slug, []).append(record)
         if record.github is not None:

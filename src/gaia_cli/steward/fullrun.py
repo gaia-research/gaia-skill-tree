@@ -70,10 +70,12 @@ from gaia_cli.steward.lane import (
     record_verdict,
 )
 from gaia_cli.steward.models import AuthorityClass, Debt, stable_json
-from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
-from gaia_cli.steward.issuehygiene.closure import closureCommentsFor, closureProven
+from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
+from gaia_cli.steward.issuehygiene.closure import closureProven
+from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
     RETRYLIMIT,
@@ -86,6 +88,7 @@ from gaia_cli.steward.issuehygiene.outcomes import (
     writeOutcome,
 )
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
+from gaia_cli.steward.clock import utcNow
 
 # Issue hygiene (#2130): closure debt is Class A but is executed by a driver, not a local repair.
 ISSUECLOSUREKIND = "issue_closure_ready"
@@ -163,7 +166,7 @@ def _checkpoint(name: str) -> None:
 
 
 def _utcNow() -> datetime:
-    return datetime.now(timezone.utc)
+    return utcNow()
 
 
 HANDOFFHEADING = "\n## Steward hand-off\n"
@@ -544,8 +547,10 @@ class FullRunner:
             for entry in unresolved:
                 doc["work"][entry["debtId"]]["adoptedBy"] = runId
             self._compact(doc)
+            # A monotonic sequence orders runs: the store is written with sorted keys, and two runs can share a start second.
+            sequence = 1 + max((int(r.get("sequence", 0)) for r in doc["runs"].values()), default=0)
             doc["runs"][runId] = {
-                "runId": runId, "mode": mode, "trigger": self.config.trigger,
+                "runId": runId, "mode": mode, "trigger": self.config.trigger, "sequence": sequence,
                 "actor": self.config.holder, "startedAt": now, "finishedAt": None,
                 "sourceHead": None, "integrationBranch": self.config.integration_branch,
                 "integrationHead": None, "phase": phases[1], "status": "active",
@@ -695,6 +700,8 @@ class FullRunner:
         """A finished run that was waiting on the driver completes once nothing is pending."""
 
         now = self._now()
+        # Writes switched off (or a rule disabled) since the closures were emitted: the runner ends them here (B7 D3).
+        self._cancelClosuresWhenDisabled(runId)
         current = self._loadRun(runId)
         desk = None
         if current["status"] == "awaiting-action" and not self._pending(current):
@@ -799,7 +806,8 @@ class FullRunner:
             lane=lane,
             lastScheduledRunAt=max(scheduled) if scheduled else None,
             recentRuns=[
-                {"runId": r["runId"], "mode": r["mode"], "status": r["status"], "startedAt": r["startedAt"]}
+                {"runId": r["runId"], "mode": r["mode"], "status": r["status"], "startedAt": r["startedAt"],
+                 "readyWritesDisabled": (r.get("issueBacklog") or {}).get("readyWritesDisabled")}
                 for r in runs[:10]
             ],
         )
@@ -1468,6 +1476,7 @@ class FullRunner:
 
         # Forge-executed closures first. While any closure awaits its driver outcome the
         # phase waits, so nothing is repeated or lost on resume.
+        self._cancelClosuresWhenDisabled(runId)
         doc = self._load()
         run = doc["runs"][runId]
         if self._pending(run, CLOSEACTION):
@@ -1573,8 +1582,13 @@ class FullRunner:
             if action["type"] == CLOSEACTION and action["status"] == "pending"
         }
         budget = policy.issue_hygiene.maxClosuresPerRun - sum(1 for a in run["actions"] if a["type"] == CLOSEACTION)
+        # The hourly budget counts every run's receipts, so a fresh run cannot exceed what earlier runs spent (B7 L2).
+        budget = min(budget, hourlyBudget(self.root, self.config.clock(), policy.issue_hygiene))
         rows = census.byNumber()
         repo = census.document.get("repo") if isinstance(census.document, dict) else None
+        if not isinstance(repo, str) or not repo.strip():
+            summary["reason"] = "issue census names no repository; emitting none"
+            return summary
         receiptPath = (RECEIPTDIRECTORY / f"{runId}.jsonl").as_posix()
         now = self._now()
         for debt in ready:
@@ -1607,10 +1621,9 @@ class FullRunner:
                 if budget <= 0:
                     summary["deferred"].append({"key": key, "reason": "policy maxClosuresPerRun for this run is exhausted"})
                     continue
-                # The comment is rebuilt here, not stored in debt state (see sensor._observedPlan).
-                comments = closureCommentsFor(plan)
-                params = {**plan, "comment": comments[0], "comments": comments, "receiptPath": receiptPath,
-                          "manifestSha256": digest, "repo": repo}
+                # Compact: identifiers and digests. The executor rebuilds the comments from the census (B7 D5).
+                params = {**{k: v for k, v in plan.items() if k != "reconciliationSha256"},
+                          "receiptPath": receiptPath, "manifestSha256": digest, "repo": repo}
 
                 def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params,
                           debtId=debt.id, name=pairKey(key, number), eight=manifestEight(digest)) -> None:
@@ -1630,6 +1643,64 @@ class FullRunner:
         summary["deferred"] = len(deferred)
         return summary
 
+    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> None:
+        """A terminal closure outcome is trusted only when this checkout's receipts record the same outcome (B7 D7).
+
+        The receipt is written by the executor before the driver reports, in the confined store. A driver
+        that reports ``closed`` without a matching receipt, or with a different proof, is refused and the action
+        stays pending, so a report cannot close an action on its own word.
+        """
+        if not isinstance(params.get("receiptPath"), str):
+            raise RecordRefused("the closure action names no receipt, so its outcome cannot be verified")
+        try:
+            receipt = receiptFor(self.root, params["receiptPath"])
+        except ActionRefused as exc:
+            raise RecordRefused(f"the closure receipt is not in the receipts store: {exc}") from exc
+        entry = recordedReceipt(receipt, params["key"], params["issue"])
+        matches = entry is not None and entry.get("outcome") == result
+        if matches and result == "closed":
+            # The outcome carries exactly one proof (closureProven), and the receipt must hold that same proof.
+            if outcome.get("commentUrl") is not None:
+                matches = entry.get("commentUrl") == outcome["commentUrl"]
+            elif outcome.get("commentId") is not None:
+                matches = entry.get("commentId") == outcome["commentId"]
+            else:
+                matches = outcome.get("markerVerified") is True and entry.get("markerVerified") is True
+        if not matches:
+            raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
+
+    def _cancelClosuresWhenDisabled(self, runId: str) -> int:
+        """Writes switched off, or a rule disabled, ends pending closures here, so the run can settle (B7 D3).
+
+        A cancelled closure is not performed and writes nothing. Its debt is re-observed by the next scan, and it
+        is emitted again only when writes are back on. Cancelling releases the run's wait for the driver.
+        """
+        # Re-read the policy: the runner object may outlive an edit, and a stale "enabled" must not keep a closure alive.
+        # An unreadable policy fails closed, so every pending closure is cancelled.
+        try:
+            hygiene: HygienePolicy | None = StewardPolicy.load(self.root).issue_hygiene
+        except PolicyError:
+            hygiene = None
+        now = self._now()
+        cancelled = [0]
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            for action in run["actions"]:
+                if action["status"] != "pending" or action["type"] != CLOSEACTION:
+                    continue
+                ruleId = action["params"].get("ruleId")
+                if hygiene is not None and hygiene.writesEnabled and isinstance(ruleId, str) and hygiene.ruleEnabled(ruleId):
+                    continue
+                action["status"] = "cancelled"
+                action["outcome"] = {"outcome": "cancelled", "reason": "writes-disabled", "at": now}
+                for step in run["steps"]:
+                    if step.get("stepId") == action["stepId"]:
+                        step["status"] = "cancelled"
+                cancelled[0] += 1
+
+        self._mutateRun(runId, apply, message="steward full closure cancelled: writes disabled")
+        return cancelled[0]
+
     def _recordCloseIssue(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
         result = outcome.get("outcome")
         if result not in OUTCOMES:
@@ -1640,6 +1711,10 @@ class FullRunner:
         commentId = outcome.get("commentId")
         if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
             raise RecordRefused("commentId, when given, must be a positive integer")
+        if result in ("closed", "already-closed"):
+            self._requireReceipt(result, outcome, params)
+        if result in ("closed", "already-closed") and not (isinstance(params.get("repo"), str) and params["repo"].strip()):
+            raise RecordRefused("the closure action names no repository, so its outcome cannot be verified")
         if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
             raise RecordRefused(
                 "a closed outcome must carry exactly one proof of its closing comment: a commentUrl on this issue, "
@@ -2451,15 +2526,23 @@ class FullRunner:
             closedTotal: int | None = len(donePairs(self.root))
         except OutcomeStoreError:
             closedTotal = None
+        # Runs started before this one that recorded a backlog. Ordered by the run sequence, because two runs can
+        # share a start second (the clock is coarse, and tests pin it).
+        mine = int(run.get("sequence", 0))
         earlier = sorted(
             (other for other in doc["runs"].values()
              if other["runId"] != runId and isinstance(other.get("issueBacklog"), dict)
-             and other.get("startedAt", "") < run.get("startedAt", "")),
-            key=lambda other: other["startedAt"],
+             and int(other.get("sequence", 0)) < mine),
+            key=lambda other: int(other.get("sequence", 0)),
         )
         previous = earlier[-1]["issueBacklog"]["openIssues"] if earlier else None
         openNow = stats["openIssues"]
+        readyWritesDisabled = sum(
+            int(o.observed_state.get("count", 0)) for o in scan.observations
+            if o.kind == ISSUECLOSUREKIND and o.observed_state.get("writesEnabled") is False
+        )
         return {
+            "readyWritesDisabled": readyWritesDisabled,
             "openIssues": openNow,
             "botOpen": stats.get("botOpen"),
             "upstreamChildOpen": stats.get("upstreamChildOpen"),

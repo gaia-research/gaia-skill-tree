@@ -6,6 +6,8 @@ issue census and the reconciliation are supplied the same way the sensor tests d
 
 from __future__ import annotations
 
+import json
+
 from pathlib import Path
 
 import pytest
@@ -54,6 +56,25 @@ def closeActions(view) -> list[dict]:
     return [action for action in view.actions if action["type"] == CLOSE]
 
 
+def settle(runner, runId: str, action: dict, outcome: dict):
+    """Record a driver outcome the way the executor leaves it: a closed outcome has a matching receipt (B7 D7).
+
+    The real script writes this receipt before it prints the outcome. Recording a terminal closure without one
+    is refused, and that refusal is tested on its own.
+    """
+    if outcome.get("outcome") in ("closed", "already-closed"):
+        params = action["params"]
+        receipt = runner.root / params["receiptPath"]
+        receipt.parent.mkdir(parents=True, exist_ok=True)
+        entry = {"schemaVersion": "steward-issue-closure-receipt-v1", "runId": runId, "key": params["key"],
+                 "issue": params["issue"], "ruleId": params["ruleId"], "outcome": outcome["outcome"],
+                 "commentUrl": outcome.get("commentUrl"), "commentId": outcome.get("commentId"),
+                 "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z"}
+        with receipt.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    return runner.record(runId, action["stepId"], outcome)
+
+
 def outcomeFor(action: dict, result: str = "closed", **extra) -> dict:
     params = action["params"]
     body = {"outcome": result, "issue": params["issue"], "key": params["key"]}
@@ -88,8 +109,7 @@ def test_class_a_emits_at_most_ten_closures_then_waits_for_driver_outcomes(tmp_p
     assert params["ruleId"] == "A1-child-curated"
     assert params["expectedSnapshot"]["bodySha256"] == rows[0]["bodySha256"]
     assert params["receiptPath"].endswith(f"{view.runId}.jsonl")
-    assert "<!-- gaia-steward-closure:" in params["comment"]
-    assert params["original"]["bodySha256"] == rows[0]["bodySha256"]  # the original payload travels with the plan
+    assert "comment" not in params and "original" not in params  # compact: the executor rebuilds them from the census (B7 D5)
     assert all(action["type"] != "agent.build" for action in view.actions)
 
 
@@ -114,11 +134,13 @@ def test_closed_outcomes_are_durable_and_a_later_run_never_reemits_them(tmp_path
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     view = runner.start("full")
     for action in closeActions(view):
-        runner.record(view.runId, action["stepId"], outcomeFor(action))
+        settle(runner, view.runId, action, outcomeFor(action))
     view = runner.resume(view.runId)
     assert closeActions(view) == []  # the cap for this run is spent; the two deferred items wait
     assert len(loadOutcomes(repo)) == 10
 
+    # The policy cap is per UTC hour (B7 L2): the two deferred closures wait for the next hour.
+    monkeypatch.setenv("GAIA_STEWARD_NOW", "2026-10-21T20:30:00Z")
     second = runner.start("full")  # the census still lists all twelve as open
     emitted = [a["params"]["issue"] for a in closeActions(second)]
     assert sorted(emitted) == [110, 111]
@@ -131,10 +153,10 @@ def test_repeat_record_is_a_noop_and_a_different_outcome_is_refused(tmp_path, mo
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     view = runner.start("full")
     (action,) = closeActions(view)
-    runner.record(view.runId, action["stepId"], outcomeFor(action))
-    runner.record(view.runId, action["stepId"], outcomeFor(action))  # same outcome: no-op
+    settle(runner, view.runId, action, outcomeFor(action))
+    settle(runner, view.runId, action, outcomeFor(action))  # same outcome: no-op
     with pytest.raises(RecordRefused):
-        runner.record(view.runId, action["stepId"], outcomeFor(action, "failed", failure="late change"))
+        settle(runner, view.runId, action, outcomeFor(action, "failed", failure="late change"))
 
 
 @pytest.mark.parametrize("body", [
@@ -164,7 +186,7 @@ def test_invalid_outcomes_are_refused(tmp_path, monkeypatch, body) -> None:
     if payload.get("commentUrl") == "ISSUE_URL":
         payload["commentUrl"] = f"https://github.com/gaia-research/gaia-skill-tree/issues/{action['params']['issue']}#issuecomment-7"
     with pytest.raises(RecordRefused):
-        runner.record(view.runId, action["stepId"], payload)
+        settle(runner, view.runId, action, payload)
     assert loadOutcomes(repo) == {}
 
 
@@ -183,7 +205,7 @@ def test_closed_outcome_is_accepted_with_any_one_proof(tmp_path, monkeypatch, pr
     proof = {key: (f"https://github.com/gaia-research/gaia-skill-tree/issues/{action['params']['issue']}#issuecomment-99"
                    if value == "ISSUE_URL" else value) for key, value in proof.items()}
     payload = {"outcome": "closed", "issue": action["params"]["issue"], "key": action["params"]["key"], **proof}
-    runner.record(view.runId, action["stepId"], payload)
+    settle(runner, view.runId, action, payload)
     entry = loadOutcomes(repo)[f"{action['params']['key']}#{action['params']['issue']}"]
     assert entry["outcome"] == "closed"
     assert entry["commentId"] == proof.get("commentId")
@@ -293,7 +315,7 @@ def test_backlog_line_reports_closures_and_the_change_since_the_previous_run(tmp
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     view = runner.start("full")
     for action in closeActions(view):
-        runner.record(view.runId, action["stepId"], outcomeFor(action))
+        settle(runner, view.runId, action, outcomeFor(action))
     view = runner.resume(view.runId)
     lines = operationsOf(view, "issue_backlog")
     assert len(lines) == 1

@@ -119,7 +119,7 @@ Parents: child body `Umbrella: #N`; umbrella `Child intakes:` list / checkbox li
 `<!-- gaia-upstream-payload ... -->`. A child whose parent number is absent from the census is an
 `orphan-child` (=> Class B, never A).
 
-**Listed numbers on an umbrella (fixed under lane E defects 3 and 4, 2026-10-21).** Every number
+**Listed numbers on an umbrella (fixed under lane E defects 3 and 4, 2026-10-21; the child-line rule is resolved in section 8.4).** Every number
 the umbrella body lists is classified, and the umbrella's A2 proof depends on the result:
 
 | Listed number is | Result | Effect on the listing umbrella |
@@ -250,9 +250,9 @@ Realistic fixture: all four families trimmed from the live 2026-10-21 census (st
 dry-run manifest on live census -> watcher fix + dry-run proof (no recreation) -> pilot closure of a small
 eligible A batch (<=5) -> re-read/replay idempotency check -> expand in checkpointed batches of <=10.
 
-Status (lane B5, 2026-10-21): the shipped `issueHygiene.writesEnabled` is `false`. The pilot runs only through
-`scripts/steward_issue_reconcile.py --apply-closures --receipts PATH --i-understand-writes` with explicit flags.
-Test checkouts that exercise writes set `writesEnabled: true` explicitly.
+Status (lane B5, 2026-10-21, amended by lane B7 round 2, section 8): the shipped `issueHygiene.writesEnabled` is
+`false`. The pilot procedure is the one in section 8.1. Test checkouts that exercise writes set `writesEnabled: true`
+explicitly.
 
 ## 7. Lane B5 amendments (verifier blockers, binding)
 
@@ -276,6 +276,7 @@ These amend §§3.1 to 3.6 and are implemented in the code they name.
   (`v1.2` is not `v1.2.3`, `o/r` is not `o/r-fork`). The census carries no branch name or body for this check.
 * **Listed children (M5, §3.2).** A child counts as listed in a superseder only on a markdown list or checklist
   item line (`- `, `* `, `- [ ] `, `- [x] `). Prose containing `+ slug` never lists a child.
+  Resolved by lane B7 (M2, section 8.4): a `Child intake:` / `Child intakes:` line prefix also lists; a mid-sentence `child intake #N` never does.
 * **Contributor aliases (B3, §3.4 A4).** A4 requires the exact candidate id (owner and slug) and the same evidence
   URL. A pair whose handles differ only by punctuation or case is alias-suspect: Class C, one question, never A.
 * **Registry status and identity (L2, L3, L4, §3.4 A1).** A `draft` or `deprecated` record is never A. A
@@ -325,3 +326,101 @@ These amend §§3.1 to 3.6 and are implemented in the code they name.
 * **Residual, accepted.** Our closer identity comes from `GET /user`. A GitHub App or Actions token cannot read it,
   so markers are never proof for it: a crash after our comment then posts a second comment before the close.
   Closures still happen once. The census collector cannot detect a mutation that repeats identically in both walks.
+
+## 8. Lane B7 round-2 amendments (binding; they amend 3.2, 3.4, 3.5, 3.6, 6 and 7)
+
+Each item below is implemented, and each has a test under `tests/steward/issuehygiene/test_b7_*.py`.
+
+### 8.1 Pilot procedure and the single executor (H1, binding)
+
+* There is one closure executor. `gaia_cli.steward.issuehygiene.executor.gateClosure` is the only gate. Both
+  `scripts/steward_issue_close.py` (one action) and `scripts/steward_issue_reconcile.py --apply-closures` (every
+  proven plan of a manifest) call it before any forge is built.
+* `--apply-closures` requires `--receipts` inside the fixed store `.gaia/steward/issue-hygiene/receipts/` (no symlink on
+  the way), `--i-understand-writes`, and `--repo OWNER/NAME`, which must equal the census repository. It refuses `--now`,
+  `--policy` and `--census`, reads only the checkout's `founder/steward/POLICY.yaml` and census, and refuses (exit 2,
+  zero forge calls) unless `issueHygiene.writesEnabled` is true. `--max-closures` may only lower the policy cap. The
+  planner's old override that treated the flags as authority is removed.
+* Pilot procedure: copy the checkout to a throwaway directory; in that copy only, set `issueHygiene.writesEnabled: true`
+  and `maxClosuresPerRun: 5` in `founder/steward/POLICY.yaml`; never commit that edit; then run
+  `python scripts/steward_issue_reconcile.py --apply-closures --receipts .gaia/steward/issue-hygiene/receipts/pilot.jsonl --i-understand-writes --repo gaia-research/gaia-skill-tree --max-closures 5`.
+  The committed `POLICY.yaml` stays `writesEnabled: false`.
+
+### 8.2 Caps, clock and identity (L2, L3, L4, L5)
+
+* Hourly budget (L2): closures recorded in any run's receipts count. At most `maxClosuresPerRun` per UTC hour, and
+  never more than 25 closures in any 60 minutes (`executor.hourlyBudget`). Emission and the executor both enforce it.
+* `--now` is refused on `--apply-closures` and ignored by `scripts/steward_issue_close.py`. Freshness uses the real
+  clock. `--now` remains for dry-run replays of the manifest only.
+* The census repository, the action's `repo` and `--repo` must match case-insensitively (L4, D4).
+* `closureProven` requires the repository and raises without one (L5). A proof is valid only when every present field is
+  valid: a present-but-invalid `commentUrl`, `commentId` or `markerVerified` refuses the outcome. `null` means absent.
+
+### 8.3 Locks (M1)
+
+* Two locks per closure, taken in order: the (key, issue) lock beside the receipts store, then a (repo, issue) lock in the
+  user-level lock directory `gettempdir()/gaia-steward-locks/` (`closure.userLockDir`). Two checkouts that share a
+  repository on one machine serialize on the second lock.
+* Across machines the lock does not reach. The guard there is the closing-comment marker check and the live re-read
+  under the closer identity (3.5, M3). That is the accepted residual.
+
+### 8.4 Listings and status (M2, M4, L1)
+
+* Umbrella child listings (3.2): a child is listed only on a markdown list or checklist item (a line that starts with
+  `- `, `* `, `- [ ] `, `- [x] `) or on a line that starts with `Child intake:` / `Child intakes:` (an optional list bullet
+  first). A `child intake #N` that appears mid-sentence lists nothing.
+* A1 status (3.4): an allowlist of the values in `registry/schema/namedSkill.schema.json` (`awakened`, `named`) read from the
+  checkout. Any other value (`archived`, `draft`, `deprecated`, an unknown value), a missing status, or a missing or unreadable
+  schema is not A (B, reason `registry-status-not-allowed`, `registry-status-missing`).
+* A1 repository (3.4, L1): when `links.github` names a repository other than the declared `upstream.repo` (case-insensitive
+  owner/repo), the child is not A (B, reason `links-repo-contradicts-upstream`).
+
+### 8.5 Scrub (M3)
+
+* `CREDENTIAL_PATTERNS` (`gaia_cli.steward.primitives.redact`) covers Hugging Face (`hf_`), npm (`npm_`), GitLab
+  (`glpat-`), JWT (`eyJ` header, three base64url segments), `Bearer <token>`, credential assignments
+  (`password|passwd|secret|token|api_key = value`, quoted or escaped), and a 40-character base64 string adjacent to an
+  `aws` or `secret` keyword. The credential-assignment shape excludes code access such as `os.environ[...]`.
+* The scrub is applied to the closing comments, the preserved original payload (`preservedTextOf` scrubs its text again),
+  the snapshot title, the evidence details, the receipts and the ledger action params. The shared list is also the
+  secret-scan sensor's list, so a new shape changes that sensor too.
+
+### 8.6 Actions, debt plans and proof of the terminal outcome (D5, D6, D7, D2)
+
+* Actions and debt plans are compact (`executor.compactPlan`): identifiers, digests, the expected snapshot and the evidence
+  references. They carry no `original`, no `comment` and no `comments`. The executor re-derives the comments and the preserved
+  payload from the census at execution time and checks `closureSha8` and `preservedSha256`. Test: a 300-candidate umbrella
+  gives an action well under 8 KB, and the executor still posts every candidate.
+* The runner records a `closed` or `already-closed` outcome only when this checkout's receipts hold a matching entry for the
+  same (key, issue) and the same single proof. Otherwise the record is refused and the action stays pending.
+* A repeat run on a pair this checkout already recorded prints the recorded outcome and exits 0 (`resumed-done`). It writes no
+  new receipt.
+
+### 8.7 Kill switch and driver (D3, D8, D10)
+
+* When writes are off, or a closure rule is disabled, the runner cancels the pending `forge.close_issue` actions (status
+  `cancelled`, reason `writes-disabled`) on every resume, re-reading the policy. Cancellation releases the run's wait, so the
+  run settles and its lease is released. The driver reports `writes disabled`, not a stall.
+* A malformed `issueHygiene` block disables only the issue-hygiene surface. The whole policy still loads. The sensor reports
+  coverage unknown for issue hygiene, and the executor refuses (exit 2). Other steward work continues.
+* The ready-but-disabled count (`ready (writes disabled): N proven closures`) appears on the desk backlog line, in the run list
+  and in `steward full status`.
+
+### 8.8 Transport (L6)
+
+* The forge transport opens URLs with an opener that never follows a redirect. A 3xx on a comment or close is an error.
+
+### 8.9 Documentation corrections (D12)
+
+* The driver removes a census whose collector exits with any code other than 0 or 3 (exit 1, exit 2, or a crash). An exit 3
+  file is kept so the sensor reports it incomplete. `founder/steward/README.md` says so.
+* The decision record `founder/steward/decisions/steward-issue-closure-authority.json` states the own-marker `updatedAt`
+  tolerance and the hourly budget.
+* The steward-full skill's Class B line states `maxInFlight` as the policy value, with the code range 1 to 4. A step the executor
+  refuses (exit 2) is skipped and reported, never re-sent. Closures without a token are listed as unperformed.
+
+### 8.10 Clock (test-only seam)
+
+* Every steward clock read goes through `gaia_cli.steward.clock.utcNow`. It honours the `GAIA_STEWARD_NOW` pin only while pytest
+  runs (`PYTEST_CURRENT_TEST` set). `tests/steward/issuehygiene/conftest.py` pins the fixture window (2026-10-21T19:30:00Z) in
+  every issue-hygiene test, so the suite does not depend on the wall-clock date. Production reads the real clock.

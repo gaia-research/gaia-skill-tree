@@ -83,6 +83,9 @@ def censusOf(rows, closed=(), complete=True, fetchedAt=FETCHED):
 
 
 def writeNamed(root: Path, identifier: str, body: str) -> None:
+    from tests.steward.issuehygiene.e_fakes import copySchema
+
+    copySchema(root)
     contributor, slug = identifier.split("/")
     target = root / "registry" / "named" / contributor / f"{slug}.md"
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -154,7 +157,7 @@ def test_a1_negative_url_differs(tmp_path: Path):
 def test_a1_negative_draft_status(tmp_path: Path):
     manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=BLOB, status="draft")), tmp_path)
     assert item(manifest, 10)["authority"] == "B"
-    assert "registry-draft" in item(manifest, 10)["notProven"]
+    assert "registry-status-not-allowed" in item(manifest, 10)["notProven"]  # B7 M4: an allowlist, not a blocklist
 
 
 def test_a1_positive_ref_only_tag_vs_main_is_a1_with_ref_differs(tmp_path: Path):
@@ -197,13 +200,20 @@ def test_a1_positive_tree_trailing_slash_and_query_fold_to_the_same_file(tmp_pat
     assert item(manifest, 10)["notProven"] == []
 
 
-def test_a1_positive_fork_link_closes_when_declared_upstream_repo_and_path_match(tmp_path: Path):
+def test_a1_fork_link_that_contradicts_the_declared_upstream_repo_is_not_proof(tmp_path: Path):
+    """B7 L1: links.github naming another repository than upstream.repo is never A, even if the path matches."""
     extra = "upstream:\n  repo: obra/superpowers\n  version: v6.4.1\n"
     fork = "https://github.com/garrytan/gstack/blob/main/skills/writing-skills/SKILL.md"
     manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=fork, extra=extra)), tmp_path)
     child = item(manifest, 10)
-    assert child["authority"] == "A"
-    assert ("registry", REGISTRY_PATH, "upstream repo and path match the evidence URL") in proofOf(child)
+    assert child["authority"] == "B"
+    assert "links-repo-contradicts-upstream" in child["notProven"]
+
+
+def test_a1_positive_upstream_repo_that_matches_links_github_closes_case_insensitively(tmp_path: Path):
+    extra = "upstream:\n  repo: Obra/Superpowers\n  version: v6.4.1\n"
+    manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=BLOB, extra=extra)), tmp_path)
+    assert item(manifest, 10)["authority"] == "A"
 
 
 @pytest.mark.parametrize("registryUrl", [
@@ -315,7 +325,7 @@ def test_a1_negative_ref_only_difference_is_not_proof_when_draft(tmp_path: Path)
     manifest = run(a1Fixture(tmp_path, skill("obra/writing-skills", github=PINNED, status="draft")), tmp_path)
     child = item(manifest, 10)
     assert child["authority"] == "B"
-    assert "registry-draft" in child["notProven"]
+    assert "registry-status-not-allowed" in child["notProven"]
     assert "registry-link-differs" not in child["notProven"]
 
 

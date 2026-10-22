@@ -39,33 +39,55 @@ def liveForges() -> Forge:
     })
 
 
-def test_explicit_pilot_flags_close_under_the_dry_run_policy_within_the_cap(tmp_path: Path, capsys) -> None:
+def pilotReceipts(root: Path) -> Path:
+    return root / ".gaia" / "steward" / "issue-hygiene" / "receipts" / "pilot.jsonl"
+
+
+def test_explicit_flags_do_not_override_the_dry_run_policy(tmp_path: Path, capsys) -> None:
+    """B7 H1: the pilot's flags are necessary, not sufficient. writesEnabled false refuses with zero writes."""
     root = twoChildCheckout(tmp_path, policy={"writesEnabled": False})
     forge = liveForges()
-    receipts = tmp_path / "pilot.jsonl"
+    repo = censusOf([umbrellaRow(20, "obra/superpowers", "v7.0.0")]).document["repo"]
 
     code = reconcileMain(
-        ["--root", str(root), "--now", "2026-10-21T19:30:00Z", "--summary", "--apply-closures",
-         "--receipts", str(receipts), "--i-understand-writes", "--max-closures", "1"],
+        ["--root", str(root), "--apply-closures", "--receipts", str(pilotReceipts(root)), "--i-understand-writes",
+         "--repo", repo, "--max-closures", "1"],
         forgeFactory=lambda name, secret: forge,
     )
-    out = capsys.readouterr().out
+    capsys.readouterr()
+
+    assert code == 2
+    assert forge.writes() == []
+    assert not pilotReceipts(root).exists()
+
+
+def test_the_pilot_closes_on_a_throwaway_checkout_with_writes_enabled_within_the_cap(tmp_path: Path, capsys) -> None:
+    root = twoChildCheckout(tmp_path, policy={"writesEnabled": True})
+    forge = liveForges()
+    repo = censusOf([umbrellaRow(20, "obra/superpowers", "v7.0.0")]).document["repo"]
+
+    code = reconcileMain(
+        ["--root", str(root), "--apply-closures", "--receipts", str(pilotReceipts(root)), "--i-understand-writes",
+         "--repo", repo, "--max-closures", "1"],
+        forgeFactory=lambda name, secret: forge,
+    )
+    capsys.readouterr()
 
     assert code == 0
     assert len([call for call in forge.writes() if call[0] == "close"]) == 1
-    closedReceipts = [receipt for receipt in receiptsOf(receipts) if receipt["outcome"] == "closed"]
+    closedReceipts = [receipt for receipt in receiptsOf(pilotReceipts(root)) if receipt["outcome"] == "closed"]
     assert len(closedReceipts) == 1
-    assert closureProven({"outcome": "closed", "commentUrl": closedReceipts[0]["commentUrl"]}, closedReceipts[0]["issue"])
-    assert "writesEnabled is false" in out and "held as debt" in out
+    assert closureProven({"outcome": "closed", "commentUrl": closedReceipts[0]["commentUrl"]}, closedReceipts[0]["issue"], repo)
 
 
 def test_the_pilot_cap_can_only_lower_the_policy_cap(tmp_path: Path, capsys) -> None:
-    root = twoChildCheckout(tmp_path, policy={"writesEnabled": False, "maxClosuresPerRun": 1})
+    root = twoChildCheckout(tmp_path, policy={"writesEnabled": True, "maxClosuresPerRun": 1})
     forge = liveForges()
+    repo = censusOf([umbrellaRow(20, "obra/superpowers", "v7.0.0")]).document["repo"]
 
     code = reconcileMain(
-        ["--root", str(root), "--now", "2026-10-21T19:30:00Z", "--apply-closures",
-         "--receipts", str(tmp_path / "pilot.jsonl"), "--i-understand-writes", "--max-closures", "9"],
+        ["--root", str(root), "--apply-closures", "--receipts", str(pilotReceipts(root)), "--i-understand-writes",
+         "--repo", repo, "--max-closures", "9"],
         forgeFactory=lambda name, secret: forge,
     )
     capsys.readouterr()

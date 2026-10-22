@@ -7,7 +7,7 @@ description: >-
   Use when a full Steward run emits forge.close_issue, for "/gaia-steward-full" showing
   issue_closure_ready debt, or "close the proven issues". Closes only the one issue the
   action names, and only when the census still proves it.
-version: 1.1.0
+version: 1.2.0
 ---
 
 # gaia-steward-issue-hygiene
@@ -29,11 +29,12 @@ A pending `forge.close_issue` action from the run. Read it without advancing the
 gaia steward full run --resume RUN --json
 ```
 
-Its `params` are the closure plan: `key`, `issue`, `ruleId`, `expectedSnapshot`,
-`comment` and `comments` (the closing comments; the first carries the marker
-`<!-- gaia-steward-closure:{key}:{closureSha8} -->`), `stateReason`, `duplicateOf`,
-`receiptPath`, `manifestSha256` (the digest the sensor reports) and `repo`. Write `params`
-verbatim to `ACTION.json`.
+Its `params` are compact (B7 D5): identifiers and digests, not the closing comments. They are
+`key`, `issue`, `ruleId`, `authority`, `state`, `stateReason`, `duplicateOf`, `parent`, `canonical`,
+`expectedSnapshot`, `evidence` (type, ref and sha256 only), `closureSha8`, `preservedSha256`,
+`receiptPath`, `manifestSha256` (the digest the sensor reports) and `repo`. Write `params` verbatim to
+`ACTION.json`. The executor rebuilds the closing comments and the preserved candidate information from
+the census, and refuses unless the digests match the re-derived closure.
 
 ## Output
 
@@ -45,7 +46,9 @@ python scripts/steward_issue_close.py --action ACTION.json --root . --repo gaia-
 
 It prints one JSON line: `outcome`, `key`, `issue`, `closedAt`, `failure`,
 `preservedSha256`, and exactly ONE proof field: `commentUrl` (a GitHub comment URL on this
-issue), `commentId`, or `markerVerified: true`. It appends one receipt to `receiptPath`.
+issue), `commentId`, or `markerVerified: true`. It appends one receipt to `receiptPath`. A repeat
+run on a pair this checkout already recorded prints the recorded outcome again and writes nothing (exit 0).
+`--now` is ignored: freshness uses the real clock.
 
 2. Record that line as the outcome of the step:
 
@@ -60,15 +63,18 @@ a URL that does not name this issue and repo, or no proof at all is refused.
 
 The executor re-derives every gate below before any forge is built:
 
-1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`.
+1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`, and the policy parses.
 2. The action's rule is in `issueHygiene.enabledRules`. An A5 closure also needs a
    non-empty `a5Disabled` covering every workflow its evidence names.
 3. This run has not reached `issueHygiene.maxClosuresPerRun` (closed receipts for the run id count).
-4. `receiptPath` is under `.gaia/steward/issue-hygiene/receipts/`, reached through no symlink.
-5. `.gaia/steward/inputs/github-issues.json` is a complete, fresh census.
-6. Reconciling that census reproduces the action's `manifestSha256`, still proves the same
-   (key, issue, rule), and yields the same closing comments. A moved census refuses the
-   action; the next scan re-observes it.
+4. The hourly budget is not spent: closures recorded in any run count. At most `maxClosuresPerRun`
+   per UTC hour, and never more than 25 in any 60 minutes.
+5. `receiptPath` is under `.gaia/steward/issue-hygiene/receipts/`, reached through no symlink.
+6. `.gaia/steward/inputs/github-issues.json` is a complete, fresh census for the repository the action
+   names (`repo`), and `--repo` (the close script's default is the census repository) names the same one.
+7. Reconciling that census reproduces the action's `manifestSha256`, still proves the same
+   (key, issue, rule), and the re-derived closure's `closureSha8` and `preservedSha256` match the action.
+   A moved census refuses the action; the next scan re-observes it.
 
 - Closes exactly `params.issue`, and only when its live title, body, labels and state equal
   `expectedSnapshot`. The live `updatedAt` may differ only when our own marker comment for this
@@ -91,6 +97,24 @@ Exit codes, as the script prints them:
   forge is built and nothing is written. The runner treats this as non-retryable and skips it.
 - 3 — blocked: auth, rate limit or transport failure, or no token. The batch stops.
 
+Exit 0 also covers `resumed-done`: a repeat of a closure already recorded, printed from its receipt.
+
+### Pilot procedure (contract section 6)
+
+The pilot is never enabled in the committed policy. It runs in a throwaway checkout:
+
+1. Copy the checkout to a throwaway directory. In that copy only, edit `founder/steward/POLICY.yaml`:
+   `issueHygiene.writesEnabled: true` and `maxClosuresPerRun: 5`. Do not commit the edit.
+2. Run the one executor, the same gate this skill uses:
+
+```bash
+python scripts/steward_issue_reconcile.py --apply-closures --receipts .gaia/steward/issue-hygiene/receipts/pilot.jsonl \
+  --i-understand-writes --repo gaia-research/gaia-skill-tree --max-closures 5
+```
+
+`--now`, `--policy` and `--census` are refused on this path. `--max-closures` can only lower the cap.
+With `writesEnabled` false the command refuses (exit 2) and makes no forge call.
+
 ## Stop conditions
 
 - Exit 3 (`blocked`): stop the batch and report. Do not retry in the same run; the forge is
@@ -98,7 +122,10 @@ Exit codes, as the script prints them:
 - Exit 2 (`refused`): do not record anything. Report the gate that refused it.
 - A closing comment posted but not verifiable on re-read: the issue stays open and the outcome
   is `failed`. Never close blind.
-- A step refused twice: the runner stops; report the step and its reason.
+- A closure the gate refuses (exit 2) is skipped and reported at the next scan; it is never re-sent
+  in the same run.
+- Writes switched off (or the closure rule disabled) after a closure was emitted: the runner cancels
+  the pending closure (reason `writes-disabled`) and the driver reports "writes disabled". Nothing is written.
 
 ## Idempotency
 
@@ -107,8 +134,10 @@ Exit codes, as the script prints them:
   and no new receipt.
 - A crash between the comment and the close resumes on the same closure: the next attempt finds
   our marked comment, posts nothing new, and closes.
-- Closures for the same pair are serialized by a lock next to the receipts. A second closer waits,
-  then re-reads the live issue and finds it closed: it writes nothing.
+- Closures for the same pair are serialized twice: a lock beside the receipts store, and a lock keyed by
+  (repo, issue) in the user-level lock directory, so two checkouts on one machine cannot both comment. A
+  second closer waits, then re-reads the live issue and finds it closed: it writes nothing. Across machines
+  the marker check and the live re-read are the guard.
 - Recording an identical outcome again is a no-op. A different outcome for a terminal step is refused.
 
 ## Failure states
@@ -125,7 +154,7 @@ Exit codes, as the script prints them:
 ## Validation
 
 ```bash
-python -m pytest tests/steward/issuehygiene/test_b5_closure_guard.py tests/steward/issuehygiene/test_d2_close_script.py tests/steward/issuehygiene/test_closure_proof.py -q
+python -m pytest tests/steward/issuehygiene -k "not hardlink" -q
 python scripts/check_steward_coverage.py --check
 ```
 
@@ -133,4 +162,6 @@ python scripts/check_steward_coverage.py --check
 
 `tests/steward/issuehygiene/test_b5_closure_guard.py`, `tests/steward/issuehygiene/test_d2_close_script.py`,
 `tests/steward/issuehygiene/test_closure_proof.py`, `tests/steward/issuehygiene/test_b5_policy_docs.py`,
-`tests/steward/test_steward_skills.py`.
+`tests/steward/issuehygiene/test_b7_executor.py` (the one gate), `tests/steward/issuehygiene/test_b7_runner.py`
+(kill switch, receipts, malformed policy), `tests/steward/issuehygiene/test_b7_scrub.py`,
+`tests/steward/issuehygiene/test_b7_lock.py`, `tests/steward/test_steward_skills.py`.

@@ -13,6 +13,7 @@ from pathlib import Path
 from gaia_cli.steward.issuehygiene.outcomes import loadOutcomes
 from gaia_cli.steward.issuehygiene.sensor import IssueHygieneSensor
 from tests.steward.issuehygiene.test_d1_runner import (
+    settle,
     CLOSE,
     closeActions,
     closureItems,
@@ -53,7 +54,7 @@ def test_a_restarted_runner_object_never_reemits_a_recorded_closure(tmp_path, mo
     emitted = closeActions(view)
     assert len(emitted) == 10  # the cap for this run
     for action in emitted[:6]:
-        runner.record(view.runId, action["stepId"], outcomeFor(action))
+        settle(runner, view.runId, action, outcomeFor(action))
 
     # The first run still awaits four outcomes and holds the run lease. A fresh runner object is refused.
     fresh = makeRunner(repo, store, [IssueHygieneSensor()], agents=False)
@@ -62,9 +63,10 @@ def test_a_restarted_runner_object_never_reemits_a_recorded_closure(tmp_path, mo
     assert closeActions(refused) == []
 
     for action in emitted[6:]:
-        runner.record(view.runId, action["stepId"], outcomeFor(action))
+        settle(runner, view.runId, action, outcomeFor(action))
     runner.resume(view.runId)
     assert len(loadOutcomes(repo)) == 10
+    monkeypatch.setenv("GAIA_STEWARD_NOW", "2026-10-21T20:30:00Z")  # the hourly budget renews in the next UTC hour (B7 L2)
     second = fresh.start("full")
     assert sorted(action["params"]["issue"] for action in closeActions(second)) == [110, 111]  # never 100 to 109
 
@@ -95,7 +97,7 @@ def test_a_retryable_failure_is_retried_a_bounded_number_of_times_then_needs_a_h
         actions = closeActions(view)
         emittedPerRun.append(len(actions))
         for action in actions:
-            runner.record(view.runId, action["stepId"], outcomeFor(action, "failed", failure="http-502"))
+            settle(runner, view.runId, action, outcomeFor(action, "failed", failure="http-502"))
         if view.status == "awaiting-action":
             runner.resume(view.runId)  # let the run finish so the next attempt is not lease-refused
     assert emittedPerRun == [1, 1, 1, 0]  # three attempts, then the retry limit stops emission
@@ -109,9 +111,9 @@ def test_a_terminal_outcome_recorded_twice_by_a_driver_retry_is_a_single_write(t
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     view = runner.start("full")
     (action,) = closeActions(view)
-    runner.record(view.runId, action["stepId"], outcomeFor(action))
+    settle(runner, view.runId, action, outcomeFor(action))
     before = (repo / ".gaia/steward/issue-hygiene/outcomes.json").read_bytes()
-    runner.record(view.runId, action["stepId"], outcomeFor(action))
+    settle(runner, view.runId, action, outcomeFor(action))
     assert (repo / ".gaia/steward/issue-hygiene/outcomes.json").read_bytes() == before
 
 
@@ -125,7 +127,7 @@ def test_a_second_run_after_the_first_drained_its_closures_emits_nothing_and_its
     stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
     first = runner.start("full")
     for action in closeActions(first):
-        runner.record(first.runId, action["stepId"], outcomeFor(action))
+        settle(runner, first.runId, action, outcomeFor(action))
     runner.resume(first.runId)
 
     second = runner.start("full")

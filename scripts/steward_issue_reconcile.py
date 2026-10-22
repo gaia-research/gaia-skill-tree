@@ -6,11 +6,17 @@ files, then writes only the requested --out, --matrix and --summary outputs.
 
     PYTHONPATH=src python scripts/steward_issue_reconcile.py --out manifest.json --summary
 
-Writes to GitHub need every one of: --apply-closures, --receipts PATH and
---i-understand-writes. Without a complete census they are refused (exit 3). Writes go
-through GhForge, which is stdlib urllib with GH_TOKEN or GITHUB_TOKEN. It fails closed
-when no token is set, and the token is never printed. Each closure re-reads the live
-issue first (closure.executeClosure), so a stale manifest writes nothing.
+Writes to GitHub need every one of: --apply-closures, --receipts PATH (inside the fixed receipts store
+.gaia/steward/issue-hygiene/receipts), --i-understand-writes and --repo OWNER/NAME (the census repository).
+--apply-closures performs every closure through the same gate as scripts/steward_issue_close.py
+(executor.gateClosure): it refuses with exit 2 and makes no forge call unless the checkout's POLICY.yaml has
+writesEnabled true and the rest of the gate holds. --now is refused on the apply path, since freshness uses
+the real clock. --max-closures may only lower the policy cap. The pilot runs from a throwaway checkout with
+writesEnabled set to true and maxClosuresPerRun set to 5, and that edit is never committed (contract section 6).
+
+Writes go through GhForge, which is stdlib urllib with GH_TOKEN or GITHUB_TOKEN. It fails closed when no
+token is set, never follows a redirect, and never prints the token. Each closure re-reads the live issue first
+(closure.executeClosure), so a stale manifest writes nothing.
 """
 
 from __future__ import annotations
@@ -29,18 +35,22 @@ from typing import Any, Callable
 
 import yaml
 
+from gaia_cli.steward.clock import utcNow
+from gaia_cli.steward.clock import utcNow
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.closure import (
     ForgeBlockedError,
     ForgeIdentityError,
     ForgeItemError,
-    executeClosures,
+    executeClosure,
     planClosures,
 )
+from gaia_cli.steward.issuehygiene.executor import ActionRefused, compactPlan, gateClosure, receiptFor, sameRepo
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
-from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, observedDigest
+from gaia_cli.steward.policy import PolicyError, StewardPolicy
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CENSUS = Path(".gaia/steward/inputs/github-issues.json")
@@ -49,7 +59,8 @@ GITHUB_API = "https://api.github.com"
 EXIT_OK = 0
 PLAN_CEILING = 1_000_000
 EXIT_USAGE = 2
-EXIT_REFUSED = 3
+EXIT_REFUSED = 2
+EXIT_BLOCKED = 3
 PAGE_SIZE = 100
 MAX_COMMENT_PAGES = 50
 FAMILIES = ("child", "umbrella", "bootstrap", "botreport", "untracked")
@@ -57,11 +68,21 @@ FAMILIES = ("child", "umbrella", "bootstrap", "botreport", "untracked")
 Transport = Callable[[str, str, dict, bytes | None], tuple[int, dict, str]]
 
 
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Refuse to follow any redirect. A 3xx then surfaces as an HTTP error, which the caller treats as a failure (L6)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D401 - urllib hook
+        return None
+
+
+NO_REDIRECT_OPENER = urllib.request.build_opener(NoRedirect)
+
+
 def urllibTransport(method: str, url: str, headers: dict, body: bytes | None) -> tuple[int, dict, str]:
     """One HTTP call. HTTP errors come back as a status; transport failures raise ForgeBlockedError."""
     request = urllib.request.Request(url, data=body, method=method, headers=headers)
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
+        with NO_REDIRECT_OPENER.open(request, timeout=30) as response:
             return response.status, {name.lower(): value for name, value in response.headers.items()}, response.read().decode("utf-8")
     except urllib.error.HTTPError as error:
         text = error.read().decode("utf-8", errors="replace") if error.fp else ""
@@ -286,14 +307,90 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def refuse(message: str) -> int:
+    print(f"refusing: {message}", file=sys.stderr)
+    return EXIT_REFUSED
+
+
+def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[str, str | None], Any] | None) -> int:
+    """--apply-closures: every closure goes through executor.gateClosure, the gate scripts/steward_issue_close.py uses.
+
+    Every refusal here is checked before any forge is built, so a refused run makes no call to GitHub.
+    """
+    if args.now is not None:
+        return refuse("--now is not accepted with --apply-closures; freshness uses the real clock")
+    if not args.i_understand_writes or args.receipts is None:
+        print("refusing: --apply-closures needs --receipts PATH and --i-understand-writes", file=sys.stderr)
+        return EXIT_USAGE
+    if args.policy is not None:
+        return refuse("--apply-closures reads the checkout's founder/steward/POLICY.yaml only; --policy is not accepted")
+    if not args.repo:
+        return refuse("--apply-closures needs --repo OWNER/NAME, the repository the closures are written to")
+    relative = args.receipts
+    if relative.is_absolute():
+        try:
+            relative = relative.relative_to(root)
+        except ValueError:
+            return refuse("the receipts path is outside this checkout and so outside the receipts store")
+    try:
+        receipt = receiptFor(root, relative.as_posix())
+    except ActionRefused as exc:
+        return refuse(str(exc))
+    try:
+        loaded = StewardPolicy.load(root)
+    except PolicyError as exc:
+        return refuse(f"steward policy unreadable: {exc}")
+    if loaded.issue_hygiene_error:
+        return refuse(loaded.issue_hygiene_error)
+    policy = loaded.issue_hygiene
+    if not policy.writesEnabled:
+        return refuse("issueHygiene.writesEnabled is false; no closure is performed")
+    now = utcNow()
+    census = loadCensus(root / CENSUS_INPUT, now=now, maxAgeSeconds=policy.maxCensusAgeSeconds)
+    if not census.status.complete:
+        return refuse(f"census is {census.status.status}; nothing is proven")
+    if not sameRepo((census.document or {}).get("repo"), args.repo):
+        return refuse("--repo does not name the census repository")
+    manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy))
+    cap = policy.maxClosuresPerRun if args.max_closures is None else max(1, min(args.max_closures, policy.maxClosuresPerRun))
+    plans = planClosures(manifest, replace(policy, maxClosuresPerRun=cap))
+    digest = observedDigest(manifest)
+    runId = args.run_id or receipt.stem
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    factory = forgeFactory or (lambda name, secret: GhForge(name, secret))
+    try:
+        forge = factory(args.repo, token)
+    except ForgeBlockedError as exc:
+        print(f"refusing writes: {exc}", file=sys.stderr)
+        return EXIT_BLOCKED
+    results: list[dict[str, Any]] = []
+    for plan in plans:
+        action = {**compactPlan(plan), "receiptPath": relative.as_posix(), "manifestSha256": digest, "repo": args.repo}
+        try:
+            gated = gateClosure(root, action, receipt, runId, now, args.repo)
+        except ActionRefused as exc:
+            print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)
+            return EXIT_REFUSED
+        result = executeClosure(gated, forge, receipt, now, runId, args.repo)
+        results.append(result)
+        if result["outcome"] == "blocked":
+            break
+    counts: dict[str, int] = {}
+    for result in results:
+        counts[result["outcome"]] = counts.get(result["outcome"], 0) + 1
+    print(json.dumps({"runId": runId, "plans": len(plans), "outcomes": dict(sorted(counts.items()))}, sort_keys=True))
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None], Any] | None = None) -> int:
     args = parseArgs(argv)
     root = args.root.resolve()
+    if args.apply_closures:
+        return applyClosures(args, root, forgeFactory)
     censusPath = args.census if args.census is not None else root / DEFAULT_CENSUS
-    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
-    if args.apply_closures and (not args.i_understand_writes or args.receipts is None):
-        print("refusing: --apply-closures needs --receipts PATH and --i-understand-writes", file=sys.stderr)
-        return EXIT_USAGE
+    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else utcNow()
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
     try:
         policy = loadPolicy(root, args.policy)
     except Exception as exc:  # policy problems fail loudly, never silently open writes
@@ -311,34 +408,9 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
     if args.matrix is not None:
         args.matrix.parent.mkdir(parents=True, exist_ok=True)
         args.matrix.write_text(renderMatrix(manifest), encoding="utf-8")
-
-    # The explicit flags are the authority for this path, so planning here does not read writesEnabled.
-    # The policy's cap still bounds it, and --max-closures may only lower it (the pilot runs at most 5).
-    cap = policy.maxClosuresPerRun if args.max_closures is None else max(1, min(args.max_closures, policy.maxClosuresPerRun))
-    planPolicy = replace(policy, writesEnabled=True, maxClosuresPerRun=cap)
-    plans = planClosures(manifest, planPolicy) if args.apply_closures else None
     if args.summary:
         proven = len(planClosures(manifest, replace(policy, writesEnabled=True, maxClosuresPerRun=PLAN_CEILING)))
         print(renderSummary(manifest, proven, writesEnabled=policy.writesEnabled))
-
-    if args.apply_closures:
-        if manifest["censusStatus"] != "complete":
-            print(f"refusing writes: census is {manifest['censusStatus']}", file=sys.stderr)
-            return EXIT_REFUSED
-        repo = args.repo or (census.document or {}).get("repo")
-        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-        factory = forgeFactory or (lambda name, secret: GhForge(name, secret))
-        try:
-            forge = factory(repo, token)
-        except ForgeBlockedError as exc:
-            print(f"refusing writes: {exc}", file=sys.stderr)
-            return EXIT_REFUSED
-        runId = args.run_id or args.receipts.stem
-        results = executeClosures(plans or [], forge, args.receipts, now, runId)
-        counts: dict[str, int] = {}
-        for result in results:
-            counts[result["outcome"]] = counts.get(result["outcome"], 0) + 1
-        print(json.dumps({"runId": runId, "plans": len(plans or []), "outcomes": dict(sorted(counts.items()))}, sort_keys=True))
     return EXIT_OK
 
 

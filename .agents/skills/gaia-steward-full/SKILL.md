@@ -95,7 +95,10 @@ second concurrent invocation loses the lease and refuses cleanly.
 ## Hard limits (enforced in code, repeated here)
 
 - Never merge into `main`, push to `main`, force-push, tag, release or publish.
-- Class B: maxInFlight 2, maxAttempts 2, cooldown 3600 s, one dispatch per run.
+- Class B: maxInFlight 2 (the policy value; the code accepts 1 to 4), maxAttempts 2, cooldown 3600 s, one dispatch per run.
+- Closures (`forge.close_issue`) need `GH_TOKEN` or `GITHUB_TOKEN`. Without one they are reported under the driver's
+  `unperformed` list with the reason, and nothing is written. A closure the executor refuses (exit 2) is skipped and
+  reported, never re-sent in the same run.
   Need more throughput? File a founder-reviewable amendment
   (`founder/steward/decisions/`); never loop the CLI to get around the cap.
 - Unknown coverage blocks Class A for the run. A not-evaluated sensor is never
@@ -121,8 +124,7 @@ Steward finds and bounds the work; existing skills do the specialised parts.
 
 ## Stop conditions
 
-Stop and report when the run is `completed` or `blocked`, a step is refused twice,
-a lease is lost, a forge closure comes back `blocked` (the driver halts; no further
+Stop and report when the run is `completed` or `blocked`, a lease is lost, a forge closure comes back `blocked` (the driver halts; no further
 closures this run), or an action asks for anything outside the table above.
 
 ## Where the rest lives

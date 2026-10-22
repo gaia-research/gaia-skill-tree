@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from gaia_cli.steward.clock import utcNow
 
 SCHEMA_VERSION = "steward-github-census-v1"
 COMPLETE = "complete"
@@ -190,7 +191,7 @@ def loadCensus(path: str | Path, now: Any = None, maxAgeSeconds: int = 6 * 3600)
     """
     source = str(path)
     if now is None:
-        now = datetime.now(timezone.utc)
+        now = utcNow()
     target = Path(path)
     if not target.is_file():
         return Census(None, CensusStatus(MISSING, ("file-missing",)), source)

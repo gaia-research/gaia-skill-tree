@@ -344,6 +344,14 @@ class ForgeFailure:
         return ForgeItemError(text)
 
 
+def copySchema(root: Path) -> None:
+    """The tracked namedSkill schema, which the registry index reads for the status allowlist (B7 M4)."""
+
+    target = root / "registry" / "schema" / "namedSkill.schema.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(REPO_ROOT / "registry" / "schema" / "namedSkill.schema.json", target)
+
+
 def editPolicy(root: Path, overrides: Mapping[str, Any]) -> None:
     """Rewrite the checkout's POLICY.yaml ``issueHygiene`` block, keeping every other key."""
 
@@ -375,6 +383,7 @@ def makeCheckout(
     subprocess.run(["git", "init", "-q", str(root)], check=True)
     (root / "founder" / "steward").mkdir(parents=True)
     shutil.copy(REPO_ROOT / "founder" / "steward" / "POLICY.yaml", root / "founder" / "steward" / "POLICY.yaml")
+    copySchema(root)
     editPolicy(root, {"writesEnabled": True, **(policy or {})})
     (root / "registry" / "named").mkdir(parents=True, exist_ok=True)
     if census is not None:
