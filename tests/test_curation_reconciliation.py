@@ -506,18 +506,27 @@ def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry):
     frozen = inventory(registry, 1)
     row = frozen["candidates"][0]
     late = []
+    started = threading.Event()
     gate = threading.Event()
 
     def worker(task, attempt):
+        # Signal that the worker really started before waiting, so the test
+        # does not depend on the scheduler having run the task before the
+        # deadline cancels it.
+        started.set()
         gate.wait(0.2)
         late.append(receipt(row, registry, attempt=attempt))
         return late[-1]
 
     result = runFanout(frozen, worker, timeoutSeconds=0.02, packetRoot=str(registry))
     before = reconcileFanout(frozen, result, packetRoot=str(registry))
+    assert started.wait(1.0), "the worker must have started for this test to be meaningful"
     gate.set()
-    time.sleep(0.25)
-    assert late
+    for _ in range(50):
+        if late:
+            break
+        time.sleep(0.01)
+    assert late, "the late worker result must have been produced"
     assert before == reconcileFanout(frozen, result, packetRoot=str(registry))
     assert before["decisions"][0]["outcome"] == "deferred"
 

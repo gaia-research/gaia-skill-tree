@@ -7,6 +7,7 @@ behaviour. Nothing here mutates the canonical registry or the network.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import os
@@ -192,26 +193,65 @@ def probe_row_to_packet_binding() -> None:
     from gaia_cli.curation.authorization import buildReviewPayload
     from gaia_cli.curation.reconciliation import canonicalJson, freezeInventory, sha256
 
-    ASSESSMENT = {"receipt": "valid synthetic"}
+    # The assessment must be a REAL receipt: validateAssessment recomputes every
+    # field against the current catalog and semantic inputs.
+    from gaia_cli.curation.assessment import buildAssessment
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
+        # Build a GENUINE discovery packet with the production prefill so the
+        # packet satisfies the real v2 contract instead of a hand-rolled shape.
+        from unittest.mock import patch
+
+        from gaia_cli import prefill
+
+        registry_node = root / "registry" / "nodes" / "basic" / "generic-a.json"
+        registry_node.parent.mkdir(parents=True, exist_ok=True)
+        registry_node.write_text(json.dumps({
+            "id": "generic-a", "name": "Generic A",
+            "description": "A generic ability for the test.", "type": "basic",
+            "prerequisites": [],
+        }), encoding="utf-8")
+        (root / "registry" / "named").mkdir(parents=True, exist_ok=True)
         content = "---\nname: Tool\ndescription: A tool capability for testing purposes.\n---\nbody\n"
-        content_digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
-        packet = {
-            "contractVersion": "discovery-packet-v2", "candidateId": "candidate-1",
-            "source": {"canonicalUrl": "https://github.com/upstream/tool/blob/abc123/SKILL.md",
-                       "commitSha": "abc123", "contentSha256": content_digest},
-            "decision": {"value": "MAP", "genericId": "generic-a"},
-            "genericSnapshot": {"generics": [{"id": "generic-a", "kind": "generic"}]},
-            "suite": {"role": "component", "componentCandidateIds": ["candidate-1"]},
-            "l4Resolution": {
-                "generic": {"id": "generic-a", "name": "Generic A", "description": "A generic ability.",
-                            "type": "fusion", "prerequisites": ["generic-b"]},
-                "named": {"contributor": "owner", "skillName": "exact-name"},
-                "skillFileUrl": "https://github.com/upstream/tool/blob/abc123/SKILL.md",
-            },
+        embeddings = {"model": "all-MiniLM-L6-v2", "dimensions": 3,
+                      "entries": [{"id": "generic-a", "vector": [1.0, 0.0, 0.0]}]}
+        with patch.object(prefill, "embed_query", return_value=[1.0, 0.0, 0.0]):
+            packet = prefill.buildPrefillPacket(
+                candidateId="candidate-1", name="Tool",
+                description="A tool capability for testing purposes.",
+                canonicalUrl="https://github.com/upstream/tool/blob/" + "a" * 40 + "/SKILL.md",
+                sourceLane="source-repository", embeddings=embeddings,
+                thresholds={"strongMap": 0.72, "weakMap": 0.45, "topK": 3},
+                registryPath=str(root), fetcher=lambda _url: content.encode("utf-8"))
+        # The prefill path defers; model the ratified MAP decision for review.
+        packet["lifecycle"] = ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"]
+        packet["decision"] = {"value": "MAP", "reasonCode": "L4_RATIFIED_MAP", "genericId": "generic-a"}
+        packet["namedIdentity"] = "owner/exact-name"
+        packet["l4Resolution"] = {
+            "status": "approved",
+            "generic": {"id": "generic-a", "name": "Generic A",
+                        "description": "A generic ability.", "type": "fusion",
+                        "prerequisites": ["generic-b"]},
+            "named": {"contributor": "owner", "skillName": "exact-name"},
+            "skillFileUrl": packet["source"]["canonicalUrl"],
         }
+        # The v2 validator requires a complete humanReview block when an
+        # l4Resolution is present, and a well-formed suite block.
+        packet["l4Resolution"]["humanReview"] = {
+            "reviewedBy": "reviewer", "approvalRef": "intake/1",
+            "rationale": "Reviewed the actual source.", "reviewedAt": "2026-10-20T00:00:00Z",
+            "assessmentPath": "assessment.json",
+            "assessmentReceiptDigest": "a" * 64,
+            "humanOverride": True, "operatorOverride": True,
+            "attestation": "Local text only.",
+        }
+        packet["suite"] = {"role": "capstone", "suiteId": "suite-1",
+                           "componentCandidateIds": ["candidate-1"]}
+        content_digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        packet_url = packet["source"]["canonicalUrl"]
+        packet_revision = packet["source"].get("revision") or packet["source"].get("commitSha")
+        packet_digest = packet["source"]["contentSha256"]
 
         def frozen_row(named_identity, url, revision, digest):
             envelope = freezeInventory([{
@@ -220,41 +260,48 @@ def probe_row_to_packet_binding() -> None:
                 "sourceDigest": digest, "canonicalUrl": url,
                 "packetInput": {"sourceContent": content, "name": "Tool",
                                 "description": "A tool capability for testing purposes.",
-                                "packet": {"genericSnapshot": {"generics": [{"id": "generic-a", "kind": "generic"}]}}},
+                                "packet": {"genericSnapshot": packet["genericSnapshot"]}},
             }])
             return envelope
 
         def report_for(envelope, named_identity, packet):
-            from gaia_cli.curation.authorization import _proposalPacket
+            """Build a GENUINE receipt-backed reconciliation, not a hand-made report.
 
-            # A real reconciliation report carries positive accounting: the batch
-            # is accounted for, no receipt is invalid, nothing claims human
-            # approval, and each row states the digests it observed.
-            return {"inventoryDigest": envelope["inventoryDigest"],
-                    "accounted": True,
-                    "humanApproved": False,
-                    "decisions": [{
-                        "candidateId": "candidate-1", "outcome": "review-ready",
-                        "namedIdentity": named_identity,
-                        "proposedGeneric": {"decision": "MAP", "genericId": "generic-a"},
-                        "receiptValid": True,
-                        "packetDigest": sha256(canonicalJson(packet)),
-                        "packetProposalSha256": sha256(canonicalJson(_proposalPacket(packet))),
-                        "assessmentSha256": sha256(canonicalJson(ASSESSMENT)),
-                    }]}
+            The payload builder recomputes the reconciliation from the receipts
+            and requires the claimed report to agree, so a forged report cannot
+            be bound into an authorization payload.
+            """
+            from gaia_cli.curation.authorization import _proposalPacket
+            from gaia_cli.curation.reconciliation import reconcileInventory
+
+            row = envelope["candidates"][0]
+            data = canonicalJson(packet)
+            assessment = buildAssessment(packet, registryPath=str(root))
+            receipt = {
+                "candidateId": row["candidateId"], "taskId": row["taskId"], "attempt": 1,
+                "inputDigest": row["inputDigest"], "outputDigest": sha256(data),
+                "packetHash": sha256(data), "packetBytes": data,
+                "assessment": assessment, "assessmentSha256": sha256(canonicalJson(assessment)),
+                "proposedGeneric": {"decision": "MAP", "genericId": "generic-a"},
+                "outcome": "review-ready",
+            }
+            report = reconcileInventory(envelope, [receipt], packetRoot=str(root))
+            return report, [receipt], assessment
 
         # Mismatched: the frozen row's named identity and source differ from the packet.
         mismatched = frozen_row("owner/inventory-name",
                                 "https://github.com/upstream/other/blob/def456/SKILL.md",
-                                "def456", content_digest)
+                                "def456", packet_digest)
         rejected = False
         detail = ""
         try:
+            report, receipts, assessment = report_for(mismatched, "owner/inventory-name", packet)
             buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
                                manifestDigest="c" * 64, inventory=[packet],
-                               assessments={"candidate-1": ASSESSMENT},
+                               assessments={"candidate-1": assessment},
                                reviewInventory={"inventory": mismatched,
-                                                "reconciliation": report_for(mismatched, "owner/inventory-name", packet)})
+                                                "reconciliation": report,
+                                                "receipts": receipts})
         except Exception as exc:
             rejected = True
             detail = f"{type(exc).__name__}: {exc}"
@@ -262,21 +309,42 @@ def probe_row_to_packet_binding() -> None:
               rejected, detail[:150])
 
         # Consistent: the frozen row matches the packet exactly.
-        consistent = frozen_row("owner/exact-name",
-                                "https://github.com/upstream/tool/blob/abc123/SKILL.md",
-                                "abc123", content_digest)
+        consistent = frozen_row("owner/exact-name", packet_url, packet_revision, packet_digest)
         built = False
+        detail = ""  # Reset: the positive control must not print the negative case's error.
         try:
+            report, receipts, assessment = report_for(consistent, "owner/exact-name", packet)
             buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
                                manifestDigest="c" * 64, inventory=[packet],
-                               assessments={"candidate-1": ASSESSMENT},
+                               assessments={"candidate-1": assessment},
                                reviewInventory={"inventory": consistent,
-                                                "reconciliation": report_for(consistent, "owner/exact-name", packet)})
+                                                "reconciliation": report,
+                                                "receipts": receipts})
             built = True
         except Exception as exc:
             detail = f"{type(exc).__name__}: {exc}"
         check("a self-consistent review inventory still builds a payload (positive control)", built,
-              detail[:150])
+              detail[:150] if not built else "payload built from genuine receipts")
+
+        # A report is only evidence when it can be recomputed from the receipts
+        # it claims to come from. A hand-forged "review-ready" row must not bind.
+        forged = copy.deepcopy(report)
+        forged["decisions"][0]["outcome"] = "review-ready"
+        forged["decisions"][0]["receiptValid"] = True
+        forged_rejected = False
+        forged_detail = ""
+        try:
+            buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
+                               manifestDigest="c" * 64, inventory=[packet],
+                               assessments={"candidate-1": assessment},
+                               reviewInventory={"inventory": consistent,
+                                                "reconciliation": forged,
+                                                "receipts": []})
+        except Exception as exc:
+            forged_rejected = True
+            forged_detail = f"{type(exc).__name__}: {exc}"
+        check("a forged review-ready report with no receipts is REJECTED",
+              forged_rejected, forged_detail[:150])
 
 
 def main() -> int:
