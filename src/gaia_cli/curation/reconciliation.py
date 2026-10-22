@@ -296,6 +296,18 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             expected_outcome = {"MAP": "review-ready", "NEW_GENERIC": "review-ready", "DEFER": "deferred", "NOT_A_SKILL": "rejected", "DUPLICATE": "proven-duplicate"}.get(packet["decision"]["value"])
             if receipt.get("outcome") != expected_outcome:
                 raise ValueError("receipt outcome does not match actual packet decision")
+            if receipt.get("outcome") == "deferred":
+                # A plain DEFER records a failure or a not-yet-decided stage. It
+                # must stay inside the frozen inventory and carry an explicit
+                # reason, but it cannot assert a reviewed decision and therefore
+                # does not require an assessment receipt to exist. Requiring one
+                # here would pressure fabrication; eligibility is unaffected
+                # because a DEFER is never review-ready and never authorizes.
+                reason = receipt.get("reason")
+                if not isinstance(reason, str) or not reason.strip():
+                    raise ValueError("deferred receipt must state an explicit reason")
+                validated[cid] = (receipt, data, actual_hash)
+                continue
             assessment = receipt.get("assessment")
             if isinstance(receipt.get("assessmentBytes"), bytes):
                 assessment_bytes = receipt["assessmentBytes"]
