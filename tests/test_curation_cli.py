@@ -653,10 +653,9 @@ class TestDevRatifyCommand:
         captured = capsys.readouterr()
         assert "--acknowledge-human-review is required" in captured.err
 
-    def test_end_to_end_prefill_assess_ratify_flow(self, test_registry, monkeypatch):
-        # UNIT-ONLY gate stubs: this flow tests packet mechanics, not real human approval.
+    def test_end_to_end_prefill_assess_ratify_fails_closed_without_protected_authority(self, test_registry, monkeypatch, capsys):
+        # Freshness is unit-stubbed; local review fields and operator override must not authorize ratification.
         monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
-        monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
         # Allow operator override for ratify
         monkeypatch.setenv("GAIA_OPERATOR_OVERRIDE", "1")
 
@@ -724,36 +723,31 @@ class TestDevRatifyCommand:
             reason="Clear match to automated testing generic primitive.",
             acknowledge_human_review=True,
         )
-        code = ratifyCommand(ratify_args)
-        assert code == 0
-
-        # Verify ratified packet content and schema validity
-        with open(packet_path, "r", encoding="utf-8") as f:
-            ratified = json.load(f)
-
-        assert ratified["lifecycle"][-1] == "review-ready"
-        assert "l4Resolution" in ratified
-        l4 = ratified["l4Resolution"]
-        assert l4["status"] == "approved"
-        assert "humanReview" in l4
-        hr = l4["humanReview"]
-        assert hr["reviewedBy"] == "human_curator"
-        assert hr["approvalRef"] == "https://github.com/gaia-research/gaia-skill-tree/issues/1000"
-        assert hr["rationale"] == "Clear match to automated testing generic primitive."
-        assert hr["operatorOverride"] is True
-
-        # Validate against jsonschema
+        # Unit mechanics must reach the authorization boundary; the prefill packet
+        # is otherwise intentionally awaiting worker mapping.
+        packet = json.loads(packet_path.read_text(encoding="utf-8"))
         import jsonschema
-        from pathlib import Path
-        repo_root = Path(__file__).resolve().parent.parent
-        schema_path = (
-            repo_root
-            / ".agents"
-            / "skills"
-            / "gaia-curate"
-            / "schemas"
-            / "discovery-packet-v2.schema.json"
-        )
+        schema_path = os.path.join(os.path.dirname(__file__), "..", ".agents", "skills", "gaia-curate", "schemas", "discovery-packet-v2.schema.json")
         with open(schema_path, "r", encoding="utf-8") as f:
             schema = json.load(f)
-        jsonschema.validate(ratified, schema)
+        jsonschema.validate(packet, schema)
+        lifecycle = packet.setdefault("lifecycle", [])
+        if "mapped" not in lifecycle:
+            lifecycle.append("mapped")
+        lifecycle = [state for state in lifecycle if state != "review-ready"]
+        lifecycle.append("review-ready")
+        packet["lifecycle"] = lifecycle
+        packet_path.write_text(json.dumps(packet), encoding="utf-8")
+        original_packet_bytes = packet_path.read_bytes()
+        with patch("gaia_cli.commands.dev.ratify.selfValidatePacket", return_value=[]):
+            code = ratifyCommand(ratify_args)
+        assert code == 1
+        captured = capsys.readouterr()
+        assert "independent human authorization failed" in captured.err
+        assert "independent protected human authorization is not configured" in captured.err
+        assert packet_path.read_bytes() == original_packet_bytes
+
+        # No L4 resolution was persisted despite the locally authored arguments.
+        with open(packet_path, "r", encoding="utf-8") as f:
+            ratified = json.load(f)
+        assert "l4Resolution" not in ratified

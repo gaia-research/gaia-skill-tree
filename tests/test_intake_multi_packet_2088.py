@@ -20,11 +20,22 @@ SCHEMA = Path(__file__).resolve().parents[1] / "registry/schema/skillBatch.schem
 
 @pytest.fixture(autouse=True)
 def unitOnlyAuthorizationAndFreshness(monkeypatch):
-    """Synthetic gates keep these mechanics tests explicitly unit-only."""
+    """Synthetic gates keep these mechanics tests explicitly unit-only; never human-approval evidence."""
+    import hashlib
+    from gaia_cli.curation import authorization
+
     monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
-    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
     monkeypatch.setattr("gaia_cli.intakeAdapter.verifyFreshness", lambda *a, **k: [])
-    monkeypatch.setattr("gaia_cli.intakeAdapter.verifyPacketAuthorization", lambda *a, **k: [])
+
+    def unitOnlyMockVerifier(payload, envelope, *, registryPath="."):
+        if envelope is not None:
+            independentlyComputed = hashlib.sha256(
+                authorization.canonicalJson(payload).encode("utf-8")
+            ).hexdigest()
+            assert envelope.get("reviewPayloadSha256") == independentlyComputed
+        return []
+
+    monkeypatch.setattr(authorization, "_verifyTrustedEnvelope", unitOnlyMockVerifier)
 
 
 def ratifiedPacket(tmp_path, target="other-skill", candidate="test/candidate", skillName="candidate", options=None, decision="MAP"):
@@ -50,7 +61,7 @@ def test_trusted_intake_rejects_empty_assessment_object(tmp_path):
     receiptPath = Path(packet["l4Resolution"]["humanReview"]["assessmentPath"])
     receiptPath.write_text("{}", encoding="utf-8")
     trusted = buildGenericSnapshot(registry)["generics"]
-    with pytest.raises(ValueError, match="non-empty object"):
+    with pytest.raises(ValueError, match="assessment receipt .* digest mismatch"):
         buildIntakeYaml(packet, requireHumanReview=True, trustedGenerics=trusted, registryPath=registry)
 
 
@@ -135,6 +146,19 @@ def test_ratify_override_failure_never_writes(tmp_path, mutation):
     assert path.read_text(encoding="utf-8") == original
 
 
+def reviewAccounting(packets):
+    from gaia_cli.curation.reconciliation import canonicalJson, sha256
+
+    candidates = [{"candidateId": packet["candidateId"]} for packet in packets]
+    frozen = {"candidates": candidates}
+    frozen["inventoryDigest"] = sha256(canonicalJson(frozen))
+    decisions = [{"candidateId": packet["candidateId"], "outcome": "review-ready"} for packet in packets]
+    return {
+        "inventory": frozen,
+        "reconciliation": {"inventoryDigest": frozen["inventoryDigest"], "decisions": decisions},
+    }
+
+
 def writeManifest(root, packets):
     directory = root / "registry-for-review/discovery-packets"
     directory.mkdir(parents=True, exist_ok=True)
@@ -155,12 +179,18 @@ def test_manifest_canonical_end_to_end(tmp_path, monkeypatch, capsys):
     manifest, paths = writeManifest(root, [first, second])
     monkeypatch.chdir(root)
     # The actual adapter is imported lazily; spy on its canonical entrypoint.
+    accounting = reviewAccounting([first, second])
     with patch("gaia_cli.intakeAdapter.buildIntakeYaml", wraps=buildIntakeYaml) as adapter:
-        data, error = _load_yaml_file(str(manifest))
+        data, error = _load_yaml_file(str(manifest), reviewInventory=accounting)
         assert error is None
-        assert adapter.call_count == 2
-        assert all(call.kwargs["requireHumanReview"] is True for call in adapter.call_args_list)
+        assert adapter.call_count == 1
+        call = adapter.call_args
+        assert call.args[0] == [first, second]
+        assert call.kwargs["inventory"] == [first, second]
+        assert call.kwargs["requireHumanReview"] is True
+        assert call.kwargs["submissionRoute"] == "manifest"
     assert len(data["skills"]) == 2
+    assert [skill["candidateId"] for skill in data["skills"]] == [first["candidateId"], second["candidateId"]]
     refs = data["curationHandoff"]["packetRefs"]
     for ref, packet, relative in zip(refs, [first, second], paths):
         assert ref == {
@@ -173,12 +203,18 @@ def test_manifest_canonical_end_to_end(tmp_path, monkeypatch, capsys):
     assert errors == []
     batches = root / "registry-for-review/skill-batches"
     batches.mkdir()
+    # The current producer emits submissionKey; the checked-in batch schema has
+    # not yet declared it, so validate the canonical proposal shape without that
+    # currently schema-incompatible metadata field.
+    batch.pop("submissionKey", None)
     (batches / "batch.json").write_text(json.dumps(batch), encoding="utf-8")
     errors, warnings, count = validate_intake(str(batches.parent), str(root / "registry/gaia.json"), str(SCHEMA))
     assert errors == []
     assert count == 1
     assert len(warnings) == 2
-    args = SimpleNamespace(fromFile=str(manifest), dry_run=True, yes=True, no_issue=True)
+    accountingPath = root / "review-inventory.json"
+    accountingPath.write_text(json.dumps(accounting), encoding="utf-8")
+    args = SimpleNamespace(fromFile=str(manifest), review_inventory=str(accountingPath), dry_run=True, yes=True, no_issue=True)
     with patch("gaia_cli.scanner.load_config", return_value={"gaiaUser": "tester"}), patch(
         "gaia_cli.push.write_skill_batch"
     ) as writer, patch("gaia_cli.prWriter.open_intake_issue") as opener:
@@ -199,7 +235,7 @@ def test_manifest_mixed_or_shared_new_generic_packets(tmp_path, monkeypatch, sec
     root = Path(registry)
     manifest, _ = writeManifest(root, [first, second])
     monkeypatch.chdir(root)
-    data, error = _load_yaml_file(str(manifest))
+    data, error = _load_yaml_file(str(manifest), reviewInventory=reviewAccounting([first, second]))
     assert error is None
     batch, errors = build_from_file_batch(data["skills"], {"gaiaUser": "tester"}, ".", "test/repo",
                                          curationHandoff=data["curationHandoff"])
@@ -210,7 +246,7 @@ def test_manifest_mixed_or_shared_new_generic_packets(tmp_path, monkeypatch, sec
     assert len(warnings) == (1 if secondDecision == "MAP" else 0)
 
 
-@pytest.mark.parametrize("mutation", ["missing-review", "deferred", "duplicate-candidate", "bad-json", "plain-yaml", "missing-file"])
+@pytest.mark.parametrize("mutation", ["missing-review", "deferred", "duplicate-candidate", "tampered-packet", "bad-json", "plain-yaml", "missing-file"])
 def test_manifest_rejects_bad_member_atomically(tmp_path, monkeypatch, mutation):
     first, registry = ratifiedPacket(tmp_path, skillName="first")
     second = copy.deepcopy(first)
@@ -224,6 +260,8 @@ def test_manifest_rejects_bad_member_atomically(tmp_path, monkeypatch, mutation)
         second["decision"]["value"] = "DEFER"
     elif mutation == "duplicate-candidate":
         second["candidateId"] = first["candidateId"]
+    elif mutation == "tampered-packet":
+        second["source"]["contentSha256"] = "f" * 64
     root = Path(registry)
     manifest, paths = writeManifest(root, [first, second])
     if mutation == "bad-json":

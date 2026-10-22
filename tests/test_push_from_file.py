@@ -482,10 +482,20 @@ class TestPushFromFilePacketAuthority(unittest.TestCase):
         finally:
             os.remove(packet_path)
 
-    def test_valid_reviewed_packet_push_succeeds(self):
+    def test_locally_reviewed_packet_push_fails_closed_without_intake(self):
+        """Local humanReview metadata cannot authorize submission or produce an intake."""
         import contextlib, io, json, tempfile
         from types import SimpleNamespace
         packet = self._make_packet(with_human_review=True)
+        assessment = {"localTestFixture": True}
+        import hashlib
+        assessment_bytes = json.dumps(assessment, sort_keys=True, separators=(",", ":")).encode()
+        packet["l4Resolution"]["humanReview"]["assessmentReceiptDigest"] = hashlib.sha256(assessment_bytes).hexdigest()
+        assessment_file = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False)
+        assessment_path = assessment_file.name
+        packet["l4Resolution"]["humanReview"]["assessmentPath"] = assessment_path
+        json.dump(assessment, assessment_file)
+        assessment_file.close()
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
             json.dump(packet, f)
             packet_path = f.name
@@ -496,13 +506,23 @@ class TestPushFromFilePacketAuthority(unittest.TestCase):
             from unittest.mock import patch
             with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr), patch(
                 "gaia_cli.scanner.load_config", return_value={"gaiaUser": "fixture-user"}
-            ):
+            ), patch("gaia_cli.prefill.selfValidatePacket", return_value=[]), patch(
+                "gaia_cli.intakeAdapter.verifyFreshness", return_value=[]
+            ), patch("gaia_cli.curation.assessment.validateAssessment", return_value=[]), patch("gaia_cli.push.write_skill_batch"
+            ) as writer, patch(
+                "gaia_cli.prWriter.open_intake_issue"
+            ) as opener:
                 rc = push_from_file_command(args)
-            self.assertEqual(rc, 0)
-            self.assertIn("Dry run — batch JSON", stdout.getvalue())
-            self.assertIn("research", stdout.getvalue())
+            self.assertEqual(rc, 1)
+            self.assertIn("independent protected human authorization is not configured", stderr.getvalue())
+            self.assertNotIn("Dry run — batch JSON", stdout.getvalue())
+            self.assertNotIn("proposedSkills", stdout.getvalue())
+            writer.assert_not_called()
+            opener.assert_not_called()
+            self.assertFalse(os.path.exists(os.path.join(os.path.dirname(packet_path), "registry-for-review", "skill-batches")))
         finally:
             os.remove(packet_path)
+            os.remove(assessment_path)
 
     def test_legacy_read_accepted_without_human_review(self):
         from gaia_cli.intakeAdapter import validateL4Resolution, buildIntakeSkill, buildIntakeYaml
