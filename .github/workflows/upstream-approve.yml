@@ -9,6 +9,13 @@ on:
         description: "Issue number to re-run approve logic on"
         required: true
         type: string
+      refire:
+        # D3: upstream-close-children sets this when it re-fires an approved umbrella. A bot actor is
+        # accepted only with refire=true, and then only when the latest upstream:approved labeler is a Verifier.
+        description: "true when upstream-close-children re-fires an approved umbrella"
+        required: false
+        default: "false"
+        type: string
 
 concurrency:
   group: upstream-approve-${{ github.event.issue.number || inputs.issue_number }}
@@ -94,17 +101,76 @@ jobs:
           python scripts/generateNamedIndex.py
 
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
-      # H1: fail closed. A missing or unparseable index is a denial, never bootstrap. Bootstrap
-      # (zero Verifiers) is granted only when the freshly built index parses and holds none.
+      # H1: fail closed. A missing or unparseable index is a denial, never bootstrap. The decision is the
+      # shared approval.verifier_status (D2). D3: the subject is the LABELER of the approval, not the actor of
+      # this run. A bot re-fire (workflow_dispatch by github-actions[bot]) is accepted only with refire=true,
+      # and only when the most recent upstream:approved label was applied by a Verifier (or the human
+      # allowlist handle). A labeled event keeps the existing treatment: the sender is the labeler.
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ steps.issue.outputs.actor }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_REFIRE: ${{ inputs.refire }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
+          deny_comment() {
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** $1 No sync was attempted and no PR was opened." || true
+            echo "::error::$1"
+            exit 1
+          }
+          verifier_check() {
+            python3 - "$1" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import verifier_status
+          print(verifier_status("registry/named-skills.json", sys.argv[1]))
+          PY
+          }
 
-          # Bot actors are always allowed
+          if [ "${EVENT_NAME:-}" = "workflow_dispatch" ] && [ "$LABELER" != "mbtiongson1" ] \
+             && case "$LABELER" in *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot) true ;; *) false ;; esac; then
+            # D3: a bot re-fire. The workflow actor is not the authority; the labeler of the approval is.
+            if [ "${INPUT_REFIRE:-}" != "true" ]; then
+              deny_comment "A bot re-run of upstream-approve is accepted only with refire=true, and this dispatch did not set it."
+            fi
+            EVENTS_FILE="$RUNNER_TEMP/umbrella-events.json"
+            if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/events" > "$EVENTS_FILE"; then
+              deny_comment "The labeling history of this umbrella could not be read, so the re-run cannot be checked."
+            fi
+            LABELER_OF_APPROVAL=$(python3 - "$EVENTS_FILE" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, latest_labeler
+          print(latest_labeler(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or "")
+          PY
+          ) || deny_comment "The labeling history of this umbrella could not be parsed, so the re-run cannot be checked."
+            if [ -z "$LABELER_OF_APPROVAL" ]; then
+              deny_comment "No upstream:approved labeling event was found for this umbrella, so the re-run cannot be checked."
+            fi
+            if [ "$LABELER_OF_APPROVAL" = "mbtiongson1" ]; then
+              echo "✓ re-run of an approval labeled by the allowlisted handle."
+              exit 0
+            fi
+            AUTHORIZED=$(verifier_check "$LABELER_OF_APPROVAL")
+            case "$AUTHORIZED" in
+              yes|bootstrap)
+                echo "✓ re-run of an approval whose latest labeler ($LABELER_OF_APPROVAL) is a Verifier ($AUTHORIZED)."
+                exit 0
+                ;;
+              deny-*)
+                echo "::error::The Verifier index could not be read or is empty ($AUTHORIZED). Refusing the re-run."
+                exit 1
+                ;;
+              *)
+                deny_comment "The most recent upstream:approved label was applied by \`$LABELER_OF_APPROVAL\`, who does not hold a 4★+ named skill. The re-run is refused."
+                ;;
+            esac
+          fi
+
+          # Allowlisted actors on the labeled trigger keep their existing treatment (the sender is the labeler).
           case "$LABELER" in
             *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot|mbtiongson1)
               echo "✓ $LABELER is an allowlisted actor."
@@ -112,67 +178,18 @@ jobs:
               ;;
           esac
 
-          AUTHORIZED=$(python3 - "$LABELER" <<'PY'
-          import json, sys, os
-
-          actor = sys.argv[1]
-          index_path = "registry/named-skills.json"
-
-          if not os.path.isfile(index_path):
-              print("deny-missing-index")
-              sys.exit(0)
-
-          try:
-              with open(index_path, "r", encoding="utf-8") as f:
-                  idx = json.load(f)
-          except Exception:
-              print("deny-unparseable-index")
-              sys.exit(0)
-
-          buckets = idx.get("buckets") if isinstance(idx, dict) else None
-          if not isinstance(buckets, dict):
-              print("deny-unparseable-index")
-              sys.exit(0)
-          # M1: bootstrap needs a real, non-empty index. Every bucket must be a list of entry objects.
-          for entries in buckets.values():
-              if not isinstance(entries, list) or not all(isinstance(e, dict) for e in entries):
-                  print("deny-unparseable-index")
-                  sys.exit(0)
-          if not any(entries for entries in buckets.values()):
-              print("deny-empty-index")
-              sys.exit(0)
-
-          has_any_verifier = False
-          for entries in buckets.values():
-              for e in entries:
-                  lvl = e.get("level", "")
-                  if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
-                      has_any_verifier = True
-                      if e.get("contributor") == actor:
-                          print("yes")
-                          sys.exit(0)
-
-          if not has_any_verifier:
-              print("bootstrap")
-          else:
-              print("no")
-          PY
-          )
-
+          AUTHORIZED=$(verifier_check "$LABELER")
           echo "Labeler authorization: $AUTHORIZED"
           case "$AUTHORIZED" in
             yes|bootstrap)
               echo "✓ $LABELER is authorized to approve upstream issues ($AUTHORIZED)."
               ;;
-            deny-missing-index|deny-unparseable-index|deny-empty-index)
+            deny-*)
               echo "::error::The Verifier index could not be read or is empty ($AUTHORIZED). Refusing to authorize $LABELER."
               exit 1
               ;;
             *)
-              echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:approved."
-              gh issue comment "$ISSUE_NUMBER" \
-                --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
-              exit 1
+              deny_comment "\`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
               ;;
           esac
 
@@ -201,7 +218,10 @@ jobs:
           fi
           echo "Issue #${ISSUE_NUMBER} is open and approved."
 
-      # ── Parse machine-readable payload from issue body ─────────────────────
+      # ── Parse and verify the machine-readable payload from the issue body ─────
+      # D1b: the digest is recomputed from the extracted payload. A stored digest that does not match its own
+      # payload is a body edited after approval, so the job fails before anything is synced. D7: the payload
+      # block ends at its own '\n-->' line, so '-->' inside a JSON string cannot cut it short.
       - name: Extract payload from issue body
         id: payload
         env:
@@ -209,34 +229,38 @@ jobs:
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
         run: |
           set -euo pipefail
-
-          BODY=$(gh issue view "$ISSUE_NUMBER" --json body --jq '.body')
-
-          PAYLOAD_JSON=$(echo "$BODY" | python3 -c "
-          import sys, re, json
-
-          body = sys.stdin.read()
-          m = re.search(r'<!-- gaia-upstream-payload\s+(.*?)-->', body, re.DOTALL)
-          if not m:
-              print('{}', file=sys.stderr)
-              sys.exit(1)
-
-          try:
-              data = json.loads(m.group(1))
-              print(json.dumps(data))
-          except json.JSONDecodeError as e:
-              print(f'JSON parse error: {e}', file=sys.stderr)
-              sys.exit(1)
-          " 2>"$RUNNER_TEMP/parse_error.txt" || true)
-
-          if [ -z "$PAYLOAD_JSON" ] || [ "$PAYLOAD_JSON" = "{}" ]; then
-            ERROR=$(cat "$RUNNER_TEMP/parse_error.txt" 2>/dev/null || echo "unknown parse error")
-            gh issue comment "$ISSUE_NUMBER" \
-              --body "⚠️ **Payload parse failure.** Could not extract the machine-readable payload from this issue body. Error: \`$ERROR\`. Cannot proceed with sync."
+          BODY_FILE="$RUNNER_TEMP/umbrella-body.md"
+          if ! gh issue view "$ISSUE_NUMBER" --json body --jq '.body' > "$BODY_FILE"; then
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Payload parse failure.** Could not read the umbrella body. Cannot proceed with sync." || true
+            echo "::error::Could not read the umbrella body."
             exit 1
           fi
 
+          PARSED=$(python3 - "$BODY_FILE" <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, extract_payload
+          body = open(sys.argv[1], encoding="utf-8").read()
+          try:
+              payload, digest = extract_payload(body)
+          except PayloadError as exc:
+              print(json.dumps({"error": str(exc)}))
+              sys.exit(0)
+          print(json.dumps({"error": "", "payload": payload, "digest": digest}))
+          PY
+          )
+          ERROR=$(echo "$PARSED" | jq -r '.error')
+          if [ -n "$ERROR" ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Payload integrity failure.** $ERROR. Cannot proceed with sync. Repair the umbrella body, then re-apply upstream:approved." || true
+            echo "::error::$ERROR"
+            exit 1
+          fi
+
+          PAYLOAD_JSON=$(echo "$PARSED" | jq -c '.payload')
+          DIGEST=$(echo "$PARSED" | jq -r '.digest')
           echo "payload=$PAYLOAD_JSON" >> $GITHUB_OUTPUT
+          echo "payload_sha256=$DIGEST" >> $GITHUB_OUTPUT
 
           SKILL_ID=$(echo "$PAYLOAD_JSON" | jq -r '.skillId')
           NEW_VERSION=$(echo "$PAYLOAD_JSON" | jq -r '.newVersion')
@@ -249,6 +273,48 @@ jobs:
           echo "source_url=$SOURCE_URL" >> $GITHUB_OUTPUT
           echo "released_at=$RELEASED_AT" >> $GITHUB_OUTPUT
           echo "mode=$MODE" >> $GITHUB_OUTPUT
+
+      # ── D1b: the approval covers this payload ───────────────────────────────
+      # On a labeled event the guard has just authorized this labeling, so the digest of the payload it sees is
+      # recorded as the approval. On a dispatch (a re-fire or a manual re-run) the payload syncs only when the
+      # latest approval record names the same digest. The record is a bot-authored comment (I3).
+      - name: Check approval covers this payload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          EVENT_NAME: ${{ github.event_name }}
+          PAYLOAD_SHA: ${{ steps.payload.outputs.payload_sha256 }}
+        run: |
+          set -euo pipefail
+          COMMENTS_FILE="$RUNNER_TEMP/umbrella-comments.json"
+          if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
+            echo "::error::Could not read the approval record of #${ISSUE_NUMBER}. Nothing was synced."
+            exit 1
+          fi
+          LATEST=$(python3 - "$COMMENTS_FILE" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, latest_approval_sha
+          print(latest_approval_sha(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or "")
+          PY
+          ) || { echo "::error::The approval record of #${ISSUE_NUMBER} could not be parsed. Nothing was synced."; exit 1; }
+
+          if [ "$LATEST" = "$PAYLOAD_SHA" ]; then
+            echo "The approval record already covers payload ${PAYLOAD_SHA}."
+            exit 0
+          fi
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync refused: the approval record does not cover this payload.** The umbrella payload (digest ${PAYLOAD_SHA}) is not the one a reviewer approved. Re-apply upstream:approved after review." || true
+            echo "::error::No approval covers payload ${PAYLOAD_SHA}. Nothing was synced."
+            exit 1
+          fi
+          # A labeled event: the guard has authorized this labeling, so it is the approval of this payload.
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "<!-- gaia-upstream-approval payload=${PAYLOAD_SHA} -->
+
+          Approval recorded for payload \`${PAYLOAD_SHA}\`. It covers this payload only: an edit to the umbrella body is detected before any sync, and the approval is reset."
 
       # ── Child-gate: check all upstream:child issues are closed ─────────────
       - name: Check child gate
@@ -294,7 +360,7 @@ jobs:
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)-->", re.DOTALL)
+          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
@@ -425,6 +491,61 @@ jobs:
           echo "Unresolved candidate rows: ${COUNT} ${UNRESOLVED_JSON}"
           echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
 
+      # ── D6: re-verify immediately before the sync uses the payload ────────────
+      # The approval, the open state and the digest are checked again, after the index build and the gates, on
+      # the body as it is now. A body edited after extraction, a withdrawn approval or a closed umbrella stops
+      # the job before the branch is touched.
+      - name: Re-verify approval before sync
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          PAYLOAD_SHA: ${{ steps.payload.outputs.payload_sha256 }}
+        run: |
+          set -euo pipefail
+          VIEW_FILE="$RUNNER_TEMP/umbrella-view.json"
+          COMMENTS_FILE="$RUNNER_TEMP/umbrella-recheck-comments.json"
+          if ! gh issue view "$ISSUE_NUMBER" --json state,labels,body > "$VIEW_FILE" \
+             || ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
+            echo "::error::Could not re-read #${ISSUE_NUMBER} before the sync. Nothing was synced."
+            exit 1
+          fi
+          set +e
+          PROBLEMS=$(python3 - "$VIEW_FILE" "$COMMENTS_FILE" <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, decode_pages, extract_payload, latest_approval_sha
+          view = json.load(open(sys.argv[1], encoding="utf-8"))
+          problems = []
+          if view.get("state") != "OPEN":
+              problems.append("the umbrella is not open")
+          if "upstream:approved" not in [label["name"] for label in view.get("labels", [])]:
+              problems.append("it no longer carries upstream:approved")
+          try:
+              _payload, digest = extract_payload(view.get("body"))
+          except PayloadError as exc:
+              problems.append(str(exc))
+          else:
+              if digest != os.environ.get("PAYLOAD_SHA"):
+                  problems.append("the payload changed after it was checked")
+          latest = latest_approval_sha(decode_pages(open(sys.argv[2], encoding="utf-8").read()))
+          if latest != os.environ.get("PAYLOAD_SHA"):
+              problems.append("no approval record covers this payload")
+          print("; ".join(problems))
+          sys.exit(1 if problems else 0)
+          PY
+          )
+          RC=$?
+          set -e
+          if [ "$RC" -ne 0 ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync refused: re-verification failed.** ${PROBLEMS}. No sync branch or PR was created. Repair the umbrella, then re-apply upstream:approved." || true
+            echo "::error::Re-verification failed: ${PROBLEMS}. Nothing was synced."
+            exit 1
+          fi
+          echo "Approval re-verified for payload ${PAYLOAD_SHA}."
+
       # ── Create sync branch and run gaia dev sync-upstream ─────────────────
       # M5: a re-run for an existing review/meta/upstream-* branch must not fail at push. The remote
       # branch is replaced only when every commit on it is the watcher's own: a compare against main
@@ -449,13 +570,15 @@ jobs:
 
           REMOTE_SHA=$(git ls-remote --heads origin "refs/heads/${BRANCH}" | awk '{print $1}')
           if [ -n "$REMOTE_SHA" ]; then
-            if ! COMPARE=$(gh api --jq '{total: .total_commits, authors: [.commits[] | (.author.login // .commit.author.name)]}' "repos/${REPO}/compare/main...${BRANCH}"); then
+            # D5: a commit counts as the watcher's only when its GitHub author AND committer logins are the bot.
+            # A null author, or a name-only "github-actions[bot]", is not proof and refuses the reuse.
+            if ! COMPARE=$(gh api --jq '{total: .total_commits, commits: [.commits[] | {author: (.author.login // ""), committer: (.committer.login // "")}]}' "repos/${REPO}/compare/main...${BRANCH}"); then
               echo "::error::Could not compare ${BRANCH} with main. The remote branch was not touched."
               exit 1
             fi
             TOTAL=$(echo "$COMPARE" | jq -r '.total')
-            LISTED=$(echo "$COMPARE" | jq -r '.authors | length')
-            UNRELATED=$(echo "$COMPARE" | jq -r '[.authors[] | select(. != "github-actions[bot]")] | length')
+            LISTED=$(echo "$COMPARE" | jq -r '.commits | length')
+            UNRELATED=$(echo "$COMPARE" | jq -r '[.commits[] | select(.author != "github-actions[bot]" or .committer != "github-actions[bot]")] | length')
             if [ "$UNRELATED" != "0" ] || [ "$TOTAL" != "$LISTED" ]; then
               echo "::error::${BRANCH} holds unrelated commits, or not all of its commits could be listed. Refusing to replace it."
               gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Sync aborted: ${BRANCH} holds unrelated commits.** The branch has commits the upstream watcher did not write (or its commit list is incomplete), so it was not replaced. No PR was opened. Review or delete the branch, then re-apply upstream:approved." || true

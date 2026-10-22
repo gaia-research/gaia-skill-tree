@@ -6,8 +6,8 @@ H2: a record comment is trusted only when the watcher identity authored it. A fo
     for one suite does not stop the other suites.
 M6: a suite over the records ceiling fails with a message that names the suite, the row count,
     the body limit and the curation decision it needs.
-M7: a chunk-set change edits chunks in place, creates only new trailing chunks, and deletes
-    surplus chunks, so exactly the current set of watcher record comments remains.
+M7 (superseded by D4, #2131 round 3): a chunk-set change never edits a chunk in place. The new generation is
+    created as new comments, the body switches to it, and the old generation is deleted after the switch.
 """
 
 from __future__ import annotations
@@ -63,7 +63,8 @@ def stored_records(gh, number):
 
 def add_comment(gh, number, body, login):
     gh.next_comment_id += 1
-    gh.comments.setdefault(number, []).append({"id": gh.next_comment_id, "body": body, "user": {"login": login}})
+    gh.comments.setdefault(number, []).append({"id": gh.next_comment_id, "body": body,
+                                               "user": {"login": login, "type": "User" if login != BOT else "Bot"}})
     return gh.next_comment_id
 
 
@@ -77,8 +78,12 @@ def row(slug, suite=SUITE):
     }
 
 
-def bot_chunk(comment_id, index, of, rows):
-    return {"id": comment_id, "user": {"login": BOT}, "body": records.render_chunk(index, of, rows)}
+def bot_chunk(comment_id, index, of, rows, gen):
+    return {"id": comment_id, "user": {"login": BOT, "type": "Bot"}, "body": records.render_chunk(gen, index, of, rows)}
+
+
+def gen_of(rows):
+    return records.rows_digest(rows)
 
 
 # ---------------------------------------------------------------------------
@@ -90,7 +95,7 @@ def test_a_forged_record_from_another_user_is_ignored_logged_and_does_not_wedge_
     gh = FakeGh()
     run(gh, [finding_for(SUITE, "v1", slugs(250))])
     number = umbrella_of(gh)
-    forged = records.render_chunk(1, 5, [row("evil")])
+    forged = records.render_chunk("0" * 64, 1, 5, [row("evil")])
     add_comment(gh, number, forged, MALLORY)
     before = gh.write_count()
 
@@ -139,12 +144,13 @@ def test_a_trusted_chunk_that_fails_its_digest_still_fails_closed_with_zero_writ
 def test_a_stale_chunk_set_with_a_broken_digest_is_never_read():
     current_rows = [row(slug) for slug in slugs(100)]
     chunks = records.chunk_rows(current_rows)
-    meta = {"chunks": len(chunks), "rows": len(current_rows), "sha256": records.rows_digest(current_rows)}
-    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk) for index, chunk in enumerate(chunks)]
-    # A watcher comment from an earlier, larger chunk set. Its header digest is broken.
+    gen = gen_of(current_rows)
+    meta = {"chunks": len(chunks), "rows": len(current_rows), "sha256": gen}
+    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk, gen) for index, chunk in enumerate(chunks)]
+    # A watcher comment from an earlier, larger generation. Its header digest is broken.
     comments.append({
-        "id": 77, "user": {"login": BOT},
-        "body": "<!-- gaia-upstream-record chunk=4 of=5 sha256=" + "f" * 64 + " -->\nstale and broken",
+        "id": 77, "user": {"login": BOT, "type": "Bot"},
+        "body": "<!-- gaia-upstream-record gen=" + "e" * 64 + " chunk=4 of=5 sha256=" + "f" * 64 + " -->\nstale and broken",
     })
 
     assert records.read_rows(comments, meta) == current_rows
@@ -186,18 +192,20 @@ def test_two_trusted_copies_of_one_chunk_fail_closed_even_when_identical():
 def test_the_same_comment_listed_twice_by_pagination_is_one_copy():
     current_rows = [row(slug) for slug in slugs(60)]
     chunks = records.chunk_rows(current_rows)
-    meta = {"chunks": len(chunks), "rows": len(current_rows), "sha256": records.rows_digest(current_rows)}
-    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk) for index, chunk in enumerate(chunks)]
+    gen = gen_of(current_rows)
+    meta = {"chunks": len(chunks), "rows": len(current_rows), "sha256": gen}
+    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk, gen) for index, chunk in enumerate(chunks)]
     assert records.read_rows(comments + comments[:1], meta) == current_rows
 
 
 def test_a_trusted_duplicate_chunk_in_plan_writes_is_fail_closed():
     current_rows = [row(slug) for slug in slugs(60)]
     chunks = records.chunk_rows(current_rows)
-    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk) for index, chunk in enumerate(chunks)]
-    comments.append(bot_chunk(99, 1, len(chunks), chunks[0]))
+    gen = gen_of(current_rows)
+    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk, gen) for index, chunk in enumerate(chunks)]
+    comments.append(bot_chunk(99, 1, len(chunks), chunks[0], gen))
     with pytest.raises(RecordError):
-        records.plan_writes(comments, current_rows)
+        records.plan_generation(comments, current_rows)
 
 
 # ---------------------------------------------------------------------------
@@ -225,47 +233,56 @@ def test_a_suite_over_the_records_ceiling_names_the_suite_rows_limit_and_the_dec
 # ---------------------------------------------------------------------------
 
 
-def test_growing_the_chunk_set_edits_the_existing_chunks_and_creates_only_the_new_one():
+def test_growing_the_chunk_set_writes_a_new_generation_and_never_edits_a_chunk_in_place():
     # 250 rows is records mode (5 chunks); 300 rows is 6 chunks. Inline mode would not write record comments.
     gh = FakeGh()
     run(gh, [finding_for(SUITE, "v1", slugs(250))])
     number = umbrella_of(gh)
     before_ids = [comment["id"] for comment in stored_records(gh, number)]
     assert len(before_ids) == 5
+    edits_before = [w for w in gh.writes if w[0] == "edit_comment"]
 
     run(gh, [finding_for(SUITE, "v1", slugs(300))])
 
     comments = stored_records(gh, number)
     assert len(comments) == 6, [comment["body"].splitlines()[0] for comment in comments]
     assert all(" of=6 " in comment["body"].splitlines()[0] for comment in comments)
-    assert [comment["id"] for comment in comments[:5]] == before_ids, "existing chunks are edited in place"
+    assert not set(before_ids) & {comment["id"] for comment in comments}, "the old generation is deleted, not edited"
+    assert [w for w in gh.writes if w[0] == "edit_comment"] == edits_before
 
 
 def test_plan_writes_deletes_surplus_chunks_when_the_set_shrinks():
     big = [row(slug) for slug in slugs(150)]
     big_chunks = records.chunk_rows(big)
-    comments = [bot_chunk(index + 1, index + 1, len(big_chunks), chunk) for index, chunk in enumerate(big_chunks)]
+    comments = [bot_chunk(index + 1, index + 1, len(big_chunks), chunk, gen_of(big))
+                for index, chunk in enumerate(big_chunks)]
     small = [row(slug) for slug in slugs(100)]
 
-    writes = records.plan_writes(comments, small)
+    plan = records.plan_generation(comments, small)
 
-    assert [kind for kind, _id, _text in writes] == ["edit", "edit", "delete"]
-    assert writes[-1][1] == 3
+    assert [kind for kind, _id, _text in plan.prewrites] == ["create", "create"]
+    assert [kind for kind, _id, _text in plan.cleanup] == ["delete"] * 3
+    assert sorted(comment_id for _kind, comment_id, _text in plan.cleanup) == [1, 2, 3]
 
 
 def test_plan_writes_with_no_rows_deletes_every_record_comment():
     rows = [row(slug) for slug in slugs(120)]
     chunks = records.chunk_rows(rows)
-    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk) for index, chunk in enumerate(chunks)]
-    assert [kind for kind, _id, _text in records.plan_writes(comments, [])] == ["delete"] * 3
+    comments = [bot_chunk(index + 1, index + 1, len(chunks), chunk, gen_of(rows))
+                for index, chunk in enumerate(chunks)]
+    plan = records.plan_generation(comments, None)
+    assert plan.prewrites == [] and [kind for kind, _id, _text in plan.cleanup] == ["delete"] * 3
 
 
 def test_plan_writes_ignores_a_stale_comment_from_another_user_when_deleting():
     rows = [row(slug) for slug in slugs(60)]
     chunks = records.chunk_rows(rows)
-    comments = [bot_chunk(1, 1, 2, chunks[0]), bot_chunk(2, 2, 2, chunks[1])]
-    comments.append({"id": 50, "user": {"login": MALLORY}, "body": records.render_chunk(1, 9, [row("x")])})
-    assert records.plan_writes(comments, rows) == []
+    gen = gen_of(rows)
+    comments = [bot_chunk(1, 1, 2, chunks[0], gen), bot_chunk(2, 2, 2, chunks[1], gen)]
+    comments.append({"id": 50, "user": {"login": MALLORY, "type": "User"},
+                     "body": records.render_chunk("e" * 64, 1, 9, [row("x")])})
+    plan = records.plan_generation(comments, rows)
+    assert plan.prewrites == [] and plan.cleanup == []
 
 
 def test_live_gh_can_delete_a_comment():

@@ -112,7 +112,7 @@ class FakeGh:
     def comment(self, number: int, body: str) -> None:
         self.next_comment_id += 1
         self.comments.setdefault(number, []).append(
-            {"id": self.next_comment_id, "body": body, "user": {"login": "github-actions[bot]"}}
+            {"id": self.next_comment_id, "body": body, "user": {"login": "github-actions[bot]", "type": "Bot"}}
         )
         self.writes.append(("comment", number, body))
 
@@ -201,9 +201,19 @@ class RestGhRunner:
         self.calls: list[list[str]] = []
         self.writes: list[tuple] = []
         self.next_number = 5000
+        # Comments by issue number, as the REST comments list serves them (each {id, body, user}).
+        self.comments: dict[int, list[dict]] = {}
+        # The text of every `gh issue comment`, whether it came by --body or --body-file.
+        self.comment_texts: list[str] = []
 
     def __call__(self, args, capture_output=True, text=True, timeout=None):
         self.calls.append(list(args))
+        if args[1] == "api" and "-f" not in args and re.search(r"/issues/\d+$", args[-1]):
+            return self._single(args)
+        comments_path = next((a for a in args if re.search(r"/issues/\d+/comments$", a)), None)
+        if args[1] == "api" and comments_path:
+            number = int(re.search(r"/issues/(\d+)/comments$", comments_path).group(1))
+            return subprocess.CompletedProcess(args, 0, stdout=json.dumps(self.comments.get(number, [])), stderr="")
         if args[1] == "api":
             return self._list(args)
         if args[1:3] == ["issue", "create"]:
@@ -214,8 +224,21 @@ class RestGhRunner:
             return subprocess.CompletedProcess(args, 0, stdout=url, stderr="")
         if args[1:3] in (["issue", "edit"], ["issue", "comment"]):
             self.writes.append((args[2], int(args[3])))
+            if args[1:3] == ["issue", "comment"]:
+                if "--body-file" in args:
+                    self.comment_texts.append(Path(args[args.index("--body-file") + 1]).read_text(encoding="utf-8"))
+                elif "--body" in args:
+                    self.comment_texts.append(args[args.index("--body") + 1])
             return subprocess.CompletedProcess(args, 0, stdout="", stderr="")
         return subprocess.CompletedProcess(args, 1, stdout="", stderr="unsupported (fake)")
+
+    def _single(self, args) -> subprocess.CompletedProcess:
+        """GET repos/{repo}/issues/{n}: the live issue as REST serves it (labels, body, state)."""
+        number = int(re.search(r"/issues/(\d+)$", args[-1]).group(1))
+        for row in self.issues:
+            if row["number"] == number:
+                return subprocess.CompletedProcess(args, 0, stdout=json.dumps(row), stderr="")
+        return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 404 (fake)")
 
     def _list(self, args) -> subprocess.CompletedProcess:
         fields: dict[str, str] = {}

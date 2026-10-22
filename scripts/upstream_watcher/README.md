@@ -73,7 +73,8 @@ For the full review protocol — label vocab, approval mechanics, child gate —
 - Apply `upstream:approved` to open a draft sync PR (gated on child intakes being closed first). A human applies it, including to a bootstrap baseline: the watcher never does.
 - Apply `upstream:rejected` to close without syncing. The umbrella's open child intakes are closed too, and each one is labelled `upstream:rejected` so the rejection stays on record.
 - Apply `upstream:needs-info` to hold without automating anything.
-- If an approved umbrella's payload changes (a new version, a removed component, a new broken link, a changed candidate row), the watcher removes `upstream:approved`, applies `upstream:needs-info` and posts one note. Re-apply `upstream:approved` after review.
+- If an approved umbrella's payload changes (a new version, a removed component, a new broken link, a changed candidate row), the watcher removes `upstream:approved`, applies `upstream:needs-info` and posts one note. Re-apply `upstream:approved` after review. A body whose stored `payloadSha256` no longer matches its own payload counts as a change, so an edited body loses its approval too (D1a).
+- A sync runs only for the payload a reviewer approved. The approve workflow records that digest as a watcher-authored approval marker and re-checks it before any sync. A bot re-fire of an approval is accepted only when the labeler of that approval is a Verifier (D1b, D3).
 
 ---
 
@@ -86,8 +87,9 @@ scripts/upstream_watcher/
 ├── liveness.py         # Link liveness checks, blob→raw URL conversion, component diff
 ├── name_drift.py       # SKILL.md frontmatter name-drift detection (issue #1457)
 ├── issuer.py           # Issue body renderers, idempotency checks, gh issue create, bootstrap memory
+├── approval.py         # Digest, approval-marker, reset-note and Verifier checks shared with the workflows
 ├── batch.py            # Umbrella batch planner (payloadVersion 2): prechecks, approval reset, writes
-├── records.py          # Records mode: full batch rows in watcher-authored record comments
+├── records.py          # Records mode: full batch rows in watcher-authored record comments, written per generation
 ├── prechecks.py        # Registry, tracked and prior-disposition checks for candidate rows
 ├── live.py             # GitHub access for the planner: paginated LISTs, comments, fail-closed errors
 ├── tests/
