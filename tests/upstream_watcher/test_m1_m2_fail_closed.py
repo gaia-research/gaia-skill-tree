@@ -235,5 +235,7 @@ def test_truncated_tree_is_unknown_evidence_not_a_partial_diff(monkeypatch):
 
 def test_missing_component_root_is_still_version_only_not_unknown(monkeypatch):
     """A repo with no skills/ directory is a legitimate version-only layout, not unknown evidence."""
-    monkeypatch.setattr(liveness, "fetch_json", lambda endpoint, **kwargs: {"tree": [], "truncated": False})
+    # A real tree response for a resolved tag carries the tree's sha (M3: an empty list needs it).
+    resolved = {"sha": "9f1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c", "tree": [], "truncated": False}
+    monkeypatch.setattr(liveness, "fetch_json", lambda endpoint, **kwargs: resolved)
     assert fetch_component_diff("o", "r", "v1", "skills", ["o/x"]) == ([], [])

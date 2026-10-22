@@ -158,8 +158,18 @@ def fetch_component_diff(
         raise UnknownEvidenceError(
             f"tree for {owner}/{repo}@{tag} could not be read: {exc}"
         ) from exc
-    if not isinstance(tree_data, dict):
+    # M3: only a real tree object is evidence. {} or a response without a tree list is unknown, and so is
+    # an entry that is not an object. An empty list is a legitimate tree only when the response
+    # identifies a resolved tree (its sha): then the layout is version-only, not unknown.
+    if not isinstance(tree_data, dict) or not tree_data:
         raise UnknownEvidenceError(f"tree for {owner}/{repo}@{tag} returned no usable data")
+    tree_items = tree_data.get("tree")
+    if not isinstance(tree_items, list) or any(not isinstance(item, dict) for item in tree_items):
+        raise UnknownEvidenceError(f"tree for {owner}/{repo}@{tag} has no usable tree list")
+    if not tree_items and not (isinstance(tree_data.get("sha"), str) and tree_data["sha"]):
+        raise UnknownEvidenceError(
+            f"tree for {owner}/{repo}@{tag} is empty and does not identify a resolved tree"
+        )
 
     if tree_data.get("truncated"):
         raise UnknownEvidenceError(
@@ -172,7 +182,7 @@ def fetch_component_diff(
 
     root_present = any(
         item.get("path") == component_root_norm and item.get("type") == "tree"
-        for item in tree_data.get("tree", [])
+        for item in tree_items
     )
     if not root_present:
         # component_root not found in tree — version-only fallback
@@ -182,7 +192,7 @@ def fetch_component_diff(
     # parent directory name as the component slug, regardless of nesting
     # depth.
     upstream_slugs: set[str] = set()
-    for item in tree_data.get("tree", []):
+    for item in tree_items:
         if item.get("type") != "blob":
             continue
         path = item.get("path", "")

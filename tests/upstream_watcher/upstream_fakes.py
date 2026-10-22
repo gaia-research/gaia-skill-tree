@@ -128,6 +128,15 @@ class FakeGh:
                     return
         raise GhError(f"comment {comment_id} missing (fake)")
 
+    def delete_comment(self, comment_id: int) -> None:
+        for rows in self.comments.values():
+            for row in rows:
+                if row["id"] == comment_id:
+                    rows.remove(row)
+                    self.writes.append(("delete_comment", comment_id))
+                    return
+        raise GhError(f"comment {comment_id} missing (fake)")
+
     # -- helpers -----------------------------------------------------------
     def write_count(self) -> int:
         return len(self.writes)

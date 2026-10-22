@@ -55,9 +55,12 @@ jobs:
           echo "Child #${CLOSED_ISSUE_NUMBER} closed. Umbrella: #${UMBRELLA_NUMBER}"
 
           # Check if umbrella is open and has upstream:approved
+          # M2: a failed lookup is an error, never read as "not open and approved, no action".
           UMBRELLA_STATE=$(gh issue view "$UMBRELLA_NUMBER" --json state,labels \
-            --jq '{state: .state, approved: ([.labels[].name] | contains(["upstream:approved"]))}' \
-            2>/dev/null || echo '{"state":"unknown","approved":false}')
+            --jq '{state: .state, approved: ([.labels[].name] | contains(["upstream:approved"]))}') || {
+            echo "::error::Could not read the state of umbrella #${UMBRELLA_NUMBER}. Not re-firing upstream-approve.yml."
+            exit 1
+          }
 
           IS_OPEN=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['state']=='OPEN' else 'false')")
           IS_APPROVED=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['approved'] else 'false')")
@@ -188,8 +191,12 @@ jobs:
           set -euo pipefail
 
           # Only cascade if closed as rejected
+          # M2: a failed lookup is an error, never read as "no rejection, no cascade".
           HAS_REJECTED=$(gh issue view "$UMBRELLA_NUMBER" --json labels \
-            --jq '[.labels[].name] | contains(["upstream:rejected"])' 2>/dev/null || echo "false")
+            --jq '[.labels[].name] | contains(["upstream:rejected"])') || {
+            echo "::error::Could not read the labels of umbrella #${UMBRELLA_NUMBER}. Nothing was closed."
+            exit 1
+          }
 
           if [ "$HAS_REJECTED" != "true" ]; then
             echo "Umbrella #${UMBRELLA_NUMBER} closed without upstream:rejected label. No cascade."
@@ -328,6 +335,12 @@ jobs:
             OWNER=$(printf '%s' "$CHILD_BODY" | python3 -c "import re, sys; m = re.search(r'Umbrella:\s*#(\d+)', sys.stdin.read()); print(m.group(1) if m else '')")
             if [ "$OWNER" != "$UMBRELLA_NUMBER" ]; then
               echo "Skipping child #${child_num}: its body names umbrella '${OWNER:-none}', not #${UMBRELLA_NUMBER}. Not closing it."
+              continue
+            fi
+            # L5: the closed child keeps its rejection on record. Rejection memory and suppression read this label.
+            if ! gh issue edit "$child_num" --add-label "upstream:rejected"; then
+              echo "::error::Could not label child #${child_num} upstream:rejected. Not closing it."
+              CASCADE_FAILED=1
               continue
             fi
             echo "Closing child #${child_num}"

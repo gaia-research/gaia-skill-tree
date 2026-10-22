@@ -159,7 +159,7 @@ def test_approved_umbrella_resets_visibly_on_new_version_once():
     assert "`v1`" in new_comments[0][2] and "`v2`" in new_comments[0][2]
 
 
-def test_legacy_approved_umbrella_converts_without_losing_approval():
+def test_legacy_approved_umbrella_conversion_resets_approval_once_when_an_approved_field_changed():
     legacy_body = (
         "## legacy\n\n<!-- gaia-upstream-payload\n"
         + json.dumps({"skillId": "garrytan/gbrain", "previousVersion": "v0", "newVersion": "v1",
@@ -172,8 +172,10 @@ def test_legacy_approved_umbrella_converts_without_losing_approval():
                   "body": legacy_body}])
     report, code = run(gh, [finding("v1", ["ask-user", "briefing"])])
     assert code == 0
+    # H1: the legacy releasedAt ("") differs from the new release's, an approved field, so approval does not
+    # survive. A conversion whose approved fields are unchanged keeps approval (representation_only).
     labels = [label["name"] for label in gh.issues[77]["labels"]]
-    assert "upstream:approved" in labels and "upstream:needs-info" not in labels
+    assert "upstream:approved" not in labels and "upstream:needs-info" in labels
     assert len(parse_payload(gh.issues[77]["body"])["candidates"]) == 2
 
 
