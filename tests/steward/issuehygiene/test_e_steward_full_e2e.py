@@ -109,7 +109,9 @@ class Steward:
             gaiaMain()
         except SystemExit as exc:
             code = int(exc.code or 0)
-        out = self.capsys.readouterr().out
+        captured = self.capsys.readouterr()
+        out = captured.out
+        self.lastErr = captured.err
         try:
             return code, json.loads(out)
         except ValueError:
@@ -138,7 +140,7 @@ class Steward:
             outcomeFile.parent.mkdir(parents=True, exist_ok=True)
             outcomeFile.write_text(json.dumps(outcome, indent=2, sort_keys=True) + "\n", encoding="utf-8")
             recordCode, _ = self.gaia("record", runId, stepId, "--input", str(outcomeFile), "--ledger", "local", "--json")
-            assert recordCode == 0
+            assert recordCode == 0, self.lastErr
             outcomes.append(outcome)
         return outcomes
 
@@ -176,12 +178,17 @@ def setUpSteward(tmp_path: Path, monkeypatch, capsys, eligibleCount: int) -> tup
     return Steward(root, gh, forge, monkeypatch, capsys), gh, picks
 
 
-@pytest.mark.parametrize(("eligibleCount", "emissions"), [
-    (10, [10, 0]),       # everything fits under the cap: the second run emits nothing
-    (12, [10, 2, 0]),    # cap 10: the first run emits 10, the next emits the remainder, then nothing
+# The per-run cap is also an hourly budget (B7 L2): the remainder waits for the next UTC hour.
+HOUR_ONE = "2026-10-21T19:30:00Z"
+HOUR_TWO = "2026-10-21T20:30:00Z"
+
+
+@pytest.mark.parametrize(("eligibleCount", "emissions", "instants"), [
+    (10, [10, 0], [HOUR_ONE, HOUR_ONE]),    # everything fits under the cap: the second run emits nothing
+    (12, [10, 0, 2, 0], [HOUR_ONE, HOUR_ONE, HOUR_TWO, HOUR_TWO]),  # cap 10 per hour: the remainder waits an hour
 ])
 def test_ordinary_full_run_drains_issue_hygiene_offline_and_is_idempotent(
-        tmp_path: Path, monkeypatch, capsys, eligibleCount: int, emissions: list[int]) -> None:
+        tmp_path: Path, monkeypatch, capsys, eligibleCount: int, emissions: list[int], instants: list[str]) -> None:
     steward, gh, picks = setUpSteward(tmp_path, monkeypatch, capsys, eligibleCount)
     pickedNumbers = {pick["number"] for pick in picks}
     openBefore = sum(1 for number in pickedNumbers if gh.issues[number]["state"] == "open")
@@ -189,6 +196,7 @@ def test_ordinary_full_run_drains_issue_hygiene_offline_and_is_idempotent(
 
     observed: list[int] = []
     for round_ in range(len(emissions)):
+        monkeypatch.setenv("GAIA_STEWARD_NOW", instants[round_])
         writesBefore = len(forge_writes(steward))
         code, view = steward.run()
         assert code == 0, view
@@ -199,7 +207,7 @@ def test_ordinary_full_run_drains_issue_hygiene_offline_and_is_idempotent(
         if closures:
             assert all(a["params"]["ruleId"] == "A1-child-curated" for a in closures)
             assert all(a["params"]["receiptPath"].endswith(f"{view['runId']}.jsonl") for a in closures)
-            assert all(a["params"]["comment"].startswith(MARKER) for a in closures)
+            assert all("comment" not in a["params"] and "original" not in a["params"] for a in closures)  # compact (B7 D5)
             steward.performClosures(view)
             code, resumed = steward.resume(view["runId"])
             assert code == 0
@@ -232,7 +240,8 @@ def test_the_first_run_emits_exactly_the_cap_and_the_rest_of_the_pending_work_is
     steward.performClosures(view)
     code, resumed = steward.resume(view["runId"])
     assert len(closeActions(resumed)) == 0
-    # The two deferred pairs are still eligible and are emitted by the next run, not dropped.
+    # The two deferred pairs are still eligible and are emitted once the hourly budget renews, not dropped.
+    monkeypatch.setenv("GAIA_STEWARD_NOW", HOUR_TWO)
     code, nxt = steward.run()
     assert sorted(a["params"]["issue"] for a in closeActions(nxt)) == sorted(
         {pick["number"] for pick in picks} - emitted)

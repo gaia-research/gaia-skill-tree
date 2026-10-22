@@ -176,7 +176,7 @@ def actionFor(root: Path, document: dict, planOverrides: dict | None = None, **c
     plan = planClosures(manifest, policyFor())[0]
     action = {
         **plan, "receiptPath": ".gaia/steward/issue-hygiene/receipts/R1.jsonl",
-        "manifestSha256": observedDigest(manifest), **(planOverrides or {}), **changes,
+        "manifestSha256": observedDigest(manifest), "repo": REPO, **(planOverrides or {}), **changes,
     }
     target = root / "action.json"
     target.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")

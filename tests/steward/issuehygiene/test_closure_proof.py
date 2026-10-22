@@ -73,7 +73,7 @@ def test_url_less_comment_is_verified_by_rereading_the_marker_before_closing(tmp
     receipt = executeClosure(planFor(manifest), forge, tmp_path / "r.jsonl", NOW, "run-1")
     assert receipt["outcome"] == "closed"
     assert receipt["commentUrl"] is None and receipt["markerVerified"] is True
-    assert closureProven(receipt)
+    assert closureProven(receipt, 10, "gaia-research/gaia-skill-tree")
     assert forge.issues[10]["state"] == "closed"
 
 
@@ -114,7 +114,7 @@ def test_resumed_marker_without_url_still_counts_as_proof(tmp_path: Path) -> Non
     ({"outcome": "closed", "markerVerified": "yes"}, False),
 ])
 def test_closed_outcome_proof_accepts_exactly_one_of_url_id_or_marker(outcome: dict, proven: bool) -> None:
-    assert closureProven(outcome) is proven
+    assert closureProven(outcome, 10, "gaia-research/gaia-skill-tree") is proven
 
 
 def test_a_proof_naming_another_issue_or_repo_is_refused() -> None:

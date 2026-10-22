@@ -159,38 +159,49 @@ def test_apply_without_acknowledgement_is_refused_with_usage_error(tmp_path: Pat
     assert code == 2
 
 
+def checkoutWith(tmp_path: Path, census: dict | str | None = None) -> tuple[Path, Path]:
+    """A writable checkout with the fixture census and the obra/writing-skills registry record. B7 H1: apply reads the checkout."""
+    from tests.steward.issuehygiene.e_fakes import makeCheckout
+
+    document = json.loads(FIXTURE.read_text(encoding="utf-8")) if census is None else census
+    root = makeCheckout(tmp_path, census=document, named={
+        "obra/writing-skills": "---\nid: obra/writing-skills\ncontributor: obra\nstatus: named\n"
+                               "links:\n  github: https://github.com/obra/superpowers/blob/main/skills/writing-skills/SKILL.md\n---\n",
+    })
+    return root, store(root)
+
+
+def store(root: Path) -> Path:
+    return root / ".gaia" / "steward" / "issue-hygiene" / "receipts"
+
+
 def test_apply_refused_when_census_incomplete_and_no_forge_built(tmp_path: Path):
-    root = fakeRoot(tmp_path)
-    census = tmp_path / "census.json"
     document = json.loads(FIXTURE.read_text(encoding="utf-8"))
     document["completeness"]["issues"]["complete"] = False
-    census.write_text(json.dumps(document), encoding="utf-8")
-    policy = writePolicy(tmp_path / "policy.yaml")
+    root, receipts = checkoutWith(tmp_path, census=document)
     code = main(
-        ["--root", str(root), "--census", str(census), "--policy", str(policy), "--now", NOW,
-         "--apply-closures", "--i-understand-writes", "--receipts", str(tmp_path / "r.jsonl")],
+        ["--root", str(root), "--apply-closures", "--i-understand-writes",
+         "--receipts", str(receipts / "r.jsonl"), "--repo", "gaia-research/gaia-skill-tree"],
         forgeFactory=lambda name, secret: pytest.fail("no forge for an incomplete census"),
     )
-    assert code == 3
-    assert not (tmp_path / "r.jsonl").exists()
+    assert code == 2
+    assert not (receipts / "r.jsonl").exists()
 
 
 def test_apply_refused_without_token_and_no_writes(tmp_path: Path, monkeypatch):
     monkeypatch.delenv("GH_TOKEN", raising=False)
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
-    root = fakeRoot(tmp_path)
-    policy = writePolicy(tmp_path / "policy.yaml")
+    root, receipts = checkoutWith(tmp_path)
     code = main(
-        ["--root", str(root), "--census", str(FIXTURE), "--policy", str(policy), "--now", NOW,
-         "--apply-closures", "--i-understand-writes", "--receipts", str(tmp_path / "r.jsonl")],
+        ["--root", str(root), "--apply-closures", "--i-understand-writes",
+         "--receipts", str(receipts / "r.jsonl"), "--repo", "gaia-research/gaia-skill-tree"],
     )
     assert code == 3
-    assert not (tmp_path / "r.jsonl").exists()
+    assert not (receipts / "r.jsonl").exists()
 
 
 def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp_path: Path):
-    root = fakeRoot(tmp_path)
-    policy = writePolicy(tmp_path / "policy.yaml")
+    root, receipts_dir = checkoutWith(tmp_path)
     rows = {item["number"]: item for item in json.loads(FIXTURE.read_text(encoding="utf-8"))["issues"]}
 
     class LiveForge:
@@ -209,15 +220,15 @@ def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp
 
         def addComment(self, number, body):
             self.comments.append(number)
-            return f"https://github.com/o/r/issues/{number}#c"
+            return f"https://github.com/gaia-research/gaia-skill-tree/issues/{number}#issuecomment-{9000 + number}"
 
         def closeIssue(self, number, stateReason, duplicateOf=None):
             self.closed.append((number, stateReason, duplicateOf))
 
     forge = LiveForge()
-    receipts = tmp_path / "receipts" / "run.jsonl"
-    args = ["--root", str(root), "--census", str(FIXTURE), "--policy", str(policy), "--now", NOW,
-            "--apply-closures", "--i-understand-writes", "--receipts", str(receipts), "--repo", "o/r"]
+    receipts = receipts_dir / "run.jsonl"
+    args = ["--root", str(root), "--apply-closures", "--i-understand-writes",
+            "--receipts", str(receipts), "--repo", "gaia-research/gaia-skill-tree"]
     assert main(args, forgeFactory=lambda name, secret: forge) == 0
     # fakeRoot registers obra/writing-skills with the exact evidence URL of child #2024, the only A1 item there
     assert forge.closed == [(2024, "completed", None)]

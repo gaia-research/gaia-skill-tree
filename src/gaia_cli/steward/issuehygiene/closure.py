@@ -22,6 +22,7 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -49,7 +50,7 @@ INLINE_LIMIT = 30_000
 PART_SIZE = 40_000
 OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked", "blocked-identity")
 DONE_OUTCOMES = ("closed", "already-closed")
-COMMENT_URL = re.compile(r"^https://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/issues/(\d+)#issuecomment-(\d+)$")
+COMMENT_URL = re.compile(r"https://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/issues/(\d+)#issuecomment-(\d+)")
 COMMENT_ID = re.compile(r"issuecomment-(\d+)")
 EVIDENCE_DETAIL_LIMIT = 300
 
@@ -224,6 +225,27 @@ def preservedSha256Of(original: Mapping[str, Any]) -> str:
     return hashlib.sha256(preservedTextOf(original).encode("utf-8")).hexdigest()
 
 
+COMPACT_FIELDS = (
+    "key", "issue", "ruleId", "authority", "state", "stateReason", "duplicateOf", "parent", "canonical",
+    "closureSha8", "preservedSha256",
+)
+
+
+def compactPlan(plan: Mapping[str, Any]) -> dict[str, Any]:
+    """A closure plan as an action or debt payload: identifiers, digests and the proof's references only.
+
+    The closing comments and the preserved candidate information are dropped. ``gateClosure`` rebuilds them
+    from the census, and the digests prove they are the same closure.
+    """
+    compact = {field: plan.get(field) for field in COMPACT_FIELDS}
+    compact["expectedSnapshot"] = dict(plan["expectedSnapshot"])
+    compact["evidence"] = [
+        {"type": entry.get("type"), "ref": entry.get("ref"), "sha256": entry.get("sha256")}
+        for entry in plan.get("evidence") or []
+    ]
+    return compact
+
+
 def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
     """Ordered closure plans for authority-A items, capped by ``maxClosuresPerRun``.
 
@@ -308,7 +330,8 @@ def commentIdFromUrl(url: Any) -> int | None:
 
 
 def urlNamesThisIssue(url: str, issue: int | None, repo: str | None) -> bool:
-    match = COMMENT_URL.match(url)
+    """True only for a whole GitHub comment URL (no trailing text, no newline) on this issue and repository."""
+    match = COMMENT_URL.fullmatch(url) if isinstance(url, str) else None
     if match is None:
         return False
     owner, name, number = match.group(1), match.group(2), int(match.group(3))
@@ -317,23 +340,34 @@ def urlNamesThisIssue(url: str, issue: int | None, repo: str | None) -> bool:
     return repo is None or f"{owner}/{name}".lower() == str(repo).lower()
 
 
-def closureProven(outcome: Mapping[str, Any], issue: int | None = None, repo: str | None = None) -> bool:
-    """A closed outcome must carry exactly ONE proof of its closing comment.
+def closureProven(outcome: Mapping[str, Any], issue: int | None, repo: str | None) -> bool:
+    """A closed outcome must carry exactly ONE proof of its closing comment, and nothing present may be invalid.
 
-    The proofs are a ``commentUrl`` that is a GitHub comment URL on this issue (and repo, when given), a
-    positive ``commentId``, or ``markerVerified: true``. Two or more proofs are refused, and so is a
-    proof that is present but wrong.
+    The proofs are a ``commentUrl`` that is a whole GitHub comment URL on this issue and repository, a positive
+    integer ``commentId``, or ``markerVerified: true``. A field that is present (even as ``""``, ``0`` or ``null``
+    when it is not a valid value) must be valid: a present-but-invalid proof refuses the outcome, it is never ignored.
+    ``null`` means the field is absent. ``repo`` is required, because a comment on another repository proves nothing.
     """
-    url = outcome.get("commentUrl")
-    commentId = outcome.get("commentId")
-    hasUrl = url not in (None, "")
-    hasId = commentId is not None
-    hasMarker = outcome.get("markerVerified") is True
-    if hasUrl and not (isinstance(url, str) and urlNamesThisIssue(url, issue, repo)):
-        return False
-    if hasId and not (isinstance(commentId, int) and not isinstance(commentId, bool) and commentId > 0):
-        return False
-    return int(hasUrl) + int(hasId) + int(hasMarker) == 1
+    if not isinstance(repo, str) or not repo.strip():
+        raise ValueError("closureProven needs the repository the closing comment must belong to")
+    proofs = 0
+    if outcome.get("commentUrl") is not None:
+        url = outcome["commentUrl"]
+        if not (isinstance(url, str) and urlNamesThisIssue(url, issue, repo)):
+            return False
+        proofs += 1
+    if outcome.get("commentId") is not None:
+        commentId = outcome["commentId"]
+        if not (isinstance(commentId, int) and not isinstance(commentId, bool) and commentId > 0):
+            return False
+        proofs += 1
+    if outcome.get("markerVerified") is not None:
+        marker = outcome["markerVerified"]
+        if not isinstance(marker, bool):
+            return False
+        if marker:
+            proofs += 1
+    return proofs == 1
 
 
 def resumeState(receiptsPath: Path | str) -> ResumeState:
@@ -376,20 +410,49 @@ def appendReceipt(receiptsPath: Path | str, receipt: dict) -> None:
         os.fsync(handle.fileno())
 
 
+def userLockDir() -> Path:
+    """The user-level lock directory. Two checkouts on one machine share it, so they cannot both close one issue."""
+    return Path(tempfile.gettempdir()) / "gaia-steward-locks"
+
+
+def repoIssueLockName(repo: str | None, issue: int) -> str:
+    material = f"{str(repo or '').strip().lower()}\n{issue}"
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()[:40] + ".lock"
+
+
+def pairLockName(key: str, issue: int) -> str:
+    return hashlib.sha256(f"{key}\n{issue}".encode("utf-8")).hexdigest()[:40] + ".lock"
+
+
 @contextmanager
-def closureLock(receiptsPath: Path | str, key: str, issue: int) -> Iterator[None]:
-    """Exclusive lock for one (key, issue) pair, held across check, comment, close and receipt."""
-    path = Path(receiptsPath)
-    lockDir = path.parent / ".locks"
-    lockDir.mkdir(parents=True, exist_ok=True)
-    name = hashlib.sha256(f"{key}\n{issue}".encode("utf-8")).hexdigest()[:40] + ".lock"
-    handle = os.open(lockDir / name, os.O_RDWR | os.O_CREAT, 0o644)
+def flockFile(path: Path) -> Iterator[None]:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
     try:
         fcntl.flock(handle, fcntl.LOCK_EX)
         yield
     finally:
         fcntl.flock(handle, fcntl.LOCK_UN)
         os.close(handle)
+
+
+@contextmanager
+def closureLock(receiptsPath: Path | str, key: str, issue: int, repo: str | None = None) -> Iterator[None]:
+    """Exclusive locks for one closure, held across check, comment, close and receipt.
+
+    Two locks, taken in this order: the (key, issue) lock beside the receipts store, then the (repo, issue) lock in
+    the user-level lock directory. The second is what serializes two checkouts that share one repository on one
+    machine. Across machines the closers rely on the marker check and the live re-read (see the contract, section 7).
+    """
+    storeLock = Path(receiptsPath).parent / ".locks" / pairLockName(key, issue)
+    with flockFile(storeLock):
+        with flockFile(userLockDir() / repoIssueLockName(repo, issue)):
+            yield
+
+
+def repoIssueLock(repo: str | None, issue: int):
+    """The user-level (repo, issue) lock on its own, for callers and tests that serialize across checkouts."""
+    return flockFile(userLockDir() / repoIssueLockName(repo, issue))
 
 
 def buildReceipt(
@@ -506,7 +569,8 @@ def closerIdentity(forge: Any) -> str | None:
     return value if isinstance(value, str) and value.strip() else None
 
 
-def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "") -> dict:
+def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                   repo: str | None = None) -> dict:
     """Close one planned issue after a live re-read, under a per-pair lock. Returns the receipt it appended.
 
     A pair the receipts already record as done is returned as ``resumed-done`` with no forge call and no
@@ -528,7 +592,7 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         appendReceipt(receiptsPath, receipt)
         return receipt
 
-    with closureLock(receiptsPath, key, issue):
+    with closureLock(receiptsPath, key, issue, repo):
         if resumeState(receiptsPath).isDone(key, issue):
             return {"key": key, "issue": issue, "outcome": "resumed-done"}
         try:
@@ -591,7 +655,8 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         return finish("closed", commentUrl, None, commentId, markerVerified, closer)
 
 
-def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "") -> list[dict]:
+def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                    repo: str | None = None) -> list[dict]:
     """Run plans in order. Done pairs in the receipts file are skipped without any forge call.
 
     Stops after the first ``blocked`` receipt: auth or rate failures stop the batch. A ``blocked-identity``
@@ -603,7 +668,7 @@ def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | s
         if state.isDone(plan["key"], plan["issue"]):
             results.append({"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"})
             continue
-        receipt = executeClosure(plan, forge, receiptsPath, now, runId)
+        receipt = executeClosure(plan, forge, receiptsPath, now, runId, repo)
         results.append(receipt)
         if receipt["outcome"] == "blocked":
             break
@@ -626,6 +691,9 @@ __all__ = [
     "closureCommentFor",
     "closureCommentsFor",
     "closureLock",
+    "repoIssueLock",
+    "repoIssueLockName",
+    "userLockDir",
     "closureSha8",
     "closureProven",
     "commentIdFromUrl",

@@ -19,6 +19,7 @@ from scripts.steward_issue_close import EXIT_BLOCKED, EXIT_FAILED, EXIT_OK, EXIT
 from tests.steward.issuehygiene.test_b_closure import FakeForge, a1Scenario, liveOf, planFor, scenarioRow
 
 RECEIPT = ".gaia/steward/issue-hygiene/receipts/R1.jsonl"
+REPO_NAME = "gaia-research/gaia-skill-tree"
 NOW_FLAG = "2026-10-21T19:30:00Z"
 
 
@@ -36,7 +37,7 @@ def scenario(tmp_path: Path):
 
 
 def writeAction(tmp_path: Path, manifest: dict, plan: dict, **changes) -> Path:
-    action = {**plan, "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest), **changes}
+    action = {**plan, "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest), "repo": REPO_NAME, **changes}
     path = tmp_path / "action.json"
     path.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
     return path
@@ -59,7 +60,7 @@ def test_closes_a_proven_issue_and_prints_its_outcome(tmp_path, capsys):
     assert code == EXIT_OK
     assert outcome["outcome"] == "closed" and outcome["issue"] == 10
     assert outcome["commentUrl"] == "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-1001"
-    assert closureProven(outcome)
+    assert closureProven(outcome, 10, REPO_NAME)
     assert forge.issues[10]["state"] == "closed"
     receipts = (tmp_path / RECEIPT).read_text(encoding="utf-8").splitlines()
     assert len(receipts) == 1 and json.loads(receipts[0])["outcome"] == "closed"

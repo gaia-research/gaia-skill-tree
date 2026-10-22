@@ -202,7 +202,7 @@ def test_proven_closure_becomes_a_plan_and_batch_items_group_by_suite(repo: Path
     # Debt state carries no closing comment; the emitter rebuilds it from this plan.
     assert plan["issue"] == 10 and "comment" not in plan
     assert plan["reconciliationSha256"] == "f" * 64  # the manifest's own digest, for the rebuild
-    assert "<!-- gaia-steward-closure:" in closureCommentFor(plan)
+    assert "original" not in plan and "comments" not in plan  # compact (B7 D5): the executor re-derives the payload
     assert rules["A2-umbrella-synced"].status == "healthy"  # enabled, nothing ready: resolves, never invented
     suites = {o.subject.id: o for o in byKind(scan.observations, "issue_suite_review")}
     assert set(suites) == {"o/r", "x/y"}
@@ -324,7 +324,7 @@ def test_end_to_end_real_reconcile_on_the_four_family_fixture(repo: Path) -> Non
             row = next(r for r in openIssues if r["number"] == plan["issue"])
             assert plan["expectedSnapshot"]["bodySha256"] == row["bodySha256"]
             assert "comment" not in plan and len(plan["reconciliationSha256"]) == 64
-            assert "<!-- gaia-steward-closure:" in closureCommentFor(plan)
+            assert "original" not in plan and "comments" not in plan  # compact (B7 D5): the executor re-derives the payload
     assert {entry["subjectId"] for entry in first.skipped} <= {"unevaluated-issues"}
 
 
