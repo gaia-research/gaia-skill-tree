@@ -6,10 +6,14 @@
 
 Two verdicts are reported separately and are **not** the same claim:
 
-- **Code-merge verdict: NOT READY — draft.** A scoped fail-closed safety repair
-  pending the targeted test repairs, the two bounded walkthroughs, and an
-  independent Luna runtime review. Main's paused `gaia curate` behavior is
-  preserved.
+- **Code-merge verdict: GO for scoped fail-closed hardening, subject to the
+  repository's human merge gate.** The targeted compatibility and safety checks
+  (666 focused tests, 235 on the exact audit baseline), the two bounded
+  walkthroughs (17/17), the independent verification of the runtime-review
+  findings (12/12) and the independent Luna XHigh runtime review all passed.
+  This verdict does **not** establish successful production authorization: the
+  protected handoff remains blocked by the intentionally denying verifier. Main's
+  paused `gaia curate` behavior is preserved.
 - **Protected-flow activation verdict: NO-GO.** The production trusted-envelope
   verifier intentionally rejects every request because an independently
   authenticated, protected human L4 ceremony is not demonstrably available.
@@ -76,38 +80,61 @@ candidates whose source could not even be fetched. Every other outcome
 (review-ready / rejected / proven-duplicate) still requires a real,
 `validateAssessment`-passing assessment with a matching digest.
 
-## 5. Remaining test failures (reconciled)
+## 5. Remaining test failures (reconciled) — now zero
 
 The earlier "25 vs 26" discrepancy is resolved: the counts were measured at
-different commits and against different file sets. The authoritative breakdown is
-below, measured on the current head.
+different commits and against different file sets. The authoritative breakdown of
+the 25 originally failing assertions was:
 
 | Class | Count | Meaning | Resolution |
 |---|---|---|---|
-| OBSOLETE FIXTURE | 17 | `tests/test_curation_reconciliation.py` fixtures predate the hardened contract (no real source content, no assessment bytes, stale outcome/target assumptions). | Rebuild against the real contract; do not relax product code. |
-| OBSOLETE CONTRACT | 6 | Tests asserting that a **locally authored** `humanReview` makes trusted intake **succeed** — the exact vulnerability #2118 targets. | Migrate to fail-closed assertions, and preserve the mechanics coverage in explicitly unit-only tests that mock only the private trust hook. |
-| GENUINE DEFECT (fixed) | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | Fixed in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
+| OBSOLETE FIXTURE | 17 | `tests/test_curation_reconciliation.py` fixtures predate the hardened contract (no real source content, no assessment bytes, stale outcome/target assumptions). | **Rebuilt** against the real contract in `f03d2eca2` (real synthetic source bytes, real digests, real `buildAssessment` receipts). Product code was not relaxed. |
+| OBSOLETE CONTRACT | 6 | Tests asserting that a **locally authored** `humanReview` makes trusted intake **succeed** — the exact vulnerability #2118 targets. | **Migrated** in `84f205d9d` to fail-closed assertions, with the mechanics coverage preserved in explicitly unit-only tests that mock only the private trust hook. |
+| GENUINE DEFECT | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | **Fixed** in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
 
-**Totals:** 25 originally failing assertions = 17 obsolete fixtures + 6 obsolete
-contracts + 2 genuine defects. The 2 genuine defects are now fixed; the 23
-obsolete ones are being migrated to the current contract. No failing test is
-being deleted to make the suite green, and no security assertion is weakened.
+**Totals:** 25 = 17 obsolete fixtures + 6 obsolete contracts + 2 genuine defects.
+All 25 are resolved. The focused curation suite now reports **666 passed** with
+no remaining failures. No failing test was deleted to make the suite green, and
+no security assertion was weakened.
+
+Three further defects were found later, by the independent runtime review and by
+the delegated repair lanes, and are likewise fixed: the `skillBatch` schema did
+not declare the `submissionKey` the producer emits (so every branch-produced batch
+would have failed canonical validation — fixed in `8ee77feb6`), FAN-OUT dropped
+assessment-free DEFER prior receipts, and the review accounting did not bind each
+frozen row to its packet.
 
 ## 6. Verification performed
 
 | Check | Result |
 |---|---|
 | `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
-| Exact audit baseline at the isolated #2089 head | 224 passed (historical baseline, `b37e8b928`) |
-| Focused suite on the branch at the current head | See `tests/` results recorded in the PR; targeted migrations in progress |
+| Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
+| Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
+| Focused curation suite (23 files) on this branch | **666 passed** |
+| Focused suite after the three P2 repairs | **666 passed** (no regression) |
+| Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
+| Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
 | `python -m compileall` on changed modules | Pass |
 | `git diff --check` | Clean |
 | `python scripts/sync_agent_skill_mirror.py --check` | In sync |
-| Independent Luna review round 1 (static) | 5 findings, all fixed (`4ac765dfc`, `62f351509`, `d5ced24d8`, `cc99e75c4`) |
-| Independent Luna review round 2 (with runtime probes) | **PENDING** — required at the final SHA |
-| Small-batch walkthrough | **PENDING** |
-| Suite walkthrough (six named rows → one generic) | **PENDING** |
+| `python scripts/sync_bundled_schemas.py --check` | In sync |
+| Independent Luna review round 1 (static, no runtime probes) | 5 findings, all fixed |
+| Independent Luna review round 2 (Luna XHigh, **runtime probes**) | 3 new P2 findings, all fixed and independently re-verified: symlinked output-directory escape; FAN-OUT resume dropping conflicting prior receipts; review accounting not binding each frozen row to its packet. All 5 prior findings confirmed closed at runtime. Protected-flow verdict unchanged: NO-GO. |
+| Wider repository suite | **PENDING** (running) |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
+
+### Round-2 runtime review findings and their repairs
+
+| Finding | Severity | Repair | Verification |
+|---|---|---|---|
+| Output writers followed a symlinked parent directory out of the registry root (packet, assessment receipt, skill batch) | P2, exploitable local write | `1d2782a56` — resolved-path containment of every output directory against the registry root, plus skill-batch leaf-symlink refusal | Independent probe: refusal raises, nothing written outside the root, leaf symlink still refused, normal writes unaffected |
+| FAN-OUT resume dropped conflicting prior receipts and could report the candidate review-ready | P2, audit correctness | `991fec131` — conflicts are retained, surfaced in `priorReceiptErrors`, and the candidate is blocked from dispatch | Independent probe: final outcome is `deferred` with the conflict reason, and the conflict is diagnosable |
+| Review accounting compared only candidate-ID sets, not each frozen row against its packet | P2, latent accounting gap | `a0c2fe6a2` — every row is bound to its packet by exact named identity, source URL/revision/digest, decision, proposed generic and packet/assessment digests; retrieval rank is deliberately **not** bound so outside-top-K remains possible | Independent probe: a mismatched row is rejected; a self-consistent inventory still builds |
+| Test-quality: `test_dev_ratify.py` and `test_push_from_file.py` mocked whole validators rather than the private trust seam | — | `a0c2fe6a2` — the ratify tests now mock only `_verifyTrustedEnvelope`, so real payload reconstruction and binding execute; the push test exercises real assessment validation | Reviewer-confirmed; no test claims human approval |
+| Walkthrough asserted only "some error", not the authorization refusal | — | `7999ee8a6` — the walkthrough now builds a complete, realistic ratified packet and asserts the refusal is exactly the independent-authorization refusal | 17/17 |
+
+**No finding was closed by weakening an assertion, and no test claims a real human approval.**
 
 ## 7. Remaining human actions
 
