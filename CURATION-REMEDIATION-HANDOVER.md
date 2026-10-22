@@ -142,8 +142,24 @@ Definition of done is not met yet. Do not claim completion from these edits or p
 | `scripts/sync_bundled_schemas.py --check` | in sync |
 
 ### Independent review history
-Five completed Luna XHigh runtime review rounds; **11 findings, all fixed and independently
-re-verified**. The sixth round was attempted and **could not be scheduled because the reviewer
+**Five** completed independent review rounds (round 1: two fresh Luna High reviewers, security +
+conservation, static, against frozen `3e0641e3e`; rounds 2–5: Luna XHigh with runtime probes).
+The canonical accounting is in `CURATION-REMEDIATION-REPORT.md` §7:
+
+- **16** unique independent findings — 14 product/security + 2 test-quality — all fixed and
+  independently re-verified;
+- **5** repeated confirmations (round 2 re-confirmed round 1's five as closed at runtime) —
+  not counted twice;
+- **1** duplicate description of a single defect in the report's own table — removed;
+- **2** separate self-review findings — not counted as independent;
+- **18** total unique defects addressed.
+
+The earlier "11 findings" figure counted *reviewer-reported items* — rounds 3–5 reported six
+distinct defects as three items, two of which each bundled a pair — and excluded the two
+test-quality observations. It was never a count of unique defects. The earlier "8 further
+findings" figure for rounds 3–5 was a miscount; the durable table enumerates **6**.
+
+The sixth round was attempted and **could not be scheduled because the reviewer
 provider hit its usage limit** — it is OUTSTANDING and should be re-run before merge.
 
 ### Verdicts (as stated in the PR)

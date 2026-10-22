@@ -7,12 +7,12 @@ protected-environment detail. Rendering it verbatim — even truncated, even
 redacted — would put unbounded upstream content on the console, so the console
 contract here is deliberately narrow and stable:
 
-    <CATEGORY>: <published summary or published refusal> [<n> withheld]
+    <CATEGORY>: <summary> [<n> reported]
 
-``CATEGORY`` names the gate that refused. The remainder is either a *published
-refusal* — a constant this codebase owns and the operator's contract — or a
-sentence published by this module. Refusal text that is not published is
-withheld and reported only as a count.
+``CATEGORY`` names the gate that refused. ``summary`` is a sentence published
+by this module. The refusal text itself is never rendered, transformed, or
+passed to the console; only comparisons against published constants decide
+which category is reported.
 
 Why comparisons and not parsing: the console output has to be a function of
 published constants alone, so that no upstream byte can reach it. Redaction,
@@ -27,8 +27,6 @@ whether an operation is allowed, only how a refusal is worded.
 """
 
 from __future__ import annotations
-
-import re
 
 # --- published gate categories ------------------------------------------------
 
@@ -57,22 +55,6 @@ _CATEGORIES = (
      "the packet did not self-validate against the live catalog"),
 )
 
-# --- published refusals --------------------------------------------------------
-
-#: The fail-closed refusal of the protected authorization seam. It is a
-#: constant this codebase owns, it is the operator's contract, and it is the
-#: only refusal the production verifier can currently emit. It is published
-#: here so that it can be echoed without echoing anything upstream.
-REFUSAL_L4_PENDING = (
-    "independent protected human authorization is not configured; "
-    "L4 remains pending"
-)
-
-#: Refusals this codebase publishes as constants and may therefore echo.
-_PUBLISHED_REFUSALS = (
-    REFUSAL_L4_PENDING,
-)
-
 # --- published reason codes ---------------------------------------------------
 
 REASON_ACCOUNTING_HUMAN_APPROVAL = "REVIEW_ACCOUNTING_HUMAN_APPROVAL_CLAIM"
@@ -97,18 +79,6 @@ _REASONS = (
      REASON_ACCOUNTING_RECEIPTS_DISAGREE),
 )
 
-# --- console tokens ------------------------------------------------------------
-
-#: A console token: an uppercase identifier and nothing else.
-SAFE_TOKEN = re.compile(r"^[A-Z][A-Z0-9_]{0,63}$")
-
-#: Printed in place of anything that is not a safe console token.
-DETAIL_WITHHELD = "DETAIL_WITHHELD"
-
-#: Tokens published for classifying a set of refusals.
-TOKEN_L4_PENDING = "AUTHORIZATION_L4_PENDING"
-TOKEN_REFUSAL_UNRECOGNISED = "REFUSAL_UNRECOGNISED"
-
 
 def public_refusal(category: str) -> str:
     """Return the published one-line diagnostic for a refusal category.
@@ -123,39 +93,19 @@ def public_refusal(category: str) -> str:
             f"detail is echoed")
 
 
-def public_refusal_lines(raws, category: str) -> list[str]:
-    """Return the console-safe lines describing the refusals reported by a gate.
+def public_refusals(category: str, refusals) -> list[str]:
+    """Return the published console lines for the refusals reported by one gate.
 
-    A refusal that is exactly a *published* refusal is echoed, because a
-    published refusal is this codebase's own constant and is the operator's
-    contract. Every other refusal is withheld and reported only as the gate's
-    category and a count, because its text can embed unbounded upstream
-    content.
+    One line is published per gate, carrying how many refusals that gate
+    reported. The count is accumulated by iteration rather than by ``len()``
+    so that it is not derived from the content of the refusal collection.
     """
-    echoed: list[str] = []
-    withheld = 0
-    for raw in raws:
-        published = _published_refusal(raw)
-        if published is None:
-            withheld += 1
-        else:
-            echoed.append(f"{CATEGORY_AUTHORIZATION}: {published}")
-    lines = list(echoed)
-    if withheld:
-        lines.append(f"{public_refusal(category)} [{withheld} withheld]")
-    return lines
-
-
-def classify_refusals(raws) -> str:
-    """Classify a set of refusals into a published, console-safe token.
-
-    Used by the verification scripts, whose only dynamic console output is a
-    token from this vocabulary.
-    """
-    for raw in raws:
-        if raw == REFUSAL_L4_PENDING:
-            return TOKEN_L4_PENDING
-    return TOKEN_REFUSAL_UNRECOGNISED
+    total = 0
+    for _ in refusals:
+        total += 1
+    if total == 0:
+        return []
+    return [f"{public_refusal(category)} [{total} reported]"]
 
 
 def public_reason(message: str) -> str:
@@ -168,23 +118,3 @@ def public_reason(message: str) -> str:
         if marker in message:
             return code
     return REASON_UNRECOGNISED
-
-
-def public_detail(token: str) -> str:
-    """Return ``token`` when it is a safe console token, else withhold it.
-
-    A console token is an uppercase identifier. Anything else — a payload, a
-    path, an exception rendering — is replaced rather than printed, so a
-    verification script cannot leak a payload into its own output.
-    """
-    if SAFE_TOKEN.fullmatch(token):
-        return token
-    return DETAIL_WITHHELD
-
-
-def _published_refusal(raw):
-    """Return the published refusal equal to ``raw``, else ``None``."""
-    for known in _PUBLISHED_REFUSALS:
-        if raw == known:
-            return known
-    return None

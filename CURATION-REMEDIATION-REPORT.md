@@ -8,9 +8,10 @@ Two verdicts are reported separately and are **not** the same claim:
 
 - **Code-merge verdict: GO for scoped fail-closed hardening, subject to the
   repository's human merge gate.** The targeted compatibility and safety checks
-  (666 focused tests, 235 on the exact audit baseline), the two bounded
-  walkthroughs (17/17), the independent verification of the runtime-review
-  findings (12/12) and the independent Luna XHigh runtime review all passed.
+  (672 focused tests, 235 on the exact audit baseline), the two bounded
+  walkthroughs (17/17), the merge-gate verification (15/15), the independent
+  verification of the runtime-review findings (13/13) and the independent
+  Luna XHigh runtime review rounds all passed.
   This verdict does **not** establish successful production authorization: the
   protected handoff remains blocked by the intentionally denying verifier. Main's
   paused `gaia curate` behavior is preserved.
@@ -121,14 +122,33 @@ frozen row to its packet.
 | `git diff --check` | Clean |
 | `python scripts/sync_agent_skill_mirror.py --check` | In sync |
 | `python scripts/sync_bundled_schemas.py --check` | In sync |
-| Independent Luna review round 1 (static, no runtime probes) | 5 findings, all fixed |
-| Independent Luna review round 2 (Luna XHigh, **runtime probes**) | 3 new P2 findings, all fixed and independently re-verified: symlinked output-directory escape; FAN-OUT resume dropping conflicting prior receipts; review accounting not binding each frozen row to its packet. All 5 prior findings confirmed closed at runtime. Protected-flow verdict unchanged: NO-GO. |
-| Independent Luna review rounds 3–5 (Luna XHigh, **runtime probes**) | **8 further findings across three rounds**, all fixed and independently re-verified: a fabricated "review-ready" report accepted; a report not recomputed from its receipts; content-vs-artifact digest confusion that rejected legitimate pretty-printed batches; divergent identity rules between two modules; a mapping-form identity binding that bypassed the consistency check; unbound artifact-digest claims in a report. Protected-flow verdict unchanged: NO-GO throughout. |
+| Independent review rounds completed | **5** — round 1 (two fresh Luna High reviewers, security + conservation, static, against frozen `3e0641e3e`) and rounds 2–5 (Luna XHigh, runtime probes). The exact per-round finding ledger is §7. |
+| Unique independent findings | **16** — 14 product/security + 2 test-quality. The prior "11 findings" figure counted *reviewer-reported items*, in which two items each bundled a pair of distinct defects, and it excluded the two test-quality observations; it was never a count of unique defects. The prior "8 further findings" figure for rounds 3–5 was a miscount: the durable table and its own prose both enumerate **6**. |
 | Independent review round 6 | **OUTSTANDING.** Attempted five times across two provider backends (Luna XHigh and Astra Max); every attempt was refused with a subscription usage-limit error. The gap is provider capacity, not a skipped check. Two residual defects found by self-review in the meantime (a self-contradicting named identity block; a hand-listed field comparison that let a report carry an extra claim) were fixed in `20d945e2d` and re-verified. This round should be re-run before merge. |
 | Wider repository suite at the final head (`tests/`, not integration/slow) | **4075 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` is not writable here) |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
-### Round-2 runtime review findings and their repairs
+### Round-1 independent review findings and their repairs
+
+Round 1 was run by **two fresh Luna High reviewers (security and conservation)**
+against frozen code `3e0641e3e` (review run `08c3a6da-744b-4f93-88e3-1f9ab3f9e1a4`,
+recorded in `CURATION-REMEDIATION-HANDOVER.md`). The reviewers' own output is not a
+committed artifact, so these five are reconstructed one-for-one from the five
+product repair commits that follow the frozen SHA; each finding is therefore
+attributable to a commit, and each contract is verified to still hold in the
+current tree.
+
+| Finding | Severity | Repair | Still enforced at the final head |
+|---|---|---|---|
+| Source semantics and assessment artifacts were not bound to the frozen input (source bytes, assessment digest, decision/outcome expectation) | P1, accounting gap | `4ac765dfc` — the reconciliation binds the frozen source digest, the assessment digest and the decision's expected outcome | `reconciliation.py` — `sourceContent does not match frozen sourceDigest`, `actual assessment output hash mismatch`, `expected_outcome` map |
+| Duplicate named identities were accepted in one frozen inventory | P2, identity integrity | `4ac765dfc` — a repeated exact named identity is refused | `reconciliation.py:69` — `duplicate namedIdentity: {identity}` |
+| Malformed unknown-receipt diagnostics were non-deterministic | P2, diagnosability | `62f351509` — the receipt ordering key no longer coerces a malformed `attempt` | `fanout.py:160` — the deterministic sort key is still in place |
+| Bounded resume did not harden its receipts and run state | P2, resume integrity | `ee222685f` — hardened resume, receipts and run state in the (now removed) curate engine; the surviving contract is the shared seam's receipt accounting and atomic state writes | `curation/reconciliation.py` receipt accounting; `curation/state.py` atomic writes and safe run-ID validation |
+| Capture-time metadata was compared when verifying catalog substance | P1, false staleness | `b48b4bfb6`, then `cc99e75c4` — one `buildGenericSnapshot`-based substance comparison | `freshness.py:50` — `sameGenericSnapshot` compares catalog substance, not capture timestamps |
+| DEFER receipts were discarded on resume unless they carried a fabricated assessment | P2, lossless accounting | `d5ced24d8` — a plain DEFER is retained with an explicit reason and never authorizes | `reconciliation.py:350` — a deferred receipt must state an explicit reason |
+
+### Rounds 2–5 independent review findings and their repairs
+
 
 | Finding | Severity | Repair | Verification |
 |---|---|---|---|
@@ -138,7 +158,6 @@ frozen row to its packet.
 | Review accounting accepted a report that was **not** a real reconciliation (receipt marked invalid, batch not accounted, claiming human approval, digests stripped) | P2, latent accounting gap — found by the final independent review | `85ce78416` — the payload builder now requires positive accounting: the report must be fully accounted, must not claim human approval, every row must carry a valid receipt, and the packet/proposal/assessment digests must be **present and equal** to the actual artifacts rather than checked only when present | Regression test `test_forged_review_accounting_is_rejected`; the independent reviewer's own probe now raises `review accounting must be a fully accounted reconciliation` |
 | Test-quality: `test_dev_ratify.py` and `test_push_from_file.py` mocked whole validators rather than the private trust seam | — | `a0c2fe6a2` — the ratify tests now mock only `_verifyTrustedEnvelope`, so real payload reconstruction and binding execute; the push test exercises real assessment validation | Reviewer-confirmed; no test claims human approval |
 | Walkthrough asserted only "some error", not the authorization refusal | — | `7999ee8a6` — the walkthrough now builds a complete, realistic ratified packet and asserts the refusal is exactly the independent-authorization refusal | 17/17 |
-| Review accounting accepted a report that was **not** a real reconciliation (receipt marked invalid, batch not accounted, claiming human approval, digests stripped) | P2, latent accounting gap | `85ce78416` — the payload builder now requires positive accounting: fully accounted, not claiming human approval, every row `receiptValid`, and digests present and equal | `test_forged_review_accounting_is_rejected` |
 | A report could be **fabricated** because the builder trusted the caller's report instead of recomputing it | P2, latent accounting gap | `85ce78416`/`a12aa07e6` — the review inventory must carry the receipts that produced it; the builder **recomputes** the reconciliation and requires the claimed report to agree | `test_forged_reconciliation_report_is_rejected_against_genuine_receipts`; the independent probe's forged report is refused |
 | The report carried **file-bytes** digests while the payload builder compared **canonical content** digests, so a legitimate pretty-printed production artifact was rejected | P1, functional regression | `5cbafe9c0` — the report now carries canonical content digests and separately the artifact digests; the receipt keeps the artifact digests | `test_report_digests_describe_content_not_artifact_bytes`; the CLI fixture now writes production-shaped artifacts |
 | Reconciliation and the payload builder resolved a packet's named identity by **different rules** | P1, functional regression | `5cbafe9c0` — one shared resolver (`packetNamedIdentity`) is used by both | `test_packet_identity_resolves_by_one_rule_everywhere` |
@@ -147,9 +166,38 @@ frozen row to its packet.
 | A **named block** could express the identity two ways and disagree with itself, and only one expression was compared | P2, latent boundary defect (found in self-review while the reviewer provider was at capacity) | `20d945e2d` — a self-contradicting named block resolves to *no* identity, so the packet is refused rather than silently resolved | `test_packet_identity_resolves_by_one_rule_everywhere` |
 | Only a **hand-listed set** of report fields was compared, so a report could carry an extra claim of its own, and a field added to the report later would silently stop being bound | P2, report-integrity hardening (same self-review) | `20d945e2d` — the claimed row must equal the recomputed row in full, and the report's `counts` and `candidateCount` must match too | `test_whole_report_row_and_aggregates_are_bound_to_the_receipts` |
 
+## 7. Independent review ledger (canonical)
+
+This is the single accounting of the independent review. Every number below is
+derived from a committed artifact: a repair commit, a documented reproduction,
+or a row in the finding tables above. Where a number was previously stated
+differently, the difference is explained in the last row of this table.
+
+| Quantity | Count | Derivation |
+|---|---|---|
+| Independent review rounds completed | **5** | Round 1: two fresh Luna High reviewers (security + conservation), static, against frozen `3e0641e3e`. Rounds 2–5: Luna XHigh with runtime probes. |
+| Round 1 — product/security findings | **5** | One per product repair commit following the frozen SHA: `4ac765dfc`, `62f351509`, `ee222685f`, `b48b4bfb6`, `d5ced24d8`. Itemised in the round-1 table. |
+| Round 2 — product/security findings | **3** | Symlinked output-directory escape (`1d2782a56`); FAN-OUT resume dropping conflicting prior receipts (`991fec131`); review accounting not binding each frozen row to its packet (`a0c2fe6a2`). |
+| Round 2 — test-quality findings | **2** | The ratify/push tests mocked whole validators instead of the private trust seam (`a0c2fe6a2`); the walkthrough asserted only "some error" rather than the authorization refusal (`7999ee8a6`). Neither claimed a real human approval. |
+| Rounds 3–5 — product/security findings | **6** | Round 3: a report that was not a real reconciliation, and a builder that trusted the caller's report instead of recomputing it (`85ce78416`, `a12aa07e6`). Round 4: content-vs-artifact digest confusion, and divergent identity rules between two modules (`5cbafe9c0`). Round 5: a mapping-form identity binding that bypassed the consistency check, and unbound artifact-digest claims (`83f97019d`). |
+| **Unique independent findings** | **16** | 14 product/security (5 + 3 + 6) + 2 test-quality. |
+| Repeated confirmations of earlier findings | **5** | Round 2 re-confirmed all five round-1 findings as closed **at runtime**; these are confirmations, not new findings, and are not counted twice. |
+| Duplicate descriptions of one defect in this report | **1** | "Review accounting accepted a report that was not a real reconciliation" was present twice in the finding table, both times with repair `85ce78416`. One row has been removed; the defect was counted once. |
+| Separate self-review findings | **2** | A named block that expressed the identity two ways and disagreed with itself; and a hand-listed field comparison that let a report carry an extra claim of its own (`20d945e2d`). These are **not** independent findings and are not counted as such. |
+| **Total unique defects addressed** | **18** | 16 independent (14 product/security + 2 test-quality) + 2 self-review. |
+
+### How the two stale totals were reconciled
+
+| Previously stated | Where | Why it differed | Canonical value |
+|---|---|---|---|
+| "11 findings across five rounds" | PR #2134 body; `CURATION-REMEDIATION-HANDOVER.md` | It counted **reviewer-reported items**. Rounds 3–5 reported six distinct defects as three items, in which two items each bundled a pair of distinct defects; the figure also excluded the two test-quality observations. It was never a count of unique defects. | **16** unique independent findings (14 product/security + 2 test-quality) |
+| "rounds 3–5: 8 further findings" | This report, round-summary row | A miscount: the finding table and the same row's own prose both enumerate **6** unique product/security findings for rounds 3–5, presented as 7 table rows because one row was duplicated. | **6** |
+| "25 originally failing assertions" | This report, §5 | Correct, and a different population entirely: the *original audit's* failing assertions, not review findings. 25 = 17 obsolete fixtures + 6 obsolete contracts + 2 genuine defects. | Unchanged — **25**, and 0 remaining |
+
 **No finding was closed by weakening an assertion, and no test claims a real human approval.**
 
-## 7. Remaining human actions
+
+## 8. Remaining human actions
 
 1. Founder review of this draft PR and the reconciliation receipt.
 2. An independent, protected human approval ceremony must be designed,
@@ -159,7 +207,7 @@ frozen row to its packet.
 3. #2089 remains **NO-MERGE** until repaired and approved; this branch does not
    close #2118, #2117, #2088, or #2089.
 
-## 8. Compatibility statement
+## 9. Compatibility statement
 
 Preserved and re-verified: #2093 lowercase/collision protections, #2099
 checkpoint-resume semantics and legacy-ledger handling, the immutable Actions

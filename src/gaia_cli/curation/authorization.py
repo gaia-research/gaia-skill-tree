@@ -21,6 +21,67 @@ from typing import Any
 
 AUTHORIZATION_CONTRACT = "gaia-l4-authorization-v1"
 
+# --- public error contract ----------------------------------------------------
+#
+# These constants are the ONLY strings this module hands back to a caller. The
+# protected verifier's own output never leaves the module: a real ceremony may
+# surface authentication or provider details, protected-environment
+# diagnostics, artifact metadata or remote error bodies, and ordinary console
+# output must never become a log sink for any of them. Every category below
+# still fails closed; only the wording is fixed.
+#
+# The human-readable half of each message is unchanged from the contract this
+# module has always published, so existing callers and tests that match on the
+# sentence keep working. The leading code is the stable, machine-readable
+# category.
+
+AUTH_ERR_CEREMONY_UNCONFIGURED = (
+    "L4_CEREMONY_UNCONFIGURED: independent protected human authorization "
+    "is not configured; L4 remains pending"
+)
+AUTH_ERR_CEREMONY_REFUSED = (
+    "L4_CEREMONY_REFUSED: independent protected human authorization was "
+    "refused; L4 remains pending"
+)
+AUTH_ERR_ENVELOPE_MISMATCH = (
+    "L4_ENVELOPE_MISMATCH: authorization envelope does not bind the "
+    "independently computed review payload"
+)
+AUTH_ERR_PAYLOAD_BUILD_FAILED = (
+    "L4_PAYLOAD_BUILD_FAILED: the review payload could not be built independently"
+)
+AUTH_ERR_MANIFEST_INVENTORY_REQUIRED = (
+    "L4_MANIFEST_INVENTORY_REQUIRED: trusted manifest authorization requires "
+    "complete frozen inventory and reconciliation accounting"
+)
+AUTH_ERR_CONTINUATION_REQUIRED = (
+    "L4_CONTINUATION_REQUIRED: existing-intake authorization requires exact "
+    "original batch and issue references"
+)
+
+#: Every refusal this module may publish.
+PUBLIC_AUTHORIZATION_ERRORS = (
+    AUTH_ERR_CEREMONY_UNCONFIGURED,
+    AUTH_ERR_CEREMONY_REFUSED,
+    AUTH_ERR_ENVELOPE_MISMATCH,
+    AUTH_ERR_PAYLOAD_BUILD_FAILED,
+    AUTH_ERR_MANIFEST_INVENTORY_REQUIRED,
+    AUTH_ERR_CONTINUATION_REQUIRED,
+)
+
+
+def publicAuthorizationError(value: object) -> str:
+    """Project any authorization failure onto the published, bounded contract.
+
+    Only the fixed constants above are ever returned. Anything else — a future
+    verifier's raw text, an exception message, a payload fragment — collapses to
+    the generic refusal code, so no caller can print it and no upstream byte
+    can reach a console through this module.
+    """
+    if isinstance(value, str) and value in PUBLIC_AUTHORIZATION_ERRORS:
+        return value
+    return AUTH_ERR_CEREMONY_REFUSED
+
 
 def canonicalJson(value: Any) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"),
@@ -267,8 +328,13 @@ def _verifyTrustedEnvelope(payload: dict, envelope: dict | None, *, registryPath
     workflow is NOT sufficient: it does not review this payload and has no
     protected environment gate. Never replace this refusal with local flags,
     comments, JSON claims or environment-variable bypasses.
+
+    The refusal below is a published constant. A real implementation of this
+    hook must keep its own output inside this module: whatever a provider, an
+    artifact download or a protected-environment check reports is inspected
+    here and reduced to one of the published constants, never returned raw.
     """
-    return ["independent protected human authorization is not configured; L4 remains pending"]
+    return [AUTH_ERR_CEREMONY_UNCONFIGURED]
 
 
 def verifyPacketAuthorization(packet, *, registryPath=".", submissionRoute="single-packet",
@@ -279,6 +345,10 @@ def verifyPacketAuthorization(packet, *, registryPath=".", submissionRoute="sing
     ``envelope`` is only a pointer/data carrier; its contents are not trusted.
     The production verifier is fail-closed until a trusted workflow policy is
     implemented. Returns errors, matching the lane-B freshness API convention.
+
+    Every returned string is one of :data:`PUBLIC_AUTHORIZATION_ERRORS`. The
+    protected verifier's own output is inspected here and reduced to a
+    published constant, so it can never reach a caller, a log or a console.
     """
     try:
         payload = buildReviewPayload(
@@ -288,18 +358,28 @@ def verifyPacketAuthorization(packet, *, registryPath=".", submissionRoute="sing
             assessments=assessments, reviewInventory=reviewInventory,
             continuation=continuation,
         )
-    except Exception as exc:
-        return [f"could not independently build authorization payload: {exc}"]
+    except Exception:
+        return [AUTH_ERR_PAYLOAD_BUILD_FAILED]
     if submissionRoute in {"manifest", "multi-packet-manifest", "existing-intake-manifest"} and reviewInventory is None:
-        return ["trusted manifest authorization requires complete frozen inventory and reconciliation accounting"]
+        return [AUTH_ERR_MANIFEST_INVENTORY_REQUIRED]
     if submissionRoute.startswith("existing-intake") and not isinstance(continuation, dict):
-        return ["existing-intake authorization requires exact original batch and issue references"]
+        return [AUTH_ERR_CONTINUATION_REQUIRED]
     if not isinstance(envelope, dict):
-        return _verifyTrustedEnvelope(payload, None, registryPath=registryPath)
+        verifierErrors = _verifyTrustedEnvelope(payload, None, registryPath=registryPath)
+        if not verifierErrors:
+            return []
+        if list(verifierErrors) == [AUTH_ERR_CEREMONY_UNCONFIGURED]:
+            return [AUTH_ERR_CEREMONY_UNCONFIGURED]
+        return [AUTH_ERR_CEREMONY_REFUSED]
     claimedDigest = envelope.get("reviewPayloadSha256")
     if claimedDigest != _digest(payload):
-        return ["authorization envelope does not bind the independently computed review payload"]
-    return _verifyTrustedEnvelope(payload, envelope, registryPath=registryPath)
+        return [AUTH_ERR_ENVELOPE_MISMATCH]
+    verifierErrors = _verifyTrustedEnvelope(payload, envelope, registryPath=registryPath)
+    if not verifierErrors:
+        return []
+    if list(verifierErrors) == [AUTH_ERR_CEREMONY_UNCONFIGURED]:
+        return [AUTH_ERR_CEREMONY_UNCONFIGURED]
+    return [AUTH_ERR_CEREMONY_REFUSED]
 
 
 def verifyFreshness(packet, *, registryPath=".") -> list[str]:
@@ -310,8 +390,10 @@ def verifyFreshness(packet, *, registryPath=".") -> list[str]:
         return ["independent packet freshness verifier is unavailable; intake remains pending"]
     try:
         return list(verifyPacketFreshness(packet, registryPath=registryPath))
-    except Exception as exc:
-        return [f"packet freshness verification failed closed: {exc}"]
+    except Exception:
+        # The exception text may quote registry content; the refusal itself is
+        # what the operator needs.
+        return ["packet freshness verification failed closed; the packet remains pending"]
 
 
 def exactManifestDigest(manifestPath: str | Path) -> str:
