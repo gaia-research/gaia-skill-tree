@@ -113,15 +113,18 @@ frozen row to its packet.
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
 | Focused curation suite (23 files) on this branch | **672 passed** |
 | Wider repository suite at the final head | **4075 passed**, 2 pre-existing sandbox failures |
-| Focused suite after every repair round | **671 passed** (no regression) |
+| Focused suite after every repair round | **672 passed** (no regression) |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
-| Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
+| Independent verification of the runtime-review findings (`scripts/verify_review_findings.py`) | **13/13 checks passed** |
+| Merge-gate verification (`scripts/merge_gate_check.py`) | **15/15 checks passed** — production refusal, a legitimate batch still binding (no false rejection), five forged-accounting attacks refused, scope integrity against main |
 | `python -m compileall` on changed modules | Pass |
 | `git diff --check` | Clean |
 | `python scripts/sync_agent_skill_mirror.py --check` | In sync |
 | `python scripts/sync_bundled_schemas.py --check` | In sync |
 | Independent Luna review round 1 (static, no runtime probes) | 5 findings, all fixed |
 | Independent Luna review round 2 (Luna XHigh, **runtime probes**) | 3 new P2 findings, all fixed and independently re-verified: symlinked output-directory escape; FAN-OUT resume dropping conflicting prior receipts; review accounting not binding each frozen row to its packet. All 5 prior findings confirmed closed at runtime. Protected-flow verdict unchanged: NO-GO. |
+| Independent Luna review rounds 3–5 (Luna XHigh, **runtime probes**) | **8 further findings across three rounds**, all fixed and independently re-verified: a fabricated "review-ready" report accepted; a report not recomputed from its receipts; content-vs-artifact digest confusion that rejected legitimate pretty-printed batches; divergent identity rules between two modules; a mapping-form identity binding that bypassed the consistency check; unbound artifact-digest claims in a report. Protected-flow verdict unchanged: NO-GO throughout. |
+| Independent review round 6 | **OUTSTANDING.** Attempted five times across two provider backends (Luna XHigh and Astra Max); every attempt was refused with a subscription usage-limit error. The gap is provider capacity, not a skipped check. Two residual defects found by self-review in the meantime (a self-contradicting named identity block; a hand-listed field comparison that let a report carry an extra claim) were fixed in `20d945e2d` and re-verified. This round should be re-run before merge. |
 | Wider repository suite at the final head (`tests/`, not integration/slow) | **4075 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` is not writable here) |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
