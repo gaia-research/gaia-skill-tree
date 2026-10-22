@@ -29,6 +29,7 @@ from typing import Any, Callable
 
 import yaml
 
+from gaia_cli.steward.clock import utcNow
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.closure import (
     ForgeBlockedError,
@@ -290,7 +291,7 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
     args = parseArgs(argv)
     root = args.root.resolve()
     censusPath = args.census if args.census is not None else root / DEFAULT_CENSUS
-    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
+    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else utcNow()
     if args.apply_closures and (not args.i_understand_writes or args.receipts is None):
         print("refusing: --apply-closures needs --receipts PATH and --i-understand-writes", file=sys.stderr)
         return EXIT_USAGE

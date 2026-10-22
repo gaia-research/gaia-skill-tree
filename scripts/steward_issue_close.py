@@ -47,6 +47,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from gaia_cli.steward.clock import utcNow  # noqa: E402
 from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, closureProven, executeClosure, planClosures  # noqa: E402
 from gaia_cli.steward.issuehygiene.census import loadCensus  # noqa: E402
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy  # noqa: E402
@@ -204,7 +205,7 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
     args = parseArgs(argv)
     root = args.root.resolve()
     actionPath = args.action if args.action.is_absolute() else root / args.action
-    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
+    now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else utcNow()
     if now.tzinfo is None:
         now = now.replace(tzinfo=timezone.utc)
     try:

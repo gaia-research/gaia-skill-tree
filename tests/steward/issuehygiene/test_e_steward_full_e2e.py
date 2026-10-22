@@ -28,6 +28,7 @@ import pytest
 
 import gaia_cli.steward.fullrun as fullrun
 from gaia_cli.main import main as gaiaMain
+from gaia_cli.steward.clock import utcNow
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.issuehygiene.identity import classify
 from gaia_cli.steward.issuehygiene.registryindex import parseGithubUrl, splitId
@@ -99,7 +100,7 @@ class Steward:
         self.capsys = capsys
 
     def census(self) -> None:
-        writeAtomic(self.root / CENSUS_INPUT, self.gh.census(datetime.now(timezone.utc)))
+        writeAtomic(self.root / CENSUS_INPUT, self.gh.census(utcNow()))
 
     def gaia(self, *argv: str) -> tuple[int, dict | str]:
         self.monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(self.root), "steward", "full", *argv])

@@ -86,6 +86,7 @@ from gaia_cli.steward.issuehygiene.outcomes import (
     writeOutcome,
 )
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT
+from gaia_cli.steward.clock import utcNow
 
 # Issue hygiene (#2130): closure debt is Class A but is executed by a driver, not a local repair.
 ISSUECLOSUREKIND = "issue_closure_ready"
@@ -163,7 +164,7 @@ def _checkpoint(name: str) -> None:
 
 
 def _utcNow() -> datetime:
-    return datetime.now(timezone.utc)
+    return utcNow()
 
 
 HANDOFFHEADING = "\n## Steward hand-off\n"
@@ -2451,10 +2452,14 @@ class FullRunner:
             closedTotal: int | None = len(donePairs(self.root))
         except OutcomeStoreError:
             closedTotal = None
+        # Runs recorded before this one in the store, not later than it. Two runs can share a start second
+        # (the clock is coarse, and tests pin it), so the store order breaks the tie that a strict time test would lose.
+        order = list(doc["runs"].keys())
+        before = set(order[: order.index(runId)]) if runId in order else set(order)
         earlier = sorted(
-            (other for other in doc["runs"].values()
-             if other["runId"] != runId and isinstance(other.get("issueBacklog"), dict)
-             and other.get("startedAt", "") < run.get("startedAt", "")),
+            (doc["runs"][key] for key in order
+             if key in before and isinstance(doc["runs"][key].get("issueBacklog"), dict)
+             and doc["runs"][key].get("startedAt", "") <= run.get("startedAt", "")),
             key=lambda other: other["startedAt"],
         )
         previous = earlier[-1]["issueBacklog"]["openIssues"] if earlier else None
