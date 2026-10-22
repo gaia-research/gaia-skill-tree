@@ -50,6 +50,11 @@ python scripts/upstream_watcher/watcher.py --apply
 
 **Warning:** `--apply` creates real GitHub issues. Use `--dry-run` first to confirm the output looks correct.
 
+### Recovery and skipped suites (#2131 round 4)
+
+- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 with no rate-limit signal) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report, and writes the other suites as usual. To bring it back, repair or remove its `links.github` entry in the registry.
+- A suite whose record comments are damaged or deleted fails closed with exit 3, and its message names the recovery flag. Rebuild that suite's record state from the fresh poll with `--apply --reset-records <suite>`. The flag is apply-only. See `docs/agents/upstream-watcher.md` (Records, M4) for what a reset does and does not recover.
+
 ---
 
 ## Triggering the workflow manually
@@ -87,7 +92,8 @@ scripts/upstream_watcher/
 ├── liveness.py         # Link liveness checks, blob→raw URL conversion, component diff
 ├── name_drift.py       # SKILL.md frontmatter name-drift detection (issue #1457)
 ├── issuer.py           # Issue body renderers, idempotency checks, gh issue create, bootstrap memory
-├── approval.py         # Digest, approval-marker, reset-note and Verifier checks shared with the workflows
+├── approval.py         # Digest, approval-marker, reset-note, Verifier and allowlist checks shared with the workflows
+├── markers.py          # The one payload-block regex, imported by every reader (L3)
 ├── batch.py            # Umbrella batch planner (payloadVersion 2): prechecks, approval reset, writes
 ├── records.py          # Records mode: full batch rows in watcher-authored record comments, written per generation
 ├── prechecks.py        # Registry, tracked and prior-disposition checks for candidate rows
