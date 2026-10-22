@@ -142,18 +142,18 @@ committed artifact rather than the branch directory.
 | `scripts/merge_gate_check.py` | **15/15** |
 | `scripts/curation_walkthrough.py` | **17/17** |
 | `scripts/verify_review_findings.py` | **13/13** |
-| Wider repository suite (`tests/`, not integration/slow) | **PENDING-FINAL** |
+| Wider repository suite (`tests/`, not integration/slow) | **5183 passed, 8 failed, 18 skipped** (clean checkout of the final commit) / **5185 passed, 6 failed, 18 skipped** (branch checkout). All eight reproduce identically on pristine `origin/main` in the same environment — 2 platform limits (no writable `/tmp`, no `os.link`), 5 missing generated Class P artifact (`registry/named-skills.json`, gitignored), 1 detached-HEAD case. |
 | `scripts/pr_guards.py --base origin/main` | **42 passed, 0 failed**, all named guards pass |
 | `scripts/sync_agent_skill_mirror.py --check` | in sync |
 | `scripts/sync_bundled_schemas.py --check` | in sync |
 | `git diff --check` | clean |
 | CodeQL (GitHub Advanced Security) | **pass** — the four `py/clear-text-logging-sensitive-data` alerts (106–109) are **fixed**, 0 open alerts on PR #2134, nothing dismissed |
 
-The two wider-suite failures are environment limitations of this sandbox, and were re-confirmed
-against **pristine `origin/main` at `e1a870579`** (a separate detached worktree) rather than
-against an old receipt: `test_arbor.py` hardcodes `/tmp`, which is not writable on this
-platform, and `test_installability.py` calls `os.link`, which this platform's Python does not
-provide. Both fail identically with no curation code involved.
+Every wider-suite failure is environmental or a missing generated artifact, and was
+re-confirmed against **pristine `origin/main` at `e1a870579`** (a separate detached worktree)
+using the same command and environment, rather than against an old receipt. The full per-test
+breakdown is in `CURATION-REMEDIATION-REPORT.md` §6. **No failure is attributable to this
+branch.**
 
 ### Independent review history
 **Five** completed independent review rounds (round 1: two fresh Luna High reviewers, security +

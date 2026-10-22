@@ -127,8 +127,36 @@ frozen row to its packet.
 | Unique independent findings | **16** — 14 product/security + 2 test-quality. The prior "11 findings" figure counted *reviewer-reported items*, in which two items each bundled a pair of distinct defects, and it excluded the two test-quality observations; it was never a count of unique defects. The prior "8 further findings" figure for rounds 3–5 was a miscount: the durable table and its own prose both enumerate **6**. |
 | Independent review round 6 | **OUTSTANDING — the one open merge condition.** Attempted **seven** times across two authorized backends (Luna XHigh and Astra XHigh): five before this finishing pass, and two more at the final head, one on each backend. Every attempt was refused with the same error — `The ChatGPT user has reached their Subscription Sharing usage limit` — so the gap is provider capacity, not a skipped check. Self-review is not a substitute for independent review, and no higher-tier reviewer was invented. Two residual defects found by self-review in the meantime (a self-contradicting named identity block; a hand-listed field comparison that let a report carry an extra claim of its own) were fixed in `20d945e2d` and re-verified. **This round must be run before merge.** |
 | CodeQL (GitHub Advanced Security) | **pass** on the final head. The four `py/clear-text-logging-sensitive-data` alerts (106–109) are **fixed** by GitHub's determination, 0 open alerts on this PR, nothing dismissed. |
-| Wider repository suite at the final head (`tests/`, not integration/slow) | **PENDING-FINAL** |
+| Wider repository suite at the final head (`tests/`, not integration/slow) | **5183 passed, 8 failed, 18 skipped** on a clean checkout of the final commit; **5185 passed, 6 failed, 18 skipped** in the branch checkout. Every failure reproduces identically on pristine `origin/main` in the same environment — see the breakdown below. |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
+
+### Wider-suite failures: every one is environmental or a missing generated artifact
+
+The wider suite was run twice at the final head and compared against pristine `origin/main`
+(`e1a870579`) in a separate detached worktree, using the **same command and the same
+environment** — not against an old receipt. All eight failures in the clean-checkout run
+reproduce on unmodified `origin/main`.
+
+| Failing test | Root cause | Reproduces on pristine `origin/main`? |
+|---|---|---|
+| `test_arbor.py::test_public_paths_canonicalize_tmp_alias_and_keep_output_inside_repo` | The test hardcodes `/tmp`; this platform has no writable `/tmp` (`PermissionError: '/tmp/arbor-alias-…'`) | **Yes** — same failure, same error |
+| `test_installability.py::test_observation_temp_creation_is_exclusive_and_cleans_only_its_temp` | The test calls `os.link`, which this platform's Python does not provide (`AttributeError: module 'os' has no attribute 'link'`) | **Yes** — same failure, same error |
+| `test_evidence_inheritance.py::TestRanklessGenerics::test_named_skills_retain_levels` | `registry/named-skills.json` is a **generated** Class P artifact (gitignored; produced by `scripts/generateNamedIndex.py`) and is absent from a fresh checkout | **Yes** |
+| `test_evidence_inheritance.py::TestRanklessGenerics::test_no_generic_node_has_level_or_demerits` | Same missing generated artifact | **Yes** |
+| `test_redaction.py::test_redaction_validator_passes_on_repo` | Same missing generated artifact | **Yes** |
+| `test_timelines.py::test_registry_levels_loads` | Same missing generated artifact | **Yes** |
+| `test_timelines.py::test_repo_timelines_are_consistent` | Same missing generated artifact | **Yes** |
+| `test_pr_writer.py::TestPrWriterBatchRender::test_issue_body_resolves_batch_branch_from_git_when_unset` | Resolves the batch branch from git; a **detached** verification worktree has no current branch. The test passes in the branch checkout, which is on a real branch. | **Yes** — same failure in the detached pristine-`main` worktree |
+
+The branch-checkout run has six of these eight (it is on a real branch, so the `pr_writer` case
+passes there). Generating the Class P artifact in the clean checkout removes five of the eight
+and leaves three — the two platform failures plus the detached-HEAD case — but it also makes
+`tests/test_validate.py::test_seed_skills_have_valid_levels` exceed the repository's 60-second
+per-test timeout while re-validating the generated index on this device. The artifact is
+gitignored and therefore **not part of the committed artifact**, so the committed state's
+environment is the "fresh checkout" one, and that is what the headline number reports.
+
+**No failure is attributable to this branch.**
 
 ### Round-1 independent review findings and their repairs
 
