@@ -1713,6 +1713,8 @@ class FullRunner:
             raise RecordRefused("commentId, when given, must be a positive integer")
         if result in ("closed", "already-closed"):
             self._requireReceipt(result, outcome, params)
+        if result in ("closed", "already-closed") and not (isinstance(params.get("repo"), str) and params["repo"].strip()):
+            raise RecordRefused("the closure action names no repository, so its outcome cannot be verified")
         if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
             raise RecordRefused(
                 "a closed outcome must carry exactly one proof of its closing comment: a commentUrl on this issue, "
