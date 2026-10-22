@@ -101,7 +101,7 @@ def test_a_closed_bootstrap_for_an_older_version_does_not_suppress_the_new_versi
 
 
 def test_a_failed_open_bootstrap_list_is_unknown_evidence_with_zero_writes(monkeypatch):
-    world = world_for(monkeypatch, [], fail_pages=[("open", "upstream:bootstrap", 1)])
+    world = world_for(monkeypatch, [], fail_pages=[("open", "", 1)])
 
     with pytest.raises(IdempotencyLookupError):
         create_issues([BOOTSTRAP], apply=True)
@@ -119,7 +119,7 @@ def test_a_failed_closed_bootstrap_history_read_is_unknown_evidence_with_zero_wr
 
 
 def test_batch_mode_open_bootstrap_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
-    world = world_for(monkeypatch, [], fail_pages=[("open", "upstream:bootstrap", 1)])
+    world = world_for(monkeypatch, [], fail_pages=[("open", "", 1)])
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": SUITE})]))
     monkeypatch.setattr(watcher, "_poll_suite", lambda fm, registry_map, verbose: BOOTSTRAP)

@@ -6,6 +6,7 @@ import copy
 import json
 import re
 import subprocess
+import urllib.parse
 from pathlib import Path
 
 from scripts.upstream_watcher import prechecks as pc
@@ -198,6 +199,9 @@ def fixture_registry_entries(families: dict) -> list[dict]:
 SUGGESTED_RE = re.compile(r"Suggested ID:\*\*\s*`([^`]+)`")
 
 
+REPO_ID = 1221716703
+
+
 class RestGhRunner:
     """A ``subprocess.run`` stand-in for LiveGh that serves REST LIST pages as GitHub does.
 
@@ -207,11 +211,22 @@ class RestGhRunner:
     Writes (``issue create/edit/comment``) are recorded in ``writes`` with their body text.
     """
 
-    def __init__(self, issues: list[dict], fail_pages=(), empty_pages=()):
+    repo = "gaia-research/gaia-skill-tree"
+
+    def __init__(self, issues: list[dict], fail_pages=(), empty_pages=(), empty_once=(), no_link_pages=(),
+                 short_pages=(), count_fails=False, open_count=None):
         self.issues = [copy.deepcopy(row) for row in issues]
         self.fail_pages = set(fail_pages)
         # (state, labels, page) triples that answer 200 with an empty array, as a short or dropped page does.
         self.empty_pages = set(empty_pages)
+        # Like empty_pages, but only for the first request; a retry then gets the real page.
+        self.empty_once = set(empty_once)
+        # Pages served without a Link header, as a proxy that drops it does.
+        self.no_link_pages = set(no_link_pages)
+        # Pages served with only their first half, as a proxy that truncates does.
+        self.short_pages = set(short_pages)
+        self.count_fails = count_fails
+        self.open_count = open_count
         self.calls: list[list[str]] = []
         self.writes: list[tuple] = []
         self.next_number = 5000
@@ -222,6 +237,10 @@ class RestGhRunner:
 
     def __call__(self, args, capture_output=True, text=True, timeout=None):
         self.calls.append(list(args))
+        if args[1] == "api" and "--include" in args:
+            return self._include(args)
+        if args[1] == "api" and args[-1] == f"repos/{self.repo}":
+            return self._repository(args)
         if args[1] == "api" and "-f" not in args and re.search(r"/issues/\d+$", args[-1]):
             return self._single(args)
         comments_path = next((a for a in args if re.search(r"/issues/\d+/comments$", a)), None)
@@ -254,19 +273,20 @@ class RestGhRunner:
                 return subprocess.CompletedProcess(args, 0, stdout=json.dumps(row), stderr="")
         return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 404 (fake)")
 
-    def _list(self, args) -> subprocess.CompletedProcess:
-        fields: dict[str, str] = {}
-        for flag, pair in zip(args, args[1:]):
-            if flag == "-f":
-                key, _, value = pair.partition("=")
-                fields[key] = value
+    def _include(self, args) -> subprocess.CompletedProcess:
+        """GET of a listing with its headers (``gh api --include``), served the way GitHub serves it.
+
+        Every full page carries a ``next`` link, even when the page after it is empty, and the link names the
+        repository by numeric id. A page is served short only when a test asks for it.
+        """
+        path, _, query = args[-1].partition("?")
+        fields = {key: values[0] for key, values in urllib.parse.parse_qs(query).items()}
         state = fields["state"]
         labels = fields.get("labels", "")
-        page, per_page = int(fields["page"]), int(fields["per_page"])
-        if (state, labels, page) in self.fail_pages:
+        page, per_page = int(fields.get("page", 1)), int(fields.get("per_page", 100))
+        key = (state, labels, page)
+        if key in self.fail_pages:
             return subprocess.CompletedProcess(args, 1, stdout="", stderr="gh: Bad Gateway (HTTP 502)")
-        if (state, labels, page) in self.empty_pages:
-            return subprocess.CompletedProcess(args, 0, stdout="[]", stderr="")
         wanted = set(filter(None, labels.split(",")))
         since = fields.get("since")
         rows = sorted(
@@ -279,4 +299,27 @@ class RestGhRunner:
             key=lambda row: row["number"],
         )
         chunk = rows[(page - 1) * per_page: page * per_page]
-        return subprocess.CompletedProcess(args, 0, stdout=json.dumps(chunk), stderr="")
+        if key in self.empty_pages or key in self.empty_once:
+            self.empty_once.discard(key)
+            chunk = []
+        if key in self.short_pages:
+            chunk = chunk[: len(chunk) // 2]
+        headers = ["HTTP/2.0 200 OK", "Content-Type: application/json"]
+        if len(chunk) == per_page and key not in self.no_link_pages:
+            next_query = {"state": state, "per_page": per_page, "page": page + 1}
+            if labels:
+                next_query["labels"] = labels
+            if since:
+                next_query["since"] = since
+            link = f"https://api.github.com/repositories/{REPO_ID}/issues?{urllib.parse.urlencode(next_query)}"
+            headers.append(f'Link: <{link}>; rel="next"')
+        stdout = "\n".join(headers) + "\n\n" + json.dumps(chunk)
+        return subprocess.CompletedProcess(args, 0, stdout=stdout, stderr="")
+
+    def _repository(self, args) -> subprocess.CompletedProcess:
+        """GET repos/{repo}: the repository's own metadata. open_issues_count counts issues and pull requests."""
+        if self.count_fails:
+            return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 503 (fake)")
+        count = self.open_count if self.open_count is not None else sum(
+            1 for row in self.issues if row["state"] == "open")
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps({"open_issues_count": count}), stderr="")

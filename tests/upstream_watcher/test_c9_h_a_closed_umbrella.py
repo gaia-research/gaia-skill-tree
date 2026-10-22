@@ -147,9 +147,18 @@ def test_a_failed_page_of_the_closed_umbrella_history_is_unknown_evidence_with_z
     assert runner.writes == [], "a failed closed-history read writes nothing"
 
 
-def test_a_complete_closed_history_read_of_the_same_size_is_not_an_error():
-    # Control for the test above: a full page followed by an empty page is a complete history.
+def test_a_closed_history_of_one_full_page_is_refused_because_its_end_cannot_be_confirmed():
+    # Exactly one full page: GitHub links an empty page after it, and a closed listing has no count to confirm the end.
     runner = RestGhRunner(closed_umbrella_rows(100))
+    gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
+    report, code = run_batch([finding("v1")], gh, apply=True, index_loader=lambda: INDEX)
+    assert code == 3, report
+    assert report["unknownEvidence"][0]["source"] == "github-list"
+    assert runner.writes == [], "unknown closed history writes nothing"
+
+
+def test_a_closed_history_with_a_partial_last_page_is_read_as_complete():
+    runner = RestGhRunner(closed_umbrella_rows(99))
     gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
     report, code = run_batch([finding("v1")], gh, apply=True, index_loader=lambda: INDEX)
     assert code == 0, report

@@ -18,6 +18,7 @@ or via the normal suite:
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -56,17 +57,69 @@ from scripts.upstream_watcher.name_drift import check_name_drift, sanitize_name
 # ---------------------------------------------------------------------------
 
 
+def _reply_from(mock_result):
+    """Turn a canned ``mock_result`` into the reader's protocol: a failure stays a failure, items become a listing."""
+    def run(args, capture_output=True, text=True, timeout=None):
+        if mock_result.returncode != 0:
+            return subprocess.CompletedProcess(args, mock_result.returncode, stdout="", stderr="gh failed")
+        items = _stamp_labels(json.loads(mock_result.stdout or "[]"))
+        return _gh_list_reply(items, args)
+    return run
+
+
+_TITLE_LABELS = (("[upstream:bootstrap]", "upstream:bootstrap"), ("[upstream]", "upstream:release"), ("[intake]", "intake"))
+
+
+def _stamp_labels(rows):
+    """Legacy fixtures carry no labels. The server used to filter by label; the reader now filters the open listing,
+    so each row gets the label its title prefix names."""
+    stamped = []
+    for row in rows:
+        if "labels" not in row:
+            label = next((name for prefix, name in _TITLE_LABELS if str(row.get("title", "")).startswith(prefix)), None)
+            row = {**row, "labels": [{"name": label}] if label else []}
+        stamped.append(row)
+    return stamped
+
+
+def _gh_list_reply(items, args):
+    """A GitHub-shaped reply to the reader: a listing with headers (``--include``), or the repository count."""
+    if "--include" in args:
+        # One page of at most 100 items, as a short legacy fixture is: page 1 holds them, later pages are empty.
+        page = re.search(r"(?:^|&)page=(\d+)", args[-1].partition("?")[2])
+        rows = items if not page or page.group(1) == "1" else []
+        return subprocess.CompletedProcess(args, 0, stdout="HTTP/2.0 200 OK\n\n" + json.dumps(rows), stderr="")
+    if args[-1].startswith("repos/") and "/issues" not in args[-1]:
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps({"open_issues_count": len(items)}), stderr="")
+    return subprocess.CompletedProcess(args, 0, stdout=json.dumps(items), stderr="")
+
+
 def _paged_gh_runner(pages, search_hits=()):
-    """Stand-in for subprocess.run: serves LIST pages by ``page=`` and search hits for ``--search``."""
+    """Stand-in for subprocess.run: serves LIST pages by the ``page=`` query and search hits for ``--search``.
+
+    Every full page carries a next link, as GitHub sends it, so the reader walks to the end and confirms the count.
+    """
     calls: list[list[str]] = []
+    pages = [_stamp_labels(page) for page in pages]
 
     def run(args, capture_output=True, text=True, timeout=None):
         calls.append(list(args))
         if "--search" in args:
             return subprocess.CompletedProcess(args, 0, stdout=json.dumps(list(search_hits)), stderr="")
-        page = int(next(a.split("=", 1)[1] for a in args if a.startswith("page=")))
-        rows = pages[page - 1] if page - 1 < len(pages) else []
-        return subprocess.CompletedProcess(args, 0, stdout=json.dumps(rows), stderr="")
+        if "--include" in args:
+            query = args[-1].partition("?")[2]
+            match = re.search(r"(?:^|&)page=(\d+)", query)
+            page = int(match.group(1)) if match else 1
+            rows = pages[page - 1] if page - 1 < len(pages) else []
+            link = ""
+            if len(rows) == 100:
+                link = (f'Link: <https://api.github.com/repositories/1/issues?state=open&per_page=100&page={page + 1}>;'
+                        ' rel="next"\n')
+            return subprocess.CompletedProcess(args, 0, stdout=f"HTTP/2.0 200 OK\n{link}\n" + json.dumps(rows), stderr="")
+        if args[-1].startswith("repos/") and "/issues" not in args[-1]:
+            total = sum(len(page) for page in pages)
+            return subprocess.CompletedProcess(args, 0, stdout=json.dumps({"open_issues_count": total}), stderr="")
+        return subprocess.CompletedProcess(args, 0, stdout=json.dumps([]), stderr="")
 
     return run, calls
 
@@ -342,12 +395,12 @@ class TestIdempotency:
             [{"number": 123, "title": "[upstream] mattpocock/skills → v1.2.0"}]
         )
 
-        with patch("subprocess.run", return_value=mock_result) as mock_run:
+        with patch("subprocess.run", side_effect=_reply_from(mock_result)) as mock_run:
             result = _find_existing_issue(
                 "[upstream] mattpocock/skills → v1.2.0", "upstream:release"
             )
         assert result == 123
-        mock_run.assert_called_once()
+        assert mock_run.called
 
     def test_find_existing_issue_returns_none_on_no_match(self):
         """gh returns empty list → None."""
@@ -355,7 +408,7 @@ class TestIdempotency:
         mock_result.returncode = 0
         mock_result.stdout = json.dumps([])
 
-        with patch("subprocess.run", return_value=mock_result):
+        with patch("subprocess.run", side_effect=_reply_from(mock_result)):
             result = _find_existing_issue(
                 "mattpocock/skills → v2.0.0", "upstream:release"
             )
@@ -367,7 +420,7 @@ class TestIdempotency:
         mock_result.returncode = 1
         mock_result.stdout = ""
 
-        with patch("subprocess.run", return_value=mock_result):
+        with patch("subprocess.run", side_effect=_reply_from(mock_result)):
             with pytest.raises(IdempotencyLookupError):
                 _find_existing_issue("anything", "upstream:release")
 
@@ -382,7 +435,7 @@ class TestIdempotency:
         mock_result.returncode = 1
         mock_result.stdout = ""
 
-        with patch("subprocess.run", return_value=mock_result):
+        with patch("subprocess.run", side_effect=_reply_from(mock_result)):
             with pytest.raises(IdempotencyLookupError):
                 _find_existing_suite_issue("[upstream] ruvnet/ruflo → ", "upstream:release")
 
@@ -392,7 +445,7 @@ class TestIdempotency:
         run, _calls = _paged_gh_runner([filler])
 
         def failing_second_page(args, capture_output=True, text=True, timeout=None):
-            if any(a == "page=2" for a in args):
+            if any(a == "page=2" or "page=2" in a.partition("?")[2].split("&") for a in args):
                 return subprocess.CompletedProcess(args, 1, stdout="", stderr="HTTP 502")
             return run(args)
 
@@ -446,12 +499,12 @@ class TestIdempotency:
         mock_result.stdout = json.dumps([])
         cache = {("upstream:release", "other/repo → v1.0.0"): 99}
 
-        with patch("subprocess.run", return_value=mock_result) as mock_run:
+        with patch("subprocess.run", side_effect=_reply_from(mock_result)) as mock_run:
             result = _find_existing_issue(
                 "ruvnet/ruflo → v3.38.9", "upstream:release", cache
             )
         assert result is None
-        mock_run.assert_called_once()
+        assert mock_run.called
 
     def test_lookup_finds_a_child_the_search_index_would_miss(self):
         """Search-lag simulation: the LIST reports the child, a search would not.
@@ -465,7 +518,7 @@ class TestIdempotency:
             result = _find_existing_issue("[intake] garrytan/ask-user", "intake")
         assert result == 77
         assert calls and not any("--search" in call for call in calls)
-        assert any("labels=intake" in call for call in calls)
+        assert any("state=open" in call[-1] for call in calls), "the open listing is read, not searched"
 
     def test_lookup_follows_every_list_page_before_answering(self):
         """A match on page 2 is found; the lookup reads pages until one is short."""
@@ -475,8 +528,9 @@ class TestIdempotency:
         with patch("subprocess.run", side_effect=run):
             result = _find_existing_issue("[intake] garrytan/late-match", "intake")
         assert result == 205
-        pages = [next(a for a in call if a.startswith("page=")) for call in calls]
-        assert pages == ["page=1", "page=2"]
+        pages = [re.search(r"(?:^|&)page=(\d+)", call[-1]).group(1) if re.search(r"(?:^|&)page=", call[-1]) else "1"
+                 for call in calls if "--include" in call]
+        assert pages[:2] == ["1", "2"], "the walk reads both data pages, then one empty probe past the last"
 
     def test_lookup_skips_pull_requests_with_matching_titles(self):
         listed = [{"number": 8, "title": "[intake] garrytan/x", "state": "open", "pull_request": {"url": "https://api.github.com/repos/x/y/pulls/8"}}]
@@ -517,7 +571,7 @@ class TestIdempotency:
             created.append(title)
             return 1000 + len(created)
 
-        with patch("subprocess.run", return_value=empty), patch(
+        with patch("subprocess.run", side_effect=_reply_from(empty)), patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch("scripts.upstream_watcher.issuer._edit_umbrella_body"):
             summaries = create_issues(findings, apply=True)
@@ -561,7 +615,7 @@ class TestIdempotency:
             updated.append((issue_num, title))
             return True
 
-        with patch("subprocess.run", return_value=gh_mock), patch(
+        with patch("subprocess.run", side_effect=_reply_from(gh_mock)), patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch(
             "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
@@ -597,7 +651,7 @@ class TestIdempotency:
             created_labels.append(labels)
             return 1568
 
-        with patch("subprocess.run", return_value=gh_mock) as run, patch(
+        with patch("subprocess.run", side_effect=_reply_from(gh_mock)) as run, patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ):
             summaries = create_issues(findings, apply=True)
@@ -637,7 +691,7 @@ class TestIdempotency:
             updated.append((issue_num, title))
             return True
 
-        with patch("subprocess.run", return_value=gh_mock) as run, patch(
+        with patch("subprocess.run", side_effect=_reply_from(gh_mock)) as run, patch(
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch(
             "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update

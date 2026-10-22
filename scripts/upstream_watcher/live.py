@@ -20,6 +20,7 @@ import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable, NamedTuple
+from urllib.parse import quote
 
 from scripts.lib.github_api import (
     GitHubFetchError,
@@ -28,6 +29,7 @@ from scripts.lib.github_api import (
     is_permission_problem,
     is_rate_limited,
 )
+from scripts.steward_issue_census import Response, listAll
 
 DEFAULT_REPO = "gaia-research/gaia-skill-tree"
 PER_PAGE = 100
@@ -125,6 +127,30 @@ def default_repo() -> str:
     return os.environ.get("GITHUB_REPOSITORY") or DEFAULT_REPO
 
 
+GITHUB_API = "https://api.github.com/"
+LIST_ATTEMPTS = 3
+LIST_RETRY_SECONDS = 2
+
+
+def _label_names(issue: dict) -> set[str]:
+    return {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
+
+
+def _parse_include(out: str) -> Response:
+    """Split ``gh api --include`` output into status, lower-cased headers and body. Unparseable output has status 0."""
+    parts = re.split(r"\r?\n\r?\n", out, maxsplit=1)
+    head, body = parts[0], (parts[1] if len(parts) > 1 else "")
+    lines = head.splitlines()
+    status_match = re.match(r"HTTP/\S+\s+(\d{3})", lines[0]) if lines else None
+    status = int(status_match.group(1)) if status_match else 0
+    headers: dict[str, str] = {}
+    for line in lines[1:]:
+        name, sep, value = line.partition(":")
+        if sep:
+            headers[name.strip().lower()] = value.strip()
+    return Response(status, headers, body)
+
+
 class LiveGh:
     """Thin wrapper over the ``gh`` CLI. All methods raise GhError on failure."""
 
@@ -155,29 +181,99 @@ class LiveGh:
             raise GhError(f"unparseable JSON from gh {args[1:3]}: {exc}") from exc
 
     def list_issues(self, state: str, since: str | None = None, labels: str | None = None) -> list[dict]:
-        """Return every issue (PRs included) in *state*, following explicit pages.
+        """Return every issue (PRs included) in *state*, or raise GhError when the listing cannot be proven complete.
 
-        A short page ends pagination. Reaching MAX_PAGES without a short page is
-        an error, never a silent truncation. *labels* is a comma-separated filter
-        applied by GitHub's list endpoint, not by search.
+        Pagination is the census contract (``scripts.steward_issue_census.listAll``): follow ``rel="next"``, refuse a
+        short page before the last, and refuse an empty linked page unless the repository's count confirms it. The
+        open listing is confirmed exactly against the repository's ``open_issues_count``, and a labelled open list is
+        taken from that verified listing, so no search index is involved. A closed listing has no count to confirm its
+        end, so each walk ending on a full page is refused, and the closed read keeps the largest complete walk of up to
+        LIST_ATTEMPTS. Only a history every attempt returns empty is accepted as an empty history.
         """
-        items: list[dict] = []
-        for page in range(1, MAX_PAGES + 1):
-            args = [
-                "gh", "api", "--method", "GET", f"repos/{self.repo}/issues",
-                "-f", f"state={state}", "-f", f"per_page={PER_PAGE}", "-f", f"page={page}",
-            ]
+        if state == "open":
+            rows = self._verified_open()
             if since:
-                args += ["-f", f"since={since}"]
-            if labels:
-                args += ["-f", f"labels={labels}"]
-            batch = self._json(args)
-            if not isinstance(batch, list):
-                raise GhError(f"issue list page {page} is not an array")
-            items.extend(batch)
-            if len(batch) < PER_PAGE:
-                return items
-        raise GhError(f"issue list exceeded {MAX_PAGES} pages; refusing to truncate")
+                rows = [row for row in rows if str(row.get("updated_at") or "") >= since]
+            wanted = set(filter(None, (labels or "").split(",")))
+            return [row for row in rows if wanted <= _label_names(row)]
+        path = f"repos/{self.repo}/issues?state={state}&per_page={PER_PAGE}"
+        if since:
+            path += f"&since={quote(since, safe='')}"
+        if labels:
+            path += f"&labels={quote(labels, safe=',')}"
+        return self._closed(path, state)
+
+    def _closed(self, path: str, state: str) -> list[dict]:
+        """A closed listing, read up to LIST_ATTEMPTS times, keeping the largest complete walk.
+
+        An anomaly can only lose items, never add them, so the largest walk that completed is the best evidence. A walk
+        that ends on a full page is not complete, because no count confirms its end, and it is not kept.
+        """
+        best: list[dict] | None = None
+        failure: GhError | None = None
+        for attempt in range(LIST_ATTEMPTS):
+            if attempt:
+                RETRY_SLEEP(LIST_RETRY_SECONDS)
+            try:
+                listing = self._walk(path)
+            except GhError as exc:
+                failure = exc
+                continue
+            if listing.pageSizes and listing.pageSizes[-1] == PER_PAGE:
+                failure = GhError(f"{state} issue listing ends on a full page; its end cannot be confirmed (refusing)")
+                continue
+            if best is None or len(listing.rows) > len(best):
+                best = listing.rows
+        if best is None:
+            raise failure or GhError(f"{state} issue listing was not read")
+        return best
+
+    def _verified_open(self) -> list[dict]:
+        """The open listing, confirmed exactly against the repository's own open count, read again on a mismatch.
+
+        A mismatch can be a create or close landing between the two reads, so the read is retried a few times. A
+        persistent mismatch is unknown evidence, not an empty backlog.
+        """
+        path = f"repos/{self.repo}/issues?state=open&per_page={PER_PAGE}"
+        detail = "no attempt"
+        for attempt in range(LIST_ATTEMPTS):
+            if attempt:
+                RETRY_SLEEP(LIST_RETRY_SECONDS)
+            count = self._open_count()
+            try:
+                listing = self._walk(path, expected=count)
+            except GhError as exc:
+                # An intermittent empty or short page is retried like a mismatch; a persistent one is refused below.
+                detail = str(exc)
+                continue
+            if count is not None and count == len(listing.rows):
+                return listing.rows
+            detail = f"listed {len(listing.rows)} open items, repository reports {count}"
+        raise GhError(f"open issue listing not confirmed after {LIST_ATTEMPTS} attempts: {detail} (refusing)")
+
+    def _walk(self, path: str, expected: int | None = None) -> Any:
+        """One complete walk of *path*, with the census's rules. Raises GhError on any incomplete or inconsistent page."""
+        listing = listAll(f"{GITHUB_API}{path}", self._fetch, expectedItems=expected)
+        if listing.reason is not None:
+            raise GhError(f"issue listing incomplete: {listing.reason} at {listing.failingRequest}")
+        if any(size != PER_PAGE for size in listing.pageSizes[:-1]):
+            raise GhError("issue listing has a short page before its last page; refusing a truncated list")
+        return listing
+
+    def _fetch(self, url: str):
+        """One GET for the census walk, through ``gh api --include`` so the Link header is visible."""
+        path = url[len(GITHUB_API):] if url.startswith(GITHUB_API) else url
+        out = self._run(["gh", "api", "--method", "GET", "--include", path])
+        return _parse_include(out)
+
+    def _open_count(self) -> int | None:
+        """The repository's ``open_issues_count`` (issues and pull requests alike), or None when it cannot be read."""
+        try:
+            data = self._json(["gh", "api", f"repos/{self.repo}"])
+        except GhError:
+            return None
+        count = data.get("open_issues_count") if isinstance(data, dict) else None
+        return count if isinstance(count, int) and not isinstance(count, bool) and count >= 0 else None
 
     def get_issue(self, number: int) -> dict:
         data = self._json(["gh", "api", f"repos/{self.repo}/issues/{number}"])

@@ -325,23 +325,23 @@ def test_escalate_unknown_candidate_exits_two():
 
 def test_pagination_follows_three_pages_and_never_searches():
     rows = [{"number": n, "state": "open", "title": "t", "labels": [], "body": ""} for n in range(1, 206)]
-    runner = FakeRunner({"open": [rows[:100], rows[100:200], rows[200:]], "closed": []})
+    runner = RestGhRunner(rows)
     gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
     listed = gh.list_issues("open")
     assert len(listed) == 205
-    assert len(runner.calls) == 3
     assert not any(arg.startswith("search") or "/search/" in arg for call in runner.calls for arg in call)
 
 
-def test_a_full_page_is_never_the_end_of_the_listing_even_without_link_headers():
-    """A full page continues to the next request; only a short or empty page ends the walk (#2130)."""
+def test_a_full_page_without_a_next_link_is_confirmed_only_by_the_repository_count():
+    """A full page with no next link is not proof of the end. The open listing is confirmed exactly by the count."""
 
     rows = [{"number": n, "state": "open", "title": "t", "labels": [], "body": ""} for n in range(1, 101)]
-    runner = FakeRunner({"open": [rows, []], "closed": []})
-    gh = LiveGh(repo="gaia-research/gaia-skill-tree", runner=runner)
-    listed = gh.list_issues("open")
-    assert len(listed) == 100
-    assert len(runner.calls) == 2
+    confirmed = RestGhRunner(rows, no_link_pages={("open", "", 1)})
+    assert len(LiveGh(repo="gaia-research/gaia-skill-tree", runner=confirmed).list_issues("open")) == 100
+
+    refuted = RestGhRunner(rows, no_link_pages={("open", "", 1)}, open_count=150)
+    with pytest.raises(GhError):
+        LiveGh(repo="gaia-research/gaia-skill-tree", runner=refuted).list_issues("open")
 
 
 def test_pagination_refuses_silent_truncation():
@@ -389,7 +389,7 @@ def _fanout_finding(version="v1"):
 
 def test_fanout_github_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):
     # The open umbrella LIST fails on its first page. The fanout must exit 3 and create nothing.
-    world = RestGhRunner([], fail_pages={("open", "upstream:release", 1)})
+    world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
@@ -406,7 +406,7 @@ def test_fanout_github_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_pa
 def test_fanout_child_list_failure_creates_no_umbrella_either(monkeypatch, tmp_path):
     # Only the intake LIST fails. Its lookup comes after the umbrella lookup, yet it must
     # still stop the run before the umbrella is written.
-    world = RestGhRunner([], fail_pages={("open", "intake", 1)})
+    world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
@@ -423,7 +423,7 @@ def test_batch_mode_bootstrap_lookup_failure_exits_3(monkeypatch, tmp_path):
         "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v1",
         "mode": "bootstrap", "componentAdds": [], "componentRemoves": [], "linkLiveness": [], "nameDrift": [],
     }
-    world = RestGhRunner([], fail_pages={("open", "upstream:bootstrap", 1)})
+    world = RestGhRunner([], fail_pages={("open", "", 1)})
     monkeypatch.setattr(subprocess, "run", world)
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": "garrytan/gbrain"})]))
