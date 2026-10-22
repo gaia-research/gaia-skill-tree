@@ -1,6 +1,7 @@
 """Canonical ratify -> multi-packet push -> intake validation regressions (#2088)."""
 
 import copy
+import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -258,6 +259,7 @@ def test_manifest_canonical_end_to_end(tmp_path, monkeypatch, capsys):
         assert call.kwargs["inventory"] == [first, second]
         assert call.kwargs["requireHumanReview"] is True
         assert call.kwargs["submissionRoute"] == "manifest"
+        assert call.kwargs["manifestDigest"] == hashlib.sha256(manifest.read_bytes()).hexdigest()
     assert len(data["skills"]) == 2
     assert [skill["candidateId"] for skill in data["skills"]] == [first["candidateId"], second["candidateId"]]
     refs = data["curationHandoff"]["packetRefs"]
