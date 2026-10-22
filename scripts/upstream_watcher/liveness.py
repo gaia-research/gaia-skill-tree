@@ -26,8 +26,8 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import quote
 
-from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check
-from scripts.upstream_watcher.live import UnknownEvidenceError
+from scripts.lib.github_api import GitHubFetchError, fetch_json, head_check, is_permanent_unavailable
+from scripts.upstream_watcher.live import SuiteUnavailable, UnknownEvidenceError
 
 # ---------------------------------------------------------------------------
 # URL conversion
@@ -141,7 +141,9 @@ def fetch_component_diff(
     -----
     - Returns ``([], [])`` when ``component_root`` is not present in the upstream
       tree (version-only fallback). That is a real layout, not missing data.
-    - Raises :class:`UnknownEvidenceError` when the tree cannot be read (any
+    - Raises :class:`SuiteUnavailable` (H2) when GitHub refuses the tree for good (451, 410, or a 403 that is
+      not rate limiting). The suite is skipped.
+    - Raises :class:`UnknownEvidenceError` when the tree cannot be read (any other
       failure, including a 404 on a tag the release endpoint just returned) or
       is truncated. An unreadable or partial tree must never become an empty or
       partial diff, because that would derive false componentRemoves.
@@ -159,6 +161,9 @@ def fetch_component_diff(
     try:
         tree_data = fetch_json(tree_url, strict=True)
     except GitHubFetchError as exc:
+        if is_permanent_unavailable(exc):
+            # H2: a tree that is permanently unavailable skips the suite. It never becomes a removal.
+            raise SuiteUnavailable(f"tree for {owner}/{repo}@{tag} is unavailable: {exc}") from exc
         raise UnknownEvidenceError(
             f"tree for {owner}/{repo}@{tag} could not be read: {exc}"
         ) from exc

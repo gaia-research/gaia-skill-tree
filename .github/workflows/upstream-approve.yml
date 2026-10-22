@@ -19,7 +19,8 @@ on:
 
 concurrency:
   group: upstream-approve-${{ github.event.issue.number || inputs.issue_number }}
-  cancel-in-progress: true
+  # L4: never cancel. A denied or superseded run must not cancel an in-flight Verifier sync.
+  cancel-in-progress: false
 
 permissions:
   issues: write
@@ -27,6 +28,68 @@ permissions:
   pull-requests: write
 
 jobs:
+  # ── L5: applying skip-child-gate is gated like approval ───────────────────────
+  # A bypass of the child-resolution gate may only be applied by a Verifier or an allowlisted actor. Anyone else
+  # loses the label, with a comment. The approve job also ignores such a label (see the child gate), so a removal
+  # that lags behind an approval cannot bypass the gate.
+  skip-child-gate-guard:
+    name: Gate the skip-child-gate label
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'skip-child-gate'
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
+      - name: Check skip-child-gate labeler
+        env:
+          LABELER: ${{ github.event.sender.login }}
+          LABELER_TYPE: ${{ github.event.sender.type }}
+          LABELER_ID: ${{ github.event.sender.id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          # A check that cannot run is a denial: the label is removed, never honoured.
+          ALLOWED=$(python3 - "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted, verifier_status
+          login, sender_type, sender_id = sys.argv[1], sys.argv[2], sys.argv[3]
+          if allowlisted(login, sender_type, sender_id):
+              print("allowlisted")
+          else:
+              print(verifier_status("registry/named-skills.json", login))
+          PY
+          ) || ALLOWED="error"
+          if [ "$ALLOWED" = "allowlisted" ] || [ "$ALLOWED" = "yes" ]; then
+            echo "✓ skip-child-gate applied by an authorized actor ($LABELER)."
+            exit 0
+          fi
+          gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** \`$LABELER\` may not apply \`skip-child-gate\`, which bypasses the child-resolution gate. Only a Verifier or an allowlisted actor may. The label has been removed and the gate still applies." || true
+          gh issue edit "$ISSUE_NUMBER" --remove-label "skip-child-gate" || true
+          echo "::error::$LABELER may not apply skip-child-gate ($ALLOWED). The label was removed."
+          exit 1
+
   approve:
     name: Process upstream:approved label
     runs-on: ubuntu-latest
@@ -53,8 +116,11 @@ jobs:
           EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
           ACTOR_LOGIN: ${{ github.actor }}
           SENDER_LOGIN: ${{ github.event.sender.login }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SENDER_ID: ${{ github.event.sender.id }}
         run: |
           set -euo pipefail
+          # M2: the actor's user type and id travel with its login. A login alone does not authorize anyone.
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             NUMBER="$INPUT_ISSUE_NUMBER"
             ACTOR="$ACTOR_LOGIN"
@@ -62,6 +128,9 @@ jobs:
             NUMBER="$EVENT_ISSUE_NUMBER"
             ACTOR="$SENDER_LOGIN"
           fi
+          # A workflow_dispatch's sender is the dispatching actor (for a re-fire, github-actions[bot]).
+          ACTOR_TYPE="${SENDER_TYPE:-}"
+          ACTOR_ID="${SENDER_ID:-}"
           case "$NUMBER" in
             ''|*[!0-9]*)
               echo "::error::Issue number must be digits only; got: ${NUMBER}"
@@ -70,6 +139,8 @@ jobs:
           esac
           echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
           echo "actor=$ACTOR" >> "$GITHUB_OUTPUT"
+          echo "actor_type=$ACTOR_TYPE" >> "$GITHUB_OUTPUT"
+          echo "actor_id=$ACTOR_ID" >> "$GITHUB_OUTPUT"
 
       - name: Checkout main
         uses: actions/checkout@v4
@@ -101,14 +172,17 @@ jobs:
           python scripts/generateNamedIndex.py
 
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
-      # H1: fail closed. A missing or unparseable index is a denial, never bootstrap. The decision is the
-      # shared approval.verifier_status (D2). D3: the subject is the LABELER of the approval, not the actor of
-      # this run. A bot re-fire (workflow_dispatch by github-actions[bot]) is accepted only with refire=true,
-      # and only when the most recent upstream:approved label was applied by a Verifier (or the human
-      # allowlist handle). A labeled event keeps the existing treatment: the sender is the labeler.
+      # H1: fail closed. A missing or unparseable index is a denial. M1: there is no bootstrap grant. An index
+      # with no authorised Verifier denies everyone; only the allowlist (M2) can authorize one. The decision is the
+      # shared approval module (D2). D3: the subject is the LABELER of the approval. A bot re-fire
+      # (workflow_dispatch by a Bot) is accepted only with refire=true and only when the most recent
+      # upstream:approved label was applied by an allowlisted actor or a Verifier. L1: a denial removes
+      # upstream:approved, as the reject guard does.
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ steps.issue.outputs.actor }}
+          LABELER_TYPE: ${{ steps.issue.outputs.actor_type }}
+          LABELER_ID: ${{ steps.issue.outputs.actor_id }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           EVENT_NAME: ${{ github.event_name }}
@@ -117,7 +191,8 @@ jobs:
         run: |
           set -euo pipefail
           deny_comment() {
-            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** $1 No sync was attempted and no PR was opened." || true
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** $1 No sync was attempted and no PR was opened. The \`upstream:approved\` label has been removed; a Verifier must re-apply it after review." || true
+            gh issue edit "$ISSUE_NUMBER" --remove-label "upstream:approved" || true
             echo "::error::$1"
             exit 1
           }
@@ -129,10 +204,17 @@ jobs:
           print(verifier_status("registry/named-skills.json", sys.argv[1]))
           PY
           }
+          allowlisted() {
+            python3 - "$1" "$2" "$3" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted
+          sys.exit(0 if allowlisted(sys.argv[1], sys.argv[2], sys.argv[3]) else 1)
+          PY
+          }
 
-          if [ "${EVENT_NAME:-}" = "workflow_dispatch" ] && [ "$LABELER" != "mbtiongson1" ] \
-             && case "$LABELER" in *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot) true ;; *) false ;; esac; then
-            # D3: a bot re-fire. The workflow actor is not the authority; the labeler of the approval is.
+          # D3: a bot re-fire. The workflow actor is not the authority; the labeler of the approval is.
+          if [ "${EVENT_NAME:-}" = "workflow_dispatch" ] && [ "${LABELER_TYPE:-}" = "Bot" ]; then
             if [ "${INPUT_REFIRE:-}" != "true" ]; then
               deny_comment "A bot re-run of upstream-approve is accepted only with refire=true, and this dispatch did not set it."
             fi
@@ -140,53 +222,53 @@ jobs:
             if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/events" > "$EVENTS_FILE"; then
               deny_comment "The labeling history of this umbrella could not be read, so the re-run cannot be checked."
             fi
-            LABELER_OF_APPROVAL=$(python3 - "$EVENTS_FILE" <<'PY'
-          import os, sys
+            APPROVAL_ACTOR=$(python3 - "$EVENTS_FILE" <<'PY'
+          import json, os, sys
           sys.path.insert(0, os.getcwd())
-          from scripts.upstream_watcher.approval import decode_pages, latest_labeler
-          print(latest_labeler(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or "")
+          from scripts.upstream_watcher.approval import decode_pages, latest_labeler_actor
+          actor = latest_labeler_actor(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or {}
+          print(json.dumps({"login": actor.get("login") or "", "type": actor.get("type") or "", "id": actor.get("id") or ""}))
           PY
           ) || deny_comment "The labeling history of this umbrella could not be parsed, so the re-run cannot be checked."
-            if [ -z "$LABELER_OF_APPROVAL" ]; then
+            LOA_LOGIN=$(echo "$APPROVAL_ACTOR" | jq -r '.login')
+            LOA_TYPE=$(echo "$APPROVAL_ACTOR" | jq -r '.type')
+            LOA_ID=$(echo "$APPROVAL_ACTOR" | jq -r '.id')
+            if [ -z "$LOA_LOGIN" ]; then
               deny_comment "No upstream:approved labeling event was found for this umbrella, so the re-run cannot be checked."
             fi
-            if [ "$LABELER_OF_APPROVAL" = "mbtiongson1" ]; then
-              echo "✓ re-run of an approval labeled by the allowlisted handle."
+            if allowlisted "$LOA_LOGIN" "$LOA_TYPE" "$LOA_ID"; then
+              echo "✓ re-run of an approval labeled by the allowlisted actor $LOA_LOGIN."
               exit 0
             fi
-            AUTHORIZED=$(verifier_check "$LABELER_OF_APPROVAL")
+            AUTHORIZED=$(verifier_check "$LOA_LOGIN")
             case "$AUTHORIZED" in
-              yes|bootstrap)
-                echo "✓ re-run of an approval whose latest labeler ($LABELER_OF_APPROVAL) is a Verifier ($AUTHORIZED)."
+              yes)
+                echo "✓ re-run of an approval whose latest labeler ($LOA_LOGIN) is a Verifier."
                 exit 0
                 ;;
               deny-*)
-                echo "::error::The Verifier index could not be read or is empty ($AUTHORIZED). Refusing the re-run."
-                exit 1
+                deny_comment "The Verifier index could not be read or is empty ($AUTHORIZED). The re-run is refused."
                 ;;
               *)
-                deny_comment "The most recent upstream:approved label was applied by \`$LABELER_OF_APPROVAL\`, who does not hold a 4★+ named skill. The re-run is refused."
+                deny_comment "The most recent upstream:approved label was applied by \`$LOA_LOGIN\`, who does not hold a 4★+ named skill. The re-run is refused."
                 ;;
             esac
           fi
 
-          # Allowlisted actors on the labeled trigger keep their existing treatment (the sender is the labeler).
-          case "$LABELER" in
-            *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot|mbtiongson1)
-              echo "✓ $LABELER is an allowlisted actor."
-              exit 0
-              ;;
-          esac
+          # M2: an allowlisted actor (by login, sender type and id) keeps its treatment.
+          if allowlisted "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}"; then
+            echo "✓ $LABELER is an allowlisted actor."
+            exit 0
+          fi
 
           AUTHORIZED=$(verifier_check "$LABELER")
           echo "Labeler authorization: $AUTHORIZED"
           case "$AUTHORIZED" in
-            yes|bootstrap)
-              echo "✓ $LABELER is authorized to approve upstream issues ($AUTHORIZED)."
+            yes)
+              echo "✓ $LABELER is authorized to approve upstream issues (Verifier)."
               ;;
             deny-*)
-              echo "::error::The Verifier index could not be read or is empty ($AUTHORIZED). Refusing to authorize $LABELER."
-              exit 1
+              deny_comment "The Verifier index could not be read or is empty ($AUTHORIZED). Refusing to authorize \`$LABELER\`."
               ;;
             *)
               deny_comment "\`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
@@ -285,8 +367,30 @@ jobs:
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           EVENT_NAME: ${{ github.event_name }}
           PAYLOAD_SHA: ${{ steps.payload.outputs.payload_sha256 }}
+          EVENT_BODY: ${{ github.event.issue.body }}
         run: |
           set -euo pipefail
+          # H1: on an issues event the approval covers the body the Verifier LABELLED (the event snapshot), not the
+          # body read at extract time. A body edited in between has another digest: refuse, record no marker.
+          if [ "$EVENT_NAME" = "issues" ]; then
+            EVENT_SHA=$(EVENT_BODY="${EVENT_BODY:-}" python3 - <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, extract_payload
+          try:
+              _payload, digest = extract_payload(os.environ.get("EVENT_BODY") or "")
+          except PayloadError:
+              digest = ""
+          print(digest)
+          PY
+          ) || EVENT_SHA=""
+            if [ "$EVENT_SHA" != "$PAYLOAD_SHA" ]; then
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "⚠️ **Sync refused: payload changed after approval; re-apply the label.** The umbrella body changed after the upstream:approved label was applied (labelled payload ${EVENT_SHA:-unreadable}, current payload ${PAYLOAD_SHA}). No approval was recorded and nothing was synced. Re-apply upstream:approved after review." || true
+              echo "::error::payload changed after approval; re-apply the label"
+              exit 1
+            fi
+          fi
           COMMENTS_FILE="$RUNNER_TEMP/umbrella-comments.json"
           if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
             echo "::error::Could not read the approval record of #${ISSUE_NUMBER}. Nothing was synced."
@@ -326,23 +430,40 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Skip gate if skip-child-gate label is applied. This bypasses the gate only:
-          # it never closes, accepts or rejects a child intake or the umbrella.
-          HAS_SKIP=$(gh issue view "$ISSUE_NUMBER" --json labels \
-            --jq '[.labels[].name] | contains(["skip-child-gate"])')
-          if [ "$HAS_SKIP" = "true" ]; then
-            echo "skip-child-gate label present: bypassing the child-resolution gate only."
-            echo "skip-child-gate does not close, accept or reject any child intake or the umbrella."
-            echo "gate_passed=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
           # Fail closed: a lookup error is never read as "no open children".
           fail_closed() {
-            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Child gate could not verify child intakes.** $1 No sync was attempted and no PR was opened. Re-apply upstream:approved to retry, or add skip-child-gate to bypass the gate (the bypass never closes or accepts children)." || true
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Child gate could not verify child intakes.** $1 No sync was attempted and no PR was opened. Re-apply upstream:approved to retry." || true
             echo "::error::Child gate could not verify child intakes: $1"
             exit 1
           }
+
+          # Skip gate if skip-child-gate label is applied. This bypasses the gate only:
+          # it never closes, accepts or rejects a child intake or the umbrella.
+          # L5: the bypass is honoured only when its most recent labeling was by an allowlisted actor or a Verifier.
+          # Any other labeler's label is ignored here, and the skip-child-gate-guard job removes it.
+          HAS_SKIP=$(gh issue view "$ISSUE_NUMBER" --json labels \
+            --jq '[.labels[].name] | contains(["skip-child-gate"])')
+          if [ "$HAS_SKIP" = "true" ]; then
+            SKIP_EVENTS="$RUNNER_TEMP/skip-events.json"
+            if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/events" > "$SKIP_EVENTS"; then
+              fail_closed "The labeling history of skip-child-gate could not be read."
+            fi
+            SKIP_OK=$(python3 - "$SKIP_EVENTS" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, skip_label_authorized
+          events = decode_pages(open(sys.argv[1], encoding="utf-8").read())
+          print("true" if skip_label_authorized(events, "registry/named-skills.json") else "false")
+          PY
+          ) || fail_closed "The skip-child-gate labeling could not be checked."
+            if [ "$SKIP_OK" = "true" ]; then
+              echo "skip-child-gate label present, applied by an authorized actor: bypassing the child-resolution gate only."
+              echo "skip-child-gate does not close, accept or reject any child intake or the umbrella."
+              echo "gate_passed=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            echo "::notice::skip-child-gate was applied by an actor who may not approve. The label is ignored and the gate applies."
+          fi
 
           UMBRELLA_BODY=$(gh issue view "$ISSUE_NUMBER" --json body --jq '.body') || fail_closed "Could not read the umbrella body."
 
@@ -357,10 +478,12 @@ jobs:
           import sys
           from urllib.parse import urlencode
 
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
           REPO = os.environ["REPO"]
           UMBRELLA = int(os.environ["ISSUE_NUMBER"])
           BODY = os.environ.get("UMBRELLA_BODY", "")
-          PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\s+(.*?)\n-->", re.DOTALL)
           UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
 
 
@@ -475,7 +598,7 @@ jobs:
 
           gh = LiveGh(repo=os.environ["REPO"])
           try:
-              ids = unresolved_row_ids(json.loads(os.environ["PAYLOAD"]), gh.issue_state)
+              ids = unresolved_row_ids(json.loads(os.environ["PAYLOAD"]), gh.child_state)
           except (GhError, ValueError, TypeError, KeyError) as exc:
               print(f"unresolved-row check failed: {exc}", file=sys.stderr)
               sys.exit(1)

@@ -32,6 +32,7 @@ from typing import Any
 
 from scripts.lib.github_api import parse_owner_repo
 from scripts.upstream_watcher import approval, prechecks, records
+from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition, shared with approval and records
 from scripts.upstream_watcher.approval import (  # noqa: F401  (re-exported for callers and tests)
     APPROVAL_RESET_MARKER,
     canonical_hash,
@@ -63,13 +64,21 @@ PLACEHOLDER_BODY = (
     "Writing the batch record. The full rows are attached as record comments on this issue, "
     "and this body is replaced once they are written."
 )
-PAYLOAD_RE = re.compile(r"<!-- gaia-upstream-payload\n(.*?)\n-->", re.DOTALL)
 ESCALATE_LABELS = ["intake", "needs-triage", "upstream:child"]
 # Row statuses (prechecks: new, tracked, present, rejected; escalate: escalated).
 # present and rejected are resolved. Every other row stays unresolved until its
 # child intake is closed. The approve workflow applies the same rule.
 RESOLVED_STATUSES = frozenset({"present", "rejected"})
+# Child states the planner distinguishes (M6). ``closed-rejected`` is a closed child carrying upstream:rejected,
+# which is a disposition. ``closed`` is a closed child without one, which resolves its row only when the
+# candidate is registry-present. ``absent`` is a 301, 404 or 410. ``unknown`` is a probe with no answer.
+CHILD_OPEN = "open"
+CHILD_CLOSED = "closed"
+CHILD_REJECTED = "closed-rejected"
+CHILD_ABSENT = "absent"
 CHILD_UNKNOWN = "unknown"
+# M6: the note a row carries while its child is closed without a disposition and the candidate is not registry-present.
+NOTE_CLOSED_WITHOUT_DISPOSITION = "child closed without a disposition"
 
 
 # ---------------------------------------------------------------------------
@@ -190,20 +199,28 @@ def adopted_child(precheck: dict) -> int | None:
     return int(tracked.split("#", 1)[1]) if tracked.startswith("child:#") else None
 
 
-def child_state_lookup(live: dict, probe=None):
-    """Return ``state_of(number)`` -> ``open`` | ``closed`` | ``absent`` | ``unknown``.
+def issue_child_state(issue: dict) -> str:
+    """``open``, ``closed-rejected`` (closed with upstream:rejected) or ``closed`` (closed, no disposition)."""
+    if issue.get("state") != "closed":
+        return CHILD_OPEN
+    labels = {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
+    return CHILD_REJECTED if "upstream:rejected" in labels else CHILD_CLOSED
 
-    The LIST snapshot answers first (open issues and those closed within the
-    recent window). A number the snapshot does not hold is asked of *probe*, a
-    single GET. Without a probe the answer is ``unknown``, which every caller
-    treats as "keep the link and never drop the row" (fail closed).
+
+def child_state_lookup(live: dict, probe=None):
+    """Return ``state_of(number)``: ``open`` | ``closed-rejected`` | ``closed`` | ``absent`` | ``unknown``.
+
+    The LIST snapshot answers first (open issues, those closed within the recent window, and every closed
+    ``upstream:child``). A number the snapshot does not hold is asked of *probe*, which answers in the same
+    vocabulary (``LiveGh.child_state``). Without a probe the answer is ``unknown``, which every caller treats as
+    "keep the link and never drop the row" (fail closed).
     """
-    known = {issue["number"]: issue.get("state") for issue in live["issues"]}
+    known = {issue["number"]: issue for issue in live["issues"]}
     cache: dict[int, str] = {}
 
     def state_of(number: int) -> str:
-        if known.get(number) in ("open", "closed"):
-            return known[number]
+        if number in known and known[number].get("state") in ("open", "closed"):
+            return issue_child_state(known[number])
         if number not in cache:
             cache[number] = probe(number) if probe is not None else CHILD_UNKNOWN
         return cache[number]
@@ -218,12 +235,29 @@ def dead_children(rows: list[dict], state_of) -> frozenset[int]:
     )
 
 
+def registry_present(row: dict) -> bool:
+    precheck = row.get("precheck")
+    return isinstance(precheck, dict) and precheck.get("registry") == "present"
+
+
 def row_is_unresolved(row: dict, state_of) -> bool:
-    """A row still owes a decision unless it is registry-present, rejected, or its child intake is closed."""
+    """A row still owes a decision (M6).
+
+    Resolved: registry-present or rejected (status), a child closed with upstream:rejected, or a child closed
+    without a disposition whose candidate is registry-present. Everything else is unresolved, including a child
+    closed without a disposition (the note says so) and a child that is open, absent or unknown.
+    """
     if row.get("status") in RESOLVED_STATUSES:
         return False
     child = row.get("child")
-    return not (child is not None and state_of(child) == "closed")
+    if child is None:
+        return True
+    state = state_of(child)
+    if state == CHILD_REJECTED:
+        return False
+    if state == CHILD_CLOSED:
+        return not registry_present(row)
+    return True
 
 
 def unresolved_row_ids(payload: dict, state_of) -> list[str]:
@@ -251,12 +285,23 @@ def carry_forward(live: dict, prefix: str, state_of, gh=None) -> list[dict]:
     if not closed:
         return []
     newest = max(closed, key=lambda issue: issue["number"])
+    ref = f"#{newest['number']}"
+    rejected_umbrella = "upstream:rejected" in label_names(newest)
     rows = load_rows(gh, newest["number"], parse_payload(newest.get("body")))
-    return [
-        {**row, "carriedFrom": f"#{newest['number']}"}
-        for row in rows
-        if row_is_unresolved(row, state_of)
-    ]
+    carried: list[dict] = []
+    for row in rows:
+        childless = row.get("child") is None
+        if childless and rejected_umbrella and row_is_unresolved(row, state_of):
+            # M3: a rejected umbrella settles its childless rows. They stop being new work, stay visible, and
+            # record the umbrella that settled them.
+            carried.append({**row, "status": "rejected", "rejectedBy": ref, "carriedFrom": ref})
+        elif childless and row.get("rejectedBy"):
+            # M3: a settled rejection is kept in the record, whichever umbrella closed next. A rejection by a
+            # child is not carried: the closed-child history re-derives it on every run.
+            carried.append({**row, "carriedFrom": ref})
+        elif row_is_unresolved(row, state_of):
+            carried.append({**row, "carriedFrom": ref})
+    return carried
 
 
 def detached(row: dict) -> dict:
@@ -269,6 +314,15 @@ def detached(row: dict) -> dict:
         return row
     status = "new" if row.get("status") in ("escalated", "tracked") else row.get("status")
     return {**row, "child": None, "status": status}
+
+
+def merged_status(previous: str | None, fresh: str) -> str:
+    """The status a row keeps when a fresh precheck meets it. Escalation and a settled rejection (M3) survive."""
+    if previous == "escalated":
+        return "escalated"
+    if previous == "rejected" and fresh == "new":
+        return "rejected"
+    return fresh
 
 
 def merge_rows(
@@ -300,7 +354,7 @@ def merge_rows(
             current = by_id[fresh["id"]]
             current["lastSeenVersion"] = version
             current["precheck"] = fresh["precheck"]
-            current["status"] = "escalated" if current.get("status") == "escalated" else fresh["status"]
+            current["status"] = merged_status(current.get("status"), fresh["status"])
             child = adopted_child(fresh["precheck"])
             if child is not None:
                 current["child"] = child
@@ -311,6 +365,22 @@ def merge_rows(
         row["child"] = adopted_child(fresh["precheck"])
         added.append(fresh["id"])
     return [by_id[key] for key in sorted(by_id)], added
+
+
+def annotate_rows(rows: list[dict], state_of) -> list[dict]:
+    """M6: attach the 'child closed without a disposition' note to unresolved rows whose child is closed.
+
+    The note is recomputed on every plan, so it is dropped once the child is dispositioned or the candidate
+    becomes registry-present.
+    """
+    out = []
+    for row in rows:
+        base = {key: value for key, value in row.items() if key != "note"}
+        child = row.get("child")
+        if child is not None and state_of(child) == CHILD_CLOSED and row_is_unresolved(row, state_of):
+            base["note"] = NOTE_CLOSED_WITHOUT_DISPOSITION
+        out.append(base)
+    return out
 
 
 def settle_liveness(finding: dict, previous_payload: dict | None) -> dict:
@@ -417,6 +487,8 @@ def render_batch_body(payload: dict) -> str:
     for row in rows if records_summary is None else []:
         precheck = row.get("precheck", {})
         child = f"#{row['child']}" if row.get("child") else "—"
+        if row.get("note"):
+            child = f"{child} ({row['note']})"
         table_rows.append(
             f"| `cand:{row['id']}` | `{row['suggestedId']}` | `{row['status']}` | "
             f"`{precheck.get('registry', 'unchecked')}` | `{precheck.get('tracked', 'none')}` | "
@@ -505,12 +577,15 @@ def _comments(gh, number: int) -> list[dict]:
         raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
 
 
-def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> dict:
+def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, reset_records: bool = False) -> dict:
     """Compute the umbrella action for one update finding. Performs no writes.
 
-    *probe* (``LiveGh.issue_state`` in a run) resolves child numbers the LIST snapshot does not
+    *probe* (``LiveGh.child_state`` in a run) resolves child numbers the LIST snapshot does not
     hold. *gh* reads the record comments of a records-mode umbrella (M5). A GhError from either
     propagates: unknown evidence, no writes.
+
+    *reset_records* (M4, ``--reset-records``) discards the rows of a records-mode umbrella without reading
+    its record comments. The rows are then rebuilt from the fresh poll, with the same prechecks.
     """
     owner_repo = owner_repo_of(finding)
     new_version = finding["newVersion"]
@@ -531,10 +606,15 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
     # approval resets and the body is repaired from the fresh plan (its child links are not trusted).
     tampered = payload_tampered(previous_payload)
     finding = settle_liveness(finding, previous_payload)
+    discarding = bool(reset_records) and previous_payload is not None and "candidateRecords" in previous_payload
     if umbrella is not None and previous_payload is not None:
-        prior_rows = load_rows(gh, umbrella["number"], previous_payload)
-        if tampered:
-            prior_rows = [detached(row) for row in prior_rows]
+        if discarding:
+            # M4: the record state is discarded, so nothing is read from the lost comments.
+            prior_rows: list[dict] = []
+        else:
+            prior_rows = load_rows(gh, umbrella["number"], previous_payload)
+            if tampered:
+                prior_rows = [detached(row) for row in prior_rows]
         carried: list[dict] = []
     else:
         # A new umbrella, or one whose body was never written (a create that stopped part way),
@@ -543,6 +623,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
         carried = carry_forward(live, prefix, state_of, gh)
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
+    rows = annotate_rows(rows, state_of)
     payload, body, record_rows = layout(finding, rows, previous_version=None)
 
     # D4 / M7: a records-mode umbrella, or one leaving records mode, is moved to its target generation with
@@ -551,7 +632,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
     had_records = previous_payload is not None and "candidateRecords" in previous_payload
     if record_rows is not None or had_records:
         comments = [] if umbrella is None else _comments(gh, umbrella["number"])
-        record_plan = records.plan_generation(comments, record_rows)
+        record_plan = records.plan_generation(comments, record_rows, discard=discarding)
     record_pending = record_plan is not None and bool(record_plan.prewrites or record_plan.cleanup)
 
     if umbrella is None:
@@ -577,7 +658,8 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
     changed = changed_fields(previous_payload, payload)
     if tampered and not changed:
         changed = ["payloadSha256 (the stored digest does not match the payload)"]
-    suppressed = [row["id"] for row in incoming if row["status"] in prechecks.SUPPRESSED_STATUSES]
+    # Suppression counts every retained row (a settled rejection from M3 included), not only the fresh poll.
+    suppressed = [row["id"] for row in rows if row["status"] in prechecks.SUPPRESSED_STATUSES]
     return {
         "suite": owner_repo,
         "title": title,
@@ -598,6 +680,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None) -> d
         "reset": reset,
         "prevVersion": (previous_payload or {}).get("newVersion"),
         "snapshot": snapshot_of(umbrella) if umbrella else None,
+        "recordsReset": discarding,
     }
 
 
@@ -637,6 +720,11 @@ def new_report() -> dict:
         "suppressedDuplicates": 0,
         "retainedCandidates": 0,
         "unknownEvidence": [],
+        # H2: a suite whose upstream is permanently unavailable (451, 410, 403 without rate limiting) is skipped,
+        # listed here, and never blocks the run. Its entry is written by the watcher, not by the planner.
+        "unavailable": [],
+        # M4: the suites whose record state was rebuilt from the fresh poll by --reset-records.
+        "recordsReset": [],
         "suites": [],
     }
 
@@ -737,9 +825,10 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
     return "updated"
 
 
-def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool) -> tuple[dict, dict]:
+def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool,
+                  reset_records: bool = False) -> tuple[dict, dict]:
     """Plan and (when apply) write one suite. Returns (suite report row, live snapshot)."""
-    plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
+    plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
     outcome = "planned"
     if plan["action"] == "noop":
         outcome = "noop"
@@ -754,14 +843,14 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                 fresh = read_live(gh)
                 if open_umbrellas(fresh["issues"], umbrella_prefix(plan["suite"])):
                     live = fresh
-                    plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
+                    plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
                     continue
                 outcome = write_umbrella(plan, gh)
                 break
             current = gh.get_issue(plan["umbrella"])
             if snapshot_of(current) != plan["snapshot"]:
                 live = read_live(gh)
-                plan = plan_suite(finding, live, index, probe=gh.issue_state, gh=gh)
+                plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
                 if plan["action"] == "noop":
                     outcome = "noop"
                     break
@@ -805,12 +894,17 @@ def run_batch(
     gh: LiveGh,
     apply: bool,
     index_loader=prechecks.load_registry_index,
+    reset_records: str | None = None,
 ) -> tuple[dict, int]:
     """Plan (and when *apply*, write) umbrella batch records for update findings.
 
     Returns ``(report, exit_code)``. Exit 3 means unknown evidence: no write was
     made and the report lists the failing source.
+
+    *reset_records* (M4) names one suite whose record state is rebuilt from the fresh poll. It is apply-only.
     """
+    if reset_records and not apply:
+        raise ValueError("--reset-records requires --apply: a reset rewrites the umbrella's record comments")
     report = new_report()
     report["dryRun"] = not apply
     updates = [finding for finding in findings if finding.get("finding_type") == "update"]
@@ -828,14 +922,25 @@ def run_batch(
         return report, UNKNOWN_EXIT_CODE
 
     for finding in updates:
+        suite = finding["skillId"]
+        resetting = bool(reset_records) and reset_records in (suite, owner_repo_of(finding))
+        if resetting:
+            report["recordsReset"].append(suite)
         try:
-            suite_row, live = process_suite(finding, gh, index, live, apply)
+            suite_row, live = process_suite(finding, gh, index, live, apply, reset_records=resetting)
         except RecordError as exc:
             # One suite's record comments cannot be verified. That suite gets zero writes, and the
-            # other suites are still processed. The run still exits 3 at the end (H2).
-            report["unknownEvidence"].append(
-                {"source": "github-write", "suite": finding["skillId"], "detail": str(exc), "stopped": False}
+            # other suites are still processed. The run still exits 3 at the end (H2). M4: the message names
+            # the recovery flag and the suite.
+            hint = (
+                f"Re-run with --apply --reset-records {suite} to rebuild this suite's record state from the fresh "
+                "poll. Per-row status and child links stored only in the lost record comments are not recovered; "
+                "an open child intake is re-adopted by the list lookup."
             )
+            report["unknownEvidence"].append(
+                {"source": "github-write", "suite": suite, "detail": f"{exc}. {hint}", "stopped": False}
+            )
+            print(f"::error::{suite}: record state cannot be read (exit 3). {hint}", file=sys.stderr)
             continue
         except GhError as exc:
             report["unknownEvidence"].append(
@@ -881,7 +986,7 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
     if row.get("child") is not None:
         # A child link GitHub reports as definitively absent (301/404/410) must not block escalation.
         try:
-            linked_state = child_state_lookup(live, gh.issue_state)(row["child"])
+            linked_state = child_state_lookup(live, gh.child_state)(row["child"])
         except GhError as exc:
             return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
         if linked_state != "absent":

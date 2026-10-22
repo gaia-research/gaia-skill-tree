@@ -44,6 +44,15 @@ class GhNotFound(GhError):
         self.status = status
 
 
+class SuiteUnavailable(RuntimeError):
+    """H2: a suite's upstream is permanently unavailable (HTTP 451, 410, or a 403 with no rate-limit signal).
+
+    The watcher skips that suite and lists it under ``unavailable``. It is deliberately NOT an
+    UnknownEvidenceError: the run is not blocked, and the skipped suite produces no finding, so it can
+    never produce a removal or an approval change.
+    """
+
+
 class UnknownEvidenceError(RuntimeError):
     """A read the watcher needs to decide what to do failed or came back incomplete.
 
@@ -134,6 +143,27 @@ class LiveGh:
             )
             return "absent"
         return "closed" if issue.get("state") == "closed" else "open"
+
+    def child_state(self, number: int) -> str:
+        """The disposition-aware state of one child (M6): ``open``, ``closed-rejected``, ``closed`` or ``absent``.
+
+        ``closed-rejected`` is a closed child carrying upstream:rejected. ``closed`` is a closed child without
+        one. ``absent`` is returned only for a definitive 301, 404 or 410 (announced with a ``::notice::``).
+        Any other failure raises GhError.
+        """
+        try:
+            issue = self.get_issue(number)
+        except GhNotFound as exc:
+            print(
+                f"::notice::child #{number} is absent (HTTP {exc.status}); "
+                "treated as unresolved, never as resolved",
+                file=sys.stderr,
+            )
+            return "absent"
+        if issue.get("state") != "closed":
+            return "open"
+        labels = {label.get("name") if isinstance(label, dict) else label for label in issue.get("labels", [])}
+        return "closed-rejected" if "upstream:rejected" in labels else "closed"
 
     def list_comments(self, number: int) -> list[dict]:
         """Return every comment on *number*, following explicit pages (M5 record comments).

@@ -114,8 +114,10 @@ def test_legacy_fetch_json_still_returns_none_for_callers_outside_the_watcher(mo
 
 
 def test_poll_release_403_is_unknown_evidence_not_a_skip(monkeypatch):
+    # #2131 round 4 (H2): a 403 that is rate limiting is transient, so it stays unknown evidence. A 403 with no
+    # rate-limit signal is permanent and skips the suite (test_c8_h2_unavailable.py).
     def forbidden(endpoint, **kwargs):  # noqa: ARG001
-        raise GitHubFetchError("HTTP 403 for releases/latest", status=403)
+        raise GitHubFetchError("HTTP 403 for releases/latest", status=403, headers={"x-ratelimit-remaining": "0"})
 
     monkeypatch.setattr(watcher, "fetch_json", forbidden)
     with pytest.raises(UnknownEvidenceError, match="403"):
@@ -150,9 +152,9 @@ def _run_main(monkeypatch, tmp_path, fetch, suites=None):
     return code, report, writes
 
 
-def test_main_exits_3_with_zero_writes_when_a_release_poll_is_forbidden(monkeypatch, tmp_path):
+def test_main_exits_3_with_zero_writes_when_a_release_poll_is_rate_limited(monkeypatch, tmp_path):
     def fetch(endpoint, **kwargs):  # noqa: ARG001
-        raise GitHubFetchError("HTTP 403 (fake forbidden)", status=403)
+        raise GitHubFetchError("HTTP 403 (fake rate limited)", status=403, headers={"x-ratelimit-remaining": "0"})
 
     code, report, writes = _run_main(monkeypatch, tmp_path, fetch)
     assert code == 3
@@ -201,8 +203,9 @@ def test_main_exits_0_when_every_suite_has_no_releases(monkeypatch, tmp_path):
 
 
 def test_tree_fetch_error_is_unknown_evidence(monkeypatch):
+    # H2: a rate-limited 403 on the tree is transient, so it stays unknown evidence (a plain 403 skips the suite).
     def broken(endpoint, **kwargs):  # noqa: ARG001
-        raise GitHubFetchError("HTTP 403 (fake)", status=403)
+        raise GitHubFetchError("HTTP 403 (fake)", status=403, headers={"x-ratelimit-remaining": "0"})
 
     monkeypatch.setattr(liveness, "fetch_json", broken)
     with pytest.raises(UnknownEvidenceError):

@@ -42,12 +42,18 @@ _REPO_ROOT = _HERE.parent.parent.parent
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.lib.github_api import GitHubFetchError, GitHubNotFound, fetch_json, parse_owner_repo
+from scripts.lib.github_api import (
+    GitHubFetchError,
+    GitHubNotFound,
+    fetch_json,
+    is_permanent_unavailable,
+    parse_owner_repo,
+)
 from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
-from scripts.upstream_watcher.live import LiveGh, UnknownEvidenceError
+from scripts.upstream_watcher.live import LiveGh, SuiteUnavailable, UnknownEvidenceError
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
 from scripts.upstream_watcher.name_drift import check_name_drift
 
@@ -131,6 +137,10 @@ def _render_report(full_findings: list[dict]) -> str:
 # ---------------------------------------------------------------------------
 
 
+def _status_of(exc: Exception) -> int | None:
+    return getattr(exc.__cause__, "status", None)
+
+
 def _poll_suite(
     fm: dict,
     registry_map: dict[str, dict],
@@ -167,6 +177,11 @@ def _poll_suite(
         )
         return None
     except GitHubFetchError as exc:
+        # H2: a permanent refusal (451, 410, or a 403 without a rate-limit signal) skips this suite only.
+        if is_permanent_unavailable(exc):
+            raise SuiteUnavailable(
+                f"releases/latest for {owner}/{repo} is unavailable (HTTP {exc.status}): {exc}"
+            ) from exc
         raise UnknownEvidenceError(
             f"releases/latest for {owner}/{repo} could not be read: {exc}"
         ) from exc
@@ -277,11 +292,23 @@ def main(argv: list[str] | None = None) -> int:
         default=False,
         help="Extra logging to stderr.",
     )
+    parser.add_argument(
+        "--reset-records",
+        metavar="SUITE",
+        default=None,
+        help="Rebuild SUITE's record state from the fresh poll (M4). Requires --apply. Per-row status and child "
+        "links stored only in the lost record comments are not recovered.",
+    )
     args = parser.parse_args(argv)
 
     # --apply wins over --dry-run
     apply = args.apply
     verbose = args.verbose
+
+    if args.reset_records and not apply:
+        print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
+              file=sys.stderr)
+        return 1
 
     if args.escalate:
         result, code = escalate_candidate(args.escalate, LiveGh(), apply=apply)
@@ -304,6 +331,7 @@ def main(argv: list[str] | None = None) -> int:
 
     full_findings: list[dict] = []
     unknown: list[dict] = []
+    unavailable: list[dict] = []
     up_to_date = 0
 
     suite_iter = (
@@ -316,6 +344,11 @@ def main(argv: list[str] | None = None) -> int:
         skill_id = fm.get("id", "?")
         try:
             finding = _poll_suite(fm, registry_map, verbose)
+        except SuiteUnavailable as exc:
+            # H2: skipped, listed, and never blocking. The suite has no finding, so it cannot change anything.
+            print(f"::notice::{skill_id} skipped: upstream is permanently unavailable ({exc})", file=sys.stderr)
+            unavailable.append({"suite": skill_id, "detail": str(exc), "status": _status_of(exc)})
+            continue
         except UnknownEvidenceError as exc:
             print(f"  [unknown] {skill_id} — {exc}", file=sys.stderr)
             unknown.append({"source": "github-poll", "suite": skill_id, "detail": str(exc)})
@@ -343,6 +376,7 @@ def main(argv: list[str] | None = None) -> int:
         report["childMode"] = args.child_mode
         report["dryRun"] = not apply
         report["unknownEvidence"] = unknown
+        report["unavailable"] = unavailable
         _write_report(report, args.report)
         print(
             f"[watcher] Unknown evidence on {len(unknown)} suite(s); zero issues written this run.",
@@ -358,6 +392,7 @@ def main(argv: list[str] | None = None) -> int:
         report = new_report()
         report["childMode"] = "fanout"
         report["dryRun"] = not apply
+        report["unavailable"] = unavailable
         summaries: list[dict] = []
         if apply:
             try:
@@ -381,7 +416,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[watcher] Issue creation complete. {len(summaries)} finding(s) processed.")
         return 0
 
-    report, code = run_batch(full_findings, LiveGh(), apply=apply)
+    report, code = run_batch(full_findings, LiveGh(), apply=apply, reset_records=args.reset_records)
+    report["unavailable"] = unavailable
     # The bootstrap pass runs unless a GitHub read or write stopped the batch. A record-level failure on one
     # suite does not stop it (H2), and the exit code is still 3 at the end.
     if not batch_stopped(report):
