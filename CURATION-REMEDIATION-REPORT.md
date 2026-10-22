@@ -93,7 +93,7 @@ the 25 originally failing assertions was:
 | GENUINE DEFECT | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | **Fixed** in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
 
 **Totals:** 25 = 17 obsolete fixtures + 6 obsolete contracts + 2 genuine defects.
-All 25 are resolved. The focused curation suite now reports **671 passed** with
+All 25 are resolved. The focused curation suite now reports **672 passed** with
 no remaining failures. No failing test was deleted to make the suite green, and
 no security assertion was weakened.
 
@@ -111,7 +111,7 @@ frozen row to its packet.
 | `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
 | Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
-| Focused curation suite (23 files) on this branch | **671 passed** |
+| Focused curation suite (23 files) on this branch | **672 passed** |
 | Focused suite after every repair round | **671 passed** (no regression) |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
 | Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
@@ -140,6 +140,8 @@ frozen row to its packet.
 | Reconciliation and the payload builder resolved a packet's named identity by **different rules** | P1, functional regression | `5cbafe9c0` — one shared resolver (`packetNamedIdentity`) is used by both | `test_packet_identity_resolves_by_one_rule_everywhere` |
 | A **mapping-form** top-level identity binding bypassed the double-binding consistency check | P1, latent boundary defect | `83f97019d` — the top-level binding is accepted only as an exact identity string; any other shape is unbound and refused | Independent reproduction: reconciliation defers and the payload build is refused |
 | The payload builder did not bind the report's **artifact-digest claims** to the recomputed report | P2, report-integrity defect | `83f97019d` — the report's artifact and content digest claims must equal the recomputed reconciliation's | `test_forged_artifact_digest_claims_in_the_report_are_rejected`; independent reproduction refused |
+| A **named block** could express the identity two ways and disagree with itself, and only one expression was compared | P2, latent boundary defect (found in self-review while the reviewer provider was at capacity) | `20d945e2d` — a self-contradicting named block resolves to *no* identity, so the packet is refused rather than silently resolved | `test_packet_identity_resolves_by_one_rule_everywhere` |
+| Only a **hand-listed set** of report fields was compared, so a report could carry an extra claim of its own, and a field added to the report later would silently stop being bound | P2, report-integrity hardening (same self-review) | `20d945e2d` — the claimed row must equal the recomputed row in full, and the report's `counts` and `candidateCount` must match too | `test_whole_report_row_and_aggregates_are_bound_to_the_receipts` |
 
 **No finding was closed by weakening an assertion, and no test claims a real human approval.**
 
