@@ -226,18 +226,19 @@ def test_a_suite_over_the_records_ceiling_names_the_suite_rows_limit_and_the_dec
 
 
 def test_growing_the_chunk_set_edits_the_existing_chunks_and_creates_only_the_new_one():
+    # 250 rows is records mode (5 chunks); 300 rows is 6 chunks. Inline mode would not write record comments.
     gh = FakeGh()
-    run(gh, [finding_for(SUITE, "v1", slugs(100))])
+    run(gh, [finding_for(SUITE, "v1", slugs(250))])
     number = umbrella_of(gh)
     before_ids = [comment["id"] for comment in stored_records(gh, number)]
-    assert len(before_ids) == 2
+    assert len(before_ids) == 5
 
-    run(gh, [finding_for(SUITE, "v1", slugs(150))])
+    run(gh, [finding_for(SUITE, "v1", slugs(300))])
 
     comments = stored_records(gh, number)
-    assert len(comments) == 3, [comment["body"].splitlines()[0] for comment in comments]
-    assert all(" of=3 " in comment["body"].splitlines()[0] for comment in comments)
-    assert [comment["id"] for comment in comments[:2]] == before_ids, "existing chunks are edited in place"
+    assert len(comments) == 6, [comment["body"].splitlines()[0] for comment in comments]
+    assert all(" of=6 " in comment["body"].splitlines()[0] for comment in comments)
+    assert [comment["id"] for comment in comments[:5]] == before_ids, "existing chunks are edited in place"
 
 
 def test_plan_writes_deletes_surplus_chunks_when_the_set_shrinks():

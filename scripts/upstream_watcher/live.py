@@ -165,6 +165,10 @@ class LiveGh:
         finally:
             Path(body_file).unlink(missing_ok=True)
 
+    def delete_comment(self, comment_id: int) -> None:
+        """Delete one issue comment: a surplus record chunk (M7). Any failure raises GhError."""
+        self._run(["gh", "api", "--method", "DELETE", f"repos/{self.repo}/issues/comments/{comment_id}"])
+
     def create_issue(self, title: str, labels: list[str], body: str) -> int:
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as handle:
             handle.write(body)
