@@ -1,0 +1,53 @@
+# Steward issue hygiene: handover for follow-through (2026-10-22)
+
+Campaign: #2130 (reconciliation + closure authority), #2131 (watcher fanout), #2132 (backlog burn-down).
+Integration PR: #2133 (`dev/steward-issue-hygiene` -> `main`, draft). Tip when written: `1abeca4fe`.
+Architecture contract (binding, §0-§9): `2026-10-21-steward-issue-hygiene-architecture.md`.
+The run was stopped by the founder for cost. Nothing below is "done" except what is marked verified.
+
+## Status in one paragraph
+All code lanes are merged into `dev/steward-issue-hygiene`. `POLICY.yaml` ships `issueHygiene.writesEnabled: false`, so the daily routine cannot close anything. No pilot ran, no backlog was burned down, no live dry run completed. The integration branch has NOT been merged to `main`. Independent verification passed the last closure/runner/census round with findings (no HIGH) and the watcher lane last returned FAIL on two highs that were then fixed by C9 without a further independent round.
+
+## Verified (my own runs, GH tokens unset)
+- Combined suite on tip `1abeca4fe`: `tests/steward tests/upstream_watcher tests/test_upstream_approve_workflow.py scripts/upstream_watcher/tests -k "not hardlink"` = 2830 passed, 0 failed.
+- `check_steward_coverage.py --check` ok; `sync_agent_skill_mirror.py --check` in sync; `validate_skills.py` 0 errors.
+- Fixture reconcile (`PYTHONPATH=src python scripts/steward_issue_reconcile.py --census tests/fixtures/issuehygiene/census-four-families.json --now 2026-10-21T19:30:00Z --summary`): children A17 / B78 / C1; umbrellas 4 C / 2 B; 17 A1 closures held as "ready (writes disabled)".
+- skill-cost PR #10 merged to `skill-cost` main (v1.3.2, 131 tests), two independent verification rounds.
+- Last independent round on closure/runner/census (tip `1abeca4fe`): PASS-WITH-FINDINGS, no HIGH (see "Open findings").
+
+## NOT done (the follow-through list, in order)
+1. **Fix the two MEDIUMs from the last verifier**, then ideally one more independent round:
+   - M1: `closure.executeClosure -> diffFields(ownMarker=True)` ignores any `updatedAt` drift once our marker exists, so a maintainer comment ("please don't close") posted between a failed attempt and a retry does not stop the closure. Fix: stale-skip when any comment newer than our marker is not by the closer identity.
+   - M2: duplicate closing comment when the closer identity differs from the existing marker's author or whoami is unavailable (GitHub Actions tokens). Fix: if a marker for (key, closureSha8) exists from any author, do not post; stop with failed/blocked-identity.
+2. **Live census run with a token** (the sandbox has no valid token). The collector was fixed after your first live receipt (GitHub issues listing is cursor-paginated: only rel=next/prev, no first/last). Re-run: `git pull` the tip, `python scripts/steward_issue_census.py --repo gaia-research/gaia-skill-tree --out census-live.json` then `PYTHONPATH=src python scripts/steward_issue_reconcile.py --census census-live.json --summary --matrix matrix-live.json` (dry-run default). If incomplete, the census file records `failingRequest`, `probePage`, `probeRows`, `lastLinkHeader` for diagnosis. Never run this with write flags.
+3. **Limited live pilot (<=5 closures)** only after 1 and 2: throwaway checkout with an UNCOMMITTED local edit to `founder/steward/POLICY.yaml` (`writesEnabled: true`, `maxClosuresPerRun: 5`), run `scripts/steward_issue_reconcile.py --apply-closures --receipts <store path> --repo gaia-research/gaia-skill-tree --i-understand-writes --max-closures 5`. `--apply-closures` goes through the same gate as `scripts/steward_issue_close.py` (writes enabled, rule enabled, fresh complete census, caps, hourly budget 10 per UTC hour, confined receipts store). Then replay for idempotency; expand in batches <=10. 17 A1 closures take two UTC hours by design.
+4. **Founder decisions** (six Class C questions from the fixture: Q-08ecd62d, Q-2568173e, Q-6720aecf, Q-67f85dde, Q-bfd37238, Q-d736d093; plus #2126/#2127 gh-aw trackers, whose gh-aw workflows are still `active` on GitHub; plus B suite batches). Also review the draft wording of the two new founder notes (`reopened-after-closure`, `closure-refused`).
+5. **Fresh independent verification of the watcher lane after C9/C10.** Round-5 returned FAIL on 2 highs (rejected umbrella recreated daily; truncated tree wedges all suites). C9 fixed them (closed-umbrella memory per suite+version; non-recursive subtree walk with a 200-request budget; retry/backoff) with tests only, no independent re-check. The approve/reject workflows have only ever run under bash with a fake `gh`; they have never run on GitHub Actions. Run them in a sandbox before trusting them.
+6. **Merge #2133 to `main`** (merge commit, never squash; label `skip-scope-check` is authorised for branch-scope only; CI must be green on main's checks). Before merging, decide `writesEnabled` (keep false until step 3 evidence exists; the daily 02:45Z Claude Steward routine reads the default branch). After merge, run `gaia steward full run` twice on a `main` checkout (second run must emit zero issue-hygiene actions) and watch one scheduled run.
+7. **Post-deploy migration**: the live approved legacy umbrellas (garrytan/gbrain, heygen-com/hyperframes) have no approval marker, so their next re-fire is refused until a Verifier re-applies `upstream:approved` once.
+8. **Post the final cost receipt** on #2133 and link from #2130 (see Spend). Update the stale text in the scheduled routine prompt ("17 routines", now 18) - founder-owned.
+
+## Open findings (not fixed; all LOW unless noted)
+From the last closure/runner/census verifier: attempts reset by stale-skip lets alternating refusals dodge the retry limit; silent retirement after 3 failed/blocked outcomes (only `refused` escalates); `closedAt` is process-start time not close time (transient false "reopened" flags); an empty first page without a Link header counts as a complete listing (0 rows); `--apply-closures` ignores `--census` (contract says refuse); `/repositories/<id>/issues` continuation not checked against repo metadata; crash reservation counts toward the run cap for its runId forever; non-pair refusals count toward the 3-strike escalation; `executeClosure`/`executeClosures` have no writesEnabled check (only tests call them); forged receipts in the store can mark a pair done (local-trust residual). `scanner.py` reads `PYTEST_CURRENT_TEST` in production code (out of scope). Watcher: bare 403 on any suite poll now stops the whole daily run (exit 3) until fixed, by ruling; `--reset-records` is CLI-only (no workflow input); `.github/workflows/upstream-close-children.yml` closes child issues via `gh issue close` outside the steward gate; the steward's `identity.py` payload regex differs from the watcher's shared `markers.PAYLOAD_RE`. The daily watcher cron (`0 6 * * *`, `--apply`) is live on `main` and contradicts the design doc (F5: "written but commented out"); disabling it is a founder decision, deliberately untouched.
+
+## Incident: issue #1981 was closed live by accident
+A verifier ran `scripts/steward_issue_close.py` with `writesEnabled` true while `GH_TOKEN` was set in the sandbox and the (since removed) env clock override let a stale census through. Result: #1981 `[intake] garrytan/skill-autobench` closed as completed 2026-10-22T04:57:42Z under the founder's account, with the full closing comment (comment 6333084478, preserved payload + A1 proof; ref differs `v0.51.6.0` vs `main`). It is one of the 17 proven A1 closures. NOT reverted: reversing is another live write. The founder decides: keep (recommended) or `gh api -X PATCH repos/gaia-research/gaia-skill-tree/issues/1981 -f state=open` plus delete that comment. Lesson baked into every later brief: run agents with `env -u GH_TOKEN -u GITHUB_TOKEN`.
+
+## Spend (honest accounting)
+Canonical skill-cost 1.3.2 run report, session `3f42d4e9`, window 2026-10-21T19:58Z -> 2026-10-22T08:53Z, 1 main + 29 subagent logs, public-rate equivalent (NOT a bill):
+- lead `claude-sonnet-5-5`: 259 in / 94,142 out / 27.65M cache read / 1.04M cache write = $7.88
+- `claude-haiku-5-5` (subagents): 5,224 in / 2,157,561 out / 745.0M cache read / 12.0M cache write = $10.03
+- total $17.91 public-rate equivalent for this window; Opus advisor not used (no usage found).
+- 980 of 2,670 deduplicated records (36.7%) look like early streaming snapshots (below the 50% flag threshold), so output may still be undercounted.
+- Earlier window (to 2026-10-21T19:57Z) measured $6.75 (lower bound, heavy undercount). The two windows do not overlap, so the log-based total is about $24.7 and is a lower bound.
+- Founder's own interim account count: ~$20 at the time of the first correction (user-supplied, unverified, covers only the earlier part). Ask the founder for the final billed figure and pass it via `--billed-usd`/`--billed-source`. Subscription usage is not an additional API charge.
+
+## Branches and where things live
+- Integration: `dev/steward-issue-hygiene` (tip `1abeca4fe`). Lane branches `dev/steward-issue-hygiene-{a,b,b2..b8,c,c2..c10,d1,d1b,d2,e}` are all merged into it and can be deleted after #2133 lands.
+- Worktrees under `.claude/worktrees/` are local and disposable.
+- Key code: `scripts/steward_issue_census.py`, `src/gaia_cli/steward/issuehygiene/*` (identity, reconcile, closure, executor, sensor, outcomes, hygienepolicy), `scripts/steward_issue_reconcile.py`, `scripts/steward_issue_close.py`, `scripts/steward_drive.py`, `scripts/upstream_watcher/*`, `.github/workflows/upstream-{watcher,approve,close-children,reject}.yml`, skill `.agents/skills/gaia-steward-issue-hygiene/` (+ `.claude` mirror), policy `founder/steward/POLICY.yaml` (`issueHygiene` section), routine 18 in `founder/ROUTINES.md`.
+- Tests: `tests/steward/issuehygiene/` (clock is pinned by a conftest seam, `GAIA_STEWARD_NOW` is gone), `tests/upstream_watcher/` (hermetic: autouse fixture clears tokens), `tests/test_upstream_approve_workflow.py`.
+- skill-cost: merged to `gaia-research/skill-cost` main (PR #10).
+
+## Rules that were in force (do not relitigate)
+Authority is downgrade-only (A -> B -> C). `writesEnabled` false by default; pilot via local uncommitted policy edit. maxInFlight 2, maxDispatchesPerRun 1, maxAttempts 2, cooldown 3600 unchanged; no new cron, no Copilot, no API-key workflow. A1 matches owner/repo + path ignoring simple git refs. Never delete candidate information (closing comments carry the full payload). Merge commits only, never squash, never force-push, never push to `main`. Do not claim the backlog is cleared while legitimate Class B/C remains. Run agents and tests with `env -u GH_TOKEN -u GITHUB_TOKEN`.
