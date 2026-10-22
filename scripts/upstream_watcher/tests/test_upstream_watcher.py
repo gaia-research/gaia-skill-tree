@@ -565,7 +565,9 @@ class TestIdempotency:
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch(
             "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
-        ), patch("scripts.upstream_watcher.issuer._edit_umbrella_body"):
+        ), patch("scripts.upstream_watcher.issuer._edit_umbrella_body"), patch(
+            "scripts.upstream_watcher.issuer._live_issue", return_value={"labels": [], "body": ""}
+        ):
             summaries = create_issues(findings, apply=True)
 
         assert created == []  # No new issue created!
@@ -639,6 +641,8 @@ class TestIdempotency:
             "scripts.upstream_watcher.issuer._create_issue", side_effect=fake_create
         ), patch(
             "scripts.upstream_watcher.issuer._update_issue", side_effect=fake_update
+        ), patch(
+            "scripts.upstream_watcher.issuer._live_issue", return_value={"labels": [], "body": ""}
         ):
             summaries = create_issues(findings, apply=True)
         assert not any("workflow" in call.args[0] for call in run.call_args_list)

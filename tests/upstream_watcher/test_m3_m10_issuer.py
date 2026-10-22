@@ -73,7 +73,9 @@ def test_existing_bootstrap_update_does_not_dispatch_approve():
 
     with patch.object(issuer, "_open_snapshot", return_value=snapshot), patch.object(
         issuer, "_update_issue", return_value=True
-    ), patch.object(issuer.subprocess, "run") as run:
+    ), patch.object(issuer, "_live_issue", return_value={"labels": [], "body": ""}), patch.object(
+        issuer.subprocess, "run"
+    ) as run:
         summaries = create_issues([BOOTSTRAP], apply=True)
 
     assert not any("workflow" in call.args[0] for call in run.call_args_list)

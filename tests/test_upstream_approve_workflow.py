@@ -12,6 +12,8 @@ import pathlib
 import re
 import subprocess
 import sys
+import tempfile
+
 import yaml
 
 WORKFLOW_PATH = (
@@ -306,6 +308,13 @@ elif cmd == "api":
             pages = [rows[i:i + PAGE_SIZE] for i in range(0, len(rows), PAGE_SIZE)] or [[]]
         else:
             pages = [rows[:PAGE_SIZE]]
+        sys.stdout.write("".join(json.dumps(page) for page in pages))
+    elif len(parts) == 6 and parts[3] == "issues" and parts[4].isdigit() and parts[5] in ("events", "comments"):
+        if parts[5] == "events" and FAIL.get("events"):
+            die("HTTP 502 (fake events failure)")
+        table = WORLD.get("events" if parts[5] == "events" else "comment_rows", {})
+        rows = table.get(parts[4], [])
+        pages = [rows[i:i + PAGE_SIZE] for i in range(0, len(rows), PAGE_SIZE)] or [[]]
         sys.stdout.write("".join(json.dumps(page) for page in pages))
     elif len(parts) == 5 and parts[3] == "issues" and parts[4].isdigit():
         number = int(parts[4])
@@ -652,7 +661,8 @@ def _run_sibling_gate(tmp_path, data):
 def test_sibling_gate_refires_approve_when_no_child_is_open(tmp_path):
     result = _run_sibling_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD)))
     assert result.code == 0
-    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}"]]
+    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}",
+                                       "-f", "refire=true"]]
 
 
 def test_sibling_gate_waits_while_a_child_is_open(tmp_path):
@@ -670,7 +680,8 @@ def test_sibling_gate_does_not_wait_on_a_transferred_child(tmp_path):
     payload = v2_payload(("ask-user", 5001))
     result = _run_sibling_gate(tmp_path, world(umbrella_issue(payload), moved=[5001]))
     assert result.code == 0
-    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}"]]
+    assert result.workflow_runs() == [["workflow", "run", "upstream-approve.yml", "-f", f"issue_number={UMBRELLA}",
+                                       "-f", "refire=true"]]
 
 
 def test_sibling_gate_never_refires_on_lookup_failure(tmp_path):
@@ -866,6 +877,7 @@ def _guard(tmp_path, actor, index=None):
     """Run the Verifier guard in a checkout whose registry/named-skills.json is *index* (or absent)."""
     repo = _fresh(tmp_path, "repo")
     (repo / "registry").mkdir()
+    (repo / "scripts").symlink_to(REPO_ROOT / "scripts")
     if index is not None:
         text = index if isinstance(index, str) else json.dumps(index)
         (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
@@ -1160,6 +1172,7 @@ def test_the_reject_close_step_takes_the_issue_number_from_env(tmp_path):
 def test_the_reject_labeler_check_removes_the_label_from_env_issue_number(tmp_path):
     repo = _fresh(tmp_path, "repo")
     (repo / "registry").mkdir()
+    (repo / "scripts").symlink_to(REPO_ROOT / "scripts")
     (repo / "registry" / "named-skills.json").write_text(json.dumps(VERIFIER_INDEX), encoding="utf-8")
     result = run_step(_fresh(tmp_path, "reject-guard"), _step_run(REJECT_PATH, "Check labeler is a Verifier"),
                       world(), {"LABELER": "mallory", "ISSUE_NUMBER": "5000", "SENDER_LOGIN": "mallory"}, cwd=repo)
@@ -1277,7 +1290,8 @@ def _write_sync_change(work, with_artifacts=True):
 def _compare(logins, total=None):
     return {
         "total_commits": len(logins) if total is None else total,
-        "commits": [{"author": {"login": login}, "commit": {"author": {"name": login}}} for login in logins],
+        "commits": [{"author": {"login": login}, "committer": {"login": login},
+                     "commit": {"author": {"name": login}}} for login in logins],
     }
 
 
@@ -1401,3 +1415,381 @@ def test_a_failed_comment_lookup_on_the_umbrella_fails_closed_and_posts_nothing(
                              "UNRESOLVED": "0"})
     assert result.code != 0
     assert result.comments() == []
+
+
+# ---------------------------------------------------------------------------
+# #2131 round-3 verifier FAIL (C7). D1 (extract recomputes the digest and the approval marker covers it),
+# D2 (reject guard fails closed like approve), D3 (a bot re-fire needs refire=true and a Verifier labeler),
+# D5 (branch reuse needs the bot as author AND committer), D6 (re-verify before sync), D7 (a '-->' inside
+# the JSON does not end the payload). Each run block runs under bash with the fake gh.
+# ---------------------------------------------------------------------------
+
+try:  # the shared module the workflows import; absent before the C7 change, so tests fail individually
+    from scripts.upstream_watcher import approval
+except ImportError:  # pragma: no cover - exercised only on the pre-fix tree
+    approval = None
+
+EXTRACT = "Extract payload from issue body"
+APPROVAL_STEP = "Check approval covers this payload"
+REVERIFY_STEP = "Re-verify approval before sync"
+REJECT_GUARD = "Check labeler is a Verifier"
+REJECT_BUILD = "Build the base named-skills index"
+VERIFIER = {"alice"}  # the Verifier in VERIFIER_INDEX
+
+
+def _signed_body(payload):
+    """A umbrella body whose payload block carries the digest the watcher writes."""
+    stored = dict(payload)
+    stored["payloadSha256"] = approval.canonical_hash(stored)
+    return "## Upstream release detected\n\n<!-- gaia-upstream-payload\n" + json.dumps(stored, indent=2) + "\n-->\n"
+
+
+def _issue_with_body(body, labels=("upstream:release", "upstream:approved")):
+    row = umbrella_issue(LEGACY_PAYLOAD, labels=labels)
+    row["body"] = body
+    return row
+
+
+SIGNED = {"payloadVersion": 2, "skillId": "garrytan/gbrain", "previousVersion": "v0", "newVersion": "v1",
+          "releasedAt": "2026-10-21T00:00:00Z", "sourceUrl": "https://github.com/garrytan/gbrain/releases/tag/v1",
+          "mode": "components", "componentAdds": ["ask-user"], "componentRemoves": [], "linkLiveness": [],
+          "nameDrift": [], "candidates": []}
+
+
+def _extract(tmp_path, body, extra_world=None, event="issues", env_extra=None):
+    data = world(_issue_with_body(body), **(extra_world or {}))
+    env = {"ISSUE_NUMBER": str(UMBRELLA), "EVENT_NAME": event, "RUNNER_TEMP": str(tmp_path / "rt")}
+    env.update(env_extra or {})
+    _fresh(tmp_path, "rt")
+    return run_step(tmp_path, _step_run(WORKFLOW_PATH, EXTRACT), data, env, cwd=REPO_ROOT)
+
+
+# -- D1: extract recomputes the digest --------------------------------------------------
+
+
+def test_extract_accepts_a_payload_whose_stored_digest_matches_its_content(tmp_path):
+    result = _extract(tmp_path, _signed_body(SIGNED))
+    assert result.code == 0, result.output
+    assert result.outputs["payload_sha256"] == approval.canonical_hash(SIGNED)
+
+
+def test_extract_refuses_a_componentRemoves_edit_that_keeps_the_stale_stored_digest(tmp_path):
+    body = _signed_body(SIGNED).replace('"componentRemoves": []', '"componentRemoves": [\n    "ghost-skill"\n  ]')
+    assert '"ghost-skill"' in body
+    result = _extract(tmp_path, body)
+    assert result.code == 1, result.output
+    assert "payload" not in result.outputs
+    assert any("does not match" in text for text in result.comments())
+
+
+def test_extract_refuses_a_newVersion_edit_that_keeps_the_stale_stored_digest(tmp_path):
+    body = _signed_body(SIGNED).replace('"newVersion": "v1"', '"newVersion": "v9-forged"')
+    assert "v9-forged" in body
+    result = _extract(tmp_path, body)
+    assert result.code == 1, result.output
+    assert "payload" not in result.outputs
+
+
+def test_extract_reads_a_payload_whose_json_contains_the_terminator_text(tmp_path):
+    # D7: '-->' inside a string used to end the block early, so the payload failed to parse.
+    payload = {**SIGNED, "componentAdds": ["ask-user-->x"]}
+    result = _extract(tmp_path, _signed_body(payload))
+    assert result.code == 0, result.output
+    assert json.loads(result.outputs["payload"])["componentAdds"] == ["ask-user-->x"]
+
+
+def test_extract_still_reads_a_legacy_payload_that_has_no_stored_digest(tmp_path):
+    result = _extract(tmp_path, umbrella_issue(LEGACY_PAYLOAD)["body"])
+    assert result.code == 0, result.output
+    assert result.outputs["skill_id"] == "garrytan/gbrain"
+
+
+# -- D1: the approval marker -------------------------------------------------------------
+
+
+def _marker_run(tmp_path, event, sha, comment_rows=None, env_extra=None):
+    data = world(umbrella_issue(LEGACY_PAYLOAD), comment_rows={str(UMBRELLA): comment_rows or []})
+    env = {"EVENT_NAME": event, "ISSUE_NUMBER": str(UMBRELLA), "PAYLOAD_SHA": sha}
+    env.update(env_extra or {})
+    return run_step(_fresh(tmp_path, "marker"), _step_run(WORKFLOW_PATH, APPROVAL_STEP), data, env, cwd=REPO_ROOT)
+
+
+def _bot_marker(sha, comment_id=1):
+    return {"id": comment_id, "body": approval.approval_marker(sha),
+            "user": {"login": BOT_LOGIN, "type": "Bot"}}
+
+
+def test_a_labeled_approval_records_the_marker_for_the_payload_it_covers(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    result = _marker_run(tmp_path, "issues", sha)
+    assert result.code == 0, result.output
+    posted = [body for body in result.comments() if approval.approval_marker(sha) in body]
+    assert len(posted) == 1
+
+
+def test_a_labeled_approval_for_an_already_recorded_payload_posts_nothing_new(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    result = _marker_run(tmp_path, "issues", sha, comment_rows=[_bot_marker(sha)])
+    assert result.code == 0, result.output
+    assert result.comments() == []
+
+
+def test_a_dispatch_refuses_a_payload_that_no_approval_covers(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    result = _marker_run(tmp_path, "workflow_dispatch", sha, comment_rows=[_bot_marker("0" * 64)])
+    assert result.code == 1, result.output
+    assert any("does not cover" in text for text in result.comments())
+
+
+def test_a_dispatch_accepts_the_payload_the_bot_marker_covers(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    result = _marker_run(tmp_path, "workflow_dispatch", sha, comment_rows=[_bot_marker(sha)])
+    assert result.code == 0, result.output
+
+
+def test_a_marker_written_by_a_human_is_not_an_approval(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    human = {"id": 2, "body": approval.approval_marker(sha), "user": {"login": "mallory", "type": "User"}}
+    result = _marker_run(tmp_path, "workflow_dispatch", sha, comment_rows=[human])
+    assert result.code == 1, result.output
+
+
+# -- D6: re-verify the approval and the payload immediately before the sync -------------
+
+
+def _reverify(tmp_path, issue, sha, comment_rows):
+    data = world(issue, comment_rows={str(UMBRELLA): comment_rows})
+    return run_step(_fresh(tmp_path, "reverify"), _step_run(WORKFLOW_PATH, REVERIFY_STEP), data,
+                    {"ISSUE_NUMBER": str(UMBRELLA), "PAYLOAD_SHA": sha}, cwd=REPO_ROOT)
+
+
+def test_reverify_passes_an_open_approved_umbrella_whose_payload_is_the_approved_one(tmp_path):
+    issue = _issue_with_body(_signed_body(SIGNED))
+    sha = approval.canonical_hash(SIGNED)
+    assert _reverify(tmp_path, issue, sha, [_bot_marker(sha)]).code == 0
+
+
+def test_reverify_refuses_a_payload_edited_after_extraction(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    edited = _signed_body(SIGNED).replace('"newVersion": "v1"', '"newVersion": "v2"')
+    result = _reverify(tmp_path, _issue_with_body(edited), sha, [_bot_marker(sha)])
+    assert result.code == 1, result.output
+
+
+def test_reverify_refuses_a_closed_umbrella(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    issue = {**_issue_with_body(_signed_body(SIGNED)), "state": "closed"}
+    result = _reverify(tmp_path, issue, sha, [_bot_marker(sha)])
+    assert result.code == 1 and "not open" in result.output
+
+
+def test_reverify_refuses_an_umbrella_whose_approval_was_withdrawn(tmp_path):
+    sha = approval.canonical_hash(SIGNED)
+    issue = _issue_with_body(_signed_body(SIGNED), labels=("upstream:release",))
+    result = _reverify(tmp_path, issue, sha, [_bot_marker(sha)])
+    assert result.code == 1 and "upstream:approved" in result.output
+
+
+def test_reverify_is_ordered_after_the_unresolved_count_and_before_the_branch():
+    names = _step_names(_load()["jobs"]["approve"]["steps"])
+    assert names.index("Count unresolved candidate rows") < names.index(REVERIFY_STEP) < names.index("Create sync branch")
+    run = _step_run(WORKFLOW_PATH, REVERIFY_STEP)
+    assert "from scripts.upstream_watcher.approval import" in run
+
+
+def test_the_approval_marker_step_runs_before_the_child_gate_so_a_blocked_approval_is_still_recorded():
+    names = _step_names(_load()["jobs"]["approve"]["steps"])
+    assert names.index(EXTRACT) < names.index(APPROVAL_STEP) < names.index("Check child gate")
+
+
+# -- D3: the approve guard and a bot re-fire ---------------------------------------------
+
+BOT_ACTOR = "github-actions[bot]"
+
+
+def _guard_run(tmp_path, *, event, actor, labels_events=None, refire="", index=VERIFIER_INDEX, fail=None):
+    scratch = pathlib.Path(tempfile.mkdtemp(dir=tmp_path))
+    repo = _fresh(scratch, "repo")
+    (repo / "registry").mkdir()
+    (repo / "scripts").symlink_to(REPO_ROOT / "scripts")
+    if index is not None:
+        text = index if isinstance(index, str) else json.dumps(index)
+        (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
+    data = world(umbrella_issue(LEGACY_PAYLOAD), events={str(UMBRELLA): labels_events or []}, fail=fail or {})
+    env = {"LABELER": actor, "ISSUE_NUMBER": str(UMBRELLA), "EVENT_NAME": event, "INPUT_REFIRE": refire}
+    return run_step(_fresh(scratch, "guard-run"), _step_run(WORKFLOW_PATH, GUARD), data, env, cwd=repo)
+
+
+def _labeled(event_id, actor, label="upstream:approved"):
+    return {"id": event_id, "event": "labeled", "label": {"name": label}, "actor": {"login": actor}}
+
+
+def test_guard_labeled_by_a_verifier_passes(tmp_path):
+    assert _guard_run(tmp_path, event="issues", actor="alice").code == 0
+
+
+def test_guard_labeled_by_a_non_verifier_is_refused(tmp_path):
+    result = _guard_run(tmp_path, event="issues", actor="mallory")
+    assert result.code == 1 and "does not hold a 4★+" in result.comments()[0]
+
+
+def test_guard_labeled_by_an_allowlisted_bot_keeps_its_existing_treatment(tmp_path):
+    assert _guard_run(tmp_path, event="issues", actor=BOT_ACTOR).code == 0
+
+
+def test_guard_bot_redispatch_without_refire_true_is_refused_even_for_a_verifier_label(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="",
+                        labels_events=[_labeled(5, "alice")])
+    assert result.code == 1, result.output
+    assert any("refire" in text for text in result.comments())
+
+
+def test_guard_bot_redispatch_with_refire_passes_when_the_latest_labeler_is_a_verifier(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=[_labeled(5, "alice")])
+    assert result.code == 0, result.output
+
+
+def test_guard_bot_redispatch_is_refused_when_the_latest_labeler_is_not_a_verifier(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=[_labeled(5, "mallory")])
+    assert result.code == 1, result.output
+
+
+def test_guard_bot_redispatch_reads_the_most_recent_labeling_not_an_earlier_one(tmp_path):
+    events = [_labeled(3, "alice"), _labeled(9, "mallory")]
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=events)
+    assert result.code == 1, "the verifier labeled first, but the most recent label was not a verifier's"
+
+
+def test_guard_bot_redispatch_ignores_label_events_for_other_labels(tmp_path):
+    events = [_labeled(3, "alice"), _labeled(9, "mallory", label="skip-child-gate")]
+    assert _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                      labels_events=events).code == 0
+
+
+def test_guard_bot_redispatch_fails_closed_when_the_events_cannot_be_read(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=[_labeled(5, "alice")], fail={"events": True})
+    assert result.code == 1, result.output
+
+
+def test_guard_bot_redispatch_with_no_labeling_event_is_refused(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true", labels_events=[])
+    assert result.code == 1, result.output
+
+
+def test_guard_bot_redispatch_accepts_the_human_allowlist_handle_as_labeler(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=[_labeled(5, "mbtiongson1")])
+    assert result.code == 0, result.output
+
+
+def test_guard_bot_redispatch_is_refused_when_the_index_is_missing(tmp_path):
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor=BOT_ACTOR, refire="true",
+                        labels_events=[_labeled(5, "alice")], index=None)
+    assert result.code == 1, result.output
+
+
+def test_guard_human_redispatch_still_needs_a_verifier_actor(tmp_path):
+    assert _guard_run(tmp_path, event="workflow_dispatch", actor="alice").code == 0
+    assert _guard_run(tmp_path, event="workflow_dispatch", actor="mallory").code == 1
+
+
+def test_close_children_refire_names_refire_true_so_the_guard_can_check_the_labeler():
+    text = CLOSE_CHILDREN_PATH.read_text(encoding="utf-8")
+    assert "-f issue_number=\"$UMBRELLA_NUMBER\" -f refire=true" in text
+
+
+def test_approve_workflow_declares_the_refire_input_as_a_string_default_false():
+    doc = _load()
+    triggers = doc.get("on") or doc.get(True)
+    assert triggers["workflow_dispatch"]["inputs"]["refire"]["default"] == "false"
+
+
+# -- D2: the reject guard fails closed on a missing, empty or unparseable index ----------
+
+
+def _reject_guard(tmp_path, actor, index=None):
+    scratch = pathlib.Path(tempfile.mkdtemp(dir=tmp_path))
+    repo = _fresh(scratch, "repo")
+    (repo / "registry").mkdir()
+    (repo / "scripts").symlink_to(REPO_ROOT / "scripts")
+    if index is not None:
+        text = index if isinstance(index, str) else json.dumps(index)
+        (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
+    return run_step(_fresh(scratch, "reject-run"), _step_run(REJECT_PATH, REJECT_GUARD), world(),
+                    {"LABELER": actor, "ISSUE_NUMBER": "5000", "SENDER_LOGIN": actor}, cwd=repo)
+
+
+def test_reject_guard_denies_a_missing_index_and_removes_the_label(tmp_path):
+    result = _reject_guard(tmp_path, "mallory", index=None)
+    assert result.code == 1
+    assert ["issue", "remove-label", "5000", "upstream:rejected"] in result.calls
+
+
+def test_reject_guard_denies_an_unparseable_index(tmp_path):
+    result = _reject_guard(tmp_path, "mallory", index="{not json")
+    assert result.code == 1 and ["issue", "remove-label", "5000", "upstream:rejected"] in result.calls
+
+
+def test_reject_guard_denies_an_empty_index_instead_of_bootstrapping(tmp_path):
+    result = _reject_guard(tmp_path, "mallory", index={"buckets": {}})
+    assert result.code == 1 and ["issue", "remove-label", "5000", "upstream:rejected"] in result.calls
+
+
+def test_reject_guard_denies_a_bucket_that_is_not_a_list_of_entries(tmp_path):
+    result = _reject_guard(tmp_path, "mallory", index={"buckets": {"stars": "oops"}})
+    assert result.code == 1
+
+
+def test_reject_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
+    assert _reject_guard(_fresh(tmp_path, "a"), "alice", index=VERIFIER_INDEX).code == 0
+    assert _reject_guard(_fresh(tmp_path, "b"), "mallory", index=VERIFIER_INDEX).code == 1
+
+
+def test_reject_guard_grants_bootstrap_only_for_a_parseable_non_empty_index_with_no_verifier(tmp_path):
+    assert _reject_guard(tmp_path, "mallory", index=NO_VERIFIER_INDEX).code == 0
+
+
+def test_reject_workflow_builds_the_index_before_its_guard():
+    doc = yaml.safe_load(REJECT_PATH.read_text(encoding="utf-8"))
+    names = _step_names(doc["jobs"]["reject"]["steps"])
+    assert names.index(REJECT_BUILD) < names.index(REJECT_GUARD)
+    build = _step_run(REJECT_PATH, REJECT_BUILD)
+    assert "scripts/assemble_gaia.py" in build and "scripts/generateNamedIndex.py" in build
+
+
+# -- D5: a reused branch must be the bot's own work as author AND committer -------------
+
+
+def _branch_with(tmp_path, compare):
+    origin, seed, work = _sandbox(tmp_path)
+    _remote_branch(seed, SYNC_BRANCH, BOT_LOGIN)
+    before = _remote_sha(origin, SYNC_BRANCH)
+    result = run_step(_fresh(tmp_path, "branch-d5"), _step_run(WORKFLOW_PATH, "Create sync branch"),
+                      world(compare=compare), {"SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1"}, cwd=work)
+    return result, origin, before
+
+
+def test_a_branch_commit_with_a_null_author_is_refused_even_when_its_name_is_the_bot(tmp_path):
+    compare = {"total_commits": 1, "commits": [{"author": None, "committer": {"login": BOT_LOGIN},
+                                                 "commit": {"author": {"name": BOT_LOGIN}}}]}
+    result, origin, before = _branch_with(tmp_path, compare)
+    assert result.code == 1 and "unrelated" in result.output
+    assert _remote_sha(origin, SYNC_BRANCH) == before
+
+
+def test_a_branch_commit_whose_committer_is_not_the_bot_is_refused(tmp_path):
+    compare = {"total_commits": 1, "commits": [{"author": {"login": BOT_LOGIN}, "committer": {"login": "mallory"},
+                                                 "commit": {"author": {"name": BOT_LOGIN}}}]}
+    result, _origin, _before = _branch_with(tmp_path, compare)
+    assert result.code == 1 and "unrelated" in result.output
+
+
+def test_a_branch_commit_with_no_committer_object_is_refused(tmp_path):
+    compare = {"total_commits": 1, "commits": [{"author": {"login": BOT_LOGIN}, "committer": None,
+                                                 "commit": {"author": {"name": BOT_LOGIN}}}]}
+    result, _origin, _before = _branch_with(tmp_path, compare)
+    assert result.code == 1

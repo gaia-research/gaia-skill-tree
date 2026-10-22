@@ -132,17 +132,22 @@ def test_rerun_with_no_change_performs_zero_writes():
     assert report["suites"][0]["outcome"] == "noop"
 
 
-def test_a_changed_row_edits_only_the_chunk_that_holds_it_and_the_body():
+def test_a_changed_row_writes_a_new_generation_and_never_edits_a_chunk_in_place():
+    # D4: a changed row is a new generation. Its five chunks are created as new comments, the body switches
+    # to them, and the five superseded comments are deleted after the switch. Nothing is edited in place.
     gh = FakeGh()
     run(gh, finding("v1", slugs(250)))
     gh.add(child(7001, "skill-010"))  # an open intake now tracks row skill-010
     before = len(gh.writes)
     report, code = run(gh, finding("v1", slugs(250)))
     assert code == 0
-    new_writes = gh.writes[before:]
-    assert [w[0] for w in new_writes].count("edit_comment") == 1, new_writes
-    assert [w[0] for w in new_writes].count("comment") == 0, new_writes
-    assert [w[0] for w in new_writes].count("edit") == 1, new_writes
+    kinds = [w[0] for w in gh.writes[before:]]
+    assert kinds.count("edit_comment") == 0, kinds
+    assert kinds.count("comment") == 5, kinds
+    assert kinds.count("edit") == 1, kinds
+    assert kinds.count("delete_comment") == 5, kinds
+    assert kinds.index("edit") > kinds.index("comment"), "the body switches after the new chunks exist"
+    assert kinds.index("edit") < kinds.index("delete_comment"), "the old generation goes after the switch"
     number, body = umbrella_body(gh)
     rows = {row["slug"]: row for row in load_rows(gh, number, payload_of(body))}
     assert rows["skill-010"]["status"] == "tracked"
@@ -235,5 +240,6 @@ def test_chunks_are_packed_so_each_comment_stays_under_the_limit():
     ]
     chunks = records.chunk_rows(rows)
     assert [len(chunk) for chunk in chunks] == [50, 50, 20]
+    generation = records.rows_digest(rows)
     for index, chunk in enumerate(chunks, start=1):
-        assert len(records.render_chunk(index, len(chunks), chunk)) <= records.COMMENT_LIMIT
+        assert len(records.render_chunk(generation, index, len(chunks), chunk)) <= records.COMMENT_LIMIT
