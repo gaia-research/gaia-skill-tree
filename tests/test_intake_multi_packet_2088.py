@@ -203,10 +203,6 @@ def test_manifest_canonical_end_to_end(tmp_path, monkeypatch, capsys):
     assert errors == []
     batches = root / "registry-for-review/skill-batches"
     batches.mkdir()
-    # The current producer emits submissionKey; the checked-in batch schema has
-    # not yet declared it, so validate the canonical proposal shape without that
-    # currently schema-incompatible metadata field.
-    batch.pop("submissionKey", None)
     (batches / "batch.json").write_text(json.dumps(batch), encoding="utf-8")
     errors, warnings, count = validate_intake(str(batches.parent), str(root / "registry/gaia.json"), str(SCHEMA))
     assert errors == []

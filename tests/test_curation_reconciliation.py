@@ -437,10 +437,10 @@ def test_prior_deferred_receipt_is_retained_by_default_and_reopened_on_request(r
     frozen = inventory(registry, 1)
     row = frozen["candidates"][0]
     prior = receipt(row, registry, "deferred", reason="temporary source failure")
-    # A real optional assessment avoids Fanout's artifact-snapshot fallback;
-    # the separate fail-safe test verifies assessment-free DEFER reconciliation.
-    prior_packet = packet(row, decision="DEFER")
-    prior["assessment"] = buildAssessment(prior_packet, registryPath=registry)
+    # A plain DEFER has no assessment: it asserts no reviewed decision, so
+    # Fanout must retain it rather than demanding artifacts that cannot
+    # truthfully exist for a candidate whose source could not be fetched.
+    assert "assessment" not in prior and "assessmentBytes" not in prior
     seen = []
 
     def worker(task, attempt):

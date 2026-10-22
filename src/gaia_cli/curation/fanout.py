@@ -33,9 +33,20 @@ def shardFor(candidateId: str, shardCount: int) -> int:
 
 
 def _snapshot(receipt: Mapping[str, Any], packetRoot: str) -> dict[str, Any]:
+    """Capture the ACTUAL artifact bytes a receipt refers to.
+
+    A plain DEFER receipt may legitimately have no assessment: it asserts no
+    reviewed decision. Forcing an assessment there would pressure fabrication,
+    so assessment bytes are captured only when the receipt actually points at
+    one. Every other outcome still requires assessment bytes, and the
+    reconciliation contract rejects a receipt whose digest does not match.
+    """
     captured = copy.deepcopy(dict(receipt))
     captured["packetBytes"] = bytes(_safe_packet_bytes(captured, Path(packetRoot)))
-    if "assessmentBytes" not in captured and not isinstance(captured.get("assessment"), Mapping):
+    has_assessment = ("assessmentBytes" in captured
+                      or isinstance(captured.get("assessment"), Mapping)
+                      or bool(captured.get("assessmentPath")))
+    if has_assessment and "assessmentBytes" not in captured and not isinstance(captured.get("assessment"), Mapping):
         captured["assessmentBytes"] = bytes(_safe_packet_bytes({"packetPath": captured.get("assessmentPath")}, Path(packetRoot)))
     return captured
 
