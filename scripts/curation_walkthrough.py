@@ -25,13 +25,25 @@ from gaia_cli.curation.reconciliation import (  # noqa: E402
     reconcileInventory,
     sha256,
 )
+from gaia_cli.curation.errors import (  # noqa: E402
+    classify_refusals,
+    public_detail,
+)
 
 RESULTS: list[tuple[str, bool, str]] = []
 
 
-def check(label: str, ok: bool, detail: str = "") -> None:
-    RESULTS.append((label, bool(ok), detail))
-    print(f"  [{'PASS' if ok else 'FAIL'}] {label}" + (f" — {detail}" if detail else ""))
+def check(label: str, ok: bool, code: str = "") -> None:
+    """Record a check result and print a bounded, non-sensitive summary.
+
+    ``code`` is a console-safe token (an uppercase identifier). It is the only
+    dynamic text this script prints: refusal text, exception renderings and
+    payloads are never echoed, because they can carry upstream content. A code
+    that is not a safe token is withheld rather than printed.
+    """
+    RESULTS.append((label, bool(ok), code))
+    safe = public_detail(code) if code else ""
+    print(f"  [{'PASS' if ok else 'FAIL'}] {label}" + (f" — {safe}" if safe else ""))
 
 
 def make_registry(root: Path) -> Path:
@@ -173,9 +185,9 @@ def walkthrough_small_batch() -> None:
 
         check("every expected candidate is accounted for exactly once",
               report["accounted"] and len(report["decisions"]) == 3,
-              f"decisions={len(report['decisions'])}")
+              "DECISIONS_EXPECTED_3")
         check("all three are review-ready with no loss",
-              report["counts"]["review-ready"] == 3, json.dumps(report["counts"]))
+              report["counts"]["review-ready"] == 3, "REVIEW_READY_COUNT_3")
         check("reconciliation never claims human approval", report["humanApproved"] is False)
         check("each row keeps its own exact named identity",
               {d["namedIdentity"] for d in report["decisions"]} ==
@@ -227,10 +239,10 @@ def walkthrough_small_batch() -> None:
         # structural check, otherwise this proves nothing about human authority.
         check("locally authored humanReview does NOT authorize",
               any("protected human authorization is not configured" in error for error in errors),
-              "; ".join(errors)[:160])
+              classify_refusals(errors))
         check("the refusal is the independent-authorization gate, not a shape error",
               errors == ["independent protected human authorization is not configured; L4 remains pending"],
-              "; ".join(errors)[:160])
+              classify_refusals(errors))
 
 
 def walkthrough_suite() -> None:
@@ -246,8 +258,8 @@ def walkthrough_suite() -> None:
         report = reconcileInventory(frozen, receipts, packetRoot=str(registry))
 
         check("six distinct named candidates stay six rows", len(report["decisions"]) == 6,
-              f"decisions={len(report['decisions'])}")
-        check("all six are review-ready", report["counts"]["review-ready"] == 6, json.dumps(report["counts"]))
+              "DECISIONS_EXPECTED_6")
+        check("all six are review-ready", report["counts"]["review-ready"] == 6, "REVIEW_READY_COUNT_6")
         check("six distinct named identities survive",
               len({d["namedIdentity"] for d in report["decisions"]}) == 6)
         check("they share exactly one generic",
@@ -262,7 +274,7 @@ def walkthrough_suite() -> None:
         forged_report = reconcileInventory(frozen, [forged] + receipts[1:], packetRoot=str(registry))
         check("a shared generic is not an exact duplicate",
               forged_report["decisions"][0]["outcome"] == "deferred",
-              forged_report["decisions"][0]["reason"][:80])
+              "OUTCOME_DEFERRED")
 
         # An exact duplicate must name a different surviving target with the
         # same source proof.
@@ -287,7 +299,7 @@ def walkthrough_suite() -> None:
         by_id = {d["candidateId"]: d for d in dup_report["decisions"]}
         check("a genuine exact duplicate with a surviving target is proven",
               by_id["suite/motion/1"]["outcome"] == "proven-duplicate",
-              by_id["suite/motion/1"]["reason"] or "ok")
+              "OUTCOME_PROVEN_DUPLICATE")
         check("its surviving target remains review-ready",
               by_id["suite/motion/0"]["outcome"] == "review-ready")
 

@@ -41,6 +41,10 @@ from gaia_cli.curation.authorization import (
     verifyPacketAuthorization,
     verifyFreshness,
 )
+from gaia_cli.curation.errors import (
+    CATEGORY_AUTHORIZATION,
+    public_refusal_lines,
+)
 
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
@@ -530,7 +534,12 @@ def buildIntakeYaml(
             reviewInventory=reviewInventory, continuation=continuation,
         )
         if authErrors:
-            raise ValueError("human authorization failed closed: " + "; ".join(authErrors))
+            # The refusal text is published by the authorization seam and may,
+            # once a protected ceremony exists, carry provider or environment
+            # detail. It is reduced to the public contract before it can
+            # reach a console.
+            raise ValueError("human authorization failed closed: " + "; ".join(
+                public_refusal_lines(authErrors, CATEGORY_AUTHORIZATION)))
     skills = [
         # The complete inventory was authenticated above. Leaf adaptation is
         # structural only: it must not substitute a single-packet approval for

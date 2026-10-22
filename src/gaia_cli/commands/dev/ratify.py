@@ -31,6 +31,15 @@ from gaia_cli.namedIdentity import COLLISION_FIX, identityProblem, validateContr
 from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket, _importPacketValidator
 from gaia_cli.curation.assessment import validateAssessment, loadGenericSemantics
 from gaia_cli.curation.authorization import verifyPacketAuthorization, verifyFreshness
+from gaia_cli.curation.errors import (
+    CATEGORY_AUTHORIZATION,
+    CATEGORY_ENVELOPE,
+    CATEGORY_FRESHNESS,
+    CATEGORY_RESOLUTION,
+    CATEGORY_SELF_VALIDATION,
+    public_refusal,
+    public_refusal_lines,
+)
 
 
 def _splitPrereqs(prereqs):
@@ -315,8 +324,8 @@ def ratifyCommand(args):
     assessment_errors = validateAssessment(receipt, packet, registry_path)
     if assessment_errors:
         print("Ratification rejected: assessment verification failed:", file=sys.stderr)
-        for err in assessment_errors:
-            print(f"  - {err}", file=sys.stderr)
+        for line in public_refusal_lines(assessment_errors, CATEGORY_RESOLUTION):
+            print(f"  - {line}", file=sys.stderr)
         return 1
 
     # Fail closed if packet validator is unavailable
@@ -428,8 +437,8 @@ def ratifyCommand(args):
     )
     if resolutionErrors:
         print("Ratification validation failed:", file=sys.stderr)
-        for err in resolutionErrors:
-            print(f"  - {err}", file=sys.stderr)
+        for line in public_refusal_lines(resolutionErrors, CATEGORY_RESOLUTION):
+            print(f"  - {line}", file=sys.stderr)
         return 1
 
     # Self-validate the packet against the LIVE registry's generic snapshot —
@@ -442,8 +451,8 @@ def ratifyCommand(args):
     selfValidateErrors = selfValidatePacket(testPacket, trustedGenerics=liveGenerics)
     if selfValidateErrors:
         print("Packet self-validation failed:", file=sys.stderr)
-        for err in selfValidateErrors:
-            print(f"  - {err}", file=sys.stderr)
+        for line in public_refusal_lines(selfValidateErrors, CATEGORY_SELF_VALIDATION):
+            print(f"  - {line}", file=sys.stderr)
         return 1
 
     # Freshness and independent human authorization are separate gates. CLI
@@ -451,8 +460,8 @@ def ratifyCommand(args):
     freshnessErrors = verifyFreshness(testPacket, registryPath=registry_path)
     if freshnessErrors:
         print("Ratification rejected: packet freshness verification failed:", file=sys.stderr)
-        for err in freshnessErrors:
-            print(f"  - {err}", file=sys.stderr)
+        for line in public_refusal_lines(freshnessErrors, CATEGORY_FRESHNESS):
+            print(f"  - {line}", file=sys.stderr)
         return 1
     authorizationEnvelope = None
     envelopePath = getattr(args, "authorization_envelope", None)
@@ -460,8 +469,12 @@ def ratifyCommand(args):
         try:
             with open(envelopePath, "r", encoding="utf-8") as handle:
                 authorizationEnvelope = json.load(handle)
-        except (OSError, json.JSONDecodeError) as exc:
-            print(f"Ratification rejected: invalid authorization envelope: {exc}", file=sys.stderr)
+        except (OSError, json.JSONDecodeError):
+            # The envelope is where authorization material would live, so the
+            # parse failure is reported without echoing the document or the
+            # decoder's rendering of it.
+            print("Ratification rejected: invalid authorization envelope.", file=sys.stderr)
+            print(f"  - {public_refusal(CATEGORY_ENVELOPE)}", file=sys.stderr)
             return 1
     authorizationErrors = verifyPacketAuthorization(
         testPacket, registryPath=registry_path, submissionRoute="single-packet",
@@ -470,8 +483,8 @@ def ratifyCommand(args):
     )
     if authorizationErrors:
         print("Ratification rejected: independent human authorization failed:", file=sys.stderr)
-        for err in authorizationErrors:
-            print(f"  - {err}", file=sys.stderr)
+        for line in public_refusal_lines(authorizationErrors, CATEGORY_AUTHORIZATION):
+            print(f"  - {line}", file=sys.stderr)
         return 1
 
     # Pre-flight passed — write the packet atomically

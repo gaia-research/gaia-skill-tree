@@ -29,13 +29,27 @@ from gaia_cli.curation.reconciliation import (  # noqa: E402
     reconcileInventory,
     sha256,
 )
+from gaia_cli.curation.errors import (  # noqa: E402
+    CATEGORY_AUTHORIZATION,
+    public_detail,
+    public_reason,
+    classify_refusals,
+)
 
 RESULTS: list[tuple[str, bool, str]] = []
 
 
-def check(label: str, ok: bool, detail: str = "") -> None:
-    RESULTS.append((label, bool(ok), detail))
-    print(f"  [{'PASS' if ok else 'FAIL'}] {label}" + (f" — {detail}" if detail else ""))
+def check(label: str, ok: bool, code: str = "") -> None:
+    """Record a check result and print a bounded, non-sensitive summary.
+
+    ``code`` is a console-safe token (an uppercase identifier). It is the only
+    dynamic text this script prints: refusal text, exception renderings and
+    payloads are never echoed, because they can carry upstream content. A code
+    that is not a safe token is withheld rather than printed.
+    """
+    RESULTS.append((label, bool(ok), code))
+    safe = public_detail(code) if code else ""
+    print(f"  [{'PASS' if ok else 'FAIL'}] {label}" + (f" — {safe}" if safe else ""))
 
 
 def make_registry(root: Path) -> None:
@@ -130,7 +144,7 @@ def gate_production_refusal() -> None:
         errors = verifyPacketAuthorization([packet], registryPath=str(root))
         check("a locally ratified packet is refused by the production verifier",
               errors == ["independent protected human authorization is not configured; L4 remains pending"],
-              "; ".join(errors))
+              classify_refusals(errors))
         check("the production trust seam denies unconditionally",
               _verifyTrustedEnvelope(None, None, registryPath=str(root)) ==
               ["independent protected human authorization is not configured; L4 remains pending"])
@@ -144,7 +158,7 @@ def gate_legitimate_flow() -> None:
         write_artifacts(root, packet)
         frozen, report, receipt = accounting_for(root, packet, content, "owner/exact-name")
         check("the legitimate reconciliation is review-ready",
-              report["decisions"][0]["outcome"] == "review-ready", report["decisions"][0].get("reason", ""))
+              report["decisions"][0]["outcome"] == "review-ready", "OUTCOME_REVIEW_READY")
         assessment = json.loads((root / "generated-output/curation/tool.assessment.json").read_text())
         try:
             buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
@@ -153,10 +167,10 @@ def gate_legitimate_flow() -> None:
                                reviewInventory={"inventory": frozen, "reconciliation": report,
                                                 "receipts": [receipt]})
             built = True
-            detail = "payload built from genuine receipts"
+            detail = "PAYLOAD_BUILT"
         except Exception as exc:
             built = False
-            detail = f"{type(exc).__name__}: {exc}"
+            detail = public_reason(str(exc))
         check("the legitimate batch builds an authorization payload", built, detail)
 
 
@@ -174,9 +188,9 @@ def gate_forgery() -> None:
                 buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
                                    manifestDigest="c" * 64, inventory=[packet],
                                    assessments={packet["candidateId"]: assessment}, reviewInventory=review)
-                check(label, False, "ACCEPTED")
+                check(label, False, "FORGERY_ACCEPTED")
             except ValueError as exc:
-                check(label, expect in str(exc), str(exc)[:110])
+                check(label, expect in str(exc), public_reason(str(exc)))
 
         attempt("a report with no receipts is refused",
                 {"inventory": frozen, "reconciliation": report}, "receipts")
@@ -206,7 +220,7 @@ def gate_forgery() -> None:
         frozen, report, receipt = accounting_for(root, mapping, content, "forged/spoofed")
         check("a mapping-form top-level identity binding is refused",
               report["decisions"][0]["outcome"] == "deferred",
-              report["decisions"][0].get("reason", "")[:90])
+              "OUTCOME_DEFERRED")
 
 
 def gate_scope_integrity() -> None:
@@ -216,7 +230,7 @@ def gate_scope_integrity() -> None:
 
     changed = run("git", "diff", "--name-only", "origin/main...HEAD", "--", "registry/")
     check("no canonical registry DATA changed", all("schema" in path for path in changed.splitlines()),
-          changed.replace("\n", " "))
+          "REGISTRY_DATA_UNCHANGED")
     for path in ("src/gaia_cli/commands/curate.py", "src/gaia_cli/curation/orchestrator.py"):
         same = run("git", "diff", "--quiet", "origin/main", "HEAD", "--", path)
         check(f"main's {path} is byte-identical", same == "")
