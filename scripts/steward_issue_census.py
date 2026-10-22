@@ -40,6 +40,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import tempfile
 import urllib.error
@@ -212,6 +213,25 @@ def sameOrigin(url: str) -> bool:
     return (given.scheme, given.netloc) == (configured.scheme, configured.netloc)
 
 
+REPOSITORY_ISSUES = re.compile(r"^/repositories/(\d+)/issues$")
+
+
+def stateFilter(url: str) -> list[str] | None:
+    return urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("state")
+
+
+def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
+    """Whether a ``next`` link continues THIS listing (B8 M-1): the API origin, one of the listing's paths, and the same state.
+
+    The allowed paths are the start query's path and, when GitHub names the repository by id, the ``/repositories/<id>/issues``
+    form learned from the first page's own links. A link to another repository, another endpoint or another state
+    filter is a foreign continuation.
+    """
+    if not sameOrigin(url):
+        return False
+    return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start)
+
+
 def pageNumber(url: str) -> int | None:
     query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
     values = query.get("page")
@@ -311,7 +331,8 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
     be empty, and it is not counted. A non-empty probe means the listing continued without a link, so
     the walk fails closed as ``unlinked-continuation`` and its rows are not adopted. A linked page that
     comes back empty fails closed as ``empty-linked-page``. Any 3xx fails closed as ``redirected``, and a
-    ``next`` link off the API origin fails closed as ``foreign-continuation``. Page length is never
+    ``next`` link that is not this listing (another origin, path or state filter) fails closed as ``foreign-continuation``.
+    Page length is never
     evidence: ``per_page`` is a request the server may not honour.
     """
     listing = Listing()
@@ -320,6 +341,7 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
     requested: set[str] = set()
     links: dict[str, str] = {}
     page: list = []
+    allowedPaths = {urllib.parse.urlsplit(start).path}
     while True:
         if listing.pagesFetched >= MAX_PAGES:
             listing.reason = "page-cap-exceeded"
@@ -338,6 +360,12 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
         listing.pagesFetched += 1
         listing.lastLinkHeader = headerValue(got.response.headers, "link")
         links = parseLinks(listing.lastLinkHeader)
+        if not viaNext:
+            # The first page's own links name this listing by repository id when GitHub uses that form (B8 M-1).
+            for target in links.values():
+                match = REPOSITORY_ISSUES.match(urllib.parse.urlsplit(target).path)
+                if match:
+                    allowedPaths.add(f"/repositories/{match.group(1)}/issues")
         if "last" in links:
             listing.lastLink = links["last"]
             listing.expectedPages = pageNumber(links["last"])
@@ -345,7 +373,7 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
                 return failListing(listing, "last-page-unparsable", url)
         if "next" not in links:
             break
-        if not sameOrigin(links["next"]):
+        if not sameListing(links["next"], start, allowedPaths):
             return failListing(listing, "foreign-continuation", url)
         url = links["next"]
         viaNext = True

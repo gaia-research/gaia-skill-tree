@@ -18,6 +18,7 @@ import pytest
 
 from gaia_cli.steward.issuehygiene.closure import (
     ForgeItemError,
+    itemDigest,
     closureProven,
     executeClosure,
     planClosures,
@@ -56,7 +57,7 @@ def planAction(root: Path, document: dict, **changes) -> Path:
     manifest = reconcile(censusOf(document), buildRegistryIndex(root), policyFor(), NOW)
     plan = planClosures(manifest, policyFor())[0]
     action = {**compactPlan(plan), "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest),
-              "repo": REPO, **changes}
+              "itemSha256": itemDigest(plan), "repo": REPO, **changes}
     target = root / "action.json"
     target.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
     return target
@@ -330,8 +331,9 @@ def test_a_compact_action_is_re_derived_and_posts_the_full_preserved_payload(tmp
     from tests.steward.issuehygiene.e_fakes import REPO_ROOT
     shutil.copy(REPO_ROOT / "founder" / "steward" / "POLICY.yaml", root / "founder" / "steward" / "POLICY.yaml")
     editPolicy(root, {"writesEnabled": True})
-    action = {**compactPlan(planClosures(manifest, policyFor())[0]), "receiptPath": RECEIPT,
-              "manifestSha256": observedDigest(manifest), "repo": REPO}
+    plan = planClosures(manifest, policyFor())[0]
+    action = {**compactPlan(plan), "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest),
+              "itemSha256": itemDigest(plan), "repo": REPO}
     path = root / "action.json"
     path.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
     forge = Forge({20: liveUmbrella(row)})

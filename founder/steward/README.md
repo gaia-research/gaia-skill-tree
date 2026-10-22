@@ -250,7 +250,12 @@ Closures are exactly-once: the runner never emits a pair already recorded in the
 a receipts file, and such a pair is skipped with no forge call and no new receipt. A live re-read
 that finds the issue already closed, without our receipt, writes an `already-closed` receipt. Exit
 codes are documented in `gaia-steward-issue-hygiene` (0 done, 1 failed or blocked-identity, 2 refused,
-3 blocked).
+3 blocked). An exit-2 refusal is recorded as a `refused` outcome with a reason code: the step settles, and a later
+emission may try the pair again. Three refusals of one pair escalate to one founder question (`closure-refused`).
+
+A pair the steward closed is never closed again, even when a person reopens it. The sensor raises one founder note
+(`reopened-after-closure`) that lists the reopened issues. The closure budget is per UTC hour and per run; pending
+closures count against it at emission, and the gate reserves each slot under a repository-keyed lock (B8).
 
 Nothing is deleted, and nothing is accepted on a person's behalf. A blocked forge
 (auth, rate limit, transport) halts the run. A closure with no token is not run and

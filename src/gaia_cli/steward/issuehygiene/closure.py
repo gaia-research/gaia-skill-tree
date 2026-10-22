@@ -63,6 +63,17 @@ REASONS = {
 }
 
 
+class ActionRefused(Exception):
+    """The action cannot be performed as written, or the checkout no longer proves it. Nothing is written.
+
+    ``code`` is the machine-readable reason the driver records as a ``refused`` outcome (B8 H-3a).
+    """
+
+    def __init__(self, message: str, code: str = "refused") -> None:
+        super().__init__(message)
+        self.code = code
+
+
 class ForgeBlockedError(Exception):
     """Auth, rate or transport failure: nothing about the item is known, so the batch stops."""
 
@@ -250,19 +261,26 @@ def compactPlan(plan: Mapping[str, Any]) -> dict[str, Any]:
     return compact
 
 
-def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
+def planClosures(manifest: dict, policy: HygienePolicy, done: frozenset | set | None = None) -> list[dict]:
     """Ordered closure plans for authority-A items, capped by ``maxClosuresPerRun``.
 
     Empty unless writes are enabled and the census is complete. Duplicate closures are
     planned only when their canonical item is itself not closed by this run.
+
+    ``done`` holds the (key, issue) pairs the checkout's receipts already record as closed. They are dropped
+    before the cap is applied (B8 M-2), so ten recorded closures never starve the next plan, and a pair the
+    steward closed once is never planned again, even when a person reopened it (B8 H-1).
     """
     if manifest.get("censusStatus") != "complete" or not policy.writesEnabled:
         return []
+    doneSet = frozenset(done or ())
     byIssue = {item["issue"]: item for item in manifest["items"]}
     plans: list[dict] = []
     for item in sorted(manifest["items"], key=lambda entry: entry["issue"]):
         if len(plans) >= policy.maxClosuresPerRun:
             break
+        if (item["key"], item["issue"]) in doneSet:
+            continue
         if item["authority"] != "A" or item["ruleId"] is None or not policy.ruleEnabled(item["ruleId"]):
             continue
         transition = item["proposedTransition"]
@@ -298,6 +316,36 @@ def planClosures(manifest: dict, policy: HygienePolicy) -> list[dict]:
             "comments": comments,
         })
     return plans
+
+
+def itemDigest(plan: Mapping[str, Any]) -> str:
+    """The evidence digest of ONE closure: its key, issue, rule, transition, proof evidence and preserved payload.
+
+    The snapshot part is the issue's own title, body, labels and state (``titleSha256``, ``bodySha256``, ``labels``,
+    ``state``). ``updatedAt`` is left out, and so is everything about other issues, the census fetch time and the
+    manifest. An unrelated census change therefore does not move this digest, while a change to the closure's own
+    proof does (B8 H-3b).
+    """
+    snapshot = dict(plan.get("expectedSnapshot") or {})
+    snapshot.pop("updatedAt", None)
+    material = {
+        "key": plan.get("key"), "issue": plan.get("issue"), "ruleId": plan.get("ruleId"),
+        "state": plan.get("state"), "stateReason": plan.get("stateReason"), "duplicateOf": plan.get("duplicateOf"),
+        "parent": plan.get("parent"), "canonical": plan.get("canonical"),
+        "evidence": [[entry.get("type"), entry.get("ref"), entry.get("sha256")] for entry in plan.get("evidence") or []],
+        "closureSha8": plan.get("closureSha8"), "preservedSha256": plan.get("preservedSha256"),
+        "snapshot": snapshot,
+    }
+    return hashlib.sha256(json.dumps(material, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def closureAction(plan: Mapping[str, Any], receiptPath: str, manifestSha256: str, repo: str) -> dict[str, Any]:
+    """The ``forge.close_issue`` params for one plan: compact identifiers and digests, the receipt path and both digests.
+
+    ``manifestSha256`` is kept as the census-level reference the action was emitted from. The gate checks ``itemSha256``.
+    """
+    return {**compactPlan(plan), "receiptPath": receiptPath, "manifestSha256": manifestSha256, "repo": repo,
+            "itemSha256": itemDigest(plan)}
 
 
 def closureCommentsFor(plan: Mapping[str, Any]) -> list[str]:
@@ -397,6 +445,17 @@ def resumeState(receiptsPath: Path | str) -> ResumeState:
     return ResumeState(frozenset(done), corrupt)
 
 
+def storeDonePairs(directory: Path | str) -> frozenset:
+    """(key, issue) pairs that EVERY receipts file in ``directory`` records as done (B8 H-1). Never raises on bad lines."""
+    done: set = set()
+    path = Path(directory)
+    if path.is_dir() and not path.is_symlink():
+        for receiptFile in sorted(path.glob("*.jsonl")):
+            if receiptFile.is_file() and not receiptFile.is_symlink():
+                done |= resumeState(receiptFile).done
+    return frozenset(done)
+
+
 def appendReceipt(receiptsPath: Path | str, receipt: dict) -> None:
     """Append one JSON line and fsync. A torn last line from a crash is terminated first."""
     path = Path(receiptsPath)
@@ -452,6 +511,19 @@ def closureLock(receiptsPath: Path | str, key: str, issue: int, repo: str | None
     with flockFile(storeLock):
         with flockFile(userLockDir() / repoIssueLockName(repo, issue)):
             yield
+
+
+def budgetLockName(repo: str | None) -> str:
+    return hashlib.sha256(f"budget\n{str(repo or '').strip().lower()}".encode("utf-8")).hexdigest()[:40] + ".lock"
+
+
+def budgetLock(repo: str | None):
+    """The repository-keyed lock around the hourly budget check and its reservation (B8 M-3).
+
+    It lives in the user-level lock directory, so two checkouts on one machine share it. Across machines the budget
+    is per checkout; that residual is documented with the other cross-machine limits.
+    """
+    return flockFile(userLockDir() / budgetLockName(repo))
 
 
 def repoIssueLock(repo: str | None, issue: int):
@@ -574,11 +646,15 @@ def closerIdentity(forge: Any) -> str | None:
 
 
 def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                   repo: str | None = None) -> dict:
+                   repo: str | None = None, reserve: Any = None) -> dict:
     """Close one planned issue after a live re-read, under a per-pair lock. Returns the receipt it appended.
 
-    A pair the receipts already record as done is returned as ``resumed-done`` with no forge call and no
-    new receipt. Ownership of the closing comment is decided by its author, not by its text alone.
+    A pair that ANY receipts file in the store records as done is returned as ``resumed-done`` with no forge call and
+    no new receipt (B8 H-1): the own-marker ``updatedAt`` tolerance is never reached for a done pair. Ownership of the
+    closing comment is decided by its author, not by its text alone.
+
+    ``reserve``, when given, is called once the pair is known not to be done and before any forge call. It takes the
+    budget reservation (B8 M-3) and may raise ``ActionRefused``, which propagates with nothing written.
     """
     if plan.get("authority") != "A" or plan.get("ruleId") not in KNOWN_RULE_IDS:
         raise ValueError("closure plans must carry authority A and a registered rule")
@@ -597,8 +673,10 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         return receipt
 
     with closureLock(receiptsPath, key, issue, repo):
-        if resumeState(receiptsPath).isDone(key, issue):
+        if resumeState(receiptsPath).isDone(key, issue) or (key, issue) in storeDonePairs(Path(receiptsPath).parent):
             return {"key": key, "issue": issue, "outcome": "resumed-done"}
+        if reserve is not None:
+            reserve()
         try:
             live = forge.getIssue(issue)
         except ForgeIdentityError as exc:
@@ -680,6 +758,7 @@ def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | s
 
 
 __all__ = [
+    "ActionRefused",
     "COMMENT_LIMIT",
     "DONE_OUTCOMES",
     "ForgeBlockedError",
@@ -699,7 +778,11 @@ __all__ = [
     "repoIssueLockName",
     "userLockDir",
     "closureSha8",
+    "closureAction",
     "closureProven",
+    "itemDigest",
+    "budgetLock",
+    "storeDonePairs",
     "commentIdFromUrl",
     "executeClosure",
     "executeClosures",

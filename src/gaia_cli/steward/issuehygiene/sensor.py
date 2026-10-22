@@ -9,7 +9,9 @@ files. The manifest is folded into three debt kinds:
   closure plans that ``closure.planClosures`` derives from proven items. The runner
   turns these into ``forge.close_issue`` actions under its own gates.
 - ``issue_suite_review`` (Class B): one debt per suite batch (or ``unbatched``).
-- ``issue_founder_decision`` (Class C): one debt per founder question.
+- ``issue_founder_decision`` (Class C): one debt per founder question, plus two steward notes (B8):
+  ``reopened-after-closure`` (a pair the steward closed is open again, so a person reopened it: never closed again)
+  and ``closure-refused`` (a pair the gate refused ``RETRYLIMIT`` times: one question for all of them).
 
 Anything the census or manifest cannot prove fails closed: a missing census is
 ``SensorNotEvaluated``; an incomplete, stale or unreconcilable census is
@@ -25,9 +27,10 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
-from gaia_cli.steward.issuehygiene.census import Census, loadCensus
+from gaia_cli.steward.issuehygiene.census import Census, loadCensus, parseTimestamp
 from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
+from gaia_cli.steward.issuehygiene.outcomes import RETRYLIMIT, OutcomeStoreError, doneClosures, loadOutcomes
 from gaia_cli.steward.issuehygiene.reconcile import SCHEMA_VERSION as MANIFEST_SCHEMA
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
@@ -40,6 +43,8 @@ CENSUS_INPUT = Path(".gaia/steward/inputs/github-issues.json")
 CENSUS_SCHEMA = "steward-github-census-v1"
 UNBATCHED = "unbatched"
 UNQUESTIONED = "unquestioned"
+REOPENED = "reopened-after-closure"
+REFUSED = "closure-refused"
 AUTHORITIES = ("A", "B", "C", "none")
 # Bounded so one large suite cannot blow the observation budget or the ledger.
 MAX_ITEMS_PER_DEBT = 200
@@ -53,6 +58,21 @@ def _text(value: Any, limit: int = _TEXT_LIMIT) -> str:
     """A string echoed on purpose: scrubbed and bounded. Anything else becomes empty."""
 
     return scrub(value)[:limit] if isinstance(value, str) else ""
+
+
+def decisionState(target: str, question: str, affected: list[int], options: list[str],
+                   recommendation: str | None, basis: str, digest: str) -> dict[str, Any]:
+    """The debt state of a steward note, shaped like a reconciled founder question."""
+    return {
+        "decisionTarget": f"issue-question/{target}".lower(),
+        "question": question,
+        "affected": affected[:MAX_ITEMS_PER_DEBT],
+        "affectedCount": len(affected),
+        "options": options,
+        "recommendation": recommendation,
+        "basis": basis,
+        "manifestDigest": digest,
+    }
 
 
 def observedDigest(manifest: Mapping[str, Any]) -> str:
@@ -150,13 +170,13 @@ def _observedPlan(plan: Mapping[str, Any], manifest: Mapping[str, Any]) -> dict[
     return observed
 
 
-def _closurePlans(manifest: Mapping[str, Any], hygiene: HygienePolicy) -> list[dict]:
-    """Closure plans from lane B's planner, restricted to items whose proof still holds."""
+def _closurePlans(manifest: Mapping[str, Any], hygiene: HygienePolicy, done: frozenset = frozenset()) -> list[dict]:
+    """Closure plans from lane B's planner, restricted to items whose proof still holds. Done pairs are never planned."""
 
     everything = replace(hygiene, writesEnabled=True, maxClosuresPerRun=PLAN_CEILING)
     items = {item["issue"]: item for item in manifest["items"]}
     plans = []
-    for plan in planClosures(dict(manifest), everything):
+    for plan in planClosures(dict(manifest), everything, done=done):
         item = items.get(plan["issue"])
         if item is not None and _provableClosure(item, hygiene):
             plans.append(_observedPlan(plan, manifest))
@@ -171,6 +191,23 @@ def _observation(
         kind=kind, subject=subject, observed_at=observed_at, source=IssueHygieneSensor.id,
         status=status, current_state={"count": 0}, observed_state=dict(observed), provenance=dict(provenance),
     )
+
+
+def isReopened(item: Mapping[str, Any], closedAt: str | None) -> bool:
+    """A pair the steward closed is reopened when the census shows it open with an update after that closure.
+
+    A census that has not caught up with our own closure still shows the issue open, but its last update is our
+    comment, which precedes the closure. That is not a reopening. An unreadable update time is a reopening, so a
+    person looks at it.
+    """
+    snapshot = item.get("snapshot") if isinstance(item.get("snapshot"), Mapping) else {}
+    if snapshot.get("state") != "open":
+        return False
+    updated = parseTimestamp(snapshot.get("updatedAt"))
+    closed = parseTimestamp(closedAt) if isinstance(closedAt, str) else None
+    if closed is None or updated is None:
+        return True
+    return updated > closed
 
 
 def _suiteRow(item: Mapping[str, Any]) -> dict[str, Any]:
@@ -211,9 +248,21 @@ class IssueHygieneSensor:
             raise SensorUnavailable(f"issue census is {census.status.status}: {reasons}")
         manifest = reconcileCensus(census, root, hygiene, now)
         _validateManifest(manifest)
-        return self._observations(manifest, hygiene, observed_at)
+        try:
+            closed = doneClosures(root)
+            entries = loadOutcomes(root)
+        except OutcomeStoreError as exc:
+            raise SensorUnavailable(f"closure outcomes are unreadable: {type(exc).__name__}") from exc
+        escalated = sorted({
+            (entry["key"], entry["issue"]) for entry in entries.values()
+            if entry.get("outcome") == "refused" and isinstance(entry.get("key"), str) and isinstance(entry.get("issue"), int)
+            and int(entry.get("attempts", 0) or 0) >= RETRYLIMIT
+        })
+        return self._observations(manifest, hygiene, observed_at, closed, escalated)
 
-    def _observations(self, manifest: Mapping[str, Any], hygiene: HygienePolicy, observed_at: str) -> SensorScan:
+    def _observations(self, manifest: Mapping[str, Any], hygiene: HygienePolicy, observed_at: str,
+                      closed: Mapping[tuple, str | None] | None = None,
+                      escalated: list[tuple] | None = None) -> SensorScan:
         digest = _digest(manifest)
         stats = manifest.get("stats") if isinstance(manifest.get("stats"), Mapping) else {}
         # Provenance carries the backlog counts so a receipt can show before and after.
@@ -226,11 +275,20 @@ class IssueHygieneSensor:
             "censusFetchedAt": _text(manifest.get("censusFetchedAt"), 40),
             "stats": {key: value for key, value in stats.items() if isinstance(value, int) and not isinstance(value, bool)},
         }
-        plans = _closurePlans(manifest, hygiene)
+        closed = dict(closed or {})
+        done = frozenset(closed)
+        plans = _closurePlans(manifest, hygiene, done)
         planned = {plan["issue"] for plan in plans}
         suite_rows: dict[str, list[dict[str, Any]]] = {}
         founder_items: list[Mapping[str, Any]] = []
+        reopened: list[int] = []
         for item in manifest["items"]:
+            pair = (item["key"], item["issue"])
+            if pair in done:
+                # Recorded as closed by the steward: never a plan, never batch review (B8 H-1). Reopened, it is a note.
+                if isReopened(item, closed[pair]):
+                    reopened.append(item["issue"])
+                continue
             if item.get("authority") == "none" or item["issue"] in planned:
                 continue
             if item.get("authority") == "C":
@@ -269,6 +327,8 @@ class IssueHygieneSensor:
                           "truncated": len(rows) > MAX_ITEMS_PER_DEBT, "manifestDigest": digest},
             ))
         observations.extend(self._founder(manifest, founder_items, observed_at, provenance, digest))
+        observations.extend(self._stewardNotes(reopened, sorted(number for _key, number in (escalated or [])),
+                                               observed_at, provenance, digest))
         skipped = self._notEvaluated(manifest)
         return SensorScan(observations=tuple(observations), skipped=skipped)
 
@@ -286,6 +346,37 @@ class IssueHygieneSensor:
             "subjectId": "unevaluated-issues",
             "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
         },)
+
+    @staticmethod
+    def _stewardNotes(reopened: list[int], refused: list[int], observed_at: str,
+                      provenance: Mapping[str, Any], digest: str) -> list[Observation]:
+        """Class C notes the steward raises itself. One question per note, however many issues it names."""
+        notes: list[Observation] = []
+        if reopened:
+            numbers = sorted(set(reopened))
+            notes.append(_observation(
+                kind="issue_founder_decision", subject=Subject(type="issue-question", id=REOPENED),
+                observed_at=observed_at, provenance=provenance, status="drift",
+                observed=decisionState(
+                    REOPENED,
+                    "The steward closed these issues and a person has since reopened them. The steward never closes an "
+                    "issue it has closed before, so these stay open until a founder decides.",
+                    numbers, ["keep-open", "close-by-hand"], "keep-open",
+                    "the receipts record the steward closure; the census shows each issue open after it", digest),
+            ))
+        if refused:
+            numbers = sorted(set(refused))
+            notes.append(_observation(
+                kind="issue_founder_decision", subject=Subject(type="issue-question", id=REFUSED),
+                observed_at=observed_at, provenance=provenance, status="drift",
+                observed=decisionState(
+                    REFUSED,
+                    "The closure gate refused these closures three times. No more closures are emitted for them until a "
+                    "founder decides: fix the policy or census input, close the issue by hand, or leave it open.",
+                    numbers, ["fix-gate-input", "close-by-hand", "leave-open"], None,
+                    "the outcome store records refused attempts at the retry limit for each pair", digest),
+            ))
+        return notes
 
     @staticmethod
     def _founder(

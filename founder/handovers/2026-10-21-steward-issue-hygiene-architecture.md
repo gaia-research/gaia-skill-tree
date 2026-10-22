@@ -421,6 +421,96 @@ Each item below is implemented, and each has a test under `tests/steward/issuehy
 
 ### 8.10 Clock (test-only seam)
 
-* Every steward clock read goes through `gaia_cli.steward.clock.utcNow`. It honours the `GAIA_STEWARD_NOW` pin only while pytest
-  runs (`PYTEST_CURRENT_TEST` set). `tests/steward/issuehygiene/conftest.py` pins the fixture window (2026-10-21T19:30:00Z) in
-  every issue-hygiene test, so the suite does not depend on the wall-clock date. Production reads the real clock.
+* **Superseded by section 9.1 (B8 H-2).** The `GAIA_STEWARD_NOW` pin is removed from production code. Every steward
+  clock read still goes through `gaia_cli.steward.clock.utcNow`, which now reads a seam (`setClock`) that only tests
+  install. `tests/steward/issuehygiene/conftest.py` pins the fixture window in every issue-hygiene test.
+
+## 9. Lane B8 round-3 amendments (binding; they amend 3.1, 3.4, 3.5, 3.6, 7 and 8)
+
+Each item below is implemented, and each has a test under `tests/steward/issuehygiene/test_b8_*.py`.
+
+### 9.1 Clock (H-2)
+
+* No environment variable moves the Steward clock. `GAIA_STEWARD_NOW` and `PYTEST_CURRENT_TEST` are no longer read by
+  `gaia_cli.steward.clock`. `setClock(source)` installs a source and returns the previous one; `setClock(None)` restores the
+  real clock. Only tests call it. Test: with both variables set, `scripts/steward_issue_close.py` and
+  `reconcile --apply-closures` refuse a census fetched in 2020 (no forge built, no receipt written).
+
+### 9.2 Done pairs and reopened issues (H-1)
+
+* A pair that any receipts file in the store, or the outcome store, records as `closed` or `already-closed` is done. The
+  gate refuses it before the caps and before any close (code `already-recorded`). The close script answers a repeat of a
+  pair this file recorded with the recorded outcome (exit 0), as before.
+* `closure.planClosures(manifest, policy, done=...)` drops done pairs before it applies `maxClosuresPerRun` (M-2). The sensor
+  and `reconcile --apply-closures` pass the done set.
+* `closure.executeClosure` returns `resumed-done` for a pair done in any receipts file of the store, with no forge call and no
+  receipt. The own-marker `updatedAt` tolerance is therefore never reached for a done pair.
+* A done pair the census shows open with an `updatedAt` after its closure (or with no closure time on record) is reopened. The
+  sensor raises one Class C note, `issue-question/reopened-after-closure`, listing the reopened issues. It is never a plan and
+  never batch review. A census that has not caught up with our own closure is not reopened: its last update is our comment.
+
+### 9.3 Refusals settle, re-emit and escalate (H-3a)
+
+* An exit-2 refusal prints one `refused` outcome line on stdout (`reason` code, `key`, `issue`, `failure`). The driver records
+  it (`steward_drive.handleClose`); a refusal without a printed reason is recorded with reason `refused`. The record is
+  accepted only with a failure text and a machine-readable reason code.
+* The runner stores the outcome in the outcome store. `refused` is retryable, so its attempts count. The step is `done` with the
+  outcome, so the run is no longer waiting on it.
+* A later emission against the then-current census emits the pair again (a new step id, because the census changed). Three
+  refusals (`RETRYLIMIT`) stop emission for the pair (`retry limit reached`) and raise one Class C note,
+  `issue-question/closure-refused`, listing the pairs.
+
+### 9.4 The gate compares the closure's own evidence (H-3b)
+
+* `closure.itemDigest(plan)` digests one closure's key, issue, rule, state, transition, parent, canonical, the evidence
+  references and digests, `closureSha8`, `preservedSha256`, and the issue's own snapshot minus `updatedAt`.
+  `closure.closureAction(plan, receiptPath, manifestSha256, repo)` writes it as `itemSha256` on every action. The
+  gate refuses (`item-changed`) when the re-derived item digest differs. `manifestSha256` stays on the action as the census-level
+  reference; the gate no longer compares the whole-manifest digest.
+* Unrelated census churn, such as another issue's `updatedAt`, does not refuse a closure. Test:
+  `test_b8_gate.py::test_an_unrelated_updated_at_bump_after_emission_still_passes_the_gate`.
+* Refusal codes: `writes-disabled`, `rule-disabled`, `a5-unlisted`, `authority`, `policy-unreadable`, `already-recorded`,
+  `store-unreadable`, `run-cap`, `hour-budget`, `census-not-complete`, `repo-mismatch`, `not-proven`, `item-changed`,
+  `receipt-path`, `action-unreadable`, `refused` (generic).
+
+### 9.5 Pending closures count at emission (H-3c)
+
+* The runner's emission budget is the run's remaining cap, capped by the hourly budget minus every pending `forge.close_issue`
+  action of every run. A second run in the same UTC hour emits only what the hour has left.
+
+### 9.6 Budget lock and reservation (M-3)
+
+* `executor.reserveClosure` takes the repository-keyed budget lock (`closure.budgetLock`, in the user-level lock directory),
+  re-checks the run cap and the hourly budget, and appends a `reserved` line to the receipts file before the forge is called.
+  The pair lock is taken first; the budget lock is never held across a forge call.
+* An open reservation (no later line for the same pair in the same file) counts toward the run cap and the hourly budget
+  (`executor.openReservations`). A terminal line for the pair resolves it, so a closure is never counted twice. A crash leaves
+  an open reservation that expires with its UTC hour (policy cap) or 60 minutes (hard cap).
+* Test: two real processes at nine of ten reserve exactly one slot (`test_b8_budget.py`).
+* Residual: the budget lock is per machine. Across machines the budget is per checkout, as the marker check is (section 8.3).
+
+### 9.7 Census continuation stays on the listing (M-1)
+
+* A `rel="next"` link is followed only when it has the same origin, the listing's own path (`/repos/<repo>/issues`), or the
+  `/repositories/<id>/issues` form learned from the first page's own links, and the same `state` filter. Any other link fails
+  closed as `foreign-continuation`.
+* Residual: the repository id is taken from the server's own links to this listing, not verified against the repository's
+  metadata. A forged first-page link is outside the threat model: the token is already sent to that origin.
+
+### 9.8 Census rows are judged strictly (LOW)
+
+* `validateCensus` marks a census incomplete when the open listing holds a number twice (`issues-duplicate-number`) or a row
+  that is not open (`issues-row-not-open`).
+
+### 9.9 Credential scrub (LOW)
+
+* A credential assignment whose value is six or more characters is scrubbed even when it contains dots (`token=abc123.def456`,
+  `token=abc123...`). The code-access exclusion now covers only a dotted path that ends in a call or an index
+  (`os.environ["TOKEN"]`, `config.get_secret(`).
+
+### 9.10 The cursor-listing assumption (LOW)
+
+* The census's end-of-listing proof relies on the cursor-listing assumption: the `page=` offset must be honoured for the end
+  probe (`offsetProbeUrl`). If the server does not honour it, the probe returns rows or fails, and the census fails closed as
+  `unlinked-continuation`, `pagination-short` or `foreign-continuation`. The census diagnostics record the reason. No closure is
+  emitted for a census that fails this way.

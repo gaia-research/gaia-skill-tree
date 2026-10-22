@@ -236,7 +236,8 @@ def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp
     # fakeRoot registers obra/writing-skills with the exact evidence URL of child #2024, the only A1 item there
     assert forge.closed == [(2024, "completed", None)]
     lines = receipts.read_text(encoding="utf-8").splitlines()
-    assert [json.loads(line)["outcome"] for line in lines] == ["closed"]
+    # B8 M-3: the budget slot is reserved before the forge call, and the terminal line resolves it.
+    assert [json.loads(line)["outcome"] for line in lines] == ["reserved", "closed"]
     before = receipts.read_bytes()
     replay = LiveForge()
     assert main(args, forgeFactory=lambda name, secret: replay) == 0

@@ -66,7 +66,7 @@ EXITNOTRUN = 5
 AGENTTYPES = ("agent.build", "agent.verify")
 CLOSETYPE = "forge.close_issue"
 KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate", CLOSETYPE)
-CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked", "blocked-identity")
+CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked", "blocked-identity", "refused")
 CLOSEREFUSED = 2
 VERDICTS = ("accept", "reject", "escalate")
 BUILDFAMILIES = ("haiku", "sonnet")
@@ -618,10 +618,18 @@ class Driver:
                 "--repo", o.repo, "--run-id", runId]
         result = self.runner(argv, cwd=o.root, timeout=CLOSETIMEOUT, env=self.env)
         if result.returncode == CLOSEREFUSED:
-            # The executor's gate refused: writes off, rule off, cap reached, or the checkout no longer proves
-            # the action. That is a fact about the action, not a failure to retry, so the runner skips it.
+            # The executor's gate refused: the checkout no longer proves the action, or a gate is closed. That is a fact
+            # about the action, not a failure to retry. The refusal is recorded as a ``refused`` outcome with its reason
+            # code (B8 H-3a), which settles the step; a later run may emit the pair again, and a pair refused three
+            # times escalates to the founder desk.
             detail = (result.stderr or "").strip().splitlines()
-            return Handled(skip=True, reason=f"closure refused by the executor gate: {(detail[-1] if detail else 'no reason')[:200]}")
+            message = (detail[-1] if detail else "no reason")[:200]
+            printed = lastJsonObject(result.stdout) or {}
+            reason = printed.get("reason") if isinstance(printed.get("reason"), str) else "refused"
+            outcome = {"outcome": "refused", "key": params["key"], "issue": params["issue"], "reason": reason,
+                       "failure": f"{reason}: {message}"[:300], "closedAt": None,
+                       "preservedSha256": params.get("preservedSha256")}
+            return Handled(outcome=outcome, reason=f"refused ({reason}): {message}"[:200])
         outcome = lastJsonObject(result.stdout)
         if outcome is None or outcome.get("outcome") not in CLOSEOUTCOMES:
             return Handled(reason=f"closure script printed no outcome (exit {result.returncode})")

@@ -23,6 +23,7 @@ from tests.steward.issuehygiene.test_d1_runner import (
 )
 from tests.steward.issuehygiene.test_d1_sensor import makeCensus, makeItem, makeManifest, stubReconcile, writeCensus
 from tests.steward.test_fullrun import makeRunner
+from gaia_cli.steward.clock import parseInstant, setClock
 
 
 def operationsOf(view, kind: str) -> list[dict]:
@@ -66,7 +67,7 @@ def test_a_restarted_runner_object_never_reemits_a_recorded_closure(tmp_path, mo
         settle(runner, view.runId, action, outcomeFor(action))
     runner.resume(view.runId)
     assert len(loadOutcomes(repo)) == 10
-    monkeypatch.setenv("GAIA_STEWARD_NOW", "2026-10-21T20:30:00Z")  # the hourly budget renews in the next UTC hour (B7 L2)
+    setClock(lambda: parseInstant("2026-10-21T20:30:00Z"))  # the hourly budget renews in the next UTC hour (B7 L2)
     second = fresh.start("full")
     assert sorted(action["params"]["issue"] for action in closeActions(second)) == [110, 111]  # never 100 to 109
 

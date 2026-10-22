@@ -27,7 +27,7 @@ import pytest
 
 import gaia_cli.steward.fullrun as fullrun
 from gaia_cli.main import main as gaiaMain
-from gaia_cli.steward.clock import utcNow
+from gaia_cli.steward.clock import parseInstant, setClock, utcNow
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.issuehygiene.identity import classify
 from gaia_cli.steward.issuehygiene.registryindex import parseGithubUrl, splitId
@@ -195,7 +195,7 @@ def test_ordinary_full_run_drains_issue_hygiene_offline_and_is_idempotent(
 
     observed: list[int] = []
     for round_ in range(len(emissions)):
-        monkeypatch.setenv("GAIA_STEWARD_NOW", instants[round_])
+        setClock(lambda: parseInstant(instants[round_]))
         writesBefore = len(forge_writes(steward))
         code, view = steward.run()
         assert code == 0, view
@@ -240,7 +240,7 @@ def test_the_first_run_emits_exactly_the_cap_and_the_rest_of_the_pending_work_is
     code, resumed = steward.resume(view["runId"])
     assert len(closeActions(resumed)) == 0
     # The two deferred pairs are still eligible and are emitted once the hourly budget renews, not dropped.
-    monkeypatch.setenv("GAIA_STEWARD_NOW", HOUR_TWO)
+    setClock(lambda: parseInstant(HOUR_TWO))
     code, nxt = steward.run()
     assert sorted(a["params"]["issue"] for a in closeActions(nxt)) == sorted(
         {pick["number"] for pick in picks} - emitted)

@@ -97,8 +97,9 @@ second concurrent invocation loses the lease and refuses cleanly.
 - Never merge into `main`, push to `main`, force-push, tag, release or publish.
 - Class B: maxInFlight 2 (the policy value; the code accepts 1 to 4), maxAttempts 2, cooldown 3600 s, one dispatch per run.
 - Closures (`forge.close_issue`) need `GH_TOKEN` or `GITHUB_TOKEN`. Without one they are reported under the driver's
-  `unperformed` list with the reason, and nothing is written. A closure the executor refuses (exit 2) is skipped and
-  reported, never re-sent in the same run.
+  `unperformed` list with the reason, and nothing is written. A closure the executor refuses (exit 2) is recorded as a
+  `refused` outcome with its reason code (B8 H-3a): the step settles, the pair is emitted again against a later census,
+  and a pair refused three times becomes one founder question. It is never re-sent within the same pass.
   Need more throughput? File a founder-reviewable amendment
   (`founder/steward/decisions/`); never loop the CLI to get around the cap.
 - Unknown coverage blocks Class A for the run. A not-evaluated sensor is never
