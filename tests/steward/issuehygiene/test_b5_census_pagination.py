@@ -1,9 +1,10 @@
 """Lane B5, blocker B1 (+ L5, L8, M6-census): GitHub-accurate pagination and census completeness.
 
-GitHub's REST ``Link`` header names ``next`` and ``last`` on every page except the final one.
-The final page carries only ``prev`` and ``first``. Every fake in this file answers exactly
-that way, so the collector is tested against the server it will really meet, not against a
-server that also names ``last`` on the final page.
+The issues endpoint is cursor-paginated. Its ``Link`` header carries ``after``/``before`` cursors on
+absolute ``repositories/<id>`` URLs: the first page names only ``next``, a middle page names ``next``
+and ``prev``, and the final page names only ``prev``. There is no ``last`` and no ``first`` (B6 captured
+this from the live endpoint). Every fake in this file answers that way, through ``realLinkHeader``
+and ``servedPage`` from the shared fakes, so the collector meets the server it will really meet.
 """
 
 from __future__ import annotations
@@ -16,6 +17,7 @@ from urllib.parse import parse_qs, urlparse
 import pytest
 
 from gaia_cli.steward.issuehygiene.census import COMPLETE, INCOMPLETE, validateCensus
+from tests.steward.issuehygiene.e_fakes import realLinkHeader, servedPage
 from scripts.steward_issue_census import (
     Response,
     closedWindowDaysFromPolicy,
@@ -41,7 +43,7 @@ def githubRows(count: int, start: int = 1) -> list[dict]:
 
 
 def githubListing(rows: list[dict], pageSize: int = 100):
-    """A fake that answers like api.github.com: next/last on non-final pages, prev/first on pages after the first."""
+    """A fake that answers like api.github.com: cursor Link headers, next on the first page, next/prev in the middle, prev on the last."""
     pages = [rows[index:index + pageSize] for index in range(0, len(rows), pageSize)]
     total = len(pages)
 
@@ -49,17 +51,11 @@ def githubListing(rows: list[dict], pageSize: int = 100):
         if "state=closed" in url:
             return Response(200, {}, "[]")
         query = parse_qs(urlparse(url).query)
-        page = int(query["page"][0]) if "page" in query else 1
+        page = servedPage(query)
         if page > total:
             return Response(200, {}, "[]")
-        links = []
-        if page < total:
-            links.append(f'<{BASE}&page={page + 1}>; rel="next"')
-            links.append(f'<{BASE}&page={total}>; rel="last"')
-        if page > 1:
-            links.append(f'<{BASE}&page={page - 1}>; rel="prev"')
-            links.append(f'<{BASE}&page=1>; rel="first"')
-        headers = {"link": ", ".join(links)} if links else {}
+        link = realLinkHeader("open", pageSize, page, total)
+        headers = {"link": link} if link else {}
         return Response(200, headers, json.dumps(pages[page - 1]))
 
     return fetch
@@ -108,7 +104,7 @@ def test_an_empty_page_reached_through_a_next_link_fails_closed() -> None:
             return Response(200, {}, "[]")
         if "page=2" in url:
             return Response(200, {}, "[]")
-        return Response(200, {"link": f'<{BASE}&page=2>; rel="next", <{BASE}&page=2>; rel="last"'},
+        return Response(200, {"link": f'<{BASE}&page=2>; rel="next"'},
                         json.dumps(githubRows(100)))
 
     listing = listAll(BASE, fetch)

@@ -19,6 +19,7 @@ Helpers reused by the ordinary ``/gaia-steward-full`` end-to-end test that follo
 
 from __future__ import annotations
 
+import base64
 import json
 import math
 import shutil
@@ -26,7 +27,7 @@ import subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 import yaml
 
@@ -46,6 +47,46 @@ CLOCK_START = datetime(2026, 10, 21, 19, 0, tzinfo=timezone.utc)
 NOW = datetime(2026, 10, 21, 19, 30, tzinfo=timezone.utc)
 NOW_TEXT = "2026-10-21T19:30:00Z"
 API = "https://api.github.com"
+# The numeric id GitHub puts in issue Link headers for gaia-research/gaia-skill-tree (B6, live receipt).
+REPO_ID = 1221716703
+
+
+def cursorFor(page: int) -> str:
+    """An opaque cursor naming ``page``, shaped like GitHub's base64 cursors."""
+    return base64.urlsafe_b64encode(f"cursor:v2:{page}".encode("ascii")).decode("ascii")
+
+
+def pageForCursor(cursor: str) -> int:
+    return int(base64.urlsafe_b64decode(cursor.encode("ascii")).decode("ascii").rsplit(":", 1)[1])
+
+
+def servedPage(query: Mapping[str, list[str]]) -> int:
+    """The page the issues endpoint serves for a query string.
+
+    On the real endpoint a cursor wins: ``after`` serves the page after the cursor's page and ``page``
+    is ignored, so a request that keeps the cursor and only bumps ``page`` re-serves the same rows.
+    """
+    if "after" in query:
+        return pageForCursor(query["after"][0]) + 1
+    if "before" in query:
+        return pageForCursor(query["before"][0])
+    return int(query["page"][0]) if "page" in query else 1
+
+
+def realLinkHeader(state: str, perPage: int, page: int, total: int, repoId: int = REPO_ID) -> str:
+    """The Link header GitHub's issues endpoint sends for ``page`` of ``total``.
+
+    Captured from the live endpoint (B6): absolute ``repositories/<id>`` URLs carrying ``after``/``before``
+    cursors. The first page names only ``next``, a middle page names ``next`` and ``prev``, and the final
+    page names only ``prev``. There is no ``last`` and no ``first``.
+    """
+    base = f"https://api.github.com/repositories/{repoId}/issues?state={state}&per_page={perPage}"
+    links = []
+    if page < total:
+        links.append(f'<{base}&after={quote(cursorFor(page), safe="")}&page={page + 1}>; rel="next"')
+    if page > 1:
+        links.append(f'<{base}&page={page - 1}&before={quote(cursorFor(page - 1), safe="")}>; rel="prev"')
+    return ", ".join(links)
 
 
 class SimulatedCrash(BaseException):
@@ -80,10 +121,10 @@ class FakeGitHub:
     GitHub's default ``created`` order, so a newly created issue shifts every later page.
     """
 
-    def __init__(self, repo: str = REPO, pageSize: int = 100, linkMode: str = "full"):
+    def __init__(self, repo: str = REPO, pageSize: int = 100, linkMode: str = "real"):
         self.repo = repo
         self.pageSize = pageSize
-        self.linkMode = linkMode  # full | no-last | none
+        self.linkMode = linkMode  # real (GitHub's cursor Link shape) | none (no Link header at all)
         self.issues: dict[int, dict] = {}
         self.comments: dict[int, list[dict]] = {}
         self.clock = CLOCK_START
@@ -157,17 +198,10 @@ class FakeGitHub:
         start = (page - 1) * self.pageSize
         body = rows[start:start + self.pageSize] if page <= total else []
         headers: dict[str, str] = {}
-        base = f"{API}/repos/{self.repo}/issues?state={state}&per_page={self.pageSize}"
-        links = []
-        if self.linkMode in ("full", "no-last") and page < total:
-            links.append(f'<{base}&page={page + 1}>; rel="next"')
-        if self.linkMode == "full" and page < total:
-            links.append(f'<{base}&page={total}>; rel="last"')
-        if self.linkMode == "full" and page > 1:
-            links.append(f'<{base}&page={page - 1}>; rel="prev"')
-            links.append(f'<{base}&page=1>; rel="first"')
-        if links:
-            headers["link"] = ", ".join(links)
+        if self.linkMode == "real":
+            link = realLinkHeader(state, self.pageSize, page, total, REPO_ID)
+            if link:
+                headers["link"] = link
         return 200, headers, json.dumps(body)
 
     def fetch(self, url: str) -> Response:
@@ -177,7 +211,7 @@ class FakeGitHub:
             return Response(200, {}, json.dumps({"total_count": len(self.workflows), "workflows": self.workflows}))
         query = parse_qs(urlparse(url).query)
         state = query["state"][0]
-        page = int(query["page"][0]) if "page" in query else 1
+        page = servedPage(query)
         since = query["since"][0] if "since" in query else None
         status, headers, body = self.listPage(state, page, since)
         if status == 429:
