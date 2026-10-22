@@ -62,21 +62,32 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p generated-output
-          APPLY_FLAG="--dry-run"
+          # L1: arguments are a bash array (no word splitting), and each input is validated before use.
+          ID_RE='^[A-Za-z0-9._/-]+$'
+          CANDIDATE_RE='^[A-Za-z0-9._/:-]+$'
+          APPLY=(--dry-run)
           if [ "$INPUT_APPLY" = "true" ] || [ "$EVENT_NAME" = "schedule" ]; then
-            APPLY_FLAG="--apply"
+            APPLY=(--apply)
+          fi
+          if [ -n "$INPUT_ESCALATE" ] && ! [[ "$INPUT_ESCALATE" =~ $CANDIDATE_RE ]]; then
+            echo "::error::escalate_candidate must match ${CANDIDATE_RE}; got a value with other characters."
+            exit 1
+          fi
+          if [ -n "$INPUT_SKILL_ID" ] && ! [[ "$INPUT_SKILL_ID" =~ $ID_RE ]]; then
+            echo "::error::skill_id must match ${ID_RE}; got a value with other characters."
+            exit 1
           fi
           if [ -n "$INPUT_ESCALATE" ]; then
             # One child for one batch row; no polling, no umbrella rewrite beyond that row.
-            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" $APPLY_FLAG
+            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" "${APPLY[@]}"
             exit 0
           fi
-          ARGS="--child-mode batch $APPLY_FLAG --report generated-output/upstream-watcher-report.json"
+          ARGS=(--child-mode batch "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
           if [ -n "$INPUT_SKILL_ID" ]; then
-            ARGS="$ARGS --skill $INPUT_SKILL_ID"
+            ARGS+=(--skill "$INPUT_SKILL_ID")
           fi
           # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
-          python scripts/upstream_watcher/watcher.py $ARGS
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
 
       - name: Upload watcher report
         if: always()

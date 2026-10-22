@@ -30,9 +30,11 @@ jobs:
         run: pip install -e ".[dev]"
 
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
+      # L2: no ${{ }} inside a run block. Every event value reaches the shell through env.
       - name: Check labeler is a Verifier
         env:
           LABELER: ${{ github.event.sender.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
@@ -84,8 +86,8 @@ jobs:
             echo "✓ $LABELER is authorized to reject upstream issues."
           else
             echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:rejected."
-            gh issue remove-label ${{ github.event.issue.number }} "upstream:rejected" || true
-            gh issue comment ${{ github.event.issue.number }} \
+            gh issue remove-label "$ISSUE_NUMBER" "upstream:rejected" || true
+            gh issue comment "$ISSUE_NUMBER" \
               --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot reject upstream syncs. The \`upstream:rejected\` label has been removed. Please have a Verifier apply the label."
             exit 1
           fi
@@ -94,7 +96,9 @@ jobs:
       - name: Close umbrella issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          SENDER_LOGIN: ${{ github.event.sender.login }}
         run: |
-          gh issue close ${{ github.event.issue.number }} \
+          gh issue close "$ISSUE_NUMBER" \
             --reason "not planned" \
-            --comment "Rejected via \`upstream:rejected\` label by @${{ github.event.sender.login }}. Cascading to close any \`upstream:child\` intakes."
+            --comment "Rejected via \`upstream:rejected\` label by @${SENDER_LOGIN}. Cascading to close any \`upstream:child\` intakes."

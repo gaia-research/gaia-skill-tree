@@ -133,6 +133,14 @@ jobs:
           if not isinstance(buckets, dict):
               print("deny-unparseable-index")
               sys.exit(0)
+          # M1: bootstrap needs a real, non-empty index. Every bucket must be a list of entry objects.
+          for entries in buckets.values():
+              if not isinstance(entries, list) or not all(isinstance(e, dict) for e in entries):
+                  print("deny-unparseable-index")
+                  sys.exit(0)
+          if not any(entries for entries in buckets.values()):
+              print("deny-empty-index")
+              sys.exit(0)
 
           has_any_verifier = False
           for entries in buckets.values():
@@ -156,8 +164,8 @@ jobs:
             yes|bootstrap)
               echo "✓ $LABELER is authorized to approve upstream issues ($AUTHORIZED)."
               ;;
-            deny-missing-index|deny-unparseable-index)
-              echo "::error::The Verifier index could not be read ($AUTHORIZED). Refusing to authorize $LABELER."
+            deny-missing-index|deny-unparseable-index|deny-empty-index)
+              echo "::error::The Verifier index could not be read or is empty ($AUTHORIZED). Refusing to authorize $LABELER."
               exit 1
               ;;
             *)
@@ -381,7 +389,7 @@ jobs:
       # closed child intake. A definitive 301/404/410 child is unresolved, never resolved.
       - name: Count unresolved candidate rows
         id: unresolved
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PAYLOAD: ${{ steps.payload.outputs.payload }}
@@ -418,10 +426,17 @@ jobs:
           echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
 
       # ── Create sync branch and run gaia dev sync-upstream ─────────────────
+      # M5: a re-run for an existing review/meta/upstream-* branch must not fail at push. The remote
+      # branch is replaced only when every commit on it is the watcher's own: a compare against main
+      # whose commits are all authored by github-actions[bot], listed in full. Anything else is someone's
+      # work and is refused before any sync. The commit step pushes with a lease against the exact sha read here.
       - name: Create sync branch
         id: branch
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           SKILL_ID: ${{ steps.payload.outputs.skill_id }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
         run: |
@@ -432,12 +447,29 @@ jobs:
           VERSION_SLUG=$(echo "$NEW_VERSION" | tr -cs 'a-zA-Z0-9-' '-' | sed 's/-$//')
           BRANCH="review/meta/upstream-${SKILL_SLUG}-${VERSION_SLUG}"
 
+          REMOTE_SHA=$(git ls-remote --heads origin "refs/heads/${BRANCH}" | awk '{print $1}')
+          if [ -n "$REMOTE_SHA" ]; then
+            if ! COMPARE=$(gh api --jq '{total: .total_commits, authors: [.commits[] | (.author.login // .commit.author.name)]}' "repos/${REPO}/compare/main...${BRANCH}"); then
+              echo "::error::Could not compare ${BRANCH} with main. The remote branch was not touched."
+              exit 1
+            fi
+            TOTAL=$(echo "$COMPARE" | jq -r '.total')
+            LISTED=$(echo "$COMPARE" | jq -r '.authors | length')
+            UNRELATED=$(echo "$COMPARE" | jq -r '[.authors[] | select(. != "github-actions[bot]")] | length')
+            if [ "$UNRELATED" != "0" ] || [ "$TOTAL" != "$LISTED" ]; then
+              echo "::error::${BRANCH} holds unrelated commits, or not all of its commits could be listed. Refusing to replace it."
+              gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Sync aborted: ${BRANCH} holds unrelated commits.** The branch has commits the upstream watcher did not write (or its commit list is incomplete), so it was not replaced. No PR was opened. Review or delete the branch, then re-apply upstream:approved." || true
+              exit 1
+            fi
+          fi
+
           git checkout -B "$BRANCH"
-          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "remote_sha=$REMOTE_SHA" >> "$GITHUB_OUTPUT"
 
       # ── Hotfix 2: bootstrap mode uses --bootstrap flag; --version renamed to --tag
       - name: Run gaia dev sync-upstream
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
           SKILL_ID: ${{ steps.payload.outputs.skill_id }}
@@ -467,7 +499,7 @@ jobs:
       # opened, and the PR body reports what was actually frozen, never a claim that did not happen.
       - name: Freeze removed components
         id: freeze
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -501,7 +533,7 @@ jobs:
           fi
 
       - name: Regenerate Class S artifacts
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -517,7 +549,7 @@ jobs:
 
       # ── Hotfix 2: abort if sync produced no real registry changes ──────────
       - name: Verify sync produced real changes
-        if: steps.child_gate.outputs.gate_passed == 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
         id: change_check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -537,25 +569,37 @@ jobs:
           echo "no_changes=false" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push
-        if: steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
         env:
           BRANCH: ${{ steps.branch.outputs.branch }}
+          REMOTE_SHA: ${{ steps.branch.outputs.remote_sha }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
           SKILL_ID: ${{ steps.payload.outputs.skill_id }}
         run: |
           set -euo pipefail
-          # Stage only the paths we intend to commit — defence-in-depth against
-          # stray files (e.g. parse_error.txt) leaking into the commit.
-          git add registry/named/ registry/gaia.json registry/named-skills.json docs/graph/ || true
+          # Stage only the paths we intend to commit, and only the ones that exist. One absent pathspec
+          # (for example docs/graph) makes git add fail for every path, which used to stage nothing and
+          # then report "no changes". Stray files (e.g. parse_error.txt) still never reach the commit.
+          for path in registry/named registry/gaia.json registry/named-skills.json docs/graph; do
+            if [ -e "$path" ]; then
+              git add -- "$path"
+            fi
+          done
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
           git commit -m "feat(upstream-sync): ${SKILL_ID} → ${NEW_VERSION} [skip-gen]"
-          git push --force-with-lease origin "$BRANCH"
+          if [ -n "$REMOTE_SHA" ]; then
+            # M5: replace the remote branch only while it still holds the commits the ownership check
+            # read (a lease on that sha). A racing push makes this fail rather than overwrite it.
+            git push --force-with-lease="${BRANCH}:${REMOTE_SHA}" origin "HEAD:refs/heads/${BRANCH}"
+          else
+            git push origin "HEAD:refs/heads/${BRANCH}"
+          fi
 
       - name: Open draft PR
-        if: steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
         id: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -573,8 +617,12 @@ jobs:
           else
             FREEZE_LINE="- No components were removed upstream, so none were frozen"
           fi
-          # Re-use existing open draft PR if one already exists for this branch (idempotency)
-          PR_URL=$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // empty' 2>/dev/null || true)
+          # Re-use existing open draft PR if one already exists for this branch (idempotency). A failed
+          # lookup stops the job: it must not read as "no PR" and open a duplicate (M5).
+          if ! PR_URL=$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // empty'); then
+            echo "::error::Could not list open PRs for ${BRANCH}. No PR was created."
+            exit 1
+          fi
           if [ -n "$PR_URL" ]; then
             echo "Draft PR already exists for $BRANCH: $PR_URL"
             PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
@@ -605,7 +653,7 @@ jobs:
           echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
 
       - name: Comment PR link on umbrella
-        if: steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
@@ -615,8 +663,12 @@ jobs:
           UNRESOLVED: ${{ steps.unresolved.outputs.count }}
         run: |
           # Avoid duplicate comments if PR link was already posted on umbrella
-          ALREADY_COMMENTED=$(gh issue view "$ISSUE_NUMBER" --json comments \
-            --jq "[.comments[].body] | any(contains(\"Draft PR #${PR_NUMBER} opened\"))" 2>/dev/null || echo "false")
+          # Fail closed: a failed comment lookup must not read as "not yet commented" and post a duplicate.
+          if ! ALREADY_COMMENTED=$(gh issue view "$ISSUE_NUMBER" --json comments \
+            --jq "[.comments[].body] | any(contains(\"Draft PR #${PR_NUMBER} opened\"))"); then
+            echo "::error::Could not read the comments of umbrella #${ISSUE_NUMBER}. No comment was posted."
+            exit 1
+          fi
           if [ "$ALREADY_COMMENTED" = "true" ]; then
             echo "PR link already commented on umbrella #${ISSUE_NUMBER}."
             exit 0
