@@ -699,6 +699,10 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
             return finish("blocked", failure=f"list-comments: {exc}")
         except Exception as exc:  # item-local
             return finish("failed", failure=f"list-comments: {exc}")
+        # A row we cannot read may be a maintainer's objection; the history is not provable, so nothing is written.
+        if any(not isinstance(comment, dict) for comment in listed):
+            return finish("blocked-identity", failure="unreadable comment row; comment history is not provable",
+                          closer=closer)
 
         # A matching marker belongs to this closure decision even when the token's
         # identity changed or cannot be read. Never post a second closing comment.
