@@ -36,17 +36,25 @@ from typing import Any, Callable
 import yaml
 
 from gaia_cli.steward.clock import utcNow
-from gaia_cli.steward.clock import utcNow
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.closure import (
+    ActionRefused,
     ForgeBlockedError,
     ForgeIdentityError,
     ForgeItemError,
+    closureAction,
     executeClosure,
     planClosures,
 )
-from gaia_cli.steward.issuehygiene.executor import ActionRefused, compactPlan, gateClosure, receiptFor, sameRepo
+from gaia_cli.steward.issuehygiene.executor import (
+    AlreadyRecorded,
+    gateClosure,
+    receiptFor,
+    reserveClosure,
+    sameRepo,
+)
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
+from gaia_cli.steward.issuehygiene.outcomes import OutcomeStoreError, donePairs
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, observedDigest
@@ -353,7 +361,11 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         return refuse("--repo does not name the census repository")
     manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy))
     cap = policy.maxClosuresPerRun if args.max_closures is None else max(1, min(args.max_closures, policy.maxClosuresPerRun))
-    plans = planClosures(manifest, replace(policy, maxClosuresPerRun=cap))
+    try:
+        recorded = donePairs(root)
+    except OutcomeStoreError as exc:
+        return refuse(f"closure outcomes unreadable: {exc}")
+    plans = planClosures(manifest, replace(policy, maxClosuresPerRun=cap), done=recorded)
     digest = observedDigest(manifest)
     runId = args.run_id or receipt.stem
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
@@ -365,13 +377,23 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         return EXIT_BLOCKED
     results: list[dict[str, Any]] = []
     for plan in plans:
-        action = {**compactPlan(plan), "receiptPath": relative.as_posix(), "manifestSha256": digest, "repo": args.repo}
+        action = closureAction(plan, relative.as_posix(), digest, args.repo)
         try:
             gated = gateClosure(root, action, receipt, runId, now, args.repo)
+        except AlreadyRecorded:
+            results.append({"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"})
+            continue
         except ActionRefused as exc:
             print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)
             return EXIT_REFUSED
-        result = executeClosure(gated, forge, receipt, now, runId, args.repo)
+        try:
+            result = executeClosure(
+                gated, forge, receipt, now, runId, args.repo,
+                reserve=lambda plan=plan: reserveClosure(root, receipt, policy, now, plan["key"], plan["issue"], runId, args.repo),
+            )
+        except ActionRefused as exc:
+            print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)
+            return EXIT_REFUSED
         results.append(result)
         if result["outcome"] == "blocked":
             break

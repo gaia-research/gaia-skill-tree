@@ -36,6 +36,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import subprocess
 import unicodedata
 import uuid
@@ -74,7 +75,7 @@ from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.closure import closureProven
+from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
@@ -95,6 +96,7 @@ ISSUECLOSUREKIND = "issue_closure_ready"
 ISSUEROUTINE = "issue-hygiene"
 CLOSEACTION = "forge.close_issue"
 RECEIPTDIRECTORY = Path(".gaia/steward/issue-hygiene/receipts")
+REASONCODE = re.compile(r"[a-z][a-z0-9-]{0,39}")
 
 PHASES = (
     "recover", "reconcile", "observe", "triage", "class_a", "class_b",
@@ -1583,7 +1585,11 @@ class FullRunner:
         }
         budget = policy.issue_hygiene.maxClosuresPerRun - sum(1 for a in run["actions"] if a["type"] == CLOSEACTION)
         # The hourly budget counts every run's receipts, so a fresh run cannot exceed what earlier runs spent (B7 L2).
-        budget = min(budget, hourlyBudget(self.root, self.config.clock(), policy.issue_hygiene))
+        # Pending closures of every run count too: they are emitted now and will spend the budget when the driver runs
+        # them, so emission never plans more than the gate will allow (B8 H-3c).
+        pendingNow = sum(1 for other in doc["runs"].values() for action in other["actions"]
+                         if action["type"] == CLOSEACTION and action["status"] == "pending")
+        budget = min(budget, hourlyBudget(self.root, self.config.clock(), policy.issue_hygiene) - pendingNow)
         rows = census.byNumber()
         repo = census.document.get("repo") if isinstance(census.document, dict) else None
         if not isinstance(repo, str) or not repo.strip():
@@ -1621,9 +1627,9 @@ class FullRunner:
                 if budget <= 0:
                     summary["deferred"].append({"key": key, "reason": "policy maxClosuresPerRun for this run is exhausted"})
                     continue
-                # Compact: identifiers and digests. The executor rebuilds the comments from the census (B7 D5).
-                params = {**{k: v for k, v in plan.items() if k != "reconciliationSha256"},
-                          "receiptPath": receiptPath, "manifestSha256": digest, "repo": repo}
+                # Compact: identifiers and digests. The executor rebuilds the comments from the census (B7 D5), and
+                # ``itemSha256`` is this closure's own evidence digest, so unrelated census churn does not refuse it (B8 H-3b).
+                params = closureAction(plan, receiptPath, digest, repo)
 
                 def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params,
                           debtId=debt.id, name=pairKey(key, number), eight=manifestEight(digest)) -> None:
@@ -1719,14 +1725,18 @@ class FullRunner:
             raise RecordRefused(
                 "a closed outcome must carry exactly one proof of its closing comment: a commentUrl on this issue, "
                 "a commentId, or markerVerified true")
-        if result in ("failed", "blocked") and not (isinstance(outcome.get("failure"), str) and outcome["failure"].strip()):
+        if result in ("failed", "blocked", "refused") and not (isinstance(outcome.get("failure"), str) and outcome["failure"].strip()):
             raise RecordRefused(f"a {result} outcome needs a failure reason")
+        reason = outcome.get("reason")
+        if result == "refused" and not (isinstance(reason, str) and REASONCODE.fullmatch(reason)):
+            raise RecordRefused("a refused outcome needs a machine-readable reason code")
         entry = {
             "outcome": result, "ruleId": params["ruleId"],
             "manifestSha256": params["manifestSha256"], "runId": runId, "stepId": action["stepId"],
             "commentUrl": outcome.get("commentUrl"), "commentId": commentId,
             "markerVerified": outcome.get("markerVerified") is True, "closedAt": outcome.get("closedAt"),
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
+            "reason": reason if result == "refused" else None,
         }
         key, issue = params["key"], params["issue"]
 

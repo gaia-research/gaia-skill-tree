@@ -27,9 +27,11 @@ from gaia_cli.steward.issuehygiene.closure import resumeState
 STORE = Path(".gaia/steward/issue-hygiene/outcomes.json")
 RECEIPTDIR = Path(".gaia/steward/issue-hygiene/receipts")
 STORESCHEMA = "steward-issue-closure-outcomes-v1"
-OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked", "blocked-identity")
+# ``refused`` (B8 H-3a) is the outcome of an exit-2 gate refusal: the step settles, the pair is emitted again by a later
+# run, and RETRYLIMIT refusals escalate to the founder desk as one Class C question.
+OUTCOMES = ("closed", "stale-skip", "already-closed", "failed", "blocked", "blocked-identity", "refused")
 TERMINALOUTCOMES = frozenset({"closed", "already-closed"})
-RETRYABLE = frozenset({"failed", "blocked", "blocked-identity"})
+RETRYABLE = frozenset({"failed", "blocked", "blocked-identity", "refused"})
 RETRYLIMIT = 3
 
 
@@ -88,10 +90,44 @@ def receiptPairs(root: Path) -> frozenset[tuple[str, int]]:
     return frozenset(done)
 
 
+def doneClosures(root: Path) -> dict[tuple[str, int], str | None]:
+    """Every pair already closed by any path, with the latest ``closedAt`` it records (None when unknown).
+
+    Reads the outcome store and every receipts file of the checkout. Raises ``OutcomeStoreError`` when the store is
+    unreadable. A pair reopened by a person is still done here: the steward never closes it again (B8 H-1).
+    """
+
+    found: dict[tuple[str, int], str | None] = {}
+    for entry in loadOutcomes(root).values():
+        key, issue = entry.get("key"), entry.get("issue")
+        if entry.get("outcome") in TERMINALOUTCOMES and isinstance(key, str) and isinstance(issue, int):
+            found[(key, issue)] = laterOf(found.get((key, issue)), entry.get("closedAt"))
+    directory = root / RECEIPTDIR
+    if directory.is_dir():
+        for path in sorted(directory.glob("*.jsonl")):
+            for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+                try:
+                    entry = json.loads(line)
+                except ValueError:
+                    continue
+                if not isinstance(entry, dict) or entry.get("outcome") not in TERMINALOUTCOMES:
+                    continue
+                key, issue = entry.get("key"), entry.get("issue")
+                if isinstance(key, str) and isinstance(issue, int):
+                    found[(key, issue)] = laterOf(found.get((key, issue)), entry.get("closedAt"))
+    return found
+
+
+def laterOf(current: str | None, candidate: Any) -> str | None:
+    if not isinstance(candidate, str):
+        return current
+    return candidate if current is None or candidate > current else current
+
+
 def donePairs(root: Path) -> frozenset[tuple[str, int]]:
     """Every (key, issue) pair already closed by any path. Raises ``OutcomeStoreError`` when unreadable."""
 
-    return closedPairs(loadOutcomes(root)) | receiptPairs(root)
+    return frozenset(doneClosures(root))
 
 
 def failedAttempts(entries: Mapping[str, Mapping[str, Any]], key: str, issue: int) -> int:

@@ -13,7 +13,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
-from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, ForgeItemError, closureProven
+from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, ForgeItemError, closureProven, itemDigest
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, observedDigest
 from scripts.steward_issue_close import EXIT_BLOCKED, EXIT_FAILED, EXIT_OK, EXIT_REFUSED, main
 from tests.steward.issuehygiene.test_b_closure import FakeForge, a1Scenario, liveOf, planFor, scenarioRow
@@ -37,7 +37,8 @@ def scenario(tmp_path: Path):
 
 
 def writeAction(tmp_path: Path, manifest: dict, plan: dict, **changes) -> Path:
-    action = {**plan, "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest), "repo": REPO_NAME, **changes}
+    action = {**plan, "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest),
+              "itemSha256": itemDigest(plan), "repo": REPO_NAME, **changes}
     path = tmp_path / "action.json"
     path.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
     return path
@@ -63,7 +64,8 @@ def test_closes_a_proven_issue_and_prints_its_outcome(tmp_path, capsys):
     assert closureProven(outcome, 10, REPO_NAME)
     assert forge.issues[10]["state"] == "closed"
     receipts = (tmp_path / RECEIPT).read_text(encoding="utf-8").splitlines()
-    assert len(receipts) == 1 and json.loads(receipts[0])["outcome"] == "closed"
+    # B8 M-3: the budget slot is reserved before the forge call; the terminal line resolves it.
+    assert [json.loads(line)["outcome"] for line in receipts] == ["reserved", "closed"]
 
 
 def test_an_already_closed_issue_is_reported_without_a_write(tmp_path, capsys):
@@ -128,21 +130,22 @@ def test_a_receipt_outside_the_store_is_refused_before_any_forge_call(tmp_path, 
 
     code, outcome = runScript(tmp_path, action, forge, capsys)
 
-    assert code == EXIT_REFUSED and outcome is None
+    assert code == EXIT_REFUSED and outcome["outcome"] == "refused"
     assert forge.calls == []
 
 
-@pytest.mark.parametrize("missing", ["comment", "expectedSnapshot", "manifestSha256"])
+@pytest.mark.parametrize("missing", ["comment", "expectedSnapshot", "manifestSha256", "itemSha256"])
 def test_an_action_missing_a_required_field_is_refused(tmp_path, capsys, missing):
     manifest, _ = scenario(tmp_path)
-    action = {**planFor(manifest), "receiptPath": RECEIPT, "manifestSha256": manifest["manifestSha256"]}
+    action = {**planFor(manifest), "receiptPath": RECEIPT, "manifestSha256": manifest["manifestSha256"],
+              "itemSha256": itemDigest(planFor(manifest))}
     del action[missing]
     path = tmp_path / "action.json"
     path.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
 
     code, outcome = runScript(tmp_path, path, FakeForge({10: liveOf(scenarioRow(10))}), capsys)
 
-    assert code == EXIT_REFUSED and outcome is None
+    assert code == EXIT_REFUSED and outcome is None  # an unreadable action has no outcome to report
 
 
 def test_an_empty_closing_comment_is_refused(tmp_path, capsys):
@@ -160,7 +163,7 @@ def test_a_non_authority_a_plan_is_refused_not_crashed(tmp_path, capsys):
 
     code, outcome = runScript(tmp_path, action, FakeForge({10: liveOf(scenarioRow(10))}), capsys)
 
-    assert code == EXIT_REFUSED and outcome is None
+    assert code == EXIT_REFUSED and outcome["outcome"] == "refused"
 
 
 def test_without_a_token_the_real_forge_refuses_and_nothing_is_written(tmp_path, capsys, monkeypatch):

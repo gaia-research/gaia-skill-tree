@@ -32,9 +32,10 @@ gaia steward full run --resume RUN --json
 Its `params` are compact (B7 D5): identifiers and digests, not the closing comments. They are
 `key`, `issue`, `ruleId`, `authority`, `state`, `stateReason`, `duplicateOf`, `parent`, `canonical`,
 `expectedSnapshot`, `evidence` (type, ref and sha256 only), `closureSha8`, `preservedSha256`,
-`receiptPath`, `manifestSha256` (the digest the sensor reports) and `repo`. Write `params` verbatim to
-`ACTION.json`. The executor rebuilds the closing comments and the preserved candidate information from
-the census, and refuses unless the digests match the re-derived closure.
+`receiptPath`, `manifestSha256` (the census-level reference the sensor reports), `itemSha256` (the digest of this
+closure's own evidence, B8 H-3b) and `repo`. Write `params` verbatim to `ACTION.json`. The executor rebuilds the
+closing comments and the preserved candidate information from the census, and refuses unless `itemSha256` and the
+closure digests match the re-derived closure.
 
 ## Output
 
@@ -66,15 +67,19 @@ The executor re-derives every gate below before any forge is built:
 1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`, and the policy parses.
 2. The action's rule is in `issueHygiene.enabledRules`. An A5 closure also needs a
    non-empty `a5Disabled` covering every workflow its evidence names.
-3. This run has not reached `issueHygiene.maxClosuresPerRun` (closed receipts for the run id count).
-4. The hourly budget is not spent: closures recorded in any run count. At most `maxClosuresPerRun`
-   per UTC hour, and never more than 25 in any 60 minutes.
+2a. The pair is not recorded as done in ANY receipts file or in the outcome store (B8 H-1). A pair the steward
+   closed once is never closed again, even when a person reopened it; the reopened issue is a founder note.
+3. This run has not reached `issueHygiene.maxClosuresPerRun` (closures performed and reserved for the run id count).
+4. The hourly budget is not spent: closures performed and reserved in any run count. At most `maxClosuresPerRun`
+   per UTC hour, and never more than 25 in any 60 minutes. The check and the reservation run under one
+   repository-keyed budget lock, and the reservation is written before the forge is called (B8 M-3).
 5. `receiptPath` is under `.gaia/steward/issue-hygiene/receipts/`, reached through no symlink.
 6. `.gaia/steward/inputs/github-issues.json` is a complete, fresh census for the repository the action
    names (`repo`), and `--repo` (the close script's default is the census repository) names the same one.
-7. Reconciling that census reproduces the action's `manifestSha256`, still proves the same
-   (key, issue, rule), and the re-derived closure's `closureSha8` and `preservedSha256` match the action.
-   A moved census refuses the action; the next scan re-observes it.
+7. Reconciling that census still proves the same (key, issue, rule), and the closure's own evidence digest
+   (`itemSha256`: the issue's title, body, labels and state, its proof evidence, rule and transition) matches.
+   Unrelated census churn, such as another issue's `updatedAt`, does not refuse the action (B8 H-3b). A change
+   to this closure's own evidence does, and the next scan re-observes it.
 
 - Closes exactly `params.issue`, and only when its live title, body, labels and state equal
   `expectedSnapshot`. The live `updatedAt` may differ only when our own marker comment for this
@@ -94,7 +99,9 @@ Exit codes, as the script prints them:
 - 1 — failed, or blocked-identity (the live issue is locked, a pull request, renumbered or
   transferred; nothing was written): this item only, retryable up to three attempts.
 - 2 — refused: a gate above did not hold, or the action cannot be performed as written. No
-  forge is built and nothing is written. The runner treats this as non-retryable and skips it.
+  forge is built and nothing is written. Stdout then carries one `refused` line with a machine-readable
+  `reason` code (for example `item-changed`, `hour-budget`, `already-recorded`, `census-not-complete`). The driver
+  records it as the step's outcome, which settles the step (B8 H-3a).
 - 3 — blocked: auth, rate limit or transport failure, or no token. The batch stops.
 
 Exit 0 also covers `resumed-done`: a repeat of a closure already recorded, printed from its receipt.
@@ -119,11 +126,15 @@ With `writesEnabled` false the command refuses (exit 2) and makes no forge call.
 
 - Exit 3 (`blocked`): stop the batch and report. Do not retry in the same run; the forge is
   not trustworthy until a person looks.
-- Exit 2 (`refused`): do not record anything. Report the gate that refused it.
+- Exit 2 (`refused`): record the refused outcome the script printed (the driver does this). Report the gate
+  that refused it. A pair refused three times (`RETRYLIMIT`) is not emitted again: it becomes one Class C
+  question, `closure-refused`, on the founder desk.
 - A closing comment posted but not verifiable on re-read: the issue stays open and the outcome
   is `failed`. Never close blind.
-- A closure the gate refuses (exit 2) is skipped and reported at the next scan; it is never re-sent
-  in the same run.
+- A closure the gate refuses (exit 2) is settled as refused. The pair is emitted again by a later emission
+  against the then-current census, and it is never re-sent within the same pass.
+- A closure the steward performed, then a person reopened: the steward does not close it again. The sensor
+  raises one Class C note, `reopened-after-closure`, that lists the reopened issues.
 - Writes switched off (or the closure rule disabled) after a closure was emitted: the runner cancels
   the pending closure (reason `writes-disabled`) and the driver reports "writes disabled". Nothing is written.
 

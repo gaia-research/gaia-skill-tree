@@ -31,7 +31,8 @@ Exit codes
   1  failed (this item only; retryable, counted by the runner). Includes blocked-identity: the live
      issue is locked, a pull request, renumbered, or transferred, so nothing was written.
   2  refused: the action cannot be performed as written, or the checkout no longer proves it. No forge is
-     built and nothing is written. The runner treats this as non-retryable and skips the action.
+     built and nothing is written. Stdout then carries one ``refused`` outcome line with a machine-readable
+     ``reason`` code (B8 H-3a): the driver records it, which settles the step, and a later run may emit the pair again.
   3  blocked: auth, rate or transport failure, or no token. The batch stops.
 """
 
@@ -50,16 +51,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from gaia_cli.steward.clock import utcNow  # noqa: E402
 from gaia_cli.steward.issuehygiene.closure import (  # noqa: E402
+    ActionRefused,
     ForgeBlockedError,
     closureProven,
     executeClosure,
 )
 from gaia_cli.steward.issuehygiene.executor import (  # noqa: E402
-    ActionRefused,
+    AlreadyRecorded,
     gateClosure,
     loadActionFile,
+    loadHygienePolicyOrRefuse,
     receiptFor,
     recordedReceipt,
+    reserveClosure,
 )
 from steward_issue_census import DEFAULT_REPO  # noqa: E402
 from steward_issue_reconcile import GhForge  # noqa: E402
@@ -91,6 +95,18 @@ def outcomeFrom(receipt: dict[str, Any]) -> dict[str, Any]:
     return outcome
 
 
+def refusal(exc: ActionRefused, action: dict[str, Any] | None) -> int:
+    """Refuse with exit 2. The reason is printed on stderr, and one ``refused`` outcome line goes to stdout (B8 H-3a),
+    so the driver can record the refusal and settle the step. The reason ``code`` is machine-readable."""
+
+    print(f"steward issue close refused: {exc}", file=sys.stderr)
+    if action is not None and isinstance(action.get("key"), str) and isinstance(action.get("issue"), int):
+        line = {"outcome": "refused", "reason": exc.code, "key": action["key"], "issue": action["issue"],
+                "failure": str(exc)[:300], "closedAt": None}
+        print(json.dumps(line, sort_keys=True))
+    return EXIT_REFUSED
+
+
 def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--action", type=Path, required=True, help="the forge.close_issue params as a JSON file")
@@ -110,32 +126,47 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
         print("note: --now is ignored by the closure executor; freshness uses the real clock", file=sys.stderr)
     now = utcNow()
     repo = args.repo or os.environ.get("GITHUB_REPOSITORY") or DEFAULT_REPO
+    action: dict[str, Any] | None = None
+    receipt: Path | None = None
     try:
         action = loadActionFile(actionPath)
         receipt = receiptFor(root, action["receiptPath"])
         runId = args.run_id or receipt.stem
         plan = gateClosure(root, action, receipt, runId, now, repo)
+    except AlreadyRecorded as exc:
+        # A repeat of a closure this checkout already recorded: report the recorded outcome. Recorded elsewhere: refuse.
+        done = recordedReceipt(receipt, action["key"], action["issue"]) if receipt is not None and action else None
+        if done is None:
+            return refusal(exc, action)
+        return printRecorded(done, action["issue"], repo)
     except ActionRefused as exc:
-        print(f"steward issue close refused: {exc}", file=sys.stderr)
-        return EXIT_REFUSED
+        return refusal(exc, action)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     try:
         forge = (forgeFactory or GhForge)(repo, token)
-        executed = executeClosure(plan, forge, receipt, now, runId, repo)
+        policy = loadHygienePolicyOrRefuse(root)
+        executed = executeClosure(
+            plan, forge, receipt, now, runId, repo,
+            reserve=lambda: reserveClosure(root, receipt, policy, now, plan["key"], plan["issue"], runId, repo),
+        )
+    except ActionRefused as exc:  # the budget reservation, or the policy, refused: nothing was written
+        return refusal(exc, action)
     except ValueError as exc:  # executeClosure: not authority A, or an unregistered rule
-        print(f"steward issue close refused: {exc}", file=sys.stderr)
-        return EXIT_REFUSED
+        return refusal(ActionRefused(str(exc)), action)
     except ForgeBlockedError as exc:
         print(f"steward issue close blocked: {exc}", file=sys.stderr)
         return EXIT_BLOCKED
     if executed["outcome"] == "resumed-done":
         done = recordedReceipt(receipt, plan["key"], plan["issue"])
         if done is None:
-            print("steward issue close refused: the pair is recorded as done but its receipt is not", file=sys.stderr)
-            return EXIT_REFUSED
+            return refusal(ActionRefused("the pair is recorded as done elsewhere in the receipts store", code="already-recorded"), action)
         executed = done
+    return printRecorded(executed, plan["issue"], repo)
+
+
+def printRecorded(executed: dict[str, Any], issue: int, repo: str) -> int:
     outcome = outcomeFrom(executed)
-    if outcome["outcome"] == "closed" and not closureProven(outcome, plan["issue"], repo):
+    if outcome["outcome"] == "closed" and not closureProven(outcome, issue, repo):
         print("steward issue close refused: the outcome carries no single valid proof", file=sys.stderr)
         return EXIT_REFUSED
     print(json.dumps(outcome, sort_keys=True))

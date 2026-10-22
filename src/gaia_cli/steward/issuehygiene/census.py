@@ -155,6 +155,7 @@ def validateCensus(raw: Any, now: Any, maxAgeSeconds: int) -> CensusStatus:
             reasons.append(f"{field}-not-a-list")
             level = INCOMPLETE
             continue
+        seen: set = set()
         for row in value:
             if not isinstance(row, dict):
                 reasons.append(f"{field}-row-not-an-object")
@@ -164,6 +165,16 @@ def validateCensus(raw: Any, now: Any, maxAgeSeconds: int) -> CensusStatus:
             if rowReasons:
                 reasons.extend(rowReasons)
                 level = INCOMPLETE
+            number = row.get("number")
+            if field == "issues":
+                # B8 LOW: the open listing holds each number once, and every row in it is open.
+                if number in seen:
+                    reasons.append(f"issues-duplicate-number:#{number}")
+                    level = INCOMPLETE
+                seen.add(number)
+                if row.get("state") != "open":
+                    reasons.append(f"issues-row-not-open:#{number}")
+                    level = INCOMPLETE
 
     fetchedAt = parseTimestamp(raw.get("fetchedAt"))
     nowAt = now if isinstance(now, datetime) else parseTimestamp(now)

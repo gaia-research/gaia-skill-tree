@@ -25,6 +25,7 @@ from tests.steward.issuehygiene.test_d1_sensor import (
     writeCensus,
 )
 from tests.steward.test_fullrun import StubSensor, fileStore, makeFixture, makeRunner
+from gaia_cli.steward.clock import parseInstant, setClock
 
 CLOSE = "forge.close_issue"
 
@@ -140,7 +141,7 @@ def test_closed_outcomes_are_durable_and_a_later_run_never_reemits_them(tmp_path
     assert len(loadOutcomes(repo)) == 10
 
     # The policy cap is per UTC hour (B7 L2): the two deferred closures wait for the next hour.
-    monkeypatch.setenv("GAIA_STEWARD_NOW", "2026-10-21T20:30:00Z")
+    setClock(lambda: parseInstant("2026-10-21T20:30:00Z"))
     second = runner.start("full")  # the census still lists all twelve as open
     emitted = [a["params"]["issue"] for a in closeActions(second)]
     assert sorted(emitted) == [110, 111]

@@ -39,7 +39,9 @@ CREDENTIAL_PATTERNS: tuple[tuple[str, "re.Pattern[str]"], ...] = (
     ("bearer-token", re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]{8,}")),
     ("credential-assignment", re.compile(
         r"(?i)\b(?:password|passwd|secret|token|api[_-]?key)\\?[\"']?\s*[=:]\s*\\?[\"']?"
-        r"(?![A-Za-z_][A-Za-z0-9_]*[.\[(])[^\s\\\"',;&\[\]()]{6,}")),
+        # B8 LOW: only a dotted code path that ends in a call or an index is code access. A value such as
+        # ``abc123.def456`` or ``abc123...`` is still a token, so it is scrubbed.
+        r"(?!(?:[A-Za-z_][A-Za-z0-9_]*\.)*[A-Za-z_][A-Za-z0-9_]*[\[(])[^\s\\\"',;&\[\]()]{6,}")),
     # A 40-character base64 string next to an aws or secret keyword (the AWS secret access key shape).
     ("aws-secret-access-key", re.compile(
         r"(?i:aws|secret)[^\n]{0,40}?(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])")),

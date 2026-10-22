@@ -17,6 +17,7 @@ import pytest
 
 from gaia_cli.steward.issuehygiene.closure import (
     COMMENT_LIMIT,
+    itemDigest,
     ForgeBlockedError,
     ForgeItemError,
     ForgeIdentityError,
@@ -176,7 +177,8 @@ def actionFor(root: Path, document: dict, planOverrides: dict | None = None, **c
     plan = planClosures(manifest, policyFor())[0]
     action = {
         **plan, "receiptPath": ".gaia/steward/issue-hygiene/receipts/R1.jsonl",
-        "manifestSha256": observedDigest(manifest), "repo": REPO, **(planOverrides or {}), **changes,
+        "manifestSha256": observedDigest(manifest), "itemSha256": itemDigest(plan), "repo": REPO,
+        **(planOverrides or {}), **changes,
     }
     target = root / "action.json"
     target.write_text(json.dumps(action, sort_keys=True), encoding="utf-8")
@@ -287,9 +289,9 @@ def test_an_incomplete_census_refuses_the_action(tmp_path: Path, capsys) -> None
     assert code == EXIT_REFUSED and constructed == []
 
 
-def test_a_manifest_that_moved_since_emission_refuses_the_action(tmp_path: Path, capsys) -> None:
+def test_a_closures_own_evidence_that_moved_since_emission_refuses_the_action(tmp_path: Path, capsys) -> None:
     root, document = checkout(tmp_path, policy={"writesEnabled": True})
-    action = actionFor(root, document, manifestSha256="0" * 64)
+    action = actionFor(root, document, itemSha256="0" * 64)
 
     code, constructed = runClose(root, action, capsys)
 
