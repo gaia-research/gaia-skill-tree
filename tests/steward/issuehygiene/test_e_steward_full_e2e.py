@@ -20,7 +20,6 @@ from __future__ import annotations
 import json
 import socket
 import sys
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -34,7 +33,7 @@ from gaia_cli.steward.issuehygiene.registryindex import parseGithubUrl, splitId
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, IssueHygieneSensor
 from scripts.steward_issue_census import writeAtomic
 from scripts.steward_issue_close import main as closeMain
-from tests.steward.issuehygiene.e_fakes import FakeForge, FakeGitHub, REPO, loadFixture, makeCheckout, seedFromDocument
+from tests.steward.issuehygiene.e_fakes import FakeForge, FakeGitHub, REPO, loadFixture, makeCheckout, patchOpener, seedFromDocument
 
 CLOSE = "forge.close_issue"
 MARKER = "<!-- gaia-steward-closure:"
@@ -48,7 +47,7 @@ def refuseNetwork(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(socket.socket, "connect", refuse)
     monkeypatch.setattr(socket, "create_connection", refuse)
     monkeypatch.setattr(socket, "getaddrinfo", refuse)
-    monkeypatch.setattr(urllib.request, "urlopen", refuse)
+    patchOpener(monkeypatch, refuse)
 
 
 def eligibleFromFixture(count: int) -> list[dict]:

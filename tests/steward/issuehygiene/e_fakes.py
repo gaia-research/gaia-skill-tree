@@ -24,6 +24,7 @@ import json
 import math
 import shutil
 import subprocess
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping
@@ -87,6 +88,20 @@ def realLinkHeader(state: str, perPage: int, page: int, total: int, repoId: int 
     if page > 1:
         links.append(f'<{base}&page={page - 1}&before={quote(cursorFor(page - 1), safe="")}>; rel="prev"')
     return ", ".join(links)
+
+
+def patchOpener(monkeypatch: Any, transport: Callable[..., Any]) -> None:
+    """Route every census request through ``transport(request, timeout=...)``.
+
+    The census sends its requests through a no-redirect opener (B6), so that opener is the seam a test
+    replaces. ``transport`` returns a response or raises the error the test wants the census to see.
+    """
+
+    class _Opener:
+        def open(self, request, timeout=None):
+            return transport(request, timeout=timeout)
+
+    monkeypatch.setattr(urllib.request, "build_opener", lambda *handlers: _Opener())
 
 
 class SimulatedCrash(BaseException):

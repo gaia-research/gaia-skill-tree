@@ -1,8 +1,8 @@
 """Adversarial lane E, scenarios 1 and 15: pagination, missing pages, stale census, auth failure.
 
 Every test here asserts a fail-closed outcome (lane E defects 1 and 2 are fixed and pinned here). Nothing touches the network: the collector
-is driven through ``FakeGitHub.fetch`` and ``httpFetch`` is driven through a patched
-``urllib.request.urlopen``.
+is driven through ``FakeGitHub.fetch`` and ``httpFetch`` is driven through a patched no-redirect
+opener (``patchOpener``), the seam every census request goes through.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from gaia_cli.steward.issuehygiene.census import COMPLETE, INCOMPLETE, MISSING, 
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, IssueHygieneSensor
 from gaia_cli.steward.primitives import SensorUnavailable
 from scripts.steward_issue_census import MAX_PAGES, FetchError, Response, collectCensus, httpFetch
-from tests.steward.issuehygiene.e_fakes import NOW, NOW_TEXT, REPO, FakeGitHub, makeCheckout
+from tests.steward.issuehygiene.e_fakes import NOW, NOW_TEXT, REPO, FakeGitHub, makeCheckout, patchOpener
 
 
 def openRows(gh: FakeGitHub, count: int) -> None:
@@ -68,7 +68,29 @@ def test_rate_limited_last_page_is_incomplete_not_partial() -> None:
 
 
 def test_listing_that_stops_before_the_promised_last_page_is_short() -> None:
-    """Page 1 keeps rel="last" (page 3) but drops rel="next": the walk ends early and must not look whole."""
+    """A fake that promises a last page (page 3) on page 1 and drops rel="next": the walk ends early and must not look whole.
+
+    The live issues endpoint never sends rel="last"; this pins the short-pagination check for any listing that does.
+    """
+
+    gh = FakeGitHub(pageSize=2)
+    openRows(gh, 5)
+    original = gh.listPage
+
+    def promiseLast(state, page, since=None):
+        status, headers, body = original(state, page, since)
+        if state == "open" and page == 1:
+            headers = {"link": f'<https://api.github.com/repos/{REPO}/issues?state=open&per_page=2&page=3>; rel="last"'}
+        return status, headers, body
+
+    gh.listPage = promiseLast
+    doc = gh.census(NOW)
+    assert doc["completeness"]["issues"]["complete"] is False
+    assert doc["completeness"]["issues"]["reason"].startswith("pagination-short:1/3")
+
+
+def test_a_dropped_next_link_on_the_live_shape_is_caught_by_the_end_probe() -> None:
+    """Page 1 of a real-shape listing drops rel="next": the end probe finds page 2 and the walk is incomplete."""
 
     gh = FakeGitHub(pageSize=2)
     openRows(gh, 5)
@@ -77,13 +99,16 @@ def test_listing_that_stops_before_the_promised_last_page_is_short() -> None:
     def dropNext(state, page, since=None):
         status, headers, body = original(state, page, since)
         if state == "open" and page == 1:
-            headers = {"link": headers["link"].split(",")[-1]}
+            headers = {}
         return status, headers, body
 
     gh.listPage = dropNext
     doc = gh.census(NOW)
-    assert doc["completeness"]["issues"]["complete"] is False
-    assert doc["completeness"]["issues"]["reason"].startswith("pagination-short:1/3")
+    section = doc["completeness"]["issues"]
+    assert section["complete"] is False
+    assert section["reason"] == "unlinked-continuation"
+    assert section["diagnostics"]["probePage"] == 2
+    assert section["diagnostics"]["probeRows"] == 2
 
 
 def test_unparsable_last_link_is_incomplete() -> None:
@@ -225,7 +250,7 @@ def test_forbidden_without_a_rate_limit_header_is_http_403_not_rate_limited(monk
     def refuse(request, timeout=None):
         raise urllib.error.HTTPError(request.full_url, 403, "Forbidden", {}, None)
 
-    monkeypatch.setattr(urllib.request, "urlopen", refuse)
+    patchOpener(monkeypatch, refuse)
     with pytest.raises(FetchError) as caught:
         httpFetch("https://api.github.com/repos/x/y/issues", "tok-SECRET-123")
     assert caught.value.reason == "http-403"
@@ -236,7 +261,7 @@ def test_forbidden_with_exhausted_rate_limit_is_rate_limited(monkeypatch) -> Non
     def limited(request, timeout=None):
         raise urllib.error.HTTPError(request.full_url, 403, "Forbidden", {"x-ratelimit-remaining": "0"}, None)
 
-    monkeypatch.setattr(urllib.request, "urlopen", limited)
+    patchOpener(monkeypatch, limited)
     with pytest.raises(FetchError) as caught:
         httpFetch("https://api.github.com/repos/x/y/issues", "tok")
     assert caught.value.reason == "rate-limited"
@@ -246,7 +271,7 @@ def test_transport_error_reason_never_echoes_the_token(monkeypatch) -> None:
     def broken(request, timeout=None):
         raise urllib.error.URLError("connection refused tok-SECRET-123")
 
-    monkeypatch.setattr(urllib.request, "urlopen", broken)
+    patchOpener(monkeypatch, broken)
     with pytest.raises(FetchError) as caught:
         httpFetch("https://api.github.com/repos/x/y/issues", "tok-SECRET-123")
     assert caught.value.reason == "transport-URLError"

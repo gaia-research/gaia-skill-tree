@@ -238,6 +238,18 @@ def test_a_next_link_on_another_host_is_never_followed_with_the_token() -> None:
     assert not any("evil.example" in url for url in requested)
 
 
+def test_a_next_link_that_loops_back_fails_closed_as_next_loop() -> None:
+    def fetch(url: str) -> Response:
+        if "state=closed" in url:
+            return Response(200, {}, "[]")
+        return Response(200, {"link": f'<{BASE}&page=1>; rel="next"'}, json.dumps(issueRows(range(1, 101))))
+
+    listing = listAll(BASE, fetch)
+
+    assert listing.reason == "next-loop"
+    assert listing.pagesFetched == 2
+
+
 def test_an_incomplete_census_records_non_secret_probe_diagnostics() -> None:
     gh = FakeGitHub(pageSize=100, linkMode="none")
     for index in range(150):

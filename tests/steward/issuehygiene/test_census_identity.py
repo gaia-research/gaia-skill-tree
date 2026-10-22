@@ -15,6 +15,7 @@ from gaia_cli.steward.issuehygiene.census import (
     validateCensus,
 )
 from gaia_cli.steward.issuehygiene.identity import buildGraph, classify, compareVersions
+from tests.steward.issuehygiene.e_fakes import realLinkHeader, servedPage
 from scripts.steward_issue_census import FetchError, Response, collectCensus, main
 
 FIXTURE = Path(__file__).resolve().parents[2] / "fixtures" / "issuehygiene" / "census-four-families.json"
@@ -254,7 +255,7 @@ def test_human_issue_is_untracked() -> None:
 
 
 def fakeListing(pages: list[list[dict]], failPage: int | None = None, status: int = 200):
-    """Fake GitHub: open pages are served in order; closed listing is empty and complete."""
+    """Fake GitHub: open pages are served in order with the live cursor Link shape; closed listing is empty and complete."""
     total = len(pages)
 
     def fetch(url: str) -> Response:
@@ -262,22 +263,15 @@ def fakeListing(pages: list[list[dict]], failPage: int | None = None, status: in
             return Response(200, {}, json.dumps({"total_count": 0, "workflows": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
-        query = parse_qs(urlparse(url).query)
-        number = int(query["page"][0]) if "page" in query else 1
+        number = servedPage(parse_qs(urlparse(url).query))
         if failPage == number:
             if status == 200:
                 raise FetchError("rate-limited")
             return Response(status, {}, "{}")
         if number > total:
             return Response(200, {}, "[]")
-        links = []
-        if number < total:
-            links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={number + 1}>; rel="next"')
-            links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={total}>; rel="last"')
-        if number > 1:
-            links.append(f'<https://api.example/repos/o/r/issues?state=open&per_page=100&page={number - 1}>; rel="prev"')
-            links.append('<https://api.example/repos/o/r/issues?state=open&per_page=100&page=1>; rel="first"')
-        return Response(200, {"link": ", ".join(links)}, json.dumps(pages[number - 1]))
+        link = realLinkHeader("open", 100, number, total)
+        return Response(200, {"link": link} if link else {}, json.dumps(pages[number - 1]))
 
     return fetch
 
@@ -331,7 +325,7 @@ def test_collector_refuses_to_claim_completeness_on_short_pagination(tmp_path: P
     def short(url: str) -> Response:
         if "state=closed" in url:
             return Response(200, {}, "[]")
-        return Response(200, {"link": '<https://api.example/x?page=3>; rel="last"'}, json.dumps(sampleRows(2, 1)))
+        return Response(200, {"link": '<https://api.github.com/x?page=3>; rel="last"'}, json.dumps(sampleRows(2, 1)))
 
     document = collectCensus("o/r", FIXED_NOW, short)
 
