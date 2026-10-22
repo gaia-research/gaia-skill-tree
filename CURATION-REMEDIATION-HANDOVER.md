@@ -121,25 +121,39 @@ Definition of done is not met yet. Do not claim completion from these edits or p
 - **Draft PR opened: #2134** (DRAFT, base `main`, head `dev/curation-secure-reconciliation`),
   https://github.com/gaia-research/gaia-skill-tree/pull/2134 — references #2088, #2089, #2117,
   #2118, #2093, #2099. **Not merged. No issue comments. No deployment. No real intake.**
-- Head SHA: `79c40cf8851db8bcf1bd87c75671991035bd50bf`. Branch is 45 commits ahead of main;
-  it contains main's 113 commits via a merge, so the PR diff is only this remediation.
+- Head SHA: see `git rev-parse HEAD` on the branch. The branch contains main's commits via a
+  merge, so the PR diff is only this remediation.
 - PR #2089 is still OPEN and unmerged at `32ecd0df7c0683167e2d9dfacf6ecbb4481cb453`.
 - `origin/main` unchanged at `e1a87057957945c773c6bde2b6e7650419cfe8c5`.
 - The original main checkout is untouched; its untracked `.pi/` and the 16
   `registry-for-review/discovery-packets/emilkowalski-*.json` files are preserved.
 
 ### Verification at the final head
+
+All numbers below were measured on a **clean checkout of the committed SHA** (a detached
+`git worktree` at the final commit), not on the working tree, so the receipt describes the
+committed artifact rather than the branch directory.
+
 | Check | Result |
 |---|---|
-| Focused curation suite (23 files) | **671 passed** |
+| Focused curation suite (24 files) | **690 passed** (672 + 18 new CodeQL-regression tests) |
 | Exact audit baseline (the nine audit files) | **235 passed** (224 historical + 11 new) |
+| CodeQL regression coverage (`tests/test_curation_error_contract.py`) | **18 passed** |
 | `scripts/merge_gate_check.py` | **15/15** |
 | `scripts/curation_walkthrough.py` | **17/17** |
 | `scripts/verify_review_findings.py` | **13/13** |
-| Wider repository suite (`tests/`, not integration/slow) | **4070 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` not writable) |
-| `scripts/pr_guards.py --base origin/main` | PASS |
+| Wider repository suite (`tests/`, not integration/slow) | **PENDING-FINAL** |
+| `scripts/pr_guards.py --base origin/main` | **42 passed, 0 failed**, all named guards pass |
 | `scripts/sync_agent_skill_mirror.py --check` | in sync |
 | `scripts/sync_bundled_schemas.py --check` | in sync |
+| `git diff --check` | clean |
+| CodeQL (GitHub Advanced Security) | **pass** — the four `py/clear-text-logging-sensitive-data` alerts (106–109) are **fixed**, 0 open alerts on PR #2134, nothing dismissed |
+
+The two wider-suite failures are environment limitations of this sandbox, and were re-confirmed
+against **pristine `origin/main` at `e1a870579`** (a separate detached worktree) rather than
+against an old receipt: `test_arbor.py` hardcodes `/tmp`, which is not writable on this
+platform, and `test_installability.py` calls `os.link`, which this platform's Python does not
+provide. Both fail identically with no curation code involved.
 
 ### Independent review history
 **Five** completed independent review rounds (round 1: two fresh Luna High reviewers, security +
@@ -159,8 +173,12 @@ distinct defects as three items, two of which each bundled a pair — and exclud
 test-quality observations. It was never a count of unique defects. The earlier "8 further
 findings" figure for rounds 3–5 was a miscount; the durable table enumerates **6**.
 
-The sixth round was attempted and **could not be scheduled because the reviewer
-provider hit its usage limit** — it is OUTSTANDING and should be re-run before merge.
+The sixth round was attempted **seven** times in total across two authorized backends
+(Luna XHigh and Astra XHigh) — five before this finishing pass, and two more at the final
+head, one on each backend. Every attempt was refused with the same error (`The ChatGPT user
+has reached their Subscription Sharing usage limit`), so the gap is provider capacity, not a
+skipped check. It is OUTSTANDING, it is the one open merge condition, and the PR stays draft
+until it is run. Self-review is not a substitute for independent review.
 
 ### Verdicts (as stated in the PR)
 - **Code-merge: READY FOR FOUNDER REVIEW as a draft**, subject to the repository's human merge

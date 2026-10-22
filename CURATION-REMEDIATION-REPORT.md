@@ -112,20 +112,22 @@ frozen row to its packet.
 | `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
 | Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
-| Focused curation suite (23 files) on this branch | **672 passed** |
-| Wider repository suite at the final head | **4075 passed**, 2 pre-existing sandbox failures |
-| Focused suite after every repair round | **672 passed** (no regression) |
+| Focused curation suite (24 files) on this branch | **690 passed** (672 + 18 new CodeQL-regression tests) |
+| Focused suite after every repair round | **672 passed** before the CodeQL repair, **690 passed** after it (18 new tests, no regression) |
+| CodeQL regression coverage (`tests/test_curation_error_contract.py`) | **18 passed** — secret-bearing verifier text never reaches stderr; the refusal still fails closed with nothing written; the published refusal is still shown; the verification scripts withhold a non-token detail |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
 | Independent verification of the runtime-review findings (`scripts/verify_review_findings.py`) | **13/13 checks passed** |
 | Merge-gate verification (`scripts/merge_gate_check.py`) | **15/15 checks passed** — production refusal, a legitimate batch still binding (no false rejection), five forged-accounting attacks refused, scope integrity against main |
 | `python -m compileall` on changed modules | Pass |
+| `python scripts/pr_guards.py --base origin/main` | **42 passed, 0 failed**, plus all named guards pass |
 | `git diff --check` | Clean |
 | `python scripts/sync_agent_skill_mirror.py --check` | In sync |
 | `python scripts/sync_bundled_schemas.py --check` | In sync |
 | Independent review rounds completed | **5** — round 1 (two fresh Luna High reviewers, security + conservation, static, against frozen `3e0641e3e`) and rounds 2–5 (Luna XHigh, runtime probes). The exact per-round finding ledger is §7. |
 | Unique independent findings | **16** — 14 product/security + 2 test-quality. The prior "11 findings" figure counted *reviewer-reported items*, in which two items each bundled a pair of distinct defects, and it excluded the two test-quality observations; it was never a count of unique defects. The prior "8 further findings" figure for rounds 3–5 was a miscount: the durable table and its own prose both enumerate **6**. |
-| Independent review round 6 | **OUTSTANDING.** Attempted five times across two provider backends (Luna XHigh and Astra Max); every attempt was refused with a subscription usage-limit error. The gap is provider capacity, not a skipped check. Two residual defects found by self-review in the meantime (a self-contradicting named identity block; a hand-listed field comparison that let a report carry an extra claim) were fixed in `20d945e2d` and re-verified. This round should be re-run before merge. |
-| Wider repository suite at the final head (`tests/`, not integration/slow) | **4075 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` is not writable here) |
+| Independent review round 6 | **OUTSTANDING — the one open merge condition.** Attempted **seven** times across two authorized backends (Luna XHigh and Astra XHigh): five before this finishing pass, and two more at the final head, one on each backend. Every attempt was refused with the same error — `The ChatGPT user has reached their Subscription Sharing usage limit` — so the gap is provider capacity, not a skipped check. Self-review is not a substitute for independent review, and no higher-tier reviewer was invented. Two residual defects found by self-review in the meantime (a self-contradicting named identity block; a hand-listed field comparison that let a report carry an extra claim of its own) were fixed in `20d945e2d` and re-verified. **This round must be run before merge.** |
+| CodeQL (GitHub Advanced Security) | **pass** on the final head. The four `py/clear-text-logging-sensitive-data` alerts (106–109) are **fixed** by GitHub's determination, 0 open alerts on this PR, nothing dismissed. |
+| Wider repository suite at the final head (`tests/`, not integration/slow) | **PENDING-FINAL** |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
 ### Round-1 independent review findings and their repairs
@@ -166,6 +168,70 @@ current tree.
 | A **named block** could express the identity two ways and disagree with itself, and only one expression was compared | P2, latent boundary defect (found in self-review while the reviewer provider was at capacity) | `20d945e2d` — a self-contradicting named block resolves to *no* identity, so the packet is refused rather than silently resolved | `test_packet_identity_resolves_by_one_rule_everywhere` |
 | Only a **hand-listed set** of report fields was compared, so a report could carry an extra claim of its own, and a field added to the report later would silently stop being bound | P2, report-integrity hardening (same self-review) | `20d945e2d` — the claimed row must equal the recomputed row in full, and the report's `counts` and `candidateCount` must match too | `test_whole_report_row_and_aggregates_are_bound_to_the_receipts` |
 
+### The clear-text sensitive-data repair (CodeQL alerts 106–109)
+
+GitHub Advanced Security reported four unresolved `py/clear-text-logging-sensitive-data`
+findings on this branch: `scripts/curation_walkthrough.py:34`, `scripts/merge_gate_check.py:38`
+and two sites in `src/gaia_cli/commands/dev/ratify.py` (432 and 474).
+
+**Root cause.** The rule taint-traces values returned by APIs whose names match its sensitive
+heuristic — here `verifyPacketAuthorization` — into `print()` sinks. Truncation, slicing, regex
+redaction and hashing are all *taint-preserving* steps in CodeQL's Python model, so no amount of
+post-processing clears a finding: the output would still be a function of the upstream text. The
+only shape that keeps upstream content out of the console is a comparison against a published
+constant that yields a published constant.
+
+**Repair.** A new module, `src/gaia_cli/curation/errors.py`, owns the only sanctioned way for the
+curation seam to describe a refusal to a human:
+
+    <CATEGORY>: <published summary or published refusal> [<n> withheld]
+
+- A refusal that is exactly a **published** refusal — the fail-closed
+  `independent protected human authorization is not configured; L4 remains pending` contract this
+  codebase owns — is echoed, because the operator must still be able to see the boundary state.
+- Every other refusal is **withheld** and reported only as the gate category and a count, because
+  its text can embed operator input and, once a protected ceremony exists, provider, artifact or
+  protected-environment detail.
+- The two verification scripts print only a **console-safe token** from a published vocabulary; a
+  non-token detail is withheld rather than printed, so a script cannot leak a payload into its own
+  output.
+- `gaia dev ratify` now reports the resolution, self-validation, freshness, assessment and
+  authorization gates through that contract, and an unparseable authorization envelope is reported
+  without echoing the document or the decoder's rendering of it.
+- The intake/push boundary in `intakeAdapter.py` does the same, so the same refusal cannot reach a
+  console by another route.
+
+**Refusal behaviour is unchanged.** Authorization failure still fails closed: non-zero exit, no
+packet written, no batch, registry or issue artifact, no issue opened. The published fail-closed
+refusal is still visible to the operator. The deny-all production verifier is untouched, and
+protected-flow activation remains NO-GO. The four `except` renderings in `ratify.py` that sit
+*outside* the authorization boundary (reading the packet, reading the assessment receipt, loading
+live generic semantics, writing the packet) still echo their exception text; they carry this
+codebase's own bounded messages and no upstream material, and they are outside the boundary this
+repair covers.
+
+**GitHub thread state.** All four alerts (106, 107, 108, 109) are now reported by GitHub as
+**fixed** at `2026-10-22T09:41:45Z`; the PR has **0 open** code-scanning alerts, and the `CodeQL`
+check on the final head **passes** (it previously failed with "4 new alerts including 4 high
+severity security vulnerabilities"). Nothing was dismissed: the alerts were resolved by the code
+change. The one alert still open repository-wide is #73 in `tests/test_security_scanner.py`, which
+is pre-existing on `main` and unrelated to this branch.
+
+**Regression coverage.** `tests/test_curation_error_contract.py` (18 tests) pins that
+secret-bearing verifier text never reaches stderr in any of the three console paths, that the
+refusal still fails closed with nothing written, that the published refusal is still shown, and
+that the verification scripts withhold a non-token detail.
+
+**A near-miss worth recording.** The documentation commit `11d0ba0c8` also changed three
+production files: it replaced the error contract with an alternative implementation that
+publishes the codes inside `authorization.py` and prefixes them onto the strings the seam
+returns. That variant was never tested, it left the tree inconsistent (`intakeAdapter.py` and
+both verification scripts imported a function it did not provide, so the suite failed at
+collection), and it would have required rewriting an exact-match assertion in the audit baseline
+to accommodate a changed contract. It was not adopted. `b199ba738` restores the tested state and
+keeps the ledger commit documentation-only, as its message claims. The alternative is preserved
+outside the repository for reference only.
+
 ## 7. Independent review ledger (canonical)
 
 This is the single accounting of the independent review. Every number below is
@@ -197,7 +263,54 @@ differently, the difference is explained in the last row of this table.
 **No finding was closed by weakening an assertion, and no test claims a real human approval.**
 
 
-## 8. Remaining human actions
+## 8. The historical 26-case matrix, resolved
+
+The matrix was authored as a plan at `cb0e83c6b` with every row `PENDING`. It is reproduced
+here **mapped onto the evidence that now exists**, with the covering test or check named for
+each row. This is a status mapping, not a new test framework: every row is covered by code that
+already exists and already runs in the focused suite, the merge gate or the walkthroughs. The
+plan is retained in history at `cb0e83c6b:CURATION-REMEDIATION-REPORT.md`.
+
+`PENDING` in the plan meant "an assertion exists or is planned, but final-SHA execution and
+independent review are not yet recorded". Every row below is now executed at the final SHA.
+Rows marked **CONTAINMENT** prove that the deny-all production seam refuses; they do not prove
+that a real ceremony would behave correctly, because no such ceremony exists.
+
+| # | Scenario | Covering evidence at the final head | Status |
+|---|---|---|---|
+| 1 | Default CHAIN, one candidate | The executing CHAIN engine was **deleted** by the lean-scope decision (#2117); main's paused `gaia curate` scaffold is restored byte-identical. The preparation primitive it wrapped survives in the shared seam, and the *capability* the row asserted — a real prefill path with a frozen source and full accounting — is covered there. | `test_packet_normalized_text_or_frontmatter_cannot_differ_from_frozen_source`; `test_packet_is_schema_valid` — **SCOPE-REMOVED** (the engine), capability covered |
+| 2 | Default CHAIN, five candidates | As row 1; the five-candidate accounting is covered by the walkthrough's three-candidate batch and the six-named-row suite. | walkthrough 17/17 — **SCOPE-REMOVED** (the engine), capability covered |
+| 3 | FAN-OUT, 12 candidates | `curation/fanout.py` retained as an optional, bounded, model-neutral assisted-lane helper | `test_fanout_retries_worker_exceptions_and_is_completion_order_independent` |
+| 4 | Six distinct named implementations on one generic | Walkthrough 2 (six rows → one generic) | `test_conserves_named_rows_with_shared_generic_and_retains_provenance`; walkthrough 17/17 |
+| 5 | `a-b` vs `a/b` filename ownership | Digest-owned filenames in `prefill.py` | `test_valid_slugs_are_readable_and_collision_resistant`; `test_freeze_rejects_duplicate_named_identity_and_source_digest_mismatch` |
+| 6 | Valid exact duplicate with surviving source-matched target | Duplicate proof requires a different surviving accounted candidate | `test_exact_duplicate_requires_different_surviving_target_and_source_proof`; walkthrough "a genuine exact duplicate with a surviving target is proven" |
+| 7 | Shared-generic similarity is not an exact duplicate | A shared generic never collapses rows | walkthrough "a shared generic is not an exact duplicate" |
+| 8 | Competing full definitions of the same generic | Deterministic conflicting-proposal rejection, order-independent | `test_unknown_receipts_and_competing_attempts_are_reported_order_independently`; `test_prior_receipt_attempts_and_receipt_order_conflict_are_deterministic` |
+| 9 | Fabricated reviewer identity | The production verifier denies; metadata carries no authority | `test_forged_user_metadata_never_authenticates`; `test_audit_forgery_rejected_at_trusted_adapter` |
+| 10 | Plausible but forged approval reference | Same negative production boundary | `test_forged_packet_cannot_submit_on_either_route` |
+| 11 | Empty `{}` assessment with matching digest | Assessment validation rejects an empty receipt | `test_empty_digest_matched_assessment_does_not_grant_authority`; `test_empty_assessment_object_is_not_a_ratification_receipt` |
+| 12 | Fabricated outside-top-K approval | Retrieval rank is not bound as authority; a forged review inventory is refused | `test_review_inventory_binds_exact_named_identity_and_source`; `test_forged_review_accounting_is_rejected` |
+| 13 | Legitimate independently protected outside-top-K decision | No protected ceremony exists; the unit hook is not evidence | **SKIP / BLOCKED** (unchanged) |
+| 14 | Identity changed after reviewed payload | The reviewed inventory binds the exact named identity and source | `test_packet_identity_source_revision_digest_and_proposal_are_bound`; `test_review_inventory_binds_exact_named_identity_and_source` — **CONTAINMENT** |
+| 15 | Source/revision changed after reviewed payload | Source digest and live freshness are bound | `test_verify_packet_freshness_rejects_stale_source_digest`; `test_inventory_digest_detects_mutation` — **CONTAINMENT** |
+| 16 | Selected generic definition/topology changed | The full selected definition and prerequisites are bound; catalog drift is detected | `test_verify_packet_freshness_rejects_description_only_selected_definition_drift`; `test_report_binds_assessment_digest_and_outside_top_k_mapping_is_allowed` — **CONTAINMENT** |
+| 17 | Stale catalog, including same-ID semantic drift | One `buildGenericSnapshot`-based substance comparison; unreadable canonical files fail closed | `test_verify_packet_freshness_rejects_stale_generic_snapshot`; `test_verify_packet_freshness_fails_closed_on_canonical_parse_failure` |
+| 18 | Worker failure and targeted bounded retry | Bounded retry, order-independent completion | `test_fanout_retries_worker_exceptions_and_is_completion_order_independent`; `test_unknown_receipts_and_competing_attempts_are_reported_order_independently` |
+| 19 | Interrupted partial resume with prior completed rows | Prior receipts survive resume; a conflict blocks the candidate rather than upgrading it | `test_resolved_history_does_not_reappear_without_fresh_failure`; `test_prior_receipt_attempts_and_receipt_order_conflict_are_deterministic`; merge gate "FAN-OUT resume does NOT silently upgrade a conflicted candidate to review-ready" |
+| 20 | Task/attempt/time budget exhaustion | Missing candidates stay explicitly deferred; late results are discarded | `test_budget_counts_candidate_tasks_and_missing_worker_errors_survive`; `test_timeout_is_one_wall_clock_budget_for_the_whole_run`; `test_attempt_one_then_two_rejects_worker_receipt_claiming_attempt_one_again` |
+| 21 | Identical submission repeated | Content-derived submission identity; the same content reuses the existing receipt | `test_identical_resubmission_returns_existing_receipt`; `test_payload_change_changes_content_id` |
+| 22 | Existing-intake continuation | The original batch and issue references are verified and preserved | `test_existing_intake_continuation_preserves_refs_and_handoff`; `test_existing_intake_checked_not_locally_asserted`; `test_uncertain_network_window_never_blindly_resubmits` |
+| 23 | #2093 exact lowercase/collision protections | Unchanged from main | `tests/test_named_identity_case_2055.py` — `test_add_rejects_mixed_case_without_normalizing`, `test_add_rejects_case_variant_of_existing_identity` |
+| 24 | Immutable Actions provenance/recovery retained | Unchanged from main | `tests/test_intake_recovery_2050.py`; `tests/test_intake_approval_workflow.py` — `test_maintainer_check_precedes_checkout_in_both_jobs` |
+| 25 | Unauthorized registry mutation attempt | Discovery and forged submission never enter a canonical mutation | `test_audit_forgery_rejected_at_trusted_adapter`; merge gate "no canonical registry DATA changed" (only one schema property is declared) |
+| 26 | Evidence handoff without duplicate intake | The original issue/batch and downstream gates are unchanged | `test_no_issue_then_submission_reuses_original_batch`; `test_plain_yaml_cannot_impersonate_trusted_l4` |
+
+**Count:** 26 rows — 2 whose *engine* was removed by the founder's lean-scope decision (the
+capability each asserted is covered by the shared seam, and is named above), 1 blocked by the
+absent ceremony, 3 containment-only (the deny-all seam refuses; a real ceremony is unproven), and
+20 executed at the final SHA against the named evidence.
+
+## 9. Remaining human actions
 
 1. Founder review of this draft PR and the reconciliation receipt.
 2. An independent, protected human approval ceremony must be designed,
@@ -207,7 +320,7 @@ differently, the difference is explained in the last row of this table.
 3. #2089 remains **NO-MERGE** until repaired and approved; this branch does not
    close #2118, #2117, #2088, or #2089.
 
-## 9. Compatibility statement
+## 10. Compatibility statement
 
 Preserved and re-verified: #2093 lowercase/collision protections, #2099
 checkpoint-resume semantics and legacy-ledger handling, the immutable Actions
