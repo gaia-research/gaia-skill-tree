@@ -166,22 +166,52 @@ def _proof_matches(row: Mapping[str, Any], proof: Any, targets: Mapping[str, Map
     )
 
 
+def packetNamedIdentity(packet: Mapping[str, Any]) -> str | None:
+    """Resolve the exact named identity a packet asserts.
+
+    ONE rule, used by reconciliation and by the authorization payload builder.
+    A packet may bind the identity explicitly (pre-L4 discovery) or carry it in
+    its l4Resolution (post-ratification). Two different rules previously made
+    the same packet look like two different identities to the two modules.
+    """
+    named = packet.get("namedIdentity")
+    if named is None:
+        resolution = packet.get("l4Resolution")
+        named = resolution.get("named") if isinstance(resolution, Mapping) else None
+    if named is None:
+        return None
+    if isinstance(named, str):
+        return named
+    if not isinstance(named, Mapping):
+        return None
+    if named.get("namedIdentity") is not None:
+        return named.get("namedIdentity")
+    # discovery-packet-v2's l4Resolution uses contributor/skillName for the
+    # exact contributor/slug identity.
+    contributor = named.get("contributor")
+    slug = named.get("slug") or named.get("skillSlug") or named.get("skillName")
+    if contributor and slug:
+        return f"{contributor}/{slug}"
+    return None
+
+
 def _packet_errors(packet: dict[str, Any], row: Mapping[str, Any]) -> list[str]:
     if packet.get("candidateId") != row["candidateId"]:
         return ["packet candidate identity mismatch"]
     source = packet.get("source")
-    named = packet.get("namedIdentity")
-    if named is None:
-        named = (packet.get("l4Resolution") or {}).get("named") if isinstance(packet.get("l4Resolution"), Mapping) else None
-    if not isinstance(named, (Mapping, str)):
+    packet_identity = packetNamedIdentity(packet)
+    if not packet_identity:
         return ["packet is not bound to frozen named identity"]
-    packet_identity = f"{named.get('contributor', '')}/{named.get('slug', named.get('skillSlug', ''))}" if isinstance(named, Mapping) else named
-    # discovery-packet-v2's l4Resolution uses contributor/skillName for the
-    # exact contributor/slug identity; pre-L4 discovery may bind it explicitly.
-    if isinstance(named, Mapping) and named.get("namedIdentity") is not None:
-        packet_identity = named.get("namedIdentity")
-    elif isinstance(named, Mapping) and named.get("skillName") is not None and named.get("slug") is None and named.get("skillSlug") is None:
-        packet_identity = f"{named.get('contributor', '')}/{named.get('skillName')}"
+    # A packet that binds the identity twice must not be allowed to disagree
+    # with itself: that is an identity change hidden between discovery and
+    # ratification.
+    explicit = packet.get("namedIdentity")
+    resolution = packet.get("l4Resolution")
+    resolved = resolution.get("named") if isinstance(resolution, Mapping) else None
+    if isinstance(explicit, str) and isinstance(resolved, Mapping):
+        resolvedIdentity = packetNamedIdentity({"namedIdentity": resolved})
+        if resolvedIdentity and resolvedIdentity != explicit:
+            return ["packet named identity is bound inconsistently"]
     if packet_identity != row["namedIdentity"]:
         return ["packet named identity mismatch"]
     if not isinstance(source, Mapping):
@@ -266,6 +296,8 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
     validated: dict[str, tuple[Mapping[str, Any], bytes, str]] = {}
     observed_digests: dict[str, str] = {}
     assessment_digests: dict[str, str] = {}
+    assessment_artifact_digests: dict[str, str] = {}
+    packet_content_digests: dict[str, str] = {}
     proposal_digests: dict[str, str] = {}
     failures: dict[str, str] = {}
     for cid, candidates in grouped.items():
@@ -306,6 +338,7 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
                 reason = receipt.get("reason")
                 if not isinstance(reason, str) or not reason.strip():
                     raise ValueError("deferred receipt must state an explicit reason")
+                packet_content_digests[cid] = sha256(canonicalJson(packet))
                 validated[cid] = (receipt, data, actual_hash)
                 continue
             assessment = receipt.get("assessment")
@@ -324,7 +357,13 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             assessment_errors = validateAssessment(assessment, packet, str(packetRoot))
             if assessment_errors:
                 raise ValueError("invalid assessment: " + "; ".join(assessment_errors))
-            assessment_digests[cid] = assessment_hash
+            # The report attests to CONTENT, so it carries the canonical digest
+            # of the parsed artifact. The file-bytes digest is the artifact
+            # identity and stays on the receipt. Both are needed: a pretty-printed
+            # artifact has different bytes but identical content.
+            assessment_digests[cid] = sha256(canonicalJson(assessment))
+            assessment_artifact_digests[cid] = assessment_hash
+            packet_content_digests[cid] = sha256(canonicalJson(packet))
             from gaia_cli.curation.authorization import _proposalPacket
             proposal_digests[cid] = sha256(canonicalJson(_proposalPacket(packet)))
             if receipt["outcome"] == "proven-duplicate" and not _proof_matches(row, receipt.get("duplicateProof"), targets):
@@ -389,10 +428,12 @@ def reconcileInventory(envelope: Mapping[str, Any], receipts: Iterable[Mapping[s
             "taskId": row["taskId"], "attempt": raw.get("attempt") if raw else None,
             "inputDigest": row["inputDigest"], "outputDigest": item[2] if item else (observed_digests.get(cid) or (raw.get("outputDigest") if raw else None)),
             "packetPath": raw.get("packetPath") if raw else None,
-            "packetDigest": item[2] if item else observed_digests.get(cid),
+            "packetDigest": packet_content_digests.get(cid),
+            "packetArtifactSha256": item[2] if item else observed_digests.get(cid),
             "packetProposalSha256": proposal_digests.get(cid),
             "assessmentPath": raw.get("assessmentPath") if raw else None,
             "assessmentSha256": assessment_digests.get(cid),
+            "assessmentArtifactSha256": assessment_artifact_digests.get(cid),
             "proposedGeneric": raw.get("proposedGeneric") if raw else None,
             "duplicateProof": copy.deepcopy(raw.get("duplicateProof")) if raw else None,
             "outcome": outcome, "reason": reason,

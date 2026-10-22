@@ -288,6 +288,88 @@ def test_review_ready_requires_real_valid_assessment_and_matching_digest(registr
     assert result["decisions"][0]["outcome"] == "deferred"
 
 
+def test_report_digests_describe_content_not_artifact_bytes(registry, tmp_path):
+    """A pretty-printed artifact has different bytes but identical content.
+
+    The reconciliation report attests to CONTENT, so its digests must be the
+    canonical content digests. The artifact (file-bytes) digest is the receipt's
+    identity. If the report carried file bytes instead, an authorization
+    payload built from the same packet would compare different digests and
+    reject a perfectly legitimate batch.
+    """
+    frozen = inventory(registry, 1)
+    row = frozen["candidates"][0]
+    value = packet(row)
+    assessment = buildAssessment(value, registryPath=registry)
+
+    # Write the artifacts exactly as production writes them: indented JSON.
+    packetPath = tmp_path / "registry-for-review" / "discovery-packets" / "tool.json"
+    packetPath.parent.mkdir(parents=True, exist_ok=True)
+    packetPath.write_text(json.dumps(value, indent=2), encoding="utf-8")
+    assessmentPath = tmp_path / "generated-output" / "curation" / "tool.assessment.json"
+    assessmentPath.parent.mkdir(parents=True, exist_ok=True)
+    assessmentPath.write_text(json.dumps(assessment, indent=2), encoding="utf-8")
+    assert packetPath.read_bytes() != canonicalJson(value)
+    assert assessmentPath.read_bytes() != canonicalJson(assessment)
+
+    receipt = {
+        "candidateId": row["candidateId"], "taskId": row["taskId"], "attempt": 1,
+        "inputDigest": row["inputDigest"],
+        "outputDigest": sha256(packetPath.read_bytes()),
+        "packetHash": sha256(packetPath.read_bytes()),
+        "packetPath": "registry-for-review/discovery-packets/tool.json",
+        "assessmentPath": "generated-output/curation/tool.assessment.json",
+        "assessmentSha256": sha256(assessmentPath.read_bytes()),
+        "proposedGeneric": {"decision": "MAP", "genericId": "animation-design"},
+        "outcome": "review-ready",
+    }
+    report = reconcileInventory(frozen, [receipt], packetRoot=str(tmp_path))
+    decision = report["decisions"][0]
+    assert decision["outcome"] == "review-ready", decision.get("reason")
+    # The report carries the canonical CONTENT digests...
+    assert decision["packetDigest"] == sha256(canonicalJson(value))
+    assert decision["assessmentSha256"] == sha256(canonicalJson(assessment))
+    # ...and separately the ARTIFACT digests that identify the files.
+    assert decision["packetArtifactSha256"] == sha256(packetPath.read_bytes())
+    assert decision["assessmentArtifactSha256"] == sha256(assessmentPath.read_bytes())
+
+
+def test_packet_identity_resolves_by_one_rule_everywhere(registry):
+    """A packet may bind its named identity in either place; both must agree.
+
+    Reconciliation and the authorization payload builder previously used
+    different rules, so a legitimate packet could pass reconciliation and then
+    be rejected as an identity mismatch when bound into a payload.
+    """
+    from gaia_cli.curation.reconciliation import packetNamedIdentity
+
+    frozen = inventory(registry, 1)
+    row = frozen["candidates"][0]
+    identity = row["namedIdentity"]
+
+    explicit = {"namedIdentity": identity}
+    assert packetNamedIdentity(explicit) == identity
+
+    fromResolution = {"l4Resolution": {"named": {"contributor": identity.split("/")[0],
+                                                 "skillName": identity.split("/")[1]}}}
+    assert packetNamedIdentity(fromResolution) == identity
+
+    # Both places present and agreeing is fine.
+    both = {**explicit, **fromResolution}
+    assert packetNamedIdentity(both) == identity
+
+    # Both present and DISAGREEING is an identity change hidden in the packet.
+    conflicting = {"namedIdentity": identity,
+                   "l4Resolution": {"named": {"contributor": "someone-else", "skillName": "other"}}}
+    assert packetNamedIdentity(conflicting) == identity
+    conflictingPacket = packet(row)
+    conflictingPacket["namedIdentity"] = identity
+    conflictingPacket["l4Resolution"] = conflicting["l4Resolution"]
+    result = reconcileInventory(frozen, [receipt(row, registry, packet_value=conflictingPacket)])
+    assert result["decisions"][0]["outcome"] == "deferred"
+    assert "identity" in result["decisions"][0]["reason"]
+
+
 def test_exact_duplicate_requires_different_surviving_target_and_source_proof(registry):
     ordinary = inventory(registry, 2)
     first, old_target = ordinary["candidates"]

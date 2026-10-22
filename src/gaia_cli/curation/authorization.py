@@ -135,6 +135,7 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
     if reviewInventory is not None:
         frozen = reviewInventory.get("inventory", {})
         report = reviewInventory.get("reconciliation", {})
+        receipts = reviewInventory.get("receipts")
         expected = frozen.get("candidates", [])
         outcomes = report.get("decisions", [])
         expectedIds = [row["candidateId"] for row in expected]
@@ -154,6 +155,28 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
             raise ValueError("review accounting must be a fully accounted reconciliation")
         if report.get("humanApproved") is not False:
             raise ValueError("review accounting must not claim human approval")
+        # A report is a CLAIM. It is only evidence when it can be recomputed
+        # from the receipts it says it came from. Recompute the reconciliation
+        # here and require the claimed report to agree with it, so a
+        # hand-forged "review-ready" row cannot be bound into a payload.
+        if not isinstance(receipts, list) or not receipts:
+            raise ValueError("review accounting must carry the receipts that produced it")
+        from gaia_cli.curation.reconciliation import reconcileInventory
+
+        recomputed = reconcileInventory(frozen, receipts, packetRoot=registryPath)
+        if recomputed.get("accounted") is not True:
+            raise ValueError("review accounting receipts do not reconcile the frozen inventory")
+        if recomputed.get("humanApproved") is not False:
+            raise ValueError("review accounting must not claim human approval")
+        claimedById = {row["candidateId"]: row for row in outcomes}
+        for row in recomputed.get("decisions", []):
+            claimed = claimedById.get(row["candidateId"])
+            if claimed is None:
+                raise ValueError(f"review accounting omits reconciled candidate {row['candidateId']}")
+            if claimed.get("outcome") != row.get("outcome"):
+                raise ValueError(f"review accounting outcome disagrees with the receipts for {row['candidateId']}")
+            if claimed.get("receiptValid") is not True or row.get("receiptValid") is not True:
+                raise ValueError(f"review accounting has an invalid receipt for {row['candidateId']}")
         packetsById = {packet["candidateId"]: packet for packet in inventoryRows}
         frozenById = {row["candidateId"]: row for row in expected}
         outcomesById = {row["candidateId"]: row for row in outcomes}
@@ -167,8 +190,12 @@ def buildReviewPayload(packets, *, registryPath=".", submissionRoute="single-pac
             if packet is None:
                 continue
             source = packet.get("source") if isinstance(packet.get("source"), dict) else {}
-            named = packet.get("l4Resolution", {}).get("named", {})
-            identity = f"{named.get('contributor', '')}/{named.get('skillName', '')}"
+            # Use the SAME identity resolution rule as reconciliation, so a
+            # legitimate packet is never rejected for binding its identity in a
+            # different (but equivalent) place.
+            from gaia_cli.curation.reconciliation import packetNamedIdentity
+
+            identity = packetNamedIdentity(packet)
             if identity != frozenRow.get("namedIdentity"):
                 raise ValueError(f"review inventory named identity mismatch for {candidateId}")
             packetRevision = source.get("commitSha") or source.get("revision") or source.get("resolvedCommit")
