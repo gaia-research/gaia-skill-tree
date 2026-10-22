@@ -279,7 +279,8 @@ def test_the_last_fetched_link_header_is_recorded_when_a_walk_fails_mid_listing(
 
     diagnostics = document["completeness"]["issues"]["diagnostics"]
     cursor = quote(cursorFor(2), safe="")
-    assert diagnostics["failingRequest"] == f"/repositories/{REPO_ID}/issues?state=open&per_page=100&after={cursor}&page=3"
+    # The request sent names the repository by path (same listing and cursor); GitHub's raw link keeps its numeric form.
+    assert diagnostics["failingRequest"] == f"/repos/gaia-research/gaia-skill-tree/issues?state=open&per_page=100&after={cursor}&page=3"
     assert diagnostics["lastLinkHeader"].startswith("<https://api.github.com/repositories/")
     assert 'rel="next"' in diagnostics["lastLinkHeader"]
 

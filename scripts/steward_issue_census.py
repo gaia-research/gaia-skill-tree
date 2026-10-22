@@ -232,6 +232,20 @@ def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
     return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start)
 
 
+def followable(nextUrl: str, start: str) -> str:
+    """The URL to request for a ``next`` link that GitHub wrote with a numeric repository id.
+
+    The same listing is named by its repository path instead: ``/repos/<owner>/<repo>/issues``, the path the start
+    URL used. The cursor and every query parameter are kept exactly. Some networks refuse the numeric form with a 403,
+    so this keeps the walk working there. Completeness does not change: ``sameListing`` has already accepted the link
+    as this listing, and every check still runs on the link GitHub sent.
+    """
+    parts = urllib.parse.urlsplit(nextUrl)
+    if not REPOSITORY_ISSUES.match(parts.path):
+        return nextUrl
+    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, urllib.parse.urlsplit(start).path, parts.query, parts.fragment))
+
+
 def pageNumber(url: str) -> int | None:
     query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
     values = query.get("page")
@@ -375,7 +389,7 @@ def listAll(start: str, fetch: Callable[[str], Response], extract: Callable[[Any
             break
         if not sameListing(links["next"], start, allowedPaths):
             return failListing(listing, "foreign-continuation", url)
-        url = links["next"]
+        url = followable(links["next"], start)
         viaNext = True
     if "last" not in links and page:
         probeUrl = offsetProbeUrl(start, listing.pagesFetched + 1)
