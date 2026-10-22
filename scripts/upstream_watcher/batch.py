@@ -606,9 +606,9 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     # approval resets and the body is repaired from the fresh plan (its child links are not trusted).
     tampered = payload_tampered(previous_payload)
     finding = settle_liveness(finding, previous_payload)
-    reset = bool(reset_records) and previous_payload is not None and "candidateRecords" in previous_payload
+    discarding = bool(reset_records) and previous_payload is not None and "candidateRecords" in previous_payload
     if umbrella is not None and previous_payload is not None:
-        if reset:
+        if discarding:
             # M4: the record state is discarded, so nothing is read from the lost comments.
             prior_rows: list[dict] = []
         else:
@@ -632,7 +632,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     had_records = previous_payload is not None and "candidateRecords" in previous_payload
     if record_rows is not None or had_records:
         comments = [] if umbrella is None else _comments(gh, umbrella["number"])
-        record_plan = records.plan_generation(comments, record_rows, discard=reset)
+        record_plan = records.plan_generation(comments, record_rows, discard=discarding)
     record_pending = record_plan is not None and bool(record_plan.prewrites or record_plan.cleanup)
 
     if umbrella is None:
@@ -680,7 +680,7 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         "reset": reset,
         "prevVersion": (previous_payload or {}).get("newVersion"),
         "snapshot": snapshot_of(umbrella) if umbrella else None,
-        "recordsReset": reset,
+        "recordsReset": discarding,
     }
 
 

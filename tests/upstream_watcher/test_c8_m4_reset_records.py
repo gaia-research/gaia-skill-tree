@@ -180,3 +180,16 @@ def test_the_cli_accepts_reset_records_with_apply(monkeypatch, tmp_path):
     monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: FakeGh())
     assert watcher.main(["--apply", "--reset-records", SUITE, "--report", str(tmp_path / "r.json")]) == 0
     assert captured["reset"] == SUITE
+
+
+def test_the_plan_reports_the_reset_not_the_approval_reset(tmp_path):
+    # Regression: the approval reset and the records reset are different flags. The plan's recordsReset must be the
+    # records reset, even when the approval reset is false (and the reverse).
+    from scripts.upstream_watcher.batch import plan_suite
+    gh = converged(FakeGh())
+    live = {"issues": [copy_row for copy_row in gh.list_issues("open")], "closedUmbrellas": []}
+    plain = plan_suite(finding(), live, INDEX, probe=gh.child_state, gh=gh)
+    assert plain["recordsReset"] is False and plain["reset"] is False
+    reset = plan_suite(finding(), live, INDEX, probe=gh.child_state, gh=gh, reset_records=True)
+    assert reset["recordsReset"] is True
+    assert reset["reset"] is False, "nothing is approved here, so the approval reset stays off"
