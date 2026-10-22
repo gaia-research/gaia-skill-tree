@@ -461,6 +461,46 @@ def test_prior_receipt_attempts_and_receipt_order_conflict_are_deterministic(reg
     one, two = receipt(row, registry), receipt(row, registry, attempt=2)
     assert reconcileInventory(frozen, [one, two]) == reconcileInventory(frozen, [two, one])
 
+    def worker(task, attempt):
+        return receipt(task, registry, attempt=attempt)
+
+    first_order = runFanout(frozen, worker, priorReceipts=[one, two], packetRoot=str(registry))
+    reversed_order = runFanout(frozen, worker, priorReceipts=[two, one], packetRoot=str(registry))
+    assert first_order == reversed_order
+    assert first_order["receipts"] == [one, two]
+    assert first_order["dispatched"] == 0
+    assert "conflicting receipts" in first_order["priorReceiptErrors"][row["candidateId"]]
+    report = reconcileFanout(frozen, first_order, packetRoot=str(registry))
+    decision = report["decisions"][0]
+    assert decision["outcome"] == "deferred" and decision["receiptValid"] is False
+    assert "conflicting receipts" in decision["reason"]
+
+
+def test_single_valid_prior_receipt_is_retained_and_suppresses_dispatch(registry):
+    frozen = inventory(registry, 1)
+    row = frozen["candidates"][0]
+    prior = receipt(row, registry)
+    calls = []
+
+    def worker(task, attempt):
+        calls.append(task["candidateId"])
+        return receipt(task, registry, attempt=attempt)
+
+    result = runFanout(frozen, worker, priorReceipts=[prior], packetRoot=str(registry))
+    assert result["receipts"] == [prior]
+    assert result["dispatched"] == 0 and calls == []
+    assert reconcileFanout(frozen, result, packetRoot=str(registry))["decisions"][0]["outcome"] == "review-ready"
+
+
+def test_unknown_prior_receipt_remains_visible_in_final_report(registry):
+    frozen = inventory(registry, 1)
+    unknown_row = {**frozen["candidates"][0], "candidateId": "unknown-candidate"}
+    unknown = receipt(unknown_row, registry)
+    result = runFanout(frozen, None, priorReceipts=[unknown], packetRoot=str(registry))
+    report = reconcileFanout(frozen, result, packetRoot=str(registry))
+    assert report["unknownReceipts"] == [{"candidateId": "unknown-candidate", "reason": "receipt references unknown candidate"}]
+    assert report["decisions"][0]["outcome"] == "deferred"
+
 
 def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry):
     frozen = inventory(registry, 1)

@@ -79,11 +79,20 @@ def runFanout(envelope: Mapping[str, Any], worker: Callable[[Mapping[str, Any], 
     prior_report = reconcileInventory(envelope, supplied_prior, packetRoot=packetRoot)
     prior_valid = {row["candidateId"] for row in prior_report["decisions"]
                    if row.get("receiptValid") is True and (not retryDeferred or row["outcome"] != "deferred")}
-    # A stale/invalid/reopened attempt must not compete with its replacement.
-    # Unknown prior rows remain visible in the final reconciliation diagnostics.
-    receipts = [r for r in supplied_prior if not isinstance(r.get("candidateId"), str) or r["candidateId"] in prior_valid or r["candidateId"] not in known_ids]
+    prior_conflicts = {
+        row["candidateId"]: row["reason"]
+        for row in prior_report["decisions"]
+        if "conflicting receipts: multiple attempts/receipts supplied" in str(row.get("reason", ""))
+    }
+    for cid, reason in prior_conflicts.items():
+        prior_errors[cid] = reason
+    # Stale/invalid/reopened attempts must not compete with replacements. Keep
+    # every conflicting receipt so final reconciliation records the conflict;
+    # block dispatch for that candidate rather than allowing a new receipt to
+    # erase its ambiguous prior history. Unknown prior rows remain visible too.
+    receipts = [r for r in supplied_prior if not isinstance(r.get("candidateId"), str) or r["candidateId"] in prior_valid or r["candidateId"] in prior_conflicts or r["candidateId"] not in known_ids]
     errors: dict[str, str] = {}
-    pending = [row for row in rows if row.get("candidateId") not in prior_valid]
+    pending = [row for row in rows if row.get("candidateId") not in prior_valid and row.get("candidateId") not in prior_conflicts]
     pending.sort(key=lambda row: (shardFor(row["candidateId"], max(1, len(rows))), row["candidateId"]))
     if worker is None:
         for row in pending:
