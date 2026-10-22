@@ -9,6 +9,7 @@ the issue merely contained upstream:approved, meaning adding any later label
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import yaml
@@ -283,7 +284,9 @@ elif cmd == "workflow":
         die("HTTP 403 (fake workflow dispatch refused)")
     print("")
 elif cmd == "pr" and ARGS[1] == "list":
-    sys.stdout.write("")
+    if FAIL.get("pr_list"):
+        die("HTTP 502 (fake pr list failure)")
+    emit(WORLD.get("pr_list", []), flag("--jq"))
 elif cmd == "pr" and ARGS[1] == "create":
     with open(flag("--body-file"), encoding="utf-8") as fh:
         body = fh.read()
@@ -293,7 +296,9 @@ elif cmd == "pr" and ARGS[1] == "create":
 elif cmd == "api":
     url = urlsplit(ARGS[-1])
     parts = [part for part in url.path.split("/") if part]
-    if len(parts) == 4 and parts[3] == "issues":
+    if len(parts) >= 5 and parts[3] == "compare":
+        emit(WORLD.get("compare", {"total_commits": 0, "commits": []}), flag("--jq"))
+    elif len(parts) == 4 and parts[3] == "issues":
         if FAIL.get("list"):
             die("HTTP 502 (fake list failure)")
         rows = list_rows(parse_qs(url.query))
@@ -911,7 +916,7 @@ def test_the_index_is_built_before_the_guard_runs():
 
 
 def test_no_run_block_interpolates_workflow_inputs_or_event_fields():
-    for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH, WATCHER_PATH):
+    for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH, WATCHER_PATH, REJECT_PATH):
         doc = yaml.safe_load(path.read_text(encoding="utf-8"))
         for job in doc["jobs"].values():
             for step in job["steps"]:
@@ -1050,3 +1055,349 @@ def test_watcher_workflow_drops_unused_write_scopes_and_keeps_its_schedule():
     assert doc["permissions"] == {"issues": "write", "contents": "read"}
     triggers = doc.get("on") or doc.get(True)
     assert triggers["schedule"] == [{"cron": "0 6 * * *"}]
+
+
+# ---------------------------------------------------------------------------
+# #2131 round-2 verifier FAIL (C6). H4 (every post-gate step needs success()), M1 (guard denies an
+# empty index), M2 (close-children fails closed on lookups), M5 (approve re-runs push safely against
+# the real remote branch), L1 (watcher args as an array), L2 (reject: no expressions in run:),
+# L5 (cascade labels the children it closes). The git tests use a real bare remote.
+# ---------------------------------------------------------------------------
+
+REJECT_PATH = WORKFLOW_PATH.with_name("upstream-reject.yml")
+GATE_GUARD = "steps.child_gate.outputs.gate_passed == 'true'"
+BOT_LOGIN = "github-actions[bot]"
+SYNC_BRANCH = "review/meta/upstream-garrytan-gbrain-v1"
+GIT_ENV = {
+    "GIT_AUTHOR_NAME": "setup", "GIT_AUTHOR_EMAIL": "setup@example.com",
+    "GIT_COMMITTER_NAME": "setup", "GIT_COMMITTER_EMAIL": "setup@example.com",
+}
+
+
+def test_every_step_after_the_child_gate_requires_success_as_well_as_the_gate():
+    # H4: a step with its own if: drops the implicit success(), so a failed sync step would not stop
+    # the freeze, regeneration, commit or PR steps. Each must say success() and the gate.
+    steps = _load()["jobs"]["approve"]["steps"]
+    names = [step.get("name") for step in steps]
+    after = [step for step in steps[names.index("Check child gate") + 1:]
+             if step.get("name") != "Exit if child gate failed"]
+    assert len(after) >= 8, [step.get("name") for step in after]
+    for step in after:
+        condition = str(step.get("if", ""))
+        assert "success()" in condition, step.get("name")
+        assert GATE_GUARD in condition, step.get("name")
+
+
+def test_guard_denies_an_empty_index_with_no_buckets(tmp_path):
+    result = _guard(tmp_path, "mallory", index={"buckets": {}})
+    assert result.code == 1
+    assert "deny-empty-index" in result.output
+
+
+def test_guard_denies_a_bucket_that_is_not_a_list_of_entries(tmp_path):
+    result = _guard(tmp_path, "mallory", index={"buckets": {"stars": "oops"}})
+    assert result.code == 1
+    assert "deny-unparseable-index" in result.output
+
+
+def test_guard_denies_an_entry_that_is_not_an_object(tmp_path):
+    result = _guard(tmp_path, "mallory", index={"buckets": {"stars": ["oops"]}})
+    assert result.code == 1
+    assert "deny-unparseable-index" in result.output
+
+
+def test_guard_still_grants_a_verifier_when_other_buckets_are_empty(tmp_path):
+    index = {"buckets": {"empty": [], "stars": [{"contributor": "alice", "level": "4★"}]}}
+    assert _guard(tmp_path, "alice", index=index).code == 0
+
+
+# -- M2: close-children fails closed on lookup errors ----------------------------------
+
+
+def test_the_refire_step_fails_closed_when_the_umbrella_state_lookup_fails(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD), fail={"issue_view": True})
+    result = run_step(_fresh(tmp_path, "refire-lookup"), _step_run(CLOSE_CHILDREN_PATH, REFIRE_STEP), data,
+                      {"CLOSED_ISSUE_BODY": f"Umbrella: #{UMBRELLA}", "CLOSED_ISSUE_NUMBER": "5001"})
+    assert result.code == 1, result.output
+    assert "::error::" in result.output
+    assert result.workflow_runs() == []
+
+
+def test_the_cascade_fails_closed_when_the_rejected_label_lookup_fails(tmp_path):
+    umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
+    data = world(umbrella, child_issue(5001), fail={"issue_view": True})
+    result = run_step(_fresh(tmp_path, "cascade-lookup"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
+                      {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
+    assert result.code == 1, result.output
+    assert result.closes() == []
+
+
+# -- L5: the cascade labels what it closes ----------------------------------------------
+
+
+def test_the_cascade_labels_each_child_rejected_before_it_closes_the_child(tmp_path):
+    umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
+    data = world(umbrella, child_issue(5001))
+    result = run_step(_fresh(tmp_path, "cascade-label"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
+                      {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
+    assert result.code == 0, result.output
+    label_at = next(i for i, call in enumerate(result.calls)
+                    if call[:3] == ["issue", "edit", "5001"] and "upstream:rejected" in call)
+    close_at = next(i for i, call in enumerate(result.calls) if call[:3] == ["issue", "close", "5001"])
+    assert label_at < close_at
+
+
+# -- L2: no expression inside a reject run block ------------------------------------------
+
+
+def test_the_reject_close_step_takes_the_issue_number_from_env(tmp_path):
+    result = run_step(_fresh(tmp_path, "reject-close"), _step_run(REJECT_PATH, "Close umbrella issue"), world(),
+                      {"ISSUE_NUMBER": "5000", "SENDER_LOGIN": "alice"})
+    assert result.code == 0, result.output
+    assert result.closes() == ["5000"]
+
+
+def test_the_reject_labeler_check_removes_the_label_from_env_issue_number(tmp_path):
+    repo = _fresh(tmp_path, "repo")
+    (repo / "registry").mkdir()
+    (repo / "registry" / "named-skills.json").write_text(json.dumps(VERIFIER_INDEX), encoding="utf-8")
+    result = run_step(_fresh(tmp_path, "reject-guard"), _step_run(REJECT_PATH, "Check labeler is a Verifier"),
+                      world(), {"LABELER": "mallory", "ISSUE_NUMBER": "5000", "SENDER_LOGIN": "mallory"}, cwd=repo)
+    assert result.code == 1
+    assert ["issue", "remove-label", "5000", "upstream:rejected"] in result.calls
+
+
+# -- L1: the watcher step passes arguments as an array and validates them ----------------
+
+WATCHER_RUN = "Run upstream watcher"
+ARG_LOG_SHIM = 'printf "%s\\n" "$@" > "$SHIM_LOG"'
+
+
+def _watch(tmp_path, env):
+    fresh = _fresh(tmp_path, "watch")
+    log = fresh / "args.txt"
+    base = {"INPUT_SKILL_ID": "", "INPUT_ESCALATE": "", "INPUT_APPLY": "false",
+            "EVENT_NAME": "workflow_dispatch", "SHIM_LOG": str(log)}
+    result = run_step(fresh, _step_run(WATCHER_PATH, WATCHER_RUN), world(), {**base, **env},
+                      shims={"python": ARG_LOG_SHIM})
+    args = log.read_text(encoding="utf-8").splitlines() if log.exists() else None
+    return result, args
+
+
+def test_dispatch_passes_the_skill_id_as_one_intact_argument(tmp_path):
+    result, args = _watch(tmp_path, {"INPUT_SKILL_ID": "mattpocock/skills", "INPUT_APPLY": "true"})
+    assert result.code == 0, result.output
+    assert args == ["scripts/upstream_watcher/watcher.py", "--child-mode", "batch", "--apply",
+                    "--report", "generated-output/upstream-watcher-report.json",
+                    "--skill", "mattpocock/skills"]
+
+
+def test_a_skill_id_with_a_space_is_refused_before_the_watcher_runs(tmp_path):
+    result, args = _watch(tmp_path, {"INPUT_SKILL_ID": "mattpocock/skills extra"})
+    assert result.code == 1
+    assert args is None
+
+
+def test_a_skill_id_with_shell_metacharacters_is_refused(tmp_path):
+    result, args = _watch(tmp_path, {"INPUT_SKILL_ID": "x;touch pwned"})
+    assert result.code == 1
+    assert args is None
+
+
+def test_escalation_passes_exactly_one_candidate_and_exits_before_polling(tmp_path):
+    result, args = _watch(tmp_path, {"INPUT_ESCALATE": "garrytan/gbrain:foo", "INPUT_APPLY": "true"})
+    assert result.code == 0, result.output
+    assert args == ["scripts/upstream_watcher/watcher.py", "--escalate", "garrytan/gbrain:foo", "--apply"]
+
+
+def test_an_escalation_id_with_a_space_is_refused(tmp_path):
+    result, args = _watch(tmp_path, {"INPUT_ESCALATE": "garrytan/gbrain:foo bar"})
+    assert result.code == 1
+    assert args is None
+
+
+# -- M5: the approve branch step against a real remote ---------------------------------
+
+
+def _git(cwd, *args, env=None):
+    return subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True,
+                          env=env or {**os.environ, **GIT_ENV})
+
+
+def _commit(repo, message, author):
+    env = {**os.environ, "GIT_AUTHOR_NAME": author, "GIT_AUTHOR_EMAIL": f"{author}@example.com",
+           "GIT_COMMITTER_NAME": author, "GIT_COMMITTER_EMAIL": f"{author}@example.com"}
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", message).strip("-")
+    (repo / f"note-{slug}.txt").write_text(message, encoding="utf-8")
+    _git(repo, "add", "-A", env=env)
+    _git(repo, "commit", "-m", message, env=env)
+
+
+def _sandbox(tmp_path):
+    origin = tmp_path / "origin.git"
+    seed = tmp_path / "seed"
+    work = tmp_path / "work"
+    _git(tmp_path, "init", "--bare", "-b", "main", str(origin))
+    _git(tmp_path, "init", "-b", "main", str(seed))
+    _commit(seed, "initial", "human")
+    _git(seed, "remote", "add", "origin", str(origin))
+    _git(seed, "push", "origin", "main")
+    _git(tmp_path, "clone", str(origin), str(work))
+    return origin, seed, work
+
+
+def _rev(origin, ref):
+    result = subprocess.run(["git", "--git-dir", str(origin), "rev-parse", "--verify", "--quiet", ref],
+                            capture_output=True, text=True)
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def _remote_sha(origin, branch):
+    return _rev(origin, f"refs/heads/{branch}")
+
+
+def _remote_branch(seed, branch, author):
+    _git(seed, "checkout", "-B", branch, "main")
+    _commit(seed, f"{branch} by {author}", author)
+    _git(seed, "push", "--force", "origin", branch)
+    _git(seed, "checkout", "main")
+
+
+def _write_sync_change(work, with_artifacts=True):
+    target = work / "registry" / "named" / "garrytan"
+    target.mkdir(parents=True, exist_ok=True)
+    (target / "gbrain.md").write_text("synced\n", encoding="utf-8")
+    if with_artifacts:
+        (work / "registry" / "gaia.json").write_text("{}\n", encoding="utf-8")
+        (work / "registry" / "named-skills.json").write_text("{}\n", encoding="utf-8")
+        (work / "docs" / "graph").mkdir(parents=True, exist_ok=True)
+        (work / "docs" / "graph" / "gaia.json").write_text("{}\n", encoding="utf-8")
+
+
+def _compare(logins, total=None):
+    return {
+        "total_commits": len(logins) if total is None else total,
+        "commits": [{"author": {"login": login}, "commit": {"author": {"name": login}}} for login in logins],
+    }
+
+
+def _branch_step(tmp_path, work, logins=None, name="branch"):
+    data = world(compare=_compare(logins)) if logins is not None else world()
+    return run_step(_fresh(tmp_path, name), _step_run(WORKFLOW_PATH, "Create sync branch"), data,
+                    {"SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1"}, cwd=work)
+
+
+def _push_step(tmp_path, work, remote_sha, name="push"):
+    env = {"BRANCH": SYNC_BRANCH, "NEW_VERSION": "v1", "SKILL_ID": "garrytan/gbrain",
+           "REMOTE_SHA": remote_sha, **GIT_ENV}
+    return run_step(_fresh(tmp_path, name), _step_run(WORKFLOW_PATH, "Commit and push"), world(), env, cwd=work)
+
+
+def test_the_first_run_pushes_the_sync_branch_when_none_exists(tmp_path):
+    origin, _seed, work = _sandbox(tmp_path)
+    _write_sync_change(work)
+    branch = _branch_step(tmp_path, work)
+    assert branch.code == 0, branch.output
+    push = _push_step(tmp_path, work, branch.outputs.get("remote_sha", ""))
+    assert push.code == 0, push.output
+    assert _remote_sha(origin, SYNC_BRANCH)
+
+
+def test_an_absent_optional_artifact_path_does_not_cancel_the_commit(tmp_path):
+    # docs/graph is not generated for every sync. One missing pathspec must not make git add stage nothing
+    # and the step report "No changes to commit" with exit 0 (the branch is then never pushed).
+    origin, _seed, work = _sandbox(tmp_path)
+    _write_sync_change(work, with_artifacts=False)
+    branch = _branch_step(tmp_path, work)
+    assert branch.code == 0, branch.output
+    push = _push_step(tmp_path, work, branch.outputs.get("remote_sha", ""))
+    assert push.code == 0, push.output
+    assert "No changes to commit" not in push.output
+    assert _remote_sha(origin, SYNC_BRANCH)
+
+
+def test_a_rerun_replaces_only_the_bots_own_sync_commit_under_a_lease(tmp_path):
+    origin, seed, work = _sandbox(tmp_path)
+    _remote_branch(seed, SYNC_BRANCH, BOT_LOGIN)
+    before = _remote_sha(origin, SYNC_BRANCH)
+    _write_sync_change(work)
+
+    branch = _branch_step(tmp_path, work, logins=[BOT_LOGIN])
+    assert branch.code == 0, branch.output
+    assert branch.outputs.get("remote_sha") == before
+    push = _push_step(tmp_path, work, branch.outputs.get("remote_sha", ""))
+
+    assert push.code == 0, push.output
+    after = _remote_sha(origin, SYNC_BRANCH)
+    assert after and after != before
+    assert _rev(origin, f"{after}^") == _rev(origin, "refs/heads/main"), "the sync commit must sit on main"
+
+
+def test_a_branch_with_a_human_commit_is_refused_before_anything_is_synced(tmp_path):
+    origin, seed, work = _sandbox(tmp_path)
+    _remote_branch(seed, SYNC_BRANCH, "alice")
+    before = _remote_sha(origin, SYNC_BRANCH)
+
+    branch = _branch_step(tmp_path, work, logins=["alice"])
+
+    assert branch.code == 1, branch.output
+    assert "unrelated" in branch.output
+    assert _remote_sha(origin, SYNC_BRANCH) == before
+
+
+def test_a_branch_whose_commit_list_is_incomplete_is_refused(tmp_path):
+    origin, seed, work = _sandbox(tmp_path)
+    _remote_branch(seed, SYNC_BRANCH, BOT_LOGIN)
+    before = _remote_sha(origin, SYNC_BRANCH)
+
+    branch = run_step(_fresh(tmp_path, "branch-partial"), _step_run(WORKFLOW_PATH, "Create sync branch"),
+                      world(compare=_compare([BOT_LOGIN], total=3)),
+                      {"SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1"}, cwd=work)
+
+    assert branch.code == 1, branch.output
+    assert _remote_sha(origin, SYNC_BRANCH) == before
+
+
+def test_a_push_against_a_moved_remote_is_refused_and_leaves_the_remote_alone(tmp_path):
+    origin, seed, work = _sandbox(tmp_path)
+    _remote_branch(seed, SYNC_BRANCH, BOT_LOGIN)
+    before = _remote_sha(origin, SYNC_BRANCH)
+    _write_sync_change(work)
+    branch = _branch_step(tmp_path, work, logins=[BOT_LOGIN])
+    assert branch.code == 0, branch.output
+
+    push = _push_step(tmp_path, work, "1234567890abcdef1234567890abcdef12345678")
+
+    assert push.code != 0
+    assert _remote_sha(origin, SYNC_BRANCH) == before
+
+
+def test_an_open_draft_pr_for_the_branch_is_reused_and_not_recreated(tmp_path):
+    data = world(pr_list=[{"url": "https://github.com/gaia-research/gaia-skill-tree/pull/42"}])
+    result = run_step(_fresh(tmp_path, "pr-reuse"), _step_run(WORKFLOW_PATH, PR_STEP), data, {
+        "BRANCH": SYNC_BRANCH, "SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1",
+        "ISSUE_NUMBER": str(UMBRELLA), "UNRESOLVED": "0", "FROZEN": "0",
+    })
+    assert result.code == 0, result.output
+    assert result.outputs["created"] == "false" and result.outputs["pr_number"] == "42"
+    assert not any(call[:2] == ["pr", "create"] for call in result.calls)
+
+
+def test_a_failed_draft_pr_lookup_fails_closed_and_creates_nothing(tmp_path):
+    data = world(fail={"pr_list": True})
+    result = run_step(_fresh(tmp_path, "pr-lookup"), _step_run(WORKFLOW_PATH, PR_STEP), data, {
+        "BRANCH": SYNC_BRANCH, "SKILL_ID": "garrytan/gbrain", "NEW_VERSION": "v1",
+        "ISSUE_NUMBER": str(UMBRELLA), "UNRESOLVED": "0", "FROZEN": "0",
+    })
+    assert result.code != 0
+    assert not any(call[:2] == ["pr", "create"] for call in result.calls)
+
+
+def test_a_failed_comment_lookup_on_the_umbrella_fails_closed_and_posts_nothing(tmp_path):
+    data = world(umbrella_issue(LEGACY_PAYLOAD), fail={"issue_view": True})
+    result = run_step(_fresh(tmp_path, "comment-lookup"), _step_run(WORKFLOW_PATH, "Comment PR link on umbrella"),
+                      data, {"ISSUE_NUMBER": str(UMBRELLA), "NEW_VERSION": "v1", "PR_NUMBER": "42",
+                             "PR_URL": "https://github.com/gaia-research/gaia-skill-tree/pull/42",
+                             "UNRESOLVED": "0"})
+    assert result.code != 0
+    assert result.comments() == []
