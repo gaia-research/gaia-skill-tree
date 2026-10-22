@@ -190,7 +190,9 @@ def probe_fanout_conflict_loss() -> None:
 def probe_row_to_packet_binding() -> None:
     print("\n=== Finding 3: review accounting did not bind each row to its packet ===")
     from gaia_cli.curation.authorization import buildReviewPayload
-    from gaia_cli.curation.reconciliation import freezeInventory
+    from gaia_cli.curation.reconciliation import canonicalJson, freezeInventory, sha256
+
+    ASSESSMENT = {"receipt": "valid synthetic"}
 
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -222,13 +224,24 @@ def probe_row_to_packet_binding() -> None:
             }])
             return envelope
 
-        def report_for(envelope, named_identity):
-            return {"inventoryDigest": envelope["inventoryDigest"], "decisions": [{
-                "candidateId": "candidate-1", "outcome": "review-ready",
-                "namedIdentity": named_identity,
-                "proposedGeneric": {"decision": "MAP", "genericId": "generic-a"},
-                "receiptValid": True,
-            }]}
+        def report_for(envelope, named_identity, packet):
+            from gaia_cli.curation.authorization import _proposalPacket
+
+            # A real reconciliation report carries positive accounting: the batch
+            # is accounted for, no receipt is invalid, nothing claims human
+            # approval, and each row states the digests it observed.
+            return {"inventoryDigest": envelope["inventoryDigest"],
+                    "accounted": True,
+                    "humanApproved": False,
+                    "decisions": [{
+                        "candidateId": "candidate-1", "outcome": "review-ready",
+                        "namedIdentity": named_identity,
+                        "proposedGeneric": {"decision": "MAP", "genericId": "generic-a"},
+                        "receiptValid": True,
+                        "packetDigest": sha256(canonicalJson(packet)),
+                        "packetProposalSha256": sha256(canonicalJson(_proposalPacket(packet))),
+                        "assessmentSha256": sha256(canonicalJson(ASSESSMENT)),
+                    }]}
 
         # Mismatched: the frozen row's named identity and source differ from the packet.
         mismatched = frozen_row("owner/inventory-name",
@@ -239,9 +252,9 @@ def probe_row_to_packet_binding() -> None:
         try:
             buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
                                manifestDigest="c" * 64, inventory=[packet],
-                               assessments={"candidate-1": {"assessment": "A"}},
+                               assessments={"candidate-1": ASSESSMENT},
                                reviewInventory={"inventory": mismatched,
-                                                "reconciliation": report_for(mismatched, "owner/inventory-name")})
+                                                "reconciliation": report_for(mismatched, "owner/inventory-name", packet)})
         except Exception as exc:
             rejected = True
             detail = f"{type(exc).__name__}: {exc}"
@@ -256,9 +269,9 @@ def probe_row_to_packet_binding() -> None:
         try:
             buildReviewPayload([packet], registryPath=str(root), submissionRoute="manifest",
                                manifestDigest="c" * 64, inventory=[packet],
-                               assessments={"candidate-1": {"assessment": "A"}},
+                               assessments={"candidate-1": ASSESSMENT},
                                reviewInventory={"inventory": consistent,
-                                                "reconciliation": report_for(consistent, "owner/exact-name")})
+                                                "reconciliation": report_for(consistent, "owner/exact-name", packet)})
             built = True
         except Exception as exc:
             detail = f"{type(exc).__name__}: {exc}"
