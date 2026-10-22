@@ -826,13 +826,22 @@ def validateDiscoveryPackets(registryPath, trustedGenerics=None):
     return errors, len(packetPaths)
 
 
+def _containedOutputDirectory(directory, registryPath):
+    """Resolve a registry-relative output directory and refuse symlink escapes."""
+    registryRoot = Path(registryPath).resolve()
+    outputDir = Path(directory).resolve()
+    if not outputDir.is_relative_to(registryRoot):
+        raise ValueError(f"Output directory escapes registry root: {outputDir}")
+    return outputDir
+
+
 def writePacket(packet, registryPath):
     """Atomically write a packet after verifying any existing file's owner."""
     candidateId = packet.get("candidateId", "")
     slug = safeCandidateSlug(candidateId)
-    outDir = Path(discoveryPacketsDir(registryPath))
+    outDir = _containedOutputDirectory(discoveryPacketsDir(registryPath), registryPath)
     outDir.mkdir(parents=True, exist_ok=True)
-    outDir = outDir.resolve()
+    outDir = _containedOutputDirectory(outDir, registryPath)
     outPath = outDir / f"{slug}.json"
     if outPath.is_symlink() or not outPath.resolve().is_relative_to(outDir):
         raise ValueError(f"Candidate path escapes target directory: {outPath}")
@@ -853,9 +862,11 @@ def writeAssessmentReceipt(packet, receipt, registryPath):
     """Atomically persist an assessment under the candidate's owned digest path."""
     candidateId = packet.get("candidateId", "")
     slug = safeCandidateSlug(candidateId)
-    outputDir = Path(generated_output_dir(registryPath)) / "curation"
+    outputDir = _containedOutputDirectory(
+        Path(generated_output_dir(registryPath)) / "curation", registryPath
+    )
     outputDir.mkdir(parents=True, exist_ok=True)
-    outputDir = outputDir.resolve()
+    outputDir = _containedOutputDirectory(outputDir, registryPath)
     receiptPath = outputDir / f"{slug}.assessment.json"
     if receiptPath.is_symlink() or not receiptPath.resolve().is_relative_to(outputDir):
         raise ValueError(f"Assessment path escapes target directory: {receiptPath}")

@@ -3,6 +3,7 @@ import json
 import os
 import re
 import subprocess
+from pathlib import Path
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
 from urllib.parse import urlparse
@@ -288,10 +289,23 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
     }
 
 
+def _contained_batch_directory(directory, registry_root):
+    """Resolve a registry-relative intake directory and reject symlink escapes."""
+    registry_root = Path(registry_root).resolve()
+    intake_dir = Path(directory).resolve()
+    if not intake_dir.is_relative_to(registry_root):
+        raise ValueError(f"Skill batch directory escapes registry root: {intake_dir}")
+    return intake_dir
+
+
 def write_skill_batch(batch, registry_root):
-    intake_dir = skill_batches_dir(registry_root)
-    os.makedirs(intake_dir, exist_ok=True)
-    batch_path = os.path.join(intake_dir, f"{batch['batchId']}.json")
+    intake_dir = _contained_batch_directory(skill_batches_dir(registry_root), registry_root)
+    intake_dir.mkdir(parents=True, exist_ok=True)
+    intake_dir = _contained_batch_directory(intake_dir, registry_root)
+    batch_path = intake_dir / f"{batch['batchId']}.json"
+    if batch_path.is_symlink():
+        raise ValueError(f"Refusing to write through symlinked batch file: {batch_path}")
+    batch_path = str(batch_path)
     from gaia_cli.curation.submission import atomicJson, contentKey
     if batch.get("submissionKey"):
         if batch["submissionKey"] != contentKey(batch):

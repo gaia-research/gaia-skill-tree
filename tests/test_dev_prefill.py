@@ -6,6 +6,7 @@ sentence-transformers download is needed.
 import json
 import os
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -517,6 +518,58 @@ class TestSafeCandidateSlug:
         with pytest.raises(ValueError, match="owned by another candidate"):
             prefill.writeAssessmentReceipt(packet, {"candidateId": "a/b"}, tmp_path)
         assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_packet_output_directory_symlink_cannot_escape_registry(self, tmp_path):
+        registry = tmp_path / "registry"
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        target = registry / "registry-for-review" / "discovery-packets"
+        target.parent.mkdir(parents=True)
+        target.symlink_to(outside, target_is_directory=True)
+
+        with pytest.raises(ValueError, match="escapes registry root"):
+            prefill.writePacket({"candidateId": "synthetic/a-b"}, registry)
+
+        assert list(outside.iterdir()) == []
+
+    def test_assessment_output_directory_symlink_cannot_escape_registry(self, tmp_path):
+        registry = tmp_path / "registry"
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        curation = registry / "generated-output" / "curation"
+        curation.parent.mkdir(parents=True)
+        curation.symlink_to(outside, target_is_directory=True)
+
+        with pytest.raises(ValueError, match="escapes registry root"):
+            prefill.writeAssessmentReceipt(
+                {"candidateId": "synthetic/a-b"}, {"candidateId": "synthetic/a-b"}, registry
+            )
+
+        assert list(outside.iterdir()) == []
+
+    def test_packet_leaf_symlink_is_refused(self, tmp_path):
+        candidate = "synthetic/a-b"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        outside_file = tmp_path / "outside.json"
+        outside_file.write_text('{"sentinel": true}', encoding="utf-8")
+        leaf = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        leaf.symlink_to(outside_file)
+
+        with pytest.raises(ValueError, match="escapes target directory"):
+            prefill.writePacket({"candidateId": candidate}, tmp_path)
+
+        assert json.loads(outside_file.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_normal_output_writes_remain_inside_registry(self, tmp_path):
+        packet = {"candidateId": "synthetic/a-b"}
+        packet_path = prefill.writePacket(packet, tmp_path)
+        receipt_path = prefill.writeAssessmentReceipt(packet, packet, tmp_path)
+
+        assert Path(packet_path).parent == (tmp_path / "registry-for-review" / "discovery-packets")
+        assert Path(receipt_path).parent == (tmp_path / "generated-output" / "curation")
+        assert json.loads(Path(packet_path).read_text(encoding="utf-8")) == packet
+        assert json.loads(Path(receipt_path).read_text(encoding="utf-8")) == packet
 
     def test_write_packet_uses_process_lock_for_owner_check_and_replace(self, tmp_path):
         from gaia_cli.curation.submission import advisoryLock
