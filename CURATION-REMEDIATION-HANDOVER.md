@@ -114,3 +114,40 @@ Latest short checks after user compaction request: compileall relevant source/te
 `CURATION-REMEDIATION-REPORT.md` is now a draft evidence ledger/matrix, not a completion report. Its PENDING cells must be replaced only after actual final-SHA tests and reviews. Baseline 224 result is recorded there.
 
 Definition of done is not met yet. Do not claim completion from these edits or preliminary tests. Founder explicitly permits leaving protected flow blocked if independent human authority cannot be established; that does not make a mocked ceremony production success.
+
+
+## FINAL STATE (supersedes the working notes above)
+
+- **Draft PR opened: #2134** (DRAFT, base `main`, head `dev/curation-secure-reconciliation`),
+  https://github.com/gaia-research/gaia-skill-tree/pull/2134 — references #2088, #2089, #2117,
+  #2118, #2093, #2099. **Not merged. No issue comments. No deployment. No real intake.**
+- Head SHA: `79c40cf8851db8bcf1bd87c75671991035bd50bf`. Branch is 45 commits ahead of main;
+  it contains main's 113 commits via a merge, so the PR diff is only this remediation.
+- PR #2089 is still OPEN and unmerged at `32ecd0df7c0683167e2d9dfacf6ecbb4481cb453`.
+- `origin/main` unchanged at `e1a87057957945c773c6bde2b6e7650419cfe8c5`.
+- The original main checkout is untouched; its untracked `.pi/` and the 16
+  `registry-for-review/discovery-packets/emilkowalski-*.json` files are preserved.
+
+### Verification at the final head
+| Check | Result |
+|---|---|
+| Focused curation suite (23 files) | **671 passed** |
+| Exact audit baseline (the nine audit files) | **235 passed** (224 historical + 11 new) |
+| `scripts/merge_gate_check.py` | **15/15** |
+| `scripts/curation_walkthrough.py` | **17/17** |
+| `scripts/verify_review_findings.py` | **13/13** |
+| Wider repository suite (`tests/`, not integration/slow) | **4070 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` not writable) |
+| `scripts/pr_guards.py --base origin/main` | PASS |
+| `scripts/sync_agent_skill_mirror.py --check` | in sync |
+| `scripts/sync_bundled_schemas.py --check` | in sync |
+
+### Independent review history
+Five completed Luna XHigh runtime review rounds; **11 findings, all fixed and independently
+re-verified**. The sixth round was attempted and **could not be scheduled because the reviewer
+provider hit its usage limit** — it is OUTSTANDING and should be re-run before merge.
+
+### Verdicts (as stated in the PR)
+- **Code-merge: READY FOR FOUNDER REVIEW as a draft**, subject to the repository's human merge
+  gate and the outstanding sixth independent review round.
+- **Protected-flow activation: NO-GO.** The production trusted-envelope verifier denies every
+  request; no independently authenticated protected human L4 ceremony exists.
