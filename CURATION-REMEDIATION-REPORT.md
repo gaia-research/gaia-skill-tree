@@ -93,7 +93,7 @@ the 25 originally failing assertions was:
 | GENUINE DEFECT | 2 | (1) the branch dropped main's `assessCommand` candidate-ID guard; (2) the branch's freshness comparison re-derived the expected catalog with a different node-discovery rule, producing false "stale" verdicts. | **Fixed** in `cc99e75c4`: guard restored; the comparison now uses the same builder that produced the frozen snapshot. |
 
 **Totals:** 25 = 17 obsolete fixtures + 6 obsolete contracts + 2 genuine defects.
-All 25 are resolved. The focused curation suite now reports **666 passed** with
+All 25 are resolved. The focused curation suite now reports **667 passed** with
 no remaining failures. No failing test was deleted to make the suite green, and
 no security assertion was weakened.
 
@@ -111,8 +111,8 @@ frozen row to its packet.
 | `git merge origin/main` (113 commits) | Clean; no conflicts; only overlap file auto-merged with main's commands preserved |
 | Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
-| Focused curation suite (23 files) on this branch | **666 passed** |
-| Focused suite after the three P2 repairs | **666 passed** (no regression) |
+| Focused curation suite (23 files) on this branch | **667 passed** |
+| Focused suite after the three P2 repairs | **667 passed** (no regression) |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
 | Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
 | `python -m compileall` on changed modules | Pass |
@@ -121,7 +121,7 @@ frozen row to its packet.
 | `python scripts/sync_bundled_schemas.py --check` | In sync |
 | Independent Luna review round 1 (static, no runtime probes) | 5 findings, all fixed |
 | Independent Luna review round 2 (Luna XHigh, **runtime probes**) | 3 new P2 findings, all fixed and independently re-verified: symlinked output-directory escape; FAN-OUT resume dropping conflicting prior receipts; review accounting not binding each frozen row to its packet. All 5 prior findings confirmed closed at runtime. Protected-flow verdict unchanged: NO-GO. |
-| Wider repository suite | **PENDING** (running) |
+| Wider repository suite | **PENDING** (running against the final head) |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
 ### Round-2 runtime review findings and their repairs
@@ -131,6 +131,7 @@ frozen row to its packet.
 | Output writers followed a symlinked parent directory out of the registry root (packet, assessment receipt, skill batch) | P2, exploitable local write | `1d2782a56` — resolved-path containment of every output directory against the registry root, plus skill-batch leaf-symlink refusal | Independent probe: refusal raises, nothing written outside the root, leaf symlink still refused, normal writes unaffected |
 | FAN-OUT resume dropped conflicting prior receipts and could report the candidate review-ready | P2, audit correctness | `991fec131` — conflicts are retained, surfaced in `priorReceiptErrors`, and the candidate is blocked from dispatch | Independent probe: final outcome is `deferred` with the conflict reason, and the conflict is diagnosable |
 | Review accounting compared only candidate-ID sets, not each frozen row against its packet | P2, latent accounting gap | `a0c2fe6a2` — every row is bound to its packet by exact named identity, source URL/revision/digest, decision, proposed generic and packet/assessment digests; retrieval rank is deliberately **not** bound so outside-top-K remains possible | Independent probe: a mismatched row is rejected; a self-consistent inventory still builds |
+| Review accounting accepted a report that was **not** a real reconciliation (receipt marked invalid, batch not accounted, claiming human approval, digests stripped) | P2, latent accounting gap — found by the final independent review | `85ce78416` — the payload builder now requires positive accounting: the report must be fully accounted, must not claim human approval, every row must carry a valid receipt, and the packet/proposal/assessment digests must be **present and equal** to the actual artifacts rather than checked only when present | Regression test `test_forged_review_accounting_is_rejected`; the independent reviewer's own probe now raises `review accounting must be a fully accounted reconciliation` |
 | Test-quality: `test_dev_ratify.py` and `test_push_from_file.py` mocked whole validators rather than the private trust seam | — | `a0c2fe6a2` — the ratify tests now mock only `_verifyTrustedEnvelope`, so real payload reconstruction and binding execute; the push test exercises real assessment validation | Reviewer-confirmed; no test claims human approval |
 | Walkthrough asserted only "some error", not the authorization refusal | — | `7999ee8a6` — the walkthrough now builds a complete, realistic ratified packet and asserts the refusal is exactly the independent-authorization refusal | 17/17 |
 
