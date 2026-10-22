@@ -54,6 +54,7 @@ from scripts.upstream_watcher.live import (
     suite_key,
     umbrella_suite,
 )
+from scripts.upstream_watcher import evidence
 from scripts.upstream_watcher.records import RecordError
 
 PAYLOAD_VERSION = 2
@@ -580,12 +581,13 @@ def _comments(gh, number: int) -> list[dict]:
         raise RecordError(f"record comments of #{number} could not be listed: {exc}") from exc
 
 
-def blocked_plan(owner_repo: str, title: str, ambiguous: list[dict]) -> dict:
-    """The plan for a suite whose open umbrella identity is ambiguous: nothing is written, the run exits 3."""
+def inert_plan(owner_repo: str, title: str, action: str, version: str, ambiguous: list[dict] | None = None,
+               covering: tuple[int, ...] = ()) -> dict:
+    """A plan that writes nothing: the suite is blocked on ambiguous evidence, or its finding is already processed."""
     return {
         "suite": owner_repo,
         "title": title,
-        "action": "blocked-identity",
+        "action": action,
         "umbrella": None,
         "umbrellaTitle": None,
         "payload": None,
@@ -605,7 +607,9 @@ def blocked_plan(owner_repo: str, title: str, ambiguous: list[dict]) -> dict:
         "recordsReset": False,
         "tampered": False,
         "duplicates": [],
-        "ambiguous": [{"number": issue["number"], "title": issue.get("title", "")} for issue in ambiguous],
+        "ambiguous": [{"number": issue["number"], "title": issue.get("title", "")} for issue in ambiguous or []],
+        "covering": list(covering),
+        "version": version,
     }
 
 
@@ -626,8 +630,17 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     # create and are never edited, so a closed issue is preserved and a new one opens when none is open.
     found = canonical_umbrellas(live["issues"], owner_repo)
     if found.ambiguous:
-        return blocked_plan(owner_repo, title, found.ambiguous)
+        return inert_plan(owner_repo, title, "blocked-identity", new_version, found.ambiguous)
     umbrella = found.canonical
+    if umbrella is None:
+        # Closed history is evidence of processed findings. A finding a closed issue already records is not
+        # re-created. A finding the closed history cannot settle fails closed, with no write.
+        verdict = evidence.classify(finding, "release", live["closedUmbrellas"])
+        if verdict.state == "ambiguous":
+            closed = [issue for issue in live["closedUmbrellas"] if issue["number"] in verdict.ambiguous]
+            return inert_plan(owner_repo, title, "blocked-identity", new_version, closed)
+        if verdict.state == "processed":
+            return inert_plan(owner_repo, title, "suppressed-processed", new_version, covering=verdict.covering)
     state_of = child_state_lookup(live, probe)
 
     open_children, rejected = prechecks.index_children(live["issues"])
@@ -724,6 +737,8 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         # Other open umbrellas for this suite. Never written or closed here: Steward reconciles them.
         "duplicates": [{"number": issue["number"], "title": issue.get("title", "")} for issue in found.duplicates],
         "ambiguous": [],
+        "covering": [],
+        "version": new_version,
     }
 
 
@@ -771,6 +786,8 @@ def new_report() -> dict:
         # Open umbrellas beyond the canonical one, per suite. Listed for Steward reconciliation. The watcher never
         # edits, comments on or closes them.
         "duplicateOpenUmbrellas": [],
+        # Findings a closed issue already records. Listed for audit; nothing was created for them.
+        "suppressedProcessed": [],
         "suites": [],
     }
 
@@ -879,8 +896,11 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
     if plan["action"] == "noop":
         outcome = "noop"
     elif plan["action"] == "blocked-identity":
-        # The suite's open identity is ambiguous: nothing is written in dry-run or apply, and the run exits 3.
+        # The suite's open identity or its closed evidence is ambiguous: nothing is written, and the run exits 3.
         outcome = "blocked-identity"
+    elif plan["action"] == "suppressed-processed":
+        # The finding is already recorded by a closed issue. Nothing is created in dry-run or apply.
+        outcome = "suppressed-processed"
     elif apply:
         outcome = "raced-skip"
         for _attempt in range(2):
@@ -920,6 +940,8 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         "carried": plan["carried"],
         "duplicates": plan["duplicates"],
         "ambiguous": plan["ambiguous"],
+        "covering": plan["covering"],
+        "version": plan["version"],
     }
     return row, live
 
@@ -935,6 +957,13 @@ def fill_report(report: dict, suite_row: dict) -> None:
             f"umbrella(s) {numbers} left untouched for Steward reconciliation.",
             file=sys.stderr,
         )
+    if suite_row["outcome"] == "suppressed-processed":
+        report["suppressedProcessed"].append(
+            {"suite": suite_row["suite"], "version": suite_row["version"], "closed": list(suite_row["covering"])}
+        )
+        closed = ", ".join(f"#{number}" for number in suite_row["covering"])
+        print(f"::notice::{suite_row['suite']} {suite_row['version']}: already processed by closed {closed}; "
+              "not re-created.", file=sys.stderr)
     if suite_row["outcome"] == "blocked-identity":
         numbers = ", ".join(f"#{row['number']}" for row in suite_row["ambiguous"])
         report["unknownEvidence"].append(

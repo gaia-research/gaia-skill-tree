@@ -15,6 +15,7 @@ import subprocess
 import pytest
 
 from scripts.upstream_watcher import issuer, watcher
+from scripts.upstream_watcher.issuer import render_bootstrap_body
 from scripts.upstream_watcher.batch import new_report
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
 from upstream_fakes import RestGhRunner
@@ -37,9 +38,9 @@ BOOTSTRAP = {
 }
 
 
-def bootstrap_issue(number, title, state, labels):
+def bootstrap_issue(number, title, state, labels, body=""):
     return {
-        "number": number, "title": title, "state": state, "body": "", "updated_at": "2026-10-01T00:00:00Z",
+        "number": number, "title": title, "state": state, "body": body, "updated_at": "2026-10-01T00:00:00Z",
         "labels": [{"name": name} for name in labels],
     }
 
@@ -59,25 +60,35 @@ def created_titles(world):
 # ---------------------------------------------------------------------------
 
 
-def test_a_closed_and_rejected_bootstrap_for_the_same_version_is_recreated_and_left_alone(monkeypatch):
-    rejected = bootstrap_issue(1700, TITLE_V211, "closed", ["upstream:bootstrap", "upstream:rejected"])
+def test_a_closed_and_rejected_bootstrap_for_the_same_version_is_processed_and_not_recreated(monkeypatch):
+    rejected = bootstrap_issue(1700, TITLE_V211, "closed", ["upstream:bootstrap", "upstream:rejected"],
+                               body=render_bootstrap_body(BOOTSTRAP))
     world = world_for(monkeypatch, [rejected])
 
     summaries = create_issues([BOOTSTRAP], apply=True)
 
-    assert [w[0] for w in world.writes] == ["create"], "the closed issue is never edited or commented on"
-    assert created_titles(world) == [TITLE_V211]
-    assert summaries[0]["skipped"] is False
+    assert world.writes == [], "the closed baseline records this finding: nothing is created or edited"
+    assert summaries[0]["skipped"] is True and summaries[0]["covering"] == [1700]
 
 
-def test_a_bootstrap_closed_as_completed_for_the_same_version_is_recreated_and_left_alone(monkeypatch):
-    completed = bootstrap_issue(1701, TITLE_V211, "closed", ["upstream:bootstrap"])
+def test_a_bootstrap_closed_as_completed_for_the_same_version_is_processed_and_not_recreated(monkeypatch):
+    completed = bootstrap_issue(1701, TITLE_V211, "closed", ["upstream:bootstrap"],
+                                body=render_bootstrap_body(BOOTSTRAP))
     world = world_for(monkeypatch, [completed])
 
     create_issues([BOOTSTRAP], apply=True)
 
-    assert [w[0] for w in world.writes] == ["create"]
-    assert created_titles(world) == [TITLE_V211]
+    assert world.writes == []
+
+
+def test_a_closed_bootstrap_for_this_version_with_no_payload_fails_closed_with_zero_writes(monkeypatch):
+    headless = bootstrap_issue(1703, TITLE_V211, "closed", ["upstream:bootstrap"], body="")
+    world = world_for(monkeypatch, [headless])
+
+    with pytest.raises(IdempotencyLookupError):
+        create_issues([BOOTSTRAP], apply=True)
+
+    assert world.writes == [], "a closed baseline that cannot prove its finding is ambiguous: no create"
 
 
 def test_a_closed_bootstrap_for_an_older_version_does_not_suppress_the_new_version(monkeypatch):
@@ -96,6 +107,15 @@ def test_a_failed_open_bootstrap_list_is_unknown_evidence_with_zero_writes(monke
         create_issues([BOOTSTRAP], apply=True)
 
     assert world.writes == []
+
+
+def test_a_failed_closed_bootstrap_history_read_is_unknown_evidence_with_zero_writes(monkeypatch):
+    world = world_for(monkeypatch, [], fail_pages=[("closed", "upstream:bootstrap", 1)])
+
+    with pytest.raises(IdempotencyLookupError):
+        create_issues([BOOTSTRAP], apply=True)
+
+    assert world.writes == [], "closed history is the evidence: without it the baseline cannot be classified"
 
 
 def test_batch_mode_open_bootstrap_list_failure_exits_3_with_zero_writes(monkeypatch, tmp_path):

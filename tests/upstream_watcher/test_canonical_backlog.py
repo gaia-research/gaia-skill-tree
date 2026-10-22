@@ -140,7 +140,7 @@ def test_repeated_daily_runs_with_unchanged_findings_write_nothing_after_the_fir
 # --- closed issues: preserved, never edited, a new one opens when none is open -------------------------------
 
 
-def test_a_closed_canonical_issue_is_replaced_by_a_new_one_and_left_untouched():
+def test_a_closed_canonical_issue_suppresses_the_same_finding_and_is_left_untouched():
     gh = FakeGh()
     run(gh)
     close(gh, 5000)
@@ -149,30 +149,30 @@ def test_a_closed_canonical_issue_is_replaced_by_a_new_one_and_left_untouched():
     report, code = run(gh)
 
     assert code == 0, report
-    assert [w[0] for w in writes_since(gh, mark)] == ["create"]
-    assert umbrellas(gh) == [5000, 5001]
+    assert writes_since(gh, mark) == [], "the closed issue already records this finding: no create"
+    assert umbrellas(gh) == [5000]
     assert gh.issues[5000]["state"] == "closed", "the closed issue is not reopened"
-    assert touched(writes_since(gh, mark), 5000) == [], "the closed issue gets no edit, comment or label"
+    assert report["suppressedProcessed"] == [{"suite": SUITE, "version": "v1", "closed": [5000]}]
 
 
-def test_multiple_historical_closures_each_stay_closed_and_the_newest_open_one_carries_forward():
+def test_multiple_historical_closures_keep_each_finding_processed_until_a_genuinely_new_one_arrives():
     gh = FakeGh()
-    run(gh)
+    run(gh, [finding("v1")])
     close(gh, 5000)
-    run(gh)
+    run(gh, [finding("v2")])
     close(gh, 5001, label="upstream:rejected")
-    run(gh)
-    close(gh, 5002, label=None, state_reason="completed")
     mark = gh.write_count()
 
-    report, code = run(gh)
+    run(gh, [finding("v1")])
+    run(gh, [finding("v2")])
+    assert writes_since(gh, mark) == [], "each finding is already recorded by a closed issue"
+    assert umbrellas(gh) == [5000, 5001]
+    assert gh.issues[5000]["state"] == "closed" and gh.issues[5001]["state"] == "closed"
 
+    report, code = run(gh, [finding("v3")])
     assert code == 0, report
-    assert umbrellas(gh) == [5000, 5001, 5002, 5003]
-    for number in (5000, 5001, 5002):
-        assert gh.issues[number]["state"] == "closed"
-        assert touched(writes_since(gh, mark), number) == []
-    assert [w[0] for w in writes_since(gh, mark)] == ["create"]
+    assert [w[0] for w in writes_since(gh, mark)] == ["create"], "only the genuinely new version creates"
+    assert umbrellas(gh) == [5000, 5001, 5002]
 
 
 # --- duplicates: canonical updated, duplicates reported and untouched ----------------------------------------

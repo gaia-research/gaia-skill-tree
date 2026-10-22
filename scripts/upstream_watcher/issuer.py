@@ -34,10 +34,12 @@ from pathlib import Path
 from typing import Any
 
 from scripts.upstream_watcher import approval, records
+from scripts.upstream_watcher import evidence
 from scripts.upstream_watcher.live import GhError, LiveGh
 
 # Labels whose open issues the fanout idempotency checks read, once, before the first write.
 IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
+CLOSED_BOOTSTRAP_KEY = "closed:upstream:bootstrap"
 # Snapshot key for the closed upstream:bootstrap history, read in full (H3 rejection memory).
 
 
@@ -363,9 +365,9 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, list[dict]]:
     """Read every open issue carrying each label, following all pages, and the closed bootstrap history.
 
-    H3: the closed ``upstream:bootstrap`` history is read in full (no window), because a closed bootstrap
-    for a version is rejection memory. Raises IdempotencyLookupError on any list failure. The fanout
-    calls this before its first write, so a failed lookup can never leave a half-written run behind.
+    The closed ``upstream:bootstrap`` history is read in full (no window). It is evidence of baselines already
+    processed, so a finding it records is not re-created. Raises IdempotencyLookupError on any list failure. The
+    fanout calls this before its first write, so a failed lookup can never leave a half-written run behind.
     """
     gh = LiveGh()
     snapshot: dict[str, list[dict]] = {}
@@ -374,6 +376,11 @@ def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, li
             snapshot[label] = gh.list_issues("open", labels=label)
         except GhError as exc:
             raise IdempotencyLookupError(f"open {label} issue list failed: {exc}") from exc
+    if "upstream:bootstrap" in labels:
+        try:
+            snapshot[CLOSED_BOOTSTRAP_KEY] = gh.list_issues("closed", labels="upstream:bootstrap")
+        except GhError as exc:
+            raise IdempotencyLookupError(f"closed upstream:bootstrap issue list failed: {exc}") from exc
     return snapshot
 
 
@@ -698,8 +705,6 @@ def create_issues(
         if finding_type == "bootstrap":
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
             suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
-            # A closed bootstrap never blocks a create: when no baseline is open, a new one opens and the closed issue
-            # stays as it was. Only an open baseline is reused or updated.
             existing_suite = _find_existing_suite_issue(
                 suite_prefix, "upstream:bootstrap", run_cache, snapshot
             )
@@ -752,6 +757,20 @@ def create_issues(
                 )
                 continue
 
+            # Closed history is evidence of baselines already processed. A baseline it records is not re-created, and a
+            # baseline it cannot settle fails closed (exit 3, zero writes for the run).
+            verdict = evidence.classify(finding, "bootstrap", (snapshot or {}).get(CLOSED_BOOTSTRAP_KEY, []))
+            if verdict.state == "ambiguous":
+                raise IdempotencyLookupError(
+                    f"closed bootstrap evidence for {skill_id}@{new_version} is ambiguous "
+                    f"(#{', #'.join(str(n) for n in verdict.ambiguous)}); no baseline is created"
+                )
+            if verdict.state == "processed":
+                print(f"  Baseline for {skill_id}@{new_version} is already processed by closed "
+                      f"#{', #'.join(str(n) for n in verdict.covering)}; not re-created.", file=sys.stderr)
+                summaries.append({"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": None,
+                                  "covering": list(verdict.covering)})
+                continue
             # Re-read the open list right before the create: a concurrent run may have opened this baseline.
             if _find_existing_suite_issue(suite_prefix, "upstream:bootstrap") is not None:
                 print(f"  Bootstrap for {skill_id} was opened by a concurrent run; not creating a second.",

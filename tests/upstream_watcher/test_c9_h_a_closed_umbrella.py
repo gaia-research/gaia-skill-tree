@@ -1,10 +1,13 @@
-"""#2131 round-5 H-A, superseded by the founder's canonical-issue correction (PR #2133).
+"""#2131 round-5 H-A, revised twice (PR #2133).
 
-Round 5 suppressed the create when the newest closed umbrella had the same suite and version, so a rejected
-umbrella was never re-created. The founder reversed that: Steward owns closure, the watcher never reopens or edits a
-closed issue, and when no OPEN canonical umbrella exists it creates a new one, even if closed ones exist for the same
-suite. So a closed umbrella no longer blocks a create. The closed history is still read, because carry-forward keeps
-the unresolved rows of the newest closed umbrella. A failed page of that history is unknown evidence: exit 3, zero
+Round 5 suppressed a create whenever the newest closed umbrella had the same suite and version. The founder's
+canonical-issue correction then let a closed umbrella stop blocking a new one, which re-created the same finding every
+day when its rows were left unresolved. The hardening pass settles it with evidence: a closed umbrella's payload
+records the finding it processed. The same finding (suite, version, candidate ids) that a closed umbrella records is
+not re-created. A new version, or a new candidate, is a genuinely new finding and creates. A closed umbrella whose
+payload cannot prove its finding is ambiguous: nothing is created and the run exits 3.
+
+The closed history is read in full, because it is the evidence. A failed page of it is unknown evidence: exit 3, zero
 writes.
 """
 
@@ -55,7 +58,7 @@ def close(gh, number, label="upstream:rejected", state_reason=None):
         gh.issues[number]["state_reason"] = state_reason
 
 
-def test_a_closed_umbrella_never_blocks_a_new_open_one_for_the_same_version():
+def test_a_closed_umbrella_suppresses_recreation_of_the_same_finding():
     gh = FakeGh()
     run(gh)
     close(gh, 5000)
@@ -64,39 +67,35 @@ def test_a_closed_umbrella_never_blocks_a_new_open_one_for_the_same_version():
     report, code = run(gh)
 
     assert code == 0, report
-    assert [w[0] for w in gh.writes[before:]] == ["create"]
-    assert report["issuesCreated"] == 1
-    assert umbrella_numbers(gh) == [5000, 5001]
-    assert all(w[1] != 5000 for w in gh.writes[before:] if w[0] in ("edit", "labels", "comment")), \
-        "the closed umbrella is never edited, commented on or relabelled"
-    assert gh.issues[5000]["state"] == "closed"
+    assert gh.write_count() == before, "its payload records this finding: nothing is created"
+    assert umbrella_numbers(gh) == [5000]
+    assert report["suppressedProcessed"] == [{"suite": SUITE, "version": "v1", "closed": [5000]}]
 
 
-def test_the_new_open_umbrella_is_then_left_alone_by_later_daily_runs():
+def test_repeated_daily_scans_after_closure_write_nothing():
     gh = FakeGh()
     run(gh)
     close(gh, 5000)
-    run(gh)
     before = gh.write_count()
-    for _day in range(3):
+    for _day in range(5):
         report, code = run(gh)
         assert code == 0, report
-    assert gh.write_count() == before, "findings unchanged against the open canonical issue: no writes"
-    assert umbrella_numbers(gh) == [5000, 5001]
+    assert gh.write_count() == before
+    assert umbrella_numbers(gh) == [5000]
 
 
 @pytest.mark.parametrize("label, state_reason", [
     (None, None),
     (None, "completed"),
 ])
-def test_a_closed_umbrella_with_no_rejection_label_also_opens_a_new_one(label, state_reason):
+def test_a_closed_umbrella_with_no_rejection_label_is_still_processed_and_not_recreated(label, state_reason):
     gh = FakeGh()
     run(gh)
     close(gh, 5000, label=label, state_reason=state_reason)
 
     run(gh)
 
-    assert umbrella_numbers(gh) == [5000, 5001]
+    assert umbrella_numbers(gh) == [5000]
     assert gh.issues[5000]["state"] == "closed"
 
 
