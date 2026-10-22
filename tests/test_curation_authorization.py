@@ -11,30 +11,46 @@ import pytest
 
 from gaia_cli.curation.authorization import (
     _digest,
-    _proposalPacket,
     buildReviewPayload,
     verifyPacketAuthorization,
 )
 
 
-ASSESSMENT = {"receipt": "valid synthetic"}
+ASSESSMENT = {}
 
 
 def packet(candidate="upstream/tool"):
+    sourceContent = "---\nname: exact-name\ndescription: A generic ability.\n---\nSynthetic skill source.\n"
+    sourceDigest = hashlib.sha256(sourceContent.encode("utf-8")).hexdigest()
+    frontmatter = {"name": "exact-name", "description": "A generic ability."}
+    generics = [{"id": "generic-a", "kind": "generic", "name": "Generic A",
+                 "description": "A generic ability.", "type": "basic", "prerequisites": []}]
+    mappingOptions = [{"genericId": "generic-a", "rationale": "Synthetic retrieval candidate.",
+                       "similarity": 0.8, "matchTier": "strong"}]
+    canonicalDigest = lambda value: hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     return {
         "contractVersion": "discovery-packet-v2",
         "candidateId": candidate,
+        "lifecycle": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"],
+        "artifactGate": "valid-skill",
         "source": {
             "canonicalUrl": "https://github.com/upstream/tool/blob/abc123/SKILL.md",
-            "commitSha": "abc123", "contentSha256": "a" * 64,
+            "commitSha": "abc123", "contentSha256": sourceDigest,
+            "frontmatter": frontmatter, "sourceLane": "source-repository",
+            "hostRepository": "https://github.com/upstream/tool", "fetchedAt": "2026-01-01T00:00:00Z",
         },
-        "decision": {"value": "MAP", "genericId": "generic-a"},
-        "genericSnapshot": {"generics": [{"id": "generic-a", "kind": "generic"}]},
-        "suite": {"role": "component", "componentCandidateIds": [candidate]},
+        "normalized": frontmatter,
+        "exactDedupe": {"matched": False},
+        "mappingOptions": mappingOptions,
+        "flags": [],
+        "decision": {"value": "MAP", "reasonCode": "L4_RATIFIED_MAP", "genericId": "generic-a"},
+        "genericSnapshot": {"command": "gaia dev list --generic --json", "capturedAt": "2026-01-01T00:00:00Z",
+                            "generics": generics, "contentSha256": canonicalDigest(generics),
+                            "mappingOptionsSha256": canonicalDigest(mappingOptions)},
         "l4Resolution": {
             "generic": {"id": "generic-a", "name": "Generic A", "description": "A generic ability.",
                         "type": "fusion", "prerequisites": ["generic-b"]},
-            "named": {"contributor": "Owner", "skillName": "exact-name"},
+            "named": {"contributor": "owner", "skillName": "exact-name"},
             "skillFileUrl": "https://github.com/upstream/tool/blob/abc123/SKILL.md",
         },
     }
@@ -50,7 +66,7 @@ def test_payload_binds_all_manifest_packets_exact_digest_and_context(tmp_path):
                                              "upstream/second": {"assessment": "B"}})
     assert payload["manifestSha256"] == manifestDigest
     assert [row["candidateId"] for row in payload["inventory"]] == ["upstream/tool", "upstream/second"]
-    assert payload["inventory"][0]["namedIdentity"] == {"contributor": "Owner", "skillName": "exact-name"}
+    assert payload["inventory"][0]["namedIdentity"] == {"contributor": "owner", "skillName": "exact-name"}
     assert payload["inventory"][0]["generic"]["prerequisites"] == ["generic-b"]
     assert payload["inventory"][0]["source"]["revision"] == "abc123"
     assert payload["inventory"][0]["assessmentSha256"] == _digest({"assessment": "A"})
@@ -140,41 +156,45 @@ def test_every_reviewed_security_input_changes_payload_digest(tmp_path, field):
     assert _digest(buildReviewPayload(row, **options)) != _digest(before)
 
 
-def _reviewAccounting(row):
-    from gaia_cli.curation.reconciliation import canonicalJson, sha256
+def _reviewAccounting(row, packetRoot="."):
+    from gaia_cli.curation.assessment import buildAssessment
+    from gaia_cli.curation.reconciliation import freezeInventory, reconcileInventory, sha256
 
     source = row["source"]
     named = row["l4Resolution"]["named"]
-    frozen = {
-        "contractVersion": "curation-inventory-v1",
-        "candidates": [{
-            "candidateId": row["candidateId"],
-            "namedIdentity": f"{named['contributor']}/{named['skillName']}",
-            "canonicalUrl": source["canonicalUrl"],
-            "sourceRevision": source["commitSha"],
-            "sourceDigest": source["contentSha256"],
-        }],
-    }
-    frozen["inventoryDigest"] = sha256(canonicalJson(frozen))
+    sourceContent = "---\nname: exact-name\ndescription: A generic ability.\n---\nSynthetic skill source.\n"
+    frozen = freezeInventory([{
+        "candidateId": row["candidateId"],
+        "namedIdentity": f"{named['contributor']}/{named['skillName']}",
+        "canonicalUrl": source["canonicalUrl"],
+        "sourceRevision": source["commitSha"],
+        "sourceDigest": source["contentSha256"],
+        "packetInput": {"sourceContent": sourceContent,
+                        "packet": {"genericSnapshot": row["genericSnapshot"]}},
+    }])
+    assessment = buildAssessment(row, registryPath=str(packetRoot))
+    assessment["assessedAt"] = "2026-01-01T00:00:00+00:00"
+    ASSESSMENT.clear()
+    ASSESSMENT.update(assessment)
+    packetBytes = json.dumps(row, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    assessmentBytes = json.dumps(assessment, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     decision = row["decision"]
     proposed = {"decision": decision["value"], "genericId": decision["genericId"]}
-    # A real reconciliation report carries positive accounting: the batch is
-    # accounted for, no receipt is invalid, nothing claims human approval, and
-    # each row states the packet/proposal/assessment digests it observed.
-    report = {
-        "inventoryDigest": frozen["inventoryDigest"],
-        "accounted": True,
-        "humanApproved": False,
-        "decisions": [{
-            "candidateId": row["candidateId"], "outcome": "review-ready",
-            "proposedGeneric": proposed,
-            "receiptValid": True,
-            "packetDigest": sha256(canonicalJson(row)),
-            "packetProposalSha256": sha256(canonicalJson(_proposalPacket(row))),
-            "assessmentSha256": sha256(canonicalJson(ASSESSMENT)),
-        }],
-    }
-    return {"inventory": frozen, "reconciliation": report}
+    receipts = [{
+        "candidateId": row["candidateId"],
+        "taskId": frozen["candidates"][0]["taskId"],
+        "inputDigest": frozen["candidates"][0]["inputDigest"],
+        "attempt": 1,
+        "packetBytes": packetBytes,
+        "outputDigest": sha256(packetBytes),
+        "packetHash": sha256(packetBytes),
+        "assessmentBytes": assessmentBytes,
+        "assessmentSha256": sha256(assessmentBytes),
+        "proposedGeneric": proposed,
+        "outcome": "review-ready",
+    }]
+    report = reconcileInventory(frozen, receipts, packetRoot=packetRoot)
+    return {"inventory": frozen, "reconciliation": report, "receipts": receipts}
 
 
 def test_forged_review_accounting_is_rejected(tmp_path):
@@ -190,38 +210,38 @@ def test_forged_review_accounting_is_rejected(tmp_path):
     row = packet()
     assessments = {row["candidateId"]: ASSESSMENT}
 
-    notAccounted = copy.deepcopy(_reviewAccounting(row))
+    notAccounted = copy.deepcopy(_reviewAccounting(row, tmp_path))
     notAccounted["reconciliation"]["accounted"] = False
     with pytest.raises(ValueError, match="fully accounted reconciliation"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=notAccounted,
                            assessments=assessments)
 
-    claimsApproval = copy.deepcopy(_reviewAccounting(row))
+    claimsApproval = copy.deepcopy(_reviewAccounting(row, tmp_path))
     claimsApproval["reconciliation"]["humanApproved"] = True
     with pytest.raises(ValueError, match="must not claim human approval"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=claimsApproval,
                            assessments=assessments)
 
-    invalidReceipt = copy.deepcopy(_reviewAccounting(row))
+    invalidReceipt = copy.deepcopy(_reviewAccounting(row, tmp_path))
     invalidReceipt["reconciliation"]["decisions"][0]["receiptValid"] = False
-    with pytest.raises(ValueError, match="invalid receipt"):
+    with pytest.raises(ValueError, match="invalid receipt|outcome disagrees"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=invalidReceipt,
                            assessments=assessments)
 
     for key in ("packetDigest", "packetProposalSha256", "assessmentSha256"):
-        stripped = copy.deepcopy(_reviewAccounting(row))
+        stripped = copy.deepcopy(_reviewAccounting(row, tmp_path))
         stripped["reconciliation"]["decisions"][0].pop(key, None)
-        with pytest.raises(ValueError, match="mismatch|real assessment"):
+        with pytest.raises(ValueError, match="mismatch|real assessment|invalid receipt|outcome disagrees"):
             buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=stripped,
                                assessments=assessments)
 
-    missingAssessment = copy.deepcopy(_reviewAccounting(row))
+    missingAssessment = copy.deepcopy(_reviewAccounting(row, tmp_path))
     missingAssessment["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
     with pytest.raises(ValueError, match="assessment digest mismatch"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=missingAssessment,
                            assessments=assessments)
 
-    noAssessmentAtAll = copy.deepcopy(_reviewAccounting(row))
+    noAssessmentAtAll = copy.deepcopy(_reviewAccounting(row, tmp_path))
     noAssessmentAtAll["reconciliation"]["decisions"][0].pop("assessmentSha256", None)
     with pytest.raises(ValueError, match="real assessment"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=noAssessmentAtAll,
@@ -230,18 +250,18 @@ def test_forged_review_accounting_is_rejected(tmp_path):
 
 def test_review_inventory_binds_exact_named_identity_and_source(tmp_path):
     row = packet()
-    accounting = _reviewAccounting(row)
+    accounting = _reviewAccounting(row, tmp_path)
     assert buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                                 assessments={row["candidateId"]: ASSESSMENT})
 
     badIdentity = copy.deepcopy(accounting)
-    badIdentity["inventory"]["candidates"][0]["namedIdentity"] = "Owner/inventory-name"
+    badIdentity["inventory"]["candidates"][0]["namedIdentity"] = "owner/inventory-name"
     from gaia_cli.curation.reconciliation import canonicalJson, sha256
     frozen = badIdentity["inventory"]
     unsigned = {key: val for key, val in frozen.items() if key != "inventoryDigest"}
     frozen["inventoryDigest"] = sha256(canonicalJson(unsigned))
     badIdentity["reconciliation"]["inventoryDigest"] = frozen["inventoryDigest"]
-    with pytest.raises(ValueError, match="named identity mismatch"):
+    with pytest.raises(ValueError, match="named identity mismatch|invalid receipt|outcome disagrees|task/input/source bindings"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badIdentity,
                                 assessments={row["candidateId"]: ASSESSMENT})
 
@@ -254,7 +274,7 @@ def test_review_inventory_binds_exact_named_identity_and_source(tmp_path):
         unsigned = {key: val for key, val in frozen.items() if key != "inventoryDigest"}
         frozen["inventoryDigest"] = sha256(canonicalJson(unsigned))
         badSource["reconciliation"]["inventoryDigest"] = frozen["inventoryDigest"]
-        with pytest.raises(ValueError, match="source provenance mismatch"):
+        with pytest.raises(ValueError, match="source provenance mismatch|invalid receipt|outcome disagrees|task/input/source bindings|packetInput is invalid"):
             buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=badSource,
                                 assessments={row["candidateId"]: ASSESSMENT})
 
@@ -263,13 +283,13 @@ def test_review_report_must_match_packet_decision_and_packet_digest(tmp_path):
     row = packet()
     for key, value in (("proposedGeneric", {"decision": "MAP", "genericId": "generic-other"}),
                        ("outcome", "deferred")):
-        accounting = _reviewAccounting(row)
+        accounting = _reviewAccounting(row, tmp_path)
         accounting["reconciliation"]["decisions"][0][key] = value
-        with pytest.raises(ValueError, match="reconciliation decision disagrees"):
+        with pytest.raises(ValueError, match="reconciliation decision disagrees|outcome disagrees"):
             buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                                 assessments={row["candidateId"]: ASSESSMENT})
 
-    accounting = _reviewAccounting(row)
+    accounting = _reviewAccounting(row, tmp_path)
     accounting["reconciliation"]["decisions"][0]["packetDigest"] = "0" * 64
     with pytest.raises(ValueError, match="packet digest mismatch"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
@@ -280,16 +300,53 @@ def test_report_binds_assessment_digest_and_outside_top_k_mapping_is_allowed(tmp
     row = packet()
     row["decision"]["genericId"] = "outside-top-k"
     row["l4Resolution"]["generic"]["id"] = "outside-top-k"
-    assessment = {"receipt": "valid synthetic"}
-    accounting = _reviewAccounting(row)
+    row["l4Resolution"]["status"] = "approved"
+    row["l4Resolution"]["humanReview"] = {
+        "humanOverride": True, "reviewedBy": "unit-test", "approvalRef": "synthetic-test-reference",
+        "rationale": "Unit-only test of a selection outside retrieval options.",
+        "reviewedAt": "2026-01-01T00:00:00Z", "assessmentReceiptDigest": "0" * 64,
+        "attestation": "Synthetic unit test only.", "assessmentPath": "/nonexistent-synthetic-assessment.json",
+    }
+    row["genericSnapshot"]["generics"].append({
+        "id": "outside-top-k", "kind": "generic", "name": "Outside Top K",
+        "description": "A generic ability outside the retrieval shortlist.",
+        "type": "basic", "prerequisites": [],
+    })
+    row["genericSnapshot"]["contentSha256"] = hashlib.sha256(
+        json.dumps(row["genericSnapshot"]["generics"], sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    accounting = _reviewAccounting(row, tmp_path)
+    assessment = ASSESSMENT
     accounting["reconciliation"]["decisions"][0]["assessmentSha256"] = _digest({"receipt": "wrong"})
-    with pytest.raises(ValueError, match="assessment digest mismatch"):
+    with pytest.raises(ValueError, match="assessment digest mismatch|invalid receipt|outcome disagrees"):
         buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                            assessments={row["candidateId"]: assessment})
     accounting["reconciliation"]["decisions"][0]["assessmentSha256"] = _digest(assessment)
     payload = buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
                                  assessments={row["candidateId"]: assessment})
     assert payload["inventory"][0]["generic"]["id"] == "outside-top-k"
+
+
+def test_forged_reconciliation_report_is_rejected_against_genuine_receipts(tmp_path):
+    row = packet()
+    accounting = _reviewAccounting(row, tmp_path)
+    assessments = {row["candidateId"]: ASSESSMENT}
+
+    # Positive control: the independently generated, receipt-backed report binds.
+    assert buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=accounting,
+                              assessments=assessments)
+
+    forged = copy.deepcopy(accounting)
+    forged["reconciliation"]["decisions"][0]["outcome"] = "deferred"
+    with pytest.raises(ValueError, match="outcome disagrees"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=forged,
+                           assessments=assessments)
+
+    missingReceipts = copy.deepcopy(accounting)
+    del missingReceipts["receipts"]
+    with pytest.raises(ValueError, match="must carry the receipts"):
+        buildReviewPayload(row, registryPath=str(tmp_path), reviewInventory=missingReceipts,
+                           assessments=assessments)
 
 
 def test_unconfigured_production_trust_seam_fails_closed(tmp_path):

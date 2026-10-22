@@ -40,6 +40,14 @@ def unitOnlyAuthorizationAndFreshness(monkeypatch):
 
 def ratifiedPacket(tmp_path, target="other-skill", candidate="test/candidate", skillName="candidate", options=None, decision="MAP"):
     packet = _makeDeferredMappedPacket(candidate_id=candidate, mapping_options=options)
+    sourceContent = (
+        "---\nname: Test Candidate\ndescription: A test candidate skill.\n---\n"
+        "Synthetic ratified candidate source.\n"
+    )
+    packet["source"]["frontmatter"] = {"name": "Test Candidate", "description": "A test candidate skill."}
+    packet["source"]["contentSha256"] = __import__("hashlib").sha256(sourceContent.encode("utf-8")).hexdigest()
+    packet["source"]["commitSha"] = "a" * 40
+    packet["normalized"] = {"name": "Test Candidate", "description": "A test candidate skill."}
     packetPath = tmp_path / f"{skillName}.json"
     packetPath.write_text(json.dumps(packet), encoding="utf-8")
     registry = _makeRegistryDir(tmp_path)
@@ -146,48 +154,66 @@ def test_ratify_override_failure_never_writes(tmp_path, mutation):
     assert path.read_text(encoding="utf-8") == original
 
 
-def reviewAccounting(packets):
-    from gaia_cli.curation.authorization import _proposalPacket
-    from gaia_cli.curation.reconciliation import canonicalJson, sha256
+def reviewAccounting(packets, packetRoot):
+    from gaia_cli.curation.reconciliation import canonicalJson, freezeInventory, reconcileInventory, sha256
 
-    candidates = [{
-        "candidateId": packet["candidateId"],
-        "namedIdentity": f"{packet['l4Resolution']['named']['contributor']}/{packet['l4Resolution']['named']['skillName']}",
-        "canonicalUrl": packet["source"]["canonicalUrl"],
-        "sourceRevision": packet["source"].get("commitSha") or packet["source"].get("revision"),
-        "sourceDigest": packet["source"]["contentSha256"],
-    } for packet in packets]
-    frozen = {"candidates": candidates}
-    frozen["inventoryDigest"] = sha256(canonicalJson(frozen))
-    decisions = []
-    for packet in packets:
+    root = Path(packetRoot)
+    candidates = []
+    receipts = []
+    for index, packet in enumerate(packets):
+        candidateId = packet["candidateId"]
+        named = packet["l4Resolution"]["named"]
+        source = packet["source"]
+        sourceContent = (
+            "---\nname: Test Candidate\ndescription: A test candidate skill.\n---\n"
+            "Synthetic ratified candidate source.\n"
+        )
+        candidates.append({
+            "candidateId": candidateId,
+            "namedIdentity": f"{named['contributor']}/{named['skillName']}",
+            "canonicalUrl": source["canonicalUrl"],
+            "sourceRevision": source["commitSha"],
+            "sourceDigest": source["contentSha256"],
+            "packetInput": {"sourceContent": sourceContent,
+                            "packet": {"genericSnapshot": packet["genericSnapshot"]}},
+        })
+        packetRelative = f"registry-for-review/discovery-packets/{index}.json"
+        packetPath = root / packetRelative
+        packetPath.parent.mkdir(parents=True, exist_ok=True)
+        packetBytes = canonicalJson(packet)
+        packetPath.write_bytes(packetBytes)
+        assessmentRelative = packet["l4Resolution"]["humanReview"]["assessmentPath"]
+        assessmentPath = root / assessmentRelative
+        receipt = json.loads(assessmentPath.read_text(encoding="utf-8"))
+        assessmentBytes = canonicalJson(receipt)
+        assessmentPath.write_bytes(assessmentBytes)
         decision = packet["decision"]
         proposed = {"decision": decision["value"]}
         if decision["value"] == "MAP":
             proposed["genericId"] = decision["genericId"]
         elif decision["value"] == "NEW_GENERIC":
             proposed["proposal"] = decision["proposal"]
-        # A real reconciliation report carries positive accounting: the batch is
-        # accounted for, no receipt is invalid, nothing claims human approval,
-        # and each row states the packet/proposal digests it observed.
-        assessmentPath = packet.get("l4Resolution", {}).get("humanReview", {}).get("assessmentPath")
-        assessment = json.loads(Path(assessmentPath).read_text(encoding="utf-8"))
-        decisions.append({
-            "candidateId": packet["candidateId"], "outcome": "review-ready",
-            "proposedGeneric": proposed, "receiptValid": True,
-            "packetDigest": sha256(canonicalJson(packet)),
-            "packetProposalSha256": sha256(canonicalJson(_proposalPacket(packet))),
-            "assessmentSha256": sha256(canonicalJson(assessment)),
+        receipts.append({
+            "candidateId": candidateId,
+            "taskId": None,  # Filled from the frozen row below.
+            "inputDigest": None,
+            "attempt": 1,
+            "packetPath": packetRelative,
+            "outputDigest": sha256(packetBytes),
+            "packetHash": sha256(packetBytes),
+            "assessmentPath": assessmentRelative,
+            "assessmentSha256": sha256(assessmentBytes),
+            "proposedGeneric": proposed,
+            "outcome": "review-ready",
         })
-    return {
-        "inventory": frozen,
-        "reconciliation": {
-            "inventoryDigest": frozen["inventoryDigest"],
-            "accounted": True,
-            "humanApproved": False,
-            "decisions": decisions,
-        },
-    }
+    frozen = freezeInventory(candidates)
+    frozenById = {row["candidateId"]: row for row in frozen["candidates"]}
+    for receipt in receipts:
+        frozenRow = frozenById[receipt["candidateId"]]
+        receipt["taskId"] = frozenRow["taskId"]
+        receipt["inputDigest"] = frozenRow["inputDigest"]
+    report = reconcileInventory(frozen, receipts, packetRoot=root)
+    return {"inventory": frozen, "reconciliation": report, "receipts": receipts}
 
 
 def writeManifest(root, packets):
@@ -196,6 +222,15 @@ def writeManifest(root, packets):
     paths = []
     for index, packet in enumerate(packets):
         relative = f"registry-for-review/discovery-packets/{index}.json"
+        humanReview = packet.get("l4Resolution", {}).get("humanReview")
+        if isinstance(humanReview, dict) and isinstance(humanReview.get("assessmentPath"), str):
+            assessmentSource = Path(humanReview["assessmentPath"])
+            if assessmentSource.is_file():
+                assessmentRelative = f"registry-for-review/assessments/{index}.json"
+                assessmentTarget = root / assessmentRelative
+                assessmentTarget.parent.mkdir(parents=True, exist_ok=True)
+                assessmentTarget.write_bytes(assessmentSource.read_bytes())
+                humanReview["assessmentPath"] = assessmentRelative
         (root / relative).write_text(json.dumps(packet), encoding="utf-8")
         paths.append(relative)
     manifest = root / "manifest.yml"
@@ -210,7 +245,7 @@ def test_manifest_canonical_end_to_end(tmp_path, monkeypatch, capsys):
     manifest, paths = writeManifest(root, [first, second])
     monkeypatch.chdir(root)
     # The actual adapter is imported lazily; spy on its canonical entrypoint.
-    accounting = reviewAccounting([first, second])
+    accounting = reviewAccounting([first, second], root)
     with patch("gaia_cli.intakeAdapter.buildIntakeYaml", wraps=buildIntakeYaml) as adapter:
         data, error = _load_yaml_file(str(manifest), reviewInventory=accounting)
         assert error is None
@@ -262,7 +297,7 @@ def test_manifest_mixed_or_shared_new_generic_packets(tmp_path, monkeypatch, sec
     root = Path(registry)
     manifest, _ = writeManifest(root, [first, second])
     monkeypatch.chdir(root)
-    data, error = _load_yaml_file(str(manifest), reviewInventory=reviewAccounting([first, second]))
+    data, error = _load_yaml_file(str(manifest), reviewInventory=reviewAccounting([first, second], root))
     assert error is None
     batch, errors = build_from_file_batch(data["skills"], {"gaiaUser": "tester"}, ".", "test/repo",
                                          curationHandoff=data["curationHandoff"])
