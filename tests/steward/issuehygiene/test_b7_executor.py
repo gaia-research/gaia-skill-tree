@@ -298,10 +298,14 @@ def test_the_forge_transport_does_not_follow_a_post_redirect(tmp_path: Path) -> 
 # --- D5: compact actions and plans --------------------------------------------------------------------
 
 def test_a_300_candidate_umbrella_gives_a_compact_action_and_the_executor_still_posts_the_full_payload(tmp_path: Path, capsys) -> None:
+    from gaia_cli.steward.issuehygiene.sensor import _observedPlan
+
     manifest, candidates, row = bigUmbrella(tmp_path, count=300)
     plan = planClosures(manifest, policyFor())[0]
     compact = compactPlan(plan)
     assert len(json.dumps(compact, sort_keys=True)) < 8 * 1024
+    debtPlan = _observedPlan(plan, manifest)  # the debt state carries the same compact plan (per item)
+    assert len(json.dumps(debtPlan, sort_keys=True)) < 8 * 1024
     assert "original" not in compact and "comments" not in compact and "comment" not in compact
     assert compact["preservedSha256"] == plan["preservedSha256"] and compact["closureSha8"] == plan["closureSha8"]
 

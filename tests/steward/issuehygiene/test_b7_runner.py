@@ -138,3 +138,20 @@ def test_the_ready_but_disabled_count_is_on_the_desk_backlog_line(tmp_path, monk
     detail = operationsOf(view, "issue_backlog")[0]["detail"]
     assert "ready (writes disabled): 2 proven closures" in detail
     assert not closeActions(view)
+
+
+def test_steward_full_status_prints_the_ready_but_disabled_count(tmp_path, monkeypatch, capsys) -> None:
+    from types import SimpleNamespace
+
+    from gaia_cli.commands.steward import StewardCommand
+
+    view = SimpleNamespace(
+        ledger={"transport": "local-file", "shared": False}, holder=None, holderPhase=None, holderExpiresAt=None,
+        lastScheduledRunAt=None, workCounts={}, lane=None,
+        recentRuns=[{"runId": "run-1", "mode": "full", "status": "completed", "startedAt": "2026-10-21T19:30:00Z",
+                     "readyWritesDisabled": 3}],
+        desk=None, deskRunId=None,
+    )
+    StewardCommand._printFullStatus(view)
+    out = capsys.readouterr().out
+    assert "Issue closures       ready (writes disabled): 3 proven closures" in out

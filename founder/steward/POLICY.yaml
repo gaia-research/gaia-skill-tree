@@ -677,7 +677,9 @@ issueHygiene:
   maxCensusAgeSeconds: 21600
   closedWindowDays: 30
   # Rollout (contract section 6): dry-run first. Pilot closures run only through
-  # scripts/steward_issue_reconcile.py --apply-closures with explicit flags, never via this policy.
+  # scripts/steward_issue_reconcile.py --apply-closures, which goes through the same gate as
+  # scripts/steward_issue_close.py and reads this writesEnabled too. A pilot therefore needs writesEnabled
+  # true, set in a throwaway checkout and never committed. The explicit flags are necessary, not sufficient.
   writesEnabled: false
   enabledRules:
     - A1-child-curated
