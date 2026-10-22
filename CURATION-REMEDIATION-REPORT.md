@@ -112,6 +112,7 @@ frozen row to its packet.
 | Exact audit baseline at the isolated #2089 head | **224 passed** (historical baseline, `b37e8b928`) |
 | Exact audit baseline on this branch (same nine files) | **235 passed** (224 historical + 11 new) |
 | Focused curation suite (23 files) on this branch | **672 passed** |
+| Wider repository suite at the final head | **4075 passed**, 2 pre-existing sandbox failures |
 | Focused suite after every repair round | **671 passed** (no regression) |
 | Bounded walkthroughs (`scripts/curation_walkthrough.py`) | **17/17 checks passed** — small batch (3 candidates) and suite (six named rows → one generic). Proves the refusal comes from the **independent authorization gate**, not a shape error. |
 | Independent verification of the three runtime-review findings (`scripts/verify_review_findings.py`) | **12/12 checks passed** |
@@ -121,7 +122,7 @@ frozen row to its packet.
 | `python scripts/sync_bundled_schemas.py --check` | In sync |
 | Independent Luna review round 1 (static, no runtime probes) | 5 findings, all fixed |
 | Independent Luna review round 2 (Luna XHigh, **runtime probes**) | 3 new P2 findings, all fixed and independently re-verified: symlinked output-directory escape; FAN-OUT resume dropping conflicting prior receipts; review accounting not binding each frozen row to its packet. All 5 prior findings confirmed closed at runtime. Protected-flow verdict unchanged: NO-GO. |
-| Wider repository suite | **PENDING** (running against the final head) |
+| Wider repository suite at the final head (`tests/`, not integration/slow) | **4075 passed, 2 failed** — both failures reproduce identically on unmodified `origin/main` (sandbox `/tmp` is not writable here) |
 | Real protected human L4 ceremony | **UNAVAILABLE — protected-flow activation NO-GO** |
 
 ### Round-2 runtime review findings and their repairs
