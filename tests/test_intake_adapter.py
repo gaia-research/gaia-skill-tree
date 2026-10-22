@@ -16,6 +16,7 @@ sys.path.insert(
     0, os.path.join(os.path.dirname(__file__), "..", "src")
 )
 
+from gaia_cli.curation import authorization as authorization_module  # noqa: E402
 from gaia_cli.intakeAdapter import (  # noqa: E402
     attributionScopeForRole,
     buildIntakeSkill,
@@ -363,6 +364,38 @@ def _addValidHumanReview(packet, assessment_path=None, receipt_digest=None):
     return packet
 
 
+def test_unit_only_private_verifier_exercises_payload_binding_without_proving_human_approval(monkeypatch):
+    """This explicit test-only hook exercises mechanics, never actual authority."""
+    packet = _basePacket()
+    payload_bytes = lambda payload: json.dumps(  # noqa: E731
+        payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    ).encode("utf-8")
+
+    # Build the payload independently so the stub can check the envelope binding.
+    expected_payload = authorization_module.buildReviewPayload(packet)
+    expected_digest = hashlib.sha256(payload_bytes(expected_payload)).hexdigest()
+    envelope = {"reviewPayloadSha256": expected_digest}
+
+    def unitOnlyMockVerifier(payload, suppliedEnvelope, *, registryPath="."):
+        assert suppliedEnvelope["reviewPayloadSha256"] == hashlib.sha256(payload_bytes(payload)).hexdigest()
+        return []
+
+    monkeypatch.setattr(authorization_module, "_verifyTrustedEnvelope", unitOnlyMockVerifier)
+    assert authorization_module.verifyPacketAuthorization(packet, envelope=envelope) == []
+
+
+def test_real_payload_binding_rejects_tampered_packet_without_mock():
+    """The real authorization path rejects a payload changed after envelope creation."""
+    packet = _basePacket()
+    payload = authorization_module.buildReviewPayload(packet)
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+    envelope = {"reviewPayloadSha256": hashlib.sha256(encoded).hexdigest()}
+    tampered = json.loads(json.dumps(packet))
+    tampered["source"]["contentSha256"] = "b" * 64
+    errors = authorization_module.verifyPacketAuthorization(tampered, envelope=envelope)
+    assert any("authorization envelope does not bind" in error for error in errors)
+
+
 def test_validate_l4_resolution_legacy_read_without_human_review_accepted():
     """Default validation preserves legacy read compatibility."""
     packet = _basePacket()
@@ -383,14 +416,14 @@ def test_validate_l4_resolution_require_human_review_missing_rejects():
         buildIntakeSkill(packet, requireHumanReview=True)
 
 
-def test_validate_l4_resolution_with_valid_human_review_succeeds():
-    """Packet with valid humanReview attestation passes requireHumanReview=True."""
+def test_validate_l4_resolution_local_human_review_fails_closed():
+    """Locally authored humanReview fields are not independent L4 authority."""
     packet = _basePacket()
     _addValidHumanReview(packet)
     errors = validateL4Resolution(packet, requireHumanReview=True)
-    assert errors == []
-    entry = buildIntakeSkill(packet, requireHumanReview=True)
-    assert entry["id"] == "research"
+    assert any("independent protected human authorization is not configured" in e for e in errors)
+    with pytest.raises(ValueError, match="independent protected human authorization is not configured"):
+        buildIntakeSkill(packet, requireHumanReview=True)
 
 
 def test_validate_l4_resolution_human_review_field_validations():
@@ -452,8 +485,8 @@ def test_validate_l4_resolution_human_review_field_validations():
     assert any("skillFileUrl does not match packet source.canonicalUrl" in e for e in errors)
 
 
-def test_validate_l4_resolution_local_receipt_integrity(tmp_path):
-    """When assessment receipt file is accessible locally, verify digest and bindings."""
+def test_validate_l4_resolution_local_receipt_integrity_fails_closed(tmp_path):
+    """Local receipt integrity is checked, but cannot grant L4 human authority."""
     receipt = {
         "candidateId": "alice/some-skill",
         "candidateSourceDigest": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -465,11 +498,12 @@ def test_validate_l4_resolution_local_receipt_integrity(tmp_path):
     receipt_file = tmp_path / "receipt.json"
     receipt_file.write_text(json.dumps(receipt), encoding="utf-8")
 
-    # Matching receipt succeeds
+    # A matching local receipt still fails closed at the independent authority gate.
     packet = _basePacket()
     _addValidHumanReview(packet, assessment_path=str(receipt_file), receipt_digest=receipt_sha)
     packet["source"]["contentSha256"] = receipt["candidateSourceDigest"]
-    assert validateL4Resolution(packet, requireHumanReview=True) == []
+    errors = validateL4Resolution(packet, requireHumanReview=True)
+    assert any("independent protected human authorization is not configured" in e for e in errors)
 
     # Corrupted digest fails
     packet_corrupt = _basePacket()
@@ -490,4 +524,5 @@ def test_validate_l4_resolution_local_receipt_integrity(tmp_path):
     # Non-existent receipt file is accepted (portable packet)
     packet_portable = _basePacket()
     _addValidHumanReview(packet_portable, assessment_path="/does/not/exist/on/this/laptop/assessment.json")
-    assert validateL4Resolution(packet_portable, requireHumanReview=True) == []
+    portable_errors = validateL4Resolution(packet_portable, requireHumanReview=True)
+    assert any("independent protected human authorization is not configured" in e for e in portable_errors)

@@ -68,7 +68,7 @@ An L4 human reviews every candidate row, all deferrals, proposed new generics, a
    Reruns principles evaluation with live Jev advisory advice if requested.
 3. **L4 human review:**
    Human examines candidate SKILL.md, packet mapping options, and assessment receipt.
-4. **L4 ratification (operator + human review attestation):**
+4. **L4 ratification (operator + independently verified human authorization):**
    ```bash
    # For MAP the generic metadata flags are OPTIONAL and are resolved from the
    # live canonical node; supply them only to assert a value (mismatches are
@@ -89,12 +89,12 @@ An L4 human reviews every candidate row, all deferrals, proposed new generics, a
    ```
    `NEW_GENERIC` requires `--generic-name`, `--generic-description` and `--generic-type`. Atomically attaches `l4Resolution` containing the ratified generic/named identities, blob URL, and `humanReview` attestation metadata. Requires operator override and explicit human acknowledgement; operator authorization alone is not L4 approval.
 
-   **Enforcement boundary, stated honestly:** the CLI refuses to ratify without the acknowledgement flags and a fresh assessment, and `push --from-file` refuses any packet lacking `humanReview`. But `humanReview` is a *local file attestation* — it is not cryptographic proof that a human approved it. Anyone with write access to the packet can hand-write that block and intake will accept it on a machine where the gitignored receipt is absent. This seam is trusted to repository write access and maintainer review, not to mathematics.
-5. **Intake submission:**
+   **Enforcement boundary:** local flags, comments, invented reviewer identities/references, timestamps, rationales and `humanOverride=true` are never approval authority. Ratification and trusted submission independently verify the complete reviewed inventory, exact named identities, full generic definitions/topology, source and packet digests, mandatory assessment/rubric, live snapshot, submission route and manifest digest against a trusted authorization envelope. The review payload is hashed independently of that envelope. Without an established independent human ceremony, leave L4 pending and do not ratify or submit. Authenticated human approval may select an outside-top-K generic without fabricating retrieval scores. Ordinary YAML and issue-form submissions remain unreviewed proposals, not trusted post-L4 intake.
+5. **Intake submission (new discoveries only; existing intakes continue evidence review):**
    ```bash
    gaia push --from-file registry-for-review/discovery-packets/<candidate>.json
    ```
-   Validates the frozen snapshot and resolution, rejects exact canonical duplicates, and creates the intake issue.
+   Re-verifies authorization, live catalog, packet/source freshness and exact identity before writing. Content-derived submission keys reuse existing receipts rather than opening another issue. For an existing intake, preserve `batchId` and issue references and continue `/ev-pipeline`; do not submit again. Interrupted uncertain issue creation requires explicit recovery, never a blind retry.
 
 ## Optional semantic advisory sidecar (L4)
 

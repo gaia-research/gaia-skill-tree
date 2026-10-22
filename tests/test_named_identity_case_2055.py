@@ -25,6 +25,13 @@ from test_dev_ratify import (
 pytestmark = [pytest.mark.integration]
 
 
+@pytest.fixture(autouse=True)
+def unitOnlyRatificationGates(monkeypatch):
+    """Identity regressions isolate identity behavior; no test simulates production approval."""
+    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyPacketAuthorization", lambda *a, **k: [])
+
+
 def makeRegistry(tmp_path: Path) -> str:
     """Registry with one generic bucket the named skill can reference."""
     nodes = tmp_path / "registry" / "nodes" / "basic"

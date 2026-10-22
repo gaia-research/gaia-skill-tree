@@ -31,6 +31,7 @@ Schema summary (top-level):
 All fields not recognised by the schema are silently passed through into the
 batch JSON as extra metadata so reviewers can see them.
 """
+import hashlib
 import json
 import os
 import re
@@ -238,15 +239,16 @@ def build_from_file_batch(
 
     timestamp = now or datetime.now(timezone.utc)
     generatedAt = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    batchId = (
-        f"{timestamp.strftime('%Y%m%d%H%M%S')}-"
-        f"{config.get('gaiaUser', 'unknown')}-from-file"
-    )
+    # The content-derived ID is assigned after validation, not from the clock.
+    batchId = None
 
     # ── validate all entries up front — nothing is written until this passes ──
     allErrors = []
     for i, entry in enumerate(skillsYaml):
         allErrors.extend(_validate_skill(entry, i, canonicalIds))
+
+    from gaia_cli.intakeAdapter import validateIntakeIdentities
+    allErrors.extend(validateIntakeIdentities(skillsYaml))
 
     for i, entry in enumerate(skillsYaml):
         named = entry.get("named") or {}
@@ -270,7 +272,9 @@ def build_from_file_batch(
     proposedSkills = [
         _skillEntryToProposed(entry, sourceRepo) for entry in skillsYaml
     ]
-    proposedIds = [s["id"] for s in proposedSkills]
+    # N:1 fan-out repeats a generic id across distinct named rows; similarity
+    # hints are per generic, so compute them once per id, in submission order.
+    proposedIds = list(dict.fromkeys(s["id"] for s in proposedSkills))
 
     batch = {
         "batchId": batchId,
@@ -284,6 +288,9 @@ def build_from_file_batch(
     }
     if curationHandoff:
         batch["curationHandoff"] = curationHandoff
+    from gaia_cli.curation.submission import contentKey
+    batch["submissionKey"] = contentKey(batch)
+    batch["batchId"] = f"content-{batch['submissionKey']}-from-file"
     return batch, []
 
 
@@ -291,7 +298,83 @@ def build_from_file_batch(
 # Load helpers
 # ---------------------------------------------------------------------------
 
-def _load_yaml_file(path):
+# A manifest is a reviewable, bounded batch, not an open-ended crawl. The
+# approved multi-skill intakes this was built for are a dozen packets.
+MAX_MANIFEST_PACKETS = 50
+
+
+def _loadPacketManifest(data, yamlLoader, *, manifestDigest=None, authorizationEnvelope=None,
+                        reviewInventory=None, continuation=None):
+    """Adapt an explicit discovery-packet-manifest-v1, all-or-nothing.
+
+    Shape: ``contractVersion: discovery-packet-manifest-v1`` and
+    ``packetPaths: [registry-for-review/discovery-packets/<file>.json, ...]``.
+    Paths are repository-relative (the push working directory), never relative
+    to the manifest. Absolute paths, traversal, duplicates, and symlink escapes
+    are rejected before reading. Each packet retains its own handoff receipt.
+    """
+    from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
+    from gaia_cli.prefill import buildGenericSnapshot
+
+    paths = data.get("packetPaths")
+    if set(data) != {"contractVersion", "packetPaths"} or not isinstance(paths, list) or not paths:
+        return None, "Discovery packet manifest requires a non-empty 'packetPaths' list only"
+    if len(paths) > MAX_MANIFEST_PACKETS:
+        return None, (
+            f"Discovery packet manifest lists {len(paths)} packets; "
+            f"the bounded maximum is {MAX_MANIFEST_PACKETS}. Split it into several batches."
+        )
+    packetRoot = os.path.abspath("registry-for-review/discovery-packets")
+    resolvedPaths = set()
+    candidates = set()
+    packets = []
+    packetPaths = {}
+    snapshot = buildGenericSnapshot(".")
+    trustedGenerics = snapshot["generics"] if snapshot else []
+    for path in paths:
+        if (
+            not isinstance(path, str)
+            or not path.startswith("registry-for-review/discovery-packets/")
+            or any(part in ("", ".", "..") for part in path.split("/"))
+            or "\\" in path
+            or ":" in path
+        ):
+            return None, "Manifest packet paths must be bounded repository-relative discovery-packets paths"
+        resolved = os.path.realpath(path)
+        if os.path.commonpath([packetRoot, resolved]) != packetRoot:
+            return None, f"Manifest packet path escapes discovery-packets: '{path}'"
+        if resolved in resolvedPaths:
+            return None, f"Duplicate manifest packet path: '{path}'"
+        resolvedPaths.add(resolved)
+        try:
+            with open(resolved, encoding="utf-8") as f:
+                packet = yamlLoader.safe_load(f)
+            if not isDiscoveryPacket(packet):
+                return None, f"Manifest entry '{path}' is not a discovery-packet-v2"
+            candidateId = packet.get("candidateId")
+            if not isinstance(candidateId, str) or not candidateId.strip() or candidateId in candidates:
+                return None, f"Manifest entry '{path}' requires a unique non-empty candidateId"
+            candidates.add(candidateId)
+            packets.append(packet)
+            packetPaths[candidateId] = path
+        except (OSError, ValueError, yamlLoader.YAMLError) as exc:
+            return None, f"Cannot adapt manifest packet '{path}': {exc}"
+    try:
+        combined = buildIntakeYaml(
+            packets, requireHumanReview=True, trustedGenerics=trustedGenerics,
+            submissionRoute="existing-intake-manifest" if continuation else "manifest",
+            manifestDigest=manifestDigest, inventory=packets, registryPath=".",
+            authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+            continuation=continuation,
+        )
+    except (OSError, ValueError) as exc:
+        return None, f"Cannot authorize complete discovery manifest: {exc}"
+    for ref in combined["curationHandoff"]["packetRefs"]:
+        ref["packetPath"] = packetPaths[ref["candidateId"]]
+    return combined, None
+
+
+def _load_yaml_file(path, *, authorizationEnvelope=None, reviewInventory=None, continuation=None):
     """Load and parse a YAML file; return (data, error_message)."""
     # Import yaml lazily so the module can be imported without PyYAML installed.
     # The ImportError only surfaces when --from-file is actually used.
@@ -303,9 +386,10 @@ def _load_yaml_file(path):
             "Fix: pip install pyyaml"
         )
     try:
-        with open(path, encoding="utf-8") as f:
-            raw = f.read()
-    except OSError as exc:
+        with open(path, "rb") as f:
+            rawBytes = f.read()
+        raw = rawBytes.decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
         return None, f"Cannot read file '{path}': {exc}"
     try:
         data = _yaml.safe_load(raw)
@@ -319,11 +403,37 @@ def _load_yaml_file(path):
     # 'contractVersion' key, which an intake YAML never carries.
     from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
 
+    if data.get("contractVersion") == "discovery-packet-manifest-v1":
+        return _loadPacketManifest(
+            data, _yaml, manifestDigest=hashlib.sha256(rawBytes).hexdigest(),
+            authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+            continuation=continuation,
+        )
+
     if isDiscoveryPacket(data):
+        from gaia_cli.prefill import buildGenericSnapshot
+        snapshot = buildGenericSnapshot(".")
+        trustedGenerics = snapshot["generics"] if snapshot else []
         try:
-            data = buildIntakeYaml(data, packetPath=path, requireHumanReview=True)
+            data = buildIntakeYaml(
+                data, packetPath=path, requireHumanReview=True, trustedGenerics=trustedGenerics,
+                submissionRoute="existing-intake" if continuation else "single-packet",
+                authorizationEnvelope=authorizationEnvelope, reviewInventory=reviewInventory,
+                continuation=continuation, registryPath=".",
+            )
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
+
+    else:
+        # Unreviewed YAML remains a proposal; it cannot impersonate the trusted
+        # packet adapter by carrying locally authored authority/provenance keys.
+        reserved = {"curationHandoff", "l4Resolution", "humanReview", "authorization", "authorizationEnvelope"}
+        def hasTrustedClaims(value):
+            if isinstance(value, dict):
+                return bool(reserved.intersection(value)) or any(hasTrustedClaims(v) for v in value.values())
+            return isinstance(value, list) and any(hasTrustedClaims(v) for v in value)
+        if hasTrustedClaims(data):
+            return None, "Ordinary YAML is an unreviewed proposal and cannot claim trusted L4 provenance"
 
     if "skills" not in data:
         return None, f"'{path}' is missing the required top-level 'skills:' list"
@@ -347,7 +457,19 @@ def push_from_file_command(args):
 
     # ── load and parse YAML ────────────────────────────────────────────────
     filePath = args.fromFile
-    yamlData, loadErr = _load_yaml_file(filePath)
+    context = {}
+    try:
+        for argument, key in (("authorization_envelope", "authorizationEnvelope"), ("review_inventory", "reviewInventory")):
+            carrier = getattr(args, argument, None)
+            if carrier:
+                with open(carrier, encoding="utf-8") as stream:
+                    context[key] = json.load(stream)
+        if getattr(args, "existing_intake", None):
+            context["continuation"] = {"issue": str(args.existing_intake), "batchId": getattr(args, "existing_batch_id", None)}
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: Cannot read external review context: {exc}", file=sys.stderr)
+        return 1
+    yamlData, loadErr = _load_yaml_file(filePath, **context)
     if loadErr:
         print(f"ERROR: {loadErr}", file=sys.stderr)
         return 1
@@ -392,22 +514,23 @@ def push_from_file_command(args):
             print("Aborted.")
             return 0
 
-    # ── write batch file ──────────────────────────────────────────────────
-    batchPath = write_skill_batch(batch, registryRoot)
-    print(f"Batch written → {batchPath}")
-
-    # ── open issue (unless --no-issue) ────────────────────────────────────
-    if getattr(args, "no_issue", False):
-        print("Issue creation skipped (--no-issue).")
-        print(f"To open manually:  gh issue create --title '[intake] batch' --body-file <(cat {batchPath})")
-        return 0
-
-    issueUrl = open_intake_issue(
-        config.get("gaiaUser", "unknown"),
-        batch,
-        batch_path=batchPath,
-        repo_root=registryRoot,
-    )
-    if issueUrl:
-        print(f"Intake issue: {issueUrl}")
+    from gaia_cli.curation.submission import submitBatch
+    try:
+        receipt = submitBatch(
+            batch, registryRoot, writeBatch=write_skill_batch, openIssue=open_intake_issue,
+            noIssue=getattr(args, "no_issue", False),
+            existingIntake=getattr(args, "existing_intake", None),
+            existingBatchId=getattr(args, "existing_batch_id", None),
+        )
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(f"Batch: {receipt['batchId']}")
+    if receipt.get("batchPath"):
+        print(f"Batch written → {receipt['batchPath']}")
+    if receipt.get("issueUrl"):
+        print(f"Intake issue: {receipt['issueUrl']}")
+        print("Continue this existing intake with the canonical evidence-verification workflow; do not push another intake.")
+    else:
+        print("Issue creation skipped (--no-issue); durable proposal receipt preserved.")
     return 0

@@ -37,6 +37,14 @@ import re
 from urllib.parse import urlparse
 
 from gaia_cli.namedIdentity import validateContributor
+from gaia_cli.curation.authorization import (
+    verifyPacketAuthorization,
+    verifyFreshness,
+)
+from gaia_cli.curation.errors import (
+    CATEGORY_AUTHORIZATION,
+    public_refusal_lines,
+)
 
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
@@ -101,7 +109,7 @@ def _isExactSkillBlob(url):
     )
 
 
-def validateL4Resolution(packet, requireHumanReview=False):
+def validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=None, *, authorizationContext=None):
     """Validate the explicit human-ratified packet -> intake handoff.
 
     Discovery fields are never reinterpreted here. The resolution must name the
@@ -178,7 +186,25 @@ def validateL4Resolution(packet, requireHumanReview=False):
             row.get("genericId") for row in (options or []) if isinstance(row, dict)
         }
         if decision.get("genericId") not in optionIds:
-            errors.append("MAP decision.genericId is absent from mappingOptions")
+            # Retrieval is a shortlist, not human authority. Never alter its
+            # options or similarity digest to accommodate an L4 override.
+            hr = resolution.get("humanReview")
+            if not (
+                isinstance(hr, dict)
+                and hr.get("humanOverride") is True
+                and decision.get("reasonCode") == "L4_RATIFIED_MAP"
+            ):
+                errors.append("MAP decision.genericId is absent from mappingOptions")
+            else:
+                if (
+                    not isinstance(trustedGenerics, list)
+                    or genericId not in {
+                        row.get("id") for row in trustedGenerics
+                        if isinstance(row, dict) and row.get("kind") == "generic"
+                    }
+                    or (snapshot or {}).get("generics") != trustedGenerics
+                ):
+                    errors.append("MAP human override requires the trusted current generic catalog")
         if genericId != decision.get("genericId"):
             errors.append("MAP l4Resolution.generic.id must match decision.genericId")
         snapshotIds = {
@@ -299,10 +325,13 @@ def validateL4Resolution(packet, requireHumanReview=False):
             elif requireHumanReview:
                 errors.append("humanReview.assessmentPath is required and must be a non-empty string")
 
+    if requireHumanReview:
+        context = authorizationContext or {}
+        errors.extend(verifyPacketAuthorization(packet, **context))
     return errors
 
 
-def buildIntakeSkill(packet, requireHumanReview=False):
+def buildIntakeSkill(packet, requireHumanReview=False, trustedGenerics=None):
     """Build a single intake ``skills[]`` entry from a review-ready packet.
 
     Returns the entry dict (top-level shape consumed by ``pushFromFile``). Raises
@@ -319,7 +348,9 @@ def buildIntakeSkill(packet, requireHumanReview=False):
             "(only MAP or NEW_GENERIC produce an intake entry)"
         )
 
-    resolutionErrors = validateL4Resolution(packet, requireHumanReview=requireHumanReview)
+    resolutionErrors = validateL4Resolution(
+        packet, requireHumanReview=requireHumanReview, trustedGenerics=trustedGenerics
+    )
     if resolutionErrors:
         raise ValueError("invalid post-L4 handoff: " + "; ".join(resolutionErrors))
 
@@ -402,7 +433,54 @@ def buildIntakeSkill(packet, requireHumanReview=False):
     return entry
 
 
-def buildIntakeYaml(packets, packetPath=None, requireHumanReview=False):
+def validateIntakeIdentities(proposals):
+    """Allow one generic proposal to fan out to distinct named candidates.
+
+    Compare only generic definition/mapping, not per-implementation provenance
+    or evidence. Legacy single proposals need no packet identity. Repetition
+    requires explicit named identities and distinct packet candidate IDs.
+    """
+    errors = []
+    genericSeen = {}
+    namedSeen = set()
+    candidateSeen = set()
+    for row in proposals:
+        if not isinstance(row, dict):
+            continue  # shape/schema validators report malformed entries
+        skillId = row.get("id")
+        named = row.get("named") or {}
+        named = named if isinstance(named, dict) else {}
+        contributor = str(named.get("contributor") or "").strip().lower()
+        skillName = str(named.get("skill_name") or "").strip().lower()
+        identity = (contributor, skillName or skillId)
+        if contributor and identity in namedSeen:
+            errors.append(f"Duplicate named identity '{identity[0]}/{identity[1]}'.")
+        if contributor:
+            namedSeen.add(identity)
+        candidateId = row.get("candidateId")
+        if isinstance(candidateId, str) and candidateId.strip():
+            if candidateId in candidateSeen:
+                errors.append(f"Duplicate packet candidateId '{candidateId}'.")
+            candidateSeen.add(candidateId)
+        definition = {key: row.get(key) for key in ("id", "name", "type", "description", "mapsToGeneric")}
+        definition["prerequisites"] = row.get("prerequisites") or []
+        eligible = bool(contributor and skillName and isinstance(candidateId, str) and candidateId.strip())
+        if skillId in genericSeen:
+            priorDefinition, priorEligible = genericSeen[skillId]
+            if not eligible or not priorEligible:
+                errors.append(f"Duplicate proposed skill '{skillId}' requires distinct named identities and packet candidateIds.")
+            if definition != priorDefinition:
+                errors.append(f"Duplicate proposed skill '{skillId}' has divergent generic definition/mapping.")
+        else:
+            genericSeen[skillId] = (definition, eligible)
+    return errors
+
+
+def buildIntakeYaml(
+    packets, packetPath=None, requireHumanReview=False, trustedGenerics=None, *,
+    submissionRoute="single-packet", manifestDigest=None, inventory=None,
+    authorizationEnvelope=None, registryPath=".", reviewInventory=None, continuation=None,
+):
     """Build the intake mapping (``{'skills': [...]}``) from packet dict(s).
 
     Accepts a single packet dict or an iterable of packet dicts (e.g. a suite
@@ -415,7 +493,60 @@ def buildIntakeYaml(packets, packetPath=None, requireHumanReview=False):
     if isinstance(packets, dict):
         packets = [packets]
     packets = list(packets)
-    skills = [buildIntakeSkill(p, requireHumanReview=requireHumanReview) for p in packets]
+    if requireHumanReview:
+        fullInventory = list(inventory) if inventory is not None else packets
+        if fullInventory != packets:
+            raise ValueError("authorized packets must equal the complete submission inventory")
+        assessments = {}
+        from gaia_cli.curation.assessment import validateAssessment
+        for packet in fullInventory:
+            shapeErrors = validateL4Resolution(packet, requireHumanReview=False, trustedGenerics=trustedGenerics)
+            if shapeErrors:
+                raise ValueError("invalid post-L4 packet structure: " + "; ".join(shapeErrors))
+            if not isinstance((packet.get("l4Resolution") or {}).get("humanReview"), dict):
+                raise ValueError("legacy packet must be human-ratified with gaia dev ratify")
+            from gaia_cli.prefill import selfValidatePacket
+            validationErrors = selfValidatePacket(packet, trustedGenerics=trustedGenerics)
+            if validationErrors:
+                raise ValueError("packet validation against the current catalog failed: " + "; ".join(validationErrors))
+            freshnessErrors = verifyFreshness(packet, registryPath=registryPath)
+            if freshnessErrors:
+                raise ValueError("packet freshness verification failed: " + "; ".join(freshnessErrors))
+            humanReview = ((packet.get("l4Resolution") or {}).get("humanReview") or {})
+            assessmentPath = humanReview.get("assessmentPath") if isinstance(humanReview, dict) else None
+            if not isinstance(assessmentPath, str) or not assessmentPath.strip():
+                raise ValueError("a real, non-empty assessment receipt is required for trusted intake")
+            try:
+                with open(assessmentPath, "r", encoding="utf-8") as handle:
+                    assessment = json.load(handle)
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError(f"assessment receipt is unavailable or invalid: {exc}") from exc
+            if not isinstance(assessment, dict) or not assessment:
+                raise ValueError("assessment receipt must be a non-empty object")
+            assessmentErrors = validateAssessment(assessment, packet, registryPath)
+            if assessmentErrors:
+                raise ValueError("assessment validation failed: " + "; ".join(assessmentErrors))
+            assessments[packet.get("candidateId")] = assessment
+        authErrors = verifyPacketAuthorization(
+            fullInventory, registryPath=registryPath, submissionRoute=submissionRoute,
+            manifestDigest=manifestDigest, inventory=fullInventory,
+            assessments=assessments, envelope=authorizationEnvelope,
+            reviewInventory=reviewInventory, continuation=continuation,
+        )
+        if authErrors:
+            # The refusal text is published by the authorization seam and may,
+            # once a protected ceremony exists, carry provider or environment
+            # detail. It is reduced to the public contract before it can
+            # reach a console.
+            raise ValueError("human authorization failed closed: " + "; ".join(
+                public_refusal_lines(authErrors, CATEGORY_AUTHORIZATION)))
+    skills = [
+        # The complete inventory was authenticated above. Leaf adaptation is
+        # structural only: it must not substitute a single-packet approval for
+        # the exact manifest authorization already checked.
+        buildIntakeSkill(p, requireHumanReview=False, trustedGenerics=trustedGenerics)
+        for p in packets
+    ]
     refs = []
     for packet in packets:
         ref = {

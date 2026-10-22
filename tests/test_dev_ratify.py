@@ -5,11 +5,20 @@ import os
 import sys
 from unittest.mock import patch
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from gaia_cli.commands.dev.ratify import ratifyCommand
 from gaia_cli.intakeAdapter import REASON_CODES, _canonicalDigest
 from gaia_cli.curation.assessment import buildAssessment
+
+
+@pytest.fixture(autouse=True)
+def unitOnlyAuthorizationAndFreshness(monkeypatch):
+    """UNIT-ONLY trust/freshness stubs; real payload reconstruction still runs."""
+    monkeypatch.setattr("gaia_cli.commands.dev.ratify.verifyFreshness", lambda *a, **k: [])
+    monkeypatch.setattr("gaia_cli.curation.authorization._verifyTrustedEnvelope", lambda *a, **k: [])
 
 # Matches the generics frozen into _makeDeferredMappedPacket()'s genericSnapshot.
 # Ratify validates the packet against the LIVE registry (not the packet's own
@@ -154,6 +163,18 @@ def _makeRatifyArgs(tmp_path, packet, packet_path, **kwargs):
     }
     base.update(kwargs)
     return type("Args", (), base)()
+
+
+def test_empty_assessment_object_is_not_a_ratification_receipt(tmp_path):
+    packet = _makeDeferredMappedPacket()
+    packetPath = tmp_path / "empty-assessment-packet.json"
+    packetPath.write_text(json.dumps(packet), encoding="utf-8")
+    args = _makeRatifyArgs(tmp_path, packet, packetPath)
+    with open(args.assessment, "w", encoding="utf-8") as handle:
+        json.dump({}, handle)
+    before = packetPath.read_text(encoding="utf-8")
+    assert ratifyCommand(args) == 1
+    assert packetPath.read_text(encoding="utf-8") == before
 
 
 class TestRatifyMapDecision:
