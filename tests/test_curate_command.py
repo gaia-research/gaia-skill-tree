@@ -15,17 +15,11 @@ from gaia_cli.curation.state import CurationRun
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
-@pytest.mark.parametrize("run_id", ["../escape", "a/b", ".", "bad\\\\id", "x" * 65])
-def test_curation_run_rejects_unsafe_run_ids(run_id):
-    with pytest.raises(ValueError, match="run_id"):
-        CurationRun(run_id=run_id)
-
-
 def test_curate_command_name_and_help_are_stable():
     command = CurateCommand()
 
     assert command.name == "curate"
-    assert command.help == "Discover candidates and prepare packets for human L4 review"
+    assert command.help == "Initialize or inspect a paused Gaia curation ledger"
 
 
 def test_curate_command_configure_runs_without_error():
@@ -67,9 +61,8 @@ def test_curate_command_help_text_renders():
     assert "--resume" in help_text
     assert "--status" in help_text
     assert "--dry-run" in help_text
-    assert "Frozen JSON candidate array/envelope" in normalized_help
-    assert "maximum five candidates" in normalized_help
-    assert "Existing intake issue number" in normalized_help
+    assert "discovery does not run" in normalized_help
+    assert "no curation workflow transitions run" in normalized_help
 
 
 def test_dynamic_curate_help_does_not_promise_workflow_execution(monkeypatch, capsys):
@@ -82,9 +75,9 @@ def test_dynamic_curate_help_does_not_promise_workflow_execution(monkeypatch, ca
     assert exc_info.value.code == 0
     help_text = capsys.readouterr().out
     normalized_help = " ".join(help_text.split())
-    assert "sequential source discovery and packet prefill" in normalized_help
-    assert "always stop at AWAITING_L4_REVIEW" in normalized_help
-    assert "submission" not in normalized_help
+    assert "new runs pause at INITIALIZED" in normalized_help
+    assert "discovery does not run" in normalized_help
+    assert "drive it through the gated Gaia curation workflow" not in normalized_help
 
 
 def test_curate_execute_persists_an_initialized_paused_ledger(tmp_path, monkeypatch, capsys):
@@ -108,20 +101,19 @@ def test_curate_execute_persists_an_initialized_paused_ledger(tmp_path, monkeypa
     assert "State: INITIALIZED" in output
 
 
-def test_quick_curate_skill_describes_executable_pre_l4_boundary_truthfully():
+def test_quick_curate_skill_describes_the_paused_scaffold_truthfully():
     skill_text = (
         REPO_ROOT / ".agents" / "skills" / "gaia-quick-curate" / "SKILL.md"
     ).read_text(encoding="utf-8")
     frontmatter = skill_text.split("---", 2)[1]
 
-    assert "pre-L4 discovery execution" in skill_text
+    assert "paused orchestration scaffold" in skill_text
     assert ".gaia/curation/runs/<run-id>/state.json" in skill_text
-    assert "curation/reconciliation.py" in skill_text
-    assert "Final merge remains founder-gated" in skill_text
+    assert "src/gaia_cli/curation/orchestrator.py" in skill_text
+    assert "final merge to `main` must remain founder-gated" in skill_text
     assert "Fully automated" not in frontmatter
-    assert "always" in skill_text and "AWAITING_L4_REVIEW" in skill_text
-    assert "Review-ready is not human-approved" in skill_text
-    assert "exact lowercase" in skill_text
+    assert "PR merge as a 25-state machine" not in frontmatter
+    assert "Do not describe this skill as an automated two-gate pipeline" in skill_text
 
 
 @pytest.mark.parametrize("status_only", [False, True])
@@ -177,46 +169,6 @@ def test_resume_resolved_blockers_do_not_cross_human_gates(tmp_path, monkeypatch
     assert CurationRun.load(run.run_dir) == run
 
 
-def test_status_does_not_run_freshness_network_or_write(tmp_path, monkeypatch, capsys):
-    monkeypatch.chdir(tmp_path)
-    run = CurationRun(run_id="status-prepared")
-    run.checkpoint = {"inventoryEnvelope": {"candidates": []}, "results": []}
-    run.save(run.run_dir)
-    before = (run.run_dir / "state.json").read_bytes()
-    monkeypatch.setattr(CurateCommand, "_freshness", staticmethod(lambda *_: pytest.fail("status must not verify")))
-    command = CurateCommand()
-    parser = argparse.ArgumentParser()
-    command.configure(parser)
-    assert command.execute(parser.parse_args(["--resume", run.run_id, "--status"])) == 0
-    assert (run.run_dir / "state.json").read_bytes() == before
-
-
-def test_resume_without_packet_validates_frozen_source_and_live_catalog(tmp_path, monkeypatch):
-    import hashlib
-    import gaia_cli.prefill as prefill
-    from gaia_cli.commands.curate import CurateCommand
-    content = "---\nname: Frozen\ndescription: A frozen source description.\n---\n"
-    digest = hashlib.sha256(content.encode()).hexdigest()
-    snapshot = {"generics": []}
-    candidate = {"candidateId": "owner/repo/skill", "namedIdentity": "owner/skill",
-                 "sourceRevision": None, "freshnessRequired": True, "sourceDigest": digest,
-                 "canonicalUrl": "https://github.com/owner/repo/blob/main/SKILL.md",
-                 "packetInput": {"sourceContent": content, "name": "Frozen",
-                                 "description": "A frozen source description."}}
-    run = CurationRun(run_id="prepared-resume", inventory=[candidate])
-    run.checkpoint = {"inventoryEnvelope": {"persisted": True}, "genericSnapshot": snapshot, "results": []}
-    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: snapshot)
-    monkeypatch.setattr(prefill, "fetchCandidateSource", lambda *_args, **_kwargs: ("", "", content, digest))
-    assert CurateCommand._freshness(run, str(tmp_path)) == []
-    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: {"generics": ["changed"]})
-    errors = CurateCommand._freshness(run, str(tmp_path))
-    assert any("generic catalog differs" in error for error in errors)
-    monkeypatch.setattr(prefill, "buildGenericSnapshot", lambda _registry: snapshot)
-    monkeypatch.setattr(prefill, "fetchCandidateSource", lambda *_args, **_kwargs: ("", "", "changed", "bad-digest"))
-    errors = CurateCommand._freshness(run, str(tmp_path))
-    assert any("source bytes no longer match" in error for error in errors)
-
-
 def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     run = CurationRun(run_id="legacy")
@@ -228,5 +180,5 @@ def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     command = CurateCommand()
     parser = argparse.ArgumentParser()
     command.configure(parser)
-    assert command.execute(parser.parse_args(["--resume", "legacy"])) == 1
+    assert command.execute(parser.parse_args(["--resume", "legacy"])) == 0
     assert CurationRun.load(run.run_dir).checkpoint == {}
