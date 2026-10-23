@@ -3,6 +3,7 @@ import sys
 import os
 import json
 import signal
+import shutil
 import subprocess
 from datetime import date, datetime, timezone
 from contextlib import redirect_stdout
@@ -2713,6 +2714,14 @@ def _parse_semver(v: str):
     return tuple(int(x) for x in m.groups()) if m else None
 
 
+def _replace_optional_registry_directory(source: Path, destination: Path) -> None:
+    """Replace an optional fetched directory, clearing stale data when absent."""
+    if destination.exists():
+        shutil.rmtree(destination)
+    if source.is_dir():
+        shutil.copytree(source, destination)
+
+
 def fetch_command(args):
     """Downloads the latest canonical registry from the GitHub Releases asset tarball."""
     import hashlib
@@ -2834,6 +2843,7 @@ def fetch_command(args):
                 if m.name.startswith("registry/gaia.json")
                 or m.name.startswith("registry/named-skills.json")
                 or m.name.startswith("registry/named/")
+                or m.name.startswith("registry/support/")
                 or m.name.startswith("docs/graph/")
             ]
             tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
@@ -2889,6 +2899,11 @@ def fetch_command(args):
             if dest_named_dir.exists():
                 shutil.rmtree(dest_named_dir)
             shutil.copytree(src_named_dir, dest_named_dir)
+
+        # Optional non-ranked support-component manifest. Older releases omit it.
+        src_support_dir = unpacked_registry / "support"
+        dest_support_dir = registry_dir / "support"
+        _replace_optional_registry_directory(src_support_dir, dest_support_dir)
 
         # enriched 3D graph (docs/graph/) — the site-served World Tree assets.
         # The lean registry/gaia.json lacks the branch/namedMaxLevel/cluster/rank
