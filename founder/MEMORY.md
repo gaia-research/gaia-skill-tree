@@ -20,8 +20,9 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | Agent guard | ✅ PR #2128 merged to dev at `926f43756d0d34a9a5c066d30197ce09c19f698e`; final source head `3ea8892f22f7bd4d1ba852621a7ac87b971a89d1`. Default is empty and scheduled agent dispatch requires explicit `STEWARD_AGENT` if separately reauthorized. |
 | Founder pause | ✅ Preserved: only `workflow_dispatch` trigger, `jobs.drive.if: ${{ false }}`; no schedule, inputs, or active driver was restored. |
 | Local focused validation | ✅ Exact combined candidate: YAML + pause assertions and shell-loop cases passed; 50 focused Steward tests passed. First attempt stopped on an over-strict local string assertion; corrected validation passed. |
-| Aggregate validation | ⏳ Draft PR #2139 at `926f43756d0d34a9a5c066d30197ce09c19f698e`; local docs validation and aggregate GitHub checks were started. Record their actual final conclusions at the current PR head; do not reuse results after any head change. |
-| Scope | ✅ Aggregate diff contains only `.github/workflows/steward-full.yml` and three `docs/en/` files. No registry changes. |
+| Aggregate validation | ⏳ Draft PR #2139 at `926f43756d0d34a9a5c066d30197ce09c19f698e`; exact-head aggregate CI receipt still needs to be collected and refreshed after the snapshot PR merges. |
+| Generated docs check | ⚠️ `python scripts/build_docs.py --check` failed because ignored Class P input `registry/named-skills.json` was absent; the non-read-only check regenerated local Class S artifacts, which were inspected and removed with the disposable worktree. Do not rerun without the required input or a deliberate artifact task. |
+| Scope | ✅ Aggregate diff contains only `.github/workflows/steward-full.yml` and three `docs/en/` files at this snapshot head. No registry changes. |
 
 ### Reviews and CI
 
@@ -62,7 +63,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ### Open questions / handoff for next orchestrator
 
-1. This snapshot is on feature branch `dev/pr-queue-session-snapshot-2026-10-23`; land it via its PR to dev, not a direct integration-branch commit. That will advance #2139, so finish local validation and collect the final aggregate check receipt at the resulting head; update #2139’s body with exact check names/conclusions.
+1. This snapshot is on feature branch `dev/pr-queue-session-snapshot-2026-10-23`; land it via its PR to dev, not a direct integration-branch commit. That will advance #2139. Do not rerun the mutating docs check noted above; collect the final aggregate check receipt at the resulting head and update #2139’s body with exact check names/conclusions.
 2. Keep #2139 as the only integration PR and leave it draft. Never merge it to `main` without the separate founder gate.
 3. Continue the remaining queue only after this gate: complete #2133’s remaining verification and pilot; obtain founder decisions for #2122/#2123; review #2116; inspect the shared `dev/emilkowalski-intake-2026-10-13` base/relationship before #2090/#2087; then review #2032.
 4. Preserve the primary checkout’s unrelated untracked files. Clean only session-owned worktrees/branches after the memory snapshot and public proof-of-work record exist.
