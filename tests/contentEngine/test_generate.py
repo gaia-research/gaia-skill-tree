@@ -180,6 +180,12 @@ def test_publish_gate_on_writes_canonical(tmp_path: Path):
     assert data["salvageLayer"] in ("L1", "L2", "L3")
     assert data["urls"]["canonical"].endswith("/reports/2026-27/")
 
+    reportHtml = html.read_text(encoding="utf-8")
+    jsonLdMarker = '<script type="application/ld+json" data-injector="gaia-json-ld">'
+    jsonLd = json.loads(reportHtml.split(jsonLdMarker, 1)[1].split("</script>", 1)[0])
+    assert [node["@type"] for node in jsonLd] == ["Article", "NewsArticle"]
+    assert all(node["url"].endswith("/reports/2026-27/") for node in jsonLd)
+
     # Archive must contain the freshly-published entry.
     archive = json.loads(archiveJson.read_text(encoding="utf-8"))
     ids = [r["reportId"] for r in archive["reports"]]
