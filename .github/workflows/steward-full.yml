@@ -17,8 +17,8 @@ name: Gaia Steward Full
 # writes to main, force-pushes, tags or releases, and the runner refuses main,
 # master and the default branch itself.
 #
-# Scheduled runs dispatch agents only after the repository variable STEWARD_AGENT
-# is set (copilot|claude|codex|pi); a manual run always picks one.
+# This workflow is currently paused. If reauthorized, scheduled agent dispatch requires
+# explicit STEWARD_AGENT opt-in; there is no implicit Copilot default.
 #
 # Authentication is per engine and none is assumed: copilot and pi use the
 # repository's Copilot entitlement (permissions: copilot-requests), claude needs
