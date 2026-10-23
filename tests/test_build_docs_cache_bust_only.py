@@ -157,6 +157,35 @@ def test_en_glob_covers_unregistered_page(bd, tmp_path, monkeypatch, capsys):
     assert bd.build_html_cache_busting(check=True) is False
 
 
+def test_weekly_report_page_is_cache_busted(bd, tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: "9.9.9")
+    report_dir = tmp_path / "docs" / "reports" / "2026-43"
+    report_dir.mkdir(parents=True)
+    page = report_dir / "index.html"
+    stale = (
+        _EN_PAGE.replace(
+            "<head>",
+            '<head><script>window.GAIA_VERSION = "8.18.2";</script>',
+        )
+        .replace("../css/", "../../css/")
+        .replace("../js/", "../../js/")
+    )
+    page.write_text(stale, encoding="utf-8")
+
+    assert bd.build_html_cache_busting(check=True) is True
+    assert "diff docs/reports/2026-43/index.html" in capsys.readouterr().out
+    assert page.read_text(encoding="utf-8") == stale  # check mode never writes
+
+    assert bd.build_html_cache_busting(check=False) is True
+    updated = page.read_text(encoding="utf-8")
+    assert 'window.GAIA_VERSION = "9.9.9";' in updated
+    assert "../../css/styles.css?v=9.9.9" in updated
+    assert "../../js/site-nav.js?v=9.9.9" in updated
+    assert 'class="nav-version">v9.9.9</span>' in updated
+    assert bd.build_html_cache_busting(check=True) is False
+
+
 def test_stale_nav_version_chip_fails_check(bd, tmp_path, monkeypatch, capsys):
     """A stale version chip alone is drift: check reports it and does not heal it."""
     en_dir = _seed_en_root(bd, tmp_path, monkeypatch)

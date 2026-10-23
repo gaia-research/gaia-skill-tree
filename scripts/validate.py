@@ -317,6 +317,26 @@ def validate_prerequisites_count(graph):
 # ---------------------------------------------------------------------------
 
 
+def validate_support_components():
+    """Validate the optional, separately-scoped support-component manifest."""
+    manifest_path = os.path.join(_REPO_ROOT, "registry", "support", "components.json")
+    if not os.path.exists(manifest_path):
+        return []
+    try:
+        from gaia_cli.support import _load_named_catalog_ids, validate_support_manifest
+        with open(manifest_path, "r", encoding="utf-8") as source:
+            data = json.load(source)
+        named_ids = _load_named_catalog_ids(_REPO_ROOT)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        return [f"support component manifest invalid: {exc}"]
+    errors = validate_support_manifest(
+        data,
+        Path(_REPO_ROOT) / "registry" / "schema" / "supportComponent.schema.json",
+        named_ids=named_ids,
+    )
+    return [f"support component manifest: {error}" for error in errors]
+
+
 def validate_benchmark_source_catalog():
     """Validate registry/benchmark-sources.json against its schema and policy."""
     try:
@@ -906,24 +926,24 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/10] Schema validation...")
+    print("   [1/11] Schema validation...")
     is_artifact = os.path.isfile(graph_path)
     all_errors.extend(validate_schema(graph, schema_dir, is_artifact=is_artifact))
 
     # 2. Unique identifiers
-    print("   [2/10] Unique identifiers...")
+    print("   [2/11] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/10] DAG cycle detection...")
+    print("   [3/11] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/10] Reference integrity...")
+    print("   [4/11] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/10] Prerequisite count...")
+    print("   [5/11] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
     # Yggdrasil II retired three former steps here, across two commits on this
@@ -933,24 +953,28 @@ def main():
     # the retirement note above validate_verifier_benchmark_attestations.
 
     # 6. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [6/10] Named skills validation...")
+    print("   [6/11] Named skills validation...")
     all_errors.extend(validate_named_skills(graph, named_dir=named_dir))
 
     # 7. Skill suites validation
-    print("   [7/10] Skill suites validation...")
+    print("   [7/11] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
-    # 8. Benchmark source catalog (issue #1419)
-    print("   [8/10] Benchmark source catalog...")
+    # 8. Optional non-ranked support-component data
+    print("   [8/11] Support component manifest...")
+    all_errors.extend(validate_support_components())
+
+    # 9. Benchmark source catalog (issue #1419)
+    print("   [9/11] Benchmark source catalog...")
     all_errors.extend(validate_benchmark_source_catalog())
 
     # 9. Benchmark-result provenance (Sprint D W2a, #904)
     strict_label = " [strict]" if strict_mode else ""
-    print(f"   [9/10] Benchmark-result provenance{strict_label}...")
+    print(f"   [10/11] Benchmark-result provenance{strict_label}...")
     all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
 
     # 10. Verifier benchmark attestations (Sprint D W2b, #905)
-    print("   [10/10] Verifier benchmark attestations...")
+    print("   [11/11] Verifier benchmark attestations...")
     all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats

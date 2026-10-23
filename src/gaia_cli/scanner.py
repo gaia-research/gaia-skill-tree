@@ -247,6 +247,9 @@ def _skill_search_dirs(root: str = ".", global_search: bool = False, extra_dirs:
 
 
 def _should_prune_dir(d: str) -> bool:
+    # Gaia support payloads are context assets, not installable/acquirable skills.
+    if d == "support-components":
+        return True
     if d in DEFAULT_EXCLUDED_DIRS:
         return True
     if d.startswith('.'):
@@ -329,7 +332,14 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
             deduped_roots.append(sr)
 
     for search_root in deduped_roots:
+        # An explicitly configured support root must not bypass the walk prune.
+        if os.path.basename(os.path.normpath(search_root)) == "support-components":
+            continue
         for r, dirs, files in os.walk(search_root, followlinks=True):
+            # Harness-visible support payloads intentionally are not Gaia skills.
+            if ".gaia-support-component" in files:
+                dirs[:] = []
+                continue
             r_real = os.path.realpath(r)
             if r_real in visited_real_paths:
                 dirs[:] = []

@@ -329,7 +329,7 @@ body {
 }
 
 /* ── NAV ── */
-nav:not(.footer-cols):not(.footer-rail) {
+#site-nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -343,6 +343,11 @@ nav:not(.footer-cols):not(.footer-rail) {
   padding: .9rem 2rem;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+}
+
+/* Weekly-report navigation is a masthead row, not a fixed site header. */
+.report-navlinks {
+  position: static;
 }
 
 .nav-logo {
@@ -674,7 +679,7 @@ nav.docs-nav .nav-logo:focus-visible > span {
     seal-spin .9s cubic-bezier(0.16, 1, 0.3, 1) 1;
 }
 
-nav ul.nav-primary {
+#site-nav ul.nav-primary {
   list-style: none;
   display: flex;
   gap: 2rem
@@ -728,7 +733,7 @@ nav ul.nav-primary {
 }
 
 @media (min-width: 701px) and (max-width: 900px) {
-  nav ul.nav-primary {
+  #site-nav ul.nav-primary {
     gap: 1rem;
   }
   .nav-star-cta {
@@ -913,14 +918,14 @@ nav ul.nav-primary {
   .nav-more-menu li button:focus,
   .nav-more-menu li a:focus-visible,
   .nav-more-menu li button:focus-visible,
-  nav.nav-open ul.nav-primary > li > a,
-  nav.nav-open ul.nav-primary > li > button,
-  nav.nav-open ul.nav-primary > li > a:hover,
-  nav.nav-open ul.nav-primary > li > button:hover,
-  nav.nav-open ul.nav-primary > li > a:focus,
-  nav.nav-open ul.nav-primary > li > button:focus,
-  nav.nav-open ul.nav-primary > li > a:focus-visible,
-  nav.nav-open ul.nav-primary > li > button:focus-visible {
+  #site-nav.nav-open ul.nav-primary > li > a,
+  #site-nav.nav-open ul.nav-primary > li > button,
+  #site-nav.nav-open ul.nav-primary > li > a:hover,
+  #site-nav.nav-open ul.nav-primary > li > button:hover,
+  #site-nav.nav-open ul.nav-primary > li > a:focus,
+  #site-nav.nav-open ul.nav-primary > li > button:focus,
+  #site-nav.nav-open ul.nav-primary > li > a:focus-visible,
+  #site-nav.nav-open ul.nav-primary > li > button:focus-visible {
     transform: none !important;
     letter-spacing: .01em !important;
     background: transparent !important;
@@ -943,14 +948,14 @@ nav ul.nav-primary {
   display: none
 }
 
-nav a {
+#site-nav a {
   color: var(--muted);
   text-decoration: none;
   font-size: .9rem;
   transition: color .2s
 }
 
-nav a:hover {
+#site-nav a:hover {
   color: var(--text)
 }
 
@@ -5385,7 +5390,7 @@ tr:hover td {
     overflow-x: clip
   }
 
-  nav {
+  #site-nav {
     padding: .7rem 1rem;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -5403,7 +5408,7 @@ tr:hover td {
     white-space: nowrap
   }
 
-  nav ul {
+  #site-nav ul {
     flex-wrap: wrap;
     gap: .45rem .9rem;
     font-size: .82rem;
@@ -9024,7 +9029,7 @@ code {
 
 /* ── Ultra-narrow (≤360px): the iPhone-SE / 320px case ── */
 @media (max-width:360px) {
-  nav {
+  #site-nav {
     padding: .55rem .75rem
   }
 
@@ -9032,7 +9037,7 @@ code {
     font-size: .95rem
   }
 
-  nav ul {
+  #site-nav ul {
     gap: .35rem .7rem;
     font-size: .74rem
   }
@@ -9058,7 +9063,7 @@ code {
 
 /* ── Mobile index hero port ── */
 @media (max-width:700px) {
-  .home-page nav {
+  .home-page #site-nav {
     padding: .8rem 1.5rem;
     flex-wrap: nowrap;
     row-gap: 0;
@@ -9143,7 +9148,7 @@ code {
     height: 1.5px;
   }
 
-  nav ul.nav-primary {
+  #site-nav ul.nav-primary {
     display: none;          /* mobile uses .nav-mobile-drawer instead */
   }
   /* Legacy `nav.nav-open` reflow of .nav-primary is intentionally gone.
@@ -9482,7 +9487,7 @@ button.nav-graph-trigger:hover {
 }
 
 @media (max-width: 700px) {
-  .home-page nav {
+  .home-page #site-nav {
     background: transparent;
     border-bottom: none;
     padding: 1rem 1.5rem;
