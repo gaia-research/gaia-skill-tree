@@ -1,11 +1,9 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry current-tree appraisal of Gaia — fan out deterministic and semantic review across every post-ingest skill, re-appraise evidence, Trust Magnitude and rank eligibility, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready report under docs/meta/reports/.
+  Appraise the complete post-ingest Gaia tree: run 13 deterministic audit dimensions, recompute evidence, Trust Magnitude and rank eligibility, use Jev/Luna for bounded semantic review, adversarially verify findings, and report structural proposals. Gaia computes authority; Jev is read-only advice; humans ratify all mutations.
 
-  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", "find skills that document a third-party tool with no attribution", or explicitly types /gaia-meta-sweep.
-
-  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 13 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
+  Use for a registry-wide sweep, full meta audit, evidence/rank review, fusion candidates, generic proposals, or a durable findings report. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
 ---
 
 # gaia-meta-sweep
@@ -141,7 +139,7 @@ For each named skill:
    Fan this out across the registry; do not mutate cached TM fields merely to inspect them.
 3. Compare computed TM / grade and META.md gates with the skill's current star level. Record `currentLevel`, `computedTm`, `computedGrade`, `eligibleLevel` (or the bounded set of eligible levels when another non-TM gate remains), and the exact gate causing any mismatch.
 4. Feed evidence rows that require **semantic** judgment into Jev `--mode evidence`: relevance to the claimed capability, methodology mismatch, suspiciously broad claims, or evidence that appears duplicative in meaning. Jev is not the liveness checker and does not calculate TM.
-5. Route Jev low-confidence / budget-exhausted results to Luna using the emitted fallback packet. Use `worker-luna-high` for conflicting evidence or structural consequences.
+5. Jev emits a fallback packet; it does not launch Luna. The orchestrator may hand routine uncertainty to `worker-luna`, conflicting evidence or ambiguous taxonomy to `worker-luna-high`, and deep architectural or contested-policy questions to `worker-luna-xhigh`. Record a fallback as covered only after Luna actually reviews the packet.
 6. Re-evaluate Origin standing when rank / TM order changes inside a generic bucket, and flag Champion review when the implementation landscape materially changed. Models may recommend review; deterministic META rules and human ratification own the actual designation.
 
 For generic nodes, use Jev `--mode meta --collect-repo` in bounded pages to review abstraction scope and vendor neutrality. Combine those semantic hints with the deterministic Survey findings and the observed named-skill landscape.
@@ -254,17 +252,17 @@ The synthesis agent must:
 
 ## Apply-safe mutations (only if mode = apply-safe)
 
-After Phase 5 produces the findings.json, replay the high-confidence subset programmatically. Only these mutation types are auto-applyable — everything else stays a proposal because the risk of irreversible registry damage outweighs the convenience:
+After Phase 5, present proposed changes and their deterministic basis for explicit human L4 approval. Approval is required before any mutation; confidence scores or operator authorization are not approval. Apply approved changes only through canonical Gaia CLI verbs—never edit registry YAML/frontmatter directly. Gaia computes evidence, TM, grade, and rank gates; Jev/Luna advice cannot authorize a change.
 
-| Finding type | CLI command |
+| Finding type | Approved CLI action |
 |---|---|
 | Brand-coupled generic ID | `gaia dev rename <old> <new>` |
-| Unbacked named star | `gaia dev calibrate <author/skill> N★` or direct YAML edit on the named markdown |
-| Missing 3★+ evidence | `gaia dev evidence <id> <url> --type repo --trust <value> --evaluator <user>` (grade auto-derives from Trust Magnitude) |
-| Dead evidence link | Remove/replace the offending evidence entry + log a `demote` timeline event |
-| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill — the branch re-derives to `standard` automatically; do NOT reclassify the generic (that strips prerequisites) |
+| Unbacked named star | `gaia dev calibrate <author/skill> N★` |
+| Missing evidence | `gaia dev evidence <id> <url> --type <type> ...` with verified inputs; grade derives from Trust Magnitude |
+| Dead evidence link | `gaia dev rm-evidence <id> --source <url>`; add a verified replacement with `gaia dev evidence` if supported |
+| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill; do NOT reclassify the generic |
 
-After every mutation, validate immediately — a half-applied set that fails CI is worse than no mutations at all:
+If a required change has no supported CLI verb or its inputs are not verified, leave it proposal-only and report the tooling gap; never use a direct YAML edit as a workaround. After each approved mutation, validate immediately:
 
 ```bash
 gaia dev validate
@@ -330,13 +328,13 @@ python scripts/jev_advisory.py --mode meta --collect-repo --offset 0
 python scripts/jev_advisory.py --mode evidence --input <evidence-shard.json>
 ```
 
-Add `--live` only when credentials and the budget ledger permit it. A semantic lane that falls back still counts as covered when its fallback packet is actually consumed by the orchestrator.
+Add `--live` only when credentials and the budget ledger permit it. A semantic lane that falls back counts as covered only after Luna actually reviews the emitted packet.
 
 **Division of authority:**
 
 - Deterministic Gaia code owns URL/liveness checks, evidence arithmetic, Trust Magnitude, Overall Trust Grade, star-gate eligibility, and rule enforcement.
 - Jev judges bounded semantic questions such as evidence-to-capability relevance, abstraction scope, mapping coherence, and whether a structural hypothesis merits deeper review.
-- Luna handles low-confidence, conflicting, or architecturally consequential semantic cases.
+- Jev's fallback packet is not a Luna result: the orchestrator routes routine uncertainty to `worker-luna`, conflicting evidence/ambiguous taxonomy to `worker-luna-high`, and deep architecture or contested policy to `worker-luna-xhigh`.
 - L4 / human review owns ratification. No model response is itself a promotion, demotion, Origin change, Champion change, fusion, split, or admission.
 
 Every worker must keep this hierarchy intact: **Jev judges meaning; Gaia computes authority.**
