@@ -2,6 +2,52 @@
 
 ---
 
+## 2026-10-23 — Routine 064
+
+**Branch:** `docs/routines/064` (created from `origin/main` at v8.26.7; no daily
+PR was open, 063 had shipped).
+**Task chosen:** SYNC. Steward commits `b852d9732`, `c1556e910`, `dbdf986c9`
+changed the live `gaia steward` surface. The CLI Reference card still listed
+six subcommands and omitted `full`.
+
+### What I did
+
+- **`cli-reference.html`** (`#steward` card): added `full` to the signature.
+  Added three flag-table rows: `full run` (`--observe | --triage | --verify |
+  --retro`, `--routine`, `--debt`, `--resume`, `--afk`, `--trigger
+  {manual,scheduled}`, `--no-agents`, `--integration-branch`, `--push`,
+  `--ledger {auto,git,local}`, `--json`), `full record <run_id> <step_id>
+  --input FILE.json [--ledger {auto,git,local}] [--json]`, and `full status
+  [--ledger {auto,git,local}] [--json]`. Added two examples. This review
+  corrected the initially omitted `--trigger` and shared `--ledger` options.
+- **`DOCS.md`**: page map row 3 now lists `steward full` and routine 064.
+
+### Design decisions
+
+- Flags verified against the checked-out CLI parser and help (`PYTHONPATH=src
+  python -m gaia_cli steward full {run,record,status} --help`). `run` keeps its
+  existing one-repair description; `full` is the separate resumable pipeline.
+- The `full` run description states the policy boundary: never merges, never
+  pushes to `main`. Verified against the `full run` help text.
+
+### Issues informed
+
+- None filed.
+
+### Files
+
+- `docs/en/cli-reference.html` ← steward card updated
+- `docs/en/DOCS.md` ← page map row 3 updated
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 065)
+
+- `cli-reference.html` — document the `--input` outcome-file shape for
+  `gaia steward full record`. Read it from the steward package before writing
+  it. Do not guess the schema.
+
+---
+
 ## 2026-10-21 — Weekly Editor Pass (editor-063wk)
 
 **Branch:** `docs/routines/063`. No daily PR was open (routines 056–062 had all
