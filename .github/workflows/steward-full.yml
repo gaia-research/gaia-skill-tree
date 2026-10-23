@@ -17,6 +17,9 @@ name: Gaia Steward Full
 # writes to main, force-pushes, tags or releases, and the runner refuses main,
 # master and the default branch itself.
 #
+# This workflow is currently paused. If reauthorized, scheduled agent dispatch requires
+# explicit STEWARD_AGENT opt-in; there is no implicit Copilot default.
+#
 # Authentication is per engine and none is assumed: copilot and pi use the
 # repository's Copilot entitlement (permissions: copilot-requests), claude needs
 # ANTHROPIC_API_KEY, codex needs OPENAI_API_KEY or CODEX_API_KEY. The preflight
@@ -51,7 +54,9 @@ jobs:
     env:
       INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
       GH_TOKEN: ${{ github.token }}
-      STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || 'copilot' }}
+      # Scheduled runs only dispatch agents once a repo variable STEWARD_AGENT opts in;
+      # until then they land Class A and report "agents: NOT RUN" instead of failing an agent run every 4h.
+      STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || '' }}
       STEWARD_VERIFIER_AGENT: ${{ (inputs.verifier != 'same' && inputs.verifier) || vars.STEWARD_VERIFIER_AGENT || '' }}
       STEWARD_AGENT_REF: ${{ github.event.repository.default_branch }}
       STEWARD_BUILD_EFFORT: medium
@@ -103,7 +108,7 @@ jobs:
             row "GITHUB_TOKEN can create and delete steward/* refs" "**NO** - $(head -c 200 /tmp/probe.err | tr '\n' ' ')"
             echo "::error title=steward cannot write refs::push of $probe was refused"
           fi
-          for engine in "$STEWARD_AGENT" "${STEWARD_VERIFIER_AGENT:-$STEWARD_AGENT}"; do
+          for engine in ${STEWARD_AGENT:+"$STEWARD_AGENT" "${STEWARD_VERIFIER_AGENT:-$STEWARD_AGENT}"}; do
             for role in build verify; do
               wf=".github/workflows/steward-${role}-${engine}.lock.yml"
               if git ls-remote --exit-code --heads origin "$STEWARD_AGENT_REF" >/dev/null 2>&1 \
