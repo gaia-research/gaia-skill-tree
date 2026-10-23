@@ -303,14 +303,19 @@ def install_support_components(target_id: str, registry_path: str, location: str
             continue
         destination.parent.mkdir(parents=True, exist_ok=True)
         staging = destination.with_name(destination.name + ".gaia-support-tmp")
-        if staging.exists() or staging.is_symlink():
-            if staging.is_symlink() or staging.is_file():
-                staging.unlink()
-            else:
-                shutil.rmtree(staging)
-        backup = None
+        backup = destination.with_name(destination.name + ".gaia-support-backup") if destination.exists() else None
+        # lexists also catches dangling symlinks. These sibling names are not
+        # ours until this invocation creates them, so collisions must be left alone.
+        if os.path.lexists(staging) or (backup is not None and os.path.lexists(backup)):
+            failures.append(support_id)
+            print(f"Error: refusing to use existing staging or backup path for support component '{support_id}'.", file=sys.stderr)
+            continue
+        staging_owned = False
+        backup_owned = False
         try:
-            shutil.copytree(source_dir, staging)
+            staging.mkdir()
+            staging_owned = True
+            shutil.copytree(source_dir, staging, dirs_exist_ok=True)
             # The upstream notice may live at repository root, outside the skill directory.
             license_name = Path(record["source"]["licensePath"]).name
             license_destination = staging / license_name
@@ -318,17 +323,19 @@ def install_support_components(target_id: str, registry_path: str, location: str
                 license_destination = staging / f"UPSTREAM-{license_name}"
             shutil.copy2(license_file, license_destination)
             (staging / ".gaia-support-component").write_text("support-only\n", encoding="utf-8")
-            if destination.exists():
-                backup = destination.with_name(destination.name + ".gaia-support-backup")
-                if backup.exists():
-                    shutil.rmtree(backup, ignore_errors=True)
+            if backup is not None:
                 destination.replace(backup)
+                backup_owned = True
             staging.replace(destination)
+            staging_owned = False
             committed_paths.append((destination, backup))
         except OSError:
-            if staging.exists():
-                shutil.rmtree(staging, ignore_errors=True)
-            if backup and backup.exists() and not destination.exists():
+            if staging_owned and os.path.lexists(staging):
+                if staging.is_dir() and not staging.is_symlink():
+                    shutil.rmtree(staging, ignore_errors=True)
+                else:
+                    staging.unlink(missing_ok=True)
+            if backup_owned and os.path.lexists(backup) and not os.path.lexists(destination):
                 backup.replace(destination)
             failures.append(support_id)
             continue

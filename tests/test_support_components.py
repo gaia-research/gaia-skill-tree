@@ -243,6 +243,58 @@ def test_invalid_manifest_fails_install_cleanly(tmp_path, monkeypatch, capsys):
     assert "could not resolve support components" in capsys.readouterr().err
 
 
+@pytest.mark.parametrize("collision_kind", ["file", "directory", "dangling_symlink"])
+@pytest.mark.parametrize("sibling", ["staging", "backup"])
+def test_install_refuses_preexisting_staging_and_backup_paths(tmp_path, monkeypatch, capsys, collision_kind, sibling):
+    monkeypatch.chdir(tmp_path)
+    write_manifest(tmp_path)
+    payload = tmp_path / "source" / "synthetic-support"
+    payload.mkdir(parents=True)
+    (payload / "SKILL.md").write_text("new payload\n", encoding="utf-8")
+    (payload / "LICENSE").write_text(LICENSE_TEXT, encoding="utf-8")
+    monkeypatch.setattr("gaia_cli.support._fetch_pinned_source", lambda *_args: (payload, payload / "LICENSE"))
+
+    skill_root = tmp_path / ".agents" / "skills"
+    destination = skill_root / "synthetic-support"
+    if sibling == "backup":
+        destination.mkdir(parents=True)
+        (destination / "SKILL.md").write_text("old payload\n", encoding="utf-8")
+        (destination / ".gaia-support-component").write_text("support-only\n", encoding="utf-8")
+        receipt_path = tmp_path / ".gaia" / "support-install-manifest.json"
+        receipt_path.parent.mkdir(parents=True)
+        receipt_path.write_text(json.dumps({"installed": [{
+            "id": "synthetic-support", "commit": "c" * 40,
+            "localPath": str(destination.resolve()), "targets": [],
+        }]}), encoding="utf-8")
+    collision = skill_root / (
+        "synthetic-support.gaia-support-tmp" if sibling == "staging"
+        else "synthetic-support.gaia-support-backup"
+    )
+    collision.parent.mkdir(parents=True, exist_ok=True)
+    if collision_kind == "file":
+        collision.write_text("do not touch\n", encoding="utf-8")
+    elif collision_kind == "directory":
+        collision.mkdir()
+        (collision / "sentinel").write_text("do not touch\n", encoding="utf-8")
+    else:
+        collision.symlink_to(collision.parent / "missing-target")
+
+    assert install_support_components("example/target", str(tmp_path)) is False
+    assert os.path.lexists(collision)
+    if collision_kind == "file":
+        assert collision.read_text(encoding="utf-8") == "do not touch\n"
+    elif collision_kind == "directory":
+        assert (collision / "sentinel").read_text(encoding="utf-8") == "do not touch\n"
+    else:
+        assert collision.is_symlink() and not collision.exists()
+    if sibling == "staging":
+        assert not destination.exists()
+    else:
+        assert (destination / "SKILL.md").read_text(encoding="utf-8") == "old payload\n"
+        assert (destination / ".gaia-support-component").is_file()
+    assert "existing staging or backup path" in capsys.readouterr().err
+
+
 def test_receipt_write_failure_rolls_back_new_support_payload(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     write_manifest(tmp_path)
