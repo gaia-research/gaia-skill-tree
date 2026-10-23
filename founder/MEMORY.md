@@ -4,6 +4,73 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-23, queue cleanup — #2136/#2128 integrated; #2139 awaiting final receipt)
+
+### TLDR
+
+- PR #2136’s steward-full docs and PR #2128’s dormant fail-closed agent guard are merged to `dev/pr-queue-2026-10-23`; no merge to `main`.
+- Draft aggregate PR #2139 targets `main` at `926f43756d0d34a9a5c066d30197ce09c19f698e`. Keep it draft and await exact-head CI/local validation; do not enable auto-merge or merge to main.
+- #2127 remains an open billing/agent-runtime issue. #2128 does not solve billing or unpause the workflow.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Steward docs | ✅ PR #2136 merged to dev at `c8017aa94941eff896e7211b23099ba0e4a75f06`; corrected CLI options include `--trigger {manual,scheduled}`, shared `--ledger {auto,git,local}`, and `--json`. |
+| Agent guard | ✅ PR #2128 merged to dev at `926f43756d0d34a9a5c066d30197ce09c19f698e`; final source head `3ea8892f22f7bd4d1ba852621a7ac87b971a89d1`. Default is empty and scheduled agent dispatch requires explicit `STEWARD_AGENT` if separately reauthorized. |
+| Founder pause | ✅ Preserved: only `workflow_dispatch` trigger, `jobs.drive.if: ${{ false }}`; no schedule, inputs, or active driver was restored. |
+| Local focused validation | ✅ Exact combined candidate: YAML + pause assertions and shell-loop cases passed; 50 focused Steward tests passed. First attempt stopped on an over-strict local string assertion; corrected validation passed. |
+| Aggregate validation | ⏳ Draft PR #2139 at `926f43756d0d34a9a5c066d30197ce09c19f698e`; local docs validation and aggregate GitHub checks were started. Record their actual final conclusions at the current PR head; do not reuse results after any head change. |
+| Scope | ✅ Aggregate diff contains only `.github/workflows/steward-full.yml` and three `docs/en/` files. No registry changes. |
+
+### Reviews and CI
+
+- Luna High A repaired the #2136 docs and #2128 workflow comment; changes landed at the SHAs above. Independent Luna High B/C reviewed the source PRs; #2128 was held until its misleading comment/body were corrected, then independently cleared for ordinary dev merge after live check/ruleset reconciliation.
+- Independent Luna High C reviewed aggregate PR #2139 at exact base `8aeb6ee73ef35d6937196047abec78b4714afc3e` and head `926f43756d0d34a9a5c066d30197ce09c19f698e`, confirmed the four-file scope and preserved pause, and marked it ready for final CI. The current-head check receipt still must be recorded from GitHub after all checks conclude.
+- On source PR #2128, Test/Build/Smoke, quick checks, author identity, and CodeQL succeeded; branch-scope and design-system checks were skipped and are not passes. The aggregate PR has no skip-scope label; branch scope must run there. The bounded source-PR poll reported skipped results as unverifiable, not a code failure.
+- GitHub effective branch rules returned no applied rules for `main` or the integration branch; no admin or required-check bypass was used. PR #2139 has no auto-merge request/label and remains a draft.
+
+### Branches and PRs at snapshot
+
+| Branch / PR | State |
+|---|---|
+| `main` | `8aeb6ee73ef35d6937196047abec78b4714afc3e` |
+| `dev/pr-queue-2026-10-23` | `926f43756d0d34a9a5c066d30197ce09c19f698e` |
+| #2136 | Merged to dev; merge commit `c8017aa94941eff896e7211b23099ba0e4a75f06` |
+| #2128 | Merged to dev; merge commit `926f43756d0d34a9a5c066d30197ce09c19f698e` |
+| #2139 | Draft aggregate PR to main; final CI receipt pending at snapshot time |
+
+### Issues + PRs touched
+
+- #2136 and #2128 were reviewed and merged to dev; #2139 was opened as the single aggregate draft PR to main.
+- #2127 remains open and unresolved; its underlying Copilot billing/org-policy failure was not changed.
+- Founder-gated #2122/#2123 remain untouched. #2133 remains draft and incomplete; its remaining verification and pilot are still required.
+- No issue was closed, no registry data was altered, and no release/deployment occurred.
+
+### Routing — where things live now
+
+- CLI docs and flag verification: PR #2136 body and `docs/en/cli-reference.html` on the aggregate branch.
+- Fail-closed guard and current paused state: PR #2128 body and `.github/workflows/steward-full.yml` on the aggregate branch.
+- Consolidated review/CI receipt: PR #2139. Keep this PR draft until its current head has a truthful final check receipt and founder review.
+
+### Lessons / hazards preserved
+
+- The existing workflow is paused; describe schedule/manual-agent behavior only as historical. Do not claim this safeguard activates scheduled dispatch or fixes billing.
+- A skipped source-PR branch-scope job is not a pass. The aggregate `dev/*` PR must run its own scope check.
+- `git diff --check` can flag CRLF HTML lines as whitespace; use the CRLF-aware check and report the distinction rather than treating it as a source defect.
+- No canonical Gaia cost receipt was generated; do not infer cost from partial Pi/subagent telemetry.
+
+### Open questions / handoff for next orchestrator
+
+1. This snapshot is on feature branch `dev/pr-queue-session-snapshot-2026-10-23`; land it via its PR to dev, not a direct integration-branch commit. That will advance #2139, so finish local validation and collect the final aggregate check receipt at the resulting head; update #2139’s body with exact check names/conclusions.
+2. Keep #2139 as the only integration PR and leave it draft. Never merge it to `main` without the separate founder gate.
+3. Continue the remaining queue only after this gate: complete #2133’s remaining verification and pilot; obtain founder decisions for #2122/#2123; review #2116; inspect the shared `dev/emilkowalski-intake-2026-10-13` base/relationship before #2090/#2087; then review #2032.
+4. Preserve the primary checkout’s unrelated untracked files. Clean only session-owned worktrees/branches after the memory snapshot and public proof-of-work record exist.
+
+### Token cost (this session)
+
+Not recorded: no canonical Gaia skill-cost receipt was available.
+
 ## State Snapshot (2026-10-15, #2105 — Steward coverage ready for founder preview)
 
 ### TLDR
