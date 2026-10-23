@@ -14,20 +14,21 @@ six subcommands and omitted `full`.
 
 - **`cli-reference.html`** (`#steward` card): added `full` to the signature.
   Added three flag-table rows: `full run` (`--observe | --triage | --verify |
-  --retro`, `--routine`, `--debt`, `--resume`, `--afk`, `--no-agents`,
-  `--integration-branch`, `--push`, `--json`), `full record <run_id> <step_id>
-  --input FILE.json`, and `full status`. Added two examples.
+  --retro`, `--routine`, `--debt`, `--resume`, `--afk`, `--trigger
+  {manual,scheduled}`, `--no-agents`, `--integration-branch`, `--push`,
+  `--ledger {auto,git,local}`, `--json`), `full record <run_id> <step_id>
+  --input FILE.json [--ledger {auto,git,local}] [--json]`, and `full status
+  [--ledger {auto,git,local}] [--json]`. Added two examples. This review
+  corrected the initially omitted `--trigger` and shared `--ledger` options.
 - **`DOCS.md`**: page map row 3 now lists `steward full` and routine 064.
 
 ### Design decisions
 
-- Flags taken from live `gaia steward full {run,record,status} --help`, not
-  from the source. `run` keeps its existing one-repair description; `full` is
-  the separate resumable pipeline.
+- Flags verified against the checked-out CLI parser and help (`PYTHONPATH=src
+  python -m gaia_cli steward full {run,record,status} --help`). `run` keeps its
+  existing one-repair description; `full` is the separate resumable pipeline.
 - The `full` run description states the policy boundary: never merges, never
   pushes to `main`. Verified against the `full run` help text.
-- Did not document `--ledger {auto,git,local}`. It is a transport detail shared
-  by all three `full` actions and belongs with the pipeline page, not this card.
 
 ### Issues informed
 
