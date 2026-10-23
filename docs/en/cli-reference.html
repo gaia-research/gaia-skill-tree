@@ -1817,7 +1817,7 @@
         <div class="cmd-card" id="steward">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia steward</span>
-            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder} [options]</span>
+            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder, full} [options]</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1876,6 +1876,21 @@
                   <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
                   <td>—</td>
                 </tr>
+                <tr>
+                  <td><code>full run [--observe | --triage | --verify | --retro] [--routine N] [--debt ID] [--resume RUN] [--afk] [--no-agents] [--integration-branch B] [--push] [--json]</code></td>
+                  <td style="max-width: 420px;">Run the full, resumable Steward pipeline: observe, triage, land Class A repairs on branches, dispatch and verify Class B work, then re-observe. Records every step in a durable ledger. Never merges and never pushes to <code>main</code>. Actions that need a model or forge are emitted for a driver. Exits 0 when complete or awaiting action.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>full record &lt;run_id&gt; &lt;step_id&gt; --input FILE.json [--json]</code></td>
+                  <td style="max-width: 420px;">Record a driver's outcome for an action that <code>full run</code> emitted.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>full status [--json]</code></td>
+                  <td style="max-width: 420px;">Report the state of the current pipeline run from its ledger.</td>
+                  <td>—</td>
+                </tr>
               </tbody>
             </table>
 
@@ -1891,7 +1906,13 @@
 <span class="cmd">gaia steward run</span>
 
 <span class="c"># Record an independent verification decision</span>
-<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span></pre>
+<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span>
+
+<span class="c"># Run the full resumable pipeline in observe-only mode</span>
+<span class="cmd">gaia steward full run</span> <span class="arg">--observe</span>
+
+<span class="c"># Check the state of the current pipeline run</span>
+<span class="cmd">gaia steward full status</span></pre>
             </div>
           </div>
         </div>
