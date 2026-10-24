@@ -54,8 +54,7 @@ evidence:
   date: '2026-09-11'
   type: repo-own
   trustNumber: 50.0
-  notes: Production Favor Church AI Skills repository hosting speak-like-favor, active
-    since June 2026
+  notes: Production Favor Church AI Skills repository hosting speak-like-favor, active since June 2026
   commits: 26
   contributors: 1
   source_started_at: '2026-06-22'
