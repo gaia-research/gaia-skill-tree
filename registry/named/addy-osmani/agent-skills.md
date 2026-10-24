@@ -10,7 +10,7 @@ description: Production-grade engineering command suite for AI coding agents spa
   the full development lifecycle — spec, plan, build, test, review, web performance,
   ship, and simplify.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-24'
 timeline:
 - timestamp: '2026-07-02T18:42:20Z'
   action: add
@@ -131,6 +131,11 @@ timeline:
   previousValue: 0.6.9
   newValue: 0.6.10
   details: synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.10
+- timestamp: '2026-10-24T04:37:54Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 174.62 -> 176.04, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-10-01'
@@ -159,7 +164,7 @@ suiteComponents:
 - addy-osmani/shipping-and-launch
 - addy-osmani/spec-driven-development
 - addy-osmani/test-driven-development
-trustMagnitude: 174.62
+trustMagnitude: 176.04
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -170,7 +175,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: bfddca3c73808964613ebea37b145cfeb6a00ce32717d1a5e08b40a8d3336f22
+trustMagnitudeInputHash: 586e15c202465c9b1c9775885d531ada034997914ff8825bceede0991c317e29
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
 upstream:

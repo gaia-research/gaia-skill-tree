@@ -228,6 +228,12 @@
       "previousValue": "v3.25.5",
       "newValue": "v3.41.2",
       "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2"
+    },
+    {
+      "timestamp": "2026-10-24T04:37:56Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 174.59 -> 175.34, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

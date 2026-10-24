@@ -72,6 +72,44 @@ def deterministic_layout_4d(skills: list[dict]) -> np.ndarray:
         ])
     return normalize_4d(np.array(coords))
 
+def _canonical_prerequisite_edges(skills: list[dict], ids: set[str]) -> set[tuple[str, str]]:
+    return {
+        (skill["id"], prerequisite)
+        for skill in skills
+        for prerequisite in (skill.get("prerequisites") or [])
+        if prerequisite in ids
+    }
+
+
+def _previous_spectral_layout(ids: list[str], edges: set[tuple[str, str]]) -> dict[str, list[float]] | None:
+    """Read a committed site layout only when it describes this exact graph."""
+    previous_graph = ROOT / "docs" / "graph" / "gaia.json"
+    try:
+        with previous_graph.open("r", encoding="utf-8") as f:
+            previous = json.load(f)
+        previous_skills = previous["skills"]
+        previous_ids = [skill["id"] for skill in previous_skills]
+        if len(previous_ids) != len(set(previous_ids)) or set(previous_ids) != set(ids):
+            return None
+        if _canonical_prerequisite_edges(previous_skills, set(previous_ids)) != edges:
+            return None
+
+        spectral = {}
+        for skill in previous_skills:
+            positions = skill.get("positions") or {}
+            if not isinstance(positions, dict):
+                return None
+            vector = positions.get("spectral")
+            if (not isinstance(vector, list) or len(vector) != 4
+                    or any(isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value)
+                           for value in vector)):
+                return None
+            spectral[skill["id"]] = vector
+        return spectral
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return None
+
+
 def generate_layouts():
     if not REGISTRY.exists():
         print(f"Error: Registry not found at {REGISTRY}")
@@ -124,21 +162,37 @@ def generate_layouts():
                     l_semantic[i] = id_to_semantic[sid]
                     clusters[i] = id_to_cluster[sid]
     
-    # Spectral 4D (Connectivity)
-    adj = np.zeros((len(ids), len(ids)))
-    id_to_idx = {sid: i for i, sid in enumerate(ids)}
-    for i, s in enumerate(skills):
-        for p in s.get("prerequisites", []):
-            if p in id_to_idx: adj[i, id_to_idx[p]] = adj[id_to_idx[p], i] = 1
-    
-    d = np.diag(adj.sum(axis=1))
-    laplacian = d - adj
-    try:
-        evals, evecs = linalg.eigh(laplacian)
-        # Skip the first eigenvector (always 0)
-        l_spectral = normalize_4d(evecs[:, 1:5])
-    except:
-        l_spectral = l_deterministic
+    # Reuse the committed site's spectral coordinates only when it represents
+    # this exact node/edge topology. Sorted input IDs make recomputation
+    # registry-order independent, but cannot pin a repeated-eigenvalue basis
+    # across different LAPACK/library environments.
+    input_ids = set(ids)
+    prerequisite_edges = _canonical_prerequisite_edges(skills, input_ids)
+    spectral_by_id = _previous_spectral_layout(ids, prerequisite_edges)
+    if spectral_by_id is None:
+        # Four non-trivial eigenvectors require at least five nodes. Keep the
+        # exported contract 4D for smaller graphs with the deterministic layout.
+        if len(ids) < 5:
+            l_spectral = l_deterministic.copy()
+        else:
+            spectral_ids = sorted(ids)
+            adj = np.zeros((len(spectral_ids), len(spectral_ids)))
+            id_to_idx = {sid: i for i, sid in enumerate(spectral_ids)}
+            for source, prerequisite in prerequisite_edges:
+                i, j = id_to_idx[source], id_to_idx[prerequisite]
+                adj[i, j] = adj[j, i] = 1
+
+            laplacian = np.diag(adj.sum(axis=1)) - adj
+            try:
+                evals, evecs = linalg.eigh(laplacian)
+                # Skip the first eigenvector (always 0), then restore registry row order.
+                spectral_by_id = dict(zip(spectral_ids, normalize_4d(evecs[:, 1:5])))
+            except Exception:
+                l_spectral = l_deterministic
+            else:
+                l_spectral = np.array([spectral_by_id[sid] for sid in ids])
+    else:
+        l_spectral = np.array([spectral_by_id[sid] for sid in ids])
 
     # Cluster Naming...
     cluster_names = {}

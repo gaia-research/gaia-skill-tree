@@ -38,13 +38,6 @@ evidence:
   reviewers: 3
   sourceStartedAt: '2024-01-01'
 timeline:
-- timestamp: '2026-09-05T00:00:00Z'
-  action: demote
-  author: mbtiongson1
-  notes: 'Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status:
-    named per CONTEXT.md) (#1699)'
-  previousValue: 4★
-  newValue: 1★
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
   contributor: unknown
@@ -107,6 +100,13 @@ timeline:
   action: rename
   contributor: unknown
   details: Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: 'Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status:
+    named per CONTEXT.md) (#1699)'
+  previousValue: 4★
+  newValue: 1★
 - timestamp: '2026-09-05T03:50:03Z'
   action: demote
   contributor: unknown

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23",
+  "generatedAt": "2026-10-24",
   "buckets": {
     "automated-testing": [
       {
@@ -627,7 +627,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -787,6 +787,12 @@
             "previousValue": "0.6.9",
             "newValue": "0.6.10",
             "details": "synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.10"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:54Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 174.62 -> 176.04, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -801,7 +807,7 @@
         ],
         "trustMagnitude": 176.04,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "bfddca3c73808964613ebea37b145cfeb6a00ce32717d1a5e08b40a8d3336f22",
+        "trustMagnitudeInputHash": "586e15c202465c9b1c9775885d531ada034997914ff8825bceede0991c317e29",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -879,7 +885,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-10-09",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:57Z",
@@ -1019,6 +1025,12 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Cleared GitHub link."
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 169.36 -> 169.31, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -1030,7 +1042,7 @@
         ],
         "trustMagnitude": 169.31,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "e972c06d6b106ca17dc487e9a17e3863e0e67dcda11cc6bd654fc7c97b4897c3",
+        "trustMagnitudeInputHash": "55b5d92f63267985502a6f12e8baacd9ac95ced43fce43de8f87ac7323fbb0ee",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5600,7 +5612,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -5717,11 +5729,17 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 5★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 169.34 -> 171.27, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 171.27,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "fc68fc69a66033275d09e5daab30dd226ea508851bd77b25fca70577aaddb72f",
+        "trustMagnitudeInputHash": "a184ae8b4a7d800fb7b610672ff93f50d3820c8d37db1804d79f277ca77d040f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5790,7 +5808,7 @@
           }
         ],
         "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-08-22T07:11:01Z",
@@ -5833,6 +5851,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 286.0 -> 172.43, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 172.43 -> 174.68, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -5850,7 +5874,7 @@
         ],
         "trustMagnitude": 174.68,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "8eaaa40d3b7c3b11a686c0810ee71ca4a583edee301e69eb461af1ccc6961f4a",
+        "trustMagnitudeInputHash": "2b7d435989bd529ab3ba8d82a72daa51958dbd9f2f2b068f6bf5489c1aadd0c8",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -10917,7 +10941,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:27Z",
@@ -10960,11 +10984,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 286.0 -> 184.32, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:54Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 184.32 -> 184.87, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 184.87,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "c7e164b4d95ec341754a138a9ae248650101fac5ca81a8057499a90d21db37c3",
+        "trustMagnitudeInputHash": "9f9ca21d97fecdcdea192f8b9f3310637422f9cdbd3e3cbe505b4f16d65ee645",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "origin",
@@ -11263,7 +11293,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:33Z",
@@ -11306,11 +11336,17 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 1★ to 2★"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 21.51 -> 22.67, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 22.67,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "a7b5a92bf68000ca5e4f44bfd81cdb01e4abcfd6c193b138488bca0449e2b9ef",
+        "trustMagnitudeInputHash": "5c6c8ee5b87c84c6897585a9434e5f61b4ddf8c7d387162a554b69d00b8a955b",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -11393,7 +11429,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:23Z",
@@ -11454,11 +11490,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 59.56 -> 119.66, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 119.66 -> 130.23, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 130.23,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "ee21f8d0981aa197ed1681d8b81148961f1e16607132eb573aaf1d9bf45ba757",
+        "trustMagnitudeInputHash": "1f6aa911d28c31aacd66606df5740a42ec521ed1cfab99d64d6bc81eabf41db2",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -11775,7 +11817,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-30T06:00:00Z",
@@ -11837,11 +11879,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 298.3 -> 205.15, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 205.15 -> 205.75, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 205.75,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "6f10651a704cf49a7d12ae9fa986f62938ff40fa5ddfac8f69e70aa068434e72",
+        "trustMagnitudeInputHash": "b14a8901b441abce0a18edc0acbf83f81d49a8e3f4c15fc7299e5dc2772fb382",
         "type": "fusion",
         "installBody": "```bash\ngaia install mvanhorn/last30days\n```",
         "role": "origin",
@@ -12561,7 +12609,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:36Z",
@@ -12604,11 +12652,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 329.28 -> 221.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 221.96 -> 225.42, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 225.42,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "ba80d576568d9a0a266bb8d71cd5884a11a149390c543985cb4a55df91b8b6f1",
+        "trustMagnitudeInputHash": "5601edf7b47017bc7aa31c18ad380d47b3d70366fd43632c9c6084bc28aa9472",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -13575,7 +13629,7 @@
           }
         ],
         "createdAt": "2026-07-14",
-        "updatedAt": "2026-09-11",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-13T16:26:04Z",
@@ -13606,11 +13660,17 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added backing repo-own evidence from https://github.com/favorchurch/favor-skills"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 5.0 -> 6.28, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 6.28,
         "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "cdab2aac618974346bca85126ed6215981a5ae210988add84e6b64a3d101c5a8",
+        "trustMagnitudeInputHash": "604c99dc811f4862c8de83749630d6015163c49ab0271ecc5fcf4353165e4b56",
         "type": "fusion",
         "role": "variant",
         "apexGateStatus": {
@@ -14538,7 +14598,7 @@
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -14651,6 +14711,12 @@
             "previousValue": null,
             "newValue": "v2.11.0",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 70.69 -> 72.86, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -14662,7 +14728,7 @@
         ],
         "trustMagnitude": 72.86,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "e89db6eaa6ee4c818b88e83542ff34fd8ee6630a2a48e1c3d03272c16fc25305",
+        "trustMagnitudeInputHash": "f90eef10fd0a996373d205d106d16bb2021811b53b3876dafd26a5cda350ce71",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -17083,7 +17149,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-10-11",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -17218,11 +17284,17 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/Graphify-Labs/graphify/blob/v8/graphify/__init__.py"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 316.88 -> 318.14, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 318.14,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "b72a46e9e972127c0c1631ced3201d21eb21506aab250283d81a0aa267e02908",
+        "trustMagnitudeInputHash": "69748e24fa83b90d211e1aeb09bc0d1bd69985016489931669ff2c55b5be0266",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -19029,7 +19101,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:22Z",
@@ -19108,11 +19180,17 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 5★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 226.5 -> 227.51, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 227.51,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "7c4c72c21e1adba9ee3c0ffa1a587d810751713ff02a0225a4aaa9cdc1c9f1cb",
+        "trustMagnitudeInputHash": "2b27580ca47948960b605580a6fded0a44623d8a320d49c63f702ce72d771c33",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "origin",
@@ -20335,7 +20413,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-05",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -20442,6 +20520,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 355.66 -> 355.66, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 355.66 -> 356.11, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -20494,7 +20578,7 @@
         ],
         "trustMagnitude": 356.11,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "bd751ff855a38a7a9120b8b659b4d57bb5f06cf71c4d6dc4fc617e96bf463593",
+        "trustMagnitudeInputHash": "1feb9c20dc9b63ce9c286b423de593b491dfdeb420baa79a33b37d7e920462c7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -25114,7 +25198,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-10-09",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:50Z",
@@ -25222,12 +25306,18 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 50.0 -> 52.66, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
         "trustMagnitude": 52.66,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "29543ee7f8ca243279ba01b0c9510065adfa70c92adc39736d89fc2fac179291",
+        "trustMagnitudeInputHash": "488e81e5ee951bbe04831cd48731b41866bdeacf1c0b015ef793a12095e0f296",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -25722,7 +25812,7 @@
           }
         ],
         "createdAt": "2026-09-06",
-        "updatedAt": "2026-09-07",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-09-06T15:29:17Z",
@@ -25817,6 +25907,12 @@
             "previousValue": "v0.8.34",
             "newValue": "v0.8.60",
             "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 163.63 -> 166.92, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -25841,7 +25937,7 @@
         ],
         "trustMagnitude": 166.92,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "121fc2097a60cc4a77facdf6a9cca5474518053ba003a0930980deade4d443f0",
+        "trustMagnitudeInputHash": "db32830b323d3998d9bdc26306e24d73b4a60d47ae7e8639b19ab1f9c039dadf",
         "type": "fusion",
         "installBody": "Initialize a HyperFrames project with the upstream CLI:\n\n```bash\nnpx hyperframes init\n```\n\nTo install or update the upstream HyperFrames entry skill:\n\n```bash\nnpx skills add heygen-com/hyperframes --skill hyperframes\n```\n\nThe entry skill is documented in the pinned upstream [SKILL.md](https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md).",
         "role": "variant",
@@ -31545,7 +31641,7 @@
           }
         ],
         "createdAt": "2026-08-22",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-08-22T07:11:04Z",
@@ -31594,11 +31690,17 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 1★ to 3★"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 65.81 -> 91.46, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 91.46,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "e63c2cae1e8540f7c16c9387d2facc41292fb1c01700da34776f245cd97aa89b",
+        "trustMagnitudeInputHash": "ec00087894c898f7a3e4e733924bca106360958f8990832facf5a352eeafc276",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -33074,7 +33176,7 @@
           }
         ],
         "createdAt": "2026-08-19",
-        "updatedAt": "2026-09-06",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-08-19T11:50:18Z",
@@ -33153,6 +33255,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 0.0 -> 199.13, grade ungraded -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 199.13 -> 200.29, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -33163,7 +33271,7 @@
         ],
         "trustMagnitude": 200.29,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "111e5c7a2eef35de624c3ff3c1637f0c2ff418814d4f10ff32368a01ade90cfb",
+        "trustMagnitudeInputHash": "9f2cb4be19d4d3723768d88e8ebf0f59b22b0e3aaf016adfbfead7f389227447",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
@@ -34015,7 +34123,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -34178,6 +34286,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 233.42 -> 373.22, grade A -> S (verified independent witness)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:55Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 373.22 -> 374.99, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -34209,7 +34323,7 @@
         ],
         "trustMagnitude": 374.99,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "5a3f8e5344ee096697734916eb25f664b093fc9c244d0f6aad05774ffb1cc7ab",
+        "trustMagnitudeInputHash": "791f647448722906eb72d90b10a2f63d68aa8ffeda6bef00a303745f0787b0d2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -36932,7 +37046,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -37078,6 +37192,12 @@
             "previousValue": "v6.3.0",
             "newValue": "v6.4.1",
             "details": "synced from https://github.com/obra/superpowers/releases/tag/v6.4.1"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 220.81 -> 221.52, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -37095,7 +37215,7 @@
         ],
         "trustMagnitude": 221.52,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "02178485dd223c9757a30b673b732920d1a7b0ff1d9354c3886f98666c949e54",
+        "trustMagnitudeInputHash": "90efcc86186878db6c43cce49093fe7d52f13c4441b15ddc36baeb469d16e784",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -40984,7 +41104,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -41118,6 +41238,12 @@
             "previousValue": "v3.25.5",
             "newValue": "v3.41.2",
             "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 174.59 -> 175.34, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -41171,7 +41297,7 @@
         ],
         "trustMagnitude": 175.34,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "ac37545709da95026b2454d1a5bf76ecdccaa5e9fed8021096e35ab568b892fb",
+        "trustMagnitudeInputHash": "c2571f5347c8645a5e5767d7099ff551eddec8ef3105dd81d14cc57afa263bf6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -42645,7 +42771,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-09-04",
+        "updatedAt": "2026-10-24",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:42Z",
@@ -42718,11 +42844,17 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM 159.01 -> 162.66, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-24T04:37:56Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 162.66 -> 163.19, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "trustMagnitude": 163.19,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "c85068aa4025392ee2bf09f69ad8171e8e6a98a8a68800413bc8564d4c908253",
+        "trustMagnitudeInputHash": "dccc689a84a75e7dd7f03fc96838204e206646051e65b311658f40366d603ab1",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -42953,14 +43085,6 @@
       "updatedAt": "2026-08-06",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "2★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-10T05:38:16Z",
           "action": "evidence_added",
           "contributor": "unknown",
@@ -42997,6 +43121,14 @@
           "action": "note",
           "contributor": "unknown",
           "details": "Set installable to false"
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "2★",
+          "newValue": "1★"
         }
       ],
       "trustMagnitude": 36.0,
@@ -47795,14 +47927,6 @@
       "updatedAt": "2026-09-10",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "4★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-14T12:32:40Z",
           "action": "evidence_graded",
           "contributor": "unknown",
@@ -47886,6 +48010,14 @@
           "action": "rename",
           "contributor": "unknown",
           "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "4★",
+          "newValue": "1★"
         },
         {
           "timestamp": "2026-09-05T03:50:03Z",
@@ -48613,14 +48745,6 @@
       "updatedAt": "2026-06-21",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "3★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-14T12:33:03Z",
           "action": "evidence_graded",
           "contributor": "unknown",
@@ -48668,6 +48792,14 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "trustMagnitude": 42.47,

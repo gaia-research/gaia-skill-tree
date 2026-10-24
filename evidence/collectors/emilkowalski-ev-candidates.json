@@ -1,0 +1,106 @@
+{
+  "candidates": [
+    {
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "contributor": "emilkowalski",
+      "evidence": [
+        {
+          "type": "social-signal",
+          "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+          "date": "2026-09-02",
+          "views": 8026,
+          "likes": 84,
+          "comments": 3,
+          "notes": "External creator AISeeKing's video “Emil Kowalski Skills: This is CRAZY GOOD SKILL (you need to have it)!” the auto-caption transcript records a direct animate invocation and generated standalone HTML implementation (00:06:38-00:07:55). YouTube metadata retrieved 2026-10-13 UTC: 8,026 views, 84 likes, 3 comments. Promotional title; this row records exposure and a demonstrated invocation, not efficacy. Same video is separately attributed only to review-animations and prototype, which it also directly invokes."
+        }
+      ]
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/apple-design",
+      "name": "apple-design",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/emil-design-eng",
+      "name": "emil-design-eng",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "contributor": "emilkowalski",
+      "evidence": []
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "contributor": "emilkowalski",
+      "evidence": [
+        {
+          "type": "social-signal",
+          "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+          "date": "2026-09-02",
+          "views": 8026,
+          "likes": 84,
+          "comments": 3,
+          "notes": "External creator AISeeKing's video “Emil Kowalski Skills: This is CRAZY GOOD SKILL (you need to have it)!” the auto-caption transcript records a direct prototype invocation and three distinct toast variants behind a visual picker (00:07:59-00:09:15). YouTube metadata retrieved 2026-10-13 UTC: 8,026 views, 84 likes, 3 comments. Promotional title; this row records exposure and demonstrated use, not efficacy. Same video is separately attributed only to animate and review-animations, which it also directly invokes."
+        }
+      ]
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "contributor": "emilkowalski",
+      "evidence": [
+        {
+          "type": "social-signal",
+          "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+          "date": "2026-09-02",
+          "views": 8026,
+          "likes": 84,
+          "comments": 3,
+          "notes": "External creator AISeeKing's video “Emil Kowalski Skills: This is CRAZY GOOD SKILL (you need to have it)!” the auto-caption transcript records review-animations applied to a deliberately flawed UI file and shows its findings/verdict (00:04:50-00:06:38). YouTube metadata retrieved 2026-10-13 UTC: 8,026 views, 84 likes, 3 comments. Promotional title; this row records exposure and demonstrated invocation, not independent efficacy. Same video is separately attributed only to animate and prototype, which it also directly invokes."
+        }
+      ]
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "contributor": "emilkowalski",
+      "evidence": []
+    }
+  ]
+}
