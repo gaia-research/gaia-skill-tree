@@ -4,6 +4,8 @@ This document serves as the **single source of truth** for the Gaia Skill Tree r
 
 ---
 
+> **Yggdrasil IV (founder-ratified 2026-10-25):** [Trust degradation, public challenges and reversible recovery](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). Time and transient liveness failure raise review signals, not automatic published TM or star reductions. Independently verified material counterevidence and governed publication are required for confirmed degradation. Yggdrasil III weights, thresholds, grades and Fusion Score remain unchanged pending RFC [#2148](https://github.com/gaia-research/gaia-skill-tree/issues/2148) implementation gates.
+
 ## 1. Core Taxonomy (The Hierarchy)
 
 Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both a measure of technical complexity and a mark of community prestige.
@@ -175,7 +177,7 @@ The former `fusion-recipe` evidence weight (`1.5×`), TM cap, freshness factor, 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
 
 - **Web of Trust**: Contributors holding a **4★+** skill may act as "Verifiers" for new evidence, reducing reliance on central maintainers. Verified evidence is marked in the schema and visualized in the Skill Explorer history.
-- **Liveness Heartbeat**: Automated monthly checks for URL health and repository activity. Dead or inactive repositories are flagged for demotion. Stable, "finished" software with Class A/B evidence is protected from rot demerits.
+- **Liveness Heartbeat**: Periodic URL and repository checks create verification/review debt, **not automatic demotion**. A temporary failure or inactivity alone is not counterevidence. Stable, finished implementations preserve historical achievement; current relevance is evaluated against independently verified evidence under Yggdrasil IV.
 - **Specialist Path**: A rubric allowing vendor-locked skills (e.g., Palantir, Salesforce) to reach 4★+ by proving "Depth of Integration" (robustness and production usage) rather than general portability.
 
 ### 2.3 Specialist Path Rubric (4★+ Promotion)
@@ -190,7 +192,7 @@ To reach 4★ or higher as a Specialist (vendor-locked) skill, the implementatio
 - **Specific URL Requirement**: Links for named claims must point to concrete implementation files (`SKILL.md`, source code, etc.), not generic repository roots.
 - **Installability (The Star Bar)**: 
   - **0★–2★**: Allowed to be registry-only (`installable: false`).
-  - **3★+**: MUST have a verified GitHub **blob** link pointing to a concrete file (e.g. `.../blob/<branch>/.../SKILL.md`), not a bare repo root. Any 3★+ skill lacking a verified blob link is **hard-demoted to 1★ (Awakened)** and must re-earn its rank with a valid link. *(Updated 2026-06-02: hardened from 2★ to 1★ — a missing verified blob link is a hard reset, not a soft step-down.)*
+  - **3★+**: MUST have a verified GitHub **blob** link pointing to a concrete file (e.g. `.../blob/<branch>/.../SKILL.md`), not a bare repo root. A 3★+ skill **confirmed** to lack the required valid implementation link remains subject to the existing **1★ (Awakened) hard-reset** consequence, but **only after source verification and approved canonical rank action**. Transient URL failures do not automatically trigger this consequence. The 1★ numerical consequence is unchanged; Yggdrasil IV governs verification, adjudication and historical receipts.
   - **Suites**: Exempt from individual link requirements if components are linked.
 
 ---
@@ -200,12 +202,12 @@ To reach 4★ or higher as a Specialist (vendor-locked) skill, the implementatio
 The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The **Effective Level** is the level used for runtime advice and fusion, adjusted by demerits.
 
 ### 3.1 Canonical Demerits
-- **`broken-evidence`**: URL(s) in the evidence array are dead or inaccessible.
+- **`broken-evidence` (legacy)**: Do **not** automatically impose this demerit when an evidence URL cannot be reached. Treat URL failures as Steward observations and route independently verified material consequences through Yggdrasil IV governance. The legacy label remains documented pending an approved migration.
 - **`niche-integration`**: Tied to a narrow or obscure platform.
 - **`experimental-feature`**: Unstable API or alpha-status code.
 - **`heavyweight-dependency`**: Requires massive local resources or complex setup.
 
-**Rule**: Each demerit lowers the Effective Level by **1 star**, floored at **0★**.
+**Existing numeric rule**: Each valid, adjudicated demerit lowers the Effective Level by **1 star**, floored at **0★**. Yggdrasil IV does not authorize new demerits from unverified observations; broader demerit redesign requires a separate decision.
 
 ---
 
