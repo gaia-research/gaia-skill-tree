@@ -1189,7 +1189,7 @@
       "observationDigest": null,
       "observedAt": null,
       "currentSourceRoute": null,
-      "currentSkillContentSha256": "c9ba6b07ff8d271fc2ecaf72ab1bae50a3c65348307e9755e6f3909a3cfaf9b8",
+      "currentSkillContentSha256": "6be9968fb44c8f1a2f80ece7f7233fa88bad68c426dd5f473a241fd20e9e4500",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3409,7 +3409,7 @@
         "entrypoint": "skills/workflow_skill_creator/SKILL.md",
         "installSubpath": "skills/workflow_skill_creator"
       },
-      "currentSkillContentSha256": "199c896a355a7f11711917a948ecfa5f1943f5826ee81833b0a161ce490b9b63",
+      "currentSkillContentSha256": "078e6fe32cfcf51596b48b35b715e9b2686539b6255e274fce3b9e331a19a6c5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7693,7 +7693,7 @@
         "entrypoint": "skills/hermes-tweet/SKILL.md",
         "installSubpath": "skills/hermes-tweet"
       },
-      "currentSkillContentSha256": "1f8e14ee51f2ba65e1861bc7ad471d1b4a0be409253e350945758af653443dc5",
+      "currentSkillContentSha256": "9e33f4acf3a3ac9004ba6465067dc323bb7c5698d2c8858991f17c0531db9b1b",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

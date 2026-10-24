@@ -43085,14 +43085,6 @@
       "updatedAt": "2026-08-06",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "2★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-10T05:38:16Z",
           "action": "evidence_added",
           "contributor": "unknown",
@@ -43129,6 +43121,14 @@
           "action": "note",
           "contributor": "unknown",
           "details": "Set installable to false"
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "2★",
+          "newValue": "1★"
         }
       ],
       "trustMagnitude": 36.0,
@@ -47927,14 +47927,6 @@
       "updatedAt": "2026-09-10",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "4★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-14T12:32:40Z",
           "action": "evidence_graded",
           "contributor": "unknown",
@@ -48018,6 +48010,14 @@
           "action": "rename",
           "contributor": "unknown",
           "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "4★",
+          "newValue": "1★"
         },
         {
           "timestamp": "2026-09-05T03:50:03Z",
@@ -48745,14 +48745,6 @@
       "updatedAt": "2026-06-21",
       "timeline": [
         {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "3★",
-          "newValue": "1★"
-        },
-        {
           "timestamp": "2026-06-14T12:33:03Z",
           "action": "evidence_graded",
           "contributor": "unknown",
@@ -48800,6 +48792,14 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-09-05T00:00:00Z",
+          "action": "demote",
+          "author": "mbtiongson1",
+          "notes": "Demoted from 3★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "trustMagnitude": 42.47,
