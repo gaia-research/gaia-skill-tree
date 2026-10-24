@@ -1,9 +1,11 @@
 # GAIA STEWARD — OPERATING MODEL
 
-**Status:** Blueprint  
+**Status:** Blueprint (Yggdrasil IV challenge authority ratified 2026-10-25)  
 **Purpose:** Define freshness, debt, authority, sensors, receipts, dispatch, and founder escalation for Gaia Steward.
 
 ---
+
+**Yggdrasil IV precedence:** [Founder-ratified challenge, recovery and Class B closure](YGGDRASIL_IV_RATIFICATION_2026-10-25.md). Freshness periods below schedule observation, not automatic published trust decay or demotion. Independently verified public challenges trigger bounded **two-sided** upstream watching. Class B can independently close an objectively resolved technical challenge with a reproducible receipt; numerical trust, stars, evidence assertions, Origin and policy remain Class C. The blueprint is not proof of implemented runtime behavior.
 
 # 1. Core Loop
 
