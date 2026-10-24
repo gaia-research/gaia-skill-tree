@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-24'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -213,7 +213,12 @@ timeline:
   previousValue: v3.25.5
   newValue: v3.41.2
   details: synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2
-trustMagnitude: 174.59
+- timestamp: '2026-10-24T04:37:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 174.59 -> 175.34, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 175.34
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -228,7 +233,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:21:01Z'
-trustMagnitudeInputHash: ac37545709da95026b2454d1a5bf76ecdccaa5e9fed8021096e35ab568b892fb
+trustMagnitudeInputHash: c2571f5347c8645a5e5767d7099ff551eddec8ef3105dd81d14cc57afa263bf6
 upstream:
   mode: components
   releasedAt: '2026-09-10T20:02:34Z'

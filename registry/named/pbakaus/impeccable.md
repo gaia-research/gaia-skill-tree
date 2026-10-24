@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-24'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -132,7 +132,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 5★ to 4★
-trustMagnitude: 169.34
+- timestamp: '2026-10-24T04:37:56Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 169.34 -> 171.27, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 171.27
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -145,7 +150,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
-trustMagnitudeInputHash: fc68fc69a66033275d09e5daab30dd226ea508851bd77b25fca70577aaddb72f
+trustMagnitudeInputHash: a184ae8b4a7d800fb7b610672ff93f50d3820c8d37db1804d79f277ca77d040f
 ---
 
 ## Overview

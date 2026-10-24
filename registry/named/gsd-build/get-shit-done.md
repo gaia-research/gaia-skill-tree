@@ -9,7 +9,7 @@ level: 4★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-24'
 tags:
 - suite
 - pipeline
@@ -117,6 +117,11 @@ timeline:
   action: note
   contributor: unknown
   details: Cleared GitHub link.
+- timestamp: '2026-10-24T04:37:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 169.36 -> 169.31, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   updatedAt: '2026-10-01'
@@ -150,7 +155,7 @@ suiteComponents:
 - gsd-build/gsd-plan-phase
 - gsd-build/gsd-ship
 - gsd-build/gsd-verify-work
-trustMagnitude: 169.36
+trustMagnitude: 169.31
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -161,7 +166,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e972c06d6b106ca17dc487e9a17e3863e0e67dcda11cc6bd654fc7c97b4897c3
+trustMagnitudeInputHash: 55b5d92f63267985502a6f12e8baacd9ac95ced43fce43de8f87ac7323fbb0ee
 upstream:
   mode: components
   releasedAt: '2026-05-16T04:36:09Z'
