@@ -76,7 +76,7 @@ Existing capstones registered under the old 3-prerequisite rule that do not meet
 
 ## 3. Dispute Resolution
 
-If a skill's definition, level, or evidence is disputed:
+**General definition/taxonomy disputes** continue to be filed as GitHub Issues with the `disputed` label and routed through Core Maintainer governance. That process must not be confused with a verified Yggdrasil IV **evidence/capability challenge**, which is independently substantiated before its public challenge marker appears. For the latter:
 1. Authenticate and independently verify the specific counterclaim. Publish a **verified** challenge immediately after verification (operational target: within 24 hours); notify the contributor. Preserve exact task, version, method and limitations.
 2. Provide an ordinary **14-calendar-day** contributor response opportunity for rebuttal or upstream improvement; no automatic demotion by timeout. Availability concerns use bounded repeat probes before unavailability debt.
 3. Steward watches challenged implementation and comparator where traceable. **Class B** may close an objectively reproduced **technical** challenge with independent proof and a linked public receipt, including before the response window ends. It cannot change canonical evidence assertions, TM/Grade, stars, Origin or policy.
