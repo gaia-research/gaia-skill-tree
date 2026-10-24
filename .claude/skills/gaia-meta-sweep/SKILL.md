@@ -8,6 +8,8 @@ description: >
 
 # gaia-meta-sweep
 
+**Yggdrasil IV authority:** [Ratified challenge/degradation/recovery policy](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). A whole-registry sweep **appraises and proposes**. Potential age/freshness decay is shadow-only; published trust decreases require independently verified relevant counterevidence and approved canonical publication. Current Origin is merit-based per `META.md` §4.1 and cannot become vacant from a challenge. Class B Steward may resolve only reproducible technical challenge status, not scores or ranks. Existing weights/caps/thresholds/Fusion Score are frozen pending an explicit RFC #2148 implementation gate.
+
 Orchestrate a registry-wide **current-tree appraisal** using a multi-phase Workflow. The skill fans out the 13 audit dimensions from META.md across the complete post-ingest tree, performs a deterministic evidence / Trust Magnitude / rank appraisal, layers Jev semantic review and Luna fallback where meaning or abstraction needs judgment, then adversarially verifies findings before synthesis.
 
 ## Mission and non-negotiable completion gate
@@ -32,7 +34,7 @@ Ask the user (or infer from context) before kicking off. These four parameters g
 
 | Input | Description | Default |
 |---|---|---|
-| `mode` | `read-only` (findings + report only) or `apply-safe` (also runs `gaia dev rename`/`calibrate`/`evidence` for high-confidence corrections) | `read-only` |
+| `mode` | `read-only` (findings + report only) or `apply-safe` (only narrowly **separately authorized** CLI changes; never publish TM, ranks, evidence assertions, Origin or meta changes on confidence alone) | `read-only` |
 | `fusion-aggressiveness` | `moderate` (3–8 high-confidence Semantic Fusion candidates, adversarially verified) or `aggressive` (10–20+ including speculative pairings) | `moderate` |
 | `scope` | `all` (every named + generic skill) or a filter expression (e.g. `level>=3★`, `contributor:mbtiongson1`) | `all` |
 | `report-slug` | Filename for the report under `docs/meta/reports/` | `<YYYY-MM-DD>-meta-audit.html` |
@@ -248,11 +250,11 @@ The synthesis agent must:
 - Include a coverage receipt: named skills, generic nodes, evidence rows, all 13 dimensions, Jev live/cached/fallback counts, and adversarial-verification counts
 - Include every proposed rank change with the deterministic TM/grade/gate basis; semantic-model output may explain or challenge evidence meaning but may not be the numerical authority
 - Explicitly state "FULL META SWEEP COMPLETE" only when the completion gate above is satisfied; otherwise label the artifact "PARTIAL META AUDIT" and enumerate omitted coverage
-- If `mode == apply-safe`, list every applied `gaia dev` command in a "Mutations Applied" section; otherwise list them under "Mutations Proposed"
+- If `mode == apply-safe`, list **only independently approved** commands in a "Mutations Applied" section, and keep all other numerical/evidence/Origin changes under "Mutations Proposed". No model-confidence override.
 
 ## Apply-safe mutations (only if mode = apply-safe)
 
-After Phase 5, present proposed changes and their deterministic basis for explicit human L4 approval. Approval is required before any mutation; confidence scores or operator authorization are not approval. Apply approved changes only through canonical Gaia CLI verbs—never edit registry YAML/frontmatter directly. Gaia computes evidence, TM, grade, and rank gates; Jev/Luna advice cannot authorize a change.
+After Phase 5, present proposed changes and their deterministic basis for explicit human L4 approval. **No new Yggdrasil IV canonical/public trust, rank, evidence or Origin mutation is authorized by invoking `apply-safe`**; separate founder approval and a governed implementation phase are required. Model confidence and a generic request to run a sweep are not approval. Apply approved changes only through canonical Gaia CLI verbs—never edit registry YAML/frontmatter directly. Gaia computes evidence, TM, grade, and rank gates; Jev/Luna advice cannot authorize a change.
 
 | Finding type | Approved CLI action |
 |---|---|
