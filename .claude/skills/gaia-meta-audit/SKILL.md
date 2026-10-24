@@ -14,6 +14,8 @@ version: 1.2.0
 
 # gaia-meta-audit
 
+**Yggdrasil IV:** [Founder-ratified challenge and recovery contract](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). This skill only **detects and queues** potential degradation, independently verified challenges and rank/Origin contradictions. Elapsed time, unreachable URLs, and semantic-model confidence cannot independently demote a skill or transfer Origin. `META.md` §4.1 (merit-based current Origin) is authoritative.
+
 Build a prioritized queue of Gaia skills or catalog items that need focused review.
 
 This skill is intentionally scoped to triage, not repair. It reads broadly, flags what
@@ -39,11 +41,11 @@ Work through these checks in order. Stop when you have enough candidates to fill
 
 ### P0 — Critical integrity violations
 - **Unsupported top-rank claim**: a named skill at 5★ whose Trust Magnitude is < 250 (S-grade), or a 6★ skill that fails its branch gate — Suite 6-predicate Apex (META §4.3) or Unique 5-predicate Unique Impossible (META §4.4). TM is the sole numeric gate; there is no repository-star floor.
-- **Unsupported named-origin claim**: `origin: true` on a named skill that is not the earliest (`createdAt`) named skill mapped to that `genericSkillRef`. Verify by pivoting all named skills on the generic and sorting by `createdAt` — only one can be origin.
+- **Unsupported named-origin claim**: more than one current Origin for a claimed generic, a current holder not supported by `META.md` §4.1's merit/qualification criteria, or a contested incumbent whose material challenge has not been surfaced. **Never** infer current Origin from earliest `createdAt`; one current holder is preserved pending approved transfer.
 - **Named claim with no implementation file**: `links.github` points to a repo root, a 404, or a path that doesn't contain a `SKILL.md`.
 
 ### P1 — Structural correctness
-- **Dead evidence links**: run `python3 scripts/verify_evidence.py`; anything that 404s is P1.
+- **Evidence liveness observations**: run `python3 scripts/verify_evidence.py` and inspect repeated probes and upstream changes. A 404 opens review debt, not an automatic `broken-evidence` demerit or rank reduction. Verified material counterevidence is a separate public-challenge lane.
 - **Star Bar gap**: named skills at 3★+ without a valid installer-ready `links.github` blob URL (META §2.4).
 - **Link casing mismatch**: GitHub raw paths are case-sensitive. `/SKILL.md` vs `/skill.md` will 404 in CI. Standardize on uppercase `SKILL.md`.
 - **Wrong-target link**: `links.github` resolves to a different skill's directory than the named skill claims.
@@ -53,7 +55,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 ### P2 — Attribution and sourcing issues
 - **Wrong `promotedNamedSkillId`**: the generic's promoted pointer doesn't match the best-evidenced named child.
 - **Stale catalog URL**: points at a directory, homepage, or path that has moved.
-- **Mis-attributed `origin: true`**: per META §4.1, "lives in this repo" does not equal origin. The earliest `createdAt` wins.
+- **Mis-attributed `origin: true`**: current Origin is determined by merit under `META.md` §4.1, **not** earliest `createdAt`. Historical Origin attribution persists after approved transfer.
 
 ### P3 — Registry hygiene
 - **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
@@ -70,7 +72,7 @@ Do not flag anything on rarity grounds — the rarity axis is deprecated (see `C
 ### Audit Disentanglement & Taxonomy Standards (RFC #1809)
 When queuing skills for review, categorize any candidate target against the Four-Tier Taxonomy:
 - **Tier 1 (Malicious / Imposter Squatter)**: Bad-faith aggregation, hijacking other maintainers' repos/stars, or falsified attribution. Action: Immediate expungement, blacklist.
-- **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author lacking standard packaging or repo links. Action: Tag `installable: false` if ≤2★ per CONTRIBUTING §12; demote if >2★. **Never purge.**
+- **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author lacking standard packaging or repo links. Action: for ≤2★ propose `installable: false` when supported; for 3★+ verify the actual Star Bar violation and seek an approved ranked consequence, never auto-demote from a single failed probe. **Never purge.**
 - **Tier 3 (Early-Stage / Under-Evidenced Stub)**: Authentic author, thin documentation or preliminary evidence. Action: Keep at baseline 1★ (Awakened), request doc enrichment, or tag `needs-info`. **Never purge.**
 - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801). Action: Route to generalization guidance per `check_product_attribution.py`.
 
@@ -104,8 +106,8 @@ for — this avoids hand-edits that skip timeline logging.
 | Change named-skill `status` | `gaia dev update-named ... --status <new>` |
 | Change named-skill `origin` (enforces uniqueness) | `gaia dev update-named <author/skill> --origin true\|false` |
 | Append timeline event | `gaia dev timeline <id> --action <action> --notes "..."` |
-| Named-skill `level` / `links.github` / `description` / body | Direct YAML edit — CLI does not expose these |
-| Named-skill removal | Delete the markdown file — `gaia dev rm` is generic-only |
+| Named-skill `level` / `links.github` / `description` / body | Use supported governed CLI/workflow after approval, or report a missing CLI verb; no silent YAML edit or public rank mutation |
+| Named-skill removal | Class C maintainer review and a governed, timeline-preserving removal workflow; never delete files as a triage fix |
 
 After any mutation: `gaia dev validate` then `gaia dev docs`.
 
