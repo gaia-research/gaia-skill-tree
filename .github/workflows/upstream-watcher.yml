@@ -11,17 +11,21 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      escalate_candidate:
+        description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
+        required: false
+        default: ""
   schedule:
     - cron: '0 6 * * *'  # 06:00 UTC daily
 
 # Prevent overlap between manual runs
 concurrency: upstream-watcher
 
+# L5: the watcher only reads the repo and writes issues. It never pushes, opens PRs or dispatches
+# workflows (batch mode creates no approved bootstrap, M3), so the other write scopes were dropped.
 permissions:
   issues: write
-  contents: write
-  pull-requests: write
-  actions: write
+  contents: read
 
 jobs:
   watcher:
@@ -51,14 +55,44 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GAIA_OPERATOR_OVERRIDE: "1"
+          INPUT_SKILL_ID: ${{ inputs.skill_id }}
+          INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
+          INPUT_APPLY: ${{ inputs.apply }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          ARGS=""
-          if [ -n "${{ inputs.skill_id }}" ]; then
-            ARGS="--skill ${{ inputs.skill_id }}"
+          set -euo pipefail
+          mkdir -p generated-output
+          # L1: arguments are a bash array (no word splitting), and each input is validated before use.
+          ID_RE='^[A-Za-z0-9._/-]+$'
+          CANDIDATE_RE='^[A-Za-z0-9._/:-]+$'
+          APPLY=(--dry-run)
+          if [ "$INPUT_APPLY" = "true" ] || [ "$EVENT_NAME" = "schedule" ]; then
+            APPLY=(--apply)
           fi
-          if [ "${{ inputs.apply }}" = "true" ] || [ "${{ github.event_name }}" = "schedule" ]; then
-            ARGS="$ARGS --apply"
-          else
-            ARGS="$ARGS --dry-run"
+          if [ -n "$INPUT_ESCALATE" ] && ! [[ "$INPUT_ESCALATE" =~ $CANDIDATE_RE ]]; then
+            echo "::error::escalate_candidate must match ${CANDIDATE_RE}; got a value with other characters."
+            exit 1
           fi
-          python scripts/upstream_watcher/watcher.py $ARGS
+          if [ -n "$INPUT_SKILL_ID" ] && ! [[ "$INPUT_SKILL_ID" =~ $ID_RE ]]; then
+            echo "::error::skill_id must match ${ID_RE}; got a value with other characters."
+            exit 1
+          fi
+          if [ -n "$INPUT_ESCALATE" ]; then
+            # One child for one batch row; no polling, no umbrella rewrite beyond that row.
+            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" "${APPLY[@]}"
+            exit 0
+          fi
+          ARGS=(--child-mode batch "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
+          if [ -n "$INPUT_SKILL_ID" ]; then
+            ARGS+=(--skill "$INPUT_SKILL_ID")
+          fi
+          # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+
+      - name: Upload watcher report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-watcher-report
+          path: generated-output/upstream-watcher-report.json
+          if-no-files-found: ignore

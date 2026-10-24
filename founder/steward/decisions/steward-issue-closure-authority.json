@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-issue-closure-authority",
+  "status": "decided",
+  "decision": "Grant Steward bounded authority to close GitHub issues only under the enumerated closure rules A1 to A5, with per-run caps, a writesEnabled kill switch, and an exactly-once outcome record (#2130)?",
+  "whyItMatters": "The upstream and bot-report backlog grows faster than it is closed by hand, and most of it is work the registry already preserved. Closing is visible to the founder, so the rule set is narrow: only an item whose payload is proven preserved may be closed, and nothing is closed on a similar title, a stale issue, or a skipped child gate.",
+  "evidence": [
+    "Decided by founder (campaign brief 2026-10-21) under #2130. This record is the authority; no agent inference grants closure.",
+    "Allowlist (POLICY.yaml issueHygiene.enabledRules): A1-child-curated, A2-umbrella-synced, A3-umbrella-superseded, A4-duplicate-child, A5-botreport-superseded. Each rule has a positive and a negative test in tests/steward/issuehygiene.",
+    "A5 cannot fire until issueHygiene.a5Disabled names a workflow file that is verifiably disabled in repository files; the list is empty, so A5 stays inert.",
+    "Caps: maxClosuresPerRun 10 (code ceiling 25), maxCensusAgeSeconds 21600, closedWindowDays 30. Any stale, incomplete or unreconciled census blocks closure for the run. An hourly budget counts every run's receipts: the policy cap per UTC hour, and never more than 25 closures in any 60 minutes (B7 L2).",
+    "Each closure re-reads the issue and requires the same updatedAt, bodySha256 and labels as the reconciled snapshot; otherwise it is skipped and re-observed. Outcomes are recorded once per semantic key and survive resume. The live updatedAt may differ only when our own marker comment for this closure explains it (B7 D12); title, body, labels and state drift still skip. B8 (H-1): the own-marker tolerance never applies to a pair the receipts already record as done.",
+    "Single executor (B7 H1): every closure, from the close script or from reconcile --apply-closures, passes one gate (executor.gateClosure). Writes off refuse with no forge call; the pilot runs only in a throwaway checkout with writesEnabled set there.",
+    "B8 (round 3): a closure the steward performed is never performed again, even after a person reopens the issue; the reopened issue is a Class C note (`reopened-after-closure`).",
+    "B8 (round 3): an exit-2 gate refusal is recorded as a `refused` outcome with a reason code; three refusals of one pair escalate once (`closure-refused`).",
+    "B8 (round 3): each closure is gated on its own evidence digest (`itemSha256`), not on the whole census; the hourly budget is reserved under a repository-keyed lock and counts pending closures."
+  ],
+  "recommended": "Rollout in the order of the architecture contract: dry-run the manifest on the live census, pilot at most five closures under the A1 rule, then expand in checkpointed batches of at most ten. Rollback at any point by setting issueHygiene.writesEnabled to false in founder/steward/POLICY.yaml; no further closure is emitted and closures already made stay closed.",
+  "alternative": "Keep every closure Class B: a person reviews each proposal and closes each issue by hand. Slower, but no automated closure authority exists.",
+  "unblocks": "Class A closure debt (issue_closure_ready) may emit forge.close_issue actions. Without this record the rule set has no authority and emits nothing.",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md",
+    "founder/steward/routines/issue-hygiene.md",
+    "src/gaia_cli/steward/issuehygiene/hygienepolicy.py"
+  ]
+}

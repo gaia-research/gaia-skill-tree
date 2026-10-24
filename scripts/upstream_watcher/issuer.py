@@ -26,13 +26,29 @@ create_issues(findings, apply, verbose)
 from __future__ import annotations
 
 import json
-import os
 import re
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from scripts.upstream_watcher import approval, records
+from scripts.upstream_watcher import evidence
+from scripts.upstream_watcher.live import GhError, LiveGh
+
+# Labels whose open issues the fanout idempotency checks read, once, before the first write.
+IDEMPOTENCY_LABELS = ("upstream:release", "upstream:bootstrap", "intake")
+CLOSED_BOOTSTRAP_KEY = "closed:upstream:bootstrap"
+# Snapshot key for the closed upstream:bootstrap history, read in full (H3 rejection memory).
+
+
+class UmbrellaWriteError(RuntimeError):
+    """A legacy fanout umbrella could not be created or updated. Its children are never written (M10)."""
+
+
+class IdempotencyLookupError(RuntimeError):
+    """A fanout idempotency LIST failed. The outcome is unknown, so the fanout writes nothing."""
 
 # ---------------------------------------------------------------------------
 # Label vocab table (embedded in issue bodies, per design §5)
@@ -59,6 +75,7 @@ _REVIEWER_ACTIONS = """
 _BOOTSTRAP_REVIEWER_ACTIONS = """
 | Action | How |
 |---|---|
+| Approve baseline | A human applies `upstream:approved`. The watcher never applies it. |
 | Reject | Apply `upstream:rejected` label |
 | Hold | Apply `upstream:needs-info` label |
 """.strip()
@@ -79,6 +96,29 @@ def _payload_block(payload: dict) -> str:
     )
 
 
+def fanout_payload(
+    finding: dict,
+    mode: str,
+    component_adds: list[str],
+    component_removes: list[str],
+    link_liveness: list[dict],
+    name_drift: list[dict] | None = None,
+) -> dict:
+    """The legacy (fanout) umbrella payload. The same dict feeds the body and the approval-reset comparison."""
+    return {
+        "skillId": finding["skillId"],
+        "previousVersion": finding.get("currentVersion", "none"),
+        "newVersion": finding["newVersion"],
+        "releasedAt": finding.get("releasedAt", ""),
+        "sourceUrl": finding.get("sourceUrl", ""),
+        "mode": mode,
+        "componentAdds": component_adds,
+        "componentRemoves": component_removes,
+        "linkLiveness": link_liveness,
+        "nameDrift": name_drift or [],
+    }
+
+
 def render_umbrella_body(
     finding: dict,
     mode: str,
@@ -96,18 +136,7 @@ def render_umbrella_body(
     name_drift = name_drift or []
 
     # Machine-readable payload
-    payload = {
-        "skillId": skill_id,
-        "previousVersion": prev_version,
-        "newVersion": new_version,
-        "releasedAt": released_at,
-        "sourceUrl": source_url,
-        "mode": mode,
-        "componentAdds": component_adds,
-        "componentRemoves": component_removes,
-        "linkLiveness": link_liveness,
-        "nameDrift": name_drift,
-    }
+    payload = fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift)
 
     # Human-readable sections
     adds_section = ""
@@ -236,9 +265,9 @@ def render_bootstrap_body(finding: dict) -> str:
 > The Gaia upstream watcher has encountered **`{skill_id}`** for the first time.
 > No `upstream:` block exists in its frontmatter yet.
 >
-> This baseline proposal is **automatically approved** (`upstream:approved`) to baseline
-> at the current upstream release `{new_version}`. The sync workflow opens a draft PR
-> to write the initial `upstream:` block.
+> This is a proposed baseline at the current upstream release `{new_version}`. Approving it is a
+> human decision: a reviewer applies `upstream:approved`, which opens a draft PR that writes the
+> initial `upstream:` block. The watcher never applies `upstream:approved`.
 
 {_payload_block(payload)}
 
@@ -333,14 +362,107 @@ _Auto-detected from upstream release. Review SKILL.md for the canonical descript
 # ---------------------------------------------------------------------------
 
 
+def _open_snapshot(labels: tuple[str, ...] = IDEMPOTENCY_LABELS) -> dict[str, list[dict]]:
+    """Read every open issue carrying each label, following all pages, and the closed bootstrap history.
+
+    The closed ``upstream:bootstrap`` history is read in full (no window). It is evidence of baselines already
+    processed, so a finding it records is not re-created. Raises IdempotencyLookupError on any list failure. The
+    fanout calls this before its first write, so a failed lookup can never leave a half-written run behind.
+    """
+    gh = LiveGh()
+    snapshot: dict[str, list[dict]] = {}
+    for label in labels:
+        try:
+            snapshot[label] = gh.list_issues("open", labels=label)
+        except GhError as exc:
+            raise IdempotencyLookupError(f"open {label} issue list failed: {exc}") from exc
+    if "upstream:bootstrap" in labels:
+        try:
+            snapshot[CLOSED_BOOTSTRAP_KEY] = gh.list_issues("closed", labels="upstream:bootstrap")
+        except GhError as exc:
+            raise IdempotencyLookupError(f"closed upstream:bootstrap issue list failed: {exc}") from exc
+    return snapshot
+
+
+def _label_names(issue: dict) -> set[str]:
+    return {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
+
+
+def _live_issue(number: int) -> dict:
+    """The live issue *number* as GitHub holds it now. Any failure is unknown evidence (UmbrellaWriteError).
+
+    D8: a reset decision reads the live labels at reset time. The run-start snapshot can be stale, so an
+    approval applied after it must still be seen.
+    """
+    try:
+        return LiveGh().get_issue(number)
+    except GhError as exc:
+        raise UmbrellaWriteError(f"could not read #{number} before its update; the run stops ({exc})") from exc
+
+
+def _fanout_approval_reset(number: int, payload: dict) -> None:
+    """D10: reset an approved legacy umbrella whose payload changed. One note per payload, then the labels.
+
+    The live labels and body are read here, so the decision is made on the state GitHub holds now. A failed
+    read, note or label edit raises UmbrellaWriteError: the body is then left alone and the run stops.
+    """
+    live = _live_issue(number)
+    if "upstream:approved" not in _label_names(live):
+        return
+    previous = _payload_of_body(live.get("body"))
+    if previous is not None and previous == {k: v for k, v in payload.items() if k != "payloadSha256"}:
+        return
+    payload_hash = approval.canonical_hash(payload)
+    marker = approval.reset_marker(payload_hash)
+    gh = LiveGh()
+    try:
+        watcher_bodies = [row.get("body") or "" for row in gh.list_comments(number) if records.is_watcher_comment(row)]
+        if not any(marker in text for text in watcher_bodies):
+            gh.comment(
+                number,
+                approval.reset_note(
+                    (previous or {}).get("newVersion", "unknown"),
+                    payload["newVersion"],
+                    approval.changed_fields(previous, payload),
+                    [],
+                    payload_hash,
+                ),
+            )
+        gh.edit_labels(number, add=["upstream:needs-info"], remove=["upstream:approved"])
+    except GhError as exc:
+        raise UmbrellaWriteError(f"could not reset the approval of #{number}; the body is left alone ({exc})") from exc
+
+
+def _payload_of_body(body: str | None) -> dict | None:
+    match = approval.PAYLOAD_RE.search(body or "")
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group(1))
+    except ValueError:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _listed_open(label: str, snapshot: dict[str, list[dict]] | None) -> list[dict]:
+    """Open issues for *label* from the run snapshot, or a fresh fail-closed list when none was taken."""
+    if snapshot is not None and label in snapshot:
+        return snapshot[label]
+    return _open_snapshot((label,))[label]
+
+
 def _find_existing_suite_issue(
     prefix: str,
     label: str,
     run_cache: dict[tuple[str, str], Any] | None = None,
+    snapshot: dict[str, list[dict]] | None = None,
 ) -> tuple[int, str] | None:
-    """Return (issue_number, current_title) of an open issue matching *prefix* under *label*, or None.
+    """Return (issue_number, current_title) of the canonical open issue whose title starts with *prefix*, or None.
 
-    Consults *run_cache* first, then queries GitHub for open issues carrying *label*.
+    The canonical issue is the lowest-numbered open match. Any other open match is reported as a duplicate for
+    Steward reconciliation and never edited here. Consults *run_cache* first, then the paginated open LIST for
+    *label* (the run *snapshot* when given). A failed list raises IdempotencyLookupError; it is never read as "no
+    such issue", which would create a duplicate.
     """
     if run_cache is not None:
         cached = run_cache.get((label, prefix))
@@ -348,29 +470,21 @@ def _find_existing_suite_issue(
             if isinstance(cached, tuple):
                 return cached
             return (cached, f"{prefix}...")
-    try:
-        result = subprocess.run(
-            [
-                "gh", "issue", "list",
-                "--label", label,
-                "--state", "open",
-                "--limit", "100",
-                "--json", "number,title",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
+    matches = [
+        issue for issue in _listed_open(label, snapshot)
+        if not issue.get("pull_request") and issue.get("title", "").lower().startswith(prefix.lower())
+    ]
+    if not matches:
+        return None
+    matches.sort(key=lambda issue: issue["number"])
+    if len(matches) > 1:
+        numbers = ", ".join(f"#{issue['number']}" for issue in matches[1:])
+        print(
+            f"::warning::{prefix.strip()}: canonical open #{matches[0]['number']}; duplicate open issue(s) "
+            f"{numbers} left untouched for Steward reconciliation.",
+            file=sys.stderr,
         )
-        if result.returncode != 0:
-            return None
-        issues = json.loads(result.stdout or "[]")
-        for issue in issues:
-            title = issue.get("title", "")
-            if prefix in title:
-                return issue["number"], title
-    except Exception as exc:  # noqa: BLE001
-        print(f"  [warn] suite issue lookup failed: {exc}", file=sys.stderr)
-    return None
+    return matches[0]["number"], matches[0].get("title", "")
 
 
 def _update_issue(
@@ -380,8 +494,14 @@ def _update_issue(
     comment: str | None = None,
     dry_run: bool = False,
     verbose: bool = False,
+    add_labels: tuple[str, ...] | list[str] = (),
+    remove_labels: tuple[str, ...] | list[str] = (),
 ) -> bool:
-    """Update an existing issue's title, body, and optionally post an update comment."""
+    """Update an existing issue's title, body and labels, and optionally post an update comment.
+
+    Returns False when GitHub refused the edit. The caller decides what that means: a bootstrap
+    update treats it as unknown evidence (L4).
+    """
     if dry_run:
         if verbose:
             print(f"  [dry-run] Would update issue #{issue_number}: {new_title!r}", file=sys.stderr)
@@ -399,6 +519,10 @@ def _update_issue(
             "--title", new_title,
             "--body-file", body_file,
         ]
+        for label in add_labels:
+            cmd += ["--add-label", label]
+        for label in remove_labels:
+            cmd += ["--remove-label", label]
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
         if res.returncode != 0:
             print(f"  [error] gh issue edit failed for #{issue_number}: {res.stderr}", file=sys.stderr)
@@ -414,76 +538,34 @@ def _update_issue(
         Path(body_file).unlink(missing_ok=True)
 
 
-def _dispatch_upstream_approve(
-    issue_number: int,
-    dry_run: bool = False,
-    verbose: bool = False,
-) -> bool:
-    """Dispatch the upstream-approve workflow for an auto-approved bootstrap issue."""
-    if dry_run:
-        if verbose:
-            print(f"  [dry-run] Would dispatch upstream-approve for #{issue_number}", file=sys.stderr)
-        return True
-
-    try:
-        cmd = [
-            "gh", "workflow", "run", "upstream-approve.yml",
-            "-f", f"issue_number={issue_number}",
-        ]
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if res.returncode == 0:
-            if verbose:
-                print(f"  [auto-bootstrap] Dispatched upstream-approve for #{issue_number}", file=sys.stderr)
-            return True
-        if verbose:
-            print(f"  [auto-bootstrap] Note: gh workflow run returned {res.returncode}: {res.stderr.strip()}", file=sys.stderr)
-        return False
-    except Exception as exc:  # noqa: BLE001
-        if verbose:
-            print(f"  [auto-bootstrap] Could not dispatch upstream-approve for #{issue_number}: {exc}", file=sys.stderr)
-        return False
-
-
 def _find_existing_issue(
     search_str: str,
     label: str,
     run_cache: dict[tuple[str, str], int] | None = None,
+    snapshot: dict[str, list[dict]] | None = None,
 ) -> int | None:
     """Return the number of an open issue matching *search_str* and *label*, or None.
 
-    GitHub's issue search index is eventually consistent: an issue created
-    seconds ago is not yet findable by ``gh issue list --search``.  A single
-    watcher run routinely emits several findings that collapse onto the same
-    umbrella (one per skill in a multi-skill upstream repo), so relying on the
-    index alone let identical issues through in the same run.  *run_cache*
-    remembers what this process already created and is consulted first.
+    The match comes from a paginated LIST of open issues carrying *label*, never
+    from ``gh issue list --search``: GitHub's search index lags issue creation,
+    so an issue created seconds ago could be invisible to it. A single watcher
+    run also routinely emits several findings that collapse onto the same
+    umbrella, so *run_cache* remembers what this process already created and is
+    consulted first. A failed list raises IdempotencyLookupError (fail closed):
+    returning None there would let the caller create a duplicate.
     """
     if run_cache is not None:
         cached = run_cache.get((label, search_str))
         if cached is not None:
             return cached
-    try:
-        result = subprocess.run(
-            [
-                "gh", "issue", "list",
-                "--label", label,
-                "--state", "open",
-                "--search", search_str,
-                "--json", "number,title",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if result.returncode != 0:
-            return None
-        issues = json.loads(result.stdout or "[]")
-        for issue in issues:
-            if search_str in issue.get("title", ""):
-                return issue["number"]
-    except Exception as exc:  # noqa: BLE001
-        print(f"  [warn] idempotency check failed: {exc}", file=sys.stderr)
-    return None
+    matches = sorted(
+        (
+            issue for issue in _listed_open(label, snapshot)
+            if not issue.get("pull_request") and issue.get("title", "").strip().lower() == search_str.strip().lower()
+        ),
+        key=lambda issue: issue["number"],
+    )
+    return matches[0]["number"] if matches else None
 
 
 # ---------------------------------------------------------------------------
@@ -591,8 +673,23 @@ def create_issues(
     -------
     list[dict]
         Summary records per finding.
+
+    Raises
+    ------
+    IdempotencyLookupError
+        A duplicate check could not read GitHub. The open-issue snapshot is read
+        before the first write, so this is raised with zero writes made.
+    UmbrellaWriteError
+        An apply-mode umbrella create or update failed. No child intake is written
+        for that suite, and the run stops (M10).
     """
     summaries: list[dict] = []
+    if not full_findings:
+        return summaries
+    # Every duplicate check reads this one snapshot, taken before any write. A
+    # failed list therefore stops the run with nothing written, instead of
+    # creating an issue whose existence it could not rule out.
+    snapshot = _open_snapshot()
     # Issues created by *this* run, keyed (label, title-fragment).  GitHub's
     # search index lags creation by seconds, so this is the only reliable
     # dedup for findings that collapse onto one issue within a single run.
@@ -609,7 +706,7 @@ def create_issues(
             title = f"[upstream:bootstrap] {skill_id} → baseline at {new_version}"
             suite_prefix = f"[upstream:bootstrap] {skill_id} → baseline at "
             existing_suite = _find_existing_suite_issue(
-                suite_prefix, "upstream:bootstrap", run_cache
+                suite_prefix, "upstream:bootstrap", run_cache, snapshot
             )
             if existing_suite:
                 existing_num, existing_title = existing_suite
@@ -628,34 +725,70 @@ def create_issues(
                 body = render_bootstrap_body(finding)
                 prev_v = existing_title.removeprefix(suite_prefix)
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
-                _update_issue(
+                # Approval never survives a version change (H1): a baseline a human approved for the old
+                # version loses the approval, so the new version is reviewed before it can sync. D8: the
+                # labels are read live, so an approval applied after the run snapshot is seen.
+                approved = "upstream:approved" in _label_names(_live_issue(existing_num))
+                if approved:
+                    comment += (
+                        f" Approval reset: `upstream:approved` was on `{prev_v}`, and the baseline moved to "
+                        f"`{new_version}`. A reviewer re-applies `upstream:approved` after review."
+                    )
+                label_edit = (
+                    {"add_labels": ["upstream:needs-info"], "remove_labels": ["upstream:approved"]} if approved else {}
+                )
+                updated_ok = _update_issue(
                     existing_num,
                     title,
                     body,
                     comment=comment,
                     dry_run=not apply,
                     verbose=verbose,
+                    **label_edit,
                 )
+                # L4: a bootstrap update GitHub refused is unknown evidence. The run exits 3.
+                if apply and not updated_ok:
+                    raise UmbrellaWriteError(
+                        f"could not update bootstrap #{existing_num} for {skill_id}@{new_version}; the run stops"
+                    )
                 run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
-                if apply:
-                    _dispatch_upstream_approve(existing_num, dry_run=False, verbose=verbose)
                 summaries.append(
                     {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}
                 )
                 continue
 
+            # Closed history is evidence of baselines already processed. A baseline it records is not re-created, and a
+            # baseline it cannot settle fails closed (exit 3, zero writes for the run).
+            verdict = evidence.classify(finding, "bootstrap", (snapshot or {}).get(CLOSED_BOOTSTRAP_KEY, []))
+            if verdict.state == "ambiguous":
+                raise IdempotencyLookupError(
+                    f"closed bootstrap evidence for {skill_id}@{new_version} is ambiguous "
+                    f"(#{', #'.join(str(n) for n in verdict.ambiguous)}); no baseline is created"
+                )
+            if verdict.state == "processed":
+                print(f"  Baseline for {skill_id}@{new_version} is already processed by closed "
+                      f"#{', #'.join(str(n) for n in verdict.covering)}; not re-created.", file=sys.stderr)
+                summaries.append({"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": None,
+                                  "covering": list(verdict.covering)})
+                continue
+            # Re-read the open list right before the create: a concurrent run may have opened this baseline.
+            if _find_existing_suite_issue(suite_prefix, "upstream:bootstrap") is not None:
+                print(f"  Bootstrap for {skill_id} was opened by a concurrent run; not creating a second.",
+                      file=sys.stderr)
+                summaries.append({"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": None})
+                continue
             body = render_bootstrap_body(finding)
+            # M3: a bootstrap is never created with upstream:approved and never dispatches
+            # upstream-approve.yml. A human reads the proposed baseline and applies the label.
             issue_num = _create_issue(
                 title,
-                ["upstream:bootstrap", "upstream:approved"],
+                ["upstream:bootstrap"],
                 body,
                 dry_run=not apply,
                 verbose=verbose,
             )
             if issue_num:
                 run_cache[("upstream:bootstrap", suite_prefix)] = (issue_num, title)
-                if apply:
-                    _dispatch_upstream_approve(issue_num, dry_run=False, verbose=verbose)
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -672,7 +805,7 @@ def create_issues(
         umbrella_title = f"[upstream] {owner_repo_str} → {new_version}"
         suite_prefix = f"[upstream] {owner_repo_str} → "
         existing_suite = _find_existing_suite_issue(
-            suite_prefix, "upstream:release", run_cache
+            suite_prefix, "upstream:release", run_cache, snapshot
         )
 
         component_adds = finding.get("componentAdds", [])
@@ -703,12 +836,18 @@ def create_issues(
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            if apply:
+                # D10: the same approval reset as the batch path (H1). It lands before the body write.
+                _fanout_approval_reset(
+                    existing_num,
+                    fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift),
+                )
             prev_v = existing_title.removeprefix(suite_prefix)
             comment = (
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
                 "Payload, component diff, and link-liveness refreshed."
             )
-            _update_issue(
+            updated_ok = _update_issue(
                 existing_num,
                 umbrella_title,
                 umbrella_body,
@@ -716,6 +855,10 @@ def create_issues(
                 dry_run=not apply,
                 verbose=verbose,
             )
+            if apply and not updated_ok:
+                raise UmbrellaWriteError(
+                    f"could not update umbrella #{existing_num} for {skill_id}; no child intakes were written"
+                )
             umbrella_num = existing_num
             run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
             is_update = True
@@ -730,6 +873,10 @@ def create_issues(
                 dry_run=not apply,
                 verbose=verbose,
             )
+            if apply and not umbrella_num:
+                raise UmbrellaWriteError(
+                    f"could not create umbrella {umbrella_title!r}; no child intakes were written for {skill_id}"
+                )
             if umbrella_num:
                 run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
             is_update = False
@@ -741,7 +888,7 @@ def create_issues(
         for slug in component_adds:
             child_title = f"[intake] {contributor}/{slug}"
             child_key = f"[intake] {contributor}/{slug}"
-            existing_child = _find_existing_issue(child_key, "intake", run_cache)
+            existing_child = _find_existing_issue(child_key, "intake", run_cache, snapshot)
             if existing_child:
                 print(
                     f"  Child intake for {contributor}/{slug} already exists as #{existing_child}; skipping.",

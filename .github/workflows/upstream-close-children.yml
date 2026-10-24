@@ -11,6 +11,11 @@ jobs:
   close-children:
     name: Handle upstream child/umbrella close events
     runs-on: ubuntu-latest
+    # M8: the Case 1 re-fire runs `gh workflow run`, which needs actions: write. The grant is
+    # scoped to this job only; issues: write is the workflow-level grant.
+    permissions:
+      issues: write
+      actions: write
     # Fire for upstream:child closes OR upstream:release closes
     if: >-
       contains(github.event.issue.labels.*.name, 'upstream:child') ||
@@ -27,6 +32,7 @@ jobs:
         if: contains(github.event.issue.labels.*.name, 'upstream:child')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
           CLOSED_ISSUE_BODY: ${{ github.event.issue.body }}
           CLOSED_ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
@@ -49,9 +55,12 @@ jobs:
           echo "Child #${CLOSED_ISSUE_NUMBER} closed. Umbrella: #${UMBRELLA_NUMBER}"
 
           # Check if umbrella is open and has upstream:approved
+          # M2: a failed lookup is an error, never read as "not open and approved, no action".
           UMBRELLA_STATE=$(gh issue view "$UMBRELLA_NUMBER" --json state,labels \
-            --jq '{state: .state, approved: ([.labels[].name] | contains(["upstream:approved"]))}' \
-            2>/dev/null || echo '{"state":"unknown","approved":false}')
+            --jq '{state: .state, approved: ([.labels[].name] | contains(["upstream:approved"]))}') || {
+            echo "::error::Could not read the state of umbrella #${UMBRELLA_NUMBER}. Not re-firing upstream-approve.yml."
+            exit 1
+          }
 
           IS_OPEN=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['state']=='OPEN' else 'false')")
           IS_APPROVED=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['approved'] else 'false')")
@@ -61,19 +70,115 @@ jobs:
             exit 0
           fi
 
-          # Check if ALL sibling upstream:child issues for this umbrella are now closed
-          OPEN_SIBLINGS=$(gh issue list \
-            --label "upstream:child" \
-            --state open \
-            --search "Umbrella: #${UMBRELLA_NUMBER}" \
-            --json number \
-            --jq 'length' 2>/dev/null || echo "0")
+          # Check if ALL sibling upstream:child issues for this umbrella are now closed.
+          # Same deterministic lookup as upstream-approve.yml. A failed lookup must not be
+          # read as "no siblings", so this job fails and nothing is re-fired.
+          UMBRELLA_BODY=$(gh issue view "$UMBRELLA_NUMBER" --json body --jq '.body') || {
+            echo "::error::Could not read umbrella #${UMBRELLA_NUMBER}. Not re-firing upstream-approve.yml."
+            exit 1
+          }
+          LOOKUP_RC=0
+          OPEN_JSON=$(UMBRELLA_BODY="$UMBRELLA_BODY" REPO="$REPO" ISSUE_NUMBER="$UMBRELLA_NUMBER" python3 - <<'PY'
+          # shared-child-lookup v1 (identical in upstream-approve.yml and upstream-close-children.yml; parity-tested)
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from urllib.parse import urlencode
+
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
+          REPO = os.environ["REPO"]
+          UMBRELLA = int(os.environ["ISSUE_NUMBER"])
+          BODY = os.environ.get("UMBRELLA_BODY", "")
+          UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+
+
+          class ChildAbsent(Exception):
+              """GitHub answered 301 (transferred), 404 or 410: the number no longer names a live issue."""
+
+
+          def gh_api(path, paginate=False):
+              args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
+              res = subprocess.run(args, capture_output=True, text=True, timeout=120)
+              if res.returncode != 0:
+                  message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
+                  if re.search(r"HTTP (301|404|410)\b", res.stderr or ""):
+                      raise ChildAbsent(message)
+                  raise RuntimeError(message)
+              return res.stdout
+
+
+          def decode_pages(text):
+              # gh api --paginate prints one JSON array per page, back to back. Read every page.
+              decoder = json.JSONDecoder()
+              items, pos = [], 0
+              while True:
+                  while pos < len(text) and text[pos].isspace():
+                      pos += 1
+                  if pos >= len(text):
+                      return items
+                  page, pos = decoder.raw_decode(text, pos)
+                  if not isinstance(page, list):
+                      raise RuntimeError("issue list page is not a JSON array")
+                  items.extend(page)
+
+
+          def main():
+              children = {}
+              query = urlencode({"state": "open", "labels": "upstream:child", "per_page": 100})
+              for issue in decode_pages(gh_api(f"repos/{REPO}/issues?{query}", paginate=True)):
+                  if issue.get("pull_request") or issue.get("state") != "open":
+                      continue
+                  found = UMBRELLA_RE.search(issue.get("body") or "")
+                  if found and int(found.group(1)) == UMBRELLA:
+                      children[issue["number"]] = issue.get("title", "")
+              match = PAYLOAD_RE.search(BODY)
+              payload = json.loads(match.group(1)) if match else {}
+              if payload.get("payloadVersion") == 2:
+                  for row in payload.get("candidates", []):
+                      number = row.get("child")
+                      if number is None:
+                          continue
+                      if not isinstance(number, int) or isinstance(number, bool):
+                          raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
+                      try:
+                          live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      except ChildAbsent:
+                          # Definitive 301/404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 301/404/410); not blocking the gate", file=sys.stderr)
+                          continue
+                      if live.get("state") == "open" and not live.get("pull_request"):
+                          children[number] = live.get("title", "")
+              print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
+
+
+          try:
+              main()
+          except Exception as exc:  # any list, get or parse failure is unknown evidence
+              print(f"child lookup failed: {exc}", file=sys.stderr)
+              sys.exit(1)
+          PY
+          ) || LOOKUP_RC=$?
+          if [ "$LOOKUP_RC" -ne 0 ]; then
+            echo "::error::Could not verify sibling children of #${UMBRELLA_NUMBER}. Not re-firing upstream-approve.yml; check the children by hand."
+            exit 1
+          fi
+          OPEN_SIBLINGS=$(echo "$OPEN_JSON" | jq 'length')
 
           if [ "$OPEN_SIBLINGS" = "0" ]; then
             echo "All siblings closed. Re-firing upstream-approve.yml for umbrella #${UMBRELLA_NUMBER}."
-            gh workflow run upstream-approve.yml \
-              -f issue_number="$UMBRELLA_NUMBER" || \
-              echo "::warning::Could not re-fire upstream-approve.yml. May need manual re-labeling of #${UMBRELLA_NUMBER}."
+            # M8: a failed re-fire is visible: an error annotation, a marker comment, and a failed job.
+            # D3: refire=true is the explicit signal that this is a bot re-fire of an existing approval. The
+            # approve guard then checks the labeler of that approval, not this bot actor.
+            if ! gh workflow run upstream-approve.yml -f issue_number="$UMBRELLA_NUMBER" -f refire=true; then
+              echo "::error::Could not re-fire upstream-approve.yml for #${UMBRELLA_NUMBER}. Re-apply upstream:approved by hand."
+              gh issue comment "$UMBRELLA_NUMBER" \
+                --body "⚠️ **Re-fire failed.** All child intakes are closed, but upstream-approve.yml could not be dispatched automatically. Re-apply \`upstream:approved\` to continue." || true
+              exit 1
+            fi
           else
             echo "${OPEN_SIBLINGS} sibling(s) still open. Waiting."
           fi
@@ -83,14 +188,19 @@ jobs:
         if: contains(github.event.issue.labels.*.name, 'upstream:release')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
           UMBRELLA_BODY: ${{ github.event.issue.body }}
           UMBRELLA_NUMBER: ${{ github.event.issue.number }}
         run: |
           set -euo pipefail
 
           # Only cascade if closed as rejected
+          # M2: a failed lookup is an error, never read as "no rejection, no cascade".
           HAS_REJECTED=$(gh issue view "$UMBRELLA_NUMBER" --json labels \
-            --jq '[.labels[].name] | contains(["upstream:rejected"])' 2>/dev/null || echo "false")
+            --jq '[.labels[].name] | contains(["upstream:rejected"])') || {
+            echo "::error::Could not read the labels of umbrella #${UMBRELLA_NUMBER}. Nothing was closed."
+            exit 1
+          }
 
           if [ "$HAS_REJECTED" != "true" ]; then
             echo "Umbrella #${UMBRELLA_NUMBER} closed without upstream:rejected label. No cascade."
@@ -99,24 +209,154 @@ jobs:
 
           echo "Umbrella #${UMBRELLA_NUMBER} was rejected. Closing open child intakes."
 
-          # Find open children referencing this umbrella
-          OPEN_CHILDREN=$(gh issue list \
-            --label "upstream:child" \
-            --state open \
-            --search "Umbrella: #${UMBRELLA_NUMBER}" \
-            --json number \
-            --jq '.[].number' 2>/dev/null || true)
+          # Batch rows (payloadVersion 2) are never removed. Record which rows this
+          # rejection covers so the audit trail names them, even when no child exists.
+          ROW_IDS=$(printf '%s' "$UMBRELLA_BODY" | python3 -c "
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+          match = PAYLOAD_RE.search(sys.stdin.read())
+          rows = []
+          if match:
+              import json
+              try:
+                  rows = [row['id'] for row in json.loads(match.group(1)).get('candidates', [])]
+              except (ValueError, AttributeError):
+                  rows = []
+          print(', '.join(f'\`cand:{row}\`' for row in rows))
+          " 2>/dev/null || true)
+          if [ -n "$ROW_IDS" ]; then
+            gh issue comment "$UMBRELLA_NUMBER" \
+              --body "Umbrella rejected. Batch rows covered by this rejection (retained, not removed): ${ROW_IDS}" \
+              || echo "::warning::Could not post row list on #${UMBRELLA_NUMBER}"
+          fi
+
+          # Find open children referencing this umbrella. Same deterministic lookup as
+          # upstream-approve.yml. Nothing is closed unless the lookup succeeded.
+          LOOKUP_RC=0
+          OPEN_JSON=$(UMBRELLA_BODY="$UMBRELLA_BODY" REPO="$REPO" ISSUE_NUMBER="$UMBRELLA_NUMBER" python3 - <<'PY'
+          # shared-child-lookup v1 (identical in upstream-approve.yml and upstream-close-children.yml; parity-tested)
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from urllib.parse import urlencode
+
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
+          REPO = os.environ["REPO"]
+          UMBRELLA = int(os.environ["ISSUE_NUMBER"])
+          BODY = os.environ.get("UMBRELLA_BODY", "")
+          UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+
+
+          class ChildAbsent(Exception):
+              """GitHub answered 301 (transferred), 404 or 410: the number no longer names a live issue."""
+
+
+          def gh_api(path, paginate=False):
+              args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
+              res = subprocess.run(args, capture_output=True, text=True, timeout=120)
+              if res.returncode != 0:
+                  message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
+                  if re.search(r"HTTP (301|404|410)\b", res.stderr or ""):
+                      raise ChildAbsent(message)
+                  raise RuntimeError(message)
+              return res.stdout
+
+
+          def decode_pages(text):
+              # gh api --paginate prints one JSON array per page, back to back. Read every page.
+              decoder = json.JSONDecoder()
+              items, pos = [], 0
+              while True:
+                  while pos < len(text) and text[pos].isspace():
+                      pos += 1
+                  if pos >= len(text):
+                      return items
+                  page, pos = decoder.raw_decode(text, pos)
+                  if not isinstance(page, list):
+                      raise RuntimeError("issue list page is not a JSON array")
+                  items.extend(page)
+
+
+          def main():
+              children = {}
+              query = urlencode({"state": "open", "labels": "upstream:child", "per_page": 100})
+              for issue in decode_pages(gh_api(f"repos/{REPO}/issues?{query}", paginate=True)):
+                  if issue.get("pull_request") or issue.get("state") != "open":
+                      continue
+                  found = UMBRELLA_RE.search(issue.get("body") or "")
+                  if found and int(found.group(1)) == UMBRELLA:
+                      children[issue["number"]] = issue.get("title", "")
+              match = PAYLOAD_RE.search(BODY)
+              payload = json.loads(match.group(1)) if match else {}
+              if payload.get("payloadVersion") == 2:
+                  for row in payload.get("candidates", []):
+                      number = row.get("child")
+                      if number is None:
+                          continue
+                      if not isinstance(number, int) or isinstance(number, bool):
+                          raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
+                      try:
+                          live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      except ChildAbsent:
+                          # Definitive 301/404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 301/404/410); not blocking the gate", file=sys.stderr)
+                          continue
+                      if live.get("state") == "open" and not live.get("pull_request"):
+                          children[number] = live.get("title", "")
+              print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
+
+
+          try:
+              main()
+          except Exception as exc:  # any list, get or parse failure is unknown evidence
+              print(f"child lookup failed: {exc}", file=sys.stderr)
+              sys.exit(1)
+          PY
+          ) || LOOKUP_RC=$?
+          if [ "$LOOKUP_RC" -ne 0 ]; then
+            echo "::error::Could not list open children of rejected umbrella #${UMBRELLA_NUMBER}. Closed none; re-run once the lookup works."
+            exit 1
+          fi
+          OPEN_CHILDREN=$(echo "$OPEN_JSON" | jq -r '.[].number')
 
           if [ -z "$OPEN_CHILDREN" ]; then
             echo "No open children found for umbrella #${UMBRELLA_NUMBER}."
             exit 0
           fi
 
+          # M7 ownership proof: a child is closed only when its own body names THIS umbrella.
+          # A candidate link can point at a child that another umbrella now owns; that child is
+          # skipped and logged, never closed by this cascade.
+          CASCADE_FAILED=0
           while IFS= read -r child_num; do
             [ -z "$child_num" ] && continue
+            if ! CHILD_BODY=$(gh issue view "$child_num" --json body --jq '.body'); then
+              echo "::error::Could not read child #${child_num}. Not closing it."
+              CASCADE_FAILED=1
+              continue
+            fi
+            OWNER=$(printf '%s' "$CHILD_BODY" | python3 -c "import re, sys; m = re.search(r'Umbrella:\s*#(\d+)', sys.stdin.read()); print(m.group(1) if m else '')")
+            if [ "$OWNER" != "$UMBRELLA_NUMBER" ]; then
+              echo "Skipping child #${child_num}: its body names umbrella '${OWNER:-none}', not #${UMBRELLA_NUMBER}. Not closing it."
+              continue
+            fi
+            # L5: the closed child keeps its rejection on record. Rejection memory and suppression read this label.
+            if ! gh issue edit "$child_num" --add-label "upstream:rejected"; then
+              echo "::error::Could not label child #${child_num} upstream:rejected. Not closing it."
+              CASCADE_FAILED=1
+              continue
+            fi
             echo "Closing child #${child_num}"
-            gh issue close "$child_num" \
+            if ! gh issue close "$child_num" \
               --reason "not planned" \
-              --comment "Umbrella #${UMBRELLA_NUMBER} was rejected. Auto-closing this child intake." \
-              || echo "::warning::Could not close child #${child_num}"
+              --comment "Umbrella #${UMBRELLA_NUMBER} was rejected. Auto-closing this child intake."; then
+              echo "::error::Could not close child #${child_num}."
+              CASCADE_FAILED=1
+            fi
           done <<< "$OPEN_CHILDREN"
+          [ "$CASCADE_FAILED" = "0" ] || exit 1

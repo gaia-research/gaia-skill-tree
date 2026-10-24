@@ -822,6 +822,60 @@
       "tests": [
         "tests/steward/test_sensors.py"
       ]
+    },
+    {
+      "number": 18,
+      "title": "GitHub Issue Hygiene",
+      "status": "partially-covered",
+      "detectorIds": [
+        "issue-hygiene"
+      ],
+      "bindings": [
+        {
+          "sensorId": "issue-hygiene",
+          "debtKind": "issue_closure_ready",
+          "authority": "A",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "forge-bound",
+          "forgeAction": "forge.close_issue"
+        },
+        {
+          "sensorId": "issue-hygiene",
+          "debtKind": "issue_suite_review",
+          "authority": "B",
+          "dispatchRule": "issue-suite-review",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
+          "sensorId": "issue-hygiene",
+          "debtKind": "issue_founder_decision",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": "issue-founder-decision",
+          "bindingStatus": "founder-routed"
+        }
+      ],
+      "predicate": "Upstream candidate and bot-report issues that the registry proves preserved are closed only through forge.close_issue under an enabled rule; suite batches await a Class B disposition proposal; founder questions await a ruling.",
+      "remainingGaps": [
+        "Human-authored issues outside the upstream and gh-aw bot families are not reconciled; hygiene never closes or classifies them.",
+        "Bot families other than gh-aw are reported as untracked; their reports are not dispositioned.",
+        "Pull-request linking uses merged-pull-request evidence from the census only; a referenced or open pull request is never closure proof.",
+        "Closure is limited to rules A1 to A5 as enabled in POLICY; any item outside them is batch review or a founder question."
+      ],
+      "owners": [
+        2130,
+        2131,
+        2132
+      ],
+      "tests": [
+        "tests/steward/issuehygiene/test_d1_sensor.py",
+        "tests/steward/issuehygiene/test_d1_runner.py"
+      ]
     }
   ],
   "detectors": [
@@ -2208,6 +2262,55 @@
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
         "notEvaluated": null
+      }
+    },
+    {
+      "id": "issue-hygiene",
+      "routineIds": [
+        18
+      ],
+      "debtKinds": [
+        "issue_closure_ready",
+        "issue_suite_review",
+        "issue_founder_decision"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/github-issues.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-written census of open GitHub issues and pull requests, reconciled against registry/named and registry/nodes",
+      "evidence": "reconciliation items with proven Class A authority, Class B suite batches, and founder questions",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "human-gated"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "issue_closure_ready": "A",
+        "issue_suite_review": "B",
+        "issue_founder_decision": "C"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "issue_closure_ready": "gaia-steward-issue-hygiene",
+        "issue_suite_review": "gaia-steward-lane",
+        "issue_founder_decision": "gaia-steward-desk"
+      },
+      "proof": [
+        "tests/steward/issuehygiene/test_d1_sensor.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
       }
     }
   ],

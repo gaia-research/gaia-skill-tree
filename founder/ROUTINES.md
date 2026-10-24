@@ -223,6 +223,18 @@ Every routine inherits the repository rules in `AGENTS.md`, `CLAUDE.md`, and the
 
 ---
 
+## 18. GitHub Issue Hygiene
+
+**Outcome:** Upstream candidate, release-umbrella, and bot-report issues are either proven preserved in the registry and closed with their evidence, or held for a reviewed batch disposition or a founder ruling. Nothing is closed on a similar title, a stale issue, or a skipped child gate.
+
+**Run when:** The issue census is refreshed, a suite batch gains candidates, an umbrella is superseded, or a founder question is answered.
+
+**Operating boundaries:** Closure is a forge action allowed only under the rules A1 to A5 enabled in `founder/steward/POLICY.yaml`, with a per-run cap. Class B work proposes dispositions and never closes or accepts anything. Registry mutation goes through `gaia dev` verbs only. Founder questions are decided by the founder, not by this routine.
+
+**Proof:** Each closure carries its rule, registry or merged-pull-request evidence, the original payload, and a durable outcome. Each batch disposition is reproducible from the census and local registry state. A resumed run neither repeats nor loses a pending closure.
+
+---
+
 ## Standard routine report
 
 A routine should leave a short, auditable report proportional to the work:
