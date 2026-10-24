@@ -2,6 +2,8 @@
 
 This document outlines how the Gaia Skill Tree registry is managed, how decisions are made, and how disputes are resolved.
 
+**Yggdrasil IV:** [Ratified trust degradation, challenge and recovery doctrine](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md) applies. `META.md` §4.1 is authoritative for **merit-based current Origin**. Policy ratification does not authorize automatic score, evidence or rank changes.
+
 ## 1. Maintainer Roles
 
 ### 1.1 Taxonomy Maintainers
@@ -42,25 +44,25 @@ Decisions are made through Pull Requests. Most PRs require one Maintainer approv
 ## 2.1 Named Skill Governance
 
 ### Naming Rights
-- The **origin** contributor is the first to promote a skill in a bucket via `gaia propose`.
-- Origin status is permanent unless the contributor explicitly transfers it via a PR.
-- Additional contributors can add implementations to the same bucket without affecting origin status.
+- An initial approved claim may create the **first current Origin**, but `META.md` §4.1 governs ongoing merit-based selection of the most renowned qualified Named Skill.
+- There is **exactly one current Origin per claimed, eligible generic node**. A challenge cannot vacate it; a qualified successor may assume Origin via approved transfer at any time.
+- **Historical Origin attribution remains permanent; current Origin ownership is transferable.** Another implementation can earn current Origin without erasing the earlier holder's achievement.
 
 ### Promotion Process
 - A skill must first be accepted via the standard intake review process (lifecycle: "awakened").
 - Promotion from "awakened" to "named" requires a contributor to run `gaia propose` and open a PR.
-- Named skills inherit their generic parent's level floor (minimum 2★).
+- Generic nodes are starless. Named implementations hold their own level; no 2★ generic level floor is inferred.
 - Canonical level remains the source of truth for promotion gates; effective level is a visibility signal used by runtime projections and advisor surfaces.
-- Demerits are valid only for 2★+ canonical skills. Each demerit lowers effective potential by one level, floored at 1★.
+- Existing valid demerits use `META.md` §3.1's **0★** effective floor, not the stale 1★ floor. Neither age nor unverified link failure can automatically create a demerit.
 
 ### Named Skill Disputes
-- If two contributors claim origin status for the same bucket, priority goes to the earlier `createdAt` date.
+- Competing current Origin claims are adjudicated according to **merit and qualification**, not earliest `createdAt`. Preserve historical attribution and the exactly-one-current-Origin invariant.
 - Disputes follow the same 14-day resolution process as generic skill disputes (see § 3).
 
 ### Unclaimed Capstone Claiming
 - Unclaimed Fusion capstones appear as `◆ /skill-id [Unclaimed ✦]` in the registry — no named implementation exists yet.
 - The first contributor to run `gaia propose` against an awakened intake record whose `genericSkillRef` points to an unclaimed Fusion capstone automatically becomes the origin contributor and the seed title stored in `gaia.json` becomes visible in projections.
-- Claiming priority follows the same rule as named skill origin status: the earlier `createdAt` date wins if two contributors submit simultaneously.
+- Simultaneous initial claims require a recorded maintainer decision establishing one current holder; earlier chronology cannot permanently override later merit-based selection.
 - Once claimed, the display changes from `[Unclaimed ✦]` to `Ultimate Skill: contributor/skill-name`.
 
 ## 2.2 Fusion Capstone Promotion
@@ -75,10 +77,11 @@ Existing capstones registered under the old 3-prerequisite rule that do not meet
 ## 3. Dispute Resolution
 
 If a skill's definition, level, or evidence is disputed:
-1. A GitHub Issue is opened with the label `disputed`.
-2. Both sides present evidence and rationale.
-3. The skill status is set to `disputed` in `gaia.json`.
-4. If no consensus is reached after 14 days, a Core Maintainer makes a final determination based on the **Evidence Grade** hierarchy (S > A > B > C).
+1. Authenticate and independently verify the specific counterclaim. Publish a **verified** challenge immediately after verification (operational target: within 24 hours); notify the contributor. Preserve exact task, version, method and limitations.
+2. Provide an ordinary **14-calendar-day** contributor response opportunity for rebuttal or upstream improvement; no automatic demotion by timeout. Availability concerns use bounded repeat probes before unavailability debt.
+3. Steward watches challenged implementation and comparator where traceable. **Class B** may close an objectively reproduced **technical** challenge with independent proof and a linked public receipt, including before the response window ends. It cannot change canonical evidence assertions, TM/Grade, stars, Origin or policy.
+4. **Class C / Core Maintainer** adjudicates ambiguous superiority, material ranking, Origin transfer and all canonical trust or evidence consequences, taking the entire scope and proof into account rather than a grade letter alone.
+5. Preserve the public challenge, contributor response, adjudication, recovery and appeal chain. A formerly valid challenge may be superseded by independently proven improvements.
 
 ## 4. Audit Schedule
 
@@ -87,7 +90,7 @@ Every 90 days, the maintainers will conduct a full re-audit of the registry to:
 - Review `provisional` skills for potential validation.
 - Re-assess `disputed` skills.
 - Verify 5★ Ultimate / 6★ Apex rank requirements.
-- Identify stale skills (not updated or referenced in 180 days).
+- Identify potentially stale evidence and open investigation debt; inactivity or elapsed time alone never causes published trust degradation.
 
 ### 4.2 Audit Disentanglement & Imposter Taxonomy
 To protect legitimate early-stage, self-hosted, and prototype skills from being conflated with bad-faith actors during registry sweeps, all audits and curation workflows must evaluate candidates against four distinct classifications. Curators and AI agents must **never** lump non-malicious defects into an "imposter" label.
